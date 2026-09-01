@@ -76,24 +76,25 @@ Two, both loaded from public CDNs at page load:
 
 ## Data storage
 
-All persistence uses browser **`localStorage`** under three keys:
+All persistence uses browser **`localStorage`** under four keys:
 
 | Key | Stores |
 | --- | --- |
 | `omniLedgerWatchlist` | Watchlist item IDs |
 | `omniLedgerTheme` | Selected theme |
 | `omniLedgerDensity` | Comfortable vs. compact layout |
+| `omniLedgerProfile` | Your personal profile — owned collection, declared canon, taste-engine weightings, and contender watchlist order (see `PERSONAL_PROFILE` in `NOTES.md`) |
 
 **What this means:**
 
 - Data is stored **per browser, per device, per profile**. It does **not** sync.
-- Opening the file on your phone will not show the watchlist you built on your desktop.
+- Opening the file on your phone will not show the watchlist (or profile) you built on your desktop.
 - Chrome and Firefox on the same machine keep separate copies.
 - Clearing site data or browsing history can erase it.
 - Private/Incognito windows discard it on close.
-- It is **not** backed up by the repository. Committing and pushing does not save your watchlist.
+- It is **not** backed up by the repository. Committing and pushing does not save your watchlist or profile.
 
-The 1,300-work corpus, ownership flags, scores, and the contenders ledger are **not** in `localStorage` — they are hardcoded in `index.html` and are identical for everyone who opens the file.
+The 1,300-work corpus and the contenders ledger are **not** in `localStorage` — they are hardcoded in `index.html` and are identical for everyone who opens the file. Ownership flags, declared canon, and taste weightings *are* personal and now live in `omniLedgerProfile`: a fresh browser with nothing saved there falls back to the defaults baked into this copy of the file (Payton's own profile), until you use the header's **Export**, **Import**, or **Reset** controls to take a copy elsewhere or start blank.
 
 ---
 

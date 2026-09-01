@@ -21,13 +21,15 @@ This is the part to think about. The file is not anonymous — the personal data
 
 | What's embedded | Where | What it reveals |
 | --- | --- | --- |
-| **Owned physical collection** — 179 items (83 film/TV entries + 34 book entries, expanding to 179 works once series volumes resolve) | `OWNED_MEDIA` and `OWNED_BOOKS_EXTRA` constants | Your actual home library: which films, discs, editions, and books you own, and in what format (4K, Blu-ray, Deluxe, Hardcover, Paperback) |
-| **Declared personal canon** | `goatProfile.declared` | Your stated favourite films, books, TV, games, director, actors, composers, cinematographer, musician, and YouTuber |
-| **Personal watchlist with ranked anticipation** | `watchRank` fields on 7 contenders | Seven upcoming films you're waiting for, in your own order of excitement |
-| **Taste-engine weightings** | `GOAT_CREATOR_BOOST`, `GOAT_GENRE_BOOST`, `GOAT_VIBE_BOOST`, `BOOK_AFFINITY` | An explicit, quantified map of your preferences — arguably the most revealing part, since it's your taste written as numbers |
+| **Owned physical collection** — 179 items (83 film/TV entries + 34 book entries, expanding to 179 works once series volumes resolve) | `PERSONAL_PROFILE.ownedMedia`, `.ownedBooksExtra`, `.ownedBookIdCeiling`, `.ownedGameIds` | Your actual home library: which films, discs, editions, and books you own, and in what format (4K, Blu-ray, Deluxe, Hardcover, Paperback) |
+| **Declared personal canon** | `PERSONAL_PROFILE.declaredCanon`, `.declaredGoatIds` | Your stated favourite films, books, TV, games, director, actors, composers, cinematographer, musician, and YouTuber |
+| **Personal watchlist with ranked anticipation** | `PERSONAL_PROFILE.watchlist` | Seven upcoming films you're waiting for, in your own order of excitement |
+| **Taste-engine weightings** | `PERSONAL_PROFILE.creatorBoost`, `.genreBoost`, `.vibeBoost`, `.bookAffinity` | An explicit, quantified map of your preferences — arguably the most revealing part, since it's your taste written as numbers |
 | **Upgrade audit** | derived at runtime from the above | Which items in your collection you consider worth spending money to upgrade |
 
 There is no name, address, photo, employer, phone number, email, or financial detail anywhere in the file. What's exposed is **taste and property**: a detailed inventory of what media you own and what you love.
+
+**As of Phase 2, this same data is also exportable.** The header's Export button downloads the live `PERSONAL_PROFILE` object — everything in the table above — as `omni-ledger-profile.json`. That file deserves the same care as the source: don't post it somewhere public without thinking about it first, for the same reasons the table above exists.
 
 **Removed already:** a code comment referencing the source ledger by personal initials was genericised before packaging.
 
@@ -92,13 +94,20 @@ If it later becomes unwieldy to edit, split `data` (the four corpus arrays) into
 
 **Emoji are written as literal characters, never `\U…` escapes.** JavaScript has no `\U` (capital-U) escape; `'\U0001F3AD'` silently renders as the literal text `U0001F3AD`. This bug shipped once. Paste the actual emoji character.
 
-**Ownership lives in lookup constants, not on the records.** `OWNED_MEDIA` maps screen IDs to physical format; books are owned if their numeric ID is ≤ 51 or they appear in `OWNED_BOOKS_EXTRA`. Adding a work does not make it owned — you must add it to the relevant constant.
+**Personal data is gathered onto one `PERSONAL_PROFILE` object.** All of one person's inputs — owned collection (`ownedMedia`, `ownedBooksExtra`, `ownedBookIdCeiling`, `ownedGameIds`), declared canon (`declaredCanon`, `declaredGoatIds`), contender watchlist order (`watchlist`), and every taste-weighting the scoring engine reads (`creatorBoost`, `genreBoost`, `vibeBoost`, `silverTierIds`, `bookAffinity`, `cosmicHorrorDeclaredIds`, `cosmicHorrorCanon`) — is assigned onto `PERSONAL_PROFILE` right where the engine already needed it, immediately after `/*DATA-END*/`. The original constant names (`OWNED_MEDIA`, `GOAT_CREATOR_BOOST`, etc.) still exist as `const X = PERSONAL_PROFILE.x` aliases, so almost none of the scoring/render code that reads them had to change.
 
-**Personal data is gathered onto one `PERSONAL_PROFILE` object.** All of one person's inputs — owned collection (`ownedMedia`, `ownedBooksExtra`), declared canon (`declaredCanon`), contender watchlist order (`watchlist`), and every taste-weighting the scoring engine reads (`creatorBoost`, `genreBoost`, `vibeBoost`, `silverTierIds`, `declaredGoatIds`, `bookAffinity`, `cosmicHorrorDeclaredIds`, `cosmicHorrorCanon`) — is assigned onto `PERSONAL_PROFILE` right where the engine already needed it, immediately after `/*DATA-END*/`. The original constant names (`OWNED_MEDIA`, `GOAT_CREATOR_BOOST`, etc.) still exist as `const X = PERSONAL_PROFILE.x` aliases, so none of the scoring/render code that reads them had to change — this was a pure data move, zero logic change, verified against the existing jsdom smoke checks (1,300-work count, 179 owned, watchlist order, all 12 declared GOAT ids scoring 100) before and after.
+While wiring up blank-profile testing, one more leak turned up and was fixed: 43 movie records in the 1,300-work corpus carried `"owned":true,"physFormat":"..."` directly on the record (redundant with `OWNED_MEDIA` for 42 of them; the 43rd, `m120`, had no `OWNED_MEDIA` entry at all and was owned *only* via that inline field), and one video game's ownership was a bare `g.id==='g45'` check in the adapter. Both are now profile-driven (`ownedMedia` covers `m120` too; `ownedGameIds` replaces the `g45` literal) — so ownership is never baked into a work record or into adapter logic, only ever looked up from `PERSONAL_PROFILE`. Verified: a fully blank profile now shows exactly 0 owned works, where before this fix it still showed 44.
 
-To seed a blank copy for someone new: clear every key on `PERSONAL_PROFILE` back to `{}` / `[]` / an empty `Set` source array. The 1,300-work reference corpus and the engine that reads `PERSONAL_PROFILE` are untouched by that — the app runs, just without personalization, which is the intended blank-slate state for Phase 2.
+**`PERSONAL_PROFILE` now loads from `localStorage` first, falling back to Payton's hardcoded defaults only when nothing has been saved yet.** On first load in any browser (nothing in `localStorage.omniLedgerProfile`), `PROFILE_FROM_STORAGE` is `false` and every `if(!PROFILE_FROM_STORAGE) PERSONAL_PROFILE.x = {...defaults}` line fires — this reproduces the exact original behavior for Payton's own browser. The moment *anything* has been saved under that key (even `{}`), `PROFILE_FROM_STORAGE` is `true`, none of the defaults re-apply, and any field the saved profile doesn't set is simply empty. That's what makes "start blank" actually blank rather than silently falling back to Payton's canon.
 
-**Not folded into `PERSONAL_PROFILE`: `goatProfile.recs`.** The curated recommendation write-ups (the multi-paragraph "why" text under GOAT Profile) are hand-authored prose keyed to Payton's specific declared canon — they don't regenerate from a data value the way the scoring weights do. Making them personalize automatically is recommendation-engine work (Phase 4), not a data-layer move, so they were deliberately left where they are rather than being relocated without being made swappable.
+Three controls next to the theme selector in the header drive this:
+- **Export** downloads the live `PERSONAL_PROFILE` object as `omni-ledger-profile.json` — the entire personal layer in one file, hand-editable.
+- **Import** loads a JSON file, writes it to `localStorage`, and reloads. This is the "simple form/import UI" seeding path from the plan (`Phase 2` decision: import a file rather than a guided in-app rating flow, which is a bigger feature left for later).
+- **Reset** writes `{}` to `localStorage` and reloads — a genuinely blank profile, confirmed by the fix above.
+
+Storage decision made: **browser `localStorage`**, matching the watchlist/theme/density keys already there. It doesn't sync across devices (same limitation already documented for the watchlist), but it's zero-infrastructure and consistent with the file's "no backend" design goal — a friend can Export their filled-in profile to move it between browsers/devices by hand.
+
+**Not folded into `PERSONAL_PROFILE`: `goatProfile.recs`.** The curated recommendation write-ups (the multi-paragraph "why" text under GOAT Profile) are hand-authored prose keyed to Payton's specific declared canon — they don't regenerate from a data value the way the scoring weights do. Making them personalize automatically is recommendation-engine work (Phase 4), not a data-layer move, so they were deliberately left where they are rather than being relocated without being made swappable. A friend importing a blank/custom profile today will still see Payton's recommendation text under GOAT Profile until that phase happens.
 
 ---
 
@@ -112,7 +121,9 @@ Roughly in order of value:
 4. **Cross-medium pairings.** The rabbit-hole engine already computes cross-medium links; surfacing them as deliberate "watch this, then read this" double-features fits the taste model well.
 5. **Split the dataset out of `index.html`** if editing becomes painful — see the decision note above for how.
 6. **Raise data provenance.** Replace estimated scores with sourced ones where possible; the provenance flag already tracks which are which.
-7. **Export/import of `localStorage`.** A JSON download/upload would let the watchlist move between devices, which it currently cannot.
+7. ~~**Export/import of `localStorage`.**~~ Done for the personal profile (owned collection, canon, taste weights, watchlist order) via the header's Export/Import/Reset controls — see the `PERSONAL_PROFILE` section above. The separate `omniLedgerWatchlist`/`omniLedgerTheme`/`omniLedgerDensity` keys aren't included in that export yet, so watched/unwatched status and UI preferences still don't move between devices.
+8. **A real "blank first run" for a friend's copy.** Today a brand-new browser with nothing in `localStorage` still boots from Payton's hardcoded defaults (the Reset button gets you to blank, but you have to know to click it). A first-load check — "no profile saved yet: start blank or import a file?" — would make Phase 3 distribution (handing someone a link) actually land them somewhere neutral by default.
+9. **Genericize `goatProfile.recs`.** The recommendation write-ups are still Payton-specific prose; making them regenerate from a declared canon (rather than being fixed text) is the core of Phase 4.
 
 ---
 
