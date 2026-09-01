@@ -111,6 +111,22 @@ Storage decision made: **browser `localStorage`**, matching the watchlist/theme/
 
 ---
 
+## Phase 3 — distribution: onboarding gate, and how to actually hand this to someone
+
+**A first-run gate now asks, instead of assuming.** Any browser where `localStorage.omniLedgerOnboarded` has never been set gets a blocking modal on load — "Use the built-in sample profile" / "Start blank" / "Import a profile file" — before it can touch the app. This closes the gap Phase 2 flagged: previously a brand-new browser (Payton's own new device, or a friend's) silently inherited Payton's hardcoded defaults with no indication that had happened. Now:
+- **Sample** just sets the onboarded flag and dismisses the modal — the already-computed default profile (Payton's) stays as-is, no reload needed.
+- **Blank** and **Import** write to `omniLedgerProfile` (and the onboarded flag) and reload, same pattern as the header's Reset/Import controls.
+- Once onboarded, the gate never reappears in that browser, regardless of what's later done via Export/Import/Reset.
+
+Verified in jsdom: a fresh profile shows the gate; clicking Sample hides it without touching `omniLedgerProfile`; clicking Blank writes `{}` and reloads; a browser with the onboarded flag already set never shows the gate. The full default-path smoke check (1,300 works, 179 owned, 12 declared, 7-item watchlist) is unchanged with the gate in place.
+
+**Distribution mechanism: hand over the file, not a hosted link.** Weighed against the plan's three options:
+- *Downloadable file* (chosen): give someone this repo's `index.html` directly — email, shared drive, USB, whatever. They open it, the onboarding gate greets them, they pick blank or import a profile someone sent them. Zero hosting, zero ongoing cost or maintenance for Payton, and it matches every other design decision already made here (single file, no build, no framework, "still opens in ten years" per the decision log above). This is the one that needs nothing further built — it works today.
+- *Static personal-artifact link* (viable, but secondary): publishing the same file to a URL (e.g. a Claude Artifact, or any static host) works too — each visitor's browser gets its own isolated `localStorage`, so one shared link serves many people without their data mixing. The tradeoff is that it depends on whoever hosts that URL keeping it up; it's a fine quick-preview or convenience channel, but the *file itself* — not a link to it — should be treated as the durable, portable copy of this app.
+- *Lightweight shared hosting with per-user save* (deferred): not pursued. It would add a real backend/persistence layer for a use case (a few friends, personal copies) that doesn't need one — direct contradiction of the "personal copies via link, not shared multi-tenant backend" direction chosen at the start of this plan.
+
+---
+
 ## Ideas / next steps
 
 Roughly in order of value:
@@ -122,8 +138,9 @@ Roughly in order of value:
 5. **Split the dataset out of `index.html`** if editing becomes painful — see the decision note above for how.
 6. **Raise data provenance.** Replace estimated scores with sourced ones where possible; the provenance flag already tracks which are which.
 7. ~~**Export/import of `localStorage`.**~~ Done for the personal profile (owned collection, canon, taste weights, watchlist order) via the header's Export/Import/Reset controls — see the `PERSONAL_PROFILE` section above. The separate `omniLedgerWatchlist`/`omniLedgerTheme`/`omniLedgerDensity` keys aren't included in that export yet, so watched/unwatched status and UI preferences still don't move between devices.
-8. **A real "blank first run" for a friend's copy.** Today a brand-new browser with nothing in `localStorage` still boots from Payton's hardcoded defaults (the Reset button gets you to blank, but you have to know to click it). A first-load check — "no profile saved yet: start blank or import a file?" — would make Phase 3 distribution (handing someone a link) actually land them somewhere neutral by default.
+8. ~~**A real "blank first run" for a friend's copy.**~~ Done — see Phase 3 above. First load in any browser now asks (sample / blank / import) via a blocking gate rather than silently inheriting Payton's defaults.
 9. **Genericize `goatProfile.recs`.** The recommendation write-ups are still Payton-specific prose; making them regenerate from a declared canon (rather than being fixed text) is the core of Phase 4.
+10. **Bundle the watchlist/theme/density keys into Export/Import too.** Right now Export/Import/Reset only covers `omniLedgerProfile`; `omniLedgerWatchlist`, `omniLedgerTheme`, and `omniLedgerDensity` are separate keys that don't travel with a profile file. Folding them in would make a single exported file a complete "this is me" snapshot.
 
 ---
 

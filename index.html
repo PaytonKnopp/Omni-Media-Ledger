@@ -102,6 +102,31 @@ body[data-theme="outer-wilds"]{--bg:#0e0a09;--panel:#181010;--panel-2:#120c0b;--
 <body class="bg-obsidian text-slate-200 antialiased">
 <noscript><div style="padding:2rem;text-align:center;color:#fca5a5">This ledger is a local JavaScript application — enable JavaScript to load the 1,300-work corpus.</div></noscript>
 
+<div id="onboardGate" class="hidden fixed inset-0 z-[999] flex items-center justify-center bg-black/80 backdrop-blur-sm p-4">
+  <div class="panel p-6 max-w-md w-full space-y-4">
+    <div>
+      <div class="text-[10px] tracking-[.35em] text-indigo-300/80 uppercase mb-1">First time in this browser</div>
+      <h2 class="text-lg font-bold text-slate-50">Whose ledger is this?</h2>
+      <p class="text-[13px] text-slate-400 mt-1">Nothing is saved here yet. Pick one to get started — you can Export, Import, or Reset later from the Profile controls in the header.</p>
+    </div>
+    <div class="space-y-2">
+      <button type="button" id="onboardSample" class="w-full text-left rounded-xl border border-slate-700 hover:border-violet-500 p-3 transition-colors">
+        <div class="text-sm font-semibold text-slate-100">Use the built-in sample profile</div>
+        <div class="text-[12px] text-slate-500 mt-0.5">Payton's own collection and taste weights, so you can see the app in action before making it yours.</div>
+      </button>
+      <button type="button" id="onboardBlank" class="w-full text-left rounded-xl border border-slate-700 hover:border-violet-500 p-3 transition-colors">
+        <div class="text-sm font-semibold text-slate-100">Start blank</div>
+        <div class="text-[12px] text-slate-500 mt-0.5">No owned collection or declared favorites yet. The engine still works — it just won't personalize until you add your own.</div>
+      </button>
+      <label class="w-full text-left rounded-xl border border-slate-700 hover:border-violet-500 p-3 transition-colors cursor-pointer block">
+        <div class="text-sm font-semibold text-slate-100">Import a profile file</div>
+        <div class="text-[12px] text-slate-500 mt-0.5">Load a profile someone exported for you with the header's Export button.</div>
+        <input type="file" id="onboardImportInput" accept="application/json" class="hidden">
+      </label>
+    </div>
+  </div>
+</div>
+
 <header class="sticky top-0 z-40 backdrop-blur bg-[#0B0F19]/85 border-b border-slate-800/80">
   <div class="max-w-[1400px] mx-auto px-4 pt-4 pb-3">
     <div class="flex flex-wrap items-end justify-between gap-3">
@@ -3705,6 +3730,24 @@ on('#themeSel','change',e=>{applyTheme(e.target.value);});
 on('#profileExportBtn','click',()=>{try{const blob=new Blob([JSON.stringify(PERSONAL_PROFILE,null,2)],{type:'application/json'});const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='omni-ledger-profile.json';document.body.appendChild(a);a.click();document.body.removeChild(a);}catch(e){alert('Export failed: '+e.message);}});
 on('#profileImportInput','change',e=>{const file=e.target.files&&e.target.files[0];if(!file)return;const reader=new FileReader();reader.onload=()=>{try{const parsed=JSON.parse(reader.result);if(typeof parsed!=='object'||parsed===null||Array.isArray(parsed))throw new Error('File is not a profile object');localStorage.setItem('omniLedgerProfile',JSON.stringify(parsed));location.reload();}catch(err){alert('Could not import that file: '+err.message);}};reader.readAsText(file);e.target.value='';});
 on('#profileResetBtn','click',()=>{if(typeof confirm!=='undefined'&&!confirm('Reset your profile to blank? This clears your owned collection, declared canon, taste weights and watchlist in this browser. Export first if you want to keep a copy.'))return;localStorage.setItem('omniLedgerProfile','{}');location.reload();});
+
+/* ===== First-run onboarding gate (Phase 3 of the sharing roadmap) =====
+   A browser that has never saved anything under omniLedgerOnboarded gets asked once, explicitly,
+   rather than silently inheriting Payton's hardcoded sample profile -- this is what makes handing
+   someone a copy of this file (or a link to it) actually land them somewhere they chose, whether
+   that's this same browser's first visit or a friend's brand new one. The choice itself doesn't
+   need to touch PERSONAL_PROFILE construction above: "sample" just marks onboarding done and
+   leaves the already-computed defaults in place; "blank" and "import" write to omniLedgerProfile
+   and reload so the whole app recomputes from the fresh profile, same as Reset/Import already do. */
+(function onboardGate(){
+ var onboarded=false;try{onboarded=!!localStorage.getItem('omniLedgerOnboarded');}catch(e){onboarded=true;}
+ if(onboarded)return;
+ var gate=$('#onboardGate');if(!gate)return;
+ gate.classList.remove('hidden');
+ on('#onboardSample','click',()=>{try{localStorage.setItem('omniLedgerOnboarded','1');}catch(e){}gate.classList.add('hidden');});
+ on('#onboardBlank','click',()=>{try{localStorage.setItem('omniLedgerOnboarded','1');localStorage.setItem('omniLedgerProfile','{}');}catch(e){}location.reload();});
+ on('#onboardImportInput','change',e=>{const file=e.target.files&&e.target.files[0];if(!file)return;const reader=new FileReader();reader.onload=()=>{try{const parsed=JSON.parse(reader.result);if(typeof parsed!=='object'||parsed===null||Array.isArray(parsed))throw new Error('File is not a profile object');localStorage.setItem('omniLedgerOnboarded','1');localStorage.setItem('omniLedgerProfile',JSON.stringify(parsed));location.reload();}catch(err){alert('Could not import that file: '+err.message);}};reader.readAsText(file);});
+})();
 
 on('#wlFilter','click',e=>{const b=e.target.closest('button');if(!b)return;state.wlFilter=b.dataset.wf;$$('#wlFilter button').forEach(x=>x.classList.toggle('on',x===b));renderWatchlist();});
 on('#wlGrid','click',e=>{const dn=e.target.closest('.wlDone'),rm=e.target.closest('.wlRemove');

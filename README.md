@@ -46,6 +46,16 @@ That's it. It also works from a USB stick, an email attachment, or a phone's Dow
 
 > **In Visual Studio:** use **File → Open → Folder**, *not* "Open Project/Solution". There is no startup project and no Run button for a static file — preview it by opening `index.html` in a browser.
 
+### Sharing this with someone
+
+Send them `index.html` — email, a shared drive link, USB, however. There's no server and nothing to set up on their end. The first time they open it, a one-time prompt asks them to choose:
+
+- **Use the built-in sample profile** — Payton's own collection and taste, to see the app in action.
+- **Start blank** — no owned collection or favorites yet; the engine works, it just won't personalize until they add their own.
+- **Import a profile file** — if you've exported yours (or someone else's) for them to load.
+
+That choice is saved in their browser only; it never touches this file or this repository. Export/Import/Reset controls in the header let them (or you) move a profile between browsers later.
+
 ### Requirements
 
 - Any modern browser (Chrome, Edge, Firefox, Safari, mobile included).
