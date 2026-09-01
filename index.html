@@ -2918,7 +2918,8 @@ if(!PROFILE_FROM_STORAGE)PERSONAL_PROFILE.genreBoost=[['time',6],['sci-fi',5],['
 const GOAT_GENRE_BOOST=PERSONAL_PROFILE.genreBoost||[];
 if(!PROFILE_FROM_STORAGE)PERSONAL_PROFILE.vibeBoost={'Notebook-and-Theories Night':8,'Puzzle-Box Replay':7,'Reference Demo Night':4,'Projector-Worthy Spectacle':4,'Late-Night Cosmic Dread':3,'World-Builder Marathon':3,'Systems Rabbit Hole':3,'Appointment Slow-Burn':2};
 const GOAT_VIBE_BOOST=PERSONAL_PROFILE.vibeBoost||{};
-const BOOK_CREATOR_BOOST=[['Tolkien',12],['Dan Simmons',9],['Patrick Rothfuss',9],['Ursula K. Le Guin',8],['Isaac Asimov',7],['Liu Cixin',7],['Carl Sagan',7],['Gene Wolfe',6],['Frank Herbert',6],['Arthur C. Clarke',5],['Neil deGrasse Tyson',5],['Walter Isaacson',5],['Yuval Noah Harari',4],['China Mi\u00e9ville',5],['Jeff VanderMeer',5],['H.P. Lovecraft',5],['Cormac McCarthy',5],['Neal Stephenson',5],['Ted Chiang',5],['Susanna Clarke',5],['Stephen King',8]];
+if(!PROFILE_FROM_STORAGE)PERSONAL_PROFILE.bookCreatorBoost=[['Tolkien',12],['Dan Simmons',9],['Patrick Rothfuss',9],['Ursula K. Le Guin',8],['Isaac Asimov',7],['Liu Cixin',7],['Carl Sagan',7],['Gene Wolfe',6],['Frank Herbert',6],['Arthur C. Clarke',5],['Neil deGrasse Tyson',5],['Walter Isaacson',5],['Yuval Noah Harari',4],['China Mi\u00e9ville',5],['Jeff VanderMeer',5],['H.P. Lovecraft',5],['Cormac McCarthy',5],['Neal Stephenson',5],['Ted Chiang',5],['Susanna Clarke',5],['Stephen King',8]];
+const BOOK_CREATOR_BOOST=PERSONAL_PROFILE.bookCreatorBoost||[];
 ALL.forEach(x=>{
  let base=0.5*x.crit+0.2*x.aud+0.3*x.tech,a=0;const br=[];
  GOAT_CREATOR_BOOST.forEach(c=>{if(x.creator.includes(c[0])){a+=c[1];br.push(['creator',c[0],c[1]]);}});
@@ -2943,11 +2944,55 @@ ALL.forEach(x=>{if(x.owned&&!x.goat){const target=Math.round(x.gm*0.5+82*0.5);if
 if(!PROFILE_FROM_STORAGE)PERSONAL_PROFILE.bookAffinity={b19:96,b20:94,b21:95,b18:90,b22:92,b31:86,b26:92,b08:94,b12:90,b34:90,b29:90,b30:88,b33:88,b32:86,b04:86,b02:84,b05:88,b09:84,b10:84,b38:86,b37:88,b39:90,b28:84,b27:86,b47:84,b40:82,b58:90,b153:90,b154:92,b71:92,b53:86,b155:84,b156:84,b64:86,b56:90,b148:88,b74:92,b118:88,b151:86,b152:88,b157:88,b158:88,b159:84,b160:88,b88:86,b96:82,b100:84,b54:90,b52:90,b55:92,b126:88,b129:86,b130:88,b131:88,b132:88,b133:90,b78:90,b77:90,b79:88,b68:84,b70:86,b72:82,b150:86,b149:86,b76:86,b161:82,b162:84,b163:84,b164:84,b165:82,b166:82,b167:88,b93:84,b94:78};
 const BOOK_AFFINITY=PERSONAL_PROFILE.bookAffinity||{};
 ALL.forEach(x=>{if(x.kind==='book'&&BOOK_AFFINITY[x.id]){x.gm=Math.max(x.gm,BOOK_AFFINITY[x.id]);}});
-goatProfile.recs.filter(c=>['Movies','TV Series','Video Games'].includes(c.cat)).forEach(c=>c.items.forEach(it=>{
- if(!it.q)return;const ql=it.q.toLowerCase();
- ALL.forEach(x=>{if(x.title.toLowerCase().includes(ql))x.gm=Math.max(x.gm,it.s);});
-}));
 GOAT_DECLARED.forEach(id=>{const x=byId.get(id);if(x){x.gm=100;x.goat=true;x.gmOverride='declared';}});
+/* ===== Generated recommendations for corpus-backed categories (Phase 4 of the sharing roadmap) =====
+   Movies/Books/TV Series/Video Games recommendations below are now computed live from the same
+   gm score (and its gmBoosts reasons) that PERSONAL_PROFILE drives everywhere else in the app,
+   instead of being a fixed hand-picked list -- that's what makes them generalize to any declared
+   canon, not just Payton's. (This replaces an older mechanism that nudged specific titles' gm up
+   to match a hardcoded rec list; that's no longer needed now that recs are generated FROM gm.)
+   The remaining six categories below (Directors, Actors, Composers, Cinematographers, Music
+   Artists, YouTube) have no structured corpus behind them -- there's no dataset of directors or
+   composers with genre/style metadata to rank the way movies and books can be -- so they stay as
+   Payton's original hand-written sample picks, flagged sample:true so the UI can label them
+   honestly rather than implying they're personalized to whatever profile is loaded. */
+const RECS_KIND_BY_CAT={Movies:'movie',Books:'book','TV Series':'tv','Video Games':'game'};
+const DECLARED_CAT_ALIASES={Movies:['Movies'],Books:['Books'],'TV Series':['TV Shows','TV Series'],'Video Games':['Video Game','Video Games']};
+function goatWhy(x){
+ if(!x.gmBoosts||!x.gmBoosts.length)return 'Scores well on craft and reception even without a direct match to your declared favorites.';
+ const phrase=b=>{
+  if(b[0]==='creator')return 'shares creator '+b[1]+' with your declared canon';
+  if(b[0]==='author')return 'by '+b[1]+', an author your profile favors';
+  if(b[0]==='genre')return 'matches your weighted “'+b[1]+'” genre';
+  if(b[0]==='vibe')return 'fits your “'+b[1]+'” vibe';
+  if(b[0]==='complexity')return 'has the ontological depth you favor';
+  if(b[0]==='craft')return 'stands out on technical craft';
+  if(b[0]==='dread')return 'carries the atmospheric dread you favor';
+  return b[1];
+ };
+ const top=x.gmBoosts.slice().sort((a,b)=>b[2]-a[2]).slice(0,2);
+ const text=top.map(phrase).join(' and ')+'.';
+ return text.charAt(0).toUpperCase()+text.slice(1);
+}
+function buildGeneratedRec(cat){
+ const kind=RECS_KIND_BY_CAT[cat];
+ const declaredGroup=(PERSONAL_PROFILE.declaredCanon||[]).find(d=>(DECLARED_CAT_ALIASES[cat]||[cat]).includes(d.cat));
+ const declaredNames=declaredGroup?declaredGroup.items.map(it=>it.name):[];
+ const basis=declaredNames.length
+  ?'Projected from your declared '+cat.toLowerCase()+': '+declaredNames.join(', ')+'.'
+  :'No '+cat.toLowerCase()+' declared yet — ranked by overall match across the corpus.';
+ const items=ALL.filter(x=>x.kind===kind&&!x.owned&&!x.goat)
+  .sort((a,b)=>b.gm-a.gm)
+  .slice(0,10)
+  .map(x=>({n:x.title,s:x.gm,k:x.kind,q:x.title,why:goatWhy(x)}));
+ return {cat:cat,basis:basis,items:items,generated:true};
+}
+Object.keys(RECS_KIND_BY_CAT).forEach(cat=>{
+ const idx=goatProfile.recs.findIndex(c=>c.cat===cat);
+ const rec=buildGeneratedRec(cat);
+ if(idx>=0)goatProfile.recs[idx]=rec;else goatProfile.recs.push(rec);
+});
+goatProfile.recs.forEach(c=>{if(!c.generated)c.sample=true;});
 /* --- Cosmic Horror Index: declared canon locked at 100, eldritch canon hand-scored, remainder algorithmic --- */
 if(!PROFILE_FROM_STORAGE)PERSONAL_PROFILE.cosmicHorrorDeclaredIds=['m02','m37','m39','m20','g101'];
 const CH_DECLARED=PERSONAL_PROFILE.cosmicHorrorDeclaredIds||[];
@@ -3120,7 +3165,7 @@ function renderGoat(){renderTasteDNA();
   +'<div class="lbl" style="color:#fbbf24">\u2605 '+esc(d.cat)+'</div>'
   +'<div class="flex flex-wrap gap-1.5 mt-2">'+d.items.map(it=>'<span class="chip'+(it.q?' goatJump':'')+'"'+(it.q?' data-q="'+esc(it.q)+'" title="Open in Global Controller" style="color:#fde68a;border-color:#fbbf2455;cursor:pointer"':' style="color:#fde68a;border-color:#fbbf2455"')+'>'+esc(it.name)+(it.note?' <span class="text-slate-500">\u00b7 '+esc(it.note)+'</span>':'')+'</span>').join('')+'</div></div>').join('');
  $('#goatRecs').innerHTML=goatProfile.recs.map(cat=>'<div class="panel overflow-hidden fade-in">'
-  +'<div class="px-4 pt-4 pb-3 border-b border-slate-800/70"><div class="flex items-baseline justify-between gap-2"><h3 class="text-[12px] font-bold tracking-[.14em] uppercase text-slate-100">'+esc(cat.cat)+'</h3><span class="lbl">match /100</span></div>'
+  +'<div class="px-4 pt-4 pb-3 border-b border-slate-800/70"><div class="flex items-baseline justify-between gap-2"><h3 class="text-[12px] font-bold tracking-[.14em] uppercase text-slate-100">'+esc(cat.cat)+(cat.sample?' <span class="text-[8.5px] font-normal normal-case tracking-normal text-amber-400/70" title="No structured data exists yet to rank this category against an arbitrary profile -- these are Payton’s own hand-picked sample picks, not computed from your declared favorites.">◈ sample data, not personalized</span>':'')+'</h3><span class="lbl">match /100</span></div>'
   +'<p class="text-[10.5px] text-slate-500 mt-1 leading-relaxed">'+esc(cat.basis)+'</p></div>'
   +cat.items.map((it,i)=>'<div class="flex items-center gap-2.5 px-3.5 py-2 border-b border-slate-800/50 last:border-0 hover:bg-slate-800/20'+(it.q?' goatJump cursor-pointer':'')+'"'+(it.q?' data-q="'+esc(it.q)+'" title="Open in Global Controller"':'')+'>'
    +'<span class="text-[10px] text-slate-500 w-5 tabular-nums">'+String(i+1).padStart(2,'0')+'</span>'
