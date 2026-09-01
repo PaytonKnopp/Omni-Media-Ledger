@@ -94,6 +94,12 @@ If it later becomes unwieldy to edit, split `data` (the four corpus arrays) into
 
 **Ownership lives in lookup constants, not on the records.** `OWNED_MEDIA` maps screen IDs to physical format; books are owned if their numeric ID is ≤ 51 or they appear in `OWNED_BOOKS_EXTRA`. Adding a work does not make it owned — you must add it to the relevant constant.
 
+**Personal data is gathered onto one `PERSONAL_PROFILE` object.** All of one person's inputs — owned collection (`ownedMedia`, `ownedBooksExtra`), declared canon (`declaredCanon`), contender watchlist order (`watchlist`), and every taste-weighting the scoring engine reads (`creatorBoost`, `genreBoost`, `vibeBoost`, `silverTierIds`, `declaredGoatIds`, `bookAffinity`, `cosmicHorrorDeclaredIds`, `cosmicHorrorCanon`) — is assigned onto `PERSONAL_PROFILE` right where the engine already needed it, immediately after `/*DATA-END*/`. The original constant names (`OWNED_MEDIA`, `GOAT_CREATOR_BOOST`, etc.) still exist as `const X = PERSONAL_PROFILE.x` aliases, so none of the scoring/render code that reads them had to change — this was a pure data move, zero logic change, verified against the existing jsdom smoke checks (1,300-work count, 179 owned, watchlist order, all 12 declared GOAT ids scoring 100) before and after.
+
+To seed a blank copy for someone new: clear every key on `PERSONAL_PROFILE` back to `{}` / `[]` / an empty `Set` source array. The 1,300-work reference corpus and the engine that reads `PERSONAL_PROFILE` are untouched by that — the app runs, just without personalization, which is the intended blank-slate state for Phase 2.
+
+**Not folded into `PERSONAL_PROFILE`: `goatProfile.recs`.** The curated recommendation write-ups (the multi-paragraph "why" text under GOAT Profile) are hand-authored prose keyed to Payton's specific declared canon — they don't regenerate from a data value the way the scoring weights do. Making them personalize automatically is recommendation-engine work (Phase 4), not a data-layer move, so they were deliberately left where they are rather than being relocated without being made swappable.
+
 ---
 
 ## Ideas / next steps

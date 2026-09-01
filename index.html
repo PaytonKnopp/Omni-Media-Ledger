@@ -1930,7 +1930,7 @@ const gamingAuteurs=[
 ];
 
 const contenders=[
-{"id":"c02","watchRank":1,"title":"Dune: Part Three","medium":"Film","creativeLead":"Denis Villeneuve","platform":"Warner Bros. · IMAX","window":"December 18, 2026","goatProbability":96,"pedigree":"Messiah's trap closes — Villeneuve has called Part Three the destination his diptych was built to reach."},
+{"id":"c02","title":"Dune: Part Three","medium":"Film","creativeLead":"Denis Villeneuve","platform":"Warner Bros. · IMAX","window":"December 18, 2026","goatProbability":96,"pedigree":"Messiah's trap closes — Villeneuve has called Part Three the destination his diptych was built to reach."},
 {"id":"c03","title":"Werwulf","medium":"Film","creativeLead":"Robert Eggers","platform":"Focus Features","window":"December 25, 2026","goatProbability":90,"pedigree":"Eggers returns to folk horror with 13th-century lycanthropy and period dialogue dense enough to need subtitles."},
 {"id":"c05","title":"The Batman Part II","medium":"Film","creativeLead":"Matt Reeves","platform":"Warner Bros.","window":"October 1, 2027","goatProbability":88,"pedigree":"Reeves extends his rain-noir Gotham into Year Two corruption with the same sternum-rattling sound team."},
 {"id":"c06","title":"Bond 26","medium":"Film","creativeLead":"Denis Villeneuve","platform":"Amazon MGM · IMAX","window":"2028 (shoots 2027)","goatProbability":88,"pedigree":"Villeneuve reinvents 007 for Amazon MGM with Peaky Blinders creator Steven Knight scripting — the most pedigreed directorial hire in the franchise's history. Shoots 2027 after Dune: Part Three, targeting a 2028 release."},
@@ -1981,16 +1981,34 @@ const contenders=[
 {"id":"c75","title":"The Way of Kings (film)","medium":"Film","creativeLead":"Peter Jackson","platform":"TBA","window":"2029","goatProbability":78,"pedigree":"Sanderson's monumental Stormlight epic eyes the screen; vast worldbuilding in ambitious hands."},
 {"id":"c76","title":"The Winds of Winter","medium":"Book","creativeLead":"George R.R. Martin","platform":"Bantam","window":"TBA","goatProbability":80,"pedigree":"The perpetually-awaited sixth Song of Ice and Fire volume; fantasy's most famous unfinished book."},
 {"id":"c77","title":"Metroid Prime 4: Beyond","medium":"Game","creativeLead":"Retro Studios","platform":"Nintendo Switch / Switch 2","window":"2026","goatProbability":85,"pedigree":"Retro Studios' long-gestating return to Samus — the first new mainline Prime in two decades, a landmark for atmospheric first-person exploration."},
-{"id":"c78","title":"The Lord of the Rings: The Hunt for Gollum","medium":"Film","creativeLead":"Andy Serkis","platform":"Warner Bros. / New Line · IMAX","window":"December 17, 2027","goatProbability":88,"watchRank":2,"pedigree":"Serkis directs and returns as Gollum, with Peter Jackson, Fran Walsh and Philippa Boyens producing and co-writing alongside Phoebe Gittins and Arty Papageorgiou. Shot in Wellington from July 2026 with cinematographer James Friend and Wētā FX — the first live-action return to Middle-earth since the Hobbit trilogy."},
-{"id":"c79","title":"The Fisherman","medium":"Film","creativeLead":"David Lowery","platform":"Focus Features","window":"TBA · in development","goatProbability":82,"watchRank":3,"pedigree":"Lowery (The Green Knight, A Ghost Story) directs and co-writes with Alex Ross Perry, adapting John Langan's Bram Stoker Award-winning cosmic-horror novel — a book already in your canon. Produced by Platinum Dunes (Michael Bay, Brad Fuller) and Gary Dauberman's Coin Operated."},
-{"id":"c80","title":"Rendezvous with Rama","medium":"Film","creativeLead":"Denis Villeneuve","platform":"Alcon Entertainment","window":"TBA · in development","goatProbability":84,"watchRank":4,"pedigree":"Eric Roth scripts Arthur C. Clarke's Hugo- and Nebula-winning first-contact novel, with Morgan Freeman and Lori McCreary producing after holding the rights two decades. Villeneuve calls it his first true hard science fiction — ‘Arrival on steroids.’"},
-{"id":"c81","title":"A Christmas Carol","medium":"Film","creativeLead":"Robert Eggers","platform":"Warner Bros.","window":"TBA · after Werwulf","goatProbability":83,"watchRank":5,"pedigree":"Eggers writes and directs Dickens’ ghost story, with Willem Dafoe his stated choice for Scrooge in a fourth collaboration after The Lighthouse, The Northman and Nosferatu. Chris and Elenor Columbus produce; it follows Werwulf on his slate."},
-{"id":"c82","title":"What Happens at Night","medium":"Film","creativeLead":"Martin Scorsese","platform":"Apple Original Films · StudioCanal","window":"2027 · shot 2026","goatProbability":85,"watchRank":6,"pedigree":"Scorsese’s Gothic psychological horror from Peter Cameron’s novel, scripted by Patrick Marber, with DiCaprio, Jennifer Lawrence and Mads Mikkelsen starring. Rodrigo Prieto shoots and Thelma Schoonmaker cuts — Scorsese back in Shutter Island territory."},
-{"id":"c83","title":"Elden Ring","medium":"Film","creativeLead":"Alex Garland","platform":"A24 · Bandai Namco · IMAX","window":"March 3, 2028","goatProbability":84,"watchRank":7,"pedigree":"Garland writes and directs FromSoftware’s dark-fantasy epic, filmed for IMAX, with George R.R. Martin — whose mythology underpins the game — producing. Kit Connor, Cailee Spaeny, Ben Whishaw and Jonathan Pryce star; Garland pitched it personally to Bandai Namco."}];
+{"id":"c78","title":"The Lord of the Rings: The Hunt for Gollum","medium":"Film","creativeLead":"Andy Serkis","platform":"Warner Bros. / New Line · IMAX","window":"December 17, 2027","goatProbability":88,"pedigree":"Serkis directs and returns as Gollum, with Peter Jackson, Fran Walsh and Philippa Boyens producing and co-writing alongside Phoebe Gittins and Arty Papageorgiou. Shot in Wellington from July 2026 with cinematographer James Friend and Wētā FX — the first live-action return to Middle-earth since the Hobbit trilogy."},
+{"id":"c79","title":"The Fisherman","medium":"Film","creativeLead":"David Lowery","platform":"Focus Features","window":"TBA · in development","goatProbability":82,"pedigree":"Lowery (The Green Knight, A Ghost Story) directs and co-writes with Alex Ross Perry, adapting John Langan's Bram Stoker Award-winning cosmic-horror novel — a book already in your canon. Produced by Platinum Dunes (Michael Bay, Brad Fuller) and Gary Dauberman's Coin Operated."},
+{"id":"c80","title":"Rendezvous with Rama","medium":"Film","creativeLead":"Denis Villeneuve","platform":"Alcon Entertainment","window":"TBA · in development","goatProbability":84,"pedigree":"Eric Roth scripts Arthur C. Clarke's Hugo- and Nebula-winning first-contact novel, with Morgan Freeman and Lori McCreary producing after holding the rights two decades. Villeneuve calls it his first true hard science fiction — ‘Arrival on steroids.’"},
+{"id":"c81","title":"A Christmas Carol","medium":"Film","creativeLead":"Robert Eggers","platform":"Warner Bros.","window":"TBA · after Werwulf","goatProbability":83,"pedigree":"Eggers writes and directs Dickens’ ghost story, with Willem Dafoe his stated choice for Scrooge in a fourth collaboration after The Lighthouse, The Northman and Nosferatu. Chris and Elenor Columbus produce; it follows Werwulf on his slate."},
+{"id":"c82","title":"What Happens at Night","medium":"Film","creativeLead":"Martin Scorsese","platform":"Apple Original Films · StudioCanal","window":"2027 · shot 2026","goatProbability":85,"pedigree":"Scorsese’s Gothic psychological horror from Peter Cameron’s novel, scripted by Patrick Marber, with DiCaprio, Jennifer Lawrence and Mads Mikkelsen starring. Rodrigo Prieto shoots and Thelma Schoonmaker cuts — Scorsese back in Shutter Island territory."},
+{"id":"c83","title":"Elden Ring","medium":"Film","creativeLead":"Alex Garland","platform":"A24 · Bandai Namco · IMAX","window":"March 3, 2028","goatProbability":84,"pedigree":"Garland writes and directs FromSoftware’s dark-fantasy epic, filmed for IMAX, with George R.R. Martin — whose mythology underpins the game — producing. Kit Connor, Cailee Spaeny, Ben Whishaw and Jonathan Pryce star; Garland pitched it personally to Bandai Namco."}];
 /*DATA-END*/
 
+/* ===================== PERSONAL PROFILE (swap this to onboard a new person) =====================
+   Everything above (movies/tvShows/videoGames/books/contenders) is shared reference data — the same
+   for everyone who opens this file. Everything gathered onto PERSONAL_PROFILE below is the one
+   person's layer: their owned collection, declared favorites, watchlist order, and the taste-engine
+   weightings the scoring code reads. It's populated incrementally at each point downstream code
+   needs it (so declaration order elsewhere in the file doesn't have to change), but every key here
+   is independently safe to clear back to {} / [] / an empty Set to start a blank profile for someone
+   new — the engine below runs fine against an empty profile, it just stops personalizing.
+   NOT included yet: goatProfile.recs (the hand-written recommendation blurbs a few hundred lines
+   down). Those are prose authored against Payton's specific declared canon, not a mechanical lookup,
+   so making them regenerate per person is recommendation-engine work (see NOTES.md Phase 4), not a
+   data move — folding them in here would just be moving text, not making it swappable. */
+const PERSONAL_PROFILE={
+ watchlist:{c02:1,c78:2,c79:3,c80:4,c81:5,c82:6,c83:7}
+};
+contenders.forEach(c=>{if(PERSONAL_PROFILE.watchlist[c.id])c.watchRank=PERSONAL_PROFILE.watchlist[c.id];});
+
 /* ===================== UNIFIED ADAPTER LAYER ===================== */
-const OWNED_BOOKS_EXTRA={'b508':'Hardcover','b59':'Paperback','b60':'Paperback','b58':'Paperback','b71':'Paperback','b53':'Paperback','b96':'Hardcover','b100':'Hardcover','b88':'Hardcover','b56':'Paperback','b148':'Paperback','b74':'Paperback','b79':'Deluxe','b151':'Paperback','b152':'Paperback','b153':'Boxed Set','b154':'Boxed Set','b155':'Paperback','b156':'Paperback','b157':'Paperback','b158':'Deluxe','b159':'Paperback','b160':'Paperback','b168':'Hardcover','b161':'Hardcover','b162':'Hardcover','b163':'Hardcover','b164':'Hardcover','b165':'Hardcover','b166':'Hardcover','b167':'Hardcover','b169':'Deluxe','b170':'Hardcover','b171':'Hardcover'};
+PERSONAL_PROFILE.ownedBooksExtra={'b508':'Hardcover','b59':'Paperback','b60':'Paperback','b58':'Paperback','b71':'Paperback','b53':'Paperback','b96':'Hardcover','b100':'Hardcover','b88':'Hardcover','b56':'Paperback','b148':'Paperback','b74':'Paperback','b79':'Deluxe','b151':'Paperback','b152':'Paperback','b153':'Boxed Set','b154':'Boxed Set','b155':'Paperback','b156':'Paperback','b157':'Paperback','b158':'Deluxe','b159':'Paperback','b160':'Paperback','b168':'Hardcover','b161':'Hardcover','b162':'Hardcover','b163':'Hardcover','b164':'Hardcover','b165':'Hardcover','b166':'Hardcover','b167':'Hardcover','b169':'Deluxe','b170':'Hardcover','b171':'Hardcover'};
+const OWNED_BOOKS_EXTRA=PERSONAL_PROFILE.ownedBooksExtra;
 const OB=id=>OWNED_BOOKS_EXTRA[id]!==undefined;
 const KM={movie:{label:'FILM',c:'#a78bfa'},tv:{label:'TV',c:'#22d3ee'},game:{label:'GAME',c:'#fbbf24'},book:{label:'BOOK',c:'#4ade80'}};
 const ALL=[
@@ -2020,7 +2038,8 @@ ALL.forEach(x=>{x.ovr=Math.round(((x.crit+x.aud+x.tech)/3)*10)/10;});
 const PROV_CEIL={movie:221,tv:144,game:158,book:171};
 ALL.forEach(x=>{const num=parseInt(x.id.slice(1));const orig=num<=(PROV_CEIL[x.kind]||0);x.prov=(orig||x.owned)?'verified':'estimated';});
 /* Owned physical collection, reconciled against the master shelf ledger (film/TV + books). */
-const OWNED_MEDIA={"m106":"4K","m444":"4K","m384":"4K","t144":"BD/DVD","m116":"BD/DVD","m89":"BD/DVD","m66":"4K","m117":"4K","m65":"4K","m118":"4K","m119":"4K","m01":"4K","m121":"4K","m103":"4K","m122":"4K","m39":"BD/DVD","m158":"BD/DVD","m37":"4K","m40":"4K","m63":"4K","m20":"4K","m81":"BD/DVD","m02":"4K","m84":"4K","m114":"4K","m64":"4K","m14":"4K","m108":"4K","m159":"4K","m06":"4K","m105":"BD/DVD","m07":"4K","m88":"4K","m56":"4K","m12":"4K","m123":"BD/DVD","m54":"4K","m10":"BD/DVD","m124":"4K","m125":"4K","m107":"BD/DVD","m104":"4K","m126":"BD/DVD","m127":"4K","m128":"BD/DVD","m101":"BD/DVD","m110":"BD/DVD","m129":"BD/DVD","m130":"4K","m131":"BD/DVD","m132":"BD/DVD","m133":"BD/DVD","m134":"4K","m135":"BD/DVD","m09":"4K","m109":"4K","m102":"BD/DVD","m136":"4K","m113":"BD/DVD","m137":"BD/DVD","m138":"BD/DVD","m139":"BD/DVD","m140":"BD/DVD","m141":"BD/DVD","m142":"BD/DVD","m143":"BD/DVD","m144":"4K","m115":"BD/DVD","m145":"BD/DVD","m146":"BD/DVD","m147":"4K","m148":"BD/DVD","m149":"4K","m150":"4K","m151":"BD/DVD","m152":"4K","m160":"4K","m111":"BD/DVD","m154":"BD/DVD","m155":"BD/DVD","m156":"4K","m157":"4K","m86":"4K","m112":"BD/DVD","t17":"Box Set","t97":"Box Set","t03":"Box Set","t10":"Box Set","t47":"Box Set","t13":"Box Set","t28":"Box Set","t101":"Box Set"};
+PERSONAL_PROFILE.ownedMedia={"m106":"4K","m444":"4K","m384":"4K","t144":"BD/DVD","m116":"BD/DVD","m89":"BD/DVD","m66":"4K","m117":"4K","m65":"4K","m118":"4K","m119":"4K","m01":"4K","m121":"4K","m103":"4K","m122":"4K","m39":"BD/DVD","m158":"BD/DVD","m37":"4K","m40":"4K","m63":"4K","m20":"4K","m81":"BD/DVD","m02":"4K","m84":"4K","m114":"4K","m64":"4K","m14":"4K","m108":"4K","m159":"4K","m06":"4K","m105":"BD/DVD","m07":"4K","m88":"4K","m56":"4K","m12":"4K","m123":"BD/DVD","m54":"4K","m10":"BD/DVD","m124":"4K","m125":"4K","m107":"BD/DVD","m104":"4K","m126":"BD/DVD","m127":"4K","m128":"BD/DVD","m101":"BD/DVD","m110":"BD/DVD","m129":"BD/DVD","m130":"4K","m131":"BD/DVD","m132":"BD/DVD","m133":"BD/DVD","m134":"4K","m135":"BD/DVD","m09":"4K","m109":"4K","m102":"BD/DVD","m136":"4K","m113":"BD/DVD","m137":"BD/DVD","m138":"BD/DVD","m139":"BD/DVD","m140":"BD/DVD","m141":"BD/DVD","m142":"BD/DVD","m143":"BD/DVD","m144":"4K","m115":"BD/DVD","m145":"BD/DVD","m146":"BD/DVD","m147":"4K","m148":"BD/DVD","m149":"4K","m150":"4K","m151":"BD/DVD","m152":"4K","m160":"4K","m111":"BD/DVD","m154":"BD/DVD","m155":"BD/DVD","m156":"4K","m157":"4K","m86":"4K","m112":"BD/DVD","t17":"Box Set","t97":"Box Set","t03":"Box Set","t10":"Box Set","t47":"Box Set","t13":"Box Set","t28":"Box Set","t101":"Box Set"};
+const OWNED_MEDIA=PERSONAL_PROFILE.ownedMedia;
 ALL.forEach(x=>{if(OWNED_MEDIA[x.id]){x.owned=true;x.physFormat=OWNED_MEDIA[x.id];}if(x.kind==='book'&&(parseInt(x.id.slice(1))<=51||OB(x.id))){x.owned=true;if(OWNED_BOOKS_EXTRA[x.id])x.physFormat=OWNED_BOOKS_EXTRA[x.id];}});
 let WL={};
 try{const raw=localStorage.getItem('omniLedgerWatchlist');if(raw)WL=JSON.parse(raw)||{};}catch(e){WL={};}
@@ -2840,11 +2859,16 @@ const goatProfile={
    {n:'Jacksepticeye',s:84,why:'The adjacent let\u2019s-play energy if you want more Mark-likes.'}]}
  ]
 };
+PERSONAL_PROFILE.declaredCanon=goatProfile.declared;
 /* --- Personal GOAT-match scoring across the full 1,300-work corpus --- */
-const GOAT_DECLARED=new Set(['m09','m06','m65','t03','t10','g45','m120','b19','b20','b21','b32','b23']);
-const GOAT_CREATOR_BOOST=[['Christopher Nolan',14],['Denis Villeneuve',12],['Peter Jackson',10],['Steven Spielberg',9],['Stanley Kubrick',9],['Alex Garland',8],['Sam Esmail',8],['Jonathan Nolan',8],['David Fincher',7],['Alfonso Cuar\u00f3n',7],['Ridley Scott',7],['Martin Scorsese',7],['John Carpenter',7],['Peter Weir',7],['Sam Mendes',6],['Craig Mazin',6],['Vince Gilligan',6],['Sergio Leone',6],['Ron Howard',6],['Quentin Tarantino',6],['Clint Eastwood',6],['Robert Zemeckis',6],['Frank Darabont',6],['Joel & Ethan Coen',5],['Gus Van Sant',5],['Joseph Kosinski',5],['Bong Joon-ho',5],['Paul Thomas Anderson',5],['Akira Kurosawa',5]];
-const GOAT_GENRE_BOOST=[['time',6],['sci-fi',5],['epic',4],['space',4],['western',4],['mystery',3],['war',3],['psychological',4],['drama',3],['crime',3],['historical',3]];
-const GOAT_VIBE_BOOST={'Notebook-and-Theories Night':8,'Puzzle-Box Replay':7,'Reference Demo Night':4,'Projector-Worthy Spectacle':4,'Late-Night Cosmic Dread':3,'World-Builder Marathon':3,'Systems Rabbit Hole':3,'Appointment Slow-Burn':2};
+PERSONAL_PROFILE.declaredGoatIds=['m09','m06','m65','t03','t10','g45','m120','b19','b20','b21','b32','b23'];
+const GOAT_DECLARED=new Set(PERSONAL_PROFILE.declaredGoatIds);
+PERSONAL_PROFILE.creatorBoost=[['Christopher Nolan',14],['Denis Villeneuve',12],['Peter Jackson',10],['Steven Spielberg',9],['Stanley Kubrick',9],['Alex Garland',8],['Sam Esmail',8],['Jonathan Nolan',8],['David Fincher',7],['Alfonso Cuar\u00f3n',7],['Ridley Scott',7],['Martin Scorsese',7],['John Carpenter',7],['Peter Weir',7],['Sam Mendes',6],['Craig Mazin',6],['Vince Gilligan',6],['Sergio Leone',6],['Ron Howard',6],['Quentin Tarantino',6],['Clint Eastwood',6],['Robert Zemeckis',6],['Frank Darabont',6],['Joel & Ethan Coen',5],['Gus Van Sant',5],['Joseph Kosinski',5],['Bong Joon-ho',5],['Paul Thomas Anderson',5],['Akira Kurosawa',5]];
+const GOAT_CREATOR_BOOST=PERSONAL_PROFILE.creatorBoost;
+PERSONAL_PROFILE.genreBoost=[['time',6],['sci-fi',5],['epic',4],['space',4],['western',4],['mystery',3],['war',3],['psychological',4],['drama',3],['crime',3],['historical',3]];
+const GOAT_GENRE_BOOST=PERSONAL_PROFILE.genreBoost;
+PERSONAL_PROFILE.vibeBoost={'Notebook-and-Theories Night':8,'Puzzle-Box Replay':7,'Reference Demo Night':4,'Projector-Worthy Spectacle':4,'Late-Night Cosmic Dread':3,'World-Builder Marathon':3,'Systems Rabbit Hole':3,'Appointment Slow-Burn':2};
+const GOAT_VIBE_BOOST=PERSONAL_PROFILE.vibeBoost;
 const BOOK_CREATOR_BOOST=[['Tolkien',12],['Dan Simmons',9],['Patrick Rothfuss',9],['Ursula K. Le Guin',8],['Isaac Asimov',7],['Liu Cixin',7],['Carl Sagan',7],['Gene Wolfe',6],['Frank Herbert',6],['Arthur C. Clarke',5],['Neil deGrasse Tyson',5],['Walter Isaacson',5],['Yuval Noah Harari',4],['China Mi\u00e9ville',5],['Jeff VanderMeer',5],['H.P. Lovecraft',5],['Cormac McCarthy',5],['Neal Stephenson',5],['Ted Chiang',5],['Susanna Clarke',5],['Stephen King',8]];
 ALL.forEach(x=>{
  let base=0.5*x.crit+0.2*x.aud+0.3*x.tech,a=0;const br=[];
@@ -2861,12 +2885,14 @@ ALL.forEach(x=>{
  x.gmBase=Math.round(base*0.5+14);x.gmBoosts=br;x.gmBoostTotal=Math.round(a*1.2*10)/10;
 });
 /* Silver tier: declared second-tier favorites. Half the pull of a GOAT pick; lifts the floor and reshapes the algorithmic neighborhood. */
-const GOAT_SILVER=new Set(['m101','m102','m14','m12','m10','m81','m07','m02','m37','m84','m56','m103','m104','m20','m105','m106','t17','t47','t13','t101','m107','m108','m109','m110','m111','m112','m113','m114','m115','m116','m86','g101','m159']);
+PERSONAL_PROFILE.silverTierIds=['m101','m102','m14','m12','m10','m81','m07','m02','m37','m84','m56','m103','m104','m20','m105','m106','t17','t47','t13','t101','m107','m108','m109','m110','m111','m112','m113','m114','m115','m116','m86','g101','m159'];
+const GOAT_SILVER=new Set(PERSONAL_PROFILE.silverTierIds);
 ALL.forEach(x=>{x.silver=GOAT_SILVER.has(x.id);if(x.silver){var sg=Math.round(x.gm*0.45+88*0.55);if(sg>x.gm){x.gm=sg;x.gmOverride=x.gmOverride||'silver';}}});
 /* Owned physical collection is a top-tier personal taste signal: lift subjective match toward a floor. */
 ALL.forEach(x=>{if(x.owned&&!x.goat){const target=Math.round(x.gm*0.5+82*0.5);if(target>x.gm){x.gm=target;x.gmOverride=x.gmOverride||'owned';}x.ownedBoost=true;}});
 /* Book affinity: your fingerprint (Tolkien mythology, cosmic horror, physics/space, sincere science bios) lifts matching books. */
-const BOOK_AFFINITY={b19:96,b20:94,b21:95,b18:90,b22:92,b31:86,b26:92,b08:94,b12:90,b34:90,b29:90,b30:88,b33:88,b32:86,b04:86,b02:84,b05:88,b09:84,b10:84,b38:86,b37:88,b39:90,b28:84,b27:86,b47:84,b40:82,b58:90,b153:90,b154:92,b71:92,b53:86,b155:84,b156:84,b64:86,b56:90,b148:88,b74:92,b118:88,b151:86,b152:88,b157:88,b158:88,b159:84,b160:88,b88:86,b96:82,b100:84,b54:90,b52:90,b55:92,b126:88,b129:86,b130:88,b131:88,b132:88,b133:90,b78:90,b77:90,b79:88,b68:84,b70:86,b72:82,b150:86,b149:86,b76:86,b161:82,b162:84,b163:84,b164:84,b165:82,b166:82,b167:88,b93:84,b94:78};
+PERSONAL_PROFILE.bookAffinity={b19:96,b20:94,b21:95,b18:90,b22:92,b31:86,b26:92,b08:94,b12:90,b34:90,b29:90,b30:88,b33:88,b32:86,b04:86,b02:84,b05:88,b09:84,b10:84,b38:86,b37:88,b39:90,b28:84,b27:86,b47:84,b40:82,b58:90,b153:90,b154:92,b71:92,b53:86,b155:84,b156:84,b64:86,b56:90,b148:88,b74:92,b118:88,b151:86,b152:88,b157:88,b158:88,b159:84,b160:88,b88:86,b96:82,b100:84,b54:90,b52:90,b55:92,b126:88,b129:86,b130:88,b131:88,b132:88,b133:90,b78:90,b77:90,b79:88,b68:84,b70:86,b72:82,b150:86,b149:86,b76:86,b161:82,b162:84,b163:84,b164:84,b165:82,b166:82,b167:88,b93:84,b94:78};
+const BOOK_AFFINITY=PERSONAL_PROFILE.bookAffinity;
 ALL.forEach(x=>{if(x.kind==='book'&&BOOK_AFFINITY[x.id]){x.gm=Math.max(x.gm,BOOK_AFFINITY[x.id]);}});
 goatProfile.recs.filter(c=>['Movies','TV Series','Video Games'].includes(c.cat)).forEach(c=>c.items.forEach(it=>{
  if(!it.q)return;const ql=it.q.toLowerCase();
@@ -2874,8 +2900,10 @@ goatProfile.recs.filter(c=>['Movies','TV Series','Video Games'].includes(c.cat))
 }));
 GOAT_DECLARED.forEach(id=>{const x=byId.get(id);if(x){x.gm=100;x.goat=true;x.gmOverride='declared';}});
 /* --- Cosmic Horror Index: declared canon locked at 100, eldritch canon hand-scored, remainder algorithmic --- */
-const CH_DECLARED=['m02','m37','m39','m20','g101'];
-const CH_CANON={m02:100,m37:100,m39:100,m20:100,g101:100,g02:98,m26:96,m40:93,g19:92,g24:92,m30:92,g22:91,m28:90,t02:90,g20:90,g41:90,m95:88,m76:88,t59:88,g12:88,g39:88,g23:88,m90:87,m96:86,t14:86,t65:86,g27:86,g40:86,m34:85,t72:85,m69:84,m19:84,t01:84,t71:84,g13:84,g26:84,m83:82,t51:82,t76:82,g25:82,m24:80,t98:80,m92:78,t87:78,t25:78,g45:78,g28:78,m81:76,t63:76,m72:74,t24:74};
+PERSONAL_PROFILE.cosmicHorrorDeclaredIds=['m02','m37','m39','m20','g101'];
+const CH_DECLARED=PERSONAL_PROFILE.cosmicHorrorDeclaredIds;
+PERSONAL_PROFILE.cosmicHorrorCanon={m02:100,m37:100,m39:100,m20:100,g101:100,g02:98,m26:96,m40:93,g19:92,g24:92,m30:92,g22:91,m28:90,t02:90,g20:90,g41:90,m95:88,m76:88,t59:88,g12:88,g39:88,g23:88,m90:87,m96:86,t14:86,t65:86,g27:86,g40:86,m34:85,t72:85,m69:84,m19:84,t01:84,t71:84,g13:84,g26:84,m83:82,t51:82,t76:82,g25:82,m24:80,t98:80,m92:78,t87:78,t25:78,g45:78,g28:78,m81:76,t63:76,m72:74,t24:74};
+const CH_CANON=PERSONAL_PROFILE.cosmicHorrorCanon;
 ALL.forEach(x=>{
  const gsx=x.genres.join(' ').toLowerCase();
  let c=0.3*x.dread+0.25*x.myst;
