@@ -1,0 +1,19 @@
+# OS noise
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Visual Studio / VS Code
+.vs/
+.vscode/
+*.user
+*.suo
+
+# Node (only if you later add a test suite)
+node_modules/
+npm-debug.log*
+
+# Local scratch
+*.local
+*.bak
+*.tmp
