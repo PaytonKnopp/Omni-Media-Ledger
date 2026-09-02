@@ -234,6 +234,20 @@ body[data-theme="outer-wilds"]{--bg:#0e0a09;--panel:#181010;--panel-2:#120c0b;--
   </div>
 </div>
 
+<div id="compareGate" class="hidden fixed inset-0 z-[999] flex items-center justify-center bg-black/80 backdrop-blur-sm p-4">
+  <div class="panel p-6 max-w-2xl w-full space-y-4 max-h-[85vh] overflow-y-auto">
+    <div class="flex items-start justify-between gap-2">
+      <div>
+        <div class="text-[10px] tracking-[.35em] text-indigo-300/80 uppercase mb-1">Profile Comparison</div>
+        <h2 class="text-lg font-bold text-slate-50">Where your taste overlaps</h2>
+        <p class="text-[13px] text-slate-400 mt-1">Load a profile someone exported (header's Export button) and see shared declared favorites, shared creators/genres, and what's unique to each of you. Nothing is saved or applied — this is a read-only comparison against your current profile.</p>
+      </div>
+      <button type="button" id="compareClose" class="text-slate-500 hover:text-slate-300 text-lg leading-none">✕</button>
+    </div>
+    <div id="compareBody"><p class="text-[12px] text-slate-500">Use the header's <strong>⇄ Compare</strong> control to load a file.</p></div>
+  </div>
+</div>
+
 <header class="sticky top-0 z-40 backdrop-blur bg-[#0B0F19]/85 border-b border-slate-800/80">
   <div class="max-w-[1400px] mx-auto px-4 pt-4 pb-3">
     <div class="flex flex-wrap items-end justify-between gap-3">
@@ -265,6 +279,7 @@ body[data-theme="outer-wilds"]{--bg:#0e0a09;--panel:#181010;--panel-2:#120c0b;--
             <button type="button" id="profileExportBtn" class="text-[11px] px-2 py-1 rounded-lg border border-slate-700 text-slate-300 hover:border-violet-500 hover:text-violet-300 transition-colors" title="Download a complete snapshot -- owned collection, declared canon, taste weights, contender watchlist order, plus your Watchlist tab items, theme, and density -- as a JSON file you can hand-edit or share">Export</button>
             <label class="text-[11px] px-2 py-1 rounded-lg border border-slate-700 text-slate-300 hover:border-violet-500 hover:text-violet-300 transition-colors cursor-pointer" title="Load a profile JSON file exported from this app -- replaces your current profile and reloads">Import<input type="file" id="profileImportInput" accept="application/json" class="hidden"></label>
             <button type="button" id="profileResetBtn" class="text-[11px] px-2 py-1 rounded-lg border border-slate-700 text-slate-300 hover:border-red-500 hover:text-red-300 transition-colors" title="Clear owned collection, declared canon, taste weights and watchlist -- start this browser blank">Reset</button>
+            <label class="text-[11px] px-2 py-1 rounded-lg border border-slate-700 text-slate-300 hover:border-cyan-500 hover:text-cyan-300 transition-colors cursor-pointer" title="Load someone else's exported profile file and see where your taste overlaps and differs -- their file isn't saved or applied, just compared">⇄ Compare<input type="file" id="compareFileInput" accept="application/json" class="hidden"></label>
           </div>
         </div>
       </div>
@@ -2540,6 +2555,7 @@ function cardHTML(it){const k=KM[it.kind];
  +gmBreakdownHTML(it)
  +'<p class="text-[11px] text-slate-300 mt-2.5 italic">&ldquo;'+esc(it.just)+'&rdquo;</p>'
  +'<div class="flex flex-wrap gap-1.5 mt-2.5">'+it.genres.map(g=>'<span class="chip">'+esc(g)+'</span>').join('')+'<span class="chip" style="color:#c4b5fd">'+esc(it.vibe)+'</span><span class="chip">'+esc(it.format)+'</span>'+it.plats.map(p=>'<span class="chip" style="color:#7dd3fc">'+esc(p)+'</span>').join('')+'</div>'
+ +crossMediumPairingsHTML(it)
  +'<div class="flex flex-wrap gap-1.5 mt-2.5 pt-2.5 border-t border-slate-800/70">'
  +'<button type="button" class="profEditBtn presetBtn" data-act="declare" data-id="'+it.id+'" title="Toggle whether this counts as one of your declared all-time favorites (pins it to a 100 match and drives recommendations)"'+(it.goat?' style="color:#fbbf24;border-color:#fbbf2455"':'')+'>'+(it.goat?'★ Declared — click to remove':'☆ Declare favorite')+'</button>'
  +'<button type="button" class="profEditBtn presetBtn" data-act="own" data-id="'+it.id+'" data-kind="'+it.kind+'" title="Toggle whether this is in your owned collection"'+(it.owned?' style="color:#4ade80;border-color:#4ade8055"':'')+'>'+(it.owned?'✓ Owned — click to remove':'+ Mark owned')+'</button>'
@@ -3083,6 +3099,29 @@ function directorCorpusScore(name){
  if(!works.length)return null;
  const top=works.slice().sort((a,b)=>b.gm-a.gm).slice(0,3);
  return Math.round(top.reduce((s,x)=>s+x.gm,0)/top.length);
+}
+function crossMediumPairings(it,n){
+ n=n||3;
+ return ALL.filter(x=>x.kind!==it.kind)
+  .map(x=>{
+   const shared=(it.genres||[]).filter(g=>(x.genres||[]).indexOf(g)>=0).length;
+   const vibeMatch=(it.vibe&&x.vibe===it.vibe)?1:0;
+   return {x:x,shared:shared,vibeMatch:vibeMatch,score:shared*10+vibeMatch*8+x.gm*0.15};
+  })
+  .filter(s=>s.shared>0||s.vibeMatch)
+  .sort((a,b)=>b.score-a.score)
+  .slice(0,n);
+}
+function crossMediumPairingsHTML(it){
+ const pairs=crossMediumPairings(it,3);
+ if(!pairs.length)return '';
+ return '<div class="mt-2.5 pt-2.5 border-t border-slate-800/70">'
+  +'<span class="lbl">⇄ Cross-Medium Pairings · other kinds that share this vibe/genre</span>'
+  +'<div class="flex flex-wrap gap-1.5 mt-1.5">'+pairs.map(p=>{
+   const x=p.x,k2=KM[x.kind];
+   const why=p.vibeMatch&&p.shared?'same vibe · '+p.shared+' shared genre'+(p.shared>1?'s':''):p.vibeMatch?'same vibe':(p.shared+' shared genre'+(p.shared>1?'s':''));
+   return '<button type="button" class="chip pairingChip" data-flip-jump="'+x.id+'" style="color:'+k2.c+';border-color:'+k2.c+'44" title="'+esc(why)+'"><span class="font-semibold">'+k2.label+'</span> '+esc(x.title)+' <span class="text-slate-500">· ★'+x.gm+'</span></button>';
+  }).join('')+'</div></div>';
 }
 function tagOverlapScore(tags){
  const genreBoost=PERSONAL_PROFILE.genreBoost||[];
@@ -3751,7 +3790,7 @@ function switchView(v){state.view=v;
  if(v==='timeline')renderTimeline();
 }
 on('#nav','click',e=>{const b=e.target.closest('.navBtn');if(b)switchView(b.dataset.view);});
-on('#grid','click',e=>{const pe=e.target.closest('.profEditBtn');if(pe){e.stopPropagation();handleProfileEditClick(pe);return;}const w=e.target.closest('.wlBtn');if(w){e.stopPropagation();wlToggle(w.dataset.wl);const has=wlHas(w.dataset.wl);w.textContent=has?'\u2665':'\u2661';w.style.color=has?'#fb7185':'#475569';updateWlNav();if(state.view==='watchlist')renderWatchlist();return;}const flipT=e.target.closest('.cardTitle');if(flipT){e.stopPropagation();const card=flipT.closest('.panel');if(card){const sf=card.querySelector('.summaryFace');if(sf)sf.classList.toggle('hidden');}return;}const fb=e.target.closest('.flipBack');if(fb){e.stopPropagation();const card=fb.closest('.panel');if(card){const sf=card.querySelector('.summaryFace');if(sf)sf.classList.add('hidden');}return;}const h=e.target.closest('.cardHead');if(!h)return;const card=h.closest('.panel');const dd=card?card.querySelector('.detail'):null;if(dd)dd.classList.toggle('hidden');});
+on('#grid','click',e=>{const pc=e.target.closest('.pairingChip');if(pc){e.stopPropagation();const px=byId.get(pc.dataset.flipJump);if(px){state.q=px.title;const qinput=$('#q');if(qinput)qinput.value=px.title;refresh();}return;}const pe=e.target.closest('.profEditBtn');if(pe){e.stopPropagation();handleProfileEditClick(pe);return;}const w=e.target.closest('.wlBtn');if(w){e.stopPropagation();wlToggle(w.dataset.wl);const has=wlHas(w.dataset.wl);w.textContent=has?'\u2665':'\u2661';w.style.color=has?'#fb7185':'#475569';updateWlNav();if(state.view==='watchlist')renderWatchlist();return;}const flipT=e.target.closest('.cardTitle');if(flipT){e.stopPropagation();const card=flipT.closest('.panel');if(card){const sf=card.querySelector('.summaryFace');if(sf)sf.classList.toggle('hidden');}return;}const fb=e.target.closest('.flipBack');if(fb){e.stopPropagation();const card=fb.closest('.panel');if(card){const sf=card.querySelector('.summaryFace');if(sf)sf.classList.add('hidden');}return;}const h=e.target.closest('.cardHead');if(!h)return;const card=h.closest('.panel');const dd=card?card.querySelector('.detail'):null;if(dd)dd.classList.toggle('hidden');});
 let qT=null;
 on('#q','input',e=>{clearTimeout(qT);qT=setTimeout(()=>{state.q=e.target.value;refresh();},120);});
 on('#typeSeg','click',e=>{const b=e.target.closest('button');if(!b)return;state.type=b.dataset.type;$$('#typeSeg button').forEach(x=>x.classList.toggle('on',x===b));refresh();});
@@ -3938,6 +3977,35 @@ on('#profileExportBtn','click',()=>{try{
 }catch(e){alert('Export failed: '+e.message);}});
 on('#profileImportInput','change',e=>{const file=e.target.files&&e.target.files[0];if(!file)return;const reader=new FileReader();reader.onload=()=>{try{const parsed=JSON.parse(reader.result);if(typeof parsed!=='object'||parsed===null||Array.isArray(parsed))throw new Error('File is not a profile object');applyImportedSnapshot(parsed);location.reload();}catch(err){alert('Could not import that file: '+err.message);}};reader.readAsText(file);e.target.value='';});
 on('#profileResetBtn','click',()=>{if(typeof confirm!=='undefined'&&!confirm('Reset your profile to blank? This clears your owned collection, declared canon, taste weights and watchlist in this browser. Export first if you want to keep a copy.'))return;localStorage.setItem('omniLedgerProfile','{}');localStorage.setItem('omniLedgerWatchlist','{}');location.reload();});
+
+/* ===== Profile comparison: read-only overlap between the current profile and someone else's exported file =====
+   Deliberately never touches localStorage or PERSONAL_PROFILE -- this is a side-by-side look, not an import. */
+function computeProfileComparison(a,b){
+ const aGoats=new Set(a.declaredGoatIds||[]),bGoats=new Set(b.declaredGoatIds||[]);
+ const shared=Array.from(aGoats).filter(id=>bGoats.has(id));
+ const onlyA=Array.from(aGoats).filter(id=>!bGoats.has(id));
+ const onlyB=Array.from(bGoats).filter(id=>!aGoats.has(id));
+ const union=new Set([...aGoats,...bGoats]);
+ const overlapPct=union.size?Math.round(shared.length/union.size*100):0;
+ const nameOf=id=>{const x=byId.get(id);return x?x.title:id;};
+ const aCreators=new Set((a.creatorBoost||[]).map(c=>c[0])),bCreators=new Set((b.creatorBoost||[]).map(c=>c[0]));
+ const sharedCreators=Array.from(aCreators).filter(c=>bCreators.has(c));
+ const aGenres=new Set((a.genreBoost||[]).map(g=>g[0])),bGenres=new Set((b.genreBoost||[]).map(g=>g[0]));
+ const sharedGenres=Array.from(aGenres).filter(g=>bGenres.has(g));
+ return {shared:shared.map(nameOf),onlyA:onlyA.map(nameOf),onlyB:onlyB.map(nameOf),overlapPct,sharedCreators,sharedGenres};
+}
+function renderCompare(c){
+ const chipRow=(items,color)=>items.length?('<div class="flex flex-wrap gap-1.5 mt-1.5">'+items.map(t=>'<span class="chip" style="color:'+color+';border-color:'+color+'44">'+esc(t)+'</span>').join('')+'</div>'):'<p class="text-[11px] text-slate-600 mt-1.5">None</p>';
+ $('#compareBody').innerHTML=
+  '<div class="text-center py-3"><div class="text-3xl font-extrabold" style="color:#34d399">'+c.overlapPct+'%</div><div class="text-[11px] text-slate-500 uppercase tracking-wide">declared-favorite overlap</div></div>'
+  +'<div><span class="lbl" style="color:#34d399">✓ Shared declared favorites ('+c.shared.length+')</span>'+chipRow(c.shared,'#34d399')+'</div>'
+  +'<div class="mt-3"><span class="lbl" style="color:#818cf8">◐ Only in your profile ('+c.onlyA.length+')</span>'+chipRow(c.onlyA,'#818cf8')+'</div>'
+  +'<div class="mt-3"><span class="lbl" style="color:#f472b6">◑ Only in theirs ('+c.onlyB.length+')</span>'+chipRow(c.onlyB,'#f472b6')+'</div>'
+  +'<div class="mt-3"><span class="lbl" style="color:#fbbf24">⚡ Shared boosted creators ('+c.sharedCreators.length+')</span>'+chipRow(c.sharedCreators,'#fbbf24')+'</div>'
+  +'<div class="mt-3"><span class="lbl" style="color:#c084fc">◉ Shared boosted genres ('+c.sharedGenres.length+')</span>'+chipRow(c.sharedGenres,'#c084fc')+'</div>';
+}
+on('#compareFileInput','change',e=>{const file=e.target.files&&e.target.files[0];if(!file)return;const reader=new FileReader();reader.onload=()=>{try{const parsed=JSON.parse(reader.result);if(typeof parsed!=='object'||parsed===null)throw new Error('File is not a profile object');const otherProfile=(parsed.profile&&typeof parsed.profile==='object')?parsed.profile:parsed;const cmp=computeProfileComparison(PERSONAL_PROFILE,otherProfile);renderCompare(cmp);$('#compareGate').classList.remove('hidden');}catch(err){alert('Could not read that file: '+err.message);}};reader.readAsText(file);e.target.value='';});
+on('#compareClose','click',()=>{$('#compareGate').classList.add('hidden');});
 
 /* ===== In-app profile editor: declare / own / boost from any card, no JSON editing required =====
    PERSONAL_PROFILE at this point in execution already holds the fully resolved current profile,
