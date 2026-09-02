@@ -106,6 +106,19 @@ body[data-theme="outer-wilds"]{--bg:#0e0a09;--panel:#181010;--panel-2:#120c0b;--
 <body class="bg-obsidian text-slate-200 antialiased">
 <noscript><div style="padding:2rem;text-align:center;color:#fca5a5">This ledger is a local JavaScript application — enable JavaScript to load the 2,502-work corpus.</div></noscript>
 
+<div id="acctGate" class="hidden fixed inset-0 z-[1000] flex items-center justify-center bg-black/80 backdrop-blur-sm p-4">
+  <div class="panel p-6 max-w-sm w-full space-y-4">
+    <div>
+      <div class="text-[10px] tracking-[.35em] text-indigo-300/80 uppercase mb-1">Cloud account</div>
+      <h2 class="text-lg font-bold text-slate-50">Whose ledger?</h2>
+      <p class="text-[13px] text-slate-400 mt-1">Type a name. First time, it starts a fresh account under that name; after that, the same name on any device brings your data back.</p>
+    </div>
+    <input id="acctHandleInput" type="text" autocomplete="off" class="inp w-full" placeholder="e.g. payton, jordan, alex…" maxlength="40">
+    <div id="acctError" class="hidden text-[12px] text-rose-400"></div>
+    <button type="button" id="acctContinueBtn" class="inp w-full text-center hover:border-violet-500 hover:text-violet-300 transition-colors cursor-pointer">Continue</button>
+    <button type="button" id="acctGuestBtn" class="w-full text-center text-[11px] text-slate-500 hover:text-slate-300 underline decoration-dotted underline-offset-2">Continue without an account (this device only)</button>
+  </div>
+</div>
 <div id="onboardGate" class="hidden fixed inset-0 z-[999] flex items-center justify-center bg-black/80 backdrop-blur-sm p-4">
   <div id="onboardChoiceScreen" class="panel p-6 max-w-md w-full space-y-4">
     <div>
@@ -263,6 +276,13 @@ body[data-theme="outer-wilds"]{--bg:#0e0a09;--panel:#181010;--panel-2:#120c0b;--
       <div class="flex flex-wrap items-center gap-4">
         <div id="headStats" class="flex flex-wrap gap-5 text-right"></div>
         
+        <div class="flex flex-col items-end gap-1">
+          <label class="text-[9px] tracking-[.14em] uppercase" style="color:var(--text-faint)">◉ Account</label>
+          <div class="flex items-center gap-1.5">
+            <span id="acctBadge" class="text-[11px] text-slate-400"></span>
+            <button type="button" id="acctSwitchBtn" class="text-[11px] px-2 py-1 rounded-lg border border-slate-700 text-slate-300 hover:border-violet-500 hover:text-violet-300 transition-colors" title="Sign out and pick a different account">Switch</button>
+          </div>
+        </div>
         <div class="flex flex-col items-end gap-1">
           <label for="themeSel" class="text-[9px] tracking-[.14em] uppercase" style="color:var(--text-faint)">◉ Theme</label>
           <select id="themeSel" class="inp" style="width:auto;padding:5px 8px;font-size:11px;cursor:pointer">
@@ -698,7 +718,143 @@ body[data-theme="outer-wilds"]{--bg:#0e0a09;--panel:#181010;--panel-2:#120c0b;--
 <script src="data/tv.js"></script>
 <script src="data/games.js"></script>
 <script src="data/books.js"></script>
-<script id="ledger-app">
+<!--
+  Optional cloud accounts (Firebase Firestore), see NOTES.md "Cloud accounts" section for the
+  5-minute setup. Until FIREBASE_CONFIG below is filled in, this whole block is a no-op: the app
+  boots exactly as it always has, straight into the ledger-app script below, local-storage-only,
+  single device. Once configured, every visitor picks a handle (name), and their profile/watchlist/
+  theme/density sync to a Firestore document under that handle -- so the same handle on a different
+  device or browser gets their data back. No password: this is a friend-group convenience, not a
+  security boundary -- anyone who knows a handle can load (and overwrite) that account.
+-->
+<script src="https://www.gstatic.com/firebasejs/10.13.2/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.13.2/firebase-firestore-compat.js"></script>
+<script id="acct-boot">
+'use strict';
+// Paste the firebaseConfig object from the Firebase console (Project settings -> your web app)
+// here in place of the placeholder values. That's the only edit needed to turn cloud accounts on.
+var FIREBASE_CONFIG={apiKey:"PASTE_YOUR_FIREBASE_API_KEY_HERE",authDomain:"PASTE_YOUR_PROJECT.firebaseapp.com",projectId:"PASTE_YOUR_PROJECT_ID",storageBucket:"PASTE_YOUR_PROJECT.appspot.com",messagingSenderId:"PASTE_YOUR_SENDER_ID",appId:"PASTE_YOUR_APP_ID"};
+(function(){
+ var CONFIGURED=FIREBASE_CONFIG.apiKey.indexOf('PASTE_YOUR')!==0;
+ var ACCT_KEY='omniLedgerHandle';
+ var TRACKED=['omniLedgerProfile','omniLedgerWatchlist','omniLedgerTheme','omniLedgerDensity','omniLedgerOnboarded'];
+ var fsdb=null,handle=null,syncTimer=null,cloudReady=false;
+
+ function $(s){return document.querySelector(s);}
+ function slugify(raw){return String(raw||'').trim().toLowerCase().replace(/[^a-z0-9_-]+/g,'-').replace(/^-+|-+$/g,'').slice(0,40);}
+ function localSnapshot(){
+  var o={};
+  TRACKED.forEach(function(k){try{var v=localStorage.getItem(k);if(v!==null)o[k]=v;}catch(e){}});
+  o.updatedAt=new Date().toISOString();
+  return o;
+ }
+ function hydrateFromCloud(data){
+  TRACKED.forEach(function(k){
+   if(Object.prototype.hasOwnProperty.call(data,k)&&typeof data[k]==='string'){try{localStorage.setItem(k,data[k]);}catch(e){}}
+  });
+ }
+ function clearLocalProfile(){
+  TRACKED.forEach(function(k){try{localStorage.removeItem(k);}catch(e){}});
+ }
+ function scheduleCloudSync(){
+  if(!cloudReady||!handle)return;
+  clearTimeout(syncTimer);
+  syncTimer=setTimeout(function(){
+   try{fsdb.collection('profiles').doc(handle).set(localSnapshot()).catch(function(e){console.warn('Cloud sync failed (will retry on next change):',e.message||e);});}catch(e){console.warn('Cloud sync failed:',e);}
+  },1500);
+ }
+ // Every write ledger-app makes to these 5 keys already goes through localStorage.setItem --
+ // hook it once here so the rest of the app needs zero changes to get cloud sync.
+ (function(){
+  var orig=Storage.prototype.setItem;
+  Storage.prototype.setItem=function(key,value){
+   orig.apply(this,arguments);
+   if(this===localStorage&&TRACKED.indexOf(key)!==-1)scheduleCloudSync();
+  };
+ })();
+
+ function bootApp(){
+  var src=document.getElementById('ledger-app').textContent;
+  var s=document.createElement('script');
+  s.textContent=src;
+  document.body.appendChild(s);
+  renderAcctBadge();
+ }
+ function renderAcctBadge(){
+  var badge=$('#acctBadge');if(!badge)return;
+  if(!CONFIGURED){badge.textContent='Local only (no cloud configured)';return;}
+  badge.textContent=handle?('Signed in as '+handle):'Not signed in';
+ }
+ function withTimeout(promise,ms){
+  return Promise.race([promise,new Promise(function(_,rej){setTimeout(function(){rej(new Error('timeout'));},ms);})]);
+ }
+
+ function showGate(){
+  var gate=$('#acctGate');if(!gate)return Promise.resolve();
+  gate.classList.remove('hidden');
+  return new Promise(function(resolve){
+   var input=$('#acctHandleInput'),err=$('#acctError'),btn=$('#acctContinueBtn'),guest=$('#acctGuestBtn');
+   function submit(){
+    var h=slugify(input.value);
+    if(!h){err.textContent='Enter a name (letters, numbers, dashes).';err.classList.remove('hidden');return;}
+    err.classList.add('hidden');btn.disabled=true;btn.textContent='Loading…';
+    resolveHandle(h).then(function(){gate.classList.add('hidden');resolve();}).catch(function(e){
+     err.textContent='Could not reach the cloud ('+(e.message||e)+') — continuing on this device only.';err.classList.remove('hidden');
+     handle=h;try{localStorage.setItem(ACCT_KEY,h);}catch(ex){}
+     gate.classList.add('hidden');resolve();
+    });
+   }
+   btn.addEventListener('click',submit);
+   input.addEventListener('keydown',function(e){if(e.key==='Enter')submit();});
+   guest.addEventListener('click',function(){handle=null;gate.classList.add('hidden');resolve();});
+  });
+ }
+ function resolveHandle(h){
+  return withTimeout(fsdb.collection('profiles').doc(h).get(),8000).then(function(doc){
+   handle=h;try{localStorage.setItem(ACCT_KEY,h);}catch(e){}
+   if(doc.exists){hydrateFromCloud(doc.data());}
+   else{clearLocalProfile();} // brand-new handle: fresh slate, normal onboarding runs, first save creates the doc
+  });
+ }
+
+ function boot(){
+  if(!CONFIGURED||typeof firebase==='undefined'){renderFooterNote();bootApp();return;}
+  try{
+   firebase.initializeApp(FIREBASE_CONFIG);
+   fsdb=firebase.firestore();
+   cloudReady=true;
+  }catch(e){console.warn('Firebase init failed, continuing local-only:',e);renderFooterNote();bootApp();return;}
+  renderFooterNote();
+  var remembered=null;try{remembered=localStorage.getItem(ACCT_KEY);}catch(e){}
+  if(remembered){
+   withTimeout(fsdb.collection('profiles').doc(remembered).get(),8000).then(function(doc){
+    handle=remembered;
+    if(doc.exists)hydrateFromCloud(doc.data());
+    bootApp();
+   }).catch(function(e){
+    console.warn('Could not reach cloud, using local cache:',e.message||e);
+    handle=remembered;bootApp();
+   });
+  }else{
+   showGate().then(bootApp);
+  }
+ }
+ function renderFooterNote(){
+  var el=document.querySelector('footer .text-slate-700');
+  if(el)el.textContent=CONFIGURED?'Local-first · optional cloud sync':'Local-first · single file · no backend';
+ }
+ document.addEventListener('click',function(e){
+  if(e.target&&e.target.id==='acctSwitchBtn'){
+   try{localStorage.removeItem(ACCT_KEY);}catch(ex){}
+   clearLocalProfile();
+   location.reload();
+  }
+ });
+
+ if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',boot);else boot();
+})();
+</script>
+<script id="ledger-app" type="text/plain">
 'use strict';
 /*DATA-START*/
 const directorsPantheon=[
@@ -2851,8 +3007,12 @@ function handleProfileEditClick(btn){
    hand-a-file app, not a hosted one), so this is deliberately just a "here's what changed"
    readout, not a live version check against anything. Bump APP_VERSION and add a CHANGELOG entry
    whenever a change is worth a friend knowing about; cosmetic tweaks don't need a bump. */
-const APP_VERSION='1.8.0';
+const APP_VERSION='1.9.0';
 const CHANGELOG=[
+ {v:'1.9.0',date:'2026-09-02',notes:[
+  'Optional cloud accounts (Firebase Firestore) -- pick a name once, get your data back on any device under that name. Off by default (zero behavior change) until FIREBASE_CONFIG is filled in; see NOTES.md "Cloud accounts" for the 5-minute setup',
+  'Fixed: the platform/network/studio filter and the Structural Fingerprint Radar\'s search dropdowns stayed open while scrolling, covering content underneath -- they now close on scroll, same as they already did on outside-click and Escape'
+ ]},
  {v:'1.8.0',date:'2026-09-02',notes:[
   'Composers and Cinematographers recommendations now 10/10 corpus-linked, matching Actors -- most averaging 2-5 real films each instead of just one',
   'A real data-quality verification campaign: 46 entries spot-checked against Rotten Tomatoes/Metacritic/Goodreads/Steam across six passes, 11 corrections applied (Titanic, Days of Being Wild, CODA, Noita, Marriage Story, Kingdom, Rififi, Hell or High Water, Ringu, Casablanca, Shōgun) -- corrections weren’t limited to this session’s own additions, some were in the original pre-session ledger too',

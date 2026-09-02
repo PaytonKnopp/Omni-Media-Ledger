@@ -6,14 +6,14 @@ Working state, known limits, non-obvious decisions, and ideas. Read the first se
 
 ## ⚠️ Sensitive content — read before publishing
 
-### Credentials: clean
+### Credentials: clean by default, one exception if you turn cloud accounts on
 
 Audited the whole file with pattern scans for `api_key`, `apikey`, `secret`, `token`, `password`, `bearer`, `authorization`, `client_secret`, `private_key`, `BEGIN RSA`, `sk-…`, `ghp_`/`gho_`, and AWS `AKIA…` key format.
 
-- **No API keys, tokens, credentials, or passwords of any kind.**
-- **No email addresses.**
-- **Zero `fetch`, `XMLHttpRequest`, `WebSocket`, or `sendBeacon` calls** — the page never talks to a server, so nothing can be exfiltrated and there is no key to leak.
+- **No email addresses, passwords, or server-side secrets of any kind.**
 - Every match for the word "secret" was a plot description of a film or novel (*The Secret History*, *Never Let Me Go*, etc.), not a credential.
+- As shipped (`FIREBASE_CONFIG` left at its placeholder values), the page makes **zero network calls** — it never talks to a server, so nothing can be exfiltrated.
+- **If you fill in `FIREBASE_CONFIG`** (see "Cloud accounts" below), the file then contains your Firebase **project's client API key**. This is not a secret the way a server API key is — Firebase's own docs are explicit that this key is meant to ship in client bundles and identifies your project, not a user; it authorizes nothing on its own without matching Firestore security rules. Still, don't commit it to a *public* repo without knowing what you're doing: the real access control lives in the Firestore rules (see below), not in hiding the key. If this repo is or becomes public, either keep `FIREBASE_CONFIG` local (gitignored) and paste it in only on your own machine, or accept that the key is visible and lean entirely on the security rules to keep the data honest.
 
 ### Personal data: present, and it is the whole point of the app
 
@@ -294,6 +294,69 @@ Two real problems surfaced and were corrected for:
 **Results across two full parallel waves: 242 corrections applied, cutting across all four media types and roughly the first third to half of most batches' entries** (movies m01-m1008 spanning all 5 batches at varying depth, TV t01-t264, games g01-g263 lightly touched, books b01-b1008 spanning 7 of 10 batches). Wave 1 (pilot, 4 agents): 137 corrections (72 movies, 51 TV, 12 games, 2 books). Wave 2 (remaining 10 batches): 105 corrections (82 movies, 6 TV, 15 books, 1 game) — each batch report explicitly lists which titles it search-verified vs. left untouched for lack of budget, so the untouched portion of the corpus is known, not silently assumed clean.
 
 This remains an ongoing process. A full-coverage pass on the ~2,200 still-unverified entries (mostly the tail ends of large batches, plus games and TV which got comparatively little search-budget share) would need either several more waves run at lower concurrency, or a raised WebSearch budget per session.
+
+---
+
+## Phase 11 — Optional cloud accounts (Firebase)
+
+**The problem this solves.** Everything up to this phase lives in `localStorage` — one browser, one device. That's fine for Payton's own use, but doesn't work for "send this to friends and everyone gets their own saved account that follows them across devices." A real account system needs somewhere to put data that isn't the visitor's own browser (a database), a way to tell visitors apart (even a light one), and a URL/file people actually load the app from.
+
+**Why not a full hosted backend.** The natural-seeming option — publish this as a Claude Artifact with the `db` capability — turns out not to fit: Artifacts with `db` declared are **organization-internal only**, meaning every viewer (not just writers) must be a signed-in member of the *same* Claude.ai organization as the owner. A personal Claude account has no "organization" to add friends to the way a Team/Enterprise plan does, so a friend on their own personal account would be blocked before ever seeing the page. That rules out the otherwise-appealing zero-server option for this specific use case.
+
+**Why Firebase over a self-hosted SQL Server + API.** A real always-on server plus a SQL Server instance is genuine, ongoing infrastructure — hosting cost, uptime, security patching, a live API layer since browsers can't speak SQL Server's wire protocol directly. Discussed and explicitly deferred in favor of the zero-server option: Firebase's client SDK talks to Firestore directly from the browser, no server to run, a free tier that comfortably covers a friend-group app, and setup is one Firebase-console click-through, not infrastructure to maintain.
+
+**What "account" means here.** Deliberately the lightest possible scheme: a visitor types a name (a "handle"), which becomes their permanent identity going forward. No password, no email, no real auth. This is a friend-group convenience, not a security boundary — anyone who knows or guesses a handle can load (and overwrite) that account. That tradeoff was discussed explicitly and accepted; see "Firestore security rules" below for how far rules alone can (and can't) mitigate it.
+
+### How it works
+
+Everything lives in `index.html` (and is carried into `share.html` by the existing regen script, untouched): a new `<script id="acct-boot">` block runs *before* the main app script, which is now marked `type="text/plain"` so it doesn't auto-execute — `acct-boot` reads its text content and injects it as a real `<script>` element once account resolution is done. This is the standard "gate a big synchronous script behind an async step" trick: no changes needed anywhere in the ~2,700-line app script itself.
+
+1. **Unconfigured (as shipped):** `FIREBASE_CONFIG.apiKey` is a `PASTE_YOUR_...` placeholder. `acct-boot` detects this and immediately boots the app exactly as before — zero behavior change, zero network calls, single-device `localStorage` only.
+2. **Configured:** on load, `acct-boot` checks for a remembered handle (`localStorage.omniLedgerHandle`). If present, it fetches `profiles/<handle>` from Firestore and hydrates the 5 tracked `localStorage` keys (`omniLedgerProfile`, `omniLedgerWatchlist`, `omniLedgerTheme`, `omniLedgerDensity`, `omniLedgerOnboarded`) from the cloud doc before booting — so a returning visitor on any device gets their data back. If no handle is remembered, a blocking "Whose ledger?" gate asks for one; a brand-new handle gets a cleared local profile (so the app's existing onboarding flow — sample/quick-rate/GOAT-picker/blank/import — runs exactly as it does today for a first-time visitor).
+3. **Sync back to the cloud:** `Storage.prototype.setItem` is patched once, globally, so every write the app already makes to those 5 keys (no code changes elsewhere) schedules a debounced (1.5s) push of the full snapshot to `profiles/<handle>` via Firestore's `.set()`. Last-writer-wins, same as `localStorage` always was.
+4. **Switching accounts:** a "Switch" button in the header (next to the new Account badge) clears the remembered handle and local profile, then reloads — showing the handle gate again.
+5. **Offline/misconfigured resilience:** every Firestore call has an 8s timeout and falls back to booting from whatever's in local cache (or a guest "continue on this device only" path from the gate) rather than hanging or breaking the app. A failed cloud read never blocks usage.
+
+**No bias between accounts, by construction.** The recommendation engine has always read from `PERSONAL_PROFILE`, itself built from `localStorage.omniLedgerProfile` at script-parse time (`PROFILE_FROM_STORAGE` — see the top of the script). Since each handle hydrates its *own* cloud doc into that same key before the app boots, a friend's account computes recommendations purely from their own declared favorites/collection — never Payton's — with no engine changes required. This was true before cloud accounts existed too (it's why `share.html` works at all); cloud accounts just add cross-device persistence on top of a scoring model that was already per-profile.
+
+### Setup (5 minutes, one person needs to do this once)
+
+1. https://console.firebase.google.com → create a free project.
+2. Add a **Web app** (the `</>` icon) — Hosting/Analytics not needed.
+3. **Build → Firestore Database → Create database** (test mode is fine to start; tighten with the rules below before sending the link around).
+4. Copy the `firebaseConfig` object shown and paste its values into `FIREBASE_CONFIG` near the top of the `acct-boot` script in `index.html`, replacing the `PASTE_YOUR_...` placeholders.
+5. Run `node scripts/make-share-copy.js` to carry the same config into `share.html` (or edit both if they should point at different projects/collections).
+
+### Firestore security rules
+
+Test mode (open read/write to anyone with the project's API key) is fine for initial setup but should be tightened before wide distribution. Since there's no real per-user auth here (handles are just names, not verified identities), rules can't distinguish "the real Alice" from "someone who typed alice" — that limitation is inherent to the handle-only design, not something rules can fix. What rules *can* do is confine reads/writes to the shape this app actually uses, so a compromised or leaked API key can't be used to read/write arbitrary unrelated data:
+
+```
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    match /profiles/{handle} {
+      allow read, write: if request.resource == null || (
+        request.resource.data.keys().hasOnly(['omniLedgerProfile','omniLedgerWatchlist','omniLedgerTheme','omniLedgerDensity','omniLedgerOnboarded','updatedAt']) &&
+        request.resource.data.size() < 20
+      );
+    }
+    match /{document=**} { allow read, write: if false; }
+  }
+}
+```
+
+This is still not real access control (anyone can still write to any handle's document — the app has no way to prove who's typing) — it just stops the database from being usable for anything beyond this app's own `profiles/*` documents. A genuine per-person security boundary would need real auth (see the "Real accounts (email-based)" option that was considered and deliberately not chosen for this phase, in favor of lower friction for a casual friend-group app).
+
+### Testing
+
+`test/smoke.js` exercises the real `acct-boot` code path (not a re-implementation of it) against an in-memory mock of the Firebase compat SDK's `collection().doc().get()/.set()` surface — a temp copy of the file with `FIREBASE_CONFIG` patched to a dummy "configured" value, gstatic SDK URLs intercepted and replaced with the mock. Covers: gate appears when configured, closes on submit, a brand-new handle gets normal onboarding, a profile change syncs to the cloud store, a second "device" with the same handle hydrates and skips onboarding, and Switch Account clears state and re-shows the gate. Runs automatically as part of `npm test` / `node test/smoke.js`, no real Firebase project needed to run the suite.
+
+### What's still open
+
+- **The deeper GOAT/favorites curation page** the account system was requested alongside — a more in-depth dedicated tab for building out favorites — wasn't built this phase. The existing GOAT Profile view, GOAT Picker (search-and-select), and in-app profile editor already cover a good amount of this; whether they're "in-depth" enough once real friends are using their own accounts is worth revisiting after some real usage.
+- **SQL Server** was the user's first instinct and remains on the table for later — nothing here blocks moving to it if Firebase's free tier or NoSQL shape becomes limiting. That would mean standing up the API server layer discussed and deferred above.
+- Firestore's 256 KiB per-document cap comfortably fits a full profile snapshot today; worth a sanity check if `PERSONAL_PROFILE` grows dramatically (declared canon, owned collection, taste weights) in the future.
 
 ---
 

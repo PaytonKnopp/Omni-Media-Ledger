@@ -57,10 +57,15 @@ const DATA_FILES = ['data/movies.js', 'data/tv.js', 'data/games.js', 'data/books
 
 function syntaxCheck(file) {
   const html = fs.readFileSync(file, 'utf8');
-  const m = html.match(/<script id="ledger-app">([\s\S]*?)<\/script>/);
+  const m = html.match(/<script id="ledger-app"[^>]*>([\s\S]*?)<\/script>/);
   if (!m) return { ok: false, error: 'ledger-app script block not found' };
   try { new Function(m[1]); }
   catch (e) { return { ok: false, error: 'ledger-app: ' + e.message }; }
+  const acctMatch = html.match(/<script id="acct-boot">([\s\S]*?)<\/script>/);
+  if (acctMatch) {
+    try { new Function(acctMatch[1]); }
+    catch (e) { return { ok: false, error: 'acct-boot: ' + e.message }; }
+  }
   for (const df of DATA_FILES) {
     if (!html.includes('<script src="' + df + '">')) {
       return { ok: false, error: 'missing <script src="' + df + '"> -- corpus split (see NOTES.md) requires all four' };
@@ -259,11 +264,114 @@ async function runFile(browser, file) {
   }
 }
 
+// Cloud accounts (see NOTES.md "Cloud accounts"): exercised here against a mocked Firestore, since
+// this suite has no real Firebase project to talk to. Patches a temp copy of the file with a dummy
+// "configured" FIREBASE_CONFIG and stubs the gstatic SDK URLs with an in-memory mock store that
+// implements the same collection().doc().get()/.set() surface acct-boot actually calls -- so this
+// exercises the real acct-boot code path, not a re-implementation of it.
+const MOCK_FIRESTORE_SDK = `
+window.__mockStore = {};
+window.__setCalls = 0;
+window.firebase = {
+  initializeApp: function(){},
+  firestore: function(){
+    return { collection: function(name){
+      return { doc: function(id){
+        var key = name + '/' + id;
+        return {
+          get: function(){
+            return Promise.resolve({
+              exists: Object.prototype.hasOwnProperty.call(window.__mockStore, key),
+              data: function(){ return window.__mockStore[key]; }
+            });
+          },
+          set: function(data){ window.__mockStore[key] = data; window.__setCalls++; return Promise.resolve(); }
+        };
+      }};
+    }};
+  }
+};`;
+
+async function runAccountFlow(browser, file) {
+  const src = fs.readFileSync(path.join(ROOT, file), 'utf8');
+  const patched = src.replace(
+    /var FIREBASE_CONFIG=\{[^}]*\};/,
+    'var FIREBASE_CONFIG={apiKey:"dummy",authDomain:"d",projectId:"d",storageBucket:"d",messagingSenderId:"1",appId:"1"};'
+  );
+  if (patched === src) { check(file + ': FIREBASE_CONFIG placeholder found to patch for account-flow test', false); return; }
+  const tmpPath = path.join(ROOT, '_test_acct_' + file);
+  fs.writeFileSync(tmpPath, patched);
+  try {
+    const isShare = file === 'share.html';
+    const page = await browser.newPage();
+    const pageErrors = [];
+    page.on('pageerror', e => pageErrors.push(e.message));
+    await page.route('**/firebasejs/**', route => route.fulfill({ contentType: 'application/javascript', body: '' }));
+    await page.addInitScript(MOCK_FIRESTORE_SDK);
+    await page.goto('file://' + tmpPath);
+    await page.waitForTimeout(400);
+
+    const gateVisible = await page.evaluate(() => !document.getElementById('acctGate').classList.contains('hidden'));
+    check('account gate appears when cloud is configured and no handle is remembered', gateVisible);
+
+    await page.fill('#acctHandleInput', 'SmokeTestUser');
+    await page.click('#acctContinueBtn');
+    await page.waitForTimeout(500);
+    const gateHidden = await page.evaluate(() => document.getElementById('acctGate').classList.contains('hidden'));
+    check('account gate closes after choosing a handle', gateHidden);
+
+    const startBtn = isShare ? '#onboardBlank' : '#onboardSample';
+    const onboardVisible = await page.evaluate(() => !document.getElementById('onboardGate').classList.contains('hidden'));
+    check('brand-new account gets the normal onboarding flow', onboardVisible);
+    if (onboardVisible) { await page.click(startBtn); await page.waitForTimeout(300); }
+
+    await page.waitForTimeout(2200); // cloud sync debounce is 1500ms
+    const synced = await page.evaluate(() => !!window.__mockStore['profiles/smoketestuser']);
+    check('a profile change syncs to the cloud store under the slugified handle', synced);
+
+    // A second "device" (fresh context) with the same handle should hydrate from the cloud doc and
+    // skip onboarding, since the mock store already has an onboarded profile for this handle.
+    const storedDoc = await page.evaluate(() => window.__mockStore['profiles/smoketestuser']);
+    await page.close();
+
+    const ctx2 = await browser.newContext();
+    const page2 = await ctx2.newPage();
+    const page2Errors = [];
+    page2.on('pageerror', e => page2Errors.push(e.message));
+    await page2.route('**/firebasejs/**', route => route.fulfill({ contentType: 'application/javascript', body: '' }));
+    await page2.addInitScript(MOCK_FIRESTORE_SDK + 'window.__mockStore=' + JSON.stringify({ 'profiles/smoketestuser': storedDoc }) + ';');
+    await page2.goto('file://' + tmpPath);
+    await page2.waitForTimeout(400);
+    await page2.fill('#acctHandleInput', 'smoketestuser');
+    await page2.click('#acctContinueBtn');
+    await page2.waitForTimeout(500);
+    const onboardVisible2 = await page2.evaluate(() => !document.getElementById('onboardGate').classList.contains('hidden'));
+    check('same handle on a second device hydrates from the cloud and skips onboarding again', !onboardVisible2);
+
+    // Switch account clears the remembered handle and shows the gate again.
+    await page2.click('#acctSwitchBtn');
+    await page2.waitForTimeout(500);
+    const handleAfterSwitch = await page2.evaluate(() => localStorage.getItem('omniLedgerHandle'));
+    const gateAfterSwitch = await page2.evaluate(() => !document.getElementById('acctGate').classList.contains('hidden'));
+    check('switch account clears the remembered handle and re-shows the account gate', handleAfterSwitch === null && gateAfterSwitch);
+
+    check('no uncaught page errors during the account-flow pass', pageErrors.length === 0 && page2Errors.length === 0);
+    if (pageErrors.length) pageErrors.forEach(e => console.log('     ' + e));
+    if (page2Errors.length) page2Errors.forEach(e => console.log('     ' + e));
+
+    await ctx2.close();
+  } finally {
+    fs.unlinkSync(tmpPath);
+  }
+}
+
 (async () => {
   const executablePath = findChromium();
   const browser = await chromium.launch(executablePath ? { executablePath } : {});
   for (const t of TARGETS) {
     await runFile(browser, t);
+    console.log('\n=== ' + t + ' — cloud account flow (mocked Firestore) ===');
+    await runAccountFlow(browser, t);
   }
   await browser.close();
 
