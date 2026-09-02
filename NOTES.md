@@ -207,33 +207,47 @@ A single pass through everything the "keep going" idea list had accumulated. All
 
 ---
 
+## Phase 6 — GOAT Picker, mobile fixes, cross-medium pairings, profile comparison, test suite
+
+**"Pick Your GOATs."** A dedicated search-select-finalize screen (`#goatPickerGate`), reachable from a persistent header button or from a new onboarding-gate option ("Search & pick your GOATs"). This is the direct answer to "how do others actually build taste" — search the full corpus, tap results to stage them, Finalize writes `declaredGoatIds`/`declaredCanon`. The onboarding path builds a genuinely blank `{declaredGoatIds, declaredCanon}` object rather than cloning the live `PERSONAL_PROFILE` — on `index.html` that object still holds Payton's hardcoded defaults at onboarding time, so cloning it would have bled Payton's `creatorBoost`/`ownedMedia`/etc. into a stranger's fresh profile. Reopening from the header afterward correctly merges into whatever profile already exists via the usual `mutateProfileAndReload`.
+
+**Two latent CSS bugs found and fixed.** `max-h-[85vh]` (used by every modal — GOAT Picker, seed wizard, Tonight picker) and `max-h-64` (GOAT Picker's results/staged lists) were referenced in markup but never compiled into the precompiled Tailwind stylesheet (Phase 4's "made genuinely offline" pass generated the stylesheet before these classes existed in the HTML). Both silently no-opped, so affected containers could grow past the viewport with footer buttons unreachable. Added both rules by hand next to the existing `.max-h-[460px]` entry.
+
+**Mobile viewport pass.** Found and fixed real horizontal-overflow bugs: the header's theme/profile-controls row and the controller's action-button row (Rabbit Hole / Surprise Me / Compact / Show-limit) didn't wrap on narrow viewports, and `#creatorSeg`'s three long-label buttons overflowed with nowhere to go. Added `flex-wrap` to all three plus a base `.seg{flex-wrap:wrap;max-width:100%}` rule so every segmented control benefits. Verified zero horizontal overflow across all 10 views at 390×844 in both files.
+
+**Cross-Medium Pairings.** Every card detail now computes up to 3 works of a *different* medium sharing genres or the same vibe tag (`crossMediumPairings()`), ranked by shared-genre count then GOAT match, clickable to jump straight to that work in the Global Controller.
+
+**Profile Comparison.** A header **⇄ Compare** control loads a second exported profile file and computes overlap against the current one — shared declared favorites, what's unique to each person, shared boosted creators/genres, an overlap percentage — entirely client-side and read-only; the loaded file is never saved or applied.
+
+**Committed regression suite.** `test/smoke.js` (see Testing below) replaces the old "run it externally" workflow with something anyone can run after `npm install`.
+
+Full details on each item, and the two CSS-bug root causes, are in the corresponding commits on `claude/omnimedia-ledger-planning-xez6lm`.
+
+---
+
 ## Ideas / next steps
 
 Roughly in order of value:
 
 1. ~~**Make it genuinely offline.**~~ Done — see "Made genuinely offline: Tailwind compiled and committed" above.
 2. ~~**A "tonight" picker.**~~ Done — see Phase 5 above.
-3. ~~**Refresh the contenders ledger.**~~ Done as a one-time spot-check — see Phase 5 above. Still worth doing **on an actual schedule**: this pass checked ~6 of 83 entries against live web search; the other ~77 are unverified and will keep drifting. A periodic full pass (or triggering off release-date fields as they approach/pass) is the real fix.
-4. **Cross-medium pairings.** The rabbit-hole engine already computes cross-medium links; surfacing them as deliberate "watch this, then read this" double-features fits the taste model well.
+3. **Refresh the contenders ledger on an actual schedule.** Phase 5 spot-checked ~6 of 83 entries against live web search; the other ~77 are unverified and will keep drifting. A periodic full pass (or triggering off release-date fields as they approach/pass) is the real fix.
+4. ~~**Cross-medium pairings.**~~ Done — see Phase 6 above.
 5. **Split the dataset out of `index.html`** if editing becomes painful — see the decision note above for how.
 6. **Raise data provenance.** Replace estimated scores with sourced ones where possible; the provenance flag already tracks which are which.
 7. ~~**Export/import of `localStorage`.**~~ Done, fully — see Phase 5 above. Export/Import now bundle `omniLedgerWatchlist`, `omniLedgerTheme`, and `omniLedgerDensity` alongside the profile; a single exported file is a complete snapshot of a person.
-8. ~~**A real "blank first run" for a friend's copy.**~~ Done — see Phase 3 above. First load in any browser now asks (quick-rate / sample / blank / import) via a blocking gate rather than silently inheriting Payton's defaults.
+8. ~~**A real "blank first run" for a friend's copy.**~~ Done — see Phase 3 above. First load in any browser now asks (quick-rate / search & pick / sample / blank / import) via a blocking gate rather than silently inheriting Payton's defaults.
 9. ~~**Genericize `goatProfile.recs`.**~~ Done for Movies/Books/TV Series/Video Games (Phase 4) and for Directors (Phase 5, genuinely computed from corpus filmography). Actors/Composers/Cinematographers/Music Artists/YouTube are now genre-overlap approximated (Phase 5) rather than fixed samples — a real creator dataset (next item) would still raise their fidelity to Directors' level.
 10. **Build a creator/composer/cinematographer/artist dataset.** Would upgrade Actors/Composers/Cinematographers/Music Artists/YouTube from "approximate — by genre overlap" (Phase 5's stopgap) to genuinely computed the way Directors now is. Needs a structured record of each person's own style/genre range — something in the shape of the existing 80-entry Creator Archives, extended with the tags `gm`-style scoring needs.
 11. ~~**Bundle the watchlist/theme/density keys into Export/Import too.**~~ Done — see item 7 above.
-12. **In-app profile editor: reach parity with the full `PERSONAL_PROFILE` schema.** The Declare/Own/Boost buttons (Phase 5) cover the highest-value fields (`declaredGoatIds`, `ownedMedia`/`ownedBooksExtra`/`ownedGameIds`, `creatorBoost`/`bookCreatorBoost`). Not yet click-editable: `genreBoost`, `vibeBoost`, `silverTierIds`, `bookAffinity`, `cosmicHorrorCanon` — still hand-JSON-only per `PROFILE_TEMPLATE.md`.
+12. **In-app profile editor: reach parity with the full `PERSONAL_PROFILE` schema.** The Declare/Own/Boost buttons (Phase 5) and the GOAT Picker (Phase 6) cover the highest-value fields (`declaredGoatIds`, `ownedMedia`/`ownedBooksExtra`/`ownedGameIds`, `creatorBoost`/`bookCreatorBoost`). Not yet click-editable: `genreBoost`, `vibeBoost`, `silverTierIds`, `bookAffinity`, `cosmicHorrorCanon` — still hand-JSON-only per `PROFILE_TEMPLATE.md`.
 13. **Reconcile released/cancelled contenders into the scored corpus.** Phase 5 marked *The Blood of Dawnwalker*, *007: First Light*, and *Metroid Prime 4: Beyond* as released in the Contenders Ledger, but didn't migrate them into `movies`/`videoGames` with real scored metrics — doing that honestly means sourcing real critical/audience/technical figures, not estimating them to hit a deadline.
+14. ~~**Committed test suite.**~~ Done — see Phase 6 above and Testing below.
 
 ---
 
 ## Testing
 
-There is no test file in the repo — the suite was run externally against the built file using Node and jsdom. If you want it in-repo, the approach was:
+`test/smoke.js` (Phase 6) is now committed and real — a Playwright suite run against both `index.html` and `share.html`: syntax check, onboarding gate paths, all 10 views render, filter/search/slider narrowing, reset, the platform-combo open/close regression, the GOAT Picker's search-stage-cancel round trip, and a mobile-viewport horizontal-overflow check. Run with `npm test` (needs `playwright-core` and a local Chromium — see README's "Running the regression suite"). It auto-detects a Chromium build via `PLAYWRIGHT_CHROMIUM_PATH` or common install locations, so it isn't hardwired to any one machine.
 
-- Load `index.html` in jsdom with `runScripts: 'dangerously'`.
-- Stub `Chart`, `requestAnimationFrame`, and `URL.createObjectURL`.
-- Filter expected console noise (`tailwind`, `scrollIntoView`, `canvas`, `getContext`).
-- Assert on data integrity, tab rendering, filter behaviour, and DOM state after simulated clicks.
-
-Worth adding as `test/smoke.js` with a `package.json` dev-dependency on `jsdom` if this grows.
+Ad hoc jsdom checks (data integrity, filter behavior, DOM state after simulated clicks) are still useful for quick iteration and don't need a browser — the old approach (jsdom with `runScripts: 'dangerously'`, stub `Chart`/`requestAnimationFrame`/`URL.createObjectURL`) still works and was used throughout Phase 6 development, just never committed since it's redundant with what `test/smoke.js` now covers end to end.

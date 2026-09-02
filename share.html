@@ -4072,8 +4072,16 @@ function handleProfileEditClick(btn){
    hand-a-file app, not a hosted one), so this is deliberately just a "here's what changed"
    readout, not a live version check against anything. Bump APP_VERSION and add a CHANGELOG entry
    whenever a change is worth a friend knowing about; cosmetic tweaks don't need a bump. */
-const APP_VERSION='1.3.1';
+const APP_VERSION='1.4.0';
 const CHANGELOG=[
+ {v:'1.4.0',date:'2026-09-02',notes:[
+  '"Pick Your GOATs": search the full 1,300-work corpus and declare favorites directly, either from the first-run gate (builds a genuinely blank profile for a new person, not a copy of Payton’s) or anytime after from a header button',
+  'Cross-Medium Pairings on every card detail: up to 3 works of a different kind (movie/TV/game/book) that share genres or vibe, one click away',
+  'Profile Comparison: load someone else’s exported profile and see shared declared favorites, what’s unique to each of you, shared creators/genres, and an overlap percentage -- read-only, nothing is saved',
+  'Fixed a layout bug where max-h-[85vh]/max-h-64 utility classes were referenced in markup but never compiled into the stylesheet, so several modals could grow past the viewport with footer buttons unreachable',
+  'Fixed mobile-viewport horizontal scrolling on every tab (header controls and the results action row now wrap instead of overflowing)',
+  'Added a committed Playwright regression suite (test/smoke.js, `npm test`) covering onboarding, all 10 views, filters, the platform-dropdown fix, and the new GOAT Picker'
+ ]},
  {v:'1.3.1',date:'2026-09-02',notes:[
   'Fixed: the platform/network/studio dropdown could get stuck open and not close on click. It ran its own separate "click outside to close" listener instead of sharing the one all other dropdowns use, which was fragile by construction. Unified onto one shared listener, and added Escape-to-close as a reliable fallback for every dropdown.'
  ]},
