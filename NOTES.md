@@ -225,6 +225,20 @@ Full details on each item, and the two CSS-bug root causes, are in the correspon
 
 ---
 
+## Phase 7 — corpus nearly doubled, creator dataset, full profile parity, contenders reconciliation
+
+**Corpus: 1,300 → 2,502 works.** Movies 500→999, TV 150→250, games 150→253, books 500→1,000. Generated via six parallel research passes (each given the exact schema, the existing title list to avoid duplicates, and a genre/era lane to reduce cross-batch collision), then hand-validated before insertion: every batch was checked for valid JSON, correct sequential IDs, and zero duplicate titles (case-insensitive) against both the existing corpus and every other batch, before being spliced into the relevant array. One real cross-batch collision surfaced this way (*West Side Story* (1961), independently added by two batches) and was dropped from the loser before merge — which is why movies landed at 999 rather than exactly 1,000. New entries fall above `PROV_CEIL` automatically, so they're honestly flagged "◯ Curated estimate" rather than "◉ Verified" — no change needed to that mechanism, it already does the right thing.
+
+**Creator dataset, started.** Added `personCorpusScore()`, the same idea as `directorCorpusScore()` (Phase 5) but keyed to an explicit `works: [...]` list per person instead of the `creator` field. Actors, Composers, and Cinematographers entries that name a real, verifiable corpus work (26 of 30 across the three categories) now score from a real average of that work's GOAT match, marked "◆ linked" per item and "◆ partly ledger-linked" at the category level. Music Artists and YouTube stay honestly labeled "approximate — by genre overlap" since the corpus has no music-album or video-essay entries to link to — a full fix (idea #10, still open) would need a proper cast/discography dataset, not just spot-linking well-known crossover credits.
+
+**Full `PERSONAL_PROFILE` click-editor parity.** Genre chips and the vibe chip on any expanded card now toggle `genreBoost`/`vibeBoost` directly; a new **Silver tier** button toggles `silverTierIds`; book cards get a **Boost affinity** button for `bookAffinity`. Combined with Phase 5's Declare/Own/Boost-creator buttons, every taste-weight field except `cosmicHorrorCanon` is click-editable with no JSON required.
+
+**Reconciled 3 released Contenders into the scored corpus**, with real data instead of a placeholder: *Metroid Prime 4: Beyond* (Metacritic 79 critic / 78 user), *007: First Light* (88/83), *The Blood of Dawnwalker* (84/80) — all verified via web search rather than estimated. Their Contenders Ledger entries keep their history (`migratedTo` field) and now render a green "✓ IN LEDGER — VIEW SCORE" badge that jumps straight to the real corpus entry instead of just saying "due for reconciliation" and stopping there.
+
+**Full regression across all of it.** `test/smoke.js`'s baseline check was changed from a hardcoded `=== 1300` to verifying the total equals the sum of per-kind counts, so it stays correct as the corpus keeps growing rather than needing a manual bump every time. All 24 checks pass on both files at the full 2,502-work corpus.
+
+---
+
 ## Ideas / next steps
 
 Roughly in order of value:
@@ -238,11 +252,13 @@ Roughly in order of value:
 7. ~~**Export/import of `localStorage`.**~~ Done, fully — see Phase 5 above. Export/Import now bundle `omniLedgerWatchlist`, `omniLedgerTheme`, and `omniLedgerDensity` alongside the profile; a single exported file is a complete snapshot of a person.
 8. ~~**A real "blank first run" for a friend's copy.**~~ Done — see Phase 3 above. First load in any browser now asks (quick-rate / search & pick / sample / blank / import) via a blocking gate rather than silently inheriting Payton's defaults.
 9. ~~**Genericize `goatProfile.recs`.**~~ Done for Movies/Books/TV Series/Video Games (Phase 4) and for Directors (Phase 5, genuinely computed from corpus filmography). Actors/Composers/Cinematographers/Music Artists/YouTube are now genre-overlap approximated (Phase 5) rather than fixed samples — a real creator dataset (next item) would still raise their fidelity to Directors' level.
-10. **Build a creator/composer/cinematographer/artist dataset.** Would upgrade Actors/Composers/Cinematographers/Music Artists/YouTube from "approximate — by genre overlap" (Phase 5's stopgap) to genuinely computed the way Directors now is. Needs a structured record of each person's own style/genre range — something in the shape of the existing 80-entry Creator Archives, extended with the tags `gm`-style scoring needs.
+10. **Finish the creator/composer/cinematographer/artist dataset.** Phase 7 linked 26 of 30 Actors/Composers/Cinematographers picks to real corpus works via `personCorpusScore()` (marked "◆ linked"), but Music Artists and YouTube still have no corpus category to link to at all. A real fix needs a structured per-person discography/filmography record — something in the shape of the existing 80-entry Creator Archives — not just spot-linking the picks that happen to name a well-known crossover credit.
 11. ~~**Bundle the watchlist/theme/density keys into Export/Import too.**~~ Done — see item 7 above.
-12. **In-app profile editor: reach parity with the full `PERSONAL_PROFILE` schema.** The Declare/Own/Boost buttons (Phase 5) and the GOAT Picker (Phase 6) cover the highest-value fields (`declaredGoatIds`, `ownedMedia`/`ownedBooksExtra`/`ownedGameIds`, `creatorBoost`/`bookCreatorBoost`). Not yet click-editable: `genreBoost`, `vibeBoost`, `silverTierIds`, `bookAffinity`, `cosmicHorrorCanon` — still hand-JSON-only per `PROFILE_TEMPLATE.md`.
-13. **Reconcile released/cancelled contenders into the scored corpus.** Phase 5 marked *The Blood of Dawnwalker*, *007: First Light*, and *Metroid Prime 4: Beyond* as released in the Contenders Ledger, but didn't migrate them into `movies`/`videoGames` with real scored metrics — doing that honestly means sourcing real critical/audience/technical figures, not estimating them to hit a deadline.
+12. ~~**In-app profile editor: reach parity with the full `PERSONAL_PROFILE` schema.**~~ Done — see Phase 7 above. Every field except `cosmicHorrorCanon` is now click-editable.
+13. ~~**Reconcile released/cancelled contenders into the scored corpus.**~~ Done for the 3 that had released — see Phase 7 above. Still worth watching for the next contender that ships (nothing automates this yet; it's a manual pass triggered by noticing a "Released" window in the ledger).
 14. ~~**Committed test suite.**~~ Done — see Phase 6 above and Testing below.
+15. **Expand the corpus further.** Phase 7 took it from 1,300 to 2,502 works (999 movies, 250 TV, 253 games, 1,000 books). There's no natural ceiling here — more real, well-researched entries always raise recommendation quality, especially for niche genres/eras still thin in the corpus (see item 3, Contenders Ledger refresh, for the same "needs an ongoing cadence" shape).
+16. ~~**Automate the duplicate/schema check Phase 7 did by hand.**~~ Done — `scripts/validate-corpus.js` (no browser needed) checks all four corpus arrays for duplicate IDs, duplicate titles (case-insensitive), and required fields; `npm test` runs it before the Playwright suite.
 
 ---
 

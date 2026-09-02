@@ -1,6 +1,6 @@
 # Omni-Media Ledger
 
-A single-file, offline-first personal media database and taste engine covering **1,300 works** — 500 films, 150 TV series, 150 video games, and 500 books — with a scoring model tuned to one person's taste, a reconciled physical-collection inventory, and a set of analysis views.
+A single-file, offline-first personal media database and taste engine covering **2,502 works** — 999 films, 250 TV series, 253 video games, and 1,000 books — with a scoring model tuned to one person's taste, a reconciled physical-collection inventory, and a set of analysis views.
 
 There is no build step, no framework, no backend, and no account. It is one HTML file you open in a browser.
 
@@ -16,7 +16,7 @@ The ledger scores every work on a shared set of indices (critical, audience, tec
 | --- | --- |
 | **Global Controller** | The main browser. Omni-search across title/creator/studio/genre/vibe/year, media-type filter, searchable platform-network-studio combobox, 15 index sliders, genre families, ratings, year range, owned/unowned, and eight sort modes including a weighted **Blend** sort with adjustable Tech / Dread / Mind sliders and four presets. |
 | **GOAT Profile** | Declared personal canon (films, books, TV, games, directors, actors, composers, cinematographers, music, YouTube) plus recommendations per category. Movies/Books/TV Series/Video Games and Directors are computed live from your actual profile; the other five people categories (Actors, Composers, Cinematographers, Music Artists, YouTube) are curated picks scored by genre overlap and labeled "approximate" — see `NOTES.md` Phase 4 for why. Recommendations are guaranteed never to suggest something already owned. |
-| **★ Pick Your GOATs** | A dedicated search-select-finalize screen (header button, or the first-run gate's "Search & pick your GOATs" option) — search the full 1,300-work corpus, stage picks, finalize them as declared favorites. This is how a new person actually builds taste in the app: search and tap, no JSON required. Reopening it later adds to what's already declared, it never starts over. |
+| **★ Pick Your GOATs** | A dedicated search-select-finalize screen (header button, or the first-run gate's "Search & pick your GOATs" option) — search the full 2,502-work corpus, stage picks, finalize them as declared favorites. This is how a new person actually builds taste in the app: search and tap, no JSON required. Reopening it later adds to what's already declared, it never starts over. |
 | **Taste Portrait** | Aggregate profile of what the collection says about its owner, including a **family lens** of 27 clickable genre-family tiles showing count, ownership share, and top match. |
 | **Collection** | The owned physical library by format, plus an **Upgrade Audit** (which discs/editions are worth upgrading and why) and **Collection Intelligence** (creator and franchise gaps — acclaimed unowned works by creators already collected). |
 | **Watchlist** | Works flagged for later, persisted in `localStorage`. |
@@ -34,7 +34,7 @@ The ledger scores every work on a shared set of indices (critical, audience, tec
 - **Surprise Me** — scoped random pick.
 - **🌙 Tonight** — pick a mood and how much time you have, get one specific recommendation (time budget applies to films, the only kind with a reliable single-sitting runtime).
 - **Score breakdown** on each card explaining exactly how a match score was reached, with a provenance flag (verified vs. curated estimate).
-- **Declare favorite / Mark owned / Boost creator** — buttons on every expanded card that personalize your profile directly, no JSON editing required.
+- **Declare favorite / Mark owned / Boost creator / Silver tier / boost a genre or vibe / boost a book's affinity** — buttons and clickable chips on every expanded card that personalize your profile directly, no JSON editing required (see `PROFILE_TEMPLATE.md` for the one remaining field, `cosmicHorrorCanon`, that still needs hand-editing).
 - **Cross-Medium Pairings** — every expanded card also shows up to 3 works of a *different* medium (a film paired with a book, a game paired with a show) that share genres or vibe, ranked by overlap and match score. Click one to jump straight to it.
 - **Profile Comparison** — the header's **⇄ Compare** control loads someone else's exported profile file and shows shared declared favorites, what's unique to each of you, shared boosted creators/genres, and an overlap percentage. Read-only: nothing is saved or applied, it's just a look.
 
@@ -58,9 +58,9 @@ This repo carries two files, both the full app, running the same reference corpu
 | File | What's in it | Who it's for |
 | --- | --- | --- |
 | **`index.html`** | Payton's own collection, declared canon, taste weights, watchlist — baked in as the defaults | Payton's own use |
-| **`share.html`** | The same engine and 1,300-work corpus, with all of the above emptied out | Anyone else — a clean copy to hand out |
+| **`share.html`** | The same engine and 2,502-work corpus, with all of the above emptied out | Anyone else — a clean copy to hand out |
 
-Send `share.html` to someone — email, a shared drive link, USB, however. There's no server and nothing to set up on their end. The first time they open it, a one-time prompt asks them to choose **Quick-rate a few titles** (tap the ones they love out of a short varied spread — under a minute, gives real recommendations right away), **Search & pick your GOATs** (search the full 1,300-work corpus directly and declare exactly what they know they love), **Start blank**, or **Import a profile file** (someone's exported profile). Whatever they pick is saved in *their* browser only — it never touches the file or this repository, so the same `share.html` can go to any number of people without their data ever mixing. From there, the **Declare favorite** / **Mark owned** / **Boost creator** buttons on any expanded card, or the **★ Pick Your GOATs** button in the header, keep building their profile with no JSON editing at all.
+Send `share.html` to someone — email, a shared drive link, USB, however. There's no server and nothing to set up on their end. The first time they open it, a one-time prompt asks them to choose **Quick-rate a few titles** (tap the ones they love out of a short varied spread — under a minute, gives real recommendations right away), **Search & pick your GOATs** (search the full 2,502-work corpus directly and declare exactly what they know they love), **Start blank**, or **Import a profile file** (someone's exported profile). Whatever they pick is saved in *their* browser only — it never touches the file or this repository, so the same `share.html` can go to any number of people without their data ever mixing. From there, the **Declare favorite** / **Mark owned** / **Boost creator** buttons on any expanded card, or the **★ Pick Your GOATs** button in the header, keep building their profile with no JSON editing at all.
 
 `index.html` carries the same prompt for a browser that's never opened it before (a new device of Payton's, say), except it also offers **Use the built-in sample profile** — which is just Payton's own data, already there. Either file's profile is strictly per-browser: nothing anyone does in their own copy can reach back and change Payton's `index.html` defaults, and nothing Payton does changes what someone else already has saved. Anyone curious how their taste lines up with Payton's own can load `index.html`'s exported profile into their own copy's **⇄ Compare** control for a side-by-side overlap — read-only, no data moves.
 
@@ -76,7 +76,7 @@ Export/Import/Reset controls in the header of either file let anyone move a prof
 
 ### Running the regression suite
 
-There's a committed Playwright smoke test at `test/smoke.js` covering onboarding, all 10 views, filters, the platform-dropdown fix, and the GOAT Picker, run against both `index.html` and `share.html`. It's optional — the app itself needs nothing installed — but useful after making changes:
+There are two committed checks. `scripts/validate-corpus.js` needs no browser and no dependencies — it checks all four corpus arrays (movies/TV/games/books) in both files for duplicate IDs, duplicate titles, and required fields; run it any time with `node scripts/validate-corpus.js`. `test/smoke.js` is a Playwright suite covering onboarding, all 10 views, filters, the platform-dropdown fix, and the GOAT Picker, run against both `index.html` and `share.html`. Both are optional — the app itself needs nothing installed — but useful after making changes:
 
 ```
 npm install -D playwright-core
@@ -93,7 +93,7 @@ npm test
 
 ## API keys
 
-**None.** The project requires no API keys, tokens, accounts, or credentials of any kind. It makes zero `fetch`, `XMLHttpRequest`, or WebSocket calls. All 1,300 records are embedded in the file itself.
+**None.** The project requires no API keys, tokens, accounts, or credentials of any kind. It makes zero `fetch`, `XMLHttpRequest`, or WebSocket calls. All 2,502 records are embedded in the file itself.
 
 If you ever add an external API later, do **not** hardcode the key in `index.html` — anyone who opens the page or views source can read it. Client-side static pages cannot keep a secret.
 
@@ -133,7 +133,7 @@ All persistence uses browser **`localStorage`** under four keys:
 - Private/Incognito windows discard it on close.
 - It is **not** backed up by the repository. Committing and pushing does not save your watchlist or profile.
 
-The 1,300-work corpus and the contenders ledger are **not** in `localStorage` — they are hardcoded in `index.html` and are identical for everyone who opens the file. Ownership flags, declared canon, and taste weightings *are* personal and now live in `omniLedgerProfile`: a fresh browser with nothing saved there falls back to the defaults baked into this copy of the file (Payton's own profile), until you use the header's **Export**, **Import**, or **Reset** controls to take a copy elsewhere or start blank.
+The 2,502-work corpus and the contenders ledger are **not** in `localStorage` — they are hardcoded in `index.html` and are identical for everyone who opens the file. Ownership flags, declared canon, and taste weightings *are* personal and now live in `omniLedgerProfile`: a fresh browser with nothing saved there falls back to the defaults baked into this copy of the file (Payton's own profile), until you use the header's **Export**, **Import**, or **Reset** controls to take a copy elsewhere or start blank.
 
 ---
 

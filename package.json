@@ -3,7 +3,8 @@
   "private": true,
   "description": "No build step for the app itself -- this package.json exists only to run the committed regression suite in test/smoke.js.",
   "scripts": {
-    "test": "node test/smoke.js"
+    "test": "node scripts/validate-corpus.js && node test/smoke.js",
+    "validate-corpus": "node scripts/validate-corpus.js"
   },
   "devDependencies": {
     "playwright-core": "^1.47.0"
