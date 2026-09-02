@@ -1,6 +1,6 @@
 # Omni-Media Ledger
 
-A single-file, offline-first personal media database and taste engine covering **2,502 works** — 999 films, 250 TV series, 253 video games, and 1,000 books — with a scoring model tuned to one person's taste, a reconciled physical-collection inventory, and a set of analysis views.
+A single-file, offline-first personal media database and taste engine covering **2,508 works** — 1,000 films, 250 TV series, 258 video games, and 1,000 books — with a scoring model tuned to one person's taste, a reconciled physical-collection inventory, and a set of analysis views.
 
 There is no build step, no framework, no backend, and no account. It's a small folder — `index.html` (or `share.html`) plus a `data/` directory — you open in a browser; no server, no install.
 
@@ -16,7 +16,7 @@ The ledger scores every work on a shared set of indices (critical, audience, tec
 | --- | --- |
 | **Global Controller** | The main browser. Omni-search across title/creator/studio/genre/vibe/year, media-type filter, searchable platform-network-studio combobox, 15 index sliders, genre families, ratings, year range, owned/unowned, and eight sort modes including a weighted **Blend** sort with adjustable Tech / Dread / Mind sliders and four presets. |
 | **GOAT Profile** | Declared personal canon (films, books, TV, games, directors, actors, composers, cinematographers, music, YouTube) plus recommendations per category. Movies/Books/TV Series/Video Games and Directors are computed live from your actual profile; the other five people categories (Actors, Composers, Cinematographers, Music Artists, YouTube) are curated picks scored by genre overlap and labeled "approximate" — see `NOTES.md` Phase 4 for why. Recommendations are guaranteed never to suggest something already owned. |
-| **★ Pick Your GOATs** | A dedicated search-select-finalize screen (header button, or the first-run gate's "Search & pick your GOATs" option) — search the full 2,502-work corpus, stage picks, finalize them as declared favorites. This is how a new person actually builds taste in the app: search and tap, no JSON required. Reopening it later adds to what's already declared, it never starts over. |
+| **★ Pick Your GOATs** | A dedicated search-select-finalize screen (header button, or the first-run gate's "Search & pick your GOATs" option) — search the full 2,508-work corpus, stage picks, finalize them as declared favorites. This is how a new person actually builds taste in the app: search and tap, no JSON required. Reopening it later adds to what's already declared, it never starts over. |
 | **Taste Portrait** | Aggregate profile of what the collection says about its owner, including a **family lens** of 27 clickable genre-family tiles showing count, ownership share, and top match. |
 | **Collection** | The owned physical library by format, plus an **Upgrade Audit** (which discs/editions are worth upgrading and why) and **Collection Intelligence** (creator and franchise gaps — acclaimed unowned works by creators already collected). |
 | **Watchlist** | Works flagged for later, persisted in `localStorage`. |
@@ -57,9 +57,9 @@ That's it. It also works from a USB stick, an email attachment (zip the folder f
 index.html       Payton's personalized copy (engine + UI + personal defaults)
 share.html       The same engine + UI, generated from index.html, personal defaults blanked
 data/
-  movies.js      const movies=[...]   999 films
+  movies.js      const movies=[...]   1,000 films
   tv.js          const tvShows=[...]  250 TV series
-  games.js       const videoGames=[...] 253 video games
+  games.js       const videoGames=[...] 258 video games
   books.js       const books=[...]    1,000 books
 scripts/
   make-share-copy.js     regenerates share.html from index.html
@@ -77,9 +77,9 @@ This repo carries two HTML files, both the full app, running the same reference 
 | File | What's in it | Who it's for |
 | --- | --- | --- |
 | **`index.html`** | Payton's own collection, declared canon, taste weights, watchlist — baked in as the defaults | Payton's own use |
-| **`share.html`** | The same engine and 2,502-work corpus (via `data/`), with all of the above emptied out | Anyone else — a clean copy to hand out |
+| **`share.html`** | The same engine and 2,508-work corpus (via `data/`), with all of the above emptied out | Anyone else — a clean copy to hand out |
 
-Send `share.html` **and the `data/` folder** to someone — email a zip, a shared drive link, USB, however. There's no server and nothing to set up on their end. The first time they open it, a one-time prompt asks them to choose **Quick-rate a few titles** (tap the ones they love out of a short varied spread — under a minute, gives real recommendations right away), **Search & pick your GOATs** (search the full 2,502-work corpus directly and declare exactly what they know they love), **Start blank**, or **Import a profile file** (someone's exported profile). Whatever they pick is saved in *their* browser only — it never touches the file or this repository, so the same `share.html` can go to any number of people without their data ever mixing. From there, the **Declare favorite** / **Mark owned** / **Boost creator** buttons on any expanded card, or the **★ Pick Your GOATs** button in the header, keep building their profile with no JSON editing at all.
+Send `share.html` **and the `data/` folder** to someone — email a zip, a shared drive link, USB, however. There's no server and nothing to set up on their end. The first time they open it, a one-time prompt asks them to choose **Quick-rate a few titles** (tap the ones they love out of a short varied spread — under a minute, gives real recommendations right away), **Search & pick your GOATs** (search the full 2,508-work corpus directly and declare exactly what they know they love), **Start blank**, or **Import a profile file** (someone's exported profile). Whatever they pick is saved in *their* browser only — it never touches the file or this repository, so the same `share.html` can go to any number of people without their data ever mixing. From there, the **Declare favorite** / **Mark owned** / **Boost creator** buttons on any expanded card, or the **★ Pick Your GOATs** button in the header, keep building their profile with no JSON editing at all.
 
 `index.html` carries the same prompt for a browser that's never opened it before (a new device of Payton's, say), except it also offers **Use the built-in sample profile** — which is just Payton's own data, already there. Either file's profile is strictly per-browser: nothing anyone does in their own copy can reach back and change Payton's `index.html` defaults, and nothing Payton does changes what someone else already has saved. Anyone curious how their taste lines up with Payton's own can load `index.html`'s exported profile into their own copy's **⇄ Compare** control for a side-by-side overlap — read-only, no data moves.
 
@@ -112,7 +112,7 @@ npm test
 
 ## API keys
 
-**None.** The project requires no API keys, tokens, accounts, or credentials of any kind. It makes zero `fetch`, `XMLHttpRequest`, or WebSocket calls (the `data/*.js` corpus files load as plain `<script src>` tags, not fetched). All 2,502 records are embedded in the `data/` folder shipped alongside the HTML.
+**None.** The project requires no API keys, tokens, accounts, or credentials of any kind. It makes zero `fetch`, `XMLHttpRequest`, or WebSocket calls (the `data/*.js` corpus files load as plain `<script src>` tags, not fetched). All 2,508 records are embedded in the `data/` folder shipped alongside the HTML.
 
 If you ever add an external API later, do **not** hardcode the key in `index.html` — anyone who opens the page or views source can read it. Client-side static pages cannot keep a secret.
 
@@ -152,7 +152,7 @@ All persistence uses browser **`localStorage`** under four keys:
 - Private/Incognito windows discard it on close.
 - It is **not** backed up by the repository. Committing and pushing does not save your watchlist or profile.
 
-The 2,502-work corpus and the contenders ledger are **not** in `localStorage` — the corpus is hardcoded in `data/*.js` and the contenders ledger in `index.html`/`share.html` itself, and both are identical for everyone who opens the file. Ownership flags, declared canon, and taste weightings *are* personal and now live in `omniLedgerProfile`: a fresh browser with nothing saved there falls back to the defaults baked into this copy of the file (Payton's own profile), until you use the header's **Export**, **Import**, or **Reset** controls to take a copy elsewhere or start blank.
+The 2,508-work corpus and the contenders ledger are **not** in `localStorage` — the corpus is hardcoded in `data/*.js` and the contenders ledger in `index.html`/`share.html` itself, and both are identical for everyone who opens the file. Ownership flags, declared canon, and taste weightings *are* personal and now live in `omniLedgerProfile`: a fresh browser with nothing saved there falls back to the defaults baked into this copy of the file (Payton's own profile), until you use the header's **Export**, **Import**, or **Reset** controls to take a copy elsewhere or start blank.
 
 ---
 

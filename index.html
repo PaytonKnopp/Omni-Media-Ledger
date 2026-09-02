@@ -2846,8 +2846,14 @@ function handleProfileEditClick(btn){
    hand-a-file app, not a hosted one), so this is deliberately just a "here's what changed"
    readout, not a live version check against anything. Bump APP_VERSION and add a CHANGELOG entry
    whenever a change is worth a friend knowing about; cosmetic tweaks don't need a bump. */
-const APP_VERSION='1.6.0';
+const APP_VERSION='1.7.0';
 const CHANGELOG=[
+ {v:'1.7.0',date:'2026-09-02',notes:[
+  'Movies to exactly 1,000 (added Do the Right Thing, replacing a cross-batch duplicate gap)',
+  'Contenders Ledger refresh pass: 13 more entries spot-checked against live sources (20/50 total, up from 7/50) -- 5 newly-released games (Saros, Resident Evil Requiem, Crimson Desert, Nioh 3, Forza Horizon 6) reconciled into the scored corpus with real Metacritic data, House of the Dragon and Fallout updated to reflect aired seasons, The Penguin Season 2’s actual not-renewed status corrected',
+  'Actors recommendations deepened: all 10 of 10 now genuinely corpus-linked (up from 9/10), most averaging across multiple real films instead of just one',
+  'Corpus now 2,508 works: 1,000 films / 250 TV / 258 games / 1,000 books -- games sits above the original 250 target because 8 real, sourced Contenders reconciliations landed there across two rounds; trimming real verified data to hit a round number would be a quality regression, not an improvement'
+ ]},
  {v:'1.6.0',date:'2026-09-02',notes:[
   'Corpus split out of index.html into data/movies.js, data/tv.js, data/games.js, data/books.js -- loaded via classic <script src> so file:// still works with no server. Both index.html and share.html reference the same files, dropping each from ~1.58MB to ~330KB and meaning a corpus edit no longer needs a share.html regeneration',
   'Music Artists and YouTube recommendation scoring now blends vibe-weight matches alongside genre (previously genre-only) -- a real, verified improvement, though these two categories still can’t be corpus-linked the way Actors/Composers/Cinematographers now are (no music-album or video-essay category exists in the corpus)',
