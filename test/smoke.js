@@ -190,6 +190,15 @@ async function runFile(browser, file) {
     const closed = await page.evaluate(() => document.querySelector('#platCombo .rcPop').classList.contains('hidden'));
     check('platform combo closes on outside click', closed);
 
+    // Combo popups close on scroll too, so they don't stay pinned over content as you scroll past
+    // them (regression: combo tracked its field correctly while scrolling but never auto-closed).
+    await page.click('#platField');
+    await page.waitForTimeout(150);
+    await page.mouse.wheel(0, 400);
+    await page.waitForTimeout(150);
+    const closedOnScroll = await page.evaluate(() => document.querySelector('#platCombo .rcPop').classList.contains('hidden'));
+    check('platform combo closes on scroll', closedOnScroll);
+
     // GOAT Picker: search, stage, finalize round-trip
     await page.click('#goatPickerBtn');
     await page.waitForTimeout(300);

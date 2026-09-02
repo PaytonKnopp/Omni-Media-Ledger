@@ -2645,6 +2645,11 @@ $$('.radarCombo:not(#platCombo)').forEach(function(combo){
 });
 document.addEventListener('click',function(e){if(!e.target.closest('.radarCombo'))closeAllCombos(null);});
 document.addEventListener('keydown',function(e){if(e.key==='Escape')closeAllCombos(null);});
+// An open combo's popup tracks its field correctly while the page scrolls (it's absolutely
+// positioned in normal flow), but that just means it keeps following the field and covering
+// whatever content ends up underneath as you scroll past it. Close on scroll instead -- capture
+// phase so this also fires for scrolling inside any nested scrollable container, not just window.
+window.addEventListener('scroll',function(){closeAllCombos(null);},true);
 // Bubble field medium filter
 document.addEventListener('click',function(e){var b=e.target.closest&&e.target.closest('.bubbleMedBtn');if(!b)return;bubbleMed=b.dataset.bm;$$('.bubbleMedBtn').forEach(function(x){x.classList.toggle('on',x===b);});if(typeof renderBubble==='function')renderBubble();});
 // Relationship graph: node + chip clicks
