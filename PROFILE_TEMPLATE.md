@@ -1,9 +1,11 @@
 # Profile template
 
-There's no in-app "declare a favorite" button yet (see NOTES.md's ideas list) — the
-only way to personalize `share.html` beyond the Watchlist heart icon is to Import a
-profile JSON file through the header's **Import** control. This is that file's shape,
-documented field by field, with a small filled-in example.
+Most personalization no longer needs this file: expand any card and use **Declare
+favorite**, **Mark owned**, or **Boost `<creator>`** to build a profile by clicking.
+This document is for the fields those buttons don't cover yet — `genreBoost`,
+`vibeBoost`, `silverTierIds`, `bookAffinity`, `cosmicHorrorCanon` — or if you'd rather
+hand-build or bulk-edit a whole profile at once. This is that file's shape, documented
+field by field, with a small filled-in example.
 
 **Finding a work's ID:** every card in the Global Controller carries its ID in the
 page itself — right-click a card → Inspect, and look for `data-id="m117"` (or `t..`,
@@ -13,6 +15,12 @@ today.
 
 You don't need to fill in every field. Anything left out is simply empty for that
 person — the engine works fine with a partial profile.
+
+**Import accepts two shapes:** a bare object like the example below (what this
+document has always documented, and what hand-built files naturally are), or the
+fuller `{version, profile, watchlist, theme, density}` snapshot that the header's
+**Export** button now produces — Import auto-detects which one it's looking at by
+checking for a `profile` key, so both work without any conversion.
 
 ```json
 {

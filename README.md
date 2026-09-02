@@ -15,7 +15,7 @@ The ledger scores every work on a shared set of indices (critical, audience, tec
 | Tab | What it's for |
 | --- | --- |
 | **Global Controller** | The main browser. Omni-search across title/creator/studio/genre/vibe/year, media-type filter, searchable platform-network-studio combobox, 15 index sliders, genre families, ratings, year range, owned/unowned, and eight sort modes including a weighted **Blend** sort with adjustable Tech / Dread / Mind sliders and four presets. |
-| **GOAT Profile** | Declared personal canon (films, books, TV, games, directors, actors, composers, cinematographers, music, YouTube) plus curated recommendations per category. Recommendations are guaranteed never to suggest something already owned. |
+| **GOAT Profile** | Declared personal canon (films, books, TV, games, directors, actors, composers, cinematographers, music, YouTube) plus recommendations per category. Movies/Books/TV Series/Video Games and Directors are computed live from your actual profile; the other five people categories (Actors, Composers, Cinematographers, Music Artists, YouTube) are curated picks scored by genre overlap and labeled "approximate" — see `NOTES.md` Phase 4 for why. Recommendations are guaranteed never to suggest something already owned. |
 | **Taste Portrait** | Aggregate profile of what the collection says about its owner, including a **family lens** of 27 clickable genre-family tiles showing count, ownership share, and top match. |
 | **Collection** | The owned physical library by format, plus an **Upgrade Audit** (which discs/editions are worth upgrading and why) and **Collection Intelligence** (creator and franchise gaps — acclaimed unowned works by creators already collected). |
 | **Watchlist** | Works flagged for later, persisted in `localStorage`. |
@@ -31,7 +31,9 @@ The ledger scores every work on a shared set of indices (critical, audience, tec
 - **Density toggle** — comfortable/compact card layout, persisted.
 - **Rabbit Hole** — a guided chain of related works with mood, era, and end-on-owned steering.
 - **Surprise Me** — scoped random pick.
+- **🌙 Tonight** — pick a mood and how much time you have, get one specific recommendation (time budget applies to films, the only kind with a reliable single-sitting runtime).
 - **Score breakdown** on each card explaining exactly how a match score was reached, with a provenance flag (verified vs. curated estimate).
+- **Declare favorite / Mark owned / Boost creator** — buttons on every expanded card that personalize your profile directly, no JSON editing required.
 
 ---
 
@@ -55,7 +57,7 @@ This repo carries two files, both the full app, running the same reference corpu
 | **`index.html`** | Payton's own collection, declared canon, taste weights, watchlist — baked in as the defaults | Payton's own use |
 | **`share.html`** | The same engine and 1,300-work corpus, with all of the above emptied out | Anyone else — a clean copy to hand out |
 
-Send `share.html` to someone — email, a shared drive link, USB, however. There's no server and nothing to set up on their end. The first time they open it, a one-time prompt asks them to choose **Start blank** or **Import a profile file** (someone's exported profile). Whatever they pick is saved in *their* browser only — it never touches the file or this repository, so the same `share.html` can go to any number of people without their data ever mixing.
+Send `share.html` to someone — email, a shared drive link, USB, however. There's no server and nothing to set up on their end. The first time they open it, a one-time prompt asks them to choose **Quick-rate a few titles** (tap the ones they love out of a short varied spread — under a minute, gives real recommendations right away), **Start blank**, or **Import a profile file** (someone's exported profile). Whatever they pick is saved in *their* browser only — it never touches the file or this repository, so the same `share.html` can go to any number of people without their data ever mixing. From there, the **Declare favorite** / **Mark owned** / **Boost creator** buttons on any expanded card keep building their profile with no JSON editing at all.
 
 `index.html` carries the same prompt for a browser that's never opened it before (a new device of Payton's, say), except it also offers **Use the built-in sample profile** — which is just Payton's own data, already there.
 

@@ -107,13 +107,17 @@ body[data-theme="outer-wilds"]{--bg:#0e0a09;--panel:#181010;--panel-2:#120c0b;--
 <noscript><div style="padding:2rem;text-align:center;color:#fca5a5">This ledger is a local JavaScript application — enable JavaScript to load the 1,300-work corpus.</div></noscript>
 
 <div id="onboardGate" class="hidden fixed inset-0 z-[999] flex items-center justify-center bg-black/80 backdrop-blur-sm p-4">
-  <div class="panel p-6 max-w-md w-full space-y-4">
+  <div id="onboardChoiceScreen" class="panel p-6 max-w-md w-full space-y-4">
     <div>
       <div class="text-[10px] tracking-[.35em] text-indigo-300/80 uppercase mb-1">First time in this browser</div>
       <h2 class="text-lg font-bold text-slate-50">Whose ledger is this?</h2>
       <p class="text-[13px] text-slate-400 mt-1">This is a blank copy — nothing is declared or owned yet. Pick one to get started; you can Export, Import, or Reset later from the Profile controls in the header.</p>
     </div>
     <div class="space-y-2">
+      <button type="button" id="onboardSeed" class="w-full text-left rounded-xl border border-slate-700 hover:border-violet-500 p-3 transition-colors">
+        <div class="text-sm font-semibold text-slate-100">Quick-rate a few titles</div>
+        <div class="text-[12px] text-slate-500 mt-0.5">Tap the ones you love out of a short well-regarded spread — takes under a minute, gives recommendations something real to work from right away.</div>
+      </button>
       <button type="button" id="onboardBlank" class="w-full text-left rounded-xl border border-slate-700 hover:border-violet-500 p-3 transition-colors">
         <div class="text-sm font-semibold text-slate-100">Start blank</div>
         <div class="text-[12px] text-slate-500 mt-0.5">No owned collection or declared favorites yet. The engine still works — it just won't personalize until you add your own.</div>
@@ -125,6 +129,79 @@ body[data-theme="outer-wilds"]{--bg:#0e0a09;--panel:#181010;--panel-2:#120c0b;--
       </label>
     </div>
   </div>
+  <div id="onboardSeedScreen" class="hidden panel p-6 max-w-lg w-full space-y-4 max-h-[85vh] overflow-y-auto">
+    <div>
+      <div class="text-[10px] tracking-[.35em] text-indigo-300/80 uppercase mb-1">Quick-rate</div>
+      <h2 class="text-lg font-bold text-slate-50">Tap anything you love</h2>
+      <p class="text-[13px] text-slate-400 mt-1">A short, deliberately varied spread across film, TV, games, and books. Loving a few seeds real recommendations — skip anything you don't know or don't care for.</p>
+    </div>
+    <div id="onboardSeedGrid" class="space-y-2"></div>
+    <div class="flex items-center justify-between gap-2 pt-2 border-t border-slate-800/70">
+      <span id="onboardSeedCount" class="text-[12px] text-slate-500">0 selected</span>
+      <div class="flex gap-2">
+        <button type="button" id="onboardSeedSkip" class="presetBtn">Skip this</button>
+        <button type="button" id="onboardSeedContinue" class="presetBtn" style="color:#4ade80;border-color:#4ade8055">Continue →</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div id="tonightGate" class="hidden fixed inset-0 z-[999] flex items-center justify-center bg-black/80 backdrop-blur-sm p-4">
+  <div class="panel p-6 max-w-lg w-full space-y-4 max-h-[85vh] overflow-y-auto">
+    <div class="flex items-start justify-between gap-2">
+      <div>
+        <div class="text-[10px] tracking-[.35em] text-indigo-300/80 uppercase mb-1">Tonight</div>
+        <h2 class="text-lg font-bold text-slate-50">What should I watch?</h2>
+        <p class="text-[13px] text-slate-400 mt-1">Mood, time available, one pick. Time budget only applies to films (the only kind with a reliable single-sitting runtime) — TV, games, and books are shown regardless of length.</p>
+      </div>
+      <button type="button" id="tonightClose" class="text-slate-500 hover:text-slate-300 text-lg leading-none">✕</button>
+    </div>
+    <div class="grid grid-cols-2 gap-3">
+      <div>
+        <label class="text-[9px] tracking-[.14em] uppercase text-slate-500">Mood</label>
+        <select id="tonightMood" class="inp w-full mt-1"></select>
+      </div>
+      <div>
+        <label class="text-[9px] tracking-[.14em] uppercase text-slate-500">Time available</label>
+        <select id="tonightTime" class="inp w-full mt-1">
+          <option value="0">Doesn't matter</option>
+          <option value="30">≤ 30 min</option>
+          <option value="60">≤ 1 hour</option>
+          <option value="90">≤ 1.5 hours</option>
+          <option value="120">≤ 2 hours</option>
+          <option value="180">≤ 3 hours</option>
+        </select>
+      </div>
+      <div>
+        <label class="text-[9px] tracking-[.14em] uppercase text-slate-500">Media type</label>
+        <select id="tonightType" class="inp w-full mt-1">
+          <option value="all">Any</option>
+          <option value="movie">Film</option>
+          <option value="tv">TV</option>
+          <option value="game">Game</option>
+          <option value="book">Book</option>
+        </select>
+      </div>
+      <div class="flex items-end">
+        <button type="button" id="tonightFind" class="presetBtn w-full" style="color:#c7d2fe;border-color:#818cf855">🌙 Find something</button>
+      </div>
+    </div>
+    <div id="tonightResult"></div>
+  </div>
+</div>
+
+<div id="versionGate" class="hidden fixed inset-0 z-[999] flex items-center justify-center bg-black/80 backdrop-blur-sm p-4">
+  <div class="panel p-6 max-w-md w-full space-y-4 max-h-[85vh] overflow-y-auto">
+    <div class="flex items-start justify-between gap-2">
+      <div>
+        <div class="text-[10px] tracking-[.35em] text-indigo-300/80 uppercase mb-1">Version</div>
+        <h2 class="text-lg font-bold text-slate-50">What's changed</h2>
+        <p class="text-[12px] text-slate-500 mt-1">If a friend's copy shows an older number than yours, hand them your <code>index.html</code>/<code>share.html</code> file (or a fresh Export) to catch them up — see <code>scripts/make-share-copy.js</code> in the repo.</p>
+      </div>
+      <button type="button" id="versionClose" class="text-slate-500 hover:text-slate-300 text-lg leading-none">✕</button>
+    </div>
+    <div id="versionLog" class="space-y-3"></div>
+  </div>
 </div>
 
 <header class="sticky top-0 z-40 backdrop-blur bg-[#0B0F19]/85 border-b border-slate-800/80">
@@ -133,7 +210,7 @@ body[data-theme="outer-wilds"]{--bg:#0e0a09;--panel:#181010;--panel-2:#120c0b;--
       <div>
         <div class="text-[10px] tracking-[.35em] text-indigo-300/80 uppercase">Obsidian Minimalist · Relational Omni-Data Core</div>
         <h1 class="text-xl md:text-2xl font-bold tracking-tight text-slate-50">The Ultimate Omni-Media &amp; Entertainment Ledger</h1>
-        <div id="lastUpdated" class="text-[10px] text-slate-500 mt-1 tracking-wide">Last updated · Aug 30, 2026 · <span id="luCount" class="text-slate-400"></span></div>
+        <div id="lastUpdated" class="text-[10px] text-slate-500 mt-1 tracking-wide">Last updated · Aug 30, 2026 · <span id="luCount" class="text-slate-400"></span> · <button type="button" id="versionBtn" class="text-slate-500 hover:text-slate-300 underline decoration-dotted underline-offset-2">v<span id="versionText"></span></button></div>
       </div>
       <div class="flex items-center gap-4">
         <div id="headStats" class="flex gap-5 text-right"></div>
@@ -155,7 +232,7 @@ body[data-theme="outer-wilds"]{--bg:#0e0a09;--panel:#181010;--panel-2:#120c0b;--
         <div class="flex flex-col items-end gap-1">
           <label class="text-[9px] tracking-[.14em] uppercase" style="color:var(--text-faint)">◉ Profile</label>
           <div class="flex gap-1">
-            <button type="button" id="profileExportBtn" class="text-[11px] px-2 py-1 rounded-lg border border-slate-700 text-slate-300 hover:border-violet-500 hover:text-violet-300 transition-colors" title="Download this profile (owned collection, declared canon, taste weights, watchlist order) as a JSON file you can hand-edit or share">Export</button>
+            <button type="button" id="profileExportBtn" class="text-[11px] px-2 py-1 rounded-lg border border-slate-700 text-slate-300 hover:border-violet-500 hover:text-violet-300 transition-colors" title="Download a complete snapshot -- owned collection, declared canon, taste weights, contender watchlist order, plus your Watchlist tab items, theme, and density -- as a JSON file you can hand-edit or share">Export</button>
             <label class="text-[11px] px-2 py-1 rounded-lg border border-slate-700 text-slate-300 hover:border-violet-500 hover:text-violet-300 transition-colors cursor-pointer" title="Load a profile JSON file exported from this app -- replaces your current profile and reloads">Import<input type="file" id="profileImportInput" accept="application/json" class="hidden"></label>
             <button type="button" id="profileResetBtn" class="text-[11px] px-2 py-1 rounded-lg border border-slate-700 text-slate-300 hover:border-red-500 hover:text-red-300 transition-colors" title="Clear owned collection, declared canon, taste weights and watchlist -- start this browser blank">Reset</button>
           </div>
@@ -173,6 +250,7 @@ body[data-theme="outer-wilds"]{--bg:#0e0a09;--panel:#181010;--panel-2:#120c0b;--
       <button type="button" class="navBtn" data-view="matrix">Reference Matrices</button>
       <button type="button" class="navBtn" data-view="viz">Visualization Suite</button>
       <button type="button" class="navBtn" data-view="timeline">◷ Timeline</button>
+      <button type="button" id="tonightBtn" class="navBtn" style="border-color:#818cf855;color:#c7d2fe">🌙 Tonight</button>
     </nav>
   </div>
 </header>
@@ -1985,12 +2063,12 @@ const contenders=[
 {"id":"c26","title":"Klara and the Sun","medium":"Film","creativeLead":"Taika Waititi","platform":"Sony","window":"2026","goatProbability":76,"pedigree":"Ishiguro's AI-narrated heartbreak; an android's view of human love and mortality."},
 {"id":"c31","title":"House of the Dragon — Season 3","medium":"TV","creativeLead":"Ryan Condal","platform":"HBO","window":"2026","goatProbability":81,"pedigree":"The Dance of the Dragons escalates; Targaryen civil war at full spectacle."},
 {"id":"c35","title":"The Penguin — Season 2","medium":"TV","creativeLead":"Lauren LeFranc","platform":"HBO","window":"2026","goatProbability":78,"pedigree":"Farrell's crime-opera Gotham underworld after a Sopranos-tier first season."},
-{"id":"c40","title":"Fable","medium":"Game","creativeLead":"Playground Games","platform":"Xbox","window":"2026","goatProbability":82,"pedigree":"A beloved British RPG reborn by the Forza Horizon studio; whimsy meets open world."},
-{"id":"c41","title":"Judas","medium":"Game","creativeLead":"Ken Levine","platform":"Multi","window":"2026","goatProbability":83,"pedigree":"The BioShock creator's narrative-systems opus; choice and consequence reimagined."},
-{"id":"c42","title":"Perfect Dark","medium":"Game","creativeLead":"The Initiative","platform":"Xbox","window":"2026","goatProbability":78,"pedigree":"A stealth-espionage reboot with Crystal Dynamics; a dormant icon revived."},
+{"id":"c40","title":"Fable","medium":"Game","creativeLead":"Playground Games","platform":"Xbox","window":"February 23, 2027 (delayed from 2026)","goatProbability":82,"pedigree":"A beloved British RPG reborn by the Forza Horizon studio; whimsy meets open world. Pushed from its original 2026 window to give the game its own dedicated moment."},
+{"id":"c41","title":"Judas","medium":"Game","creativeLead":"Ken Levine","platform":"Multi","window":"No date (reports point to FY28–29, well past its original 2026 target)","goatProbability":83,"pedigree":"The BioShock creator's narrative-systems opus; choice and consequence reimagined. Still in visible development (dev logs through late 2025) but has missed every prior target date."},
+{"id":"c42","title":"Perfect Dark","medium":"Game","creativeLead":"The Initiative","platform":"Xbox","window":"Cancelled (July 2025)","goatProbability":78,"pedigree":"A stealth-espionage reboot; a dormant icon revived, then shelved. Microsoft cancelled the project and closed developer The Initiative; a since-explored sale to another publisher fell through. Kept here for the record rather than deleted outright."},
 {"id":"c45","title":"Resident Evil Requiem","medium":"Game","creativeLead":"Capcom","platform":"Multi","window":"2026","goatProbability":84,"pedigree":"Capcom's survival-horror engine at full power; the ninth mainline chapter."},
 {"id":"c46","title":"Untitled FromSoftware ARPG","medium":"Game","creativeLead":"Hidetaka Miyazaki","platform":"Multi","window":"2027","goatProbability":90,"pedigree":"Whatever FromSoft ships next carries Elden Ring's afterglow and expectation."},
-{"id":"c49","title":"007 First Light","medium":"Game","creativeLead":"IO Interactive","platform":"Multi","window":"2026","goatProbability":80,"pedigree":"The Hitman studio's original young-Bond origin; espionage sandbox pedigree."},
+{"id":"c49","title":"007 First Light","medium":"Game","creativeLead":"IO Interactive","platform":"Multi","window":"Released May 27, 2026","goatProbability":80,"pedigree":"The Hitman studio's original young-Bond origin; espionage sandbox pedigree. Out now — due for reconciliation into the scored corpus rather than staying a contender."},
 {"id":"c50","title":"Crimson Desert","medium":"Game","creativeLead":"Pearl Abyss","platform":"Multi","window":"2026","goatProbability":77,"pedigree":"A sprawling action-adventure with cinematic set-pieces; long-awaited scope."},
 {"id":"c51","title":"Kojima OD","medium":"Game","creativeLead":"Hideo Kojima","platform":"Xbox","window":"2027","goatProbability":79,"pedigree":"Kojima and Jordan Peele's horror experiment; form-defying dread by design."},
 
@@ -1998,7 +2076,7 @@ const contenders=[
 {"id":"c54","title":"Nioh 3","medium":"Game","creativeLead":"Team Ninja","platform":"PS5 · PC","window":"2026","goatProbability":78,"pedigree":"Team Ninja's punishing samurai action-RPG returns, blending Sengoku myth with soulslike depth."},
 
 {"id":"c56","title":"Forza Horizon 6","medium":"Game","creativeLead":"Playground Games","platform":"Xbox · PC","window":"2026","goatProbability":80,"pedigree":"The open-world racing benchmark heads to Japan and its thriving drift scene; peak vehicular spectacle."},
-{"id":"c57","title":"The Blood of Dawnwalker","medium":"Game","creativeLead":"Rebel Wolves","platform":"Multi","window":"September 3, 2026","goatProbability":79,"pedigree":"Ex-Witcher 3 leads craft a dark medieval vampire RPG with a time-pressure narrative structure."},
+{"id":"c57","title":"The Blood of Dawnwalker","medium":"Game","creativeLead":"Rebel Wolves","platform":"Multi","window":"Released September 2–3, 2026","goatProbability":79,"pedigree":"Ex-Witcher 3 leads craft a dark medieval vampire RPG with a time-pressure narrative structure. Went gold in July 2026 and shipped on schedule — out now, due for reconciliation into the scored corpus rather than staying a contender."},
 {"id":"c61","title":"Clockwork Revolution","medium":"Game","creativeLead":"inXile","platform":"Xbox · PC","window":"2027","goatProbability":78,"pedigree":"A time-manipulation RPG in a steampunk city where your choices ripple across the timeline; Fallout-studio pedigree."},
 {"id":"c62","title":"Gears of War: E-Day","medium":"Game","creativeLead":"The Coalition","platform":"Xbox · PC","window":"2026","goatProbability":76,"pedigree":"A prequel to Emergence Day; the chainsaw-rifle series returns to its grim origin with modern muscle."},
 
@@ -2013,7 +2091,7 @@ const contenders=[
 {"id":"c74","title":"Pluribus — Season 2","medium":"TV","creativeLead":"Vince Gilligan","platform":"Apple TV+","window":"2027","goatProbability":86,"pedigree":"Gilligan and Rhea Seehorn continue their secretive sci-fi premise; Breaking Bad pedigree, new frontier."},
 {"id":"c75","title":"The Way of Kings (film)","medium":"Film","creativeLead":"Peter Jackson","platform":"TBA","window":"2029","goatProbability":78,"pedigree":"Sanderson's monumental Stormlight epic eyes the screen; vast worldbuilding in ambitious hands."},
 {"id":"c76","title":"The Winds of Winter","medium":"Book","creativeLead":"George R.R. Martin","platform":"Bantam","window":"TBA","goatProbability":80,"pedigree":"The perpetually-awaited sixth Song of Ice and Fire volume; fantasy's most famous unfinished book."},
-{"id":"c77","title":"Metroid Prime 4: Beyond","medium":"Game","creativeLead":"Retro Studios","platform":"Nintendo Switch / Switch 2","window":"2026","goatProbability":85,"pedigree":"Retro Studios' long-gestating return to Samus — the first new mainline Prime in two decades, a landmark for atmospheric first-person exploration."},
+{"id":"c77","title":"Metroid Prime 4: Beyond","medium":"Game","creativeLead":"Retro Studios","platform":"Nintendo Switch / Switch 2","window":"Released December 4, 2025","goatProbability":85,"pedigree":"Retro Studios' long-gestating return to Samus — the first new mainline Prime in two decades, a landmark for atmospheric first-person exploration. Already out (Metacritic ~81) and due for reconciliation into the scored corpus rather than staying a contender."},
 {"id":"c78","title":"The Lord of the Rings: The Hunt for Gollum","medium":"Film","creativeLead":"Andy Serkis","platform":"Warner Bros. / New Line · IMAX","window":"December 17, 2027","goatProbability":88,"pedigree":"Serkis directs and returns as Gollum, with Peter Jackson, Fran Walsh and Philippa Boyens producing and co-writing alongside Phoebe Gittins and Arty Papageorgiou. Shot in Wellington from July 2026 with cinematographer James Friend and Wētā FX — the first live-action return to Middle-earth since the Hobbit trilogy."},
 {"id":"c79","title":"The Fisherman","medium":"Film","creativeLead":"David Lowery","platform":"Focus Features","window":"TBA · in development","goatProbability":82,"pedigree":"Lowery (The Green Knight, A Ghost Story) directs and co-writes with Alex Ross Perry, adapting John Langan's Bram Stoker Award-winning cosmic-horror novel — a book already in your canon. Produced by Platinum Dunes (Michael Bay, Brad Fuller) and Gary Dauberman's Coin Operated."},
 {"id":"c80","title":"Rendezvous with Rama","medium":"Film","creativeLead":"Denis Villeneuve","platform":"Alcon Entertainment","window":"TBA · in development","goatProbability":84,"pedigree":"Eric Roth scripts Arthur C. Clarke's Hugo- and Nebula-winning first-contact novel, with Morgan Freeman and Lori McCreary producing after holding the rights two decades. Villeneuve calls it his first true hard science fiction — ‘Arrival on steroids.’"},
@@ -2060,7 +2138,7 @@ const OWNED_BOOK_ID_CEILING=PERSONAL_PROFILE.ownedBookIdCeiling||0;
 if(!PROFILE_FROM_STORAGE)PERSONAL_PROFILE.ownedGameIds=[];
 const KM={movie:{label:'FILM',c:'#a78bfa'},tv:{label:'TV',c:'#22d3ee'},game:{label:'GAME',c:'#fbbf24'},book:{label:'BOOK',c:'#4ade80'}};
 const ALL=[
- ...movies.map(m=>({kind:'movie',id:m.id,title:m.title,year:m.year,creator:m.creator,org:m.studio,span:m.runtime+' min',genres:m.genres,crit:m.metrics.criticalScore,aud:m.metrics.audienceScore,
+ ...movies.map(m=>({kind:'movie',id:m.id,title:m.title,year:m.year,creator:m.creator,org:m.studio,span:m.runtime+' min',mins:m.runtime,genres:m.genres,crit:m.metrics.criticalScore,aud:m.metrics.audienceScore,
   tech:Math.round((m.physicalMediaFidelity.transferFidelity+m.physicalMediaFidelity.audioSoundscape+m.physicalMediaFidelity.cinematographyScore)/3),
   dread:m.atmosphericDreadIndex,myst:m.ontologicalComplexity,format:m.contextTags.formatType,vibe:m.contextTags.vibeTime,just:m.contextTags.justification,
   fid:[['4K Transfer',m.physicalMediaFidelity.transferFidelity],['Audio Soundscape',m.physicalMediaFidelity.audioSoundscape],['Cinematography',m.physicalMediaFidelity.cinematographyScore]],
@@ -2431,6 +2509,11 @@ function cardHTML(it){const k=KM[it.kind];
  +gmBreakdownHTML(it)
  +'<p class="text-[11px] text-slate-300 mt-2.5 italic">&ldquo;'+esc(it.just)+'&rdquo;</p>'
  +'<div class="flex flex-wrap gap-1.5 mt-2.5">'+it.genres.map(g=>'<span class="chip">'+esc(g)+'</span>').join('')+'<span class="chip" style="color:#c4b5fd">'+esc(it.vibe)+'</span><span class="chip">'+esc(it.format)+'</span>'+it.plats.map(p=>'<span class="chip" style="color:#7dd3fc">'+esc(p)+'</span>').join('')+'</div>'
+ +'<div class="flex flex-wrap gap-1.5 mt-2.5 pt-2.5 border-t border-slate-800/70">'
+ +'<button type="button" class="profEditBtn presetBtn" data-act="declare" data-id="'+it.id+'" title="Toggle whether this counts as one of your declared all-time favorites (pins it to a 100 match and drives recommendations)"'+(it.goat?' style="color:#fbbf24;border-color:#fbbf2455"':'')+'>'+(it.goat?'★ Declared — click to remove':'☆ Declare favorite')+'</button>'
+ +'<button type="button" class="profEditBtn presetBtn" data-act="own" data-id="'+it.id+'" data-kind="'+it.kind+'" title="Toggle whether this is in your owned collection"'+(it.owned?' style="color:#4ade80;border-color:#4ade8055"':'')+'>'+(it.owned?'✓ Owned — click to remove':'+ Mark owned')+'</button>'
+ +(it.creator?'<button type="button" class="profEditBtn presetBtn" data-act="boost" data-creator="'+esc(it.creator)+'" data-kind="'+it.kind+'" title="Nudge '+esc(it.creator)+'’s work up across your whole match scoring, not just this item">+ Boost '+esc(it.creator)+'</button>':'')
+ +'</div>'
  +'</div>'+'</div>';}
 function renderController(list){
  computeMatch(list);
@@ -2830,71 +2913,71 @@ const goatProfile={
   {cat:'TV Series',basis:'Projected from True Detective S1, Mr. Robot and M*A*S*H: dread, obsession, philosophical weight, wounded men.',items:[{n:'Severance',s:95,k:'tv',q:'Severance',why:'Corporate dread as a puzzle-box of the self; the eeriest workplace ever filmed.'},{n:'The Leftovers',s:94,k:'tv',q:'The Leftovers',why:'Grief, faith and the unexplained \u2014 the most emotionally devastating prestige drama.'},{n:'Devs',s:91,k:'tv',q:'Devs',why:'Garland\u2019s determinism thriller; quantum dread with a monastic hum.'},{n:'Andor',s:90,k:'tv',q:'Andor',why:'Star Wars as a le Carr\u00e9 novel \u2014 patient, adult, revolutionary tension.'},{n:'The Expanse',s:89,k:'tv',q:'The Expanse',why:'Hard-SF politics with weight and grime; the space opera your Expanse shelf demands.'},{n:'For All Mankind',s:88,k:'tv',q:'For All Mankind',why:'An alternate space race that never stops \u2014 optimism engineered like Apollo.'},{n:'Hannibal',s:88,k:'tv',q:'Hannibal',why:'Baroque, operatic dread \u2014 the most beautiful nightmare on television; True Detective\u2019s aesthetic sibling.'},{n:'Better Call Saul',s:87,k:'tv',q:'Better Call Saul',why:'A slow-motion moral tragedy; the finest character erosion on television.'},{n:'Dark',s:86,k:'tv',q:'Dark',why:'A time-loop town where everything connects; puzzle-box dread you decode for years.'},{n:'Mindhunter',s:85,k:'tv',q:'Mindhunter',why:'Fincher-cold procedural into the minds of monsters; True Detective\u2019s clinical sibling.'}]},
   {cat:'Video Games',basis:'Projected from Outer Wilds: mystery-as-mechanic, cosmic awe, knowledge-gated progression, lonely wonder.',items:[{n:'Return of the Obra Dinn',s:93,k:'game',q:'Obra Dinn',why:'Deduction as the entire game \u2014 Outer Wilds\u2019 knowledge-progression in a ghost ship.'},{n:'Tunic',s:92,k:'game',q:'Tunic',why:'A hidden manual you assemble page by page; secrets rewarding the Outer Wilds brain.'},{n:'Blue Prince',s:91,k:'game',q:'Blue Prince',why:'A shifting manor of deductive puzzles; the purest 2025 heir to mystery-as-mechanic.'},{n:'Subnautica',s:90,k:'game',q:'Subnautica',why:'Alien-ocean awe and dread; wonder and terror in the same held breath.'},{n:'Animal Well',s:89,k:'game',q:'Animal Well',why:'A dense secret-box metroidvania; every screen hides a knowledge-gated marvel.'},{n:'SOMA',s:88,k:'game',q:'SOMA',why:'Underwater existential horror about consciousness; cosmic dread with a thesis.'},{n:'The Witness',s:88,k:'game',q:'The Witness',why:'An island that teaches you its language wordlessly; pure epiphany-as-progress.'},{n:'Disco Elysium',s:87,k:'game',q:'Disco Elysium',why:'The most literate RPG ever written; a wounded detective and a whole broken worldview.'},{n:'The Talos Principle 2',s:86,k:'game',q:'Talos Principle 2',why:'Philosophy-soaked puzzles about consciousness and what comes after humanity.'},{n:'Lorelei and the Laser Eyes',s:85,k:'game',q:'Lorelei',why:'A surreal puzzle-mansion of nested mysteries; Obra Dinn\u2019s dreamlike cousin.'}]},
   {cat:'Directors',basis:'Projected from Nolan worship: architects of scale, time and practical craft.',items:[
-   {n:'Denis Villeneuve',s:97,k:'movie',why:'The other living master of monumental, sincere sci-fi.'},
-   {n:'Stanley Kubrick',s:93,k:'movie',why:'Nolan\u2019s declared north star; 2001 is Interstellar\u2019s father.'},
-   {n:'Alex Garland',s:90,k:'movie',why:'Ideas-first sci-fi \u2014 Devs is the most Nolan show not by Nolan.'},
-   {n:'David Fincher',s:89,k:'movie',why:'Forensic precision; Mr. Robot is built from his grammar.'},
-   {n:'Alfonso Cuar\u00f3n',s:89,k:'movie',why:'Gravity and Children of Men \u2014 long-take awe under pressure.'},
-   {n:'Damien Chazelle',s:88,why:'First Man: the most Interstellar-coded film outside Nolan.'},
-   {n:'Sam Mendes',s:87,k:'movie',why:'1917 \u2014 one continuous breath of war-film craft.'},
-   {n:'Ridley Scott',s:86,k:'movie',why:'World-building density; the lived-in epic\u2019s inventor.'},
-   {n:'Steven Spielberg',s:86,k:'movie',why:'Awe engineering itself \u2014 plus Band of Brothers stewardship.'},
-   {n:'Joseph Kosinski',s:84,k:'movie',why:'Maverick\u2019s practical-first doctrine is pure Nolan creed.'}]},
+   {n:'Denis Villeneuve',s:97,k:'movie',why:'The other living master of monumental, sincere sci-fi.',tags:['sci-fi','space','epic']},
+   {n:'Stanley Kubrick',s:93,k:'movie',why:'Nolan\u2019s declared north star; 2001 is Interstellar\u2019s father.',tags:['sci-fi','psychological','epic']},
+   {n:'Alex Garland',s:90,k:'movie',why:'Ideas-first sci-fi \u2014 Devs is the most Nolan show not by Nolan.',tags:['sci-fi','psychological']},
+   {n:'David Fincher',s:89,k:'movie',why:'Forensic precision; Mr. Robot is built from his grammar.',tags:['crime','psychological']},
+   {n:'Alfonso Cuar\u00f3n',s:89,k:'movie',why:'Gravity and Children of Men \u2014 long-take awe under pressure.',tags:['sci-fi','drama']},
+   {n:'Damien Chazelle',s:88,why:'First Man: the most Interstellar-coded film outside Nolan.',tags:['drama','space']},
+   {n:'Sam Mendes',s:87,k:'movie',why:'1917 \u2014 one continuous breath of war-film craft.',tags:['war','epic']},
+   {n:'Ridley Scott',s:86,k:'movie',why:'World-building density; the lived-in epic\u2019s inventor.',tags:['sci-fi','epic','historical']},
+   {n:'Steven Spielberg',s:86,k:'movie',why:'Awe engineering itself \u2014 plus Band of Brothers stewardship.',tags:['war','epic','space']},
+   {n:'Joseph Kosinski',s:84,k:'movie',why:'Maverick\u2019s practical-first doctrine is pure Nolan creed.',tags:['epic']}]},
   {cat:'Actors',basis:'Projected from Cillian Murphy and Robin Williams: quiet intensity + comedy hiding deep drama.',items:[
-   {n:'Philip Seymour Hoffman',s:94,why:'The Master of interior storms \u2014 Murphy-grade stillness.'},
-   {n:'Matthew McConaughey',s:93,why:'Your double feature already: Interstellar AND True Detective S1.'},
-   {n:'Daniel Day-Lewis',s:93,why:'Total-immersion gravity; There Will Be Blood is Oppenheimer\u2019s kin.'},
-   {n:'Gary Oldman',s:92,why:'Chameleon intensity; already orbiting Nolan\u2019s ensembles.'},
-   {n:'Christian Bale',s:91,why:'Nolan\u2019s other obsessive lead \u2014 The Prestige, the Trilogy.'},
-   {n:'Jim Carrey',s:90,why:'The Robin Williams path: comedian to devastating dramatist.'},
-   {n:'Mads Mikkelsen',s:89,why:'European stillness that reads like Murphy\u2019s blue-eyed menace.'},
-   {n:'Robert Downey Jr.',s:88,why:'His Oppenheimer turn proves the dramatic ceiling you value.'},
-   {n:'Rami Malek',s:87,why:'Elliot Alderson \u2014 fragility and precision you already trust.'},
-   {n:'Andrew Scott',s:86,why:'Ripley\u2019s slow-burn interiority; magnetic restraint.'}]},
+   {n:'Philip Seymour Hoffman',s:94,why:'The Master of interior storms \u2014 Murphy-grade stillness.',tags:['psychological','drama']},
+   {n:'Matthew McConaughey',s:93,why:'Your double feature already: Interstellar AND True Detective S1.',tags:['mystery','space','psychological']},
+   {n:'Daniel Day-Lewis',s:93,why:'Total-immersion gravity; There Will Be Blood is Oppenheimer\u2019s kin.',tags:['historical','drama']},
+   {n:'Gary Oldman',s:92,why:'Chameleon intensity; already orbiting Nolan\u2019s ensembles.',tags:['war','historical']},
+   {n:'Christian Bale',s:91,why:'Nolan\u2019s other obsessive lead \u2014 The Prestige, the Trilogy.',tags:['psychological','crime']},
+   {n:'Jim Carrey',s:90,why:'The Robin Williams path: comedian to devastating dramatist.',tags:['drama']},
+   {n:'Mads Mikkelsen',s:89,why:'European stillness that reads like Murphy\u2019s blue-eyed menace.',tags:['psychological','crime']},
+   {n:'Robert Downey Jr.',s:88,why:'His Oppenheimer turn proves the dramatic ceiling you value.',tags:['historical','drama']},
+   {n:'Rami Malek',s:87,why:'Elliot Alderson \u2014 fragility and precision you already trust.',tags:['psychological','crime']},
+   {n:'Andrew Scott',s:86,why:'Ripley\u2019s slow-burn interiority; magnetic restraint.',tags:['psychological','mystery']}]},
   {cat:'Composers',basis:'Projected from Zimmer + G\u00f6ransson: massive texture, ticking clocks, melody as physics.',items:[
-   {n:'Andrew Prahlow',s:96,why:'The Outer Wilds score \u2014 your GOAT game\u2019s entire soul is his.'},
-   {n:'Howard Shore',s:95,why:'The LOTR trilogy\u2019s leitmotif cathedral; already your canon.'},
-   {n:'J\u00f3hann J\u00f3hannsson',s:94,why:'Sicario and Arrival \u2014 dread and wonder as sub-bass.'},
-   {n:'Hildur Gu\u00f0nad\u00f3ttir',s:93,why:'Chernobyl scored from reactor recordings; texture as terror.'},
-   {n:'Max Richter',s:92,why:'On the Nature of Daylight \u2014 time-and-grief minimalism.'},
-   {n:'Trent Reznor & Atticus Ross',s:91,why:'Electronic dread with machine pulse; Fincher\u2019s engine room.'},
-   {n:'John Williams',s:90,why:'The melodic awe tradition Zimmer rebuilt in concrete.'},
-   {n:'Mac Quayle',s:88,why:'The actual Mr. Robot score \u2014 synth anxiety you already love.'},
-   {n:'Benjamin Wallfisch',s:87,why:'Zimmer\u2019s 2049 co-architect; the same wall of brass.'},
-   {n:'Ramin Djawadi',s:85,why:'Westworld\u2019s player-piano \u2014 theme-craft at series scale.'}]},
+   {n:'Andrew Prahlow',s:96,why:'The Outer Wilds score \u2014 your GOAT game\u2019s entire soul is his.',tags:['space','mystery']},
+   {n:'Howard Shore',s:95,why:'The LOTR trilogy\u2019s leitmotif cathedral; already your canon.',tags:['epic','historical']},
+   {n:'J\u00f3hann J\u00f3hannsson',s:94,why:'Sicario and Arrival \u2014 dread and wonder as sub-bass.',tags:['sci-fi','psychological']},
+   {n:'Hildur Gu\u00f0nad\u00f3ttir',s:93,why:'Chernobyl scored from reactor recordings; texture as terror.',tags:['historical','psychological']},
+   {n:'Max Richter',s:92,why:'On the Nature of Daylight \u2014 time-and-grief minimalism.',tags:['drama','time']},
+   {n:'Trent Reznor & Atticus Ross',s:91,why:'Electronic dread with machine pulse; Fincher\u2019s engine room.',tags:['psychological','crime']},
+   {n:'John Williams',s:90,why:'The melodic awe tradition Zimmer rebuilt in concrete.',tags:['space','epic']},
+   {n:'Mac Quayle',s:88,why:'The actual Mr. Robot score \u2014 synth anxiety you already love.',tags:['psychological','crime']},
+   {n:'Benjamin Wallfisch',s:87,why:'Zimmer\u2019s 2049 co-architect; the same wall of brass.',tags:['sci-fi','space']},
+   {n:'Ramin Djawadi',s:85,why:'Westworld\u2019s player-piano \u2014 theme-craft at series scale.',tags:['epic','sci-fi']}]},
   {cat:'Cinematographers',basis:'Projected from van Hoytema: large-format scale, natural light, faces against the void.',items:[
-   {n:'Roger Deakins',s:97,why:'1917, Sicario, 2049 \u2014 the living ceiling of the craft.'},
-   {n:'Greig Fraser',s:95,why:'Dune\u2019s desert light; the heir to monumental large-format.'},
-   {n:'Emmanuel Lubezki',s:93,why:'Gravity and The Revenant \u2014 natural-light awe in motion.'},
-   {n:'Wally Pfister',s:92,why:'Nolan\u2019s eye before Hoyte: Inception, The Prestige, TDK.'},
-   {n:'Andrew Lesnie',s:91,why:'Middle-earth\u2019s light \u2014 the trilogy you already canonized.'},
-   {n:'Bradford Young',s:89,why:'Arrival\u2019s soft gravity; intimacy at alien scale.'},
-   {n:'Linus Sandgren',s:88,why:'First Man\u2019s cockpit grain \u2014 IMAX awe earned by friction.'},
-   {n:'Janusz Kami\u0144ski',s:87,why:'Band of Brothers\u2019 desaturated war language came from him.'},
-   {n:'Claudio Miranda',s:86,why:'Maverick\u2019s real-G cockpits; practical spectacle doctrine.'},
-   {n:'Jakob Ihre',s:85,why:'Chernobyl\u2019s sickly fluorescents \u2014 dread you can see.'}]},
+   {n:'Roger Deakins',s:97,why:'1917, Sicario, 2049 \u2014 the living ceiling of the craft.',tags:['war','crime','epic']},
+   {n:'Greig Fraser',s:95,why:'Dune\u2019s desert light; the heir to monumental large-format.',tags:['sci-fi','space','epic']},
+   {n:'Emmanuel Lubezki',s:93,why:'Gravity and The Revenant \u2014 natural-light awe in motion.',tags:['drama','space']},
+   {n:'Wally Pfister',s:92,why:'Nolan\u2019s eye before Hoyte: Inception, The Prestige, TDK.',tags:['sci-fi','psychological']},
+   {n:'Andrew Lesnie',s:91,why:'Middle-earth\u2019s light \u2014 the trilogy you already canonized.',tags:['epic','historical']},
+   {n:'Bradford Young',s:89,why:'Arrival\u2019s soft gravity; intimacy at alien scale.',tags:['sci-fi','drama']},
+   {n:'Linus Sandgren',s:88,why:'First Man\u2019s cockpit grain \u2014 IMAX awe earned by friction.',tags:['space','drama']},
+   {n:'Janusz Kami\u0144ski',s:87,why:'Band of Brothers\u2019 desaturated war language came from him.',tags:['war','historical']},
+   {n:'Claudio Miranda',s:86,why:'Maverick\u2019s real-G cockpits; practical spectacle doctrine.',tags:['epic','drama']},
+   {n:'Jakob Ihre',s:85,why:'Chernobyl\u2019s sickly fluorescents \u2014 dread you can see.',tags:['historical','psychological']}]},
   {cat:'Music Artists',basis:'Projected from Johnny Cash: outlaw baritones, dark Americana, redemption and gravitas.',items:[
-   {n:'Colter Wall',s:96,why:'The closest living heir to the Cash baritone; prairie-gothic ballads.'},
-   {n:'Bruce Springsteen (Nebraska era)',s:94,why:'Stark acoustic Americana about guilt, ghosts and highways.'},
-   {n:'Waylon Jennings',s:93,why:'Outlaw country first principles; Cash\u2019s Highwaymen brother.'},
-   {n:'Nick Cave & The Bad Seeds',s:92,why:'Murder ballads and biblical dread \u2014 Cash covered him back.'},
-   {n:'Sturgill Simpson',s:90,why:'Outlaw voice aimed at metaphysics; country that thinks cosmically.'},
-   {n:'Leonard Cohen',s:89,why:'Late-period Cohen shares American Recordings\u2019 deathbed gravity.'},
-   {n:'Kris Kristofferson',s:88,why:'The Highwaymen songwriter\u2019s pen \u2014 Sunday Mornin\u2019 melancholy.'},
-   {n:'Tyler Childers',s:87,why:'Appalachian sincerity, fire-and-brimstone storytelling.'},
-   {n:'Chris Stapleton',s:86,why:'Whiskey-deep voice carrying classic outlaw weight today.'},
-   {n:'Marty Robbins',s:85,why:'Gunfighter ballads \u2014 the cinematic Old West Cash drew from.'}]},
+   {n:'Colter Wall',s:96,why:'The closest living heir to the Cash baritone; prairie-gothic ballads.',tags:['western','historical']},
+   {n:'Bruce Springsteen (Nebraska era)',s:94,why:'Stark acoustic Americana about guilt, ghosts and highways.',tags:['western','drama']},
+   {n:'Waylon Jennings',s:93,why:'Outlaw country first principles; Cash\u2019s Highwaymen brother.',tags:['western']},
+   {n:'Nick Cave & The Bad Seeds',s:92,why:'Murder ballads and biblical dread \u2014 Cash covered him back.',tags:['western','psychological']},
+   {n:'Sturgill Simpson',s:90,why:'Outlaw voice aimed at metaphysics; country that thinks cosmically.',tags:['western','space']},
+   {n:'Leonard Cohen',s:89,why:'Late-period Cohen shares American Recordings\u2019 deathbed gravity.',tags:['drama','psychological']},
+   {n:'Kris Kristofferson',s:88,why:'The Highwaymen songwriter\u2019s pen \u2014 Sunday Mornin\u2019 melancholy.',tags:['western','drama']},
+   {n:'Tyler Childers',s:87,why:'Appalachian sincerity, fire-and-brimstone storytelling.',tags:['western','historical']},
+   {n:'Chris Stapleton',s:86,why:'Whiskey-deep voice carrying classic outlaw weight today.',tags:['western','drama']},
+   {n:'Marty Robbins',s:85,why:'Gunfighter ballads \u2014 the cinematic Old West Cash drew from.',tags:['western','historical']}]},
   {cat:'YouTube',basis:'Projected from Markiplier + your cosmic streak: charismatic longform, space, mystery.',items:[
-   {n:'Kurzgesagt',s:93,why:'Optimistic-nihilist cosmology \u2014 Outer Wilds energy, animated.'},
-   {n:'melodysheep',s:92,why:'Timelapse of the Future is Interstellar as a YouTube epic.'},
-   {n:'Jacob Geller',s:91,why:'Video essays on games and mortality; has an Outer Wilds classic.'},
-   {n:'Veritasium',s:91,why:'Physics curiosity with production polish and real stakes.'},
-   {n:'LEMMiNO',s:90,why:'Cinematic deep-dive mysteries with True Detective patience.'},
-   {n:'SmarterEveryDay',s:88,why:'Engineering wonder, humane and hands-on.'},
-   {n:'Game Maker\u2019s Toolkit',s:87,why:'Why Outer Wilds works, explained \u2014 design literacy fuel.'},
-   {n:'Internet Historian',s:86,why:'Markiplier-grade charisma applied to documentary chaos.'},
-   {n:'Scott Manley',s:85,why:'Orbital mechanics and spaceflight, fly safe.'},
-   {n:'Jacksepticeye',s:84,why:'The adjacent let\u2019s-play energy if you want more Mark-likes.'}]}
+   {n:'Kurzgesagt',s:93,why:'Optimistic-nihilist cosmology \u2014 Outer Wilds energy, animated.',tags:['sci-fi','space']},
+   {n:'melodysheep',s:92,why:'Timelapse of the Future is Interstellar as a YouTube epic.',tags:['space','epic']},
+   {n:'Jacob Geller',s:91,why:'Video essays on games and mortality; has an Outer Wilds classic.',tags:['psychological','mystery']},
+   {n:'Veritasium',s:91,why:'Physics curiosity with production polish and real stakes.',tags:['sci-fi']},
+   {n:'LEMMiNO',s:90,why:'Cinematic deep-dive mysteries with True Detective patience.',tags:['mystery','psychological']},
+   {n:'SmarterEveryDay',s:88,why:'Engineering wonder, humane and hands-on.',tags:['sci-fi']},
+   {n:'Game Maker\u2019s Toolkit',s:87,why:'Why Outer Wilds works, explained \u2014 design literacy fuel.',tags:['mystery']},
+   {n:'Internet Historian',s:86,why:'Markiplier-grade charisma applied to documentary chaos.',tags:['historical','crime']},
+   {n:'Scott Manley',s:85,why:'Orbital mechanics and spaceflight, fly safe.',tags:['space','sci-fi']},
+   {n:'Jacksepticeye',s:84,why:'The adjacent let\u2019s-play energy if you want more Mark-likes.',tags:['drama']}]}
  ]
 };
 if(PROFILE_FROM_STORAGE)goatProfile.declared=PERSONAL_PROFILE.declaredCanon||[];
@@ -2935,19 +3018,47 @@ if(!PROFILE_FROM_STORAGE)PERSONAL_PROFILE.bookAffinity={};
 const BOOK_AFFINITY=PERSONAL_PROFILE.bookAffinity||{};
 ALL.forEach(x=>{if(x.kind==='book'&&BOOK_AFFINITY[x.id]){x.gm=Math.max(x.gm,BOOK_AFFINITY[x.id]);}});
 GOAT_DECLARED.forEach(id=>{const x=byId.get(id);if(x){x.gm=100;x.goat=true;x.gmOverride='declared';}});
-/* ===== Generated recommendations for corpus-backed categories (Phase 4 of the sharing roadmap) =====
-   Movies/Books/TV Series/Video Games recommendations below are now computed live from the same
-   gm score (and its gmBoosts reasons) that PERSONAL_PROFILE drives everywhere else in the app,
+/* ===== Generated recommendations, corpus-backed and people-backed (Phase 4 of the sharing roadmap) =====
+   Movies/Books/TV Series/Video Games recommendations below are computed live from the same gm
+   score (and its gmBoosts reasons) that PERSONAL_PROFILE drives everywhere else in the app,
    instead of being a fixed hand-picked list -- that's what makes them generalize to any declared
    canon, not just Payton's. (This replaces an older mechanism that nudged specific titles' gm up
    to match a hardcoded rec list; that's no longer needed now that recs are generated FROM gm.)
-   The remaining six categories below (Directors, Actors, Composers, Cinematographers, Music
-   Artists, YouTube) have no structured corpus behind them -- there's no dataset of directors or
-   composers with genre/style metadata to rank the way movies and books can be -- so they stay as
-   Payton's original hand-written sample picks, flagged sample:true so the UI can label them
-   honestly rather than implying they're personalized to whatever profile is loaded. */
+
+   Directors get the same treatment via a different route: every name in that curated list also
+   directs real corpus entries (checked -- all 10 do), so their score is the average gm of their
+   own top films/TV in the ledger. That's genuinely computed, not approximated, so Directors is
+   marked generated:true just like the four corpus-backed categories above.
+
+   The other five (Actors, Composers, Cinematographers, Music Artists, YouTube) have no such
+   corpus to borrow from -- there's no dataset of actors or composers with their own genre/style
+   metadata to rank against. Each hand-picked entry there carries a small `tags` array (genre
+   keywords matching the vocabulary genreBoost already uses), and its score comes from how many of
+   those tags a loaded profile happens to weight -- real signal, but coarser than a full corpus
+   lookup, so these stay flagged `approx:true` and labeled accordingly rather than passed off as
+   fully computed. Building an actual creator dataset to close that last gap is still the honest
+   next step (see NOTES.md Phase 4). */
 const RECS_KIND_BY_CAT={Movies:'movie',Books:'book','TV Series':'tv','Video Games':'game'};
-const DECLARED_CAT_ALIASES={Movies:['Movies'],Books:['Books'],'TV Series':['TV Shows','TV Series'],'Video Games':['Video Game','Video Games']};
+const DECLARED_CAT_ALIASES={Movies:['Movies'],Books:['Books'],'TV Series':['TV Shows','TV Series'],'Video Games':['Video Game','Video Games'],Directors:['Director','Directors'],Actors:['Actors'],Composers:['Composers'],Cinematographers:['Cinematographer','Cinematographers'],'Music Artists':['Artist','Music Artists'],YouTube:['YouTube']};
+function computeBasisText(cat){
+ const declaredGroup=(PERSONAL_PROFILE.declaredCanon||[]).find(d=>(DECLARED_CAT_ALIASES[cat]||[cat]).includes(d.cat));
+ const declaredNames=declaredGroup?declaredGroup.items.map(it=>it.name):[];
+ return declaredNames.length
+  ?'Projected from your declared '+cat.toLowerCase()+': '+declaredNames.join(', ')+'.'
+  :'No '+cat.toLowerCase()+' declared yet — ranked by match to your taste weights.';
+}
+function directorCorpusScore(name){
+ const works=ALL.filter(x=>(x.kind==='movie'||x.kind==='tv')&&x.creator&&x.creator.includes(name));
+ if(!works.length)return null;
+ const top=works.slice().sort((a,b)=>b.gm-a.gm).slice(0,3);
+ return Math.round(top.reduce((s,x)=>s+x.gm,0)/top.length);
+}
+function tagOverlapScore(tags){
+ const genreBoost=PERSONAL_PROFILE.genreBoost||[];
+ let base=55;
+ (tags||[]).forEach(tag=>{const g=genreBoost.find(gb=>gb[0]===tag);if(g)base+=g[1];});
+ return Math.max(40,Math.min(99,Math.round(base)));
+}
 function goatWhy(x){
  if(!x.gmBoosts||!x.gmBoosts.length)return 'Scores well on craft and reception even without a direct match to your declared favorites.';
  const phrase=b=>{
@@ -2966,23 +3077,30 @@ function goatWhy(x){
 }
 function buildGeneratedRec(cat){
  const kind=RECS_KIND_BY_CAT[cat];
- const declaredGroup=(PERSONAL_PROFILE.declaredCanon||[]).find(d=>(DECLARED_CAT_ALIASES[cat]||[cat]).includes(d.cat));
- const declaredNames=declaredGroup?declaredGroup.items.map(it=>it.name):[];
- const basis=declaredNames.length
-  ?'Projected from your declared '+cat.toLowerCase()+': '+declaredNames.join(', ')+'.'
-  :'No '+cat.toLowerCase()+' declared yet — ranked by overall match across the corpus.';
  const items=ALL.filter(x=>x.kind===kind&&!x.owned&&!x.goat)
   .sort((a,b)=>b.gm-a.gm)
   .slice(0,10)
   .map(x=>({n:x.title,s:x.gm,k:x.kind,q:x.title,why:goatWhy(x)}));
- return {cat:cat,basis:basis,items:items,generated:true};
+ return {cat:cat,basis:computeBasisText(cat),items:items,generated:true};
 }
 Object.keys(RECS_KIND_BY_CAT).forEach(cat=>{
  const idx=goatProfile.recs.findIndex(c=>c.cat===cat);
  const rec=buildGeneratedRec(cat);
  if(idx>=0)goatProfile.recs[idx]=rec;else goatProfile.recs.push(rec);
 });
-goatProfile.recs.forEach(c=>{if(!c.generated)c.sample=true;});
+goatProfile.recs.forEach(c=>{
+ if(c.generated)return;
+ c.basis=computeBasisText(c.cat);
+ if(c.cat==='Directors'){
+  c.items=c.items.map(it=>{const hit=directorCorpusScore(it.n);return Object.assign({},it,{s:hit!==null?hit:tagOverlapScore(it.tags)});});
+  c.items.sort((a,b)=>b.s-a.s);
+  c.generated=true;
+ }else{
+  c.items=c.items.map(it=>Object.assign({},it,{s:tagOverlapScore(it.tags)}));
+  c.items.sort((a,b)=>b.s-a.s);
+  c.approx=true;
+ }
+});
 /* --- Cosmic Horror Index: declared canon locked at 100, eldritch canon hand-scored, remainder algorithmic --- */
 if(!PROFILE_FROM_STORAGE)PERSONAL_PROFILE.cosmicHorrorDeclaredIds=[];
 const CH_DECLARED=PERSONAL_PROFILE.cosmicHorrorDeclaredIds||[];
@@ -3155,7 +3273,7 @@ function renderGoat(){renderTasteDNA();
   +'<div class="lbl" style="color:#fbbf24">\u2605 '+esc(d.cat)+'</div>'
   +'<div class="flex flex-wrap gap-1.5 mt-2">'+d.items.map(it=>'<span class="chip'+(it.q?' goatJump':'')+'"'+(it.q?' data-q="'+esc(it.q)+'" title="Open in Global Controller" style="color:#fde68a;border-color:#fbbf2455;cursor:pointer"':' style="color:#fde68a;border-color:#fbbf2455"')+'>'+esc(it.name)+(it.note?' <span class="text-slate-500">\u00b7 '+esc(it.note)+'</span>':'')+'</span>').join('')+'</div></div>').join('');
  $('#goatRecs').innerHTML=goatProfile.recs.map(cat=>'<div class="panel overflow-hidden fade-in">'
-  +'<div class="px-4 pt-4 pb-3 border-b border-slate-800/70"><div class="flex items-baseline justify-between gap-2"><h3 class="text-[12px] font-bold tracking-[.14em] uppercase text-slate-100">'+esc(cat.cat)+(cat.sample?' <span class="text-[8.5px] font-normal normal-case tracking-normal text-amber-400/70" title="No structured data exists yet to rank this category against an arbitrary profile -- these are Payton’s own hand-picked sample picks, not computed from your declared favorites.">◈ sample data, not personalized</span>':'')+'</h3><span class="lbl">match /100</span></div>'
+  +'<div class="px-4 pt-4 pb-3 border-b border-slate-800/70"><div class="flex items-baseline justify-between gap-2"><h3 class="text-[12px] font-bold tracking-[.14em] uppercase text-slate-100">'+esc(cat.cat)+(cat.approx?' <span class="text-[8.5px] font-normal normal-case tracking-normal text-amber-400/70" title="The picks are hand-curated (no dataset of actors/composers/etc. to rank against yet), but the score and order above do respond to your genre weights.">◈ approximate — by genre overlap</span>':'')+'</h3><span class="lbl">match /100</span></div>'
   +'<p class="text-[10.5px] text-slate-500 mt-1 leading-relaxed">'+esc(cat.basis)+'</p></div>'
   +cat.items.map((it,i)=>'<div class="flex items-center gap-2.5 px-3.5 py-2 border-b border-slate-800/50 last:border-0 hover:bg-slate-800/20'+(it.q?' goatJump cursor-pointer':'')+'"'+(it.q?' data-q="'+esc(it.q)+'" title="Open in Global Controller"':'')+'>'
    +'<span class="text-[10px] text-slate-500 w-5 tabular-nums">'+String(i+1).padStart(2,'0')+'</span>'
@@ -3602,7 +3720,7 @@ function switchView(v){state.view=v;
  if(v==='timeline')renderTimeline();
 }
 on('#nav','click',e=>{const b=e.target.closest('.navBtn');if(b)switchView(b.dataset.view);});
-on('#grid','click',e=>{const w=e.target.closest('.wlBtn');if(w){e.stopPropagation();wlToggle(w.dataset.wl);const has=wlHas(w.dataset.wl);w.textContent=has?'\u2665':'\u2661';w.style.color=has?'#fb7185':'#475569';updateWlNav();if(state.view==='watchlist')renderWatchlist();return;}const flipT=e.target.closest('.cardTitle');if(flipT){e.stopPropagation();const card=flipT.closest('.panel');if(card){const sf=card.querySelector('.summaryFace');if(sf)sf.classList.toggle('hidden');}return;}const fb=e.target.closest('.flipBack');if(fb){e.stopPropagation();const card=fb.closest('.panel');if(card){const sf=card.querySelector('.summaryFace');if(sf)sf.classList.add('hidden');}return;}const h=e.target.closest('.cardHead');if(!h)return;const card=h.closest('.panel');const dd=card?card.querySelector('.detail'):null;if(dd)dd.classList.toggle('hidden');});
+on('#grid','click',e=>{const pe=e.target.closest('.profEditBtn');if(pe){e.stopPropagation();handleProfileEditClick(pe);return;}const w=e.target.closest('.wlBtn');if(w){e.stopPropagation();wlToggle(w.dataset.wl);const has=wlHas(w.dataset.wl);w.textContent=has?'\u2665':'\u2661';w.style.color=has?'#fb7185':'#475569';updateWlNav();if(state.view==='watchlist')renderWatchlist();return;}const flipT=e.target.closest('.cardTitle');if(flipT){e.stopPropagation();const card=flipT.closest('.panel');if(card){const sf=card.querySelector('.summaryFace');if(sf)sf.classList.toggle('hidden');}return;}const fb=e.target.closest('.flipBack');if(fb){e.stopPropagation();const card=fb.closest('.panel');if(card){const sf=card.querySelector('.summaryFace');if(sf)sf.classList.add('hidden');}return;}const h=e.target.closest('.cardHead');if(!h)return;const card=h.closest('.panel');const dd=card?card.querySelector('.detail'):null;if(dd)dd.classList.toggle('hidden');});
 let qT=null;
 on('#q','input',e=>{clearTimeout(qT);qT=setTimeout(()=>{state.q=e.target.value;refresh();},120);});
 on('#typeSeg','click',e=>{const b=e.target.closest('button');if(!b)return;state.type=b.dataset.type;$$('#typeSeg button').forEach(x=>x.classList.toggle('on',x===b));refresh();});
@@ -3759,12 +3877,83 @@ on('#themeSel','change',e=>{applyTheme(e.target.value);});
 /* ===== Personal profile: export / import / reset (Phase 2 of the sharing roadmap) =====
    Everything the taste engine reads lives on PERSONAL_PROFILE (see the PERSONAL PROFILE comment
    near the top of this script). This is the swap point for a new person: Export hands you that
-   object as JSON, Import overwrites it from a file and reloads, Reset writes an empty object and
-   reloads. Once anything has been saved this way, the hardcoded defaults baked into this specific
-   copy of the file never re-apply -- see PROFILE_FROM_STORAGE above. */
-on('#profileExportBtn','click',()=>{try{const blob=new Blob([JSON.stringify(PERSONAL_PROFILE,null,2)],{type:'application/json'});const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='omni-ledger-profile.json';document.body.appendChild(a);a.click();document.body.removeChild(a);}catch(e){alert('Export failed: '+e.message);}});
-on('#profileImportInput','change',e=>{const file=e.target.files&&e.target.files[0];if(!file)return;const reader=new FileReader();reader.onload=()=>{try{const parsed=JSON.parse(reader.result);if(typeof parsed!=='object'||parsed===null||Array.isArray(parsed))throw new Error('File is not a profile object');localStorage.setItem('omniLedgerProfile',JSON.stringify(parsed));location.reload();}catch(err){alert('Could not import that file: '+err.message);}};reader.readAsText(file);e.target.value='';});
-on('#profileResetBtn','click',()=>{if(typeof confirm!=='undefined'&&!confirm('Reset your profile to blank? This clears your owned collection, declared canon, taste weights and watchlist in this browser. Export first if you want to keep a copy.'))return;localStorage.setItem('omniLedgerProfile','{}');location.reload();});
+   object (plus the watchlist, theme, and density prefs, so one file is a complete snapshot of a
+   person, not just their taste weights) as JSON, Import overwrites it from a file and reloads,
+   Reset writes an empty object and reloads. Once a profile has been saved this way, the hardcoded
+   defaults baked into this specific copy of the file never re-apply -- see PROFILE_FROM_STORAGE
+   above. Import accepts both this snapshot shape ({profile, watchlist, theme, density}) and a
+   bare profile object with no wrapper (what PROFILE_TEMPLATE.md documents, and what every export
+   before this feature produced) -- detected by whether the parsed JSON has a `profile` key. */
+function applyImportedSnapshot(parsed){
+ const isSnapshot=parsed&&typeof parsed.profile==='object'&&parsed.profile!==null&&!Array.isArray(parsed.profile);
+ const profile=isSnapshot?parsed.profile:parsed;
+ localStorage.setItem('omniLedgerProfile',JSON.stringify(profile));
+ if(isSnapshot){
+  if(parsed.watchlist&&typeof parsed.watchlist==='object'&&!Array.isArray(parsed.watchlist))localStorage.setItem('omniLedgerWatchlist',JSON.stringify(parsed.watchlist));
+  if(typeof parsed.theme==='string')localStorage.setItem('omniLedgerTheme',parsed.theme);
+  if(typeof parsed.density==='string')localStorage.setItem('omniLedgerDensity',parsed.density);
+ }
+}
+on('#profileExportBtn','click',()=>{try{
+ let watchlist={};try{watchlist=JSON.parse(localStorage.getItem('omniLedgerWatchlist')||'{}')||{};}catch(e){}
+ let theme='';try{theme=localStorage.getItem('omniLedgerTheme')||'';}catch(e){}
+ let density='0';try{density=localStorage.getItem('omniLedgerDensity')||'0';}catch(e){}
+ const snapshot={version:1,exported:new Date().toISOString(),profile:PERSONAL_PROFILE,watchlist:watchlist,theme:theme,density:density};
+ const blob=new Blob([JSON.stringify(snapshot,null,2)],{type:'application/json'});const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='omni-ledger-profile.json';document.body.appendChild(a);a.click();document.body.removeChild(a);
+}catch(e){alert('Export failed: '+e.message);}});
+on('#profileImportInput','change',e=>{const file=e.target.files&&e.target.files[0];if(!file)return;const reader=new FileReader();reader.onload=()=>{try{const parsed=JSON.parse(reader.result);if(typeof parsed!=='object'||parsed===null||Array.isArray(parsed))throw new Error('File is not a profile object');applyImportedSnapshot(parsed);location.reload();}catch(err){alert('Could not import that file: '+err.message);}};reader.readAsText(file);e.target.value='';});
+on('#profileResetBtn','click',()=>{if(typeof confirm!=='undefined'&&!confirm('Reset your profile to blank? This clears your owned collection, declared canon, taste weights and watchlist in this browser. Export first if you want to keep a copy.'))return;localStorage.setItem('omniLedgerProfile','{}');localStorage.setItem('omniLedgerWatchlist','{}');location.reload();});
+
+/* ===== In-app profile editor: declare / own / boost from any card, no JSON editing required =====
+   PERSONAL_PROFILE at this point in execution already holds the fully resolved current profile,
+   whether that came from defaults or from localStorage -- so mutating a clone of it and saving
+   that clone is correct either way, without needing to special-case PROFILE_FROM_STORAGE. This is
+   the same write-then-reload pattern Import/Reset already use, chosen for the same reason: it
+   guarantees the whole scoring pipeline recomputes correctly rather than trying to patch already-
+   derived scores in place. */
+function mutateProfileAndReload(mutatorFn){
+ let snapshot;
+ try{snapshot=JSON.parse(JSON.stringify(PERSONAL_PROFILE));}catch(e){alert('Could not read current profile: '+e.message);return;}
+ try{mutatorFn(snapshot);}catch(e){alert('Could not apply that change: '+e.message);return;}
+ try{localStorage.setItem('omniLedgerProfile',JSON.stringify(snapshot));localStorage.setItem('omniLedgerOnboarded','1');}catch(e){alert('Could not save: '+e.message);return;}
+ location.reload();
+}
+function toggleDeclaredFavorite(id){
+ mutateProfileAndReload(p=>{
+  p.declaredGoatIds=p.declaredGoatIds||[];
+  const i=p.declaredGoatIds.indexOf(id);
+  if(i>=0)p.declaredGoatIds.splice(i,1);else p.declaredGoatIds.push(id);
+ });
+}
+function toggleOwned(id,kind){
+ mutateProfileAndReload(p=>{
+  if(kind==='movie'||kind==='tv'){
+   p.ownedMedia=p.ownedMedia||{};
+   if(p.ownedMedia[id])delete p.ownedMedia[id];else p.ownedMedia[id]='Owned';
+  }else if(kind==='book'){
+   p.ownedBooksExtra=p.ownedBooksExtra||{};
+   if(p.ownedBooksExtra[id])delete p.ownedBooksExtra[id];else p.ownedBooksExtra[id]='Owned';
+  }else if(kind==='game'){
+   p.ownedGameIds=p.ownedGameIds||[];
+   const i=p.ownedGameIds.indexOf(id);
+   if(i>=0)p.ownedGameIds.splice(i,1);else p.ownedGameIds.push(id);
+  }
+ });
+}
+function boostCreator(name,kind){
+ mutateProfileAndReload(p=>{
+  const key=kind==='book'?'bookCreatorBoost':'creatorBoost';
+  p[key]=p[key]||[];
+  const existing=p[key].find(e=>e[0]===name);
+  if(existing)existing[1]=Math.min(20,existing[1]+3);else p[key].push([name,8]);
+ });
+}
+function handleProfileEditClick(btn){
+ const act=btn.dataset.act;
+ if(act==='declare')toggleDeclaredFavorite(btn.dataset.id);
+ else if(act==='own')toggleOwned(btn.dataset.id,btn.dataset.kind);
+ else if(act==='boost')boostCreator(btn.dataset.creator,btn.dataset.kind);
+}
 
 /* ===== First-run onboarding gate (Phase 3 of the sharing roadmap) =====
    A browser that has never saved anything under omniLedgerOnboarded gets asked once, explicitly,
@@ -3774,13 +3963,150 @@ on('#profileResetBtn','click',()=>{if(typeof confirm!=='undefined'&&!confirm('Re
    need to touch PERSONAL_PROFILE construction above: "sample" just marks onboarding done and
    leaves the already-computed defaults in place; "blank" and "import" write to omniLedgerProfile
    and reload so the whole app recomputes from the fresh profile, same as Reset/Import already do. */
+/* ===== Version / changelog marker =====
+   Lets a friend running an older copy of index.html/share.html tell they're behind just by
+   comparing the number in the header -- there's no auto-update mechanism (this is still a
+   hand-a-file app, not a hosted one), so this is deliberately just a "here's what changed"
+   readout, not a live version check against anything. Bump APP_VERSION and add a CHANGELOG entry
+   whenever a change is worth a friend knowing about; cosmetic tweaks don't need a bump. */
+const APP_VERSION='1.3.0';
+const CHANGELOG=[
+ {v:'1.3.0',date:'2026-09-02',notes:[
+  'Declare favorites and mark items owned right from any card -- no more hand-editing profile JSON for the basics',
+  'First-run "quick-rate a few titles" option seeds real recommendations in under a minute',
+  '"Tonight" picker: mood + time budget -> one specific pick (movies only for the time filter -- see NOTES.md)',
+  'Directors recommendations are now genuinely computed from your profile (not a fixed list); the other five people categories are honestly labeled "approximate" instead of pretending to be personalized',
+  'Export/Import now bundles your Watchlist tab, theme, and density along with your taste profile',
+  'Contenders Ledger refreshed against real-world release news (a few 2026 entries had already shipped, delayed, or been cancelled)'
+ ]},
+ {v:'1.2.0',date:'2026-09-01',notes:['Tailwind CSS compiled and committed to the file -- no more CDN dependency, works fully offline']},
+ {v:'1.1.0',date:'2026-09-01',notes:['share.html: a copy of this app with no personal data baked in, safe to hand to anyone (scripts/make-share-copy.js regenerates it)','PROFILE_TEMPLATE.md documents how to hand-build a profile file']},
+ {v:'1.0.0',date:'2026-08-31',notes:['First-run onboarding gate: choose sample / blank / import instead of silently inheriting the default profile','Movies/Books/TV Series/Video Games recommendations generated live from your actual profile instead of a fixed list']},
+ {v:'0.9.0',date:'2026-08-31',notes:['Personal profile is now swappable: saved to this browser, exportable/importable as JSON, resettable to blank']},
+ {v:'0.8.0',date:'2026-08-30',notes:['All personal data (owned collection, declared canon, taste weights) consolidated onto one PERSONAL_PROFILE object, separate from the shared 1,300-work corpus']}
+];
+(function versionMarker(){
+ var vt=$('#versionText');if(vt)vt.textContent=APP_VERSION;
+ var btn=$('#versionBtn'),gate=$('#versionGate');
+ if(!btn||!gate)return;
+ $('#versionLog').innerHTML=CHANGELOG.map(function(e){
+  return '<div><div class="flex items-baseline gap-2"><span class="text-sm font-bold text-slate-100">v'+e.v+'</span><span class="text-[11px] text-slate-500">'+e.date+'</span></div>'
+   +'<ul class="mt-1 space-y-0.5">'+e.notes.map(function(n){return '<li class="text-[12px] text-slate-400 leading-relaxed">· '+esc(n)+'</li>';}).join('')+'</ul></div>';
+ }).join('');
+ on('#versionBtn','click',function(){gate.classList.remove('hidden');});
+ on('#versionClose','click',function(){gate.classList.add('hidden');});
+})();
+
+/* ===== "Tonight" picker: mood + time budget -> one specific pick =====
+   Time budget is only applied to movies -- the only corpus kind with a reliable single-sitting
+   runtime (TV only tracks season count, games track total playtime not a session, books track
+   page count). Applying an unenforceable filter to those would be worse than not filtering them
+   at all, so they're always eligible regardless of the time selection; the UI says so up front. */
+(function tonightPicker(){
+ var btn=$('#tonightBtn'),gate=$('#tonightGate');
+ if(!btn||!gate)return;
+ var vibeCounts={};
+ ALL.forEach(x=>{if(x.vibe)vibeCounts[x.vibe]=(vibeCounts[x.vibe]||0)+1;});
+ var vibes=Object.keys(vibeCounts).sort((a,b)=>vibeCounts[b]-vibeCounts[a]);
+ var moodSel=$('#tonightMood');
+ moodSel.innerHTML='<option value="">Any mood</option>'+vibes.map(v=>'<option value="'+esc(v)+'">'+esc(v)+' ('+vibeCounts[v]+')</option>').join('');
+ on('#tonightBtn','click',()=>{gate.classList.remove('hidden');});
+ on('#tonightClose','click',()=>{gate.classList.add('hidden');});
+ var lastPool=[];
+ function findPick(){
+  var mood=moodSel.value,timeMax=parseInt($('#tonightTime').value,10)||0,type=$('#tonightType').value;
+  var pool=ALL.filter(x=>{
+   if(type!=='all'&&x.kind!==type)return false;
+   if(mood&&x.vibe!==mood)return false;
+   if(timeMax>0&&x.kind==='movie'&&x.mins&&x.mins>timeMax)return false;
+   return true;
+  }).sort((a,b)=>b.gm-a.gm);
+  if(!pool.length){$('#tonightResult').innerHTML='<p class="text-[13px] text-slate-500 mt-3">Nothing matches that combination — try loosening the mood or time filter.</p>';return;}
+  lastPool=pool.slice(0,15);
+  renderPick();
+ }
+ function renderPick(){
+  if(!lastPool.length)return;
+  var idx=Math.floor(Math.random()*Math.min(lastPool.length,5));
+  var pick=lastPool[idx];
+  var runners=lastPool.filter(x=>x!==pick).slice(0,2);
+  var k=KM[pick.kind];
+  $('#tonightResult').innerHTML='<div class="panel p-4 mt-3" style="border-color:'+k.c+'44">'
+   +'<div class="lbl" style="color:'+k.c+'">'+k.label+' · tonight’s pick</div>'
+   +'<div class="text-base font-bold text-slate-50 mt-1">'+esc(pick.title)+' <span class="text-slate-500 font-normal text-sm">· '+pick.year+'</span></div>'
+   +'<div class="text-[12px] text-slate-400 mt-0.5">'+esc(pick.creator)+' · '+esc(pick.span)+(pick.vibe?' · '+esc(pick.vibe):'')+'</div>'
+   +'<p class="text-[12px] text-slate-300 mt-2 italic">“'+esc(pick.just)+'”</p>'
+   +'<div class="text-[12px] mt-2" style="color:#fbbf24">★ '+pick.gm+' match'+(pick.owned?' · <span style="color:#4ade80">✓ you own it</span>':'')+'</div>'
+   +'</div>'
+   +(runners.length?'<div class="text-[11px] text-slate-500 mt-2">Or: '+runners.map(r=>esc(r.title)).join(' · ')+'</div>':'')
+   +'<button type="button" id="tonightAnother" class="presetBtn mt-3">🎲 Try another</button>';
+  on('#tonightAnother','click',renderPick);
+ }
+ on('#tonightFind','click',findPick);
+})();
+
+/* ===== Guided seed-picker (Phase 2 of the original plan: "rate these N items to seed taste") =====
+   A pool of 10 works, one per kind-ish spread, picked at runtime by pre-personalization quality
+   (crit+aud average) so it's a "well-regarded, broadly varied" set rather than anything tied to
+   one person's taste -- fair to show a friend as much as it is to show Payton on a fresh device.
+   Loving one or more seeds declaredGoatIds and a "My Favorites" declaredCanon group; skipping
+   entirely just falls through to a blank profile, same as clicking Start Blank directly. */
+function pickSeedCandidates(){
+ const byKindSorted={};
+ ['movie','tv','game','book'].forEach(k=>{byKindSorted[k]=ALL.filter(x=>x.kind===k).slice().sort((a,b)=>(b.crit+b.aud)-(a.crit+a.aud));});
+ const counts={movie:3,tv:2,game:2,book:3};
+ const picks=[];
+ Object.keys(counts).forEach(k=>{
+  const seen=new Set(picks.map(p=>p.creator));
+  let taken=0;
+  for(const x of byKindSorted[k]){
+   if(taken>=counts[k])break;
+   if(seen.has(x.creator))continue; // keep creators varied within the spread
+   picks.push(x);seen.add(x.creator);taken++;
+  }
+ });
+ return picks;
+}
 (function onboardGate(){
  var onboarded=false;try{onboarded=!!localStorage.getItem('omniLedgerOnboarded');}catch(e){onboarded=true;}
  if(onboarded)return;
  var gate=$('#onboardGate');if(!gate)return;
  gate.classList.remove('hidden');
+ var choiceScreen=$('#onboardChoiceScreen'),seedScreen=$('#onboardSeedScreen');
+ var loved=new Set();
  on('#onboardBlank','click',()=>{try{localStorage.setItem('omniLedgerOnboarded','1');localStorage.setItem('omniLedgerProfile','{}');}catch(e){}location.reload();});
- on('#onboardImportInput','change',e=>{const file=e.target.files&&e.target.files[0];if(!file)return;const reader=new FileReader();reader.onload=()=>{try{const parsed=JSON.parse(reader.result);if(typeof parsed!=='object'||parsed===null||Array.isArray(parsed))throw new Error('File is not a profile object');localStorage.setItem('omniLedgerOnboarded','1');localStorage.setItem('omniLedgerProfile',JSON.stringify(parsed));location.reload();}catch(err){alert('Could not import that file: '+err.message);}};reader.readAsText(file);});
+ on('#onboardImportInput','change',e=>{const file=e.target.files&&e.target.files[0];if(!file)return;const reader=new FileReader();reader.onload=()=>{try{const parsed=JSON.parse(reader.result);if(typeof parsed!=='object'||parsed===null||Array.isArray(parsed))throw new Error('File is not a profile object');localStorage.setItem('omniLedgerOnboarded','1');applyImportedSnapshot(parsed);location.reload();}catch(err){alert('Could not import that file: '+err.message);}};reader.readAsText(file);});
+ on('#onboardSeed','click',()=>{
+  const picks=pickSeedCandidates();
+  $('#onboardSeedGrid').innerHTML=picks.map(x=>'<button type="button" class="onboardSeedItem w-full text-left rounded-xl border border-slate-700 hover:border-violet-500 p-3 transition-colors" data-id="'+x.id+'">'
+   +'<div class="flex items-start justify-between gap-2"><div class="min-w-0">'
+   +'<div class="text-sm font-semibold text-slate-100 truncate">'+esc(x.title)+' <span class="text-slate-500 font-normal">· '+x.year+'</span></div>'
+   +'<div class="text-[11px] text-slate-500 mt-0.5">'+esc(x.creator)+' · '+esc((x.genres||[]).slice(0,2).join(', '))+'</div>'
+   +'</div><span class="seedHeart text-lg leading-none shrink-0" style="color:#475569">♡</span></div>'
+   +'</button>').join('');
+  choiceScreen.classList.add('hidden');seedScreen.classList.remove('hidden');
+ });
+ on('#onboardSeedGrid','click',e=>{
+  const b=e.target.closest('.onboardSeedItem');if(!b)return;
+  const id=b.dataset.id;const heart=b.querySelector('.seedHeart');
+  if(loved.has(id)){loved.delete(id);heart.textContent='♡';heart.style.color='#475569';b.style.borderColor='';}
+  else{loved.add(id);heart.textContent='♥';heart.style.color='#fb7185';b.style.borderColor='#fb718566';}
+  $('#onboardSeedCount').textContent=loved.size+' selected';
+ });
+ on('#onboardSeedSkip','click',()=>{try{localStorage.setItem('omniLedgerOnboarded','1');localStorage.setItem('omniLedgerProfile','{}');}catch(e){}location.reload();});
+ on('#onboardSeedContinue','click',()=>{
+  try{
+   const ids=[...loved];
+   const profile={};
+   if(ids.length){
+    profile.declaredGoatIds=ids;
+    profile.declaredCanon=[{cat:'My Favorites',items:ids.map(id=>{const x=byId.get(id);return x?{name:x.title,q:x.title}:null;}).filter(Boolean)}];
+   }
+   localStorage.setItem('omniLedgerOnboarded','1');
+   localStorage.setItem('omniLedgerProfile',JSON.stringify(profile));
+  }catch(e){}
+  location.reload();
+ });
 })();
 
 on('#wlFilter','click',e=>{const b=e.target.closest('button');if(!b)return;state.wlFilter=b.dataset.wf;$$('#wlFilter button').forEach(x=>x.classList.toggle('on',x===b));renderWatchlist();});
