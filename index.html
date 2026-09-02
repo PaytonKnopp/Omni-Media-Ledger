@@ -57,6 +57,12 @@ body.compact #grid .cardHead{padding-top:.5rem;padding-bottom:.5rem}
 .rcCaret{color:#64748b;font-size:11px;transition:transform .15s}
 .radarCombo.open .rcCaret{transform:rotate(180deg)}
 .rcPop{position:absolute;z-index:40;left:0;right:0;top:calc(100% + 4px);background:#0d1526;border:1px solid var(--border-2);border-radius:10px;box-shadow:0 12px 32px rgba(0,0,0,.55);padding:8px;max-height:320px;display:flex;flex-direction:column}
+/* This block's own `.rcPop{display:flex}` comes after Tailwind's compiled `.hidden{display:none}`
+   in the document, so at equal specificity it was silently winning the cascade: JS toggled the
+   `hidden` class correctly, but the popup never actually stopped rendering -- it stayed fully
+   visible and hit-testable underneath, which is why closing (on select, outside-click, Escape, or
+   scroll) never visually worked. Two classes beats one regardless of source order. */
+.rcPop.hidden{display:none}
 .rcSearch{margin-bottom:6px;font-size:13px}
 .rcList{overflow-y:auto;flex:1}
 .rcOptGroup{font-size:9.5px;text-transform:uppercase;letter-spacing:.12em;color:#64748b;padding:6px 8px 3px}
@@ -2789,9 +2795,14 @@ on('#presetRow','click',e=>{const b=e.target.closest('[data-preset]');if(!b)retu
 // kind of two-systems-doing-the-same-job setup that produces "sometimes won't close" bugs. One
 // registry (closeAllCombos), one outside-click listener, one Escape-key fallback, for every combo.
 function closeAllCombos(except){$$('.radarCombo').forEach(function(c){if(c!==except){c.classList.remove('open');var pop=c.querySelector('.rcPop');if(pop)pop.classList.add('hidden');}});}
+// Opening a combo focuses its search input, which can trigger the browser's own scroll-into-view
+// (a field near the viewport edge, or the 30ms-delayed focus() below) -- that scroll fires AFTER
+// open() already ran, and without this guard the close-on-scroll handler further down would close
+// the combo immediately after it opens. Ignore scroll events in the brief window right after opening.
+var lastComboOpenAt=0;
 $$('.radarCombo:not(#platCombo)').forEach(function(combo){
  var field=combo.querySelector('.rcField'),pop=combo.querySelector('.rcPop'),search=combo.querySelector('.rcSearch');
- function open(){closeAllCombos(combo);combo.classList.add('open');pop.classList.remove('hidden');renderRadarList(combo,'');search.value='';setTimeout(function(){search.focus();},30);}
+ function open(){closeAllCombos(combo);combo.classList.add('open');pop.classList.remove('hidden');lastComboOpenAt=Date.now();renderRadarList(combo,'');search.value='';setTimeout(function(){search.focus();},30);}
  function close(){combo.classList.remove('open');pop.classList.add('hidden');}
  field.addEventListener('click',function(e){e.stopPropagation();combo.classList.contains('open')?close():open();});
  field.addEventListener('keydown',function(e){if(e.key==='Enter'||e.key===' '){e.preventDefault();open();}});
@@ -2805,7 +2816,14 @@ document.addEventListener('keydown',function(e){if(e.key==='Escape')closeAllComb
 // positioned in normal flow), but that just means it keeps following the field and covering
 // whatever content ends up underneath as you scroll past it. Close on scroll instead -- capture
 // phase so this also fires for scrolling inside any nested scrollable container, not just window.
-window.addEventListener('scroll',function(){closeAllCombos(null);},true);
+// Except the combo's own option list (.rcList) itself: it has its own internal scrollbar for long
+// lists, and closing on every scroll tick inside it would make it impossible to ever scroll down
+// to an option below the fold.
+window.addEventListener('scroll',function(e){
+ if(e.target&&e.target.closest&&e.target.closest('.rcList'))return;
+ if(Date.now()-lastComboOpenAt<300)return;
+ closeAllCombos(null);
+},true);
 // Bubble field medium filter
 document.addEventListener('click',function(e){var b=e.target.closest&&e.target.closest('.bubbleMedBtn');if(!b)return;bubbleMed=b.dataset.bm;$$('.bubbleMedBtn').forEach(function(x){x.classList.toggle('on',x===b);});if(typeof renderBubble==='function')renderBubble();});
 // Relationship graph: node + chip clicks
@@ -3007,8 +3025,12 @@ function handleProfileEditClick(btn){
    hand-a-file app, not a hosted one), so this is deliberately just a "here's what changed"
    readout, not a live version check against anything. Bump APP_VERSION and add a CHANGELOG entry
    whenever a change is worth a friend knowing about; cosmetic tweaks don't need a bump. */
-const APP_VERSION='1.9.0';
+const APP_VERSION='1.9.1';
 const CHANGELOG=[
+ {v:'1.9.1',date:'2026-09-02',notes:[
+  'Real fix for the combo dropdowns (platform/network/studio filter, Structural Fingerprint Radar search boxes) not closing: a CSS specificity conflict meant the "hidden" class was being toggled correctly by JS the whole time but never actually took visual effect, since this file\'s own .rcPop{display:flex} rule came after Tailwind\'s compiled .hidden{display:none} in the document and won the cascade at equal specificity. The 1.9.0 "closes on scroll" change was real but, like every other close path (selecting an option, clicking outside, Escape), was silently not working visually -- confirmed against a screen recording of the bug',
+  'Fixed a second bug found while fixing the first: scrolling inside a combo\'s own option list (to reach an item below the fold) was closing the whole combo instead of scrolling the list, and a combo could fail to reopen right after being closed by a browser auto-scroll (e.g. tabbing to a field near the viewport edge) racing with the close-on-scroll handler'
+ ]},
  {v:'1.9.0',date:'2026-09-02',notes:[
   'Optional cloud accounts (Firebase Firestore) -- pick a name once, get your data back on any device under that name. Off by default (zero behavior change) until FIREBASE_CONFIG is filled in; see NOTES.md "Cloud accounts" for the 5-minute setup',
   'Fixed: the platform/network/studio filter and the Structural Fingerprint Radar\'s search dropdowns stayed open while scrolling, covering content underneath -- they now close on scroll, same as they already did on outside-click and Escape'
@@ -3391,7 +3413,7 @@ buildPlatSelect();
 (function initPlatCombo(){
  var combo=$('#platCombo');if(!combo)return;
  var field=combo.querySelector('.rcField'),pop=combo.querySelector('.rcPop'),search=combo.querySelector('.rcSearch');
- function open(){closeAllCombos(combo);combo.classList.add('open');pop.classList.remove('hidden');renderPlatList('');search.value='';setTimeout(function(){search.focus();},30);}
+ function open(){closeAllCombos(combo);combo.classList.add('open');pop.classList.remove('hidden');lastComboOpenAt=Date.now();renderPlatList('');search.value='';setTimeout(function(){search.focus();},30);}
  function close(){combo.classList.remove('open');pop.classList.add('hidden');}
  field.addEventListener('click',function(e){e.stopPropagation();combo.classList.contains('open')?close():open();});
  field.addEventListener('keydown',function(e){if(e.key==='Enter'||e.key===' '){e.preventDefault();open();}});

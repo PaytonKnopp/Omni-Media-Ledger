@@ -185,24 +185,54 @@ async function runFile(browser, file) {
     await page.waitForTimeout(300);
     check('reset returns to baseline count', (await countOf()) === baseline);
 
+    // Checks ACTUAL rendered visibility (offsetHeight), not just the `hidden` class -- a real bug
+    // slipped past this suite for a while because `.rcPop{display:flex}` (in this file's own
+    // <style> block, after Tailwind's compiled CSS in the document) silently outranked Tailwind's
+    // `.hidden{display:none}` at equal specificity: the class was always being toggled correctly,
+    // but the popup never actually stopped rendering underneath. Fixed with `.rcPop.hidden{...}`.
+    const platPopVisible = () => page.evaluate(() => document.querySelector('#platCombo .rcPop').offsetHeight > 0);
+
     // Platform combo opens and closes cleanly (regression: v1.3.1 stuck-open bug)
     await page.click('#platField');
     await page.waitForTimeout(150);
-    const opened = await page.evaluate(() => !document.querySelector('#platCombo .rcPop').classList.contains('hidden'));
-    check('platform combo opens on click', opened);
+    check('platform combo opens on click', await platPopVisible());
     await page.click('h1');
     await page.waitForTimeout(150);
-    const closed = await page.evaluate(() => document.querySelector('#platCombo .rcPop').classList.contains('hidden'));
-    check('platform combo closes on outside click', closed);
+    check('platform combo closes on outside click', !(await platPopVisible()));
 
     // Combo popups close on scroll too, so they don't stay pinned over content as you scroll past
     // them (regression: combo tracked its field correctly while scrolling but never auto-closed).
     await page.click('#platField');
-    await page.waitForTimeout(150);
+    await page.waitForTimeout(350); // past the 300ms just-opened guard (see index.html)
     await page.mouse.wheel(0, 400);
     await page.waitForTimeout(150);
-    const closedOnScroll = await page.evaluate(() => document.querySelector('#platCombo .rcPop').classList.contains('hidden'));
-    check('platform combo closes on scroll', closedOnScroll);
+    check('platform combo closes on scroll', !(await platPopVisible()));
+
+    // Selecting an option closes the popup too (regression: this exact path -- click an option,
+    // popup silently stayed visually open despite the `hidden` class being applied -- is what the
+    // display:flex/display:none cascade bug above actually looked like to a user).
+    await page.click('#platField');
+    await page.waitForTimeout(150);
+    await page.click('.rcOpt:has-text("A-1 Pictures")');
+    await page.waitForTimeout(150);
+    check('platform combo closes after selecting an option', !(await platPopVisible()));
+    await page.click('#resetBtn');
+    await page.waitForTimeout(200);
+
+    // Scrolling INSIDE the combo's own option list must scroll the list, not close the combo
+    // (regression: the close-on-scroll fix above used a capture-phase window scroll listener,
+    // which also fires for the list's own internal scrollbar -- closing it on the first tick and
+    // making it impossible to ever scroll down to an option below the fold).
+    await page.click('#platField');
+    await page.waitForTimeout(150);
+    const listBox = await page.locator('#platCombo .rcList').boundingBox();
+    await page.mouse.move(listBox.x + listBox.width / 2, listBox.y + listBox.height / 2);
+    await page.mouse.wheel(0, 200);
+    await page.waitForTimeout(150);
+    const scrolledWithinList = await page.evaluate(() => document.querySelector('#platCombo .rcList').scrollTop > 0);
+    check('scrolling inside the combo list scrolls it instead of closing the combo', scrolledWithinList && (await platPopVisible()));
+    await page.click('h1');
+    await page.waitForTimeout(150);
 
     // GOAT Picker: search, stage, finalize round-trip
     await page.click('#goatPickerBtn');
