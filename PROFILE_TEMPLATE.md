@@ -1,11 +1,12 @@
 # Profile template
 
-Most personalization no longer needs this file: expand any card and use **Declare
-favorite**, **Mark owned**, or **Boost `<creator>`** to build a profile by clicking.
-This document is for the fields those buttons don't cover yet — `genreBoost`,
-`vibeBoost`, `silverTierIds`, `bookAffinity`, `cosmicHorrorCanon` — or if you'd rather
-hand-build or bulk-edit a whole profile at once. This is that file's shape, documented
-field by field, with a small filled-in example.
+Almost no personalization needs this file anymore: expand any card and click
+**Declare favorite**, **Mark owned**, **Boost `<creator>`**, click a genre or vibe
+chip to boost it, **Silver tier**, or (on books) **Boost affinity** to build a
+profile entirely by clicking. This document is for the one field those buttons
+don't cover yet — `cosmicHorrorCanon` — or if you'd rather hand-build or bulk-edit
+a whole profile at once. This is that file's shape, documented field by field,
+with a small filled-in example.
 
 **Finding a work's ID:** every card in the Global Controller carries its ID in the
 page itself — right-click a card → Inspect, and look for `data-id="m117"` (or `t..`,
@@ -66,10 +67,10 @@ checking for a `profile` key, so both work without any conversion.
 | `declaredGoatIds` | `[id, ...]` | Corpus works pinned to a 100 match score and flagged as your declared canon — these are what actually drive the generated recommendations, separate from the display-only `declaredCanon` above. |
 | `creatorBoost` | `[[nameSubstring, weight], ...]` | Boosts any work whose creator field contains `nameSubstring`. Weight is roughly 1–15; higher pulls harder. |
 | `bookCreatorBoost` | `[[nameSubstring, weight], ...]` | Same, for book authors specifically. |
-| `genreBoost` | `[[genreKeyword, weight], ...]` | Boosts works whose genre list contains `genreKeyword` (lowercase, substring match — `"sci-fi"`, `"noir"`, `"heist"`, etc.). |
-| `vibeBoost` | `{ vibeTag: weight }` | Boosts works tagged with an exact vibe/context string (see any card's vibe tag in the app for exact spelling). |
-| `silverTierIds` | `[id, ...]` | Second-tier favorites — less pull than `declaredGoatIds`, but still lifts the score meaningfully. |
-| `bookAffinity` | `{ id: scoreFloor }` | Sets a specific book's match score to at least this value (0–100). |
+| `genreBoost` | `[[genreKeyword, weight], ...]` | Boosts works whose genre list contains `genreKeyword` (lowercase, substring match — `"sci-fi"`, `"noir"`, `"heist"`, etc.). Click any genre chip on an expanded card to toggle it. |
+| `vibeBoost` | `{ vibeTag: weight }` | Boosts works tagged with an exact vibe/context string (see any card's vibe tag in the app for exact spelling). Click the vibe chip on an expanded card to toggle it. |
+| `silverTierIds` | `[id, ...]` | Second-tier favorites — less pull than `declaredGoatIds`, but still lifts the score meaningfully. Click **Silver tier** on an expanded card to toggle it. |
+| `bookAffinity` | `{ id: scoreFloor }` | Sets a specific book's match score to at least this value (0–100). Click **Boost affinity** on an expanded book card to raise it by 5 each click (starts at 75). |
 | `cosmicHorrorDeclaredIds` / `cosmicHorrorCanon` | `[id,...]` / `{ id: score }` | Feed the Cosmic Horror Index in Reference Matrices, same idea as above. |
 | `watchlist` | `{ contenderId: rank }` | Ranks specific Contenders Ledger entries (`c01`, `c02`, ...) above the model's own anticipation score, in the order given. |
 

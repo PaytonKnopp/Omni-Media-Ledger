@@ -3008,12 +3008,14 @@ function cardHTML(it){const k=KM[it.kind];
  +'<div class="fidGrid">'+it.fid.map(f=>microBar2(f[0],f[1])).join('')+microBar2('Audience Score',it.aud)+microBar2('Critical Score',it.crit)+'<div class="flex items-center gap-2"><span class="lbl w-32 shrink-0" style="color:#fbbf24">\u2605 GOAT Match</span><div class="bar flex-1"><i style="width:'+it.gm+'%;background:linear-gradient(90deg,#b45309,#fbbf24)"></i></div><span class="text-[10px] text-amber-300 w-6 text-right tabular-nums">'+it.gm+'</span></div>'+'<div class="flex items-center gap-2"><span class="lbl w-32 shrink-0" style="color:#c084fc">\u25c9 Cosmic Horror</span><div class="bar flex-1"><i style="width:'+it.ch+'%;background:linear-gradient(90deg,#7e22ce,#c084fc)"></i></div><span class="text-[10px] w-6 text-right tabular-nums" style="color:#c084fc">'+it.ch+'</span></div>'+'<div class="idxGrid">'+[['Soundtrack',it.snd,'#7dd3fc'],['4K Reference',it.ref,'#818cf8'],['Emotional',it.emo,'#f0abfc'],['Awe / Spectacle',it.awe,'#fbbf24'],['Comfort',it.cozy,'#34d399'],['Performances',it.perf,'#fda4af'],['Iconicness',it.icon,'#fcd34d'],['Scariest',it.scary,'#f87171'],['Realism',it.real,'#86efac'],['Reality-Altering',it.reality,'#c4b5fd'],['Genuine Shock',it.shock,'#fb923c'],['Scientific',it.sci,'#67e8f9'],['Funniest',it.funny,'#fde047'],['Historically Accurate',it.hist,'#a3e635'],['Vibe / Atmosphere',it.vibe2,'#e879f9']].map(r=>'<div class="flex flex-col gap-0.5"><div class="flex items-baseline justify-between gap-2"><span class="lbl leading-tight" style="color:'+r[2]+'">'+r[0]+'</span><span class="text-[10px] tabular-nums shrink-0" style="color:'+r[2]+'">'+r[1]+'</span></div><div class="bar"><i style="width:'+r[1]+'%;background:'+r[2]+'"></i></div></div>').join('')+'</div>'+'</div>'
  +gmBreakdownHTML(it)
  +'<p class="text-[11px] text-slate-300 mt-2.5 italic">&ldquo;'+esc(it.just)+'&rdquo;</p>'
- +'<div class="flex flex-wrap gap-1.5 mt-2.5">'+it.genres.map(g=>'<span class="chip">'+esc(g)+'</span>').join('')+'<span class="chip" style="color:#c4b5fd">'+esc(it.vibe)+'</span><span class="chip">'+esc(it.format)+'</span>'+it.plats.map(p=>'<span class="chip" style="color:#7dd3fc">'+esc(p)+'</span>').join('')+'</div>'
+ +'<div class="flex flex-wrap gap-1.5 mt-2.5">'+it.genres.map(g=>{const boosted=(PERSONAL_PROFILE.genreBoost||[]).some(gb=>gb[0]===g.toLowerCase());return '<button type="button" class="profEditBtn chip" data-act="genre" data-genre="'+esc(g)+'" title="Toggle a taste-weight boost for the “'+esc(g)+'” genre across your whole match scoring"'+(boosted?' style="color:#fbbf24;border-color:#fbbf2455"':'')+'>'+(boosted?'★ ':'')+esc(g)+'</button>';}).join('')+(function(){const vboosted=!!(PERSONAL_PROFILE.vibeBoost||{})[it.vibe];return '<button type="button" class="profEditBtn chip" data-act="vibe" data-vibe="'+esc(it.vibe)+'" title="Toggle a taste-weight boost for the “'+esc(it.vibe)+'” vibe across your whole match scoring"'+(vboosted?' style="color:#fbbf24;border-color:#fbbf2455"':' style="color:#c4b5fd"')+'>'+(vboosted?'★ ':'')+esc(it.vibe)+'</button>';})()+'<span class="chip">'+esc(it.format)+'</span>'+it.plats.map(p=>'<span class="chip" style="color:#7dd3fc">'+esc(p)+'</span>').join('')+'</div>'
  +crossMediumPairingsHTML(it)
  +'<div class="flex flex-wrap gap-1.5 mt-2.5 pt-2.5 border-t border-slate-800/70">'
  +'<button type="button" class="profEditBtn presetBtn" data-act="declare" data-id="'+it.id+'" title="Toggle whether this counts as one of your declared all-time favorites (pins it to a 100 match and drives recommendations)"'+(it.goat?' style="color:#fbbf24;border-color:#fbbf2455"':'')+'>'+(it.goat?'★ Declared — click to remove':'☆ Declare favorite')+'</button>'
  +'<button type="button" class="profEditBtn presetBtn" data-act="own" data-id="'+it.id+'" data-kind="'+it.kind+'" title="Toggle whether this is in your owned collection"'+(it.owned?' style="color:#4ade80;border-color:#4ade8055"':'')+'>'+(it.owned?'✓ Owned — click to remove':'+ Mark owned')+'</button>'
  +(it.creator?'<button type="button" class="profEditBtn presetBtn" data-act="boost" data-creator="'+esc(it.creator)+'" data-kind="'+it.kind+'" title="Nudge '+esc(it.creator)+'’s work up across your whole match scoring, not just this item">+ Boost '+esc(it.creator)+'</button>':'')
+ +'<button type="button" class="profEditBtn presetBtn" data-act="silver" data-id="'+it.id+'" title="Silver tier: a second-tier favorite, less pull than a full Declare but still lifts the score meaningfully"'+(it.silver?' style="color:#cbd5e1;border-color:#64748b"':'')+'>'+(it.silver?'☆ Silver — click to remove':'☆ Silver tier')+'</button>'
+ +(it.kind==='book'?'<button type="button" class="profEditBtn presetBtn" data-act="bookaffinity" data-id="'+it.id+'" title="Raise this book’s match-score floor directly, independent of genre/author boosts">'+((PERSONAL_PROFILE.bookAffinity||{})[it.id]?'+ Raise affinity ('+PERSONAL_PROFILE.bookAffinity[it.id]+')':'+ Boost affinity')+'</button>':'')
  +'</div>'
  +'</div>'+'</div>';}
 function renderController(list){
@@ -4523,11 +4525,43 @@ function boostCreator(name,kind){
   if(existing)existing[1]=Math.min(20,existing[1]+3);else p[key].push([name,8]);
  });
 }
+function toggleGenreBoost(genre){
+ mutateProfileAndReload(p=>{
+  p.genreBoost=p.genreBoost||[];
+  const key=genre.toLowerCase();
+  const i=p.genreBoost.findIndex(g=>g[0]===key);
+  if(i>=0)p.genreBoost.splice(i,1);else p.genreBoost.push([key,5]);
+ });
+}
+function toggleVibeBoost(vibe){
+ mutateProfileAndReload(p=>{
+  p.vibeBoost=p.vibeBoost||{};
+  if(p.vibeBoost[vibe])delete p.vibeBoost[vibe];else p.vibeBoost[vibe]=5;
+ });
+}
+function toggleSilverTier(id){
+ mutateProfileAndReload(p=>{
+  p.silverTierIds=p.silverTierIds||[];
+  const i=p.silverTierIds.indexOf(id);
+  if(i>=0)p.silverTierIds.splice(i,1);else p.silverTierIds.push(id);
+ });
+}
+function boostBookAffinity(id){
+ mutateProfileAndReload(p=>{
+  p.bookAffinity=p.bookAffinity||{};
+  const cur=p.bookAffinity[id]||0;
+  p.bookAffinity[id]=Math.min(99,cur?cur+5:75);
+ });
+}
 function handleProfileEditClick(btn){
  const act=btn.dataset.act;
  if(act==='declare')toggleDeclaredFavorite(btn.dataset.id);
  else if(act==='own')toggleOwned(btn.dataset.id,btn.dataset.kind);
  else if(act==='boost')boostCreator(btn.dataset.creator,btn.dataset.kind);
+ else if(act==='genre')toggleGenreBoost(btn.dataset.genre);
+ else if(act==='vibe')toggleVibeBoost(btn.dataset.vibe);
+ else if(act==='silver')toggleSilverTier(btn.dataset.id);
+ else if(act==='bookaffinity')boostBookAffinity(btn.dataset.id);
 }
 
 /* ===== First-run onboarding gate (Phase 3 of the sharing roadmap) =====
