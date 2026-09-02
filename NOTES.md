@@ -267,6 +267,26 @@ Full regression: 52 checks (26 × 2 files) pass, including the corpus validator,
 
 ---
 
+## Phase 10 — Composers/Cinematographers linked; a real data-quality verification campaign
+
+**Composers and Cinematographers reached parity with Actors.** Same treatment as Phase 9 gave Actors: checked which real corpus films each of the 10 Composers and 10 Cinematographers picks is actually credited on, added them to `works`. Both categories now 10/10 linked (up from 7/10 and 9/10), several now averaging 2-5 real films instead of one (John Williams: Jaws, E.T., Schindler's List, Jurassic Park, Close Encounters). Actors deliberately left as-is per explicit direction — Phase 9's treatment was judged sufficient, and further expansion there would mean inventing cast data the corpus doesn't have, a different and larger kind of work.
+
+**A real, ongoing data-quality verification campaign**, in response to explicit direction to prioritize accuracy of what's already in the corpus over expanding it further. Methodology, in two steps:
+
+1. **Programmatic structural audit** (no browser, no web search) — checked all 2,508 entries for missing/empty fields, out-of-bounds scores, duplicate or suspiciously short justification text, and score-pair repetition. Found zero real structural bugs; the only flagged items (67 books dated before 1850) are correctly-dated ancient/classical texts (The Odyssey, Meditations, Tao Te Ching), not errors — a useful reminder that an automated check needs a human read before its output means anything.
+
+2. **Prioritized real-world spot-checks** — full re-verification of ~2,500 scores against real sources isn't achievable in any single pass (confirmed, not just assumed: at the pace of one web search per title, it would take many hundreds of searches). Instead, sampled across corpus ranges and media types in small batches, checked each against Rotten Tomatoes / Metacritic / Goodreads / Steam / IMDb as appropriate, corrected what was actually wrong, left alone what held up.
+
+**Results across six batches, ~46 entries checked, 11 real corrections applied** (Titanic, Days of Being Wild, CODA, Noita, Marriage Story, Kingdom, Rififi, Hell or High Water, Ringu, Casablanca, Shōgun). A ~24% overall correction rate, concentrated almost entirely in less-famous or older titles — the most-visible, most-iconic entries (the ones "Best Overall" sorts actually surface) checked out accurate essentially every time, which makes sense: those are near-universal-consensus works where any reasonable estimate lands close.
+
+Two findings worth keeping in mind for future passes:
+- **Corrections weren't confined to this session's own additions.** Rififi and Casablanca are both from the pre-session original ledger (`PROV_CEIL`-flagged "verified"), not Phase 7-9 additions. The provenance flag correctly describes *where a score came from*, but "from the original ledger" isn't the same guarantee as "checked against a real source" — worth not conflating the two.
+- **Not every "real" number is the right number to use.** Diablo IV's Metacritic user score (2.7/10) is a well-documented review-bombing artifact from a launch monetization controversy — using it verbatim would have been a worse "correction" than leaving the estimate alone. Steam's more representative 74% positive matched the existing estimate well. When sources disagree sharply, that's a signal to look for *why*, not to average blindly.
+
+This is explicitly an ongoing process, not a finished one — 46 of ~2,500 entries is a real but small fraction. The methodology (sample script + WebSearch spot-check + commit-per-batch) is proven and repeatable; continuing it in further batches is pure schedule, not a design question.
+
+---
+
 ## Ideas / next steps
 
 Roughly in order of value:

@@ -2832,8 +2832,13 @@ function handleProfileEditClick(btn){
    hand-a-file app, not a hosted one), so this is deliberately just a "here's what changed"
    readout, not a live version check against anything. Bump APP_VERSION and add a CHANGELOG entry
    whenever a change is worth a friend knowing about; cosmetic tweaks don't need a bump. */
-const APP_VERSION='1.7.0';
+const APP_VERSION='1.8.0';
 const CHANGELOG=[
+ {v:'1.8.0',date:'2026-09-02',notes:[
+  'Composers and Cinematographers recommendations now 10/10 corpus-linked, matching Actors -- most averaging 2-5 real films each instead of just one',
+  'A real data-quality verification campaign: 46 entries spot-checked against Rotten Tomatoes/Metacritic/Goodreads/Steam across six passes, 11 corrections applied (Titanic, Days of Being Wild, CODA, Noita, Marriage Story, Kingdom, Rififi, Hell or High Water, Ringu, Casablanca, Shōgun) -- corrections weren’t limited to this session’s own additions, some were in the original pre-session ledger too',
+  'A programmatic structural audit of all 2,508 entries found zero real data bugs -- no missing fields, no broken scores, no duplicate content'
+ ]},
  {v:'1.7.0',date:'2026-09-02',notes:[
   'Movies to exactly 1,000 (added Do the Right Thing, replacing a cross-batch duplicate gap)',
   'Contenders Ledger refresh pass: 13 more entries spot-checked against live sources (20/50 total, up from 7/50) -- 5 newly-released games (Saros, Resident Evil Requiem, Crimson Desert, Nioh 3, Forza Horizon 6) reconciled into the scored corpus with real Metacritic data, House of the Dragon and Fallout updated to reflect aired seasons, The Penguin Season 2’s actual not-renewed status corrected',
