@@ -59,7 +59,7 @@ That choice is saved in their browser only; it never touches this file or this r
 ### Requirements
 
 - Any modern browser (Chrome, Edge, Firefox, Safari, mobile included).
-- **An internet connection on first load** — see below.
+- No internet connection needed — everything works fully offline except the three Chart.js canvases in the Visualization Suite, which need a network connection and otherwise show a clear fallback message. See below.
 
 ---
 
@@ -73,14 +73,15 @@ If you ever add an external API later, do **not** hardcode the key in `index.htm
 
 ## External dependencies (CDNs)
 
-Two, both loaded from public CDNs at page load:
+One, loaded from a public CDN at page load — Tailwind CSS is no longer one of them (see below):
 
 | Dependency | URL | Used for | If it fails to load |
 | --- | --- | --- | --- |
-| **Tailwind CSS** (Play CDN) | `https://cdn.tailwindcss.com` | All styling and layout | **The page renders unstyled.** This is the one hard dependency. |
 | **Chart.js 4.4.1** | `https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js` | The three canvas charts in the Visualization Suite | Degrades gracefully: the app retries for ~2s, then shows a clear message on the three charts. Every other tab, including the SVG relationship graph, keeps working. |
 
-**Practical implication:** the file is "offline-first" for its *data*, but not fully offline for its *appearance*. With no network, the content and logic still work but the layout will look broken until Tailwind loads. See `NOTES.md` for how to make it truly offline.
+**Tailwind CSS is compiled and committed inside `index.html`** — no CDN, no runtime compile step. Regenerating it (only needed if utility classes are added or removed) is documented in a comment right above the compiled `<style>` block, and in `NOTES.md`.
+
+**Practical implication:** the file is genuinely offline-first now, for both data and appearance. With no network at all, everything works and looks correct except the three Chart.js canvases, which show a clear fallback message instead.
 
 ---
 

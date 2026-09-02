@@ -61,7 +61,7 @@ Everything currently in the app is functional. Verified by an automated suite of
 
 1. **Visual verification is untested.** The test suite runs in jsdom, which simulates the DOM but **does not lay out or render pixels**. Logic and structure are well covered; anything visual — spacing, overlap, theme appearance, emoji rendering — is reasoned about but not machine-verified. Historically this gap has mattered: a text-overlap bug and a modal that wouldn't close both passed automated tests while failing on a real phone. **Spot-check visual changes yourself on desktop and mobile.**
 
-2. **Tailwind CDN is a single point of failure.** If `cdn.tailwindcss.com` is unreachable, the app renders unstyled. Chart.js failing is handled gracefully; Tailwind failing is not. The Play CDN also compiles CSS in the browser on every load, which is explicitly not intended for production.
+2. ~~**Tailwind CDN is a single point of failure.**~~ Fixed — see "Made genuinely offline" below. Tailwind is now a compiled stylesheet committed to `index.html`, not a runtime CDN dependency. Chart.js's CDN is still a soft dependency, but it already degrades gracefully by design.
 
 3. **About half the data is curated estimate, not sourced measurement.** The app is honest about this per-card via a provenance flag: **658 verified / 642 estimated**. Scores like `atmosphericDreadIndex` and `ontologicalComplexity` are editorial judgements, not measured values. Recommendations are taste-aligned, not empirically grounded.
 
@@ -143,11 +143,26 @@ Verified in jsdom: default profile still puts *Dune: Part Two* on top of Movies 
 
 ---
 
+## Made genuinely offline: Tailwind compiled and committed
+
+Per the top item on the Ideas list below, the Tailwind Play CDN (`<script src="https://cdn.tailwindcss.com">`) is gone. In its place is a compiled, minified stylesheet (~22KB) inlined directly in `<head>`, generated with the actual Tailwind CLI:
+
+```
+npx tailwindcss -i input.css -o output.css --minify
+```
+against a config with `content:["index.html"]` and `theme.extend.colors` matching the old inline `tailwind.config` (`{obsidian:'#0B0F19', panel:'#0F1626', ink:'#1E293B'}`) — that exact recipe is left as a comment right above the compiled `<style>` block in `index.html` for whoever needs to regenerate it after adding new utility classes.
+
+**Why this matters:** the Play CDN compiles Tailwind *in the browser, on every load*, and if `cdn.tailwindcss.com` is unreachable the page rendered completely unstyled — the single hard dependency NOTES used to call out. Neither is true anymore: styling is baked into the file, so it renders identically with or without a network connection, and there's no more per-load compile cost.
+
+**Verification:** static-scanned every literal class token used across the HTML and inline JS against the compiled output — the only "missing" classes were JS-only marker classes with no CSS rule (`.wlDone`, `.cardTitle`, etc., queried by JS but never styled) and Tailwind's own zero-CSS marker classes (`group`), confirming full coverage. jsdom's CSS engine doesn't parse Tailwind's modern `rgb(r g b/a)` color syntax, so final visual verification used a real headless Chromium (already available in this environment) instead: screenshotted the first-run onboarding gate, the Global Controller card grid, and the GOAT Profile recommendations tab (including the new sample-data badges from Phase 4) — full styling, blur backdrops, gradients, and layout all render correctly, matching the Play CDN's appearance. Chart.js's separate CDN dependency is untouched — it already degrades gracefully per the existing design, and generalizing it wasn't in scope here.
+
+---
+
 ## Ideas / next steps
 
 Roughly in order of value:
 
-1. **Make it genuinely offline.** Replace the Tailwind Play CDN with a compiled stylesheet committed to the repo. Removes the single point of failure and the per-load compile cost. Biggest robustness win available.
+1. ~~**Make it genuinely offline.**~~ Done — see "Made genuinely offline: Tailwind compiled and committed" above.
 2. **A "tonight" picker.** Mood + time available → one specific pick that fits the runtime budget. Runtime is displayed everywhere but never acted upon. Low effort, high use.
 3. **Refresh the contenders ledger** on a schedule — windows drift, and two entries are already at the current date.
 4. **Cross-medium pairings.** The rabbit-hole engine already computes cross-medium links; surfacing them as deliberate "watch this, then read this" double-features fits the taste model well.
