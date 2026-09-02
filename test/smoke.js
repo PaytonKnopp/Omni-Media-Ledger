@@ -5,8 +5,8 @@
  * Requires a Chromium binary. Point it at one with PLAYWRIGHT_CHROMIUM_PATH,
  * or run `npx playwright install chromium` once and it'll be found automatically.
  *
- * Usage: node test/smoke.js            (tests index.html and share.html)
- *        node test/smoke.js index.html (tests just one file)
+ * Usage: node test/smoke.js            (tests index.html)
+ *        node test/smoke.js index.html (same, named explicitly)
  */
 const fs = require('fs');
 const path = require('path');
@@ -26,7 +26,7 @@ try {
 const ROOT = path.resolve(__dirname, '..');
 const TARGETS = process.argv.slice(2).length
   ? process.argv.slice(2)
-  : ['index.html', 'share.html'];
+  : ['index.html'];
 
 let failures = 0;
 function check(label, cond) {
@@ -377,6 +377,14 @@ async function runAccountFlow(browser, file) {
     await page2.waitForTimeout(500);
     const onboardVisible2 = await page2.evaluate(() => !document.getElementById('onboardGate').classList.contains('hidden'));
     check('same handle on a second device hydrates from the cloud and skips onboarding again', !onboardVisible2);
+
+    // The account menu (top-right dropdown) opens and shows the signed-in state.
+    await page2.click('#acctMenuField');
+    await page2.waitForTimeout(200);
+    const acctMenuVisible = await page2.evaluate(() => document.getElementById('acctMenuPop').offsetHeight > 0);
+    check('account menu dropdown opens on click', acctMenuVisible);
+    const acctStatusText = await page2.textContent('#acctMenuStatus');
+    check('account menu shows the signed-in handle', acctStatusText.includes('smoketestuser'));
 
     // Switch account clears the remembered handle and shows the gate again.
     await page2.click('#acctSwitchBtn');

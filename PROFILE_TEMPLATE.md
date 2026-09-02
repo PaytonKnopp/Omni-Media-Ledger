@@ -78,7 +78,7 @@ checking for a `profile` key, so both work without any conversion.
 
 1. Copy the JSON above, edit it with real titles/creators/genres you care about.
 2. Save it as a `.json` file.
-3. Open `share.html`, click **Import** in the header, pick your file.
+3. Open `index.html` (your own account if cloud accounts are set up, or any fresh browser otherwise), click **Import** in the header, pick your file.
 4. The page reloads with your profile applied. Use **Export** any time to get the
    current state back out as a file — handy for moving between browsers/devices, or
    for backing up before you experiment further.

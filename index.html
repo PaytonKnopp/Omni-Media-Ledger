@@ -223,7 +223,7 @@ body[data-theme="outer-wilds"]{--bg:#0e0a09;--panel:#181010;--panel-2:#120c0b;--
       <div>
         <div class="text-[10px] tracking-[.35em] text-indigo-300/80 uppercase mb-1">Version</div>
         <h2 class="text-lg font-bold text-slate-50">What's changed</h2>
-        <p class="text-[12px] text-slate-500 mt-1">If a friend's copy shows an older number than yours, hand them your <code>index.html</code>/<code>share.html</code> file (or a fresh Export) to catch them up — see <code>scripts/make-share-copy.js</code> in the repo.</p>
+        <p class="text-[12px] text-slate-500 mt-1">If a friend's copy shows an older number than yours, send them the current <code>index.html</code> link — their own account (or a fresh Export) picks up right where they left off.</p>
       </div>
       <button type="button" id="versionClose" class="text-slate-500 hover:text-slate-300 text-lg leading-none">✕</button>
     </div>
@@ -284,9 +284,15 @@ body[data-theme="outer-wilds"]{--bg:#0e0a09;--panel:#181010;--panel-2:#120c0b;--
         
         <div class="flex flex-col items-end gap-1">
           <label class="text-[9px] tracking-[.14em] uppercase" style="color:var(--text-faint)">◉ Account</label>
-          <div class="flex items-center gap-1.5">
-            <span id="acctBadge" class="text-[11px] text-slate-400"></span>
-            <button type="button" id="acctSwitchBtn" class="text-[11px] px-2 py-1 rounded-lg border border-slate-700 text-slate-300 hover:border-violet-500 hover:text-violet-300 transition-colors" title="Sign out and pick a different account">Switch</button>
+          <div class="radarCombo" id="acctMenu">
+            <div class="rcField" id="acctMenuField" tabindex="0" role="button" aria-haspopup="menu" style="min-height:32px;padding:6px 10px">
+              <span class="rcLabel" id="acctBadge" style="font-size:11px">Local only</span>
+              <span class="rcCaret">▾</span>
+            </div>
+            <div class="rcPop hidden" id="acctMenuPop" style="left:auto;right:0;min-width:220px;max-height:none">
+              <div id="acctMenuStatus" class="text-[11px] text-slate-400 px-2 py-1.5 border-b border-slate-800 mb-1"></div>
+              <button type="button" id="acctSwitchBtn" class="rcOpt" style="width:100%;text-align:left;background:none;border:none;font:inherit;cursor:pointer" title="Sign out and pick a different account by name">Switch account…</button>
+            </div>
           </div>
         </div>
         <div class="flex flex-col items-end gap-1">
@@ -787,10 +793,33 @@ var FIREBASE_CONFIG={apiKey:"PASTE_YOUR_FIREBASE_API_KEY_HERE",authDomain:"PASTE
   renderAcctBadge();
  }
  function renderAcctBadge(){
-  var badge=$('#acctBadge');if(!badge)return;
-  if(!CONFIGURED){badge.textContent='Local only (no cloud configured)';return;}
-  badge.textContent=handle?('Signed in as '+handle):'Not signed in';
+  var badge=$('#acctBadge'),status=$('#acctMenuStatus');if(!badge)return;
+  if(!CONFIGURED){
+   badge.textContent='Local only';
+   if(status)status.textContent='Cloud accounts aren’t set up yet — this device only.';
+  }else if(handle){
+   badge.textContent=handle;
+   if(status)status.textContent='Signed in as '+handle+'. Synced to the cloud.';
+  }else{
+   badge.textContent='Guest';
+   if(status)status.textContent='Continuing without an account — this device only.';
+  }
  }
+ function initAcctMenu(){
+  var menu=$('#acctMenu'),field=$('#acctMenuField'),pop=$('#acctMenuPop');
+  if(!menu||!field||!pop)return;
+  field.addEventListener('click',function(e){
+   e.stopPropagation();
+   var isOpen=menu.classList.contains('open');
+   if(typeof closeAllCombos==='function')closeAllCombos(isOpen?null:menu);
+   if(isOpen){menu.classList.remove('open');pop.classList.add('hidden');}
+   else{menu.classList.add('open');pop.classList.remove('hidden');}
+  });
+  field.addEventListener('keydown',function(e){
+   if(e.key==='Enter'||e.key===' '){e.preventDefault();field.click();}
+  });
+ }
+ initAcctMenu();
  function withTimeout(promise,ms){
   return Promise.race([promise,new Promise(function(_,rej){setTimeout(function(){rej(new Error('timeout'));},ms);})]);
  }
@@ -2800,7 +2829,7 @@ function closeAllCombos(except){$$('.radarCombo').forEach(function(c){if(c!==exc
 // open() already ran, and without this guard the close-on-scroll handler further down would close
 // the combo immediately after it opens. Ignore scroll events in the brief window right after opening.
 var lastComboOpenAt=0;
-$$('.radarCombo:not(#platCombo)').forEach(function(combo){
+$$('.radarCombo:not(#platCombo):not(#acctMenu)').forEach(function(combo){
  var field=combo.querySelector('.rcField'),pop=combo.querySelector('.rcPop'),search=combo.querySelector('.rcSearch');
  function open(){closeAllCombos(combo);combo.classList.add('open');pop.classList.remove('hidden');lastComboOpenAt=Date.now();renderRadarList(combo,'');search.value='';setTimeout(function(){search.focus();},30);}
  function close(){combo.classList.remove('open');pop.classList.add('hidden');}
@@ -3020,13 +3049,17 @@ function handleProfileEditClick(btn){
    leaves the already-computed defaults in place; "blank" and "import" write to omniLedgerProfile
    and reload so the whole app recomputes from the fresh profile, same as Reset/Import already do. */
 /* ===== Version / changelog marker =====
-   Lets a friend running an older copy of index.html/share.html tell they're behind just by
-   comparing the number in the header -- there's no auto-update mechanism (this is still a
-   hand-a-file app, not a hosted one), so this is deliberately just a "here's what changed"
-   readout, not a live version check against anything. Bump APP_VERSION and add a CHANGELOG entry
-   whenever a change is worth a friend knowing about; cosmetic tweaks don't need a bump. */
-const APP_VERSION='1.9.1';
+   Lets a friend running an older copy of index.html tell they're behind just by comparing the
+   number in the header -- there's no auto-update mechanism, so this is deliberately just a
+   "here's what changed" readout, not a live version check against anything. Bump APP_VERSION and
+   add a CHANGELOG entry whenever a change is worth a friend knowing about; cosmetic tweaks don't
+   need a bump. */
+const APP_VERSION='1.10.0';
 const CHANGELOG=[
+ {v:'1.10.0',date:'2026-09-02',notes:[
+  'Account menu: the header\'s Account control is now a proper dropdown (click your name, top right) showing which account you\'re in and a "Switch account…" action, instead of a plain always-visible Switch button',
+  'Retired share.html and scripts/make-share-copy.js -- now that cloud accounts (1.9.0) give everyone their own name-based account with zero bias from anyone else\'s data, one link (index.html) works for everybody. The onboarding gate\'s "sample profile" option (Payton\'s own taste, clearly labeled) is still there for anyone who wants to look around before building their own'
+ ]},
  {v:'1.9.1',date:'2026-09-02',notes:[
   'Real fix for the combo dropdowns (platform/network/studio filter, Structural Fingerprint Radar search boxes) not closing: a CSS specificity conflict meant the "hidden" class was being toggled correctly by JS the whole time but never actually took visual effect, since this file\'s own .rcPop{display:flex} rule came after Tailwind\'s compiled .hidden{display:none} in the document and won the cascade at equal specificity. The 1.9.0 "closes on scroll" change was real but, like every other close path (selecting an option, clicking outside, Escape), was silently not working visually -- confirmed against a screen recording of the bug',
   'Fixed a second bug found while fixing the first: scrolling inside a combo\'s own option list (to reach an item below the fold) was closing the whole combo instead of scrolling the list, and a combo could fail to reopen right after being closed by a browser auto-scroll (e.g. tabbing to a field near the viewport edge) racing with the close-on-scroll handler'

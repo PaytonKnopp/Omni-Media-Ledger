@@ -75,10 +75,10 @@ for (const sec of SECTIONS) {
 }
 console.log('  total records: ' + total);
 
-// Both HTML files must reference the same shared data files, and neither should carry
-// its own inline copy of the corpus arrays anymore (that duplication is the whole point
-// of the split -- see NOTES.md "Split the dataset out of index.html").
-for (const htmlFile of ['index.html', 'share.html']) {
+// index.html must reference the shared data files, and shouldn't carry its own inline
+// copy of the corpus arrays anymore (that duplication is the whole point of the split --
+// see NOTES.md "Split the dataset out of index.html").
+for (const htmlFile of ['index.html']) {
   const html = fs.readFileSync(path.join(ROOT, htmlFile), 'utf8');
   const hasScriptTags = SECTIONS.every(s => html.includes('<script src="' + s.file + '">'));
   check(htmlFile + ' references all 4 data/*.js files via <script src>', hasScriptTags);
