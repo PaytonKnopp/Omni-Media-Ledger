@@ -177,6 +177,14 @@ against a config with `content:["index.html"]` and `theme.extend.colors` matchin
 
 ---
 
+## Bug fix (v1.3.1): platform/network/studio dropdown stuck open
+
+User-reported: the platform/network/studio combobox in Global Controller could get stuck open and not close on click. Root cause was structural, not a typo: it ran its own separate `initPlatCombo()` implementation with its own `document.addEventListener('click', ...)` "close if clicked outside" listener, deliberately excluded from the shared `closeRadarCombos()`/outside-click system the other searchable comboboxes (radar slot pickers) use (`.radarCombo:not(#platCombo)` appeared twice). Two independent hand-rolled open/close systems for visually-identical components, with different exclusion logic, is exactly the shape of bug that's easy to half-trigger intermittently and hard to pin down from one report — confirmed the toggle logic itself worked in dozens of scripted click sequences (including cross-browser-quirk-shaped ones), but the design was fragile regardless of whether that exact repro was ever isolated.
+
+Fixed by removing the duplicate system entirely: renamed `closeRadarCombos` to `closeAllCombos` and dropped the `:not(#platCombo)` exclusion so it's the single close-registry for every dropdown; `initPlatCombo`'s own outside-click listener is gone, and its `open()` now calls the shared `closeAllCombos()` too (a real secondary bug this exposed: opening the platform combo never closed an already-open radar combo, so both could stay open at once). Added `e.stopPropagation()` on every field click so opening/closing can't be double-processed by the same click bubbling to the document listener, and a document-level Escape-key handler as a guaranteed close path independent of click behavior entirely. Verified: open/close via field click, Escape, and outside-click all work for both combo types; opening one now reliably closes any other that was open.
+
+---
+
 ## Phase 5 — working through the enhancement backlog
 
 A single pass through everything the "keep going" idea list had accumulated. All of it lives in `index.html`; `share.html` was regenerated afterward and picked up every change automatically (none of it is personal data, so `scripts/make-share-copy.js` needed no changes).

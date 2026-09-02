@@ -3830,19 +3830,23 @@ on('#presetRow','click',e=>{const b=e.target.closest('[data-preset]');if(!b)retu
  const p=PRESETS[b.dataset.preset];state.w={tech:p.tech,dread:p.dread,myst:p.myst};
  $('#wTech').value=Math.round(p.tech*100);$('#wDread').value=Math.round(p.dread*100);$('#wMyst').value=Math.round(p.myst*100);
  syncBlendPanel();refresh();});
-// Radar searchable comboboxes
-function closeRadarCombos(except){$$('.radarCombo:not(#platCombo)').forEach(function(c){if(c!==except){c.classList.remove('open');var pop=c.querySelector('.rcPop');if(pop)pop.classList.add('hidden');}});}
+// Radar searchable comboboxes (this now also governs #platCombo -- it used to be excluded here and
+// run its own separate, differently-scoped "click outside" listener below, which is exactly the
+// kind of two-systems-doing-the-same-job setup that produces "sometimes won't close" bugs. One
+// registry (closeAllCombos), one outside-click listener, one Escape-key fallback, for every combo.
+function closeAllCombos(except){$$('.radarCombo').forEach(function(c){if(c!==except){c.classList.remove('open');var pop=c.querySelector('.rcPop');if(pop)pop.classList.add('hidden');}});}
 $$('.radarCombo:not(#platCombo)').forEach(function(combo){
  var field=combo.querySelector('.rcField'),pop=combo.querySelector('.rcPop'),search=combo.querySelector('.rcSearch');
- function open(){closeRadarCombos(combo);combo.classList.add('open');pop.classList.remove('hidden');renderRadarList(combo,'');search.value='';setTimeout(function(){search.focus();},30);}
+ function open(){closeAllCombos(combo);combo.classList.add('open');pop.classList.remove('hidden');renderRadarList(combo,'');search.value='';setTimeout(function(){search.focus();},30);}
  function close(){combo.classList.remove('open');pop.classList.add('hidden');}
- field.addEventListener('click',function(){combo.classList.contains('open')?close():open();});
+ field.addEventListener('click',function(e){e.stopPropagation();combo.classList.contains('open')?close():open();});
  field.addEventListener('keydown',function(e){if(e.key==='Enter'||e.key===' '){e.preventDefault();open();}});
  search.addEventListener('input',function(){renderRadarList(combo,this.value);});
  search.addEventListener('keydown',function(e){if(e.key==='Escape'){close();field.focus();}else if(e.key==='Enter'){var first=combo.querySelector('.rcOpt');if(first){setRadarSlot(combo.dataset.slot,first.dataset.v);close();}}});
  combo.querySelector('.rcList').addEventListener('click',function(e){var opt=e.target.closest('.rcOpt');if(!opt)return;setRadarSlot(combo.dataset.slot,opt.dataset.v);close();});
 });
-document.addEventListener('click',function(e){if(!e.target.closest('.radarCombo'))closeRadarCombos(null);});
+document.addEventListener('click',function(e){if(!e.target.closest('.radarCombo'))closeAllCombos(null);});
+document.addEventListener('keydown',function(e){if(e.key==='Escape')closeAllCombos(null);});
 // Bubble field medium filter
 document.addEventListener('click',function(e){var b=e.target.closest&&e.target.closest('.bubbleMedBtn');if(!b)return;bubbleMed=b.dataset.bm;$$('.bubbleMedBtn').forEach(function(x){x.classList.toggle('on',x===b);});if(typeof renderBubble==='function')renderBubble();});
 // Relationship graph: node + chip clicks
@@ -3983,8 +3987,11 @@ function handleProfileEditClick(btn){
    hand-a-file app, not a hosted one), so this is deliberately just a "here's what changed"
    readout, not a live version check against anything. Bump APP_VERSION and add a CHANGELOG entry
    whenever a change is worth a friend knowing about; cosmetic tweaks don't need a bump. */
-const APP_VERSION='1.3.0';
+const APP_VERSION='1.3.1';
 const CHANGELOG=[
+ {v:'1.3.1',date:'2026-09-02',notes:[
+  'Fixed: the platform/network/studio dropdown could get stuck open and not close on click. It ran its own separate "click outside to close" listener instead of sharing the one all other dropdowns use, which was fragile by construction. Unified onto one shared listener, and added Escape-to-close as a reliable fallback for every dropdown.'
+ ]},
  {v:'1.3.0',date:'2026-09-02',notes:[
   'Declare favorites and mark items owned right from any card -- no more hand-editing profile JSON for the basics',
   'First-run "quick-rate a few titles" option seeds real recommendations in under a minute',
@@ -4228,14 +4235,15 @@ buildPlatSelect();
 (function initPlatCombo(){
  var combo=$('#platCombo');if(!combo)return;
  var field=combo.querySelector('.rcField'),pop=combo.querySelector('.rcPop'),search=combo.querySelector('.rcSearch');
- function open(){combo.classList.add('open');pop.classList.remove('hidden');renderPlatList('');search.value='';setTimeout(function(){search.focus();},30);}
+ function open(){closeAllCombos(combo);combo.classList.add('open');pop.classList.remove('hidden');renderPlatList('');search.value='';setTimeout(function(){search.focus();},30);}
  function close(){combo.classList.remove('open');pop.classList.add('hidden');}
- field.addEventListener('click',function(){combo.classList.contains('open')?close():open();});
+ field.addEventListener('click',function(e){e.stopPropagation();combo.classList.contains('open')?close():open();});
  field.addEventListener('keydown',function(e){if(e.key==='Enter'||e.key===' '){e.preventDefault();open();}});
  search.addEventListener('input',function(){renderPlatList(this.value);});
  search.addEventListener('keydown',function(e){if(e.key==='Escape'){close();field.focus();}else if(e.key==='Enter'){var f=combo.querySelector('.rcOpt');if(f){setPlat(f.dataset.v);close();}}});
  combo.querySelector('.rcList').addEventListener('click',function(e){var opt=e.target.closest('.rcOpt');if(!opt)return;setPlat(opt.dataset.v);close();});
- document.addEventListener('click',function(e){if(!e.target.closest('#platCombo'))close();});
+ // Outside-click and Escape are handled once, for every .radarCombo including this one -- see the
+ // shared closeAllCombos listener registered earlier in the script. No separate listener needed here.
 })();
 $('#headStats').innerHTML=[['Indexed Works',ALL.length],['Master Creators',directorsPantheon.length+authorsPantheon.length+gamingAuteurs.length],['Contenders',contenders.length]]
  .map(s=>'<div><div class="text-lg font-extrabold text-slate-50 leading-none tabular-nums">'+s[1]+'</div><div class="lbl mt-1">'+s[0]+'</div></div>').join('');
