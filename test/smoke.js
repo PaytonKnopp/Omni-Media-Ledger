@@ -53,12 +53,22 @@ function findChromium() {
   return undefined; // let Playwright try its own default resolution
 }
 
+const DATA_FILES = ['data/movies.js', 'data/tv.js', 'data/games.js', 'data/books.js'];
+
 function syntaxCheck(file) {
   const html = fs.readFileSync(file, 'utf8');
   const m = html.match(/<script id="ledger-app">([\s\S]*?)<\/script>/);
   if (!m) return { ok: false, error: 'ledger-app script block not found' };
-  try { new Function(m[1]); return { ok: true }; }
-  catch (e) { return { ok: false, error: e.message }; }
+  try { new Function(m[1]); }
+  catch (e) { return { ok: false, error: 'ledger-app: ' + e.message }; }
+  for (const df of DATA_FILES) {
+    if (!html.includes('<script src="' + df + '">')) {
+      return { ok: false, error: 'missing <script src="' + df + '"> -- corpus split (see NOTES.md) requires all four' };
+    }
+    try { new Function(fs.readFileSync(path.join(ROOT, df), 'utf8')); }
+    catch (e) { return { ok: false, error: df + ': ' + e.message }; }
+  }
+  return { ok: true };
 }
 
 async function runFile(browser, file) {
@@ -76,6 +86,8 @@ async function runFile(browser, file) {
     const page = await browser.newPage({ viewport: { width: 1400, height: 1000 } });
     const pageErrors = [];
     page.on('pageerror', e => pageErrors.push(e.message));
+    const consoleAssertFailures = [];
+    page.on('console', m => { if (m.type() === 'assert') consoleAssertFailures.push(m.text()); });
     await page.goto(full);
     await page.waitForTimeout(600);
 
@@ -194,6 +206,14 @@ async function runFile(browser, file) {
 
     check('no uncaught page errors during desktop pass', pageErrors.length === 0);
     if (pageErrors.length) pageErrors.forEach(e => console.log('     ' + e));
+    check('no failing console.assert (dataset integrity check)', consoleAssertFailures.length === 0);
+    if (consoleAssertFailures.length) consoleAssertFailures.forEach(e => console.log('     ' + e));
+    const contCountText = await page.evaluate(() => {
+      const b = document.querySelector('#nav .navBtn[data-view="contenders"]');
+      if (b) b.click();
+      return document.getElementById('contCount').textContent;
+    });
+    check('contenders count reflects the live contenders array, not a stale default', /^\d+ contenders$/.test(contCountText));
     await page.close();
   }
 

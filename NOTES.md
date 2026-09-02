@@ -77,12 +77,7 @@ Everything currently in the app is functional. Verified by an automated suite of
 
 ## Non-obvious decisions
 
-**Kept as a single file.** The obvious refactor is splitting the 1,300-record dataset and the app logic into `/data` and `/assets`. Deliberately not done:
-- The single-file property is *used* — the file gets downloaded and opened directly on a phone, from Downloads, with no server.
-- Classic `<script src>` splits would work over `file://`, but ES modules would **not** (CORS blocks module loading from `file://`), which is a trap for later.
-- Splitting a verified-working 900 KB file carries real regression risk for an aesthetic gain.
-
-If it later becomes unwieldy to edit, split `data` (the four corpus arrays) into a separate classic script first, and leave the engine in `index.html`.
+**The corpus dataset was split out in Phase 8** (superseding this section's original "kept as a single file" decision, once editing a 1.5MB+ file per corpus edit actually became painful at 2,502 records). `data/movies.js`, `data/tv.js`, `data/games.js`, `data/books.js` each hold one `const <name>=[...]` array, loaded via plain classic `<script src>` tags — deliberately **not** `fetch()` and **not** ES modules, since both are blocked by CORS under `file://` (the exact trap this section originally warned about). Classic script tags aren't subject to that restriction, so the file-double-click-to-open workflow is unchanged; only the "it's literally one file" property is gone — the app is now a folder (`index.html`/`share.html` + `data/`), and the folder has to travel together. The engine, UI, `PERSONAL_PROFILE`, contenders ledger, and Creator Archives all stayed in `index.html`/`share.html` — only the four media-type arrays moved, since those were the actual editing pain point and the actual size (both HTML files dropped from ~1.58MB to ~330KB apiece once their private copy of the corpus was removed). A pleasant side effect: `index.html` and `share.html` now reference the *same* `data/*.js` files, so a corpus edit shows up in both immediately with no `make-share-copy.js` regeneration needed — only changes to the engine/UI/personal-defaults still require that step. `scripts/validate-corpus.js` (Phase 7) was updated to read the new file locations and also asserts both HTML files reference all four data files and carry no leftover inline copy, so this split can't silently regress.
 
 **No framework, no build.** Vanilla ES6 plus two CDNs. Keeps the artifact portable and permanent — it will still open in ten years.
 
@@ -239,26 +234,45 @@ Full details on each item, and the two CSS-bug root causes, are in the correspon
 
 ---
 
+## Phase 8 — corpus split out, Music Artists/YouTube scoring improved, Contenders staleness tracking
+
+**Corpus split into `data/`.** See "The corpus dataset was split out in Phase 8" under Non-obvious decisions above for the full writeup. Short version: `data/{movies,tv,games,books}.js`, loaded via classic `<script src>` (not `fetch`, not ES modules — both break under `file://`), referenced identically by both `index.html` and `share.html`. Both HTML files dropped from ~1.58MB to ~330KB. `scripts/validate-corpus.js` was updated to read the new locations and now also asserts neither HTML file has a leftover inline copy of the corpus, so a future edit can't accidentally reintroduce the duplication this phase removed.
+
+**Music Artists / YouTube scoring, improved as far as honestly possible.** These two Creator Archives categories have no equivalent corpus category to link to the way Phase 7 linked Actors/Composers/Cinematographers (confirmed by searching the corpus for biopics/documentaries about each of the 20 hand-picked people — none exist). Rather than claim they're "finished" when a real fix needs a corpus category this app doesn't have, `tagOverlapScore()` was extended to also blend in `vibeBoost` matches (previously genre-only), and all 20 entries got a `vibes` field alongside their existing `tags`. This is a genuine improvement — verified with a synthetic profile that heavily boosted "Midnight Ritual": Nick Cave and Leonard Cohen (the two tagged with it) correctly jumped to the top of Music Artists — but it's still fundamentally hand-curated ranking, not corpus-computed, and the UI label says so plainly ("◈ approximate — by genre + vibe overlap"). A real fix is still open idea #10 below.
+
+**Contenders Ledger: staleness made visible instead of invisible.** True scheduled automation isn't possible in a static file with no server or cron — so instead, every contender entry that's had a real spot-check against live sources gets a `"verified":"YYYY-MM-DD"` field, and the Contenders Ledger view now shows a per-card "◉ Spot-checked <date>" or "◯ Not yet spot-checked" line plus a header count ("◉ 7/50 spot-checked"). Currently 7 of 50 are verified: the 6 from Phase 5's spot-check (*Fable*, *Judas*, *Perfect Dark*, plus the 3 later reconciled into the corpus) and *Grand Theft Auto VI* (confirmed accurate in the same pass). This doesn't refresh anything by itself, but it makes the gap honest and trackable instead of silently pretending every entry is current — a real prerequisite for anyone (Payton or a future session) actually running the refresh below.
+
+**The refresh runbook**, for whenever someone (or a future Claude session) does a pass:
+1. Open Contenders Ledger, sort by "◯ Not yet spot-checked" (visually — there's no dedicated filter for it yet, see idea #17 below) and pick a batch.
+2. For each entry, web-search `"<title>" release date review score 2026` (or the current year) — confirm the `window` field is still accurate (delayed / shipped / cancelled) and, if it's shipped, get a real critic/audience score.
+3. Update `window`, `pedigree` (note what changed and why, don't just silently overwrite), and set `"verified"` to today's date.
+4. If it's shipped: this is also the trigger for reconciliation (see Phase 7) — add it to the real corpus (`data/movies.js` etc.) with sourced scores, and add a `"migratedTo"` field pointing at it, same pattern as the three done in Phase 7.
+5. Run `npm test` before committing — the corpus validator and smoke suite both check the ledger renders correctly either way.
+
+---
+
 ## Ideas / next steps
 
 Roughly in order of value:
 
 1. ~~**Make it genuinely offline.**~~ Done — see "Made genuinely offline: Tailwind compiled and committed" above.
 2. ~~**A "tonight" picker.**~~ Done — see Phase 5 above.
-3. **Refresh the contenders ledger on an actual schedule.** Phase 5 spot-checked ~6 of 83 entries against live web search; the other ~77 are unverified and will keep drifting. A periodic full pass (or triggering off release-date fields as they approach/pass) is the real fix.
+3. ~~**Refresh the contenders ledger on an actual schedule.**~~ Partly done — see Phase 8 above. There's still no true automation (impossible in a static file), but staleness is now visible (`verified` field, per-card badge, header count) and there's a documented runbook to follow. The actual refresh work itself — checking the other 43 unverified entries — is still open and always will be to some degree; this just makes it trackable instead of invisible.
 4. ~~**Cross-medium pairings.**~~ Done — see Phase 6 above.
-5. **Split the dataset out of `index.html`** if editing becomes painful — see the decision note above for how.
-6. **Raise data provenance.** Replace estimated scores with sourced ones where possible; the provenance flag already tracks which are which.
+5. ~~**Split the dataset out of `index.html`.**~~ Done — see Phase 8 above and the decision note above for the `file://`/CORS reasoning.
+6. **Raise data provenance.** Replace estimated scores with sourced ones where possible; the provenance flag already tracks which are which. Still open — the `PROV_CEIL` mechanism correctly flags anything past the original hand-scored ledger as "curated estimate," which is honest, but doesn't replace any of those estimates with real sourced figures.
 7. ~~**Export/import of `localStorage`.**~~ Done, fully — see Phase 5 above. Export/Import now bundle `omniLedgerWatchlist`, `omniLedgerTheme`, and `omniLedgerDensity` alongside the profile; a single exported file is a complete snapshot of a person.
 8. ~~**A real "blank first run" for a friend's copy.**~~ Done — see Phase 3 above. First load in any browser now asks (quick-rate / search & pick / sample / blank / import) via a blocking gate rather than silently inheriting Payton's defaults.
-9. ~~**Genericize `goatProfile.recs`.**~~ Done for Movies/Books/TV Series/Video Games (Phase 4) and for Directors (Phase 5, genuinely computed from corpus filmography). Actors/Composers/Cinematographers/Music Artists/YouTube are now genre-overlap approximated (Phase 5) rather than fixed samples — a real creator dataset (next item) would still raise their fidelity to Directors' level.
-10. **Finish the creator/composer/cinematographer/artist dataset.** Phase 7 linked 26 of 30 Actors/Composers/Cinematographers picks to real corpus works via `personCorpusScore()` (marked "◆ linked"), but Music Artists and YouTube still have no corpus category to link to at all. A real fix needs a structured per-person discography/filmography record — something in the shape of the existing 80-entry Creator Archives — not just spot-linking the picks that happen to name a well-known crossover credit.
+9. ~~**Genericize `goatProfile.recs`.**~~ Done for Movies/Books/TV Series/Video Games (Phase 4) and for Directors (Phase 5, genuinely computed from corpus filmography). Actors/Composers/Cinematographers are corpus-linked where possible (Phase 7); Music Artists/YouTube use genre+vibe overlap (Phase 5, refined Phase 8) since no corpus category exists to link them to.
+10. **Finish the creator/composer/cinematographer/artist dataset.** Phase 7 linked 26 of 30 Actors/Composers/Cinematographers picks to real corpus works via `personCorpusScore()` (marked "◆ linked"). Music Artists and YouTube (Phase 8) got a real scoring improvement (genre + vibe overlap instead of genre-only) but still can't be corpus-linked at all — the corpus has no music-album or video-essay category. A full fix needs either a new corpus category (a real scope increase — see the effort-vs-risk note in Phase 8) or a structured per-person discography/filmography record in the shape of the existing 80-entry Creator Archives.
 11. ~~**Bundle the watchlist/theme/density keys into Export/Import too.**~~ Done — see item 7 above.
 12. ~~**In-app profile editor: reach parity with the full `PERSONAL_PROFILE` schema.**~~ Done — see Phase 7 above. Every field except `cosmicHorrorCanon` is now click-editable.
-13. ~~**Reconcile released/cancelled contenders into the scored corpus.**~~ Done for the 3 that had released — see Phase 7 above. Still worth watching for the next contender that ships (nothing automates this yet; it's a manual pass triggered by noticing a "Released" window in the ledger).
+13. ~~**Reconcile released/cancelled contenders into the scored corpus.**~~ Done for the 3 that had released — see Phase 7 above. The Phase 8 refresh runbook (item 3 above) is now the documented trigger for doing this again the next time something ships.
 14. ~~**Committed test suite.**~~ Done — see Phase 6 above and Testing below.
-15. **Expand the corpus further.** Phase 7 took it from 1,300 to 2,502 works (999 movies, 250 TV, 253 games, 1,000 books). There's no natural ceiling here — more real, well-researched entries always raise recommendation quality, especially for niche genres/eras still thin in the corpus (see item 3, Contenders Ledger refresh, for the same "needs an ongoing cadence" shape).
+15. **Expand the corpus further.** Phase 7 took it from 1,300 to 2,502 works (999 movies, 250 TV, 253 games, 1,000 books). There's no natural ceiling here — more real, well-researched entries always raise recommendation quality, especially for niche genres/eras still thin in the corpus. Now cheaper to do incrementally since Phase 8 split the corpus into `data/*.js` — no more regenerating a 1.5MB `share.html` for a data-only change.
 16. ~~**Automate the duplicate/schema check Phase 7 did by hand.**~~ Done — `scripts/validate-corpus.js` (no browser needed) checks all four corpus arrays for duplicate IDs, duplicate titles (case-insensitive), and required fields; `npm test` runs it before the Playwright suite.
+17. **Add a "◯ Not yet spot-checked" filter to the Contenders Ledger.** Phase 8 added the per-card badge and header count (item 3 above) but no way to filter the grid down to just the unverified ones — right now you have to scan visually. A small toggle next to the medium filter would make the refresh runbook faster to actually run.
+18. **A real cast/crew schema** (actors per film, not just directors) — would unlock genuinely computed Actors scores from actual filmography instead of spot-linked well-known credits, and much richer Cross-Medium Pairings.
 
 ---
 
