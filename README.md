@@ -46,15 +46,28 @@ That's it. It also works from a USB stick, an email attachment, or a phone's Dow
 
 > **In Visual Studio:** use **File → Open → Folder**, *not* "Open Project/Solution". There is no startup project and no Run button for a static file — preview it by opening `index.html` in a browser.
 
-### Sharing this with someone
+### Two copies, one engine: `index.html` vs. `share.html`
 
-Send them `index.html` — email, a shared drive link, USB, however. There's no server and nothing to set up on their end. The first time they open it, a one-time prompt asks them to choose:
+This repo carries two files, both the full app, running the same reference corpus and the same scoring engine — they differ only in what's already filled in:
 
-- **Use the built-in sample profile** — Payton's own collection and taste, to see the app in action.
-- **Start blank** — no owned collection or favorites yet; the engine works, it just won't personalize until they add their own.
-- **Import a profile file** — if you've exported yours (or someone else's) for them to load.
+| File | What's in it | Who it's for |
+| --- | --- | --- |
+| **`index.html`** | Payton's own collection, declared canon, taste weights, watchlist — baked in as the defaults | Payton's own use |
+| **`share.html`** | The same engine and 1,300-work corpus, with all of the above emptied out | Anyone else — a clean copy to hand out |
 
-That choice is saved in their browser only; it never touches this file or this repository. Export/Import/Reset controls in the header let them (or you) move a profile between browsers later.
+Send `share.html` to someone — email, a shared drive link, USB, however. There's no server and nothing to set up on their end. The first time they open it, a one-time prompt asks them to choose **Start blank** or **Import a profile file** (someone's exported profile). Whatever they pick is saved in *their* browser only — it never touches the file or this repository, so the same `share.html` can go to any number of people without their data ever mixing.
+
+`index.html` carries the same prompt for a browser that's never opened it before (a new device of Payton's, say), except it also offers **Use the built-in sample profile** — which is just Payton's own data, already there.
+
+**Keeping them in sync:** `index.html` is the one file to actually develop against — add works, tune the scoring engine, add features, whatever. Whenever it changes, regenerate `share.html` from it with:
+
+```
+node scripts/make-share-copy.js
+```
+
+This blanks every personal default and removes the sample-profile option from the onboarding prompt, but leaves the engine, the corpus, and every feature identical — so improving one is the same as improving both; you just re-run the script.
+
+Export/Import/Reset controls in the header of either file let anyone move a profile between browsers later.
 
 ### Requirements
 
