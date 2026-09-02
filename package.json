@@ -1,0 +1,11 @@
+{
+  "name": "omni-media-ledger",
+  "private": true,
+  "description": "No build step for the app itself -- this package.json exists only to run the committed regression suite in test/smoke.js.",
+  "scripts": {
+    "test": "node test/smoke.js"
+  },
+  "devDependencies": {
+    "playwright-core": "^1.47.0"
+  }
+}
