@@ -567,6 +567,7 @@ body[data-theme="outer-wilds"]{--bg:#0e0a09;--panel:#181010;--panel-2:#120c0b;--
     <p class="text-[11px] text-slate-500 max-w-2xl">Predictive tracking terminal for upcoming releases backed by elite artistic / technical pedigree. Two scores per title: <span style="color:#fbbf24">For You</span> = how well it fits <em>your</em> taste engine; <span style="color:#7dd3fc">Editorial</span> = general odds it becomes an all-timer. Windows tracked as of early 2026 — calendars drift.</p>
     <span class="chip" id="contCount"></span>
     <span class="chip" id="contVerifiedCount" style="color:#94a3b8" title="Entries with a real spot-check against live sources (release status, review scores) vs. entries still running on the original editorial estimate. See NOTES.md for the refresh runbook."></span>
+    <span class="chip hidden" id="contPassedCount" style="color:#fb923c;border-color:#fb923c44" title="Entries whose tracked release window is a specific past date but haven't been checked or reconciled yet -- these are the highest-priority picks for a refresh pass."></span>
   </div>
   <div id="contMediumFilter" class="flex flex-wrap items-center gap-1.5 mb-4">
     <span class="text-[10px] uppercase tracking-[.14em] text-slate-500 mr-1">Medium</span>
@@ -1630,6 +1631,20 @@ function anticipationScore(c){
  return {score:score,reasons:reasons.slice(0,2),pull:pull,watch:c.watchRank||0};
 }
 var contSort='foryou';
+/* Only trusts an unambiguous "Month DD, YYYY" window (e.g. "November 19, 2026") -- vaguer windows
+   like a bare year or "shoots 2027" can't be reliably compared to today, so they're left alone
+   rather than risk a false flag. */
+function parseWindowDate(window){
+ var m=(window||'').match(/([A-Z][a-z]+ \d{1,2},? \d{4})/);
+ if(!m)return null;
+ var d=new Date(m[1]);
+ return isNaN(d.getTime())?null:d;
+}
+function isPastWindow(c){
+ if(c.migratedTo||/^Released|^Cancelled/.test(c.window||''))return false;
+ var d=parseWindowDate(c.window);
+ return d?d.getTime()<Date.now():false;
+}
 function renderContenders(){const MED={Film:'#a78bfa',TV:'#22d3ee',Game:'#fbbf24',Book:'#4ade80'};
  var pool=contenders.slice().filter(c=>contMedium==='all'||c.medium===contMedium).filter(c=>!contUnverifiedOnly||!c.verified);
  pool.forEach(function(c){var a=anticipationScore(c);c._antScore=a.score;c._antReasons=a.reasons;});
@@ -1637,6 +1652,7 @@ function renderContenders(){const MED={Film:'#a78bfa',TV:'#22d3ee',Game:'#fbbf24
  $$('.contMedBtn').forEach(b=>{var on=b.dataset.med===contMedium;var mc=MED[b.dataset.med]||'#818cf8';b.style.color=on?mc:'#94a3b8';b.style.borderColor=on?mc+'88':'rgba(148,163,184,.25)';b.style.background=on?mc+'18':'transparent';b.style.fontWeight=on?'700':'400';});
  var cc=$('#contCount');if(cc)cc.textContent=pool.length+(contMedium==='all'?' contenders':' '+contMedium.toLowerCase()+' contenders');
  var vc=$('#contVerifiedCount');if(vc){var verifiedN=pool.filter(function(c){return c.verified;}).length;vc.textContent='◉ '+verifiedN+'/'+pool.length+' spot-checked';}
+ var pc=$('#contPassedCount');if(pc){var passedN=pool.filter(isPastWindow).length;pc.classList.toggle('hidden',passedN===0);pc.textContent='⚠ '+passedN+' window'+(passedN===1?'':'s')+' passed, unchecked';}
  $('#contenderGrid').innerHTML=pool.map(c=>{const col=MED[c.medium]||'#94a3b8';
   var antCol=c._antScore>=88?'#fbbf24':c._antScore>=78?'#f0abfc':'#818cf8';
   var reasonLine=(c._antReasons&&c._antReasons.length)?'<div class="text-[10.5px] mt-1.5" style="color:'+antCol+'">\u2605 For you: '+esc(c._antReasons.join(' \u00b7 '))+'</div>':'';
@@ -1644,7 +1660,7 @@ function renderContenders(){const MED={Film:'#a78bfa',TV:'#22d3ee',Game:'#fbbf24
   return '<div class="panel p-4 flex gap-3.5 fade-in"><div class="shrink-0 flex flex-col items-center gap-2.5">'
   +'<div class="flex flex-col items-center gap-0.5">'+gaugeC(c._antScore,antCol)+'<span class="lbl" style="color:'+antCol+';font-weight:700">For You</span></div>'
   +'<div class="flex flex-col items-center gap-0.5 opacity-60">'+gauge(c.goatProbability)+'<span class="lbl">Editorial</span></div></div>'
-  +'<div class="flex-1 min-w-0"><div class="flex items-center gap-2 flex-wrap"><span class="text-[14px] font-bold text-slate-50 leading-tight">'+esc(c.title)+'</span><span class="chip" style="color:'+col+';border-color:'+col+'44">'+(MEDICON[c.medium]||'')+' '+c.medium.toUpperCase()+'</span>'+(c.watchRank?'<span class="chip" style="color:#0B0F19;background:#fb7185;border-color:#fb7185;font-weight:800" title="On your personal watchlist">\u2665 WATCHLIST #'+c.watchRank+'</span>':'')+(c.migratedTo?'<button type="button" class="chip contMigratedBtn" data-q="'+esc(c.migratedTo)+'" style="color:#0B0F19;background:#4ade80;border-color:#4ade80;font-weight:800;cursor:pointer" title="Released and reconciled into the scored corpus with real review data \u2014 click to view it in the Global Controller">\u2713 IN LEDGER \u2014 VIEW SCORE</button>':'')+'</div>'
+  +'<div class="flex-1 min-w-0"><div class="flex items-center gap-2 flex-wrap"><span class="text-[14px] font-bold text-slate-50 leading-tight">'+esc(c.title)+'</span><span class="chip" style="color:'+col+';border-color:'+col+'44">'+(MEDICON[c.medium]||'')+' '+c.medium.toUpperCase()+'</span>'+(c.watchRank?'<span class="chip" style="color:#0B0F19;background:#fb7185;border-color:#fb7185;font-weight:800" title="On your personal watchlist">\u2665 WATCHLIST #'+c.watchRank+'</span>':'')+(c.migratedTo?'<button type="button" class="chip contMigratedBtn" data-q="'+esc(c.migratedTo)+'" style="color:#0B0F19;background:#4ade80;border-color:#4ade80;font-weight:800;cursor:pointer" title="Released and reconciled into the scored corpus with real review data \u2014 click to view it in the Global Controller">\u2713 IN LEDGER \u2014 VIEW SCORE</button>':'')+(isPastWindow(c)?'<span class="chip" style="color:#0B0F19;background:#fb923c;border-color:#fb923c;font-weight:800" title="This window has passed but the entry has not been checked or reconciled -- likely due for a status update (see NOTES.md refresh runbook).">\u26a0 WINDOW PASSED \u2014 CHECK STATUS</span>':'')+'</div>'
   +'<div class="grid grid-cols-[auto_1fr] gap-x-2 gap-y-0.5 mt-2 text-[11px]">'
   +'<span class="text-slate-500">Lead</span><span class="text-slate-200 min-w-0 truncate">'+esc(c.creativeLead)+'</span>'
   +'<span class="text-slate-500">Where</span><span class="text-slate-300 min-w-0 truncate">'+esc(c.platform)+'</span>'
