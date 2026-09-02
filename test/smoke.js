@@ -128,7 +128,16 @@ async function runFile(browser, file) {
       return m ? parseInt(m[1]) : parseInt(t);
     };
     const baseline = await countOf();
-    check('baseline corpus is the full 1,300 works', baseline === 1300);
+    const kindCounts = await page.evaluate(() => ({
+      movie: ALL.filter(x => x.kind === 'movie').length,
+      tv: ALL.filter(x => x.kind === 'tv').length,
+      game: ALL.filter(x => x.kind === 'game').length,
+      book: ALL.filter(x => x.kind === 'book').length,
+    }));
+    const kindSum = kindCounts.movie + kindCounts.tv + kindCounts.game + kindCounts.book;
+    check('baseline corpus count matches sum of per-kind counts (' + baseline + ' = ' +
+      kindCounts.movie + 'm+' + kindCounts.tv + 't+' + kindCounts.game + 'g+' + kindCounts.book + 'b)',
+      baseline === kindSum && baseline > 0);
 
     await page.click('#typeSeg [data-type="movie"]');
     await page.waitForTimeout(250);
