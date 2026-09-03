@@ -234,32 +234,51 @@ async function runFile(browser, file) {
     await page.click('h1');
     await page.waitForTimeout(150);
 
-    // GOAT Picker: search, stage, finalize round-trip
-    await page.click('#goatPickerBtn');
-    await page.waitForTimeout(300);
-    await page.fill('#goatPickerSearch', 'dune');
+    // "Pick Your GOATs" was folded into the GOAT Profile tab itself (no more separate header
+    // button/popup): search results appear inline and reuse the same compact tier row every card
+    // already has, via #goatSearchInput/#goatSearchResults.
+    await page.click('#nav .navBtn[data-view="goat"]');
     await page.waitForTimeout(200);
-    await page.click('.goatPickerItem');
+    await page.fill('#goatSearchInput', 'dune');
     await page.waitForTimeout(200);
-    const stagedCount = await page.textContent('#goatPickerCount');
-    check('GOAT Picker stages a search result', parseInt(stagedCount) > 0);
-    await page.click('#goatPickerCancel');
-    await page.waitForTimeout(200);
-    const pickerClosed = await page.evaluate(() => document.getElementById('goatPickerGate').classList.contains('hidden'));
-    check('GOAT Picker closes on cancel', pickerClosed);
-
-    // Regression: #goatPickerBtn and #tonightBtn share the .navBtn class for visual consistency
-    // with the real view tabs, but aren't real views (no data-view attribute) -- their clicks used
-    // to bubble up into #nav's delegated view-switcher, which then called switchView(undefined),
-    // which hid every single section on the page (main content included) since nothing has
-    // data-sec="undefined". Invisible in practice because both open a full-screen modal on top of
-    // the now-broken page, until the modal closes and the user finds a blank page underneath. Fixed
-    // by stopping propagation in both buttons' own click handlers.
-    const controllerVisibleAfterPicker = await page.evaluate(() => {
-      const s = document.querySelector('main > section[data-sec="controller"]');
+    const searchHasResults = await page.evaluate(() => document.querySelectorAll('#goatSearchResults .panel').length > 0);
+    check('GOAT Profile search returns results inline', searchHasResults);
+    const goatTierBtn = await page.$('#goatSearchResults .profEditBtn[data-act="declare"]');
+    const targetId = await goatTierBtn.evaluate(el => el.dataset.id);
+    const wasDeclaredBefore = await page.evaluate((id) => {
+      try { return (JSON.parse(localStorage.getItem('omniLedgerProfile')).declaredGoatIds || []).includes(id); }
+      catch (e) { return false; }
+    }, targetId);
+    await goatTierBtn.click();
+    await page.waitForTimeout(500); // tiering reloads the page
+    const isDeclaredAfter = await page.evaluate((id) => {
+      try { return (JSON.parse(localStorage.getItem('omniLedgerProfile')).declaredGoatIds || []).includes(id); }
+      catch (e) { return false; }
+    }, targetId);
+    check('declaring Gold from the GOAT Profile search toggles it in the profile', isDeclaredAfter === !wasDeclaredBefore);
+    const resumedOnGoatView = await page.evaluate(() => {
+      const s = document.querySelector('main > section[data-sec="goat"]');
       return s && !s.classList.contains('hidden');
     });
-    check('opening/closing the GOAT Picker does not hide the underlying view', controllerVisibleAfterPicker);
+    check('tiering from a non-controller tab returns to that same tab after the reload', resumedOnGoatView);
+    // Toggle back to whatever it was before this test touched it, so later checks (and repeat
+    // runs) aren't affected by a lingering change to the default profile.
+    await page.fill('#goatSearchInput', 'dune');
+    await page.waitForTimeout(200);
+    const undoBtn = await page.$('#goatSearchResults .profEditBtn[data-act="declare"][data-id="' + targetId + '"]');
+    if (undoBtn) { await undoBtn.click(); await page.waitForTimeout(500); }
+    await page.click('#nav .navBtn[data-view="controller"]');
+    await page.waitForTimeout(200);
+
+    // Regression: #tonightBtn shares the .navBtn class for visual consistency with the real view
+    // tabs, but isn't a real view (no data-view attribute) -- its click used to bubble up into
+    // #nav's delegated view-switcher, which then called switchView(undefined), which hid every
+    // single section on the page (main content included) since nothing has data-sec="undefined".
+    // Invisible in practice because it opens a full-screen modal on top of the now-broken page,
+    // until the modal closes and the user finds a blank page underneath. Fixed by stopping
+    // propagation in the button's own click handler. (The header "Pick Your GOATs" button had the
+    // identical bug and the identical fix, but it's gone now -- folded into the GOAT Profile tab
+    // above -- so there's nothing left there to regression-test.)
     await page.click('#tonightBtn');
     await page.waitForTimeout(200);
     await page.click('#tonightClose');

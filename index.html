@@ -332,7 +332,6 @@ body[data-theme="outer-wilds"]{--bg:#0e0a09;--panel:#181010;--panel-2:#120c0b;--
       <button type="button" class="navBtn" data-view="viz">Visualization Suite</button>
       <button type="button" class="navBtn" data-view="timeline">◷ Timeline</button>
       <button type="button" id="tonightBtn" class="navBtn" style="border-color:#818cf855;color:#c7d2fe">🌙 Tonight</button>
-      <button type="button" id="goatPickerBtn" class="navBtn" style="border-color:#fbbf2455;color:#fde68a">★ Pick Your GOATs</button>
     </nav>
   </div>
 </header>
@@ -627,6 +626,12 @@ body[data-theme="outer-wilds"]{--bg:#0e0a09;--panel:#181010;--panel-2:#120c0b;--
 </section>
 
 <section data-sec="goat" class="hidden">
+  <div class="panel p-4 md:p-5 mb-5" style="border-color:#818cf840;background:linear-gradient(180deg,rgba(129,140,248,.05),rgba(15,22,38,1) 60%)">
+    <h2 class="text-[13px] font-bold uppercase tracking-[.18em]" style="color:#a5b4fc">🔍 Search &amp; Build Your Favorites</h2>
+    <p class="text-[11px] text-slate-500 mt-1.5 max-w-3xl">Search the full 2,508-work corpus and tier or own anything right from the results — no separate picker, no popup. Everything below (your declared canon, taste DNA, and generated recommendations) updates the moment you do.</p>
+    <input type="text" id="goatSearchInput" class="inp mt-3" placeholder="🔍 Search movies, TV, games, books by title, creator, genre…" autocomplete="off">
+    <div id="goatSearchResults" class="space-y-2 mt-3 max-h-[420px] overflow-y-auto"></div>
+  </div>
   <div class="panel p-4 md:p-5 mb-5" style="border-color:#fbbf2440;background:linear-gradient(180deg,rgba(251,191,36,.05),rgba(15,22,38,1) 60%)">
     <div class="flex flex-wrap items-baseline justify-between gap-2">
       <h2 class="text-[13px] font-bold uppercase tracking-[.18em]" style="color:#fde68a">★ Personal GOAT Profile</h2>
@@ -2341,6 +2346,32 @@ function renderGoat(){renderTasteDNA();
    +'<span class="text-[11px] font-bold tabular-nums w-7 text-right" style="color:#fbbf24">'+it.s+'</span></div>').join('')
   +'</div>').join('');
 }
+// Search & Build Your Favorites: the GOAT Profile tab's embedded replacement for the old separate
+// "Pick Your GOATs" header button/modal. Reuses tierRowHTML() -- the exact same compact Gold/
+// Silver/Bronze/Owned row every card already has -- so there's one tiering UI in the whole app to
+// learn, not two. Delegated via #goatSearchResults rather than #grid, since this list isn't part
+// of the results grid.
+function renderGoatSearchResults(q){
+ q=(q||'').trim().toLowerCase();
+ var el=$('#goatSearchResults');if(!el)return;
+ var pool=q?ALL.filter(function(x){return (x.title+' '+x.creator+' '+(x.genres||[]).join(' ')).toLowerCase().indexOf(q)>=0;})
+  :ALL.slice().sort(function(a,b){return b.gm-a.gm;});
+ var shown=pool.slice(0,25);
+ el.innerHTML=shown.map(function(x){
+  return '<div class="panel p-2.5">'
+   +'<div class="flex items-center gap-2 flex-wrap"><span class="chip" style="color:'+KM[x.kind].c+';border-color:'+KM[x.kind].c+'44">'+KM[x.kind].label+'</span>'
+   +'<span class="text-[12.5px] font-semibold text-slate-100">'+esc(x.title)+'</span>'
+   +'<span class="text-[10.5px] text-slate-500">· '+x.year+' · '+esc(x.creator)+'</span>'
+   +(x.goat?'<span class="chip" style="color:#0B0F19;background:#fbbf24;border-color:#fbbf24;font-weight:700">🥇 GOLD</span>':'')
+   +(x.silver?'<span class="chip" style="color:#0B0F19;background:#cbd5e1;border-color:#cbd5e1;font-weight:700">🥈 SILVER</span>':'')
+   +(x.bronze?'<span class="chip" style="color:#0B0F19;background:#cd7f32;border-color:#cd7f32;font-weight:700">🥉 BRONZE</span>':'')
+   +(x.owned?'<span class="chip" style="color:#0B0F19;background:#4ade80;border-color:#4ade80;font-weight:700">✓ OWNED</span>':'')+'</div>'
+   +tierRowHTML(x)
+   +'</div>';
+ }).join('')||'<div class="rcEmpty">No matches</div>';
+}
+on('#goatSearchInput','input',e=>{renderGoatSearchResults(e.target.value);});
+on('#goatSearchResults','click',e=>{const pe=e.target.closest('.profEditBtn');if(pe)handleProfileEditClick(pe);});
 function goatJumpTo(q){
  state.q=q;$('#q').value=q;
  state.type='all';$$('#typeSeg button').forEach(x=>x.classList.toggle('on',x.dataset.type==='all'));
@@ -3023,6 +3054,10 @@ function mutateProfileAndReload(mutatorFn){
  try{snapshot=JSON.parse(JSON.stringify(PERSONAL_PROFILE));}catch(e){alert('Could not read current profile: '+e.message);return;}
  try{mutatorFn(snapshot);}catch(e){alert('Could not apply that change: '+e.message);return;}
  try{localStorage.setItem('omniLedgerProfile',JSON.stringify(snapshot));localStorage.setItem('omniLedgerOnboarded','1');}catch(e){alert('Could not save: '+e.message);return;}
+ // Tiering/owning something reloads the whole page (the scoring pipeline needs a full recompute,
+ // not a patch) -- remember which tab was open so a click from, say, the GOAT Profile tab's search
+ // results doesn't bounce back to Global Controller. Read on boot, see initRoutingAndBindings.
+ try{sessionStorage.setItem('omniLedgerResumeView',state.view);}catch(e){}
  location.reload();
 }
 function toggleDeclaredFavorite(id){
@@ -3116,8 +3151,12 @@ function handleProfileEditClick(btn){
    "here's what changed" readout, not a live version check against anything. Bump APP_VERSION and
    add a CHANGELOG entry whenever a change is worth a friend knowing about; cosmetic tweaks don't
    need a bump. */
-const APP_VERSION='1.13.0';
+const APP_VERSION='1.14.0';
 const CHANGELOG=[
+ {v:'1.14.0',date:'2026-09-03',notes:[
+  '"Pick Your GOATs" is no longer a separate header button and popup -- it\'s now a real search box built right into the top of the GOAT Profile tab. Search, then tier or mark owned directly on each result with the same buttons every card already has. Your declared canon, taste DNA, and recommendations below it update the moment you do',
+  'Fixed: declaring/tiering/owning something from anywhere other than Global Controller used to bounce you back to Global Controller (the page reloads to recompute your match scores) -- it now returns you to whatever tab you were on'
+ ]},
  {v:'1.13.0',date:'2026-09-03',notes:[
   'Genre, Owned/Not-owned, and Gold/Silver/Bronze filters are now always visible on the main screen -- no more opening Advanced Filters just to use the ones almost everyone reaches for',
   'New: pin any of the 15 specialized index sliders (Soundtrack, Scariest, Iconicness, etc.) to the main filter row with one click, so your own most-used filters are always one click away too. Unpin just as easily -- it moves, not copies, so there\'s never two of the same slider to keep in sync',
@@ -3255,12 +3294,14 @@ const CHANGELOG=[
  on('#tonightFind','click',findPick);
 })();
 
-/* ===== GOAT Picker: search-and-select taste building, for anyone, anytime =====
-   The per-card Declare/Own/Boost buttons (further down) cover personalizing while browsing;
-   this is the dedicated version for someone who already knows exactly what they love and wants
-   to search for it directly and declare a batch at once, from a blank profile or an already-
-   personalized one. Reopening it later adds to what's already declared rather than starting
-   over -- staged state initializes from PERSONAL_PROFILE.declaredGoatIds every time it opens. */
+/* ===== GOAT Picker modal: onboarding-only search-and-select =====
+   This full-screen search/stage/finalize modal used to also be reachable anytime via a header
+   "Pick Your GOATs" button. That's gone now -- the ongoing, day-to-day version of "search and
+   declare favorites" lives directly in the GOAT Profile tab (#goatSearchInput/#goatSearchResults,
+   further down), using the same compact tier row every card already has, so there's no separate
+   popup to learn. This modal survives only for the first-run onboarding gate's "Search & pick your
+   GOATs" option, where a full-screen batch-and-finalize flow (stage several picks, review, commit
+   once) is a better fit than tiering one at a time before a profile even exists yet. */
 (function goatPicker(){
  var gate=$('#goatPickerGate');if(!gate)return;
  var staged=new Set();
@@ -3304,7 +3345,6 @@ const CHANGELOG=[
    return '<span class="chip" style="color:#fde68a;border-color:#fbbf2455">'+esc(x.title)+' <button type="button" class="goatPickerRemove" data-id="'+id+'" style="margin-left:4px;color:#f87171">✕</button></span>';
   }).join('')||'<span class="text-[11px] text-slate-600">Nothing declared yet — search above to add some.</span>';
  }
- on('#goatPickerBtn','click',function(e){e.stopPropagation();open(false);});
  on('#onboardGoatPicker','click',function(){open(true);});
  on('#goatPickerClose','click',close);
  on('#goatPickerCancel','click',close);
@@ -3584,6 +3624,7 @@ on('#contUnverifiedOnly','change',e=>{contUnverifiedOnly=e.target.checked;render
 document.addEventListener('click',e=>{const b=e.target.closest('.contSortBtn');if(b){contSort=b.dataset.sort;$$('.contSortBtn').forEach(function(x){x.classList.toggle('on',x===b);});renderContenders();}});
 document.addEventListener('click',e=>{const b=e.target.closest('.contMigratedBtn');if(b){state.q=b.dataset.q;const qi=$('#q');if(qi)qi.value=b.dataset.q;switchView('controller');refresh();}});
 renderGoat();
+renderGoatSearchResults('');
 $('#integrity').textContent='Integrity check · '+movies.length+' films · '+tvShows.length+' series · '+videoGames.length+' games · '+books.length+' books · '+directorsPantheon.length+' directors · '+authorsPantheon.length+' authors · '+gamingAuteurs.length+' auteurs · '+contenders.length+' contenders';
 console.assert(movies.length>0&&tvShows.length>0&&videoGames.length>0&&books.length>0&&directorsPantheon.length>=1&&authorsPantheon.length>=1&&gamingAuteurs.length>=1&&contenders.length>=1,'Dataset integrity violation');
 updateWlNav();
@@ -3612,7 +3653,10 @@ function focusFamily(fam){
 var _rzT;window.addEventListener('resize',function(){clearTimeout(_rzT);_rzT=setTimeout(function(){
  if(state.view==='viz'){['bubble','radar','decade'].forEach(function(k){if(CH[k]&&CH[k].resize)try{CH[k].resize();}catch(e){}});if(typeof graphCenter!=='undefined'&&graphCenter&&typeof renderGraph==='function')renderGraph(graphCenter,true);}
 },200);});
-switchView('controller');
+(function(){
+ var resume=null;try{resume=sessionStorage.getItem('omniLedgerResumeView');sessionStorage.removeItem('omniLedgerResumeView');}catch(e){}
+ switchView((resume&&document.querySelector('main > section[data-sec="'+resume+'"]'))?resume:'controller');
+})();
 </script>
 </body>
 </html>

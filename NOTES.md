@@ -424,6 +424,20 @@ Third installment of the sequenced UX pass. The user's ask: whichever filters ar
 
 ---
 
+## Phase 15 — "Pick Your GOATs" folded into the GOAT Profile tab
+
+Fourth installment of the sequenced UX pass, and the one that removes the last piece of "a separate weird tab" the user called out: a full-screen modal reachable from its own header button, disconnected from the GOAT Profile view it was building data for.
+
+**What changed.** The header's "★ Pick Your GOATs" button is gone. In its place, the top of the GOAT Profile tab now has a real search box (`#goatSearchInput`) with live inline results (`#goatSearchResults`) — search, see matches, tier or mark-owned right there. Each result row reuses `tierRowHTML()` verbatim, the exact same compact Gold/Silver/Bronze/Owned control every card in the results grid already has, wired through a new delegated click handler scoped to `#goatSearchResults` (mirroring the one `#grid` already had) rather than inventing a second tiering UI to maintain. The rest of the GOAT Profile tab — declared canon, Taste DNA, generated recommendations — sits right below it and updates the moment a tier changes, since they're all driven by the same profile-reload cycle.
+
+**The old modal wasn't deleted outright.** `#goatPickerGate` (search → stage several → finalize once) still exists and still powers the first-run onboarding gate's "Search & pick your GOATs" option, where batching several picks before any profile exists is a better fit than tiering one at a time. Only the header button that reopened the *same* modal for ongoing, day-to-day use is gone — that's the specific thing the user meant by "its own tab and weird," since it was disconnected from the GOAT Profile view it fed into. Left the onboarding path alone rather than touching a delicate first-run flow while chasing an unrelated ask.
+
+**A real UX bug surfaced by moving tiering somewhere new.** Every tier/own toggle calls `mutateProfileAndReload()`, a genuine full `location.reload()` (the scoring pipeline needs a full recompute, not a patch). That was invisible before because the only place to tier something was the results grid on Global Controller — the default view anyway, so reloading back to it was unnoticeable. The instant tiering became reachable from the GOAT Profile tab too, that same reload would silently dump the user back on Global Controller, losing their place. Fixed by having `mutateProfileAndReload` stash `state.view` in `sessionStorage` right before reloading, and having the boot sequence's final `switchView` call check for and consume that flag instead of always defaulting to `'controller'`. General fix, not special-cased to the GOAT tab — anywhere tiering becomes reachable from in the future gets this for free.
+
+**Testing.** Replaced the old header-button-driven GOAT Picker test (its target no longer exists) with one exercising the real replacement: search returns results inline, declaring Gold from a result toggles the profile (checked as a toggle, not an assumed false→true transition, since the search result might already be a default Gold favorite), and — the regression that matters most here — tiering from the GOAT Profile tab returns to the GOAT Profile tab after the reload, not Global Controller.
+
+---
+
 ## Ideas / next steps
 
 Roughly in order of value:
