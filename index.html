@@ -912,8 +912,23 @@ var SUPABASE_CONFIG={url:"https://gqpjeccmwsjxrlrazqxt.supabase.co",anonKey:"sb_
  // happened, then overwrote good local data with the stale cloud copy on the next load", a write
  // now only counts as done when the server hands the same profile back -- and if it doesn't, the
  // pending mark stays set, local data is preserved, and the real reason is recorded and shown.
+ // Every profile write goes through one chain, so two uploads are NEVER in flight at once. Without
+ // this, the debounced background sync and the immediate save behind a tier click could overlap,
+ // and whichever HTTP request happened to land LAST won -- so an older, emptier snapshot could
+ // overwrite the newer one, and the newer one's own read-back would then correctly report that its
+ // data wasn't stored. Serialising also means each attempt takes its snapshot when it actually
+ // starts, so the most recent local state is always the one that lands last.
+ var pushChain=Promise.resolve();
  function pushSnapshot(){
+  var next=function(){return doPushSnapshot();};
+  pushChain=pushChain.then(next,next);
+  return pushChain;
+ }
+ function doPushSnapshot(){
   var snap=localSnapshot();
+  // Nothing worth saving yet (no profile, never onboarded) -- writing here would create a row
+  // holding just a default theme, which is the phantom row that used to clobber real data.
+  if(!snap.omniLedgerProfile&&!snap.omniLedgerOnboarded){clearPending();return Promise.resolve(true);}
   // .select() makes PostgREST return the rows the write actually affected, and that turns out to
   // be the decisive signal. Without it, an upsert that changed NOTHING is indistinguishable from
   // one that worked: Postgres applies an UPDATE policy's USING clause to INSERT ... ON CONFLICT DO
@@ -1064,11 +1079,22 @@ var SUPABASE_CONFIG={url:"https://gqpjeccmwsjxrlrazqxt.supabase.co",anonKey:"sb_
  // hook it once here so the rest of the app needs zero changes to get cloud sync.
  (function(){
   var orig=Storage.prototype.setItem;
+  var origGet=Storage.prototype.getItem;
   Storage.prototype.setItem=function(key,value){
+   var tracked=(this===localStorage&&TRACKED.indexOf(key)!==-1);
+   // A write that doesn't change the value is not an edit, and must not schedule a sync. This
+   // matters far more than it sounds: initTheme() re-writes omniLedgerTheme with the value it just
+   // read on EVERY boot. On a brand-new account -- where local state was just cleared, so the
+   // theme is the only tracked key that exists -- that no-op write scheduled a cloud sync whose
+   // snapshot was literally {"omniLedgerTheme":""}, and that near-empty upload then raced (and
+   // beat) the real save of the person's actual picks. The stored row ended up as exactly
+   // {"omniLedgerTheme":""}, which is what "my new account saves nothing" really was.
+   var unchanged=false;
+   if(tracked){try{unchanged=(origGet.call(this,key)===String(value));}catch(e){}}
    orig.apply(this,arguments);
    // markPending BEFORE scheduling: the edit is unsynced from this instant until a write is
    // verified, so even a tab closed a millisecond later leaves a record that local is ahead.
-   if(this===localStorage&&TRACKED.indexOf(key)!==-1&&!suppressSync){markPending();scheduleCloudSync();}
+   if(tracked&&!unchanged&&!suppressSync){markPending();scheduleCloudSync();}
   };
  })();
 
@@ -3742,8 +3768,14 @@ function handleProfileEditClick(btn){
    "here's what changed" readout, not a live version check against anything. Bump APP_VERSION and
    add a CHANGELOG entry whenever a change is worth a friend knowing about; cosmetic tweaks don't
    need a bump. */
-const APP_VERSION='1.40.0';
+const APP_VERSION='1.41.0';
 const CHANGELOG=[
+ {v:'1.41.0',date:'2026-09-03',summary:'Found and fixed the real cause of new accounts saving nothing: the app was uploading a near-empty snapshot that overwrote your actual picks, leaving a row containing only an empty theme.',notes:[
+  'The bug, exactly: the theme system re-writes the saved theme with the value it just read on EVERY page load. On a brand-new account — where local data has just been cleared, so the theme is the only saved key that exists — that pointless write scheduled a cloud save whose entire contents were {"omniLedgerTheme":""}. That near-empty upload then raced the real save of your picks, and whichever finished last won. When the empty one won, the database row became literally {"omniLedgerTheme":""} — which is exactly what was showing up',
+  'Fixed three ways so it cannot come back: re-writing a value that has not changed is no longer treated as an edit and schedules nothing; all profile saves now go through a single queue so two uploads are never in flight at once (the newest data always lands last); and a profile with nothing in it yet is never uploaded at all, so the empty placeholder row can no longer be created',
+  'This is why it hit brand-new accounts hardest and left established ones mostly alone — the empty-theme-only state only exists in the moments right after an account is created',
+  'Two new checks lock the behaviour in, plus an end-to-end one that creates a fresh cloud account, onboards, tiers a pick, waits for background syncing to settle, and asserts the database holds the real profile rather than a theme-only row'
+ ]},
  {v:'1.40.0',date:'2026-09-03',summary:'Found why re-running the database script changed nothing — the script itself failed partway and rolled the whole thing back. Fixed that, made picks recoverable from a second copy in the database, and fixed Bronze/Gold/Silver not showing on the GOAT Profile for accounts started from scratch.',notes:[
   'The big one: supabase/schema.sql had a statement ordering bug — it granted permission on a suggestions column before that column was created. The Supabase SQL Editor runs a pasted script as ONE transaction, so that single error rolled back the ENTIRE file. Anyone who "re-ran schema.sql" to pick up a fix got none of it, with nothing obvious to show that had happened. Fixed and verified by running the whole file against a real PostgreSQL 16 twice from a clean database, with zero errors',
   'The profiles validation rule can no longer blank a profile: if filtering unknown keys would leave nothing at all, it now stores the payload as-is instead. Losing an unrecognised field beats losing somebody\'s entire account',

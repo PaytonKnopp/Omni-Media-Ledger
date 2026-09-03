@@ -933,6 +933,43 @@ async function runAccountFlow(browser, file) {
       } catch (e) { return false; }
     });
     check('an account whose profile blob is empty is rebuilt from its saved media_status rows', recovered);
+
+    // End-to-end version of the reported bug: sign in with a brand-new name, complete onboarding,
+    // tier something, and confirm what actually lands in the database is the real profile -- NOT
+    // the {"omniLedgerTheme":""} row that a stale, near-empty background sync used to leave behind
+    // after racing (and beating) the real save.
+    const ctxN = await browser.newContext();
+    const pageN = await ctxN.newPage();
+    await pageN.route('**/supabase-js*/**', route => route.fulfill({ contentType: 'application/javascript', body: '' }));
+    await pageN.addInitScript(MOCK_SUPABASE_SDK + 'if(!sessionStorage.getItem("__mockDb"))sessionStorage.setItem("__mockDb", JSON.stringify({tables:{profiles:{},suggestions:[],media_status:[]},upsertCalls:0,insertCalls:0,deleteCalls:0}));');
+    await pageN.goto('file://' + tmpPath);
+    await pageN.waitForTimeout(400);
+    await pageN.fill('#acctHandleInput', 'brandnew');
+    await pageN.click('#acctContinueBtn');
+    await pageN.waitForTimeout(600);
+    const onboardN = await pageN.evaluate(() => !document.getElementById('onboardGate').classList.contains('hidden'));
+    check('a brand-new cloud handle gets the onboarding flow', onboardN);
+    await pageN.click(isShare ? '#onboardBlank' : '#onboardSample');
+    await pageN.waitForTimeout(900);
+    const newGoldId = await pageN.evaluate(() => document.querySelector('.cardHead')?.dataset.id);
+    await pageN.click('.panel .profEditBtn[data-act="bronze"][data-id="' + newGoldId + '"]');
+    await pageN.waitForTimeout(1200);
+    // Let any debounced background sync fire too, so a racing near-empty write would be caught.
+    await pageN.waitForTimeout(2200);
+    const newRowIsReal = await pageN.evaluate((id) => {
+      const row = window.__mockTables.profiles['brandnew'];
+      if (!row || !row.data) return { ok: false, keys: [] };
+      const keys = Object.keys(row.data);
+      let hasPick = false;
+      try { hasPick = (JSON.parse(row.data.omniLedgerProfile || '{}').bronzeTierIds || []).includes(id); }
+      catch (e) { hasPick = false; }
+      return { ok: hasPick && !!row.data.omniLedgerOnboarded, keys: keys };
+    }, newGoldId);
+    check('a brand-new account stores its real profile, not a theme-only row',
+      newRowIsReal.ok && !(newRowIsReal.keys.length === 1 && newRowIsReal.keys[0] === 'omniLedgerTheme'));
+    const newAcctSynced = await pageN.evaluate(() => localStorage.getItem('omniLedgerPendingSync') !== '1');
+    check('a brand-new account reports itself as saved, not perpetually unsynced', newAcctSynced);
+    await pageN.close();
     const recoveredSkipsOnboarding = await pageR.evaluate(() => document.getElementById('onboardGate').classList.contains('hidden'));
     check('a recovered account is not treated as brand new', recoveredSkipsOnboarding);
     await pageR.close();
@@ -1385,6 +1422,24 @@ async function runFromScratchFlow(browser, file) {
   await page.waitForTimeout(500);
   await page.click('#onboardBlank');
   await page.waitForTimeout(600);
+
+  // initTheme() re-writes omniLedgerTheme with the value it just read on every boot. That no-op
+  // write must NOT be treated as an edit: on a fresh account it was the only tracked key present,
+  // so it scheduled a sync whose whole snapshot was {"omniLedgerTheme":""} -- a near-empty upload
+  // that raced and overwrote the real save, leaving exactly that row in the database.
+  const noopThemeWriteIsIgnored = await page.evaluate(() => {
+    localStorage.removeItem('omniLedgerPendingSync');
+    const current = localStorage.getItem('omniLedgerTheme') || '';
+    localStorage.setItem('omniLedgerTheme', current); // identical value -- not an edit
+    return localStorage.getItem('omniLedgerPendingSync') !== '1';
+  });
+  check('re-writing a tracked key with an unchanged value does not count as an edit', noopThemeWriteIsIgnored);
+  const realThemeChangeCounts = await page.evaluate(() => {
+    localStorage.removeItem('omniLedgerPendingSync');
+    localStorage.setItem('omniLedgerTheme', 'lotr'); // a genuine change
+    return localStorage.getItem('omniLedgerPendingSync') === '1';
+  });
+  check('a genuine change to a tracked key still marks the profile unsynced', realThemeChangeCounts);
 
   await page.click('[data-view="goat"]');
   await page.waitForTimeout(400);
