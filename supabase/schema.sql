@@ -175,6 +175,83 @@ create policy "suggestion votes are publicly deletable"
   on public.suggestion_votes for delete
   using (true);
 
+-- ── media_status ────────────────────────────────────────────────────────────────────────────
+-- One row per (handle, title) the app is tracking a tier and/or ownership for -- a normalized,
+-- queryable mirror of what profiles.data's declaredGoatIds/silverTierIds/bronzeTierIds/
+-- ownedMedia/ownedGameIds/ownedBooksExtra already encode inside the jsonb blob. profiles.data
+-- stays the source of truth the app restores a whole profile from in one atomic round trip; this
+-- table exists so gold/silver/bronze/owned status -- the exact signals that drive the
+-- recommendation engine -- are queryable per title instead of locked inside one opaque blob, and
+-- so a future feature (friends' overlap, "who else owns this," leaderboards) can query across
+-- handles without parsing everyone's jsonb. `media_id` is whatever id the app's own corpus uses
+-- (e.g. "m09", "t03", "g45", "b19") -- there's no corpus table in this DB to foreign-key against
+-- (see NOTES.md "Made genuinely offline" for why the corpus stays in data/*.js, not here), so this
+-- is trusted the same way every other client-supplied value in this file is.
+-- The app keeps this in sync with the jsonb blob on every tier/own change -- see index.html's
+-- diffMediaStatus / reloadWithMediaSync (ledger-app) and syncMediaStatusRows (acct-boot).
+create table if not exists public.media_status (
+  handle text not null,
+  media_id text not null,
+  tier text,
+  owned boolean not null default false,
+  updated_at timestamptz not null default now(),
+  primary key (handle, media_id)
+);
+
+do $$
+begin
+  if not exists (
+    select 1 from pg_constraint where conname = 'media_status_tier_check'
+  ) then
+    alter table public.media_status
+      add constraint media_status_tier_check
+      check (tier is null or tier in ('gold','silver','bronze'));
+  end if;
+end;
+$$;
+
+create index if not exists media_status_media_id_idx on public.media_status (media_id);
+
+create or replace function public.stamp_media_status_updated_at()
+returns trigger
+language plpgsql
+as $$
+begin
+  new.updated_at = now();
+  return new;
+end;
+$$;
+
+drop trigger if exists media_status_stamp on public.media_status;
+create trigger media_status_stamp
+  before insert or update on public.media_status
+  for each row execute function public.stamp_media_status_updated_at();
+
+alter table public.media_status enable row level security;
+
+drop policy if exists "media status is publicly readable" on public.media_status;
+create policy "media status is publicly readable"
+  on public.media_status for select
+  using (true);
+
+drop policy if exists "media status is publicly insertable" on public.media_status;
+create policy "media status is publicly insertable"
+  on public.media_status for insert
+  with check (true);
+
+drop policy if exists "media status is publicly updatable" on public.media_status;
+create policy "media status is publicly updatable"
+  on public.media_status for update
+  using (true)
+  with check (true);
+
+-- Delete is how the app removes a tier/own status entirely (an item with no tier and not owned
+-- has nothing left to track, so the row is dropped rather than kept as all-false/all-null).
+drop policy if exists "media status is publicly deletable" on public.media_status;
+create policy "media status is publicly deletable"
+  on public.media_status for delete
+  using (true);
+
 -- ── friends ─────────────────────────────────────────────────────────────────────────────────
 -- A directed "handle follows friend_handle" edge -- backing for a real Compare/leaderboard
 -- feature (the app today only compares against a manually exported/imported file). Directed

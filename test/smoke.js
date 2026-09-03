@@ -618,9 +618,13 @@ const MOCK_SUPABASE_SDK = `
 // in-memory-only mock, making it impossible to assert on state that was written right before
 // the reload. A brand-new browser context (a real "second device" in these tests) still starts
 // with empty sessionStorage, so isolation between simulated devices is unaffected.
+function __mockDefaultDb(){ return { tables: { profiles: {}, suggestions: [], media_status: [] }, upsertCalls: 0, insertCalls: 0, deleteCalls: 0 }; }
 function __mockLoad(){
-  try { return JSON.parse(sessionStorage.getItem('__mockDb')) || { tables: { profiles: {}, suggestions: [] }, upsertCalls: 0, insertCalls: 0, deleteCalls: 0 }; }
-  catch (e) { return { tables: { profiles: {}, suggestions: [] }, upsertCalls: 0, insertCalls: 0, deleteCalls: 0 }; }
+  try {
+    var db = JSON.parse(sessionStorage.getItem('__mockDb')) || __mockDefaultDb();
+    if (!db.tables.media_status) db.tables.media_status = [];
+    return db;
+  } catch (e) { return __mockDefaultDb(); }
 }
 function __mockSave(db){ try { sessionStorage.setItem('__mockDb', JSON.stringify(db)); } catch (e) {} }
 Object.defineProperty(window, '__mockTables', { get: function(){ return __mockLoad().tables; } });
@@ -632,6 +636,7 @@ function __mockBuilder(table){
   var builder = {
     select: function(){ return builder; },
     eq: function(col, val){ state.filters.push([col, val]); return builder; },
+    in: function(col, vals){ state.filters.push([col, vals, 'in']); return builder; },
     order: function(col, opts){ state.order = { col: col, ascending: !opts || opts.ascending !== false }; return builder; },
     limit: function(n){ state.limitN = n; return builder; },
     maybeSingle: function(){ state.single = true; return builder; },
@@ -683,6 +688,37 @@ function __mockBuilder(table){
         });
         if (state.limitN != null) rows = rows.slice(0, state.limitN);
         res({ data: rows, error: null });
+        return;
+      }
+      if (table === 'media_status') {
+        if (state.op === 'upsert') {
+          db.upsertCalls++;
+          var payloadRows = Array.isArray(state.payload) ? state.payload : [state.payload];
+          payloadRows.forEach(function(r){
+            var idx = db.tables.media_status.findIndex(function(x){ return x.handle === r.handle && x.media_id === r.media_id; });
+            var saved = { handle: r.handle, media_id: r.media_id, tier: r.tier || null, owned: !!r.owned };
+            if (idx >= 0) db.tables.media_status[idx] = saved; else db.tables.media_status.push(saved);
+          });
+          __mockSave(db);
+          res({ data: payloadRows, error: null });
+          return;
+        }
+        if (state.op === 'delete') {
+          db.deleteCalls++;
+          var hf2 = state.filters.find(function(f){ return f[0] === 'handle'; });
+          var inf = state.filters.find(function(f){ return f[2] === 'in'; });
+          db.tables.media_status = db.tables.media_status.filter(function(x){
+            var matchesHandle = hf2 ? x.handle === hf2[1] : true;
+            var matchesIn = inf ? inf[1].indexOf(x.media_id) !== -1 : true;
+            return !(matchesHandle && matchesIn); // keep rows that do NOT match the delete criteria
+          });
+          __mockSave(db);
+          res({ data: null, error: null });
+          return;
+        }
+        var mf = state.filters.find(function(f){ return f[0] === 'handle'; });
+        var mrows = db.tables.media_status.filter(function(x){ return !mf || x.handle === mf[1]; });
+        res({ data: mrows, error: null });
         return;
       }
       res({ data: null, error: { message: 'unknown mock table: ' + table } });
@@ -742,7 +778,7 @@ async function runAccountFlow(browser, file) {
     // addInitScript re-runs before every navigation for the life of this page (including the
     // reload the delete-account flow triggers below) -- guard the seed so it only ever seeds an
     // empty store, rather than stomping real mutations back to the original seed on every reload.
-    await page2.addInitScript(MOCK_SUPABASE_SDK + 'if(!sessionStorage.getItem("__mockDb"))sessionStorage.setItem("__mockDb", JSON.stringify({tables:{profiles:' + JSON.stringify({ smoketestuser: storedRow }) + ',suggestions:[]},upsertCalls:0,insertCalls:0,deleteCalls:0}));');
+    await page2.addInitScript(MOCK_SUPABASE_SDK + 'if(!sessionStorage.getItem("__mockDb"))sessionStorage.setItem("__mockDb", JSON.stringify({tables:{profiles:' + JSON.stringify({ smoketestuser: storedRow }) + ',suggestions:[],media_status:[]},upsertCalls:0,insertCalls:0,deleteCalls:0}));');
     await page2.goto('file://' + tmpPath);
     await page2.waitForTimeout(400);
     await page2.fill('#acctHandleInput', 'smoketestuser');
@@ -813,6 +849,25 @@ async function runAccountFlow(browser, file) {
     await page2.waitForTimeout(500);
     const onboardVisible3 = await page2.evaluate(() => !document.getElementById('onboardGate').classList.contains('hidden'));
     if (onboardVisible3) { await page2.click(isShare ? '#onboardBlank' : '#onboardSample'); await page2.waitForTimeout(300); }
+
+    // Gold/silver/bronze/owned are also mirrored into the normalized media_status table (see
+    // supabase/schema.sql), not just left inside the profiles.data jsonb blob -- so this is
+    // exercising both the app's own recommendation-driving state AND that it's actually queryable
+    // in the DB per title. Declaring something Gold should upsert a row; un-declaring it should
+    // remove that row entirely (nothing left to track once there's no tier and it's not owned).
+    const goldCardId = await page2.evaluate(() => document.querySelector('.cardHead')?.dataset.id);
+    await page2.click('.panel .profEditBtn[data-act="declare"]');
+    await page2.waitForTimeout(600); // toggling reloads the page, plus the flush-before-reload sync
+    const mediaRowAfterDeclare = await page2.evaluate((id) =>
+      (window.__mockTables.media_status || []).find(r => r.handle === 'smoketestuser2' && r.media_id === id), goldCardId);
+    check('declaring Gold upserts a row into the media_status table', !!mediaRowAfterDeclare && mediaRowAfterDeclare.tier === 'gold' && mediaRowAfterDeclare.owned === false);
+
+    await page2.click('.panel .profEditBtn[data-act="declare"][data-id="' + goldCardId + '"]');
+    await page2.waitForTimeout(600);
+    const mediaRowAfterUndeclare = await page2.evaluate((id) =>
+      (window.__mockTables.media_status || []).find(r => r.handle === 'smoketestuser2' && r.media_id === id), goldCardId);
+    check('un-declaring removes the media_status row entirely (no tier, not owned)', !mediaRowAfterUndeclare);
+
     await page2.click('#acctMenuField');
     await page2.waitForTimeout(200);
     await page2.click('#acctSwitchBtn');

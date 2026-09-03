@@ -855,6 +855,44 @@ var SUPABASE_CONFIG={url:"https://gqpjeccmwsjxrlrazqxt.supabase.co",anonKey:"sb_
    }catch(e){console.warn('Cloud sync failed:',e);setSyncState('rose','Signed in as '+handle+'. Sync failed — will retry.');}
   },1500);
  }
+ // Upserts/deletes rows in the normalized media_status table (see supabase/schema.sql) so
+ // gold/silver/bronze/owned status is queryable per title, not just locked inside the profiles.data
+ // blob. `rows` is [{id, tier, owned}]: a row with a tier or owned=true is upserted, one with
+ // neither is deleted (nothing left to track for that title).
+ function syncMediaStatusRows(rows){
+  if(!cloudReady||!handle||!client||!rows||!rows.length)return Promise.resolve();
+  var toUpsert=rows.filter(function(r){return r.tier||r.owned;})
+   .map(function(r){return {handle:handle,media_id:r.id,tier:r.tier||null,owned:!!r.owned};});
+  var toDelete=rows.filter(function(r){return !r.tier&&!r.owned;}).map(function(r){return r.id;});
+  var jobs=[];
+  if(toUpsert.length)jobs.push(client.from('media_status').upsert(toUpsert));
+  if(toDelete.length)jobs.push(client.from('media_status').delete().eq('handle',handle).in('media_id',toDelete));
+  return Promise.all(jobs).catch(function(e){console.warn('media_status sync failed:',e);});
+ }
+ // Tiering/owning something reloads the whole page (see mutateProfileAndReload in ledger-app --
+ // the scoring pipeline needs a full recompute, not a patch), and that reload was racing the
+ // debounced scheduleCloudSync above: the 1.5s timer almost never got to fire before navigation
+ // cut it off, and the NEXT boot's cloud hydrate would then silently overwrite the fresh (never-
+ // synced) local change with the stale cloud copy -- so tiering something, then having the app
+ // reload as part of the normal flow, could revert itself. Fixed by flushing an immediate,
+ // un-debounced sync and waiting for it (bounded by a timeout) before reloading at all, instead of
+ // firing a debounced one and reloading straight past it. Exposed on window so ledger-app's several
+ // reload sites (mutateProfileAndReload, Import, Reset, onboarding) can call it without duplicating
+ // any of this.
+ function reloadAfterSync(mediaRows){
+  if(!cloudReady||!handle||!client){location.reload();return;}
+  clearTimeout(syncTimer);
+  setSyncState('amber','Signed in as '+handle+'. Syncing…');
+  var jobs=[client.from('profiles').upsert({handle:handle,data:localSnapshot()})];
+  if(mediaRows&&mediaRows.length)jobs.push(syncMediaStatusRows(mediaRows));
+  withTimeout(Promise.all(jobs),4000).then(function(){
+   setSyncState('emerald','Signed in as '+handle+'. Synced to the cloud.');
+  },function(e){
+   console.warn('Cloud sync failed (will retry on next change):',e&&e.message||e);
+   setSyncState('rose','Signed in as '+handle+'. Sync failed — will retry.');
+  }).then(function(){location.reload();});
+ }
+ window.__omniReloadAfterSync=reloadAfterSync;
  // Every write ledger-app makes to these 5 keys already goes through localStorage.setItem --
  // hook it once here so the rest of the app needs zero changes to get cloud sync.
  (function(){
@@ -3172,8 +3210,8 @@ on('#profileExportBtn','click',()=>{try{
  const snapshot={version:1,exported:new Date().toISOString(),profile:PERSONAL_PROFILE,watchlist:watchlist,theme:theme,density:density};
  const blob=new Blob([JSON.stringify(snapshot,null,2)],{type:'application/json'});const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='omni-ledger-profile.json';document.body.appendChild(a);a.click();document.body.removeChild(a);
 }catch(e){alert('Export failed: '+e.message);}});
-on('#profileImportInput','change',e=>{const file=e.target.files&&e.target.files[0];if(!file)return;const reader=new FileReader();reader.onload=()=>{try{const parsed=JSON.parse(reader.result);if(typeof parsed!=='object'||parsed===null||Array.isArray(parsed))throw new Error('File is not a profile object');applyImportedSnapshot(parsed);location.reload();}catch(err){alert('Could not import that file: '+err.message);}};reader.readAsText(file);e.target.value='';});
-on('#profileResetBtn','click',()=>{if(typeof confirm!=='undefined'&&!confirm('Reset your profile to blank? This clears your owned collection, declared canon, taste weights and watchlist in this browser. Export first if you want to keep a copy.'))return;localStorage.setItem('omniLedgerProfile','{}');localStorage.setItem('omniLedgerWatchlist','{}');location.reload();});
+on('#profileImportInput','change',e=>{const file=e.target.files&&e.target.files[0];if(!file)return;const reader=new FileReader();reader.onload=()=>{try{const parsed=JSON.parse(reader.result);if(typeof parsed!=='object'||parsed===null||Array.isArray(parsed))throw new Error('File is not a profile object');applyImportedSnapshot(parsed);reloadWithMediaSync(PERSONAL_PROFILE);}catch(err){alert('Could not import that file: '+err.message);}};reader.readAsText(file);e.target.value='';});
+on('#profileResetBtn','click',()=>{if(typeof confirm!=='undefined'&&!confirm('Reset your profile to blank? This clears your owned collection, declared canon, taste weights and watchlist in this browser. Export first if you want to keep a copy.'))return;localStorage.setItem('omniLedgerProfile','{}');localStorage.setItem('omniLedgerWatchlist','{}');reloadWithMediaSync(PERSONAL_PROFILE);});
 
 /* ===== Profile comparison: read-only overlap between the current profile and someone else's exported file =====
    Deliberately never touches localStorage or PERSONAL_PROFILE -- this is a side-by-side look, not an import. */
@@ -3204,6 +3242,50 @@ function renderCompare(c){
 on('#compareFileInput','change',e=>{const file=e.target.files&&e.target.files[0];if(!file)return;const reader=new FileReader();reader.onload=()=>{try{const parsed=JSON.parse(reader.result);if(typeof parsed!=='object'||parsed===null)throw new Error('File is not a profile object');const otherProfile=(parsed.profile&&typeof parsed.profile==='object')?parsed.profile:parsed;const cmp=computeProfileComparison(PERSONAL_PROFILE,otherProfile);renderCompare(cmp);$('#compareGate').classList.remove('hidden');}catch(err){alert('Could not read that file: '+err.message);}};reader.readAsText(file);e.target.value='';});
 on('#compareClose','click',()=>{$('#compareGate').classList.add('hidden');});
 
+/* ===== Normalized gold/silver/bronze/owned sync (supabase/schema.sql media_status) =====
+   Every reload site below writes a new omniLedgerProfile to localStorage and then reloads the
+   page for the scoring pipeline to recompute from -- this diffs the profile just written against
+   the one still live in memory (PERSONAL_PROFILE, not yet overwritten since the write goes
+   straight to localStorage) and turns the change into a handful of media_status upserts/deletes,
+   so the exact gold/silver/bronze/owned status driving recommendations locally is also queryable
+   per title in the DB, not just locked inside the profiles.data jsonb blob. */
+function computeMediaStatusMap(p){
+ var m={};
+ function ensure(id){return m[id]||(m[id]={tier:null,owned:false});}
+ (p.declaredGoatIds||[]).forEach(function(id){ensure(id).tier='gold';});
+ (p.silverTierIds||[]).forEach(function(id){var e=ensure(id);if(!e.tier)e.tier='silver';});
+ (p.bronzeTierIds||[]).forEach(function(id){var e=ensure(id);if(!e.tier)e.tier='bronze';});
+ Object.keys(p.ownedMedia||{}).forEach(function(id){ensure(id).owned=true;});
+ (p.ownedGameIds||[]).forEach(function(id){ensure(id).owned=true;});
+ Object.keys(p.ownedBooksExtra||{}).forEach(function(id){ensure(id).owned=true;});
+ return m;
+}
+function diffMediaStatus(oldProfile,newProfile){
+ var before=computeMediaStatusMap(oldProfile||{}),after=computeMediaStatusMap(newProfile||{});
+ var ids={};
+ Object.keys(before).forEach(function(id){ids[id]=1;});
+ Object.keys(after).forEach(function(id){ids[id]=1;});
+ var rows=[];
+ Object.keys(ids).forEach(function(id){
+  var b=before[id]||{tier:null,owned:false},a=after[id]||{tier:null,owned:false};
+  if(b.tier!==a.tier||b.owned!==a.owned)rows.push({id:id,tier:a.tier,owned:a.owned});
+ });
+ return rows;
+}
+// `oldProfile` is whatever the change should be diffed against -- PERSONAL_PROFILE for a normal
+// edit to the user's own already-loaded profile, or {} for a first-run/onboarding write where
+// PERSONAL_PROFILE on index.html still holds Payton's hardcoded sample data rather than this
+// visitor's (still-blank) actual profile. Reads the freshly written omniLedgerProfile straight
+// back out of localStorage rather than taking it as a parameter, so every reload site can call
+// this the same way regardless of how it built its new profile.
+function reloadWithMediaSync(oldProfile){
+ var newProfile={};
+ try{newProfile=JSON.parse(localStorage.getItem('omniLedgerProfile')||'{}');}catch(e){}
+ var rows=diffMediaStatus(oldProfile,newProfile);
+ if(typeof window.__omniReloadAfterSync==='function')window.__omniReloadAfterSync(rows);
+ else location.reload();
+}
+
 /* ===== In-app profile editor: declare / own / boost from any card, no JSON editing required =====
    PERSONAL_PROFILE at this point in execution already holds the fully resolved current profile,
    whether that came from defaults or from localStorage -- so mutating a clone of it and saving
@@ -3220,7 +3302,7 @@ function mutateProfileAndReload(mutatorFn){
  // not a patch) -- remember which tab was open so a click from, say, the GOAT Profile tab's search
  // results doesn't bounce back to Global Controller. Read on boot, see initRoutingAndBindings.
  try{sessionStorage.setItem('omniLedgerResumeView',state.view);}catch(e){}
- location.reload();
+ reloadWithMediaSync(PERSONAL_PROFILE);
 }
 function toggleDeclaredFavorite(id){
  mutateProfileAndReload(p=>{
@@ -3321,8 +3403,18 @@ function handleProfileEditClick(btn){
    "here's what changed" readout, not a live version check against anything. Bump APP_VERSION and
    add a CHANGELOG entry whenever a change is worth a friend knowing about; cosmetic tweaks don't
    need a bump. */
-const APP_VERSION='1.27.0';
+const APP_VERSION='1.29.0';
 const CHANGELOG=[
+ {v:'1.29.0',date:'2026-09-03',summary:'Gold/Silver/Bronze tiers and owned status now sync to a normalized media_status table in Supabase (not just the profiles.data blob), and a real race between cloud sync and the app\'s own page-reload was found and fixed along the way.',notes:[
+  'New media_status table (supabase/schema.sql) holds one row per handle+title with a tier and an owned flag -- the exact signals that drive the recommendation engine -- so they\'re queryable per title in the DB instead of locked inside one opaque jsonb blob. Every tier/own/import/reset/onboarding action keeps it in sync automatically; add and remove both just work, no separate step',
+  'Found and fixed a real bug while wiring this up: tiering or owning something reloads the page immediately (the scoring pipeline needs a full recompute), which was racing the existing 1.5s debounced cloud sync -- the sync almost never won that race, and the next boot\'s cloud hydrate would then silently revert the just-made change back to the last-synced (stale) copy. Fixed by flushing an immediate sync and waiting for it, bounded by a timeout, before reloading at all, instead of firing a debounced one and reloading straight past it',
+  'This needs one manual step to actually take effect: re-run the updated supabase/schema.sql once in the Supabase SQL Editor (idempotent, safe on top of what\'s already there) to create the media_status table'
+ ]},
+ {v:'1.28.0',date:'2026-09-03',summary:'Two additional schema pieces added to the Supabase backend: suggestion voting/status and a friends/follows table, plus a rolling per-profile backup history -- DB-only, not yet wired into the app UI.',notes:[
+  'suggestions gained a votes count (via a new suggestion_votes table, one vote per handle per suggestion) and a status field (open/planned/shipped/declined) settable from the SQL Editor',
+  'New friends table: a directed handle-follows-friend_handle edge, meant to back a real Compare/leaderboard feature later (today\'s Compare only works against a manually exported file)',
+  'New profile_snapshots table: automatically captures the last 20 versions of each handle\'s profile before any update or delete, so "Delete my account" and accidental overwrites are recoverable -- locked down so only the capturing trigger can write to it, never a client directly'
+ ]},
  {v:'1.27.0',date:'2026-09-03',summary:'Account UI redesigned for clarity, an in-app "Delete my account" option was added, and a long-standing bug where several Tailwind classes had never actually been compiled into the stylesheet was found and fixed -- most visibly, it was silently breaking the cloud account gate.',notes:[
   'Redesigned the "Whose ledger is this?" cloud-account gate (icon, clearer heading and helper copy, styled Continue button, an explicit "or continue without an account" divider) and the account menu (a colored sync-status dot plus a "Signed in as X. Syncing/Synced/Sync failed" status line instead of a bare label)',
   'Added "Delete my account" to the account menu (only shown when signed into a real cloud handle): confirms, deletes the profile row from Supabase, and clears the local copy and remembered handle -- supabase/schema.sql now grants delete on profiles, so anyone who already ran an earlier copy of that file needs to re-run it once for this to work',
@@ -3666,7 +3758,7 @@ const CHANGELOG=[
    // taste weights (creatorBoost, ownedMedia, etc.) at this point in a fresh browser.
    var profile={declaredGoatIds:ids,declaredCanon:buildCanonGroups(ids,[])};
    try{localStorage.setItem('omniLedgerOnboarded','1');localStorage.setItem('omniLedgerProfile',JSON.stringify(profile));}catch(e){alert('Could not save: '+e.message);return;}
-   location.reload();
+   reloadWithMediaSync({});
   }else{
    var corpusCats=['Movies','Books','TV Shows','Video Game'];
    mutateProfileAndReload(function(p){
@@ -3740,8 +3832,8 @@ function pickSeedCandidates(excludeIds){
   $('#onboardSeedCount').textContent=loved.size+' selected';
  }
  on('#onboardSample','click',()=>{try{localStorage.setItem('omniLedgerOnboarded','1');}catch(e){}gate.classList.add('hidden');});
- on('#onboardBlank','click',()=>{try{localStorage.setItem('omniLedgerOnboarded','1');localStorage.setItem('omniLedgerProfile','{}');}catch(e){}location.reload();});
- on('#onboardImportInput','change',e=>{const file=e.target.files&&e.target.files[0];if(!file)return;const reader=new FileReader();reader.onload=()=>{try{const parsed=JSON.parse(reader.result);if(typeof parsed!=='object'||parsed===null||Array.isArray(parsed))throw new Error('File is not a profile object');localStorage.setItem('omniLedgerOnboarded','1');applyImportedSnapshot(parsed);location.reload();}catch(err){alert('Could not import that file: '+err.message);}};reader.readAsText(file);});
+ on('#onboardBlank','click',()=>{try{localStorage.setItem('omniLedgerOnboarded','1');localStorage.setItem('omniLedgerProfile','{}');}catch(e){}reloadWithMediaSync({});});
+ on('#onboardImportInput','change',e=>{const file=e.target.files&&e.target.files[0];if(!file)return;const reader=new FileReader();reader.onload=()=>{try{const parsed=JSON.parse(reader.result);if(typeof parsed!=='object'||parsed===null||Array.isArray(parsed))throw new Error('File is not a profile object');localStorage.setItem('omniLedgerOnboarded','1');applyImportedSnapshot(parsed);reloadWithMediaSync({});}catch(err){alert('Could not import that file: '+err.message);}};reader.readAsText(file);});
  on('#onboardSeed','click',()=>{
   const picks=pickSeedCandidates();
   picks.forEach(x=>shownIds.add(x.id));
@@ -3765,7 +3857,7 @@ function pickSeedCandidates(excludeIds){
   else{loved.add(id);heart.textContent='♥';heart.style.color='#fb7185';b.style.borderColor='#fb718566';}
   $('#onboardSeedCount').textContent=loved.size+' selected';
  });
- on('#onboardSeedSkip','click',()=>{try{localStorage.setItem('omniLedgerOnboarded','1');localStorage.setItem('omniLedgerProfile','{}');}catch(e){}location.reload();});
+ on('#onboardSeedSkip','click',()=>{try{localStorage.setItem('omniLedgerOnboarded','1');localStorage.setItem('omniLedgerProfile','{}');}catch(e){}reloadWithMediaSync({});});
  on('#onboardSeedContinue','click',()=>{
   try{
    const ids=[...loved];
@@ -3777,7 +3869,7 @@ function pickSeedCandidates(excludeIds){
    localStorage.setItem('omniLedgerOnboarded','1');
    localStorage.setItem('omniLedgerProfile',JSON.stringify(profile));
   }catch(e){}
-  location.reload();
+  reloadWithMediaSync({});
  });
 })();
 
