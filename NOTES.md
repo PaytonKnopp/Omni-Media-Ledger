@@ -2,6 +2,12 @@
 
 Working state, known limits, non-obvious decisions, and ideas. Read the first section before making the repo public.
 
+> **Looking for how the code is laid out?** See `ARCHITECTURE.md` — the current map of the files,
+> the boot order, where state lives, and how saving works. This file is the historical log: what
+> changed in each phase and why. Filenames in older entries reflect what things were called at the
+> time (`test/smoke.js` is now `test/regression.js`; the app moved out of `index.html` into
+> `app/ledger-app.js` in Phase 43).
+
 ---
 
 ## ⚠️ Sensitive content — read before publishing
@@ -248,7 +254,7 @@ Full details on each item, and the two CSS-bug root causes, are in the correspon
 2. For each entry, web-search `"<title>" release date review score 2026` (or the current year) — confirm the `window` field is still accurate (delayed / shipped / cancelled) and, if it's shipped, get a real critic/audience score.
 3. Update `window`, `pedigree` (note what changed and why, don't just silently overwrite), and set `"verified"` to today's date.
 4. If it's shipped: this is also the trigger for reconciliation (see Phase 7) — add it to the real corpus (`data/movies.js` etc.) with sourced scores, and add a `"migratedTo"` field pointing at it, same pattern as the three done in Phase 7.
-5. Run `npm test` before committing — the corpus validator and smoke suite both check the ledger renders correctly either way.
+5. Run `npm test` before committing — the corpus validator and regression suite both check the ledger renders correctly either way.
 
 ---
 

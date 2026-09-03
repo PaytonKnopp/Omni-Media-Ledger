@@ -1,9 +1,9 @@
 {
   "name": "omni-media-ledger",
   "private": true,
-  "description": "No build step for the app itself -- this package.json exists only to run the committed regression suite in test/smoke.js.",
+  "description": "No build step for the app itself -- this package.json exists only to run the committed regression suite in test/regression.js.",
   "scripts": {
-    "test": "node scripts/validate-corpus.js && node test/smoke.js",
+    "test": "node scripts/validate-corpus.js && node test/regression.js",
     "validate-corpus": "node scripts/validate-corpus.js"
   },
   "devDependencies": {
