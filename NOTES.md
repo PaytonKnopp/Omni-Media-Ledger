@@ -830,6 +830,26 @@ The user reported the persistence bug yet again after Phase 36 shipped, this tim
 
 ---
 
+## Phase 39 — The actual root cause of picks vanishing: the app believed writes that never landed
+
+The user reproduced it precisely on video: tier something Bronze from a main card → it appears correctly (including in the GOAT Profile) → **refresh the page** → the pick is gone. Their question — "is this why it resets when I switch account, because that's like a refresh?" — was exactly right, and it identified the real shape of the bug: it isn't about switching accounts at all, it's about *any* load that re-reads the cloud.
+
+**Root cause: "the request returned" was treated as "it saved".** Every write did `upsert(...)` and, if no error came back, declared success. That is not the same claim. A PostgREST write can be accepted and still not store what you sent — `profiles` has a `BEFORE INSERT OR UPDATE` trigger that could `raise exception` on any unrecognised key (so a project running an older copy of `schema.sql` than the app expects fails *every* save, forever), and a request cut off by navigation can settle client-side without ever committing. The app then did the genuinely destructive part: on the next ordinary page load it fetched the row and `hydrateFromCloud()`'d it straight over local state. So a write that never landed didn't just fail — it actively erased the change that had just been made.
+
+This also explains why the earlier fixes helped but never closed it. Phase 34's `SKIP_HYDRATE_KEY` is *one-shot*: it protects the reload the app triggers itself right after tiering, which is why the pick looked correct immediately afterwards. It does nothing for the **second, manual** refresh — which is exactly when the user saw it revert. Phases 36/38 fixed timeouts and the read path, but neither questioned whether the write had actually stored anything.
+
+**Fix 1 — verify writes instead of assuming them.** New `pushSnapshot()` upserts, then reads the row straight back and compares every key it sent. A write counts as done only when the server returns the same profile; otherwise it throws with a specific reason (`the server did not store omniLedgerProfile — re-run supabase/schema.sql…`). All three write paths (`runScheduledSync`, `reloadAfterSync`, `flushPendingSync`) now go through it.
+
+**Fix 2 — unsynced local changes outrank the cloud, on every load.** A pending mark (`omniLedgerPendingSync`, plus the handle it belongs to and the last error — none of them in `TRACKED`, so none are ever uploaded) is set the instant a tracked key changes, and cleared *only* by a verified write. While it's set, `boot()` and `resolveHandle()` refuse to hydrate and keep local, retrying the push in the background. This is the guard that actually fixes the reported symptom: the cloud can no longer overwrite data that never made it up there. It also self-heals — once the server works again, the pending change pushes and verifies on its own, no redo needed.
+
+**Fix 3 — stop lying in the status dot.** `renderAcctBadge()` used to call `setSyncState('emerald','Synced to the cloud')` unconditionally on every boot, regardless of whether anything had ever synced. A profile full of changes that never reached the server still showed green. It now reports pending state with the specific recorded error, which is the diagnostic that would have caught this months ago.
+
+**Fix 4 — schema hardening.** The validation trigger's unknown-key branch changed from `raise exception` (fails the whole write) to stripping unrecognised keys and storing the rest. A stale schema should cost you an unknown field, not every save you ever make. Paired with Fix 1, anything actually dropped now surfaces as a visible error rather than silence.
+
+**Testing.** Added `db.silentlyDropProfileUpserts` to the mock — the server accepts the write and returns success but stores nothing, which is the failure mode no existing hatch covered (`failNextProfileUpsert` reports an error; this one reports success, which is precisely why it was invisible). Four new checks walk the user's exact sequence: tier Bronze under a silently-dropping server, confirm it applies locally, confirm it's *detected* as unsaved rather than reported as saved, **reload the page by hand** and confirm the pick is still there, then restore the server and confirm the change pushes and verifies itself. Verified as real guards: with the pending check disabled, "the pick survives a manual refresh" and the self-heal check both fail (reproducing the reported bug exactly); restored, the whole suite is green.
+
+---
+
 ## Ideas / next steps
 
 Roughly in order of value:

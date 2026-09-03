@@ -837,13 +837,58 @@ var SUPABASE_CONFIG={url:"https://gqpjeccmwsjxrlrazqxt.supabase.co",anonKey:"sb_
   TRACKED.forEach(function(k){try{var v=localStorage.getItem(k);if(v!==null)o[k]=v;}catch(e){}});
   return o;
  }
+ // ── Unsynced-changes tracking ────────────────────────────────────────────────────────────────
+ // None of these keys are in TRACKED, so none of them are ever sent to the server -- they describe
+ // THIS browser's relationship to the cloud copy, not the profile itself.
+ //
+ // This exists because of the exact failure that kept wiping people's picks: the app treated "the
+ // upsert call came back without throwing" as "it saved", and then, on the next ordinary page
+ // load, replaced local state with whatever the cloud returned. So ANY write that didn't really
+ // land -- rejected by the validation trigger, silently dropped by an out-of-date schema, cut off
+ // in flight, accepted but not stored -- destroyed the very change that had just been made, with
+ // nothing visible to explain why. Now a tracked edit marks the profile pending immediately, and
+ // that mark is cleared ONLY once a write has been positively verified (see pushSnapshot). While
+ // it's set, local is treated as newer than the cloud and the cloud is never allowed to overwrite
+ // it -- so a failed save can no longer cost anyone their data, it just stays unsynced and says so.
+ var PENDING_KEY='omniLedgerPendingSync';
+ var SYNC_ERR_KEY='omniLedgerLastSyncError';
+ var PENDING_HANDLE_KEY='omniLedgerPendingHandle';
+ var suppressSync=false;
+ function markPending(){
+  try{localStorage.setItem(PENDING_KEY,'1');if(handle)localStorage.setItem(PENDING_HANDLE_KEY,handle);}catch(e){}
+ }
+ function clearPending(){
+  try{localStorage.removeItem(PENDING_KEY);localStorage.removeItem(SYNC_ERR_KEY);localStorage.removeItem(PENDING_HANDLE_KEY);}catch(e){}
+ }
+ // Pending only counts for the handle it was recorded under -- otherwise signing into a different
+ // account would see the previous account's unsynced edits and wrongly refuse to hydrate its own.
+ function hasPendingFor(h){
+  try{
+   if(localStorage.getItem(PENDING_KEY)!=='1')return false;
+   var ph=localStorage.getItem(PENDING_HANDLE_KEY);
+   return !ph||ph===h;
+  }catch(e){return false;}
+ }
+ function lastSyncError(){try{return localStorage.getItem(SYNC_ERR_KEY)||'';}catch(e){return '';}}
+ function recordSyncError(e){
+  var msg=(e&&e.message)||String(e||'unknown error');
+  try{localStorage.setItem(SYNC_ERR_KEY,msg);}catch(ex){}
+  return msg;
+ }
  function hydrateFromCloud(data){
-  TRACKED.forEach(function(k){
-   if(Object.prototype.hasOwnProperty.call(data,k)&&typeof data[k]==='string'){try{localStorage.setItem(k,data[k]);}catch(e){}}
-  });
+  // suppressSync: these writes are the cloud copy arriving, not the user editing anything, so they
+  // must not mark the profile pending (which would make local look permanently newer than cloud).
+  suppressSync=true;
+  try{
+   TRACKED.forEach(function(k){
+    if(Object.prototype.hasOwnProperty.call(data,k)&&typeof data[k]==='string'){try{localStorage.setItem(k,data[k]);}catch(e){}}
+   });
+  }finally{suppressSync=false;}
+  clearPending(); // local now IS the cloud copy it was just filled from
  }
  function clearLocalProfile(){
   TRACKED.forEach(function(k){try{localStorage.removeItem(k);}catch(e){}});
+  clearPending(); // nothing local left to be unsynced
  }
  // Visible sync status: a colored dot (header badge + its own copy inside the dropdown, since the
  // badge's dot is easy to miss collapsed) plus the status line's wording. slate=idle/local,
@@ -859,17 +904,42 @@ var SUPABASE_CONFIG={url:"https://gqpjeccmwsjxrlrazqxt.supabase.co",anonKey:"sb_
   });
   if(label){var status=$('#acctMenuStatus');if(status)status.textContent=label;}
  }
- function runScheduledSync(){
-  try{
-   client.from('profiles').upsert({handle:handle,data:localSnapshot()}).then(function(res){
-    if(res&&res.error){
-     console.warn('Cloud sync failed (will retry on next change):',res.error.message||res.error);
-     setSyncState('rose','Signed in as '+handle+'. Sync failed — will retry.');
-    }else{
-     setSyncState('emerald','Signed in as '+handle+'. Synced to the cloud.');
-    }
+ // Writes the current snapshot and then VERIFIES it by reading the row straight back. An upsert
+ // resolving without an error is NOT proof the data is stored: profiles has a BEFORE trigger that
+ // can reject or rewrite the row (see supabase/schema.sql), an out-of-date copy of that schema in
+ // someone's project can drop keys it doesn't recognise, and a request cut off by navigation can
+ // still settle locally. Since the entire bug class here was "the app believed a write that never
+ // happened, then overwrote good local data with the stale cloud copy on the next load", a write
+ // now only counts as done when the server hands the same profile back -- and if it doesn't, the
+ // pending mark stays set, local data is preserved, and the real reason is recorded and shown.
+ function pushSnapshot(){
+  var snap=localSnapshot();
+  return client.from('profiles').upsert({handle:handle,data:snap})
+   .then(function(res){
+    if(res&&res.error)throw res.error;
+    return client.from('profiles').select('data').eq('handle',handle).maybeSingle();
+   })
+   .then(function(chk){
+    if(chk&&chk.error)throw chk.error;
+    var stored=(chk&&chk.data&&chk.data.data)||null;
+    if(!stored)throw new Error('the server reported the save as successful but has no row for "'+handle+'"');
+    var dropped=Object.keys(snap).filter(function(k){return stored[k]!==snap[k];});
+    if(dropped.length)throw new Error('the server did not store '+dropped.join(', ')+' — re-run supabase/schema.sql in this project to bring it up to date');
+    clearPending();
+    return true;
    });
-  }catch(e){console.warn('Cloud sync failed:',e);setSyncState('rose','Signed in as '+handle+'. Sync failed — will retry.');}
+ }
+ function runScheduledSync(){
+  if(!cloudReady||!handle||!client)return Promise.resolve(false);
+  return pushSnapshot().then(function(){
+   setSyncState('emerald','Signed in as '+handle+'. Synced to the cloud.');
+   return true;
+  },function(e){
+   var msg=recordSyncError(e);
+   console.warn('Cloud sync failed — your change is kept on this device and will retry:',msg);
+   setSyncState('rose','Signed in as '+handle+'. NOT saved to the cloud: '+msg);
+   return false;
+  });
  }
  function scheduleCloudSync(){
   if(!cloudReady||!handle)return;
@@ -934,22 +1004,24 @@ var SUPABASE_CONFIG={url:"https://gqpjeccmwsjxrlrazqxt.supabase.co",anonKey:"sb_
   // handle's very first write there's no profiles row yet until this upsert creates one. Sequenced
   // rather than run in parallel for exactly that reason: a concurrent write here could otherwise
   // race and fail with a foreign-key violation the very first time someone tiers something.
-  var task=client.from('profiles').upsert({handle:handle,data:localSnapshot()}).then(function(res){
-   if(res&&res.error)throw res.error;
+  var task=pushSnapshot().then(function(){
    return mediaRows&&mediaRows.length?syncMediaStatusRows(mediaRows):null;
   });
   withTimeout(task,SYNC_TIMEOUT_MS).then(function(){
    setSyncState('emerald','Signed in as '+handle+'. Synced to the cloud.');
   },function(e){
-   console.warn('Cloud sync failed (will retry on next change):',e&&e.message||e);
-   setSyncState('rose','Signed in as '+handle+'. Sync failed — will retry.');
+   var msg=recordSyncError(e);
+   console.warn('Cloud sync failed — your change is kept on this device and will retry:',msg);
+   setSyncState('rose','Signed in as '+handle+'. NOT saved to the cloud: '+msg);
   }).then(function(){
    // Reloads regardless of whether the sync above actually succeeded -- local state (already
    // written before this function was ever called) is always at least as current as the cloud, so
    // there's nothing to gain by waiting further, and the local edit needs to be reflected in the
-   // UI either way. What it must NOT do is let the upcoming boot() re-fetch from the cloud and
-   // clobber that local edit with a stale row if the sync above was slow or failed -- see
-   // SKIP_HYDRATE_KEY / consumeSkipHydrateFlag.
+   // UI either way. Two independent guards keep that reload from costing anything if the sync did
+   // NOT land: SKIP_HYDRATE_KEY stops the very next boot re-fetching at all, and (because that
+   // flag is one-shot, so it does nothing for the SECOND, manual refresh a person does afterwards
+   // -- which is exactly when picks were observed reverting) the pending mark left set by a failed
+   // pushSnapshot keeps every later boot from hydrating over local until a write is verified.
    try{sessionStorage.setItem(SKIP_HYDRATE_KEY,'1');}catch(e){}
    location.reload();
   });
@@ -966,12 +1038,9 @@ var SUPABASE_CONFIG={url:"https://gqpjeccmwsjxrlrazqxt.supabase.co",anonKey:"sb_
  function flushPendingSync(){
   if(!cloudReady||!handle||!client)return Promise.resolve(true);
   clearTimeout(syncTimer);syncTimer=null;
-  return withTimeout(client.from('profiles').upsert({handle:handle,data:localSnapshot()}),SYNC_TIMEOUT_MS)
-   .then(function(res){
-    if(res&&res.error)throw res.error;
-    return true;
-   })
-   .catch(function(e){console.warn('Final sync before switching accounts failed:',e&&e.message||e);return false;});
+  return withTimeout(pushSnapshot(),SYNC_TIMEOUT_MS)
+   .then(function(){return true;})
+   .catch(function(e){recordSyncError(e);console.warn('Final sync before switching accounts failed:',e&&e.message||e);return false;});
  }
  // Every write ledger-app makes to these 5 keys already goes through localStorage.setItem --
  // hook it once here so the rest of the app needs zero changes to get cloud sync.
@@ -979,7 +1048,9 @@ var SUPABASE_CONFIG={url:"https://gqpjeccmwsjxrlrazqxt.supabase.co",anonKey:"sb_
   var orig=Storage.prototype.setItem;
   Storage.prototype.setItem=function(key,value){
    orig.apply(this,arguments);
-   if(this===localStorage&&TRACKED.indexOf(key)!==-1)scheduleCloudSync();
+   // markPending BEFORE scheduling: the edit is unsynced from this instant until a write is
+   // verified, so even a tab closed a millisecond later leaves a record that local is ahead.
+   if(this===localStorage&&TRACKED.indexOf(key)!==-1&&!suppressSync){markPending();scheduleCloudSync();}
   };
  })();
 
@@ -999,7 +1070,12 @@ var SUPABASE_CONFIG={url:"https://gqpjeccmwsjxrlrazqxt.supabase.co",anonKey:"sb_
   }else if(handle){
    badge.textContent=handle;
    if(avatar){avatar.textContent=handle.charAt(0);avatar.style.background='#4338ca';avatar.style.color='#e0e7ff';}
-   setSyncState('emerald','Signed in as '+handle+'. Synced to the cloud.');
+   // Reports what's actually true rather than assuming success: this used to set emerald
+   // unconditionally on every boot, so a profile carrying changes that never reached the server
+   // still showed a green "Synced to the cloud" dot -- which is a large part of why this went
+   // undiagnosed for so long. Unsynced changes now say so, with the real reason.
+   if(hasPendingFor(handle))setSyncState('rose','Signed in as '+handle+'. Changes NOT saved to the cloud yet'+(lastSyncError()?': '+lastSyncError():' — retrying.'));
+   else setSyncState('emerald','Signed in as '+handle+'. Synced to the cloud.');
   }else{
    badge.textContent='Guest';
    if(avatar){avatar.textContent='?';avatar.style.background='#1e293b';avatar.style.color='#94a3b8';}
@@ -1070,6 +1146,15 @@ var SUPABASE_CONFIG={url:"https://gqpjeccmwsjxrlrazqxt.supabase.co",anonKey:"sb_
   });
  }
  function resolveHandle(h){
+  // Signing back into the SAME handle this browser still holds unsynced changes for: those local
+  // edits are newer than anything the cloud can return, so hydrating would destroy them. Keep
+  // local, adopt the handle, and retry the push instead of pulling.
+  var remembered=null;try{remembered=localStorage.getItem(ACCT_KEY);}catch(e){}
+  if(remembered===h&&hasPendingFor(h)){
+   handle=h;
+   runScheduledSync();
+   return Promise.resolve();
+  }
   return fetchProfileRow(h).then(function(res){
    handle=h;try{localStorage.setItem(ACCT_KEY,h);}catch(e){}
    if(res.data&&res.data.data){hydrateFromCloud(res.data.data);}
@@ -1106,6 +1191,17 @@ var SUPABASE_CONFIG={url:"https://gqpjeccmwsjxrlrazqxt.supabase.co",anonKey:"sb_
   var remembered=null;try{remembered=localStorage.getItem(ACCT_KEY);}catch(e){}
   if(remembered){
    if(consumeSkipHydrateFlag()){handle=remembered;bootApp();return;}
+   // Unsynced local changes outrank the cloud copy, on EVERY load, not just the app's own
+   // reload. This is the guard that finally fixes "I tiered something, refreshed, and it was
+   // gone": the skip-hydrate flag above only covers the single reload the app triggers itself,
+   // so a manual refresh after a save that never landed used to pull the stale row down over the
+   // change. Now local wins until a write is actually verified, and the push is retried here.
+   if(hasPendingFor(remembered)){
+    handle=remembered;
+    bootApp();
+    runScheduledSync();
+    return;
+   }
    fetchProfileRow(remembered).then(function(res){
     handle=remembered;
     if(res.data&&res.data.data)hydrateFromCloud(res.data.data);
@@ -3552,8 +3648,16 @@ function handleProfileEditClick(btn){
    "here's what changed" readout, not a live version check against anything. Bump APP_VERSION and
    add a CHANGELOG entry whenever a change is worth a friend knowing about; cosmetic tweaks don't
    need a bump. */
-const APP_VERSION='1.37.0';
+const APP_VERSION='1.38.0';
 const CHANGELOG=[
+ {v:'1.38.0',date:'2026-09-03',summary:'Your picks can no longer be lost. A save that doesn\'t actually reach the server is now detected, kept safely on your device, clearly shown as unsaved, and retried — instead of being silently reverted the next time you refresh.',notes:[
+  'Root cause of picks disappearing on refresh: the app treated "the save request came back without an error" as proof it saved — but that is not the same thing. If the server accepted the request without actually storing it (a validation rule rejecting the row, a project running an out-of-date copy of the schema, a request cut off in flight), the app believed it, and then the very next ordinary page load pulled the older cloud copy back down over the change. That is why tiering something looked fine, and refreshing wiped it',
+  'Saves are now verified: after writing, the app reads the row straight back and compares it. A save only counts as done when the server hands the same profile back — otherwise it stays marked unsynced, with the real reason recorded',
+  'Unsaved changes now always win over the cloud copy. While anything is unsynced, no page load (including a manual refresh, a reopened tab, or signing back in with the same name) is allowed to overwrite your local data — it keeps your picks and retries the save in the background instead, healing on its own once the connection or server is working',
+  'The sync dot tells the truth now. It used to show green "Synced to the cloud" on every load regardless of whether anything had actually saved, which is a large part of why this went undiagnosed for so long. Unsaved changes now show red with the specific reason',
+  'Schema hardening: the profiles validation rule used to reject the ENTIRE save if it saw any key it did not recognise — so a project running an older copy of schema.sql lost every save, permanently, rather than just the unknown key. It now drops unrecognised keys and stores the rest, and the app\'s own read-back check surfaces anything actually dropped as a visible error',
+  'Recommended (not required): re-run supabase/schema.sql once in the Supabase SQL Editor to pick up that hardening. Even without it, your picks are now safe on your device and the app will tell you plainly if the server is refusing them'
+ ]},
  {v:'1.37.0',date:'2026-09-03',summary:'Fixed the real reason typing an existing account name back in could look brand new: sign-in used a separate, unfixed 8-second timeout with no retry and a hidden error message. Plus a leftover-timer bug that could resurrect a just-deleted account, and a spacing fix for the GOAT Profile tier row.',notes:[
   'Root-cause fix: signing in (typing your handle at the account gate, or the app remembering it from before) fetches your saved data from the cloud -- that fetch was using its own hardcoded 8-second timeout, separate from (and never fixed alongside) the 15-second one the previous release fixed for saves. One slow read -- the exact same free-tier cold-start latency that\'s been the culprit all along -- meant an account with real, saved data would silently be treated as brand new, and the error explaining why used to be set and then hidden again in the very next line, so it was never actually visible',
   'Sign-in now retries automatically once on a failed read before giving up, and if it still can\'t reach the cloud, the account gate stays open with a real, visible explanation and a re-enabled Continue button to retry -- instead of silently treating an existing account as new',
