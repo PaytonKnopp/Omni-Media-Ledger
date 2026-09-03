@@ -257,6 +257,28 @@ body[data-theme="outer-wilds"]{--bg:#0e0a09;--panel:#181010;--panel-2:#120c0b;--
   </div>
 </div>
 
+<div id="suggestGate" class="hidden fixed inset-0 z-[999] flex items-center justify-center bg-black/80 backdrop-blur-sm p-4">
+  <div class="panel p-6 max-w-lg w-full space-y-4 max-h-[85vh] overflow-y-auto">
+    <div class="flex items-start justify-between gap-2">
+      <div>
+        <div class="text-[10px] tracking-[.35em] text-emerald-300/80 uppercase mb-1">Suggest a feature</div>
+        <h2 class="text-lg font-bold text-slate-50">What would make this better?</h2>
+        <p class="text-[13px] text-slate-400 mt-1">Bug, idea, missing feature — anything. Visible to everyone using this app, not just the person who set it up.</p>
+      </div>
+      <button type="button" id="suggestClose" class="text-slate-500 hover:text-slate-300 text-lg leading-none">✕</button>
+    </div>
+    <textarea id="suggestText" class="inp" rows="4" placeholder="e.g. It would be great if…" style="resize:vertical"></textarea>
+    <div id="suggestError" class="hidden text-[12px] text-rose-400"></div>
+    <div class="flex justify-end gap-2">
+      <button type="button" id="suggestSubmit" class="presetBtn" style="color:#6ee7b7;border-color:#34d39955">Submit</button>
+    </div>
+    <div class="pt-3 border-t border-slate-800/70">
+      <div class="lbl mb-2">Suggestions so far</div>
+      <div id="suggestList" class="space-y-2 max-h-64 overflow-y-auto"></div>
+    </div>
+  </div>
+</div>
+
 <div id="compareGate" class="hidden fixed inset-0 z-[999] flex items-center justify-center bg-black/80 backdrop-blur-sm p-4">
   <div class="panel p-6 max-w-2xl w-full space-y-4 max-h-[85vh] overflow-y-auto">
     <div class="flex items-start justify-between gap-2">
@@ -332,6 +354,7 @@ body[data-theme="outer-wilds"]{--bg:#0e0a09;--panel:#181010;--panel-2:#120c0b;--
       <button type="button" class="navBtn" data-view="viz">Visualization Suite</button>
       <button type="button" class="navBtn" data-view="timeline">◷ Timeline</button>
       <button type="button" id="tonightBtn" class="navBtn" style="border-color:#818cf855;color:#c7d2fe">🌙 Tonight</button>
+      <button type="button" id="suggestBtn" class="navBtn" style="border-color:#34d39955;color:#6ee7b7">💡 Suggest a feature</button>
     </nav>
   </div>
 </header>
@@ -871,6 +894,10 @@ var FIREBASE_CONFIG={apiKey:"PASTE_YOUR_FIREBASE_API_KEY_HERE",authDomain:"PASTE
    firebase.initializeApp(FIREBASE_CONFIG);
    fsdb=firebase.firestore();
    cloudReady=true;
+   // Exposed so the main app script (ledger-app, injected separately below) can use the same
+   // Firestore connection for its own features (e.g. the suggestion box) without duplicating the
+   // Firebase init/config. A getter, not a snapshot, since `handle` resolves asynchronously.
+   window.__omniAcct=function(){return {fsdb:fsdb,handle:handle,configured:CONFIGURED&&cloudReady};};
   }catch(e){console.warn('Firebase init failed, continuing local-only:',e);renderFooterNote();bootApp();return;}
   renderFooterNote();
   var remembered=null;try{remembered=localStorage.getItem(ACCT_KEY);}catch(e){}
@@ -3151,8 +3178,11 @@ function handleProfileEditClick(btn){
    "here's what changed" readout, not a live version check against anything. Bump APP_VERSION and
    add a CHANGELOG entry whenever a change is worth a friend knowing about; cosmetic tweaks don't
    need a bump. */
-const APP_VERSION='1.14.0';
+const APP_VERSION='1.15.0';
 const CHANGELOG=[
+ {v:'1.15.0',date:'2026-09-03',notes:[
+  'New: a "💡 Suggest a feature" button in the header opens a shared suggestion box -- write an idea or a bug, and it\'s visible to everyone using the app, not just you. Needs cloud accounts set up (see below); without that it explains why instead of silently doing nothing'
+ ]},
  {v:'1.14.0',date:'2026-09-03',notes:[
   '"Pick Your GOATs" is no longer a separate header button and popup -- it\'s now a real search box built right into the top of the GOAT Profile tab. Search, then tier or mark owned directly on each result with the same buttons every card already has. Your declared canon, taste DNA, and recommendations below it update the moment you do',
   'Fixed: declaring/tiering/owning something from anywhere other than Global Controller used to bounce you back to Global Controller (the page reloads to recompute your match scores) -- it now returns you to whatever tab you were on'
@@ -3292,6 +3322,95 @@ const CHANGELOG=[
   on('#tonightAnother','click',renderPick);
  }
  on('#tonightFind','click',findPick);
+})();
+
+/* ===== Suggestion box: shared Firestore collection, visible to everyone =====
+   Writes/reads use window.__omniAcct().fsdb directly rather than a doc keyed by handle --
+   suggestions aren't personal data, they're a shared feed everyone contributes to and sees,
+   so they live in their own top-level 'suggestions' collection instead of nested under any
+   one account. If cloud accounts aren't configured, the box still opens but explains that
+   suggestions need that setup rather than silently doing nothing. #suggestBtn shares the
+   .navBtn class with no data-view, the same shape that caused two earlier bugs (#tonightBtn,
+   the old #goatPickerBtn) where the click bubbled into #nav's delegated switchView(undefined)
+   and hid the whole page -- e.stopPropagation() here is mandatory, not defensive style. */
+(function suggestBox(){
+ var btn=$('#suggestBtn'),gate=$('#suggestGate');
+ if(!btn||!gate)return;
+ var loaded=false;
+ function acct(){return (typeof window.__omniAcct==='function')?window.__omniAcct():null;}
+ function showError(msg){var e=$('#suggestError');if(!e)return;e.textContent=msg;e.classList.toggle('hidden',!msg);}
+ function open(){
+  gate.classList.remove('hidden');
+  showError('');
+  if(!loaded){loaded=true;loadSuggestions();}
+ }
+ function close(){gate.classList.add('hidden');}
+ function esc2(s){return esc(String(s==null?'':s));}
+ function timeAgo(ms){
+  if(!ms)return'';
+  var s=Math.max(1,Math.round((Date.now()-ms)/1000));
+  if(s<60)return s+'s ago';
+  var m=Math.round(s/60);if(m<60)return m+'m ago';
+  var h=Math.round(m/60);if(h<24)return h+'h ago';
+  var d=Math.round(h/24);return d+'d ago';
+ }
+ function renderList(items){
+  var list=$('#suggestList');if(!list)return;
+  if(!items.length){list.innerHTML='<div class="text-[12px] text-slate-500">No suggestions yet — be the first.</div>';return;}
+  list.innerHTML=items.map(function(it){
+   return '<div class="text-[12px] bg-slate-900/50 border border-slate-800/70 rounded-lg p-2">'
+    +'<div class="text-slate-200 leading-relaxed">'+esc2(it.text)+'</div>'
+    +'<div class="text-[10px] text-slate-500 mt-1">'+esc2(it.handle||'anonymous')+(it.createdAtMs?' · '+timeAgo(it.createdAtMs):'')+'</div>'
+    +'</div>';
+  }).join('');
+ }
+ function loadSuggestions(){
+  var a=acct();
+  if(!a||!a.configured){
+   renderList([]);
+   $('#suggestList').innerHTML='<div class="text-[12px] text-slate-500">Cloud accounts aren\'t set up on this copy of the app yet, so suggestions can\'t be shared or saved here. See NOTES.md → "Cloud accounts".</div>';
+   return;
+  }
+  a.fsdb.collection('suggestions').orderBy('createdAt','desc').limit(50).get().then(function(snap){
+   var items=[];
+   snap.forEach(function(doc){
+    var d=doc.data()||{};
+    var ms=(d.createdAt&&typeof d.createdAt.toMillis==='function')?d.createdAt.toMillis():(d.createdAt||null);
+    items.push({text:d.text,handle:d.handle,createdAtMs:ms});
+   });
+   renderList(items);
+  }).catch(function(err){
+   $('#suggestList').innerHTML='<div class="text-[12px] text-rose-400">Couldn\'t load suggestions ('+esc2(err&&err.message||err)+').</div>';
+  });
+ }
+ function submit(){
+  var ta=$('#suggestText');
+  var text=(ta&&ta.value||'').trim();
+  if(!text){showError('Write something first.');return;}
+  var a=acct();
+  if(!a||!a.configured){showError('Cloud accounts aren\'t set up on this copy of the app, so there\'s nowhere to send this yet.');return;}
+  showError('');
+  var submitBtn=$('#suggestSubmit');
+  if(submitBtn)submitBtn.disabled=true;
+  var handle=a.handle||'anonymous';
+  var FieldValue=(window.firebase&&firebase.firestore&&firebase.firestore.FieldValue)||null;
+  a.fsdb.collection('suggestions').add({
+   text:text,
+   handle:handle,
+   createdAt:FieldValue?FieldValue.serverTimestamp():Date.now()
+  }).then(function(){
+   if(ta)ta.value='';
+   loaded=true;
+   loadSuggestions();
+  }).catch(function(err){
+   showError('Couldn\'t submit that ('+(err&&err.message||err)+').');
+  }).finally(function(){
+   if(submitBtn)submitBtn.disabled=false;
+  });
+ }
+ on('#suggestBtn','click',function(e){e.stopPropagation();open();});
+ on('#suggestClose','click',close);
+ on('#suggestSubmit','click',submit);
 })();
 
 /* ===== GOAT Picker modal: onboarding-only search-and-select =====

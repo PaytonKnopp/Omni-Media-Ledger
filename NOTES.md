@@ -438,6 +438,26 @@ Fourth installment of the sequenced UX pass, and the one that removes the last p
 
 ---
 
+## Phase 16 — Shared suggestion box (Firestore-backed)
+
+Fifth installment of the sequenced UX pass: "a place on the main page to submit suggestions to make the application better." The user's explicit choice (asked directly, since it changes the shape of the feature): a shared Firestore collection, once cloud accounts are on — not a private per-user note, not a mailto link.
+
+**What it is.** A "💡 Suggest a feature" header button (next to 🌙 Tonight) opens a modal: a textarea, a Submit button, and a live list of everyone's prior suggestions underneath, newest first. Every visitor with cloud accounts configured sees the same shared list — it's explicitly a feed, not private feedback to whoever set up the app.
+
+**Where it lives.** A new top-level `suggestions` Firestore collection, separate from `profiles/<handle>`. Suggestions aren't personal taste data nested under one account; they're a shared feed anyone contributes to and everyone reads, so a flat collection with `.add()` (auto-generated doc IDs) is the natural fit — no need to read-modify-write a single array under contention from multiple people submitting at once, which a nested-under-profile design would have required. Each document: `{text, handle, createdAt}` (server timestamp when available, so ordering doesn't depend on local clocks).
+
+**Reused the existing cloud plumbing instead of duplicating it.** `acct-boot` already owns the one Firebase connection (`fsdb`) and the resolved handle; rather than have the suggestion-box code (which lives in the separate `ledger-app` script) reinitialize Firebase or track its own connection state, `acct-boot` now exposes `window.__omniAcct()` — a getter (not a snapshot) returning `{fsdb, handle, configured}` fresh on every call, since `handle` only resolves after the async account-gate flow completes. Any future feature needing the same Firestore connection can reuse this instead of wiring its own.
+
+**Graceful when cloud isn't configured.** The button still opens the modal — it doesn't just silently do nothing, which would look broken — but the list area explains that cloud accounts aren't set up on this copy yet and points at this section of NOTES.md, and Submit shows the same explanation instead of a confusing Firestore error. This matters because `index.html` ships with cloud accounts unconfigured by default (see "Cloud accounts" below); most people opening a fresh copy will hit this path first.
+
+**The now-familiar bug class, checked before it could happen.** `#suggestBtn` has the exact same shape as `#tonightBtn` and the old `#goatPickerBtn` before it — a `.navBtn` for visual consistency with the real view tabs, but no `data-view`, meaning a naive click handler would bubble into `#nav`'s delegated `switchView(undefined)` and hide the whole page underneath the modal (see Phase 11's account-menu note and Phase 15's writeup for the first two times this exact bug was found). Added `e.stopPropagation()` in the button's own handler from the start this time, and wrote the regression test *before* treating the feature as done, on both the no-cloud run (view intact after open/close) and the mocked-cloud run (view intact, submission round-trips through the list).
+
+**Testing.** Extended `test/smoke.js`'s `MOCK_FIRESTORE_SDK` — it previously only mocked `collection(name).doc(id).get()/.set()` (enough for the per-handle profile doc) — to also support collection-level `.add()`, `.orderBy()`, `.limit()`, and `.get()` with a `forEach` callback, matching the real Firestore query surface `loadSuggestions()` actually calls. New checks: the box opens without cloud configured and explains why rather than failing silently; opening/closing it (both with and without cloud) never corrupts the underlying view; with mocked cloud, submitting writes to the mock collection, the new entry appears back in the rendered list, and it's attributed to the signed-in handle.
+
+**Not done here, deliberately:** no moderation, upvoting, or status tracking (planned/done/declined) on suggestions — the ask was "a place to submit suggestions," not a full feature-request tracker. No de-duplication of near-identical suggestions. Both are reasonable follow-ups once there's an actual backlog of real submissions to see what's needed.
+
+---
+
 ## Ideas / next steps
 
 Roughly in order of value:

@@ -37,6 +37,7 @@ The ledger scores every work on a shared set of indices (critical, audience, tec
 - **Declare favorite / Mark owned / Boost creator / Silver tier / boost a genre or vibe / boost a book's affinity** — buttons and clickable chips on every expanded card that personalize your profile directly, no JSON editing required (see `PROFILE_TEMPLATE.md` for the one remaining field, `cosmicHorrorCanon`, that still needs hand-editing).
 - **Cross-Medium Pairings** — every expanded card also shows up to 3 works of a *different* medium (a film paired with a book, a game paired with a show) that share genres or vibe, ranked by overlap and match score. Click one to jump straight to it.
 - **Profile Comparison** — the header's **⇄ Compare** control loads someone else's exported profile file and shows shared declared favorites, what's unique to each of you, shared boosted creators/genres, and an overlap percentage. Read-only: nothing is saved or applied, it's just a look.
+- **💡 Suggest a feature** — a header button opens a shared feed where anyone can write an idea or bug and see everyone else's, newest first. Needs cloud accounts configured (below); otherwise it explains that instead of doing nothing.
 
 ---
 

@@ -289,6 +289,23 @@ async function runFile(browser, file) {
     });
     check('opening/closing Tonight does not hide the underlying view', controllerVisibleAfterTonight);
 
+    // #suggestBtn has the identical .navBtn-without-data-view shape as #tonightBtn above, so it
+    // needs the identical regression check. This run has no cloud configured, so it also checks
+    // the graceful "cloud not configured" message rather than a silent no-op or a thrown error.
+    await page.click('#suggestBtn');
+    await page.waitForTimeout(200);
+    const suggestGateVisibleNoCloud = await page.evaluate(() => document.getElementById('suggestGate').offsetHeight > 0);
+    check('suggestion box opens without cloud configured', suggestGateVisibleNoCloud);
+    const suggestListNoCloud = await page.textContent('#suggestList');
+    check('suggestion box explains cloud accounts aren\'t configured rather than failing silently', /cloud accounts/i.test(suggestListNoCloud));
+    await page.click('#suggestClose');
+    await page.waitForTimeout(200);
+    const controllerVisibleAfterSuggest = await page.evaluate(() => {
+      const s = document.querySelector('main > section[data-sec="controller"]');
+      return s && !s.classList.contains('hidden');
+    });
+    check('opening/closing the suggestion box does not hide the underlying view', controllerVisibleAfterSuggest);
+
     // Per-work "most relevant 3" front bars: regression for the old behavior where every movie
     // showed the identical Image/Dread/Mind trio, every book the identical Prose/Ideas/Depth trio,
     // etc., regardless of what was actually distinctive about that specific work. Different top
@@ -458,26 +475,52 @@ async function runFile(browser, file) {
 // exercises the real acct-boot code path, not a re-implementation of it.
 const MOCK_FIRESTORE_SDK = `
 window.__mockStore = {};
+window.__mockCollections = {};
 window.__setCalls = 0;
+window.__addCalls = 0;
+function __mockCollection(name){
+  window.__mockCollections[name] = window.__mockCollections[name] || [];
+  var rows = window.__mockCollections[name];
+  return {
+    doc: function(id){
+      var key = name + '/' + id;
+      return {
+        get: function(){
+          return Promise.resolve({
+            exists: Object.prototype.hasOwnProperty.call(window.__mockStore, key),
+            data: function(){ return window.__mockStore[key]; }
+          });
+        },
+        set: function(data){ window.__mockStore[key] = data; window.__setCalls++; return Promise.resolve(); }
+      };
+    },
+    add: function(data){
+      window.__addCalls++;
+      var withTs = Object.assign({}, data, { createdAt: (data && data.createdAt) || Date.now() });
+      rows.push(withTs);
+      return Promise.resolve({ id: 'mock' + rows.length });
+    },
+    orderBy: function(field, dir){
+      var sorted = rows.slice().sort(function(a,b){
+        var av = a[field] || 0, bv = b[field] || 0;
+        return dir === 'asc' ? av - bv : bv - av;
+      });
+      return { limit: function(n){
+        var limited = sorted.slice(0, n);
+        return { get: function(){
+          return Promise.resolve({ forEach: function(cb){ limited.forEach(function(d){ cb({ data: function(){ return d; } }); }); } });
+        }};
+      }};
+    }
+  };
+}
 window.firebase = {
   initializeApp: function(){},
   firestore: function(){
-    return { collection: function(name){
-      return { doc: function(id){
-        var key = name + '/' + id;
-        return {
-          get: function(){
-            return Promise.resolve({
-              exists: Object.prototype.hasOwnProperty.call(window.__mockStore, key),
-              data: function(){ return window.__mockStore[key]; }
-            });
-          },
-          set: function(data){ window.__mockStore[key] = data; window.__setCalls++; return Promise.resolve(); }
-        };
-      }};
-    }};
+    return { collection: __mockCollection };
   }
-};`;
+};
+window.firebase.firestore.FieldValue = { serverTimestamp: function(){ return Date.now(); } };`;
 
 async function runAccountFlow(browser, file) {
   const src = fs.readFileSync(path.join(ROOT, file), 'utf8');
@@ -543,7 +586,35 @@ async function runAccountFlow(browser, file) {
     const acctStatusText = await page2.textContent('#acctMenuStatus');
     check('account menu shows the signed-in handle', acctStatusText.includes('smoketestuser'));
 
-    // Switch account clears the remembered handle and shows the gate again.
+    // Suggestion box: opening it must not corrupt the view (same #navBtn-without-data-view bug
+    // class already found twice with #tonightBtn and the old #goatPickerBtn), it should load
+    // against the mocked Firestore, accept a submission, and show it back in the list.
+    const viewBeforeSuggest = await page2.evaluate(() => document.querySelector('section[data-sec]:not(.hidden)').dataset.sec);
+    await page2.click('#suggestBtn');
+    await page2.waitForTimeout(300);
+    const suggestGateVisible = await page2.evaluate(() => document.getElementById('suggestGate').offsetHeight > 0);
+    check('suggestion box opens on click', suggestGateVisible);
+    const viewAfterSuggestOpen = await page2.evaluate(() => document.querySelector('section[data-sec]:not(.hidden)').dataset.sec);
+    check('opening the suggestion box does not corrupt the underlying view', viewAfterSuggestOpen === viewBeforeSuggest);
+
+    await page2.fill('#suggestText', 'Smoke test suggestion: add more cowbell.');
+    await page2.click('#suggestSubmit');
+    await page2.waitForTimeout(300);
+    const addCalls = await page2.evaluate(() => window.__addCalls || 0);
+    check('submitting a suggestion writes to the shared Firestore collection', addCalls >= 1);
+    const listText = await page2.textContent('#suggestList');
+    check('the submitted suggestion appears back in the list', listText.includes('add more cowbell'));
+    check('the submitted suggestion is attributed to the signed-in handle', listText.includes('smoketestuser'));
+
+    await page2.click('#suggestClose');
+    await page2.waitForTimeout(150);
+    const suggestGateHiddenAfterClose = await page2.evaluate(() => document.getElementById('suggestGate').offsetHeight === 0);
+    check('suggestion box closes on close button', suggestGateHiddenAfterClose);
+
+    // Switch account clears the remembered handle and shows the gate again. Re-open the account
+    // menu first -- the suggestion-box interactions above (like any outside click) close it.
+    await page2.click('#acctMenuField');
+    await page2.waitForTimeout(200);
     await page2.click('#acctSwitchBtn');
     await page2.waitForTimeout(500);
     const handleAfterSwitch = await page2.evaluate(() => localStorage.getItem('omniLedgerHandle'));
