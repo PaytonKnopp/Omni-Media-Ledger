@@ -53,25 +53,34 @@ function findChromium() {
   return undefined; // let Playwright try its own default resolution
 }
 
-const DATA_FILES = ['data/movies.js', 'data/tv.js', 'data/games.js', 'data/books.js'];
+// Every file index.html pulls in via <script src>. Each must both be referenced by the HTML and
+// parse on its own -- a missing tag and a syntax error are equally fatal, and neither is obvious
+// from a browser that just renders a blank page.
+const DATA_FILES = [
+  'data/movies.js', 'data/tv.js', 'data/games.js', 'data/books.js',
+  'data/creators.js', 'data/contenders.js',
+  'app/ledger-app.js'
+];
 
 function syntaxCheck(file) {
   const html = fs.readFileSync(file, 'utf8');
-  const m = html.match(/<script id="ledger-app"[^>]*>([\s\S]*?)<\/script>/);
-  if (!m) return { ok: false, error: 'ledger-app script block not found' };
-  try { new Function(m[1]); }
-  catch (e) { return { ok: false, error: 'ledger-app: ' + e.message }; }
-  const acctMatch = html.match(/<script id="acct-boot">([\s\S]*?)<\/script>/);
-  if (acctMatch) {
-    try { new Function(acctMatch[1]); }
-    catch (e) { return { ok: false, error: 'acct-boot: ' + e.message }; }
-  }
+  const acctMatch = html.match(/<script id="account-sync">([\s\S]*?)<\/script>/);
+  if (!acctMatch) return { ok: false, error: 'account-sync script block not found' };
+  try { new Function(acctMatch[1]); }
+  catch (e) { return { ok: false, error: 'account-sync: ' + e.message }; }
   for (const df of DATA_FILES) {
     if (!html.includes('<script src="' + df + '">')) {
-      return { ok: false, error: 'missing <script src="' + df + '"> -- corpus split (see NOTES.md) requires all four' };
+      return { ok: false, error: 'missing <script src="' + df + '"> in index.html' };
     }
     try { new Function(fs.readFileSync(path.join(ROOT, df), 'utf8')); }
     catch (e) { return { ok: false, error: df + ': ' + e.message }; }
+  }
+  // The app must define initApp and must NOT run on load -- account-sync calls it only once the
+  // signed-in profile is resolved. If it ever went back to executing at parse time, every account
+  // would boot against whatever profile happened to be in localStorage first.
+  const appSrc = fs.readFileSync(path.join(ROOT, 'app/ledger-app.js'), 'utf8');
+  if (!/function\s+initApp\s*\(/.test(appSrc)) {
+    return { ok: false, error: 'app/ledger-app.js no longer defines initApp()' };
   }
   return { ok: true };
 }
