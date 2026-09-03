@@ -297,6 +297,44 @@ async function runFile(browser, file) {
     });
     check('GOAT Match and Cosmic Horror share the same grid as the other indices, not nested apart', detailLayoutOk);
 
+    // Filter reorganization: Genre, Owned/Not-owned, and Tier are now always visible without
+    // opening Advanced Filters (previously buried inside it). Pinning moves a specialized index
+    // slider from Advanced to the main row instead of duplicating it, preserving its live value.
+    const alwaysVisible = await page.evaluate(() => {
+      const genre = document.getElementById('genreChips');
+      const owned = document.getElementById('ownedToggle');
+      const tier = document.querySelector('.tierChk');
+      return !!(genre && genre.offsetParent !== null && owned && owned.offsetParent !== null && tier && tier.offsetParent !== null);
+    });
+    check('genre, owned/not-owned, and tier filters are visible without opening Advanced Filters', alwaysVisible);
+
+    await page.click('#advToggle');
+    await page.waitForTimeout(150);
+    const sndSlider = await page.$('#indexSliders .idxSlider[data-k="snd"]');
+    await sndSlider.evaluate(el => { el.value = 60; el.dispatchEvent(new Event('input', { bubbles: true })); });
+    await page.waitForTimeout(150);
+    await page.click('#indexSliders .pinIdxBtn[data-k="snd"]');
+    await page.waitForTimeout(150);
+    const pinnedState = await page.evaluate(() => {
+      const mainSlider = document.querySelector('#pinnedMainSliders .idxSlider[data-k="snd"]');
+      const stillInAdvanced = document.querySelector('#indexSliders .idxSlider[data-k="snd"]');
+      const rowVisible = !document.getElementById('pinnedMainSliders').classList.contains('hidden');
+      return { moved: !!mainSlider && !stillInAdvanced, valuePreserved: mainSlider && mainSlider.value === '60', rowVisible };
+    });
+    check('pinning a slider moves it to the main row (not duplicated) and shows the row', pinnedState.moved && pinnedState.rowVisible);
+    check('pinning preserves the slider\'s current value', pinnedState.valuePreserved);
+    const pinnedSaved = await page.evaluate(() => (JSON.parse(localStorage.getItem('omniLedgerProfile')).pinnedIdx || []).includes('snd'));
+    check('pinned index is saved to the profile', pinnedSaved);
+    await page.click('#pinnedMainSliders .pinIdxBtn[data-k="snd"]');
+    await page.waitForTimeout(150);
+    const unpinnedState = await page.evaluate(() => ({
+      backInAdvanced: !!document.querySelector('#indexSliders .idxSlider[data-k="snd"]'),
+      rowHidden: document.getElementById('pinnedMainSliders').classList.contains('hidden')
+    }));
+    check('unpinning moves the slider back to Advanced and hides the empty main row', unpinnedState.backInAdvanced && unpinnedState.rowHidden);
+    await page.click('#resetBtn');
+    await page.waitForTimeout(150);
+
     // Tier system (Gold/Silver/Bronze): toggle Bronze on the first result card from its compact,
     // always-visible tier row (not the expanded detail panel), and check the badge, the tier
     // filter, and the tier sort all pick it up. Regression: the tier row's wrapping div originally

@@ -408,6 +408,22 @@ Continuing the sequenced UX pass from Phase 12. Two of the deferred items from t
 
 ---
 
+## Phase 14 — Filter reorganization: main view vs. Advanced, with user-pinnable sliders
+
+Third installment of the sequenced UX pass. The user's ask: whichever filters are most relevant to most people should be visible without opening Advanced Filters, with everything else staying there — and, as an explicit "would be good" option, letting each person choose which of the specialized sliders they personally want pinned to the main view.
+
+**What moved out of Advanced, unconditionally, for everyone:** Genre/Type chips, the Owned/Not-owned toggles, and the Gold/Silver/Bronze tier checkboxes (added in Phase 12). These are the filters almost any user reaches for regardless of taste — genre and ownership are universal, and tier filtering is the direct payoff of the favorites system just built. **What stayed in Advanced:** TV Structure, Content Rating, the 15 specialized index sliders (Soundtrack, Scariest, Iconicness, etc. — genuinely more niche/power-user), Year range, and the strict-AND checkbox.
+
+**Pinning, the customizable half of the ask.** Rather than duplicate a slider in two places (real risk of the two copies drifting out of sync, extra event-wiring complexity), pinning **moves** a specialized-index slider from the Advanced list to a new always-visible row above it — there is only ever one live DOM element per index, so `state.idx[k]` never needs reconciling between two inputs. Implementation: `PERSONAL_PROFILE.pinnedIdx` (an array of index keys) drives which of `INDEX_DEFS` render in `#pinnedMainSliders` (new container, hidden when empty) versus `#indexSliders` (the existing Advanced list, now filtered to exclude whatever's pinned). A 📌 button on every slider's label toggles membership via `togglePinIdx()`, which persists straight to `localStorage.omniLedgerProfile` (syncing through the existing cloud-account layer for free) **without a full page reload** — unlike the tier toggles or other profile edits, which reload deliberately, a UI preference like "which slider is pinned" doesn't need that, so it got its own lighter `mutateProfileNoReload`-style path that just re-renders the two slider containers and keeps the live `state.idx` values intact across the move.
+
+**Advanced's filter-count badge (`syncAdvCount`) was updated** to stop counting genre/owned/tier, since a filter no longer living inside the collapsed panel has no business being counted as "how many things are active in there."
+
+**Testing.** New checks: genre/owned/tier are actually visible without a click on Advanced Filters; pinning a slider moves it (not duplicates it) and preserves its current value; the pinned choice is saved to the profile; unpinning moves it back and hides the now-empty pinned row.
+
+**Not done here, deliberately:** no attempt to guess or auto-suggest "smart" pins based on usage — the user asked for a way to choose, not an algorithm that chooses for them. If a majority of people end up pinning the same 2-3 sliders in practice, promoting those to always-on-by-default would be a reasonable future tweak, but that's a decision to make from real usage data, not upfront guessing.
+
+---
+
 ## Ideas / next steps
 
 Roughly in order of value:

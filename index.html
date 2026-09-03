@@ -386,6 +386,19 @@ body[data-theme="outer-wilds"]{--bg:#0e0a09;--panel:#181010;--panel-2:#120c0b;--
         <input type="range" id="minCosmic" min="0" max="100" value="0" aria-label="Minimum cosmic horror index"/>
       </div>
     </div>
+    <div id="pinnedMainSliders" class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-x-6 gap-y-4 mt-4 pt-4 border-t border-slate-800/70 hidden"></div>
+    <div class="mt-4 pt-4 border-t border-slate-800/70">
+      <div class="flex items-center justify-between mb-2"><span class="fieldlbl mb-0">Genre / Type · multi-select (matches ANY selected)</span><button type="button" id="genreClear" class="text-[10px] text-slate-500 hover:text-rose-300">clear genres</button></div>
+      <div id="genreChips" class="flex flex-wrap gap-1.5"></div>
+    </div>
+    <div class="flex flex-wrap items-center gap-x-6 gap-y-3 mt-4 pt-4 border-t border-slate-800/70">
+      <label class="flex items-center gap-2 text-[11px] cursor-pointer" style="color:#86efac"><input type="checkbox" id="ownedToggle" class="accent-emerald-500"/> ◆ Owned in my collection only</label>
+      <label class="flex items-center gap-2 text-[11px] cursor-pointer" style="color:#fca5a5"><input type="checkbox" id="notOwnedToggle" class="accent-rose-500"/> ○ Not owned · discover only</label>
+      <span class="fieldlbl mb-0">Tiers</span>
+      <label class="flex items-center gap-1.5 text-[11px] cursor-pointer" style="color:#fbbf24"><input type="checkbox" class="tierChk accent-amber-500" data-tier="gold"/> 🥇 Gold</label>
+      <label class="flex items-center gap-1.5 text-[11px] cursor-pointer" style="color:#cbd5e1"><input type="checkbox" class="tierChk accent-slate-400" data-tier="silver"/> 🥈 Silver</label>
+      <label class="flex items-center gap-1.5 text-[11px] cursor-pointer" style="color:#cd7f32"><input type="checkbox" class="tierChk accent-orange-700" data-tier="bronze"/> 🥉 Bronze</label>
+    </div>
     <div class="mt-4 pt-4 border-t border-slate-800/70">
       <button type="button" id="advToggle" class="flex items-center gap-2 text-[11px] tracking-[.12em] uppercase text-slate-300 hover:text-white transition-colors">
         <span id="advCaret" class="inline-block transition-transform">&#9656;</span> Advanced Filters &amp; Indices <span id="advCount" class="chip" style="display:none"></span>
@@ -402,25 +415,15 @@ body[data-theme="outer-wilds"]{--bg:#0e0a09;--panel:#181010;--panel-2:#120c0b;--
           </div>
         </div>
         <div>
-          <div class="flex items-center justify-between mb-2"><span class="fieldlbl mb-0">Genre / Type · multi-select (matches ANY selected)</span><button type="button" id="genreClear" class="text-[10px] text-slate-500 hover:text-rose-300">clear genres</button></div>
-          <div id="genreChips" class="flex flex-wrap gap-1.5"></div>
-        </div>
-        <div>
           <div class="flex items-center justify-between mb-2"><span class="fieldlbl mb-0">Content Rating · multi-select</span><button type="button" id="ratingClear" class="text-[10px] text-slate-500 hover:text-rose-300">clear ratings</button></div>
           <div id="ratingChips" class="flex flex-wrap gap-1.5"></div>
         </div>
         <div>
-          <span class="fieldlbl">Specialized Index Thresholds · stack as many as you like</span>
+          <span class="fieldlbl">Specialized Index Thresholds · stack as many as you like · <button type="button" id="pinHelpBtn" class="normal-case text-slate-500 hover:text-indigo-300 underline decoration-dotted underline-offset-2" title="Click 📌 on any slider below to pin it to the main filter row above, so you don't have to open Advanced Filters to use it every time">📌 pin one to always show it up top</button></span>
           <div id="indexSliders" class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-x-6 gap-y-4 mt-2"></div>
         </div>
         <div class="flex flex-wrap items-center gap-x-6 gap-y-3">
           <label class="flex items-center gap-2 text-[11px] text-slate-300 cursor-pointer"><input type="checkbox" id="combineMode" class="accent-indigo-500"/> Require ALL active filters (strict AND)</label>
-          <label class="flex items-center gap-2 text-[11px] cursor-pointer" style="color:#86efac"><input type="checkbox" id="ownedToggle" class="accent-emerald-500"/> ◆ Owned in my collection only</label>
-          <label class="flex items-center gap-2 text-[11px] cursor-pointer" style="color:#fca5a5"><input type="checkbox" id="notOwnedToggle" class="accent-rose-500"/> ○ Not owned · discover only</label>
-          <span class="fieldlbl mb-0">Tiers</span>
-          <label class="flex items-center gap-1.5 text-[11px] cursor-pointer" style="color:#fbbf24"><input type="checkbox" class="tierChk accent-amber-500" data-tier="gold"/> 🥇 Gold</label>
-          <label class="flex items-center gap-1.5 text-[11px] cursor-pointer" style="color:#cbd5e1"><input type="checkbox" class="tierChk accent-slate-400" data-tier="silver"/> 🥈 Silver</label>
-          <label class="flex items-center gap-1.5 text-[11px] cursor-pointer" style="color:#cd7f32"><input type="checkbox" class="tierChk accent-orange-700" data-tier="bronze"/> 🥉 Bronze</label>
           <div class="flex items-center gap-2"><span class="fieldlbl mb-0">Year</span><input type="number" id="yearMin" class="inp" style="width:84px" placeholder="from" min="1950" max="2026"/><span class="text-slate-600">–</span><input type="number" id="yearMax" class="inp" style="width:84px" placeholder="to" min="1950" max="2026"/></div>
         </div>
       </div>
@@ -2025,6 +2028,10 @@ ALL.forEach(x=>{x.silver=GOAT_SILVER.has(x.id);if(x.silver){var sg=Math.round(x.
    tiers form a clear Gold(100) > Silver(->88) > Bronze(->80) hierarchy without any of them ever
    pulling a score down. */
 if(!PROFILE_FROM_STORAGE)PERSONAL_PROFILE.bronzeTierIds=[];
+/* Pinned specialized-index sliders: a UI preference (which of the 15 Advanced sliders also show
+   in the always-visible main filter row), not a taste signal -- doesn't affect scoring at all,
+   just which controls are one click away. Defaults to none pinned. */
+if(!PROFILE_FROM_STORAGE)PERSONAL_PROFILE.pinnedIdx=[];
 const GOAT_BRONZE=new Set(PERSONAL_PROFILE.bronzeTierIds||[]);
 ALL.forEach(x=>{x.bronze=GOAT_BRONZE.has(x.id);if(x.bronze){var bg=Math.round(x.gm*0.65+80*0.35);if(bg>x.gm){x.gm=bg;x.gmOverride=x.gmOverride||'bronze';}}});
 function tierRank(x){return x.goat?3:x.silver?2:x.bronze?1:0;}
@@ -3109,8 +3116,13 @@ function handleProfileEditClick(btn){
    "here's what changed" readout, not a live version check against anything. Bump APP_VERSION and
    add a CHANGELOG entry whenever a change is worth a friend knowing about; cosmetic tweaks don't
    need a bump. */
-const APP_VERSION='1.12.0';
+const APP_VERSION='1.13.0';
 const CHANGELOG=[
+ {v:'1.13.0',date:'2026-09-03',notes:[
+  'Genre, Owned/Not-owned, and Gold/Silver/Bronze filters are now always visible on the main screen -- no more opening Advanced Filters just to use the ones almost everyone reaches for',
+  'New: pin any of the 15 specialized index sliders (Soundtrack, Scariest, Iconicness, etc.) to the main filter row with one click, so your own most-used filters are always one click away too. Unpin just as easily -- it moves, not copies, so there\'s never two of the same slider to keep in sync',
+  'Advanced Filters is now genuinely just the less-common stuff: TV structure, content rating, unpinned specialized indices, year range, and strict-AND mode'
+ ]},
  {v:'1.12.0',date:'2026-09-03',notes:[
   'Each card\'s 3 at-a-glance stats now show whatever is actually strongest for THAT specific work, out of ~19 tracked indices -- not the same fixed trio for every movie, every book, every game. A quiet character drama can lead with Emotional; a soundtrack-driven blockbuster leads with Soundtrack. Expand any card to see all of them, same as before',
   'Fixed wasted space in the expanded card detail: GOAT Match and Cosmic Horror were oddly isolated in their own rows because the whole index grid was nested inside a different grid as a single item instead of being laid out alongside it. They now share the same responsive grid as every other index'
@@ -3429,13 +3441,41 @@ function buildRatingChips(){
  $('#ratingChips').innerHTML=RATING_ORDER.filter(r=>RATING_COUNTS[r]).map(r=>{const on=state.ratings.includes(r);
   return '<button type="button" class="chip ratingChip" data-r="'+esc(r)+'" style="cursor:pointer;'+(on?'color:#0B0F19;background:#5eead4;border-color:#5eead4;font-weight:700':'')+'">'+esc(r)+' <span style="opacity:.6">'+RATING_COUNTS[r]+'</span></button>';}).join('');
 }
+// Pinning: a user can pin any of the 15 specialized index sliders to the always-visible main
+// filter row instead of needing to open Advanced Filters every time to reach it. A slider lives in
+// exactly one place at a time (moved, not duplicated) so there's only ever one live DOM element per
+// index and no risk of two copies drifting out of sync.
+function pinnedIdxSet(){return new Set(PERSONAL_PROFILE.pinnedIdx||[]);}
+function sliderBlockHTML(d,pinned){
+ var star='<button type="button" class="pinIdxBtn" data-k="'+d[0]+'" title="'+(pinned?'Unpin from the main filter row':'Pin to the main filter row, so it always shows without opening Advanced Filters')+'" style="cursor:pointer;background:none;border:none;padding:0;line-height:1;color:'+(pinned?d[2]:'#475569')+'">📌</button>';
+ return '<div><div class="flex justify-between items-baseline mb-1.5"><span class="fieldlbl mb-0 flex items-center gap-1.5" style="color:'+d[2]+'">'+star+' '+d[1]+' ≥</span><span class="text-[12px] font-bold tabular-nums" style="color:'+d[2]+'" id="idxV_'+d[0]+'">'+(state.idx[d[0]]||0)+'</span></div>'
+ +'<input type="range" class="idxSlider" data-k="'+d[0]+'" min="0" max="100" value="'+(state.idx[d[0]]||0)+'" aria-label="Minimum '+d[1]+'"/></div>';
+}
 function buildIndexSliders(){
- $('#indexSliders').innerHTML=INDEX_DEFS.map(d=>'<div>'
-  +'<div class="flex justify-between items-baseline mb-1.5"><span class="fieldlbl mb-0" style="color:'+d[2]+'">'+d[1]+' ≥</span><span class="text-[12px] font-bold tabular-nums" style="color:'+d[2]+'" id="idxV_'+d[0]+'">0</span></div>'
-  +'<input type="range" class="idxSlider" data-k="'+d[0]+'" min="0" max="100" value="0" aria-label="Minimum '+d[1]+'"/></div>').join('');
+ var pinned=pinnedIdxSet();
+ $('#indexSliders').innerHTML=INDEX_DEFS.filter(d=>!pinned.has(d[0])).map(d=>sliderBlockHTML(d,false)).join('')
+  ||'<div class="text-[11px] text-slate-500 col-span-full">All specialized indices are pinned to the main filter row above.</div>';
+ buildPinnedMainSliders();
+}
+function buildPinnedMainSliders(){
+ var pinned=pinnedIdxSet();
+ var el=$('#pinnedMainSliders');if(!el)return;
+ var defs=INDEX_DEFS.filter(d=>pinned.has(d[0]));
+ el.classList.toggle('hidden',!defs.length);
+ el.innerHTML=defs.map(d=>sliderBlockHTML(d,true)).join('');
+}
+function togglePinIdx(key){
+ PERSONAL_PROFILE.pinnedIdx=PERSONAL_PROFILE.pinnedIdx||[];
+ var i=PERSONAL_PROFILE.pinnedIdx.indexOf(key);
+ if(i>=0)PERSONAL_PROFILE.pinnedIdx.splice(i,1);else PERSONAL_PROFILE.pinnedIdx.push(key);
+ try{localStorage.setItem('omniLedgerProfile',JSON.stringify(PERSONAL_PROFILE));localStorage.setItem('omniLedgerOnboarded','1');}catch(e){}
+ buildIndexSliders(); // rebuilds both the advanced list and the pinned main row, preserving state.idx values
 }
 function syncAdvCount(){
- let n=state.genres.length+state.ratings.length+(state.ownedOnly?1:0)+(state.notOwnedOnly?1:0)+state.tierFilter.length+IDX_KEYS.filter(k=>state.idx[k]>0).length+(state.yearMin!=null||state.yearMax!=null?1:0)+(state.combine?1:0);
+ // Only counts filters that actually live inside the collapsed Advanced panel -- genre, owned/not-
+ // owned, and tier moved to the always-visible main row, so they no longer need this badge to
+ // surface them.
+ let n=state.ratings.length+IDX_KEYS.filter(k=>state.idx[k]>0).length+(state.yearMin!=null||state.yearMax!=null?1:0)+(state.combine?1:0);
  const c=$('#advCount');if(c){c.style.display=n?'inline-flex':'none';c.textContent=n+' on';}
 }
 on('#advToggle','click',()=>{const pnl=$('#advPanel');pnl.classList.toggle('hidden');$('#advCaret').style.transform=pnl.classList.contains('hidden')?'':'rotate(90deg)';});
@@ -3443,7 +3483,12 @@ on('#genreChips','click',e=>{const b=e.target.closest('.genreChip');if(!b)return
 on('#genreClear','click',()=>{state.genres=[];buildGenreChips();syncAdvCount();refresh();});
 on('#ratingChips','click',e=>{const b=e.target.closest('.ratingChip');if(!b)return;const r=b.dataset.r;const i=state.ratings.indexOf(r);if(i<0)state.ratings.push(r);else state.ratings.splice(i,1);buildRatingChips();syncAdvCount();refresh();});
 on('#ratingClear','click',()=>{state.ratings=[];buildRatingChips();syncAdvCount();refresh();});
-on('#indexSliders','input',e=>{const sl=e.target.closest('.idxSlider');if(!sl)return;const k=sl.dataset.k;state.idx[k]=+sl.value;$('#idxV_'+k).textContent=sl.value;syncAdvCount();refresh();});
+function handleIdxSliderInput(e){const sl=e.target.closest('.idxSlider');if(!sl)return;const k=sl.dataset.k;state.idx[k]=+sl.value;$('#idxV_'+k).textContent=sl.value;syncAdvCount();refresh();}
+on('#indexSliders','input',handleIdxSliderInput);
+on('#pinnedMainSliders','input',handleIdxSliderInput);
+function handlePinBtnClick(e){const b=e.target.closest('.pinIdxBtn');if(!b)return;togglePinIdx(b.dataset.k);}
+on('#indexSliders','click',handlePinBtnClick);
+on('#pinnedMainSliders','click',handlePinBtnClick);
 on('#combineMode','change',e=>{state.combine=e.target.checked;refresh();});
 on('#ownedToggle','change',e=>{state.ownedOnly=e.target.checked;if(e.target.checked){state.notOwnedOnly=false;const no=$('#notOwnedToggle');if(no)no.checked=false;}syncAdvCount();refresh();});
 on('#notOwnedToggle','change',e=>{state.notOwnedOnly=e.target.checked;if(e.target.checked){state.ownedOnly=false;const o=$('#ownedToggle');if(o)o.checked=false;}syncAdvCount();refresh();});
