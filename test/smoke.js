@@ -949,6 +949,51 @@ async function runAccountFlow(browser, file) {
       (window.__mockTables.suggestions || []).some(s => (s.text || '').includes('cowbell')));
     check('deleting a suggestion removes it from the list and the shared table', !listAfterDelete.includes('cowbell') && !stillInMockStore);
 
+    // Not-done/Resolved tabs and cross-user delete: seed a suggestion from someone else directly
+    // into the mock table (a real submission from another handle), reload the list, and confirm
+    // it lands in "Not done" by default, has Delete offered even though it isn't smoketestuser's
+    // own (per the user's explicit "the ability to clear out and remove any suggestion" request --
+    // a scope change from the earlier "only your own" default), and moves to "Resolved" once marked.
+    await page2.evaluate(() => {
+      const db = JSON.parse(sessionStorage.getItem('__mockDb'));
+      db.tables.suggestions.push({ id: 9001, text: 'Someone else entirely: more kazoo.', handle: 'a_different_person', status: 'open', created_at: new Date().toISOString() });
+      sessionStorage.setItem('__mockDb', JSON.stringify(db));
+    });
+    await page2.click('#suggestTabs [data-tab="open"]');
+    await page2.evaluate(() => window.location.reload());
+    await page2.waitForTimeout(600);
+    await page2.click('#suggestBtn');
+    await page2.waitForTimeout(400);
+    const otherRowInOpenTab = await page2.evaluate(() =>
+      Array.from(document.querySelectorAll('#suggestList [data-suggest-id]')).some(r => r.textContent.includes('more kazoo')));
+    check('a suggestion from someone else appears in the Not done tab by default', otherRowInOpenTab);
+    const otherHasDeleteNoEdit = await page2.evaluate(() => {
+      const row = Array.from(document.querySelectorAll('#suggestList [data-suggest-id]')).find(r => r.textContent.includes('more kazoo'));
+      return !!(row && row.querySelector('.suggestDeleteBtn') && !row.querySelector('.suggestEditBtn'));
+    });
+    check('Delete (but not Edit) is offered on a suggestion someone else submitted', otherHasDeleteNoEdit);
+
+    await page2.evaluate(() => {
+      const row = Array.from(document.querySelectorAll('#suggestList [data-suggest-id]')).find(r => r.textContent.includes('more kazoo'));
+      row.querySelector('.suggestResolveBtn').click();
+    });
+    await page2.waitForTimeout(300);
+    const goneFromOpenAfterResolve = await page2.evaluate(() =>
+      !Array.from(document.querySelectorAll('#suggestList [data-suggest-id]')).some(r => r.textContent.includes('more kazoo')));
+    check('marking a suggestion resolved removes it from the Not done tab', goneFromOpenAfterResolve);
+    await page2.click('#suggestTabs [data-tab="resolved"]');
+    await page2.waitForTimeout(200);
+    const inResolvedTab = await page2.evaluate(() =>
+      Array.from(document.querySelectorAll('#suggestList [data-suggest-id]')).some(r => r.textContent.includes('more kazoo')));
+    check('...and shows it in the Resolved tab instead', inResolvedTab);
+    const resolvedInMockStore = await page2.evaluate(() => {
+      const row = (window.__mockTables.suggestions || []).find(s => (s.text || '').includes('more kazoo'));
+      return row && row.status === 'shipped';
+    });
+    check('the resolved status actually persisted to the shared table', resolvedInMockStore);
+    await page2.click('#suggestTabs [data-tab="open"]');
+    await page2.waitForTimeout(200);
+
     await page2.click('#suggestClose');
     await page2.waitForTimeout(150);
     const suggestGateHiddenAfterClose = await page2.evaluate(() => document.getElementById('suggestGate').offsetHeight === 0);

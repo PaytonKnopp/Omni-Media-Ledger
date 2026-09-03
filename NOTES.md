@@ -792,6 +792,26 @@ Also chased down an apparent regression during this verification — "declaring 
 
 ---
 
+## Phase 37 — Compare removed, header redesigned around the account, tier-row spacing, suggestion tabs, unified card clicks, and click-to-jump everywhere
+
+The rest of the same "Implement all of this" request from Phase 36, tackled after the persistence-bug fix shipped on its own.
+
+**Compare is gone.** Removed the header button, the `#compareGate` modal, and the `computeProfileComparison`/`renderCompare` functions behind it — the user said it won't be used.
+
+**Header redesign.** Previously the header's right side was one flat row: stats, then Account, then Theme, then Profile buttons, all the same visual weight — easy to miss which account you were even in. Restructured into two rows: the account control is now its own prominent element at the very top right (own row, level with the title), with an avatar circle (first letter of the handle, or a house/question-mark glyph for Local-only/Guest) and the handle shown boldly next to it — unambiguous at a glance. Stats, Theme, and Profile (Export/Import/Reset, Compare removed) now sit together in a second row below. Verified with real screenshots at both desktop and mobile widths.
+
+**GOAT Profile tier-row spacing.** `tierRowHTML()` gained an optional `roomy` flag: when true (only used by the "Search & Build Your Favorites" list, which renders one card at a time and can afford it), the Gold/Silver/Bronze/Owned buttons get a `.tierSegRoomy` style — bigger padding, bigger font, `gap-3` instead of `gap-1.5`. Every other card everywhere else (the dense main grid, GOAT Profile's top matches) keeps the original compact spacing untouched. Confirmed with a screenshot — the buttons are now clearly separated instead of crowded together.
+
+**Suggestion box: Not done / Resolved tabs, and widened delete scope.** Added a `#suggestTabs` row (📥 Not done, ✅ Resolved) with counts, styled distinctly (amber border/background for the not-done tab, green for resolved) — genuinely inbox-like, per the ask. Items are split by `status` (open/planned = not done; shipped/declined = resolved). Added a Mark resolved / Reopen toggle button on every item. Also widened Delete to work on *any* suggestion, not just your own — the user's Round 3 wording ("the ability to clear out and remove any suggestion") is a deliberate scope change from Round 1's "only your own," and this is a small shared list one household curates together rather than a moderated queue with separate reviewers; the RLS policy underneath already allowed this (same honor-system trust model as everything else in this app), so this was purely a UI-gating change. Edit stays limited to your own suggestion, since editing someone else's wording doesn't make sense. Required widening `supabase/schema.sql`'s column-level grant from `text`-only to `text, status`, so the in-app resolved toggle can actually write (previously `status` was SQL-Editor-only by design, from Phase 29's original triage-column comment — now the in-app toggle covers routine triage, with the SQL Editor still there for anything more involved). New regression tests: a suggestion seeded from a different handle shows Delete but not Edit, and marking it resolved actually persists `status:'shipped'` to the shared table and moves it between tabs.
+
+**Unified card-click behavior.** Global Controller cards used to have two independent toggles: clicking the title flipped a "Quick Look" summary face, and clicking anywhere else in the card head toggled a separate full stats/breakdown panel — never both, depending on exactly where you clicked. Replaced with `setCardExpanded()`/`toggleCardExpanded()`: any click on the card head (title included) now opens both the summary and the full breakdown together, and any of the title, the "back to card" button, or clicking the head again collapses both together. The two panels were already adjacent siblings in the DOM, so opening them together reads naturally — Quick Look first, full breakdown right below it.
+
+**Click-to-jump extended to Collection and Reference Matrices.** The `.goatJump`/`goatJumpTo()` pattern GOAT Profile's top matches already used (click a title anywhere, land on it in Global Controller with search pre-filled) is now also on: Collection's main gaps list (`#collGaps`, top-rated unowned works), the franchise/series and creator gap chips inside "Collection Intelligence — Gaps", and every row across all of Reference Matrices (`matrixRow()`, the one function every bracket list shares, so this covers all of them in one change). Verified functionally with Playwright — clicking a Reference Matrices row and a Collection gaps row both correctly land on Global Controller with that exact title in the search box.
+
+**Testing.** Added `db.slowNextProfileUpsertMs`-adjacent coverage aside, all of this phase's changes are UI/interaction changes verified through the full smoke suite (112 checks, clean run) plus new suggestion-tab-specific regression tests and manual Playwright screenshots/functional checks for the parts that are inherently visual (header layout, tier-row spacing, card-click unification, click-to-jump). No schema change beyond the suggestions status grant widening mentioned above.
+
+---
+
 ## Ideas / next steps
 
 Roughly in order of value:

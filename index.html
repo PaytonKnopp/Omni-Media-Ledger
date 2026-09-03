@@ -81,6 +81,14 @@ body.compact #grid .cardHead{padding-top:.5rem;padding-bottom:.5rem}
 .presetBtn:hover{border-color:var(--accent-soft);color:var(--accent-pale)}
 .tierSeg{font-size:11px;font-weight:700;line-height:1;padding:5px 8px;border-radius:8px;border:1px solid transparent;background:rgba(30,41,59,.5);transition:.15s;white-space:nowrap}
 .tierSeg:hover{background:rgba(51,65,85,.6)}
+.tierSegRoomy{font-size:13px;padding:8px 13px;border-radius:10px}
+.suggestTab{font-size:10px;font-weight:700;padding:4px 9px;border-radius:9999px;border:1px solid #1e293b;color:#64748b;background:rgba(15,23,42,.5);transition:.15s;white-space:nowrap}
+.suggestTab:hover{color:#94a3b8;border-color:#334155}
+.suggestTab.on[data-tab="open"]{color:#fbbf24;border-color:#fbbf2466;background:rgba(251,191,36,.1)}
+.suggestTab.on[data-tab="resolved"]{color:#34d399;border-color:#34d39966;background:rgba(52,211,153,.1)}
+.suggestItem{border-left:3px solid #334155}
+.suggestItem.isResolved{opacity:.72;border-left-color:#34d399;background:rgba(52,211,153,.05)}
+.suggestItem.isOpen{border-left-color:#fbbf24}
 .acctPrimaryBtn{background:#6366f1}
 .acctPrimaryBtn:hover:not(:disabled){background:#818cf8}
 .acctPrimaryBtn:disabled{opacity:.6;cursor:default}
@@ -277,77 +285,72 @@ body[data-theme="outer-wilds"]{--bg:#0e0a09;--panel:#181010;--panel-2:#120c0b;--
       <button type="button" id="suggestSubmit" class="presetBtn" style="color:#6ee7b7;border-color:#34d39955">Submit</button>
     </div>
     <div class="pt-3 border-t border-slate-800/70">
-      <div class="lbl mb-2">Suggestions so far</div>
+      <div class="flex items-center justify-between mb-2">
+        <div class="lbl mb-0">Suggestions so far</div>
+        <div class="flex gap-1" id="suggestTabs">
+          <button type="button" class="suggestTab" data-tab="open">📥 Not done <span id="suggestTabOpenCount"></span></button>
+          <button type="button" class="suggestTab" data-tab="resolved">✅ Resolved <span id="suggestTabResolvedCount"></span></button>
+        </div>
+      </div>
       <div id="suggestList" class="space-y-2 max-h-64 overflow-y-auto"></div>
     </div>
   </div>
 </div>
 
-<div id="compareGate" class="hidden fixed inset-0 z-[999] flex items-center justify-center bg-black/80 backdrop-blur-sm p-4">
-  <div class="panel p-6 max-w-2xl w-full space-y-4 max-h-[85vh] overflow-y-auto">
-    <div class="flex items-start justify-between gap-2">
-      <div>
-        <div class="text-[10px] tracking-[.35em] text-indigo-300/80 uppercase mb-1">Profile Comparison</div>
-        <h2 class="text-lg font-bold text-slate-50">Where your taste overlaps</h2>
-        <p class="text-[13px] text-slate-400 mt-1">Load a profile someone exported (header's Export button) and see shared declared favorites, shared creators/genres, and what's unique to each of you. Nothing is saved or applied — this is a read-only comparison against your current profile.</p>
-      </div>
-      <button type="button" id="compareClose" class="text-slate-500 hover:text-slate-300 text-lg leading-none">✕</button>
-    </div>
-    <div id="compareBody"><p class="text-[12px] text-slate-500">Use the header's <strong>⇄ Compare</strong> control to load a file.</p></div>
-  </div>
-</div>
-
 <header class="sticky top-0 z-40 backdrop-blur bg-[#0B0F19]/85 border-b border-slate-800/80">
   <div id="headerInner" class="max-w-[1400px] mx-auto px-4 pt-4 pb-3">
-    <div class="flex flex-wrap items-end justify-between gap-3">
-      <div>
-        <h1 class="text-xl md:text-2xl font-bold tracking-tight text-slate-50">The Ultimate Omni-Media &amp; Entertainment Ledger</h1>
-        <div id="lastUpdated" class="text-[10px] text-slate-500 mt-1 tracking-wide">Last updated · Aug 30, 2026 · <span id="luCount" class="text-slate-400"></span> · <button type="button" id="versionBtn" class="text-slate-500 hover:text-slate-300 underline decoration-dotted underline-offset-2">v<span id="versionText"></span></button></div>
-      </div>
-      <div id="headerControlsRow" class="flex flex-wrap items-center gap-4">
-        <div id="headStats" class="flex flex-wrap gap-5 text-right"></div>
-        
-        <div class="flex flex-col items-end gap-1">
-          <label class="text-[9px] tracking-[.14em] uppercase" style="color:var(--text-faint)">◉ Account</label>
-          <div class="radarCombo" id="acctMenu">
-            <div class="rcField" id="acctMenuField" tabindex="0" role="button" aria-haspopup="menu" style="min-height:32px;padding:6px 10px">
-              <span id="acctStatusDot" class="inline-block rounded-full shrink-0" style="width:6px;height:6px;margin-right:6px;background:#475569"></span>
-              <span class="rcLabel" id="acctBadge" style="font-size:11px">Local only</span>
-              <span class="rcCaret">▾</span>
-            </div>
-            <div class="rcPop hidden" id="acctMenuPop" style="left:auto;right:0;min-width:230px;max-height:none">
-              <div class="px-2 py-1.5 border-b border-slate-800 mb-1">
-                <div class="flex items-center gap-1.5">
-                  <span id="acctStatusDot2" class="inline-block rounded-full shrink-0" style="width:6px;height:6px;background:#475569"></span>
-                  <span id="acctMenuStatus" class="text-[11px] text-slate-400"></span>
-                </div>
+    <div class="flex flex-col gap-3">
+      <div class="flex flex-wrap items-start justify-between gap-3">
+        <div>
+          <h1 class="text-xl md:text-2xl font-bold tracking-tight text-slate-50">The Ultimate Omni-Media &amp; Entertainment Ledger</h1>
+          <div id="lastUpdated" class="text-[10px] text-slate-500 mt-1 tracking-wide">Last updated · Aug 30, 2026 · <span id="luCount" class="text-slate-400"></span> · <button type="button" id="versionBtn" class="text-slate-500 hover:text-slate-300 underline decoration-dotted underline-offset-2">v<span id="versionText"></span></button></div>
+        </div>
+        <div class="radarCombo" id="acctMenu">
+          <div class="rcField flex items-center gap-2" id="acctMenuField" tabindex="0" role="button" aria-haspopup="menu" style="min-height:40px;padding:6px 12px 6px 7px;border-radius:999px;border:1px solid var(--border-soft,#1e293b)">
+            <span id="acctAvatar" class="flex items-center justify-center rounded-full shrink-0 font-bold uppercase" style="width:28px;height:28px;font-size:12px;background:#1e293b;color:#94a3b8">·</span>
+            <span class="flex flex-col items-start leading-tight">
+              <span class="text-[8.5px] tracking-[.14em] uppercase" style="color:var(--text-faint)">Account</span>
+              <span class="rcLabel" id="acctBadge" style="font-size:12.5px;font-weight:600">Local only</span>
+            </span>
+            <span id="acctStatusDot" class="inline-block rounded-full shrink-0" style="width:7px;height:7px;background:#475569"></span>
+            <span class="rcCaret">▾</span>
+          </div>
+          <div class="rcPop hidden" id="acctMenuPop" style="left:auto;right:0;min-width:230px;max-height:none">
+            <div class="px-2 py-1.5 border-b border-slate-800 mb-1">
+              <div class="flex items-center gap-1.5">
+                <span id="acctStatusDot2" class="inline-block rounded-full shrink-0" style="width:6px;height:6px;background:#475569"></span>
+                <span id="acctMenuStatus" class="text-[11px] text-slate-400"></span>
               </div>
-              <button type="button" id="acctSwitchBtn" class="rcOpt" style="width:100%;text-align:left;background:none;border:none;font:inherit;cursor:pointer" title="Sign out and pick a different account by name">⇄ Switch account…</button>
-              <button type="button" id="acctDeleteBtn" class="hidden rcOpt" style="width:100%;text-align:left;background:none;border:none;font:inherit;cursor:pointer;color:#f87171;border-top:1px solid #1e293b;margin-top:2px;padding-top:8px" title="Permanently delete this account's synced data from the cloud">🗑 Delete my account…</button>
             </div>
+            <button type="button" id="acctSwitchBtn" class="rcOpt" style="width:100%;text-align:left;background:none;border:none;font:inherit;cursor:pointer" title="Sign out and pick a different account by name">⇄ Switch account…</button>
+            <button type="button" id="acctDeleteBtn" class="hidden rcOpt" style="width:100%;text-align:left;background:none;border:none;font:inherit;cursor:pointer;color:#f87171;border-top:1px solid #1e293b;margin-top:2px;padding-top:8px" title="Permanently delete this account's synced data from the cloud">🗑 Delete my account…</button>
           </div>
         </div>
-        <div class="flex flex-col items-end gap-1">
-          <label for="themeSel" class="text-[9px] tracking-[.14em] uppercase" style="color:var(--text-faint)">◉ Theme</label>
-          <select id="themeSel" class="inp" style="width:auto;padding:5px 8px;font-size:11px;cursor:pointer">
-            <option value="">Default</option>
-            <option value="oppenheimer">Oppenheimer</option>
-            <option value="interstellar">Interstellar</option>
-            <option value="the-thing">The Thing</option>
-            <option value="the-shining">The Shining</option>
-            <option value="lotr">The Lord of the Rings</option>
-            <option value="the-odyssey">The Odyssey</option>
-            <option value="johnny-cash">Johnny Cash</option>
-            <option value="outer-wilds">Outer Wilds</option>
-          </select>
-        </div>
-        <div class="flex flex-col items-end gap-1">
-          <label class="text-[9px] tracking-[.14em] uppercase" style="color:var(--text-faint)">◉ Profile</label>
-          <div id="profileBtnRow" class="flex gap-1">
-            <button type="button" id="profileExportBtn" class="text-[11px] px-2 py-1 rounded-lg border border-slate-700 text-slate-300 hover:border-violet-500 hover:text-violet-300 transition-colors" title="Download a complete snapshot -- owned collection, declared canon, taste weights, contender watchlist order, plus your Watchlist tab items, theme, and density -- as a JSON file you can hand-edit or share">Export</button>
-            <label class="text-[11px] px-2 py-1 rounded-lg border border-slate-700 text-slate-300 hover:border-violet-500 hover:text-violet-300 transition-colors cursor-pointer" title="Load a profile JSON file exported from this app -- replaces your current profile and reloads">Import<input type="file" id="profileImportInput" accept="application/json" class="hidden"></label>
-            <button type="button" id="profileResetBtn" class="text-[11px] px-2 py-1 rounded-lg border border-slate-700 text-slate-300 hover:border-red-500 hover:text-red-300 transition-colors" title="Clear owned collection, declared canon, taste weights and watchlist -- start this browser blank">Reset</button>
-            <label class="text-[11px] px-2 py-1 rounded-lg border border-slate-700 text-slate-300 hover:border-cyan-500 hover:text-cyan-300 transition-colors cursor-pointer" title="Load someone else's exported profile file and see where your taste overlaps and differs -- their file isn't saved or applied, just compared">⇄ Compare<input type="file" id="compareFileInput" accept="application/json" class="hidden"></label>
+      </div>
+      <div id="headerControlsRow" class="flex flex-wrap items-end justify-between gap-4">
+        <div id="headStats" class="flex flex-wrap gap-5"></div>
+        <div class="flex flex-wrap items-end gap-4">
+          <div class="flex flex-col items-end gap-1">
+            <label for="themeSel" class="text-[9px] tracking-[.14em] uppercase" style="color:var(--text-faint)">◉ Theme</label>
+            <select id="themeSel" class="inp" style="width:auto;padding:5px 8px;font-size:11px;cursor:pointer">
+              <option value="">Default</option>
+              <option value="oppenheimer">Oppenheimer</option>
+              <option value="interstellar">Interstellar</option>
+              <option value="the-thing">The Thing</option>
+              <option value="the-shining">The Shining</option>
+              <option value="lotr">The Lord of the Rings</option>
+              <option value="the-odyssey">The Odyssey</option>
+              <option value="johnny-cash">Johnny Cash</option>
+              <option value="outer-wilds">Outer Wilds</option>
+            </select>
+          </div>
+          <div class="flex flex-col items-end gap-1">
+            <label class="text-[9px] tracking-[.14em] uppercase" style="color:var(--text-faint)">◉ Profile</label>
+            <div id="profileBtnRow" class="flex gap-1">
+              <button type="button" id="profileExportBtn" class="text-[11px] px-2 py-1 rounded-lg border border-slate-700 text-slate-300 hover:border-violet-500 hover:text-violet-300 transition-colors" title="Download a complete snapshot -- owned collection, declared canon, taste weights, contender watchlist order, plus your Watchlist tab items, theme, and density -- as a JSON file you can hand-edit or share">Export</button>
+              <label class="text-[11px] px-2 py-1 rounded-lg border border-slate-700 text-slate-300 hover:border-violet-500 hover:text-violet-300 transition-colors cursor-pointer" title="Load a profile JSON file exported from this app -- replaces your current profile and reloads">Import<input type="file" id="profileImportInput" accept="application/json" class="hidden"></label>
+              <button type="button" id="profileResetBtn" class="text-[11px] px-2 py-1 rounded-lg border border-slate-700 text-slate-300 hover:border-red-500 hover:text-red-300 transition-colors" title="Clear owned collection, declared canon, taste weights and watchlist -- start this browser blank">Reset</button>
+            </div>
           </div>
         </div>
       </div>
@@ -977,15 +980,18 @@ var SUPABASE_CONFIG={url:"https://gqpjeccmwsjxrlrazqxt.supabase.co",anonKey:"sb_
   renderAcctBadge();
  }
  function renderAcctBadge(){
-  var badge=$('#acctBadge'),delBtn=$('#acctDeleteBtn');if(!badge)return;
+  var badge=$('#acctBadge'),delBtn=$('#acctDeleteBtn'),avatar=$('#acctAvatar');if(!badge)return;
   if(!CONFIGURED){
    badge.textContent='Local only';
+   if(avatar){avatar.textContent='⌂';avatar.style.background='#1e293b';avatar.style.color='#94a3b8';}
    setSyncState('slate','Cloud accounts aren’t set up yet — this device only.');
   }else if(handle){
    badge.textContent=handle;
+   if(avatar){avatar.textContent=handle.charAt(0);avatar.style.background='#4338ca';avatar.style.color='#e0e7ff';}
    setSyncState('emerald','Signed in as '+handle+'. Synced to the cloud.');
   }else{
    badge.textContent='Guest';
+   if(avatar){avatar.textContent='?';avatar.style.background='#1e293b';avatar.style.color='#94a3b8';}
    setSyncState('slate','Continuing without an account — this device only.');
   }
   // Only a real signed-in cloud handle has anything to delete -- Local-only/Guest never wrote a
@@ -1717,7 +1723,7 @@ function creatorBoostHTML(it){
 }
 // Compact tier/own toggle row -- visible on every card without expanding it, so declaring a
 // favorite or marking something owned doesn't require opening the detail panel first.
-function tierRowHTML(it){
+function tierRowHTML(it,roomy){
  // Gold/Silver/Bronze stay pure emoji, active or not -- a medal is self-explanatory, and dropping
  // the name text (which used to appear only once active, e.g. "🥇 Gold") keeps the row compact
  // and consistent regardless of state, per explicit user preference. Owned is the one segment that
@@ -1730,11 +1736,15 @@ function tierRowHTML(it){
  // with strong inherent color (varies a lot across platforms/fonts) that could otherwise make an
  // active vs. inactive button harder to tell apart at a glance.
  function seg(act,emoji,name,label,active,color,showName){
-  return '<button type="button" class="profEditBtn tierSeg" data-act="'+act+'" data-id="'+it.id+'"'+(act==='own'?' data-kind="'+it.kind+'"':'')+' title="'+label+(active?' — click to remove':'')+'"'
+  return '<button type="button" class="profEditBtn tierSeg'+(roomy?' tierSegRoomy':'')+'" data-act="'+act+'" data-id="'+it.id+'"'+(act==='own'?' data-kind="'+it.kind+'"':'')+' title="'+label+(active?' — click to remove':'')+'"'
    +(active?' style="background:'+color+';border-color:'+color+';color:#0B0F19"':' style="color:'+color+';border-color:transparent"')+'>'
    +emoji+(showName?' '+name:'')+'</button>';
  }
- return '<div class="flex items-center flex-wrap gap-1.5 px-3.5 pb-3 -mt-1">'
+ // roomy: the GOAT Profile "Search & Build Your Favorites" list renders these one card at a time
+ // (not the dense main grid), so it can afford noticeably more breathing room between the four
+ // buttons -- addresses the specific "still quite close together" feedback about that screen
+ // without touching the deliberately compact spacing every other card everywhere else relies on.
+ return '<div class="flex items-center flex-wrap px-3.5 pb-3 -mt-1'+(roomy?' gap-3':' gap-1.5')+'">'
  +seg('declare','\u{1F947}','Gold','Gold: your declared all-time favorites — pins a 100 match, the strongest recommendation signal',it.goat,'#fbbf24',false)
  +seg('silver','\u{1F948}','Silver','Silver: a strong favorite, one notch below Gold',it.silver,'#cbd5e1',false)
  +seg('bronze','\u{1F949}','Bronze','Bronze: really like it, a lighter nudge than Silver',it.bronze,'#cd7f32',false)
@@ -1747,7 +1757,7 @@ function cardHTML(it){const k=KM[it.kind];
  +'<button type="button" class="cardHead w-full text-left p-3.5 flex gap-3 items-start" data-id="'+it.id+'">'
  +ring(it.crit,k.c,42)
  +'<div class="flex-1 min-w-0">'
- +'<div class="flex items-center gap-x-2 gap-y-1.5 flex-wrap"><span class="cardTitle text-[13px] font-semibold text-slate-100 leading-tight hover:text-teal-300 cursor-pointer underline decoration-dotted decoration-slate-600 underline-offset-2" data-flip="'+it.id+'" title="Click for a quick summary">'+esc(it.title)+'</span><span class="chip" style="color:'+k.c+';border-color:'+k.c+'44">'+k.label+'</span><span class="chip" style="color:#5eead4;border-color:#5eead455">'+esc(it.rating)+'</span>'+(it.owned?'<span class="chip" style="color:#0B0F19;background:#4ade80;border-color:#4ade80;font-weight:800;letter-spacing:.02em" title="In your physical collection">\u2713 OWNED'+(it.physFormat?' \u00b7 '+esc(it.physFormat):'')+'</span>':'')+(it.goat?'<span class="chip" style="color:#0B0F19;background:#fbbf24;border-color:#fbbf24;font-weight:700">\u{1F947} GOLD 100</span>':'<span class="chip" style="color:#fbbf24;border-color:#fbbf2444">\u2605 '+it.gm+'</span>')+(it.silver?'<span class="chip" style="color:#0B0F19;background:#cbd5e1;border-color:#cbd5e1;font-weight:700">\u{1F948} SILVER</span>':'')+(it.bronze?'<span class="chip" style="color:#0B0F19;background:#cd7f32;border-color:#cd7f32;font-weight:700">\u{1F949} BRONZE</span>':'')+(window._blendActive?'<span class="chip" style="color:#0B0F19;background:#34d399;border-color:#34d399;font-weight:800" title="Weighted blend match">\u2696 '+bespokeScore(it).toFixed(0)+'%</span>':'')+(it.chFlag?'<span class="chip" style="color:#0B0F19;background:#c084fc;border-color:#c084fc;font-weight:700">\u25c9 CANON 100</span>':(it.ch>=70?'<span class="chip" style="color:#c084fc;border-color:#c084fc44">\u25c9 '+it.ch+'</span>':''))+'</div>'
+ +'<div class="flex items-center gap-x-2 gap-y-1.5 flex-wrap"><span class="cardTitle text-[13px] font-semibold text-slate-100 leading-tight hover:text-teal-300 cursor-pointer underline decoration-dotted decoration-slate-600 underline-offset-2" data-flip="'+it.id+'" title="Click for a summary and full breakdown">'+esc(it.title)+'</span><span class="chip" style="color:'+k.c+';border-color:'+k.c+'44">'+k.label+'</span><span class="chip" style="color:#5eead4;border-color:#5eead455">'+esc(it.rating)+'</span>'+(it.owned?'<span class="chip" style="color:#0B0F19;background:#4ade80;border-color:#4ade80;font-weight:800;letter-spacing:.02em" title="In your physical collection">\u2713 OWNED'+(it.physFormat?' \u00b7 '+esc(it.physFormat):'')+'</span>':'')+(it.goat?'<span class="chip" style="color:#0B0F19;background:#fbbf24;border-color:#fbbf24;font-weight:700">\u{1F947} GOLD 100</span>':'<span class="chip" style="color:#fbbf24;border-color:#fbbf2444">\u2605 '+it.gm+'</span>')+(it.silver?'<span class="chip" style="color:#0B0F19;background:#cbd5e1;border-color:#cbd5e1;font-weight:700">\u{1F948} SILVER</span>':'')+(it.bronze?'<span class="chip" style="color:#0B0F19;background:#cd7f32;border-color:#cd7f32;font-weight:700">\u{1F949} BRONZE</span>':'')+(window._blendActive?'<span class="chip" style="color:#0B0F19;background:#34d399;border-color:#34d399;font-weight:800" title="Weighted blend match">\u2696 '+bespokeScore(it).toFixed(0)+'%</span>':'')+(it.chFlag?'<span class="chip" style="color:#0B0F19;background:#c084fc;border-color:#c084fc;font-weight:700">\u25c9 CANON 100</span>':(it.ch>=70?'<span class="chip" style="color:#c084fc;border-color:#c084fc44">\u25c9 '+it.ch+'</span>':''))+'</div>'
  +'<div class="text-[11px] text-slate-400 mt-1.5 truncate" title="'+esc(it.creator)+' · '+esc(it.org)+'">'+it.year+' · '+esc(it.creator)+' · '+esc(it.span)+'</div>'
  +'<div class="mt-2 space-y-1 cardMicro" title="This work\'s 3 strongest indices out of ~19 tracked -- click the card to see all of them">'+frontBars(it)+'</div>'
  +'</div><span class="text-slate-600 text-xs mt-1" aria-hidden="true">&#9662;</span></button>'+'<button type="button" class="wlBtn absolute top-2 right-2 text-base leading-none transition-transform hover:scale-125" data-wl="'+it.id+'" title="Toggle watchlist" style="color:'+(wlHas(it.id)?'#fb7185':'#475569')+'">'+(wlHas(it.id)?'\u2665':'\u2661')+'</button>'
@@ -1925,7 +1935,7 @@ function updateRadar(){if(!CH.radar)return;
 
 /* ===================== VIEW 4 · REFERENCE MATRICES ===================== */
 function matrixRow(it,i,cols){const k=KM[it.kind];
- return '<div class="flex items-center gap-2.5 px-3.5 py-2.5 border-b border-slate-800/50 last:border-0 hover:bg-slate-800/20">'
+ return '<div class="flex items-center gap-2.5 px-3.5 py-2.5 border-b border-slate-800/50 last:border-0 hover:bg-slate-800/20 goatJump cursor-pointer" data-q="'+esc(it.title)+'" title="Open in Global Controller">'
  +'<span class="text-[10px] text-slate-500 w-6 tabular-nums">'+String(i+1).padStart(2,'0')+'</span>'
  +'<span class="w-1.5 h-1.5 rounded-full shrink-0" style="background:'+k.c+'"></span>'
  +'<span class="flex-1 min-w-0 truncate text-[12px] text-slate-200" title="'+esc(it.title)+' · '+esc(it.creator)+'">'+esc(it.title)+' <span class="text-slate-500 text-[10px]">'+it.year+'</span>'+(it.owned?' <span style="color:#4ade80;font-size:9px;font-weight:700" title="Owned">\u2713</span>':'')+'</span>'
@@ -2659,7 +2669,7 @@ function renderGoatSearchResults(q){
    +'<div class="flex items-center gap-2 flex-wrap"><span class="chip" style="color:'+KM[x.kind].c+';border-color:'+KM[x.kind].c+'44">'+KM[x.kind].label+'</span>'
    +'<span class="text-[12.5px] font-semibold text-slate-100">'+esc(x.title)+'</span>'
    +'<span class="text-[10.5px] text-slate-500">· '+x.year+' · '+esc(x.creator)+'</span></div>'
-   +tierRowHTML(x)
+   +tierRowHTML(x,true)
    +'</div>';
  }).join('')||'<div class="rcEmpty">No matches</div>';
 }
@@ -2922,7 +2932,7 @@ function collectionGapsHTML(){
    html+='<div class="panel p-3"><div class="flex items-center gap-2 mb-1"><span class="w-1.5 h-1.5 rounded-full shrink-0" style="background:'+k.c+'"></span>'
     +'<span class="text-[12.5px] font-semibold text-slate-100">'+esc(sg.name)+'</span>'
     +'<span class="text-[10px] text-slate-500">own '+sg.ownedN+' of '+sg.total+'</span></div>'
-    +'<div class="flex flex-wrap gap-1.5">'+sg.missing.map(function(x){return '<span class="text-[10.5px] px-2 py-0.5 rounded" style="background:#1e293b;color:#cbd5e1" title="'+esc(x.creator||'')+'">\u25e6 '+esc(x.title)+' <span style="color:#fbbf24">\u2605'+x.gm+'</span></span>';}).join('')+'</div></div>';
+    +'<div class="flex flex-wrap gap-1.5">'+sg.missing.map(function(x){return '<span class="text-[10.5px] px-2 py-0.5 rounded goatJump cursor-pointer" data-q="'+esc(x.title)+'" style="background:#1e293b;color:#cbd5e1" title="'+esc(x.creator||'')+' \u2014 open in Global Controller">\u25e6 '+esc(x.title)+' <span style="color:#fbbf24">\u2605'+x.gm+'</span></span>';}).join('')+'</div></div>';
   });
   html+='</div>';
  }
@@ -2933,7 +2943,7 @@ function collectionGapsHTML(){
    html+='<div class="panel p-3"><div class="flex items-center gap-2 mb-1">'
     +'<span class="text-[12.5px] font-semibold" style="color:'+k.c+'">'+esc(cg.creator)+'</span>'
     +'<span class="text-[10px] text-slate-500">you own '+cg.ownedN+'</span></div>'
-    +'<div class="flex flex-wrap gap-1.5">'+cg.missing.map(function(x){var kk=KM[x.kind];return '<span class="text-[10.5px] px-2 py-0.5 rounded" style="background:#1e293b;color:#cbd5e1">'+esc(x.title)+' <span style="color:'+kk.c+'">'+kk.label+'</span> <span style="color:#fbbf24">\u2605'+x.gm+'</span></span>';}).join('')+'</div></div>';
+    +'<div class="flex flex-wrap gap-1.5">'+cg.missing.map(function(x){var kk=KM[x.kind];return '<span class="text-[10.5px] px-2 py-0.5 rounded goatJump cursor-pointer" data-q="'+esc(x.title)+'" title="Open in Global Controller" style="background:#1e293b;color:#cbd5e1">'+esc(x.title)+' <span style="color:'+kk.c+'">'+kk.label+'</span> <span style="color:#fbbf24">\u2605'+x.gm+'</span></span>';}).join('')+'</div></div>';
   });
   html+='</div>';
  }
@@ -3082,7 +3092,7 @@ function renderCollection(){
  // gaps: top-rated NOT owned, per medium
  const gaps=ALL.filter(x=>!x.owned&&x.kind!=='game').sort((a,b)=>b.ovr-a.ovr).slice(0,18);
  $('#collGaps').innerHTML=gaps.map(x=>{const k=KM[x.kind];
-  return '<div class="panel p-2.5 flex items-center gap-2"><span class="w-1.5 h-1.5 rounded-full shrink-0" style="background:'+k.c+'"></span>'
+  return '<div class="panel p-2.5 flex items-center gap-2 goatJump cursor-pointer" data-q="'+esc(x.title)+'" title="Open in Global Controller"><span class="w-1.5 h-1.5 rounded-full shrink-0" style="background:'+k.c+'"></span>'
    +'<span class="flex-1 min-w-0 truncate text-[12px] text-slate-200">'+esc(x.title)+' <span class="text-slate-500 text-[10px]">'+x.year+'</span></span>'
    +'<span class="text-[11px] font-bold tabular-nums" style="color:'+k.c+'">'+x.ovr+'</span></div>';}).join('');
 }
@@ -3109,7 +3119,20 @@ function switchView(v){state.view=v;
  if(v==='timeline')renderTimeline();
 }
 on('#nav','click',e=>{const b=e.target.closest('.navBtn');if(b)switchView(b.dataset.view);});
-on('#grid','click',e=>{const pc=e.target.closest('.pairingChip');if(pc){e.stopPropagation();const px=byId.get(pc.dataset.flipJump);if(px){state.q=px.title;const qinput=$('#q');if(qinput)qinput.value=px.title;refresh();}return;}const pe=e.target.closest('.profEditBtn');if(pe){e.stopPropagation();handleProfileEditClick(pe);return;}const w=e.target.closest('.wlBtn');if(w){e.stopPropagation();wlToggle(w.dataset.wl);const has=wlHas(w.dataset.wl);w.textContent=has?'\u2665':'\u2661';w.style.color=has?'#fb7185':'#475569';updateWlNav();if(state.view==='watchlist')renderWatchlist();return;}const flipT=e.target.closest('.cardTitle');if(flipT){e.stopPropagation();const card=flipT.closest('.panel');if(card){const sf=card.querySelector('.summaryFace');if(sf)sf.classList.toggle('hidden');}return;}const fb=e.target.closest('.flipBack');if(fb){e.stopPropagation();const card=fb.closest('.panel');if(card){const sf=card.querySelector('.summaryFace');if(sf)sf.classList.add('hidden');}return;}const h=e.target.closest('.cardHead');if(!h)return;const card=h.closest('.panel');const dd=card?card.querySelector('.detail'):null;if(dd)dd.classList.toggle('hidden');});
+// Clicking a card's title used to only flip a quick-summary face; clicking the rest of the head
+// used to only toggle the full stats breakdown -- two separate panels, only ever one visible at a
+// time, depending on exactly where you clicked. Unified per explicit feedback: either click now
+// opens (or closes) both the quick summary AND the full breakdown together, as one expanded unit.
+function setCardExpanded(card,open){
+ const sf=card&&card.querySelector('.summaryFace'),dd=card&&card.querySelector('.detail');
+ if(sf)sf.classList.toggle('hidden',!open);
+ if(dd)dd.classList.toggle('hidden',!open);
+}
+function toggleCardExpanded(card){
+ const sf=card&&card.querySelector('.summaryFace');
+ setCardExpanded(card,!!(sf&&sf.classList.contains('hidden')));
+}
+on('#grid','click',e=>{const pc=e.target.closest('.pairingChip');if(pc){e.stopPropagation();const px=byId.get(pc.dataset.flipJump);if(px){state.q=px.title;const qinput=$('#q');if(qinput)qinput.value=px.title;refresh();}return;}const pe=e.target.closest('.profEditBtn');if(pe){e.stopPropagation();handleProfileEditClick(pe);return;}const w=e.target.closest('.wlBtn');if(w){e.stopPropagation();wlToggle(w.dataset.wl);const has=wlHas(w.dataset.wl);w.textContent=has?'\u2665':'\u2661';w.style.color=has?'#fb7185':'#475569';updateWlNav();if(state.view==='watchlist')renderWatchlist();return;}const fb=e.target.closest('.flipBack');if(fb){e.stopPropagation();const card=fb.closest('.panel');if(card)setCardExpanded(card,false);return;}const h=e.target.closest('.cardHead');if(!h)return;const card=h.closest('.panel');if(card)toggleCardExpanded(card);});
 let qT=null;
 on('#q','input',e=>{clearTimeout(qT);qT=setTimeout(()=>{state.q=e.target.value;refresh();},120);});
 on('#typeSeg','click',e=>{const b=e.target.closest('button');if(!b)return;state.type=b.dataset.type;$$('#typeSeg button').forEach(x=>x.classList.toggle('on',x===b));refresh();});
@@ -3327,35 +3350,6 @@ on('#profileExportBtn','click',()=>{try{
 on('#profileImportInput','change',e=>{const file=e.target.files&&e.target.files[0];if(!file)return;const reader=new FileReader();reader.onload=()=>{try{const parsed=JSON.parse(reader.result);if(typeof parsed!=='object'||parsed===null||Array.isArray(parsed))throw new Error('File is not a profile object');applyImportedSnapshot(parsed);reloadWithMediaSync(PERSONAL_PROFILE);}catch(err){alert('Could not import that file: '+err.message);}};reader.readAsText(file);e.target.value='';});
 on('#profileResetBtn','click',()=>{if(typeof confirm!=='undefined'&&!confirm('Reset your profile to blank? This clears your owned collection, declared canon, taste weights and watchlist in this browser. Export first if you want to keep a copy.'))return;localStorage.setItem('omniLedgerProfile','{}');localStorage.setItem('omniLedgerWatchlist','{}');reloadWithMediaSync(PERSONAL_PROFILE);});
 
-/* ===== Profile comparison: read-only overlap between the current profile and someone else's exported file =====
-   Deliberately never touches localStorage or PERSONAL_PROFILE -- this is a side-by-side look, not an import. */
-function computeProfileComparison(a,b){
- const aGoats=new Set(a.declaredGoatIds||[]),bGoats=new Set(b.declaredGoatIds||[]);
- const shared=Array.from(aGoats).filter(id=>bGoats.has(id));
- const onlyA=Array.from(aGoats).filter(id=>!bGoats.has(id));
- const onlyB=Array.from(bGoats).filter(id=>!aGoats.has(id));
- const union=new Set([...aGoats,...bGoats]);
- const overlapPct=union.size?Math.round(shared.length/union.size*100):0;
- const nameOf=id=>{const x=byId.get(id);return x?x.title:id;};
- const aCreators=new Set((a.creatorBoost||[]).map(c=>c[0])),bCreators=new Set((b.creatorBoost||[]).map(c=>c[0]));
- const sharedCreators=Array.from(aCreators).filter(c=>bCreators.has(c));
- const aGenres=new Set((a.genreBoost||[]).map(g=>g[0])),bGenres=new Set((b.genreBoost||[]).map(g=>g[0]));
- const sharedGenres=Array.from(aGenres).filter(g=>bGenres.has(g));
- return {shared:shared.map(nameOf),onlyA:onlyA.map(nameOf),onlyB:onlyB.map(nameOf),overlapPct,sharedCreators,sharedGenres};
-}
-function renderCompare(c){
- const chipRow=(items,color)=>items.length?('<div class="flex flex-wrap gap-1.5 mt-1.5">'+items.map(t=>'<span class="chip" style="color:'+color+';border-color:'+color+'44">'+esc(t)+'</span>').join('')+'</div>'):'<p class="text-[11px] text-slate-600 mt-1.5">None</p>';
- $('#compareBody').innerHTML=
-  '<div class="text-center py-3"><div class="text-3xl font-extrabold" style="color:#34d399">'+c.overlapPct+'%</div><div class="text-[11px] text-slate-500 uppercase tracking-wide">declared-favorite overlap</div></div>'
-  +'<div><span class="lbl" style="color:#34d399">✓ Shared declared favorites ('+c.shared.length+')</span>'+chipRow(c.shared,'#34d399')+'</div>'
-  +'<div class="mt-3"><span class="lbl" style="color:#818cf8">◐ Only in your profile ('+c.onlyA.length+')</span>'+chipRow(c.onlyA,'#818cf8')+'</div>'
-  +'<div class="mt-3"><span class="lbl" style="color:#f472b6">◑ Only in theirs ('+c.onlyB.length+')</span>'+chipRow(c.onlyB,'#f472b6')+'</div>'
-  +'<div class="mt-3"><span class="lbl" style="color:#fbbf24">⚡ Shared boosted creators ('+c.sharedCreators.length+')</span>'+chipRow(c.sharedCreators,'#fbbf24')+'</div>'
-  +'<div class="mt-3"><span class="lbl" style="color:#c084fc">◉ Shared boosted genres ('+c.sharedGenres.length+')</span>'+chipRow(c.sharedGenres,'#c084fc')+'</div>';
-}
-on('#compareFileInput','change',e=>{const file=e.target.files&&e.target.files[0];if(!file)return;const reader=new FileReader();reader.onload=()=>{try{const parsed=JSON.parse(reader.result);if(typeof parsed!=='object'||parsed===null)throw new Error('File is not a profile object');const otherProfile=(parsed.profile&&typeof parsed.profile==='object')?parsed.profile:parsed;const cmp=computeProfileComparison(PERSONAL_PROFILE,otherProfile);renderCompare(cmp);$('#compareGate').classList.remove('hidden');}catch(err){alert('Could not read that file: '+err.message);}};reader.readAsText(file);e.target.value='';});
-on('#compareClose','click',()=>{$('#compareGate').classList.add('hidden');});
-
 /* ===== Normalized gold/silver/bronze/owned sync (supabase/schema.sql media_status) =====
    Every reload site below writes a new omniLedgerProfile to localStorage and then reloads the
    page for the scoring pipeline to recompute from -- this diffs the profile just written against
@@ -3517,8 +3511,17 @@ function handleProfileEditClick(btn){
    "here's what changed" readout, not a live version check against anything. Bump APP_VERSION and
    add a CHANGELOG entry whenever a change is worth a friend knowing about; cosmetic tweaks don't
    need a bump. */
-const APP_VERSION='1.35.0';
+const APP_VERSION='1.36.0';
 const CHANGELOG=[
+ {v:'1.36.0',date:'2026-09-03',summary:'Compare is gone, the header got a real redesign with your account front and center at the top right, GOAT Profile tier buttons have real breathing room, suggestions now have Not done/Resolved tabs anyone can triage, and card clicks (title or body) now open everything together.',notes:[
+  'Removed the Compare feature entirely (header button, modal, and the comparison logic behind it) -- it wasn\'t being used',
+  'Redesigned the header: your account -- avatar, handle, live sync status -- is now its own prominent control at the very top right, immediately visible and unambiguous about which account you\'re signed into, separate from the Theme/Profile controls now grouped in a row below',
+  'The Gold/Silver/Bronze/Owned buttons in GOAT Profile\'s "Search & Build Your Favorites" results are noticeably bigger and further apart now -- a dedicated roomier style for that one-card-at-a-time list, while every other card everywhere else keeps its original compact spacing',
+  'The shared suggestion box now has Not done / Resolved tabs, styled like an inbox (amber vs. green) so you can see what\'s outstanding vs. already handled at a glance. Any suggestion can now be marked resolved or deleted by anyone, not just its original submitter -- editing text stays limited to your own, but curating the list (what\'s handled, what\'s not, what should stay) is now something anyone using the app can do together',
+  'Clicking a card\'s title used to show only a quick summary, and clicking the rest of the card head used to show only the full stats breakdown -- two separate panels, never both. Either click now opens both together as one expanded unit, and either the title, the ✕, or "back to card" collapses both back down together',
+  'Collection\'s gaps-and-blindspots rows (both the "what\'s missing from your shelf" list and the franchise/creator gap chips) and every Reference Matrices row are now clickable, jumping straight to that title in Global Controller -- the same pattern GOAT Profile\'s top matches already used',
+  'One manual step if you have the suggestions status column already: re-run supabase/schema.sql once in the Supabase SQL Editor (idempotent) to widen the client-writable column grant from text-only to text+status, so the new resolved/not-done toggle can actually write'
+ ]},
  {v:'1.35.0',date:'2026-09-03',summary:'Fixed the real, deeper cause of accounts still forgetting changes even on a brand-new handle: a slow (not dead) cloud save could get silently killed by the app\'s own reload or account switch before it ever reached the server.',notes:[
   'Root-cause fix: the app raced every cloud write against a timeout and reloaded/switched regardless of which one "won" -- but that race never actually cancelled a real request that lost, so a save merely running slow (a cold-starting free project, a weak connection) could still be in flight when the reload fired, and the browser would kill it outright. The previous 4-second cutoff was too short for this to be rare in real use. Raised to a realistic 15 seconds',
   'Switching accounts is now the safe direction by construction: it refuses to clear the current account and switch until that final save is confirmed to have actually landed (success or genuine failure), rather than assuming success once a short timer ran out. If the save genuinely fails (offline, dead connection), nothing is cleared or switched -- you get a clear message and can try again once reconnected',
@@ -3738,6 +3741,9 @@ const CHANGELOG=[
  var btn=$('#suggestBtn'),gate=$('#suggestGate');
  if(!btn||!gate)return;
  var loaded=false;
+ var allItems=[];
+ var activeTab='open';
+ var RESOLVED_STATUSES=['shipped','declined'];
  function acct(){return (typeof window.__omniAcct==='function')?window.__omniAcct():null;}
  function showError(msg){var e=$('#suggestError');if(!e)return;e.textContent=msg;e.classList.toggle('hidden',!msg);}
  function open(){
@@ -3755,40 +3761,62 @@ const CHANGELOG=[
   var h=Math.round(m/60);if(h<24)return h+'h ago';
   var d=Math.round(h/24);return d+'d ago';
  }
- // Edit/delete is only offered on a suggestion whose handle matches the CURRENT signed-in cloud
- // handle -- same honor-system trust model as everything else in this app (a handle is a name,
- // not a verified identity, so this is a UI convenience, not a real security boundary; the RLS
- // policies on suggestions technically allow anyone to update/delete any row, same as profiles'
- // "delete my account" already does). A guest ('anonymous') never gets edit/delete controls, since
- // there's no way to tell which anonymous submission is "yours" -- everyone submitting as a guest
- // shares that one label.
+ function setTab(tab){
+  activeTab=tab;
+  document.querySelectorAll('#suggestTabs .suggestTab').forEach(function(b){b.classList.toggle('on',b.dataset.tab===tab);});
+  renderList(allItems);
+ }
+ // Edit stays limited to your own suggestion (editing someone else's wording doesn't make sense),
+ // same honor-system trust model as everywhere else in this app -- a handle is a name someone
+ // typed, not a verified identity, so this is a UI convenience, not a real security boundary.
+ // Delete and the resolved/not-done toggle, though, are offered on EVERY suggestion regardless of
+ // who submitted it: this is a small shared list one household curates together, not a queue with
+ // separate moderators, and the RLS policies underneath already allow this (anyone can update/
+ // delete any row, same as profiles' "delete my account" already does) -- the UI was just more
+ // restrictive than the backend for no real reason.
  function renderList(items){
   var list=$('#suggestList');if(!list)return;
-  if(!items.length){list.innerHTML='<div class="text-[12px] text-slate-500">No suggestions yet — be the first.</div>';return;}
+  var openCount=items.filter(function(it){return RESOLVED_STATUSES.indexOf(it.status)<0;}).length;
+  var resolvedCount=items.length-openCount;
+  var oc=$('#suggestTabOpenCount'),rc=$('#suggestTabResolvedCount');
+  if(oc)oc.textContent=openCount;
+  if(rc)rc.textContent=resolvedCount;
+  var shown=items.filter(function(it){
+   var isResolved=RESOLVED_STATUSES.indexOf(it.status)>=0;
+   return activeTab==='resolved'?isResolved:!isResolved;
+  });
+  if(!shown.length){
+   list.innerHTML='<div class="text-[12px] text-slate-500">'+(activeTab==='resolved'?'Nothing resolved yet.':'Nothing outstanding — be the first to suggest something.')+'</div>';
+   return;
+  }
   var a=acct();var myHandle=a&&a.handle;
-  list.innerHTML=items.map(function(it){
+  list.innerHTML=shown.map(function(it){
    var mine=!!(myHandle&&it.handle&&it.handle===myHandle);
-   return '<div class="text-[12px] bg-slate-900/50 border border-slate-800/70 rounded-lg p-2" data-suggest-id="'+it.id+'">'
+   var isResolved=RESOLVED_STATUSES.indexOf(it.status)>=0;
+   return '<div class="text-[12px] bg-slate-900/50 suggestItem '+(isResolved?'isResolved':'isOpen')+' rounded-lg p-2" data-suggest-id="'+it.id+'">'
     +'<div class="suggestTextView text-slate-200 leading-relaxed">'+esc2(it.text)+'</div>'
-    +'<div class="flex items-center justify-between gap-2 mt-1">'
+    +'<div class="flex items-center justify-between gap-2 mt-1 flex-wrap">'
     +'<div class="text-[10px] text-slate-500">'+esc2(it.handle||'anonymous')+(it.createdAtMs?' · '+timeAgo(it.createdAtMs):'')+'</div>'
-    +(mine?'<div class="flex gap-2 shrink-0"><button type="button" class="suggestEditBtn text-[10px] text-slate-500 hover:text-slate-300 underline decoration-dotted underline-offset-2" data-id="'+it.id+'">Edit</button><button type="button" class="suggestDeleteBtn text-[10px] text-rose-400/80 hover:text-rose-300 underline decoration-dotted underline-offset-2" data-id="'+it.id+'">Delete</button></div>':'')
-    +'</div></div>';
+    +'<div class="flex gap-2 shrink-0">'
+    +(mine?'<button type="button" class="suggestEditBtn text-[10px] text-slate-500 hover:text-slate-300 underline decoration-dotted underline-offset-2" data-id="'+it.id+'">Edit</button>':'')
+    +'<button type="button" class="suggestResolveBtn text-[10px] underline decoration-dotted underline-offset-2" style="color:'+(isResolved?'#94a3b8':'#34d399')+'" data-id="'+it.id+'" data-next="'+(isResolved?'open':'shipped')+'">'+(isResolved?'↩ Reopen':'✅ Mark resolved')+'</button>'
+    +'<button type="button" class="suggestDeleteBtn text-[10px] text-rose-400/80 hover:text-rose-300 underline decoration-dotted underline-offset-2" data-id="'+it.id+'">Delete</button>'
+    +'</div></div></div>';
   }).join('');
  }
  function loadSuggestions(){
   var a=acct();
   if(!a||!a.configured){
-   renderList([]);
+   allItems=[];
    $('#suggestList').innerHTML='<div class="text-[12px] text-slate-500">Cloud accounts aren\'t set up on this copy of the app yet, so suggestions can\'t be shared or saved here. See NOTES.md → "Cloud accounts".</div>';
    return;
   }
-  a.client.from('suggestions').select('id,text,handle,created_at').order('created_at',{ascending:false}).limit(50).then(function(res){
+  a.client.from('suggestions').select('id,text,handle,created_at,status').order('created_at',{ascending:false}).limit(50).then(function(res){
    if(res.error)throw res.error;
-   var items=(res.data||[]).map(function(row){
-    return {id:row.id,text:row.text,handle:row.handle,createdAtMs:row.created_at?new Date(row.created_at).getTime():null};
+   allItems=(res.data||[]).map(function(row){
+    return {id:row.id,text:row.text,handle:row.handle,status:row.status||'open',createdAtMs:row.created_at?new Date(row.created_at).getTime():null};
    });
-   renderList(items);
+   renderList(allItems);
   }).catch(function(err){
    $('#suggestList').innerHTML='<div class="text-[12px] text-rose-400">Couldn\'t load suggestions ('+esc2(err&&err.message||err)+').</div>';
   });
@@ -3798,6 +3826,13 @@ const CHANGELOG=[
   if(typeof confirm!=='undefined'&&!confirm('Delete this suggestion? This can\'t be undone.'))return;
   a.client.from('suggestions').delete().eq('id',id).then(function(res){
    if(res&&res.error){showError('Couldn\'t delete that ('+(res.error.message||res.error)+').');return;}
+   loadSuggestions();
+  });
+ }
+ function toggleResolved(id,nextStatus){
+  var a=acct();if(!a||!a.configured)return;
+  a.client.from('suggestions').update({status:nextStatus}).eq('id',id).then(function(res){
+   if(res&&res.error){showError('Couldn\'t update that ('+(res.error.message||res.error)+').');return;}
    loadSuggestions();
   });
  }
@@ -3836,6 +3871,7 @@ const CHANGELOG=[
    if(res.error)throw res.error;
    if(ta)ta.value='';
    loaded=true;
+   activeTab='open';setTab('open');
    loadSuggestions();
   }).catch(function(err){
    showError('Couldn\'t submit that ('+(err&&err.message||err)+').');
@@ -3846,13 +3882,19 @@ const CHANGELOG=[
  on('#suggestBtn','click',function(e){e.stopPropagation();open();});
  on('#suggestClose','click',close);
  on('#suggestSubmit','click',submit);
+ on('#suggestTabs','click',function(e){
+  var b=e.target.closest('.suggestTab');if(!b)return;
+  setTab(b.dataset.tab);
+ });
  on('#suggestList','click',function(e){
   var row=e.target.closest('[data-suggest-id]');if(!row)return;
   if(e.target.closest('.suggestDeleteBtn')){deleteSuggestion(e.target.closest('.suggestDeleteBtn').dataset.id);return;}
+  if(e.target.closest('.suggestResolveBtn')){var rb=e.target.closest('.suggestResolveBtn');toggleResolved(rb.dataset.id,rb.dataset.next);return;}
   if(e.target.closest('.suggestEditBtn')){startEdit(row);return;}
-  if(e.target.closest('.suggestEditCancel')){loadSuggestions();return;}
+  if(e.target.closest('.suggestEditCancel')){renderList(allItems);return;}
   if(e.target.closest('.suggestEditSave')){saveEdit(e.target.closest('.suggestEditSave').dataset.id,row);return;}
  });
+ setTab('open');
 })();
 
 /* ===== GOAT Picker modal: onboarding-only search-and-select =====
