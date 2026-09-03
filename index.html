@@ -897,6 +897,20 @@ var SUPABASE_CONFIG={url:"https://gqpjeccmwsjxrlrazqxt.supabase.co",anonKey:"sb_
  // firing a debounced one and reloading straight past it. Exposed on window so ledger-app's several
  // reload sites (mutateProfileAndReload, Import, Reset, onboarding) can call it without duplicating
  // any of this.
+ // How long a reload-triggering sync gets before this app gives up waiting on it. This used to be
+ // 4 seconds -- nowhere near enough real margin: Promise.race (what withTimeout uses) doesn't
+ // cancel the loser, so when the real request took longer than that (a slow connection, or a
+ // Supabase free-tier project waking from an idle cold start -- both entirely normal, not edge
+ // cases), the timeout branch fired first, reloadAfterSync reloaded the page anyway, and the
+ // browser's navigation then killed the STILL-IN-FLIGHT upsert request outright -- so the write
+ // never reached the database at all, silently, with only a red status dot most people would never
+ // notice before the reload wiped it. This is what kept causing "my account forgot my changes"
+ // even after the Phase 34 fix (which correctly stopped the *next* boot from re-hydrating over
+ // fresh local state, but couldn't help if the write behind it had never actually landed). 15s is
+ // long enough to cover realistic real-world latency with real margin; it's not saved anywhere
+ // instant, so a few extra seconds before a reload/switch completes is a fair trade for the write
+ // actually completing.
+ var SYNC_TIMEOUT_MS=15000;
  function reloadAfterSync(mediaRows){
   if(!cloudReady||!handle||!client){location.reload();return;}
   clearTimeout(syncTimer);
@@ -910,7 +924,7 @@ var SUPABASE_CONFIG={url:"https://gqpjeccmwsjxrlrazqxt.supabase.co",anonKey:"sb_
    if(res&&res.error)throw res.error;
    return mediaRows&&mediaRows.length?syncMediaStatusRows(mediaRows):null;
   });
-  withTimeout(task,4000).then(function(){
+  withTimeout(task,SYNC_TIMEOUT_MS).then(function(){
    setSyncState('emerald','Signed in as '+handle+'. Synced to the cloud.');
   },function(e){
    console.warn('Cloud sync failed (will retry on next change):',e&&e.message||e);
@@ -931,14 +945,19 @@ var SUPABASE_CONFIG={url:"https://gqpjeccmwsjxrlrazqxt.supabase.co",anonKey:"sb_
  // debounced scheduleCloudSync above only fires 1.5s after the last TRACKED-key write, so an edit
  // that never reloads the page on its own (toggling the watchlist, changing density, dismissing
  // the tips banner, picking a theme) could still be sitting unsynced in that debounce window when
- // the user switches accounts -- and clearLocalProfile() + reload right after would abandon it for
- // good with no warning. This flushes whatever's currently in localStorage immediately, once,
- // bounded by a timeout so a dead connection can't hang the switch indefinitely.
+ // the user switches accounts. Unlike reloadAfterSync, a failure here is NOT safe to just proceed
+ // past: switching immediately calls clearLocalProfile(), which is the only copy of that data if
+ // the sync genuinely didn't land -- so this now resolves false (not swallowing the error) on a
+ // real failure or timeout, and the caller must not clear/switch when that happens.
  function flushPendingSync(){
-  if(!cloudReady||!handle||!client)return Promise.resolve();
+  if(!cloudReady||!handle||!client)return Promise.resolve(true);
   clearTimeout(syncTimer);
-  return withTimeout(client.from('profiles').upsert({handle:handle,data:localSnapshot()}),4000)
-   .catch(function(e){console.warn('Final sync before switching accounts failed:',e&&e.message||e);});
+  return withTimeout(client.from('profiles').upsert({handle:handle,data:localSnapshot()}),SYNC_TIMEOUT_MS)
+   .then(function(res){
+    if(res&&res.error)throw res.error;
+    return true;
+   })
+   .catch(function(e){console.warn('Final sync before switching accounts failed:',e&&e.message||e);return false;});
  }
  // Every write ledger-app makes to these 5 keys already goes through localStorage.setItem --
  // hook it once here so the rest of the app needs zero changes to get cloud sync.
@@ -1069,7 +1088,12 @@ var SUPABASE_CONFIG={url:"https://gqpjeccmwsjxrlrazqxt.supabase.co",anonKey:"sb_
  document.addEventListener('click',function(e){
   if(e.target&&e.target.id==='acctSwitchBtn'){
    var swBtn=e.target;swBtn.disabled=true;swBtn.textContent='Switching…';
-   flushPendingSync().then(function(){
+   flushPendingSync().then(function(synced){
+    if(!synced){
+     window.alert('Could not save your latest changes before switching (connection issue) — nothing has been switched, so nothing is lost. Try again once you\'re back online.');
+     swBtn.disabled=false;swBtn.textContent='⇄ Switch account…';
+     return;
+    }
     try{localStorage.removeItem(ACCT_KEY);}catch(ex){}
     clearLocalProfile();
     location.reload();
@@ -3493,8 +3517,14 @@ function handleProfileEditClick(btn){
    "here's what changed" readout, not a live version check against anything. Bump APP_VERSION and
    add a CHANGELOG entry whenever a change is worth a friend knowing about; cosmetic tweaks don't
    need a bump. */
-const APP_VERSION='1.34.0';
+const APP_VERSION='1.35.0';
 const CHANGELOG=[
+ {v:'1.35.0',date:'2026-09-03',summary:'Fixed the real, deeper cause of accounts still forgetting changes even on a brand-new handle: a slow (not dead) cloud save could get silently killed by the app\'s own reload or account switch before it ever reached the server.',notes:[
+  'Root-cause fix: the app raced every cloud write against a timeout and reloaded/switched regardless of which one "won" -- but that race never actually cancelled a real request that lost, so a save merely running slow (a cold-starting free project, a weak connection) could still be in flight when the reload fired, and the browser would kill it outright. The previous 4-second cutoff was too short for this to be rare in real use. Raised to a realistic 15 seconds',
+  'Switching accounts is now the safe direction by construction: it refuses to clear the current account and switch until that final save is confirmed to have actually landed (success or genuine failure), rather than assuming success once a short timer ran out. If the save genuinely fails (offline, dead connection), nothing is cleared or switched -- you get a clear message and can try again once reconnected',
+  'This is a different, deeper fix than the previous release\'s: that one stopped a self-triggered reload from redundantly overwriting fresh local data with a stale cloud copy; this one stops the underlying save from being cut off mid-flight in the first place, which is what could make even a freshly-created account with no prior corruption still appear to "forget" a session\'s changes',
+  'No schema changes needed for this one -- app-side timing/safety fix only'
+ ]},
  {v:'1.34.0',date:'2026-09-03',summary:'Cosmic Horror is now pinnable like every other specialized index, the header\'s tagline row is gone, Quick Tips covers cloud accounts and the GOAT Profile search, and the tier row\'s active state is more visually distinct.',notes:[
   'Cosmic Horror moved from a permanently-fixed third slider in the main filter row into the same pinnable pool as the other 15 specialized indices -- pinned by default so nothing changes for an existing profile, but now genuinely unpinnable/re-pinnable with the same 📌 every other index already has, matching how the user pointed out it should behave "like all of the other sliders"',
   'Removed the "Obsidian Minimalist · Relational Omni-Data Core" tagline row above the title -- one less line taking up space for no real information',
