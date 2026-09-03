@@ -775,7 +775,7 @@ body[data-theme="outer-wilds"]{--bg:#0e0a09;--panel:#181010;--panel-2:#120c0b;--
   device or browser gets their data back. No password: this is a friend-group convenience, not a
   security boundary -- anyone who knows a handle can load (and overwrite) that account.
 -->
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.114.0/dist/umd/supabase.js"></script>
 <script id="acct-boot">
 'use strict';
 // Project settings -> API in your Supabase dashboard has both of these. The anon/publishable key
@@ -3255,8 +3255,12 @@ function handleProfileEditClick(btn){
    "here's what changed" readout, not a live version check against anything. Bump APP_VERSION and
    add a CHANGELOG entry whenever a change is worth a friend knowing about; cosmetic tweaks don't
    need a bump. */
-const APP_VERSION='1.26.0';
+const APP_VERSION='1.26.1';
 const CHANGELOG=[
+ {v:'1.26.1',date:'2026-09-03',summary:'Cloud accounts double-checked against the real Supabase client library (not just a mock) after the database schema was actually applied, and the client pin bumped to fully support the new key format.',notes:[
+  'Bumped the pinned Supabase JS client (2.45.4 -> 2.114.0) to match the newer sb_publishable_ key format the project now issues',
+  'Verified end-to-end against the real client library (fetched directly, not the test mock): account sign-in, cross-device hydration, and the suggestion box all fire the exact requests supabase/schema.sql expects, with no page errors'
+ ]},
  {v:'1.26.0',date:'2026-09-03',summary:'Cloud accounts are now live, backed by a real Supabase project instead of a never-configured Firebase placeholder.',notes:[
   'Replaced the dormant Firebase/Firestore cloud-account code (never actually configured since Phase 11) with Supabase/Postgres -- same features (name-based accounts, cross-device sync, the shared suggestion box), same friend-group trust model, but SUPABASE_CONFIG is now filled in with real values rather than a placeholder, so this is genuinely turned on',
   'New supabase/schema.sql sets up the two tables this needs (profiles, suggestions) with Row Level Security policies mirroring the old Firestore rules\' trust model, plus a trigger that validates what gets written and stamps the update time server-side',
