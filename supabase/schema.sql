@@ -32,6 +32,8 @@ declare
     'omniLedgerProfile','omniLedgerWatchlist','omniLedgerTheme',
     'omniLedgerDensity','omniLedgerOnboarded','omniLedgerTipsDismissed'
   ];
+declare
+  filtered jsonb;
 begin
   -- Unknown keys are STRIPPED, not rejected. This used to `raise exception`, which failed the
   -- whole write -- so a project running an older copy of this file than the app expects (or an app
@@ -41,11 +43,19 @@ begin
   -- normally instead, and the app verifies its own writes by reading them back (see pushSnapshot
   -- in index.html), so anything actually dropped surfaces there as a clear, visible error rather
   -- than silent data loss.
-  new.data = (
+  filtered := (
     select coalesce(jsonb_object_agg(key, value), '{}'::jsonb)
     from jsonb_each(new.data)
     where key = any(allowed)
   );
+  -- Safety net: if filtering would turn a non-empty payload into nothing, the allow-list is out of
+  -- step with the app rather than the payload being junk. Storing it unfiltered is far better than
+  -- storing an empty profile, which is indistinguishable from "all my picks vanished" to the
+  -- person it happens to. Losing a stray key beats losing someone's whole account.
+  if new.data <> '{}'::jsonb and filtered = '{}'::jsonb then
+    filtered := new.data;
+  end if;
+  new.data := filtered;
   if pg_column_size(new.data) > 200000 then
     raise exception 'profiles.data is too large (limit ~200KB)';
   end if;
@@ -124,6 +134,21 @@ create policy "suggestions are publicly deletable"
   on public.suggestions for delete
   using (true);
 
+-- ── suggestion status + voting ──────────────────────────────────────────────────────────────
+-- Lets the shared suggestion feed show what's actually being worked on (status) and which
+-- requests people care about most (votes), instead of being a flat, unordered wall of text.
+-- `status` is client-writable (see the grant below) so the in-app suggestion box can offer a
+-- not-done/resolved toggle directly, without needing the SQL Editor for routine triage.
+--
+-- These columns are added BEFORE the column-level grant that names them. That ordering is load-
+-- bearing, not cosmetic: `grant update (text, status)` against a table without a `status` column
+-- fails, and the Supabase SQL Editor runs a pasted script as a single transaction -- so that one
+-- error rolled back the ENTIRE file, silently leaving the database on whatever it had before.
+-- Anyone who "re-ran schema.sql" to pick up a fix got nothing, with no obvious sign of it.
+alter table public.suggestions
+  add column if not exists status text not null default 'open',
+  add column if not exists votes integer not null default 0;
+
 -- The update policy above only checks the new text's length -- it can't stop a client from ALSO
 -- changing votes in the same request, since a WITH CHECK clause only sees the new row, not old vs
 -- new. Column-level privileges close that gap where RLS can't reach: anon/authenticated can update
@@ -132,15 +157,6 @@ create policy "suggestions are publicly deletable"
 -- below, which runs SECURITY DEFINER and so bypasses this grant the same way it bypasses RLS).
 revoke update on public.suggestions from anon, authenticated;
 grant update (text, status) on public.suggestions to anon, authenticated;
-
--- ── suggestion status + voting ──────────────────────────────────────────────────────────────
--- Lets the shared suggestion feed show what's actually being worked on (status) and which
--- requests people care about most (votes), instead of being a flat, unordered wall of text.
--- `status` is client-writable (see the grant above) so the in-app suggestion box can offer a
--- not-done/resolved toggle directly, without needing the SQL Editor for routine triage.
-alter table public.suggestions
-  add column if not exists status text not null default 'open',
-  add column if not exists votes integer not null default 0;
 
 do $$
 begin

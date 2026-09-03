@@ -913,6 +913,30 @@ async function runAccountFlow(browser, file) {
     const onboardVisible2 = await page2.evaluate(() => !document.getElementById('onboardGate').classList.contains('hidden'));
     check('same handle on a second device hydrates from the cloud and skips onboarding again', !onboardVisible2);
 
+    // Durability: gold/silver/bronze/owned are written to media_status as real rows as well as
+    // into the profiles blob, so an account whose blob is empty/mangled (a stale validation
+    // trigger, a partially-applied schema) must still come back from those rows rather than
+    // looking brand new. Seeds a handle with picks ONLY in media_status and an empty blob.
+    const ctxR = await browser.newContext();
+    const pageR = await ctxR.newPage();
+    await pageR.route('**/supabase-js*/**', route => route.fulfill({ contentType: 'application/javascript', body: '' }));
+    await pageR.addInitScript(MOCK_SUPABASE_SDK + 'if(!sessionStorage.getItem("__mockDb"))sessionStorage.setItem("__mockDb", JSON.stringify({tables:{profiles:{recoverme:{handle:"recoverme",data:{}}},suggestions:[],media_status:[{handle:"recoverme",media_id:"m01",tier:"bronze",owned:false},{handle:"recoverme",media_id:"m02",tier:"gold",owned:true}]},upsertCalls:0,insertCalls:0,deleteCalls:0}));');
+    await pageR.goto('file://' + tmpPath);
+    await pageR.waitForTimeout(400);
+    await pageR.fill('#acctHandleInput', 'recoverme');
+    await pageR.click('#acctContinueBtn');
+    await pageR.waitForTimeout(1200);
+    const recovered = await pageR.evaluate(() => {
+      try {
+        const p = JSON.parse(localStorage.getItem('omniLedgerProfile') || '{}');
+        return (p.bronzeTierIds || []).includes('m01') && (p.declaredGoatIds || []).includes('m02');
+      } catch (e) { return false; }
+    });
+    check('an account whose profile blob is empty is rebuilt from its saved media_status rows', recovered);
+    const recoveredSkipsOnboarding = await pageR.evaluate(() => document.getElementById('onboardGate').classList.contains('hidden'));
+    check('a recovered account is not treated as brand new', recoveredSkipsOnboarding);
+    await pageR.close();
+
     // Root-cause regression for "logging back into my account doesn't remember anything": signing
     // in used to use an unrelated, unfixed 8-second timeout for the READ that fetches an existing
     // account's data (separate from the WRITE timeout fixed earlier), with no retry -- one slow or
@@ -1348,6 +1372,49 @@ async function runSeedPickerFlow(browser, file) {
 // "Search & pick your GOATs" (the full-screen onboarding modal, not the GOAT Profile tab's inline
 // search): covers the added Type filter and per-row context (genre, critic score) that replaced a
 // bare, single-line list.
+// Starting from scratch (a blank profile) and tiering something is the path a brand-new person
+// actually takes. The GOAT Profile's declared section used to render only the categories listed in
+// declaredCanon -- which the sample profile fills in but a from-scratch account leaves empty -- so
+// a Bronze (or Gold, or Silver) pick made from a card had literally nowhere to appear on that page.
+// It looked exactly like the pick hadn't saved, even though it had.
+async function runFromScratchFlow(browser, file) {
+  const page = await browser.newPage();
+  const pageErrors = [];
+  page.on('pageerror', e => pageErrors.push(e.message));
+  await page.goto('file://' + path.join(ROOT, file));
+  await page.waitForTimeout(500);
+  await page.click('#onboardBlank');
+  await page.waitForTimeout(600);
+
+  await page.click('[data-view="goat"]');
+  await page.waitForTimeout(400);
+  const firstId = await page.evaluate(() => {
+    const b = document.querySelector('#goatSearchResults .profEditBtn[data-act="bronze"]');
+    return b ? b.dataset.id : null;
+  });
+  check('a from-scratch profile still offers tier buttons in the GOAT Profile search', !!firstId);
+  await page.click('#goatSearchResults .profEditBtn[data-act="bronze"][data-id="' + firstId + '"]');
+  await page.waitForTimeout(900); // tiering reloads the page
+
+  const savedBronze = await page.evaluate((id) => {
+    try { return (JSON.parse(localStorage.getItem('omniLedgerProfile') || '{}').bronzeTierIds || []).includes(id); }
+    catch (e) { return false; }
+  }, firstId);
+  check('tiering Bronze on a from-scratch profile saves it', savedBronze);
+
+  await page.click('[data-view="goat"]');
+  await page.waitForTimeout(400);
+  const declaredShowsBronze = await page.evaluate(() => {
+    const el = document.getElementById('goatDeclared');
+    return !!el && /bronze/i.test(el.textContent) && el.textContent.trim().length > 0;
+  });
+  check('a Bronze pick appears in the GOAT Profile declared section on a from-scratch account', declaredShowsBronze);
+
+  await page.close();
+  check('no uncaught page errors during the from-scratch pass', pageErrors.length === 0);
+  if (pageErrors.length) pageErrors.forEach(e => console.log('     ' + e));
+}
+
 async function runGoatPickerFlow(browser, file) {
   const page = await browser.newPage();
   const pageErrors = [];
@@ -1389,6 +1456,8 @@ async function runGoatPickerFlow(browser, file) {
     await runSeedPickerFlow(browser, t);
     console.log('\n=== ' + t + ' — GOAT Picker (search & pick your GOATs) ===');
     await runGoatPickerFlow(browser, t);
+    console.log('\n=== ' + t + ' — starting from scratch ===');
+    await runFromScratchFlow(browser, t);
   }
   await browser.close();
 

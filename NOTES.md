@@ -885,6 +885,28 @@ Either way the picks themselves are safe: they stay on the device, marked unsync
 
 ---
 
+## Phase 41 — Why re-running schema.sql did nothing, plus recovery from the normalized rows
+
+The user re-ran `schema.sql`, confirmed the grants were all present (`anon` has INSERT/SELECT/UPDATE/DELETE), and still got "NOT saved to the cloud". The DevTools capture they sent was the decisive evidence: the request payload leaving the browser was **correct** (`{handle:"testy", data:{omniLedgerProfile:"{\"bronzeTierIds\"…"}}`), the write **did** affect a row, and the read-back came back without the keys. So the problem was server-side, and guessing had run out of road.
+
+**Reproduced it locally instead of guessing.** PostgreSQL 16 is available in the sandbox, so this phase ran the actual `schema.sql` against a real database rather than reasoning about it. That immediately surfaced the thing every previous phase had missed:
+
+```
+psql:schema.sql:134: ERROR: column "status" of relation "suggestions" does not exist
+```
+
+`grant update (text, status) on public.suggestions` ran **before** the `alter table … add column status` that creates it. On its own that is a small ordering slip — except the **Supabase SQL Editor runs a pasted script as a single transaction**, so one failed statement rolls back *the entire file*. Every "re-run schema.sql to pick up the fix" instruction given in the last several phases therefore applied **nothing at all**, silently, leaving the database on whatever old state it already had. That single bug invalidated the remedy being handed out for the actual problem. Fixed by moving the `alter table` above the `grant`, verified by running the whole file twice from a clean database (first run and idempotent re-run) with zero errors, then asserting the tables, all four `profiles` policies, and the trigger's behaviour.
+
+**Trigger safety net.** The key-stripping trigger now refuses to turn a non-empty payload into an empty one: if filtering leaves `{}`, it stores the original instead. An allow-list that has drifted from the app should cost an unrecognised field, never someone's whole profile — and "profile is now empty" is indistinguishable from total data loss to the person it happens to. Verified against real Postgres: known keys store, unknown keys strip, an all-unknown payload is kept rather than blanked.
+
+**Recovery from the second copy.** Tier/own actions already write `media_status` rows (handle, media_id, tier, owned) *as well as* the profile blob, so the picks exist in the database twice in two independent shapes. `rebuildProfileFromMediaStatus()` + `hydrateOrRecover()` now reconstruct gold/silver/bronze/owned from those plain rows whenever the blob is missing or empty, so a damaged document no longer makes an account look brand new. `allowClear` is passed `true` only on explicit sign-in (where finding nothing really does mean a new handle) and `false` on ordinary boot, so a row that momentarily reads empty can never wipe the device's copy. This is also the answer to the scaling question: the normalized table is the durable, queryable-per-title store; the blob is convenience.
+
+**Bronze not showing on a from-scratch account.** Separate, real, and entirely client-side: `renderGoat()` rendered only the categories listed in `declaredCanon`, which the PK sample fills in but a blank profile leaves empty. So on an account started from scratch, a Gold/Silver/Bronze pick made from a card had literally nowhere to appear on the GOAT Profile — indistinguishable from "it didn't save". `declaredCategoriesToRender()` now also includes any of the four corpus categories that have tiered works in them.
+
+**Testing.** Six new checks: blob-empty recovery from `media_status` (and that a recovered account isn't treated as new), and a whole new from-scratch flow (blank profile → tier Bronze → it saves → it appears on the GOAT Profile). Verified as a real guard by reverting `renderGoat()` to the old line and confirming the Bronze check fails, then restoring. Full suite: 125 checks, all passing.
+
+---
+
 ## Ideas / next steps
 
 Roughly in order of value:
