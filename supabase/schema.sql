@@ -27,35 +27,24 @@ create or replace function public.validate_omni_profile_data()
 returns trigger
 language plpgsql
 as $$
-declare
-  allowed text[] := array[
-    'omniLedgerProfile','omniLedgerWatchlist','omniLedgerTheme',
-    'omniLedgerDensity','omniLedgerOnboarded','omniLedgerTipsDismissed'
-  ];
-declare
-  filtered jsonb;
 begin
-  -- Unknown keys are STRIPPED, not rejected. This used to `raise exception`, which failed the
-  -- whole write -- so a project running an older copy of this file than the app expects (or an app
-  -- that later adds a 7th tracked key) didn't just lose the new key, it lost the ENTIRE save,
-  -- every time, permanently. The app would then reload and pull the stale row back down over the
-  -- change. Dropping what this schema doesn't know about keeps every recognised key saving
-  -- normally instead, and the app verifies its own writes by reading them back (see pushSnapshot
-  -- in index.html), so anything actually dropped surfaces there as a clear, visible error rather
-  -- than silent data loss.
-  filtered := (
-    select coalesce(jsonb_object_agg(key, value), '{}'::jsonb)
-    from jsonb_each(new.data)
-    where key = any(allowed)
-  );
-  -- Safety net: if filtering would turn a non-empty payload into nothing, the allow-list is out of
-  -- step with the app rather than the payload being junk. Storing it unfiltered is far better than
-  -- storing an empty profile, which is indistinguishable from "all my picks vanished" to the
-  -- person it happens to. Losing a stray key beats losing someone's whole account.
-  if new.data <> '{}'::jsonb and filtered = '{}'::jsonb then
-    filtered := new.data;
-  end if;
-  new.data := filtered;
+  -- This trigger DELIBERATELY does not touch new.data any more.
+  --
+  -- It used to filter the payload against an allow-list of the app's known keys -- first by
+  -- raising (which failed the whole save), later by stripping unknown keys. Both were meant as
+  -- defence-in-depth against a leaked anon key writing junk. In practice the allow-list is a copy
+  -- of app knowledge living in a second place, and the two drift: a project running an older copy
+  -- of this file than the app silently deleted real keys on the way in. That is how a profile of
+  -- 6,248 characters plus a watchlist and a theme was written and came back as
+  -- {"omniLedgerTheme":"","omniLedgerOnboarded":"1"} -- accepted, one row written, no error, and
+  -- the person's entire taste profile gone. A trigger that rewrites the payload is a trapdoor:
+  -- when it is wrong it destroys data silently, and it is wrong whenever the two files disagree.
+  --
+  -- What replaces it is stronger, not weaker. RLS still confines the anon key to this table, and
+  -- the app verifies every write by reading the row back and comparing it (pushSnapshot in
+  -- index.html), so a bad write is caught by the side that actually knows what it sent. The size
+  -- guard stays because it fails LOUDLY -- an error the app surfaces -- rather than quietly
+  -- editing someone's data.
   if pg_column_size(new.data) > 200000 then
     raise exception 'profiles.data is too large (limit ~200KB)';
   end if;
@@ -368,7 +357,21 @@ begin
         order by created_at desc
         limit 20
      );
-  return old;
+  -- THE RETURN VALUE OF A *BEFORE* TRIGGER BECOMES THE ROW THAT GETS WRITTEN.
+  --
+  -- This said `return old;` unconditionally, which is right for DELETE and catastrophic for
+  -- UPDATE: it handed Postgres the OLD row as the row to store, so every update to an existing
+  -- profile silently wrote the previous version back and threw the new one away -- while still
+  -- reporting success, still affecting one row, and still bumping updated_at, because from the
+  -- database's point of view the update genuinely happened. It just happened to the old data.
+  --
+  -- This is what made saving look broken only for accounts that already existed: a brand-new
+  -- handle takes the INSERT path (no OLD row, trigger not involved) and saved perfectly, while
+  -- every established account silently discarded every change forever.
+  if tg_op = 'DELETE' then
+    return old;   -- the row is going away; OLD is the only correct answer
+  end if;
+  return new;     -- UPDATE: store what the caller actually sent
 end;
 $$;
 
