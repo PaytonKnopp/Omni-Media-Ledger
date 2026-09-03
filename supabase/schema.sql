@@ -337,3 +337,90 @@ drop policy if exists "profile snapshots are publicly readable" on public.profil
 create policy "profile snapshots are publicly readable"
   on public.profile_snapshots for select
   using (true);
+
+-- ── hardening pass ──────────────────────────────────────────────────────────────────────────
+-- Added after confirming the schema above was live and working. Three things:
+--
+-- 1. media_id gets a real shape check, matching every other client-supplied text column in this
+--    file already being bounded (see suggestions.text's char_length check above) -- there was
+--    nothing stopping an arbitrarily large or malformed value before this.
+--
+-- 2. media_status and friends now foreign-key back to profiles.handle, ON DELETE CASCADE. This
+--    fixes a real gap: "Delete my account" already tells the user it "permanently removes your
+--    synced profile, watchlist, and preferences from the server," but until now it only ever
+--    deleted the profiles row -- a handle's media_status (tier/owned) rows and friends edges were
+--    silently left behind forever. The cascade makes the DB enforce what the UI already promises,
+--    with no app change needed on top of it.
+--    suggestions.handle and suggestion_votes.handle are deliberately NOT foreign-keyed: a guest
+--    (no cloud handle) submitting a suggestion writes handle='anonymous' (see the suggestion box
+--    in index.html), which isn't a real profiles row -- an FK here would break that path outright.
+--    profile_snapshots.handle is deliberately NOT foreign-keyed either: its whole purpose is to
+--    outlive the profiles row it's a backup of, so tying its lifetime to that row would defeat it.
+--
+-- 3. A defensive per-handle row cap on media_status and friends, same spirit as the existing
+--    200KB cap on profiles.data: not a real security boundary (the anon key is public by design;
+--    this can't stop a determined actor with their own Postgres client), just a backstop against
+--    a client-side bug (a runaway loop) quietly ballooning one handle's row count forever. The
+--    corpus is 2,508 works total, so 3,000 is generous headroom for media_status; 1,000 is
+--    generous for a friends list. Only counts against the cap when the row is genuinely new (not
+--    already tracked for that handle), so re-tiering something you already track never trips it.
+
+alter table public.media_status
+  drop constraint if exists media_status_length_check;
+alter table public.media_status
+  add constraint media_status_length_check
+  check (char_length(media_id) between 1 and 20);
+
+alter table public.media_status
+  drop constraint if exists media_status_handle_fkey;
+alter table public.media_status
+  add constraint media_status_handle_fkey
+  foreign key (handle) references public.profiles (handle) on delete cascade;
+
+alter table public.friends
+  drop constraint if exists friends_handle_fkey;
+alter table public.friends
+  add constraint friends_handle_fkey
+  foreign key (handle) references public.profiles (handle) on delete cascade;
+
+alter table public.friends
+  drop constraint if exists friends_friend_handle_fkey;
+alter table public.friends
+  add constraint friends_friend_handle_fkey
+  foreign key (friend_handle) references public.profiles (handle) on delete cascade;
+
+create or replace function public.enforce_media_status_row_cap()
+returns trigger
+language plpgsql
+as $$
+begin
+  if not exists (select 1 from public.media_status where handle = new.handle and media_id = new.media_id)
+     and (select count(*) from public.media_status where handle = new.handle) >= 3000 then
+    raise exception 'media_status row cap reached for this handle';
+  end if;
+  return new;
+end;
+$$;
+
+drop trigger if exists media_status_row_cap on public.media_status;
+create trigger media_status_row_cap
+  before insert on public.media_status
+  for each row execute function public.enforce_media_status_row_cap();
+
+create or replace function public.enforce_friends_row_cap()
+returns trigger
+language plpgsql
+as $$
+begin
+  if not exists (select 1 from public.friends where handle = new.handle and friend_handle = new.friend_handle)
+     and (select count(*) from public.friends where handle = new.handle) >= 1000 then
+    raise exception 'friends row cap reached for this handle';
+  end if;
+  return new;
+end;
+$$;
+
+drop trigger if exists friends_row_cap on public.friends;
+create trigger friends_row_cap
+  before insert on public.friends
+  for each row execute function public.enforce_friends_row_cap();
