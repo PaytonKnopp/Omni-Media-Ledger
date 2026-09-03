@@ -1137,6 +1137,57 @@ var SUPABASE_CONFIG={url:"https://gqpjeccmwsjxrlrazqxt.supabase.co",anonKey:"sb_
     throw e;
    });
  }
+ // Belt-and-braces recovery. Every tier/own action already writes real rows to media_status
+ // (handle, media_id, tier, owned) as well as the profiles jsonb blob, so the picks exist in the
+ // database TWICE, in two independent shapes. If the blob is ever missing, empty, or mangled --
+ // by a stale validation trigger, a partially-applied schema, anything -- the account can still be
+ // rebuilt from those plain rows instead of looking brand new. A normalized table is also the part
+ // of this that scales: it is queryable per title, per person, and nothing about it depends on one
+ // large document surviving intact.
+ function rebuildProfileFromMediaStatus(h){
+  return client.from('media_status').select('media_id,tier,owned').eq('handle',h).then(function(res){
+   if(res&&res.error)throw res.error;
+   var rows=(res&&res.data)||[];
+   if(!rows.length)return false;
+   var p={declaredGoatIds:[],silverTierIds:[],bronzeTierIds:[],ownedMedia:{},ownedGameIds:[],ownedBooksExtra:{}};
+   rows.forEach(function(r){
+    var id=String(r.media_id||'');if(!id)return;
+    if(r.tier==='gold')p.declaredGoatIds.push(id);
+    else if(r.tier==='silver')p.silverTierIds.push(id);
+    else if(r.tier==='bronze')p.bronzeTierIds.push(id);
+    if(r.owned){
+     if(id.charAt(0)==='g')p.ownedGameIds.push(id);
+     else if(id.charAt(0)==='b')p.ownedBooksExtra[id]='Owned';
+     else p.ownedMedia[id]='Owned';
+    }
+   });
+   hydrateFromCloud({omniLedgerProfile:JSON.stringify(p),omniLedgerOnboarded:'1'});
+   console.warn('Recovered '+rows.length+' saved picks for "'+h+'" from media_status (the profile blob was empty).');
+   return true;
+  }).catch(function(e){console.warn('media_status recovery failed:',e&&e.message||e);return false;});
+ }
+ // allowClear is only true when someone is explicitly signing in by name: there, finding nothing
+ // genuinely means "new account, start fresh". On an ordinary boot of a remembered handle it stays
+ // false, because a momentarily unreadable row must never be a reason to wipe what's on the device.
+ function hydrateOrRecover(h,rowData,allowClear){
+  var blob=(rowData&&typeof rowData==='object')?rowData:null;
+  var hasProfile=!!(blob&&typeof blob.omniLedgerProfile==='string'&&blob.omniLedgerProfile.length>2);
+  if(hasProfile){hydrateFromCloud(blob);return Promise.resolve(true);}
+  return rebuildProfileFromMediaStatus(h).then(function(rebuilt){
+   if(!rebuilt){
+    if(blob&&Object.keys(blob).length)hydrateFromCloud(blob);
+    else if(allowClear)clearLocalProfile();
+    return false;
+   }
+   // Keep whatever else the blob did carry (theme, density, watchlist, tips) without letting an
+   // empty omniLedgerProfile in it overwrite the profile just rebuilt from the normalized rows.
+   if(blob){
+    var rest={};Object.keys(blob).forEach(function(k){if(k!=='omniLedgerProfile')rest[k]=blob[k];});
+    if(Object.keys(rest).length)hydrateFromCloud(rest);
+   }
+   return true;
+  });
+ }
  function showGate(){
   var gate=$('#acctGate');if(!gate)return Promise.resolve();
   gate.classList.remove('hidden');
@@ -1175,8 +1226,9 @@ var SUPABASE_CONFIG={url:"https://gqpjeccmwsjxrlrazqxt.supabase.co",anonKey:"sb_
   }
   return fetchProfileRow(h).then(function(res){
    handle=h;try{localStorage.setItem(ACCT_KEY,h);}catch(e){}
-   if(res.data&&res.data.data){hydrateFromCloud(res.data.data);}
-   else{clearLocalProfile();} // brand-new handle: fresh slate, normal onboarding runs, first save creates the row
+   // allowClear: signing in by name and finding nothing really does mean a brand-new handle, so a
+   // fresh slate (and normal onboarding) is correct -- the first save creates the row.
+   return hydrateOrRecover(h,res.data&&res.data.data,true);
   });
  }
 
@@ -1222,8 +1274,9 @@ var SUPABASE_CONFIG={url:"https://gqpjeccmwsjxrlrazqxt.supabase.co",anonKey:"sb_
    }
    fetchProfileRow(remembered).then(function(res){
     handle=remembered;
-    if(res.data&&res.data.data)hydrateFromCloud(res.data.data);
-    bootApp();
+    // allowClear stays false here: a row that momentarily reads back empty must never be a reason
+    // to wipe this device's copy of an account it is already signed into.
+    return hydrateOrRecover(remembered,res.data&&res.data.data,false).then(function(){bootApp();});
    }).catch(function(e){
     // Falls back to whatever's already in local storage rather than blocking the app open --
     // reasonable on the SAME device that was just using this account (local cache is current), but
@@ -2796,8 +2849,24 @@ function declaredCategoryHTML(d){
  if(!body)body='<div class="text-[11px] text-slate-500">None declared yet \u2014 search above to tier some.</div>';
  return '<div class="panel p-3.5" style="border-color:#47556933"><div class="lbl" style="color:#e2e8f0">'+esc(d.cat)+'</div>'+body+'</div>';
 }
+// The four corpus categories are shown whenever the profile has ANY tiered work in them, even if
+// declaredCanon never mentions that category. Previously this list came only from declaredCanon,
+// which is populated by the sample profile and the GOAT Picker's finalize step -- so on an account
+// started from scratch it was empty, and tiering something Gold/Silver/Bronze from a card had
+// nowhere to appear at all. That looked exactly like "my picks aren't saving" even when they were.
+function declaredCategoriesToRender(){
+ var cats=(goatProfile.declared||[]).slice();
+ var named={};cats.forEach(function(d){named[d.cat]=true;});
+ Object.keys(CORPUS_CANON_KIND).forEach(function(cat){
+  if(named[cat])return;
+  var kind=CORPUS_CANON_KIND[cat];
+  var hasTiered=ALL.some(function(x){return x.kind===kind&&(x.goat||x.silver||x.bronze);});
+  if(hasTiered)cats.push({cat:cat,items:[]});
+ });
+ return cats;
+}
 function renderGoat(){renderTasteDNA();
- $('#goatDeclared').innerHTML=goatProfile.declared.map(declaredCategoryHTML).join('');
+ $('#goatDeclared').innerHTML=declaredCategoriesToRender().map(declaredCategoryHTML).join('');
  $('#goatRecs').innerHTML=goatProfile.recs.map(cat=>'<div class="panel overflow-hidden fade-in">'
   +'<div class="px-4 pt-4 pb-3 border-b border-slate-800/70"><div class="flex items-baseline justify-between gap-2"><h3 class="text-[12px] font-bold tracking-[.14em] uppercase text-slate-100">'+esc(cat.cat)+(cat.approx?(cat.partiallyLinked?' <span class="text-[8.5px] font-normal normal-case tracking-normal text-emerald-400/80" title="Where a pick has a known, ledger-linked work (marked ◆ below), the score is a real average of that work'+"'"+'s GOAT match, not a guess. Unlinked picks fall back to genre overlap.">◆ partly ledger-linked</span>':' <span class="text-[8.5px] font-normal normal-case tracking-normal text-amber-400/70" title="No corpus of music/video-essay works exists to link these picks to (the ledger only tracks movies, TV, games and books), so these stay hand-curated -- but the score and order do respond to both your genre AND vibe weights.">◈ approximate — by genre + vibe overlap</span>'):'')+'</h3><span class="lbl">match /100</span></div>'
   +'<p class="text-[10.5px] text-slate-500 mt-1 leading-relaxed">'+esc(cat.basis)+'</p></div>'
@@ -3673,8 +3742,15 @@ function handleProfileEditClick(btn){
    "here's what changed" readout, not a live version check against anything. Bump APP_VERSION and
    add a CHANGELOG entry whenever a change is worth a friend knowing about; cosmetic tweaks don't
    need a bump. */
-const APP_VERSION='1.39.0';
+const APP_VERSION='1.40.0';
 const CHANGELOG=[
+ {v:'1.40.0',date:'2026-09-03',summary:'Found why re-running the database script changed nothing — the script itself failed partway and rolled the whole thing back. Fixed that, made picks recoverable from a second copy in the database, and fixed Bronze/Gold/Silver not showing on the GOAT Profile for accounts started from scratch.',notes:[
+  'The big one: supabase/schema.sql had a statement ordering bug — it granted permission on a suggestions column before that column was created. The Supabase SQL Editor runs a pasted script as ONE transaction, so that single error rolled back the ENTIRE file. Anyone who "re-ran schema.sql" to pick up a fix got none of it, with nothing obvious to show that had happened. Fixed and verified by running the whole file against a real PostgreSQL 16 twice from a clean database, with zero errors',
+  'The profiles validation rule can no longer blank a profile: if filtering unknown keys would leave nothing at all, it now stores the payload as-is instead. Losing an unrecognised field beats losing somebody\'s entire account',
+  'Your Gold/Silver/Bronze/Owned picks are saved to the database twice — once in the profile document and once as normal per-title rows (media_status). If the document is ever empty or damaged, the account now rebuilds itself from those rows instead of appearing brand new. That second copy is also the part that scales: it is a plain table, queryable per person and per title',
+  'Fixed Bronze (and Gold/Silver) picks not appearing in the GOAT Profile on an account started from scratch. That section only rendered categories the sample profile happens to define, so on a blank profile a pick made from a card had nowhere to show up — it looked like it had not saved, even though it had',
+  'Signing in now only wipes local data when a name genuinely has no account anywhere; a row that momentarily reads back empty can never clear what is on your device'
+ ]},
  {v:'1.39.0',date:'2026-09-03',summary:'The app can now see when the database silently refuses a write — the specific failure that made picks vanish — and says exactly which database setting to fix. Switching accounts is no longer a dead end when that happens.',notes:[
   'Saves now ask the database to hand back the rows it actually wrote. This matters because of a real Postgres trap: for an upsert (INSERT … ON CONFLICT DO UPDATE), a row-level security UPDATE policy is applied as a FILTER, not a check — a row it excludes is skipped with NO error and a success response. A project whose INSERT policy works but whose UPDATE policy is missing or restrictive therefore saves a brand-new name once and then silently discards every later change to it, forever. Getting zero rows back is the only evidence, and the app now checks for it and names it',
   'The read-back check now retries once before complaining, so a single cached or lagging read is not mistaken for a refused write',
