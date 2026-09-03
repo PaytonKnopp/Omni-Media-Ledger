@@ -914,20 +914,38 @@ var SUPABASE_CONFIG={url:"https://gqpjeccmwsjxrlrazqxt.supabase.co",anonKey:"sb_
  // pending mark stays set, local data is preserved, and the real reason is recorded and shown.
  function pushSnapshot(){
   var snap=localSnapshot();
-  return client.from('profiles').upsert({handle:handle,data:snap})
+  // .select() makes PostgREST return the rows the write actually affected, and that turns out to
+  // be the decisive signal. Without it, an upsert that changed NOTHING is indistinguishable from
+  // one that worked: Postgres applies an UPDATE policy's USING clause to INSERT ... ON CONFLICT DO
+  // UPDATE as a silent FILTER, so a row the policy excludes is skipped with no error and a 2xx
+  // response. Same for a missing UPDATE grant on the column/table. An empty array coming back is
+  // therefore the difference between "saved" and "the database quietly refused to write", which is
+  // exactly the state this app kept mistaking for success.
+  return client.from('profiles').upsert({handle:handle,data:snap}).select('handle')
    .then(function(res){
     if(res&&res.error)throw res.error;
-    return client.from('profiles').select('data').eq('handle',handle).maybeSingle();
+    var rows=(res&&res.data)||[];
+    if(!rows.length)throw new Error('the database accepted the request but wrote no row for "'+handle+'" — its row-level security policy is silently skipping the write. See NOTES.md → "If saving is refused" for the SQL that fixes this');
+    return verifyStored(snap,1);
    })
-   .then(function(chk){
-    if(chk&&chk.error)throw chk.error;
-    var stored=(chk&&chk.data&&chk.data.data)||null;
-    if(!stored)throw new Error('the server reported the save as successful but has no row for "'+handle+'"');
-    var dropped=Object.keys(snap).filter(function(k){return stored[k]!==snap[k];});
-    if(dropped.length)throw new Error('the server did not store '+dropped.join(', ')+' — re-run supabase/schema.sql in this project to bring it up to date');
-    clearPending();
-    return true;
-   });
+   .then(function(){clearPending();return true;});
+ }
+ // Reads the row back and confirms it really holds what was just sent -- a write can be accepted,
+ // report rows affected, and STILL not hold the data if something server-side rewrote the row on
+ // the way in. Retries once before complaining, because a single mismatched read can also come
+ // from a cached GET or ordinary lag rather than a genuinely refused write; only a mismatch that
+ // survives a second, later look is treated as real.
+ function verifyStored(snap,attempt){
+  return client.from('profiles').select('data').eq('handle',handle).maybeSingle().then(function(chk){
+   if(chk&&chk.error)throw chk.error;
+   var stored=(chk&&chk.data&&chk.data.data)||null;
+   var dropped=stored?Object.keys(snap).filter(function(k){return stored[k]!==snap[k];}):Object.keys(snap);
+   if(!dropped.length)return true;
+   if(attempt<2)return new Promise(function(r){setTimeout(r,700);}).then(function(){return verifyStored(snap,attempt+1);});
+   throw new Error(stored
+    ?'the row for "'+handle+'" saved, but came back without '+dropped.join(', ')+' — something server-side is rewriting it. Re-run supabase/schema.sql in this project'
+    :'the write reported success but no row for "'+handle+'" can be read back at all');
+  });
  }
  function runScheduledSync(){
   if(!cloudReady||!handle||!client)return Promise.resolve(false);
@@ -1228,9 +1246,16 @@ var SUPABASE_CONFIG={url:"https://gqpjeccmwsjxrlrazqxt.supabase.co",anonKey:"sb_
    var swBtn=e.target;swBtn.disabled=true;swBtn.textContent='Switching…';
    flushPendingSync().then(function(synced){
     if(!synced){
-     window.alert('Could not save your latest changes before switching (connection issue) — nothing has been switched, so nothing is lost. Try again once you\'re back online.');
-     swBtn.disabled=false;swBtn.textContent='⇄ Switch account…';
-     return;
+     // Refusing outright leaves someone stuck on this account with no way forward, so this is an
+     // informed choice rather than a wall: it says what's wrong, defaults to NOT switching, and
+     // points at Export as the way to keep the data if they do want to switch regardless.
+     var why=lastSyncError()||'the connection failed';
+     var msg='Your latest changes could not be saved to the cloud, so switching now would lose them.\n\nReason: '+why+
+      '\n\nNothing has been switched yet. Click Cancel to stay here (recommended — use Export / Backup in the header first to keep a copy), or OK to switch anyway and discard the unsaved changes on this device.';
+     if(!window.confirm(msg)){
+      swBtn.disabled=false;swBtn.textContent='⇄ Switch account…';
+      return;
+     }
     }
     try{localStorage.removeItem(ACCT_KEY);}catch(ex){}
     clearLocalProfile();
@@ -3648,8 +3673,14 @@ function handleProfileEditClick(btn){
    "here's what changed" readout, not a live version check against anything. Bump APP_VERSION and
    add a CHANGELOG entry whenever a change is worth a friend knowing about; cosmetic tweaks don't
    need a bump. */
-const APP_VERSION='1.38.0';
+const APP_VERSION='1.39.0';
 const CHANGELOG=[
+ {v:'1.39.0',date:'2026-09-03',summary:'The app can now see when the database silently refuses a write — the specific failure that made picks vanish — and says exactly which database setting to fix. Switching accounts is no longer a dead end when that happens.',notes:[
+  'Saves now ask the database to hand back the rows it actually wrote. This matters because of a real Postgres trap: for an upsert (INSERT … ON CONFLICT DO UPDATE), a row-level security UPDATE policy is applied as a FILTER, not a check — a row it excludes is skipped with NO error and a success response. A project whose INSERT policy works but whose UPDATE policy is missing or restrictive therefore saves a brand-new name once and then silently discards every later change to it, forever. Getting zero rows back is the only evidence, and the app now checks for it and names it',
+  'The read-back check now retries once before complaining, so a single cached or lagging read is not mistaken for a refused write',
+  'Switching accounts with unsaved changes is no longer blocked outright — it explains the real reason, defaults to staying put, recommends Export / Backup first, and lets you switch anyway if you choose to',
+  'If you see "NOT saved to the cloud" in the account menu, NOTES.md → "If saving is refused" now has the exact SQL to run and two queries to confirm which policies and grants your project actually has'
+ ]},
  {v:'1.38.0',date:'2026-09-03',summary:'Your picks can no longer be lost. A save that doesn\'t actually reach the server is now detected, kept safely on your device, clearly shown as unsaved, and retried — instead of being silently reverted the next time you refresh.',notes:[
   'Root cause of picks disappearing on refresh: the app treated "the save request came back without an error" as proof it saved — but that is not the same thing. If the server accepted the request without actually storing it (a validation rule rejecting the row, a project running an out-of-date copy of the schema, a request cut off in flight), the app believed it, and then the very next ordinary page load pulled the older cloud copy back down over the change. That is why tiering something looked fine, and refreshing wiped it',
   'Saves are now verified: after writing, the app reads the row straight back and compares it. A save only counts as done when the server hands the same profile back — otherwise it stays marked unsynced, with the real reason recorded',

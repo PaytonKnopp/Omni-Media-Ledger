@@ -850,6 +850,41 @@ This also explains why the earlier fixes helped but never closed it. Phase 34's 
 
 ---
 
+## If saving is refused ("NOT saved to the cloud" in the account menu)
+
+The app verifies its own writes now, so this message means the database really is refusing them, and the wording says which of the two shapes it is.
+
+**"wrote no row … row-level security policy is silently skipping the write"** — the important one, and a genuine Postgres trap. For `INSERT ... ON CONFLICT DO UPDATE` (what an upsert compiles to), RLS applies the UPDATE policy's `USING` clause as a **filter, not a check**: a row it excludes is skipped silently — success response, no error, zero rows written. The same happens if `anon` is missing the UPDATE grant. So a project with a working INSERT policy but a missing/restrictive UPDATE policy saves a brand-new handle once and then silently discards every later change to it, forever. Re-running `schema.sql` fixes it, or run just this:
+
+```sql
+alter table public.profiles enable row level security;
+
+drop policy if exists "profiles are publicly updatable" on public.profiles;
+create policy "profiles are publicly updatable"
+  on public.profiles for update using (true) with check (true);
+
+drop policy if exists "profiles are publicly writable" on public.profiles;
+create policy "profiles are publicly writable"
+  on public.profiles for insert with check (true);
+
+grant select, insert, update, delete on public.profiles to anon, authenticated;
+```
+
+To confirm which policies a project actually has:
+
+```sql
+select polname, polcmd from pg_policy where polrelid = 'public.profiles'::regclass;
+-- expect four rows: r (select), a (insert), w (update), d (delete)
+select grantee, privilege_type from information_schema.role_table_grants
+where table_name = 'profiles' and grantee in ('anon','authenticated');
+```
+
+**"came back without omniLedgerProfile … something server-side is rewriting it"** — the row saved but not with what was sent, which means the `profiles_validate` trigger altered it on the way in. Re-run `schema.sql` to get the current trigger (it strips unrecognised keys rather than rejecting the write, and stamps `updated_at`).
+
+Either way the picks themselves are safe: they stay on the device, marked unsynced, and push themselves up once the database accepts writes again.
+
+---
+
 ## Ideas / next steps
 
 Roughly in order of value:

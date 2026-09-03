@@ -713,6 +713,16 @@ function __mockBuilder(table){
             res({ data: [row], error: null });
             return;
           }
+          // Test-only escape hatch (db.refuseProfileWritesSilently) reproducing what Postgres
+          // actually does when an RLS UPDATE policy excludes the conflicting row in an
+          // INSERT ... ON CONFLICT DO UPDATE: the request succeeds, no error is raised, and ZERO
+          // rows are written. Distinct from silentlyDropProfileUpserts above, which still claims a
+          // row was affected -- here the empty array is the only evidence anything went wrong.
+          if (db.refuseProfileWritesSilently) {
+            __mockSave(db);
+            res({ data: [], error: null });
+            return;
+          }
           var delayMs = db.slowNextProfileUpsertMs || 0;
           // Test-only escape hatch (db.slowNextProfileUpsertMs) simulating a request that's simply
           // SLOW rather than failed outright -- a real network round trip taking longer than
@@ -1139,17 +1149,54 @@ async function runAccountFlow(browser, file) {
       sessionStorage.setItem('__mockDb', JSON.stringify(db));
     });
     await page2.reload();
-    await page2.waitForTimeout(1200); // boot sees pending, retries the push, verifies it
-    const healedInCloud = await page2.evaluate((id) => {
-      const row = window.__mockTables.profiles['smoketestuser2'];
+    // Polled rather than slept: boot has to notice the pending mark, re-push, and then verify the
+    // write with a read-back (plus a possible retry), so a fixed wait here is guesswork that gets
+    // brittle every time that path gains a round trip.
+    const healed = await page2.waitForFunction((id) => {
+      const row = window.__mockTables && window.__mockTables.profiles && window.__mockTables.profiles['smoketestuser2'];
       if (!row) return false;
-      try { return (JSON.parse(row.data.omniLedgerProfile || '{}').bronzeTierIds || []).includes(id); }
+      let stored = false;
+      try { stored = (JSON.parse(row.data.omniLedgerProfile || '{}').bronzeTierIds || []).includes(id); }
+      catch (e) { return false; }
+      return stored && localStorage.getItem('omniLedgerPendingSync') !== '1';
+    }, bronzeCardId, { timeout: 10000 }).then(() => true).catch(() => false);
+    check('an unsynced change is pushed and verified on its own once the cloud works again', healed);
+
+    // A write the DATABASE silently refuses (RLS UPDATE policy filtering out the conflicting row in
+    // ON CONFLICT DO UPDATE: 2xx, no error, zero rows written) has to be caught too -- this is the
+    // shape a real Supabase project reports when its policies are wrong, and the only evidence is
+    // the empty result set, which the app could not see at all before it asked for the rows back.
+    await page2.evaluate(() => {
+      const db = JSON.parse(sessionStorage.getItem('__mockDb'));
+      db.refuseProfileWritesSilently = true;
+      sessionStorage.setItem('__mockDb', JSON.stringify(db));
+    });
+    await page2.click('.panel .profEditBtn[data-act="silver"][data-id="' + bronzeCardId + '"]');
+    await page2.waitForTimeout(900);
+    const pendingAfterRefusal = await page2.evaluate(() => localStorage.getItem('omniLedgerPendingSync') === '1');
+    const refusalReason = await page2.evaluate(() => localStorage.getItem('omniLedgerLastSyncError') || '');
+    check('a write the database silently refuses (zero rows written) is caught, not counted as saved',
+      pendingAfterRefusal && /wrote no row/.test(refusalReason));
+
+    await page2.reload();
+    await page2.waitForTimeout(900);
+    const silverSurvivedRefusal = await page2.evaluate((id) => {
+      try { return (JSON.parse(localStorage.getItem('omniLedgerProfile') || '{}').silverTierIds || []).includes(id); }
       catch (e) { return false; }
     }, bronzeCardId);
-    const pendingCleared = await page2.evaluate(() => localStorage.getItem('omniLedgerPendingSync') !== '1');
-    check('an unsynced change is pushed and verified on its own once the cloud works again', healedInCloud && pendingCleared);
+    check('a pick survives a refresh even when the database refuses the write outright', silverSurvivedRefusal);
 
-    // Put the tier back the way the rest of the flow expects it (this card started untiered).
+    await page2.evaluate(() => {
+      const db = JSON.parse(sessionStorage.getItem('__mockDb'));
+      db.refuseProfileWritesSilently = false;
+      sessionStorage.setItem('__mockDb', JSON.stringify(db));
+    });
+    await page2.reload();
+    await page2.waitForTimeout(1200);
+
+    // Put the card back the way the rest of the flow expects it (it started with no tier at all).
+    await page2.click('.panel .profEditBtn[data-act="silver"][data-id="' + bronzeCardId + '"]');
+    await page2.waitForTimeout(900);
     await page2.click('.panel .profEditBtn[data-act="bronze"][data-id="' + bronzeCardId + '"]');
     await page2.waitForTimeout(900);
 
