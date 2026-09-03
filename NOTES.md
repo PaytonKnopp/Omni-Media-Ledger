@@ -812,6 +812,24 @@ The rest of the same "Implement all of this" request from Phase 36, tackled afte
 
 ---
 
+## Phase 38 — The actual reason signing back into an account looked "brand new," plus a bug introduced while fixing it
+
+The user reported the persistence bug yet again after Phase 36 shipped, this time describing it precisely: logging back into an existing account doesn't remember what was done, and typing the handle back in doesn't recognize it as an existing account. That framing — specifically about the *sign-in* moment, not a mid-session reload or switch — pointed at a code path Phase 36 never touched.
+
+**Root cause: sign-in itself had its own separate, unfixed 8-second timeout.** Phase 36 fixed the *save* path (`reloadAfterSync`/`flushPendingSync`) by raising a too-short timeout to 15s. But the *read* that happens when you type your handle at the account gate (`resolveHandle`) or when the app silently re-confirms a remembered handle on boot (`boot()`'s remembered-handle branch) was a completely separate piece of code with its own hardcoded `8000` — never touched, never fixed. Worse, on a failed/slow read, `resolveHandle`'s caller set an error message and then hid the account gate in the very next line, so the message was never actually visible — the account would just silently look brand new, with no explanation. This is the same class of Supabase free-tier cold-start latency Phase 36 diagnosed, just on the other side of the round trip.
+
+**Fix.** Added `fetchProfileRow(h, attempt)`: uses the real `SYNC_TIMEOUT_MS` (15s, not the stray 8s) and retries once automatically after a short pause on failure, since a cold start is usually a one-time tax the very next request clears. `resolveHandle` and `boot()`'s remembered-handle path both use it now. And critically, the account gate's failure UX changed: instead of silently falling back to "continuing locally" (which is how an existing account's real data went missing from view), it now stays open with the actual error shown and the Continue button re-enabled, so retrying — or explicitly choosing "Continue without an account" — is the user's own informed choice, never a silent default.
+
+**A bug found and fixed during verification, not before shipping.** While testing the fix, the existing "deleted handle's row is actually gone from the store" test started failing — traced to a new `visibilitychange` listener added in this same round (flushing a pending debounced sync if the tab is hidden/closed before its normal 1.5s window, closing a smaller related gap where a theme/watchlist/tips change could be lost on a fast tab close). The bug: `clearTimeout(syncTimer)` cancels a timer but doesn't null the variable holding its old ID, so the new visibilitychange check (`if(...&&syncTimer)`) saw a stale, already-cancelled timer as "still pending" and fired a redundant sync — in one observed case, literally resurrecting a just-deleted account's row moments after "Delete my account" removed it, because the delete flow never explicitly cancelled a leftover timer either. Fixed by actually nulling `syncTimer` at every `clearTimeout` call site, plus explicitly cancelling it in the delete flow. This is exactly the kind of thing the disable/re-enable verification habit exists to catch — it surfaced from running the full suite after the change, not from reasoning about the change in isolation.
+
+**A vacuous test caught and fixed.** The first version of the new sign-in-retry regression test only checked that the onboarding gate never showed — but that's *also* true when sign-in gets stuck failing (never gets far enough to show onboarding either way), so it passed even with the retry logic completely disabled. Caught by the same disable-and-confirm-it-fails discipline this session has used throughout. Rewrote it to check that the account gate actually closed *and* that real profile data (a non-empty `declaredGoatIds`) landed locally — which correctly fails when the retry is disabled and passes when it's restored.
+
+**One-line spacing fix.** The user found, via their own browser devtools, that the GOAT Profile roomy tier row's `-mt-1` (pulls the row up 0.25rem) needed to instead push it down — changed to `mt-4` (1rem), matching what they'd already confirmed looked right by editing the live rule themselves. Verified with a matching screenshot.
+
+**Testing.** Both root-cause fixes (sign-in retry, stale-timer nulling) have dedicated regression tests, each verified via the disable/confirm-fails/re-enable/confirm-passes cycle. Full suite: 113 checks, clean.
+
+---
+
 ## Ideas / next steps
 
 Roughly in order of value:

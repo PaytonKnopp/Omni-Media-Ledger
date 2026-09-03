@@ -734,6 +734,16 @@ function __mockBuilder(table){
           res({ data: null, error: null });
           return;
         }
+        // Test-only escape hatch (db.failNextProfileSelectOnce) simulating one bad/slow read on
+        // sign-in (a cold-starting free-tier project's first request of a session, typically) that
+        // a retry immediately recovers from -- distinct from failNextProfileUpsert above, which is
+        // about a WRITE never landing, not a read failing on the way in.
+        if (db.failNextProfileSelectOnce) {
+          db.failNextProfileSelectOnce = false;
+          __mockSave(db);
+          res({ data: null, error: { message: 'simulated read failure' } });
+          return;
+        }
         var hf = state.filters.find(function(f){ return f[0] === 'handle'; });
         var found = hf ? db.tables.profiles[hf[1]] : null;
         res(state.single ? { data: found || null, error: null } : { data: found ? [found] : [], error: null });
@@ -882,6 +892,38 @@ async function runAccountFlow(browser, file) {
     await page2.waitForTimeout(500);
     const onboardVisible2 = await page2.evaluate(() => !document.getElementById('onboardGate').classList.contains('hidden'));
     check('same handle on a second device hydrates from the cloud and skips onboarding again', !onboardVisible2);
+
+    // Root-cause regression for "logging back into my account doesn't remember anything": signing
+    // in used to use an unrelated, unfixed 8-second timeout for the READ that fetches an existing
+    // account's data (separate from the WRITE timeout fixed earlier), with no retry -- one slow or
+    // failed read (a cold-starting free-tier project's first request is a completely normal way to
+    // hit this) meant an account with real, saved cloud data would silently look brand new, with no
+    // visible explanation (the error message used to be set and then hidden again in the very next
+    // line). Confirms a single failed read during sign-in is now retried automatically and the
+    // account still hydrates its real data instead of falling into onboarding.
+    const ctx3 = await browser.newContext();
+    const page3 = await ctx3.newPage();
+    await page3.route('**/supabase-js*/**', route => route.fulfill({ contentType: 'application/javascript', body: '' }));
+    await page3.addInitScript(MOCK_SUPABASE_SDK + 'if(!sessionStorage.getItem("__mockDb"))sessionStorage.setItem("__mockDb", JSON.stringify({tables:{profiles:' + JSON.stringify({ smoketestuser: storedRow }) + ',suggestions:[],media_status:[]},upsertCalls:0,insertCalls:0,deleteCalls:0,failNextProfileSelectOnce:true}));');
+    await page3.goto('file://' + tmpPath);
+    await page3.waitForTimeout(400);
+    await page3.fill('#acctHandleInput', 'smoketestuser');
+    await page3.click('#acctContinueBtn');
+    await page3.waitForTimeout(1500); // one failed attempt + ~800ms retry delay + a successful second attempt
+    // Checks actual hydration, not just "onboarding didn't show" -- a naive version of this check
+    // (onboardGate still hidden) would pass even with the retry completely disabled, since a sign-
+    // in that gets stuck on a persistent error ALSO never reaches onboardGate; that's stuck, not
+    // recovered. Confirms the account gate itself closed (sign-in actually completed, not stuck
+    // showing an error) AND the real declared-favorites data from the cloud row landed locally.
+    const acctGateHiddenAfterRetry = await page3.evaluate(() => document.getElementById('acctGate').classList.contains('hidden'));
+    const onboardVisibleRetry = await page3.evaluate(() => !document.getElementById('onboardGate').classList.contains('hidden'));
+    const hydratedAfterRetry = await page3.evaluate(() => {
+      try { return (JSON.parse(localStorage.getItem('omniLedgerProfile') || '{}').declaredGoatIds || []).length > 0; }
+      catch (e) { return false; }
+    });
+    check('a sign-in read that fails once still hydrates correctly after the automatic retry',
+      acctGateHiddenAfterRetry && !onboardVisibleRetry && hydratedAfterRetry);
+    await page3.close();
 
     // The account menu (top-right dropdown) opens and shows the signed-in state.
     await page2.click('#acctMenuField');

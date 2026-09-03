@@ -859,23 +859,34 @@ var SUPABASE_CONFIG={url:"https://gqpjeccmwsjxrlrazqxt.supabase.co",anonKey:"sb_
   });
   if(label){var status=$('#acctMenuStatus');if(status)status.textContent=label;}
  }
+ function runScheduledSync(){
+  try{
+   client.from('profiles').upsert({handle:handle,data:localSnapshot()}).then(function(res){
+    if(res&&res.error){
+     console.warn('Cloud sync failed (will retry on next change):',res.error.message||res.error);
+     setSyncState('rose','Signed in as '+handle+'. Sync failed — will retry.');
+    }else{
+     setSyncState('emerald','Signed in as '+handle+'. Synced to the cloud.');
+    }
+   });
+  }catch(e){console.warn('Cloud sync failed:',e);setSyncState('rose','Signed in as '+handle+'. Sync failed — will retry.');}
+ }
  function scheduleCloudSync(){
   if(!cloudReady||!handle)return;
   clearTimeout(syncTimer);
   setSyncState('amber','Signed in as '+handle+'. Syncing…');
-  syncTimer=setTimeout(function(){
-   try{
-    client.from('profiles').upsert({handle:handle,data:localSnapshot()}).then(function(res){
-     if(res&&res.error){
-      console.warn('Cloud sync failed (will retry on next change):',res.error.message||res.error);
-      setSyncState('rose','Signed in as '+handle+'. Sync failed — will retry.');
-     }else{
-      setSyncState('emerald','Signed in as '+handle+'. Synced to the cloud.');
-     }
-    });
-   }catch(e){console.warn('Cloud sync failed:',e);setSyncState('rose','Signed in as '+handle+'. Sync failed — will retry.');}
-  },1500);
+  syncTimer=setTimeout(runScheduledSync,1500);
  }
+ // A change that doesn't itself trigger a reload (theme, watchlist, density, dismissing Quick
+ // Tips) only gets sent 1.5s after the last edit -- fine while the tab stays open, but if it's
+ // closed or the browser backgrounds it inside that window, the debounce timer never fires and
+ // that edit is lost even though nothing about it was ever shown as failed. `visibilitychange` to
+ // 'hidden' fires on a tab switch, backgrounding, or a close -- earlier and more reliably than
+ // `beforeunload` (which mobile browsers often skip) -- so a pending sync fires immediately here
+ // instead of waiting out a debounce window that might never get the chance to complete.
+ document.addEventListener('visibilitychange',function(){
+  if(document.visibilityState==='hidden'&&syncTimer){clearTimeout(syncTimer);syncTimer=null;runScheduledSync();}
+ });
  // Upserts/deletes rows in the normalized media_status table (see supabase/schema.sql) so
  // gold/silver/bronze/owned status is queryable per title, not just locked inside the profiles.data
  // blob. `rows` is [{id, tier, owned}]: a row with a tier or owned=true is upserted, one with
@@ -916,7 +927,7 @@ var SUPABASE_CONFIG={url:"https://gqpjeccmwsjxrlrazqxt.supabase.co",anonKey:"sb_
  var SYNC_TIMEOUT_MS=15000;
  function reloadAfterSync(mediaRows){
   if(!cloudReady||!handle||!client){location.reload();return;}
-  clearTimeout(syncTimer);
+  clearTimeout(syncTimer);syncTimer=null;
   setSyncState('amber','Signed in as '+handle+'. Syncing…');
   // The profiles upsert has to land (and commit) before media_status rows referencing this handle
   // can be written -- media_status.handle foreign-keys to profiles.handle, so for a brand-new
@@ -954,7 +965,7 @@ var SUPABASE_CONFIG={url:"https://gqpjeccmwsjxrlrazqxt.supabase.co",anonKey:"sb_
  // real failure or timeout, and the caller must not clear/switch when that happens.
  function flushPendingSync(){
   if(!cloudReady||!handle||!client)return Promise.resolve(true);
-  clearTimeout(syncTimer);
+  clearTimeout(syncTimer);syncTimer=null;
   return withTimeout(client.from('profiles').upsert({handle:handle,data:localSnapshot()}),SYNC_TIMEOUT_MS)
    .then(function(res){
     if(res&&res.error)throw res.error;
@@ -1017,6 +1028,21 @@ var SUPABASE_CONFIG={url:"https://gqpjeccmwsjxrlrazqxt.supabase.co",anonKey:"sb_
   return Promise.race([promise,new Promise(function(_,rej){setTimeout(function(){rej(new Error('timeout'));},ms);})]);
  }
 
+ // Fetches a handle's saved profile row, tolerating exactly the kind of latency that kept causing
+ // "logging back into my account doesn't remember anything": a Supabase free-tier project waking
+ // from an idle cold start routinely takes longer than a short timeout on its FIRST request of a
+ // new session, then answers quickly right after. One retry (after a beat, on a fresh request --
+ // not reusing whatever's still hanging from the first attempt) turns that one-time cold-start tax
+ // into a non-issue instead of a coin-flip on whether an existing account looks "new."
+ function fetchProfileRow(h,attempt){
+  attempt=attempt||1;
+  return withTimeout(client.from('profiles').select('data').eq('handle',h).maybeSingle(),SYNC_TIMEOUT_MS)
+   .then(function(res){if(res.error)throw res.error;return res;})
+   .catch(function(e){
+    if(attempt<2)return new Promise(function(r){setTimeout(r,800);}).then(function(){return fetchProfileRow(h,attempt+1);});
+    throw e;
+   });
+ }
  function showGate(){
   var gate=$('#acctGate');if(!gate)return Promise.resolve();
   gate.classList.remove('hidden');
@@ -1027,9 +1053,15 @@ var SUPABASE_CONFIG={url:"https://gqpjeccmwsjxrlrazqxt.supabase.co",anonKey:"sb_
     if(!h){err.textContent='Enter a name (letters, numbers, dashes).';err.classList.remove('hidden');return;}
     err.classList.add('hidden');btn.disabled=true;btn.textContent='Loading…';
     resolveHandle(h).then(function(){gate.classList.add('hidden');resolve();}).catch(function(e){
-     err.textContent='Could not reach the cloud ('+(e.message||e)+') — continuing on this device only.';err.classList.remove('hidden');
-     handle=h;try{localStorage.setItem(ACCT_KEY,h);}catch(ex){}
-     gate.classList.add('hidden');resolve();
+     // Deliberately does NOT silently fall back to "continuing locally" here (as this used to) --
+     // that used to mean an existing account with real cloud data would silently look brand new
+     // the moment a fetch was slow, with the error message set and then hidden again in the very
+     // next line, so nobody ever actually saw it. Now the gate stays open, the real reason is
+     // shown, and the Continue button re-enables so retrying (or explicitly choosing "Continue
+     // without an account" below, if they really want to proceed offline) is the user's own call.
+     err.textContent='Could not reach the cloud after retrying ('+(e.message||e)+'). If "'+h+'" already has saved data, continuing now would show a blank profile instead of it — try again, or use "Continue without an account" below if you really want to proceed offline.';
+     err.classList.remove('hidden');
+     btn.disabled=false;btn.textContent='Continue →';
     });
    }
    btn.addEventListener('click',submit);
@@ -1038,8 +1070,7 @@ var SUPABASE_CONFIG={url:"https://gqpjeccmwsjxrlrazqxt.supabase.co",anonKey:"sb_
   });
  }
  function resolveHandle(h){
-  return withTimeout(client.from('profiles').select('data').eq('handle',h).maybeSingle(),8000).then(function(res){
-   if(res.error)throw res.error;
+  return fetchProfileRow(h).then(function(res){
    handle=h;try{localStorage.setItem(ACCT_KEY,h);}catch(e){}
    if(res.data&&res.data.data){hydrateFromCloud(res.data.data);}
    else{clearLocalProfile();} // brand-new handle: fresh slate, normal onboarding runs, first save creates the row
@@ -1075,12 +1106,17 @@ var SUPABASE_CONFIG={url:"https://gqpjeccmwsjxrlrazqxt.supabase.co",anonKey:"sb_
   var remembered=null;try{remembered=localStorage.getItem(ACCT_KEY);}catch(e){}
   if(remembered){
    if(consumeSkipHydrateFlag()){handle=remembered;bootApp();return;}
-   withTimeout(client.from('profiles').select('data').eq('handle',remembered).maybeSingle(),8000).then(function(res){
+   fetchProfileRow(remembered).then(function(res){
     handle=remembered;
-    if(!res.error&&res.data&&res.data.data)hydrateFromCloud(res.data.data);
+    if(res.data&&res.data.data)hydrateFromCloud(res.data.data);
     bootApp();
    }).catch(function(e){
-    console.warn('Could not reach cloud, using local cache:',e.message||e);
+    // Falls back to whatever's already in local storage rather than blocking the app open --
+    // reasonable on the SAME device that was just using this account (local cache is current), but
+    // on a device/browser that's never held this handle's data before, local cache is empty and
+    // this will look like a blank profile. fetchProfileRow's retry (and the realistic 15s-per-
+    // attempt timeout, not the old 8s) makes actually landing here far less likely than before.
+    console.warn('Could not reach cloud after retrying, using local cache:',e.message||e);
     handle=remembered;bootApp();
    });
   }else{
@@ -1112,6 +1148,11 @@ var SUPABASE_CONFIG={url:"https://gqpjeccmwsjxrlrazqxt.supabase.co",anonKey:"sb_
    // delete of that handle's cloud row, gated behind an explicit confirm so it's never one misclick.
    var msg='Delete the cloud account "'+handle+'"?\n\nThis permanently removes your synced profile, watchlist, and preferences from the server, and clears this browser\'s local copy too. This cannot be undone.';
    if(!window.confirm(msg))return;
+   // Cancel any pending debounced sync (an earlier edit still sitting in its 1.5s window) BEFORE
+   // deleting -- otherwise the visibilitychange handler above, seeing the page hide during the
+   // reload just below, would fire that stale sync and silently re-upsert a (mostly empty) row
+   // right back under the handle this was just supposed to permanently delete.
+   clearTimeout(syncTimer);syncTimer=null;
    var btn=e.target;btn.disabled=true;btn.textContent='Deleting…';
    client.from('profiles').delete().eq('handle',handle).then(function(res){
     if(res&&res.error){
@@ -1744,7 +1785,7 @@ function tierRowHTML(it,roomy){
  // (not the dense main grid), so it can afford noticeably more breathing room between the four
  // buttons -- addresses the specific "still quite close together" feedback about that screen
  // without touching the deliberately compact spacing every other card everywhere else relies on.
- return '<div class="flex items-center flex-wrap px-3.5 pb-3 -mt-1'+(roomy?' gap-3':' gap-1.5')+'">'
+ return '<div class="flex items-center flex-wrap px-3.5 pb-3 mt-4'+(roomy?' gap-3':' gap-1.5')+'">'
  +seg('declare','\u{1F947}','Gold','Gold: your declared all-time favorites — pins a 100 match, the strongest recommendation signal',it.goat,'#fbbf24',false)
  +seg('silver','\u{1F948}','Silver','Silver: a strong favorite, one notch below Gold',it.silver,'#cbd5e1',false)
  +seg('bronze','\u{1F949}','Bronze','Bronze: really like it, a lighter nudge than Silver',it.bronze,'#cd7f32',false)
@@ -3511,8 +3552,15 @@ function handleProfileEditClick(btn){
    "here's what changed" readout, not a live version check against anything. Bump APP_VERSION and
    add a CHANGELOG entry whenever a change is worth a friend knowing about; cosmetic tweaks don't
    need a bump. */
-const APP_VERSION='1.36.0';
+const APP_VERSION='1.37.0';
 const CHANGELOG=[
+ {v:'1.37.0',date:'2026-09-03',summary:'Fixed the real reason typing an existing account name back in could look brand new: sign-in used a separate, unfixed 8-second timeout with no retry and a hidden error message. Plus a leftover-timer bug that could resurrect a just-deleted account, and a spacing fix for the GOAT Profile tier row.',notes:[
+  'Root-cause fix: signing in (typing your handle at the account gate, or the app remembering it from before) fetches your saved data from the cloud -- that fetch was using its own hardcoded 8-second timeout, separate from (and never fixed alongside) the 15-second one the previous release fixed for saves. One slow read -- the exact same free-tier cold-start latency that\'s been the culprit all along -- meant an account with real, saved data would silently be treated as brand new, and the error explaining why used to be set and then hidden again in the very next line, so it was never actually visible',
+  'Sign-in now retries automatically once on a failed read before giving up, and if it still can\'t reach the cloud, the account gate stays open with a real, visible explanation and a re-enabled Continue button to retry -- instead of silently treating an existing account as new',
+  'Found and fixed a second, related bug while verifying the above: a leftover, already-cancelled sync timer\'s ID was never cleared to null, so a new safety check (flushing a pending change if the tab is closed or backgrounded before its normal 1.5s debounce fires, so a theme/watchlist/tips-dismissal change right before closing the tab isn\'t lost) could fire a stale, already-handled sync at the wrong moment -- including, in one case, re-creating a just-deleted account\'s row right after "Delete my account" removed it. Fixed at the root by actually nulling the timer everywhere it\'s cancelled, not just clearing it',
+  'GOAT Profile\'s "Search & Build Your Favorites" tier row now has proper spacing above it (was pulled up too tight against the title/genre chips, especially with the previous release\'s larger roomy buttons)',
+  'Testing: new regression tests for both root-cause fixes, each verified by deliberately disabling the fix and confirming the test correctly fails, then re-enabling and confirming it passes -- including catching and fixing a first version of the sign-in retry test that would have passed even with the fix disabled (it only checked that onboarding didn\'t show, which is also true when sign-in gets stuck failing) before it was corrected to check that data actually hydrated'
+ ]},
  {v:'1.36.0',date:'2026-09-03',summary:'Compare is gone, the header got a real redesign with your account front and center at the top right, GOAT Profile tier buttons have real breathing room, suggestions now have Not done/Resolved tabs anyone can triage, and card clicks (title or body) now open everything together.',notes:[
   'Removed the Compare feature entirely (header button, modal, and the comparison logic behind it) -- it wasn\'t being used',
   'Redesigned the header: your account -- avatar, handle, live sync status -- is now its own prominent control at the very top right, immediately visible and unambiguous about which account you\'re signed into, separate from the Theme/Profile controls now grouped in a row below',
