@@ -149,8 +149,8 @@ body[data-theme="outer-wilds"]{--bg:#0e0a09;--panel:#181010;--panel-2:#120c0b;--
     </div>
     <div class="space-y-2">
       <button type="button" id="onboardSample" class="w-full text-left rounded-xl border border-slate-700 hover:border-violet-500 p-3 transition-colors">
-        <div class="text-sm font-semibold text-slate-100">Look around the PK Sample</div>
-        <div class="text-[12px] text-slate-500 mt-0.5">Payton's (PK) actual collection and taste weights, real and lived-in, not a mock-up — so you can see the app in action before building your own. It's a starting example, not something you're editing: use <b>Export</b>, then <b>Import</b> as your own copy any time you want to build on top of it without touching the original.</div>
+        <div class="text-sm font-semibold text-slate-100">Start from the PK Sample</div>
+        <div class="text-[12px] text-slate-500 mt-0.5">Payton's (PK) actual collection and taste weights, real and lived-in, not a mock-up. This gives you your own editable copy of it to explore and build on — tier, own, add, or remove anything you like. It's entirely yours from the moment you pick it; Payton's real account is never touched.</div>
       </button>
       <button type="button" id="onboardSeed" class="w-full text-left rounded-xl border border-slate-700 hover:border-violet-500 p-3 transition-colors">
         <div class="text-sm font-semibold text-slate-100">Quick-rate a few titles</div>
@@ -181,6 +181,7 @@ body[data-theme="outer-wilds"]{--bg:#0e0a09;--panel:#181010;--panel-2:#120c0b;--
     <div class="flex items-center justify-between gap-2 pt-2 border-t border-slate-800/70">
       <span id="onboardSeedCount" class="text-[12px] text-slate-500">0 selected</span>
       <div class="flex gap-2 flex-wrap justify-end">
+        <button type="button" id="onboardSeedBack" class="presetBtn" title="Go back to the other starting options -- nothing here is saved yet">← Back</button>
         <button type="button" id="onboardSeedMore" class="presetBtn" title="Swap out anything you haven't loved for a fresh, different batch">🔄 Show different picks</button>
         <button type="button" id="onboardSeedSkip" class="presetBtn">Skip this</button>
         <button type="button" id="onboardSeedContinue" class="presetBtn" style="color:#4ade80;border-color:#4ade8055">Continue →</button>
@@ -3410,8 +3411,13 @@ function handleProfileEditClick(btn){
    "here's what changed" readout, not a live version check against anything. Bump APP_VERSION and
    add a CHANGELOG entry whenever a change is worth a friend knowing about; cosmetic tweaks don't
    need a bump. */
-const APP_VERSION='1.30.0';
+const APP_VERSION='1.31.0';
 const CHANGELOG=[
+ {v:'1.31.0',date:'2026-09-03',summary:'"Start from the PK Sample" now actually gives you your own editable copy from the moment you pick it (live from Payton\'s real account when cloud accounts are configured, not a frozen snapshot), and Quick-rate got a genuine Back button.',notes:[
+  'Fixed a real bug: picking "Look around the PK Sample" (now "Start from the PK Sample") never actually saved anything -- it just left the hardcoded default profile sitting in memory, so nobody had a real, independent copy of it unless they happened to make an edit that triggered a save on its own. It now clones a starting profile and saves it immediately, exactly like every other onboarding path -- yours to tier, own, add to, or remove from right away, without ever touching Payton\'s real account',
+  'When cloud accounts are configured, that clone is fetched live from Payton\'s real "payton" account instead of the hardcoded defaults baked into this copy of the file, so the sample reflects whatever Payton\'s collection actually looks like today. Falls back to the built-in defaults if that fetch fails for any reason (cloud not configured, no network, the account doesn\'t exist yet)',
+  'Added a "← Back" button to the Quick-rate screen so you can back out to the other starting options without committing anything -- previously "Skip this" was the only way out, and that commits a blank profile rather than actually going back. Search & pick your GOATs already had a working Cancel for the same purpose'
+ ]},
  {v:'1.30.0',date:'2026-09-03',summary:'Database hardening pass: media_status and friends now cascade-delete with the profiles row they belong to (fixing "Delete my account" leaving tier/owned data behind forever), plus a shape check and a defensive row cap.',notes:[
   'media_status.handle and friends.handle/friend_handle now foreign-key to profiles.handle with ON DELETE CASCADE. This closes a real gap: "Delete my account" already told the user it removes "your synced profile, watchlist, and preferences," but only ever deleted the profiles row -- a handle\'s tier/owned data and follow edges were silently orphaned forever. The DB now enforces what the UI already promised, with no extra app code needed',
   'Sequenced the profiles and media_status cloud writes (previously fired in parallel) so a brand-new handle\'s very first tier action can\'t race the new foreign key -- the profiles row is guaranteed to exist before anything tries to reference it',
@@ -3845,7 +3851,37 @@ function pickSeedCandidates(excludeIds){
    +'</button>').join('');
   $('#onboardSeedCount').textContent=loved.size+' selected';
  }
- on('#onboardSample','click',()=>{try{localStorage.setItem('omniLedgerOnboarded','1');}catch(e){}gate.classList.add('hidden');});
+ // "Start from the PK Sample" used to just leave PERSONAL_PROFILE's hardcoded defaults in place
+ // without ever writing omniLedgerProfile -- meaning there was no actual saved copy: anyone who
+ // picked it and didn't happen to tier/own anything on their very first action had nothing
+ // committed at all, and even those who did were silently working from a single shared in-memory
+ // object, not a real personal profile decoupled from Payton's own account. Fixed to explicitly
+ // clone a starting profile and save it immediately, so it's genuinely "yours" -- editable, and
+ // removable -- from the moment you pick it, same as every other onboarding path.
+ // When cloud accounts are configured, fetches Payton's real, currently-live "payton" account
+ // instead of the hardcoded defaults baked into this copy of the file, so the sample reflects
+ // whatever Payton's account actually looks like today, not a snapshot frozen at whenever this
+ // file was last regenerated. Falls back to the hardcoded defaults if that fetch fails for any
+ // reason (cloud not configured, network error, the handle doesn't exist yet) -- same
+ // degrade-gracefully posture as the rest of the cloud-account code.
+ var SAMPLE_HANDLE='payton';
+ function fetchLiveSampleProfile(){
+  var a=(typeof window.__omniAcct==='function')?window.__omniAcct():null;
+  if(!a||!a.configured||!a.client)return Promise.resolve(null);
+  return a.client.from('profiles').select('data').eq('handle',SAMPLE_HANDLE).maybeSingle().then(function(res){
+   if(res&&res.error)throw res.error;
+   var raw=res&&res.data&&res.data.data&&res.data.data.omniLedgerProfile;
+   return raw?JSON.parse(raw):null;
+  }).catch(function(e){console.warn('Could not fetch the live PK sample, using the built-in defaults:',e&&e.message||e);return null;});
+ }
+ on('#onboardSample','click',function(e){
+  var btn=e.currentTarget;btn.disabled=true;
+  fetchLiveSampleProfile().then(function(live){
+   var seed=live||JSON.parse(JSON.stringify(PERSONAL_PROFILE));
+   try{localStorage.setItem('omniLedgerOnboarded','1');localStorage.setItem('omniLedgerProfile',JSON.stringify(seed));}catch(err){alert('Could not save: '+err.message);btn.disabled=false;return;}
+   reloadWithMediaSync({});
+  });
+ });
  on('#onboardBlank','click',()=>{try{localStorage.setItem('omniLedgerOnboarded','1');localStorage.setItem('omniLedgerProfile','{}');}catch(e){}reloadWithMediaSync({});});
  on('#onboardImportInput','change',e=>{const file=e.target.files&&e.target.files[0];if(!file)return;const reader=new FileReader();reader.onload=()=>{try{const parsed=JSON.parse(reader.result);if(typeof parsed!=='object'||parsed===null||Array.isArray(parsed))throw new Error('File is not a profile object');localStorage.setItem('omniLedgerOnboarded','1');applyImportedSnapshot(parsed);reloadWithMediaSync({});}catch(err){alert('Could not import that file: '+err.message);}};reader.readAsText(file);});
  on('#onboardSeed','click',()=>{
@@ -3857,6 +3893,10 @@ function pickSeedCandidates(excludeIds){
  // "Show different picks": keeps anything already loved on screen (so hearting something then
  // asking for more doesn't lose your pick), fetches a genuinely fresh batch for the rest --
  // pickSeedCandidates excludes every id shown so far, so reshuffling never repeats a title.
+ // Genuinely a no-op cancel, not a variant of Skip: nothing here has been saved yet (the whole
+ // seed screen only ever writes localStorage on Skip/Continue), so going back to reconsider --
+ // maybe Start from the PK Sample instead -- just swaps the visible screen back.
+ on('#onboardSeedBack','click',()=>{seedScreen.classList.add('hidden');choiceScreen.classList.remove('hidden');});
  on('#onboardSeedMore','click',()=>{
   const keep=currentPicks.filter(x=>loved.has(x.id));
   const fresh=pickSeedCandidates(Array.from(shownIds));

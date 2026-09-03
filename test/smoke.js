@@ -759,7 +759,20 @@ async function runAccountFlow(browser, file) {
     const startBtn = isShare ? '#onboardBlank' : '#onboardSample';
     const onboardVisible = await page.evaluate(() => !document.getElementById('onboardGate').classList.contains('hidden'));
     check('brand-new account gets the normal onboarding flow', onboardVisible);
-    if (onboardVisible) { await page.click(startBtn); await page.waitForTimeout(300); }
+    if (onboardVisible) { await page.click(startBtn); await page.waitForTimeout(500); }
+
+    // Regression: "Start from the PK Sample" used to leave PERSONAL_PROFILE's hardcoded defaults
+    // sitting in memory without ever writing omniLedgerProfile to localStorage -- meaning nothing
+    // was actually saved as this account's own profile unless a later edit happened to trigger a
+    // save. It should now write a real, populated profile immediately (a clone of the built-in
+    // defaults here, since this mock has no 'payton' row to fetch live).
+    if (!isShare) {
+      const seededProfile = await page.evaluate(() => {
+        try { return JSON.parse(localStorage.getItem('omniLedgerProfile')); } catch (e) { return null; }
+      });
+      check('Start from the PK Sample immediately saves a real profile, not just the onboarded flag',
+        !!seededProfile && Array.isArray(seededProfile.declaredGoatIds) && seededProfile.declaredGoatIds.length > 0);
+    }
 
     await page.waitForTimeout(2200); // cloud sync debounce is 1500ms
     const synced = await page.evaluate(() => !!(window.__mockTables && window.__mockTables.profiles['smoketestuser']));
@@ -914,6 +927,18 @@ async function runSeedPickerFlow(browser, file) {
   check('"show different picks" adds genuinely new items, not a reshuffled duplicate of the same 16', idsAfterReshuffle.length > 16);
   const noDuplicates = new Set(idsAfterReshuffle).size === idsAfterReshuffle.length;
   check('reshuffled batch has no duplicate items', noDuplicates);
+
+  // Back is a genuine no-op cancel back to the other starting options (unlike Skip, which commits
+  // a blank profile) -- nothing should be saved, and re-entering Quick-rate should still work.
+  await page.click('#onboardSeedBack');
+  await page.waitForTimeout(200);
+  const choiceVisibleAfterBack = await page.evaluate(() => !document.getElementById('onboardChoiceScreen').classList.contains('hidden'));
+  const seedHiddenAfterBack = await page.evaluate(() => document.getElementById('onboardSeedScreen').classList.contains('hidden'));
+  const nothingSavedAfterBack = await page.evaluate(() => localStorage.getItem('omniLedgerProfile') === null);
+  check('Back returns to the other starting options without saving anything', choiceVisibleAfterBack && seedHiddenAfterBack && nothingSavedAfterBack);
+
+  await page.click('#onboardSeed');
+  await page.waitForTimeout(300);
 
   await page.click('#onboardSeedContinue');
   await page.waitForTimeout(500);
