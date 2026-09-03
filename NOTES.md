@@ -907,6 +907,32 @@ psql:schema.sql:134: ERROR: column "status" of relation "suggestions" does not e
 
 ---
 
+## Phase 42 — The actual bug: a no-op theme write racing (and beating) every real save
+
+The user sent the Supabase Table Editor and the DevTools response body, and those ended the guesswork instantly:
+
+```
+samwise → {"omniLedgerTheme": ""}
+profiles?select=data&handle=eq.samwise  →  [{data: {omniLedgerTheme: ""}}]
+```
+
+The row wasn't missing, wasn't refused, wasn't rewritten by a trigger, and the payload leaving the browser was correct. The database simply held a *different, near-empty* write. Which meant the app itself was uploading that — and every server-side theory from Phases 39–41 had been chasing the wrong side of the wire.
+
+**Root cause.** `initTheme()` runs on every boot and calls `applyTheme(saved)`, which unconditionally does `localStorage.setItem('omniLedgerTheme', t||'')` — writing back the value it just read. The monkey-patched `setItem` treats any write to a tracked key as an edit, so that no-op scheduled a debounced cloud sync. On a **brand-new account** the local profile has just been cleared by `resolveHandle()`, so `omniLedgerTheme` is the *only* tracked key present and `localSnapshot()` is literally `{omniLedgerTheme:""}`. That upload then raced the real save behind onboarding/tiering, with no ordering between them — last write wins. When the empty one won, the row became `{"omniLedgerTheme":""}`, and the real save's own read-back correctly reported "came back without omniLedgerProfile, omniLedgerOnboarded". The verification added in Phase 39 was right all along; it was reporting a genuine clobber, not a server fault.
+
+It also explains the pattern: new accounts were hit hardest (that empty-theme-only window only exists just after creation), while `payton` — established, always carrying a full snapshot — mostly survived.
+
+**Fixed three ways, so no single one has to hold:**
+1. **No-op writes are not edits.** The `setItem` patch now compares against the current value and schedules nothing when unchanged. This alone removes the phantom sync.
+2. **Writes are serialised.** All profile pushes go through one `pushChain`, so two uploads are never in flight simultaneously and each takes its snapshot when it actually starts — the newest state always lands last.
+3. **Empty profiles are never uploaded.** `doPushSnapshot()` returns early when there is no `omniLedgerProfile` and no `omniLedgerOnboarded`, so the placeholder row cannot be created in the first place.
+
+**Testing.** Two unit-ish checks (a no-op write marks nothing; a genuine change still does) and an end-to-end one: create a fresh cloud handle, onboard, tier a pick, wait out the debounce so a racing background sync would land, then assert the stored row holds the real profile and is *not* a theme-only row. Verified as a real guard with a targeted script — fix disabled: `no-op write ignored: false`; fix enabled: `true`. Full suite: 130 checks, all passing.
+
+**Process note.** Three phases of server-side theorising were unnecessary; the Table Editor screenshot settled it in seconds. When a write "isn't saving", read what is actually stored before reasoning about why the store might be refusing it.
+
+---
+
 ## Ideas / next steps
 
 Roughly in order of value:
