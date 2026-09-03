@@ -478,11 +478,16 @@ async function runFile(browser, file) {
       catch (e) { return []; }
     });
     check('bronze tier toggle saves the id to the profile', bronzeIds.includes(firstCardId));
+    // The card's top badge row deliberately no longer repeats a text "BRONZE" pill -- the tiering
+    // icon row (tierRowHTML) lower on the card is the single indicator of tier now, so check that
+    // instead: the bronze medal segment should be in its active (highlighted) state.
     const cardShowsBronzeBadge = await page.evaluate((id) => {
       const head = document.querySelector('.cardHead[data-id="' + id + '"]');
-      return !!(head && head.closest('.panel').innerHTML.includes('BRONZE'));
+      const panel = head && head.closest('.panel');
+      const bronzeBtn = panel && panel.querySelector('.profEditBtn[data-act="bronze"]');
+      return !!(bronzeBtn && /background:\s*#cd7f32/.test(bronzeBtn.getAttribute('style') || ''));
     }, firstCardId);
-    check('card shows a BRONZE badge after tiering', cardShowsBronzeBadge);
+    check('card shows an active Bronze tier icon after tiering (not a redundant text badge)', cardShowsBronzeBadge);
     const detailStillHidden = await page.evaluate(() => {
       const d = document.querySelector('.detail');
       return !d || d.classList.contains('hidden');
