@@ -89,12 +89,20 @@ There's no build step, no server, nothing to compile.
 Done. Works the same from a USB stick, an email attachment, or a phone's Downloads folder — as long as the whole folder travels together.
 
 ```
-index.html       The whole app
-data/            The 2,508-work library, split into 4 files by type
+index.html       Page layout, styling, and the cloud-account sign-in/sync code
+app/             The application itself
+  ledger-app.js    Every screen, the scoring engine, and all the interactions
+data/            Reference data, split by type so it can grow independently
+  movies.js  tv.js  games.js  books.js    The 2,508-work library
+  creators.js                             Director / auteur / author pantheons
+  contenders.js                           Upcoming releases being tracked
 scripts/         A data-integrity checker (for anyone editing the library)
 test/            An automated regression test suite
 supabase/        SQL schema for cloud accounts (run once in your Supabase project, if you set one up)
 ```
+
+Nothing here needs building or installing. `index.html` loads the files above directly, so
+editing any of them and refreshing the browser is the whole development loop.
 
 > **Using Visual Studio?** Use **File → Open → Folder** (not "Open Project"). There's no Run button to look for — just open `index.html` in a browser.
 
@@ -116,7 +124,7 @@ There's no name, email, address, or financial information anywhere in the app or
 - **External dependencies**: Chart.js (loaded from a public CDN), used only for 3 charts in the Visualization Suite — if it can't load, those 3 charts show a friendly message and everything else, including the interactive relationship map, keeps working. When cloud accounts are configured, the Supabase JS client also loads from a public CDN — if it can't load, the app falls back to local-only mode exactly as if cloud accounts weren't configured at all.
 - **Fully offline-capable**: no internet connection needed for anything except those 3 charts.
 - **Data storage**: without cloud accounts, everything is saved in the browser's own `localStorage` — per browser, per device. It's not backed up by this repository; committing code doesn't save anyone's personal data.
-- **Automated tests**: `scripts/validate-corpus.js` checks the library data for problems (duplicates, missing fields) with no dependencies. `test/smoke.js` is a full Playwright browser-automation suite covering onboarding, every screen, filters, and the cloud-account flow (against a mocked cloud, so no real account needed to run it). Both are optional for using the app, but useful if you're changing code:
+- **Automated tests**: `scripts/validate-corpus.js` checks the library data for problems (duplicates, missing fields) with no dependencies. `test/regression.js` is a full Playwright browser-automation suite covering onboarding, every screen, filters, and the cloud-account flow (against a mocked cloud, so no real account needed to run it). Both are optional for using the app, but useful if you're changing code:
 
   ```
   npm install -D playwright-core
