@@ -270,6 +270,33 @@ async function runFile(browser, file) {
     });
     check('opening/closing Tonight does not hide the underlying view', controllerVisibleAfterTonight);
 
+    // Per-work "most relevant 3" front bars: regression for the old behavior where every movie
+    // showed the identical Image/Dread/Mind trio, every book the identical Prose/Ideas/Depth trio,
+    // etc., regardless of what was actually distinctive about that specific work. Different top
+    // results should show different combinations of leading stats.
+    const frontBarLabelSets = await page.evaluate(() =>
+      Array.from(document.querySelectorAll('.cardMicro')).slice(0, 8)
+        .map(el => Array.from(el.querySelectorAll('.lbl')).map(s => s.textContent).join(',')));
+    check('front bars vary per work instead of a fixed trio per medium', new Set(frontBarLabelSets).size > 1);
+
+    // Detail panel layout: GOAT Match and Cosmic Horror used to be full-width flex rows with the
+    // entire idxGrid nested INSIDE fidGrid as a single grid item (so the whole 15-index block got
+    // squeezed into one column's width while Cosmic Horror sat oddly alone) -- now they're plain
+    // siblings, each a normal full-width responsive grid, with GOAT Match/Cosmic Horror folded into
+    // the same idxGrid as everything else instead of sitting apart from it.
+    const detailLayoutOk = await page.evaluate(() => {
+      const detail = document.querySelector('.detail');
+      if (!detail) return false;
+      const fidGrid = detail.querySelector('.fidGrid');
+      const idxGrid = detail.querySelector('.idxGrid');
+      if (!fidGrid || !idxGrid) return false;
+      const nested = fidGrid.contains(idxGrid);
+      const goatInIdxGrid = idxGrid.textContent.includes('GOAT Match');
+      const cosmicInIdxGrid = idxGrid.textContent.includes('Cosmic Horror');
+      return !nested && goatInIdxGrid && cosmicInIdxGrid;
+    });
+    check('GOAT Match and Cosmic Horror share the same grid as the other indices, not nested apart', detailLayoutOk);
+
     // Tier system (Gold/Silver/Bronze): toggle Bronze on the first result card from its compact,
     // always-visible tier row (not the expanded detail panel), and check the badge, the tier
     // filter, and the tier sort all pick it up. Regression: the tier row's wrapping div originally

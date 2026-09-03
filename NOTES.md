@@ -392,8 +392,19 @@ The user came back with a substantial list of UX improvements after using cloud 
 - An in-app suggestion box, writing to a shared Firestore collection once cloud accounts are configured (decided: Firestore over a mailto: link, for a real shared inbox across everyone using the app).
 - A simpler, more summarized changelog display for non-technical users (the current one is written at the same detail level as these NOTES.md entries).
 - A full README rewrite aimed at being genuinely readable by a non-technical friend, not just accurate.
-- Better use of layout space in the card detail panel (Cosmic Horror currently sits alone in its own row while every other index shares a multi-column grid).
 - Onboarding/UI hints showing where to click for more detail, for people who don't already know the app.
+
+---
+
+## Phase 13 — Per-work relevant stats, and the real reason the detail layout felt cramped
+
+Continuing the sequenced UX pass from Phase 12. Two of the deferred items from that phase's "what's still open" list, done together since fixing one made fixing the other trivial to verify visually.
+
+**`frontBars()` now picks per-work, not per-medium.** Previously every movie's card showed the identical Image/Dread/Mind trio, every book the identical Prose/Ideas/Depth trio, every game the identical Art/Tension/Systems trio — regardless of what was actually distinctive about that specific work. Rewrote it to build a medium-appropriate candidate pool (the craft dimension plus all ~15 specialized indices relevant to that kind) and take the top 3 by raw value for *that item*. A soundtrack-driven blockbuster now leads with Soundtrack; a quiet character piece can lead with Emotional. All ~19 indices are still visible in full when the card is expanded — nothing was removed, just what's chosen to lead changed. Added a `title` tooltip on the front-bar row explaining what it's showing, since the behavior is less obvious than a fixed set would have been.
+
+**The Cosmic Horror layout complaint turned out to be a structural bug, not a styling one.** Looking at the actual markup: the ~15-index `idxGrid` was nested *inside* `fidGrid` as a single child element, rather than being a sibling. CSS grid doesn't let a nested grid "break out" and span its parent's tracks — the entire index block was being squeezed into whatever width one column of the *outer* grid allotted it, while GOAT Match and Cosmic Horror (plain flex rows, not grid items) sat in their own oddly-sized slots in that same outer grid. That's what actually produced the "Cosmic Horror alone, everything else crammed to one side" look the user described — not that Cosmic Horror was special-cased, but that the whole layout beneath it was mis-nested. Fixed by making `fidGrid` (the base craft metrics + audience/critical score) and `idxGrid` (everything else, GOAT Match and Cosmic Horror now included as regular entries) proper siblings, each getting its own full-width responsive grid. Confirmed visually via a real Playwright screenshot before and after, not just by reading the diff.
+
+**Testing.** Two new `test/smoke.js` checks: front-bar label sets differ across different cards (catching a regression back to the old fixed-per-medium behavior), and a structural check that `idxGrid` is not nested inside `fidGrid` and that GOAT Match/Cosmic Horror both appear inside it.
 
 ---
 
