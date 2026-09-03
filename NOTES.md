@@ -470,6 +470,20 @@ Sixth installment of the sequenced UX pass: "I like the version history too, jus
 
 ---
 
+## Phase 18 — "New here?" quick tips banner
+
+Seventh installment of the sequenced UX pass: "indicators on how to use the app would be good like so people know where to click to get more info." A handful of `title` tooltips already existed on individual elements (the card's micro-stats, its title), but tooltips only help someone who's already hovering — they don't tell a first-time visitor that clicking the card body itself does anything, or that the row underneath it is interactive.
+
+**What it is.** A dismissible banner (`#quickTips`) at the top of Global Controller, shown by default, with four short lines: cards expand on click, the compact row under each card tiers/owns without expanding first, sliders can be pinned from Advanced Filters onto the main screen, and where to find "Suggest a feature." One ✕ dismisses it permanently — the dismissal is stored in `localStorage.omniLedgerTipsDismissed` and added to the same `TRACKED` list that theme/density/watchlist already sync through the cloud-account layer, so dismissing it on one device keeps it dismissed everywhere that account signs in.
+
+**Why a banner instead of a guided tour or per-element callouts.** A step-by-step tour needs maintaining every time a feature's location changes (it would already be stale after Phases 12-17 moved half the filter panel around); a banner naming the actual current affordances in plain language doesn't have that failure mode, and it's one dismiss action instead of clicking through several tour steps. It's also honest about being skippable — someone who already knows the app closes it once and never sees it again.
+
+**Testing.** Confirms the banner is visible on a fresh profile, that dismissing it actually hides it (checked via rendered height, not just class presence — see the v1.9.1 note on why that distinction matters here) and persists the dismissal, and that the dismissal survives a page reload.
+
+**Not done here, deliberately:** no re-showing logic tied to new feature releases ("look, something new!") — that's a reasonable idea for later but a different feature (more like a changelog spotlight) than "explain the basics once."
+
+---
+
 ## Ideas / next steps
 
 Roughly in order of value:

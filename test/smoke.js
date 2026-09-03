@@ -332,6 +332,20 @@ async function runFile(browser, file) {
     await page.click('#versionClose');
     await page.waitForTimeout(150);
 
+    // Quick Tips banner: shown once on Global Controller until dismissed, so first-time users
+    // learn cards expand and the compact row can tier without opening a card first.
+    const tipsVisibleInitially = await page.evaluate(() => document.getElementById('quickTips').offsetHeight > 0);
+    check('Quick Tips banner shows on a fresh profile', tipsVisibleInitially);
+    await page.click('#quickTipsClose');
+    await page.waitForTimeout(150);
+    const tipsHiddenAfterDismiss = await page.evaluate(() => document.getElementById('quickTips').offsetHeight === 0);
+    const dismissalPersisted = await page.evaluate(() => localStorage.getItem('omniLedgerTipsDismissed') === '1');
+    check('dismissing Quick Tips hides it and remembers the dismissal', tipsHiddenAfterDismiss && dismissalPersisted);
+    await page.reload();
+    await page.waitForTimeout(600);
+    const tipsStillHiddenAfterReload = await page.evaluate(() => document.getElementById('quickTips').offsetHeight === 0);
+    check('Quick Tips stays dismissed across a reload', tipsStillHiddenAfterReload);
+
     // Per-work "most relevant 3" front bars: regression for the old behavior where every movie
     // showed the identical Image/Dread/Mind trio, every book the identical Prose/Ideas/Depth trio,
     // etc., regardless of what was actually distinctive about that specific work. Different top
