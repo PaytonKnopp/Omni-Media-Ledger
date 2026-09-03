@@ -973,13 +973,13 @@ async function runAccountFlow(browser, file) {
     // remove that row entirely (nothing left to track once there's no tier and it's not owned).
     const goldCardId = await page2.evaluate(() => document.querySelector('.cardHead')?.dataset.id);
     await page2.click('.panel .profEditBtn[data-act="declare"]');
-    await page2.waitForTimeout(600); // toggling reloads the page, plus the flush-before-reload sync
+    await page2.waitForTimeout(900); // toggling reloads the page, plus the flush-before-reload sync
     const mediaRowAfterDeclare = await page2.evaluate((id) =>
       (window.__mockTables.media_status || []).find(r => r.handle === 'smoketestuser2' && r.media_id === id), goldCardId);
     check('declaring Gold upserts a row into the media_status table', !!mediaRowAfterDeclare && mediaRowAfterDeclare.tier === 'gold' && mediaRowAfterDeclare.owned === false);
 
     await page2.click('.panel .profEditBtn[data-act="declare"][data-id="' + goldCardId + '"]');
-    await page2.waitForTimeout(600);
+    await page2.waitForTimeout(900);
     const mediaRowAfterUndeclare = await page2.evaluate((id) =>
       (window.__mockTables.media_status || []).find(r => r.handle === 'smoketestuser2' && r.media_id === id), goldCardId);
     check('un-declaring removes the media_status row entirely (no tier, not owned)', !mediaRowAfterUndeclare);
@@ -1015,7 +1015,7 @@ async function runAccountFlow(browser, file) {
     await page2.click('#acctMenuField');
     await page2.waitForTimeout(200);
     await page2.click('#acctSwitchBtn');
-    await page2.waitForTimeout(500);
+    await page2.waitForTimeout(900); // switching now flushes any pending sync first, then clears and reloads
     const handleAfterSwitch = await page2.evaluate(() => localStorage.getItem('omniLedgerHandle'));
     const gateAfterSwitch = await page2.evaluate(() => !document.getElementById('acctGate').classList.contains('hidden'));
     check('switch account clears the remembered handle and re-shows the account gate', handleAfterSwitch === null && gateAfterSwitch);

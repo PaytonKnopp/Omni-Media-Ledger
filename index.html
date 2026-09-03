@@ -301,7 +301,6 @@ body[data-theme="outer-wilds"]{--bg:#0e0a09;--panel:#181010;--panel-2:#120c0b;--
   <div id="headerInner" class="max-w-[1400px] mx-auto px-4 pt-4 pb-3">
     <div class="flex flex-wrap items-end justify-between gap-3">
       <div>
-        <div class="text-[10px] tracking-[.35em] text-indigo-300/80 uppercase">Obsidian Minimalist · Relational Omni-Data Core</div>
         <h1 class="text-xl md:text-2xl font-bold tracking-tight text-slate-50">The Ultimate Omni-Media &amp; Entertainment Ledger</h1>
         <div id="lastUpdated" class="text-[10px] text-slate-500 mt-1 tracking-wide">Last updated · Aug 30, 2026 · <span id="luCount" class="text-slate-400"></span> · <button type="button" id="versionBtn" class="text-slate-500 hover:text-slate-300 underline decoration-dotted underline-offset-2">v<span id="versionText"></span></button></div>
       </div>
@@ -379,6 +378,8 @@ body[data-theme="outer-wilds"]{--bg:#0e0a09;--panel:#181010;--panel-2:#120c0b;--
         <div>🖱️ <strong class="text-slate-100">Click any card's title or body</strong> to expand it and see all ~19 stats, not just the 3 shown up front.</div>
         <div>🥇 <strong class="text-slate-100">The row under each card</strong> lets you mark Gold / Silver / Bronze favorites or "owned" in one click — no need to expand first.</div>
         <div>📌 <strong class="text-slate-100">In Advanced Filters</strong>, pin any slider you use a lot so it shows up here on the main screen every time.</div>
+        <div>☁️ <strong class="text-slate-100">Sign into an account</strong> (top right) to sync your picks across devices — type any name; the same name anywhere brings it all back.</div>
+        <div>★ <strong class="text-slate-100">The GOAT Profile tab</strong> has a full search to declare all-time favorites directly, plus your generated taste breakdown and recommendations.</div>
         <div>💡 <strong class="text-slate-100">See something missing?</strong> Use "Suggest a feature" in the header, top of page.</div>
       </div>
       <button type="button" id="quickTipsClose" class="text-slate-500 hover:text-slate-300 text-base leading-none shrink-0" title="Dismiss these tips">✕</button>
@@ -418,10 +419,6 @@ body[data-theme="outer-wilds"]{--bg:#0e0a09;--panel:#181010;--panel-2:#120c0b;--
         <div>
           <div class="flex justify-between items-baseline mb-1.5"><span class="fieldlbl mb-0 cursor-help" style="color:#fbbf24" title="Personal match computed from your declared GOAT profile. Declared favorites = 100; hand-scored recommendations keep their scores; everything else is scored algorithmically from the taste fingerprint.">★ GOAT Match ≥</span><span class="text-[12px] font-bold text-amber-300 tabular-nums" id="minGoatV">0</span></div>
           <input type="range" id="minGoat" min="0" max="100" value="0" aria-label="Minimum personal GOAT match"/>
-        </div>
-        <div>
-          <div class="flex justify-between items-baseline mb-1.5"><span class="fieldlbl mb-0 cursor-help" style="color:#c084fc" title="Cosmic-horror index calibrated to your canon — The Shining, The Thing, In the Mouth of Madness, The Lighthouse and Iron Lung are locked at 100. The wider eldritch canon is hand-scored; everything else is scored algorithmically from dread, complexity, genre and vibe signals.">◉ Cosmic Horror ≥</span><span class="text-[12px] font-bold tabular-nums" style="color:#c084fc" id="minCosmicV">0</span></div>
-          <input type="range" id="minCosmic" min="0" max="100" value="0" aria-label="Minimum cosmic horror index"/>
         </div>
         <div id="pinnedMainSliders" style="display:contents"></div>
       </div>
@@ -1269,10 +1266,14 @@ const contenders=[
    to Payton's canon. A fresh browser with nothing saved yet still boots from the defaults below,
    which today are Payton's own profile -- that's the "sample profile" until Phase 3 ships a real
    blank-first-run flow for new copies. */
-// Which specialized index sliders show pinned to the main filter row (alongside Technical Fidelity,
-// GOAT Match and Cosmic Horror) for a profile that's never touched pinning itself. Declared this
-// early since PERSONAL_PROFILE's own default-fallback construction below needs it.
-const DEFAULT_PINNED_IDX=['ref','snd'];
+// Which specialized index sliders show pinned to the main filter row (alongside the two fixed
+// ones, Technical Fidelity and GOAT Match) for a profile that's never touched pinning itself.
+// Cosmic Horror is pinned by default here so a fresh profile's main row looks exactly like it
+// always has -- but, unlike Technical Fidelity/GOAT Match, it's a genuine member of the same
+// pinnable pool as the other 15 specialized indices now, not a third permanently-fixed slider, so
+// it can be unpinned/re-pinned the same way any of them can. Declared this early since
+// PERSONAL_PROFILE's own default-fallback construction below needs it.
+const DEFAULT_PINNED_IDX=['ref','snd','ch'];
 let PROFILE_FROM_STORAGE=false;
 const PERSONAL_PROFILE=(function(){
  try{const raw=localStorage.getItem('omniLedgerProfile');if(raw!==null){PROFILE_FROM_STORAGE=true;return JSON.parse(raw)||{};}}catch(e){}
@@ -1331,13 +1332,13 @@ function wlSetWatched(id,v){if(WL[id]){WL[id].watched=v;wlSave();}}
 function wlCount(){return Object.keys(WL).length;}
 
 /* ===================== STATE & HELPERS ===================== */
-const state={view:'controller',q:'',type:'all',struct:'all',plat:'all',minTech:0,minDread:0,minMyst:0,minGoat:0,minCosmic:0,genres:[],ownedOnly:false,notOwnedOnly:false,limit:100,idx:{snd:0,ref:0,emo:0,awe:0,cozy:0,perf:0,icon:0,scary:0,real:0,reality:0,shock:0,sci:0,funny:0,hist:0,vibe2:0},ratings:[],tierFilter:[],yearMin:null,yearMax:null,combine:false,sort:'overall',w:{tech:0.85,dread:0.95,myst:0.90},creatorTab:'directors',creatorSearch:''};
+const state={view:'controller',q:'',type:'all',struct:'all',plat:'all',minTech:0,minDread:0,minMyst:0,minGoat:0,genres:[],ownedOnly:false,notOwnedOnly:false,limit:100,idx:{snd:0,ref:0,ch:0,emo:0,awe:0,cozy:0,perf:0,icon:0,scary:0,real:0,reality:0,shock:0,sci:0,funny:0,hist:0,vibe2:0},ratings:[],tierFilter:[],yearMin:null,yearMax:null,combine:false,sort:'overall',w:{tech:0.85,dread:0.95,myst:0.90},creatorTab:'directors',creatorSearch:''};
 const $=s=>document.querySelector(s),$$=s=>Array.from(document.querySelectorAll(s));
 const on=(sel,ev,fn)=>{const el=$(sel);if(el)el.addEventListener(ev,fn);else console.warn('missing element:',sel);};
 const esc=s=>String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
 const SORTS={overall:(a,b)=>(b.ovr-a.ovr)||(b.crit-a.crit),goat:(a,b)=>(b.gm-a.gm)||(b.ovr-a.ovr),cosmic:(a,b)=>(b.ch-a.ch)||(b.dread-a.dread),sound:(a,b)=>(b.snd-a.snd)||(b.crit-a.crit),ref4k:(a,b)=>(b.ref-a.ref)||(b.crit-a.crit),emotion:(a,b)=>(b.emo-a.emo)||(b.crit-a.crit),awe:(a,b)=>(b.awe-a.awe)||(b.crit-a.crit),comfort:(a,b)=>(b.cozy-a.cozy)||(b.aud-a.aud),perf:(a,b)=>(b.perf-a.perf)||(b.crit-a.crit),icon:(a,b)=>(b.icon-a.icon)||(b.crit-a.crit),scary:(a,b)=>(b.scary-a.scary)||(b.dread-a.dread),real:(a,b)=>(b.real-a.real)||(b.crit-a.crit),reality:(a,b)=>(b.reality-a.reality)||(b.myst-a.myst),shock:(a,b)=>(b.shock-a.shock)||(b.dread-a.dread),sci:(a,b)=>(b.sci-a.sci)||(b.myst-a.myst),funny:(a,b)=>(b.funny-a.funny)||(b.aud-a.aud),hist:(a,b)=>(b.hist-a.hist)||(b.crit-a.crit),vibe2:(a,b)=>(b.vibe2-a.vibe2)||(b.tech-a.tech),best:(a,b)=>(b._m-a._m)||(b.crit-a.crit),blend:(a,b)=>(bespokeScore(b)-bespokeScore(a))||(b.crit-a.crit),crit:(a,b)=>b.crit-a.crit,aud:(a,b)=>b.aud-a.aud,tech:(a,b)=>b.tech-a.tech,dread:(a,b)=>b.dread-a.dread,myst:(a,b)=>b.myst-a.myst,yearNew:(a,b)=>b.year-a.year,yearOld:(a,b)=>a.year-b.year,title:(a,b)=>a.title.localeCompare(b.title),tier:(a,b)=>(tierRank(b)-tierRank(a))||(b.gm-a.gm)};
 
-const IDX_KEYS=['snd','ref','emo','awe','cozy','perf','icon','scary','real','reality','shock','sci','funny','hist','vibe2'];
+const IDX_KEYS=['snd','ref','ch','emo','awe','cozy','perf','icon','scary','real','reality','shock','sci','funny','hist','vibe2'];
 function filtered(){const q=state.q.trim().toLowerCase();
  return ALL.filter(it=>{
   if(state.type!=='all'&&it.kind!==state.type)return false;
@@ -1346,7 +1347,7 @@ function filtered(){const q=state.q.trim().toLowerCase();
    if(state.struct==='multi'&&it.format!=='Multi-Season Epic')return false;
   }
   if(state.plat!=='all'&&!it.plats.includes(state.plat))return false;
-  if(it.tech<state.minTech||it.dread<state.minDread||it.myst<state.minMyst||it.gm<state.minGoat||it.ch<state.minCosmic)return false;
+  if(it.tech<state.minTech||it.dread<state.minDread||it.myst<state.minMyst||it.gm<state.minGoat)return false;
   if(state.genres.length&&!state.genres.some(g=>it.fam.includes(g)))return false;
   if(state.ratings.length&&!state.ratings.includes(it.rating))return false;
   if(state.ownedOnly&&!it.owned)return false;
@@ -1362,7 +1363,7 @@ function filtered(){const q=state.q.trim().toLowerCase();
 function activeDims(){
  const d=[];
  if(state.minGoat>0)d.push(['gm','★ GOAT',state.minGoat]);
- if(state.minCosmic>0)d.push(['ch','◉ Cosmic',state.minCosmic]);
+ if(state.idx.ch>0)d.push(['ch','◉ Cosmic',state.idx.ch]);
  if(state.idx.emo>0)d.push(['emo','Emotional',state.idx.emo]);
  if(state.idx.snd>0)d.push(['snd','Soundtrack',state.idx.snd]);
  if(state.idx.ref>0)d.push(['ref','4K Reference',state.idx.ref]);
@@ -1700,12 +1701,16 @@ function tierRowHTML(it){
  // ambiguous on its own, and there's exactly the room for it that dropping the other three labels
  // freed up. Active state for all four is still shown via the filled background + title's
  // "click to remove", not text.
+ // Active state also gets a matching border on top of the filled background (not just background
+ // alone) -- makes the highlighted segment unambiguous even where an emoji glyph itself renders
+ // with strong inherent color (varies a lot across platforms/fonts) that could otherwise make an
+ // active vs. inactive button harder to tell apart at a glance.
  function seg(act,emoji,name,label,active,color,showName){
   return '<button type="button" class="profEditBtn tierSeg" data-act="'+act+'" data-id="'+it.id+'"'+(act==='own'?' data-kind="'+it.kind+'"':'')+' title="'+label+(active?' — click to remove':'')+'"'
-   +(active?' style="background:'+color+';color:#0B0F19"':' style="color:'+color+'"')+'>'
+   +(active?' style="background:'+color+';border-color:'+color+';color:#0B0F19"':' style="color:'+color+';border-color:transparent"')+'>'
    +emoji+(showName?' '+name:'')+'</button>';
  }
- return '<div class="flex items-center flex-wrap gap-1 px-3.5 pb-3 -mt-1">'
+ return '<div class="flex items-center flex-wrap gap-1.5 px-3.5 pb-3 -mt-1">'
  +seg('declare','\u{1F947}','Gold','Gold: your declared all-time favorites — pins a 100 match, the strongest recommendation signal',it.goat,'#fbbf24',false)
  +seg('silver','\u{1F948}','Silver','Silver: a strong favorite, one notch below Gold',it.silver,'#cbd5e1',false)
  +seg('bronze','\u{1F949}','Bronze','Bronze: really like it, a lighter nudge than Silver',it.bronze,'#cd7f32',false)
@@ -1758,8 +1763,8 @@ function renderActiveBar(){
  if(state.plat!=='all')chips.push(X(esc(state.plat),'plat'));
  state.genres.forEach(g=>chips.push(X(esc(g),'genre:'+g)));
  state.ratings.forEach(r=>chips.push(X(esc(r),'rating:'+r)));
- [['minTech','Tech'],['minDread','Dread'],['minMyst','Mind'],['minGoat','★ GOAT'],['minCosmic','◉ Cosmic']].forEach(pr=>{if(state[pr[0]]>0)chips.push(X(pr[1]+' ≥'+state[pr[0]],pr[0]));});
- const IL={snd:'Soundtrack',ref:'4K Ref',emo:'Emotional',awe:'Awe',cozy:'Comfort',perf:'Performances',icon:'Iconic',scary:'Scariest',real:'Realistic',reality:'Reality-Altering',shock:'Shocking',sci:'Scientific',funny:'Funniest',hist:'Historical',vibe2:'Vibe'};
+ [['minTech','Tech'],['minDread','Dread'],['minMyst','Mind'],['minGoat','★ GOAT']].forEach(pr=>{if(state[pr[0]]>0)chips.push(X(pr[1]+' ≥'+state[pr[0]],pr[0]));});
+ const IL={snd:'Soundtrack',ref:'4K Ref',ch:'◉ Cosmic',emo:'Emotional',awe:'Awe',cozy:'Comfort',perf:'Performances',icon:'Iconic',scary:'Scariest',real:'Realistic',reality:'Reality-Altering',shock:'Shocking',sci:'Scientific',funny:'Funniest',hist:'Historical',vibe2:'Vibe'};
  Object.keys(IL).forEach(k=>{if(state.idx[k]>0)chips.push(X(IL[k]+' ≥'+state.idx[k],'idx:'+k));});
  if(state.yearMin!=null||state.yearMax!=null)chips.push(X('Year '+(state.yearMin||'←')+'–'+(state.yearMax||'→'),'year'));
  if(state.ownedOnly)chips.push(X('◆ Owned only','owned'));
@@ -3177,7 +3182,7 @@ on('#spinPool','click',e=>{const b=e.target.closest('button');if(!b)return;spinS
 on('#spinGo','click',doSpin);
 on('#rabbitBtn','click',()=>{var panel=$('#surprisePanel');var sc=$('#surpriseScope');if(sc)sc.classList.add('hidden');var showing=!panel.classList.contains('hidden')&&panel.dataset.mode==='rabbit';if(showing){panel.classList.add('hidden');panel.innerHTML='';panel.dataset.mode='';$('#rabbitBtn').setAttribute('aria-expanded','false');return;}var pool=filtered();if(!pool.length)pool=ALL;var top=pool.slice().sort((a,b)=>b.gm-a.gm).slice(0,20);var seed=top[Math.floor(Math.random()*top.length)];renderRabbitHole(seed.id);$('#rabbitBtn').setAttribute('aria-expanded','true');});
 
-[['minTech','minTechV'],['minDread','minDreadV'],['minMyst','minMystV'],['minGoat','minGoatV'],['minCosmic','minCosmicV']].forEach(p=>{
+[['minTech','minTechV'],['minDread','minDreadV'],['minMyst','minMystV'],['minGoat','minGoatV']].forEach(p=>{
  $('#'+p[0]).addEventListener('input',e=>{state[p[0]]=+e.target.value;$('#'+p[1]).textContent=e.target.value;refresh();});});
 on('#resetBtn','click',()=>{state.sort='overall';$('#sortSel').value='overall';clearAllFilters();});
 function syncBlendPanel(){var on=state.sort==='blend';var pnl=$('#blendPanel');if(pnl)pnl.classList.toggle('hidden',!on);
@@ -3488,8 +3493,15 @@ function handleProfileEditClick(btn){
    "here's what changed" readout, not a live version check against anything. Bump APP_VERSION and
    add a CHANGELOG entry whenever a change is worth a friend knowing about; cosmetic tweaks don't
    need a bump. */
-const APP_VERSION='1.33.0';
+const APP_VERSION='1.34.0';
 const CHANGELOG=[
+ {v:'1.34.0',date:'2026-09-03',summary:'Cosmic Horror is now pinnable like every other specialized index, the header\'s tagline row is gone, Quick Tips covers cloud accounts and the GOAT Profile search, and the tier row\'s active state is more visually distinct.',notes:[
+  'Cosmic Horror moved from a permanently-fixed third slider in the main filter row into the same pinnable pool as the other 15 specialized indices -- pinned by default so nothing changes for an existing profile, but now genuinely unpinnable/re-pinnable with the same 📌 every other index already has, matching how the user pointed out it should behave "like all of the other sliders"',
+  'Removed the "Obsidian Minimalist · Relational Omni-Data Core" tagline row above the title -- one less line taking up space for no real information',
+  'Quick Tips ("New here? A few pointers") gained two entries: signing into a cloud account to sync across devices, and the GOAT Profile tab\'s dedicated search-and-declare screen -- both genuinely useful and previously undiscoverable from this banner alone',
+  'The compact tier row\'s active segment now also gets a matching border, not just a filled background, so which tier is active reads clearly regardless of how a given device\'s emoji font renders the medal glyphs themselves',
+  'Verified the tier row\'s actual DOM/CSS renders correctly and non-overlapping at every width from 768px to 1700px with real measurements (button positions, computed backgrounds) -- found no reproducible layout bug; a sample profile\'s items are tiered differently from each other, so which segment is highlighted and what color it is legitimately varies row to row, which can look inconsistent at a glance without being a bug'
+ ]},
  {v:'1.33.0',date:'2026-09-03',summary:'Fixed a real data-loss bug where a signed-in account could silently lose recent changes on reload, cleaned up the GOAT Profile page\'s cluttered/overlapping tier badges, made Gold/Silver/Bronze pure emoji with an always-labeled Owned diamond, and added the ability to edit or delete your own suggestions.',notes:[
   'Root-cause fix for the account-forgets-your-changes bug: every reload the app triggers after its own successful (or failed) sync -- declaring something, owning something, importing, resetting, onboarding -- was ALSO, on the very next boot, unconditionally re-fetching from the cloud and overwriting local state with whatever came back. If that sync was slow, timed out, or failed for any reason, the very next reload would silently revert the change with no error shown. Fixed by having the app\'s own self-triggered reloads skip that redundant re-fetch entirely and trust the local copy they already correctly wrote',
   'Also fixed a related gap: switching accounts reloaded immediately with no wait, so an edit that doesn\'t reload the page on its own (toggling the watchlist, changing the theme, toggling density, dismissing the tips banner) could still be sitting in the 1.5s sync debounce window and get abandoned for good. Switching accounts now flushes any pending change first',
@@ -4076,7 +4088,7 @@ on('#wlExport','click',()=>{const items=wlItems().map(x=>({title:x.title,year:x.
 on('#creatorGrid','keydown',e=>{if(e.key!=='Enter'&&e.key!==' ')return;const f=e.target.closest('.flip');if(f){e.preventDefault();f.classList.toggle('flipped');}});
 
 /* ===================== BOOT ===================== */
-const INDEX_DEFS=[['snd','Soundtrack / Audio','#7dd3fc'],['ref','4K Reference','#818cf8'],['emo','Emotional / Sad','#f0abfc'],['awe','Awe / Spectacle','#fbbf24'],['cozy','Comfort / Cozy','#34d399'],['perf','Best Performances','#fda4af'],['icon','Iconicness','#fcd34d'],['scary','Scariest','#f87171'],['real','Realism','#86efac'],['reality','Reality-Altering','#c4b5fd'],['shock','Genuine Shock','#fb923c'],['sci','Scientific','#67e8f9'],['funny','Funniest','#fde047'],['hist','Historically Accurate','#a3e635'],['vibe2','Vibe / Atmosphere','#e879f9']];
+const INDEX_DEFS=[['snd','Soundtrack / Audio','#7dd3fc'],['ref','4K Reference','#818cf8'],['ch','Cosmic Horror','#c084fc'],['emo','Emotional / Sad','#f0abfc'],['awe','Awe / Spectacle','#fbbf24'],['cozy','Comfort / Cozy','#34d399'],['perf','Best Performances','#fda4af'],['icon','Iconicness','#fcd34d'],['scary','Scariest','#f87171'],['real','Realism','#86efac'],['reality','Reality-Altering','#c4b5fd'],['shock','Genuine Shock','#fb923c'],['sci','Scientific','#67e8f9'],['funny','Funniest','#fde047'],['hist','Historically Accurate','#a3e635'],['vibe2','Vibe / Atmosphere','#e879f9']];
 function buildGenreChips(){
  $('#genreChips').innerHTML=GENRE_FAMILIES.map(f=>{const name=f[0],n=GENRE_COUNTS[name]||0;if(!n)return '';
   const on=state.genres.includes(name);
@@ -4157,16 +4169,16 @@ on('#activeBar','click',e=>{
  else if(c.indexOf('genre:')===0){const g=c.slice(6);state.genres=state.genres.filter(x=>x!==g);buildGenreChips();}
  else if(c.indexOf('rating:')===0){const r=c.slice(7);state.ratings=state.ratings.filter(x=>x!==r);buildRatingChips();}
  else if(c.indexOf('idx:')===0){const k=c.slice(4);state.idx[k]=0;const sl=$$('.idxSlider').find(s=>s.dataset.k===k);if(sl)sl.value=0;$('#idxV_'+k).textContent='0';}
- else if(['minTech','minDread','minMyst','minGoat','minCosmic'].indexOf(c)>=0){state[c]=0;$('#'+c).value=0;const vmap={minTech:'minTechV',minDread:'minDreadV',minMyst:'minMystV',minGoat:'minGoatV',minCosmic:'minCosmicV'};$('#'+vmap[c]).textContent='0';}
+ else if(['minTech','minDread','minMyst','minGoat'].indexOf(c)>=0){state[c]=0;$('#'+c).value=0;const vmap={minTech:'minTechV',minDread:'minDreadV',minMyst:'minMystV',minGoat:'minGoatV'};$('#'+vmap[c]).textContent='0';}
  syncAdvCount();refresh();
 });
 function clearAllFilters(){
- Object.assign(state,{q:'',type:'all',struct:'all',plat:'all',minTech:0,minDread:0,minMyst:0,minGoat:0,minCosmic:0,genres:[],ratings:[],ownedOnly:false,notOwnedOnly:false,tierFilter:[],yearMin:null,yearMax:null,combine:false});
+ Object.assign(state,{q:'',type:'all',struct:'all',plat:'all',minTech:0,minDread:0,minMyst:0,minGoat:0,genres:[],ratings:[],ownedOnly:false,notOwnedOnly:false,tierFilter:[],yearMin:null,yearMax:null,combine:false});
  $$('.tierChk').forEach(c=>{c.checked=false;});
- state.idx={snd:0,ref:0,emo:0,awe:0,cozy:0,perf:0,icon:0,scary:0,real:0,reality:0,shock:0,sci:0,funny:0,hist:0,vibe2:0};state.ratings=[];
+ state.idx={snd:0,ref:0,ch:0,emo:0,awe:0,cozy:0,perf:0,icon:0,scary:0,real:0,reality:0,shock:0,sci:0,funny:0,hist:0,vibe2:0};state.ratings=[];
  $('#q').value='';var ss=$('#structSel');if(ss)ss.value='all';$('#platSel').value='all';var pl=$('#platCombo .rcLabel');if(pl)pl.textContent='Any platform / network / studio';
- ['minTech','minDread','minMyst','minGoat','minCosmic'].forEach(id=>{$('#'+id).value=0;});
- ['minTechV','minDreadV','minMystV','minGoatV','minCosmicV'].forEach(v=>$('#'+v).textContent='0');
+ ['minTech','minDread','minMyst','minGoat'].forEach(id=>{$('#'+id).value=0;});
+ ['minTechV','minDreadV','minMystV','minGoatV'].forEach(v=>$('#'+v).textContent='0');
  $$('#typeSeg button').forEach(x=>x.classList.toggle('on',x.dataset.type==='all'));
  $$('.idxSlider').forEach(sl=>{sl.value=0;$('#idxV_'+sl.dataset.k).textContent='0';});
  $('#combineMode').checked=false;const _o=$('#ownedToggle');if(_o)_o.checked=false;const _no=$('#notOwnedToggle');if(_no)_no.checked=false;$('#yearMin').value='';$('#yearMax').value='';
