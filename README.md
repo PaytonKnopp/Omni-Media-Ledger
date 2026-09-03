@@ -12,7 +12,7 @@ There's nothing to install. It's just a folder — one HTML file plus a `data` f
 
 1. Open the app. Pick how you want to start — a quick sample, blank, search-and-pick your favorites, or import a file.
 2. Browse the collection. Every card shows a match score for you and can be expanded for full detail.
-3. Click things to teach it your taste: 🥇 Gold / 🥈 Silver / 🥉 Bronze favorite, "mark owned," boost a genre or a creator. No JSON, no settings screen — it's all buttons on the cards themselves.
+3. Click things to teach it your taste: 🥇 Gold / 🥈 Silver / 🥉 Bronze favorite, "mark owned," boost (or bury) a genre or a creator. No JSON, no settings screen — it's all buttons on the cards themselves.
 4. The more you click, the better its recommendations get.
 
 That's genuinely most of it. Everything past this point is detail for people who want it.
@@ -59,7 +59,7 @@ Recommendations lean on Gold first, then Silver, then Bronze, then the rest of w
 
 ## Making it yours (no file-editing required)
 
-Every card has a row of buttons — Gold/Silver/Bronze/Owned — right under it, and expanding a card gives you more: boost a genre, boost a specific creator, boost a book's affinity directly. Everything you click updates your recommendations immediately.
+Every card has a compact row of icons — Gold/Silver/Bronze/Owned — right under it, and expanding a card gives you more: boost a genre, a `−`/`+` stepper to boost *or bury* a specific creator across your whole match scoring, boost a book's affinity directly. Everything you click updates your recommendations immediately.
 
 If you'd rather build or edit a whole profile at once by hand, `PROFILE_TEMPLATE.md` documents the file format field-by-field with an example — useful for bulk edits, but nobody needs it for day-to-day use.
 

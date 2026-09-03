@@ -448,6 +448,70 @@ async function runFile(browser, file) {
     });
     check('tiering from the compact row does not also expand the card', detailStillHidden);
 
+    // Creator boost/bury stepper: replaces the old one-way "+Boost <creator>" button with a +/-
+    // control, so nudging a creator DOWN is exactly as available as nudging one up ("the opposite
+    // of boosting"). Each click reloads the page (mutateProfileAndReload), so re-locate the same
+    // card by id after each one rather than assuming the DOM survives.
+    await page.click('.cardHead');
+    await page.waitForTimeout(200);
+    const stepperCreator = await page.evaluate(() => {
+      const btn = document.querySelector('.detail:not(.hidden) .profEditBtn[data-act="creatorbump"]');
+      return btn ? btn.dataset.creator : null;
+    });
+    if (stepperCreator) {
+      // Force a clean starting point (no existing boost for this creator) so the stepper's
+      // increment/decrement/removal-at-zero behavior is deterministic, regardless of whatever
+      // weight the sample profile's own presets happen to already have for this name.
+      await page.evaluate((name) => {
+        const p = JSON.parse(localStorage.getItem('omniLedgerProfile'));
+        p.creatorBoost = (p.creatorBoost || []).filter(e => e[0] !== name);
+        localStorage.setItem('omniLedgerProfile', JSON.stringify(p));
+      }, stepperCreator);
+      await page.reload();
+      await page.waitForTimeout(600);
+      await page.click('.cardHead');
+      await page.waitForTimeout(200);
+      await page.click('.detail:not(.hidden) .profEditBtn[data-act="creatorbump"][data-delta="4"]');
+      await page.waitForTimeout(500);
+      const weightAfterPlus = await page.evaluate((name) => {
+        try {
+          const arr = JSON.parse(localStorage.getItem('omniLedgerProfile')).creatorBoost || [];
+          const e = arr.find(x => x[0] === name);
+          return e ? e[1] : null;
+        } catch (e) { return null; }
+      }, stepperCreator);
+      check('the "+" creator stepper raises the weight', weightAfterPlus === 4);
+      // Re-expand the same card (it re-rendered after reload) and click "-" twice: once back to 0
+      // (should remove the entry entirely, not leave a stale 0), once more into negative territory.
+      await page.click('.cardHead[data-id]');
+      await page.waitForTimeout(200);
+      await page.click('.detail:not(.hidden) .profEditBtn[data-act="creatorbump"][data-delta="-4"]');
+      await page.waitForTimeout(500);
+      const weightAtZero = await page.evaluate((name) => {
+        try {
+          const arr = JSON.parse(localStorage.getItem('omniLedgerProfile')).creatorBoost || [];
+          return arr.some(x => x[0] === name);
+        } catch (e) { return true; }
+      }, stepperCreator);
+      check('stepping back to exactly 0 removes the boost entry instead of leaving a stale 0', !weightAtZero);
+      await page.click('.cardHead[data-id]');
+      await page.waitForTimeout(200);
+      await page.click('.detail:not(.hidden) .profEditBtn[data-act="creatorbump"][data-delta="-4"]');
+      await page.waitForTimeout(500);
+      const weightAfterMinus = await page.evaluate((name) => {
+        try {
+          const arr = JSON.parse(localStorage.getItem('omniLedgerProfile')).creatorBoost || [];
+          const e = arr.find(x => x[0] === name);
+          return e ? e[1] : null;
+        } catch (e) { return null; }
+      }, stepperCreator);
+      check('the "-" creator stepper can push the weight negative ("the opposite of boosting")', weightAfterMinus === -4);
+    } else {
+      check('the "+" creator stepper raises the weight', false);
+      check('stepping back to exactly 0 removes the boost entry instead of leaving a stale 0', false);
+      check('the "-" creator stepper can push the weight negative ("the opposite of boosting")', false);
+    }
+
     await page.click('#advToggle');
     await page.waitForTimeout(150);
     await page.click('.tierChk[data-tier="bronze"]');

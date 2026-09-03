@@ -540,6 +540,20 @@ Third item of the broader UI-cleanup round: "the built in sample (mine) can be r
 
 ---
 
+## Phase 23 — Compact tier row, and a boost/bury stepper for creators
+
+Fourth item of the broader UI-cleanup round, and the one directly responding to "I like this ability to boost or add or whatever... it would be nice to have the ability to add to your favorites" alongside "I like the idea of boosting or doing the opposite, so that is a good one but would be nice to see a little easier" and general clutter complaints about the results grid.
+
+**Tier row.** `tierRowHTML()` went from 4 full-width pill buttons with long text labels ("Gold favorite" / "Gold — remove", "Silver tier" / "Silver — remove", etc. — see the pre-Phase-23 screenshots the user attached, where these dominate the bottom of every card) to a compact icon strip: 🥇🥈🥉 plus a thin divider plus a ◆ owned toggle, each just wide enough for its icon (and its own name, only once active, e.g. "🥇 Gold" instead of a full sentence). Same click targets, same `data-act` values, same delegated handler — this was a pure presentation change, not a functional one, so the toggle/filter/sort/reload logic all still works exactly as before. A new `.tierSeg` CSS class (compact padding, subtle background, tier-colored active state) replaced the shared `.presetBtn` styling this row used to borrow from the header preset buttons, which was sized for a handful of buttons in a toolbar, not repeated on every one of up to 500 cards on screen.
+
+**Creator boost → boost/bury stepper.** The user specifically called out wanting "the opposite" of boosting to be just as available. Checked the actual scoring code (`ALL.forEach` in the GOAT-match pipeline): creator weight is a plain additive term (`a+=c[1]`) before the whole thing gets clamped to `[40,99]`, so a negative weight already worked completely safely in the engine — the only real gap was the UI, which only ever exposed a one-way "+3 per click, starts at 8, caps at 20" button with no way back down except editing exported JSON by hand. Replaced it with `bumpCreatorBoost(name, kind, delta)`: a `−`/`+` stepper (±4 per click) that shows the live weight and works in both directions, bounded to [-20, 20], with a real design decision baked in — landing back on exactly 0 removes the profile entry outright rather than storing a meaningless `[name, 0]`, so "never touched" and "boosted/buried back to neutral" look identical in the saved profile.
+
+**Left for later:** genre and vibe boosts stayed simple on/off toggles (click a chip to add a fixed +5, click again to remove it entirely) rather than getting the same stepper treatment — those already have a working "opposite" (untoggling), the missing piece was specifically the creator boost's one-way ratchet, and expanding the ask to every boost type wasn't requested.
+
+**Testing.** New checks for the tier row's compact class alongside the existing declare/tier regression coverage. A dedicated stepper test forces a clean (no-existing-boost) starting point via a direct profile write before exercising the real UI clicks — needed because the sample profile ships several creators with real preset weights (Christopher Nolan, Denis Villeneuve, etc.), so asserting "started at 0" without forcing it would have been testing the sample data, not the stepper: confirms `+` raises the weight, landing on exactly 0 removes the entry, and `−` correctly produces a negative weight.
+
+---
+
 ## Ideas / next steps
 
 Roughly in order of value:
