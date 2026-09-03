@@ -554,6 +554,20 @@ Fourth item of the broader UI-cleanup round, and the one directly responding to 
 
 ---
 
+## Phase 24 — Gold/Silver/Bronze as distinct groups on the GOAT Profile page
+
+Fifth item of the broader UI-cleanup round, and a genuine bug fix, not just a polish pass: "the personal goat profile should include gold silver and bronze stages."
+
+**What was actually happening.** `#goatDeclared`'s 4 corpus-backed categories (Movies, Books, TV Shows, Video Game) were rendered from `PERSONAL_PROFILE.declaredCanon` — a static display list that is *only ever written to by the GOAT Picker's finalize step*, which only knows about `declaredGoatIds` (Gold). Every other path to tiering something — the compact tier row on any card, the GOAT Profile inline search — calls `toggleSilverTier`/`toggleBronzeTier`, which update `silverTierIds`/`bronzeTierIds` directly and never touch `declaredCanon` at all. Net effect: a Silver or Bronze pick was fully live in scoring (it affected match scores, filters, sorts, badges everywhere else) but **invisible on the one page whose entire job is showing your declared taste.**
+
+**The fix.** For the 4 corpus-backed categories, `declaredCategoryHTML()` now computes its display directly from the live tier data — `ALL.filter(kind).filter(x=>x.goat)`, `.silver`, `.bronze` — instead of reading `declaredCanon`, rendering each non-empty tier as its own labeled group (🥇 Gold / 🥈 Silver / 🥉 Bronze, with a count) inside the category panel. The 6 non-corpus hand-curated categories (Director, Actors, Composers, Cinematographer, Artist, YouTube) have no tier concept to begin with, so `declaredCategoryHTML()` special-cases them back to the original flat rendering unchanged.
+
+**Why this wasn't caught earlier:** tiering was only reachable from Global Controller's results grid until Phase 15 added it to the GOAT Profile tab's own search — at which point declaring something Silver or Bronze right there and seeing it not show up two inches below, in the same tab, became an obviously broken experience rather than a theoretical gap.
+
+**Testing.** New check confirms the Movies category renders both a labeled Gold group (containing a known default-Gold title) and a labeled Silver group (containing a known default-Silver title, "The Shining" — 28 Silver movies exist in the sample profile and were completely absent from this page before this fix).
+
+---
+
 ## Ideas / next steps
 
 Roughly in order of value:

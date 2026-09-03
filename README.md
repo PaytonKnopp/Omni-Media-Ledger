@@ -24,7 +24,7 @@ That's genuinely most of it. Everything past this point is detail for people who
 | Where | What it's for |
 | --- | --- |
 | **Global Controller** (the home screen) | Search and browse everything. Filter by type, genre, ownership, favorite tier, platform/studio/network, and 15 more specific tastes (scariest, funniest, best soundtrack, etc.). Sort by match score, critical/audience score, year, or a custom weighted blend you control with three sliders. |
-| **GOAT Profile** | Your declared all-time favorites, and where you build them — search the whole library right there and tier or mark things owned. Also shows computer-generated recommendations based on what you've already told it you love. |
+| **GOAT Profile** | Your declared all-time favorites, and where you build them — search the whole library right there and tier or mark things owned. Movies/TV/Games/Books show your Gold, Silver, and Bronze picks as distinct, labeled groups. Also shows computer-generated recommendations based on what you've already told it you love. |
 | **Taste Portrait** | A snapshot of what your collection says about you — genre breakdown, ownership stats, a clickable map of 27 genre families. |
 | **Collection** | Your actual physical/digital library, organized by format, plus a "worth upgrading?" audit and gap-finder ("you love this director, here's what you don't own yet"). |
 | **Watchlist** | Things you've flagged to check out later. |

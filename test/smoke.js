@@ -261,6 +261,15 @@ async function runFile(browser, file) {
       return s && !s.classList.contains('hidden');
     });
     check('tiering from a non-controller tab returns to that same tab after the reload', resumedOnGoatView);
+
+    // Personal GOAT Profile's declared section: the 4 corpus-backed categories (Movies/Books/TV
+    // Shows/Video Game) render live Gold/Silver/Bronze groups computed from actual tier data,
+    // not from the old static declaredCanon list (which only ever tracked Gold) -- so a Silver
+    // pick is now actually visible on this page at all, grouped separately from Gold.
+    const declaredHtml = await page.evaluate(() => document.getElementById('goatDeclared').innerHTML);
+    check('declared Movies section shows a labeled Gold group', declaredHtml.includes('🥇 Gold') && declaredHtml.includes('Oppenheimer'));
+    check('declared Movies section shows a labeled Silver group (previously invisible on this page)', declaredHtml.includes('🥈 Silver') && declaredHtml.includes('The Shining'));
+
     // Toggle back to whatever it was before this test touched it, so later checks (and repeat
     // runs) aren't affected by a lingering change to the default profile.
     await page.fill('#goatSearchInput', 'dune');
