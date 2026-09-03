@@ -76,7 +76,7 @@ checking for a `profile` key, so both work without any conversion.
 | `bookAffinity` | `{ id: scoreFloor }` | Sets a specific book's match score to at least this value (0–100). Click **Boost affinity** on an expanded book card to raise it by 5 each click (starts at 75). |
 | `cosmicHorrorDeclaredIds` / `cosmicHorrorCanon` | `[id,...]` / `{ id: score }` | Feed the Cosmic Horror Index in Reference Matrices, same idea as above. |
 | `watchlist` | `{ contenderId: rank }` | Ranks specific Contenders Ledger entries (`c01`, `c02`, ...) above the model's own anticipation score, in the order given. |
-| `pinnedIdx` | `[indexKey, ...]` | Which of the 15 specialized index sliders (Soundtrack `snd`, Scariest `scary`, Iconicness `icon`, etc. — see `INDEX_DEFS` in `index.html` for the full key list) show pinned to the main filter screen instead of tucked inside Advanced Filters. Click the 📌 on any slider to toggle it — this only changes what's convenient to filter by, it never affects scoring. |
+| `pinnedIdx` | `[indexKey, ...]` | Which of the 16 specialized index sliders (Soundtrack `snd`, Cosmic Horror `ch`, Scariest `scary`, Iconicness `icon`, etc. — see `INDEX_DEFS` in `index.html` for the full key list) show pinned to the main filter screen instead of tucked inside Advanced Filters. Click the 📌 on any slider to toggle it — this only changes what's convenient to filter by, it never affects scoring. |
 
 ## How to use it
 
