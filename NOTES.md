@@ -484,6 +484,24 @@ Seventh installment of the sequenced UX pass: "indicators on how to use the app 
 
 ---
 
+## Phase 19 — README rewrite for a general audience
+
+Eighth and final installment of the sequenced UX pass: "the readme should be sure to explain everything there is to know but also be very readable and digestible for anyone." The old README was accurate and thorough but written the way a developer documents a project — a dense feature table up top, technical asides (Tailwind compilation, `console.assert`, CDN dependency tables) interleaved with things a first-time user actually needs, and no clear "start here" path for someone who just wants to open the thing and use it.
+
+**What changed.** Full rewrite, same underlying facts, different shape and voice:
+- Opens with what the app actually does in one plain paragraph, no jargon, before any structure or tables.
+- A "The short version" section right up front — four sentences that are genuinely all most people need.
+- The feature tour is still a table (it's the clearest format for that content) but every entry is reworded in plain language, and it now includes recent additions (the suggestion box, Gold/Silver/Bronze tiers with their own explanatory section, the "why this was recommended" note).
+- Cloud accounts, privacy, and "getting it running" are each explained in terms of what a non-technical reader needs to decide or do, not how the mechanism works internally.
+- All genuinely technical content (API keys, CDN dependency, `localStorage` mechanics, the test suite) is consolidated into one clearly-labeled section at the very end, so a casual reader can stop before it and a technical reader can jump straight to it.
+- The privacy section was reworded to make the actually-important point clearer: this specific copy has one real person's real data baked in as a knowing, consented-to example, but a fresh copy of the repo before anyone signs in carries only that example — nobody's own data goes into the source file.
+
+**Also fixed in passing:** `PROFILE_TEMPLATE.md`'s field reference table was missing `bronzeTierIds` (Phase 12) and `pinnedIdx` (Phase 14) — both real, working profile fields that had simply never been added to that document when they shipped. Added both with the same field-by-field format as everything else there.
+
+**Deliberately not rewritten:** `NOTES.md` itself keeps its existing developer-log voice — it's written for whoever maintains this next (possibly future me), not for a first-time user, and rewriting it in "anyone" language would make it worse at its actual job. The README is the front door; this file is the engineering record behind it.
+
+---
+
 ## Ideas / next steps
 
 Roughly in order of value:

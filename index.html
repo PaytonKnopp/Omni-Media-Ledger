@@ -3201,8 +3201,12 @@ function handleProfileEditClick(btn){
    "here's what changed" readout, not a live version check against anything. Bump APP_VERSION and
    add a CHANGELOG entry whenever a change is worth a friend knowing about; cosmetic tweaks don't
    need a bump. */
-const APP_VERSION='1.17.0';
+const APP_VERSION='1.18.0';
 const CHANGELOG=[
+ {v:'1.18.0',date:'2026-09-03',summary:'The README got a full rewrite aimed at anyone, not just developers -- plus Bronze tier and slider-pinning got added to the profile-format docs.',notes:[
+  'README.md rewritten top to bottom for readability by a non-technical friend: plain-language feature tour, a "short version" up front, and technical detail moved to its own section at the end instead of mixed throughout',
+  'PROFILE_TEMPLATE.md field reference updated to include bronzeTierIds and pinnedIdx, which were added to the app in earlier phases but missing from that document'
+ ]},
  {v:'1.17.0',date:'2026-09-03',summary:'A dismissible "New here?" tips banner points out how the app actually works, for anyone opening it fresh.',notes:[
   'New: a one-time "New here? A few pointers" banner at the top of Global Controller for a fresh profile, pointing out that cards expand on click, the row under each card can tier/own without expanding, sliders can be pinned from Advanced Filters, and where to suggest a feature. Dismissible, remembered from then on (synced to your cloud account if you have one)'
  ]},

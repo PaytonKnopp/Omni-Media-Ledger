@@ -50,9 +50,11 @@ checking for a `profile` key, so both work without any conversion.
   "vibeBoost": { "Late-Night Cosmic Dread": 6 },
 
   "silverTierIds": ["m14"],
+  "bronzeTierIds": ["m22"],
   "bookAffinity": { "b19": 92 },
 
-  "watchlist": { "c02": 1 }
+  "watchlist": { "c02": 1 },
+  "pinnedIdx": ["snd", "scary"]
 }
 ```
 
@@ -69,10 +71,12 @@ checking for a `profile` key, so both work without any conversion.
 | `bookCreatorBoost` | `[[nameSubstring, weight], ...]` | Same, for book authors specifically. |
 | `genreBoost` | `[[genreKeyword, weight], ...]` | Boosts works whose genre list contains `genreKeyword` (lowercase, substring match — `"sci-fi"`, `"noir"`, `"heist"`, etc.). Click any genre chip on an expanded card to toggle it. |
 | `vibeBoost` | `{ vibeTag: weight }` | Boosts works tagged with an exact vibe/context string (see any card's vibe tag in the app for exact spelling). Click the vibe chip on an expanded card to toggle it. |
-| `silverTierIds` | `[id, ...]` | Second-tier favorites — less pull than `declaredGoatIds`, but still lifts the score meaningfully. Click **Silver tier** on an expanded card to toggle it. |
+| `silverTierIds` | `[id, ...]` | Silver tier — a strong favorite, one notch below Gold (`declaredGoatIds`). Click **Silver tier** on any card's compact row (or an expanded card) to toggle it. |
+| `bronzeTierIds` | `[id, ...]` | Bronze tier — a lighter nudge than Silver, for "really like it" without full Gold/Silver weight. Same compact row, **Bronze tier**. |
 | `bookAffinity` | `{ id: scoreFloor }` | Sets a specific book's match score to at least this value (0–100). Click **Boost affinity** on an expanded book card to raise it by 5 each click (starts at 75). |
 | `cosmicHorrorDeclaredIds` / `cosmicHorrorCanon` | `[id,...]` / `{ id: score }` | Feed the Cosmic Horror Index in Reference Matrices, same idea as above. |
 | `watchlist` | `{ contenderId: rank }` | Ranks specific Contenders Ledger entries (`c01`, `c02`, ...) above the model's own anticipation score, in the order given. |
+| `pinnedIdx` | `[indexKey, ...]` | Which of the 15 specialized index sliders (Soundtrack `snd`, Scariest `scary`, Iconicness `icon`, etc. — see `INDEX_DEFS` in `index.html` for the full key list) show pinned to the main filter screen instead of tucked inside Advanced Filters. Click the 📌 on any slider to toggle it — this only changes what's convenient to filter by, it never affects scoring. |
 
 ## How to use it
 
