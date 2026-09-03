@@ -716,6 +716,26 @@ The user, moving attention back from the database to the app itself, tried the a
 
 ---
 
+## Phase 33 — A real mobile UX pass: the 11-button nav stopped eating the whole screen
+
+The user sent two phone screenshots of the Global Controller and GOAT Profile tabs and pointed out the obvious problem directly: on mobile, the header's nav (11 buttons: Global Controller, GOAT Profile, Taste Portrait, Collection, Watchlist, Contenders Ledger, Creator Archives, Reference Matrices, Visualization Suite, Timeline, Suggest a Feature) was wrapping into 5-6 separate rows before any actual content — the search bar, filters, cards — became visible at all. Explicit ask: fix mobile without touching desktop, and the nav was called out as "for example" one instance of a broader "things may need to be somewhere else, hidden, or handled differently" problem.
+
+**Root cause.** Every previous mobile pass (Phase 26's audit, and the `test/smoke.js` "no horizontal overflow at 390px" check that's existed since) verified the app doesn't *break* on a phone — nothing overflows, everything is tappable, nothing is cut off. None of that checks whether a layout that fits without overflowing is actually a *good use of a small screen*. `#nav` was still `flex flex-wrap gap-2` — the exact same rule at every viewport width — so on a ~390px phone, 11 buttons (several with long labels like "Contenders Ledger" and "Visualization Suite") simply wrapped into as many rows as needed. Correct, non-overflowing, and a genuinely bad experience: on a typical phone viewport, that's 300-400px of vertical space spent on tab buttons alone before reaching anything you'd actually come to the app to use.
+
+**The fix — scoped entirely to a new `@media (max-width:767px)` block, so desktop and tablet are provably unaffected:**
+- `#nav` switches from wrapping to a single horizontally-scrollable row (`flex-wrap:nowrap;overflow-x:auto`, scrollbar hidden for a cleaner look) — the same "swipe sideways" pattern used by browser tabs, an app's category chips, or a filter bar. Takes the nav from 5-6 rows down to one, roughly 44px instead of 300-400px.
+- The header's Export/Import/Reset/Compare row (`#profileBtnRow`, a new id added for precise targeting) gets the identical treatment — it was wrapping onto a second line on mobile too.
+- `switchView()` (the function that toggles which nav button is `.active` and which section is visible) now calls `scrollIntoView({inline:'nearest',block:'nearest'})` on the newly-active button, so switching to a tab that happens to be scrolled off to the side — say, from a card's "jump to Timeline" link — brings it into view instead of leaving the highlighted tab invisible off-screen. `inline/block:'nearest'` makes this a safe no-op anywhere it isn't needed, including desktop's non-scrolling wrapped nav.
+- Minor accompanying tightening: the header's own top/bottom padding and the gap between its Account/Theme/Profile control blocks shrink slightly under 768px, reclaiming a little more vertical space without changing anything visually on desktop.
+
+**Verification, not just "it should work":** confirmed with real Playwright screenshots at 390px — the nav now shows on one row with the next tab peeking at the edge as an affordance that it scrolls; scrolling it manually reveals the rest; clicking a tab that starts off-screen (Timeline) correctly scrolls it into view and switches the content. Separately confirmed at 1400px that `#nav`'s computed `flex-wrap` is still `wrap` (not `nowrap`) — i.e., desktop's layout is byte-for-byte the same as before this phase, not just "looks the same."
+
+**Testing.** Added three regression checks to the existing mobile-viewport pass in `test/smoke.js`: `#nav` is confirmed to actually be a scrollable row at 390px (not just styled that way with nothing to scroll — checks `scrollWidth > clientWidth` too), switching to an off-screen tab scrolls it into view, and `#nav` still wraps normally with no horizontal scroll once the viewport is resized to desktop width. Full suite: 98 checks, 0 failures, stable across two runs.
+
+**What this doesn't touch, on purpose:** the header's stat numbers (2,508 works / 80 creators / 50 contenders) and the Account/Theme controls were left as they were — they already sat reasonably compactly side by side and weren't the problem being reported. The rest of the app (filter panels, card grids, detail views, the Visualization Suite) wasn't audited in this pass beyond the existing no-overflow check; if there are other mobile pain points beyond the header/nav, that's follow-up work, not something this phase claims to have covered.
+
+---
+
 ## Ideas / next steps
 
 Roughly in order of value:

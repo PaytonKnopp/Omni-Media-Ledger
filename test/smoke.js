@@ -601,6 +601,35 @@ async function runFile(browser, file) {
       if (hOverflow) { anyOverflow = true; console.log('     horizontal overflow on view: ' + v); }
     }
     check('no horizontal overflow on any view at 390px width', !anyOverflow);
+
+    // Mobile nav: #nav becomes a single horizontally-scrollable row instead of wrapping into
+    // several (previously 11 buttons wrapped into 5-6 rows before any real content was visible).
+    const navIsScrollRow = await page.evaluate(() => {
+      const nav = document.getElementById('nav');
+      const cs = getComputedStyle(nav);
+      return cs.flexWrap === 'nowrap' && cs.overflowX !== 'visible' && nav.scrollWidth > nav.clientWidth;
+    });
+    check('#nav is a single horizontally-scrollable row on mobile, not wrapped rows', navIsScrollRow);
+
+    // Switching to a tab that starts off-screen in that scroll row should bring it into view
+    // (switchView's scrollIntoView) rather than leaving the active tab stranded off to the side.
+    await page.evaluate(() => document.getElementById('nav').scrollTo(0, 0));
+    await page.evaluate(() => document.querySelector('#nav .navBtn[data-view="timeline"]').click());
+    await page.waitForTimeout(300);
+    const activeTabVisible = await page.evaluate(() => {
+      const nav = document.getElementById('nav');
+      const btn = document.querySelector('#nav .navBtn[data-view="timeline"]');
+      const navRect = nav.getBoundingClientRect(), btnRect = btn.getBoundingClientRect();
+      return btnRect.left >= navRect.left - 1 && btnRect.right <= navRect.right + 1;
+    });
+    check('switching to an off-screen tab scrolls it into view', activeTabVisible);
+
+    // Desktop stays completely unaffected by the mobile-only nav treatment above.
+    await page.setViewportSize({ width: 1400, height: 900 });
+    await page.waitForTimeout(200);
+    const navWrapsOnDesktop = await page.evaluate(() => getComputedStyle(document.getElementById('nav')).flexWrap === 'wrap');
+    check('#nav still wraps normally (no horizontal scroll) at desktop width', navWrapsOnDesktop);
+
     await page.close();
   }
 }
