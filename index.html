@@ -883,9 +883,16 @@ var SUPABASE_CONFIG={url:"https://gqpjeccmwsjxrlrazqxt.supabase.co",anonKey:"sb_
   if(!cloudReady||!handle||!client){location.reload();return;}
   clearTimeout(syncTimer);
   setSyncState('amber','Signed in as '+handle+'. Syncing…');
-  var jobs=[client.from('profiles').upsert({handle:handle,data:localSnapshot()})];
-  if(mediaRows&&mediaRows.length)jobs.push(syncMediaStatusRows(mediaRows));
-  withTimeout(Promise.all(jobs),4000).then(function(){
+  // The profiles upsert has to land (and commit) before media_status rows referencing this handle
+  // can be written -- media_status.handle foreign-keys to profiles.handle, so for a brand-new
+  // handle's very first write there's no profiles row yet until this upsert creates one. Sequenced
+  // rather than run in parallel for exactly that reason: a concurrent write here could otherwise
+  // race and fail with a foreign-key violation the very first time someone tiers something.
+  var task=client.from('profiles').upsert({handle:handle,data:localSnapshot()}).then(function(res){
+   if(res&&res.error)throw res.error;
+   return mediaRows&&mediaRows.length?syncMediaStatusRows(mediaRows):null;
+  });
+  withTimeout(task,4000).then(function(){
    setSyncState('emerald','Signed in as '+handle+'. Synced to the cloud.');
   },function(e){
    console.warn('Cloud sync failed (will retry on next change):',e&&e.message||e);
@@ -3403,8 +3410,15 @@ function handleProfileEditClick(btn){
    "here's what changed" readout, not a live version check against anything. Bump APP_VERSION and
    add a CHANGELOG entry whenever a change is worth a friend knowing about; cosmetic tweaks don't
    need a bump. */
-const APP_VERSION='1.29.0';
+const APP_VERSION='1.30.0';
 const CHANGELOG=[
+ {v:'1.30.0',date:'2026-09-03',summary:'Database hardening pass: media_status and friends now cascade-delete with the profiles row they belong to (fixing "Delete my account" leaving tier/owned data behind forever), plus a shape check and a defensive row cap.',notes:[
+  'media_status.handle and friends.handle/friend_handle now foreign-key to profiles.handle with ON DELETE CASCADE. This closes a real gap: "Delete my account" already told the user it removes "your synced profile, watchlist, and preferences," but only ever deleted the profiles row -- a handle\'s tier/owned data and follow edges were silently orphaned forever. The DB now enforces what the UI already promised, with no extra app code needed',
+  'Sequenced the profiles and media_status cloud writes (previously fired in parallel) so a brand-new handle\'s very first tier action can\'t race the new foreign key -- the profiles row is guaranteed to exist before anything tries to reference it',
+  'media_status.media_id now has a real length check (1-20 chars), matching every other client-supplied text column in the schema; media_status and friends each got a defensive per-handle row cap (3,000 and 1,000) in the same spirit as the existing 200KB cap on profiles.data -- a backstop against a runaway client bug, not a security boundary',
+  'suggestions.handle/suggestion_votes.handle and profile_snapshots.handle were deliberately left without foreign keys: guest suggestions write handle=\'anonymous\' (not a real account), and snapshots must outlive the profiles row they back up -- both documented in supabase/schema.sql',
+  'Needs the same one manual step as before: re-run the updated supabase/schema.sql in the Supabase SQL Editor (idempotent, safe to re-run)'
+ ]},
  {v:'1.29.0',date:'2026-09-03',summary:'Gold/Silver/Bronze tiers and owned status now sync to a normalized media_status table in Supabase (not just the profiles.data blob), and a real race between cloud sync and the app\'s own page-reload was found and fixed along the way.',notes:[
   'New media_status table (supabase/schema.sql) holds one row per handle+title with a tier and an owned flag -- the exact signals that drive the recommendation engine -- so they\'re queryable per title in the DB instead of locked inside one opaque jsonb blob. Every tier/own/import/reset/onboarding action keeps it in sync automatically; add and remove both just work, no separate step',
   'Found and fixed a real bug while wiring this up: tiering or owning something reloads the page immediately (the scoring pipeline needs a full recompute), which was racing the existing 1.5s debounced cloud sync -- the sync almost never won that race, and the next boot\'s cloud hydrate would then silently revert the just-made change back to the last-synced (stale) copy. Fixed by flushing an immediate sync and waiting for it, bounded by a timeout, before reloading at all, instead of firing a debounced one and reloading straight past it',
