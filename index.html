@@ -141,7 +141,7 @@ body[data-theme="outer-wilds"]{--bg:#0e0a09;--panel:#181010;--panel-2:#120c0b;--
       </button>
       <button type="button" id="onboardSeed" class="w-full text-left rounded-xl border border-slate-700 hover:border-violet-500 p-3 transition-colors">
         <div class="text-sm font-semibold text-slate-100">Quick-rate a few titles</div>
-        <div class="text-[12px] text-slate-500 mt-0.5">Tap the ones you love out of a short well-regarded spread — takes under a minute, gives recommendations something real to work from right away.</div>
+        <div class="text-[12px] text-slate-500 mt-0.5">Tap the ones you love out of 16 well-regarded, varied picks — request a different batch anytime if you don't recognize enough. Takes under a minute, gives recommendations something real to work from right away.</div>
       </button>
       <button type="button" id="onboardGoatPicker" class="w-full text-left rounded-xl border border-slate-700 hover:border-violet-500 p-3 transition-colors">
         <div class="text-sm font-semibold text-slate-100">Search &amp; pick your GOATs</div>
@@ -162,12 +162,13 @@ body[data-theme="outer-wilds"]{--bg:#0e0a09;--panel:#181010;--panel-2:#120c0b;--
     <div>
       <div class="text-[10px] tracking-[.35em] text-indigo-300/80 uppercase mb-1">Quick-rate</div>
       <h2 class="text-lg font-bold text-slate-50">Tap anything you love</h2>
-      <p class="text-[13px] text-slate-400 mt-1">A short, deliberately varied spread across film, TV, games, and books. Loving a few seeds real recommendations — skip anything you don't know or don't care for.</p>
+      <p class="text-[13px] text-slate-400 mt-1">16 well-regarded, deliberately varied picks across film, TV, games, and books — loving even a few seeds real recommendations right away. Don't recognize enough of these? Tap 🔄 for a different batch. Skip anything you don't know or don't care for.</p>
     </div>
     <div id="onboardSeedGrid" class="space-y-2"></div>
     <div class="flex items-center justify-between gap-2 pt-2 border-t border-slate-800/70">
       <span id="onboardSeedCount" class="text-[12px] text-slate-500">0 selected</span>
-      <div class="flex gap-2">
+      <div class="flex gap-2 flex-wrap justify-end">
+        <button type="button" id="onboardSeedMore" class="presetBtn" title="Swap out anything you haven't loved for a fresh, different batch">🔄 Show different picks</button>
         <button type="button" id="onboardSeedSkip" class="presetBtn">Skip this</button>
         <button type="button" id="onboardSeedContinue" class="presetBtn" style="color:#4ade80;border-color:#4ade8055">Continue →</button>
       </div>
@@ -200,7 +201,18 @@ body[data-theme="outer-wilds"]{--bg:#0e0a09;--panel:#181010;--panel-2:#120c0b;--
       <button type="button" id="goatPickerClose" class="text-slate-500 hover:text-slate-300 text-lg leading-none">✕</button>
     </div>
     <input type="text" id="goatPickerSearch" class="inp" placeholder="🔍 Search movies, TV, games, books by title, creator, genre…" autocomplete="off">
-    <div id="goatPickerResults" class="space-y-1.5 max-h-64 overflow-y-auto"></div>
+    <div class="flex items-center gap-2 flex-wrap">
+      <span class="fieldlbl mb-0">Type</span>
+      <div class="seg" id="goatPickerType">
+        <button type="button" data-t="all" class="on">All</button>
+        <button type="button" data-t="movie">Movies</button>
+        <button type="button" data-t="tv">TV</button>
+        <button type="button" data-t="game">Games</button>
+        <button type="button" data-t="book">Books</button>
+      </div>
+      <span id="goatPickerResultCount" class="text-[10.5px] text-slate-500 ml-auto"></span>
+    </div>
+    <div id="goatPickerResults" class="space-y-1.5 max-h-80 overflow-y-auto"></div>
     <div class="pt-3 border-t border-slate-800/70">
       <div class="flex items-center justify-between mb-2">
         <span class="lbl">★ Declared so far · <span id="goatPickerCount">0</span></span>
@@ -3242,8 +3254,12 @@ function handleProfileEditClick(btn){
    "here's what changed" readout, not a live version check against anything. Bump APP_VERSION and
    add a CHANGELOG entry whenever a change is worth a friend knowing about; cosmetic tweaks don't
    need a bump. */
-const APP_VERSION='1.23.0';
+const APP_VERSION='1.24.0';
 const CHANGELOG=[
+ {v:'1.24.0',date:'2026-09-03',summary:'Both first-run "build your taste" flows got more comprehensive and better looking: Quick-rate offers 16 varied picks (with a reshuffle option), and Search & Pick Your GOATs now has a type filter and richer result rows.',notes:[
+  'Quick-rate now offers 16 well-regarded, genre-and-creator-diversified picks instead of 10, plus a "🔄 Show different picks" button that swaps out anything you haven\'t loved for a fresh batch (never repeating a title already shown) while keeping whatever you\'ve already hearted',
+  '"Search & Pick Your GOATs" gained a Movies/TV/Games/Books type filter and a "Showing X of Y matches" count, and each result row now shows a genre and critic score alongside the title/creator/year instead of a bare single-line list -- easier to recognize something at a glance, especially when scrolling 40 search results deep'
+ ]},
  {v:'1.23.0',date:'2026-09-03',summary:'Personal GOAT Profile now shows Gold/Silver/Bronze as distinct, labeled groups within Movies/Books/TV/Games -- Silver and Bronze picks were previously invisible on this page entirely.',notes:[
   'The 4 corpus-backed declared categories (Movies, Books, TV Shows, Video Game) now render live from actual tier data (Gold/Silver/Bronze), grouped and labeled separately within each category, instead of from a static list that only ever tracked Gold -- anything tiered Silver or Bronze from a card\'s compact row or the GOAT Profile search previously showed up nowhere on this page at all',
   'Non-corpus hand-curated categories (Director, Actors, Composers, Cinematographer, Artist, YouTube) are unchanged -- they have no tier concept, so they keep their original single-list display'
@@ -3480,6 +3496,7 @@ const CHANGELOG=[
  var gate=$('#goatPickerGate');if(!gate)return;
  var staged=new Set();
  var fromOnboarding=false;
+ var pickerType='all';
  function open(viaOnboarding){
   fromOnboarding=!!viaOnboarding;
   // Onboarding always starts from a genuinely blank slate, even on index.html where
@@ -3489,6 +3506,7 @@ const CHANGELOG=[
   // by then it's the user's own (or whatever they imported), and the point is adding to it.
   staged=fromOnboarding?new Set():new Set(PERSONAL_PROFILE.declaredGoatIds||[]);
   var search=$('#goatPickerSearch');if(search)search.value='';
+  pickerType='all';$$('#goatPickerType button').forEach(function(b){b.classList.toggle('on',b.dataset.t==='all');});
   renderResults('');
   renderStaged();
   gate.classList.remove('hidden');
@@ -3502,14 +3520,20 @@ const CHANGELOG=[
   q=(q||'').trim().toLowerCase();
   var pool=q?ALL.filter(function(x){return (x.title+' '+x.creator+' '+(x.genres||[]).join(' ')).toLowerCase().indexOf(q)>=0;})
    :ALL.slice().sort(function(a,b){return (b.crit+b.aud)-(a.crit+a.aud);});
+  if(pickerType!=='all')pool=pool.filter(function(x){return x.kind===pickerType;});
   var shown=pool.slice(0,40);
   var k2=KM;
+  var cnt=$('#goatPickerResultCount');
+  if(cnt)cnt.textContent=pool.length?('Showing '+shown.length+' of '+pool.length+' match'+(pool.length===1?'':'es')):'';
   $('#goatPickerResults').innerHTML=shown.map(function(x){
    var isStaged=staged.has(x.id);
-   return '<button type="button" class="goatPickerItem w-full text-left rounded-lg border p-2 transition-colors flex items-center justify-between gap-2" data-id="'+x.id+'" style="'+(isStaged?'border-color:#fbbf2455;background:rgba(251,191,36,.08)':'border-color:var(--border-2)')+'">'
-    +'<span class="min-w-0 truncate"><span class="chip" style="color:'+k2[x.kind].c+';border-color:'+k2[x.kind].c+'44">'+k2[x.kind].label+'</span> <span class="text-[12.5px] text-slate-200">'+esc(x.title)+'</span> <span class="text-[10.5px] text-slate-500">· '+x.year+' · '+esc(x.creator)+'</span></span>'
-    +'<span style="color:'+(isStaged?'#fbbf24':'#475569')+'" class="shrink-0">'+(isStaged?'★':'☆')+'</span></button>';
-  }).join('')||'<div class="rcEmpty">No matches</div>';
+   return '<button type="button" class="goatPickerItem w-full text-left rounded-lg border p-2 transition-colors flex items-center gap-2.5" data-id="'+x.id+'" style="'+(isStaged?'border-color:#fbbf2455;background:rgba(251,191,36,.08)':'border-color:var(--border-2)')+'">'
+    +'<span class="w-1.5 h-1.5 rounded-full shrink-0" style="background:'+k2[x.kind].c+'"></span>'
+    +'<span class="flex-1 min-w-0 truncate"><span class="text-[12.5px] text-slate-200 font-medium">'+esc(x.title)+'</span> <span class="text-[10.5px] text-slate-500">· '+x.year+' · '+esc(x.creator)+'</span>'
+    +(x.genres&&x.genres.length?' <span class="text-[10px] text-slate-600">· '+esc(x.genres.slice(0,2).join(', '))+'</span>':'')+'</span>'
+    +'<span class="text-[10px] tabular-nums text-slate-500 shrink-0" title="Critic score">'+x.crit+'</span>'
+    +'<span style="color:'+(isStaged?'#fbbf24':'#475569')+'" class="shrink-0 text-base leading-none">'+(isStaged?'★':'☆')+'</span></button>';
+  }).join('')||'<div class="rcEmpty">No matches'+(pickerType!=='all'?' in '+k2[pickerType].label:'')+'.</div>';
  }
  function renderStaged(){
   var ids=Array.from(staged);
@@ -3523,6 +3547,12 @@ const CHANGELOG=[
  on('#goatPickerClose','click',close);
  on('#goatPickerCancel','click',close);
  on('#goatPickerSearch','input',function(){renderResults(this.value);});
+ on('#goatPickerType','click',function(e){
+  var b=e.target.closest('button');if(!b)return;
+  pickerType=b.dataset.t;
+  $$('#goatPickerType button').forEach(function(x){x.classList.toggle('on',x===b);});
+  renderResults($('#goatPickerSearch').value);
+ });
  on('#goatPickerResults','click',function(e){
   var b=e.target.closest('.goatPickerItem');if(!b)return;
   var id=b.dataset.id;
@@ -3570,23 +3600,43 @@ const CHANGELOG=[
 })();
 
 /* ===== Guided seed-picker (Phase 2 of the original plan: "rate these N items to seed taste") =====
-   A pool of 10 works, one per kind-ish spread, picked at runtime by pre-personalization quality
-   (crit+aud average) so it's a "well-regarded, broadly varied" set rather than anything tied to
-   one person's taste -- fair to show a friend as much as it is to show Payton on a fresh device.
-   Loving one or more seeds declaredGoatIds and a "My Favorites" declaredCanon group; skipping
-   entirely just falls through to a blank profile, same as clicking Start Blank directly. */
-function pickSeedCandidates(){
+   A pool picked at runtime by pre-personalization quality (crit+aud average) so it's a "well-
+   regarded, broadly varied" set rather than anything tied to one person's taste -- fair to show a
+   friend as much as it is to show Payton on a fresh device. Loving one or more seeds declaredGoatIds
+   and a "My Favorites" declaredCanon group; skipping entirely just falls through to a blank profile,
+   same as clicking Start Blank directly.
+   16 items (5 movies/5 books, 3 each TV/games) rather than the original 10 -- broad enough that
+   someone unfamiliar with a few picks still likely recognizes several -- and diversified by BOTH
+   creator and top genre family, not just creator, so the spread doesn't collapse into one genre's
+   greatest hits. excludeIds lets "show different picks" pull a genuinely fresh batch instead of
+   reshuffling the same top-quality handful. */
+function pickSeedCandidates(excludeIds){
+ var exclude=new Set(excludeIds||[]);
  const byKindSorted={};
- ['movie','tv','game','book'].forEach(k=>{byKindSorted[k]=ALL.filter(x=>x.kind===k).slice().sort((a,b)=>(b.crit+b.aud)-(a.crit+a.aud));});
- const counts={movie:3,tv:2,game:2,book:3};
+ ['movie','tv','game','book'].forEach(k=>{byKindSorted[k]=ALL.filter(x=>x.kind===k&&!exclude.has(x.id)).slice().sort((a,b)=>(b.crit+b.aud)-(a.crit+a.aud));});
+ const counts={movie:5,tv:3,game:3,book:5};
  const picks=[];
  Object.keys(counts).forEach(k=>{
-  const seen=new Set(picks.map(p=>p.creator));
+  const seenCreator=new Set(picks.map(p=>p.creator));
+  const seenFam=new Set(picks.map(p=>(p.fam&&p.fam[0])||''));
   let taken=0;
+  // First pass: also require a fresh top genre family, for real variety within this kind.
   for(const x of byKindSorted[k]){
    if(taken>=counts[k])break;
-   if(seen.has(x.creator))continue; // keep creators varied within the spread
-   picks.push(x);seen.add(x.creator);taken++;
+   if(seenCreator.has(x.creator))continue;
+   const fam=(x.fam&&x.fam[0])||'';
+   if(fam&&seenFam.has(fam))continue;
+   picks.push(x);seenCreator.add(x.creator);if(fam)seenFam.add(fam);taken++;
+  }
+  // Second pass: relax the genre-family constraint if that wasn't enough to fill the quota
+  // (some kinds have fewer distinct top families than the count needs).
+  if(taken<counts[k]){
+   for(const x of byKindSorted[k]){
+    if(taken>=counts[k])break;
+    if(picks.indexOf(x)>=0)continue;
+    if(seenCreator.has(x.creator))continue;
+    picks.push(x);seenCreator.add(x.creator);taken++;
+   }
   }
  });
  return picks;
@@ -3598,18 +3648,36 @@ function pickSeedCandidates(){
  gate.classList.remove('hidden');
  var choiceScreen=$('#onboardChoiceScreen'),seedScreen=$('#onboardSeedScreen');
  var loved=new Set();
+ var shownIds=new Set();
+ var currentPicks=[];
+ function renderSeedGrid(picks){
+  currentPicks=picks;
+  $('#onboardSeedGrid').innerHTML=picks.map(x=>'<button type="button" class="onboardSeedItem w-full text-left rounded-xl border border-slate-700 hover:border-violet-500 p-3 transition-colors" data-id="'+x.id+'"'+(loved.has(x.id)?' style="border-color:#fb718566"':'')+'>'
+   +'<div class="flex items-start justify-between gap-2"><div class="min-w-0">'
+   +'<div class="text-sm font-semibold text-slate-100 truncate">'+esc(x.title)+' <span class="text-slate-500 font-normal">· '+x.year+'</span></div>'
+   +'<div class="text-[11px] text-slate-500 mt-0.5">'+esc(x.creator)+' · '+esc((x.genres||[]).slice(0,2).join(', '))+'</div>'
+   +'</div><span class="seedHeart text-lg leading-none shrink-0" style="color:'+(loved.has(x.id)?'#fb7185':'#475569')+'">'+(loved.has(x.id)?'♥':'♡')+'</span></div>'
+   +'</button>').join('');
+  $('#onboardSeedCount').textContent=loved.size+' selected';
+ }
  on('#onboardSample','click',()=>{try{localStorage.setItem('omniLedgerOnboarded','1');}catch(e){}gate.classList.add('hidden');});
  on('#onboardBlank','click',()=>{try{localStorage.setItem('omniLedgerOnboarded','1');localStorage.setItem('omniLedgerProfile','{}');}catch(e){}location.reload();});
  on('#onboardImportInput','change',e=>{const file=e.target.files&&e.target.files[0];if(!file)return;const reader=new FileReader();reader.onload=()=>{try{const parsed=JSON.parse(reader.result);if(typeof parsed!=='object'||parsed===null||Array.isArray(parsed))throw new Error('File is not a profile object');localStorage.setItem('omniLedgerOnboarded','1');applyImportedSnapshot(parsed);location.reload();}catch(err){alert('Could not import that file: '+err.message);}};reader.readAsText(file);});
  on('#onboardSeed','click',()=>{
   const picks=pickSeedCandidates();
-  $('#onboardSeedGrid').innerHTML=picks.map(x=>'<button type="button" class="onboardSeedItem w-full text-left rounded-xl border border-slate-700 hover:border-violet-500 p-3 transition-colors" data-id="'+x.id+'">'
-   +'<div class="flex items-start justify-between gap-2"><div class="min-w-0">'
-   +'<div class="text-sm font-semibold text-slate-100 truncate">'+esc(x.title)+' <span class="text-slate-500 font-normal">· '+x.year+'</span></div>'
-   +'<div class="text-[11px] text-slate-500 mt-0.5">'+esc(x.creator)+' · '+esc((x.genres||[]).slice(0,2).join(', '))+'</div>'
-   +'</div><span class="seedHeart text-lg leading-none shrink-0" style="color:#475569">♡</span></div>'
-   +'</button>').join('');
+  picks.forEach(x=>shownIds.add(x.id));
+  renderSeedGrid(picks);
   choiceScreen.classList.add('hidden');seedScreen.classList.remove('hidden');
+ });
+ // "Show different picks": keeps anything already loved on screen (so hearting something then
+ // asking for more doesn't lose your pick), fetches a genuinely fresh batch for the rest --
+ // pickSeedCandidates excludes every id shown so far, so reshuffling never repeats a title.
+ on('#onboardSeedMore','click',()=>{
+  const keep=currentPicks.filter(x=>loved.has(x.id));
+  const fresh=pickSeedCandidates(Array.from(shownIds));
+  fresh.forEach(x=>shownIds.add(x.id));
+  const keepIds=new Set(keep.map(x=>x.id));
+  renderSeedGrid(keep.concat(fresh.filter(x=>!keepIds.has(x.id))));
  });
  on('#onboardSeedGrid','click',e=>{
   const b=e.target.closest('.onboardSeedItem');if(!b)return;

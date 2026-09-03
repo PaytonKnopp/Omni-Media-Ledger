@@ -568,6 +568,18 @@ Fifth item of the broader UI-cleanup round, and a genuine bug fix, not just a po
 
 ---
 
+## Phase 25 — More comprehensive Quick-rate, richer GOAT Picker
+
+Sixth item of the broader UI-cleanup round: "I think the quick rate a few titles should be more comprehensive and allow for more to have it work better and an easier way for a person to start. Same with the search and pick your goats. These should be better displayed and used."
+
+**Quick-rate.** `pickSeedCandidates()` went from a fixed 10 items (3 movies/2 TV/2 games/3 books, diversified only by creator) to 16 (5/3/3/5), diversified by BOTH creator and top genre family — a two-pass selection (strict family+creator diversity first, falling back to creator-only diversity if a kind doesn't have enough distinct families to fill its quota) so the spread doesn't collapse into one genre's greatest hits. More importantly, added a **"🔄 Show different picks"** button: it keeps anything you've already hearted visible, and pulls a genuinely fresh batch for the rest (`pickSeedCandidates` now takes an exclusion set of every id shown so far across the session, so reshuffling can never repeat a title) — directly answering "allow for more" and "an easier way to start" for someone who doesn't recognize enough of the first batch, without losing picks they'd already made.
+
+**Search & Pick Your GOATs** (the full-screen onboarding modal — not the GOAT Profile tab's inline search, which already got attention in Phase 15/23/24). It was a bare, single-line list: kind chip, title, year, creator, and a star, nothing else. Added a Movies/TV/Games/Books type filter (matching the same pattern as every other filtered list in the app) and a "Showing X of Y matches" count so searching within a huge result set has real feedback, plus each row now shows a genre and critic score alongside title/creator/year — genuinely useful context for recognizing an unfamiliar title 30 rows deep in a 40-result scroll, not just decoration.
+
+**Testing.** New checks (both against fresh, isolated pages so onboarding state stays clean): Quick-rate offers exactly 16 items; hearting one keeps it hearted through a reshuffle; a reshuffle strictly adds new items (never a same-16 shuffle) with zero duplicate titles across old+new; the loved pick survives into the saved profile. For the GOAT Picker: the type filter actually narrows results (checked via id prefix, since kind is no longer a separate text label per row — a dot conveys it visually now), the result-count label updates, and each row carries genre/score context.
+
+---
+
 ## Ideas / next steps
 
 Roughly in order of value:

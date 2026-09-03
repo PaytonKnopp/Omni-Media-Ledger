@@ -752,6 +752,80 @@ async function runAccountFlow(browser, file) {
   }
 }
 
+// Quick-rate seed picker: a fresh page/profile so onboarding is untouched. Covers the more-
+// comprehensive rework (16 picks instead of 10, genre-family diversity, and "show different
+// picks" reshuffling while keeping anything already loved).
+async function runSeedPickerFlow(browser, file) {
+  const page = await browser.newPage();
+  const pageErrors = [];
+  page.on('pageerror', e => pageErrors.push(e.message));
+  await page.goto('file://' + path.join(ROOT, file));
+  await page.waitForTimeout(500);
+  await page.click('#onboardSeed');
+  await page.waitForTimeout(300);
+  const itemCount = await page.evaluate(() => document.querySelectorAll('.onboardSeedItem').length);
+  check('quick-rate offers 16 varied picks', itemCount === 16);
+
+  const firstId = await page.evaluate(() => document.querySelector('.onboardSeedItem').dataset.id);
+  await page.click('.onboardSeedItem');
+  await page.waitForTimeout(150);
+  const heartAfterLove = await page.evaluate(() => document.querySelector('.onboardSeedItem .seedHeart').textContent);
+  check('tapping a pick hearts it', heartAfterLove === '♥');
+
+  await page.click('#onboardSeedMore');
+  await page.waitForTimeout(300);
+  const idsAfterReshuffle = await page.evaluate(() =>
+    Array.from(document.querySelectorAll('.onboardSeedItem')).map(el => el.dataset.id));
+  check('"show different picks" keeps the loved item visible', idsAfterReshuffle.includes(firstId));
+  check('"show different picks" adds genuinely new items, not a reshuffled duplicate of the same 16', idsAfterReshuffle.length > 16);
+  const noDuplicates = new Set(idsAfterReshuffle).size === idsAfterReshuffle.length;
+  check('reshuffled batch has no duplicate items', noDuplicates);
+
+  await page.click('#onboardSeedContinue');
+  await page.waitForTimeout(500);
+  const declaredIncludesLoved = await page.evaluate((id) => {
+    try { return (JSON.parse(localStorage.getItem('omniLedgerProfile')).declaredGoatIds || []).includes(id); }
+    catch (e) { return false; }
+  }, firstId);
+  check('continuing saves the loved pick into the new profile', declaredIncludesLoved);
+  check('no uncaught page errors during the seed-picker pass', pageErrors.length === 0);
+  if (pageErrors.length) pageErrors.forEach(e => console.log('     ' + e));
+  await page.close();
+}
+
+// "Search & pick your GOATs" (the full-screen onboarding modal, not the GOAT Profile tab's inline
+// search): covers the added Type filter and per-row context (genre, critic score) that replaced a
+// bare, single-line list.
+async function runGoatPickerFlow(browser, file) {
+  const page = await browser.newPage();
+  const pageErrors = [];
+  page.on('pageerror', e => pageErrors.push(e.message));
+  await page.goto('file://' + path.join(ROOT, file));
+  await page.waitForTimeout(500);
+  await page.click('#onboardGoatPicker');
+  await page.waitForTimeout(300);
+  const allCount = await page.evaluate(() => document.querySelectorAll('.goatPickerItem').length);
+  check('GOAT Picker shows results with no filter applied', allCount > 0);
+  await page.click('#goatPickerType button[data-t="movie"]');
+  await page.waitForTimeout(200);
+  const moviesOnly = await page.evaluate(() => {
+    const rows = Array.from(document.querySelectorAll('.goatPickerItem'));
+    return rows.length > 0 && rows.every(r => r.dataset.id.startsWith('m'));
+  });
+  check('Type filter narrows the GOAT Picker to just that medium', moviesOnly);
+  const resultCountText = await page.evaluate(() => document.getElementById('goatPickerResultCount').textContent);
+  check('Type filter updates the result-count label', /Showing \d+ of \d+ match/.test(resultCountText));
+  const firstRowHasGenreAndScore = await page.evaluate(() => {
+    const row = document.querySelector('.goatPickerItem');
+    if (!row) return false;
+    return /\d{2,3}/.test(row.textContent) && row.textContent.includes('·');
+  });
+  check('each result row shows genre and score context, not just a bare title', firstRowHasGenreAndScore);
+  await page.close();
+  check('no uncaught page errors during the GOAT Picker pass', pageErrors.length === 0);
+  if (pageErrors.length) pageErrors.forEach(e => console.log('     ' + e));
+}
+
 (async () => {
   const executablePath = findChromium();
   const browser = await chromium.launch(executablePath ? { executablePath } : {});
@@ -759,6 +833,10 @@ async function runAccountFlow(browser, file) {
     await runFile(browser, t);
     console.log('\n=== ' + t + ' — cloud account flow (mocked Firestore) ===');
     await runAccountFlow(browser, t);
+    console.log('\n=== ' + t + ' — quick-rate seed picker ===');
+    await runSeedPickerFlow(browser, t);
+    console.log('\n=== ' + t + ' — GOAT Picker (search & pick your GOATs) ===');
+    await runGoatPickerFlow(browser, t);
   }
   await browser.close();
 
