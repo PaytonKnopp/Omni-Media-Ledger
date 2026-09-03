@@ -99,3 +99,164 @@ create policy "suggestions are publicly insertable"
   with check (char_length(text) between 1 and 2000);
 
 -- No update/delete policy on suggestions either, for the same reason as above.
+
+-- ── suggestion status + voting ──────────────────────────────────────────────────────────────
+-- Lets the shared suggestion feed show what's actually being worked on (status) and which
+-- requests people care about most (votes), instead of being a flat, unordered wall of text.
+-- `status` is intentionally not client-writable -- there's no update policy for it below, so it
+-- can only be changed from the SQL Editor (or a future admin view) as the person triaging
+-- suggestions, not by any anon-key client.
+alter table public.suggestions
+  add column if not exists status text not null default 'open',
+  add column if not exists votes integer not null default 0;
+
+do $$
+begin
+  if not exists (
+    select 1 from pg_constraint where conname = 'suggestions_status_check'
+  ) then
+    alter table public.suggestions
+      add constraint suggestions_status_check
+      check (status in ('open','planned','shipped','declined'));
+  end if;
+end;
+$$;
+
+-- One row per (suggestion, handle) so a handle can only cast one vote per suggestion -- an honor
+-- system, same as every other handle-based check in this file (a handle is a name, not a verified
+-- identity), but enough to stop an accidental double-click from double-counting.
+create table if not exists public.suggestion_votes (
+  suggestion_id bigint not null references public.suggestions(id) on delete cascade,
+  handle text not null,
+  created_at timestamptz not null default now(),
+  primary key (suggestion_id, handle)
+);
+
+-- Keeps suggestions.votes as a denormalized, fast-to-read count instead of making every list
+-- render do a count(*) join -- maintained here, not trusted from the client.
+create or replace function public.sync_suggestion_vote_count()
+returns trigger
+language plpgsql
+security definer
+set search_path = public, pg_temp
+as $$
+begin
+  if tg_op = 'INSERT' then
+    update public.suggestions set votes = votes + 1 where id = new.suggestion_id;
+    return new;
+  elsif tg_op = 'DELETE' then
+    update public.suggestions set votes = greatest(votes - 1, 0) where id = old.suggestion_id;
+    return old;
+  end if;
+  return null;
+end;
+$$;
+
+drop trigger if exists suggestion_votes_sync on public.suggestion_votes;
+create trigger suggestion_votes_sync
+  after insert or delete on public.suggestion_votes
+  for each row execute function public.sync_suggestion_vote_count();
+
+alter table public.suggestion_votes enable row level security;
+
+drop policy if exists "suggestion votes are publicly readable" on public.suggestion_votes;
+create policy "suggestion votes are publicly readable"
+  on public.suggestion_votes for select
+  using (true);
+
+drop policy if exists "suggestion votes are publicly insertable" on public.suggestion_votes;
+create policy "suggestion votes are publicly insertable"
+  on public.suggestion_votes for insert
+  with check (true);
+
+-- Delete (not update) is how a vote is retracted -- remove your row rather than flip a flag.
+drop policy if exists "suggestion votes are publicly deletable" on public.suggestion_votes;
+create policy "suggestion votes are publicly deletable"
+  on public.suggestion_votes for delete
+  using (true);
+
+-- ── friends ─────────────────────────────────────────────────────────────────────────────────
+-- A directed "handle follows friend_handle" edge -- backing for a real Compare/leaderboard
+-- feature (the app today only compares against a manually exported/imported file). Directed
+-- rather than a mutual-friendship model so following someone doesn't require their action first,
+-- same low-friction, no-real-auth spirit as everything else in this file.
+create table if not exists public.friends (
+  handle text not null,
+  friend_handle text not null,
+  created_at timestamptz not null default now(),
+  primary key (handle, friend_handle),
+  check (handle <> friend_handle)
+);
+
+create index if not exists friends_friend_handle_idx on public.friends (friend_handle);
+
+alter table public.friends enable row level security;
+
+drop policy if exists "friends are publicly readable" on public.friends;
+create policy "friends are publicly readable"
+  on public.friends for select
+  using (true);
+
+drop policy if exists "friends are publicly insertable" on public.friends;
+create policy "friends are publicly insertable"
+  on public.friends for insert
+  with check (true);
+
+-- Delete is how you unfollow.
+drop policy if exists "friends are publicly deletable" on public.friends;
+create policy "friends are publicly deletable"
+  on public.friends for delete
+  using (true);
+
+-- ── profile_snapshots ───────────────────────────────────────────────────────────────────────
+-- A rolling backup of the last 20 versions of each handle's profile, captured automatically
+-- right before any update or delete -- so "Delete my account" (and any accidental overwrite from
+-- a stale second tab) is recoverable instead of instantly and permanently destructive. Populated
+-- only by the trigger below, which runs SECURITY DEFINER (as the function's owner, which bypasses
+-- RLS in Supabase) specifically so an anon-key client can trigger a capture but can't directly
+-- insert, edit, or delete snapshot rows itself -- there is deliberately no insert/update/delete
+-- policy on this table for that reason. `set search_path` is pinned to block search-path
+-- hijacking, standard practice for any SECURITY DEFINER function.
+create table if not exists public.profile_snapshots (
+  id bigint generated always as identity primary key,
+  handle text not null,
+  data jsonb not null,
+  created_at timestamptz not null default now()
+);
+
+create index if not exists profile_snapshots_handle_idx
+  on public.profile_snapshots (handle, created_at desc);
+
+create or replace function public.capture_profile_snapshot()
+returns trigger
+language plpgsql
+security definer
+set search_path = public, pg_temp
+as $$
+begin
+  insert into public.profile_snapshots (handle, data) values (old.handle, old.data);
+  delete from public.profile_snapshots
+   where handle = old.handle
+     and id not in (
+       select id from public.profile_snapshots
+        where handle = old.handle
+        order by created_at desc
+        limit 20
+     );
+  return old;
+end;
+$$;
+
+drop trigger if exists profiles_snapshot on public.profiles;
+create trigger profiles_snapshot
+  before update or delete on public.profiles
+  for each row execute function public.capture_profile_snapshot();
+
+alter table public.profile_snapshots enable row level security;
+
+-- Read-only to clients (a handle can look back at its own history); no client-side writes, see
+-- the table comment above.
+drop policy if exists "profile snapshots are publicly readable" on public.profile_snapshots;
+create policy "profile snapshots are publicly readable"
+  on public.profile_snapshots for select
+  using (true);

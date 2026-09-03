@@ -649,6 +649,19 @@ That raised an obvious question: how many other classes were used in the markup 
 
 ---
 
+## Phase 29 — Additive schema: suggestion voting/status, friends, profile snapshots
+
+The user asked what the database should have "to make this the best application possible." The honest answer had a fork in it: the single biggest upgrade would be replacing handle-only sign-in with real Supabase Auth, but that's a genuine rewrite (new login UI, migrating every existing handle, RLS rewritten around `auth.uid()` instead of open `using (true)` policies) — not something to fold into a schema tweak without the user explicitly choosing it. Asked; the user chose the additive path: keep today's handle-only trust model exactly as it is, and add schema that's useful on top of it without touching the sign-in flow at all.
+
+**What got added to `supabase/schema.sql`** (same idempotent style as the rest of the file — safe to re-run):
+- **Suggestion voting + status.** `suggestions` gained `status` (open/planned/shipped/declined, default `open`) and a denormalized `votes` count. A new `suggestion_votes` table (one row per suggestion+handle, so a handle can only vote once per suggestion — honor system, like every other handle check in this file) drives `votes` via an `AFTER INSERT OR DELETE` trigger; deleting your vote row is how you retract it. `status` has no client-facing update policy on purpose — it's meant to be triaged from the SQL Editor (or a future admin view), not writable by the anon key.
+- **`friends`** — a directed `handle` → `friend_handle` follow edge. Backs a real Compare/leaderboard feature; today the app's profile-compare only works against a manually exported/imported file. Directed rather than mutual so following someone doesn't require their action first, matching the app's existing low-friction posture.
+- **`profile_snapshots`** — a rolling history of the last 20 versions of each handle's `profiles.data`, captured automatically by a `BEFORE UPDATE OR DELETE` trigger on `profiles`. This makes "Delete my account" (Phase 28) and any accidental overwrite from a stale second tab recoverable instead of instant and final. The capture function runs `SECURITY DEFINER` (with a pinned `search_path`, standard practice for that) specifically so the anon-key client can trigger a capture without being able to directly insert, edit, or delete snapshot rows itself — there's a select policy for looking back at history, and deliberately no write policy at all.
+
+**What this is not, yet:** none of these three tables have any app-side UI wired up. The suggestion box doesn't show vote counts or let you vote; there's no Friends/Compare screen backed by the `friends` table; there's no "restore an earlier version" UI reading `profile_snapshots`. This phase built the DB half only, at the user's explicit choice of scope — building the corresponding app features is separate future work.
+
+---
+
 ## Ideas / next steps
 
 Roughly in order of value:
