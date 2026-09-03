@@ -245,11 +245,27 @@ async function runFile(browser, file) {
     check('GOAT Profile search returns results inline', searchHasResults);
     const goatTierBtn = await page.$('#goatSearchResults .profEditBtn[data-act="declare"]');
     const targetId = await goatTierBtn.evaluate(el => el.dataset.id);
+    // Regression: the compact tier row's active-state label used to be derived from the raw
+    // data-act value (act.charAt(0).toUpperCase()+act.slice(1)), which happens to spell "Silver"
+    // and "Bronze" correctly but turns Gold's act ("declare") into "Declare" instead of "Gold".
+    // "Interstellar" is Gold by default in the sample profile, so search for it directly rather
+    // than hoping the current "dune" search happens to include an already-Gold item.
+    await page.fill('#goatSearchInput', 'Interstellar');
+    await page.waitForTimeout(200);
+    const goldLabel = await page.evaluate(() => {
+      const btn = document.querySelector('#goatSearchResults .profEditBtn[data-act="declare"]');
+      return btn ? btn.textContent : '';
+    });
+    check('an active Gold tier button reads "Gold", not "Declare"', goldLabel.includes('Gold') && !goldLabel.includes('Declare'));
+    await page.fill('#goatSearchInput', 'dune');
+    await page.waitForTimeout(200);
     const wasDeclaredBefore = await page.evaluate((id) => {
       try { return (JSON.parse(localStorage.getItem('omniLedgerProfile')).declaredGoatIds || []).includes(id); }
       catch (e) { return false; }
     }, targetId);
-    await goatTierBtn.click();
+    // Re-select the button fresh -- the original handle's DOM node was replaced by the
+    // Interstellar/dune re-searches above.
+    await page.click('#goatSearchResults .profEditBtn[data-act="declare"][data-id="' + targetId + '"]');
     await page.waitForTimeout(500); // tiering reloads the page
     const isDeclaredAfter = await page.evaluate((id) => {
       try { return (JSON.parse(localStorage.getItem('omniLedgerProfile')).declaredGoatIds || []).includes(id); }

@@ -580,6 +580,20 @@ Sixth item of the broader UI-cleanup round: "I think the quick rate a few titles
 
 ---
 
+## Phase 26 — Mobile audit across every tab, and a real tier-label bug found doing it
+
+Final item of the broader UI-cleanup round: "polish up the UI for all tabs to make things look better for use and to fit for both web and mobile, lots of people will likely use both."
+
+**What was actually checked.** Screenshotted all 10 primary views, the expanded card detail panel, Advanced Filters, the onboarding gates, and the Visualization Suite at a 390px mobile viewport (iPhone-class width). The honest finding: the layout already holds up well. Nav wraps into rows, the filter panel and its sliders stack to full width, genre/rating chips wrap, `fidGrid`/`idxGrid` naturally collapse to fewer columns via `grid-template-columns:repeat(auto-fit,minmax(...))` rather than a fixed count, and every modal uses `max-w-* w-full`, so none of them overflow a narrow viewport. This isn't an accident — every phase this session (12 through 25) that touched layout was verified against the smoke suite's "no horizontal overflow on any view at 390px width" check before shipping, so responsive regressions had nowhere to accumulate.
+
+**What the audit actually found: a real, reproducible bug**, not a responsiveness issue. `tierRowHTML()`'s `seg()` helper (added in Phase 23) derived a segment's active-state label from its own internal `data-act` value — `act.charAt(0).toUpperCase()+act.slice(1)` — which happens to spell "Silver" and "Bronze" correctly by pure coincidence (their `data-act` values already match their tier names) but turns Gold's actual action name, `declare`, into "🥇 Declare" instead of "🥇 Gold." Present everywhere the tier row renders: the results grid, GOAT Profile's inline search — anywhere a card showed its Gold state expanded to text. Fixed by passing each segment's real display name explicitly instead of deriving it from the action name.
+
+**The Chart.js canvases showing blank during this audit are not a bug** — this sandbox has no outbound network access to the CDN Chart.js loads from, which is exactly the documented graceful-degradation path (README → "External dependencies") rather than anything mobile-specific; they render normally with real internet access.
+
+**Testing.** New check confirms an active Gold button reads "Gold" (searching for "Interstellar," a default-Gold sample title, rather than assuming the current search happens to include one).
+
+---
+
 ## Ideas / next steps
 
 Roughly in order of value:

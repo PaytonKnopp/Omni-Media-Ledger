@@ -1519,17 +1519,17 @@ function creatorBoostHTML(it){
 // Compact tier/own toggle row -- visible on every card without expanding it, so declaring a
 // favorite or marking something owned doesn't require opening the detail panel first.
 function tierRowHTML(it){
- function seg(act,emoji,label,active,color){
+ function seg(act,emoji,name,label,active,color){
   return '<button type="button" class="profEditBtn tierSeg" data-act="'+act+'" data-id="'+it.id+'"'+(act==='own'?' data-kind="'+it.kind+'"':'')+' title="'+label+(active?' — click to remove':'')+'"'
    +(active?' style="background:'+color+';color:#0B0F19"':' style="color:'+color+'"')+'>'
-   +emoji+(active?' '+(act==='own'?'Owned':act.charAt(0).toUpperCase()+act.slice(1)):'')+'</button>';
+   +emoji+(active?' '+name:'')+'</button>';
  }
  return '<div class="flex items-center flex-wrap gap-1 px-3.5 pb-3 -mt-1">'
- +seg('declare','\u{1F947}','Gold: your declared all-time favorites — pins a 100 match, the strongest recommendation signal',it.goat,'#fbbf24')
- +seg('silver','\u{1F948}','Silver: a strong favorite, one notch below Gold',it.silver,'#cbd5e1')
- +seg('bronze','\u{1F949}','Bronze: really like it, a lighter nudge than Silver',it.bronze,'#cd7f32')
+ +seg('declare','\u{1F947}','Gold','Gold: your declared all-time favorites — pins a 100 match, the strongest recommendation signal',it.goat,'#fbbf24')
+ +seg('silver','\u{1F948}','Silver','Silver: a strong favorite, one notch below Gold',it.silver,'#cbd5e1')
+ +seg('bronze','\u{1F949}','Bronze','Bronze: really like it, a lighter nudge than Silver',it.bronze,'#cd7f32')
  +'<span class="w-px h-4 mx-0.5" style="background:#334155"></span>'
- +seg('own','◆','Toggle whether this is in your owned collection',it.owned,'#4ade80')
+ +seg('own','◆','Owned','Toggle whether this is in your owned collection',it.owned,'#4ade80')
  +'</div>';
 }
 function cardHTML(it){const k=KM[it.kind];
@@ -3254,8 +3254,12 @@ function handleProfileEditClick(btn){
    "here's what changed" readout, not a live version check against anything. Bump APP_VERSION and
    add a CHANGELOG entry whenever a change is worth a friend knowing about; cosmetic tweaks don't
    need a bump. */
-const APP_VERSION='1.24.0';
+const APP_VERSION='1.25.0';
 const CHANGELOG=[
+ {v:'1.25.0',date:'2026-09-03',summary:'Mobile pass across every tab, plus a real bug fix: an active Gold tier button was mislabeled "Declare" instead of "Gold".',notes:[
+  'Audited all 10 primary views, the results grid, expanded card detail, and every modal at a 390px mobile width -- filters, sliders, genre chips, nav, and the Visualization Suite\'s layout all already wrap and stack correctly (the discipline of testing "no horizontal overflow" throughout every earlier phase this session paid off here)',
+  'Fixed a real bug found during that audit: the compact tier row\'s active-state label was derived from the raw internal action name (declare/silver/bronze/own), which happens to spell "Silver," "Bronze," and "Owned" correctly by coincidence but turned an active Gold button into "🥇 Declare" instead of "🥇 Gold" everywhere the tier row appears -- cards, GOAT Profile search results, everywhere'
+ ]},
  {v:'1.24.0',date:'2026-09-03',summary:'Both first-run "build your taste" flows got more comprehensive and better looking: Quick-rate offers 16 varied picks (with a reshuffle option), and Search & Pick Your GOATs now has a type filter and richer result rows.',notes:[
   'Quick-rate now offers 16 well-regarded, genre-and-creator-diversified picks instead of 10, plus a "🔄 Show different picks" button that swaps out anything you haven\'t loved for a fresh batch (never repeating a title already shown) while keeping whatever you\'ve already hearted',
   '"Search & Pick Your GOATs" gained a Movies/TV/Games/Books type filter and a "Showing X of Y matches" count, and each result row now shows a genre and critic score alongside the title/creator/year instead of a bare single-line list -- easier to recognize something at a glance, especially when scrolling 40 search results deep'
