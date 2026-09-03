@@ -33,9 +33,19 @@ declare
     'omniLedgerDensity','omniLedgerOnboarded','omniLedgerTipsDismissed'
   ];
 begin
-  if not (array(select jsonb_object_keys(new.data)) <@ allowed) then
-    raise exception 'profiles.data contains an unexpected key';
-  end if;
+  -- Unknown keys are STRIPPED, not rejected. This used to `raise exception`, which failed the
+  -- whole write -- so a project running an older copy of this file than the app expects (or an app
+  -- that later adds a 7th tracked key) didn't just lose the new key, it lost the ENTIRE save,
+  -- every time, permanently. The app would then reload and pull the stale row back down over the
+  -- change. Dropping what this schema doesn't know about keeps every recognised key saving
+  -- normally instead, and the app verifies its own writes by reading them back (see pushSnapshot
+  -- in index.html), so anything actually dropped surfaces there as a clear, visible error rather
+  -- than silent data loss.
+  new.data = (
+    select coalesce(jsonb_object_agg(key, value), '{}'::jsonb)
+    from jsonb_each(new.data)
+    where key = any(allowed)
+  );
   if pg_column_size(new.data) > 200000 then
     raise exception 'profiles.data is too large (limit ~200KB)';
   end if;

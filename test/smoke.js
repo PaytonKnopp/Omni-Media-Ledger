@@ -703,6 +703,16 @@ function __mockBuilder(table){
             return;
           }
           var row = state.payload;
+          // Test-only escape hatch (db.silentlyDropProfileUpserts) reproducing the exact reported
+          // failure: the server ACCEPTS the write (no error returned) but doesn't actually store
+          // it -- what a rejecting/rewriting BEFORE trigger, an out-of-date schema, or a filtered
+          // write looks like from the client. Unlike failNextProfileUpsert, nothing here reports
+          // a problem, which is precisely why it used to destroy data silently.
+          if (db.silentlyDropProfileUpserts) {
+            __mockSave(db);
+            res({ data: [row], error: null });
+            return;
+          }
           var delayMs = db.slowNextProfileUpsertMs || 0;
           // Test-only escape hatch (db.slowNextProfileUpsertMs) simulating a request that's simply
           // SLOW rather than failed outright -- a real network round trip taking longer than
@@ -1088,6 +1098,60 @@ async function runAccountFlow(browser, file) {
     const mediaRowAfterUndeclare = await page2.evaluate((id) =>
       (window.__mockTables.media_status || []).find(r => r.handle === 'smoketestuser2' && r.media_id === id), goldCardId);
     check('un-declaring removes the media_status row entirely (no tier, not owned)', !mediaRowAfterUndeclare);
+
+    // THE reported bug, reproduced end to end: "I select bronze from the main card, it shows up,
+    // then I refresh the page and it's gone." The server accepts the write but doesn't store it
+    // (silentlyDropProfileUpserts), which is what a rejecting/rewriting trigger or an out-of-date
+    // schema looks like from the browser -- no error, nothing to notice. The app's own reload after
+    // tiering is covered by the one-shot skip-hydrate flag, so the damage only showed up on the
+    // SECOND, manual refresh, which is exactly what this walks through: declare, let the app
+    // reload, then reload again by hand and confirm the pick is still there.
+    const bronzeCardId = await page2.evaluate(() => document.querySelector('.cardHead')?.dataset.id);
+    await page2.evaluate(() => {
+      const db = JSON.parse(sessionStorage.getItem('__mockDb'));
+      db.silentlyDropProfileUpserts = true;
+      sessionStorage.setItem('__mockDb', JSON.stringify(db));
+    });
+    await page2.click('.panel .profEditBtn[data-act="bronze"][data-id="' + bronzeCardId + '"]');
+    await page2.waitForTimeout(900); // the app's own post-tier reload
+    const bronzeRightAfterClick = await page2.evaluate((id) => {
+      try { return (JSON.parse(localStorage.getItem('omniLedgerProfile') || '{}').bronzeTierIds || []).includes(id); }
+      catch (e) { return false; }
+    }, bronzeCardId);
+    check('a Bronze pick is applied locally even when the cloud write silently does not store it', bronzeRightAfterClick);
+
+    const pendingAfterSilentDrop = await page2.evaluate(() => localStorage.getItem('omniLedgerPendingSync') === '1');
+    check('a write the server accepts but never stores is detected, not reported as saved', pendingAfterSilentDrop);
+
+    await page2.reload();          // the manual refresh where picks used to disappear
+    await page2.waitForTimeout(900);
+    const bronzeSurvivedManualRefresh = await page2.evaluate((id) => {
+      try { return (JSON.parse(localStorage.getItem('omniLedgerProfile') || '{}').bronzeTierIds || []).includes(id); }
+      catch (e) { return false; }
+    }, bronzeCardId);
+    check('the pick survives a manual refresh instead of being reverted by the stale cloud row', bronzeSurvivedManualRefresh);
+
+    // Recovery: once the server starts storing writes again, the still-pending change is pushed on
+    // its own and the profile stops being marked unsynced -- it heals rather than needing a redo.
+    await page2.evaluate(() => {
+      const db = JSON.parse(sessionStorage.getItem('__mockDb'));
+      db.silentlyDropProfileUpserts = false;
+      sessionStorage.setItem('__mockDb', JSON.stringify(db));
+    });
+    await page2.reload();
+    await page2.waitForTimeout(1200); // boot sees pending, retries the push, verifies it
+    const healedInCloud = await page2.evaluate((id) => {
+      const row = window.__mockTables.profiles['smoketestuser2'];
+      if (!row) return false;
+      try { return (JSON.parse(row.data.omniLedgerProfile || '{}').bronzeTierIds || []).includes(id); }
+      catch (e) { return false; }
+    }, bronzeCardId);
+    const pendingCleared = await page2.evaluate(() => localStorage.getItem('omniLedgerPendingSync') !== '1');
+    check('an unsynced change is pushed and verified on its own once the cloud works again', healedInCloud && pendingCleared);
+
+    // Put the tier back the way the rest of the flow expects it (this card started untiered).
+    await page2.click('.panel .profEditBtn[data-act="bronze"][data-id="' + bronzeCardId + '"]');
+    await page2.waitForTimeout(900);
 
     // Root-cause regression for the real bug this was all chasing: a reload the app triggers
     // itself right after syncing (declare/own/import/reset/onboarding) used to ALWAYS re-fetch-
