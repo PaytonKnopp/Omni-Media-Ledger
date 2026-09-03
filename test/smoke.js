@@ -703,6 +703,24 @@ function __mockBuilder(table){
             return;
           }
           var row = state.payload;
+          var delayMs = db.slowNextProfileUpsertMs || 0;
+          // Test-only escape hatch (db.slowNextProfileUpsertMs) simulating a request that's simply
+          // SLOW rather than failed outright -- a real network round trip taking longer than
+          // whatever timeout the app races it against, without the connection actually being dead.
+          // This is what a Supabase free-tier project waking from an idle cold start, or a slow
+          // mobile connection, looks like: the write still lands, just later than a too-short
+          // timeout would wait for.
+          if (delayMs > 0) {
+            db.slowNextProfileUpsertMs = 0;
+            __mockSave(db);
+            setTimeout(function(){
+              var db2 = __mockLoad();
+              db2.tables.profiles[row.handle] = { handle: row.handle, data: row.data };
+              __mockSave(db2);
+              res({ data: [row], error: null });
+            }, delayMs);
+            return;
+          }
           db.tables.profiles[row.handle] = { handle: row.handle, data: row.data };
           __mockSave(db);
           res({ data: [row], error: null });
@@ -931,6 +949,51 @@ async function runAccountFlow(browser, file) {
       (window.__mockTables.suggestions || []).some(s => (s.text || '').includes('cowbell')));
     check('deleting a suggestion removes it from the list and the shared table', !listAfterDelete.includes('cowbell') && !stillInMockStore);
 
+    // Not-done/Resolved tabs and cross-user delete: seed a suggestion from someone else directly
+    // into the mock table (a real submission from another handle), reload the list, and confirm
+    // it lands in "Not done" by default, has Delete offered even though it isn't smoketestuser's
+    // own (per the user's explicit "the ability to clear out and remove any suggestion" request --
+    // a scope change from the earlier "only your own" default), and moves to "Resolved" once marked.
+    await page2.evaluate(() => {
+      const db = JSON.parse(sessionStorage.getItem('__mockDb'));
+      db.tables.suggestions.push({ id: 9001, text: 'Someone else entirely: more kazoo.', handle: 'a_different_person', status: 'open', created_at: new Date().toISOString() });
+      sessionStorage.setItem('__mockDb', JSON.stringify(db));
+    });
+    await page2.click('#suggestTabs [data-tab="open"]');
+    await page2.evaluate(() => window.location.reload());
+    await page2.waitForTimeout(600);
+    await page2.click('#suggestBtn');
+    await page2.waitForTimeout(400);
+    const otherRowInOpenTab = await page2.evaluate(() =>
+      Array.from(document.querySelectorAll('#suggestList [data-suggest-id]')).some(r => r.textContent.includes('more kazoo')));
+    check('a suggestion from someone else appears in the Not done tab by default', otherRowInOpenTab);
+    const otherHasDeleteNoEdit = await page2.evaluate(() => {
+      const row = Array.from(document.querySelectorAll('#suggestList [data-suggest-id]')).find(r => r.textContent.includes('more kazoo'));
+      return !!(row && row.querySelector('.suggestDeleteBtn') && !row.querySelector('.suggestEditBtn'));
+    });
+    check('Delete (but not Edit) is offered on a suggestion someone else submitted', otherHasDeleteNoEdit);
+
+    await page2.evaluate(() => {
+      const row = Array.from(document.querySelectorAll('#suggestList [data-suggest-id]')).find(r => r.textContent.includes('more kazoo'));
+      row.querySelector('.suggestResolveBtn').click();
+    });
+    await page2.waitForTimeout(300);
+    const goneFromOpenAfterResolve = await page2.evaluate(() =>
+      !Array.from(document.querySelectorAll('#suggestList [data-suggest-id]')).some(r => r.textContent.includes('more kazoo')));
+    check('marking a suggestion resolved removes it from the Not done tab', goneFromOpenAfterResolve);
+    await page2.click('#suggestTabs [data-tab="resolved"]');
+    await page2.waitForTimeout(200);
+    const inResolvedTab = await page2.evaluate(() =>
+      Array.from(document.querySelectorAll('#suggestList [data-suggest-id]')).some(r => r.textContent.includes('more kazoo')));
+    check('...and shows it in the Resolved tab instead', inResolvedTab);
+    const resolvedInMockStore = await page2.evaluate(() => {
+      const row = (window.__mockTables.suggestions || []).find(s => (s.text || '').includes('more kazoo'));
+      return row && row.status === 'shipped';
+    });
+    check('the resolved status actually persisted to the shared table', resolvedInMockStore);
+    await page2.click('#suggestTabs [data-tab="open"]');
+    await page2.waitForTimeout(200);
+
     await page2.click('#suggestClose');
     await page2.waitForTimeout(150);
     const suggestGateHiddenAfterClose = await page2.evaluate(() => document.getElementById('suggestGate').offsetHeight === 0);
@@ -1011,6 +1074,52 @@ async function runAccountFlow(browser, file) {
       catch (e) { return false; }
     }, secondGoldId);
     check('a self-triggered reload does not get clobbered when its own sync fails', survivedFailedSync);
+
+    // Root-cause regression for the bug that kept recurring in real use even after the Phase 34
+    // fix: withTimeout races the real network request against a timeout, but doesn't cancel the
+    // loser -- so a request that's merely SLOW (a cold-starting free-tier project, a weak mobile
+    // connection -- not a dead connection) used to lose that race under the old 4s cutoff, and the
+    // app would proceed to switch accounts (clearing the only local copy) with the real write still
+    // in flight, which the ensuing navigation would then kill outright. Proves the fix -- a much
+    // longer real timeout (15s) plus refusing to switch at all when a sync genuinely fails -- by
+    // making the mock's next profile write take 6s (comfortably past the old cutoff, comfortably
+    // under the new one) and confirming the switch actually waits for it to land rather than
+    // barreling past.
+    const thirdGoldId = await page2.evaluate(() => {
+      const heads = Array.from(document.querySelectorAll('.cardHead'));
+      return heads[2] && heads[2].dataset.id;
+    });
+    await page2.click('.panel .profEditBtn[data-act="declare"][data-id="' + thirdGoldId + '"]');
+    await page2.waitForTimeout(900);
+    await page2.evaluate(() => {
+      const db = JSON.parse(sessionStorage.getItem('__mockDb'));
+      db.slowNextProfileUpsertMs = 6000;
+      sessionStorage.setItem('__mockDb', JSON.stringify(db));
+    });
+    await page2.click('#acctMenuField');
+    await page2.waitForTimeout(200);
+    await page2.click('#acctSwitchBtn');
+    await page2.waitForTimeout(900);
+    const stillOnOldAccountMidFlush = await page2.evaluate(() => localStorage.getItem('omniLedgerHandle') === 'smoketestuser2');
+    check('switching does not proceed while a slow-but-alive sync is still in flight', stillOnOldAccountMidFlush);
+    await page2.waitForTimeout(7000); // let the deliberately-slow 6s write actually land
+    const thirdDeclareLandedInCloud = await page2.evaluate((id) =>
+      !!(window.__mockTables.profiles['smoketestuser2'] &&
+         JSON.parse(window.__mockTables.profiles['smoketestuser2'].data.omniLedgerProfile || '{}').declaredGoatIds || []).includes && (
+      (JSON.parse(window.__mockTables.profiles['smoketestuser2'].data.omniLedgerProfile || '{}').declaredGoatIds || []).includes(id)
+    ), thirdGoldId);
+    check('the slow write actually lands in the cloud once the timeout is realistic', thirdDeclareLandedInCloud);
+    const handleAfterSlowSwitch = await page2.evaluate(() => localStorage.getItem('omniLedgerHandle'));
+    const gateAfterSlowSwitch = await page2.evaluate(() => !document.getElementById('acctGate').classList.contains('hidden'));
+    check('the switch itself completes once the slow sync finishes', handleAfterSlowSwitch === null && gateAfterSlowSwitch);
+
+    // Re-sign in once more so the plain (non-slow) switch-account check below has a normal account
+    // to switch away from.
+    await page2.fill('#acctHandleInput', 'smoketestuser2');
+    await page2.click('#acctContinueBtn');
+    await page2.waitForTimeout(500);
+    const onboardVisible4 = await page2.evaluate(() => !document.getElementById('onboardGate').classList.contains('hidden'));
+    if (onboardVisible4) { await page2.click(isShare ? '#onboardBlank' : '#onboardSample'); await page2.waitForTimeout(300); }
 
     await page2.click('#acctMenuField');
     await page2.waitForTimeout(200);

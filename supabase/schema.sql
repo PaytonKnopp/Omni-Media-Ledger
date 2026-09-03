@@ -115,22 +115,19 @@ create policy "suggestions are publicly deletable"
   using (true);
 
 -- The update policy above only checks the new text's length -- it can't stop a client from ALSO
--- changing status/votes in the same request, since a WITH CHECK clause only sees the new row, not
--- old vs new. Column-level privileges close that gap where RLS can't reach: anon/authenticated can
--- update the text column only; status and votes stay off-limits to any direct client update no
--- matter what a crafted request tries to send. The suggestion_votes trigger further below still
--- works because it runs SECURITY DEFINER (as the function's owner), which bypasses this grant the
--- same way it bypasses RLS.
+-- changing votes in the same request, since a WITH CHECK clause only sees the new row, not old vs
+-- new. Column-level privileges close that gap where RLS can't reach: anon/authenticated can update
+-- the text and status columns only; votes stays off-limits to any direct client update no matter
+-- what a crafted request tries to send (it's only ever changed by the suggestion_votes trigger
+-- below, which runs SECURITY DEFINER and so bypasses this grant the same way it bypasses RLS).
 revoke update on public.suggestions from anon, authenticated;
-grant update (text) on public.suggestions to anon, authenticated;
+grant update (text, status) on public.suggestions to anon, authenticated;
 
 -- ── suggestion status + voting ──────────────────────────────────────────────────────────────
 -- Lets the shared suggestion feed show what's actually being worked on (status) and which
 -- requests people care about most (votes), instead of being a flat, unordered wall of text.
--- `status` is intentionally not client-writable -- the column-level grant above only lets anon
--- update suggestions.text, so it can only be changed from the SQL Editor (or a future admin view)
--- as the person triaging
--- suggestions, not by any anon-key client.
+-- `status` is client-writable (see the grant above) so the in-app suggestion box can offer a
+-- not-done/resolved toggle directly, without needing the SQL Editor for routine triage.
 alter table public.suggestions
   add column if not exists status text not null default 'open',
   add column if not exists votes integer not null default 0;
