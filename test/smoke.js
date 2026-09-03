@@ -248,6 +248,79 @@ async function runFile(browser, file) {
     const pickerClosed = await page.evaluate(() => document.getElementById('goatPickerGate').classList.contains('hidden'));
     check('GOAT Picker closes on cancel', pickerClosed);
 
+    // Regression: #goatPickerBtn and #tonightBtn share the .navBtn class for visual consistency
+    // with the real view tabs, but aren't real views (no data-view attribute) -- their clicks used
+    // to bubble up into #nav's delegated view-switcher, which then called switchView(undefined),
+    // which hid every single section on the page (main content included) since nothing has
+    // data-sec="undefined". Invisible in practice because both open a full-screen modal on top of
+    // the now-broken page, until the modal closes and the user finds a blank page underneath. Fixed
+    // by stopping propagation in both buttons' own click handlers.
+    const controllerVisibleAfterPicker = await page.evaluate(() => {
+      const s = document.querySelector('main > section[data-sec="controller"]');
+      return s && !s.classList.contains('hidden');
+    });
+    check('opening/closing the GOAT Picker does not hide the underlying view', controllerVisibleAfterPicker);
+    await page.click('#tonightBtn');
+    await page.waitForTimeout(200);
+    await page.click('#tonightClose');
+    await page.waitForTimeout(200);
+    const controllerVisibleAfterTonight = await page.evaluate(() => {
+      const s = document.querySelector('main > section[data-sec="controller"]');
+      return s && !s.classList.contains('hidden');
+    });
+    check('opening/closing Tonight does not hide the underlying view', controllerVisibleAfterTonight);
+
+    // Tier system (Gold/Silver/Bronze): toggle Bronze on the first result card from its compact,
+    // always-visible tier row (not the expanded detail panel), and check the badge, the tier
+    // filter, and the tier sort all pick it up. Regression: the tier row's wrapping div originally
+    // called stopPropagation() on click to keep the outer card from also toggling open/closed --
+    // but that stopped the click from ever bubbling up to the #grid delegated handler that actually
+    // runs handleProfileEditClick(), so no tier button worked at all. Fixed by removing it (the
+    // delegated handler already checks .profEditBtn before .cardHead, so it was never needed).
+    await page.click('#resetBtn');
+    await page.waitForTimeout(300);
+    const firstCardId = await page.evaluate(() => document.querySelector('.cardHead')?.dataset.id);
+    const bronzeBtn = await page.$('.panel .profEditBtn[data-act="bronze"]');
+    await bronzeBtn.click();
+    await page.waitForTimeout(500); // toggling reloads the page
+    const bronzeIds = await page.evaluate(() => {
+      try { return JSON.parse(localStorage.getItem('omniLedgerProfile')).bronzeTierIds || []; }
+      catch (e) { return []; }
+    });
+    check('bronze tier toggle saves the id to the profile', bronzeIds.includes(firstCardId));
+    const cardShowsBronzeBadge = await page.evaluate((id) => {
+      const head = document.querySelector('.cardHead[data-id="' + id + '"]');
+      return !!(head && head.closest('.panel').innerHTML.includes('BRONZE'));
+    }, firstCardId);
+    check('card shows a BRONZE badge after tiering', cardShowsBronzeBadge);
+    const detailStillHidden = await page.evaluate(() => {
+      const d = document.querySelector('.detail');
+      return !d || d.classList.contains('hidden');
+    });
+    check('tiering from the compact row does not also expand the card', detailStillHidden);
+
+    await page.click('#advToggle');
+    await page.waitForTimeout(150);
+    await page.click('.tierChk[data-tier="bronze"]');
+    await page.waitForTimeout(200);
+    const bronzeOnlyCount = await page.textContent('#resultCount');
+    check('bronze-only tier filter narrows to just the tiered item', bronzeOnlyCount.trim() === '1');
+    await page.click('.tierChk[data-tier="bronze"]');
+    await page.waitForTimeout(150);
+
+    await page.selectOption('#sortSel', 'tier');
+    await page.waitForTimeout(200);
+    const firstAfterTierSort = await page.evaluate(() => document.querySelector('.cardHead')?.dataset.id);
+    const firstIsHigherTier = await page.evaluate((id) => {
+      // A Gold-declared item should outrank the single Bronze item under the tier sort.
+      const raw = localStorage.getItem('omniLedgerProfile');
+      const p = raw ? JSON.parse(raw) : {};
+      return (p.declaredGoatIds || []).includes(id);
+    }, firstAfterTierSort);
+    check('tier sort ranks a Gold favorite above a Bronze one', firstIsHigherTier);
+    await page.click('#resetBtn');
+    await page.waitForTimeout(200);
+
     check('no uncaught page errors during desktop pass', pageErrors.length === 0);
     if (pageErrors.length) pageErrors.forEach(e => console.log('     ' + e));
     check('no failing console.assert (dataset integrity check)', consoleAssertFailures.length === 0);

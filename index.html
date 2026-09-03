@@ -417,6 +417,10 @@ body[data-theme="outer-wilds"]{--bg:#0e0a09;--panel:#181010;--panel-2:#120c0b;--
           <label class="flex items-center gap-2 text-[11px] text-slate-300 cursor-pointer"><input type="checkbox" id="combineMode" class="accent-indigo-500"/> Require ALL active filters (strict AND)</label>
           <label class="flex items-center gap-2 text-[11px] cursor-pointer" style="color:#86efac"><input type="checkbox" id="ownedToggle" class="accent-emerald-500"/> ◆ Owned in my collection only</label>
           <label class="flex items-center gap-2 text-[11px] cursor-pointer" style="color:#fca5a5"><input type="checkbox" id="notOwnedToggle" class="accent-rose-500"/> ○ Not owned · discover only</label>
+          <span class="fieldlbl mb-0">Tiers</span>
+          <label class="flex items-center gap-1.5 text-[11px] cursor-pointer" style="color:#fbbf24"><input type="checkbox" class="tierChk accent-amber-500" data-tier="gold"/> 🥇 Gold</label>
+          <label class="flex items-center gap-1.5 text-[11px] cursor-pointer" style="color:#cbd5e1"><input type="checkbox" class="tierChk accent-slate-400" data-tier="silver"/> 🥈 Silver</label>
+          <label class="flex items-center gap-1.5 text-[11px] cursor-pointer" style="color:#cd7f32"><input type="checkbox" class="tierChk accent-orange-700" data-tier="bronze"/> 🥉 Bronze</label>
           <div class="flex items-center gap-2"><span class="fieldlbl mb-0">Year</span><input type="number" id="yearMin" class="inp" style="width:84px" placeholder="from" min="1950" max="2026"/><span class="text-slate-600">–</span><input type="number" id="yearMax" class="inp" style="width:84px" placeholder="to" min="1950" max="2026"/></div>
         </div>
       </div>
@@ -441,6 +445,7 @@ body[data-theme="outer-wilds"]{--bg:#0e0a09;--panel:#181010;--panel-2:#120c0b;--
         <label class="fieldlbl mb-0" for="sortSel">Sort</label>
         <select id="sortSel" class="inp" style="width:auto">
           <option value="overall">Best Overall</option>
+          <option value="tier">🥇 My Tiers (Gold → Silver → Bronze)</option>
           <option value="goat">★ My GOAT Match</option>
           <option value="cosmic">◉ Cosmic Horror Index</option>
           <option value="best">✨ Best Match (auto-priority)</option>
@@ -1114,11 +1119,11 @@ function wlSetWatched(id,v){if(WL[id]){WL[id].watched=v;wlSave();}}
 function wlCount(){return Object.keys(WL).length;}
 
 /* ===================== STATE & HELPERS ===================== */
-const state={view:'controller',q:'',type:'all',struct:'all',plat:'all',minTech:0,minDread:0,minMyst:0,minGoat:0,minCosmic:0,genres:[],ownedOnly:false,notOwnedOnly:false,limit:100,idx:{snd:0,ref:0,emo:0,awe:0,cozy:0,perf:0,icon:0,scary:0,real:0,reality:0,shock:0,sci:0,funny:0,hist:0,vibe2:0},ratings:[],yearMin:null,yearMax:null,combine:false,sort:'overall',w:{tech:0.85,dread:0.95,myst:0.90},creatorTab:'directors',creatorSearch:''};
+const state={view:'controller',q:'',type:'all',struct:'all',plat:'all',minTech:0,minDread:0,minMyst:0,minGoat:0,minCosmic:0,genres:[],ownedOnly:false,notOwnedOnly:false,limit:100,idx:{snd:0,ref:0,emo:0,awe:0,cozy:0,perf:0,icon:0,scary:0,real:0,reality:0,shock:0,sci:0,funny:0,hist:0,vibe2:0},ratings:[],tierFilter:[],yearMin:null,yearMax:null,combine:false,sort:'overall',w:{tech:0.85,dread:0.95,myst:0.90},creatorTab:'directors',creatorSearch:''};
 const $=s=>document.querySelector(s),$$=s=>Array.from(document.querySelectorAll(s));
 const on=(sel,ev,fn)=>{const el=$(sel);if(el)el.addEventListener(ev,fn);else console.warn('missing element:',sel);};
 const esc=s=>String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
-const SORTS={overall:(a,b)=>(b.ovr-a.ovr)||(b.crit-a.crit),goat:(a,b)=>(b.gm-a.gm)||(b.ovr-a.ovr),cosmic:(a,b)=>(b.ch-a.ch)||(b.dread-a.dread),sound:(a,b)=>(b.snd-a.snd)||(b.crit-a.crit),ref4k:(a,b)=>(b.ref-a.ref)||(b.crit-a.crit),emotion:(a,b)=>(b.emo-a.emo)||(b.crit-a.crit),awe:(a,b)=>(b.awe-a.awe)||(b.crit-a.crit),comfort:(a,b)=>(b.cozy-a.cozy)||(b.aud-a.aud),perf:(a,b)=>(b.perf-a.perf)||(b.crit-a.crit),icon:(a,b)=>(b.icon-a.icon)||(b.crit-a.crit),scary:(a,b)=>(b.scary-a.scary)||(b.dread-a.dread),real:(a,b)=>(b.real-a.real)||(b.crit-a.crit),reality:(a,b)=>(b.reality-a.reality)||(b.myst-a.myst),shock:(a,b)=>(b.shock-a.shock)||(b.dread-a.dread),sci:(a,b)=>(b.sci-a.sci)||(b.myst-a.myst),funny:(a,b)=>(b.funny-a.funny)||(b.aud-a.aud),hist:(a,b)=>(b.hist-a.hist)||(b.crit-a.crit),vibe2:(a,b)=>(b.vibe2-a.vibe2)||(b.tech-a.tech),best:(a,b)=>(b._m-a._m)||(b.crit-a.crit),blend:(a,b)=>(bespokeScore(b)-bespokeScore(a))||(b.crit-a.crit),crit:(a,b)=>b.crit-a.crit,aud:(a,b)=>b.aud-a.aud,tech:(a,b)=>b.tech-a.tech,dread:(a,b)=>b.dread-a.dread,myst:(a,b)=>b.myst-a.myst,yearNew:(a,b)=>b.year-a.year,yearOld:(a,b)=>a.year-b.year,title:(a,b)=>a.title.localeCompare(b.title)};
+const SORTS={overall:(a,b)=>(b.ovr-a.ovr)||(b.crit-a.crit),goat:(a,b)=>(b.gm-a.gm)||(b.ovr-a.ovr),cosmic:(a,b)=>(b.ch-a.ch)||(b.dread-a.dread),sound:(a,b)=>(b.snd-a.snd)||(b.crit-a.crit),ref4k:(a,b)=>(b.ref-a.ref)||(b.crit-a.crit),emotion:(a,b)=>(b.emo-a.emo)||(b.crit-a.crit),awe:(a,b)=>(b.awe-a.awe)||(b.crit-a.crit),comfort:(a,b)=>(b.cozy-a.cozy)||(b.aud-a.aud),perf:(a,b)=>(b.perf-a.perf)||(b.crit-a.crit),icon:(a,b)=>(b.icon-a.icon)||(b.crit-a.crit),scary:(a,b)=>(b.scary-a.scary)||(b.dread-a.dread),real:(a,b)=>(b.real-a.real)||(b.crit-a.crit),reality:(a,b)=>(b.reality-a.reality)||(b.myst-a.myst),shock:(a,b)=>(b.shock-a.shock)||(b.dread-a.dread),sci:(a,b)=>(b.sci-a.sci)||(b.myst-a.myst),funny:(a,b)=>(b.funny-a.funny)||(b.aud-a.aud),hist:(a,b)=>(b.hist-a.hist)||(b.crit-a.crit),vibe2:(a,b)=>(b.vibe2-a.vibe2)||(b.tech-a.tech),best:(a,b)=>(b._m-a._m)||(b.crit-a.crit),blend:(a,b)=>(bespokeScore(b)-bespokeScore(a))||(b.crit-a.crit),crit:(a,b)=>b.crit-a.crit,aud:(a,b)=>b.aud-a.aud,tech:(a,b)=>b.tech-a.tech,dread:(a,b)=>b.dread-a.dread,myst:(a,b)=>b.myst-a.myst,yearNew:(a,b)=>b.year-a.year,yearOld:(a,b)=>a.year-b.year,title:(a,b)=>a.title.localeCompare(b.title),tier:(a,b)=>(tierRank(b)-tierRank(a))||(b.gm-a.gm)};
 
 const IDX_KEYS=['snd','ref','emo','awe','cozy','perf','icon','scary','real','reality','shock','sci','funny','hist','vibe2'];
 function filtered(){const q=state.q.trim().toLowerCase();
@@ -1134,6 +1139,7 @@ function filtered(){const q=state.q.trim().toLowerCase();
   if(state.ratings.length&&!state.ratings.includes(it.rating))return false;
   if(state.ownedOnly&&!it.owned)return false;
   if(state.notOwnedOnly&&it.owned)return false;
+  if(state.tierFilter.length&&!state.tierFilter.some(t=>(t==='gold'&&it.goat)||(t==='silver'&&it.silver)||(t==='bronze'&&it.bronze)))return false;
   for(const k of IDX_KEYS){if(state.idx[k]>0&&it[k]<state.idx[k])return false;}
   if(state.yearMin!=null&&it.year<state.yearMin)return false;
   if(state.yearMax!=null&&it.year>state.yearMax)return false;
@@ -1196,41 +1202,51 @@ function summaryTraits(it){
  dims.push(['realism',it.real]);
  return dims.filter(d=>d[1]>=80).sort((a,b)=>b[1]-a[1]).slice(0,3).map(d=>d[0]);
 }
+// Picks the best "anchor" work to cite as the reason for a recommendation, out of a candidate
+// pool -- ranked Gold > Silver > Bronze > merely-owned first, then by match score within that tier,
+// so the reasoning cites your strongest taste signal, not just whatever's owned.
+function bestAnchor(candidates){
+ if(!candidates.length)return null;
+ return candidates.slice().sort((a,b)=>(tierRank(b)-tierRank(a))||(b.gm-a.gm))[0];
+}
+function anchorPhrase(ex){
+ return ex.goat?('one of your Gold favorites, '+esc(ex.title)):ex.silver?('your Silver favorite '+esc(ex.title)):ex.bronze?('your Bronze pick '+esc(ex.title)):('you own '+esc(ex.title));
+}
 function whyRecommended(it){
  // Only meaningful for unowned discoveries.
  if(it.owned) return '';
- // (a) Same creator as something owned (strongest signal).
+ // (a) Same creator as a taste signal (strongest): Gold/Silver/Bronze favorites first, owned items
+ // as a fallback signal, all considered together and ranked by tier.
  if(it.creator){
-  const sameCreator=ALL.filter(x=>x.owned&&x.creator&&x.creator===it.creator&&x.id!==it.id);
-  if(sameCreator.length){
-   const ex=sameCreator.slice().sort((a,b)=>b.gm-a.gm)[0];
-   const cw={movie:'film',tv:'series',game:'game',book:'book'}[it.kind];
+  const sameCreator=ALL.filter(x=>(x.owned||x.goat||x.silver||x.bronze)&&x.creator&&x.creator===it.creator&&x.id!==it.id);
+  const ex=bestAnchor(sameCreator);
+  if(ex){
    const noun=it.kind==='book'?'author':(it.kind==='game'?'studio':'director');
-   return 'Because you own '+esc(ex.title)+' \u2014 same '+noun+'.';
+   return 'Because '+anchorPhrase(ex)+' \u2014 same '+noun+'.';
   }
  }
- // (b) Shared genre-family with your owned favorites (owned items with high personal match).
+ // (b) Shared genre-family with a taste signal (tiered favorites ranked above merely-owned).
  const fams=(it.fam||[]);
  if(fams.length){
-  const ownedFav=ALL.filter(x=>x.owned&&x.kind===it.kind&&(x.fam||[]).some(f=>fams.includes(f)));
-  if(ownedFav.length){
-   const ex=ownedFav.slice().sort((a,b)=>b.gm-a.gm)[0];
-   const sharedFam=fams.find(f=>(ex.fam||[]).includes(f))||fams[0];
-   return 'Because you own '+esc(ex.title)+' \u2014 shares your taste for '+esc(sharedFam)+'.';
+  const sameKind=ALL.filter(x=>(x.owned||x.goat||x.silver||x.bronze)&&x.kind===it.kind&&(x.fam||[]).some(f=>fams.includes(f)));
+  const exSame=bestAnchor(sameKind);
+  if(exSame){
+   const sharedFam=fams.find(f=>(exSame.fam||[]).includes(f))||fams[0];
+   return 'Because '+anchorPhrase(exSame)+' \u2014 shares your taste for '+esc(sharedFam)+'.';
   }
-  // cross-medium fallback: same family owned in any medium
-  const ownedAny=ALL.filter(x=>x.owned&&(x.fam||[]).some(f=>fams.includes(f)));
-  if(ownedAny.length){
-   const ex=ownedAny.slice().sort((a,b)=>b.gm-a.gm)[0];
-   const sharedFam=fams.find(f=>(ex.fam||[]).includes(f))||fams[0];
-   return 'Matches your '+esc(sharedFam)+' shelf (you own '+esc(ex.title)+').';
+  // cross-medium fallback: same family, any medium
+  const anyKind=ALL.filter(x=>(x.owned||x.goat||x.silver||x.bronze)&&(x.fam||[]).some(f=>fams.includes(f)));
+  const exAny=bestAnchor(anyKind);
+  if(exAny){
+   const sharedFam=fams.find(f=>(exAny.fam||[]).includes(f))||fams[0];
+   return 'Matches your '+esc(sharedFam)+' taste ('+anchorPhrase(exAny)+').';
   }
  }
- // (c) Shared vibe with an owned favorite.
+ // (c) Shared vibe with a taste signal.
  if(it.vibe){
-  const sameVibe=ALL.filter(x=>x.owned&&x.vibe===it.vibe);
-  if(sameVibe.length){
-   const ex=sameVibe.slice().sort((a,b)=>b.gm-a.gm)[0];
+  const sameVibe=ALL.filter(x=>(x.owned||x.goat||x.silver||x.bronze)&&x.vibe===it.vibe);
+  const ex=bestAnchor(sameVibe);
+  if(ex){
    return 'Same mood as '+esc(ex.title)+' ('+esc(it.vibe)+').';
   }
  }
@@ -1432,15 +1448,26 @@ function summaryHTML(it){const k=KM[it.kind];
   +'<div class="flex flex-wrap gap-1.5 mt-2.5">'+vibeChip+(it.fam||[]).slice(0,3).map(f=>'<span class="chip">'+esc(f)+'</span>').join('')+'</div>'+crossThreadHTML(it)
   +'</div>';
 }
+// Compact tier/own toggle row -- visible on every card without expanding it, so declaring a
+// favorite or marking something owned doesn't require opening the detail panel first.
+function tierRowHTML(it){
+ return '<div class="flex flex-wrap gap-1.5 px-3.5 pb-3 -mt-1">'
+ +'<button type="button" class="profEditBtn presetBtn" data-act="declare" data-id="'+it.id+'" title="Gold tier: your declared all-time favorites -- pins a 100 match and is the strongest recommendation signal"'+(it.goat?' style="color:#0B0F19;background:#fbbf24;border-color:#fbbf24;font-weight:700"':' style="color:#fbbf24"')+'>\u{1F947} '+(it.goat?'Gold — remove':'Gold favorite')+'</button>'
+ +'<button type="button" class="profEditBtn presetBtn" data-act="silver" data-id="'+it.id+'" title="Silver tier: a strong favorite, one notch below Gold"'+(it.silver?' style="color:#0B0F19;background:#cbd5e1;border-color:#cbd5e1;font-weight:700"':' style="color:#cbd5e1"')+'>\u{1F948} '+(it.silver?'Silver — remove':'Silver tier')+'</button>'
+ +'<button type="button" class="profEditBtn presetBtn" data-act="bronze" data-id="'+it.id+'" title="Bronze tier: really like it, worth a lighter nudge than Silver"'+(it.bronze?' style="color:#0B0F19;background:#cd7f32;border-color:#cd7f32;font-weight:700"':' style="color:#cd7f32"')+'>\u{1F949} '+(it.bronze?'Bronze — remove':'Bronze tier')+'</button>'
+ +'<button type="button" class="profEditBtn presetBtn" data-act="own" data-id="'+it.id+'" data-kind="'+it.kind+'" title="Toggle whether this is in your owned collection"'+(it.owned?' style="color:#4ade80;border-color:#4ade8055"':'')+'>'+(it.owned?'✓ Owned — remove':'+ Mark owned')+'</button>'
+ +'</div>';
+}
 function cardHTML(it){const k=KM[it.kind];
  return '<div class="panel overflow-hidden hover:border-slate-600/80 transition-colors fade-in relative">'
  +'<button type="button" class="cardHead w-full text-left p-3.5 flex gap-3 items-start" data-id="'+it.id+'">'
  +ring(it.crit,k.c,42)
  +'<div class="flex-1 min-w-0">'
- +'<div class="flex items-center gap-x-2 gap-y-1.5 flex-wrap"><span class="cardTitle text-[13px] font-semibold text-slate-100 leading-tight hover:text-teal-300 cursor-pointer underline decoration-dotted decoration-slate-600 underline-offset-2" data-flip="'+it.id+'" title="Click for a quick summary">'+esc(it.title)+'</span><span class="chip" style="color:'+k.c+';border-color:'+k.c+'44">'+k.label+'</span><span class="chip" style="color:#5eead4;border-color:#5eead455">'+esc(it.rating)+'</span>'+(it.owned?'<span class="chip" style="color:#0B0F19;background:#4ade80;border-color:#4ade80;font-weight:800;letter-spacing:.02em" title="In your physical collection">\u2713 OWNED'+(it.physFormat?' \u00b7 '+esc(it.physFormat):'')+'</span>':'')+(it.goat?'<span class="chip" style="color:#0B0F19;background:#fbbf24;border-color:#fbbf24;font-weight:700">\u2605 GOAT 100</span>':'<span class="chip" style="color:#fbbf24;border-color:#fbbf2444">\u2605 '+it.gm+'</span>')+(it.silver?'<span class="chip" style="color:#cbd5e1;border-color:#64748b;font-weight:600">\u2606 SILVER</span>':'')+(window._blendActive?'<span class="chip" style="color:#0B0F19;background:#34d399;border-color:#34d399;font-weight:800" title="Weighted blend match">\u2696 '+bespokeScore(it).toFixed(0)+'%</span>':'')+(it.chFlag?'<span class="chip" style="color:#0B0F19;background:#c084fc;border-color:#c084fc;font-weight:700">\u25c9 CANON 100</span>':(it.ch>=70?'<span class="chip" style="color:#c084fc;border-color:#c084fc44">\u25c9 '+it.ch+'</span>':''))+'</div>'
+ +'<div class="flex items-center gap-x-2 gap-y-1.5 flex-wrap"><span class="cardTitle text-[13px] font-semibold text-slate-100 leading-tight hover:text-teal-300 cursor-pointer underline decoration-dotted decoration-slate-600 underline-offset-2" data-flip="'+it.id+'" title="Click for a quick summary">'+esc(it.title)+'</span><span class="chip" style="color:'+k.c+';border-color:'+k.c+'44">'+k.label+'</span><span class="chip" style="color:#5eead4;border-color:#5eead455">'+esc(it.rating)+'</span>'+(it.owned?'<span class="chip" style="color:#0B0F19;background:#4ade80;border-color:#4ade80;font-weight:800;letter-spacing:.02em" title="In your physical collection">\u2713 OWNED'+(it.physFormat?' \u00b7 '+esc(it.physFormat):'')+'</span>':'')+(it.goat?'<span class="chip" style="color:#0B0F19;background:#fbbf24;border-color:#fbbf24;font-weight:700">\u{1F947} GOLD 100</span>':'<span class="chip" style="color:#fbbf24;border-color:#fbbf2444">\u2605 '+it.gm+'</span>')+(it.silver?'<span class="chip" style="color:#0B0F19;background:#cbd5e1;border-color:#cbd5e1;font-weight:700">\u{1F948} SILVER</span>':'')+(it.bronze?'<span class="chip" style="color:#0B0F19;background:#cd7f32;border-color:#cd7f32;font-weight:700">\u{1F949} BRONZE</span>':'')+(window._blendActive?'<span class="chip" style="color:#0B0F19;background:#34d399;border-color:#34d399;font-weight:800" title="Weighted blend match">\u2696 '+bespokeScore(it).toFixed(0)+'%</span>':'')+(it.chFlag?'<span class="chip" style="color:#0B0F19;background:#c084fc;border-color:#c084fc;font-weight:700">\u25c9 CANON 100</span>':(it.ch>=70?'<span class="chip" style="color:#c084fc;border-color:#c084fc44">\u25c9 '+it.ch+'</span>':''))+'</div>'
  +'<div class="text-[11px] text-slate-400 mt-1.5 truncate" title="'+esc(it.creator)+' · '+esc(it.org)+'">'+it.year+' · '+esc(it.creator)+' · '+esc(it.span)+'</div>'
  +'<div class="mt-2 space-y-1 cardMicro">'+frontBars(it)+'</div>'
  +'</div><span class="text-slate-600 text-xs mt-1" aria-hidden="true">&#9662;</span></button>'+'<button type="button" class="wlBtn absolute top-2 right-2 text-base leading-none transition-transform hover:scale-125" data-wl="'+it.id+'" title="Toggle watchlist" style="color:'+(wlHas(it.id)?'#fb7185':'#475569')+'">'+(wlHas(it.id)?'\u2665':'\u2661')+'</button>'
+ +tierRowHTML(it)
  +summaryHTML(it)
  +'<div class="detail hidden border-t border-slate-800/80 px-3.5 py-3.5 bg-[#0b1322]/60">'
  +'<div class="fidGrid">'+it.fid.map(f=>microBar2(f[0],f[1])).join('')+microBar2('Audience Score',it.aud)+microBar2('Critical Score',it.crit)+'<div class="flex items-center gap-2"><span class="lbl w-32 shrink-0" style="color:#fbbf24">\u2605 GOAT Match</span><div class="bar flex-1"><i style="width:'+it.gm+'%;background:linear-gradient(90deg,#b45309,#fbbf24)"></i></div><span class="text-[10px] text-amber-300 w-6 text-right tabular-nums">'+it.gm+'</span></div>'+'<div class="flex items-center gap-2"><span class="lbl w-32 shrink-0" style="color:#c084fc">\u25c9 Cosmic Horror</span><div class="bar flex-1"><i style="width:'+it.ch+'%;background:linear-gradient(90deg,#7e22ce,#c084fc)"></i></div><span class="text-[10px] w-6 text-right tabular-nums" style="color:#c084fc">'+it.ch+'</span></div>'+'<div class="idxGrid">'+[['Soundtrack',it.snd,'#7dd3fc'],['4K Reference',it.ref,'#818cf8'],['Emotional',it.emo,'#f0abfc'],['Awe / Spectacle',it.awe,'#fbbf24'],['Comfort',it.cozy,'#34d399'],['Performances',it.perf,'#fda4af'],['Iconicness',it.icon,'#fcd34d'],['Scariest',it.scary,'#f87171'],['Realism',it.real,'#86efac'],['Reality-Altering',it.reality,'#c4b5fd'],['Genuine Shock',it.shock,'#fb923c'],['Scientific',it.sci,'#67e8f9'],['Funniest',it.funny,'#fde047'],['Historically Accurate',it.hist,'#a3e635'],['Vibe / Atmosphere',it.vibe2,'#e879f9']].map(r=>'<div class="flex flex-col gap-0.5"><div class="flex items-baseline justify-between gap-2"><span class="lbl leading-tight" style="color:'+r[2]+'">'+r[0]+'</span><span class="text-[10px] tabular-nums shrink-0" style="color:'+r[2]+'">'+r[1]+'</span></div><div class="bar"><i style="width:'+r[1]+'%;background:'+r[2]+'"></i></div></div>').join('')+'</div>'+'</div>'
@@ -1449,10 +1476,7 @@ function cardHTML(it){const k=KM[it.kind];
  +'<div class="flex flex-wrap gap-1.5 mt-2.5">'+it.genres.map(g=>{const boosted=(PERSONAL_PROFILE.genreBoost||[]).some(gb=>gb[0]===g.toLowerCase());return '<button type="button" class="profEditBtn chip" data-act="genre" data-genre="'+esc(g)+'" title="Toggle a taste-weight boost for the “'+esc(g)+'” genre across your whole match scoring"'+(boosted?' style="color:#fbbf24;border-color:#fbbf2455"':'')+'>'+(boosted?'★ ':'')+esc(g)+'</button>';}).join('')+(function(){const vboosted=!!(PERSONAL_PROFILE.vibeBoost||{})[it.vibe];return '<button type="button" class="profEditBtn chip" data-act="vibe" data-vibe="'+esc(it.vibe)+'" title="Toggle a taste-weight boost for the “'+esc(it.vibe)+'” vibe across your whole match scoring"'+(vboosted?' style="color:#fbbf24;border-color:#fbbf2455"':' style="color:#c4b5fd"')+'>'+(vboosted?'★ ':'')+esc(it.vibe)+'</button>';})()+'<span class="chip">'+esc(it.format)+'</span>'+it.plats.map(p=>'<span class="chip" style="color:#7dd3fc">'+esc(p)+'</span>').join('')+'</div>'
  +crossMediumPairingsHTML(it)
  +'<div class="flex flex-wrap gap-1.5 mt-2.5 pt-2.5 border-t border-slate-800/70">'
- +'<button type="button" class="profEditBtn presetBtn" data-act="declare" data-id="'+it.id+'" title="Toggle whether this counts as one of your declared all-time favorites (pins it to a 100 match and drives recommendations)"'+(it.goat?' style="color:#fbbf24;border-color:#fbbf2455"':'')+'>'+(it.goat?'★ Declared — click to remove':'☆ Declare favorite')+'</button>'
- +'<button type="button" class="profEditBtn presetBtn" data-act="own" data-id="'+it.id+'" data-kind="'+it.kind+'" title="Toggle whether this is in your owned collection"'+(it.owned?' style="color:#4ade80;border-color:#4ade8055"':'')+'>'+(it.owned?'✓ Owned — click to remove':'+ Mark owned')+'</button>'
  +(it.creator?'<button type="button" class="profEditBtn presetBtn" data-act="boost" data-creator="'+esc(it.creator)+'" data-kind="'+it.kind+'" title="Nudge '+esc(it.creator)+'’s work up across your whole match scoring, not just this item">+ Boost '+esc(it.creator)+'</button>':'')
- +'<button type="button" class="profEditBtn presetBtn" data-act="silver" data-id="'+it.id+'" title="Silver tier: a second-tier favorite, less pull than a full Declare but still lifts the score meaningfully"'+(it.silver?' style="color:#cbd5e1;border-color:#64748b"':'')+'>'+(it.silver?'☆ Silver — click to remove':'☆ Silver tier')+'</button>'
  +(it.kind==='book'?'<button type="button" class="profEditBtn presetBtn" data-act="bookaffinity" data-id="'+it.id+'" title="Raise this book’s match-score floor directly, independent of genre/author boosts">'+((PERSONAL_PROFILE.bookAffinity||{})[it.id]?'+ Raise affinity ('+PERSONAL_PROFILE.bookAffinity[it.id]+')':'+ Boost affinity')+'</button>':'')
  +'</div>'
  +'</div>'+'</div>';}
@@ -1484,6 +1508,8 @@ function renderActiveBar(){
  if(state.yearMin!=null||state.yearMax!=null)chips.push(X('Year '+(state.yearMin||'←')+'–'+(state.yearMax||'→'),'year'));
  if(state.ownedOnly)chips.push(X('◆ Owned only','owned'));
  if(state.notOwnedOnly)chips.push(X('○ Not owned','notowned'));
+ const TL={gold:'🥇 Gold',silver:'🥈 Silver',bronze:'🥉 Bronze'};
+ state.tierFilter.forEach(t=>chips.push(X(TL[t],'tier:'+t)));
  if(state.combine&&chips.length)chips.unshift('<span class="chip" style="color:#fbbf24;border-color:#fbbf2455">STRICT AND</span>');
  bar.innerHTML=chips.length?('<span class="lbl mr-1">Active:</span>'+chips.join('')+'<button type="button" id="clearAllF" class="chip" style="color:#94a3b8">clear all</button>'):'';
 }
@@ -1981,6 +2007,14 @@ ALL.forEach(x=>{
 if(!PROFILE_FROM_STORAGE)PERSONAL_PROFILE.silverTierIds=['m101','m102','m14','m12','m10','m81','m07','m02','m37','m84','m56','m103','m104','m20','m105','m106','t17','t47','t13','t101','m107','m108','m109','m110','m111','m112','m113','m114','m115','m116','m86','g101','m159'];
 const GOAT_SILVER=new Set(PERSONAL_PROFILE.silverTierIds||[]);
 ALL.forEach(x=>{x.silver=GOAT_SILVER.has(x.id);if(x.silver){var sg=Math.round(x.gm*0.45+88*0.55);if(sg>x.gm){x.gm=sg;x.gmOverride=x.gmOverride||'silver';}}});
+/* Bronze tier: a third, lighter-pull tier below Silver -- "really like, worth a nudge" rather than
+   a full favorite. Weaker blend than Silver (own score weighted higher, floor lower) so the three
+   tiers form a clear Gold(100) > Silver(->88) > Bronze(->80) hierarchy without any of them ever
+   pulling a score down. */
+if(!PROFILE_FROM_STORAGE)PERSONAL_PROFILE.bronzeTierIds=[];
+const GOAT_BRONZE=new Set(PERSONAL_PROFILE.bronzeTierIds||[]);
+ALL.forEach(x=>{x.bronze=GOAT_BRONZE.has(x.id);if(x.bronze){var bg=Math.round(x.gm*0.65+80*0.35);if(bg>x.gm){x.gm=bg;x.gmOverride=x.gmOverride||'bronze';}}});
+function tierRank(x){return x.goat?3:x.silver?2:x.bronze?1:0;}
 /* Owned physical collection is a top-tier personal taste signal: lift subjective match toward a floor. */
 ALL.forEach(x=>{if(x.owned&&!x.goat){const target=Math.round(x.gm*0.5+82*0.5);if(target>x.gm){x.gm=target;x.gmOverride=x.gmOverride||'owned';}x.ownedBoost=true;}});
 /* Book affinity: your fingerprint (Tolkien mythology, cosmic horror, physics/space, sincere science bios) lifts matching books. */
@@ -3022,6 +3056,13 @@ function toggleSilverTier(id){
   if(i>=0)p.silverTierIds.splice(i,1);else p.silverTierIds.push(id);
  });
 }
+function toggleBronzeTier(id){
+ mutateProfileAndReload(p=>{
+  p.bronzeTierIds=p.bronzeTierIds||[];
+  const i=p.bronzeTierIds.indexOf(id);
+  if(i>=0)p.bronzeTierIds.splice(i,1);else p.bronzeTierIds.push(id);
+ });
+}
 function boostBookAffinity(id){
  mutateProfileAndReload(p=>{
   p.bookAffinity=p.bookAffinity||{};
@@ -3037,6 +3078,7 @@ function handleProfileEditClick(btn){
  else if(act==='genre')toggleGenreBoost(btn.dataset.genre);
  else if(act==='vibe')toggleVibeBoost(btn.dataset.vibe);
  else if(act==='silver')toggleSilverTier(btn.dataset.id);
+ else if(act==='bronze')toggleBronzeTier(btn.dataset.id);
  else if(act==='bookaffinity')boostBookAffinity(btn.dataset.id);
 }
 
@@ -3054,8 +3096,15 @@ function handleProfileEditClick(btn){
    "here's what changed" readout, not a live version check against anything. Bump APP_VERSION and
    add a CHANGELOG entry whenever a change is worth a friend knowing about; cosmetic tweaks don't
    need a bump. */
-const APP_VERSION='1.10.0';
+const APP_VERSION='1.11.0';
 const CHANGELOG=[
+ {v:'1.11.0',date:'2026-09-03',notes:[
+  'A real 3-tier favorites system: Gold (your existing declared favorites), Silver (your existing Silver tier), and a new Bronze tier -- each pulls the match score up a different amount (Gold pins 100, Silver pulls hard toward 88, Bronze nudges toward 80), so recommendations naturally favor Gold over Silver over Bronze over the rest of your owned collection',
+  'Tiering is now visible and usable right on every card -- no need to expand it first. A compact row under each result lets you toggle Gold/Silver/Bronze/Owned in one click, and tiered cards get a colored badge (🥇/🥈/🥉) at a glance',
+  'New "My Tiers" sort and Gold/Silver/Bronze filter checkboxes (Advanced Filters) so you can browse or isolate just your tiered favorites',
+  '"Why this was recommended" reasoning now cites your highest-tier matching favorite (Gold, then Silver, then Bronze, then plain ownership) instead of only ever citing something you own',
+  'Fixed a real bug (invisible until now): the "🌙 Tonight" and "★ Pick Your GOATs" header buttons shared styling with the actual view tabs, and clicking them was quietly corrupting which view was showing underneath their pop-up -- closing either could leave the page looking blank. Fixed and covered by a regression test'
+ ]},
  {v:'1.10.0',date:'2026-09-02',notes:[
   'Account menu: the header\'s Account control is now a proper dropdown (click your name, top right) showing which account you\'re in and a "Switch account…" action, instead of a plain always-visible Switch button',
   'Retired share.html and scripts/make-share-copy.js -- now that cloud accounts (1.9.0) give everyone their own name-based account with zero bias from anyone else\'s data, one link (index.html) works for everybody. The onboarding gate\'s "sample profile" option (Payton\'s own taste, clearly labeled) is still there for anyone who wants to look around before building their own'
@@ -3142,7 +3191,7 @@ const CHANGELOG=[
  var vibes=Object.keys(vibeCounts).sort((a,b)=>vibeCounts[b]-vibeCounts[a]);
  var moodSel=$('#tonightMood');
  moodSel.innerHTML='<option value="">Any mood</option>'+vibes.map(v=>'<option value="'+esc(v)+'">'+esc(v)+' ('+vibeCounts[v]+')</option>').join('');
- on('#tonightBtn','click',()=>{gate.classList.remove('hidden');});
+ on('#tonightBtn','click',e=>{e.stopPropagation();gate.classList.remove('hidden');});
  on('#tonightClose','click',()=>{gate.classList.add('hidden');});
  var lastPool=[];
  function findPick(){
@@ -3226,7 +3275,7 @@ const CHANGELOG=[
    return '<span class="chip" style="color:#fde68a;border-color:#fbbf2455">'+esc(x.title)+' <button type="button" class="goatPickerRemove" data-id="'+id+'" style="margin-left:4px;color:#f87171">✕</button></span>';
   }).join('')||'<span class="text-[11px] text-slate-600">Nothing declared yet — search above to add some.</span>';
  }
- on('#goatPickerBtn','click',function(){open(false);});
+ on('#goatPickerBtn','click',function(e){e.stopPropagation();open(false);});
  on('#onboardGoatPicker','click',function(){open(true);});
  on('#goatPickerClose','click',close);
  on('#goatPickerCancel','click',close);
@@ -3369,7 +3418,7 @@ function buildIndexSliders(){
   +'<input type="range" class="idxSlider" data-k="'+d[0]+'" min="0" max="100" value="0" aria-label="Minimum '+d[1]+'"/></div>').join('');
 }
 function syncAdvCount(){
- let n=state.genres.length+state.ratings.length+(state.ownedOnly?1:0)+(state.notOwnedOnly?1:0)+IDX_KEYS.filter(k=>state.idx[k]>0).length+(state.yearMin!=null||state.yearMax!=null?1:0)+(state.combine?1:0);
+ let n=state.genres.length+state.ratings.length+(state.ownedOnly?1:0)+(state.notOwnedOnly?1:0)+state.tierFilter.length+IDX_KEYS.filter(k=>state.idx[k]>0).length+(state.yearMin!=null||state.yearMax!=null?1:0)+(state.combine?1:0);
  const c=$('#advCount');if(c){c.style.display=n?'inline-flex':'none';c.textContent=n+' on';}
 }
 on('#advToggle','click',()=>{const pnl=$('#advPanel');pnl.classList.toggle('hidden');$('#advCaret').style.transform=pnl.classList.contains('hidden')?'':'rotate(90deg)';});
@@ -3381,6 +3430,10 @@ on('#indexSliders','input',e=>{const sl=e.target.closest('.idxSlider');if(!sl)re
 on('#combineMode','change',e=>{state.combine=e.target.checked;refresh();});
 on('#ownedToggle','change',e=>{state.ownedOnly=e.target.checked;if(e.target.checked){state.notOwnedOnly=false;const no=$('#notOwnedToggle');if(no)no.checked=false;}syncAdvCount();refresh();});
 on('#notOwnedToggle','change',e=>{state.notOwnedOnly=e.target.checked;if(e.target.checked){state.ownedOnly=false;const o=$('#ownedToggle');if(o)o.checked=false;}syncAdvCount();refresh();});
+$$('.tierChk').forEach(chk=>chk.addEventListener('change',()=>{
+ state.tierFilter=$$('.tierChk').filter(c=>c.checked).map(c=>c.dataset.tier);
+ syncAdvCount();refresh();
+}));
 on('#yearMin','input',e=>{state.yearMin=e.target.value?+e.target.value:null;syncAdvCount();refresh();});
 on('#yearMax','input',e=>{state.yearMax=e.target.value?+e.target.value:null;syncAdvCount();refresh();});
 on('#activeBar','click',e=>{
@@ -3393,6 +3446,7 @@ on('#activeBar','click',e=>{
  else if(c==='year'){state.yearMin=state.yearMax=null;$('#yearMin').value='';$('#yearMax').value='';}
  else if(c==='owned'){state.ownedOnly=false;const o=$('#ownedToggle');if(o)o.checked=false;}
  else if(c==='notowned'){state.notOwnedOnly=false;const no=$('#notOwnedToggle');if(no)no.checked=false;}
+ else if(c.indexOf('tier:')===0){const t=c.slice(5);state.tierFilter=state.tierFilter.filter(x=>x!==t);$$('.tierChk').forEach(chk=>{if(chk.dataset.tier===t)chk.checked=false;});}
  else if(c.indexOf('genre:')===0){const g=c.slice(6);state.genres=state.genres.filter(x=>x!==g);buildGenreChips();}
  else if(c.indexOf('rating:')===0){const r=c.slice(7);state.ratings=state.ratings.filter(x=>x!==r);buildRatingChips();}
  else if(c.indexOf('idx:')===0){const k=c.slice(4);state.idx[k]=0;const sl=$$('.idxSlider').find(s=>s.dataset.k===k);if(sl)sl.value=0;$('#idxV_'+k).textContent='0';}
@@ -3400,7 +3454,8 @@ on('#activeBar','click',e=>{
  syncAdvCount();refresh();
 });
 function clearAllFilters(){
- Object.assign(state,{q:'',type:'all',struct:'all',plat:'all',minTech:0,minDread:0,minMyst:0,minGoat:0,minCosmic:0,genres:[],ratings:[],ownedOnly:false,notOwnedOnly:false,yearMin:null,yearMax:null,combine:false});
+ Object.assign(state,{q:'',type:'all',struct:'all',plat:'all',minTech:0,minDread:0,minMyst:0,minGoat:0,minCosmic:0,genres:[],ratings:[],ownedOnly:false,notOwnedOnly:false,tierFilter:[],yearMin:null,yearMax:null,combine:false});
+ $$('.tierChk').forEach(c=>{c.checked=false;});
  state.idx={snd:0,ref:0,emo:0,awe:0,cozy:0,perf:0,icon:0,scary:0,real:0,reality:0,shock:0,sci:0,funny:0,hist:0,vibe2:0};state.ratings=[];
  $('#q').value='';var ss=$('#structSel');if(ss)ss.value='all';$('#platSel').value='all';var pl=$('#platCombo .rcLabel');if(pl)pl.textContent='Any platform / network / studio';
  ['minTech','minDread','minMyst','minGoat','minCosmic'].forEach(id=>{$('#'+id).value=0;});
