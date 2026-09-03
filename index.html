@@ -155,17 +155,11 @@ body[data-theme="outer-wilds"]{--bg:#0e0a09;--panel:#181010;--panel-2:#120c0b;--
       <p class="text-[13px] text-slate-400 mt-1.5">Type a name to continue. First time, it starts a fresh account under that name — after that, the same name on any device brings your data back.</p>
     </div>
     <div>
-      <input id="acctHandleInput" type="text" autocomplete="off" class="inp w-full text-center text-[15px]" placeholder="e.g. payton, neil, robin…" maxlength="40">
+      <input id="acctHandleInput" type="text" autocomplete="off" class="inp w-full text-center text-[15px]" placeholder="e.g. payton, neil, feldspar…" maxlength="40">
       <div class="text-[10px] mt-1.5 text-center" style="color:#475569">Letters, numbers, and dashes only</div>
     </div>
     <div id="acctError" class="hidden text-[12px] text-rose-400 text-center"></div>
     <button type="button" id="acctContinueBtn" class="acctPrimaryBtn w-full text-center rounded-lg py-2.5 font-semibold text-[13px] transition-colors cursor-pointer" style="color:#fff">Continue →</button>
-    <div class="flex items-center gap-2" style="color:#334155">
-      <div class="flex-1" style="border-top:1px solid #1e293b"></div>
-      <span class="text-[9px] uppercase tracking-wide">or</span>
-      <div class="flex-1" style="border-top:1px solid #1e293b"></div>
-    </div>
-    <button type="button" id="acctGuestBtn" class="w-full text-center text-[11px] text-slate-500 hover:text-slate-300 underline decoration-dotted underline-offset-2">Continue without an account (this device only)</button>
   </div>
 </div>
 <div id="onboardGate" class="hidden fixed inset-0 z-[999] flex items-center justify-center bg-black/80 backdrop-blur-sm p-4">
@@ -1221,7 +1215,7 @@ var SUPABASE_CONFIG={url:"https://gqpjeccmwsjxrlrazqxt.supabase.co",anonKey:"sb_
   var gate=$('#acctGate');if(!gate)return Promise.resolve();
   gate.classList.remove('hidden');
   return new Promise(function(resolve){
-   var input=$('#acctHandleInput'),err=$('#acctError'),btn=$('#acctContinueBtn'),guest=$('#acctGuestBtn');
+   var input=$('#acctHandleInput'),err=$('#acctError'),btn=$('#acctContinueBtn');
    function submit(){
     var h=slugify(input.value);
     if(!h){err.textContent='Enter a name (letters, numbers, dashes).';err.classList.remove('hidden');return;}
@@ -1231,16 +1225,14 @@ var SUPABASE_CONFIG={url:"https://gqpjeccmwsjxrlrazqxt.supabase.co",anonKey:"sb_
      // that used to mean an existing account with real cloud data would silently look brand new
      // the moment a fetch was slow, with the error message set and then hidden again in the very
      // next line, so nobody ever actually saw it. Now the gate stays open, the real reason is
-     // shown, and the Continue button re-enables so retrying (or explicitly choosing "Continue
-     // without an account" below, if they really want to proceed offline) is the user's own call.
-     err.textContent='Could not reach the cloud after retrying ('+(e.message||e)+'). If "'+h+'" already has saved data, continuing now would show a blank profile instead of it — try again, or use "Continue without an account" below if you really want to proceed offline.';
+     // shown, and the Continue button re-enables so retrying is the user's own call.
+     err.textContent='Could not reach the cloud after retrying ('+(e.message||e)+'). If "'+h+'" already has saved data, continuing now would show a blank profile instead of it — try again.';
      err.classList.remove('hidden');
      btn.disabled=false;btn.textContent='Continue →';
     });
    }
    btn.addEventListener('click',submit);
    input.addEventListener('keydown',function(e){if(e.key==='Enter')submit();});
-   guest.addEventListener('click',function(){handle=null;gate.classList.add('hidden');resolve();});
   });
  }
  function resolveHandle(h){
