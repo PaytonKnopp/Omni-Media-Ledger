@@ -73,7 +73,7 @@ By default, everything lives only in the browser you're using — switch devices
 
 **This copy of the app already has cloud accounts turned on.** Opening it for the first time asks you to pick a name.
 
-Once that's on, the header's **Account** menu (top right) shows who's currently signed in and lets you switch to a different name at any time.
+Once that's on, the header's **Account** menu (top right) shows who's currently signed in (with a live sync-status indicator) and lets you switch to a different name, or permanently delete that name's cloud account, at any time.
 
 If cloud accounts aren't set up on a particular copy, the app still works exactly the same — your data just stays local to that one browser, and Export/Import become the way to move it around manually.
 

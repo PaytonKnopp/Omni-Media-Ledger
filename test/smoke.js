@@ -612,53 +612,113 @@ async function runFile(browser, file) {
 // upsert/insert surface acct-boot and the suggestion box actually call -- so this exercises the
 // real acct-boot code path, not a re-implementation of it.
 const MOCK_SUPABASE_SDK = `
-window.__mockTables = { profiles: {}, suggestions: [] };
-window.__upsertCalls = 0;
-window.__insertCalls = 0;
+// Persisted in sessionStorage (not a bare JS object) so the mock store survives a real
+// location.reload() within the same tab -- acct-boot reloads the page after several real
+// operations (onboarding, tiering, account delete), and a reload would otherwise wipe an
+// in-memory-only mock, making it impossible to assert on state that was written right before
+// the reload. A brand-new browser context (a real "second device" in these tests) still starts
+// with empty sessionStorage, so isolation between simulated devices is unaffected.
+function __mockDefaultDb(){ return { tables: { profiles: {}, suggestions: [], media_status: [] }, upsertCalls: 0, insertCalls: 0, deleteCalls: 0 }; }
+function __mockLoad(){
+  try {
+    var db = JSON.parse(sessionStorage.getItem('__mockDb')) || __mockDefaultDb();
+    if (!db.tables.media_status) db.tables.media_status = [];
+    return db;
+  } catch (e) { return __mockDefaultDb(); }
+}
+function __mockSave(db){ try { sessionStorage.setItem('__mockDb', JSON.stringify(db)); } catch (e) {} }
+Object.defineProperty(window, '__mockTables', { get: function(){ return __mockLoad().tables; } });
+Object.defineProperty(window, '__upsertCalls', { get: function(){ return __mockLoad().upsertCalls; } });
+Object.defineProperty(window, '__insertCalls', { get: function(){ return __mockLoad().insertCalls; } });
+Object.defineProperty(window, '__deleteCalls', { get: function(){ return __mockLoad().deleteCalls; } });
 function __mockBuilder(table){
   var state = { filters: [], order: null, limitN: null, single: false, op: 'select', payload: null };
   var builder = {
     select: function(){ return builder; },
     eq: function(col, val){ state.filters.push([col, val]); return builder; },
+    in: function(col, vals){ state.filters.push([col, vals, 'in']); return builder; },
     order: function(col, opts){ state.order = { col: col, ascending: !opts || opts.ascending !== false }; return builder; },
     limit: function(n){ state.limitN = n; return builder; },
     maybeSingle: function(){ state.single = true; return builder; },
     upsert: function(payload){ state.op = 'upsert'; state.payload = payload; return builder; },
     insert: function(payload){ state.op = 'insert'; state.payload = payload; return builder; },
+    delete: function(){ state.op = 'delete'; return builder; },
     then: function(resolve, reject){ return execute().then(resolve, reject); },
     catch: function(fn){ return execute().catch(fn); },
     finally: function(fn){ return execute().finally(fn); }
   };
   function execute(){
     return new Promise(function(res){
+      var db = __mockLoad();
       if (table === 'profiles') {
         if (state.op === 'upsert') {
-          window.__upsertCalls++;
+          db.upsertCalls++;
           var row = state.payload;
-          window.__mockTables.profiles[row.handle] = { handle: row.handle, data: row.data };
+          db.tables.profiles[row.handle] = { handle: row.handle, data: row.data };
+          __mockSave(db);
           res({ data: [row], error: null });
           return;
         }
+        if (state.op === 'delete') {
+          db.deleteCalls++;
+          var df = state.filters.find(function(f){ return f[0] === 'handle'; });
+          if (df) delete db.tables.profiles[df[1]];
+          __mockSave(db);
+          res({ data: null, error: null });
+          return;
+        }
         var hf = state.filters.find(function(f){ return f[0] === 'handle'; });
-        var found = hf ? window.__mockTables.profiles[hf[1]] : null;
+        var found = hf ? db.tables.profiles[hf[1]] : null;
         res(state.single ? { data: found || null, error: null } : { data: found ? [found] : [], error: null });
         return;
       }
       if (table === 'suggestions') {
         if (state.op === 'insert') {
-          window.__insertCalls++;
-          var newRow = Object.assign({}, state.payload, { id: window.__mockTables.suggestions.length + 1, created_at: new Date().toISOString() });
-          window.__mockTables.suggestions.push(newRow);
+          db.insertCalls++;
+          var newRow = Object.assign({}, state.payload, { id: db.tables.suggestions.length + 1, created_at: new Date().toISOString() });
+          db.tables.suggestions.push(newRow);
+          __mockSave(db);
           res({ data: [newRow], error: null });
           return;
         }
-        var rows = window.__mockTables.suggestions.slice();
+        var rows = db.tables.suggestions.slice();
         if (state.order) rows.sort(function(a,b){
           var av = a[state.order.col], bv = b[state.order.col];
           return state.order.ascending ? (av > bv ? 1 : -1) : (av < bv ? 1 : -1);
         });
         if (state.limitN != null) rows = rows.slice(0, state.limitN);
         res({ data: rows, error: null });
+        return;
+      }
+      if (table === 'media_status') {
+        if (state.op === 'upsert') {
+          db.upsertCalls++;
+          var payloadRows = Array.isArray(state.payload) ? state.payload : [state.payload];
+          payloadRows.forEach(function(r){
+            var idx = db.tables.media_status.findIndex(function(x){ return x.handle === r.handle && x.media_id === r.media_id; });
+            var saved = { handle: r.handle, media_id: r.media_id, tier: r.tier || null, owned: !!r.owned };
+            if (idx >= 0) db.tables.media_status[idx] = saved; else db.tables.media_status.push(saved);
+          });
+          __mockSave(db);
+          res({ data: payloadRows, error: null });
+          return;
+        }
+        if (state.op === 'delete') {
+          db.deleteCalls++;
+          var hf2 = state.filters.find(function(f){ return f[0] === 'handle'; });
+          var inf = state.filters.find(function(f){ return f[2] === 'in'; });
+          db.tables.media_status = db.tables.media_status.filter(function(x){
+            var matchesHandle = hf2 ? x.handle === hf2[1] : true;
+            var matchesIn = inf ? inf[1].indexOf(x.media_id) !== -1 : true;
+            return !(matchesHandle && matchesIn); // keep rows that do NOT match the delete criteria
+          });
+          __mockSave(db);
+          res({ data: null, error: null });
+          return;
+        }
+        var mf = state.filters.find(function(f){ return f[0] === 'handle'; });
+        var mrows = db.tables.media_status.filter(function(x){ return !mf || x.handle === mf[1]; });
+        res({ data: mrows, error: null });
         return;
       }
       res({ data: null, error: { message: 'unknown mock table: ' + table } });
@@ -715,7 +775,10 @@ async function runAccountFlow(browser, file) {
     const page2Errors = [];
     page2.on('pageerror', e => page2Errors.push(e.message));
     await page2.route('**/supabase-js*/**', route => route.fulfill({ contentType: 'application/javascript', body: '' }));
-    await page2.addInitScript(MOCK_SUPABASE_SDK + 'window.__mockTables.profiles=' + JSON.stringify({ smoketestuser: storedRow }) + ';');
+    // addInitScript re-runs before every navigation for the life of this page (including the
+    // reload the delete-account flow triggers below) -- guard the seed so it only ever seeds an
+    // empty store, rather than stomping real mutations back to the original seed on every reload.
+    await page2.addInitScript(MOCK_SUPABASE_SDK + 'if(!sessionStorage.getItem("__mockDb"))sessionStorage.setItem("__mockDb", JSON.stringify({tables:{profiles:' + JSON.stringify({ smoketestuser: storedRow }) + ',suggestions:[],media_status:[]},upsertCalls:0,insertCalls:0,deleteCalls:0}));');
     await page2.goto('file://' + tmpPath);
     await page2.waitForTimeout(400);
     await page2.fill('#acctHandleInput', 'smoketestuser');
@@ -757,8 +820,54 @@ async function runAccountFlow(browser, file) {
     const suggestGateHiddenAfterClose = await page2.evaluate(() => document.getElementById('suggestGate').offsetHeight === 0);
     check('suggestion box closes on close button', suggestGateHiddenAfterClose);
 
-    // Switch account clears the remembered handle and shows the gate again. Re-open the account
-    // menu first -- the suggestion-box interactions above (like any outside click) close it.
+    // Delete my account: only visible/usable when signed into a real cloud handle, asks for
+    // confirmation (a real browser confirm() dialog -- Playwright intercepts it), then deletes the
+    // cloud row and clears local state. Tested before Switch Account below, since switching would
+    // sign this handle out and make "delete my own account" no longer applicable.
+    await page2.click('#acctMenuField');
+    await page2.waitForTimeout(200);
+    const deleteBtnVisible = await page2.evaluate(() => {
+      const b = document.getElementById('acctDeleteBtn');
+      return b && !b.classList.contains('hidden');
+    });
+    check('Delete my account is offered when signed into a real cloud handle', deleteBtnVisible);
+    page2.once('dialog', d => d.accept());
+    await page2.click('#acctDeleteBtn');
+    await page2.waitForTimeout(500);
+    const deleteCalls = await page2.evaluate(() => window.__deleteCalls || 0);
+    check('confirming delete removes the row from the shared Supabase table', deleteCalls >= 1);
+    const rowGoneFromStore = await page2.evaluate(() => !window.__mockTables.profiles['smoketestuser']);
+    check('the deleted handle\'s row is actually gone from the store', rowGoneFromStore);
+    const handleAfterDelete = await page2.evaluate(() => localStorage.getItem('omniLedgerHandle'));
+    const gateAfterDelete = await page2.evaluate(() => !document.getElementById('acctGate').classList.contains('hidden'));
+    check('deleting the account clears the remembered handle and re-shows the account gate', handleAfterDelete === null && gateAfterDelete);
+
+    // Switch account clears the remembered handle and shows the gate again. Re-sign-in first
+    // (delete above signed this device out entirely) so there's an account to switch away from.
+    await page2.fill('#acctHandleInput', 'smoketestuser2');
+    await page2.click('#acctContinueBtn');
+    await page2.waitForTimeout(500);
+    const onboardVisible3 = await page2.evaluate(() => !document.getElementById('onboardGate').classList.contains('hidden'));
+    if (onboardVisible3) { await page2.click(isShare ? '#onboardBlank' : '#onboardSample'); await page2.waitForTimeout(300); }
+
+    // Gold/silver/bronze/owned are also mirrored into the normalized media_status table (see
+    // supabase/schema.sql), not just left inside the profiles.data jsonb blob -- so this is
+    // exercising both the app's own recommendation-driving state AND that it's actually queryable
+    // in the DB per title. Declaring something Gold should upsert a row; un-declaring it should
+    // remove that row entirely (nothing left to track once there's no tier and it's not owned).
+    const goldCardId = await page2.evaluate(() => document.querySelector('.cardHead')?.dataset.id);
+    await page2.click('.panel .profEditBtn[data-act="declare"]');
+    await page2.waitForTimeout(600); // toggling reloads the page, plus the flush-before-reload sync
+    const mediaRowAfterDeclare = await page2.evaluate((id) =>
+      (window.__mockTables.media_status || []).find(r => r.handle === 'smoketestuser2' && r.media_id === id), goldCardId);
+    check('declaring Gold upserts a row into the media_status table', !!mediaRowAfterDeclare && mediaRowAfterDeclare.tier === 'gold' && mediaRowAfterDeclare.owned === false);
+
+    await page2.click('.panel .profEditBtn[data-act="declare"][data-id="' + goldCardId + '"]');
+    await page2.waitForTimeout(600);
+    const mediaRowAfterUndeclare = await page2.evaluate((id) =>
+      (window.__mockTables.media_status || []).find(r => r.handle === 'smoketestuser2' && r.media_id === id), goldCardId);
+    check('un-declaring removes the media_status row entirely (no tier, not owned)', !mediaRowAfterUndeclare);
+
     await page2.click('#acctMenuField');
     await page2.waitForTimeout(200);
     await page2.click('#acctSwitchBtn');
