@@ -35,7 +35,7 @@ function initApp(){
 // ones, Technical Fidelity and GOAT Match) for a profile that's never touched pinning itself.
 // Cosmic Horror is pinned by default here so a fresh profile's main row looks exactly like it
 // always has -- but, unlike Technical Fidelity/GOAT Match, it's a genuine member of the same
-// pinnable pool as the other 15 specialized indices now, not a third permanently-fixed slider, so
+// pinnable pool as the other 17 specialized indices now, not a third permanently-fixed slider, so
 // it can be unpinned/re-pinned the same way any of them can. Declared this early since
 // PERSONAL_PROFILE's own default-fallback construction below needs it.
 const DEFAULT_PINNED_IDX=['ref','snd','ch'];
@@ -97,13 +97,13 @@ function wlSetWatched(id,v){if(WL[id]){WL[id].watched=v;wlSave();}}
 function wlCount(){return Object.keys(WL).length;}
 
 /* ===================== STATE & HELPERS ===================== */
-const state={view:'controller',q:'',type:'all',struct:'all',plat:'all',minTech:0,minDread:0,minMyst:0,minGoat:0,genres:[],ownedOnly:false,notOwnedOnly:false,limit:100,idx:{snd:0,ref:0,ch:0,emo:0,awe:0,cozy:0,perf:0,icon:0,scary:0,real:0,reality:0,shock:0,sci:0,funny:0,hist:0,vibe2:0},ratings:[],tierFilter:[],yearMin:null,yearMax:null,combine:false,sort:'overall',w:{tech:0.85,dread:0.95,myst:0.90},creatorTab:'directors',creatorSearch:''};
+const state={view:'controller',q:'',type:'all',struct:'all',plat:'all',minTech:0,minDread:0,minMyst:0,minGoat:0,genres:[],ownedOnly:false,notOwnedOnly:false,limit:100,idx:{snd:0,ref:0,ch:0,emo:0,awe:0,cozy:0,perf:0,icon:0,scary:0,real:0,reality:0,shock:0,sci:0,funny:0,hist:0,vibe2:0,crit:0,aud:0},ratings:[],tierFilter:[],yearMin:null,yearMax:null,combine:false,sort:'overall',w:{tech:0.85,dread:0.95,myst:0.90},creatorTab:'directors',creatorSearch:''};
 const $=s=>document.querySelector(s),$$=s=>Array.from(document.querySelectorAll(s));
 const on=(sel,ev,fn)=>{const el=$(sel);if(el)el.addEventListener(ev,fn);else console.warn('missing element:',sel);};
 const esc=s=>String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
-const SORTS={overall:(a,b)=>(b.ovr-a.ovr)||(b.crit-a.crit),goat:(a,b)=>(b.gm-a.gm)||(b.ovr-a.ovr),cosmic:(a,b)=>(b.ch-a.ch)||(b.dread-a.dread),sound:(a,b)=>(b.snd-a.snd)||(b.crit-a.crit),ref4k:(a,b)=>(b.ref-a.ref)||(b.crit-a.crit),emotion:(a,b)=>(b.emo-a.emo)||(b.crit-a.crit),awe:(a,b)=>(b.awe-a.awe)||(b.crit-a.crit),comfort:(a,b)=>(b.cozy-a.cozy)||(b.aud-a.aud),perf:(a,b)=>(b.perf-a.perf)||(b.crit-a.crit),icon:(a,b)=>(b.icon-a.icon)||(b.crit-a.crit),scary:(a,b)=>(b.scary-a.scary)||(b.dread-a.dread),real:(a,b)=>(b.real-a.real)||(b.crit-a.crit),reality:(a,b)=>(b.reality-a.reality)||(b.myst-a.myst),shock:(a,b)=>(b.shock-a.shock)||(b.dread-a.dread),sci:(a,b)=>(b.sci-a.sci)||(b.myst-a.myst),funny:(a,b)=>(b.funny-a.funny)||(b.aud-a.aud),hist:(a,b)=>(b.hist-a.hist)||(b.crit-a.crit),vibe2:(a,b)=>(b.vibe2-a.vibe2)||(b.tech-a.tech),best:(a,b)=>(b._m-a._m)||(b.crit-a.crit),blend:(a,b)=>(bespokeScore(b)-bespokeScore(a))||(b.crit-a.crit),crit:(a,b)=>b.crit-a.crit,aud:(a,b)=>b.aud-a.aud,tech:(a,b)=>b.tech-a.tech,dread:(a,b)=>b.dread-a.dread,myst:(a,b)=>b.myst-a.myst,yearNew:(a,b)=>b.year-a.year,yearOld:(a,b)=>a.year-b.year,title:(a,b)=>a.title.localeCompare(b.title),tier:(a,b)=>(tierRank(b)-tierRank(a))||(b.gm-a.gm)};
+const SORTS={overall:(a,b)=>(b.ovr-a.ovr)||(b.crit-a.crit),cosmic:(a,b)=>(b.ch-a.ch)||(b.dread-a.dread),sound:(a,b)=>(b.snd-a.snd)||(b.crit-a.crit),ref4k:(a,b)=>(b.ref-a.ref)||(b.crit-a.crit),emotion:(a,b)=>(b.emo-a.emo)||(b.crit-a.crit),awe:(a,b)=>(b.awe-a.awe)||(b.crit-a.crit),comfort:(a,b)=>(b.cozy-a.cozy)||(b.aud-a.aud),perf:(a,b)=>(b.perf-a.perf)||(b.crit-a.crit),icon:(a,b)=>(b.icon-a.icon)||(b.crit-a.crit),scary:(a,b)=>(b.scary-a.scary)||(b.dread-a.dread),real:(a,b)=>(b.real-a.real)||(b.crit-a.crit),reality:(a,b)=>(b.reality-a.reality)||(b.myst-a.myst),shock:(a,b)=>(b.shock-a.shock)||(b.dread-a.dread),sci:(a,b)=>(b.sci-a.sci)||(b.myst-a.myst),funny:(a,b)=>(b.funny-a.funny)||(b.aud-a.aud),hist:(a,b)=>(b.hist-a.hist)||(b.crit-a.crit),vibe2:(a,b)=>(b.vibe2-a.vibe2)||(b.tech-a.tech),blend:(a,b)=>(bespokeScore(b)-bespokeScore(a))||(b.crit-a.crit),crit:(a,b)=>b.crit-a.crit,aud:(a,b)=>b.aud-a.aud,tech:(a,b)=>b.tech-a.tech,dread:(a,b)=>b.dread-a.dread,myst:(a,b)=>b.myst-a.myst,yearNew:(a,b)=>b.year-a.year,yearOld:(a,b)=>a.year-b.year,title:(a,b)=>a.title.localeCompare(b.title),tier:(a,b)=>(tierRank(b)-tierRank(a))||(b.gm-a.gm)};
 
-const IDX_KEYS=['snd','ref','ch','emo','awe','cozy','perf','icon','scary','real','reality','shock','sci','funny','hist','vibe2'];
+const IDX_KEYS=['snd','ref','ch','emo','awe','cozy','perf','icon','scary','real','reality','shock','sci','funny','hist','vibe2','crit','aud'];
 function filtered(){const q=state.q.trim().toLowerCase();
  return ALL.filter(it=>{
   if(state.type!=='all'&&it.kind!==state.type)return false;
@@ -144,6 +144,8 @@ function activeDims(){
  if(state.idx.funny>0)d.push(['funny','Funniest',state.idx.funny]);
  if(state.idx.hist>0)d.push(['hist','Historical',state.idx.hist]);
  if(state.idx.vibe2>0)d.push(['vibe2','Vibe',state.idx.vibe2]);
+ if(state.idx.crit>0)d.push(['crit','Critical Score',state.idx.crit]);
+ if(state.idx.aud>0)d.push(['aud','Audience Score',state.idx.aud]);
  if(state.minTech>0)d.push(['tech','Technical',state.minTech]);
  if(state.minDread>0)d.push(['dread','Dread',state.minDread]);
  if(state.minMyst>0)d.push(['myst','Complexity',state.minMyst]);
@@ -492,7 +494,7 @@ function cardHTML(it){const k=KM[it.kind];
  +'<button type="button" class="cardHead w-full text-left p-3.5 flex gap-3 items-start" data-id="'+it.id+'">'
  +ring(it.crit,k.c,42)
  +'<div class="flex-1 min-w-0">'
- +'<div class="flex items-center gap-x-2 gap-y-1.5 flex-wrap"><span class="cardTitle text-[13px] font-semibold text-slate-100 leading-tight hover:text-teal-300 cursor-pointer underline decoration-dotted decoration-slate-600 underline-offset-2" data-flip="'+it.id+'" title="Click for a summary and full breakdown">'+esc(it.title)+'</span><span class="chip" style="color:'+k.c+';border-color:'+k.c+'44">'+k.label+'</span><span class="chip" style="color:#5eead4;border-color:#5eead455">'+esc(it.rating)+'</span>'+(it.owned?'<span class="chip" style="color:#0B0F19;background:#4ade80;border-color:#4ade80;font-weight:800;letter-spacing:.02em" title="In your physical collection">\u2713 OWNED'+(it.physFormat?' \u00b7 '+esc(it.physFormat):'')+'</span>':'')+(it.goat?'<span class="chip" style="color:#0B0F19;background:#fbbf24;border-color:#fbbf24;font-weight:700">\u{1F947} GOLD 100</span>':'<span class="chip" style="color:#fbbf24;border-color:#fbbf2444">\u2605 '+it.gm+'</span>')+(it.silver?'<span class="chip" style="color:#0B0F19;background:#cbd5e1;border-color:#cbd5e1;font-weight:700">\u{1F948} SILVER</span>':'')+(it.bronze?'<span class="chip" style="color:#0B0F19;background:#cd7f32;border-color:#cd7f32;font-weight:700">\u{1F949} BRONZE</span>':'')+(window._blendActive?'<span class="chip" style="color:#0B0F19;background:#34d399;border-color:#34d399;font-weight:800" title="Weighted blend match">\u2696 '+bespokeScore(it).toFixed(0)+'%</span>':'')+(it.chFlag?'<span class="chip" style="color:#0B0F19;background:#c084fc;border-color:#c084fc;font-weight:700">\u25c9 CANON 100</span>':(it.ch>=70?'<span class="chip" style="color:#c084fc;border-color:#c084fc44">\u25c9 '+it.ch+'</span>':''))+'</div>'
+ +'<div class="flex items-center gap-x-2 gap-y-1.5 flex-wrap"><span class="cardTitle text-[13px] font-semibold text-slate-100 leading-tight hover:text-teal-300 cursor-pointer underline decoration-dotted decoration-slate-600 underline-offset-2" data-flip="'+it.id+'" title="Click for a summary and full breakdown">'+esc(it.title)+'</span><span class="chip" style="color:'+k.c+';border-color:'+k.c+'44">'+k.label+'</span><span class="chip" style="color:#5eead4;border-color:#5eead455">'+esc(it.rating)+'</span>'+(it.owned?'<span class="chip" style="color:#0B0F19;background:#4ade80;border-color:#4ade80;font-weight:800;letter-spacing:.02em" title="In your physical collection">\u2713 OWNED'+(it.physFormat?' \u00b7 '+esc(it.physFormat):'')+'</span>':'')+'<span class="chip" style="color:#fbbf24;border-color:#fbbf2444" title="GOAT match /100">\u2605 '+it.gm+'</span>'+(window._blendActive?'<span class="chip" style="color:#0B0F19;background:#34d399;border-color:#34d399;font-weight:800" title="Weighted blend match">\u2696 '+bespokeScore(it).toFixed(0)+'%</span>':'')+(it.chFlag?'<span class="chip" style="color:#0B0F19;background:#c084fc;border-color:#c084fc;font-weight:700">\u25c9 CANON 100</span>':(it.ch>=70?'<span class="chip" style="color:#c084fc;border-color:#c084fc44">\u25c9 '+it.ch+'</span>':''))+'</div>'
  +'<div class="text-[11px] text-slate-400 mt-1.5 truncate" title="'+esc(it.creator)+' · '+esc(it.org)+'">'+it.year+' · '+esc(it.creator)+' · '+esc(it.span)+'</div>'
  +'<div class="mt-2 space-y-1 cardMicro" title="This work\'s 3 strongest indices out of ~19 tracked -- click the card to see all of them">'+frontBars(it)+'</div>'
  +'</div><span class="text-slate-600 text-xs mt-1" aria-hidden="true">&#9662;</span></button>'+'<button type="button" class="wlBtn absolute top-2 right-2 text-base leading-none transition-transform hover:scale-125" data-wl="'+it.id+'" title="Toggle watchlist" style="color:'+(wlHas(it.id)?'#fb7185':'#475569')+'">'+(wlHas(it.id)?'\u2665':'\u2661')+'</button>'
@@ -515,9 +517,8 @@ function renderController(list){
  $('#resultCount').textContent=(list.length>state.limit?(state.limit+' of '+list.length):list.length);
  const m=list.filter(x=>x.kind==='movie').length,t=list.filter(x=>x.kind==='tv').length,g=list.length-m-t;
  const bk=list.filter(x=>x.kind==='book').length;const gg=list.filter(x=>x.kind==='game').length;$('#scopeBreak').textContent=' · '+m+' films / '+t+' series / '+gg+' games / '+bk+' books';
- let note='';const dims=activeDims();
- if(state.sort==='best')note=dims.length?(' · priority: '+dims.slice(0,3).map(d=>d[1]).join(' › ')):' · by overall quality';
- else if(state.sort==='blend')note=' · ⚖ weighted blend: Tech '+state.w.tech.toFixed(2)+' · Dread '+state.w.dread.toFixed(2)+' · Mind '+state.w.myst.toFixed(2);
+ let note='';
+ if(state.sort==='blend')note=' · ⚖ weighted blend: Tech '+state.w.tech.toFixed(2)+' · Dread '+state.w.dread.toFixed(2)+' · Mind '+state.w.myst.toFixed(2);
  window._blendActive=(state.sort==='blend');
  const sorted=list.slice().sort(SORTS[state.sort]||SORTS.overall);
  $('#priorityNote').textContent=note;renderActiveBar();
@@ -533,7 +534,7 @@ function renderActiveBar(){
  state.genres.forEach(g=>chips.push(X(esc(g),'genre:'+g)));
  state.ratings.forEach(r=>chips.push(X(esc(r),'rating:'+r)));
  [['minTech','Tech'],['minDread','Dread'],['minMyst','Mind'],['minGoat','★ GOAT']].forEach(pr=>{if(state[pr[0]]>0)chips.push(X(pr[1]+' ≥'+state[pr[0]],pr[0]));});
- const IL={snd:'Soundtrack',ref:'4K Ref',ch:'◉ Cosmic',emo:'Emotional',awe:'Awe',cozy:'Comfort',perf:'Performances',icon:'Iconic',scary:'Scariest',real:'Realistic',reality:'Reality-Altering',shock:'Shocking',sci:'Scientific',funny:'Funniest',hist:'Historical',vibe2:'Vibe'};
+ const IL={snd:'Soundtrack',ref:'4K Ref',ch:'◉ Cosmic',emo:'Emotional',awe:'Awe',cozy:'Comfort',perf:'Performances',icon:'Iconic',scary:'Scariest',real:'Realistic',reality:'Reality-Altering',shock:'Shocking',sci:'Scientific',funny:'Funniest',hist:'Historical',vibe2:'Vibe',crit:'Critical',aud:'Audience'};
  Object.keys(IL).forEach(k=>{if(state.idx[k]>0)chips.push(X(IL[k]+' ≥'+state.idx[k],'idx:'+k));});
  if(state.yearMin!=null||state.yearMax!=null)chips.push(X('Year '+(state.yearMin||'←')+'–'+(state.yearMax||'→'),'year'));
  if(state.ownedOnly)chips.push(X('◆ Owned only','owned'));
@@ -1042,7 +1043,7 @@ ALL.forEach(x=>{x.silver=GOAT_SILVER.has(x.id);if(x.silver){var sg=Math.round(x.
    tiers form a clear Gold(100) > Silver(->88) > Bronze(->80) hierarchy without any of them ever
    pulling a score down. */
 if(!PROFILE_FROM_STORAGE)PERSONAL_PROFILE.bronzeTierIds=[];
-/* Pinned specialized-index sliders: a UI preference (which of the 15 Advanced sliders also show
+/* Pinned specialized-index sliders: a UI preference (which of the 17 Advanced sliders also show
    in the always-visible main filter row, alongside Technical Fidelity / GOAT Match / Cosmic Horror),
    not a taste signal -- doesn't affect scoring at all, just which controls are one click away.
    Defaults to 4K Reference + Soundtrack (see DEFAULT_PINNED_IDX below) so a fresh profile already
@@ -2945,7 +2946,7 @@ on('#wlExport','click',()=>{const items=wlItems().map(x=>({title:x.title,year:x.
 on('#creatorGrid','keydown',e=>{if(e.key!=='Enter'&&e.key!==' ')return;const f=e.target.closest('.flip');if(f){e.preventDefault();f.classList.toggle('flipped');}});
 
 /* ===================== BOOT ===================== */
-const INDEX_DEFS=[['snd','Soundtrack / Audio','#7dd3fc'],['ref','4K Reference','#818cf8'],['ch','Cosmic Horror','#c084fc'],['emo','Emotional / Sad','#f0abfc'],['awe','Awe / Spectacle','#fbbf24'],['cozy','Comfort / Cozy','#34d399'],['perf','Best Performances','#fda4af'],['icon','Iconicness','#fcd34d'],['scary','Scariest','#f87171'],['real','Realism','#86efac'],['reality','Reality-Altering','#c4b5fd'],['shock','Genuine Shock','#fb923c'],['sci','Scientific','#67e8f9'],['funny','Funniest','#fde047'],['hist','Historically Accurate','#a3e635'],['vibe2','Vibe / Atmosphere','#e879f9']];
+const INDEX_DEFS=[['snd','Soundtrack / Audio','#7dd3fc'],['ref','4K Reference','#818cf8'],['ch','Cosmic Horror','#c084fc'],['emo','Emotional / Sad','#f0abfc'],['awe','Awe / Spectacle','#fbbf24'],['cozy','Comfort / Cozy','#34d399'],['perf','Best Performances','#fda4af'],['icon','Iconicness','#fcd34d'],['scary','Scariest','#f87171'],['real','Realism','#86efac'],['reality','Reality-Altering','#c4b5fd'],['shock','Genuine Shock','#fb923c'],['sci','Scientific','#67e8f9'],['funny','Funniest','#fde047'],['hist','Historically Accurate','#a3e635'],['vibe2','Vibe / Atmosphere','#e879f9'],['crit','Critical Score','#94a3b8'],['aud','Audience Score','#4ade80']];
 function buildGenreChips(){
  $('#genreChips').innerHTML=GENRE_FAMILIES.map(f=>{const name=f[0],n=GENRE_COUNTS[name]||0;if(!n)return '';
   const on=state.genres.includes(name);
@@ -2955,7 +2956,7 @@ function buildRatingChips(){
  $('#ratingChips').innerHTML=RATING_ORDER.filter(r=>RATING_COUNTS[r]).map(r=>{const on=state.ratings.includes(r);
   return '<button type="button" class="chip ratingChip" data-r="'+esc(r)+'" style="cursor:pointer;'+(on?'color:#0B0F19;background:#5eead4;border-color:#5eead4;font-weight:700':'')+'">'+esc(r)+' <span style="opacity:.6">'+RATING_COUNTS[r]+'</span></button>';}).join('');
 }
-// Pinning: a user can pin any of the 15 specialized index sliders to the always-visible main
+// Pinning: a user can pin any of the 17 specialized index sliders to the always-visible main
 // filter row instead of needing to open Advanced Filters every time to reach it. A slider lives in
 // exactly one place at a time (moved, not duplicated) so there's only ever one live DOM element per
 // index and no risk of two copies drifting out of sync.
