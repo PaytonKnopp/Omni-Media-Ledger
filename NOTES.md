@@ -514,6 +514,20 @@ Part of a second, broader UI-cleanup round the user asked for after using the ap
 
 ---
 
+## Phase 21 — Retired Tonight; Surprise Me covers it now
+
+Second item of the broader UI-cleanup round: "let's get rid of the tonight tab, the surprise me button already does this, maybe expand the surprise me button to do a better job."
+
+Checked the claim before acting on it, and it held up: Surprise Me's existing `#surpriseScope` panel already covered medium, mood (a curated 7-option list), and owned/discover pool, weighted by taste match, with a considerably nicer result card than Tonight's (a taste-match ring, a suggested-edition line, a why-recommended line, "spin again" in place) — it was only missing Tonight's one distinctive control, the movies-only time budget.
+
+**What changed.** Added a "Time" selector to `#surpriseScope` (identical options and identical movies-only reasoning as Tonight always had — TV tracks seasons, games track total playtime not a session, books track page count, none of which map to "do I have time for this right now"), wired into `spinCandidates()`. Then deleted the Tonight button, its modal, and its entire picker IIFE outright — nothing was salvaged into a "kept for later" state, since Surprise Me's version of every piece was already better or equal.
+
+**Docs updated:** README's feature list and the "regression bug class" code comments that referenced `#tonightBtn` as an example (the `.navBtn`-without-`data-view` view-corruption bug, also seen on the old `#goatPickerBtn`) now describe it as history rather than a live target. Historical CHANGELOG entries that mention Tonight are left as-is — they're a record of what shipped at the time, not documentation of the current feature set.
+
+**Testing.** Replaced the Tonight-specific regression test with one that opens Surprise Me, sets a time budget, spins, and confirms a specific pick renders.
+
+---
+
 ## Ideas / next steps
 
 Roughly in order of value:

@@ -173,50 +173,6 @@ body[data-theme="outer-wilds"]{--bg:#0e0a09;--panel:#181010;--panel-2:#120c0b;--
   </div>
 </div>
 
-<div id="tonightGate" class="hidden fixed inset-0 z-[999] flex items-center justify-center bg-black/80 backdrop-blur-sm p-4">
-  <div class="panel p-6 max-w-lg w-full space-y-4 max-h-[85vh] overflow-y-auto">
-    <div class="flex items-start justify-between gap-2">
-      <div>
-        <div class="text-[10px] tracking-[.35em] text-indigo-300/80 uppercase mb-1">Tonight</div>
-        <h2 class="text-lg font-bold text-slate-50">What should I watch?</h2>
-        <p class="text-[13px] text-slate-400 mt-1">Mood, time available, one pick. Time budget only applies to films (the only kind with a reliable single-sitting runtime) — TV, games, and books are shown regardless of length.</p>
-      </div>
-      <button type="button" id="tonightClose" class="text-slate-500 hover:text-slate-300 text-lg leading-none">✕</button>
-    </div>
-    <div class="grid grid-cols-2 gap-3">
-      <div>
-        <label class="text-[9px] tracking-[.14em] uppercase text-slate-500">Mood</label>
-        <select id="tonightMood" class="inp w-full mt-1"></select>
-      </div>
-      <div>
-        <label class="text-[9px] tracking-[.14em] uppercase text-slate-500">Time available</label>
-        <select id="tonightTime" class="inp w-full mt-1">
-          <option value="0">Doesn't matter</option>
-          <option value="30">≤ 30 min</option>
-          <option value="60">≤ 1 hour</option>
-          <option value="90">≤ 1.5 hours</option>
-          <option value="120">≤ 2 hours</option>
-          <option value="180">≤ 3 hours</option>
-        </select>
-      </div>
-      <div>
-        <label class="text-[9px] tracking-[.14em] uppercase text-slate-500">Media type</label>
-        <select id="tonightType" class="inp w-full mt-1">
-          <option value="all">Any</option>
-          <option value="movie">Film</option>
-          <option value="tv">TV</option>
-          <option value="game">Game</option>
-          <option value="book">Book</option>
-        </select>
-      </div>
-      <div class="flex items-end">
-        <button type="button" id="tonightFind" class="presetBtn w-full" style="color:#c7d2fe;border-color:#818cf855">🌙 Find something</button>
-      </div>
-    </div>
-    <div id="tonightResult"></div>
-  </div>
-</div>
-
 <div id="versionGate" class="hidden fixed inset-0 z-[999] flex items-center justify-center bg-black/80 backdrop-blur-sm p-4">
   <div class="panel p-6 max-w-md w-full space-y-4 max-h-[85vh] overflow-y-auto">
     <div class="flex items-start justify-between gap-2">
@@ -353,7 +309,6 @@ body[data-theme="outer-wilds"]{--bg:#0e0a09;--panel:#181010;--panel-2:#120c0b;--
       <button type="button" class="navBtn" data-view="matrix">Reference Matrices</button>
       <button type="button" class="navBtn" data-view="viz">Visualization Suite</button>
       <button type="button" class="navBtn" data-view="timeline">◷ Timeline</button>
-      <button type="button" id="tonightBtn" class="navBtn" style="border-color:#818cf855;color:#c7d2fe">🌙 Tonight</button>
       <button type="button" id="suggestBtn" class="navBtn" style="border-color:#34d39955;color:#6ee7b7">💡 Suggest a feature</button>
     </nav>
   </div>
@@ -475,7 +430,7 @@ body[data-theme="outer-wilds"]{--bg:#0e0a09;--panel:#181010;--panel-2:#120c0b;--
       <div class="text-xs text-slate-400"><span id="resultCount" class="text-slate-100 font-semibold tabular-nums">0</span> works in scope<span id="scopeBreak" class="text-slate-500"></span><span id="priorityNote" class="text-indigo-300/80"></span></div>
       <div class="flex flex-wrap items-center gap-2">
         <button type="button" id="rabbitBtn" class="text-[11px] px-3 py-1.5 rounded-lg border border-purple-500/50 text-purple-300 hover:bg-purple-500/10 transition-colors font-semibold" title="Take a journey through connected works across media" aria-expanded="false">🕳 Rabbit Hole</button>
-        <button type="button" id="surpriseBtn" class="text-[11px] px-3 py-1.5 rounded-lg border border-fuchsia-500/50 text-fuchsia-300 hover:bg-fuchsia-500/10 transition-colors font-semibold" title="Spin for a pick from your current scope">🎲 Surprise Me</button>
+        <button type="button" id="surpriseBtn" class="text-[11px] px-3 py-1.5 rounded-lg border border-fuchsia-500/50 text-fuchsia-300 hover:bg-fuchsia-500/10 transition-colors font-semibold" title="One weighted pick by mood, medium, ownership, and how much time you have">🎲 Surprise Me</button>
         <button type="button" id="densityBtn" class="text-[11px] px-2.5 py-1.5 rounded-lg border border-slate-700 text-slate-400 hover:border-teal-500 hover:text-teal-300 transition-colors" title="Toggle compact / comfortable card density">▦ Compact</button>
         <label class="fieldlbl mb-0" for="limitSel">Show</label>
         <select id="limitSel" class="inp" style="width:auto">
@@ -569,6 +524,16 @@ body[data-theme="outer-wilds"]{--bg:#0e0a09;--panel:#181010;--panel-2:#120c0b;--
         </div>
         <div class="flex items-center gap-1.5"><span class="fieldlbl mb-0">Pool</span>
           <div class="seg" id="spinPool"><button type="button" data-p="all" class="on">All</button><button type="button" data-p="owned">Owned</button><button type="button" data-p="discover">Discover</button></div>
+        </div>
+        <div class="flex items-center gap-1.5"><span class="fieldlbl mb-0 cursor-help" title="Only applies to films -- the only kind with a reliable single-sitting runtime. TV, games, and books are shown regardless of the time picked.">Time</span>
+          <select id="spinTime" class="inp" style="width:auto">
+            <option value="0">Doesn't matter</option>
+            <option value="30">≤ 30 min</option>
+            <option value="60">≤ 1 hour</option>
+            <option value="90">≤ 1.5 hours</option>
+            <option value="120">≤ 2 hours</option>
+            <option value="180">≤ 3 hours</option>
+          </select>
         </div>
         <button type="button" id="spinGo" class="text-[11px] px-4 py-1.5 rounded-lg bg-fuchsia-600 hover:bg-fuchsia-500 text-white font-semibold transition-colors ml-auto">Spin →</button>
       </div>
@@ -2877,6 +2842,8 @@ function spinCandidates(){
  if(spinScope.medium!=='any')pool=pool.filter(x=>x.kind===spinScope.medium);
  if(spinScope.pool==='owned')pool=pool.filter(x=>x.owned);
  else if(spinScope.pool==='discover')pool=pool.filter(x=>!x.owned);
+ var timeMax=$('#spinTime')?parseInt($('#spinTime').value,10)||0:0;
+ if(timeMax>0)pool=pool.filter(x=>x.kind!=='movie'||!x.mins||x.mins<=timeMax);
  var mood=$('#spinMood')?$('#spinMood').value:'any';
  var dims=MOOD_DIMS[mood];
  // weight = gm (taste match), amplified by mood dimensions when a mood is chosen.
@@ -3215,8 +3182,12 @@ function handleProfileEditClick(btn){
    "here's what changed" readout, not a live version check against anything. Bump APP_VERSION and
    add a CHANGELOG entry whenever a change is worth a friend knowing about; cosmetic tweaks don't
    need a bump. */
-const APP_VERSION='1.19.0';
+const APP_VERSION='1.20.0';
 const CHANGELOG=[
+ {v:'1.20.0',date:'2026-09-03',summary:'Removed the Tonight tab -- Surprise Me now covers the same ground (mood + time budget) plus more.',notes:[
+  'Retired the "🌙 Tonight" header button and its modal: Surprise Me already did almost the same job (medium/mood/ownership-scoped weighted pick) with a nicer result card, so it just needed a time-budget option added rather than keeping two separate pickers',
+  'Surprise Me\'s scope panel gained a "Time" selector (movies-only, same reasoning as Tonight\'s always had: TV/games/books don\'t have a reliable single-sitting runtime) -- everything else about Surprise Me (medium, mood, owned/discover pool, taste-match ring, best-edition suggestion, why-recommended) is unchanged and now covers Tonight\'s use case too'
+ ]},
  {v:'1.19.0',date:'2026-09-03',summary:'The 5 quick filters up top are now a more useful, well-rounded set by default: Technical Fidelity, GOAT Match, Cosmic Horror, Soundtrack, and 4K Reference.',notes:[
   'Swapped Atmospheric Dread/Immersion and Ontological/Systems Complexity out of the always-visible main filter row and into Advanced Filters (still there, still fully usable, just not two of the default 5) -- Soundtrack/Audio and 4K Reference take their place, pinned by default on a fresh profile so the initial row is more broadly useful than any 3 craft-only sliders plus GOAT Match/Cosmic Horror alone',
   'Existing pins are unaffected: this only changes what a fresh, never-customized profile starts with -- if you\'ve already pinned or unpinned anything, your own choices are exactly as you left them'
@@ -3335,63 +3306,16 @@ const CHANGELOG=[
  });
 })();
 
-/* ===== "Tonight" picker: mood + time budget -> one specific pick =====
-   Time budget is only applied to movies -- the only corpus kind with a reliable single-sitting
-   runtime (TV only tracks season count, games track total playtime not a session, books track
-   page count). Applying an unenforceable filter to those would be worse than not filtering them
-   at all, so they're always eligible regardless of the time selection; the UI says so up front. */
-(function tonightPicker(){
- var btn=$('#tonightBtn'),gate=$('#tonightGate');
- if(!btn||!gate)return;
- var vibeCounts={};
- ALL.forEach(x=>{if(x.vibe)vibeCounts[x.vibe]=(vibeCounts[x.vibe]||0)+1;});
- var vibes=Object.keys(vibeCounts).sort((a,b)=>vibeCounts[b]-vibeCounts[a]);
- var moodSel=$('#tonightMood');
- moodSel.innerHTML='<option value="">Any mood</option>'+vibes.map(v=>'<option value="'+esc(v)+'">'+esc(v)+' ('+vibeCounts[v]+')</option>').join('');
- on('#tonightBtn','click',e=>{e.stopPropagation();gate.classList.remove('hidden');});
- on('#tonightClose','click',()=>{gate.classList.add('hidden');});
- var lastPool=[];
- function findPick(){
-  var mood=moodSel.value,timeMax=parseInt($('#tonightTime').value,10)||0,type=$('#tonightType').value;
-  var pool=ALL.filter(x=>{
-   if(type!=='all'&&x.kind!==type)return false;
-   if(mood&&x.vibe!==mood)return false;
-   if(timeMax>0&&x.kind==='movie'&&x.mins&&x.mins>timeMax)return false;
-   return true;
-  }).sort((a,b)=>b.gm-a.gm);
-  if(!pool.length){$('#tonightResult').innerHTML='<p class="text-[13px] text-slate-500 mt-3">Nothing matches that combination — try loosening the mood or time filter.</p>';return;}
-  lastPool=pool.slice(0,15);
-  renderPick();
- }
- function renderPick(){
-  if(!lastPool.length)return;
-  var idx=Math.floor(Math.random()*Math.min(lastPool.length,5));
-  var pick=lastPool[idx];
-  var runners=lastPool.filter(x=>x!==pick).slice(0,2);
-  var k=KM[pick.kind];
-  $('#tonightResult').innerHTML='<div class="panel p-4 mt-3" style="border-color:'+k.c+'44">'
-   +'<div class="lbl" style="color:'+k.c+'">'+k.label+' · tonight’s pick</div>'
-   +'<div class="text-base font-bold text-slate-50 mt-1">'+esc(pick.title)+' <span class="text-slate-500 font-normal text-sm">· '+pick.year+'</span></div>'
-   +'<div class="text-[12px] text-slate-400 mt-0.5">'+esc(pick.creator)+' · '+esc(pick.span)+(pick.vibe?' · '+esc(pick.vibe):'')+'</div>'
-   +'<p class="text-[12px] text-slate-300 mt-2 italic">“'+esc(pick.just)+'”</p>'
-   +'<div class="text-[12px] mt-2" style="color:#fbbf24">★ '+pick.gm+' match'+(pick.owned?' · <span style="color:#4ade80">✓ you own it</span>':'')+'</div>'
-   +'</div>'
-   +(runners.length?'<div class="text-[11px] text-slate-500 mt-2">Or: '+runners.map(r=>esc(r.title)).join(' · ')+'</div>':'')
-   +'<button type="button" id="tonightAnother" class="presetBtn mt-3">🎲 Try another</button>';
-  on('#tonightAnother','click',renderPick);
- }
- on('#tonightFind','click',findPick);
-})();
-
 /* ===== Suggestion box: shared Firestore collection, visible to everyone =====
    Writes/reads use window.__omniAcct().fsdb directly rather than a doc keyed by handle --
    suggestions aren't personal data, they're a shared feed everyone contributes to and sees,
    so they live in their own top-level 'suggestions' collection instead of nested under any
    one account. If cloud accounts aren't configured, the box still opens but explains that
    suggestions need that setup rather than silently doing nothing. #suggestBtn shares the
-   .navBtn class with no data-view, the same shape that caused two earlier bugs (#tonightBtn,
-   the old #goatPickerBtn) where the click bubbled into #nav's delegated switchView(undefined)
-   and hid the whole page -- e.stopPropagation() here is mandatory, not defensive style. */
+   .navBtn class with no data-view, the same shape that caused two earlier bugs (the old
+   #tonightBtn and #goatPickerBtn) where the click bubbled into #nav's delegated
+   switchView(undefined) and hid the whole page -- e.stopPropagation() here is mandatory,
+   not defensive style. */
 (function suggestBox(){
  var btn=$('#suggestBtn'),gate=$('#suggestGate');
  if(!btn||!gate)return;

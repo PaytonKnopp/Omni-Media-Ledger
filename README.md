@@ -36,11 +36,10 @@ That's genuinely most of it. Everything past this point is detail for people who
 
 A few other things worth knowing about:
 
-- **🌙 Tonight** — tell it your mood and how much time you have, get one specific pick.
+- **🎲 Surprise Me** — one weighted pick, scoped by medium, mood, ownership, and (for films) how much time you have.
 - **💡 Suggest a feature** — a shared box (visible to everyone using the app, not just you) for writing down "it'd be great if…" ideas.
 - **Themes** — nine visual looks, pick one from the header.
 - **Rabbit Hole** — a guided chain of related works to fall down, one click at a time.
-- **Surprise Me** — a scoped random pick when you can't decide.
 - **Compare** — load someone else's exported profile to see what taste you share and where you differ. Nothing is saved, it's just a look.
 - **"Why this was recommended"** — every match score comes with a plain-English reason, not just a number.
 

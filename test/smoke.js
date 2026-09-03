@@ -270,28 +270,28 @@ async function runFile(browser, file) {
     await page.click('#nav .navBtn[data-view="controller"]');
     await page.waitForTimeout(200);
 
-    // Regression: #tonightBtn shares the .navBtn class for visual consistency with the real view
-    // tabs, but isn't a real view (no data-view attribute) -- its click used to bubble up into
-    // #nav's delegated view-switcher, which then called switchView(undefined), which hid every
-    // single section on the page (main content included) since nothing has data-sec="undefined".
-    // Invisible in practice because it opens a full-screen modal on top of the now-broken page,
-    // until the modal closes and the user finds a blank page underneath. Fixed by stopping
-    // propagation in the button's own click handler. (The header "Pick Your GOATs" button had the
-    // identical bug and the identical fix, but it's gone now -- folded into the GOAT Profile tab
-    // above -- so there's nothing left there to regression-test.)
-    await page.click('#tonightBtn');
+    // Surprise Me: now covers what the old "Tonight" tab did (mood + time budget), so this
+    // exercises the merged feature -- a movie-only time-budget filter actually narrows the pool,
+    // and the spin panel returns a specific pick.
+    await page.click('#surpriseBtn');
     await page.waitForTimeout(200);
-    await page.click('#tonightClose');
+    await page.selectOption('#spinTime', '60');
+    await page.click('#spinGo');
     await page.waitForTimeout(200);
-    const controllerVisibleAfterTonight = await page.evaluate(() => {
-      const s = document.querySelector('main > section[data-sec="controller"]');
-      return s && !s.classList.contains('hidden');
+    const surpriseHasResult = await page.evaluate(() => {
+      const p = document.getElementById('surprisePanel');
+      return p && !p.classList.contains('hidden') && p.textContent.length > 0;
     });
-    check('opening/closing Tonight does not hide the underlying view', controllerVisibleAfterTonight);
+    check('Surprise Me (with a time budget set) returns a specific pick', surpriseHasResult);
+    await page.click('#surpriseBtn');
+    await page.waitForTimeout(200);
 
-    // #suggestBtn has the identical .navBtn-without-data-view shape as #tonightBtn above, so it
-    // needs the identical regression check. This run has no cloud configured, so it also checks
-    // the graceful "cloud not configured" message rather than a silent no-op or a thrown error.
+    // #suggestBtn has the .navBtn-without-data-view shape that caused two real, previously-invisible
+    // bugs (the old #tonightBtn and #goatPickerBtn, both since removed/folded elsewhere): its click
+    // used to bubble into #nav's delegated view-switcher, calling switchView(undefined) and hiding
+    // every section on the page underneath the modal. #suggestBtn has e.stopPropagation() from the
+    // start (see index.html), and this run has no cloud configured, so it also checks the graceful
+    // "cloud not configured" message rather than a silent no-op or a thrown error.
     await page.click('#suggestBtn');
     await page.waitForTimeout(200);
     const suggestGateVisibleNoCloud = await page.evaluate(() => document.getElementById('suggestGate').offsetHeight > 0);
