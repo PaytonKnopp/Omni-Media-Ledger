@@ -245,18 +245,25 @@ async function runFile(browser, file) {
     check('GOAT Profile search returns results inline', searchHasResults);
     const goatTierBtn = await page.$('#goatSearchResults .profEditBtn[data-act="declare"]');
     const targetId = await goatTierBtn.evaluate(el => el.dataset.id);
-    // Regression: the compact tier row's active-state label used to be derived from the raw
-    // data-act value (act.charAt(0).toUpperCase()+act.slice(1)), which happens to spell "Silver"
-    // and "Bronze" correctly but turns Gold's act ("declare") into "Declare" instead of "Gold".
-    // "Interstellar" is Gold by default in the sample profile, so search for it directly rather
-    // than hoping the current "dune" search happens to include an already-Gold item.
+    // Regression (superseded): the compact tier row's active-state label used to be derived from
+    // the raw data-act value (act.charAt(0).toUpperCase()+act.slice(1)), which happens to spell
+    // "Silver" and "Bronze" correctly but turned Gold's act ("declare") into "Declare" instead of
+    // "Gold". Fixed once by showing the real tier name when active -- then redesigned again per
+    // explicit user preference: Gold/Silver/Bronze are pure emoji now, active or not, with no name
+    // text at all (only Owned still gets a persistent text label, so it reads as different from
+    // the other three at a glance). Active state is shown via the background color and the title
+    // attribute's "click to remove" instead. "Interstellar" is Gold by default in the sample
+    // profile, so search for it directly rather than hoping "dune" includes an already-Gold item.
     await page.fill('#goatSearchInput', 'Interstellar');
     await page.waitForTimeout(200);
-    const goldLabel = await page.evaluate(() => {
+    const goldBtnState = await page.evaluate(() => {
       const btn = document.querySelector('#goatSearchResults .profEditBtn[data-act="declare"]');
-      return btn ? btn.textContent : '';
+      return btn ? { text: btn.textContent.trim(), title: btn.title, bg: getComputedStyle(btn).backgroundColor } : null;
     });
-    check('an active Gold tier button reads "Gold", not "Declare"', goldLabel.includes('Gold') && !goldLabel.includes('Declare'));
+    check('an active Gold tier button shows no "Gold"/"Declare" text, just the emoji',
+      !!goldBtnState && !goldBtnState.text.includes('Gold') && !goldBtnState.text.includes('Declare') && goldBtnState.text.length <= 2);
+    check('an active Gold tier button is still visually distinguishable (highlighted background, removable title)',
+      !!goldBtnState && goldBtnState.title.includes('click to remove') && goldBtnState.bg !== 'rgba(0, 0, 0, 0)');
     await page.fill('#goatSearchInput', 'dune');
     await page.waitForTimeout(200);
     const wasDeclaredBefore = await page.evaluate((id) => {
@@ -266,7 +273,7 @@ async function runFile(browser, file) {
     // Re-select the button fresh -- the original handle's DOM node was replaced by the
     // Interstellar/dune re-searches above.
     await page.click('#goatSearchResults .profEditBtn[data-act="declare"][data-id="' + targetId + '"]');
-    await page.waitForTimeout(500); // tiering reloads the page
+    await page.waitForTimeout(900); // tiering reloads the page -- the full reload+re-render (recomputing scoring for the whole corpus) has gotten heavier release over release, and 500ms stopped being reliable margin
     const isDeclaredAfter = await page.evaluate((id) => {
       try { return (JSON.parse(localStorage.getItem('omniLedgerProfile')).declaredGoatIds || []).includes(id); }
       catch (e) { return false; }
@@ -671,6 +678,7 @@ function __mockBuilder(table){
     maybeSingle: function(){ state.single = true; return builder; },
     upsert: function(payload){ state.op = 'upsert'; state.payload = payload; return builder; },
     insert: function(payload){ state.op = 'insert'; state.payload = payload; return builder; },
+    update: function(payload){ state.op = 'update'; state.payload = payload; return builder; },
     delete: function(){ state.op = 'delete'; return builder; },
     then: function(resolve, reject){ return execute().then(resolve, reject); },
     catch: function(fn){ return execute().catch(fn); },
@@ -682,6 +690,18 @@ function __mockBuilder(table){
       if (table === 'profiles') {
         if (state.op === 'upsert') {
           db.upsertCalls++;
+          // Test-only escape hatch (window.__mockFailNextProfileUpsert) to simulate a write that
+          // reaches the server but fails, or times out client-side -- without it, there's no way
+          // to test what happens when a self-triggered reload's own sync doesn't land, since every
+          // real declare/own action always re-uploads the full current (correct) local snapshot,
+          // which would silently heal any staleness a test tried to inject into the mock store
+          // directly.
+          if (db.failNextProfileUpsert) {
+            db.failNextProfileUpsert = false;
+            __mockSave(db);
+            res({ data: null, error: { message: 'simulated upsert failure' } });
+            return;
+          }
           var row = state.payload;
           db.tables.profiles[row.handle] = { handle: row.handle, data: row.data };
           __mockSave(db);
@@ -708,6 +728,22 @@ function __mockBuilder(table){
           db.tables.suggestions.push(newRow);
           __mockSave(db);
           res({ data: [newRow], error: null });
+          return;
+        }
+        if (state.op === 'update') {
+          var uf = state.filters.find(function(f){ return f[0] === 'id'; });
+          var srow = uf ? db.tables.suggestions.find(function(r){ return String(r.id) === String(uf[1]); }) : null;
+          if (srow) Object.assign(srow, state.payload);
+          __mockSave(db);
+          res({ data: srow ? [srow] : [], error: null });
+          return;
+        }
+        if (state.op === 'delete') {
+          db.deleteCalls++;
+          var df2 = state.filters.find(function(f){ return f[0] === 'id'; });
+          if (df2) db.tables.suggestions = db.tables.suggestions.filter(function(r){ return String(r.id) !== String(df2[1]); });
+          __mockSave(db);
+          res({ data: null, error: null });
           return;
         }
         var rows = db.tables.suggestions.slice();
@@ -857,6 +893,44 @@ async function runAccountFlow(browser, file) {
     check('the submitted suggestion appears back in the list', listText.includes('add more cowbell'));
     check('the submitted suggestion is attributed to the signed-in handle', listText.includes('smoketestuser'));
 
+    // Edit/Delete are only offered on a suggestion whose handle matches the signed-in handle --
+    // this one was just submitted as smoketestuser, so both controls should be present.
+    const ownControlsVisible = await page2.evaluate(() => {
+      const row = Array.from(document.querySelectorAll('#suggestList [data-suggest-id]'))
+        .find(r => r.textContent.includes('add more cowbell'));
+      return !!(row && row.querySelector('.suggestEditBtn') && row.querySelector('.suggestDeleteBtn'));
+    });
+    check('Edit and Delete are offered on your own suggestion', ownControlsVisible);
+
+    await page2.evaluate(() => {
+      const row = Array.from(document.querySelectorAll('#suggestList [data-suggest-id]'))
+        .find(r => r.textContent.includes('add more cowbell'));
+      row.querySelector('.suggestEditBtn').click();
+    });
+    await page2.waitForTimeout(150);
+    const editAreaHasOriginalText = await page2.evaluate(() => {
+      const ta = document.querySelector('#suggestList .suggestEditArea');
+      return ta ? ta.value.includes('add more cowbell') : false;
+    });
+    check('Edit opens an inline textarea pre-filled with the original text', editAreaHasOriginalText);
+
+    await page2.evaluate(() => {
+      const ta = document.querySelector('#suggestList .suggestEditArea');
+      ta.value = 'Smoke test suggestion: edited, more cowbell please.';
+    });
+    await page2.click('#suggestList .suggestEditSave');
+    await page2.waitForTimeout(300);
+    const listAfterEdit = await page2.textContent('#suggestList');
+    check('saving an edit updates the suggestion text in the list', listAfterEdit.includes('edited, more cowbell please') && !listAfterEdit.includes('Smoke test suggestion: add more cowbell.'));
+
+    page2.once('dialog', d => d.accept());
+    await page2.click('#suggestList .suggestDeleteBtn');
+    await page2.waitForTimeout(300);
+    const listAfterDelete = await page2.textContent('#suggestList');
+    const stillInMockStore = await page2.evaluate(() =>
+      (window.__mockTables.suggestions || []).some(s => (s.text || '').includes('cowbell')));
+    check('deleting a suggestion removes it from the list and the shared table', !listAfterDelete.includes('cowbell') && !stillInMockStore);
+
     await page2.click('#suggestClose');
     await page2.waitForTimeout(150);
     const suggestGateHiddenAfterClose = await page2.evaluate(() => document.getElementById('suggestGate').offsetHeight === 0);
@@ -909,6 +983,34 @@ async function runAccountFlow(browser, file) {
     const mediaRowAfterUndeclare = await page2.evaluate((id) =>
       (window.__mockTables.media_status || []).find(r => r.handle === 'smoketestuser2' && r.media_id === id), goldCardId);
     check('un-declaring removes the media_status row entirely (no tier, not owned)', !mediaRowAfterUndeclare);
+
+    // Root-cause regression for the real bug this was all chasing: a reload the app triggers
+    // itself right after syncing (declare/own/import/reset/onboarding) used to ALWAYS re-fetch-
+    // and-hydrate from the cloud on the very next boot(), even though local state was already the
+    // correct, just-written copy -- so a sync that failed or was slow could get silently reverted
+    // the moment the page reloaded, with no error visible to the user. Proven here by forcing the
+    // NEXT profile upsert to fail (via the mock's failNextProfileUpsert escape hatch -- a real
+    // declare/own action always re-uploads the full current local snapshot on its own, which would
+    // otherwise silently heal any staleness a test tried to inject into the mock store directly,
+    // making a naive version of this test pass even without the fix). If boot() still re-hydrates
+    // unconditionally after a reload whose own sync just failed, the declare that triggered it
+    // gets wiped by the older cloud row; if the fix holds, the local edit survives regardless.
+    const secondGoldId = await page2.evaluate(() => {
+      const heads = Array.from(document.querySelectorAll('.cardHead'));
+      return heads[1] && heads[1].dataset.id;
+    });
+    await page2.evaluate(() => {
+      const db = JSON.parse(sessionStorage.getItem('__mockDb'));
+      db.failNextProfileUpsert = true;
+      sessionStorage.setItem('__mockDb', JSON.stringify(db));
+    });
+    await page2.click('.panel .profEditBtn[data-act="declare"][data-id="' + secondGoldId + '"]');
+    await page2.waitForTimeout(600);
+    const survivedFailedSync = await page2.evaluate((id) => {
+      try { return (JSON.parse(localStorage.getItem('omniLedgerProfile')).declaredGoatIds || []).includes(id); }
+      catch (e) { return false; }
+    }, secondGoldId);
+    check('a self-triggered reload does not get clobbered when its own sync fails', survivedFailedSync);
 
     await page2.click('#acctMenuField');
     await page2.waitForTimeout(200);
