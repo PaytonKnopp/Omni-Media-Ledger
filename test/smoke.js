@@ -605,67 +605,76 @@ async function runFile(browser, file) {
   }
 }
 
-// Cloud accounts (see NOTES.md "Cloud accounts"): exercised here against a mocked Firestore, since
-// this suite has no real Firebase project to talk to. Patches a temp copy of the file with a dummy
-// "configured" FIREBASE_CONFIG and stubs the gstatic SDK URLs with an in-memory mock store that
-// implements the same collection().doc().get()/.set() surface acct-boot actually calls -- so this
-// exercises the real acct-boot code path, not a re-implementation of it.
-const MOCK_FIRESTORE_SDK = `
-window.__mockStore = {};
-window.__mockCollections = {};
-window.__setCalls = 0;
-window.__addCalls = 0;
-function __mockCollection(name){
-  window.__mockCollections[name] = window.__mockCollections[name] || [];
-  var rows = window.__mockCollections[name];
-  return {
-    doc: function(id){
-      var key = name + '/' + id;
-      return {
-        get: function(){
-          return Promise.resolve({
-            exists: Object.prototype.hasOwnProperty.call(window.__mockStore, key),
-            data: function(){ return window.__mockStore[key]; }
-          });
-        },
-        set: function(data){ window.__mockStore[key] = data; window.__setCalls++; return Promise.resolve(); }
-      };
-    },
-    add: function(data){
-      window.__addCalls++;
-      var withTs = Object.assign({}, data, { createdAt: (data && data.createdAt) || Date.now() });
-      rows.push(withTs);
-      return Promise.resolve({ id: 'mock' + rows.length });
-    },
-    orderBy: function(field, dir){
-      var sorted = rows.slice().sort(function(a,b){
-        var av = a[field] || 0, bv = b[field] || 0;
-        return dir === 'asc' ? av - bv : bv - av;
-      });
-      return { limit: function(n){
-        var limited = sorted.slice(0, n);
-        return { get: function(){
-          return Promise.resolve({ forEach: function(cb){ limited.forEach(function(d){ cb({ data: function(){ return d; } }); }); } });
-        }};
-      }};
-    }
+// Cloud accounts (see NOTES.md "Cloud accounts (Supabase)"): exercised here against a mocked
+// Supabase client, since this suite has no real Supabase project to talk to. Patches a temp copy
+// of the file with a dummy "configured" SUPABASE_CONFIG and stubs the CDN script URL with an
+// in-memory mock store that implements the same .from(table).select/eq/maybeSingle/order/limit/
+// upsert/insert surface acct-boot and the suggestion box actually call -- so this exercises the
+// real acct-boot code path, not a re-implementation of it.
+const MOCK_SUPABASE_SDK = `
+window.__mockTables = { profiles: {}, suggestions: [] };
+window.__upsertCalls = 0;
+window.__insertCalls = 0;
+function __mockBuilder(table){
+  var state = { filters: [], order: null, limitN: null, single: false, op: 'select', payload: null };
+  var builder = {
+    select: function(){ return builder; },
+    eq: function(col, val){ state.filters.push([col, val]); return builder; },
+    order: function(col, opts){ state.order = { col: col, ascending: !opts || opts.ascending !== false }; return builder; },
+    limit: function(n){ state.limitN = n; return builder; },
+    maybeSingle: function(){ state.single = true; return builder; },
+    upsert: function(payload){ state.op = 'upsert'; state.payload = payload; return builder; },
+    insert: function(payload){ state.op = 'insert'; state.payload = payload; return builder; },
+    then: function(resolve, reject){ return execute().then(resolve, reject); },
+    catch: function(fn){ return execute().catch(fn); },
+    finally: function(fn){ return execute().finally(fn); }
   };
-}
-window.firebase = {
-  initializeApp: function(){},
-  firestore: function(){
-    return { collection: __mockCollection };
+  function execute(){
+    return new Promise(function(res){
+      if (table === 'profiles') {
+        if (state.op === 'upsert') {
+          window.__upsertCalls++;
+          var row = state.payload;
+          window.__mockTables.profiles[row.handle] = { handle: row.handle, data: row.data };
+          res({ data: [row], error: null });
+          return;
+        }
+        var hf = state.filters.find(function(f){ return f[0] === 'handle'; });
+        var found = hf ? window.__mockTables.profiles[hf[1]] : null;
+        res(state.single ? { data: found || null, error: null } : { data: found ? [found] : [], error: null });
+        return;
+      }
+      if (table === 'suggestions') {
+        if (state.op === 'insert') {
+          window.__insertCalls++;
+          var newRow = Object.assign({}, state.payload, { id: window.__mockTables.suggestions.length + 1, created_at: new Date().toISOString() });
+          window.__mockTables.suggestions.push(newRow);
+          res({ data: [newRow], error: null });
+          return;
+        }
+        var rows = window.__mockTables.suggestions.slice();
+        if (state.order) rows.sort(function(a,b){
+          var av = a[state.order.col], bv = b[state.order.col];
+          return state.order.ascending ? (av > bv ? 1 : -1) : (av < bv ? 1 : -1);
+        });
+        if (state.limitN != null) rows = rows.slice(0, state.limitN);
+        res({ data: rows, error: null });
+        return;
+      }
+      res({ data: null, error: { message: 'unknown mock table: ' + table } });
+    });
   }
-};
-window.firebase.firestore.FieldValue = { serverTimestamp: function(){ return Date.now(); } };`;
+  return builder;
+}
+window.supabase = { createClient: function(){ return { from: function(table){ return __mockBuilder(table); } }; } };`;
 
 async function runAccountFlow(browser, file) {
   const src = fs.readFileSync(path.join(ROOT, file), 'utf8');
   const patched = src.replace(
-    /var FIREBASE_CONFIG=\{[^}]*\};/,
-    'var FIREBASE_CONFIG={apiKey:"dummy",authDomain:"d",projectId:"d",storageBucket:"d",messagingSenderId:"1",appId:"1"};'
+    /var SUPABASE_CONFIG=\{[^}]*\};/,
+    'var SUPABASE_CONFIG={url:"https://dummy.supabase.co",anonKey:"dummy-anon-key"};'
   );
-  if (patched === src) { check(file + ': FIREBASE_CONFIG placeholder found to patch for account-flow test', false); return; }
+  if (patched === src) { check(file + ': SUPABASE_CONFIG placeholder found to patch for account-flow test', false); return; }
   const tmpPath = path.join(ROOT, '_test_acct_' + file);
   fs.writeFileSync(tmpPath, patched);
   try {
@@ -673,8 +682,8 @@ async function runAccountFlow(browser, file) {
     const page = await browser.newPage();
     const pageErrors = [];
     page.on('pageerror', e => pageErrors.push(e.message));
-    await page.route('**/firebasejs/**', route => route.fulfill({ contentType: 'application/javascript', body: '' }));
-    await page.addInitScript(MOCK_FIRESTORE_SDK);
+    await page.route('**/supabase-js*/**', route => route.fulfill({ contentType: 'application/javascript', body: '' }));
+    await page.addInitScript(MOCK_SUPABASE_SDK);
     await page.goto('file://' + tmpPath);
     await page.waitForTimeout(400);
 
@@ -693,20 +702,20 @@ async function runAccountFlow(browser, file) {
     if (onboardVisible) { await page.click(startBtn); await page.waitForTimeout(300); }
 
     await page.waitForTimeout(2200); // cloud sync debounce is 1500ms
-    const synced = await page.evaluate(() => !!window.__mockStore['profiles/smoketestuser']);
+    const synced = await page.evaluate(() => !!(window.__mockTables && window.__mockTables.profiles['smoketestuser']));
     check('a profile change syncs to the cloud store under the slugified handle', synced);
 
-    // A second "device" (fresh context) with the same handle should hydrate from the cloud doc and
+    // A second "device" (fresh context) with the same handle should hydrate from the cloud row and
     // skip onboarding, since the mock store already has an onboarded profile for this handle.
-    const storedDoc = await page.evaluate(() => window.__mockStore['profiles/smoketestuser']);
+    const storedRow = await page.evaluate(() => window.__mockTables.profiles['smoketestuser']);
     await page.close();
 
     const ctx2 = await browser.newContext();
     const page2 = await ctx2.newPage();
     const page2Errors = [];
     page2.on('pageerror', e => page2Errors.push(e.message));
-    await page2.route('**/firebasejs/**', route => route.fulfill({ contentType: 'application/javascript', body: '' }));
-    await page2.addInitScript(MOCK_FIRESTORE_SDK + 'window.__mockStore=' + JSON.stringify({ 'profiles/smoketestuser': storedDoc }) + ';');
+    await page2.route('**/supabase-js*/**', route => route.fulfill({ contentType: 'application/javascript', body: '' }));
+    await page2.addInitScript(MOCK_SUPABASE_SDK + 'window.__mockTables.profiles=' + JSON.stringify({ smoketestuser: storedRow }) + ';');
     await page2.goto('file://' + tmpPath);
     await page2.waitForTimeout(400);
     await page2.fill('#acctHandleInput', 'smoketestuser');
@@ -725,7 +734,7 @@ async function runAccountFlow(browser, file) {
 
     // Suggestion box: opening it must not corrupt the view (same #navBtn-without-data-view bug
     // class already found twice with #tonightBtn and the old #goatPickerBtn), it should load
-    // against the mocked Firestore, accept a submission, and show it back in the list.
+    // against the mocked Supabase client, accept a submission, and show it back in the list.
     const viewBeforeSuggest = await page2.evaluate(() => document.querySelector('section[data-sec]:not(.hidden)').dataset.sec);
     await page2.click('#suggestBtn');
     await page2.waitForTimeout(300);
@@ -737,8 +746,8 @@ async function runAccountFlow(browser, file) {
     await page2.fill('#suggestText', 'Smoke test suggestion: add more cowbell.');
     await page2.click('#suggestSubmit');
     await page2.waitForTimeout(300);
-    const addCalls = await page2.evaluate(() => window.__addCalls || 0);
-    check('submitting a suggestion writes to the shared Firestore collection', addCalls >= 1);
+    const insertCalls = await page2.evaluate(() => window.__insertCalls || 0);
+    check('submitting a suggestion writes to the shared Supabase table', insertCalls >= 1);
     const listText = await page2.textContent('#suggestList');
     check('the submitted suggestion appears back in the list', listText.includes('add more cowbell'));
     check('the submitted suggestion is attributed to the signed-in handle', listText.includes('smoketestuser'));
@@ -847,7 +856,7 @@ async function runGoatPickerFlow(browser, file) {
   const browser = await chromium.launch(executablePath ? { executablePath } : {});
   for (const t of TARGETS) {
     await runFile(browser, t);
-    console.log('\n=== ' + t + ' — cloud account flow (mocked Firestore) ===');
+    console.log('\n=== ' + t + ' — cloud account flow (mocked Supabase) ===');
     await runAccountFlow(browser, t);
     console.log('\n=== ' + t + ' — quick-rate seed picker ===');
     await runSeedPickerFlow(browser, t);

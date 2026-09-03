@@ -12,8 +12,7 @@ Audited the whole file with pattern scans for `api_key`, `apikey`, `secret`, `to
 
 - **No email addresses, passwords, or server-side secrets of any kind.**
 - Every match for the word "secret" was a plot description of a film or novel (*The Secret History*, *Never Let Me Go*, etc.), not a credential.
-- As shipped (`FIREBASE_CONFIG` left at its placeholder values), the page makes **zero network calls** — it never talks to a server, so nothing can be exfiltrated.
-- **If you fill in `FIREBASE_CONFIG`** (see "Cloud accounts" below), the file then contains your Firebase **project's client API key**. This is not a secret the way a server API key is — Firebase's own docs are explicit that this key is meant to ship in client bundles and identifies your project, not a user; it authorizes nothing on its own without matching Firestore security rules. Still, don't commit it to a *public* repo without knowing what you're doing: the real access control lives in the Firestore rules (see below), not in hiding the key. If this repo is or becomes public, either keep `FIREBASE_CONFIG` local (gitignored) and paste it in only on your own machine, or accept that the key is visible and lean entirely on the security rules to keep the data honest.
+- **As of Phase 27, `SUPABASE_CONFIG` is filled in with a real project URL and anon (publishable) key** — cloud accounts are live on this copy, so unlike the earlier Firebase-based phases (11–26), the shipped page now does make network calls (to Supabase, on every load and on every profile change). This is a deliberate, informed choice, not an oversight: Supabase's anon/publishable key is explicitly designed to ship in client bundles — like Firebase's client API key before it, it identifies the project, not a user, and authorizes nothing on its own without the Row Level Security policies in `supabase/schema.sql` actually being applied. The real access control lives in those policies, not in hiding the key. **Never paste the Supabase *secret* key (service_role) anywhere in this app or repo** — only the publishable/anon key belongs here, and the secret key was never used or needed.
 
 ### Personal data: present, and it is the whole point of the app
 
@@ -300,6 +299,8 @@ This remains an ongoing process. A full-coverage pass on the ~2,200 still-unveri
 ---
 
 ## Phase 11 — Optional cloud accounts (Firebase)
+
+> **Superseded by Phase 27.** The user set up a Supabase project instead of ever configuring Firebase (which stayed at its placeholder value through Phases 12–26, dormant), so Phase 27 replaced this entire implementation with a Supabase/Postgres backend. Kept below as the historical record of the original design reasoning (handle-only accounts, why not a full server, the trust model) — nearly all of which still applies to the Supabase version too, just swap "Firestore" for "Postgres table" and "Firestore rules" for "Row Level Security policies." The concrete setup steps and code below are no longer accurate to the shipped app; see Phase 27 for those.
 
 **The problem this solves.** Everything up to this phase lives in `localStorage` — one browser, one device. That's fine for Payton's own use, but doesn't work for "send this to friends and everyone gets their own saved account that follows them across devices." A real account system needs somewhere to put data that isn't the visitor's own browser (a database), a way to tell visitors apart (even a light one), and a URL/file people actually load the app from.
 
@@ -591,6 +592,32 @@ Final item of the broader UI-cleanup round: "polish up the UI for all tabs to ma
 **The Chart.js canvases showing blank during this audit are not a bug** — this sandbox has no outbound network access to the CDN Chart.js loads from, which is exactly the documented graceful-degradation path (README → "External dependencies") rather than anything mobile-specific; they render normally with real internet access.
 
 **Testing.** New check confirms an active Gold button reads "Gold" (searching for "Interstellar," a default-Gold sample title, rather than assuming the current search happens to include one).
+
+---
+
+## Phase 27 — Cloud accounts, take two: Supabase (and cloud accounts are now actually live)
+
+Phase 11 built cloud accounts against Firebase Firestore, but `FIREBASE_CONFIG` was never actually filled in — it sat at its placeholder value through Phases 12–26, so every "cloud accounts" feature shipped since (the suggestion box, the account menu, "PK Sample" labeling) was built and tested against a mock, never run for real. This phase: the user set up a Supabase project (Postgres, not Firestore) and asked to build out the DB side for real. Rather than configuring the dormant Firebase path, replaced it outright with Supabase — same features, same trust model, real infrastructure this time.
+
+**Why Supabase over finally configuring Firebase.** No reason not to, once the user had already created a Supabase project — Supabase is Postgres-backed (the user's original instinct per Phase 11's notes, "SQL Server was the user's first instinct") with the same zero-server, browser-talks-directly-to-the-database shape Firebase offered, a comparable free tier, and setup that's just as much a click-through. Nothing about the app's needs (small per-handle JSON blobs, a flat shared feed) pushes toward one over the other; the user having already stood up a Supabase project settled it.
+
+**What changed, concretely:**
+- `SUPABASE_CONFIG={url, anonKey}` replaces `FIREBASE_CONFIG` — and unlike every prior phase, **this is filled in with real values**, not a placeholder. Cloud accounts are live on this copy of the app as of this phase.
+- The two Firebase compat SDK `<script>` tags are replaced with one: `@supabase/supabase-js@2.45.4` (pinned, from jsdelivr).
+- `acct-boot`'s `fsdb` (a Firestore handle) becomes `client` (a Supabase client). Every Firestore call has a direct Postgres/PostgREST equivalent: `collection('profiles').doc(h).get()` → `client.from('profiles').select('data').eq('handle',h).maybeSingle()`; `.doc(h).set(snapshot)` → `client.from('profiles').upsert({handle,data:snapshot})`. Firestore's flat per-field document became one `profiles.data jsonb` column holding the same 6 tracked keys as a nested object — Postgres has no equivalent of "a document that's just a bag of top-level fields," and one jsonb column is the natural fit.
+- The suggestion box's Firestore `collection('suggestions').add()/.orderBy().limit().get()` became `client.from('suggestions').insert()/.select().order().limit()`. `window.__omniAcct()` now exposes `client` instead of `fsdb`, same getter-not-snapshot shape as before.
+- `supabase/schema.sql` (new file) is the Postgres equivalent of the Firestore security rules from Phase 11: two tables (`profiles`, `suggestions`), Row Level Security enabled on both, and a `BEFORE INSERT OR UPDATE` trigger on `profiles` that validates `data`'s keys against the same allowed-key list the old Firestore rule checked (`hasOnly([...])`) and stamps `updated_at` server-side — a trigger instead of a `CHECK` constraint because Postgres `CHECK` constraints can't contain subqueries, and validating jsonb key membership needs one (`array(select jsonb_object_keys(data)) <@ allowed`). Policies are open (`using (true)` / `with check (true)`) for select/insert/update on `profiles` and select/insert on `suggestions`, matching Phase 11's already-accepted trust model exactly: handles are names, not verified identities, so RLS can't distinguish "the real Alice" from "someone who typed alice" — what it *can* do is confine a leaked/scraped anon key to this app's own two tables and their expected shape, same limitation and same mitigation as the Firestore rules had.
+- Same trust-model caveat as before, explicitly re-stated rather than assumed: this is a friend-group convenience, not a security boundary.
+
+**Setup, now 4 steps instead of 5** (no separate "enable Firestore" step — a Supabase project's Postgres database exists from creation):
+1. https://supabase.com/dashboard → create a free project.
+2. Project Settings → API → copy the Project URL and the `anon` `public` key (**not** the `service_role` secret key — that one never belongs in this app).
+3. Paste both into `SUPABASE_CONFIG` near the top of the `acct-boot` script in `index.html`.
+4. SQL Editor → New query → paste the entire contents of `supabase/schema.sql` → Run. Idempotent (uses `IF NOT EXISTS`/`OR REPLACE`/`DROP POLICY IF EXISTS` throughout), safe to re-run if the schema ever needs updating.
+
+**Testing.** `MOCK_FIRESTORE_SDK` became `MOCK_SUPABASE_SDK`: an in-memory implementation of the same `.from(table).select/eq/maybeSingle/order/limit/upsert/insert` chainable-and-thenable surface the real client exposes (a generic query-builder mock, not per-call stubs, since acct-boot and the suggestion box between them use most of that surface). `runAccountFlow` now patches a temp copy's `SUPABASE_CONFIG` to a dummy "configured" value and intercepts the jsdelivr CDN script URL instead of gstatic's — same exercise-the-real-code-path philosophy as Phase 11's Firestore mock, just pointed at the new backend. All 15 account-flow checks pass against the mock, unchanged in what they verify (gate behavior, cross-device hydration via a second browser context, the account menu, the suggestion box round-trip, switch-account) — only the plumbing underneath changed.
+
+**What's still open — and this is the important one:** the schema SQL has been written and validated for syntax, but **nobody has run it against the real Supabase project yet**. This sandbox has no outbound network access to arbitrary hosts (confirmed: a direct `curl` to the project's REST endpoint hit the environment's proxy, not Supabase), so the real end-to-end path — schema applied, a real handle round-tripping through the real database, RLS actually enforcing what it's supposed to — has only been verified against the mock, not for real. The user needs to run `supabase/schema.sql` in their project's SQL Editor before cloud accounts actually work for a real visitor; until then, the app's own `typeof supabase==='undefined'`/timeout fallbacks mean it degrades to local-only exactly as if unconfigured, not a broken page — but "degrades gracefully" isn't the same as "works."
 
 ---
 

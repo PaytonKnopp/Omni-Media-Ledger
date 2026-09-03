@@ -766,33 +766,34 @@ body[data-theme="outer-wilds"]{--bg:#0e0a09;--panel:#181010;--panel-2:#120c0b;--
 <script src="data/games.js"></script>
 <script src="data/books.js"></script>
 <!--
-  Optional cloud accounts (Firebase Firestore), see NOTES.md "Cloud accounts" section for the
-  5-minute setup. Until FIREBASE_CONFIG below is filled in, this whole block is a no-op: the app
-  boots exactly as it always has, straight into the ledger-app script below, local-storage-only,
-  single device. Once configured, every visitor picks a handle (name), and their profile/watchlist/
-  theme/density sync to a Firestore document under that handle -- so the same handle on a different
+  Optional cloud accounts (Supabase/Postgres), see NOTES.md "Cloud accounts (Supabase)" section
+  for the 5-minute setup (run supabase/schema.sql once, then paste your project URL + anon key
+  below). Until SUPABASE_CONFIG below is filled in, this whole block is a no-op: the app boots
+  exactly as it always has, straight into the ledger-app script below, local-storage-only, single
+  device. Once configured, every visitor picks a handle (name), and their profile/watchlist/
+  theme/density sync to a `profiles` row under that handle -- so the same handle on a different
   device or browser gets their data back. No password: this is a friend-group convenience, not a
   security boundary -- anyone who knows a handle can load (and overwrite) that account.
 -->
-<script src="https://www.gstatic.com/firebasejs/10.13.2/firebase-app-compat.js"></script>
-<script src="https://www.gstatic.com/firebasejs/10.13.2/firebase-firestore-compat.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.js"></script>
 <script id="acct-boot">
 'use strict';
-// Paste the firebaseConfig object from the Firebase console (Project settings -> your web app)
-// here in place of the placeholder values. That's the only edit needed to turn cloud accounts on.
-var FIREBASE_CONFIG={apiKey:"PASTE_YOUR_FIREBASE_API_KEY_HERE",authDomain:"PASTE_YOUR_PROJECT.firebaseapp.com",projectId:"PASTE_YOUR_PROJECT_ID",storageBucket:"PASTE_YOUR_PROJECT.appspot.com",messagingSenderId:"PASTE_YOUR_SENDER_ID",appId:"PASTE_YOUR_APP_ID"};
+// Project settings -> API in your Supabase dashboard has both of these. The anon/publishable key
+// is meant to ship in client bundles (same as Firebase's client API key was) -- it authorizes
+// nothing on its own without the Row Level Security policies in supabase/schema.sql, which is
+// where the real access control lives. That's the only edit needed to turn cloud accounts on.
+var SUPABASE_CONFIG={url:"https://gqpjeccmwsjxrlrazqxt.supabase.co",anonKey:"sb_publishable_I-gmwFR0PTDtrhA_ttUSdg_j4p5lvIT"};
 (function(){
- var CONFIGURED=FIREBASE_CONFIG.apiKey.indexOf('PASTE_YOUR')!==0;
+ var CONFIGURED=SUPABASE_CONFIG.anonKey.indexOf('PASTE_YOUR')!==0;
  var ACCT_KEY='omniLedgerHandle';
  var TRACKED=['omniLedgerProfile','omniLedgerWatchlist','omniLedgerTheme','omniLedgerDensity','omniLedgerOnboarded','omniLedgerTipsDismissed'];
- var fsdb=null,handle=null,syncTimer=null,cloudReady=false;
+ var client=null,handle=null,syncTimer=null,cloudReady=false;
 
  function $(s){return document.querySelector(s);}
  function slugify(raw){return String(raw||'').trim().toLowerCase().replace(/[^a-z0-9_-]+/g,'-').replace(/^-+|-+$/g,'').slice(0,40);}
  function localSnapshot(){
   var o={};
   TRACKED.forEach(function(k){try{var v=localStorage.getItem(k);if(v!==null)o[k]=v;}catch(e){}});
-  o.updatedAt=new Date().toISOString();
   return o;
  }
  function hydrateFromCloud(data){
@@ -807,7 +808,7 @@ var FIREBASE_CONFIG={apiKey:"PASTE_YOUR_FIREBASE_API_KEY_HERE",authDomain:"PASTE
   if(!cloudReady||!handle)return;
   clearTimeout(syncTimer);
   syncTimer=setTimeout(function(){
-   try{fsdb.collection('profiles').doc(handle).set(localSnapshot()).catch(function(e){console.warn('Cloud sync failed (will retry on next change):',e.message||e);});}catch(e){console.warn('Cloud sync failed:',e);}
+   try{client.from('profiles').upsert({handle:handle,data:localSnapshot()}).then(function(res){if(res&&res.error)console.warn('Cloud sync failed (will retry on next change):',res.error.message||res.error);});}catch(e){console.warn('Cloud sync failed:',e);}
   },1500);
  }
  // Every write ledger-app makes to these 5 keys already goes through localStorage.setItem --
@@ -880,30 +881,30 @@ var FIREBASE_CONFIG={apiKey:"PASTE_YOUR_FIREBASE_API_KEY_HERE",authDomain:"PASTE
   });
  }
  function resolveHandle(h){
-  return withTimeout(fsdb.collection('profiles').doc(h).get(),8000).then(function(doc){
+  return withTimeout(client.from('profiles').select('data').eq('handle',h).maybeSingle(),8000).then(function(res){
+   if(res.error)throw res.error;
    handle=h;try{localStorage.setItem(ACCT_KEY,h);}catch(e){}
-   if(doc.exists){hydrateFromCloud(doc.data());}
-   else{clearLocalProfile();} // brand-new handle: fresh slate, normal onboarding runs, first save creates the doc
+   if(res.data&&res.data.data){hydrateFromCloud(res.data.data);}
+   else{clearLocalProfile();} // brand-new handle: fresh slate, normal onboarding runs, first save creates the row
   });
  }
 
  function boot(){
-  if(!CONFIGURED||typeof firebase==='undefined'){renderFooterNote();bootApp();return;}
+  if(!CONFIGURED||typeof supabase==='undefined'){renderFooterNote();bootApp();return;}
   try{
-   firebase.initializeApp(FIREBASE_CONFIG);
-   fsdb=firebase.firestore();
+   client=supabase.createClient(SUPABASE_CONFIG.url,SUPABASE_CONFIG.anonKey);
    cloudReady=true;
    // Exposed so the main app script (ledger-app, injected separately below) can use the same
-   // Firestore connection for its own features (e.g. the suggestion box) without duplicating the
-   // Firebase init/config. A getter, not a snapshot, since `handle` resolves asynchronously.
-   window.__omniAcct=function(){return {fsdb:fsdb,handle:handle,configured:CONFIGURED&&cloudReady};};
-  }catch(e){console.warn('Firebase init failed, continuing local-only:',e);renderFooterNote();bootApp();return;}
+   // Supabase connection for its own features (e.g. the suggestion box) without duplicating the
+   // client init/config. A getter, not a snapshot, since `handle` resolves asynchronously.
+   window.__omniAcct=function(){return {client:client,handle:handle,configured:CONFIGURED&&cloudReady};};
+  }catch(e){console.warn('Supabase init failed, continuing local-only:',e);renderFooterNote();bootApp();return;}
   renderFooterNote();
   var remembered=null;try{remembered=localStorage.getItem(ACCT_KEY);}catch(e){}
   if(remembered){
-   withTimeout(fsdb.collection('profiles').doc(remembered).get(),8000).then(function(doc){
+   withTimeout(client.from('profiles').select('data').eq('handle',remembered).maybeSingle(),8000).then(function(res){
     handle=remembered;
-    if(doc.exists)hydrateFromCloud(doc.data());
+    if(!res.error&&res.data&&res.data.data)hydrateFromCloud(res.data.data);
     bootApp();
    }).catch(function(e){
     console.warn('Could not reach cloud, using local cache:',e.message||e);
@@ -3254,8 +3255,13 @@ function handleProfileEditClick(btn){
    "here's what changed" readout, not a live version check against anything. Bump APP_VERSION and
    add a CHANGELOG entry whenever a change is worth a friend knowing about; cosmetic tweaks don't
    need a bump. */
-const APP_VERSION='1.25.0';
+const APP_VERSION='1.26.0';
 const CHANGELOG=[
+ {v:'1.26.0',date:'2026-09-03',summary:'Cloud accounts are now live, backed by a real Supabase project instead of a never-configured Firebase placeholder.',notes:[
+  'Replaced the dormant Firebase/Firestore cloud-account code (never actually configured since Phase 11) with Supabase/Postgres -- same features (name-based accounts, cross-device sync, the shared suggestion box), same friend-group trust model, but SUPABASE_CONFIG is now filled in with real values rather than a placeholder, so this is genuinely turned on',
+  'New supabase/schema.sql sets up the two tables this needs (profiles, suggestions) with Row Level Security policies mirroring the old Firestore rules\' trust model, plus a trigger that validates what gets written and stamps the update time server-side',
+  'Needs one manual step to actually go live: run supabase/schema.sql once in the Supabase project\'s SQL Editor -- see NOTES.md "Cloud accounts (Supabase)"'
+ ]},
  {v:'1.25.0',date:'2026-09-03',summary:'Mobile pass across every tab, plus a real bug fix: an active Gold tier button was mislabeled "Declare" instead of "Gold".',notes:[
   'Audited all 10 primary views, the results grid, expanded card detail, and every modal at a 390px mobile width -- filters, sliders, genre chips, nav, and the Visualization Suite\'s layout all already wrap and stack correctly (the discipline of testing "no horizontal overflow" throughout every earlier phase this session paid off here)',
   'Fixed a real bug found during that audit: the compact tier row\'s active-state label was derived from the raw internal action name (declare/silver/bronze/own), which happens to spell "Silver," "Bronze," and "Owned" correctly by coincidence but turned an active Gold button into "🥇 Declare" instead of "🥇 Gold" everywhere the tier row appears -- cards, GOAT Profile search results, everywhere'
@@ -3398,10 +3404,10 @@ const CHANGELOG=[
  });
 })();
 
-/* ===== Suggestion box: shared Firestore collection, visible to everyone =====
-   Writes/reads use window.__omniAcct().fsdb directly rather than a doc keyed by handle --
+/* ===== Suggestion box: shared Supabase table, visible to everyone =====
+   Writes/reads use window.__omniAcct().client directly rather than a row keyed by handle --
    suggestions aren't personal data, they're a shared feed everyone contributes to and sees,
-   so they live in their own top-level 'suggestions' collection instead of nested under any
+   so they live in their own top-level 'suggestions' table instead of nested under any
    one account. If cloud accounts aren't configured, the box still opens but explains that
    suggestions need that setup rather than silently doing nothing. #suggestBtn shares the
    .navBtn class with no data-view, the same shape that caused two earlier bugs (the old
@@ -3446,12 +3452,10 @@ const CHANGELOG=[
    $('#suggestList').innerHTML='<div class="text-[12px] text-slate-500">Cloud accounts aren\'t set up on this copy of the app yet, so suggestions can\'t be shared or saved here. See NOTES.md → "Cloud accounts".</div>';
    return;
   }
-  a.fsdb.collection('suggestions').orderBy('createdAt','desc').limit(50).get().then(function(snap){
-   var items=[];
-   snap.forEach(function(doc){
-    var d=doc.data()||{};
-    var ms=(d.createdAt&&typeof d.createdAt.toMillis==='function')?d.createdAt.toMillis():(d.createdAt||null);
-    items.push({text:d.text,handle:d.handle,createdAtMs:ms});
+  a.client.from('suggestions').select('text,handle,created_at').order('created_at',{ascending:false}).limit(50).then(function(res){
+   if(res.error)throw res.error;
+   var items=(res.data||[]).map(function(row){
+    return {text:row.text,handle:row.handle,createdAtMs:row.created_at?new Date(row.created_at).getTime():null};
    });
    renderList(items);
   }).catch(function(err){
@@ -3468,12 +3472,8 @@ const CHANGELOG=[
   var submitBtn=$('#suggestSubmit');
   if(submitBtn)submitBtn.disabled=true;
   var handle=a.handle||'anonymous';
-  var FieldValue=(window.firebase&&firebase.firestore&&firebase.firestore.FieldValue)||null;
-  a.fsdb.collection('suggestions').add({
-   text:text,
-   handle:handle,
-   createdAt:FieldValue?FieldValue.serverTimestamp():Date.now()
-  }).then(function(){
+  a.client.from('suggestions').insert({text:text,handle:handle}).then(function(res){
+   if(res.error)throw res.error;
    if(ta)ta.value='';
    loaded=true;
    loadSuggestions();

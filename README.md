@@ -69,11 +69,13 @@ If you'd rather build or edit a whole profile at once by hand, `PROFILE_TEMPLATE
 
 ## Cloud accounts (follow you between devices)
 
-By default, everything lives only in the browser you're using — switch devices and you start fresh. Turning on **cloud accounts** (a one-time, optional setup by whoever's hosting the app — see `NOTES.md` → "Cloud accounts" for the technical how-to) changes that: anyone opening the link types a name once, and from then on their taste, collection, and preferences follow that name to any device. Nobody's data affects anybody else's — it's each person's own private, isolated account.
+By default, everything lives only in the browser you're using — switch devices and you start fresh. Turning on **cloud accounts** (a one-time, optional setup by whoever's hosting the app, backed by a free Supabase project — see `NOTES.md` → "Cloud accounts (Supabase)" for the technical how-to) changes that: anyone opening the link types a name once, and from then on their taste, collection, and preferences follow that name to any device. Nobody's data affects anybody else's — it's each person's own private, isolated account.
+
+**This copy of the app already has cloud accounts turned on.** Opening it for the first time asks you to pick a name.
 
 Once that's on, the header's **Account** menu (top right) shows who's currently signed in and lets you switch to a different name at any time.
 
-If cloud accounts aren't set up, the app still works exactly the same — your data just stays local to that one browser, and Export/Import become the way to move it around manually.
+If cloud accounts aren't set up on a particular copy, the app still works exactly the same — your data just stays local to that one browser, and Export/Import become the way to move it around manually.
 
 ---
 
@@ -91,6 +93,7 @@ index.html       The whole app
 data/            The 2,508-work library, split into 4 files by type
 scripts/         A data-integrity checker (for anyone editing the library)
 test/            An automated regression test suite
+supabase/        SQL schema for cloud accounts (run once in your Supabase project, if you set one up)
 ```
 
 > **Using Visual Studio?** Use **File → Open → Folder** (not "Open Project"). There's no Run button to look for — just open `index.html` in a browser.
@@ -103,14 +106,14 @@ test/            An automated regression test suite
 
 There's no name, email, address, or financial information anywhere in the app or its data — what's potentially personal is taste and property (what someone owns and loves), not identity. See `NOTES.md` for the full audit if you want the details.
 
-**API keys:** none are required to run the app at all. If you turn on cloud accounts, one config value (a Firebase project identifier — not a secret credential) goes in the file; `NOTES.md` explains exactly what it is and isn't.
+**API keys:** none are required to run the app at all. If you turn on cloud accounts, one config value (a Supabase project URL + its public "anon" key — not a secret credential) goes in the file; `NOTES.md` explains exactly what it is and isn't.
 
 ---
 
 ## For anyone curious about the technical details
 
 - **No API keys needed**, ever, for the app to work. It makes zero network requests by default.
-- **One external dependency**: Chart.js (loaded from a public CDN), used only for 3 charts in the Visualization Suite. If it can't load, those 3 charts show a friendly message — everything else, including the interactive relationship map, keeps working.
+- **External dependencies**: Chart.js (loaded from a public CDN), used only for 3 charts in the Visualization Suite — if it can't load, those 3 charts show a friendly message and everything else, including the interactive relationship map, keeps working. When cloud accounts are configured, the Supabase JS client also loads from a public CDN — if it can't load, the app falls back to local-only mode exactly as if cloud accounts weren't configured at all.
 - **Fully offline-capable**: no internet connection needed for anything except those 3 charts.
 - **Data storage**: without cloud accounts, everything is saved in the browser's own `localStorage` — per browser, per device. It's not backed up by this repository; committing code doesn't save anyone's personal data.
 - **Automated tests**: `scripts/validate-corpus.js` checks the library data for problems (duplicates, missing fields) with no dependencies. `test/smoke.js` is a full Playwright browser-automation suite covering onboarding, every screen, filters, and the cloud-account flow (against a mocked cloud, so no real account needed to run it). Both are optional for using the app, but useful if you're changing code:
