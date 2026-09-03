@@ -918,9 +918,31 @@ var SUPABASE_CONFIG={url:"https://gqpjeccmwsjxrlrazqxt.supabase.co",anonKey:"sb_
   },function(e){
    console.warn('Cloud sync failed (will retry on next change):',e&&e.message||e);
    setSyncState('rose','Signed in as '+handle+'. Sync failed — will retry.');
-  }).then(function(){location.reload();});
+  }).then(function(){
+   // Reloads regardless of whether the sync above actually succeeded -- local state (already
+   // written before this function was ever called) is always at least as current as the cloud, so
+   // there's nothing to gain by waiting further, and the local edit needs to be reflected in the
+   // UI either way. What it must NOT do is let the upcoming boot() re-fetch from the cloud and
+   // clobber that local edit with a stale row if the sync above was slow or failed -- see
+   // SKIP_HYDRATE_KEY / consumeSkipHydrateFlag.
+   try{sessionStorage.setItem(SKIP_HYDRATE_KEY,'1');}catch(e){}
+   location.reload();
+  });
  }
  window.__omniReloadAfterSync=reloadAfterSync;
+ // Used right before switching accounts or otherwise abandoning the current local state: the
+ // debounced scheduleCloudSync above only fires 1.5s after the last TRACKED-key write, so an edit
+ // that never reloads the page on its own (toggling the watchlist, changing density, dismissing
+ // the tips banner, picking a theme) could still be sitting unsynced in that debounce window when
+ // the user switches accounts -- and clearLocalProfile() + reload right after would abandon it for
+ // good with no warning. This flushes whatever's currently in localStorage immediately, once,
+ // bounded by a timeout so a dead connection can't hang the switch indefinitely.
+ function flushPendingSync(){
+  if(!cloudReady||!handle||!client)return Promise.resolve();
+  clearTimeout(syncTimer);
+  return withTimeout(client.from('profiles').upsert({handle:handle,data:localSnapshot()}),4000)
+   .catch(function(e){console.warn('Final sync before switching accounts failed:',e&&e.message||e);});
+ }
  // Every write ledger-app makes to these 5 keys already goes through localStorage.setItem --
  // hook it once here so the rest of the app needs zero changes to get cloud sync.
  (function(){
@@ -1002,6 +1024,21 @@ var SUPABASE_CONFIG={url:"https://gqpjeccmwsjxrlrazqxt.supabase.co",anonKey:"sb_
   });
  }
 
+ // A reload this app triggers itself right after writing a fresh local+cloud copy of the profile
+ // (every tier/own/import/reset/onboarding action goes through reloadAfterSync below) used to be
+ // followed, on the very next boot(), by an UNCONDITIONAL re-fetch-and-hydrate from the cloud --
+ // even though the local copy was already the correct, just-written state. If that upsert was
+ // slow, timed out, or failed for any reason, this re-fetch would come back with the OLD cloud
+ // row and silently overwrite the local edit that had just been made, with no error and no way to
+ // tell it happened -- a real, silent data-loss bug, not a hypothetical one. reloadAfterSync now
+ // sets this flag in sessionStorage (survives a same-tab reload, unlike a plain JS variable) right
+ // before its own reload, and boot() consumes it once here to skip that redundant, risky re-fetch
+ // and trust the local copy it was already about to use anyway.
+ var SKIP_HYDRATE_KEY='omniLedgerSkipHydrateOnce';
+ function consumeSkipHydrateFlag(){
+  var v=false;try{v=sessionStorage.getItem(SKIP_HYDRATE_KEY)==='1';sessionStorage.removeItem(SKIP_HYDRATE_KEY);}catch(e){}
+  return v;
+ }
  function boot(){
   if(!CONFIGURED||typeof supabase==='undefined'){renderFooterNote();bootApp();return;}
   try{
@@ -1015,6 +1052,7 @@ var SUPABASE_CONFIG={url:"https://gqpjeccmwsjxrlrazqxt.supabase.co",anonKey:"sb_
   renderFooterNote();
   var remembered=null;try{remembered=localStorage.getItem(ACCT_KEY);}catch(e){}
   if(remembered){
+   if(consumeSkipHydrateFlag()){handle=remembered;bootApp();return;}
    withTimeout(client.from('profiles').select('data').eq('handle',remembered).maybeSingle(),8000).then(function(res){
     handle=remembered;
     if(!res.error&&res.data&&res.data.data)hydrateFromCloud(res.data.data);
@@ -1033,9 +1071,12 @@ var SUPABASE_CONFIG={url:"https://gqpjeccmwsjxrlrazqxt.supabase.co",anonKey:"sb_
  }
  document.addEventListener('click',function(e){
   if(e.target&&e.target.id==='acctSwitchBtn'){
-   try{localStorage.removeItem(ACCT_KEY);}catch(ex){}
-   clearLocalProfile();
-   location.reload();
+   var swBtn=e.target;swBtn.disabled=true;swBtn.textContent='Switching…';
+   flushPendingSync().then(function(){
+    try{localStorage.removeItem(ACCT_KEY);}catch(ex){}
+    clearLocalProfile();
+    location.reload();
+   });
   }
   if(e.target&&e.target.id==='acctDeleteBtn'){
    if(!handle||!client)return;
@@ -1652,17 +1693,24 @@ function creatorBoostHTML(it){
 // Compact tier/own toggle row -- visible on every card without expanding it, so declaring a
 // favorite or marking something owned doesn't require opening the detail panel first.
 function tierRowHTML(it){
- function seg(act,emoji,name,label,active,color){
+ // Gold/Silver/Bronze stay pure emoji, active or not -- a medal is self-explanatory, and dropping
+ // the name text (which used to appear only once active, e.g. "🥇 Gold") keeps the row compact
+ // and consistent regardless of state, per explicit user preference. Owned is the one segment that
+ // always shows its "Owned" text alongside the diamond -- it's the one icon that's genuinely
+ // ambiguous on its own, and there's exactly the room for it that dropping the other three labels
+ // freed up. Active state for all four is still shown via the filled background + title's
+ // "click to remove", not text.
+ function seg(act,emoji,name,label,active,color,showName){
   return '<button type="button" class="profEditBtn tierSeg" data-act="'+act+'" data-id="'+it.id+'"'+(act==='own'?' data-kind="'+it.kind+'"':'')+' title="'+label+(active?' — click to remove':'')+'"'
    +(active?' style="background:'+color+';color:#0B0F19"':' style="color:'+color+'"')+'>'
-   +emoji+(active?' '+name:'')+'</button>';
+   +emoji+(showName?' '+name:'')+'</button>';
  }
  return '<div class="flex items-center flex-wrap gap-1 px-3.5 pb-3 -mt-1">'
- +seg('declare','\u{1F947}','Gold','Gold: your declared all-time favorites — pins a 100 match, the strongest recommendation signal',it.goat,'#fbbf24')
- +seg('silver','\u{1F948}','Silver','Silver: a strong favorite, one notch below Gold',it.silver,'#cbd5e1')
- +seg('bronze','\u{1F949}','Bronze','Bronze: really like it, a lighter nudge than Silver',it.bronze,'#cd7f32')
+ +seg('declare','\u{1F947}','Gold','Gold: your declared all-time favorites — pins a 100 match, the strongest recommendation signal',it.goat,'#fbbf24',false)
+ +seg('silver','\u{1F948}','Silver','Silver: a strong favorite, one notch below Gold',it.silver,'#cbd5e1',false)
+ +seg('bronze','\u{1F949}','Bronze','Bronze: really like it, a lighter nudge than Silver',it.bronze,'#cd7f32',false)
  +'<span class="w-px h-4 mx-0.5" style="background:#334155"></span>'
- +seg('own','◆','Owned','Toggle whether this is in your owned collection',it.owned,'#4ade80')
+ +seg('own','◆','Owned','Toggle whether this is in your owned collection',it.owned,'#4ade80',true)
  +'</div>';
 }
 function cardHTML(it){const k=KM[it.kind];
@@ -2572,15 +2620,16 @@ function renderGoatSearchResults(q){
  var pool=q?ALL.filter(function(x){return (x.title+' '+x.creator+' '+(x.genres||[]).join(' ')).toLowerCase().indexOf(q)>=0;})
   :ALL.slice().sort(function(a,b){return b.gm-a.gm;});
  var shown=pool.slice(0,25);
+ // Status is communicated by tierRowHTML alone (its active segments already highlight in color
+ // and, for Gold/Silver/Bronze/Owned, are self-explanatory) -- this used to ALSO render a separate
+ // row of GOLD/SILVER/BRONZE/OWNED chips duplicating exactly the same information right above it,
+ // which is what made this list look cramped and "overlapping" on a narrow screen: two rows saying
+ // the same thing, wrapping unpredictably in a compact result card. One row now, not two.
  el.innerHTML=shown.map(function(x){
-  return '<div class="panel p-2.5">'
+  return '<div class="panel p-2.5 pb-1">'
    +'<div class="flex items-center gap-2 flex-wrap"><span class="chip" style="color:'+KM[x.kind].c+';border-color:'+KM[x.kind].c+'44">'+KM[x.kind].label+'</span>'
    +'<span class="text-[12.5px] font-semibold text-slate-100">'+esc(x.title)+'</span>'
-   +'<span class="text-[10.5px] text-slate-500">· '+x.year+' · '+esc(x.creator)+'</span>'
-   +(x.goat?'<span class="chip" style="color:#0B0F19;background:#fbbf24;border-color:#fbbf24;font-weight:700">🥇 GOLD</span>':'')
-   +(x.silver?'<span class="chip" style="color:#0B0F19;background:#cbd5e1;border-color:#cbd5e1;font-weight:700">🥈 SILVER</span>':'')
-   +(x.bronze?'<span class="chip" style="color:#0B0F19;background:#cd7f32;border-color:#cd7f32;font-weight:700">🥉 BRONZE</span>':'')
-   +(x.owned?'<span class="chip" style="color:#0B0F19;background:#4ade80;border-color:#4ade80;font-weight:700">✓ OWNED</span>':'')+'</div>'
+   +'<span class="text-[10.5px] text-slate-500">· '+x.year+' · '+esc(x.creator)+'</span></div>'
    +tierRowHTML(x)
    +'</div>';
  }).join('')||'<div class="rcEmpty">No matches</div>';
@@ -3439,8 +3488,16 @@ function handleProfileEditClick(btn){
    "here's what changed" readout, not a live version check against anything. Bump APP_VERSION and
    add a CHANGELOG entry whenever a change is worth a friend knowing about; cosmetic tweaks don't
    need a bump. */
-const APP_VERSION='1.32.0';
+const APP_VERSION='1.33.0';
 const CHANGELOG=[
+ {v:'1.33.0',date:'2026-09-03',summary:'Fixed a real data-loss bug where a signed-in account could silently lose recent changes on reload, cleaned up the GOAT Profile page\'s cluttered/overlapping tier badges, made Gold/Silver/Bronze pure emoji with an always-labeled Owned diamond, and added the ability to edit or delete your own suggestions.',notes:[
+  'Root-cause fix for the account-forgets-your-changes bug: every reload the app triggers after its own successful (or failed) sync -- declaring something, owning something, importing, resetting, onboarding -- was ALSO, on the very next boot, unconditionally re-fetching from the cloud and overwriting local state with whatever came back. If that sync was slow, timed out, or failed for any reason, the very next reload would silently revert the change with no error shown. Fixed by having the app\'s own self-triggered reloads skip that redundant re-fetch entirely and trust the local copy they already correctly wrote',
+  'Also fixed a related gap: switching accounts reloaded immediately with no wait, so an edit that doesn\'t reload the page on its own (toggling the watchlist, changing the theme, toggling density, dismissing the tips banner) could still be sitting in the 1.5s sync debounce window and get abandoned for good. Switching accounts now flushes any pending change first',
+  'GOAT Profile\'s search-and-tier results no longer show a duplicate row of GOLD/SILVER/BRONZE/OWNED badge chips directly above the interactive tier row that already communicates the same thing -- this is what made the page look cluttered and "overlapping," especially on a phone',
+  'The compact Gold/Silver/Bronze/Owned row on every card is now pure emoji for the three tiers, active or not (no more "🥇 Gold" text taking up space once declared) -- and the Owned diamond always shows the word "Owned" next to it, using the room that freed up, so it\'s unambiguous what the icon means at a glance',
+  'Added the ability to edit or delete your own suggestions from the shared suggestion box (only ones matching your signed-in handle show the controls) -- previously submitted suggestions were permanent and could never be removed or corrected',
+  'This needs the same one manual step as prior schema updates: re-run supabase/schema.sql once in the Supabase SQL Editor (idempotent) to pick up the suggestions update/delete policy and column-level privilege grant'
+ ]},
  {v:'1.32.0',date:'2026-09-03',summary:'A real mobile UX pass: the 11-button nav (which wrapped into 5-6 rows on a phone, pushing everything else off-screen) is now a single swipeable row, and the header\'s profile buttons no longer wrap either. Desktop is untouched.',notes:[
   'On screens under 768px wide, #nav switches from wrapping into several rows to a single horizontally-scrollable row -- the same swipe-sideways pattern as browser tabs or an app\'s category chips. Previously you had to scroll down through 5-6 rows of nav buttons before reaching the search bar or any real content at all',
   'Switching tabs now scrolls the newly-active one into view if it was off to the side, so picking a tab from elsewhere in the app (a deep link, a card click) never leaves the highlighted tab stranded out of sight in the scrollable row',
@@ -3656,14 +3713,25 @@ const CHANGELOG=[
   var h=Math.round(m/60);if(h<24)return h+'h ago';
   var d=Math.round(h/24);return d+'d ago';
  }
+ // Edit/delete is only offered on a suggestion whose handle matches the CURRENT signed-in cloud
+ // handle -- same honor-system trust model as everything else in this app (a handle is a name,
+ // not a verified identity, so this is a UI convenience, not a real security boundary; the RLS
+ // policies on suggestions technically allow anyone to update/delete any row, same as profiles'
+ // "delete my account" already does). A guest ('anonymous') never gets edit/delete controls, since
+ // there's no way to tell which anonymous submission is "yours" -- everyone submitting as a guest
+ // shares that one label.
  function renderList(items){
   var list=$('#suggestList');if(!list)return;
   if(!items.length){list.innerHTML='<div class="text-[12px] text-slate-500">No suggestions yet — be the first.</div>';return;}
+  var a=acct();var myHandle=a&&a.handle;
   list.innerHTML=items.map(function(it){
-   return '<div class="text-[12px] bg-slate-900/50 border border-slate-800/70 rounded-lg p-2">'
-    +'<div class="text-slate-200 leading-relaxed">'+esc2(it.text)+'</div>'
-    +'<div class="text-[10px] text-slate-500 mt-1">'+esc2(it.handle||'anonymous')+(it.createdAtMs?' · '+timeAgo(it.createdAtMs):'')+'</div>'
-    +'</div>';
+   var mine=!!(myHandle&&it.handle&&it.handle===myHandle);
+   return '<div class="text-[12px] bg-slate-900/50 border border-slate-800/70 rounded-lg p-2" data-suggest-id="'+it.id+'">'
+    +'<div class="suggestTextView text-slate-200 leading-relaxed">'+esc2(it.text)+'</div>'
+    +'<div class="flex items-center justify-between gap-2 mt-1">'
+    +'<div class="text-[10px] text-slate-500">'+esc2(it.handle||'anonymous')+(it.createdAtMs?' · '+timeAgo(it.createdAtMs):'')+'</div>'
+    +(mine?'<div class="flex gap-2 shrink-0"><button type="button" class="suggestEditBtn text-[10px] text-slate-500 hover:text-slate-300 underline decoration-dotted underline-offset-2" data-id="'+it.id+'">Edit</button><button type="button" class="suggestDeleteBtn text-[10px] text-rose-400/80 hover:text-rose-300 underline decoration-dotted underline-offset-2" data-id="'+it.id+'">Delete</button></div>':'')
+    +'</div></div>';
   }).join('');
  }
  function loadSuggestions(){
@@ -3673,14 +3741,43 @@ const CHANGELOG=[
    $('#suggestList').innerHTML='<div class="text-[12px] text-slate-500">Cloud accounts aren\'t set up on this copy of the app yet, so suggestions can\'t be shared or saved here. See NOTES.md → "Cloud accounts".</div>';
    return;
   }
-  a.client.from('suggestions').select('text,handle,created_at').order('created_at',{ascending:false}).limit(50).then(function(res){
+  a.client.from('suggestions').select('id,text,handle,created_at').order('created_at',{ascending:false}).limit(50).then(function(res){
    if(res.error)throw res.error;
    var items=(res.data||[]).map(function(row){
-    return {text:row.text,handle:row.handle,createdAtMs:row.created_at?new Date(row.created_at).getTime():null};
+    return {id:row.id,text:row.text,handle:row.handle,createdAtMs:row.created_at?new Date(row.created_at).getTime():null};
    });
    renderList(items);
   }).catch(function(err){
    $('#suggestList').innerHTML='<div class="text-[12px] text-rose-400">Couldn\'t load suggestions ('+esc2(err&&err.message||err)+').</div>';
+  });
+ }
+ function deleteSuggestion(id){
+  var a=acct();if(!a||!a.configured)return;
+  if(typeof confirm!=='undefined'&&!confirm('Delete this suggestion? This can\'t be undone.'))return;
+  a.client.from('suggestions').delete().eq('id',id).then(function(res){
+   if(res&&res.error){showError('Couldn\'t delete that ('+(res.error.message||res.error)+').');return;}
+   loadSuggestions();
+  });
+ }
+ function startEdit(row){
+  var text=row.querySelector('.suggestTextView');if(!text)return;
+  var id=row.dataset.suggestId;
+  var original=text.textContent;
+  row.innerHTML='<textarea class="inp suggestEditArea" rows="3" style="resize:vertical;font-size:12px">'+esc2(original)+'</textarea>'
+   +'<div class="flex justify-end gap-2 mt-1.5">'
+   +'<button type="button" class="suggestEditCancel text-[10px] text-slate-500 hover:text-slate-300">Cancel</button>'
+   +'<button type="button" class="suggestEditSave text-[10px] text-emerald-400 hover:text-emerald-300 font-semibold" data-id="'+id+'">Save</button>'
+   +'</div>';
+  var ta=row.querySelector('.suggestEditArea');if(ta){ta.focus();ta.setSelectionRange(ta.value.length,ta.value.length);}
+ }
+ function saveEdit(id,row){
+  var ta=row.querySelector('.suggestEditArea');if(!ta)return;
+  var text=ta.value.trim();
+  if(!text)return;
+  var a=acct();if(!a||!a.configured)return;
+  a.client.from('suggestions').update({text:text}).eq('id',id).then(function(res){
+   if(res&&res.error){showError('Couldn\'t save that edit ('+(res.error.message||res.error)+').');return;}
+   loadSuggestions();
   });
  }
  function submit(){
@@ -3707,6 +3804,13 @@ const CHANGELOG=[
  on('#suggestBtn','click',function(e){e.stopPropagation();open();});
  on('#suggestClose','click',close);
  on('#suggestSubmit','click',submit);
+ on('#suggestList','click',function(e){
+  var row=e.target.closest('[data-suggest-id]');if(!row)return;
+  if(e.target.closest('.suggestDeleteBtn')){deleteSuggestion(e.target.closest('.suggestDeleteBtn').dataset.id);return;}
+  if(e.target.closest('.suggestEditBtn')){startEdit(row);return;}
+  if(e.target.closest('.suggestEditCancel')){loadSuggestions();return;}
+  if(e.target.closest('.suggestEditSave')){saveEdit(e.target.closest('.suggestEditSave').dataset.id,row);return;}
+ });
 })();
 
 /* ===== GOAT Picker modal: onboarding-only search-and-select =====

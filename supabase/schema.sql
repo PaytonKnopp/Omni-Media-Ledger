@@ -78,7 +78,7 @@ create policy "profiles are publicly deletable"
 
 -- ── suggestions ─────────────────────────────────────────────────────────────────────────────
 -- A flat, shared feed everyone using the app reads and writes to -- not nested under any one
--- profile. Only ever inserted into and read from; nothing in the app updates or deletes a row.
+-- profile.
 create table if not exists public.suggestions (
   id bigint generated always as identity primary key,
   text text not null check (char_length(text) between 1 and 2000),
@@ -98,13 +98,38 @@ create policy "suggestions are publicly insertable"
   on public.suggestions for insert
   with check (char_length(text) between 1 and 2000);
 
--- No update/delete policy on suggestions either, for the same reason as above.
+-- The app only shows Edit/Delete on a suggestion whose handle matches the current signed-in
+-- handle -- but, same as every other "only touch your own" rule in this file (profiles, delete-my-
+-- account), that's an app-side convenience, not something RLS can actually enforce: there's no
+-- real per-request auth here, just a handle someone typed, so the policy itself has to stay open
+-- (`using (true)`) exactly like profiles' update/delete policies already are.
+drop policy if exists "suggestions are publicly updatable" on public.suggestions;
+create policy "suggestions are publicly updatable"
+  on public.suggestions for update
+  using (true)
+  with check (char_length(text) between 1 and 2000);
+
+drop policy if exists "suggestions are publicly deletable" on public.suggestions;
+create policy "suggestions are publicly deletable"
+  on public.suggestions for delete
+  using (true);
+
+-- The update policy above only checks the new text's length -- it can't stop a client from ALSO
+-- changing status/votes in the same request, since a WITH CHECK clause only sees the new row, not
+-- old vs new. Column-level privileges close that gap where RLS can't reach: anon/authenticated can
+-- update the text column only; status and votes stay off-limits to any direct client update no
+-- matter what a crafted request tries to send. The suggestion_votes trigger further below still
+-- works because it runs SECURITY DEFINER (as the function's owner), which bypasses this grant the
+-- same way it bypasses RLS.
+revoke update on public.suggestions from anon, authenticated;
+grant update (text) on public.suggestions to anon, authenticated;
 
 -- ── suggestion status + voting ──────────────────────────────────────────────────────────────
 -- Lets the shared suggestion feed show what's actually being worked on (status) and which
 -- requests people care about most (votes), instead of being a flat, unordered wall of text.
--- `status` is intentionally not client-writable -- there's no update policy for it below, so it
--- can only be changed from the SQL Editor (or a future admin view) as the person triaging
+-- `status` is intentionally not client-writable -- the column-level grant above only lets anon
+-- update suggestions.text, so it can only be changed from the SQL Editor (or a future admin view)
+-- as the person triaging
 -- suggestions, not by any anon-key client.
 alter table public.suggestions
   add column if not exists status text not null default 'open',
