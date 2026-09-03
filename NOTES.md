@@ -458,6 +458,18 @@ Fifth installment of the sequenced UX pass: "a place on the main page to submit 
 
 ---
 
+## Phase 17 — Version history, summarized for actual users
+
+Sixth installment of the sequenced UX pass: "I like the version history too, just make it easy to understand for users and simple and summarized." The existing changelog was accurate but written for a developer reading a diff — dense, technical bullet lists (CSS specificity, cascade order, `console.assert`, corpus counts) that most people opening the app would bounce off of.
+
+**What changed.** Every `CHANGELOG` entry now carries a `summary` field — one short, plain sentence describing what a normal user would notice, e.g. "Added Gold/Silver/Bronze favorite tiers, visible and toggleable right on every card." That's what renders by default. The original detailed bullet notes (kept verbatim — they're real project history and still useful) sit behind a per-entry "Show full details" toggle, so nothing was deleted or dumbed down, just given a better default view. All 18 existing entries got a written summary, back to 0.8.0.
+
+**Deliberately not touched:** the underlying `notes` arrays and their technical voice. This is documentation of real engineering decisions (bugs found, why a fix works the way it does) that's valuable for exactly the audience it was already written for — future me, or anyone reading NOTES.md-adjacent history. The summary is an additional, friendlier front door, not a replacement.
+
+**Testing.** New checks confirm the version log opens, the latest entry shows a non-empty summary, and — the important one, given the exact "class toggled but nothing changes on screen" bug the v1.9.1 combo-dropdown fix was about — that clicking "Show full details" actually changes the details element's rendered height, not just its class list.
+
+---
+
 ## Ideas / next steps
 
 Roughly in order of value:

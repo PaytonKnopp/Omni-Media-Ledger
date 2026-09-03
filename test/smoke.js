@@ -306,6 +306,32 @@ async function runFile(browser, file) {
     });
     check('opening/closing the suggestion box does not hide the underlying view', controllerVisibleAfterSuggest);
 
+    // Version log: each entry now leads with a short plain-English summary instead of dropping
+    // users straight into developer-facing bullet notes, with a per-entry toggle to see the full
+    // detail. Regression target: the toggle must actually reveal the hidden notes, not just flip
+    // a class that has no visual effect (the exact bug class from the v1.9.1 combo-dropdown fix).
+    await page.click('#versionBtn');
+    await page.waitForTimeout(200);
+    const versionGateVisible = await page.evaluate(() => document.getElementById('versionGate').offsetHeight > 0);
+    check('version log opens on click', versionGateVisible);
+    const firstEntryHasSummary = await page.evaluate(() => {
+      const first = document.querySelector('#versionLog > div');
+      return !!(first && first.querySelector('p') && first.querySelector('p').textContent.length > 0);
+    });
+    check('version log shows a plain-language summary for the latest entry', firstEntryHasSummary);
+    const detailsBtn = await page.$('#versionLog .verDetailsBtn');
+    if (detailsBtn) {
+      const detailsHiddenBefore = await detailsBtn.evaluate(b => document.querySelector('.verDetails[data-i="' + b.dataset.i + '"]').offsetHeight === 0);
+      await detailsBtn.click();
+      await page.waitForTimeout(150);
+      const detailsVisibleAfter = await detailsBtn.evaluate(b => document.querySelector('.verDetails[data-i="' + b.dataset.i + '"]').offsetHeight > 0);
+      check('"Show full details" actually reveals the detailed notes', detailsHiddenBefore && detailsVisibleAfter);
+    } else {
+      check('"Show full details" actually reveals the detailed notes', false);
+    }
+    await page.click('#versionClose');
+    await page.waitForTimeout(150);
+
     // Per-work "most relevant 3" front bars: regression for the old behavior where every movie
     // showed the identical Image/Dread/Mind trio, every book the identical Prose/Ideas/Depth trio,
     // etc., regardless of what was actually distinctive about that specific work. Different top
