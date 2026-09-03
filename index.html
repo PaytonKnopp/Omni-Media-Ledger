@@ -134,8 +134,8 @@ body[data-theme="outer-wilds"]{--bg:#0e0a09;--panel:#181010;--panel-2:#120c0b;--
     </div>
     <div class="space-y-2">
       <button type="button" id="onboardSample" class="w-full text-left rounded-xl border border-slate-700 hover:border-violet-500 p-3 transition-colors">
-        <div class="text-sm font-semibold text-slate-100">Use the built-in sample profile</div>
-        <div class="text-[12px] text-slate-500 mt-0.5">Payton's own collection and taste weights, so you can see the app in action before making it yours.</div>
+        <div class="text-sm font-semibold text-slate-100">Look around the PK Sample</div>
+        <div class="text-[12px] text-slate-500 mt-0.5">Payton's (PK) actual collection and taste weights, real and lived-in, not a mock-up — so you can see the app in action before building your own. It's a starting example, not something you're editing: use <b>Export</b>, then <b>Import</b> as your own copy any time you want to build on top of it without touching the original.</div>
       </button>
       <button type="button" id="onboardSeed" class="w-full text-left rounded-xl border border-slate-700 hover:border-violet-500 p-3 transition-colors">
         <div class="text-sm font-semibold text-slate-100">Quick-rate a few titles</div>
@@ -3182,8 +3182,12 @@ function handleProfileEditClick(btn){
    "here's what changed" readout, not a live version check against anything. Bump APP_VERSION and
    add a CHANGELOG entry whenever a change is worth a friend knowing about; cosmetic tweaks don't
    need a bump. */
-const APP_VERSION='1.20.0';
+const APP_VERSION='1.21.0';
 const CHANGELOG=[
+ {v:'1.21.0',date:'2026-09-03',summary:'The sample profile is now clearly labeled "PK Sample" -- Payton\'s real taste, offered as a starting example, not something you\'re editing.',notes:[
+  'Renamed the onboarding option from "Use the built-in sample profile" to "Look around the PK Sample," with copy explaining it\'s Payton\'s real, lived-in collection and taste weights offered as an example -- Export it and Import it back as your own copy to actually build on it, rather than treating the original as yours to edit',
+  'No technical access control changes here -- that becomes meaningful once cloud accounts are configured and the PK account is the only one with write access to that specific profile. Until then this is a labeling and clarity fix, not an enforcement mechanism'
+ ]},
  {v:'1.20.0',date:'2026-09-03',summary:'Removed the Tonight tab -- Surprise Me now covers the same ground (mood + time budget) plus more.',notes:[
   'Retired the "🌙 Tonight" header button and its modal: Surprise Me already did almost the same job (medium/mood/ownership-scoped weighted pick) with a nicer result card, so it just needed a time-budget option added rather than keeping two separate pickers',
   'Surprise Me\'s scope panel gained a "Time" selector (movies-only, same reasoning as Tonight\'s always had: TV/games/books don\'t have a reliable single-sitting runtime) -- everything else about Surprise Me (medium, mood, owned/discover pool, taste-match ring, best-edition suggestion, why-recommended) is unchanged and now covers Tonight\'s use case too'

@@ -528,6 +528,18 @@ Checked the claim before acting on it, and it held up: Surprise Me's existing `#
 
 ---
 
+## Phase 22 — "PK Sample" labeling
+
+Third item of the broader UI-cleanup round: "the built in sample (mine) can be referred to as the built in PK sample so others know it's my taste and a sample and they can start theirs based off of mine, but cannot actually change mine, only I can actually add to or change my account."
+
+**What this means today vs. later.** Cloud accounts aren't configured on this copy yet (that needs Payton's own Firebase setup), so there's no real login system today that could distinguish "Payton editing Payton's account" from "anyone else editing the same data" — everything runs off one browser's `localStorage` or the hardcoded defaults baked into `index.html`. Asked directly rather than guessing at scope: the answer was labeling only for now, with the real access control landing once cloud accounts are on and the PK profile document has its own write rule.
+
+**What changed.** The onboarding option is renamed from "Use the built-in sample profile" to "Look around the PK Sample," with copy that says plainly what it is (Payton's real, lived-in collection and taste, not a mock-up) and what to do if you want to actually use it as a base (Export it, then Import the copy back — building on the copy, not the original). Matching language in the README's "Try it" section.
+
+**Deliberately not done here:** no UI-level edit-blocking on the sample data yet — every Gold/Silver/Bronze/boost button still works exactly as before while looking at PK's profile in a fresh, un-onboarded browser, same as it always has. That's consistent with the "labeling only for now" decision; real enforcement is real infrastructure work (a Firestore security rule keyed to a specific account) that has a natural home once cloud accounts ship, not before.
+
+---
+
 ## Ideas / next steps
 
 Roughly in order of value:

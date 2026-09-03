@@ -4,7 +4,7 @@ A personal movie/TV/game/book tracker that actually knows your taste. You tell i
 
 There's nothing to install. It's just a folder — one HTML file plus a `data` folder next to it — that you open in a browser like any web page. No account is required to use it, though you can optionally add one (see [Cloud accounts](#cloud-accounts-follow-you-between-devices) below) so your taste follows you between your phone, laptop, etc.
 
-**Try it, don't just read about it:** open the file (or the hosted link, if you have one) and pick **Use the built-in sample profile** on the first screen. That's a real, filled-in example account, clearly labeled, so you can look around before deciding what you think.
+**Try it, don't just read about it:** open the file (or the hosted link, if you have one) and pick **Look around the PK Sample** on the first screen. That's Payton's (PK) own real, filled-in taste profile, clearly labeled as an example — not something you're editing. Look around, then Export it and Import it back as your own copy any time you want to actually build on it, or just start fresh instead.
 
 ---
 
