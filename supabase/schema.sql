@@ -67,9 +67,14 @@ create policy "profiles are publicly updatable"
   using (true)
   with check (true);
 
--- No delete policy: the app never deletes a profile row, and RLS denies by default when no
--- policy matches an operation -- so a leaked anon key can read/overwrite a handle's data (the
--- same "no real auth" tradeoff the handle-only design always had) but can't delete a row outright.
+-- The app's "Delete my account" (header -> Account menu, only shown when signed into a real
+-- handle) deletes its own profile row by handle. Same trust model as select/insert/update: a
+-- handle is a name, not a verified identity, so this can't confirm "the real you" any more than
+-- overwriting already couldn't -- it's gated behind an explicit confirm() in the UI, not here.
+drop policy if exists "profiles are publicly deletable" on public.profiles;
+create policy "profiles are publicly deletable"
+  on public.profiles for delete
+  using (true);
 
 -- ── suggestions ─────────────────────────────────────────────────────────────────────────────
 -- A flat, shared feed everyone using the app reads and writes to -- not nested under any one
