@@ -384,30 +384,38 @@ async function runFile(browser, file) {
     });
     check('genre, owned/not-owned, and tier filters are visible without opening Advanced Filters', alwaysVisible);
 
+    // Note: "snd" (Soundtrack) and "ref" (4K Reference) are pinned by DEFAULT on a fresh profile
+    // (see DEFAULT_PINNED_IDX) -- they're 2 of the "5 quick filters" up top out of the box, alongside
+    // Technical Fidelity/GOAT Match/Cosmic Horror. So this test pins/unpins a different index ("icon",
+    // not default-pinned) to actually exercise the toggle rather than starting from an already-pinned state.
+    const defaultPinsVisible = await page.evaluate(() => {
+      const main = document.getElementById('pinnedMainSliders');
+      return !!(main.querySelector('.idxSlider[data-k="snd"]') && main.querySelector('.idxSlider[data-k="ref"]'));
+    });
+    check('Soundtrack and 4K Reference are pinned to the main row by default on a fresh profile', defaultPinsVisible);
     await page.click('#advToggle');
     await page.waitForTimeout(150);
-    const sndSlider = await page.$('#indexSliders .idxSlider[data-k="snd"]');
-    await sndSlider.evaluate(el => { el.value = 60; el.dispatchEvent(new Event('input', { bubbles: true })); });
+    const iconSlider = await page.$('#indexSliders .idxSlider[data-k="icon"]');
+    await iconSlider.evaluate(el => { el.value = 60; el.dispatchEvent(new Event('input', { bubbles: true })); });
     await page.waitForTimeout(150);
-    await page.click('#indexSliders .pinIdxBtn[data-k="snd"]');
+    await page.click('#indexSliders .pinIdxBtn[data-k="icon"]');
     await page.waitForTimeout(150);
     const pinnedState = await page.evaluate(() => {
-      const mainSlider = document.querySelector('#pinnedMainSliders .idxSlider[data-k="snd"]');
-      const stillInAdvanced = document.querySelector('#indexSliders .idxSlider[data-k="snd"]');
-      const rowVisible = !document.getElementById('pinnedMainSliders').classList.contains('hidden');
-      return { moved: !!mainSlider && !stillInAdvanced, valuePreserved: mainSlider && mainSlider.value === '60', rowVisible };
+      const mainSlider = document.querySelector('#pinnedMainSliders .idxSlider[data-k="icon"]');
+      const stillInAdvanced = document.querySelector('#indexSliders .idxSlider[data-k="icon"]');
+      return { moved: !!mainSlider && !stillInAdvanced, valuePreserved: mainSlider && mainSlider.value === '60' };
     });
-    check('pinning a slider moves it to the main row (not duplicated) and shows the row', pinnedState.moved && pinnedState.rowVisible);
+    check('pinning a slider moves it to the main row (not duplicated)', pinnedState.moved);
     check('pinning preserves the slider\'s current value', pinnedState.valuePreserved);
-    const pinnedSaved = await page.evaluate(() => (JSON.parse(localStorage.getItem('omniLedgerProfile')).pinnedIdx || []).includes('snd'));
+    const pinnedSaved = await page.evaluate(() => (JSON.parse(localStorage.getItem('omniLedgerProfile')).pinnedIdx || []).includes('icon'));
     check('pinned index is saved to the profile', pinnedSaved);
-    await page.click('#pinnedMainSliders .pinIdxBtn[data-k="snd"]');
+    await page.click('#pinnedMainSliders .pinIdxBtn[data-k="icon"]');
     await page.waitForTimeout(150);
     const unpinnedState = await page.evaluate(() => ({
-      backInAdvanced: !!document.querySelector('#indexSliders .idxSlider[data-k="snd"]'),
-      rowHidden: document.getElementById('pinnedMainSliders').classList.contains('hidden')
+      backInAdvanced: !!document.querySelector('#indexSliders .idxSlider[data-k="icon"]'),
+      defaultsStillPinned: !!(document.querySelector('#pinnedMainSliders .idxSlider[data-k="snd"]') && document.querySelector('#pinnedMainSliders .idxSlider[data-k="ref"]'))
     }));
-    check('unpinning moves the slider back to Advanced and hides the empty main row', unpinnedState.backInAdvanced && unpinnedState.rowHidden);
+    check('unpinning moves the slider back to Advanced, leaving the default pins alone', unpinnedState.backInAdvanced && unpinnedState.defaultsStillPinned);
     await page.click('#resetBtn');
     await page.waitForTimeout(150);
 

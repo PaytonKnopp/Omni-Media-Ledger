@@ -502,6 +502,18 @@ Eighth and final installment of the sequenced UX pass: "the readme should be sur
 
 ---
 
+## Phase 20 — Redesigned the default 5 quick filters
+
+Part of a second, broader UI-cleanup round the user asked for after using the app for a while: the GOAT page felt cluttered, the always-visible slider row wasn't the most useful default set, the Tonight tab was redundant with Surprise Me, the sample profile needed clearer labeling, and several tabs needed a general polish pass for both desktop and mobile.
+
+**This phase: the 5 quick filters.** The user asked directly whether Technical Fidelity and 4K Reference were the same thing (they're not — Fidelity is overall craft execution, 4K Reference is specifically how good something looks as a reference-quality disc) and proposed a better default 5: Technical Fidelity/Engine, GOAT Match, 4K Reference, Soundtrack/Audio, and Cosmic Horror. Atmospheric Dread/Immersion and Ontological/Systems Complexity — 2 of the previous default 5 — move into Advanced Filters under a new "More Craft Thresholds" heading; they're unchanged in every other way, just not pre-selected as the top 5 anymore.
+
+**Implementation note:** 4K Reference and Soundtrack are 2 of the 15 already-pinnable specialized indices (Phase 14), not separate hardcoded sliders like Technical Fidelity/GOAT Match/Cosmic Horror are. Rather than build a second mechanism, a `DEFAULT_PINNED_IDX=['ref','snd']` constant now seeds `pinnedIdx` for any profile that's never touched pinning itself — so the always-visible row is 3 hardcoded sliders plus whatever's pinned, and a fresh profile's default pin selection happens to be exactly the 2 the user wanted. Anyone who's already pinned or unpinned anything keeps their own exact choice; this only changes what a profile starts with. The main-row markup for the pinned sliders now renders with `display:contents` inside the same grid as the 3 hardcoded ones, so they visually read as one unified 5-column row instead of two separate boxes.
+
+**Testing.** Updated the existing pin/unpin regression test, which had hardcoded "snd" as its pin/unpin target — now default-pinned, so pinning it wouldn't have exercised the toggle at all. Switched the test to a still-not-default-pinned index ("icon"), and added a new check that Soundtrack and 4K Reference actually are pinned by default on a fresh profile.
+
+---
+
 ## Ideas / next steps
 
 Roughly in order of value:

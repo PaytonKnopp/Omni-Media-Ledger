@@ -398,29 +398,24 @@ body[data-theme="outer-wilds"]{--bg:#0e0a09;--panel:#181010;--panel-2:#120c0b;--
         <button type="button" id="resetBtn" class="inp hover:border-rose-400/60 hover:text-rose-300 transition-colors text-center cursor-pointer">Reset</button>
       </div>
     </div>
-    <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-5 gap-x-6 gap-y-4 mt-4 pt-4 border-t border-slate-800/70">
-      <div>
-        <div class="flex justify-between items-baseline mb-1.5"><span class="fieldlbl mb-0 cursor-help" title="Movies & TV: mean of 4K transfer fidelity, audio soundscape and cinematography. Games: mean of engine/graphics performance and art direction.">Technical Fidelity / Engine ≥</span><span class="text-[12px] font-bold text-indigo-300 tabular-nums" id="minTechV">0</span></div>
-        <input type="range" id="minTech" min="0" max="100" value="0" aria-label="Minimum technical fidelity"/>
-      </div>
-      <div>
-        <div class="flex justify-between items-baseline mb-1.5"><span class="fieldlbl mb-0 cursor-help" title="Atmospheric dread index for film & TV · immersion / tension index for games.">Atmospheric Dread / Immersion ≥</span><span class="text-[12px] font-bold text-rose-300 tabular-nums" id="minDreadV">0</span></div>
-        <input type="range" id="minDread" min="0" max="100" value="0" aria-label="Minimum dread or immersion"/>
-      </div>
-      <div>
-        <div class="flex justify-between items-baseline mb-1.5"><span class="fieldlbl mb-0 cursor-help" title="Ontological complexity for film & TV · systems complexity for games. Puzzle-boxes, recursive timelines, deep mechanics.">Ontological / Systems Complexity ≥</span><span class="text-[12px] font-bold text-emerald-300 tabular-nums" id="minMystV">0</span></div>
-        <input type="range" id="minMyst" min="0" max="100" value="0" aria-label="Minimum complexity"/>
-      </div>
-      <div>
-        <div class="flex justify-between items-baseline mb-1.5"><span class="fieldlbl mb-0 cursor-help" style="color:#fbbf24" title="Personal match computed from your declared GOAT profile. Declared favorites = 100; hand-scored recommendations keep their scores; everything else is scored algorithmically from the taste fingerprint.">★ GOAT Match ≥</span><span class="text-[12px] font-bold text-amber-300 tabular-nums" id="minGoatV">0</span></div>
-        <input type="range" id="minGoat" min="0" max="100" value="0" aria-label="Minimum personal GOAT match"/>
-      </div>
-      <div>
-        <div class="flex justify-between items-baseline mb-1.5"><span class="fieldlbl mb-0 cursor-help" style="color:#c084fc" title="Cosmic-horror index calibrated to your canon — The Shining, The Thing, In the Mouth of Madness, The Lighthouse and Iron Lung are locked at 100. The wider eldritch canon is hand-scored; everything else is scored algorithmically from dread, complexity, genre and vibe signals.">◉ Cosmic Horror ≥</span><span class="text-[12px] font-bold tabular-nums" style="color:#c084fc" id="minCosmicV">0</span></div>
-        <input type="range" id="minCosmic" min="0" max="100" value="0" aria-label="Minimum cosmic horror index"/>
+    <div class="mt-4 pt-4 border-t border-slate-800/70">
+      <div class="fieldlbl mb-2">Your 5 quick filters <span class="text-slate-600 normal-case">· pin/unpin any specialized index below to swap what shows here</span></div>
+      <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-5 gap-x-6 gap-y-4">
+        <div>
+          <div class="flex justify-between items-baseline mb-1.5"><span class="fieldlbl mb-0 cursor-help" title="Movies & TV: mean of 4K transfer fidelity, audio soundscape and cinematography. Games: mean of engine/graphics performance and art direction.">Technical Fidelity / Engine ≥</span><span class="text-[12px] font-bold text-indigo-300 tabular-nums" id="minTechV">0</span></div>
+          <input type="range" id="minTech" min="0" max="100" value="0" aria-label="Minimum technical fidelity"/>
+        </div>
+        <div>
+          <div class="flex justify-between items-baseline mb-1.5"><span class="fieldlbl mb-0 cursor-help" style="color:#fbbf24" title="Personal match computed from your declared GOAT profile. Declared favorites = 100; hand-scored recommendations keep their scores; everything else is scored algorithmically from the taste fingerprint.">★ GOAT Match ≥</span><span class="text-[12px] font-bold text-amber-300 tabular-nums" id="minGoatV">0</span></div>
+          <input type="range" id="minGoat" min="0" max="100" value="0" aria-label="Minimum personal GOAT match"/>
+        </div>
+        <div>
+          <div class="flex justify-between items-baseline mb-1.5"><span class="fieldlbl mb-0 cursor-help" style="color:#c084fc" title="Cosmic-horror index calibrated to your canon — The Shining, The Thing, In the Mouth of Madness, The Lighthouse and Iron Lung are locked at 100. The wider eldritch canon is hand-scored; everything else is scored algorithmically from dread, complexity, genre and vibe signals.">◉ Cosmic Horror ≥</span><span class="text-[12px] font-bold tabular-nums" style="color:#c084fc" id="minCosmicV">0</span></div>
+          <input type="range" id="minCosmic" min="0" max="100" value="0" aria-label="Minimum cosmic horror index"/>
+        </div>
+        <div id="pinnedMainSliders" style="display:contents"></div>
       </div>
     </div>
-    <div id="pinnedMainSliders" class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-x-6 gap-y-4 mt-4 pt-4 border-t border-slate-800/70 hidden"></div>
     <div class="mt-4 pt-4 border-t border-slate-800/70">
       <div class="flex items-center justify-between mb-2"><span class="fieldlbl mb-0">Genre / Type · multi-select (matches ANY selected)</span><button type="button" id="genreClear" class="text-[10px] text-slate-500 hover:text-rose-300">clear genres</button></div>
       <div id="genreChips" class="flex flex-wrap gap-1.5"></div>
@@ -451,6 +446,19 @@ body[data-theme="outer-wilds"]{--bg:#0e0a09;--panel:#181010;--panel-2:#120c0b;--
         <div>
           <div class="flex items-center justify-between mb-2"><span class="fieldlbl mb-0">Content Rating · multi-select</span><button type="button" id="ratingClear" class="text-[10px] text-slate-500 hover:text-rose-300">clear ratings</button></div>
           <div id="ratingChips" class="flex flex-wrap gap-1.5"></div>
+        </div>
+        <div>
+          <span class="fieldlbl">More Craft Thresholds</span>
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-x-6 gap-y-4 mt-2">
+            <div>
+              <div class="flex justify-between items-baseline mb-1.5"><span class="fieldlbl mb-0 cursor-help" title="Atmospheric dread index for film & TV · immersion / tension index for games.">Atmospheric Dread / Immersion ≥</span><span class="text-[12px] font-bold text-rose-300 tabular-nums" id="minDreadV">0</span></div>
+              <input type="range" id="minDread" min="0" max="100" value="0" aria-label="Minimum dread or immersion"/>
+            </div>
+            <div>
+              <div class="flex justify-between items-baseline mb-1.5"><span class="fieldlbl mb-0 cursor-help" title="Ontological complexity for film & TV · systems complexity for games. Puzzle-boxes, recursive timelines, deep mechanics.">Ontological / Systems Complexity ≥</span><span class="text-[12px] font-bold text-emerald-300 tabular-nums" id="minMystV">0</span></div>
+              <input type="range" id="minMyst" min="0" max="100" value="0" aria-label="Minimum complexity"/>
+            </div>
+          </div>
         </div>
         <div>
           <span class="fieldlbl">Specialized Index Thresholds · stack as many as you like · <button type="button" id="pinHelpBtn" class="normal-case text-slate-500 hover:text-indigo-300 underline decoration-dotted underline-offset-2" title="Click 📌 on any slider below to pin it to the main filter row above, so you don't have to open Advanced Filters to use it every time">📌 pin one to always show it up top</button></span>
@@ -1108,6 +1116,10 @@ const contenders=[
    to Payton's canon. A fresh browser with nothing saved yet still boots from the defaults below,
    which today are Payton's own profile -- that's the "sample profile" until Phase 3 ships a real
    blank-first-run flow for new copies. */
+// Which specialized index sliders show pinned to the main filter row (alongside Technical Fidelity,
+// GOAT Match and Cosmic Horror) for a profile that's never touched pinning itself. Declared this
+// early since PERSONAL_PROFILE's own default-fallback construction below needs it.
+const DEFAULT_PINNED_IDX=['ref','snd'];
 let PROFILE_FROM_STORAGE=false;
 const PERSONAL_PROFILE=(function(){
  try{const raw=localStorage.getItem('omniLedgerProfile');if(raw!==null){PROFILE_FROM_STORAGE=true;return JSON.parse(raw)||{};}}catch(e){}
@@ -2073,9 +2085,11 @@ ALL.forEach(x=>{x.silver=GOAT_SILVER.has(x.id);if(x.silver){var sg=Math.round(x.
    pulling a score down. */
 if(!PROFILE_FROM_STORAGE)PERSONAL_PROFILE.bronzeTierIds=[];
 /* Pinned specialized-index sliders: a UI preference (which of the 15 Advanced sliders also show
-   in the always-visible main filter row), not a taste signal -- doesn't affect scoring at all,
-   just which controls are one click away. Defaults to none pinned. */
-if(!PROFILE_FROM_STORAGE)PERSONAL_PROFILE.pinnedIdx=[];
+   in the always-visible main filter row, alongside Technical Fidelity / GOAT Match / Cosmic Horror),
+   not a taste signal -- doesn't affect scoring at all, just which controls are one click away.
+   Defaults to 4K Reference + Soundtrack (see DEFAULT_PINNED_IDX below) so a fresh profile already
+   shows 5 well-rounded quick filters instead of an empty row. */
+if(!PROFILE_FROM_STORAGE)PERSONAL_PROFILE.pinnedIdx=DEFAULT_PINNED_IDX.slice();
 const GOAT_BRONZE=new Set(PERSONAL_PROFILE.bronzeTierIds||[]);
 ALL.forEach(x=>{x.bronze=GOAT_BRONZE.has(x.id);if(x.bronze){var bg=Math.round(x.gm*0.65+80*0.35);if(bg>x.gm){x.gm=bg;x.gmOverride=x.gmOverride||'bronze';}}});
 function tierRank(x){return x.goat?3:x.silver?2:x.bronze?1:0;}
@@ -3201,8 +3215,12 @@ function handleProfileEditClick(btn){
    "here's what changed" readout, not a live version check against anything. Bump APP_VERSION and
    add a CHANGELOG entry whenever a change is worth a friend knowing about; cosmetic tweaks don't
    need a bump. */
-const APP_VERSION='1.18.0';
+const APP_VERSION='1.19.0';
 const CHANGELOG=[
+ {v:'1.19.0',date:'2026-09-03',summary:'The 5 quick filters up top are now a more useful, well-rounded set by default: Technical Fidelity, GOAT Match, Cosmic Horror, Soundtrack, and 4K Reference.',notes:[
+  'Swapped Atmospheric Dread/Immersion and Ontological/Systems Complexity out of the always-visible main filter row and into Advanced Filters (still there, still fully usable, just not two of the default 5) -- Soundtrack/Audio and 4K Reference take their place, pinned by default on a fresh profile so the initial row is more broadly useful than any 3 craft-only sliders plus GOAT Match/Cosmic Horror alone',
+  'Existing pins are unaffected: this only changes what a fresh, never-customized profile starts with -- if you\'ve already pinned or unpinned anything, your own choices are exactly as you left them'
+ ]},
  {v:'1.18.0',date:'2026-09-03',summary:'The README got a full rewrite aimed at anyone, not just developers -- plus Bronze tier and slider-pinning got added to the profile-format docs.',notes:[
   'README.md rewritten top to bottom for readability by a non-technical friend: plain-language feature tour, a "short version" up front, and technical detail moved to its own section at the end instead of mixed throughout',
   'PROFILE_TEMPLATE.md field reference updated to include bronzeTierIds and pinnedIdx, which were added to the app in earlier phases but missing from that document'
@@ -3645,7 +3663,7 @@ function buildRatingChips(){
 // filter row instead of needing to open Advanced Filters every time to reach it. A slider lives in
 // exactly one place at a time (moved, not duplicated) so there's only ever one live DOM element per
 // index and no risk of two copies drifting out of sync.
-function pinnedIdxSet(){return new Set(PERSONAL_PROFILE.pinnedIdx||[]);}
+function pinnedIdxSet(){return new Set(PERSONAL_PROFILE.pinnedIdx||DEFAULT_PINNED_IDX);}
 function sliderBlockHTML(d,pinned){
  var star='<button type="button" class="pinIdxBtn" data-k="'+d[0]+'" title="'+(pinned?'Unpin from the main filter row':'Pin to the main filter row, so it always shows without opening Advanced Filters')+'" style="cursor:pointer;background:none;border:none;padding:0;line-height:1;color:'+(pinned?d[2]:'#475569')+'">📌</button>';
  return '<div><div class="flex justify-between items-baseline mb-1.5"><span class="fieldlbl mb-0 flex items-center gap-1.5" style="color:'+d[2]+'">'+star+' '+d[1]+' ≥</span><span class="text-[12px] font-bold tabular-nums" style="color:'+d[2]+'" id="idxV_'+d[0]+'">'+(state.idx[d[0]]||0)+'</span></div>'
@@ -3665,7 +3683,7 @@ function buildPinnedMainSliders(){
  el.innerHTML=defs.map(d=>sliderBlockHTML(d,true)).join('');
 }
 function togglePinIdx(key){
- PERSONAL_PROFILE.pinnedIdx=PERSONAL_PROFILE.pinnedIdx||[];
+ PERSONAL_PROFILE.pinnedIdx=PERSONAL_PROFILE.pinnedIdx||DEFAULT_PINNED_IDX.slice();
  var i=PERSONAL_PROFILE.pinnedIdx.indexOf(key);
  if(i>=0)PERSONAL_PROFILE.pinnedIdx.splice(i,1);else PERSONAL_PROFILE.pinnedIdx.push(key);
  try{localStorage.setItem('omniLedgerProfile',JSON.stringify(PERSONAL_PROFILE));localStorage.setItem('omniLedgerOnboarded','1');}catch(e){}
