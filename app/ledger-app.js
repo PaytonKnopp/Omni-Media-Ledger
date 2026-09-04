@@ -1121,7 +1121,13 @@ ALL.forEach(x=>{
  const vb=GOAT_VIBE_BOOST[x.vibe]||0;if(vb){a+=vb;br.push(['vibe',x.vibe,vb]);}
  if(x.myst>70){var mb=(x.myst-70)/6;a+=mb;br.push(['complexity','Ontological depth',Math.round(mb*10)/10]);}
  if(x.tech>85){var tb=(x.tech-85)/5;a+=tb;br.push(['craft','Technical craft',Math.round(tb*10)/10]);}
- if(x.dread>80&&x.dread<=95){var db=(x.dread-80)/10;a+=db;br.push(['dread','Atmospheric dread',Math.round(db*10)/10]);}
+ /* No upper bound. This used to read `x.dread>80&&x.dread<=95`, which meant the boost climbed to
+    +1.5 at dread 95 and then fell off a cliff to zero at 96 -- so the sixteen most dread-soaked
+    works in the corpus (The Shining 97, The Thing 98, Hereditary 99, Come and See 99) were the
+    only ones that got nothing for it. A threshold with a ceiling reads like a range check, but
+    every other boost here is monotonic, and a taste signal that reverses at the top of its own
+    scale is a bug in any reading. */
+ if(x.dread>80){var db=(x.dread-80)/10;a+=db;br.push(['dread','Atmospheric dread',Math.round(db*10)/10]);}
  x.gm=Math.max(40,Math.min(99,Math.round(base*0.5+a*1.2+14)));
  x.goat=false;
  x.gmBase=Math.round(base*0.5+14);x.gmBoosts=br;x.gmBoostTotal=Math.round(a*1.2*10)/10;

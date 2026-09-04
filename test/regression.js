@@ -1955,6 +1955,38 @@ async function runTabFiltersFlow(browser, file) {
   check('no creator in the corpus is spelled two different ways', creatorSplit.length === 0);
   if (creatorSplit.length) console.log('     ' + creatorSplit.slice(0, 6).join(' | '));
 
+  // Every gm boost must be monotonic in the field it reads: more of the quality can never earn
+  // less of the boost. This is not a style preference -- the dread boost was written as a band
+  // (`dread>80 && dread<=95`), so it rose to +1.5 at 95 and dropped to zero at 96, leaving the
+  // sixteen most dread-soaked works in the corpus as the only ones earning nothing for it. That
+  // inverts the signal precisely where it should be strongest, and nothing anywhere failed.
+  //
+  // Checked over the real corpus rather than with synthetic values, because the defect is only
+  // visible where works actually sit on the scale.
+  const boostMonotonic = await page.evaluate(() => {
+    const bad = [];
+    ['dread', 'myst', 'tech'].forEach(field => {
+      const label = { dread: 'Atmospheric dread', myst: 'Ontological depth', tech: 'Technical craft' }[field];
+      const got = x => {
+        const b = (x.gmBoosts || []).find(e => e[1] === label);
+        return b ? b[2] : 0;
+      };
+      const pts = ALL.map(x => ({ v: x[field], b: got(x), t: x.title }))
+        .sort((a, b) => a.v - b.v);
+      for (let i = 1; i < pts.length; i++) {
+        if (pts[i].b < pts[i - 1].b - 1e-9) {
+          bad.push(field + ': "' + pts[i].t + '" (' + field + ' ' + pts[i].v + ') earns ' + pts[i].b +
+            ' but "' + pts[i - 1].t + '" (' + pts[i - 1].v + ') earns ' + pts[i - 1].b);
+          break;
+        }
+      }
+    });
+    return bad;
+  });
+  check('every gm boost is monotonic in the index it reads (more of it never earns less)',
+    boostMonotonic.length === 0);
+  if (boostMonotonic.length) console.log('     ' + boostMonotonic.join('\n     '));
+
   // URL bookmarking: filters set across three different tabs all round-trip through a fresh load.
   await goto('timeline');
   const bookmarkUrl = page.url();
