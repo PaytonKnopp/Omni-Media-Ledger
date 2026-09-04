@@ -57,6 +57,40 @@ async function waitForBoot(page, timeout) {
   }, { timeout: timeout || 30000 }).catch(() => {});
 }
 
+// Read the id of the first result card, waiting for the grid to have actually rendered.
+//
+// A bare `document.querySelector('.cardHead')?.dataset.id` races the render: booting only gets you
+// window.ALL, and the 100-card grid is painted after that. Lose the race and the optional-chaining
+// hands back `undefined` instead of throwing -- so nothing fails here. The id is then interpolated
+// into a selector and compared against `media_id` in the mocked table, where it matches nothing,
+// and the check that finally reports FAIL is three steps downstream of the actual problem. That is
+// precisely how "declaring Gold upserts a row into the media_status table" failed on CI while the
+// same commit passed on the push run: a race, not a regression, reported in the wrong place.
+async function firstCardId(page, timeout) {
+  const handle = await page.waitForFunction(() => {
+    const el = document.querySelector('.cardHead[data-id]');
+    return el ? el.dataset.id : false;
+  }, { timeout: timeout || 15000 }).catch(() => null);
+  return handle ? handle.jsonValue() : undefined;
+}
+
+// Read a value once it satisfies `predicate`, rather than sleeping a fixed interval and reading
+// whatever happens to be there.
+//
+// Every caller shares a shape: a tier click reloads the whole page (the scoring pipeline recomputes
+// from scratch), the app boots again, and only then does the cloud write land in the mocked table.
+// The fixed sleep covering that chain has already crept from 500ms to 900ms as the app got heavier,
+// and it grows again with every title added -- so it is a coin flip that gets worse over time.
+// Waiting on the value is faster when things are quick and reliable when they are slow.
+//
+// Returns null instead of throwing when the condition never arrives, so a genuine regression fails
+// its own check rather than aborting the run and hiding every check after it.
+async function readWhen(page, predicate, arg, timeout) {
+  const handle = await page.waitForFunction(predicate, arg, { timeout: timeout || 15000 }).catch(() => null);
+  if (!handle) return null;
+  return handle.jsonValue().catch(() => null);
+}
+
 function findChromium() {
   if (process.env.PLAYWRIGHT_CHROMIUM_PATH && fs.existsSync(process.env.PLAYWRIGHT_CHROMIUM_PATH)) {
     return process.env.PLAYWRIGHT_CHROMIUM_PATH;
@@ -143,13 +177,19 @@ async function runFile(browser, file) {
     if (gateVisible) {
       const startBtn = isShare ? '#onboardBlank' : '#onboardSample';
       await page.click(startBtn);
-      await page.waitForTimeout(500);
+      // Choosing a start path saves a profile and reloads the page. Wait for that to finish rather
+      // than sleeping: mid-reload the fresh document shows the gate again until the app has booted
+      // far enough to decide onboarding is done, so a sleep landing inside that window reports
+      // "the gate never dismissed" -- and the check right after reads #nav on a document that is
+      // still navigating and counts zero nav buttons. Two failures, one race, neither of them a
+      // real regression, and both of them get likelier as the corpus makes the reload heavier.
+      await waitForBoot(page);
     }
 
-    const gateGoneAfterStart = await page.evaluate(() => {
+    const gateGoneAfterStart = !!(await readWhen(page, () => {
       const g = document.getElementById('onboardGate');
       return g && g.classList.contains('hidden');
-    });
+    }));
     check('onboarding gate dismisses after choosing a start path', gateGoneAfterStart);
 
     // Views render with content
@@ -547,15 +587,14 @@ async function runFile(browser, file) {
     // delegated handler already checks .profEditBtn before .cardHead, so it was never needed).
     await page.click('#resetBtn');
     await page.waitForTimeout(300);
-    const firstCardId = await page.evaluate(() => document.querySelector('.cardHead')?.dataset.id);
-    const bronzeBtn = await page.$('.panel .profEditBtn[data-act="bronze"]');
-    await bronzeBtn.click();
+    const firstCardIdValue = await firstCardId(page);
+    await page.click('.panel .profEditBtn[data-act="bronze"][data-id="' + firstCardIdValue + '"]');
     await page.waitForTimeout(900); // toggling reloads the page -- 500ms was occasionally too tight for the reload+re-render to settle
     const bronzeIds = await page.evaluate(() => {
       try { return JSON.parse(localStorage.getItem('omniLedgerProfile')).bronzeTierIds || []; }
       catch (e) { return []; }
     });
-    check('bronze tier toggle saves the id to the profile', bronzeIds.includes(firstCardId));
+    check('bronze tier toggle saves the id to the profile', bronzeIds.includes(firstCardIdValue));
     // The card's top badge row deliberately no longer repeats a text "BRONZE" pill -- the tiering
     // icon row (tierRowHTML) lower on the card is the single indicator of tier now, so check that
     // instead: the bronze medal segment should be in its active (highlighted) state.
@@ -564,7 +603,7 @@ async function runFile(browser, file) {
       const panel = head && head.closest('.panel');
       const bronzeBtn = panel && panel.querySelector('.profEditBtn[data-act="bronze"]');
       return !!(bronzeBtn && /background:\s*#cd7f32/.test(bronzeBtn.getAttribute('style') || ''));
-    }, firstCardId);
+    }, firstCardIdValue);
     check('card shows an active Bronze tier icon after tiering (not a redundant text badge)', cardShowsBronzeBadge);
     const detailStillHidden = await page.evaluate(() => {
       const d = document.querySelector('.detail');
@@ -647,7 +686,7 @@ async function runFile(browser, file) {
 
     await page.selectOption('#sortSel', 'tier');
     await page.waitForTimeout(200);
-    const firstAfterTierSort = await page.evaluate(() => document.querySelector('.cardHead')?.dataset.id);
+    const firstAfterTierSort = await firstCardId(page);
     const firstIsHigherTier = await page.evaluate((id) => {
       // A Gold-declared item should outrank the single Bronze item under the tier sort.
       const raw = localStorage.getItem('omniLedgerProfile');
@@ -1047,7 +1086,7 @@ async function runAccountFlow(browser, file) {
     check('a brand-new cloud handle gets the onboarding flow', onboardN);
     await pageN.click(isShare ? '#onboardBlank' : '#onboardSample');
     await pageN.waitForTimeout(900);
-    const newGoldId = await pageN.evaluate(() => document.querySelector('.cardHead')?.dataset.id);
+    const newGoldId = await firstCardId(pageN);
     await pageN.click('.panel .profEditBtn[data-act="bronze"][data-id="' + newGoldId + '"]');
     await pageN.waitForTimeout(1200);
     // Let any debounced background sync fire too, so a racing near-empty write would be caught.
@@ -1258,25 +1297,30 @@ async function runAccountFlow(browser, file) {
     await page2.click('#acctContinueBtn');
     await page2.waitForTimeout(500);
     const onboardVisible3 = await page2.evaluate(() => !document.getElementById('onboardGate').classList.contains('hidden'));
-    if (onboardVisible3) { await page2.click(isShare ? '#onboardBlank' : '#onboardSample'); await page2.waitForTimeout(300); }
+    if (onboardVisible3) { await page2.click(isShare ? '#onboardBlank' : '#onboardSample'); await waitForBoot(page2); }
 
     // Gold/silver/bronze/owned are also mirrored into the normalized media_status table (see
     // supabase/schema.sql), not just left inside the profiles.data jsonb blob -- so this is
     // exercising both the app's own recommendation-driving state AND that it's actually queryable
     // in the DB per title. Declaring something Gold should upsert a row; un-declaring it should
     // remove that row entirely (nothing left to track once there's no tier and it's not owned).
-    const goldCardId = await page2.evaluate(() => document.querySelector('.cardHead')?.dataset.id);
-    await page2.click('.panel .profEditBtn[data-act="declare"]');
-    await page2.waitForTimeout(900); // toggling reloads the page, plus the flush-before-reload sync
-    const mediaRowAfterDeclare = await page2.evaluate((id) =>
-      (window.__mockTables.media_status || []).find(r => r.handle === 'smoketestuser2' && r.media_id === id), goldCardId);
+    const goldCardId = await firstCardId(page2);
+    await page2.click('.panel .profEditBtn[data-act="declare"][data-id="' + goldCardId + '"]');
+    const mediaRowAfterDeclare = await readWhen(page2, (id) => {
+      const rows = (window.__mockTables && window.__mockTables.media_status) || [];
+      return rows.find(r => r.handle === 'smoketestuser2' && r.media_id === id) || false;
+    }, goldCardId);
     check('declaring Gold upserts a row into the media_status table', !!mediaRowAfterDeclare && mediaRowAfterDeclare.tier === 'gold' && mediaRowAfterDeclare.owned === false);
 
     await page2.click('.panel .profEditBtn[data-act="declare"][data-id="' + goldCardId + '"]');
-    await page2.waitForTimeout(900);
-    const mediaRowAfterUndeclare = await page2.evaluate((id) =>
-      (window.__mockTables.media_status || []).find(r => r.handle === 'smoketestuser2' && r.media_id === id), goldCardId);
-    check('un-declaring removes the media_status row entirely (no tier, not owned)', !mediaRowAfterUndeclare);
+    const undeclareLanded = await readWhen(page2, (id) => {
+      const t = window.__mockTables;
+      // Only answer once the mock store is readable again -- mid-reload it is briefly not, and
+      // treating "cannot see the table" as "the row is gone" would pass this check for the wrong reason.
+      if (!t || !t.media_status) return false;
+      return t.media_status.some(r => r.handle === 'smoketestuser2' && r.media_id === id) ? false : { gone: true };
+    }, goldCardId);
+    check('un-declaring removes the media_status row entirely (no tier, not owned)', !!undeclareLanded);
 
     // THE reported bug, reproduced end to end: "I select bronze from the main card, it shows up,
     // then I refresh the page and it's gone." The server accepts the write but doesn't store it
@@ -1285,7 +1329,7 @@ async function runAccountFlow(browser, file) {
     // tiering is covered by the one-shot skip-hydrate flag, so the damage only showed up on the
     // SECOND, manual refresh, which is exactly what this walks through: declare, let the app
     // reload, then reload again by hand and confirm the pick is still there.
-    const bronzeCardId = await page2.evaluate(() => document.querySelector('.cardHead')?.dataset.id);
+    const bronzeCardId = await firstCardId(page2);
     await page2.evaluate(() => {
       const db = JSON.parse(sessionStorage.getItem('__mockDb'));
       db.silentlyDropProfileUpserts = true;
@@ -1441,7 +1485,7 @@ async function runAccountFlow(browser, file) {
     await page2.click('#acctContinueBtn');
     await page2.waitForTimeout(500);
     const onboardVisible4 = await page2.evaluate(() => !document.getElementById('onboardGate').classList.contains('hidden'));
-    if (onboardVisible4) { await page2.click(isShare ? '#onboardBlank' : '#onboardSample'); await page2.waitForTimeout(300); }
+    if (onboardVisible4) { await page2.click(isShare ? '#onboardBlank' : '#onboardSample'); await waitForBoot(page2); }
 
     await page2.click('#acctMenuField');
     await page2.waitForTimeout(200);
@@ -1536,7 +1580,8 @@ async function runFromScratchFlow(browser, file) {
   await waitForBoot(page);
   await page.waitForTimeout(500);
   await page.click('#onboardBlank');
-  await page.waitForTimeout(600);
+  await waitForBoot(page);
+  await page.waitForTimeout(300);
 
   // initTheme() re-writes omniLedgerTheme with the value it just read on every boot. That no-op
   // write must NOT be treated as an edit: on a fresh account it was the only tracked key present,
@@ -1632,7 +1677,7 @@ async function runTabFiltersFlow(browser, file) {
   });
   if (gateVisible) {
     await page.click(file === 'share.html' ? '#onboardBlank' : '#onboardSample');
-    await page.waitForTimeout(500);
+    await waitForBoot(page);
   }
   const goto = async (v) => {
     await page.evaluate(vv => {
