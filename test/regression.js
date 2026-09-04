@@ -98,6 +98,11 @@ async function runFile(browser, file) {
   // ---- Desktop pass ----
   {
     const page = await browser.newPage({ viewport: { width: 1400, height: 1000 } });
+    // This flow tests the local-only onboarding path deliberately (runAccountFlow below covers
+    // cloud behavior with a mocked Supabase client) -- blocking the real Supabase CDN here makes
+    // that deterministic across environments instead of accidentally depending on whether the
+    // sandbox running this suite happens to have outbound network access to it.
+    await page.route('**/supabase-js*/**', route => route.abort());
     const pageErrors = [];
     page.on('pageerror', e => pageErrors.push(e.message));
     const consoleAssertFailures = [];
@@ -645,6 +650,7 @@ async function runFile(browser, file) {
   // ---- Mobile viewport pass ----
   {
     const page = await browser.newPage({ viewport: { width: 390, height: 844 } });
+    await page.route('**/supabase-js*/**', route => route.abort());
     await page.goto(full);
     await page.waitForTimeout(600);
     const gateVisible = await page.evaluate(() => {
@@ -1421,6 +1427,7 @@ async function runAccountFlow(browser, file) {
 // picks" reshuffling while keeping anything already loved).
 async function runSeedPickerFlow(browser, file) {
   const page = await browser.newPage();
+  await page.route('**/supabase-js*/**', route => route.abort());
   const pageErrors = [];
   page.on('pageerror', e => pageErrors.push(e.message));
   await page.goto('file://' + path.join(ROOT, file));
@@ -1482,6 +1489,7 @@ async function runSeedPickerFlow(browser, file) {
 // It looked exactly like the pick hadn't saved, even though it had.
 async function runFromScratchFlow(browser, file) {
   const page = await browser.newPage();
+  await page.route('**/supabase-js*/**', route => route.abort());
   const pageErrors = [];
   page.on('pageerror', e => pageErrors.push(e.message));
   await page.goto('file://' + path.join(ROOT, file));
@@ -1538,6 +1546,7 @@ async function runFromScratchFlow(browser, file) {
 
 async function runGoatPickerFlow(browser, file) {
   const page = await browser.newPage();
+  await page.route('**/supabase-js*/**', route => route.abort());
   const pageErrors = [];
   page.on('pageerror', e => pageErrors.push(e.message));
   await page.goto('file://' + path.join(ROOT, file));
@@ -1569,6 +1578,7 @@ async function runGoatPickerFlow(browser, file) {
 async function runTabFiltersFlow(browser, file) {
   const full = 'file://' + path.join(ROOT, file);
   const page = await browser.newPage({ viewport: { width: 1400, height: 1000 } });
+  await page.route('**/supabase-js*/**', route => route.abort());
   const pageErrors = [];
   page.on('pageerror', e => pageErrors.push(e.message));
   await page.goto(full);
@@ -1679,6 +1689,7 @@ async function runTabFiltersFlow(browser, file) {
   // URL bookmarking: filters set across three different tabs all round-trip through a fresh load.
   const bookmarkUrl = page.url();
   const page2 = await browser.newPage({ viewport: { width: 1400, height: 1000 } });
+  await page2.route('**/supabase-js*/**', route => route.abort());
   const page2Errors = [];
   page2.on('pageerror', e => page2Errors.push(e.message));
   await page2.goto(bookmarkUrl);
