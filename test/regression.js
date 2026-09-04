@@ -134,6 +134,44 @@ async function readWhen(page, predicate, arg, timeout) {
 //     reload cycles overlap and broke the pending-sync checks on CI.
 // Stamping the document and waiting for the stamp to be gone is unambiguous: only a new document
 // lacks it.
+// Sign in at the account gate and wait for it to actually finish, rather than sleeping.
+//
+// Signing in does NOT navigate: resolveHandle() fetches the profile, then hides the account gate
+// and re-boots the app in place against the new profile. That breaks the usual waiting tools --
+// there is no navigation for clickAndReload's marker to detect, and window.ALL is already defined
+// from the previous handle, so waitForBoot() returns immediately and proves nothing.
+//
+// The account gate closing is the one event that means resolveHandle() actually resolved, so that
+// is what to wait on. Then the onboarding gate is read once the app has settled: a brand-new handle
+// shows it, a returning one does not, and the caller needs to know which.
+//
+// This replaces `await page.waitForTimeout(500)`, which is the pattern ARCHITECTURE.md explicitly
+// forbids after a boot -- boot cost scales with the corpus, so 500ms is comfortable at 2,500 works,
+// a coin flip on a loaded CI runner, and a reliable failure as the library grows. When it lost that
+// race the onboarding gate had not appeared yet, the caller skipped clicking "start", the profile
+// was never initialised, and the failure surfaced three steps later as "declaring Gold upserts a
+// row into the media_status table" -- a check with nothing wrong with it, in a part of the app the
+// change under test had not touched.
+async function signInAndSettle(page, handle, startBtn) {
+  await page.fill('#acctHandleInput', handle);
+  await page.click('#acctContinueBtn');
+  const signedIn = !!(await readWhen(page, () => {
+    const g = document.getElementById('acctGate');
+    return !!g && g.classList.contains('hidden');
+  }, undefined, 20000));
+  // A fresh handle raises the onboarding gate; a returning one boots straight in, so a miss here is
+  // an answer, not a failure. Bounded so the returning case does not pay the full timeout.
+  const onboarding = !!(await readWhen(page, () => {
+    const g = document.getElementById('onboardGate');
+    return !!g && !g.classList.contains('hidden');
+  }, undefined, 8000));
+  if (onboarding && startBtn) {
+    await page.click(startBtn);
+    await waitForBoot(page);
+  }
+  return { signedIn: signedIn, onboarding: onboarding };
+}
+
 async function clickAndReload(page, selector, timeout) {
   await page.evaluate(() => { window.__preReloadMarker = true; });
   await page.click(selector);
@@ -1045,16 +1083,10 @@ async function runAccountFlow(browser, file) {
     const gateVisible = await page.evaluate(() => !document.getElementById('acctGate').classList.contains('hidden'));
     check('account gate appears when cloud is configured and no handle is remembered', gateVisible);
 
-    await page.fill('#acctHandleInput', 'SmokeTestUser');
-    await page.click('#acctContinueBtn');
-    await page.waitForTimeout(500);
-    const gateHidden = await page.evaluate(() => document.getElementById('acctGate').classList.contains('hidden'));
-    check('account gate closes after choosing a handle', gateHidden);
-
     const startBtn = isShare ? '#onboardBlank' : '#onboardSample';
-    const onboardVisible = await page.evaluate(() => !document.getElementById('onboardGate').classList.contains('hidden'));
-    check('brand-new account gets the normal onboarding flow', onboardVisible);
-    if (onboardVisible) { await page.click(startBtn); await page.waitForTimeout(500); }
+    const firstSignIn = await signInAndSettle(page, 'SmokeTestUser', startBtn);
+    check('account gate closes after choosing a handle', firstSignIn.signedIn);
+    check('brand-new account gets the normal onboarding flow', firstSignIn.onboarding);
 
     // Regression: "Start from the PK Sample" used to leave PERSONAL_PROFILE's hardcoded defaults
     // sitting in memory without ever writing omniLedgerProfile to localStorage -- meaning nothing
@@ -1356,11 +1388,7 @@ async function runAccountFlow(browser, file) {
 
     // Switch account clears the remembered handle and shows the gate again. Re-sign-in first
     // (delete above signed this device out entirely) so there's an account to switch away from.
-    await page2.fill('#acctHandleInput', 'smoketestuser2');
-    await page2.click('#acctContinueBtn');
-    await page2.waitForTimeout(500);
-    const onboardVisible3 = await page2.evaluate(() => !document.getElementById('onboardGate').classList.contains('hidden'));
-    if (onboardVisible3) { await page2.click(isShare ? '#onboardBlank' : '#onboardSample'); await waitForBoot(page2); }
+    await signInAndSettle(page2, 'smoketestuser2', isShare ? '#onboardBlank' : '#onboardSample');
 
     // Gold/silver/bronze/owned are also mirrored into the normalized media_status table (see
     // supabase/schema.sql), not just left inside the profiles.data jsonb blob -- so this is
@@ -2037,6 +2065,7 @@ async function runTabFiltersFlow(browser, file) {
   check('Match weights active filters by how hard they are pulled, not by their source order',
     matchSymmetry.length === 0);
   if (matchSymmetry.length) console.log('     ' + matchSymmetry.join('\n     '));
+
 
   // URL bookmarking: filters set across three different tabs all round-trip through a fresh load.
   await goto('timeline');
