@@ -97,7 +97,7 @@ function wlSetWatched(id,v){if(WL[id]){WL[id].watched=v;wlSave();}}
 function wlCount(){return Object.keys(WL).length;}
 
 /* ===================== STATE & HELPERS ===================== */
-const state={view:'controller',q:'',type:'all',struct:'all',plat:'all',minDread:0,minMyst:0,minGoat:0,genres:[],ownedOnly:false,notOwnedOnly:false,limit:100,idx:{snd:0,ref:0,ch:0,emo:0,awe:0,cozy:0,perf:0,icon:0,scary:0,real:0,reality:0,shock:0,sci:0,funny:0,hist:0,vibe2:0,crit:0,aud:0,tech:0},ratings:[],tierFilter:[],yearMin:null,yearMax:null,combine:false,sort:'overall',w:{tech:0.85,dread:0.95,myst:0.90},creatorTab:'directors',creatorSearch:''};
+const state={view:'controller',q:'',type:'all',struct:'all',plats:[],minDread:0,minMyst:0,minGoat:0,runtimeMax:0,genres:[],genresExclude:[],ownedOnly:false,notOwnedOnly:false,limit:100,idx:{snd:0,ref:0,ch:0,emo:0,awe:0,cozy:0,perf:0,icon:0,scary:0,real:0,reality:0,shock:0,sci:0,funny:0,hist:0,vibe2:0,crit:0,aud:0,tech:0},ratings:[],tierFilter:[],yearMin:null,yearMax:null,combine:false,sort:'overall',w:{tech:0.85,dread:0.95,myst:0.90},creatorTab:'directors',creatorSearch:'',goatType:'all',goatTierFilter:'all',goatSort:'match',goatDeclaredQ:'',portraitScope:'all',collSearchQ:'',wlType:'all',wlSort:'added',wlSearchQ:'',creatorSearchScope:'all',creatorSort:'default'};
 const $=s=>document.querySelector(s),$$=s=>Array.from(document.querySelectorAll(s));
 const on=(sel,ev,fn)=>{const el=$(sel);if(el)el.addEventListener(ev,fn);else console.warn('missing element:',sel);};
 const esc=s=>String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
@@ -118,9 +118,11 @@ function filtered(){const q=state.q.trim().toLowerCase();
    if(state.struct==='limited'&&it.format!=='Limited/Mini-Series')return false;
    if(state.struct==='multi'&&it.format!=='Multi-Season Epic')return false;
   }
-  if(state.plat!=='all'&&!it.plats.includes(state.plat))return false;
+  if(state.plats.length&&!state.plats.some(p=>it.plats.includes(p)))return false;
+  if(state.runtimeMax>0&&it.kind==='movie'&&it.mins&&it.mins>state.runtimeMax)return false;
   if(it.tech<state.idx.tech||it.dread<state.minDread||it.myst<state.minMyst||it.gm<state.minGoat)return false;
   if(state.genres.length&&!state.genres.some(g=>it.fam.includes(g)))return false;
+  if(state.genresExclude.length&&state.genresExclude.some(g=>it.fam.includes(g)))return false;
   if(state.ratings.length&&!state.ratings.includes(it.rating))return false;
   if(state.ownedOnly&&!it.owned)return false;
   if(state.notOwnedOnly&&it.owned)return false;
@@ -532,16 +534,19 @@ function renderController(list){
  $('#priorityNote').textContent=note;renderActiveBar();
  const shown=sorted.slice(0,state.limit);$('#grid').innerHTML=shown.map(cardHTML).join('')||'<div class="col-span-full text-center text-slate-500 text-sm py-14">No works match every active filter. Loosen a threshold, remove a chip, or widen your genres.</div>';
 }
+let activeBarExpanded=false;
 function renderActiveBar(){
  const bar=$('#activeBar');if(!bar)return;const chips=[];
  const X=(label,clear)=>'<button type="button" class="chip activeChip" data-clr="'+clear+'" style="color:#fca5a5;border-color:#fca5a544">'+label+' ✕</button>';
  if(state.q)chips.push(X('“'+esc(state.q)+'”','q'));
  if(state.type!=='all')chips.push(X(KM[state.type].label,'type'));
  if(state.struct!=='all')chips.push(X(state.struct==='limited'?'Limited series':'Multi-season','struct'));
- if(state.plat!=='all')chips.push(X(esc(state.plat),'plat'));
+ state.plats.forEach(p=>chips.push(X(esc(p),'plat:'+p)));
  state.genres.forEach(g=>chips.push(X(esc(g),'genre:'+g)));
+ state.genresExclude.forEach(g=>chips.push(X('✕ '+esc(g),'genreEx:'+g)));
  state.ratings.forEach(r=>chips.push(X(esc(r),'rating:'+r)));
  [['minDread','Dread'],['minMyst','Mind'],['minGoat','★ GOAT']].forEach(pr=>{if(state[pr[0]]>0)chips.push(X(pr[1]+' ≥'+state[pr[0]],pr[0]));});
+ if(state.runtimeMax>0)chips.push(X('Runtime ≤'+state.runtimeMax+'m','runtime'));
  const IL={snd:'Soundtrack',ref:'4K Ref',ch:'◉ Cosmic',emo:'Emotional',awe:'Awe',cozy:'Comfort',perf:'Performances',icon:'Iconic',scary:'Scariest',real:'Realistic',reality:'Reality-Altering',shock:'Shocking',sci:'Scientific',funny:'Funniest',hist:'Historical',vibe2:'Vibe',crit:'Critical',aud:'Audience',tech:'Technical Craft'};
  Object.keys(IL).forEach(k=>{if(state.idx[k]>0)chips.push(X(IL[k]+' ≥'+state.idx[k],'idx:'+k));});
  if(state.yearMin!=null||state.yearMax!=null)chips.push(X('Year '+(state.yearMin||'←')+'–'+(state.yearMax||'→'),'year'));
@@ -550,7 +555,17 @@ function renderActiveBar(){
  const TL={gold:'🥇 Gold',silver:'🥈 Silver',bronze:'🥉 Bronze'};
  state.tierFilter.forEach(t=>chips.push(X(TL[t],'tier:'+t)));
  if(state.combine&&chips.length)chips.unshift('<span class="chip" style="color:#fbbf24;border-color:#fbbf2455">STRICT AND</span>');
- bar.innerHTML=chips.length?('<span class="lbl mr-1">Active:</span>'+chips.join('')+'<button type="button" id="clearAllF" class="chip" style="color:#94a3b8">clear all</button>'):'';
+ // A heavily-filtered search (multi-platform, several genres in and out, half a dozen thresholds...)
+ // can produce enough chips to wrap several rows and push the actual results far down the page.
+ // Collapse past a threshold, same "N more" pattern used elsewhere in the app, rather than let the
+ // bar grow without bound -- expand/collapse state is deliberately not persisted, just a per-visit
+ // convenience.
+ const OVERFLOW_AT=10;
+ const overflowing=chips.length>OVERFLOW_AT;
+ const shown=overflowing&&!activeBarExpanded?chips.slice(0,OVERFLOW_AT):chips;
+ const moreBtn=overflowing?'<button type="button" id="activeBarToggle" class="chip" style="color:#7dd3fc;border-color:#7dd3fc44">'+(activeBarExpanded?'▲ show less':'▾ +'+(chips.length-OVERFLOW_AT)+' more')+'</button>':'';
+ bar.innerHTML=chips.length?('<span class="lbl mr-1">Active:</span>'+shown.join('')+moreBtn+'<button type="button" id="clearAllF" class="chip" style="color:#94a3b8">clear all</button>'):'';
+ if(!chips.length)activeBarExpanded=false; // reset so the next unrelated search doesn't open pre-expanded
 }
 
 /* ===================== VIEW 2 · BESPOKE TASTE ENGINE ===================== */
@@ -598,8 +613,13 @@ function updateCharts(list){
  CH.decade.update('none');
 }
 var bubbleMed='all';
+// The field used to advertise a "min score 55+" label with no filter anywhere actually enforcing
+// it -- every point in scope got plotted regardless, which on top of getting the number wrong could
+// make the chart a several-thousand-point smear whenever the Global Controller had no filters
+// active. bubbleMinScore is the real, live-adjustable threshold that label always should have been.
+var bubbleMinScore=0;
 function renderBubble(){
- if(!CH.bubble)return;var list=CH._vizList||ALL;
+ if(!CH.bubble)return;var list=(CH._vizList||ALL).filter(function(x){return x.crit>=bubbleMinScore;});
  var mk=function(kind){return list.filter(function(x){return x.kind===kind;}).map(function(x){return {x:x.crit,y:x.aud,r:Math.max(3,Math.min(15,(x.tech-70)/2.1+3)),t:x.title,yr:x.year,tech:x.tech};});};
  var sets=[
   {label:'Movies',kind:'movie',data:mk('movie'),backgroundColor:'rgba(167,139,250,.45)',borderColor:'#a78bfa'},
@@ -685,16 +705,29 @@ function matrixRow(it,i,cols){const k=KM[it.kind];
  +'<span class="flex-1 min-w-0 truncate text-[12px] text-slate-200" title="'+esc(it.title)+' · '+esc(it.creator)+'">'+esc(it.title)+' <span class="text-slate-500 text-[10px]">'+it.year+'</span>'+(it.owned?' <span style="color:#4ade80;font-size:9px;font-weight:700" title="Owned">\u2713</span>':'')+'</span>'
  +cols.map(c=>'<span class="hidden sm:flex items-center gap-1.5 w-24 shrink-0"><span class="bar flex-1"><i style="width:'+c[0]+'%;background:'+c[1]+'"></i></span><span class="text-[10px] tabular-nums text-slate-400 w-5 text-right">'+c[0]+'</span></span>').join('')
  +'</div>';}
+// MATRIX_TITLES was being collected every render and never read anywhere -- the quick-jump nav
+// below is what that collection was clearly meant to drive; with 18 independently-scrolling
+// panels on one page there was previously no way to reach e.g. "Scariest" without scrolling past
+// 17 others first.
 var MATRIX_TITLES=[];
+var matrixOwnedOnly=false;
+function slugify(s){return s.replace(/&[a-z]+;/gi,' ').replace(/[^\w\s-]/g,'').trim().toLowerCase().replace(/\s+/g,'-');}
 function matrixBlock(title,sub,arr,colFn,heads){
  if(MATRIX_TITLES.indexOf(title)<0)MATRIX_TITLES.push(title);
- return '<div class="panel overflow-hidden fade-in"><div class="px-4 pt-4 pb-3 border-b border-slate-800/70">'
- +'<div class="flex items-baseline justify-between gap-2"><h3 class="text-[12px] font-bold tracking-[.14em] text-slate-100 uppercase">'+title+'</h3><span class="chip">'+arr.length+' qualify</span></div>'
+ var shown=matrixOwnedOnly?arr.filter(function(x){return x.owned;}):arr;
+ return '<div class="panel overflow-hidden fade-in" id="mx-'+slugify(title)+'"><div class="px-4 pt-4 pb-3 border-b border-slate-800/70">'
+ +'<div class="flex items-baseline justify-between gap-2"><h3 class="text-[12px] font-bold tracking-[.14em] text-slate-100 uppercase">'+title+'</h3><span class="chip">'+shown.length+(matrixOwnedOnly?' owned':' qualify')+'</span></div>'
  +'<p class="text-[11px] text-slate-500 mt-1.5 leading-relaxed">'+sub+'</p>'
  +'<div class="hidden sm:flex justify-end gap-2.5 mt-2.5">'+heads.map(h=>'<span class="lbl w-24 text-right">'+h+'</span>').join('')+'</div></div>'
- +'<div class="max-h-[460px] overflow-y-auto">'+arr.map((it,i)=>matrixRow(it,i,colFn(it))).join('')+'</div></div>';
+ +'<div class="max-h-[460px] overflow-y-auto">'+(shown.length?shown.map((it,i)=>matrixRow(it,i,colFn(it))).join(''):'<div class="px-4 py-6 text-center text-slate-500 text-[12px]">None of these are in your collection yet.</div>')+'</div></div>';
+}
+function renderMatrixNav(){
+ var el=$('#matrixNav');if(!el)return;
+ el.innerHTML=MATRIX_TITLES.map(function(t){var label=t.replace(/&amp;/g,'&').replace(/&ge;/g,'≥').replace(/&le;/g,'≤');
+  return '<a href="#mx-'+slugify(t)+'" class="matrixNavLink text-[10.5px] px-2.5 py-1 rounded-lg border border-slate-700 text-slate-400 hover:border-indigo-500 hover:text-indigo-300 transition-colors whitespace-nowrap" data-anchor="mx-'+slugify(t)+'">'+label+'</a>';}).join('');
 }
 function renderMatrices(){
+ MATRIX_TITLES=[];
  const ref=ALL.filter(x=>x.kind!=='game'&&x.fid[0][1]>=94&&x.fid[1][1]>=90).sort((a,b)=>(b.fid[0][1]+b.fid[1][1]+b.fid[2][1])-(a.fid[0][1]+a.fid[1][1]+a.fid[2][1]));
  const dread=ALL.filter(x=>x.dread>=90).sort((a,b)=>b.dread-a.dread);
  const myst=ALL.filter(x=>x.myst>=90).sort((a,b)=>b.myst-a.myst);
@@ -719,6 +752,7 @@ function renderMatrices(){
   +matrixBlock('💧 Tearjerker &amp; Emotional Gut-Punch','Bring tissues \u2014 the most devastating, moving works across every medium. Emotional index \u2265 86.',ALL.filter(x=>x.emo>=86).sort((a,b)=>b.emo-a.emo),it=>[[it.emo,'#f0abfc'],[it.crit,'#94a3b8']],['Emotion','Critic'])
   +matrixBlock('😴 Comfort &amp; Warmth','Rainy-Sunday companions \u2014 the cozy, humane, restorative works to return to. Comfort index \u2265 74.',ALL.filter(x=>x.cozy>=74).sort((a,b)=>b.cozy-a.cozy),it=>[[it.cozy,'#fbbf24'],[it.aud,'#94a3b8']],['Comfort','Audience'])
   +matrixBlock('😀 Wit &amp; Comedy Peak','The sharpest, funniest works across every medium \u2014 satire, farce, and perfect timing. Comedy index \u2265 74.',ALL.filter(x=>x.funny>=74).sort((a,b)=>b.funny-a.funny),it=>[[it.funny,'#fde047'],[it.aud,'#94a3b8']],['Funny','Audience']);
+ renderMatrixNav();
 }
 
 /* ===================== VIEW 5 · PAN-CREATOR ARCHIVES ===================== */
@@ -742,20 +776,31 @@ function creatorCard(c,tab){const isDir=tab===true||tab==='directors';const isAu
     return '<div class="flex items-center gap-2 text-[11px] goatJump cursor-pointer hover:bg-slate-800/30 rounded px-1 -mx-1" data-q="'+esc(w.title)+'" title="Open '+esc(w.title)+' in the Global Controller"><span class="w-1.5 h-1.5 rounded-full shrink-0" style="background:'+k.c+'"></span><span class="flex-1 truncate text-slate-200 hover:text-teal-300">'+esc(w.title)+'</span><span class="text-slate-500 tabular-nums">'+w.year+'</span><span class="tabular-nums font-semibold" style="color:'+k.c+'">'+w.crit+'</span></div>';}).join(''):'<div class="text-[11px] text-slate-500">No direct credits indexed.</div>')+'</div></div>';
  return '<div class="flip h-[300px] select-none cursor-pointer" role="button" tabindex="0" aria-label="Flip card for '+esc(c.name)+'"><div class="flip-inner">'+front+back+'</div></div>';
 }
+const CREATOR_TOTAL=directorsPantheon.length+authorsPantheon.length+gamingAuteurs.length;
+function sortCreatorPairs(pairs,sortMode){
+ if(sortMode==='az')return pairs.slice().sort(function(a,b){return a[0].name.localeCompare(b[0].name);});
+ if(sortMode==='works')return pairs.slice().sort(function(a,b){return (worksFor(b[0].name).length)-(worksFor(a[0].name).length);});
+ return pairs;
+}
 function renderCreators(){const tab=state.creatorTab;
  const q=(state.creatorSearch||'').trim().toLowerCase();
+ const scope=state.creatorSearchScope||'all';
+ const sortMode=state.creatorSort||'default';
  var grid=$('#creatorGrid');
  if(q){
-  // search across ALL pantheons, tagging each with its tab type
+  // search across ALL pantheons by default, tagging each with its tab type -- optionally scoped
+  // to just one pantheon via the search-scope segmented control.
   var all=directorsPantheon.map(c=>[c,'directors']).concat(authorsPantheon.map(c=>[c,'authors'])).concat(gamingAuteurs.map(c=>[c,'auteurs']));
-  var hits=all.filter(function(pair){return pair[0].name.toLowerCase().indexOf(q)>=0;});
+  if(scope!=='all')all=all.filter(function(pair){return pair[1]===scope;});
+  var hits=sortCreatorPairs(all.filter(function(pair){return pair[0].name.toLowerCase().indexOf(q)>=0;}),sortMode);
   grid.innerHTML=hits.length?hits.map(function(pair){return creatorCard(pair[0],pair[1]);}).join(''):'<div class="col-span-full text-center text-slate-500 text-sm py-10">No creator matches “'+esc(q)+'”.</div>';
-  var cc=$('#creatorSearchCount');if(cc)cc.textContent=hits.length+' of 80 creators';
+  var cc=$('#creatorSearchCount');if(cc)cc.textContent=hits.length+' of '+(scope==='all'?CREATOR_TOTAL:all.length)+' creators';
   return;
  }
  var cc=$('#creatorSearchCount');if(cc)cc.textContent='';
  const data=tab==='directors'?directorsPantheon:(tab==='authors'?authorsPantheon:gamingAuteurs);
- grid.innerHTML=data.map(c=>creatorCard(c,tab)).join('');
+ const pairs=sortCreatorPairs(data.map(function(c){return [c,tab];}),sortMode);
+ grid.innerHTML=pairs.map(function(pair){return creatorCard(pair[0],pair[1]);}).join('');
  $$('#creatorSeg button').forEach(b=>b.classList.toggle('on',b.dataset.tab===tab));
 }
 
@@ -891,6 +936,7 @@ function anticipationScore(c){
  return {score:score,reasons:reasons.slice(0,2),pull:pull,watch:c.watchRank||0};
 }
 var contSort='foryou';
+var contSearchQ='';
 /* Only trusts an unambiguous "Month DD, YYYY" window (e.g. "November 19, 2026") -- vaguer windows
    like a bare year or "shoots 2027" can't be reliably compared to today, so they're left alone
    rather than risk a false flag. */
@@ -906,9 +952,15 @@ function isPastWindow(c){
  return d?d.getTime()<Date.now():false;
 }
 function renderContenders(){const MED={Film:'#a78bfa',TV:'#22d3ee',Game:'#fbbf24',Book:'#4ade80'};
- var pool=contenders.slice().filter(c=>contMedium==='all'||c.medium===contMedium).filter(c=>!contUnverifiedOnly||!c.verified).filter(c=>!contVerifiedOnly||c.verified);
+ var cq=(contSearchQ||'').trim().toLowerCase();
+ var pool=contenders.slice().filter(c=>contMedium==='all'||c.medium===contMedium).filter(c=>!contUnverifiedOnly||!c.verified).filter(c=>!contVerifiedOnly||c.verified)
+  .filter(c=>!cq||(c.title+' '+c.creativeLead+' '+c.platform).toLowerCase().indexOf(cq)>=0);
  pool.forEach(function(c){var a=anticipationScore(c);c._antScore=a.score;c._antReasons=a.reasons;});
- pool.sort(contSort==='foryou'?function(a,b){return b._antScore-a._antScore;}:function(a,b){return b.goatProbability-a.goatProbability;});
+ pool.sort(
+  contSort==='foryou'?function(a,b){return b._antScore-a._antScore;}
+  :contSort==='title'?function(a,b){return a.title.localeCompare(b.title);}
+  :contSort==='window'?function(a,b){var da=parseWindowDate(a.window),db=parseWindowDate(b.window);if(!da&&!db)return 0;if(!da)return 1;if(!db)return -1;return da-db;}
+  :function(a,b){return b.goatProbability-a.goatProbability;});
  $$('.contMedBtn').forEach(b=>{var on=b.dataset.med===contMedium;var mc=MED[b.dataset.med]||'#818cf8';b.style.color=on?mc:'#94a3b8';b.style.borderColor=on?mc+'88':'rgba(148,163,184,.25)';b.style.background=on?mc+'18':'transparent';b.style.fontWeight=on?'700':'400';});
  var cc=$('#contCount');if(cc)cc.textContent=pool.length+(contMedium==='all'?' contenders':' '+contMedium.toLowerCase()+' contenders');
  var vc=$('#contVerifiedCount');if(vc){var verifiedN=pool.filter(function(c){return c.verified;}).length;vc.textContent='◉ '+verifiedN+'/'+pool.length+' spot-checked';}
@@ -1245,32 +1297,33 @@ ALL.forEach(x=>{
 });
 const GENRE_FAMILIES=[
  ['Sci-Fi',/sci-?fi|cyberpunk|space|dystopia|apocalyp|alt-history|time (loop|travel)|philosophical sci/i],
- ['Horror',/horror|slasher|giallo|gothic|cosmic|body horror|folk horror/i],
- ['Drama',/(^|\b)drama|tragedy|family|medical|kitchen/i],
- ['Thriller',/thriller|espionage|spy|conspiracy|techno-/i],
+ ['Horror',/horror|slasher|giallo|gothic|cosmic|body horror|folk horror|supernatural|vampire|ghost story|possession|haunted/i],
+ ['Documentary',/documentary|mockumentary/i],
+ ['Drama',/(^|\b)drama|tragedy|family|medical|kitchen|coming.of.age|slice of life/i],
+ ['Thriller',/thriller|espionage|spy|conspiracy|techno-|revenge/i],
  ['Mystery / Detective',/mystery|detective|deduction|noir|procedural|fmv/i],
  ['Crime',/crime|heist|institutional|legal/i],
  ['Psychological',/psychological|surreal|metafiction|postmodern|new weird/i],
- ['Action / Adventure',/action|adventure|shooter|fps|run-and-gun|boss rush|rail|stealth|hack/i],
+ ['Action / Adventure',/action|adventure|shooter|fps|run-and-gun|boss rush|rail|stealth|hack|fighting|beat .em up/i],
  ['Epic / Historical',/epic|historical|period|mythology/i],
- ['Fantasy',/fantasy|dark fantasy|magical realism/i],
+ ['Fantasy',/fantasy|dark fantasy|magical realism|magical girl/i],
  ['Western',/western/i],
- ['Comedy / Satire',/comedy|satire|dramedy|black comedy/i],
- ['Anime / Animated',/anime|animated|mecha/i],
- ['RPG',/\brpg\b|crpg|jrpg|roguelike rpg/i],
- ['Open World / Survival',/open world|survival|sandbox|exploration|automation|city builder|simulation|\bsim\b|walking sim|farming|life sim|anthology/i],
- ['Puzzle / Systems',/puzzle|logic|deckbuilder|deck-build|tactics|metroidvania|immersive sim|deduction|synesthesia|roguelike|roguelite/i],
+ ['Comedy / Satire',/comedy|satire|dramedy|black comedy|sitcom|farce/i],
+ ['Anime / Animated',/anime|animat|mecha/i],
+ ['RPG',/\brpg\b|crpg|jrpg|roguelike rpg|mmorpg/i],
+ ['Open World / Survival',/open world|survival|sandbox|exploration|automation|city builder|\bbuilder\b|simulation|\bsim\b|walking sim|farming|life sim|anthology/i],
+ ['Puzzle / Systems',/puzzle|logic|deckbuilder|deck-build|tactics|tactical|metroidvania|immersive sim|deduction|synesthesia|roguelike|roguelite/i],
  ['Romance',/romance/i],
  ['Superhero',/superhero/i],
  ['War',/\bwar\b|anti-war|military/i],
  ['Physics & Cosmology',/physics|cosmology|astro/i],
- ['Philosophy & Ideas',/philosophy|futurism|stoic/i],
- ['Science & Nature',/\bscience\b|mathematics|engineering|technology|anthropology/i],
+ ['Philosophy & Ideas',/philosophy|philosophical|futurism|stoic|metaphysical/i],
+ ['Science & Nature',/\bscience\b|mathematics|engineering|technology|anthropology|psychology|sociology|journalism|biology|economics|nature/i],
  ['Biography & History',/biography|biopic|history|memoir|historical/i],
- ['Literary & Poetry',/literary|poetry|graphic novel|fiction/i],
+ ['Literary & Poetry',/literary|poetry|graphic novel|fiction|essay|short stor|verse novel/i],
  ['Platformer',/platformer|3d platformer|2d platformer/i],
- ['Strategy & Tactics',/strategy|4x|rts|turn-based|grand strategy/i],
- ['Sports & Music',/sports|racing|music|rhythm|\bband\b/i]
+ ['Strategy & Tactics',/strategy|4x|rts|turn-based|grand strategy|tactical/i],
+ ['Sports & Music',/sport|racing|music|rhythm|\bband\b/i]
 ];
 ALL.forEach(x=>{const g=x.genres.join(' ');x.fam=GENRE_FAMILIES.filter(f=>f[1].test(g)).map(f=>f[0]);});
 const GENRE_COUNTS={};GENRE_FAMILIES.forEach(f=>{GENRE_COUNTS[f[0]]=ALL.filter(x=>x.fam.includes(f[0])).length;});
@@ -1377,26 +1430,34 @@ var TIER_STYLE={gold:['\u{1F947}','Gold','#fbbf24'],silver:['\u{1F948}','Silver'
 // zone to another within the same medium re-tiers it via moveToTier(), below, which goes through
 // the exact same mutateProfileAndReload path a click on the tier row does -- so a drag-based move
 // recomputes the GOAT match weight exactly as if you'd clicked the old tier off and the new one on.
-function tierChipGroupHTML(kind,items,tierKey){
+function tierChipGroupHTML(kind,items,tierKey,filterQ){
  var s=TIER_STYLE[tierKey];
- var body=items.length
-  ?items.map(function(x){return '<span class="chip goatJump tierDragChip" draggable="true" data-q="'+esc(x.title)+'" data-drag-id="'+x.id+'" data-drag-kind="'+kind+'" title="Click to open in Global Controller, or drag to Gold/Silver/Bronze below to re-tier" style="color:'+s[2]+';border-color:'+s[2]+'55;cursor:grab">'+esc(x.title)+'</span>';}).join('')
-  :'<span class="text-[10.5px] text-slate-600 italic">drag a title here to make it '+s[1]+'</span>';
- return '<div class="mt-2 first:mt-0 tierDropZone rounded-lg -m-1 p-1" data-tier="'+tierKey+'" data-kind="'+kind+'"><div class="text-[9.5px] tracking-[.16em] uppercase mb-1 font-bold" style="color:'+s[2]+'">'+s[0]+' '+s[1]+' <span class="text-slate-600 font-normal">('+items.length+')</span></div>'
+ var shown=filterQ?items.filter(function(x){return x.title.toLowerCase().indexOf(filterQ)>=0;}):items;
+ var body;
+ if(shown.length)body=shown.map(function(x){return '<span class="chip goatJump tierDragChip" draggable="true" data-q="'+esc(x.title)+'" data-drag-id="'+x.id+'" data-drag-kind="'+kind+'" title="Click to open in Global Controller, or drag to Gold/Silver/Bronze below to re-tier" style="color:'+s[2]+';border-color:'+s[2]+'55;cursor:grab">'+esc(x.title)+'</span>';}).join('');
+ else if(filterQ&&items.length)body='<span class="text-[10.5px] text-slate-600 italic">no matches for \u201c'+esc(filterQ)+'\u201d</span>';
+ else body='<span class="text-[10.5px] text-slate-600 italic">drag a title here to make it '+s[1]+'</span>';
+ return '<div class="mt-2 first:mt-0 tierDropZone rounded-lg -m-1 p-1" data-tier="'+tierKey+'" data-kind="'+kind+'"><div class="text-[9.5px] tracking-[.16em] uppercase mb-1 font-bold" style="color:'+s[2]+'">'+s[0]+' '+s[1]+' <span class="text-slate-600 font-normal">('+(filterQ?shown.length+'/'+items.length:items.length)+')</span></div>'
   +'<div class="flex flex-wrap gap-1.5 min-h-[24px]">'+body+'</div></div>';
 }
 function declaredCategoryHTML(d){
  var kind=CORPUS_CANON_KIND[d.cat];
+ var filterQ=(state.goatDeclaredQ||'').trim().toLowerCase();
  if(!kind){
+  var items=filterQ?d.items.filter(function(it){return it.name.toLowerCase().indexOf(filterQ)>=0;}):d.items;
+  if(filterQ&&!items.length)return '';
   return '<div class="panel p-3.5" style="border-color:#fbbf2433">'
    +'<div class="lbl" style="color:#fbbf24">\u2605 '+esc(d.cat)+'</div>'
-   +'<div class="flex flex-wrap gap-1.5 mt-2">'+d.items.map(it=>'<span class="chip'+(it.q?' goatJump':'')+'"'+(it.q?' data-q="'+esc(it.q)+'" title="Open in Global Controller" style="color:#fde68a;border-color:#fbbf2455;cursor:pointer"':' style="color:#fde68a;border-color:#fbbf2455"')+'>'+esc(it.name)+(it.note?' <span class="text-slate-500">\u00b7 '+esc(it.note)+'</span>':'')+'</span>').join('')+'</div></div>';
+   +'<div class="flex flex-wrap gap-1.5 mt-2">'+items.map(it=>'<span class="chip'+(it.q?' goatJump':'')+'"'+(it.q?' data-q="'+esc(it.q)+'" title="Open in Global Controller" style="color:#fde68a;border-color:#fbbf2455;cursor:pointer"':' style="color:#fde68a;border-color:#fbbf2455"')+'>'+esc(it.name)+(it.note?' <span class="text-slate-500">\u00b7 '+esc(it.note)+'</span>':'')+'</span>').join('')+'</div></div>';
  }
  var pool=ALL.filter(function(x){return x.kind===kind;});
  var anyTiered=pool.some(function(x){return x.goat||x.silver||x.bronze;});
- var body=tierChipGroupHTML(kind,pool.filter(function(x){return x.goat;}),'gold')
-  +tierChipGroupHTML(kind,pool.filter(function(x){return x.silver;}),'silver')
-  +tierChipGroupHTML(kind,pool.filter(function(x){return x.bronze;}),'bronze');
+ // With a filter typed and this whole category having nothing matching it, drop the category
+ // entirely rather than show three empty "no matches" drop zones in a row.
+ if(filterQ&&anyTiered&&!pool.some(function(x){return (x.goat||x.silver||x.bronze)&&x.title.toLowerCase().indexOf(filterQ)>=0;}))return '';
+ var body=tierChipGroupHTML(kind,pool.filter(function(x){return x.goat;}),'gold',filterQ)
+  +tierChipGroupHTML(kind,pool.filter(function(x){return x.silver;}),'silver',filterQ)
+  +tierChipGroupHTML(kind,pool.filter(function(x){return x.bronze;}),'bronze',filterQ);
  return '<div class="panel p-3.5" style="border-color:#47556933"><div class="lbl" style="color:#e2e8f0">'+esc(d.cat)+'</div>'
   +(anyTiered?'':'<div class="text-[11px] text-slate-500 mt-1">None declared yet \u2014 search above to tier some.</div>')
   +body+'</div>';
@@ -1418,38 +1479,70 @@ function declaredCategoriesToRender(){
  return cats;
 }
 function renderGoat(){renderTasteDNA();
- $('#goatDeclared').innerHTML=declaredCategoriesToRender().map(declaredCategoryHTML).join('');
- $('#goatRecs').innerHTML=goatProfile.recs.map(cat=>'<div class="panel overflow-hidden fade-in">'
+ var declaredHTML=declaredCategoriesToRender().map(declaredCategoryHTML).join('');
+ $('#goatDeclared').innerHTML=declaredHTML||((state.goatDeclaredQ||'').trim()?'<div class="col-span-full text-center text-slate-500 text-sm py-6">Nothing in your declared canon matches “'+esc(state.goatDeclaredQ.trim())+'”.</div>':'');
+ $('#goatRecs').innerHTML=goatProfile.recs.map(cat=>{
+  var hidden=PERSONAL_PROFILE.hiddenRecs||[];
+  var visible=cat.items.filter(function(it){return hidden.indexOf(recKey(cat.cat,it))<0;});
+  var hiddenN=cat.items.length-visible.length;
+  return '<div class="panel overflow-hidden fade-in">'
   +'<div class="px-4 pt-4 pb-3 border-b border-slate-800/70"><div class="flex items-baseline justify-between gap-2"><h3 class="text-[12px] font-bold tracking-[.14em] uppercase text-slate-100">'+esc(cat.cat)+(cat.approx?(cat.partiallyLinked?' <span class="text-[8.5px] font-normal normal-case tracking-normal text-emerald-400/80" title="Where a pick has a known, ledger-linked work (marked ◆ below), the score is a real average of that work'+"'"+'s GOAT match, not a guess. Unlinked picks fall back to genre overlap.">◆ partly ledger-linked</span>':' <span class="text-[8.5px] font-normal normal-case tracking-normal text-amber-400/70" title="No corpus of music/video-essay works exists to link these picks to (the ledger only tracks movies, TV, games and books), so these stay hand-curated -- but the score and order do respond to both your genre AND vibe weights.">◈ approximate — by genre + vibe overlap</span>'):'')+'</h3><span class="lbl">match /100</span></div>'
-  +'<p class="text-[10.5px] text-slate-500 mt-1 leading-relaxed">'+esc(cat.basis)+'</p></div>'
-  +cat.items.map((it,i)=>'<div class="flex items-center gap-2.5 px-3.5 py-2 border-b border-slate-800/50 last:border-0 hover:bg-slate-800/20'+(it.q?' goatJump cursor-pointer':'')+'"'+(it.q?' data-q="'+esc(it.q)+'" title="Open in Global Controller"':'')+'>'
+  +'<p class="text-[10.5px] text-slate-500 mt-1 leading-relaxed">'+esc(cat.basis)+'</p>'
+  +(hiddenN?'<button type="button" class="recUnhideAll text-[10px] text-sky-400/80 hover:text-sky-300 mt-1.5" data-cat="'+esc(cat.cat)+'">'+hiddenN+' hidden here — show again</button>':'')
+  +'</div>'
+  +(visible.length?visible.map((it,i)=>'<div class="flex items-center gap-2.5 px-3.5 py-2 border-b border-slate-800/50 last:border-0 hover:bg-slate-800/20 group'+(it.q?' goatJump cursor-pointer':'')+'"'+(it.q?' data-q="'+esc(it.q)+'" title="Open in Global Controller"':'')+'>'
    +'<span class="text-[10px] text-slate-500 w-5 tabular-nums">'+String(i+1).padStart(2,'0')+'</span>'
    +'<span class="w-1.5 h-1.5 rounded-full shrink-0" style="background:'+(it.k?KM[it.k].c:'#475569')+'"></span>'
    +'<div class="flex-1 min-w-0"><div class="text-[12px] text-slate-200 truncate">'+esc(it.n)+(it.linked?' <span class="text-[8.5px] text-emerald-400/80 uppercase tracking-[.12em]" title="Score is a real average of this person’s linked ledger work(s)">◆ linked</span>':'')+(it.q?' <span class="text-[8.5px] text-amber-300/70 uppercase tracking-[.12em]">on ledger</span>':'')+'</div>'
    +'<div class="text-[10px] text-slate-500 truncate" title="'+esc(it.why)+'">'+esc(it.why)+'</div></div>'
    +'<span class="hidden sm:flex w-24 shrink-0"><span class="bar flex-1"><i style="width:'+it.s+'%;background:linear-gradient(90deg,#b45309,#fbbf24)"></i></span></span>'
-   +'<span class="text-[11px] font-bold tabular-nums w-7 text-right" style="color:#fbbf24">'+it.s+'</span></div>').join('')
-  +'</div>').join('');
+   +'<span class="text-[11px] font-bold tabular-nums w-7 text-right" style="color:#fbbf24">'+it.s+'</span>'
+   +'<button type="button" class="recHideBtn shrink-0 opacity-0 group-hover:opacity-100 transition-opacity text-slate-500 hover:text-rose-300 text-[13px] leading-none px-1" data-cat="'+esc(cat.cat)+'" data-key="'+esc(recKey(cat.cat,it))+'" title="Hide this from recommendations">✕</button>'
+   +'</div>').join(''):'<div class="px-3.5 py-3 text-[11px] text-slate-500">Everything here is hidden.</div>')
+  +'</div>';
+ }).join('');
 }
 // Search & Build Your Favorites: the GOAT Profile tab's embedded replacement for the old separate
 // "Pick Your GOATs" header button/modal. Reuses tierRowHTML() -- the exact same compact Gold/
 // Silver/Bronze/Owned row every card already has -- so there's one tiering UI in the whole app to
 // learn, not two. Delegated via #goatSearchResults rather than #grid, since this list isn't part
 // of the results grid.
+// Type/tier filters + sort turn this from "type a title, hope it's near the top" into something
+// you can actually browse -- e.g. Books + Untiered to work through your whole to-be-tiered backlog
+// by medium, or My Tiers first to review/audit what's already declared instead of only discovering
+// new things.
+function goatSearchPool(q){
+ var pool=ALL;
+ if(state.goatType!=='all')pool=pool.filter(function(x){return x.kind===state.goatType;});
+ if(state.goatTierFilter==='untiered')pool=pool.filter(function(x){return !(x.goat||x.silver||x.bronze||x.owned);});
+ else if(state.goatTierFilter==='gold')pool=pool.filter(function(x){return x.goat;});
+ else if(state.goatTierFilter==='silver')pool=pool.filter(function(x){return x.silver;});
+ else if(state.goatTierFilter==='bronze')pool=pool.filter(function(x){return x.bronze;});
+ else if(state.goatTierFilter==='owned')pool=pool.filter(function(x){return x.owned;});
+ if(q)pool=pool.filter(function(x){return (x.title+' '+x.creator+' '+(x.genres||[]).join(' ')).toLowerCase().indexOf(q)>=0;});
+ return pool;
+}
+function goatSearchSort(pool,q){
+ if(state.goatSort==='title')return pool.slice().sort(function(a,b){return a.title.localeCompare(b.title);});
+ if(state.goatSort==='yearNew')return pool.slice().sort(function(a,b){return b.year-a.year;});
+ if(state.goatSort==='tier')return pool.slice().sort(function(a,b){return (tierRank(b)-tierRank(a))||(b.gm-a.gm);});
+ // 'match' (default): with no search typed, lead with fresh suggestions rather than a list topped
+ // by whatever's already Gold/Silver/Bronze/Owned (those pin gm to 100/~88/~80, so a plain gm sort
+ // just showed your own past picks back at you first). A search or any explicit filter is already
+ // a deliberate narrowing, so it sorts by raw match instead of hiding tiered picks at the bottom.
+ if(!q&&state.goatTierFilter==='all')return pool.slice().sort(function(a,b){
+   var au=!(a.goat||a.silver||a.bronze||a.owned),bu=!(b.goat||b.silver||b.bronze||b.owned);
+   if(au!==bu)return au?-1:1;
+   return b.gm-a.gm;
+  });
+ return pool.slice().sort(function(a,b){return b.gm-a.gm;});
+}
 function renderGoatSearchResults(q){
+ if(q==null){var qi=$('#goatSearchInput');q=qi?qi.value:'';}
  q=(q||'').trim().toLowerCase();
  var el=$('#goatSearchResults');if(!el)return;
- // Browsing with no search yet: lead with fresh suggestions, not a list topped by whatever's
- // already Gold/Silver/Bronze/Owned (those pin gm to 100/~88/~80, so a plain gm sort just showed
- // your own past picks back at you first). Untiered, not-yet-owned items sort first here by their
- // genuine algorithmic match score; everything already tiered/owned still shows, just further
- // down -- searching (or just scrolling) still reaches anything, tiered or not.
- var pool=q?ALL.filter(function(x){return (x.title+' '+x.creator+' '+(x.genres||[]).join(' ')).toLowerCase().indexOf(q)>=0;})
-  :ALL.slice().sort(function(a,b){
-    var au=!(a.goat||a.silver||a.bronze||a.owned),bu=!(b.goat||b.silver||b.bronze||b.owned);
-    if(au!==bu)return au?-1:1;
-    return b.gm-a.gm;
-   });
+ var pool=goatSearchSort(goatSearchPool(q),q);
+ var cc=$('#goatSearchCount');if(cc)cc.textContent=pool.length+(pool.length===1?' match':' matches')+(pool.length>25?' · showing top 25':'');
  var shown=pool.slice(0,25);
  // Status is communicated by tierRowHTML alone (its active segments already highlight in color
  // and, for Gold/Silver/Bronze/Owned, are self-explanatory) -- this used to ALSO render a separate
@@ -1467,6 +1560,17 @@ function renderGoatSearchResults(q){
 }
 on('#goatSearchInput','input',e=>{renderGoatSearchResults(e.target.value);});
 on('#goatSearchResults','click',e=>{const pe=e.target.closest('.profEditBtn');if(pe)handleProfileEditClick(pe);});
+on('#goatTypeSeg','click',e=>{const b=e.target.closest('button');if(!b)return;state.goatType=b.dataset.t;$$('#goatTypeSeg button').forEach(x=>x.classList.toggle('on',x===b));renderGoatSearchResults();});
+on('#goatTierSeg','click',e=>{const b=e.target.closest('button');if(!b)return;state.goatTierFilter=b.dataset.tf;$$('#goatTierSeg button').forEach(x=>x.classList.toggle('on',x===b));renderGoatSearchResults();});
+on('#goatSortSel','change',e=>{state.goatSort=e.target.value;renderGoatSearchResults();});
+let goatDeclaredSearchT=null;
+on('#goatDeclaredSearch','input',e=>{clearTimeout(goatDeclaredSearchT);const v=e.target.value;goatDeclaredSearchT=setTimeout(()=>{state.goatDeclaredQ=v;$('#goatDeclared').innerHTML=(declaredCategoriesToRender().map(declaredCategoryHTML).join(''))||((state.goatDeclaredQ||'').trim()?'<div class="col-span-full text-center text-slate-500 text-sm py-6">Nothing in your declared canon matches “'+esc(state.goatDeclaredQ.trim())+'”.</div>':'');},120);});
+on('#goatRecs','click',e=>{
+ const hb=e.target.closest('.recHideBtn');
+ if(hb){e.stopPropagation();hideRec(hb.dataset.cat,hb.dataset.key);return;}
+ const ub=e.target.closest('.recUnhideAll');
+ if(ub){e.stopPropagation();unhideAllRecsInCat(ub.dataset.cat);return;}
+});
 // Drag-and-drop between a medium's own Gold/Silver/Bronze columns (see tierChipGroupHTML/
 // moveToTier above). Scoped to #goatDeclared and, within it, to drop zones sharing the dragged
 // chip's own data-drag-kind -- a chip can only ever land in a same-medium zone since each
@@ -1491,24 +1595,40 @@ document.addEventListener('click',e=>{const pe=e.target.closest('.profEditBtn');
 /* ===================== ROUTING & BINDINGS ===================== */
 function updateWlNav(){const c=wlCount();const el=$('#wlNavCount');if(el)el.textContent=c?('('+c+')'):'';}
 function wlItems(){return Object.keys(WL).map(id=>byId.get(id)).filter(Boolean);}
+// Per-kind time-to-finish estimate. Movies use the real runtime field; TV assumes ~8hrs/season
+// (a reasonable prestige-TV average); games strip the "~" the corpus already prefixes hour
+// estimates with; books estimate from page count at a typical ~50 pages/hour reading pace.
+// Previously this shared one formula across TV *and* books (season-count logic applied to a book's
+// raw page count), which for a 400+ page novel multiplied by 8 into a wildly wrong four-digit
+// "hours" figure -- and the result was never even displayed anywhere, so the bug was invisible.
+function estimateHours(x){
+ if(x.kind==='movie')return (x.mins||parseInt(x.span)||120)/60;
+ if(x.kind==='tv')return (parseInt(x.span)||1)*8;
+ if(x.kind==='game')return parseInt(String(x.span).replace('~',''))||20;
+ if(x.kind==='book')return (parseInt(x.span)||300)/50;
+ return 0;
+}
+function formatHours(h){return h>=48?Math.round(h/24)+' days':Math.round(h)+' hrs';}
 function renderWatchlist(){
  const items=wlItems();
  const watched=items.filter(x=>WL[x.id].watched),todo=items.filter(x=>!WL[x.id].watched);
- const hrs=items.reduce((s,x)=>{const m=x.kind==='movie'?(parseInt(x.span)||120)/60:x.kind==='game'?(parseInt(String(x.span).replace('~',''))||20):(parseInt(x.span)||1)*8;return s+m;},0);
+ const backlogHrs=todo.reduce((s,x)=>s+estimateHours(x),0);
  const avg=items.length?Math.round(items.reduce((s,x)=>s+x.ovr,0)/items.length):0;
- $('#wlStats').innerHTML=[['Saved',items.length],['Up Next',todo.length],['Complete',watched.length],['Avg Quality',avg||'\u2014']]
+ $('#wlStats').innerHTML=[['Saved',items.length],['Up Next',todo.length],['Complete',watched.length],['Est. Backlog',todo.length?formatHours(backlogHrs):'\u2014'],['Avg Quality',avg||'\u2014']]
   .map(s=>'<div class="panel p-3 text-center"><div class="text-xl font-extrabold text-slate-50 tabular-nums">'+s[1]+'</div><div class="lbl mt-1">'+s[0]+'</div></div>').join('');
- const wf=state.wlFilter||'all';
+ const wf=state.wlFilter||'all',wt=state.wlType||'all',wq=(state.wlSearchQ||'').trim().toLowerCase(),ws=state.wlSort||'added';
  let list=wf==='todo'?todo:wf==='done'?watched:items;
- list=list.slice().sort((a,b)=>(WL[b.id].added||0)-(WL[a.id].added||0));
+ if(wt!=='all')list=list.filter(x=>x.kind===wt);
+ if(wq)list=list.filter(x=>(x.title+' '+x.creator).toLowerCase().indexOf(wq)>=0);
+ list=list.slice().sort(ws==='title'?(a,b)=>a.title.localeCompare(b.title):ws==='match'?(a,b)=>b.gm-a.gm:(a,b)=>(WL[b.id].added||0)-(WL[a.id].added||0));
  const DONE_VERB={movie:'Watched',tv:'Watched',game:'Played',book:'Read'};
  $('#wlGrid').innerHTML=list.length?list.map(x=>{const k=KM[x.kind];const done=WL[x.id].watched;const verb=DONE_VERB[x.kind]||'Done';
   return '<div class="panel p-3 flex gap-3 items-start'+(done?' opacity-60':'')+'">'
    +ring(x.crit,k.c,38)
    +'<div class="flex-1 min-w-0"><div class="flex items-center gap-1.5 flex-wrap"><span class="text-[13px] font-semibold text-slate-100">'+esc(x.title)+'</span><span class="chip" style="color:'+k.c+';border-color:'+k.c+'44">'+k.label+'</span><span class="chip" style="color:#5eead4;border-color:#5eead455">'+esc(x.rating)+'</span></div>'
-   +'<div class="text-[11px] text-slate-400 mt-0.5 truncate">'+x.year+' \u00b7 '+esc(x.creator)+'</div>'
+   +'<div class="text-[11px] text-slate-400 mt-0.5 truncate">'+x.year+' \u00b7 '+esc(x.creator)+' \u00b7 '+formatHours(estimateHours(x))+'</div>'
    +'<div class="flex gap-1.5 mt-2"><button type="button" class="wlDone presetBtn" data-id="'+x.id+'" title="'+(done?'Click to mark as not yet '+verb.toLowerCase():'Mark this '+verb.toLowerCase())+'" style="'+(done?'color:#34d399;border-color:#34d39955':'')+'">'+(done?'\u2713 '+verb+' \u00b7 click to undo':'Mark '+verb.toLowerCase())+'</button><button type="button" class="wlRemove presetBtn" data-id="'+x.id+'" title="Remove from your watchlist entirely" style="color:#fca5a5;border-color:#fca5a544">Remove</button></div>'
-   +'</div></div>';}).join(''):'<div class="col-span-full text-center text-slate-500 text-sm py-12">Nothing saved yet \u2014 tap the \u2661 on any card to build your backlog.</div>';
+   +'</div></div>';}).join(''):'<div class="col-span-full text-center text-slate-500 text-sm py-12">'+(items.length?'Nothing matches this filter.':'Nothing saved yet \u2014 tap the \u2661 on any card to build your backlog.')+'</div>';
  const saved=new Set(Object.keys(WL));
  const recs=ALL.filter(x=>!saved.has(x.id)).sort((a,b)=>(b.gm-a.gm)||(b.ovr-a.ovr)).slice(0,12);
  $('#wlRecs').innerHTML=recs.map(x=>{const k=KM[x.kind];
@@ -1520,8 +1640,17 @@ function renderWatchlist(){
 }
 /* ===== Collection Timeline ===== */
 var tlScope='owned';
+var tlMedium='all';
 function renderTimeline(){
  var items=(tlScope==='owned'?ALL.filter(x=>x.owned):ALL).filter(x=>typeof x.year==='number'&&x.year!==0);
+ if(tlMedium!=='all')items=items.filter(x=>x.kind===tlMedium);
+ if(!items.length){
+  $('#tlStats').innerHTML=[['Works on timeline',0,'#f0abfc'],['Spans','—','#22d3ee'],['Busiest decade','—','#fbbf24'],['Peak count',0,'#4ade80']]
+   .map(x=>'<div class="panel p-3 text-center"><div class="text-lg font-extrabold text-slate-50 tabular-nums leading-tight">'+x[1]+'</div><div class="lbl mt-1" style="color:'+x[2]+'">'+x[0]+'</div></div>').join('');
+  $('#tlChart').innerHTML='<div class="text-center text-slate-500 text-sm py-10">Nothing to show for this filter.</div>';
+  $('#tlEras').innerHTML='';
+  return;
+ }
  // --- stats ---
  var years=items.map(x=>x.year);
  var earliest=Math.min.apply(null,years),latest=Math.max.apply(null,years);
@@ -1543,27 +1672,29 @@ function renderTimeline(){
  var maxCount=Math.max(preCount,Math.max.apply(null,decades.map(d=>buckets[d].length)));
  var colOf=x=>KM[x.kind].c;
  var W=Math.max(700,(decades.length+(preCount?1:0))*64),H=240,pad=30,bw=48,gap=16;
- var cols=[];if(preCount)cols.push(['Pre-1900',preItems]);decades.forEach(d=>cols.push([d+'s',buckets[d]]));
+ var cols=[];if(preCount)cols.push(['Pre-1900',preItems,-9999,1900]);decades.forEach(d=>cols.push([d+'s',buckets[d],d,d+10]));
  var svg='<svg viewBox="0 0 '+W+' '+H+'" style="width:100%;height:auto" xmlns="http://www.w3.org/2000/svg">';
  cols.forEach(function(c,i){
   var x=pad+i*(bw+gap);
   var items2=c[1];var h=(items2.length/maxCount)*(H-70);
+  svg+='<g class="tlBar" style="cursor:pointer" data-ymin="'+c[2]+'" data-ymax="'+c[3]+'" data-kind="'+(tlMedium!=='all'?tlMedium:'')+'"><title>'+c[0]+' — '+items2.length+' works · click to open in the Global Controller</title><rect x="'+x+'" y="'+(H-30-h-4)+'" width="'+bw+'" height="'+(h+4)+'" fill="transparent"/>';
   // stacked by medium
   var order=['book','movie','tv','game'];
   var y=H-30;
   order.forEach(function(kind){
    var cnt=items2.filter(it=>it.kind===kind).length;if(!cnt)return;
    var seg=(cnt/items2.length)*h;
-   svg+='<rect x="'+x+'" y="'+(y-seg)+'" width="'+bw+'" height="'+seg+'" fill="'+KM[kind].c+'" opacity="0.85" rx="2"><title>'+c[0]+': '+cnt+' '+KM[kind].label+'</title></rect>';
+   svg+='<rect x="'+x+'" y="'+(y-seg)+'" width="'+bw+'" height="'+seg+'" fill="'+KM[kind].c+'" opacity="0.85" rx="2"/>';
    y-=seg;
   });
   svg+='<text x="'+(x+bw/2)+'" y="'+(H-14)+'" fill="#94a3b8" font-size="10" text-anchor="middle">'+c[0]+'</text>';
   svg+='<text x="'+(x+bw/2)+'" y="'+(H-38-h)+'" fill="#e2e8f0" font-size="11" font-weight="700" text-anchor="middle">'+items2.length+'</text>';
+  svg+='</g>';
  });
  svg+='</svg>';
  // legend
  var legend='<div class="flex gap-3 flex-wrap mt-2 text-[10px]">'+['movie','tv','game','book'].map(k=>'<span class="flex items-center gap-1"><span class="w-2.5 h-2.5 rounded-sm inline-block" style="background:'+KM[k].c+'"></span>'+KM[k].label+'</span>').join('')+'</div>';
- $('#tlChart').innerHTML='<div class="lbl mb-2" style="color:#f0abfc">Works per decade</div>'+svg+legend;
+ $('#tlChart').innerHTML=items.length?('<div class="lbl mb-2" style="color:#f0abfc">Works per decade · click a bar to open it in the Global Controller</div>'+svg+legend):'<div class="text-center text-slate-500 text-sm py-10">Nothing to show for this filter.</div>';
  // --- era highlight rows (chronological), each era shows top works ---
  var ERAS=[[-9999,1900,'Antiquity & Classics'],[1900,1960,'The Mid-Century'],[1960,1980,'The New Wave'],[1980,2000,'The Modern Canon'],[2000,2015,'The Digital Age'],[2015,9999,'The Present']];
  var html='';
@@ -1582,7 +1713,7 @@ function renderTimeline(){
  $('#tlEras').innerHTML=html;
 }
 /* ===== Taste Portrait dashboard ===== */
-var FAMILY_COLORS={'Sci-Fi':'#67e8f9','Horror':'#f87171','Drama':'#cbd5e1','Thriller':'#fbbf24','Mystery / Detective':'#a5b4fc','Crime':'#fb923c','Psychological':'#c084fc','Action / Adventure':'#fb7185','Epic / Historical':'#fcd34d','Fantasy':'#818cf8','Western':'#d97706','Comedy / Satire':'#fde047','Anime / Animated':'#f0abfc','RPG':'#a78bfa','Open World / Survival':'#4ade80','Puzzle / Systems':'#34d399','Romance':'#f472b6','Superhero':'#38bdf8','War':'#a3a3a3','Physics & Cosmology':'#22d3ee','Philosophy & Ideas':'#c4b5fd','Science & Nature':'#86efac','Biography & History':'#a3e635','Literary & Poetry':'#93c5fd'};
+var FAMILY_COLORS={'Sci-Fi':'#67e8f9','Horror':'#f87171','Documentary':'#e2e8f0','Drama':'#cbd5e1','Thriller':'#fbbf24','Mystery / Detective':'#a5b4fc','Crime':'#fb923c','Psychological':'#c084fc','Action / Adventure':'#fb7185','Epic / Historical':'#fcd34d','Fantasy':'#818cf8','Western':'#d97706','Comedy / Satire':'#fde047','Anime / Animated':'#f0abfc','RPG':'#a78bfa','Open World / Survival':'#4ade80','Puzzle / Systems':'#34d399','Romance':'#f472b6','Superhero':'#38bdf8','War':'#a3a3a3','Physics & Cosmology':'#22d3ee','Philosophy & Ideas':'#c4b5fd','Science & Nature':'#86efac','Biography & History':'#a3e635','Literary & Poetry':'#93c5fd','Platformer':'#fb7185','Strategy & Tactics':'#f59e0b','Sports & Music':'#2dd4bf'};
 function renderFamilyLens(){
  var el=$('#familyLens');if(!el)return;
  var rows=GENRE_FAMILIES.map(function(f){
@@ -1603,45 +1734,92 @@ function renderFamilyLens(){
    +'</button>';
  }).join('');
 }
+// --- helper: horizontal bar list (shared by every "most-owned X" / distribution panel) ---
+function barList(entries,color,max){
+ const mx=max||Math.max(1,...entries.map(e=>e[1]));
+ return entries.map(e=>'<div class="flex items-center gap-2"><span class="text-[12px] text-slate-300 w-40 shrink-0 truncate">'+esc(e[0])+'</span>'
+  +'<span class="flex-1 h-2 rounded-full bg-slate-800 overflow-hidden"><span class="block h-full rounded-full" style="width:'+(e[1]/mx*100)+'%;background:'+color+'"></span></span>'
+  +'<span class="text-[11px] font-bold tabular-nums w-6 text-right" style="color:'+color+'">'+e[1]+'</span></div>').join('');
+}
 function renderPortrait(){
  renderFamilyLens();
  const owned=ALL.filter(x=>x.owned);
  const films=owned.filter(x=>x.kind==='movie');
+ const tv=owned.filter(x=>x.kind==='tv');
+ const games=owned.filter(x=>x.kind==='game');
  const books=owned.filter(x=>x.kind==='book');
+ // Headline stats, genre center-of-gravity and decade distribution all honor the same medium
+ // scope picker -- previously they always summed across every medium at once, so "your" decade
+ // distribution or genre gravity was really "your movies + TV + games + books" undifferentiated,
+ // with no way to see just e.g. your book-collecting habits in isolation the way Blind Spots
+ // already let you scope by medium.
+ const ps=state.portraitScope||'all';
+ const scoped=ps==='all'?owned:owned.filter(x=>x.kind===ps);
  // --- headline stats ---
- const bestOverall=Math.round(ALL.slice().sort((a,b)=>b.ovr-a.ovr).slice(0,50).reduce((s,x)=>s+x.ovr,0)/50);
- const ownedAvg=owned.length?Math.round(owned.reduce((s,x)=>s+x.ovr,0)/owned.length):0;
- const decadeSpan=(function(){const ys=owned.map(x=>x.year).filter(y=>y&&y>0);const modern=ys.filter(y=>y>=1900);return modern.length?(Math.min(...modern)+'\u2013'+Math.max(...modern)):(ys.length?Math.min(...ys)+'\u2013'+Math.max(...ys):'\u2014');})();
- const topCreator=(function(){const c={};films.forEach(x=>c[x.creator]=(c[x.creator]||0)+1);const e=Object.entries(c).sort((a,b)=>b[1]-a[1])[0];return e?e[0]:'\u2014';})();
+ const ownedAvg=scoped.length?Math.round(scoped.reduce((s,x)=>s+x.ovr,0)/scoped.length):0;
+ const decadeSpan=(function(){const ys=scoped.map(x=>x.year).filter(y=>y&&y>0);const modern=ys.filter(y=>y>=1900);return modern.length?(Math.min(...modern)+'\u2013'+Math.max(...modern)):(ys.length?Math.min(...ys)+'\u2013'+Math.max(...ys):'\u2014');})();
+ // Top creator now scans whichever kind(s) are in scope, not just movies -- someone whose
+ // collection is really a TV or book collection previously got either the wrong answer or "\u2014".
+ const topCreator=(function(){const c={};scoped.forEach(x=>{if(x.creator)c[x.creator]=(c[x.creator]||0)+1;});const e=Object.entries(c).sort((a,b)=>b[1]-a[1])[0];return e?e[0]:'\u2014';})();
  $('#portraitStats').innerHTML=[
-  ['Works owned',owned.length,'#c4b5fd'],
+  ['Works owned',scoped.length,'#c4b5fd'],
   ['Avg quality',ownedAvg+' / 100','#4ade80'],
   ['Collection span',decadeSpan,'#22d3ee'],
-  ['Top director',topCreator,'#fbbf24']
+  ['Top creator',topCreator,'#fbbf24']
  ].map(s=>'<div class="panel p-3 text-center"><div class="text-lg font-extrabold text-slate-50 tabular-nums leading-tight">'+s[1]+'</div><div class="lbl mt-1" style="color:'+s[2]+'">'+s[0]+'</div></div>').join('');
- // --- helper: horizontal bar list ---
- function barList(entries,color,max){
-  const mx=max||Math.max(1,...entries.map(e=>e[1]));
-  return entries.map(e=>'<div class="flex items-center gap-2"><span class="text-[12px] text-slate-300 w-40 shrink-0 truncate">'+esc(e[0])+'</span>'
-   +'<span class="flex-1 h-2 rounded-full bg-slate-800 overflow-hidden"><span class="block h-full rounded-full" style="width:'+(e[1]/mx*100)+'%;background:'+color+'"></span></span>'
-   +'<span class="text-[11px] font-bold tabular-nums w-6 text-right" style="color:'+color+'">'+e[1]+'</span></div>').join('');
- }
- // --- most-owned directors ---
- const dc={};films.forEach(x=>dc[x.creator]=(dc[x.creator]||0)+1);
- $('#portraitDirectors').innerHTML=barList(Object.entries(dc).filter(e=>e[1]>=2).sort((a,b)=>b[1]-a[1]).slice(0,8),'#a78bfa')||'<div class="text-slate-500 text-[12px]">\u2014</div>';
- // --- most-owned authors ---
- const ac={};books.forEach(x=>ac[x.creator]=(ac[x.creator]||0)+1);
- $('#portraitAuthors').innerHTML=barList(Object.entries(ac).filter(e=>e[1]>=2).sort((a,b)=>b[1]-a[1]).slice(0,8),'#4ade80')||'<div class="text-slate-500 text-[12px]">\u2014</div>';
- // --- genre center of gravity (owned, by family) ---
- const gc={};owned.forEach(x=>(x.fam||[]).forEach(f=>gc[f]=(gc[f]||0)+1));
+ // --- most-owned creators, one panel per medium (all four now, not just movies/books) ---
+ function topCreatorsOf(list){const c={};list.forEach(x=>{if(x.creator)c[x.creator]=(c[x.creator]||0)+1;});return Object.entries(c).filter(e=>e[1]>=2).sort((a,b)=>b[1]-a[1]).slice(0,8);}
+ $('#portraitDirectors').innerHTML=barList(topCreatorsOf(films),'#a78bfa')||'<div class="text-slate-500 text-[12px]">\u2014</div>';
+ $('#portraitAuthors').innerHTML=barList(topCreatorsOf(books),'#4ade80')||'<div class="text-slate-500 text-[12px]">\u2014</div>';
+ $('#portraitTV').innerHTML=barList(topCreatorsOf(tv),'#22d3ee')||'<div class="text-slate-500 text-[12px]">\u2014</div>';
+ $('#portraitGames').innerHTML=barList(topCreatorsOf(games),'#fbbf24')||'<div class="text-slate-500 text-[12px]">\u2014</div>';
+ // --- genre center of gravity (owned, by family, scoped) ---
+ const gc={};scoped.forEach(x=>(x.fam||[]).forEach(f=>gc[f]=(gc[f]||0)+1));
  $('#portraitGenres').innerHTML=barList(Object.entries(gc).sort((a,b)=>b[1]-a[1]).slice(0,10),'#22d3ee')||'<div class="text-slate-500 text-[12px]">\u2014</div>';
- // --- decade distribution ---
- const dd={};let preCount=0;owned.forEach(x=>{if(x.year&&x.year>0){if(x.year<1900){preCount++;}else{const d=Math.floor(x.year/10)*10;dd[d+'s']=(dd[d+'s']||0)+1;}}});
+ // --- decade distribution (scoped) ---
+ const dd={};let preCount=0;scoped.forEach(x=>{if(x.year&&x.year>0){if(x.year<1900){preCount++;}else{const d=Math.floor(x.year/10)*10;dd[d+'s']=(dd[d+'s']||0)+1;}}});
  let decEntries=Object.keys(dd).sort().map(d=>[d,dd[d]]);
  if(preCount)decEntries=[['Pre-1900',preCount]].concat(decEntries);
  $('#portraitDecades').innerHTML=barList(decEntries,'#fbbf24')||'<div class="text-slate-500 text-[12px]">\u2014</div>';
- // --- blind spots (filterable by medium) ---
+ // --- blind spots (its own, independent medium filter -- deliberately not tied to portraitScope,
+ // since "what am I missing in X" is a different question from "show me my Y stats") ---
  renderPortraitGaps();
+ renderCreatorBlindSpots();
+}
+// A genre-level blind spot detector already existed (renderPortraitGaps: acclaimed works in
+// families you own little of); there was no creator-level equivalent -- a way to see "creators
+// you own literally nothing from, whose work actually matches your taste." Different from the
+// Collection tab's "creators you collect with more to get" gap finder, which only ever looks at
+// creators you already own 2+ works from.
+function creatorBlindSpots(){
+ var ownedCreators={};
+ ALL.filter(function(x){return x.owned;}).forEach(function(x){
+  (x.creator||'').split(/,| and | & /).forEach(function(cr){cr=cr.trim();if(cr)ownedCreators[cr]=true;});
+ });
+ var byCreator={};
+ ALL.forEach(function(x){
+  if(!x.creator)return;
+  x.creator.split(/,| and | & /).forEach(function(cr){
+   cr=cr.trim();if(cr.length<3||ownedCreators[cr])return;
+   (byCreator[cr]=byCreator[cr]||{creator:cr,kind:x.kind,works:[]}).works.push(x);
+  });
+ });
+ return Object.values(byCreator)
+  .map(function(c){var top=c.works.slice().sort(function(a,b){return b.gm-a.gm;})[0];return {creator:c.creator,kind:c.kind,n:c.works.length,top:top};})
+  .filter(function(r){return r.top.gm>=80;})
+  .sort(function(a,b){return b.top.gm-a.top.gm;})
+  .slice(0,9);
+}
+function renderCreatorBlindSpots(){
+ var el=$('#creatorBlindSpots');if(!el)return;
+ var rows=creatorBlindSpots();
+ el.innerHTML=rows.map(function(r){var k=KM[r.kind];
+  return '<div class="panel p-2.5 goatJump cursor-pointer" data-q="'+esc(r.top.title)+'" title="Open '+esc(r.top.title)+' in the Global Controller">'
+   +'<div class="flex items-center gap-2"><span class="w-1.5 h-1.5 rounded-full shrink-0" style="background:'+k.c+'"></span>'
+   +'<span class="flex-1 min-w-0 truncate text-[12px] font-semibold text-slate-200">'+esc(r.creator)+'</span>'
+   +'<span class="text-[11px] font-bold tabular-nums" style="color:#fbbf24">\u2605'+r.top.gm+'</span></div>'
+   +'<div class="text-[10px] text-slate-500 mt-1 ml-3.5 truncate">'+esc(k.label)+' \u00b7 start with '+esc(r.top.title)+(r.n>1?' \u00b7 '+r.n+' works on ledger':'')+'</div></div>';
+ }).join('')||'<div class="text-slate-500 text-[12px]">No strong-matching creators outside your collection right now.</div>';
 }
 function renderPortraitGaps(){
  const owned=ALL.filter(x=>x.owned);
@@ -1808,6 +1986,8 @@ function renderCollectionShelf(){
  var owned=ALL.filter(x=>x.owned);
  var cs=state.collSeg||'all';
  if(cs!=='all')owned=owned.filter(x=>x.kind===cs);
+ var searchQ=(state.collSearchQ||'').trim().toLowerCase();
+ if(searchQ)owned=owned.filter(function(x){return x.title.toLowerCase().indexOf(searchQ)>=0;});
  // Group into shelves by medium; each item is a spine whose height/color reflect the work.
  var groups=[['movie','Films'],['tv','Series'],['book','Books'],['game','Games']];
  var html='<p class="text-[11px] text-slate-500 mb-3">Your physical collection as a shelf \u2014 spine height reflects quality, colour marks the medium. Hover a spine for the title.</p>';
@@ -1832,12 +2012,35 @@ function renderCollectionShelf(){
   // shelf board
   html+='</div><div style="height:8px;background:linear-gradient(180deg,#3a2a1a,#241a10);border-radius:0 0 3px 3px;box-shadow:0 4px 8px rgba(0,0,0,0.4)"></div></div>';
  });
- if(owned.length===0)html+='<div class="panel p-6 text-center text-slate-500 text-sm">No owned items in this category.</div>';
+ if(owned.length===0)html+='<div class="panel p-6 text-center text-slate-500 text-sm">'+(searchQ?'Nothing on the shelf matches “'+esc(state.collSearchQ.trim())+'”.':'No owned items in this category.')+'</div>';
  $('#collShelf').innerHTML=html;
 }
+// Shared by both the hand-curated SERIES_DEFS list and the auto-detected franchises below --
+// same card shape either way, so a TV or game franchise reads identically to a curated movie/book
+// trilogy instead of looking like a bolted-on second system.
+function seriesCardHTML(k,name,ownedMembers,missing,total,complete){
+ var pct=Math.round(ownedMembers.length/total*100);
+ var rows=ownedMembers.slice().sort((a,b)=>(a.year||0)-(b.year||0)).map(x=>
+  '<div class="flex items-center gap-2 py-1"><span class="w-1.5 h-1.5 rounded-full shrink-0" style="background:'+k.c+'"></span>'
+  +'<span class="flex-1 min-w-0 truncate text-[12px] text-slate-200">'+esc(x.title)+' <span class="text-slate-500 text-[10px]">'+x.year+'</span></span>'
+  +'<span class="text-[10px] text-emerald-400">\u2713 '+esc(x.physFormat||'owned')+'</span>'
+  +'<span class="text-[11px] font-bold tabular-nums ml-1" style="color:'+k.c+'">'+x.ovr+'</span></div>').join('');
+ var missingHTML=missing.length?'<div class="mt-2 pt-2 border-t border-slate-800/70"><div class="text-[10px] text-amber-400/80 mb-1">To complete \u2014 in ledger, not owned:</div>'
+  +missing.map(x=>'<div class="text-[11px] text-slate-400 truncate">\u25e6 '+esc(x.title)+'</div>').join('')+'</div>':'';
+ return '<div class="panel p-4"><div class="flex items-center justify-between gap-2 mb-2">'
+  +'<div class="lbl" style="color:'+k.c+'">'+k.label+' \u00b7 '+esc(name)+'</div>'
+  +'<div class="text-[11px] font-bold tabular-nums '+(complete?'text-emerald-400':'text-slate-400')+'">'+ownedMembers.length+' / '+total+(complete?' \u2713 complete':'')+'</div></div>'
+  +'<div class="h-1.5 rounded-full bg-slate-800 overflow-hidden mb-3"><div class="h-full rounded-full" style="width:'+pct+'%;background:'+(complete?'#34d399':k.c)+'"></div></div>'
+  +rows+missingHTML+'</div>';
+}
+// Same normalized-title-root clustering already used by collectionGaps() below, for the same
+// reason: TV shows and games get zero entries in the hand-curated SERIES_DEFS list (it only
+// covers movies and books), so franchises like a TV series' seasons or a game trilogy never
+// grouped here at all. Auto-detecting fills that gap instead of hand-curating two more lists.
+function seriesTitleRoot(t){return t.toLowerCase().replace(/[:\-\u2013].*$/,'').replace(/\b(part|vol|volume|book|season)\b.*$/,'').replace(/\b(i{1,3}|iv|v|vi{0,3}|\d+)\b\s*$/,'').replace(/[^a-z0-9 ]/g,'').trim();}
 function renderCollectionSeries(){
- const owned=ALL.filter(x=>x.owned);
  const cs=state.collSeg||'all';
+ const q=(state.collSearchQ||'').trim().toLowerCase();
  const byId2=new Map(ALL.map(x=>[x.title,x]));
  // Build series cards: only show series where you own >=2, honoring the medium filter.
  const cards=[];
@@ -1846,34 +2049,40 @@ function renderCollectionSeries(){
   const ownedMembers=def.members.map(t=>byId2.get(t)).filter(x=>x&&x.owned);
   const hasBox=def.boxSet&&(function(){const b=byId2.get(def.boxSet);return b&&b.owned;})();
   if(ownedMembers.length<2&&!hasBox) return; // only meaningful multi-item series (or a complete box set)
-  const ownedCount=hasBox?def.total:ownedMembers.length;
-  const pct=Math.round(ownedCount/def.total*100);
+  if(q&&def.name.toLowerCase().indexOf(q)<0&&!ownedMembers.some(x=>x.title.toLowerCase().indexOf(q)>=0))return;
   const k=KM[def.kind];
-  const rows=ownedMembers.slice().sort((a,b)=>(a.year||0)-(b.year||0)).map(x=>
-   '<div class="flex items-center gap-2 py-1"><span class="w-1.5 h-1.5 rounded-full shrink-0" style="background:'+k.c+'"></span>'
-   +'<span class="flex-1 min-w-0 truncate text-[12px] text-slate-200">'+esc(x.title)+' <span class="text-slate-500 text-[10px]">'+x.year+'</span></span>'
-   +'<span class="text-[10px] text-emerald-400">\u2713 '+esc(x.physFormat||'owned')+'</span>'
-   +'<span class="text-[11px] font-bold tabular-nums ml-1" style="color:'+k.c+'">'+x.ovr+'</span></div>').join('');
-  // Missing members (owned in ledger? not owned) -> gaps to complete the set
   const missing=hasBox?[]:def.members.map(t=>byId2.get(t)).filter(x=>x&&!x.owned);
-  const missingHTML=missing.length?'<div class="mt-2 pt-2 border-t border-slate-800/70"><div class="text-[10px] text-amber-400/80 mb-1">To complete \u2014 in ledger, not owned:</div>'
-   +missing.map(x=>'<div class="text-[11px] text-slate-400 truncate">\u25e6 '+esc(x.title)+'</div>').join('')+'</div>':'';
   const complete=hasBox||ownedMembers.length>=def.total;
-  cards.push({pct,name:def.name,html:'<div class="panel p-4"><div class="flex items-center justify-between gap-2 mb-2">'
-   +'<div class="lbl" style="color:'+k.c+'">'+k.label+' \u00b7 '+esc(def.name)+'</div>'
-   +'<div class="text-[11px] font-bold tabular-nums '+(complete?'text-emerald-400':'text-slate-400')+'">'+ownedCount+' / '+def.total+(complete?' \u2713 complete':'')+'</div></div>'
-   +'<div class="h-1.5 rounded-full bg-slate-800 overflow-hidden mb-3"><div class="h-full rounded-full" style="width:'+pct+'%;background:'+(complete?'#34d399':k.c)+'"></div></div>'
-   +rows+missingHTML+'</div>'});
+  const effOwned=hasBox?def.members.map(t=>byId2.get(t)).filter(Boolean):ownedMembers;
+  cards.push({pct:Math.round((hasBox?def.total:ownedMembers.length)/def.total*100),name:def.name,html:seriesCardHTML(k,def.name,hasBox?effOwned:ownedMembers,missing,def.total,complete)});
+ });
+ // Auto-detected TV / game franchises (curated list has neither)
+ const curatedTitles=new Set(SERIES_DEFS.flatMap(d=>d.members.concat(d.boxSet?[d.boxSet]:[])));
+ ['tv','game'].forEach(function(kind){
+  if(cs!=='all'&&cs!==kind)return;
+  const byRoot={};
+  ALL.forEach(function(x){if(x.kind!==kind||curatedTitles.has(x.title))return;const r=seriesTitleRoot(x.title);if(r.length<4)return;(byRoot[r]=byRoot[r]||[]).push(x);});
+  Object.keys(byRoot).forEach(function(r){
+   const grp=byRoot[r];
+   const ownedMembers=grp.filter(function(x){return x.owned;});
+   if(ownedMembers.length<2)return;
+   const name=grp[0].title.split(/[:\-\u2013]/)[0].trim();
+   if(q&&name.toLowerCase().indexOf(q)<0&&!ownedMembers.some(x=>x.title.toLowerCase().indexOf(q)>=0))return;
+   const missing=grp.filter(function(x){return !x.owned;});
+   const k=KM[kind];
+   cards.push({pct:Math.round(ownedMembers.length/grp.length*100),name:name,html:seriesCardHTML(k,name,ownedMembers,missing,grp.length,ownedMembers.length>=grp.length)});
+  });
  });
  cards.sort((a,b)=>a.name.localeCompare(b.name));
  const el=$('#collSeries');
- if(!cards.length){el.innerHTML='<div class="panel p-6 text-center text-slate-500 text-sm">No multi-item series in this category yet. Own two or more from a franchise to see it grouped here.</div>';return;}
+ if(!cards.length){el.innerHTML='<div class="panel p-6 text-center text-slate-500 text-sm">'+(q?'No series match \u201c'+esc(state.collSearchQ.trim())+'\u201d.':'No multi-item series in this category yet. Own two or more from a franchise to see it grouped here.')+'</div>';return;}
  el.innerHTML='<p class="text-[11px] text-slate-500 mb-1">Your collection grouped by franchise \u2014 completion at a glance. \u25e6 marks entries in the ledger you don\u2019t yet own.</p>'+cards.map(c=>c.html).join('');
 }
 function renderCollection(){
  const owned=ALL.filter(x=>x.owned);
  const cs=state.collSeg||'all';
- const scope=cs==='all'?owned:owned.filter(x=>x.kind===cs);
+ const q=(state.collSearchQ||'').trim().toLowerCase();
+ const scope=(cs==='all'?owned:owned.filter(x=>x.kind===cs)).filter(x=>!q||x.title.toLowerCase().indexOf(q)>=0);
  // stats
  const fmtCount=f=>owned.filter(x=>(x.physFormat||'')===f).length;
  const avg=scope.length?Math.round(scope.reduce((s,x)=>s+x.ovr,0)/scope.length):0;
@@ -1895,19 +2104,119 @@ function renderCollection(){
       +'<div class="flex-1 min-w-0"><div class="text-[12px] font-semibold text-slate-100 truncate">'+esc(x.title)+'</div>'
       +'<div class="text-[10px] text-slate-500 truncate">'+x.year+' \u00b7 '+esc(x.creator)+' \u00b7 <span style="color:'+k.c+'">'+k.label+'</span></div>'+formatPickerHTML(x)+'</div>'
       +'<div class="text-right shrink-0"><div class="text-[13px] font-bold tabular-nums" style="color:'+col+'">'+x.ovr+'</div>'+(x.goat?'<div class="text-[9px]" style="color:#fbbf24">\u2605 GOAT</div>':x.silver?'<div class="text-[9px] text-slate-400">\u2606</div>':'')+'</div></div>';}).join('')+'</div></div>';
- }).join('')||'<div class="text-center text-slate-500 text-sm py-10">No owned items in this category.</div>';
- // gaps: top-rated NOT owned, per medium
- const gaps=ALL.filter(x=>!x.owned&&x.kind!=='game').sort((a,b)=>b.ovr-a.ovr).slice(0,18);
+ }).join('')||'<div class="text-center text-slate-500 text-sm py-10">'+(q?'Nothing in your collection matches \u201c'+esc(state.collSearchQ.trim())+'\u201d.':'No owned items in this category.')+'</div>';
+ // gaps: top-rated NOT owned, per medium (games included now that they're part of the Collection tab)
+ const gaps=ALL.filter(x=>!x.owned).sort((a,b)=>b.ovr-a.ovr).slice(0,18);
  $('#collGaps').innerHTML=gaps.map(x=>{const k=KM[x.kind];
   return '<div class="panel p-2.5 flex items-center gap-2 goatJump cursor-pointer" data-q="'+esc(x.title)+'" title="Open in Global Controller"><span class="w-1.5 h-1.5 rounded-full shrink-0" style="background:'+k.c+'"></span>'
    +'<span class="flex-1 min-w-0 truncate text-[12px] text-slate-200">'+esc(x.title)+' <span class="text-slate-500 text-[10px]">'+x.year+'</span></span>'
    +'<span class="text-[11px] font-bold tabular-nums" style="color:'+k.c+'">'+x.ovr+'</span></div>';}).join('');
+}
+/* ===== Shareable / bookmarkable URL state =====
+   Encodes which tab you're on plus the Global Controller's active filters into the query string,
+   via history.replaceState -- not pushState, since the goal is "this exact page is bookmarkable
+   right now," not a back/forward trail through every slider drag. Only non-default values are
+   written, so an untouched search keeps a clean URL. Hooked into refresh() (called by virtually
+   every filter/view change already) rather than sprinkled across every individual handler. */
+function stateToParams(){
+ var p=new URLSearchParams();
+ if(state.view&&state.view!=='controller')p.set('view',state.view);
+ if(state.q)p.set('q',state.q);
+ if(state.type&&state.type!=='all')p.set('type',state.type);
+ if(state.plats&&state.plats.length)p.set('plat',state.plats.join('|'));
+ if(state.genres&&state.genres.length)p.set('g',state.genres.join('|'));
+ if(state.genresExclude&&state.genresExclude.length)p.set('gx',state.genresExclude.join('|'));
+ if(state.ratings&&state.ratings.length)p.set('rt',state.ratings.join('|'));
+ if(state.tierFilter&&state.tierFilter.length)p.set('tier',state.tierFilter.join('|'));
+ if(state.ownedOnly)p.set('owned','1');
+ if(state.notOwnedOnly)p.set('notowned','1');
+ if(state.minGoat)p.set('goat',state.minGoat);
+ if(state.minDread)p.set('dread',state.minDread);
+ if(state.minMyst)p.set('myst',state.minMyst);
+ if(state.runtimeMax)p.set('runtime',state.runtimeMax);
+ if(state.struct&&state.struct!=='all')p.set('struct',state.struct);
+ if(state.combine)p.set('and','1');
+ if(state.yearMin!=null)p.set('ymin',state.yearMin);
+ if(state.yearMax!=null)p.set('ymax',state.yearMax);
+ if(state.sort&&state.sort!=='overall')p.set('sort',state.sort);
+ if(state.limit&&state.limit!==100)p.set('n',state.limit);
+ IDX_KEYS.forEach(function(k){if(state.idx[k]>0)p.set('i_'+k,state.idx[k]);});
+ return p;
+}
+function paramsToState(){
+ try{
+  var p=new URLSearchParams(location.search);
+  if(!Array.from(p.keys()).length)return null;
+  if(p.has('q'))state.q=p.get('q');
+  if(p.has('type'))state.type=p.get('type');
+  if(p.has('plat'))state.plats=p.get('plat').split('|').filter(Boolean);
+  if(p.has('g'))state.genres=p.get('g').split('|').filter(Boolean);
+  if(p.has('gx'))state.genresExclude=p.get('gx').split('|').filter(Boolean);
+  if(p.has('rt'))state.ratings=p.get('rt').split('|').filter(Boolean);
+  if(p.has('tier'))state.tierFilter=p.get('tier').split('|').filter(Boolean);
+  if(p.has('owned'))state.ownedOnly=p.get('owned')==='1';
+  if(p.has('notowned'))state.notOwnedOnly=p.get('notowned')==='1';
+  if(p.has('goat'))state.minGoat=+p.get('goat')||0;
+  if(p.has('dread'))state.minDread=+p.get('dread')||0;
+  if(p.has('myst'))state.minMyst=+p.get('myst')||0;
+  if(p.has('runtime'))state.runtimeMax=+p.get('runtime')||0;
+  if(p.has('struct'))state.struct=p.get('struct');
+  if(p.has('and'))state.combine=p.get('and')==='1';
+  if(p.has('ymin'))state.yearMin=+p.get('ymin');
+  if(p.has('ymax'))state.yearMax=+p.get('ymax');
+  if(p.has('sort'))state.sort=p.get('sort');
+  if(p.has('n'))state.limit=+p.get('n')||100;
+  IDX_KEYS.forEach(function(k){if(p.has('i_'+k))state.idx[k]=+p.get('i_'+k)||0;});
+  return p.get('view')||null;
+ }catch(e){return null;}
+}
+var _urlSyncT=null;
+function scheduleURLSync(){
+ clearTimeout(_urlSyncT);
+ _urlSyncT=setTimeout(function(){
+  try{
+   var qs=stateToParams().toString();
+   history.replaceState(null,'',location.pathname+(qs?'?'+qs:'')+location.hash);
+  }catch(e){}
+ },250);
+}
+// Pushes every restored value into the controls that aren't already rebuilt fresh from `state`
+// (genre/rating chips and the index sliders are -- see buildGenreChips/buildRatingChips/
+// buildIndexSliders, all of which read state directly) -- the plain HTML inputs, selects and
+// checkboxes need their DOM state set explicitly to match.
+function applyStateToStaticControls(){
+ var qi=$('#q');if(qi)qi.value=state.q;
+ $$('#typeSeg button').forEach(function(b){b.classList.toggle('on',b.dataset.type===state.type);});
+ [['minGoat','minGoatV'],['minDread','minDreadV'],['minMyst','minMystV']].forEach(function(p){var el=$('#'+p[0]);if(el){el.value=state[p[0]];var v=$('#'+p[1]);if(v)v.textContent=state[p[0]];}});
+ var rt=$('#runtimeMax');if(rt){rt.value=state.runtimeMax;var rv=$('#runtimeMaxV');if(rv)rv.textContent=state.runtimeMax>0?state.runtimeMax+'m':'Any';}
+ var ss=$('#structSel');if(ss)ss.value=state.struct;
+ var cm=$('#combineMode');if(cm)cm.checked=state.combine;
+ var ot=$('#ownedToggle');if(ot)ot.checked=state.ownedOnly;
+ var nt=$('#notOwnedToggle');if(nt)nt.checked=state.notOwnedOnly;
+ $$('.tierChk').forEach(function(c){c.checked=state.tierFilter.indexOf(c.dataset.tier)>=0;});
+ var ymin=$('#yearMin');if(ymin)ymin.value=state.yearMin!=null?state.yearMin:'';
+ var ymax=$('#yearMax');if(ymax)ymax.value=state.yearMax!=null?state.yearMax:'';
+ var sortSel=$('#sortSel');if(sortSel)sortSel.value=state.sort;
+ var limitSel=$('#limitSel');if(limitSel)limitSel.value=state.limit;
+ if(typeof updatePlatLabel==='function')updatePlatLabel();
+ if(typeof buildGenreChips==='function')buildGenreChips();
+ if(typeof buildRatingChips==='function')buildRatingChips();
+ if(typeof buildIndexSliders==='function')buildIndexSliders();
+ if(typeof syncAdvCount==='function')syncAdvCount();
+ // If restoring the URL turned on anything that lives inside the collapsed Advanced Filters panel,
+ // open it -- otherwise a bookmark that filtered on e.g. content rating looks like it silently lost
+ // that filter until you happen to expand the panel yourself.
+ var advCount=$('#advCount');
+ if(advCount&&advCount.style.display!=='none'){
+  var pnl=$('#advPanel');if(pnl&&pnl.classList.contains('hidden')){pnl.classList.remove('hidden');var caret=$('#advCaret');if(caret)caret.style.transform='rotate(90deg)';}
+ }
 }
 function refresh(){const list=filtered();
  if(state.view==='controller')renderController(list);
  else if(state.view==='viz'){initCharts();updateCharts(list);}
  else if(state.view==='watchlist')renderWatchlist();
  else if(state.view==='collection')renderCollection();
+ scheduleURLSync();
 }
 function switchView(v){state.view=v;
  // #nav scrolls horizontally on mobile (see the MOBILE media-query block) rather than wrapping
@@ -2038,6 +2347,35 @@ on('#rabbitBtn','click',()=>{var panel=$('#surprisePanel');var sc=$('#surpriseSc
 
 [['minDread','minDreadV'],['minMyst','minMystV'],['minGoat','minGoatV']].forEach(p=>{
  $('#'+p[0]).addEventListener('input',e=>{state[p[0]]=+e.target.value;$('#'+p[1]).textContent=e.target.value;refresh();});});
+on('#runtimeMax','input',e=>{state.runtimeMax=+e.target.value;$('#runtimeMaxV').textContent=state.runtimeMax>0?state.runtimeMax+'m':'Any';syncAdvCount();refresh();});
+// Live match-count preview: a small floating bubble that tracks the thumb of whichever threshold
+// slider you're dragging (mouse or keyboard), showing how many works match right now -- so you can
+// feel where a threshold matters without looking away to the result count under the search bar.
+// One shared bubble/listener for every such slider rather than one per slider: `input` events
+// bubble, and by the time this document-level (bubble-phase, not capture) listener runs, the
+// slider's own listener above has already updated `state` and called refresh() -- so filtered()
+// here reflects the change this exact keystroke/drag just made.
+(function initSliderCountBubble(){
+ var bubble=document.createElement('div');
+ bubble.id='sliderCountBubble';
+ bubble.style.cssText='position:fixed;z-index:1200;pointer-events:none;left:0;top:0;transform:translate(-50%,-135%);background:#0f1626;border:1px solid #334155;border-radius:8px;padding:4px 10px;font-size:11px;font-weight:700;color:#5eead4;box-shadow:0 4px 14px rgba(0,0,0,.45);white-space:nowrap;display:none;opacity:0;transition:opacity .12s ease';
+ document.body.appendChild(bubble);
+ var hideT=null;
+ function isLiveSlider(t){return !!(t&&t.tagName==='INPUT'&&t.type==='range'&&(t.classList.contains('idxSlider')||['minGoat','minDread','minMyst','runtimeMax'].indexOf(t.id)>=0));}
+ document.addEventListener('input',function(e){
+  var t=e.target;if(!isLiveSlider(t))return;
+  var r=t.getBoundingClientRect();
+  var min=+t.min||0,max=+t.max||100,val=+t.value;
+  var frac=max>min?(val-min)/(max-min):0;
+  bubble.style.left=Math.round(r.left+frac*r.width)+'px';
+  bubble.style.top=Math.round(r.top)+'px';
+  var n=filtered().length;
+  bubble.textContent=n.toLocaleString()+' work'+(n===1?'':'s')+' match';
+  bubble.style.display='block';bubble.style.opacity='1';
+  clearTimeout(hideT);
+  hideT=setTimeout(function(){bubble.style.opacity='0';hideT=setTimeout(function(){bubble.style.display='none';},150);},1000);
+ });
+})();
 on('#resetBtn','click',()=>{state.sort='overall';$('#sortSel').value='overall';clearAllFilters();});
 function syncBlendPanel(){var on=state.sort==='blend';var pnl=$('#blendPanel');if(pnl)pnl.classList.toggle('hidden',!on);
  var vt=$('#wTechV'),vd=$('#wDreadV'),vm=$('#wMystV');
@@ -2084,6 +2422,7 @@ window.addEventListener('scroll',function(e){
 },true);
 // Bubble field medium filter
 document.addEventListener('click',function(e){var b=e.target.closest&&e.target.closest('.bubbleMedBtn');if(!b)return;bubbleMed=b.dataset.bm;$$('.bubbleMedBtn').forEach(function(x){x.classList.toggle('on',x===b);});if(typeof renderBubble==='function')renderBubble();});
+on('#bubbleMin','input',e=>{bubbleMinScore=+e.target.value;const lbl=$('#bubbleMinLbl');if(lbl)lbl.textContent=bubbleMinScore>0?bubbleMinScore+'+':'Any';renderBubble();});
 // Relationship graph: node + chip clicks
 document.addEventListener('click',function(e){
  var node=e.target.closest&&e.target.closest('.gnode');
@@ -2109,15 +2448,30 @@ document.addEventListener('click',function(e){
 });})();
 on('#creatorSeg','click',e=>{const b=e.target.closest('button');if(!b)return;state.creatorTab=b.dataset.tab;state.creatorSearch='';var cs=$('#creatorSearch');if(cs)cs.value='';renderCreators();});
 on('#creatorSearch','input',e=>{state.creatorSearch=e.target.value;renderCreators();});
+on('#creatorSearchScope','click',e=>{const b=e.target.closest('button');if(!b)return;state.creatorSearchScope=b.dataset.scope;$$('#creatorSearchScope button').forEach(x=>x.classList.toggle('on',x===b));renderCreators();});
+on('#creatorSortSel','change',e=>{state.creatorSort=e.target.value;renderCreators();});
 on('#creatorGrid','click',e=>{if(e.target.closest('.goatJump'))return;const f=e.target.closest('.flip');if(f)f.classList.toggle('flipped');});
 on('#collSeg','click',e=>{const b=e.target.closest('button');if(!b)return;state.collSeg=b.dataset.cs;$$('#collSeg button').forEach(x=>x.classList.toggle('on',x===b));renderCollection();if(state.collGroup==='series')renderCollectionSeries();if(state.collShelf)renderCollectionShelf();if(state.collUpgrade)renderUpgradeAudit();});
+let collSearchT=null;
+on('#collSearch','input',e=>{clearTimeout(collSearchT);const v=e.target.value;collSearchT=setTimeout(()=>{state.collSearchQ=v;renderCollection();if(state.collGroup==='series')renderCollectionSeries();if(state.collShelf)renderCollectionShelf();},120);});
 on('#seriesToggle','click',()=>{state.collGroup=state.collGroup==='series'?'format':'series';const on=state.collGroup==='series';const btn=$('#seriesToggle');btn.classList.toggle('border-cyan-500',on);btn.classList.toggle('text-cyan-300',on);btn.classList.toggle('bg-cyan-500/10',on);btn.textContent=on?'▤ Grouped by Series':'▤ Group by Series';$('#collSeries').classList.toggle('hidden',!on);if(on){state.collShelf=false;state.collUpgrade=false;$('#collShelf').classList.add('hidden');$('#collUpgrade').classList.add('hidden');var sb=$('#shelfToggle');sb.textContent='📚 Shelf View';sb.classList.remove('border-amber-500','text-amber-300','bg-amber-500/10');var ub=$('#upgradeToggle');ub.textContent='⬆ Upgrade Audit';ub.classList.remove('border-sky-500','text-sky-300','bg-sky-500/10');}$('#collFormats').classList.toggle('hidden',on||state.collShelf);if(on)renderCollectionSeries();});
 on('#shelfToggle','click',()=>{state.collShelf=!state.collShelf;const on=state.collShelf;const btn=$('#shelfToggle');btn.classList.toggle('border-amber-500',on);btn.classList.toggle('text-amber-300',on);btn.classList.toggle('bg-amber-500/10',on);btn.textContent=on?'📚 Shelf View ✓':'📚 Shelf View';$('#collShelf').classList.toggle('hidden',!on);if(on){state.collGroup='format';$('#collSeries').classList.add('hidden');var gb=$('#seriesToggle');gb.textContent='▤ Group by Series';gb.classList.remove('border-cyan-500','text-cyan-300','bg-cyan-500/10');}if(on){state.collUpgrade=false;$('#collUpgrade').classList.add('hidden');var ub=$('#upgradeToggle');ub.textContent='⬆ Upgrade Audit';ub.classList.remove('border-sky-500','text-sky-300','bg-sky-500/10');}$('#collFormats').classList.toggle('hidden',on||state.collGroup==='series'||state.collUpgrade);if(on)renderCollectionShelf();});
 on('#upgradeToggle','click',()=>{state.collUpgrade=!state.collUpgrade;const on=state.collUpgrade;const btn=$('#upgradeToggle');btn.classList.toggle('border-sky-500',on);btn.classList.toggle('text-sky-300',on);btn.classList.toggle('bg-sky-500/10',on);btn.textContent=on?'⬆ Upgrade Audit ✓':'⬆ Upgrade Audit';$('#collUpgrade').classList.toggle('hidden',!on);if(on){state.collGroup='format';state.collShelf=false;$('#collSeries').classList.add('hidden');$('#collShelf').classList.add('hidden');var gb=$('#seriesToggle');gb.textContent='▤ Group by Series';gb.classList.remove('border-cyan-500','text-cyan-300','bg-cyan-500/10');var sb=$('#shelfToggle');sb.textContent='📚 Shelf View';sb.classList.remove('border-amber-500','text-amber-300','bg-amber-500/10');}$('#collFormats').classList.toggle('hidden',on||state.collGroup==='series'||state.collShelf);if(on)renderUpgradeAudit();});
 on('#exportBtn','click',()=>{try{const owned=ALL.filter(x=>x.owned).map(x=>({id:x.id,title:x.title,kind:x.kind,format:x.physFormat}));const wl=(typeof WL!=='undefined')?Object.keys(WL):[];const wlItems=wl.map(id=>{const x=byId.get(id);return x?{id:id,title:x.title,kind:x.kind}:{id:id};});const data={exported:new Date().toISOString(),app:'Omni-Media Ledger',totals:{works:ALL.length,owned:owned.length,watchlist:wl.length},watchlist:wlItems,ownedCollection:owned};const blob=new Blob([JSON.stringify(data,null,2)],{type:'application/json'});const url=URL.createObjectURL(blob);const a=document.createElement('a');a.href=url;a.download='omni-ledger-backup-'+new Date().toISOString().slice(0,10)+'.json';document.body.appendChild(a);a.click();document.body.removeChild(a);setTimeout(()=>URL.revokeObjectURL(url),1000);const btn=$('#exportBtn');const t=btn.textContent;btn.textContent='✓ Downloaded';setTimeout(()=>{btn.textContent=t;},1800);}catch(err){const btn=$('#exportBtn');btn.textContent='Export failed';setTimeout(()=>{btn.textContent='⬇ Export / Backup';},1800);}});
 on('#familyLens','click',e=>{var b=e.target.closest('.familyTile');if(b)focusFamily(b.dataset.fam);});
 on('#gapSeg','click',e=>{const b=e.target.closest('button');if(!b)return;state.gapFilter=b.dataset.gap;$$('#gapSeg button').forEach(x=>x.classList.toggle('on',x===b));renderPortraitGaps();});
+on('#portraitScopeSeg','click',e=>{const b=e.target.closest('button');if(!b)return;state.portraitScope=b.dataset.ps;$$('#portraitScopeSeg button').forEach(x=>x.classList.toggle('on',x===b));renderPortrait();});
 on('#tlScope','click',e=>{const b=e.target.closest('button');if(!b)return;tlScope=b.dataset.t;$$('#tlScope button').forEach(x=>x.classList.toggle('on',x===b));renderTimeline();});
+on('#tlMedium','click',e=>{const b=e.target.closest('button');if(!b)return;tlMedium=b.dataset.tm;$$('#tlMedium button').forEach(x=>x.classList.toggle('on',x===b));renderTimeline();});
+on('#tlChart','click',e=>{const g=e.target.closest('.tlBar');if(!g)return;
+ const ymin=+g.dataset.ymin,ymax=+g.dataset.ymax,kind=g.dataset.kind;
+ state.yearMin=ymin<=-9999?null:ymin;state.yearMax=ymax-1;
+ const yminEl=$('#yearMin'),ymaxEl=$('#yearMax');if(yminEl)yminEl.value=state.yearMin!=null?state.yearMin:'';if(ymaxEl)ymaxEl.value=state.yearMax;
+ if(kind){state.type=kind;$$('#typeSeg button').forEach(x=>x.classList.toggle('on',x.dataset.type===kind));}
+ state.q='';const qi=$('#q');if(qi)qi.value='';
+ const ap=$('#advPanel');if(ap&&ap.classList.contains('hidden')){ap.classList.remove('hidden');const caret=$('#advCaret');if(caret)caret.style.transform='rotate(90deg)';}
+ syncAdvCount();switchView('controller');window.scrollTo({top:0,behavior:'smooth'});
+});
 on('#tlEras','click',e=>{var b=e.target.closest('.eraMore');if(b){var box=$('#'+b.dataset.era);if(box){var open=!box.classList.contains('hidden');box.classList.toggle('hidden');b.textContent=open?'\u2295 Show all '+(parseInt(b.dataset.n)+8):'\u2296 Show less';}return;}var t=e.target.closest('.cardTitle');if(t&&t.dataset.flip){var it=byId.get(t.dataset.flip);if(it){state.q=it.title;var qinput=$('#q');if(qinput)qinput.value=it.title;switchView('controller');refresh();}}});
 /* ===== Theme system ===== */
 function applyTheme(t){
@@ -2287,6 +2641,22 @@ function toggleBronzeTier(id){
   p.bronzeTierIds=p.bronzeTierIds||[];
   const i=p.bronzeTierIds.indexOf(id);
   if(i>=0)p.bronzeTierIds.splice(i,1);else p.bronzeTierIds.push(id);
+ });
+}
+// Hiding a recommendation: some picks are permanently uninteresting to you (a creator you're just
+// not into, an approximate hand-curated guess that missed) and re-seeing them every visit is worse
+// than useless -- it's a taste signal the recs panel ignores. Identity is per-category since the
+// same title could plausibly appear in two different curated lists with two different "why"s.
+function recKey(cat,it){return cat+'|'+(it.q||it.n);}
+function hideRec(cat,key){
+ mutateProfileAndReload(p=>{
+  p.hiddenRecs=p.hiddenRecs||[];
+  if(p.hiddenRecs.indexOf(key)<0)p.hiddenRecs.push(key);
+ });
+}
+function unhideAllRecsInCat(cat){
+ mutateProfileAndReload(p=>{
+  p.hiddenRecs=(p.hiddenRecs||[]).filter(function(k){return k.indexOf(cat+'|')!==0;});
  });
 }
 // Drag-and-drop re-tiering (GOAT Profile's per-medium Gold/Silver/Bronze columns): moves `id`
@@ -3074,6 +3444,10 @@ function pickSeedCandidates(excludeIds){
 })();
 
 on('#wlFilter','click',e=>{const b=e.target.closest('button');if(!b)return;state.wlFilter=b.dataset.wf;$$('#wlFilter button').forEach(x=>x.classList.toggle('on',x===b));renderWatchlist();});
+on('#wlTypeSeg','click',e=>{const b=e.target.closest('button');if(!b)return;state.wlType=b.dataset.wt;$$('#wlTypeSeg button').forEach(x=>x.classList.toggle('on',x===b));renderWatchlist();});
+on('#wlSortSel','change',e=>{state.wlSort=e.target.value;renderWatchlist();});
+let wlSearchT=null;
+on('#wlSearch','input',e=>{clearTimeout(wlSearchT);const v=e.target.value;wlSearchT=setTimeout(()=>{state.wlSearchQ=v;renderWatchlist();},120);});
 on('#wlGrid','click',e=>{const dn=e.target.closest('.wlDone'),rm=e.target.closest('.wlRemove');
  if(dn){wlSetWatched(dn.dataset.id,!WL[dn.dataset.id].watched);renderWatchlist();}
  else if(rm){wlToggle(rm.dataset.id);renderWatchlist();}});
@@ -3093,10 +3467,15 @@ const INDEX_DEFS=[['ref','4K Reference','#818cf8'],['aud','Audience Score','#4ad
 // "primary" family) for a work matching more than one regex, which pickSeedCandidates and others
 // rely on. Sorting the source array would silently change that unrelated behavior.
 const GENRE_FAMILIES_AZ=GENRE_FAMILIES.slice().sort((a,b)=>a[0].localeCompare(b[0]));
+// Genre chips are tri-state: neutral -> included (must match) -> excluded (must NOT match) -> back
+// to neutral. Included stays the existing indigo "on" look; excluded gets a distinct red/struck
+// treatment so the two are never confusable at a glance.
 function buildGenreChips(){
  $('#genreChips').innerHTML=GENRE_FAMILIES_AZ.map(f=>{const name=f[0],n=GENRE_COUNTS[name]||0;if(!n)return '';
-  const on=state.genres.includes(name);
-  return '<button type="button" class="chip genreChip" data-g="'+esc(name)+'" style="cursor:pointer;'+(on?'color:#0B0F19;background:#a5b4fc;border-color:#a5b4fc;font-weight:700':'')+'">'+esc(name)+' <span style="opacity:.6">'+n+'</span></button>';}).join('');
+  const on=state.genres.includes(name),off=state.genresExclude.includes(name);
+  const style=on?'color:#0B0F19;background:#a5b4fc;border-color:#a5b4fc;font-weight:700':off?'color:#fca5a5;background:#7f1d1d33;border-color:#f8717166;text-decoration:line-through;font-weight:700':'';
+  const title=on?'Included -- click to exclude instead':off?'Excluded -- click to clear':'Click to include, click again to exclude';
+  return '<button type="button" class="chip genreChip" data-g="'+esc(name)+'" title="'+title+'" style="cursor:pointer;'+style+'">'+(off?'✕ ':'')+esc(name)+' <span style="opacity:.6">'+n+'</span></button>';}).join('');
 }
 function buildRatingChips(){
  $('#ratingChips').innerHTML=RATING_ORDER.filter(r=>RATING_COUNTS[r]).map(r=>{const on=state.ratings.includes(r);
@@ -3142,12 +3521,17 @@ function syncAdvCount(){
  // Only counts filters that actually live inside the collapsed Advanced panel -- genre, owned/not-
  // owned, and tier moved to the always-visible main row, so they no longer need this badge to
  // surface them.
- let n=state.ratings.length+IDX_KEYS.filter(k=>state.idx[k]>0).length+(state.yearMin!=null||state.yearMax!=null?1:0)+(state.combine?1:0);
+ let n=state.ratings.length+IDX_KEYS.filter(k=>state.idx[k]>0).length+(state.yearMin!=null||state.yearMax!=null?1:0)+(state.combine?1:0)+(state.runtimeMax>0?1:0);
  const c=$('#advCount');if(c){c.style.display=n?'inline-flex':'none';c.textContent=n+' on';}
 }
 on('#advToggle','click',()=>{const pnl=$('#advPanel');pnl.classList.toggle('hidden');$('#advCaret').style.transform=pnl.classList.contains('hidden')?'':'rotate(90deg)';});
-on('#genreChips','click',e=>{const b=e.target.closest('.genreChip');if(!b)return;const g=b.dataset.g;const i=state.genres.indexOf(g);if(i<0)state.genres.push(g);else state.genres.splice(i,1);buildGenreChips();syncAdvCount();refresh();});
-on('#genreClear','click',()=>{state.genres=[];buildGenreChips();syncAdvCount();refresh();});
+on('#genreChips','click',e=>{const b=e.target.closest('.genreChip');if(!b)return;const g=b.dataset.g;
+ const inI=state.genres.indexOf(g),inX=state.genresExclude.indexOf(g);
+ if(inI>=0){state.genres.splice(inI,1);state.genresExclude.push(g);} // included -> excluded
+ else if(inX>=0){state.genresExclude.splice(inX,1);} // excluded -> neutral
+ else{state.genres.push(g);} // neutral -> included
+ buildGenreChips();syncAdvCount();refresh();});
+on('#genreClear','click',()=>{state.genres=[];state.genresExclude=[];buildGenreChips();syncAdvCount();refresh();});
 on('#ratingChips','click',e=>{const b=e.target.closest('.ratingChip');if(!b)return;const r=b.dataset.r;const i=state.ratings.indexOf(r);if(i<0)state.ratings.push(r);else state.ratings.splice(i,1);buildRatingChips();syncAdvCount();refresh();});
 on('#ratingClear','click',()=>{state.ratings=[];buildRatingChips();syncAdvCount();refresh();});
 function handleIdxSliderInput(e){const sl=e.target.closest('.idxSlider');if(!sl)return;const k=sl.dataset.k;state.idx[k]=+sl.value;$('#idxV_'+k).textContent=sl.value;syncAdvCount();refresh();}
@@ -3165,30 +3549,38 @@ $$('.tierChk').forEach(chk=>chk.addEventListener('change',()=>{
 }));
 on('#yearMin','input',e=>{state.yearMin=e.target.value?+e.target.value:null;syncAdvCount();refresh();});
 on('#yearMax','input',e=>{state.yearMax=e.target.value?+e.target.value:null;syncAdvCount();refresh();});
+on('#yearPresets','click',e=>{const b=e.target.closest('button');if(!b)return;
+ state.yearMin=b.dataset.ymin?+b.dataset.ymin:null;state.yearMax=b.dataset.ymax?+b.dataset.ymax:null;
+ $('#yearMin').value=state.yearMin!=null?state.yearMin:'';$('#yearMax').value=state.yearMax!=null?state.yearMax:'';
+ syncAdvCount();refresh();});
 on('#activeBar','click',e=>{
  if(e.target.closest('#clearAllF')){clearAllFilters();return;}
+ if(e.target.closest('#activeBarToggle')){activeBarExpanded=!activeBarExpanded;renderActiveBar();return;}
  const b=e.target.closest('.activeChip');if(!b)return;const c=b.dataset.clr;
  if(c==='q'){state.q='';$('#q').value='';}
  else if(c==='type'){state.type='all';$$('#typeSeg button').forEach(x=>x.classList.toggle('on',x.dataset.type==='all'));}
  else if(c==='struct'){state.struct='all';$('#structSel').value='all';}
- else if(c==='plat'){setPlat('all');}
+ else if(c.indexOf('plat:')===0){const p=c.slice(5);state.plats=state.plats.filter(x=>x!==p);updatePlatLabel();}
+ else if(c==='runtime'){state.runtimeMax=0;const rs=$('#runtimeMax');if(rs)rs.value=0;const rv=$('#runtimeMaxV');if(rv)rv.textContent='Any';}
  else if(c==='year'){state.yearMin=state.yearMax=null;$('#yearMin').value='';$('#yearMax').value='';}
  else if(c==='owned'){state.ownedOnly=false;const o=$('#ownedToggle');if(o)o.checked=false;}
  else if(c==='notowned'){state.notOwnedOnly=false;const no=$('#notOwnedToggle');if(no)no.checked=false;}
  else if(c.indexOf('tier:')===0){const t=c.slice(5);state.tierFilter=state.tierFilter.filter(x=>x!==t);$$('.tierChk').forEach(chk=>{if(chk.dataset.tier===t)chk.checked=false;});}
  else if(c.indexOf('genre:')===0){const g=c.slice(6);state.genres=state.genres.filter(x=>x!==g);buildGenreChips();}
+ else if(c.indexOf('genreEx:')===0){const g=c.slice(8);state.genresExclude=state.genresExclude.filter(x=>x!==g);buildGenreChips();}
  else if(c.indexOf('rating:')===0){const r=c.slice(7);state.ratings=state.ratings.filter(x=>x!==r);buildRatingChips();}
  else if(c.indexOf('idx:')===0){const k=c.slice(4);state.idx[k]=0;const sl=$$('.idxSlider').find(s=>s.dataset.k===k);if(sl)sl.value=0;$('#idxV_'+k).textContent='0';}
  else if(['minDread','minMyst','minGoat'].indexOf(c)>=0){state[c]=0;$('#'+c).value=0;const vmap={minDread:'minDreadV',minMyst:'minMystV',minGoat:'minGoatV'};$('#'+vmap[c]).textContent='0';}
  syncAdvCount();refresh();
 });
 function clearAllFilters(){
- Object.assign(state,{q:'',type:'all',struct:'all',plat:'all',minDread:0,minMyst:0,minGoat:0,genres:[],ratings:[],ownedOnly:false,notOwnedOnly:false,tierFilter:[],yearMin:null,yearMax:null,combine:false});
+ Object.assign(state,{q:'',type:'all',struct:'all',plats:[],minDread:0,minMyst:0,minGoat:0,runtimeMax:0,genres:[],genresExclude:[],ratings:[],ownedOnly:false,notOwnedOnly:false,tierFilter:[],yearMin:null,yearMax:null,combine:false});
  $$('.tierChk').forEach(c=>{c.checked=false;});
  state.idx={snd:0,ref:0,ch:0,emo:0,awe:0,cozy:0,perf:0,icon:0,scary:0,real:0,reality:0,shock:0,sci:0,funny:0,hist:0,vibe2:0,crit:0,aud:0,tech:0};state.ratings=[];
- $('#q').value='';var ss=$('#structSel');if(ss)ss.value='all';$('#platSel').value='all';var pl=$('#platCombo .rcLabel');if(pl)pl.textContent='Any platform / network / studio';
+ $('#q').value='';var ss=$('#structSel');if(ss)ss.value='all';updatePlatLabel();
  ['minDread','minMyst','minGoat'].forEach(id=>{$('#'+id).value=0;});
  ['minDreadV','minMystV','minGoatV'].forEach(v=>$('#'+v).textContent='0');
+ var rs=$('#runtimeMax');if(rs)rs.value=0;var rv=$('#runtimeMaxV');if(rv)rv.textContent='Any';
  $$('#typeSeg button').forEach(x=>x.classList.toggle('on',x.dataset.type==='all'));
  $$('.idxSlider').forEach(sl=>{sl.value=0;$('#idxV_'+sl.dataset.k).textContent='0';});
  $('#combineMode').checked=false;const _o=$('#ownedToggle');if(_o)_o.checked=false;const _no=$('#notOwnedToggle');if(_no)_no.checked=false;$('#yearMin').value='';$('#yearMax').value='';
@@ -3201,30 +3593,37 @@ function buildPlatSelect(){
  PLAT_GROUPS=[
   {name:'Networks & Streamers',opts:u(tvShows.map(t=>t.networkStreamer))},
   {name:'Gaming Platforms',opts:u(videoGames.flatMap(g=>g.platformAvailability))},
-  {name:'Film Studios',opts:u(movies.map(m=>m.studio))}
+  {name:'Film Studios',opts:u(movies.map(m=>m.studio))},
+  {name:'Book Publishers',opts:u(books.map(b=>b.publisher))}
  ];
 }
+// Multi-select: picking a platform/network/studio no longer replaces the previous pick or closes
+// the popup -- it toggles that one option on/off in state.plats (OR-matched, same "any selected"
+// semantics as genre chips), so someone can build "A24 + Warner Bros." in one open/close cycle.
 function renderPlatList(q){
  if(!PLAT_GROUPS)buildPlatSelect();
  q=(q||'').trim().toLowerCase();
- var cur=$('#platSel').value;
  var listEl=$('#platCombo .rcList');if(!listEl)return;
- var html='<div class="rcOpt'+(cur==='all'?' sel':'')+'" data-v="all">Any platform / network / studio</div>';
+ var html=state.plats.length?'<div class="rcOpt" data-v="__clear__" style="color:#fca5a5">\u2715 Clear selection ('+state.plats.length+')</div>':'';
  var any=false;
  PLAT_GROUPS.forEach(function(g){
   var matches=q?g.opts.filter(function(o){return o.toLowerCase().indexOf(q)>=0;}):g.opts;
   if(!matches.length)return;
   any=true;
   html+='<div class="rcOptGroup">'+esc(g.name)+'</div>';
-  html+=matches.map(function(o){return '<div class="rcOpt'+(cur===o?' sel':'')+'" data-v="'+esc(o)+'" title="'+esc(o)+'">'+esc(o)+'</div>';}).join('');
+  html+=matches.map(function(o){var sel=state.plats.indexOf(o)>=0;return '<div class="rcOpt'+(sel?' sel':'')+'" data-v="'+esc(o)+'" title="'+esc(o)+'">'+(sel?'\u2611 ':'\u2610 ')+esc(o)+'</div>';}).join('');
  });
- if(!any)html='<div class="rcEmpty">No platform matches \u201c'+esc(q)+'\u201d</div>';
+ if(!any&&!html)html='<div class="rcEmpty">No platform matches \u201c'+esc(q)+'\u201d</div>';
  listEl.innerHTML=html;
 }
-function setPlat(v){
- state.plat=v;$('#platSel').value=v;
- var lbl=$('#platCombo .rcLabel');if(lbl)lbl.textContent=(v==='all'?'Any platform / network / studio':v);
- refresh();
+function updatePlatLabel(){
+ var lbl=$('#platCombo .rcLabel');if(!lbl)return;
+ lbl.textContent=!state.plats.length?'Any platform / network / studio':state.plats.length===1?state.plats[0]:state.plats.length+' selected: '+state.plats.join(', ');
+}
+function togglePlat(v){
+ if(v==='__clear__'){state.plats=[];}
+ else{var i=state.plats.indexOf(v);if(i>=0)state.plats.splice(i,1);else state.plats.push(v);}
+ updatePlatLabel();renderPlatList($('#platCombo .rcSearch')?$('#platCombo .rcSearch').value:'');refresh();
 }
 buildPlatSelect();
 (function initPlatCombo(){
@@ -3235,14 +3634,23 @@ buildPlatSelect();
  field.addEventListener('click',function(e){e.stopPropagation();combo.classList.contains('open')?close():open();});
  field.addEventListener('keydown',function(e){if(e.key==='Enter'||e.key===' '){e.preventDefault();open();}});
  search.addEventListener('input',function(){renderPlatList(this.value);});
- search.addEventListener('keydown',function(e){if(e.key==='Escape'){close();field.focus();}else if(e.key==='Enter'){var f=combo.querySelector('.rcOpt');if(f){setPlat(f.dataset.v);close();}}});
- combo.querySelector('.rcList').addEventListener('click',function(e){var opt=e.target.closest('.rcOpt');if(!opt)return;setPlat(opt.dataset.v);close();});
+ search.addEventListener('keydown',function(e){if(e.key==='Escape'){close();field.focus();}else if(e.key==='Enter'){var f=combo.querySelector('.rcOpt');if(f){togglePlat(f.dataset.v);}}});
+ combo.querySelector('.rcList').addEventListener('click',function(e){var opt=e.target.closest('.rcOpt');if(!opt)return;
+  // togglePlat() re-renders .rcList's innerHTML synchronously, which detaches the clicked node
+  // before this click finishes bubbling -- the shared outside-click-close listener on `document`
+  // then sees a target with no `.radarCombo` ancestor to find (it's an orphaned node) and closes
+  // the popup as if this had been a click outside it. stopPropagation keeps a pick from ever
+  // reaching that listener, so the popup stays open across multiple picks as intended.
+  e.stopPropagation();togglePlat(opt.dataset.v);});
  // Outside-click and Escape are handled once, for every .radarCombo including this one -- see the
  // shared closeAllCombos listener registered earlier in the script. No separate listener needed here.
 })();
 $('#headStats').innerHTML=[['Indexed Works',ALL.length],['Contenders',contenders.length]]
  .map(s=>'<div><div class="text-lg font-extrabold text-slate-50 leading-none tabular-nums">'+s[1]+'</div><div class="lbl mt-1">'+s[0]+'</div></div>').join('');
 (function(){var lc=$('#luCount');if(lc){var m=ALL.filter(function(x){return x.kind==='movie'}).length,t=ALL.filter(function(x){return x.kind==='tv'}).length,g=ALL.filter(function(x){return x.kind==='game'}).length,b=ALL.filter(function(x){return x.kind==='book'}).length;lc.textContent=ALL.length+' works · '+m+' films / '+t+' series / '+g+' games / '+b+' books';}})();
+var mi=$('#matrixIntro');if(mi)mi.textContent='Elite specialized brackets computed across the full '+ALL.length.toLocaleString()+'-work corpus (Global Controller filters intentionally ignored here so brackets stay canonical). Hover rows for full credits.';
+on('#matrixOwnedOnly','change',e=>{matrixOwnedOnly=e.target.checked;renderMatrices();});
+on('#matrixNav','click',e=>{const a=e.target.closest('.matrixNavLink');if(!a)return;e.preventDefault();const el=document.getElementById(a.dataset.anchor);if(el)el.scrollIntoView({behavior:'smooth',block:'start'});});
 renderMatrices();
 renderCreators();
 renderContenders();
@@ -3250,6 +3658,8 @@ document.addEventListener('click',e=>{const b=e.target.closest('.contMedBtn');if
 on('#contUnverifiedOnly','change',e=>{contUnverifiedOnly=e.target.checked;if(contUnverifiedOnly){contVerifiedOnly=false;var vcb=$('#contVerifiedOnly');if(vcb)vcb.checked=false;}renderContenders();});
 on('#contVerifiedOnly','change',e=>{contVerifiedOnly=e.target.checked;if(contVerifiedOnly){contUnverifiedOnly=false;var ucb=$('#contUnverifiedOnly');if(ucb)ucb.checked=false;}renderContenders();});
 document.addEventListener('click',e=>{const b=e.target.closest('.contSortBtn');if(b){contSort=b.dataset.sort;$$('.contSortBtn').forEach(function(x){x.classList.toggle('on',x===b);});renderContenders();}});
+let contSearchT=null;
+on('#contSearch','input',e=>{clearTimeout(contSearchT);const v=e.target.value;contSearchT=setTimeout(()=>{contSearchQ=v;renderContenders();},120);});
 document.addEventListener('click',e=>{const b=e.target.closest('.contMigratedBtn');if(b){state.q=b.dataset.q;const qi=$('#q');if(qi)qi.value=b.dataset.q;switchView('controller');refresh();}});
 renderGoat();
 renderGoatSearchResults('');
@@ -3283,7 +3693,15 @@ var _rzT;window.addEventListener('resize',function(){clearTimeout(_rzT);_rzT=set
 },200);});
 (function(){
  var resume=null;try{resume=sessionStorage.getItem('omniLedgerResumeView');sessionStorage.removeItem('omniLedgerResumeView');}catch(e){}
- switchView((resume&&document.querySelector('main > section[data-sec="'+resume+'"]'))?resume:'controller');
+ // resume (an internal post-action reload) wins over the URL (an actual bookmark/shared link) --
+ // the two shouldn't collide in practice since resume only ever exists right after this app's own
+ // reload calls, never on a fresh navigation, but resume is the more specific signal either way.
+ var urlView=paramsToState();
+ applyStateToStaticControls();
+ var target=(resume&&document.querySelector('main > section[data-sec="'+resume+'"]'))?resume
+  :(urlView&&document.querySelector('main > section[data-sec="'+urlView+'"]'))?urlView
+  :'controller';
+ switchView(target);
 })();
 
  // Deliberate debug surface, and the last line of initApp().

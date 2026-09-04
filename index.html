@@ -452,8 +452,8 @@ body[data-theme="outer-wilds"]{--bg:#0e0a09;--panel:#181010;--panel-2:#120c0b;--
         </div>
       </div>
       <div class="lg:col-span-3">
-        <label class="fieldlbl" for="platField">Platform / Network / Studio</label>
-        <div class="radarCombo sCombo" data-slot="plat" id="platCombo"><input type="hidden" id="platSel" value="all"><div class="rcField" id="platField" tabindex="0" role="button" aria-haspopup="listbox"><span class="rcLabel">Any platform / network / studio</span><span class="rcCaret">▾</span></div><div class="rcPop hidden"><input type="text" class="rcSearch inp" placeholder="🔍 e.g. Universal, HBO, PS5…" autocomplete="off"><div class="rcList"></div></div></div>
+        <label class="fieldlbl" for="platField">Platform / Network / Studio / Publisher</label>
+        <div class="radarCombo sCombo" data-slot="plat" id="platCombo"><div class="rcField" id="platField" tabindex="0" role="button" aria-haspopup="listbox"><span class="rcLabel">Any platform / network / studio</span><span class="rcCaret">▾</span></div><div class="rcPop hidden"><input type="text" class="rcSearch inp" placeholder="🔍 e.g. Universal, HBO, PS5… (pick as many as you like)" autocomplete="off"><div class="rcList"></div></div></div>
       </div>
       <div class="lg:col-span-1 flex items-end">
         <button type="button" id="resetBtn" class="inp hover:border-rose-400/60 hover:text-rose-300 transition-colors text-center cursor-pointer">Reset</button>
@@ -470,7 +470,7 @@ body[data-theme="outer-wilds"]{--bg:#0e0a09;--panel:#181010;--panel-2:#120c0b;--
       </div>
     </div>
     <div class="mt-4 pt-4 border-t border-slate-800/70">
-      <div class="flex items-center justify-between mb-2"><span class="fieldlbl mb-0">Genre / Type · multi-select (matches ANY selected)</span><button type="button" id="genreClear" class="text-[10px] text-slate-500 hover:text-rose-300">clear genres</button></div>
+      <div class="flex items-center justify-between mb-2"><span class="fieldlbl mb-0">Genre / Type · click to include, click again to exclude</span><button type="button" id="genreClear" class="text-[10px] text-slate-500 hover:text-rose-300">clear genres</button></div>
       <div id="genreChips" class="flex flex-wrap gap-1.5"></div>
     </div>
     <div class="flex flex-wrap items-center gap-x-6 gap-y-3 mt-4 pt-4 border-t border-slate-800/70">
@@ -502,7 +502,7 @@ body[data-theme="outer-wilds"]{--bg:#0e0a09;--panel:#181010;--panel-2:#120c0b;--
         </div>
         <div>
           <span class="fieldlbl">More Craft Thresholds</span>
-          <div class="grid grid-cols-1 md:grid-cols-2 gap-x-6 gap-y-4 mt-2">
+          <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-x-6 gap-y-4 mt-2">
             <div>
               <div class="flex justify-between items-baseline mb-1.5"><span class="fieldlbl mb-0 cursor-help" title="Atmospheric dread index for film & TV · immersion / tension index for games.">Atmospheric Dread / Immersion ≥</span><span class="text-[12px] font-bold text-rose-300 tabular-nums" id="minDreadV">0</span></div>
               <input type="range" id="minDread" min="0" max="100" value="0" aria-label="Minimum dread or immersion"/>
@@ -510,6 +510,10 @@ body[data-theme="outer-wilds"]{--bg:#0e0a09;--panel:#181010;--panel-2:#120c0b;--
             <div>
               <div class="flex justify-between items-baseline mb-1.5"><span class="fieldlbl mb-0 cursor-help" title="Ontological complexity for film & TV · systems complexity for games. Puzzle-boxes, recursive timelines, deep mechanics.">Ontological / Systems Complexity ≥</span><span class="text-[12px] font-bold text-emerald-300 tabular-nums" id="minMystV">0</span></div>
               <input type="range" id="minMyst" min="0" max="100" value="0" aria-label="Minimum complexity"/>
+            </div>
+            <div>
+              <div class="flex justify-between items-baseline mb-1.5"><span class="fieldlbl mb-0 cursor-help" title="Caps movie runtime -- TV, games and books are unaffected since there's no one comparable length metric across them. Slide to 240+ or leave at Any to turn it off.">⏱ Runtime ≤ <span class="normal-case text-slate-600">(movies)</span></span><span class="text-[12px] font-bold text-sky-300 tabular-nums" id="runtimeMaxV">Any</span></div>
+              <input type="range" id="runtimeMax" min="0" max="240" step="5" value="0" aria-label="Maximum movie runtime in minutes"/>
             </div>
           </div>
         </div>
@@ -519,7 +523,17 @@ body[data-theme="outer-wilds"]{--bg:#0e0a09;--panel:#181010;--panel-2:#120c0b;--
         </div>
         <div class="flex flex-wrap items-center gap-x-6 gap-y-3">
           <label class="flex items-center gap-2 text-[11px] text-slate-300 cursor-pointer"><input type="checkbox" id="combineMode" class="accent-indigo-500"/> Require ALL active filters (strict AND)</label>
-          <div class="flex items-center gap-2"><span class="fieldlbl mb-0">Year</span><input type="number" id="yearMin" class="inp" style="width:84px" placeholder="from" min="1950" max="2026"/><span class="text-slate-600">–</span><input type="number" id="yearMax" class="inp" style="width:84px" placeholder="to" min="1950" max="2026"/></div>
+          <div class="flex items-center gap-2 flex-wrap"><span class="fieldlbl mb-0">Year</span><input type="number" id="yearMin" class="inp" style="width:84px" placeholder="from" min="1950" max="2026"/><span class="text-slate-600">–</span><input type="number" id="yearMax" class="inp" style="width:84px" placeholder="to" min="1950" max="2026"/>
+            <div class="flex items-center gap-1 flex-wrap" id="yearPresets">
+              <button type="button" class="presetBtn" data-ymin="" data-ymax="1899">Classical &amp; Pre-1900</button>
+              <button type="button" class="presetBtn" data-ymin="1900" data-ymax="1969">1900s–60s</button>
+              <button type="button" class="presetBtn" data-ymin="1970" data-ymax="1989">70s–80s</button>
+              <button type="button" class="presetBtn" data-ymin="1990" data-ymax="1999">90s</button>
+              <button type="button" class="presetBtn" data-ymin="2000" data-ymax="2009">2000s</button>
+              <button type="button" class="presetBtn" data-ymin="2010" data-ymax="2019">2010s</button>
+              <button type="button" class="presetBtn" data-ymin="2020" data-ymax="">2020s+</button>
+            </div>
+          </div>
         </div>
       </div>
       <div id="activeBar" class="flex flex-wrap items-center gap-1.5 mt-3"></div>
@@ -658,7 +672,7 @@ body[data-theme="outer-wilds"]{--bg:#0e0a09;--panel:#181010;--panel-2:#120c0b;--
         <button type="button" class="bubbleMedBtn text-[10.5px] px-2.5 py-0.5 rounded-lg border transition-colors" data-bm="tv">TV</button>
         <button type="button" class="bubbleMedBtn text-[10.5px] px-2.5 py-0.5 rounded-lg border transition-colors" data-bm="game">Game</button>
         <button type="button" class="bubbleMedBtn text-[10.5px] px-2.5 py-0.5 rounded-lg border transition-colors" data-bm="book">Book</button>
-        <span class="text-[10px] text-slate-500 ml-2" id="bubbleMinLbl">min score 55+</span>
+        <span class="flex items-center gap-1.5 ml-2"><span class="text-[10px] text-slate-500">Min critical score</span><input type="range" id="bubbleMin" min="0" max="95" step="5" value="0" style="width:110px"/><span class="text-[10px] font-bold text-slate-300 tabular-nums" id="bubbleMinLbl">Any</span></span>
       </div>
       <div class="relative h-[380px] mt-3"><canvas id="bubbleC"></canvas></div>
       <p class="chartFail hidden text-[11px] text-amber-300/80 mt-2">Chart.js CDN unreachable — connect once so the chart runtime can load, then reopen this file.</p>
@@ -694,21 +708,27 @@ body[data-theme="outer-wilds"]{--bg:#0e0a09;--panel:#181010;--panel-2:#120c0b;--
 </section>
 
 <section data-sec="matrix" class="hidden">
-  <p class="text-[11px] text-slate-500 mb-4 max-w-3xl">Elite specialized brackets computed across the full 2,502-work corpus (Global Controller filters intentionally ignored here so brackets stay canonical). Hover rows for full credits.</p>
+  <div class="flex flex-wrap items-baseline justify-between gap-2 mb-3">
+    <p class="text-[11px] text-slate-500 max-w-3xl" id="matrixIntro">Elite specialized brackets computed across the full corpus (Global Controller filters intentionally ignored here so brackets stay canonical). Hover rows for full credits.</p>
+    <label class="flex items-center gap-1.5 text-[11px] cursor-pointer shrink-0" style="color:#86efac"><input type="checkbox" id="matrixOwnedOnly" class="accent-emerald-500"/> ◆ Owned only</label>
+  </div>
+  <div id="matrixNav" class="flex flex-wrap gap-1.5 mb-4"></div>
   <div id="matrixWrap" class="grid grid-cols-1 xl:grid-cols-2 gap-5"></div>
 </section>
 
 <section data-sec="creators" class="hidden">
   <div class="flex flex-wrap items-center justify-between gap-3 mb-4">
-    <p class="text-[11px] text-slate-500 max-w-xl">Fifty master creators cross-referenced against the global top-100 lists. Click any card to flip it — philosophy, thematic pillars, and every indexed work appear on the reverse.</p>
+    <p class="text-[11px] text-slate-500 max-w-xl">Eighty master creators cross-referenced against the global top-100 lists. Click any card to flip it — philosophy, thematic pillars, and every indexed work appear on the reverse.</p>
     <div class="seg" id="creatorSeg" style="flex:0 1 auto">
       <button type="button" data-tab="directors" class="on">Directors Pantheon · 30</button>
       <button type="button" data-tab="authors">Authors Pantheon · 30</button>
       <button type="button" data-tab="auteurs">Gaming Auteurs · 20</button>
     </div>
   </div>
-  <div class="flex items-center gap-2 mb-4">
-    <input type="text" id="creatorSearch" class="inp" style="max-width:420px" placeholder="🔍 Search all 80 creators by name — jump straight to a director, author or auteur…" autocomplete="off">
+  <div class="flex items-center gap-2 mb-4 flex-wrap">
+    <input type="text" id="creatorSearch" class="inp" style="max-width:420px" placeholder="🔍 Search creators by name — jump straight to a director, author or auteur…" autocomplete="off">
+    <div class="seg" id="creatorSearchScope" style="flex:0 0 auto"><button type="button" data-scope="all" class="on" title="Search across all 80 creators">All</button><button type="button" data-scope="directors" title="Search only Directors Pantheon">Directors</button><button type="button" data-scope="authors" title="Search only Authors Pantheon">Authors</button><button type="button" data-scope="auteurs" title="Search only Gaming Auteurs">Auteurs</button></div>
+    <select id="creatorSortSel" class="inp" style="width:auto"><option value="default">Sort: Curated order</option><option value="az">Sort: A–Z</option><option value="works">Sort: Most represented</option></select>
     <span id="creatorSearchCount" class="text-[11px] text-slate-500"></span>
   </div>
   <div id="creatorGrid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-3"></div>
@@ -720,6 +740,7 @@ body[data-theme="outer-wilds"]{--bg:#0e0a09;--panel:#181010;--panel-2:#120c0b;--
     <span class="chip" id="contCount"></span>
     <span class="chip" id="contVerifiedCount" style="color:#94a3b8" title="How many entries in view have been double-checked against a live source (Rotten Tomatoes, Metacritic, Steam, etc.) for their release status and scores, vs. still running on the original editorial estimate. A card with a ⚠ WINDOW PASSED badge is one of the unchecked ones whose release date has already come and gone -- the highest priority to verify next."></span>
   </div>
+  <input type="text" id="contSearch" class="inp mb-3" style="max-width:340px" placeholder="🔍 Search contenders by title, lead, or platform…" autocomplete="off">
   <div id="contMediumFilter" class="flex flex-wrap items-center gap-1.5 mb-4">
     <span class="text-[10px] uppercase tracking-[.14em] text-slate-500 mr-1">Medium</span>
     <button type="button" class="contMedBtn text-[11px] px-3 py-1 rounded-lg border transition-colors" data-med="all">All</button>
@@ -731,6 +752,8 @@ body[data-theme="outer-wilds"]{--bg:#0e0a09;--panel:#181010;--panel-2:#120c0b;--
     <span class="text-[10px] uppercase tracking-[.14em] text-slate-500 mr-1">Rank</span>
     <button type="button" id="contSortForyou" class="contSortBtn text-[11px] px-3 py-1 rounded-lg border transition-colors on" data-sort="foryou">★ For You</button>
     <button type="button" id="contSortProb" class="contSortBtn text-[11px] px-3 py-1 rounded-lg border transition-colors" data-sort="prob">Editorial</button>
+    <button type="button" id="contSortTitle" class="contSortBtn text-[11px] px-3 py-1 rounded-lg border transition-colors" data-sort="title">Title A–Z</button>
+    <button type="button" id="contSortWindow" class="contSortBtn text-[11px] px-3 py-1 rounded-lg border transition-colors" data-sort="window">Soonest Window</button>
     <span class="mx-2 text-slate-700">|</span>
     <label id="contVerifiedOnlyWrap" class="flex items-center gap-1.5 text-[11px] cursor-pointer" style="color:#4ade8090" title="Show only entries already spot-checked against a live source"><input type="checkbox" id="contVerifiedOnly" class="accent-emerald-500"> ◉ Verified only</label>
     <label id="contUnverifiedOnlyWrap" class="flex items-center gap-1.5 text-[11px] cursor-pointer" style="color:#f8717190" title="Show only entries not yet spot-checked against a live source"><input type="checkbox" id="contUnverifiedOnly" class="accent-rose-500"> ◯ Unverified only</label>
@@ -743,6 +766,17 @@ body[data-theme="outer-wilds"]{--bg:#0e0a09;--panel:#181010;--panel-2:#120c0b;--
     <h2 class="text-[13px] font-bold uppercase tracking-[.18em]" style="color:#a5b4fc">🔍 Search &amp; Build Your Favorites</h2>
     <p class="text-[11px] text-slate-500 mt-1.5 max-w-3xl">Search the full 2,508-work corpus and tier or own anything right from the results — no separate picker, no popup. Everything below (your declared canon, taste DNA, and generated recommendations) updates the moment you do.</p>
     <input type="text" id="goatSearchInput" class="inp mt-3" placeholder="🔍 Search movies, TV, games, books by title, creator, genre…" autocomplete="off">
+    <div class="flex flex-wrap items-center gap-2 mt-3">
+      <div class="seg" id="goatTypeSeg" style="flex:0 0 auto"><button type="button" data-t="all" class="on">All</button><button type="button" data-t="movie">Movies</button><button type="button" data-t="tv">TV</button><button type="button" data-t="game">Games</button><button type="button" data-t="book">Books</button></div>
+      <div class="seg" id="goatTierSeg" style="flex:0 0 auto"><button type="button" data-tf="all" class="on">Any status</button><button type="button" data-tf="untiered" title="Not yet Gold/Silver/Bronze or owned">Untiered</button><button type="button" data-tf="gold">🥇 Gold</button><button type="button" data-tf="silver">🥈 Silver</button><button type="button" data-tf="bronze">🥉 Bronze</button><button type="button" data-tf="owned">◆ Owned</button></div>
+      <select id="goatSortSel" class="inp" style="width:auto">
+        <option value="match">Sort: Best Match</option>
+        <option value="tier">Sort: My Tiers first</option>
+        <option value="title">Sort: Title A–Z</option>
+        <option value="yearNew">Sort: Year, Newest</option>
+      </select>
+      <span id="goatSearchCount" class="text-[11px] text-slate-500 ml-auto"></span>
+    </div>
     <div id="goatSearchResults" class="space-y-2 mt-3 max-h-[420px] overflow-y-auto"></div>
   </div>
   <div class="panel p-4 md:p-5 mb-5" style="border-color:#fbbf2440;background:linear-gradient(180deg,rgba(251,191,36,.05),rgba(15,22,38,1) 60%)">
@@ -751,6 +785,7 @@ body[data-theme="outer-wilds"]{--bg:#0e0a09;--panel:#181010;--panel-2:#120c0b;--
       <span class="text-[11px] text-slate-500">Match scores /100 — inferred solely from the declared favorites below</span>
     </div>
     <p class="text-[11px] text-slate-500 mt-1.5 max-w-3xl">Detected taste fingerprint: cosmic scale wired to human intimacy · time and mortality as structure · sincerity over irony · dark Americana gravitas · score-and-sound-driven craft · curiosity-powered discovery · humane humor inside darkness. Gold entries are your declared canon; anything marked <span class="text-amber-300/80 uppercase text-[9px] tracking-wider">on ledger</span> can be clicked to open it in the Global Controller.</p>
+    <input type="text" id="goatDeclaredSearch" class="inp mt-3" style="max-width:360px" placeholder="🔍 Filter your declared canon by title…" autocomplete="off">
     <div id="goatDeclared" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-3 mt-4"></div>
     <div class="mt-5 pt-4 border-t border-slate-800/70">
       <div class="lbl mb-3" style="color:#fde68a">✨ Your Taste DNA · averaged signature of your declared &amp; silver canon vs. the full ledger</div>
@@ -764,9 +799,10 @@ body[data-theme="outer-wilds"]{--bg:#0e0a09;--panel:#181010;--panel-2:#120c0b;--
   <div class="panel p-4 md:p-5 mb-5">
     <div class="flex items-center gap-2 flex-wrap">
       <h2 class="text-lg font-bold tracking-tight" style="color:#f0abfc">◷ Collection Timeline</h2>
+      <div class="seg" id="tlMedium" style="flex:0 0 auto"><button type="button" data-tm="all" class="on">All Media</button><button type="button" data-tm="movie">Film</button><button type="button" data-tm="tv">TV</button><button type="button" data-tm="game">Games</button><button type="button" data-tm="book">Books</button></div>
       <div class="seg ml-auto" id="tlScope"><button type="button" data-t="owned" class="on">My Collection</button><button type="button" data-t="all">All Works</button></div>
     </div>
-    <p class="text-[11px] text-slate-500 mt-1.5 max-w-3xl">Your taste across time — every work placed by release year. The shape shows the eras your collection reaches into.</p>
+    <p class="text-[11px] text-slate-500 mt-1.5 max-w-3xl">Your taste across time — every work placed by release year. The shape shows the eras your collection reaches into. Click any bar to open that decade in the Global Controller.</p>
     <div id="tlStats" class="grid grid-cols-2 md:grid-cols-4 gap-3 mt-4"></div>
   </div>
   <div class="panel p-4 md:p-5"><div id="tlChart"></div></div>
@@ -782,11 +818,17 @@ body[data-theme="outer-wilds"]{--bg:#0e0a09;--panel:#181010;--panel-2:#120c0b;--
       </div>
     </div>
     <p class="text-[11px] text-slate-500 mt-1.5 max-w-3xl">Tap the ♡ on any card across the ledger to save it here. Mark things watched, see your backlog stats, and let the engine surface what to watch next based on your GOAT fingerprint. Saved locally in your browser.</p>
-    <div id="wlStats" class="grid grid-cols-2 md:grid-cols-4 gap-3 mt-4"></div>
+    <div id="wlStats" class="grid grid-cols-2 md:grid-cols-5 gap-3 mt-4"></div>
   </div>
   <div class="grid grid-cols-1 lg:grid-cols-3 gap-4">
     <div class="lg:col-span-2">
-      <div class="flex items-center gap-2 mb-3"><span class="lbl">Saved titles</span><div class="seg" id="wlFilter" style="flex:0 0 auto"><button type="button" data-wf="all" class="on">All</button><button type="button" data-wf="todo" title="Not yet watched, read, or played">Up Next</button><button type="button" data-wf="done" title="Marked watched, read, or played">Complete</button></div></div>
+      <div class="flex items-center gap-2 mb-3 flex-wrap">
+        <span class="lbl">Saved titles</span>
+        <div class="seg" id="wlFilter" style="flex:0 0 auto"><button type="button" data-wf="all" class="on">All</button><button type="button" data-wf="todo" title="Not yet watched, read, or played">Up Next</button><button type="button" data-wf="done" title="Marked watched, read, or played">Complete</button></div>
+        <div class="seg" id="wlTypeSeg" style="flex:0 0 auto"><button type="button" data-wt="all" class="on">All types</button><button type="button" data-wt="movie">Movies</button><button type="button" data-wt="tv">TV</button><button type="button" data-wt="game">Games</button><button type="button" data-wt="book">Books</button></div>
+        <select id="wlSortSel" class="inp" style="width:auto"><option value="added">Sort: Recently added</option><option value="match">Sort: Best Match</option><option value="title">Sort: Title A–Z</option></select>
+      </div>
+      <input type="text" id="wlSearch" class="inp mb-3" style="max-width:320px" placeholder="🔍 Search your watchlist…" autocomplete="off">
       <div id="wlGrid" class="grid grid-cols-1 md:grid-cols-2 gap-3"></div>
     </div>
     <div>
@@ -803,24 +845,32 @@ body[data-theme="outer-wilds"]{--bg:#0e0a09;--panel:#181010;--panel-2:#120c0b;--
       <button type="button" id="exportBtn" class="ml-auto text-[11px] px-3 py-1.5 rounded-lg border border-slate-700 text-slate-300 hover:border-violet-500 hover:text-violet-300 transition-colors" title="Download a backup of your watchlist and personal data">⬇ Export / Backup</button>
     </div>
     <p class="text-[11px] text-slate-500 mt-1.5 max-w-3xl">A data portrait of your taste, drawn from your collection and declared favorites — the shape of what you love, and the acclaimed works just outside it.</p>
+    <div class="flex items-center gap-2 mt-3"><span class="fieldlbl mb-0">Scope</span><div class="seg" id="portraitScopeSeg" style="flex:0 0 auto"><button type="button" data-ps="all" class="on">All</button><button type="button" data-ps="movie">Film</button><button type="button" data-ps="tv">TV</button><button type="button" data-ps="game">Games</button><button type="button" data-ps="book">Books</button></div><span class="text-[10.5px] text-slate-600">applies to the stats, genre gravity and decade distribution below</span></div>
     <div id="portraitStats" class="grid grid-cols-2 md:grid-cols-4 gap-3 mt-4"></div>
   </div>
   <div class="panel p-4 md:p-5 mb-5" style="border-color:#22d3ee33">
     <div class="flex items-center gap-2 flex-wrap"><h3 class="text-base font-bold" style="color:#67e8f9">◈ Family Lens — browse by theme</h3><span class="text-[11px] text-slate-500 ml-auto">tap any family to explore it across all media</span></div>
-    <p class="text-[11px] text-slate-500 mt-1.5 max-w-3xl">The 24 genre-families that power the taste engine. Each tile shows how much of that family lives in the catalog and how much you own — tap to open it ranked in the Global Controller.</p>
+    <p class="text-[11px] text-slate-500 mt-1.5 max-w-3xl">The 28 genre-families that power the taste engine. Each tile shows how much of that family lives in the catalog and how much you own — tap to open it ranked in the Global Controller.</p>
     <div id="familyLens" class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-2.5 mt-4"></div>
   </div>
-  <div class="grid grid-cols-1 lg:grid-cols-2 gap-5">
+  <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
     <div class="panel p-4 md:p-5"><div class="lbl mb-3" style="color:#a78bfa">Most-owned directors</div><div id="portraitDirectors" class="space-y-2"></div></div>
+    <div class="panel p-4 md:p-5"><div class="lbl mb-3" style="color:#22d3ee">Most-owned TV creators</div><div id="portraitTV" class="space-y-2"></div></div>
+    <div class="panel p-4 md:p-5"><div class="lbl mb-3" style="color:#fbbf24">Most-owned game creators</div><div id="portraitGames" class="space-y-2"></div></div>
     <div class="panel p-4 md:p-5"><div class="lbl mb-3" style="color:#4ade80">Most-owned authors</div><div id="portraitAuthors" class="space-y-2"></div></div>
-    <div class="panel p-4 md:p-5"><div class="lbl mb-3" style="color:#22d3ee">Genre center of gravity</div><div id="portraitGenres" class="space-y-2"></div></div>
-    <div class="panel p-4 md:p-5"><div class="lbl mb-3" style="color:#fbbf24">Decade distribution</div><div id="portraitDecades" class="space-y-2"></div></div>
+    <div class="panel p-4 md:p-5"><div class="lbl mb-3" style="color:#c4b5fd">Genre center of gravity</div><div id="portraitGenres" class="space-y-2"></div></div>
+    <div class="panel p-4 md:p-5"><div class="lbl mb-3" style="color:#f472b6">Decade distribution</div><div id="portraitDecades" class="space-y-2"></div></div>
   </div>
   <div class="panel p-4 md:p-5 mt-5" style="border-color:#f472b633">
     <div class="lbl mb-1" style="color:#f472b6">◈ Blind spots · acclaimed works in genres you own little of</div>
     <p class="text-[11px] text-slate-500 mb-3 max-w-3xl">The highest-rated works in families where your collection is thin — worth exploring to round out your taste.</p>
     <div class="seg mb-3" id="gapSeg" style="flex:0 0 auto"><button type="button" data-gap="all" class="on">All</button><button type="button" data-gap="movie">Film</button><button type="button" data-gap="tv">TV</button><button type="button" data-gap="game">Games</button><button type="button" data-gap="book">Books</button></div>
     <div id="portraitGaps" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-2.5"></div>
+  </div>
+  <div class="panel p-4 md:p-5 mt-5" style="border-color:#38bdf833">
+    <div class="lbl mb-1" style="color:#7dd3fc">◈ Creators you're missing · strong matches you own nothing from</div>
+    <p class="text-[11px] text-slate-500 mb-3 max-w-3xl">Different from the gaps above (those find genres you're thin on) — this finds specific creators whose work matches your taste well, that you don't own a single thing from yet.</p>
+    <div id="creatorBlindSpots" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-2.5"></div>
   </div>
 </section>
 <section data-sec="collection" class="hidden">
@@ -830,6 +880,7 @@ body[data-theme="outer-wilds"]{--bg:#0e0a09;--panel:#181010;--panel-2:#120c0b;--
       <div class="seg" id="collSeg" style="flex:0 0 auto"><button type="button" data-cs="all" class="on">All</button><button type="button" data-cs="movie">Film</button><button type="button" data-cs="tv">TV</button><button type="button" data-cs="game">Games</button><button type="button" data-cs="book">Books</button></div><button type="button" id="seriesToggle" class="text-[11px] px-3 py-1.5 rounded-lg border border-slate-700 text-slate-300 hover:border-cyan-500 hover:text-cyan-300 transition-colors" style="flex:0 0 auto" title="Group your collection by franchise / series">▤ Group by Series</button><button type="button" id="shelfToggle" class="text-[11px] px-3 py-1.5 rounded-lg border border-slate-700 text-slate-300 hover:border-amber-500 hover:text-amber-300 transition-colors" style="flex:0 0 auto" title="See your collection as a visual shelf">📚 Shelf View</button><button type="button" id="upgradeToggle" class="text-[11px] px-3 py-1.5 rounded-lg border border-slate-700 text-slate-300 hover:border-sky-500 hover:text-sky-300 transition-colors" style="flex:0 0 auto" title="Owned titles worth upgrading to a better physical format -- movies, TV and books only, since games are mostly digital">⬆ Upgrade Audit</button>
     </div>
     <p class="text-[11px] text-slate-500 mt-1.5 max-w-3xl">Everything you own — physical media plus your game library — is the strongest signal of your taste. The ledger treats these as your canon: they anchor your GOAT fingerprint and personalized scoring. Sorted by quality within each group.</p>
+    <input type="text" id="collSearch" class="inp mt-3" style="max-width:360px" placeholder="🔍 Find something in your collection…" autocomplete="off">
     <div id="collStats" class="grid grid-cols-2 md:grid-cols-6 gap-3 mt-4"></div>
   </div>
   <div id="collShelf" class="hidden"></div>
