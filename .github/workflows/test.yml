@@ -1,0 +1,28 @@
+name: Tests
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Install dependencies
+        run: npm install
+
+      # test/regression.js loads playwright-core (already a devDependency) and looks for a
+      # Chromium binary at a few well-known paths -- installing it via the full `playwright`
+      # package's CLI (without adding it as a project dependency) is the standard way to get
+      # a matching browser build onto the runner.
+      - name: Install Chromium for Playwright
+        run: npx --yes playwright install --with-deps chromium
+
+      - name: Run test suite
+        run: npm test
