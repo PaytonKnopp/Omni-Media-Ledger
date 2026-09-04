@@ -1,7 +1,18 @@
 name: Tests
 
+# Pull requests only, deliberately.
+#
+# This used to run on push AND pull_request, which meant every branch with an open PR ran the
+# identical suite twice against effectively identical code -- the pull_request event tests a
+# preview of the branch merged into master, and while a PR is up to date those are the same thing.
+# The only thing the second run added was a second independent chance to hit a flaky check, so a
+# green and a red would appear side by side for one commit and the red one was never a real
+# failure. Testing the merge preview is the more useful of the two, so that is the one kept.
+#
+# Trade-off worth knowing: nothing now tests a commit pushed straight to master outside a PR. That
+# is fine while every change lands through one, but if direct pushes to master ever become normal,
+# add `push: { branches: [master] }` back.
 on:
-  push:
   pull_request:
 
 jobs:
