@@ -3,8 +3,9 @@
 What every subjective index in the corpus **means**, on a scale anyone can apply the same way
 twice.
 
-**Status: DRAFT — anchors await the owner's sign-off.** Nothing in Phase 3 may proceed on
-unapproved anchors. See "Open questions" at the end.
+**Status: v1 — anchors approved by the owner.** All five open questions are ruled on; see
+"Owner's rulings" at the end. Records scored against this document are stamped `rubric-v1`.
+One interpretation is flagged for confirmation (dread; see construct 1).
 
 ---
 
@@ -73,33 +74,44 @@ on its own terms below, and a work in one medium is never scored by analogy to a
 
 ### 1. `atmosphericDreadIndex` — film, TV, books
 
-**A pervasive sense that something is wrong with the world of the work, sustained rather than
-spiked.** Dread is ambient and anticipatory. It is the feeling that the floor is not solid,
-carried by tone, space, sound and pacing rather than by events.
+**Sustained oppressive atmosphere — the feeling that the air in this work is heavy and the floor is
+not solid.** Dread is ambient and anticipatory, carried by tone, space, sound and pacing. Sustained
+tension counts. Episodic tension does not.
+
+> **Owner's ruling, and the one place this document interprets rather than records.** Asked whether
+> dread means "wrongness" or "tension", the owner answered: *"I always thought dread was tension
+> like the Shining."* Those two halves pull slightly apart — *The Shining* is the archetype of
+> sustained atmospheric oppression, and is **not** a tense film in the plot-suspense sense for long
+> stretches. This definition takes the example as the authority and reads "tension" as *sustained*
+> tension: the register *The Shining* sustains, not the spike a chase scene produces. If that is
+> wrong, it is cheap to correct — say so and the anchors below shift, before Phase 3 writes
+> anything.
 
 **This is NOT:**
 - **Fright.** Jump scares, shocks and gore are the derived `scary` index. A film can be terrifying
   with little dread (most slashers) or dread-soaked and never frightening (*Stalker*).
-- **Tension or suspense.** Edge-of-seat plot pressure is a different axis. *Jaws* runs on suspense
-  architecture; its dread is real but moderate.
-- **Sadness or bleakness.** A devastating drama is not dreadful unless it also feels *wrong*.
+- **Episodic suspense.** A film that is gripping in set pieces and relaxed between them scores
+  mid-band, not high. The test is whether the pressure *persists* when nothing is happening.
+- **Sadness or bleakness.** A devastating drama is not dreadful unless the air is also heavy.
+  *Umberto D.* is shattering and barely dreadful at all.
 - **Subject matter.** A film about a terrible event is not automatically high — dread is in the
   handling, not the topic.
 
 **Decision procedure.** Ask: *if I paused this at a random quiet moment, would the air still feel
-poisoned?* If yes, you are above 70. If the unease needs the plot to be moving, you are below 60.
+heavy?* If yes, you are above 70. If the pressure disappears whenever the plot rests, you are
+mid-band. If there is no pressure to begin with, below 40.
 
-**Proposed anchors** — film/TV:
+**Anchors** — film/TV:
 
 | Score | Work | Why it sits here |
 |---|---|---|
 | **97** | *The Shining* (m02) | The dread precedes and outlives every event; the building itself is the source. Definitional. |
 | **80** | *No Country for Old Men* (m56) | Sustained moral wrongness and inevitability, but the film breathes between pressures. |
-| **65** | *Jaws* (m63) | Genuinely unsettling water, but the engine is suspense — dread recedes whenever the shark is absent. |
-| **45** | *Inglourious Basterds* (m112) | Extraordinary tension in set pieces, little ambient wrongness; the film is having fun. |
+| **70** | *Jaws* (m63) | The water stays unsafe even in daylight scenes — real sustained pressure, but it lifts on land in a way the anchors above never do. |
+| **55** | *Inglourious Basterds* (m112) | Two of the most oppressive scenes ever staged, connected by long stretches of relish and swagger. Episodic, not ambient. |
 | **20** | *The Princess Bride* (m145) | Peril exists and is never once unsettling. |
 
-**Proposed anchors** — books:
+**Anchors** — books:
 
 | Score | Work | Why |
 |---|---|---|
@@ -109,9 +121,9 @@ poisoned?* If yes, you are above 70. If the unease needs the plot to be moving, 
 | **40** | *Endurance* (b47) | Genuine peril, told with warmth and competence — the register is admiration, not dread. |
 | **15** | *Greenlights* (b49) | None. |
 
-> Note the current values disagree with several of these: *Jaws* currently 88, *Inglourious
-> Basterds* 78, *Endurance* 70. That disagreement is the point — it is the category error this
-> definition exists to fix, and it is why the anchors need the owner's ruling before Phase 3 runs.
+> The current corpus disagrees with several of these — *Jaws* 88, *Inglourious Basterds* 78,
+> *Endurance* 70 — and that disagreement is the point. Those are category errors (episodic suspense
+> and bleakness scored as ambient pressure), which is exactly what this definition exists to catch.
 
 ---
 
@@ -135,7 +147,7 @@ feeling it is holding you with.
 **Decision procedure.** Ask: *does the world keep existing while I am not playing?* Total absorption
 with a coherent world is 90+. A game you enjoy but put down cleanly at any moment is 40–60.
 
-**Proposed anchors:**
+**Anchors:**
 
 | Score | Work | Why |
 |---|---|---|
@@ -164,7 +176,7 @@ require holding several incompatible frames at once.
 **Decision procedure.** Ask: *at the end, do I have to revise something I believed at the start
 about how the work's world works?* Structural revision is 85+. Thematic ambiguity alone is 50–65.
 
-**Proposed anchors** — film/TV:
+**Anchors** — film/TV:
 
 | Score | Work | Why |
 |---|---|---|
@@ -174,7 +186,7 @@ about how the work's world works?* Structural revision is 85+. Thematic ambiguit
 | **50** | *Catch Me If You Can* (m102) | A clever story, straightforwardly told. |
 | **20** | *10 Things I Hate About You* (m139) | None required. |
 
-**Proposed anchors** — books:
+**Anchors** — books:
 
 | Score | Work | Why |
 |---|---|---|
@@ -204,7 +216,7 @@ the machine, and how much of it must be understood to play well.
 simultaneously. One or two: 30–50. Four or five interacting: 70–85. A genuine economy or simulation
 whose interactions cannot be enumerated: 95+.
 
-**Proposed anchors:**
+**Anchors:**
 
 | Score | Work | Why |
 |---|---|---|
@@ -213,6 +225,34 @@ whose interactions cannot be enumerated: 95+.
 | **65** | *Persona 5 Royal* (g108) | Two or three well-defined systems (calendar, social, combat) in clean interaction. |
 | **45** | *Baba Is You* (g58) | One system, taken to its limit. Deep to *think about*, shallow to *operate*. |
 | **20** | *Gone Home* (g238) | Navigation and reading. |
+
+---
+
+### 4b. `conceptualDepth` — games only — **NEW FIELD, not yet in the schema**
+
+**How much the game asks you to rebuild your model of what is real, true or knowable.** The games
+counterpart of `ontologicalComplexity`, requested by the owner when ruling that `systemsComplexity`
+should mean mechanical depth: *"mechanical seems right but having a conceptual equivalent would be
+good."*
+
+Without it, games are the only medium with no conceptual axis at all, and works whose whole point
+is conceptual — *Outer Wilds*, *The Beginner's Guide*, *Metal Gear Solid 2* — are invisible to
+every complexity-based filter, family lens and cross-medium pairing in the app. It also means a
+person whose taste runs to ideas rather than systems gets no game recommendations that match it.
+
+Same construct and same scale as `ontologicalComplexity`; scored identically. **This is a schema
+addition**, so it carries real cost: a new required field on all 258 games, plus validator,
+adapter and engine wiring. Scheduled for Phase 3 alongside the games rescore, not before.
+
+**Anchors:**
+
+| Score | Work | Why |
+|---|---|---|
+| **99** | *Outer Wilds* (g45) | The game is an epistemology: the only thing that changes is what you know. |
+| **85** | *Metal Gear Solid 2* (g07) | Deliberately destabilises the player's relationship to the game itself. |
+| **65** | *BioShock* (g34) | One genuine reframing, cleanly delivered inside a conventional shooter. |
+| **45** | *Baba Is You* (g58) | Rules are the toy, but the world's nature is never in question. |
+| **15** | *Wii Sports* (g255) | None. |
 
 ---
 
@@ -253,7 +293,13 @@ for symmetry.
 `metrics.criticalScore` and `metrics.audienceScore` are **not rubric fields**. They are facts with
 a source, and the only rule is which source and when.
 
-**Unresolved and blocking Phase 5** — the corpus currently mixes incompatible scales. Films track
+**Owner's ruling: leave the values as best estimates for now, and settle them in Phase 5** when
+network access makes real comparison possible. That is the right call — rewriting ~1,250 reception
+values from second-hand search summaries would be replacing one set of unsourced numbers with
+another, at evidence grade B.
+
+One part is **not** deferred, because it is an engine bug rather than a data question: the corpus
+mixes incompatible scales. Films track
 the RT Tomatometer (14 films sit at exactly 100; *Rain Man* is 86 against RT 88 / Metacritic 65),
 while games track Metacritic (max 97, no 100s). These measure different things: RT is *the
 percentage of critics who were positive*, so a film every critic mildly liked scores 100;
@@ -294,25 +340,35 @@ because those slots now carry four different constructs. That is engine defect E
 
 ---
 
-## Open questions for the owner
+## Owner's rulings — closed
 
-Phase 3 cannot start until these are answered.
+All five open questions were answered. Recorded here so they are not reopened.
 
-1. **Do the proposed anchors above stand?** Accept, swap or override any of them. They are the
-   scale; everything else interpolates. The ones most likely to be wrong are the mid-band anchors
-   (65 and 45), because that is where judgement is thinnest.
-2. **`atmosphericDreadIndex` — is "dread, not tension" the right call?** It reclassifies *Jaws*
-   (88 → ~65) and *Inglourious Basterds* (78 → ~45) meaningfully downward. If dread is meant to
-   mean "intensity" in this app, say so and the definition changes instead.
-3. **`immersionTensionIndex` — is "absorption, not menace" the right call?** This is the one that
-   fixes *Outer Wilds* being rated `M`, but it moves a lot of games.
-4. **`systemsComplexity` — mechanical depth, or conceptual depth?** The rubric proposes mechanical,
-   with conceptual depth living in the ontological axis. *Baba Is You* is the test case: 45 under
-   this definition, 99 today.
-5. **Reception sources:** RT for film/TV and Metacritic for games — and what to do with books'
-   `criticalScore`, which currently has no source at all.
+| # | Question | Ruling |
+|---|---|---|
+| 1 | Do the proposed anchors stand? | **Approved.** "The anchors look solid, I trust it." Two dread anchors were then adjusted by ruling 2 below — *Jaws* 65 → **70**, *Inglourious Basterds* 45 → **55** — since widening the definition necessarily widens the scale. Anchor *works* are unchanged. |
+| 2 | Dread — wrongness or tension? | **Tension, read as sustained tension.** See the interpretation note under construct 1: the answer and its example (*The Shining*) pull slightly apart, and the example wins. Episodic suspense still scores mid-band. **Flagged for correction if that reading is wrong.** |
+| 3 | Immersion — absorption or menace? | **Absorption.** "Immersion seems more like absorption to me." Menace moves to the derived `scary` index. This is what unblocks the fix for *Outer Wilds* being rated `M`. |
+| 4 | `systemsComplexity` — mechanical or conceptual? | **Mechanical** — plus a new `conceptualDepth` field for games (construct 4b), on the owner's request for "a conceptual equivalent". |
+| 5 | Reception sources | **Deferred to Phase 5**, when real sources are reachable. Values stand as best estimates until then. The cross-medium *scale* normalisation is separate and stays in Phase 2. |
 
----
+### Still to settle — raised, not yet ruled on
+
+**The four core constructs are all "dark" axes**, and that limits who the app can serve. Dread,
+ontological complexity, immersion and systems complexity describe intensity, difficulty and unease.
+Nothing in the schema measures warmth, wit, romance, beauty, catharsis or joy. A person whose taste
+runs to comedy or romance can only express it through genre boosts, because there is no *index*
+their taste loads onto — while a person who likes dread-soaked puzzle-boxes has four.
+
+Against the owner's stated goal — *"I want everyone using the app to have it be useful for them no
+matter what their taste is"* — this is the largest remaining structural gap, larger than any
+individual wrong value. The derived indices (`cozy`, `funny`, `emo`) partly cover it, but they are
+computed from the same dark axes rather than measured, so they inherit the same blind spot.
+
+Options, in ascending cost: score the existing `cozy`/`funny`/`emo` override tables against this
+rubric so at least the light axes are consistent; or add one genuinely new raw construct
+(*warmth*, say, or *emotional generosity*) across all four media. The second is a schema change on
+2,508 records. **Owner's call — deliberately not decided here.**
 
 ## Change control
 
