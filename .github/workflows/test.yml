@@ -7,6 +7,31 @@ on:
 jobs:
   test:
     runs-on: ubuntu-latest
+
+    # A throwaway Postgres so test/schema.js runs its LIVE checks instead of skipping them.
+    #
+    # Without this the schema is only ever checked by reading schema.sql as text, and the two bugs
+    # that file exists because of were both invisible that way: a BEFORE UPDATE trigger returning
+    # OLD (every established account silently discarded every save), and an RLS policy filtering an
+    # ON CONFLICT DO UPDATE (2xx, zero rows written, no error). Neither is a syntax problem, so
+    # neither can be found without a real database applying the file and answering as `anon`.
+    services:
+      postgres:
+        image: postgres:16
+        env:
+          POSTGRES_PASSWORD: postgres
+        # Don't start the job until the server actually accepts connections.
+        options: >-
+          --health-cmd "pg_isready -U postgres"
+          --health-interval 5s
+          --health-timeout 5s
+          --health-retries 10
+        ports:
+          - 5432:5432
+
+    env:
+      OMNI_TEST_DATABASE_URL: postgresql://postgres:postgres@localhost:5432/postgres
+
     steps:
       - uses: actions/checkout@v4
 
@@ -23,6 +48,12 @@ jobs:
       # a matching browser build onto the runner.
       - name: Install Chromium for Playwright
         run: npx --yes playwright install --with-deps chromium
+
+      # The live checks shell out to psql. The runner image ships the client already; this is the
+      # cheap guard against a future image that doesn't, since a missing psql would otherwise fail
+      # deep inside the schema checks rather than here with an obvious message.
+      - name: Check psql is available
+        run: psql --version
 
       - name: Run test suite
         run: npm test

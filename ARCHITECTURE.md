@@ -124,7 +124,21 @@ each medium** — useful when adding a batch).
   `Novel` | `Non-Fiction` | `Poetry` | `Short Stories` | `Graphic Novel` | `Memoir` | `Essays`.
 
 **What it warns on** (never fails — these are curation calls, not errors): compound family labels
-used as raw genres, and a same-surname duo that also appears credited solo.
+used as raw genres, and one creator split across two credits that no single boost can cover. Both
+warnings are currently silent, and the second is worth understanding before it fires again: a boost
+is applied with `x.creator.includes(boostName)`, so two spellings are only a problem when neither
+name contains the other. `"Jeff VanderMeer"` sits inside `"Ann & Jeff VanderMeer"` and one boost
+covers both; `"Joel & Ethan Coen"` and `"Joel Coen"` share no containment, so nothing could cover
+both and three Coen films silently went unboosted until the credits were merged.
+
+**Do not put a genre-family name in a `genres` array.** The corpus used to carry eight compound
+labels (`Literary & Poetry`, `Epic / Historical`, …) as if they were genres, and they caused two
+distinct classes of damage. One was the Verse mislabelling below. The other was quieter: the genre
+boost matches substrings, so the single tag `"Epic / Historical"` collected the `epic` boost *and*
+the `historical` boost — one tag drawing two — and it matched the `Biography & History` family
+regex, filing *A Storm of Swords* and *A Clash of Kings* under biography. Both are gone now; each
+label was replaced with a genre that can never be false of the work (a biography is history,
+cosmology is physics), keeping both halves only where both genuinely apply.
 
 **The trap this is guarding against.** Every rule above exists because the corresponding defect was
 actually found in this corpus, not because it seemed prudent. The worst of them: 200 prose novels —
@@ -137,9 +151,33 @@ a substring, and add the vocabulary to the validator so the next person cannot d
 
 ## Testing
 
-`npm test` runs the corpus validator and the full Playwright suite. The suite covers onboarding,
-every screen, filters, tiering, and the whole cloud-account flow against a mocked Supabase, so no
-real project is needed.
+`npm test` runs the corpus validator, the schema checks and the full Playwright suite. The suite
+covers onboarding, every screen, filters, tiering, and the whole cloud-account flow against a mocked
+Supabase, so no real project is needed.
+
+### The live database checks
+
+`test/schema.js` has two layers: static checks that read `schema.sql` as text and always run, and
+**live checks that apply it to a real Postgres** — those only run when `OMNI_TEST_DATABASE_URL` is
+set, and print `SKIPPED` otherwise. CI now sets it (a `postgres:16` service in the workflow), so they
+run on every push.
+
+Run them locally against any throwaway database:
+
+```
+OMNI_TEST_DATABASE_URL=postgresql://postgres@localhost:5432/postgres npm test
+```
+
+The mocked Supabase in the browser suite cannot see any of what these cover, and neither can reading
+the SQL: both bugs this file exists for were behavioural, not syntactic — a BEFORE UPDATE trigger
+returning OLD (every established account silently discarded every save) and an RLS policy filtering
+an `ON CONFLICT DO UPDATE` (2xx, zero rows written, no error). The live layer now also exercises the
+policies **as the `anon` role**, which is what the browser actually connects as; everything running
+as the superuser bypasses RLS entirely and so proves nothing about it.
+
+Two roles, `anon` and `authenticated`, are created by the test rather than by `schema.sql`. Supabase
+provides them on every project, so a `create role` in the schema would be wrong there — the test
+stands in for the platform, which keeps these checks about *your schema* rather than about Supabase.
 
 The convention worth keeping: when fixing a bug, add a check, then **disable the fix and confirm
 the check fails**. Several tests in here originally passed with the fix removed and proved nothing

@@ -340,12 +340,20 @@ console.log('\n=== creator identity ===');
   check('no creator is spelled two different ways (' + Object.keys(counts).length + ' distinct creators)', collisions.length === 0);
   detail(collisions);
 
-  // Softer signal: a FAMILY credit ("Joel & Ethan Coen") that also appears with one member credited
-  // alone ("Joel Coen"). This is narrowed to same-surname units on purpose. Every director who has
-  // ever shared a credit is a subset of some duo -- "Steven Spielberg" ⊂ "Steven Spielberg & Tom
-  // Hanks" -- and warning on all ~50 of those buries the one case that actually matters, where a
-  // sibling duo's filmography is split between the pair name and a solo name and a creator boost
-  // therefore only lifts part of it. A human decides whether to merge; this only points.
+  // Softer signal: one person's work split across two credit strings, where NO single creator
+  // boost can cover both.
+  //
+  // The test that matters is substring containment, because that is literally how a boost is
+  // applied (`x.creator.includes(boostName)` in ledger-app.js). If the shorter credit is a
+  // substring of the longer one, a boost on the shorter name already lifts both and there is
+  // nothing to report:
+  //     "Jeff VanderMeer"   ⊂ "Ann & Jeff VanderMeer"    -> covered, silent
+  //     "Peter Farrelly"    ⊂ "Bobby & Peter Farrelly"   -> covered, silent
+  //     "Joel & Ethan Coen" ⊄ "Joel Coen"                -> nothing covers both, warn
+  // An earlier version flagged every same-surname pair and reported all three of those, which
+  // meant two thirds of it was noise about credits that already work. Same-surname is still
+  // required, so an ordinary co-credit ("Steven Spielberg" ⊂ "Steven Spielberg & Tom Hanks")
+  // stays out of it. A human decides whether to merge; this only points.
   const surnameOf = n => n.trim().split(/\s+/).pop();
   const related = [];
   const names = Object.keys(counts);
@@ -357,10 +365,17 @@ console.log('\n=== creator identity ===');
       if (!small.size || ![...small].every(p => big.has(p))) continue;
       const surnames = new Set([...big].map(surnameOf));
       if (surnames.size !== 1) continue; // not a family/sibling unit -- an ordinary co-credit
+      // Whichever string is shorter: if it appears inside the longer one, one boost covers both.
+      const [shortName, longName] = names[i].length <= names[j].length
+        ? [names[i], names[j]] : [names[j], names[i]];
+      if (longName.includes(shortName)) continue;
       related.push('"' + names[i] + '" (' + counts[names[i]] + ' works)  vs  "' + names[j] + '" (' + counts[names[j]] + ' works)');
     }
   }
-  if (related.length) warn('a same-surname duo also credited solo (a creator boost on one name will miss the other)', related);
+  if (related.length) {
+    warn('one creator split across two credits that no single boost can cover ' +
+      '(a boost is matched with String.includes, and neither name contains the other)', related);
+  }
 }
 
 /* ===================== vocabulary drift ===================== */
