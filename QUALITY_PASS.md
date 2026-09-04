@@ -6,8 +6,9 @@ current one, and it is deliberately written so a session that has never seen the
 it up cold. Update it at the end of every phase.
 
 **Owner:** Payton. **Branch:** `claude/omni-media-ledger-audit-mrsljq`.
-**Status:** Phase 0 complete. Phase 1 drafted (`RUBRIC.md`) — **blocked on the owner's sign-off**
-on the anchors and five open questions. Phase 2 onward not started.
+**Status:** Phase 0 complete. Phase 1 complete (`RUBRIC.md` v1, anchors approved). Phase 2 in
+progress — E2, E5, E6, E7 landed; E1/E4 wait on Phase 3, E3 on Phase 4. Phase 3 not started.
+PR #32 is open on this branch (opened by the owner).
 
 ---
 
@@ -178,9 +179,25 @@ onward**, while the owner is making the calls — not reconstructed at the end.
   **Still outstanding:** (a) the owner's ruling on the anchors and the five open questions in
   RUBRIC.md; (b) reproducibility pass 2 — must run in a **fresh session**, since the session that
   did pass 1 remembers its answers and cannot re-score blind. Target ±5 on 26+/30.
-- **Phase 2 — Cheap engine fixes.** E2, E5, E7, E6, plus decision 4's craft-term change. One commit
-  each; repo convention — add the check, revert the fix, confirm the check fails. E1 and E4 wait
-  for the rubric. E3 defers to Phase 4 (see decision 5).
+- **Phase 2 — Cheap engine fixes. IN PROGRESS.** One commit each, repo convention followed (add
+  the check, revert the fix, confirm the check fails, restore).
+  - **E2 done** (`e31780b`) — the dread boost was a band (`>80 && <=95`), so it rose to +1.5 at 95
+    and fell to **zero** at 96: the sixteen most dread-soaked works were the only ones earning
+    nothing for it. Now monotonic. 16 works moved, +1/+2 each, nothing else.
+  - **E6 done** (`6b03d8d`) — the four tier rungs blended with different weights, so they were lines
+    of different slopes and crossed: owned (82) beat Bronze (80) below gm 86.7, making Bronze a
+    no-op on anything owned. All rungs now share one weight (parallel, cannot cross) with floors
+    carrying the semantics: Gold 100 > Silver 88 > Bronze 84 > owned 80. 99 works moved, all tiered
+    or owned.
+  - **E5 done** (`3d302d0`) — Match weighted each active filter by its position in `activeDims()`,
+    i.e. by source order, so ★ GOAT beat everything by being written first. Now weighted by slider
+    value. No stored value moves; the check tests symmetry.
+  - **E7 done** (`fe4fe4b`) — `certify()` prefix-matched six hardcoded film titles. Redundant today,
+    a trap for tomorrow. **Note the process failure worth remembering:** the first check (rename the
+    corpus, re-certify) *passed with the bug restored*, because the corpus contains no case that can
+    expose a currently-redundant clause. The working check builds the adversarial case instead.
+  - **Still to do in Phase 2:** decision 4's era-neutral craft term for `gm`, and cross-medium score
+    normalisation (an engine bug, separate from the deferred reception-source question).
 - **Phase 3 — Index calibration / re-score**, per the separation table. The bulk of the work;
   realistically 8–15 sessions. Rubric-implied values computed from each record's own evidence
   **without reference to the current value** (the current value only orders the review queue).
@@ -270,6 +287,29 @@ done
   good in general"*. It will not generalise to another profile. Accepted trade for a personal tool.
 
 ---
+
+## CI, and a race worth knowing about
+
+CI (`.github/workflows/test.yml`) runs on `pull_request` only, with a `postgres:16` service so
+`test/schema.js`'s live layer runs instead of skipping. **To reproduce CI locally**, stand up a
+throwaway Postgres and set `OMNI_TEST_DATABASE_URL`; without it the live layer skips and the local
+run is strictly weaker than CI:
+
+```sh
+mkdir -p /var/lib/postgresql/omnitest && chown postgres:postgres /var/lib/postgresql/omnitest
+su postgres -c "/usr/lib/postgresql/16/bin/initdb -D /var/lib/postgresql/omnitest -U postgres --auth=trust"
+su postgres -c "/usr/lib/postgresql/16/bin/pg_ctl -D /var/lib/postgresql/omnitest -o '-p 5433 -k /tmp' -l /tmp/pg.log start"
+OMNI_TEST_DATABASE_URL=postgresql://postgres@localhost:5433/postgres npm test
+```
+
+**A CI failure on this branch was traced to a test race, not to any change** (fixed in `a0fc832`).
+It is worth recording because it will look like a data or scoring regression if it recurs: signing
+in does **not** navigate — `resolveHandle()` fetches, hides the account gate and re-boots in place
+— so `clickAndReload`'s marker sees no navigation and `waitForBoot()` returns immediately on the
+previous handle's `window.ALL`. The account flow therefore slept `waitForTimeout(500)`, the pattern
+ARCHITECTURE.md forbids. Losing that race left the profile uninitialised and surfaced as
+**"declaring Gold upserts a row into the media_status table"** — a check three steps downstream, in
+code the change had not touched. `signInAndSettle()` now waits on the account gate closing.
 
 ## Test baseline
 
