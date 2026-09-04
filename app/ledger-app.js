@@ -1132,14 +1132,32 @@ ALL.forEach(x=>{
  x.goat=false;
  x.gmBase=Math.round(base*0.5+14);x.gmBoosts=br;x.gmBoostTotal=Math.round(a*1.2*10)/10;
 });
+/* ---- The tier ladder ----
+   Gold / Silver / Bronze / merely-owned are four strengths of the same statement: "this matches
+   me". Each lifts a work's match score toward a floor, and the floors are what separate them.
+
+   Every rung blends the work's own score with its floor using the SAME weight, so the four are
+   parallel lines that cannot cross. That is the whole fix here. They used to use different
+   weights -- Silver 0.45/0.55, Bronze 0.65/0.35, owned 0.5/0.5 -- which made them lines of
+   different slopes, and lines of different slopes intersect. Owned (floor 82) overtook Bronze
+   (floor 80) below gm 86.7, so marking something Bronze did nothing at all to anything you own,
+   which is most of what a person tiers. The ladder was only a ladder in the comment.
+
+   Ownership sits at the bottom deliberately: you own things you have not decided about yet, so it
+   is the weakest of the four signals. Gold is a pin to 100 rather than a blend, applied last.
+
+   A rung only ever raises a score (each is applied with `if (target > gm)`), so being tiered can
+   never cost a work anything, and the highest applicable rung wins regardless of evaluation
+   order. */
+const TIER_FLOOR={silver:88,bronze:84,owned:80};
+const TIER_OWN_WEIGHT=0.5;
+function tierTarget(gm,tier){return Math.round(gm*TIER_OWN_WEIGHT+TIER_FLOOR[tier]*(1-TIER_OWN_WEIGHT));}
 /* Silver tier: declared second-tier favorites. Half the pull of a GOAT pick; lifts the floor and reshapes the algorithmic neighborhood. */
 if(!PROFILE_FROM_STORAGE)PERSONAL_PROFILE.silverTierIds=['m101','m102','m14','m12','m10','m81','m07','m02','m37','m84','m56','m103','m104','m20','m105','m106','t17','t47','t13','t101','m107','m108','m109','m110','m111','m112','m113','m114','m115','m116','m86','g101','m159'];
 const GOAT_SILVER=new Set(PERSONAL_PROFILE.silverTierIds||[]);
-ALL.forEach(x=>{x.silver=GOAT_SILVER.has(x.id);if(x.silver){var sg=Math.round(x.gm*0.45+88*0.55);if(sg>x.gm){x.gm=sg;x.gmOverride=x.gmOverride||'silver';}}});
+ALL.forEach(x=>{x.silver=GOAT_SILVER.has(x.id);if(x.silver){var sg=tierTarget(x.gm,'silver');if(sg>x.gm){x.gm=sg;x.gmOverride=x.gmOverride||'silver';}}});
 /* Bronze tier: a third, lighter-pull tier below Silver -- "really like, worth a nudge" rather than
-   a full favorite. Weaker blend than Silver (own score weighted higher, floor lower) so the three
-   tiers form a clear Gold(100) > Silver(->88) > Bronze(->80) hierarchy without any of them ever
-   pulling a score down. */
+   a full favorite. Same blend as every other rung, one floor lower (see the tier ladder above). */
 if(!PROFILE_FROM_STORAGE)PERSONAL_PROFILE.bronzeTierIds=[];
 /* Pinned specialized-index sliders: a UI preference (which of the 17 Advanced sliders also show
    in the always-visible main filter row, alongside Technical Fidelity / GOAT Match / Cosmic Horror),
@@ -1148,10 +1166,11 @@ if(!PROFILE_FROM_STORAGE)PERSONAL_PROFILE.bronzeTierIds=[];
    shows 5 well-rounded quick filters instead of an empty row. */
 if(!PROFILE_FROM_STORAGE)PERSONAL_PROFILE.pinnedIdx=DEFAULT_PINNED_IDX.slice();
 const GOAT_BRONZE=new Set(PERSONAL_PROFILE.bronzeTierIds||[]);
-ALL.forEach(x=>{x.bronze=GOAT_BRONZE.has(x.id);if(x.bronze){var bg=Math.round(x.gm*0.65+80*0.35);if(bg>x.gm){x.gm=bg;x.gmOverride=x.gmOverride||'bronze';}}});
+ALL.forEach(x=>{x.bronze=GOAT_BRONZE.has(x.id);if(x.bronze){var bg=tierTarget(x.gm,'bronze');if(bg>x.gm){x.gm=bg;x.gmOverride=x.gmOverride||'bronze';}}});
 function tierRank(x){return x.goat?3:x.silver?2:x.bronze?1:0;}
-/* Owned physical collection is a top-tier personal taste signal: lift subjective match toward a floor. */
-ALL.forEach(x=>{if(x.owned&&!x.goat){const target=Math.round(x.gm*0.5+82*0.5);if(target>x.gm){x.gm=target;x.gmOverride=x.gmOverride||'owned';}x.ownedBoost=true;}});
+/* Owned, but not tiered: the weakest rung of the ladder above -- a real signal, since you bought
+   it, but weaker than any deliberate tier because you own things you have not judged yet. */
+ALL.forEach(x=>{if(x.owned&&!x.goat){const target=tierTarget(x.gm,'owned');if(target>x.gm){x.gm=target;x.gmOverride=x.gmOverride||'owned';}x.ownedBoost=true;}});
 /* Book affinity: your fingerprint (Tolkien mythology, cosmic horror, physics/space, sincere science bios) lifts matching books. */
 if(!PROFILE_FROM_STORAGE)PERSONAL_PROFILE.bookAffinity={b19:96,b20:94,b21:95,b18:90,b22:92,b31:86,b26:92,b08:94,b12:90,b34:90,b29:90,b30:88,b33:88,b32:86,b04:86,b02:84,b05:88,b09:84,b10:84,b38:86,b37:88,b39:90,b28:84,b27:86,b47:84,b40:82,b58:90,b153:90,b154:92,b71:92,b53:86,b155:84,b156:84,b64:86,b56:90,b148:88,b74:92,b118:88,b151:86,b152:88,b157:88,b158:88,b159:84,b160:88,b88:86,b96:82,b100:84,b54:90,b52:90,b55:92,b126:88,b129:86,b130:88,b131:88,b132:88,b133:90,b78:90,b77:90,b79:88,b68:84,b70:86,b72:82,b150:86,b149:86,b76:86,b161:82,b162:84,b163:84,b164:84,b165:82,b166:82,b167:88,b93:84,b94:78};
 const BOOK_AFFINITY=PERSONAL_PROFILE.bookAffinity||{};
@@ -3831,6 +3850,7 @@ var _rzT;window.addEventListener('resize',function(){clearTimeout(_rzT);_rzT=set
  // them is the right default, but devtools and the regression suite both still need a way in. So
  // rather than leaking everything by accident, these few are exported on purpose: the corpus, the
  // live filter state, and the three entry points worth poking at from a console.
+ window.tierTarget=tierTarget;window.TIER_FLOOR=TIER_FLOOR;
  window.ALL=ALL;
  window.byId=byId;
  window.state=state;

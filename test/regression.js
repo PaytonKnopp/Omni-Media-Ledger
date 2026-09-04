@@ -1987,6 +1987,28 @@ async function runTabFiltersFlow(browser, file) {
     boostMonotonic.length === 0);
   if (boostMonotonic.length) console.log('     ' + boostMonotonic.join('\n     '));
 
+  // The tier ladder must stay a ladder at every score, not just at the scores someone spot-checked.
+  // Silver > Bronze > owned has to hold across the whole 0-100 range, because the rungs are applied
+  // to a work's own gm and a person's library is spread across all of it.
+  //
+  // This is the check for a real defect: the rungs used to blend with different weights (Silver
+  // 0.45, Bronze 0.65, owned 0.5), which makes them lines of different slopes, and lines of
+  // different slopes cross. Owned overtook Bronze below gm 86.7, so Bronze did nothing whatsoever
+  // to anything you already owned -- which is most of what anyone tiers. Sampling one score would
+  // have missed it; the crossover is what matters, so every score gets checked.
+  const ladder = await page.evaluate(() => {
+    if (typeof tierTarget !== 'function') return ['tierTarget is not exposed'];
+    const bad = [];
+    for (let gm = 0; gm <= 100; gm++) {
+      const s = tierTarget(gm, 'silver'), b = tierTarget(gm, 'bronze'), o = tierTarget(gm, 'owned');
+      if (!(s > b && b > o)) bad.push('gm ' + gm + ': silver ' + s + ', bronze ' + b + ', owned ' + o);
+      if (s >= 100) bad.push('gm ' + gm + ': silver ' + s + ' reaches Gold, which is a pin at 100');
+    }
+    return bad;
+  });
+  check('the tier ladder holds at every score (Gold > Silver > Bronze > owned)', ladder.length === 0);
+  if (ladder.length) console.log('     ' + ladder.slice(0, 5).join('\n     '));
+
   // URL bookmarking: filters set across three different tabs all round-trip through a fresh load.
   await goto('timeline');
   const bookmarkUrl = page.url();
