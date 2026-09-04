@@ -672,7 +672,7 @@ body[data-theme="outer-wilds"]{--bg:#0e0a09;--panel:#181010;--panel-2:#120c0b;--
         <button type="button" class="bubbleMedBtn text-[10.5px] px-2.5 py-0.5 rounded-lg border transition-colors" data-bm="tv">TV</button>
         <button type="button" class="bubbleMedBtn text-[10.5px] px-2.5 py-0.5 rounded-lg border transition-colors" data-bm="game">Game</button>
         <button type="button" class="bubbleMedBtn text-[10.5px] px-2.5 py-0.5 rounded-lg border transition-colors" data-bm="book">Book</button>
-        <span class="text-[10px] text-slate-500 ml-2" id="bubbleMinLbl">min score 55+</span>
+        <span class="flex items-center gap-1.5 ml-2"><span class="text-[10px] text-slate-500">Min critical score</span><input type="range" id="bubbleMin" min="0" max="95" step="5" value="0" style="width:110px"/><span class="text-[10px] font-bold text-slate-300 tabular-nums" id="bubbleMinLbl">Any</span></span>
       </div>
       <div class="relative h-[380px] mt-3"><canvas id="bubbleC"></canvas></div>
       <p class="chartFail hidden text-[11px] text-amber-300/80 mt-2">Chart.js CDN unreachable — connect once so the chart runtime can load, then reopen this file.</p>
@@ -708,21 +708,27 @@ body[data-theme="outer-wilds"]{--bg:#0e0a09;--panel:#181010;--panel-2:#120c0b;--
 </section>
 
 <section data-sec="matrix" class="hidden">
-  <p class="text-[11px] text-slate-500 mb-4 max-w-3xl">Elite specialized brackets computed across the full 2,502-work corpus (Global Controller filters intentionally ignored here so brackets stay canonical). Hover rows for full credits.</p>
+  <div class="flex flex-wrap items-baseline justify-between gap-2 mb-3">
+    <p class="text-[11px] text-slate-500 max-w-3xl" id="matrixIntro">Elite specialized brackets computed across the full corpus (Global Controller filters intentionally ignored here so brackets stay canonical). Hover rows for full credits.</p>
+    <label class="flex items-center gap-1.5 text-[11px] cursor-pointer shrink-0" style="color:#86efac"><input type="checkbox" id="matrixOwnedOnly" class="accent-emerald-500"/> ◆ Owned only</label>
+  </div>
+  <div id="matrixNav" class="flex flex-wrap gap-1.5 mb-4"></div>
   <div id="matrixWrap" class="grid grid-cols-1 xl:grid-cols-2 gap-5"></div>
 </section>
 
 <section data-sec="creators" class="hidden">
   <div class="flex flex-wrap items-center justify-between gap-3 mb-4">
-    <p class="text-[11px] text-slate-500 max-w-xl">Fifty master creators cross-referenced against the global top-100 lists. Click any card to flip it — philosophy, thematic pillars, and every indexed work appear on the reverse.</p>
+    <p class="text-[11px] text-slate-500 max-w-xl">Eighty master creators cross-referenced against the global top-100 lists. Click any card to flip it — philosophy, thematic pillars, and every indexed work appear on the reverse.</p>
     <div class="seg" id="creatorSeg" style="flex:0 1 auto">
       <button type="button" data-tab="directors" class="on">Directors Pantheon · 30</button>
       <button type="button" data-tab="authors">Authors Pantheon · 30</button>
       <button type="button" data-tab="auteurs">Gaming Auteurs · 20</button>
     </div>
   </div>
-  <div class="flex items-center gap-2 mb-4">
-    <input type="text" id="creatorSearch" class="inp" style="max-width:420px" placeholder="🔍 Search all 80 creators by name — jump straight to a director, author or auteur…" autocomplete="off">
+  <div class="flex items-center gap-2 mb-4 flex-wrap">
+    <input type="text" id="creatorSearch" class="inp" style="max-width:420px" placeholder="🔍 Search creators by name — jump straight to a director, author or auteur…" autocomplete="off">
+    <div class="seg" id="creatorSearchScope" style="flex:0 0 auto"><button type="button" data-scope="all" class="on" title="Search across all 80 creators">All</button><button type="button" data-scope="directors" title="Search only Directors Pantheon">Directors</button><button type="button" data-scope="authors" title="Search only Authors Pantheon">Authors</button><button type="button" data-scope="auteurs" title="Search only Gaming Auteurs">Auteurs</button></div>
+    <select id="creatorSortSel" class="inp" style="width:auto"><option value="default">Sort: Curated order</option><option value="az">Sort: A–Z</option><option value="works">Sort: Most represented</option></select>
     <span id="creatorSearchCount" class="text-[11px] text-slate-500"></span>
   </div>
   <div id="creatorGrid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-3"></div>
@@ -734,6 +740,7 @@ body[data-theme="outer-wilds"]{--bg:#0e0a09;--panel:#181010;--panel-2:#120c0b;--
     <span class="chip" id="contCount"></span>
     <span class="chip" id="contVerifiedCount" style="color:#94a3b8" title="How many entries in view have been double-checked against a live source (Rotten Tomatoes, Metacritic, Steam, etc.) for their release status and scores, vs. still running on the original editorial estimate. A card with a ⚠ WINDOW PASSED badge is one of the unchecked ones whose release date has already come and gone -- the highest priority to verify next."></span>
   </div>
+  <input type="text" id="contSearch" class="inp mb-3" style="max-width:340px" placeholder="🔍 Search contenders by title, lead, or platform…" autocomplete="off">
   <div id="contMediumFilter" class="flex flex-wrap items-center gap-1.5 mb-4">
     <span class="text-[10px] uppercase tracking-[.14em] text-slate-500 mr-1">Medium</span>
     <button type="button" class="contMedBtn text-[11px] px-3 py-1 rounded-lg border transition-colors" data-med="all">All</button>
@@ -745,6 +752,8 @@ body[data-theme="outer-wilds"]{--bg:#0e0a09;--panel:#181010;--panel-2:#120c0b;--
     <span class="text-[10px] uppercase tracking-[.14em] text-slate-500 mr-1">Rank</span>
     <button type="button" id="contSortForyou" class="contSortBtn text-[11px] px-3 py-1 rounded-lg border transition-colors on" data-sort="foryou">★ For You</button>
     <button type="button" id="contSortProb" class="contSortBtn text-[11px] px-3 py-1 rounded-lg border transition-colors" data-sort="prob">Editorial</button>
+    <button type="button" id="contSortTitle" class="contSortBtn text-[11px] px-3 py-1 rounded-lg border transition-colors" data-sort="title">Title A–Z</button>
+    <button type="button" id="contSortWindow" class="contSortBtn text-[11px] px-3 py-1 rounded-lg border transition-colors" data-sort="window">Soonest Window</button>
     <span class="mx-2 text-slate-700">|</span>
     <label id="contVerifiedOnlyWrap" class="flex items-center gap-1.5 text-[11px] cursor-pointer" style="color:#4ade8090" title="Show only entries already spot-checked against a live source"><input type="checkbox" id="contVerifiedOnly" class="accent-emerald-500"> ◉ Verified only</label>
     <label id="contUnverifiedOnlyWrap" class="flex items-center gap-1.5 text-[11px] cursor-pointer" style="color:#f8717190" title="Show only entries not yet spot-checked against a live source"><input type="checkbox" id="contUnverifiedOnly" class="accent-rose-500"> ◯ Unverified only</label>
@@ -790,9 +799,10 @@ body[data-theme="outer-wilds"]{--bg:#0e0a09;--panel:#181010;--panel-2:#120c0b;--
   <div class="panel p-4 md:p-5 mb-5">
     <div class="flex items-center gap-2 flex-wrap">
       <h2 class="text-lg font-bold tracking-tight" style="color:#f0abfc">◷ Collection Timeline</h2>
+      <div class="seg" id="tlMedium" style="flex:0 0 auto"><button type="button" data-tm="all" class="on">All Media</button><button type="button" data-tm="movie">Film</button><button type="button" data-tm="tv">TV</button><button type="button" data-tm="game">Games</button><button type="button" data-tm="book">Books</button></div>
       <div class="seg ml-auto" id="tlScope"><button type="button" data-t="owned" class="on">My Collection</button><button type="button" data-t="all">All Works</button></div>
     </div>
-    <p class="text-[11px] text-slate-500 mt-1.5 max-w-3xl">Your taste across time — every work placed by release year. The shape shows the eras your collection reaches into.</p>
+    <p class="text-[11px] text-slate-500 mt-1.5 max-w-3xl">Your taste across time — every work placed by release year. The shape shows the eras your collection reaches into. Click any bar to open that decade in the Global Controller.</p>
     <div id="tlStats" class="grid grid-cols-2 md:grid-cols-4 gap-3 mt-4"></div>
   </div>
   <div class="panel p-4 md:p-5"><div id="tlChart"></div></div>

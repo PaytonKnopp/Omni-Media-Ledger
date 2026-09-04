@@ -97,7 +97,7 @@ function wlSetWatched(id,v){if(WL[id]){WL[id].watched=v;wlSave();}}
 function wlCount(){return Object.keys(WL).length;}
 
 /* ===================== STATE & HELPERS ===================== */
-const state={view:'controller',q:'',type:'all',struct:'all',plats:[],minDread:0,minMyst:0,minGoat:0,runtimeMax:0,genres:[],genresExclude:[],ownedOnly:false,notOwnedOnly:false,limit:100,idx:{snd:0,ref:0,ch:0,emo:0,awe:0,cozy:0,perf:0,icon:0,scary:0,real:0,reality:0,shock:0,sci:0,funny:0,hist:0,vibe2:0,crit:0,aud:0,tech:0},ratings:[],tierFilter:[],yearMin:null,yearMax:null,combine:false,sort:'overall',w:{tech:0.85,dread:0.95,myst:0.90},creatorTab:'directors',creatorSearch:'',goatType:'all',goatTierFilter:'all',goatSort:'match',goatDeclaredQ:'',portraitScope:'all',collSearchQ:'',wlType:'all',wlSort:'added',wlSearchQ:''};
+const state={view:'controller',q:'',type:'all',struct:'all',plats:[],minDread:0,minMyst:0,minGoat:0,runtimeMax:0,genres:[],genresExclude:[],ownedOnly:false,notOwnedOnly:false,limit:100,idx:{snd:0,ref:0,ch:0,emo:0,awe:0,cozy:0,perf:0,icon:0,scary:0,real:0,reality:0,shock:0,sci:0,funny:0,hist:0,vibe2:0,crit:0,aud:0,tech:0},ratings:[],tierFilter:[],yearMin:null,yearMax:null,combine:false,sort:'overall',w:{tech:0.85,dread:0.95,myst:0.90},creatorTab:'directors',creatorSearch:'',goatType:'all',goatTierFilter:'all',goatSort:'match',goatDeclaredQ:'',portraitScope:'all',collSearchQ:'',wlType:'all',wlSort:'added',wlSearchQ:'',creatorSearchScope:'all',creatorSort:'default'};
 const $=s=>document.querySelector(s),$$=s=>Array.from(document.querySelectorAll(s));
 const on=(sel,ev,fn)=>{const el=$(sel);if(el)el.addEventListener(ev,fn);else console.warn('missing element:',sel);};
 const esc=s=>String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
@@ -613,8 +613,13 @@ function updateCharts(list){
  CH.decade.update('none');
 }
 var bubbleMed='all';
+// The field used to advertise a "min score 55+" label with no filter anywhere actually enforcing
+// it -- every point in scope got plotted regardless, which on top of getting the number wrong could
+// make the chart a several-thousand-point smear whenever the Global Controller had no filters
+// active. bubbleMinScore is the real, live-adjustable threshold that label always should have been.
+var bubbleMinScore=0;
 function renderBubble(){
- if(!CH.bubble)return;var list=CH._vizList||ALL;
+ if(!CH.bubble)return;var list=(CH._vizList||ALL).filter(function(x){return x.crit>=bubbleMinScore;});
  var mk=function(kind){return list.filter(function(x){return x.kind===kind;}).map(function(x){return {x:x.crit,y:x.aud,r:Math.max(3,Math.min(15,(x.tech-70)/2.1+3)),t:x.title,yr:x.year,tech:x.tech};});};
  var sets=[
   {label:'Movies',kind:'movie',data:mk('movie'),backgroundColor:'rgba(167,139,250,.45)',borderColor:'#a78bfa'},
@@ -700,16 +705,29 @@ function matrixRow(it,i,cols){const k=KM[it.kind];
  +'<span class="flex-1 min-w-0 truncate text-[12px] text-slate-200" title="'+esc(it.title)+' · '+esc(it.creator)+'">'+esc(it.title)+' <span class="text-slate-500 text-[10px]">'+it.year+'</span>'+(it.owned?' <span style="color:#4ade80;font-size:9px;font-weight:700" title="Owned">\u2713</span>':'')+'</span>'
  +cols.map(c=>'<span class="hidden sm:flex items-center gap-1.5 w-24 shrink-0"><span class="bar flex-1"><i style="width:'+c[0]+'%;background:'+c[1]+'"></i></span><span class="text-[10px] tabular-nums text-slate-400 w-5 text-right">'+c[0]+'</span></span>').join('')
  +'</div>';}
+// MATRIX_TITLES was being collected every render and never read anywhere -- the quick-jump nav
+// below is what that collection was clearly meant to drive; with 18 independently-scrolling
+// panels on one page there was previously no way to reach e.g. "Scariest" without scrolling past
+// 17 others first.
 var MATRIX_TITLES=[];
+var matrixOwnedOnly=false;
+function slugify(s){return s.replace(/&[a-z]+;/gi,' ').replace(/[^\w\s-]/g,'').trim().toLowerCase().replace(/\s+/g,'-');}
 function matrixBlock(title,sub,arr,colFn,heads){
  if(MATRIX_TITLES.indexOf(title)<0)MATRIX_TITLES.push(title);
- return '<div class="panel overflow-hidden fade-in"><div class="px-4 pt-4 pb-3 border-b border-slate-800/70">'
- +'<div class="flex items-baseline justify-between gap-2"><h3 class="text-[12px] font-bold tracking-[.14em] text-slate-100 uppercase">'+title+'</h3><span class="chip">'+arr.length+' qualify</span></div>'
+ var shown=matrixOwnedOnly?arr.filter(function(x){return x.owned;}):arr;
+ return '<div class="panel overflow-hidden fade-in" id="mx-'+slugify(title)+'"><div class="px-4 pt-4 pb-3 border-b border-slate-800/70">'
+ +'<div class="flex items-baseline justify-between gap-2"><h3 class="text-[12px] font-bold tracking-[.14em] text-slate-100 uppercase">'+title+'</h3><span class="chip">'+shown.length+(matrixOwnedOnly?' owned':' qualify')+'</span></div>'
  +'<p class="text-[11px] text-slate-500 mt-1.5 leading-relaxed">'+sub+'</p>'
  +'<div class="hidden sm:flex justify-end gap-2.5 mt-2.5">'+heads.map(h=>'<span class="lbl w-24 text-right">'+h+'</span>').join('')+'</div></div>'
- +'<div class="max-h-[460px] overflow-y-auto">'+arr.map((it,i)=>matrixRow(it,i,colFn(it))).join('')+'</div></div>';
+ +'<div class="max-h-[460px] overflow-y-auto">'+(shown.length?shown.map((it,i)=>matrixRow(it,i,colFn(it))).join(''):'<div class="px-4 py-6 text-center text-slate-500 text-[12px]">None of these are in your collection yet.</div>')+'</div></div>';
+}
+function renderMatrixNav(){
+ var el=$('#matrixNav');if(!el)return;
+ el.innerHTML=MATRIX_TITLES.map(function(t){var label=t.replace(/&amp;/g,'&').replace(/&ge;/g,'≥').replace(/&le;/g,'≤');
+  return '<a href="#mx-'+slugify(t)+'" class="matrixNavLink text-[10.5px] px-2.5 py-1 rounded-lg border border-slate-700 text-slate-400 hover:border-indigo-500 hover:text-indigo-300 transition-colors whitespace-nowrap" data-anchor="mx-'+slugify(t)+'">'+label+'</a>';}).join('');
 }
 function renderMatrices(){
+ MATRIX_TITLES=[];
  const ref=ALL.filter(x=>x.kind!=='game'&&x.fid[0][1]>=94&&x.fid[1][1]>=90).sort((a,b)=>(b.fid[0][1]+b.fid[1][1]+b.fid[2][1])-(a.fid[0][1]+a.fid[1][1]+a.fid[2][1]));
  const dread=ALL.filter(x=>x.dread>=90).sort((a,b)=>b.dread-a.dread);
  const myst=ALL.filter(x=>x.myst>=90).sort((a,b)=>b.myst-a.myst);
@@ -734,6 +752,7 @@ function renderMatrices(){
   +matrixBlock('💧 Tearjerker &amp; Emotional Gut-Punch','Bring tissues \u2014 the most devastating, moving works across every medium. Emotional index \u2265 86.',ALL.filter(x=>x.emo>=86).sort((a,b)=>b.emo-a.emo),it=>[[it.emo,'#f0abfc'],[it.crit,'#94a3b8']],['Emotion','Critic'])
   +matrixBlock('😴 Comfort &amp; Warmth','Rainy-Sunday companions \u2014 the cozy, humane, restorative works to return to. Comfort index \u2265 74.',ALL.filter(x=>x.cozy>=74).sort((a,b)=>b.cozy-a.cozy),it=>[[it.cozy,'#fbbf24'],[it.aud,'#94a3b8']],['Comfort','Audience'])
   +matrixBlock('😀 Wit &amp; Comedy Peak','The sharpest, funniest works across every medium \u2014 satire, farce, and perfect timing. Comedy index \u2265 74.',ALL.filter(x=>x.funny>=74).sort((a,b)=>b.funny-a.funny),it=>[[it.funny,'#fde047'],[it.aud,'#94a3b8']],['Funny','Audience']);
+ renderMatrixNav();
 }
 
 /* ===================== VIEW 5 · PAN-CREATOR ARCHIVES ===================== */
@@ -757,20 +776,31 @@ function creatorCard(c,tab){const isDir=tab===true||tab==='directors';const isAu
     return '<div class="flex items-center gap-2 text-[11px] goatJump cursor-pointer hover:bg-slate-800/30 rounded px-1 -mx-1" data-q="'+esc(w.title)+'" title="Open '+esc(w.title)+' in the Global Controller"><span class="w-1.5 h-1.5 rounded-full shrink-0" style="background:'+k.c+'"></span><span class="flex-1 truncate text-slate-200 hover:text-teal-300">'+esc(w.title)+'</span><span class="text-slate-500 tabular-nums">'+w.year+'</span><span class="tabular-nums font-semibold" style="color:'+k.c+'">'+w.crit+'</span></div>';}).join(''):'<div class="text-[11px] text-slate-500">No direct credits indexed.</div>')+'</div></div>';
  return '<div class="flip h-[300px] select-none cursor-pointer" role="button" tabindex="0" aria-label="Flip card for '+esc(c.name)+'"><div class="flip-inner">'+front+back+'</div></div>';
 }
+const CREATOR_TOTAL=directorsPantheon.length+authorsPantheon.length+gamingAuteurs.length;
+function sortCreatorPairs(pairs,sortMode){
+ if(sortMode==='az')return pairs.slice().sort(function(a,b){return a[0].name.localeCompare(b[0].name);});
+ if(sortMode==='works')return pairs.slice().sort(function(a,b){return (worksFor(b[0].name).length)-(worksFor(a[0].name).length);});
+ return pairs;
+}
 function renderCreators(){const tab=state.creatorTab;
  const q=(state.creatorSearch||'').trim().toLowerCase();
+ const scope=state.creatorSearchScope||'all';
+ const sortMode=state.creatorSort||'default';
  var grid=$('#creatorGrid');
  if(q){
-  // search across ALL pantheons, tagging each with its tab type
+  // search across ALL pantheons by default, tagging each with its tab type -- optionally scoped
+  // to just one pantheon via the search-scope segmented control.
   var all=directorsPantheon.map(c=>[c,'directors']).concat(authorsPantheon.map(c=>[c,'authors'])).concat(gamingAuteurs.map(c=>[c,'auteurs']));
-  var hits=all.filter(function(pair){return pair[0].name.toLowerCase().indexOf(q)>=0;});
+  if(scope!=='all')all=all.filter(function(pair){return pair[1]===scope;});
+  var hits=sortCreatorPairs(all.filter(function(pair){return pair[0].name.toLowerCase().indexOf(q)>=0;}),sortMode);
   grid.innerHTML=hits.length?hits.map(function(pair){return creatorCard(pair[0],pair[1]);}).join(''):'<div class="col-span-full text-center text-slate-500 text-sm py-10">No creator matches “'+esc(q)+'”.</div>';
-  var cc=$('#creatorSearchCount');if(cc)cc.textContent=hits.length+' of 80 creators';
+  var cc=$('#creatorSearchCount');if(cc)cc.textContent=hits.length+' of '+(scope==='all'?CREATOR_TOTAL:all.length)+' creators';
   return;
  }
  var cc=$('#creatorSearchCount');if(cc)cc.textContent='';
  const data=tab==='directors'?directorsPantheon:(tab==='authors'?authorsPantheon:gamingAuteurs);
- grid.innerHTML=data.map(c=>creatorCard(c,tab)).join('');
+ const pairs=sortCreatorPairs(data.map(function(c){return [c,tab];}),sortMode);
+ grid.innerHTML=pairs.map(function(pair){return creatorCard(pair[0],pair[1]);}).join('');
  $$('#creatorSeg button').forEach(b=>b.classList.toggle('on',b.dataset.tab===tab));
 }
 
@@ -906,6 +936,7 @@ function anticipationScore(c){
  return {score:score,reasons:reasons.slice(0,2),pull:pull,watch:c.watchRank||0};
 }
 var contSort='foryou';
+var contSearchQ='';
 /* Only trusts an unambiguous "Month DD, YYYY" window (e.g. "November 19, 2026") -- vaguer windows
    like a bare year or "shoots 2027" can't be reliably compared to today, so they're left alone
    rather than risk a false flag. */
@@ -921,9 +952,15 @@ function isPastWindow(c){
  return d?d.getTime()<Date.now():false;
 }
 function renderContenders(){const MED={Film:'#a78bfa',TV:'#22d3ee',Game:'#fbbf24',Book:'#4ade80'};
- var pool=contenders.slice().filter(c=>contMedium==='all'||c.medium===contMedium).filter(c=>!contUnverifiedOnly||!c.verified).filter(c=>!contVerifiedOnly||c.verified);
+ var cq=(contSearchQ||'').trim().toLowerCase();
+ var pool=contenders.slice().filter(c=>contMedium==='all'||c.medium===contMedium).filter(c=>!contUnverifiedOnly||!c.verified).filter(c=>!contVerifiedOnly||c.verified)
+  .filter(c=>!cq||(c.title+' '+c.creativeLead+' '+c.platform).toLowerCase().indexOf(cq)>=0);
  pool.forEach(function(c){var a=anticipationScore(c);c._antScore=a.score;c._antReasons=a.reasons;});
- pool.sort(contSort==='foryou'?function(a,b){return b._antScore-a._antScore;}:function(a,b){return b.goatProbability-a.goatProbability;});
+ pool.sort(
+  contSort==='foryou'?function(a,b){return b._antScore-a._antScore;}
+  :contSort==='title'?function(a,b){return a.title.localeCompare(b.title);}
+  :contSort==='window'?function(a,b){var da=parseWindowDate(a.window),db=parseWindowDate(b.window);if(!da&&!db)return 0;if(!da)return 1;if(!db)return -1;return da-db;}
+  :function(a,b){return b.goatProbability-a.goatProbability;});
  $$('.contMedBtn').forEach(b=>{var on=b.dataset.med===contMedium;var mc=MED[b.dataset.med]||'#818cf8';b.style.color=on?mc:'#94a3b8';b.style.borderColor=on?mc+'88':'rgba(148,163,184,.25)';b.style.background=on?mc+'18':'transparent';b.style.fontWeight=on?'700':'400';});
  var cc=$('#contCount');if(cc)cc.textContent=pool.length+(contMedium==='all'?' contenders':' '+contMedium.toLowerCase()+' contenders');
  var vc=$('#contVerifiedCount');if(vc){var verifiedN=pool.filter(function(c){return c.verified;}).length;vc.textContent='◉ '+verifiedN+'/'+pool.length+' spot-checked';}
@@ -1603,8 +1640,17 @@ function renderWatchlist(){
 }
 /* ===== Collection Timeline ===== */
 var tlScope='owned';
+var tlMedium='all';
 function renderTimeline(){
  var items=(tlScope==='owned'?ALL.filter(x=>x.owned):ALL).filter(x=>typeof x.year==='number'&&x.year!==0);
+ if(tlMedium!=='all')items=items.filter(x=>x.kind===tlMedium);
+ if(!items.length){
+  $('#tlStats').innerHTML=[['Works on timeline',0,'#f0abfc'],['Spans','—','#22d3ee'],['Busiest decade','—','#fbbf24'],['Peak count',0,'#4ade80']]
+   .map(x=>'<div class="panel p-3 text-center"><div class="text-lg font-extrabold text-slate-50 tabular-nums leading-tight">'+x[1]+'</div><div class="lbl mt-1" style="color:'+x[2]+'">'+x[0]+'</div></div>').join('');
+  $('#tlChart').innerHTML='<div class="text-center text-slate-500 text-sm py-10">Nothing to show for this filter.</div>';
+  $('#tlEras').innerHTML='';
+  return;
+ }
  // --- stats ---
  var years=items.map(x=>x.year);
  var earliest=Math.min.apply(null,years),latest=Math.max.apply(null,years);
@@ -1626,27 +1672,29 @@ function renderTimeline(){
  var maxCount=Math.max(preCount,Math.max.apply(null,decades.map(d=>buckets[d].length)));
  var colOf=x=>KM[x.kind].c;
  var W=Math.max(700,(decades.length+(preCount?1:0))*64),H=240,pad=30,bw=48,gap=16;
- var cols=[];if(preCount)cols.push(['Pre-1900',preItems]);decades.forEach(d=>cols.push([d+'s',buckets[d]]));
+ var cols=[];if(preCount)cols.push(['Pre-1900',preItems,-9999,1900]);decades.forEach(d=>cols.push([d+'s',buckets[d],d,d+10]));
  var svg='<svg viewBox="0 0 '+W+' '+H+'" style="width:100%;height:auto" xmlns="http://www.w3.org/2000/svg">';
  cols.forEach(function(c,i){
   var x=pad+i*(bw+gap);
   var items2=c[1];var h=(items2.length/maxCount)*(H-70);
+  svg+='<g class="tlBar" style="cursor:pointer" data-ymin="'+c[2]+'" data-ymax="'+c[3]+'" data-kind="'+(tlMedium!=='all'?tlMedium:'')+'"><title>'+c[0]+' — '+items2.length+' works · click to open in the Global Controller</title><rect x="'+x+'" y="'+(H-30-h-4)+'" width="'+bw+'" height="'+(h+4)+'" fill="transparent"/>';
   // stacked by medium
   var order=['book','movie','tv','game'];
   var y=H-30;
   order.forEach(function(kind){
    var cnt=items2.filter(it=>it.kind===kind).length;if(!cnt)return;
    var seg=(cnt/items2.length)*h;
-   svg+='<rect x="'+x+'" y="'+(y-seg)+'" width="'+bw+'" height="'+seg+'" fill="'+KM[kind].c+'" opacity="0.85" rx="2"><title>'+c[0]+': '+cnt+' '+KM[kind].label+'</title></rect>';
+   svg+='<rect x="'+x+'" y="'+(y-seg)+'" width="'+bw+'" height="'+seg+'" fill="'+KM[kind].c+'" opacity="0.85" rx="2"/>';
    y-=seg;
   });
   svg+='<text x="'+(x+bw/2)+'" y="'+(H-14)+'" fill="#94a3b8" font-size="10" text-anchor="middle">'+c[0]+'</text>';
   svg+='<text x="'+(x+bw/2)+'" y="'+(H-38-h)+'" fill="#e2e8f0" font-size="11" font-weight="700" text-anchor="middle">'+items2.length+'</text>';
+  svg+='</g>';
  });
  svg+='</svg>';
  // legend
  var legend='<div class="flex gap-3 flex-wrap mt-2 text-[10px]">'+['movie','tv','game','book'].map(k=>'<span class="flex items-center gap-1"><span class="w-2.5 h-2.5 rounded-sm inline-block" style="background:'+KM[k].c+'"></span>'+KM[k].label+'</span>').join('')+'</div>';
- $('#tlChart').innerHTML='<div class="lbl mb-2" style="color:#f0abfc">Works per decade</div>'+svg+legend;
+ $('#tlChart').innerHTML=items.length?('<div class="lbl mb-2" style="color:#f0abfc">Works per decade · click a bar to open it in the Global Controller</div>'+svg+legend):'<div class="text-center text-slate-500 text-sm py-10">Nothing to show for this filter.</div>';
  // --- era highlight rows (chronological), each era shows top works ---
  var ERAS=[[-9999,1900,'Antiquity & Classics'],[1900,1960,'The Mid-Century'],[1960,1980,'The New Wave'],[1980,2000,'The Modern Canon'],[2000,2015,'The Digital Age'],[2015,9999,'The Present']];
  var html='';
@@ -2374,6 +2422,7 @@ window.addEventListener('scroll',function(e){
 },true);
 // Bubble field medium filter
 document.addEventListener('click',function(e){var b=e.target.closest&&e.target.closest('.bubbleMedBtn');if(!b)return;bubbleMed=b.dataset.bm;$$('.bubbleMedBtn').forEach(function(x){x.classList.toggle('on',x===b);});if(typeof renderBubble==='function')renderBubble();});
+on('#bubbleMin','input',e=>{bubbleMinScore=+e.target.value;const lbl=$('#bubbleMinLbl');if(lbl)lbl.textContent=bubbleMinScore>0?bubbleMinScore+'+':'Any';renderBubble();});
 // Relationship graph: node + chip clicks
 document.addEventListener('click',function(e){
  var node=e.target.closest&&e.target.closest('.gnode');
@@ -2399,6 +2448,8 @@ document.addEventListener('click',function(e){
 });})();
 on('#creatorSeg','click',e=>{const b=e.target.closest('button');if(!b)return;state.creatorTab=b.dataset.tab;state.creatorSearch='';var cs=$('#creatorSearch');if(cs)cs.value='';renderCreators();});
 on('#creatorSearch','input',e=>{state.creatorSearch=e.target.value;renderCreators();});
+on('#creatorSearchScope','click',e=>{const b=e.target.closest('button');if(!b)return;state.creatorSearchScope=b.dataset.scope;$$('#creatorSearchScope button').forEach(x=>x.classList.toggle('on',x===b));renderCreators();});
+on('#creatorSortSel','change',e=>{state.creatorSort=e.target.value;renderCreators();});
 on('#creatorGrid','click',e=>{if(e.target.closest('.goatJump'))return;const f=e.target.closest('.flip');if(f)f.classList.toggle('flipped');});
 on('#collSeg','click',e=>{const b=e.target.closest('button');if(!b)return;state.collSeg=b.dataset.cs;$$('#collSeg button').forEach(x=>x.classList.toggle('on',x===b));renderCollection();if(state.collGroup==='series')renderCollectionSeries();if(state.collShelf)renderCollectionShelf();if(state.collUpgrade)renderUpgradeAudit();});
 let collSearchT=null;
@@ -2411,6 +2462,16 @@ on('#familyLens','click',e=>{var b=e.target.closest('.familyTile');if(b)focusFam
 on('#gapSeg','click',e=>{const b=e.target.closest('button');if(!b)return;state.gapFilter=b.dataset.gap;$$('#gapSeg button').forEach(x=>x.classList.toggle('on',x===b));renderPortraitGaps();});
 on('#portraitScopeSeg','click',e=>{const b=e.target.closest('button');if(!b)return;state.portraitScope=b.dataset.ps;$$('#portraitScopeSeg button').forEach(x=>x.classList.toggle('on',x===b));renderPortrait();});
 on('#tlScope','click',e=>{const b=e.target.closest('button');if(!b)return;tlScope=b.dataset.t;$$('#tlScope button').forEach(x=>x.classList.toggle('on',x===b));renderTimeline();});
+on('#tlMedium','click',e=>{const b=e.target.closest('button');if(!b)return;tlMedium=b.dataset.tm;$$('#tlMedium button').forEach(x=>x.classList.toggle('on',x===b));renderTimeline();});
+on('#tlChart','click',e=>{const g=e.target.closest('.tlBar');if(!g)return;
+ const ymin=+g.dataset.ymin,ymax=+g.dataset.ymax,kind=g.dataset.kind;
+ state.yearMin=ymin<=-9999?null:ymin;state.yearMax=ymax-1;
+ const yminEl=$('#yearMin'),ymaxEl=$('#yearMax');if(yminEl)yminEl.value=state.yearMin!=null?state.yearMin:'';if(ymaxEl)ymaxEl.value=state.yearMax;
+ if(kind){state.type=kind;$$('#typeSeg button').forEach(x=>x.classList.toggle('on',x.dataset.type===kind));}
+ state.q='';const qi=$('#q');if(qi)qi.value='';
+ const ap=$('#advPanel');if(ap&&ap.classList.contains('hidden')){ap.classList.remove('hidden');const caret=$('#advCaret');if(caret)caret.style.transform='rotate(90deg)';}
+ syncAdvCount();switchView('controller');window.scrollTo({top:0,behavior:'smooth'});
+});
 on('#tlEras','click',e=>{var b=e.target.closest('.eraMore');if(b){var box=$('#'+b.dataset.era);if(box){var open=!box.classList.contains('hidden');box.classList.toggle('hidden');b.textContent=open?'\u2295 Show all '+(parseInt(b.dataset.n)+8):'\u2296 Show less';}return;}var t=e.target.closest('.cardTitle');if(t&&t.dataset.flip){var it=byId.get(t.dataset.flip);if(it){state.q=it.title;var qinput=$('#q');if(qinput)qinput.value=it.title;switchView('controller');refresh();}}});
 /* ===== Theme system ===== */
 function applyTheme(t){
@@ -3587,6 +3648,9 @@ buildPlatSelect();
 $('#headStats').innerHTML=[['Indexed Works',ALL.length],['Contenders',contenders.length]]
  .map(s=>'<div><div class="text-lg font-extrabold text-slate-50 leading-none tabular-nums">'+s[1]+'</div><div class="lbl mt-1">'+s[0]+'</div></div>').join('');
 (function(){var lc=$('#luCount');if(lc){var m=ALL.filter(function(x){return x.kind==='movie'}).length,t=ALL.filter(function(x){return x.kind==='tv'}).length,g=ALL.filter(function(x){return x.kind==='game'}).length,b=ALL.filter(function(x){return x.kind==='book'}).length;lc.textContent=ALL.length+' works · '+m+' films / '+t+' series / '+g+' games / '+b+' books';}})();
+var mi=$('#matrixIntro');if(mi)mi.textContent='Elite specialized brackets computed across the full '+ALL.length.toLocaleString()+'-work corpus (Global Controller filters intentionally ignored here so brackets stay canonical). Hover rows for full credits.';
+on('#matrixOwnedOnly','change',e=>{matrixOwnedOnly=e.target.checked;renderMatrices();});
+on('#matrixNav','click',e=>{const a=e.target.closest('.matrixNavLink');if(!a)return;e.preventDefault();const el=document.getElementById(a.dataset.anchor);if(el)el.scrollIntoView({behavior:'smooth',block:'start'});});
 renderMatrices();
 renderCreators();
 renderContenders();
@@ -3594,6 +3658,8 @@ document.addEventListener('click',e=>{const b=e.target.closest('.contMedBtn');if
 on('#contUnverifiedOnly','change',e=>{contUnverifiedOnly=e.target.checked;if(contUnverifiedOnly){contVerifiedOnly=false;var vcb=$('#contVerifiedOnly');if(vcb)vcb.checked=false;}renderContenders();});
 on('#contVerifiedOnly','change',e=>{contVerifiedOnly=e.target.checked;if(contVerifiedOnly){contUnverifiedOnly=false;var ucb=$('#contUnverifiedOnly');if(ucb)ucb.checked=false;}renderContenders();});
 document.addEventListener('click',e=>{const b=e.target.closest('.contSortBtn');if(b){contSort=b.dataset.sort;$$('.contSortBtn').forEach(function(x){x.classList.toggle('on',x===b);});renderContenders();}});
+let contSearchT=null;
+on('#contSearch','input',e=>{clearTimeout(contSearchT);const v=e.target.value;contSearchT=setTimeout(()=>{contSearchQ=v;renderContenders();},120);});
 document.addEventListener('click',e=>{const b=e.target.closest('.contMigratedBtn');if(b){state.q=b.dataset.q;const qi=$('#q');if(qi)qi.value=b.dataset.q;switchView('controller');refresh();}});
 renderGoat();
 renderGoatSearchResults('');
