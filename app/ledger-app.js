@@ -160,11 +160,26 @@ function activeDims(){
  if(state.idx.myst>0)d.push(['myst','Complexity',state.idx.myst]);
  return d;
 }
+/* The "Match" number on a card while filters are active: how well a work answers the specific
+   question the sliders are asking, blended with its overall standing.
+
+   Each active dimension is weighted by how high its slider is set. That is the only signal of
+   intent available -- someone who asks for Scariest >= 80 and Funniest >= 20 is telling you which
+   of the two they came for -- and it is the same for everyone, which matters because this number
+   has to serve any taste, not one shape of taste.
+
+   It used to weight by `dims.length - i`, the dimension's position in activeDims(), which is a
+   hardcoded list of if-statements in app source order. So ★ GOAT outranked every other filter for
+   no reason except being written first, Cosmic Horror outranked Scariest, and Complexity came last
+   however hard you pulled it. Nothing about that ordering was a claim about taste; it was an
+   artifact of the order someone typed the conditions, and it silently ranked every filtered
+   result. */
 function computeMatch(list){
  const dims=activeDims();
+ const wsum=dims.reduce((s,d)=>s+d[2],0);
  list.forEach(it=>{
-  if(!dims.length){it._m=it.ovr;return;}
-  let sum=0,wsum=0;dims.forEach((d,i)=>{const w=dims.length-i;sum+=it[d[0]]*w;wsum+=w;});
+  if(!dims.length||wsum<=0){it._m=it.ovr;return;}
+  let sum=0;dims.forEach(d=>{sum+=it[d[0]]*d[2];});
   it._m=Math.round((sum/wsum)*0.8+it.ovr*0.2);
  });
 }
@@ -3851,6 +3866,7 @@ var _rzT;window.addEventListener('resize',function(){clearTimeout(_rzT);_rzT=set
  // rather than leaking everything by accident, these few are exported on purpose: the corpus, the
  // live filter state, and the three entry points worth poking at from a console.
  window.tierTarget=tierTarget;window.TIER_FLOOR=TIER_FLOOR;
+ window.computeMatch=computeMatch;window.activeDims=activeDims;
  window.ALL=ALL;
  window.byId=byId;
  window.state=state;

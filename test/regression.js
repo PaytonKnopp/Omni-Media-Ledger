@@ -2009,6 +2009,35 @@ async function runTabFiltersFlow(browser, file) {
   check('the tier ladder holds at every score (Gold > Silver > Bronze > owned)', ladder.length === 0);
   if (ladder.length) console.log('     ' + ladder.slice(0, 5).join('\n     '));
 
+  // Two filters pulled equally hard must count equally. The Match score used to weight each active
+  // dimension by its position in activeDims() -- a hardcoded list of if-statements in source order
+  // -- so ★ GOAT beat everything by being written first and Complexity came last however hard you
+  // pulled it. That is an artifact of typing order silently ranking every filtered result, and it
+  // penalises exactly the tastes whose dimensions happen to appear late in the list.
+  //
+  // Tested by symmetry rather than by asserting a number: two works identical except that their
+  // values on two equally-set dimensions are swapped must score the same. That holds under any
+  // sane weighting and fails under a positional one, without pinning the formula itself.
+  const matchSymmetry = await page.evaluate(() => {
+    if (typeof computeMatch !== 'function') return ['computeMatch is not exposed'];
+    const saved = JSON.stringify(state.idx);
+    try {
+      Object.keys(state.idx).forEach(k => { state.idx[k] = 0; });
+      state.idx.scary = 50; state.idx.funny = 50;   // pulled equally hard
+      const base = ALL[0];
+      const mk = (scary, funny) => Object.assign({}, base, { scary: scary, funny: funny });
+      const a = mk(90, 10), b = mk(10, 90);
+      computeMatch([a, b]);
+      return a._m === b._m ? []
+        : ['swapping two equally-weighted dimensions changed the Match score: ' + a._m + ' vs ' + b._m];
+    } finally {
+      state.idx = JSON.parse(saved);
+    }
+  });
+  check('Match weights active filters by how hard they are pulled, not by their source order',
+    matchSymmetry.length === 0);
+  if (matchSymmetry.length) console.log('     ' + matchSymmetry.join('\n     '));
+
   // URL bookmarking: filters set across three different tabs all round-trip through a fresh load.
   await goto('timeline');
   const bookmarkUrl = page.url();
