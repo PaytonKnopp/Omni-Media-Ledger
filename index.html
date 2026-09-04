@@ -264,22 +264,64 @@ body[data-theme="outer-wilds"]{--bg:#0e0a09;--panel:#181010;--panel-2:#120c0b;--
 </div>
 
 <div id="tipsGate" class="hidden fixed inset-0 z-[999] flex items-center justify-center bg-black/80 backdrop-blur-sm p-4">
-  <div class="panel p-6 max-w-lg w-full space-y-3 max-h-[85vh] overflow-y-auto">
+  <div class="panel p-8 max-w-3xl w-full space-y-5 max-h-[88vh] overflow-y-auto">
     <div class="flex items-start justify-between gap-2">
       <div>
         <div class="text-[10px] tracking-[.3em] text-teal-300/80 uppercase mb-1">Quick tips</div>
-        <h2 class="text-lg font-bold text-slate-50">A few pointers</h2>
+        <h2 class="text-xl font-bold text-slate-50">A few pointers</h2>
+        <p class="text-[12px] text-slate-500 mt-1">Everything worth knowing to use this app well, in one place.</p>
       </div>
       <button type="button" id="tipsClose" class="text-slate-500 hover:text-slate-300 text-lg leading-none">✕</button>
     </div>
-    <div class="text-[12.5px] text-slate-300 leading-relaxed space-y-2.5">
-      <div>🖱️ <strong class="text-slate-100">Click any card's title or body</strong> to expand it and see all ~19 stats, not just the 3 shown up front.</div>
-      <div>🥇 <strong class="text-slate-100">The row under each card</strong> lets you mark Gold / Silver / Bronze favorites or "owned" in one click — no need to expand first. Gold is your absolute favorite, Silver the next tier down, Bronze the one after that — this tiering is the single thing that drives your ★ GOAT Match score and recommendations everywhere in the app.</div>
-      <div>📌 <strong class="text-slate-100">Pin any slider you use a lot</strong> (Advanced Filters, or the ≥ sliders themselves) so it shows up in the always-visible row up top instead of staying tucked away. Both the pinned row and Advanced Filters start in alphabetical order.</div>
-      <div>🔀 <strong class="text-slate-100">The Sort dropdown</strong> is grouped by category — Reception, Craft & Fidelity, Mood & Feel, Depth & Ideas — with each group alphabetized, so related sorts sit together instead of one long list.</div>
-      <div>☁️ <strong class="text-slate-100">Sign into an account</strong> (top right) to sync your picks across devices — type any name; the same name anywhere brings it all back.</div>
-      <div>★ <strong class="text-slate-100">The GOAT Profile tab</strong> has a full search to declare Gold/Silver/Bronze favorites directly, plus your generated taste breakdown and recommendations.</div>
-      <div>💡 <strong class="text-slate-100">See something missing?</strong> Use "Suggest a feature" in the header, top of page. Click the <strong class="text-slate-100">?</strong> button next to the theme selector anytime to bring these tips back.</div>
+
+    <div>
+      <div class="text-[10px] tracking-[.2em] uppercase text-teal-300/70 mb-2.5">Cards &amp; tiering</div>
+      <div class="text-[13px] text-slate-300 leading-relaxed space-y-3.5">
+        <div>🖱️ <strong class="text-slate-100">Click any card's title or body</strong> to expand it and see all ~19 stats, not just the 3 shown up front.</div>
+        <div>🥇 <strong class="text-slate-100">The row under each card</strong> lets you mark Gold / Silver / Bronze favorites or "owned" in one click — no need to expand first. Gold is your absolute favorite, Silver the next tier down, Bronze the one after that — this tiering is the single thing that drives your ★ GOAT Match score and recommendations everywhere in the app. That row always sits at the bottom of the card, so it lines up card to card no matter how long a title is or whether you're in compact or comfortable view.</div>
+        <div>🏷️ <strong class="text-slate-100">Genre, vibe, format and platform tags</strong> inside an expanded card are read-only — just information, like the stat bars next to them.</div>
+        <div>🔗 <strong class="text-slate-100">"Cross-medium pairings" and "If you like this, cross over to"</strong> inside an expanded card are clickable — click one to jump straight to it in the Global Controller search.</div>
+      </div>
+    </div>
+
+    <div>
+      <div class="text-[10px] tracking-[.2em] uppercase text-teal-300/70 mb-2.5">Filtering &amp; sorting</div>
+      <div class="text-[13px] text-slate-300 leading-relaxed space-y-3.5">
+        <div>📌 <strong class="text-slate-100">Pin any slider you use a lot</strong> (Advanced Filters, or the ≥ sliders themselves) so it shows up in the always-visible row up top instead of staying tucked away. Both the pinned row and Advanced Filters start in alphabetical order.</div>
+        <div>🔀 <strong class="text-slate-100">The Sort dropdown</strong> is grouped by category — Reception, Craft &amp; Fidelity, Mood &amp; Feel, Depth &amp; Ideas — with each group alphabetized, so related sorts sit together instead of one long list.</div>
+      </div>
+    </div>
+
+    <div>
+      <div class="text-[10px] tracking-[.2em] uppercase text-teal-300/70 mb-2.5">Collection</div>
+      <div class="text-[13px] text-slate-300 leading-relaxed space-y-3.5">
+        <div>◆ <strong class="text-slate-100">Mark what you own</strong> from the tier row on any card, then head to the Collection tab to manage it.</div>
+        <div>💿 <strong class="text-slate-100">Document the exact edition you own</strong> — DVD / Blu-ray / 4K for movies &amp; TV, Hardcover / Softcover for books — right from the Collection tab. The ⬆ Upgrade Audit reads this to suggest real upgrades instead of guessing.</div>
+        <div>▤ <strong class="text-slate-100">Group by Series</strong> and the <strong class="text-slate-100">📚 Shelf View</strong> both list your collection alphabetically, so a series or a shelf reads the same way every time.</div>
+      </div>
+    </div>
+
+    <div>
+      <div class="text-[10px] tracking-[.2em] uppercase text-teal-300/70 mb-2.5">Discovery</div>
+      <div class="text-[13px] text-slate-300 leading-relaxed space-y-3.5">
+        <div>🕳 <strong class="text-slate-100">Rabbit Hole</strong> and 🎲 <strong class="text-slate-100">Surprise Me</strong> pull a weighted pick for you — by mood, medium, ownership, or how much time you have.</div>
+        <div>★ <strong class="text-slate-100">The GOAT Profile tab</strong> has a full search to declare Gold/Silver/Bronze favorites directly, plus your generated taste breakdown and recommendations.</div>
+      </div>
+    </div>
+
+    <div>
+      <div class="text-[10px] tracking-[.2em] uppercase text-teal-300/70 mb-2.5">Accounts &amp; your profile</div>
+      <div class="text-[13px] text-slate-300 leading-relaxed space-y-3.5">
+        <div>☁️ <strong class="text-slate-100">Sign into an account</strong> (top right) to sync your picks across devices — type any name; the same name anywhere brings it all back. Every profile — tiers, owned formats, pinned sliders, theme, everything — is remembered per account.</div>
+        <div>⬇ <strong class="text-slate-100">Export / Import / Reset</strong> (top right, "Profile") back up your whole profile to a file, load one back in, or start blank.</div>
+      </div>
+    </div>
+
+    <div>
+      <div class="text-[10px] tracking-[.2em] uppercase text-teal-300/70 mb-2.5">One more thing</div>
+      <div class="text-[13px] text-slate-300 leading-relaxed space-y-3.5">
+        <div>💡 <strong class="text-slate-100">See something missing?</strong> Use "Suggest a feature" in the header, top of page. Click the <strong class="text-slate-100">?</strong> button next to the theme selector anytime to bring these tips back.</div>
+      </div>
     </div>
   </div>
 </div>
@@ -530,9 +572,6 @@ body[data-theme="outer-wilds"]{--bg:#0e0a09;--panel:#181010;--panel-2:#120c0b;--
             <option value="reality">Most Reality-Altering</option>
             <option value="sci">Most Scientific</option>
             <option value="shock">Most Shocking</option>
-          </optgroup>
-          <optgroup label="Custom">
-            <option value="blend">⚖ Blend · Tech / Dread / Mind weights</option>
           </optgroup>
           <optgroup label="Basic">
             <option value="title">Title A–Z</option>
