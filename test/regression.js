@@ -844,6 +844,14 @@ function __mockLoad(){
   } catch (e) { return __mockDefaultDb(); }
 }
 function __mockSave(db){ try { sessionStorage.setItem('__mockDb', JSON.stringify(db)); } catch (e) {} }
+// Behaviour flags live in their own keys rather than inside __mockDb, because the database blob is
+// read-modify-written on every request: a write already in flight loads the blob BEFORE a test sets
+// a flag on it and saves it back AFTER, silently wiping the flag. That lost update made a test look
+// like the app had failed to detect a refused write, when the mock had simply stopped refusing --
+// the app was behaving correctly and the test's own premise had been undone underneath it.
+function __mockFlag(name){ try { return sessionStorage.getItem('__mockFlag_' + name) === '1'; } catch (e) { return false; } }
+function __mockSetFlag(name, on){ try { sessionStorage.setItem('__mockFlag_' + name, on ? '1' : '0'); } catch (e) {} }
+window.__mockSetFlag = __mockSetFlag;
 Object.defineProperty(window, '__mockTables', { get: function(){ return __mockLoad().tables; } });
 Object.defineProperty(window, '__upsertCalls', { get: function(){ return __mockLoad().upsertCalls; } });
 Object.defineProperty(window, '__insertCalls', { get: function(){ return __mockLoad().insertCalls; } });
@@ -884,22 +892,22 @@ function __mockBuilder(table){
             return;
           }
           var row = state.payload;
-          // Test-only escape hatch (db.silentlyDropProfileUpserts) reproducing the exact reported
+          // Test-only escape hatch (__mockFlag silentlyDropProfileUpserts) reproducing the exact reported
           // failure: the server ACCEPTS the write (no error returned) but doesn't actually store
           // it -- what a rejecting/rewriting BEFORE trigger, an out-of-date schema, or a filtered
           // write looks like from the client. Unlike failNextProfileUpsert, nothing here reports
           // a problem, which is precisely why it used to destroy data silently.
-          if (db.silentlyDropProfileUpserts) {
+          if (__mockFlag('silentlyDropProfileUpserts')) {
             __mockSave(db);
             res({ data: [row], error: null });
             return;
           }
-          // Test-only escape hatch (db.refuseProfileWritesSilently) reproducing what Postgres
+          // Test-only escape hatch (__mockFlag refuseProfileWritesSilently) reproducing what Postgres
           // actually does when an RLS UPDATE policy excludes the conflicting row in an
           // INSERT ... ON CONFLICT DO UPDATE: the request succeeds, no error is raised, and ZERO
           // rows are written. Distinct from silentlyDropProfileUpserts above, which still claims a
           // row was affected -- here the empty array is the only evidence anything went wrong.
-          if (db.refuseProfileWritesSilently) {
+          if (__mockFlag('refuseProfileWritesSilently')) {
             __mockSave(db);
             res({ data: [], error: null });
             return;
@@ -1405,11 +1413,7 @@ async function runAccountFlow(browser, file) {
     // scheduled resolves inside that window, while there is still nothing pending for it to clear.
     // Draining before the flag would leave the same push free to resolve after the edit instead.
     await readWhen(page2, () => localStorage.getItem('omniLedgerPendingSync') !== '1', undefined, 10000);
-    await page2.evaluate(() => {
-      const db = JSON.parse(sessionStorage.getItem('__mockDb'));
-      db.silentlyDropProfileUpserts = true;
-      sessionStorage.setItem('__mockDb', JSON.stringify(db));
-    });
+    await page2.evaluate(() => window.__mockSetFlag('silentlyDropProfileUpserts', true));
     await page2.waitForTimeout(2000); // > the 1500ms scheduleCloudSync debounce
     await readWhen(page2, () => localStorage.getItem('omniLedgerPendingSync') !== '1', undefined, 10000);
     await clickAndReload(page2, '.panel .profEditBtn[data-act="bronze"][data-id="' + bronzeCardId + '"]');
@@ -1436,7 +1440,7 @@ async function runAccountFlow(browser, file) {
           skipHydrateArmed: sessionStorage.getItem('omniLedgerSkipHydrateOnce'),
           bronzeLocal: (read(localStorage.getItem('omniLedgerProfile')).bronzeTierIds || []).length,
           bronzeInCloud: (cloud.bronzeTierIds || []).length,
-          dropFlagStillSet: !!db.silentlyDropProfileUpserts,
+          dropFlagStillSet: sessionStorage.getItem('__mockFlag_silentlyDropProfileUpserts') === '1',
         };
       })));
     }
@@ -1452,11 +1456,7 @@ async function runAccountFlow(browser, file) {
 
     // Recovery: once the server starts storing writes again, the still-pending change is pushed on
     // its own and the profile stops being marked unsynced -- it heals rather than needing a redo.
-    await page2.evaluate(() => {
-      const db = JSON.parse(sessionStorage.getItem('__mockDb'));
-      db.silentlyDropProfileUpserts = false;
-      sessionStorage.setItem('__mockDb', JSON.stringify(db));
-    });
+    await page2.evaluate(() => window.__mockSetFlag('silentlyDropProfileUpserts', false));
     await page2.reload();
     await waitForBoot(page2);
     // Polled rather than slept: boot has to notice the pending mark, re-push, and then verify the
@@ -1479,11 +1479,7 @@ async function runAccountFlow(browser, file) {
     // Same quiesce, same reason: a push still in flight from the heal above would succeed and
     // clear the pending mark the next edit sets.
     await readWhen(page2, () => localStorage.getItem('omniLedgerPendingSync') !== '1', undefined, 10000);
-    await page2.evaluate(() => {
-      const db = JSON.parse(sessionStorage.getItem('__mockDb'));
-      db.refuseProfileWritesSilently = true;
-      sessionStorage.setItem('__mockDb', JSON.stringify(db));
-    });
+    await page2.evaluate(() => window.__mockSetFlag('refuseProfileWritesSilently', true));
     await page2.waitForTimeout(2000); // > the 1500ms scheduleCloudSync debounce
     await readWhen(page2, () => localStorage.getItem('omniLedgerPendingSync') !== '1', undefined, 10000);
     await clickAndReload(page2, '.panel .profEditBtn[data-act="silver"][data-id="' + bronzeCardId + '"]');
@@ -1506,11 +1502,7 @@ async function runAccountFlow(browser, file) {
     }, bronzeCardId);
     check('a pick survives a refresh even when the database refuses the write outright', silverSurvivedRefusal);
 
-    await page2.evaluate(() => {
-      const db = JSON.parse(sessionStorage.getItem('__mockDb'));
-      db.refuseProfileWritesSilently = false;
-      sessionStorage.setItem('__mockDb', JSON.stringify(db));
-    });
+    await page2.evaluate(() => window.__mockSetFlag('refuseProfileWritesSilently', false));
     await page2.reload();
     await page2.waitForTimeout(1200);
 
