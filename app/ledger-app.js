@@ -261,7 +261,7 @@ function suggestedFormat(it){
   const illustr=(it.fam||[]).some(f=>/Myth|Fantasy|Poetry|Cosmic|Literary/.test(f));
   if(stature>=92&&illustr) return {fmt:'Deluxe / Illustrated',why:'a canonical work where a fine illustrated edition transforms it'};
   if(prose>=86||stature>=90) return {fmt:'Hardcover',why:'prose and stature justify a durable hardcover'};
-  return {fmt:'Paperback',why:'a reading copy serves it well'};
+  return {fmt:'Softcover',why:'a reading copy serves it well'};
  }
  if(it.kind==='game'){
   const plat=(it.plats&&it.plats.length)?it.plats[0]:'current-gen';
@@ -385,9 +385,9 @@ function crossThreadHTML(it){
  var verb={movie:'Watch',tv:'Watch',game:'Play',book:'Read'}[t.it.kind];
  return '<div class="mt-2.5 pt-2 border-t border-slate-800/70">'
   +'<div class="text-[10px] mb-1" style="color:#c084fc">\u2937 If you like this, cross over to:</div>'
-  +'<div class="flex items-center gap-2"><span class="text-[9px] px-1.5 py-0.5 rounded shrink-0" style="background:'+k.c+'22;color:'+k.c+'">'+k.label+'</span>'
-  +'<span class="text-[12px] text-slate-200 font-semibold">'+verb+' '+esc(t.it.title)+'</span>'
-  +'<span class="text-[10px] text-slate-500">\u00b7 '+t.reason+'</span></div></div>';
+  +'<button type="button" class="pairingChip flex items-center gap-2 w-full text-left" data-flip-jump="'+t.it.id+'" title="Open '+esc(t.it.title)+' in the Global Controller"><span class="text-[9px] px-1.5 py-0.5 rounded shrink-0" style="background:'+k.c+'22;color:'+k.c+'">'+k.label+'</span>'
+  +'<span class="text-[12px] text-slate-200 font-semibold hover:text-teal-300">'+verb+' '+esc(t.it.title)+'</span>'
+  +'<span class="text-[10px] text-slate-500">\u00b7 '+t.reason+'</span></button></div>';
 }
 function gmBreakdownHTML(it){
  var chips=[];
@@ -481,16 +481,17 @@ function tierRowHTML(it,roomy){
  // (not the dense main grid), so it can afford noticeably more breathing room between the four
  // buttons -- addresses the specific "still quite close together" feedback about that screen
  // without touching the deliberately compact spacing every other card everywhere else relies on.
- return '<div class="flex items-center flex-wrap px-3.5 pb-3 mt-4'+(roomy?' gap-3':' gap-1.5')+'">'
- +seg('declare','\u{1F947}','Gold','Gold: your declared all-time favorites — pins a 100 match, the strongest recommendation signal',it.goat,'#fbbf24',false)
- +seg('silver','\u{1F948}','Silver','Silver: a strong favorite, one notch below Gold',it.silver,'#cbd5e1',false)
- +seg('bronze','\u{1F949}','Bronze','Bronze: really like it, a lighter nudge than Silver',it.bronze,'#cd7f32',false)
+ return '<div class="flex items-center flex-wrap px-3.5 pb-3'+(roomy?' gap-3 mt-4':' gap-1.5 mt-auto pt-3')+'">'
+ +seg('declare','\u{1F947}','Gold','Gold: your declared all-time favorites — pins a 100 match, the strongest recommendation signal',it.goat,'#fbbf24',roomy)
+ +seg('silver','\u{1F948}','Silver','Silver: a strong favorite, one notch below Gold',it.silver,'#cbd5e1',roomy)
+ +seg('bronze','\u{1F949}','Bronze','Bronze: really like it, a lighter nudge than Silver',it.bronze,'#cd7f32',roomy)
  +'<span class="w-px h-4 mx-0.5" style="background:#334155"></span>'
  +seg('own','◆','Owned','Toggle whether this is in your owned collection',it.owned,'#4ade80',true)
+ +(roomy?'<span class="ml-auto flex items-center gap-3 text-[10.5px] text-slate-500 shrink-0"><span title="GOAT match /100">★ <b style="color:#fbbf24">'+it.gm+'</b></span><span title="Critical score /100">Crit <b class="text-slate-300">'+it.crit+'</b></span><span title="Audience score /100">Aud <b class="text-slate-300">'+it.aud+'</b></span></span>':'')
  +'</div>';
 }
 function cardHTML(it){const k=KM[it.kind];
- return '<div class="panel overflow-hidden hover:border-slate-600/80 transition-colors fade-in relative">'
+ return '<div class="panel overflow-hidden hover:border-slate-600/80 transition-colors fade-in relative flex flex-col h-full">'
  +'<button type="button" class="cardHead w-full text-left p-3.5 flex gap-3 items-start" data-id="'+it.id+'">'
  +ring(it.crit,k.c,42)
  +'<div class="flex-1 min-w-0">'
@@ -505,7 +506,7 @@ function cardHTML(it){const k=KM[it.kind];
  +'<div class="idxGrid">'+[['\u2605 GOAT Match',it.gm,'#fbbf24'],['\u25c9 Cosmic Horror',it.ch,'#c084fc'],['Soundtrack',it.snd,'#7dd3fc'],['4K Reference',it.ref,'#818cf8'],['Emotional',it.emo,'#f0abfc'],['Awe / Spectacle',it.awe,'#fbbf24'],['Comfort',it.cozy,'#34d399'],['Performances',it.perf,'#fda4af'],['Iconicness',it.icon,'#fcd34d'],['Scariest',it.scary,'#f87171'],['Realism',it.real,'#86efac'],['Reality-Altering',it.reality,'#c4b5fd'],['Genuine Shock',it.shock,'#fb923c'],['Scientific',it.sci,'#67e8f9'],['Funniest',it.funny,'#fde047'],['Historically Accurate',it.hist,'#a3e635'],['Vibe / Atmosphere',it.vibe2,'#e879f9']].map(r=>'<div class="flex flex-col gap-0.5"><div class="flex items-baseline justify-between gap-2"><span class="lbl leading-tight" style="color:'+r[2]+'">'+r[0]+'</span><span class="text-[10px] tabular-nums shrink-0" style="color:'+r[2]+'">'+r[1]+'</span></div><div class="bar"><i style="width:'+r[1]+'%;background:'+r[2]+'"></i></div></div>').join('')+'</div>'
  +gmBreakdownHTML(it)
  +'<p class="text-[11px] text-slate-300 mt-2.5 italic">&ldquo;'+esc(it.just)+'&rdquo;</p>'
- +'<div class="flex flex-wrap gap-1.5 mt-2.5">'+it.genres.map(g=>{const boosted=(PERSONAL_PROFILE.genreBoost||[]).some(gb=>gb[0]===g.toLowerCase());return '<button type="button" class="profEditBtn chip" data-act="genre" data-genre="'+esc(g)+'" title="Toggle a taste-weight boost for the “'+esc(g)+'” genre across your whole match scoring"'+(boosted?' style="color:#fbbf24;border-color:#fbbf2455"':'')+'>'+(boosted?'★ ':'')+esc(g)+'</button>';}).join('')+(function(){const vboosted=!!(PERSONAL_PROFILE.vibeBoost||{})[it.vibe];return '<button type="button" class="profEditBtn chip" data-act="vibe" data-vibe="'+esc(it.vibe)+'" title="Toggle a taste-weight boost for the “'+esc(it.vibe)+'” vibe across your whole match scoring"'+(vboosted?' style="color:#fbbf24;border-color:#fbbf2455"':' style="color:#c4b5fd"')+'>'+(vboosted?'★ ':'')+esc(it.vibe)+'</button>';})()+'<span class="chip">'+esc(it.format)+'</span>'+it.plats.map(p=>'<span class="chip" style="color:#7dd3fc">'+esc(p)+'</span>').join('')+'</div>'
+ +'<div class="flex flex-wrap gap-1.5 mt-2.5">'+it.genres.map(g=>{const boosted=(PERSONAL_PROFILE.genreBoost||[]).some(gb=>gb[0]===g.toLowerCase());return '<span class="chip" title="'+(boosted?'A genre your taste profile currently weights up':'Genre')+'"'+(boosted?' style="color:#fbbf24;border-color:#fbbf2455"':'')+'>'+(boosted?'★ ':'')+esc(g)+'</span>';}).join('')+(function(){const vboosted=!!(PERSONAL_PROFILE.vibeBoost||{})[it.vibe];return '<span class="chip" title="'+(vboosted?'A vibe your taste profile currently weights up':'Vibe / mood')+'"'+(vboosted?' style="color:#fbbf24;border-color:#fbbf2455"':' style="color:#c4b5fd"')+'>'+(vboosted?'★ ':'')+esc(it.vibe)+'</span>';})()+'<span class="chip">'+esc(it.format)+'</span>'+it.plats.map(p=>'<span class="chip" style="color:#7dd3fc">'+esc(p)+'</span>').join('')+'</div>'
  +crossMediumPairingsHTML(it)
  +'<div class="flex flex-wrap gap-1.5 mt-2.5 pt-2.5 border-t border-slate-800/70">'
  +creatorBoostHTML(it)
@@ -1464,6 +1465,7 @@ function goatJumpTo(q){
  window.scrollTo({top:0,behavior:'smooth'});
 }
 document.addEventListener('click',e=>{const j=e.target.closest('.goatJump');if(j&&j.dataset.q)goatJumpTo(j.dataset.q);});
+document.addEventListener('click',e=>{const pe=e.target.closest('.profEditBtn');if(pe&&pe.dataset.act==='setformat'){e.stopPropagation();handleProfileEditClick(pe);}});
 
 /* ===================== ROUTING & BINDINGS ===================== */
 function updateWlNav(){const c=wlCount();const el=$('#wlNavCount');if(el)el.textContent=c?('('+c+')'):'';}
@@ -1664,7 +1666,7 @@ function formatRank(fmt){
  if(f.indexOf('blu')>=0||f.indexOf('bd')>=0)return 3;
  if(f.indexOf('hardcover')>=0)return 3;
  if(f.indexOf('dvd')>=0)return 2;
- if(f.indexOf('paperback')>=0)return 2;
+ if(f.indexOf('paperback')>=0||f.indexOf('softcover')>=0)return 2;
  if(f.indexOf('box')>=0)return 3;
  return 1;
 }
@@ -1787,7 +1789,7 @@ function renderCollectionShelf(){
  var groups=[['movie','Films'],['tv','Series'],['book','Books'],['game','Games']];
  var html='<p class="text-[11px] text-slate-500 mb-3">Your physical collection as a shelf \u2014 spine height reflects quality, colour marks the medium. Hover a spine for the title.</p>';
  groups.forEach(function(g){
-  var items=owned.filter(x=>x.kind===g[0]).sort((a,b)=>(a.creator||'').localeCompare(b.creator||'')||(a.year||0)-(b.year||0));
+  var items=owned.filter(x=>x.kind===g[0]).sort((a,b)=>a.title.localeCompare(b.title));
   if(!items.length)return;
   var k=KM[g[0]];
   // shelf
@@ -1834,13 +1836,13 @@ function renderCollectionSeries(){
   const missingHTML=missing.length?'<div class="mt-2 pt-2 border-t border-slate-800/70"><div class="text-[10px] text-amber-400/80 mb-1">To complete \u2014 in ledger, not owned:</div>'
    +missing.map(x=>'<div class="text-[11px] text-slate-400 truncate">\u25e6 '+esc(x.title)+'</div>').join('')+'</div>':'';
   const complete=hasBox||ownedMembers.length>=def.total;
-  cards.push({pct,html:'<div class="panel p-4"><div class="flex items-center justify-between gap-2 mb-2">'
+  cards.push({pct,name:def.name,html:'<div class="panel p-4"><div class="flex items-center justify-between gap-2 mb-2">'
    +'<div class="lbl" style="color:'+k.c+'">'+k.label+' \u00b7 '+esc(def.name)+'</div>'
    +'<div class="text-[11px] font-bold tabular-nums '+(complete?'text-emerald-400':'text-slate-400')+'">'+ownedCount+' / '+def.total+(complete?' \u2713 complete':'')+'</div></div>'
    +'<div class="h-1.5 rounded-full bg-slate-800 overflow-hidden mb-3"><div class="h-full rounded-full" style="width:'+pct+'%;background:'+(complete?'#34d399':k.c)+'"></div></div>'
    +rows+missingHTML+'</div>'});
  });
- cards.sort((a,b)=>b.pct-a.pct);
+ cards.sort((a,b)=>a.name.localeCompare(b.name));
  const el=$('#collSeries');
  if(!cards.length){el.innerHTML='<div class="panel p-6 text-center text-slate-500 text-sm">No multi-item series in this category yet. Own two or more from a franchise to see it grouped here.</div>';return;}
  el.innerHTML='<p class="text-[11px] text-slate-500 mb-1">Your collection grouped by franchise \u2014 completion at a glance. \u25e6 marks entries in the ledger you don\u2019t yet own.</p>'+cards.map(c=>c.html).join('');
@@ -1863,12 +1865,12 @@ function renderCollection(){
  const order=FORMAT_ORDER.filter(f=>groups[f]).concat(Object.keys(groups).filter(f=>!FORMAT_ORDER.includes(f)));
  const FMT_COLOR={'4K':'#818cf8','BD/DVD':'#7dd3fc','Box Set':'#22d3ee','Deluxe':'#4ade80','Hardcover':'#86efac','Paperback':'#a3e635'};
  $('#collFormats').innerHTML=order.map(f=>{
-  const items=groups[f].slice().sort((a,b)=>b.ovr-a.ovr);const col=FMT_COLOR[f]||'#94a3b8';
+  const items=groups[f].slice().sort((a,b)=>a.title.localeCompare(b.title));const col=FMT_COLOR[f]||'#94a3b8';
   return '<div><div class="flex items-center gap-2 mb-2"><span class="chip" style="color:#0B0F19;background:'+col+';border-color:'+col+';font-weight:700">'+esc(f)+'</span><span class="lbl">'+items.length+' title'+(items.length>1?'s':'')+'</span></div>'
    +'<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-2">'+items.map(x=>{const k=KM[x.kind];
      return '<div class="panel p-2.5 flex items-center gap-2.5"><div class="w-1 self-stretch rounded" style="background:'+col+'"></div>'
       +'<div class="flex-1 min-w-0"><div class="text-[12px] font-semibold text-slate-100 truncate">'+esc(x.title)+'</div>'
-      +'<div class="text-[10px] text-slate-500 truncate">'+x.year+' \u00b7 '+esc(x.creator)+' \u00b7 <span style="color:'+k.c+'">'+k.label+'</span></div></div>'
+      +'<div class="text-[10px] text-slate-500 truncate">'+x.year+' \u00b7 '+esc(x.creator)+' \u00b7 <span style="color:'+k.c+'">'+k.label+'</span></div>'+formatPickerHTML(x)+'</div>'
       +'<div class="text-right shrink-0"><div class="text-[13px] font-bold tabular-nums" style="color:'+col+'">'+x.ovr+'</div>'+(x.goat?'<div class="text-[9px]" style="color:#fbbf24">\u2605 GOAT</div>':x.silver?'<div class="text-[9px] text-slate-400">\u2606</div>':'')+'</div></div>';}).join('')+'</div></div>';
  }).join('')||'<div class="text-center text-slate-500 text-sm py-10">No owned items in this category.</div>';
  // gaps: top-rated NOT owned, per medium
@@ -2285,6 +2287,31 @@ function boostBookAffinity(id){
   p.bookAffinity[id]=Math.min(99,cur?cur+5:75);
  });
 }
+// Owned-format tracking: which physical edition you actually have. Movies/TV pick from
+// DVD/Blu-ray/4K, books from Hardcover/Softcover -- stored on the same profile keys the adapter
+// layer already reads (ownedMedia for movie/tv, ownedBooksExtra for book), so this doesn't need
+// any new sync plumbing: it rides the existing profile jsonb blob to Supabase and every existing
+// export/import. Clicking the already-active format clears it back to a bare "owned" (no edition
+// declared yet) instead of being a no-op, so a mis-click is one click to undo.
+const OWNED_FORMATS={movie:['DVD','Blu-ray','4K'],tv:['DVD','Blu-ray','4K'],book:['Hardcover','Softcover']};
+function setPhysFormat(id,kind,fmt){
+ mutateProfileAndReload(p=>{
+  if(kind==='movie'||kind==='tv'){
+   p.ownedMedia=p.ownedMedia||{};
+   p.ownedMedia[id]=(p.ownedMedia[id]===fmt)?'Owned':fmt;
+  }else if(kind==='book'){
+   p.ownedBooksExtra=p.ownedBooksExtra||{};
+   p.ownedBooksExtra[id]=(p.ownedBooksExtra[id]===fmt)?'Owned':fmt;
+  }
+ });
+}
+function formatPickerHTML(x){
+ const opts=OWNED_FORMATS[x.kind];if(!opts||!x.owned)return '';
+ return '<div class="flex items-center flex-wrap gap-1 mt-1.5" title="Which edition you own">'
+  +opts.map(function(f){const active=x.physFormat===f;
+   return '<button type="button" class="profEditBtn" data-act="setformat" data-id="'+x.id+'" data-kind="'+x.kind+'" data-fmt="'+esc(f)+'" style="font-size:9.5px;padding:2px 7px;border-radius:9999px;border:1px solid '+(active?'#4ade80':'var(--border-2,#334155)')+';background:'+(active?'#4ade8022':'transparent')+';color:'+(active?'#4ade80':'#94a3b8')+'" title="'+(active?'You own this on '+f+' — click to clear':'Mark as owned on '+f+'')+'">'+(active?'✓ ':'')+f+'</button>';}).join('')
+  +'</div>';
+}
 function handleProfileEditClick(btn){
  const act=btn.dataset.act;
  if(act==='declare')toggleDeclaredFavorite(btn.dataset.id);
@@ -2295,6 +2322,7 @@ function handleProfileEditClick(btn){
  else if(act==='silver')toggleSilverTier(btn.dataset.id);
  else if(act==='bronze')toggleBronzeTier(btn.dataset.id);
  else if(act==='bookaffinity')boostBookAffinity(btn.dataset.id);
+ else if(act==='setformat')setPhysFormat(btn.dataset.id,btn.dataset.kind,btn.dataset.fmt);
 }
 
 /* ===== First-run onboarding gate (Phase 3 of the sharing roadmap) =====
