@@ -74,7 +74,9 @@ on a new account that produced a near-empty upload that raced and overwrote the 
 
 ## Changing things
 
-**Adding titles** — edit the relevant `data/*.js`, then `npm run validate-corpus`.
+**Adding titles** — edit the relevant `data/*.js`, then `npm run validate-corpus`. See
+[Corpus data quality](#corpus-data-quality) below for what that checks and why — it is the thing
+standing between a bulk import and quietly worse recommendations.
 
 **Adding a screen** — add a `<section data-sec="...">` in `index.html`, a nav button, and a render
 function in `app/ledger-app.js` wired into `switchView()`.
@@ -86,6 +88,53 @@ in `supabase/schema.sql`, then re-run the schema. Keys the schema does not recog
 Supabase SQL Editor runs it as one transaction, so a single failing statement rolls back
 everything — statement order matters (a column must exist before it is granted).
 
+## Corpus data quality
+
+The recommendation engine has no external source of truth. Every match score, every family lens,
+every bracket and every "why this was recommended" is derived from `data/*.js` and nothing else. So
+a bad field does not produce an error — it produces a slightly worse answer, forever, silently.
+That is the whole reason `scripts/validate-corpus.js` is stricter than it looks like it needs to be.
+
+Run it with `npm run validate-corpus`, or `node scripts/validate-corpus.js --report` for the same
+checks plus a health report (per-field ranges, the live vocabularies, and **the next free ID for
+each medium** — useful when adding a batch).
+
+**What it fails on.** These are the things that are simply wrong:
+
+| Check | Why it matters |
+|---|---|
+| Scoring indices are numbers in 0–100 | They feed `gm` directly. A 140 doesn't error, it distorts every score derived from it. |
+| Year / runtime / pages / seasons in plausible ranges | Catches typos a required-field check cannot see. |
+| Closed vocabularies hold known values | An unknown value makes the record *unreachable* by the filter that reads it, not broken. |
+| Title / creator / vibe / justification are real text | A placeholder passes "field present" and then renders onto a card. |
+| Non-empty, duplicate-free genre lists | Genres drive families, boosts, certification and most discovery surfaces. |
+| Every work maps to ≥1 genre family | A family-less work is invisible to the family lens, family filters, cross-medium pairings, the rabbit hole and the graph — all at once, while its own card looks fine. |
+| No creator spelled two ways | Splits a filmography: a creator boost (matched with `includes`) lifts only one spelling. |
+| No two vibes differ only by case/punctuation | Splits a mood, halving any vibe boost on it. |
+
+**The closed vocabularies:**
+
+- `tv.formats.structuralType` — `Limited/Mini-Series` | `Multi-Season Epic`. Only two, because the
+  Global Controller's TV structure filter only understands two. A third value means those series
+  match neither option.
+- `movies.contextTags.formatType` — `Feature Film`.
+- `books.format` — the physical binding: `Hardcover` | `Paperback` | `Deluxe` | `Boxed Set`. Drives
+  "Edition Quality" and the Collection tab's shelf grouping.
+- `books.contextTags.formatType` — the book's *form*, the counterpart of a film's "Feature Film":
+  `Novel` | `Non-Fiction` | `Poetry` | `Short Stories` | `Graphic Novel` | `Memoir` | `Essays`.
+
+**What it warns on** (never fails — these are curation calls, not errors): compound family labels
+used as raw genres, and a same-surname duo that also appears credited solo.
+
+**The trap this is guarding against.** Every rule above exists because the corresponding defect was
+actually found in this corpus, not because it seemed prudent. The worst of them: 200 prose novels —
+*The Great Gatsby*, *Anna Karenina*, *Middlemarch* — were certified as poetry, because `certify()`
+searched their genre strings for "poetry" and they carry the compound family label
+"Literary & Poetry". Nothing errored. The chip on the card said Verse, the content-rating filter
+returned them under Verse, and the only way to notice was to look at a card and know it was wrong.
+When adding a field or a derived label, prefer matching a value exactly over searching a string for
+a substring, and add the vocabulary to the validator so the next person cannot drift off it.
+
 ## Testing
 
 `npm test` runs the corpus validator and the full Playwright suite. The suite covers onboarding,
@@ -96,13 +145,30 @@ The convention worth keeping: when fixing a bug, add a check, then **disable the
 the check fails**. Several tests in here originally passed with the fix removed and proved nothing
 until they were rewritten.
 
+**Never sleep a fixed number of milliseconds after a page load.** Use `waitForBoot(page)`. Boot cost
+scales with the corpus — every `data/*.js` file is parsed on every load — so a sleep tuned to be
+"comfortably enough" at 2,500 works is a coin flip at 5,000 and a reliable failure at 10,000. A
+suite that gets less trustworthy as the dataset grows is worse than no suite, because it teaches you
+to ignore it exactly when the data is changing fastest.
+
+Related: a check that can't find its element should **fail**, not throw. An uncaught error aborts
+the run and takes every later check with it, so one flaky assertion hides the whole suite.
+
 ## Known limits
 
 - `app/ledger-app.js` is one large file. Splitting it further is straightforward now that it is
   real JavaScript: move functions into `app/<area>.js`, load before it, keep profile-dependent
   initialisation inside `initApp()`.
 - The corpus is static JS. Fine at this size; if titles ever need to be user-editable it belongs
-  in Postgres.
+  in Postgres. Measured headroom, against a synthetically duplicated corpus: at 2,508 works boot is
+  ~1.8s and every tab switch is under 320ms; at 10,032 works boot is ~2.9s and the slowest tab
+  (Visualization Suite) is ~880ms. Everything on the hot path is linear in corpus size, not
+  quadratic, so growing the library several times over is a size problem, not an architecture
+  problem. The first thing to feel it will be the Visualization Suite.
+- Two server-side caps sit above the corpus rather than scaling with it: `profiles.data` is limited
+  to ~200KB (the sample profile is ~6KB, roughly 46 bytes per tiered or owned title, so ~4,000
+  titles), and `media_status` is capped at 50,000 rows per handle. Both are backstops against a
+  runaway client, not product limits — raise them before they bind.
 - Handles are names, not verified identities. There is no auth — anyone can sign in as any handle.
   This is an intentional trust model for a small friend group, not an oversight, but it is the
   thing to revisit before opening it up more widely.

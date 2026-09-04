@@ -34,6 +34,29 @@ function check(label, cond) {
   else { console.log('  FAIL -', label); failures++; }
 }
 
+// Wait for the page to have finished booting, instead of sleeping a fixed number of milliseconds
+// after a load and hoping it was enough.
+//
+// This matters more than it looks. Boot cost scales with the corpus -- every data/*.js file is
+// parsed on every load -- so a sleep tuned to be "comfortably enough" at 2,500 works is a coin
+// flip at 5,000 and a reliable failure at 10,000. That is not a hypothetical: one check in the
+// account flow already failed intermittently at the current size. A suite that gets less
+// trustworthy as the dataset grows is worse than no suite, because it teaches you to ignore it
+// exactly when the data is changing fastest.
+//
+// "Booted" means one of two things, because the app deliberately has two resting states (see
+// ARCHITECTURE.md "Boot sequence"): initApp() has run and exported window.ALL, or the app is
+// waiting on a gate for the person to pick an account / a starting point.
+async function waitForBoot(page, timeout) {
+  await page.waitForFunction(() => {
+    if (typeof window.ALL !== 'undefined') return true;
+    return ['acctGate', 'onboardGate'].some(id => {
+      const g = document.getElementById(id);
+      return g && !g.classList.contains('hidden');
+    });
+  }, { timeout: timeout || 30000 }).catch(() => {});
+}
+
 function findChromium() {
   if (process.env.PLAYWRIGHT_CHROMIUM_PATH && fs.existsSync(process.env.PLAYWRIGHT_CHROMIUM_PATH)) {
     return process.env.PLAYWRIGHT_CHROMIUM_PATH;
@@ -108,6 +131,7 @@ async function runFile(browser, file) {
     const consoleAssertFailures = [];
     page.on('console', m => { if (m.type() === 'assert') consoleAssertFailures.push(m.text()); });
     await page.goto(full);
+    await waitForBoot(page);
     await page.waitForTimeout(600);
 
     const gateVisible = await page.evaluate(() => {
@@ -652,6 +676,7 @@ async function runFile(browser, file) {
     const page = await browser.newPage({ viewport: { width: 390, height: 844 } });
     await page.route('**/supabase-js*/**', route => route.abort());
     await page.goto(full);
+    await waitForBoot(page);
     await page.waitForTimeout(600);
     const gateVisible = await page.evaluate(() => {
       const g = document.getElementById('onboardGate');
@@ -927,6 +952,7 @@ async function runAccountFlow(browser, file) {
     await page.route('**/supabase-js*/**', route => route.fulfill({ contentType: 'application/javascript', body: '' }));
     await page.addInitScript(MOCK_SUPABASE_SDK);
     await page.goto('file://' + tmpPath);
+    await waitForBoot(page);
     await page.waitForTimeout(400);
 
     const gateVisible = await page.evaluate(() => !document.getElementById('acctGate').classList.contains('hidden'));
@@ -975,6 +1001,7 @@ async function runAccountFlow(browser, file) {
     // empty store, rather than stomping real mutations back to the original seed on every reload.
     await page2.addInitScript(MOCK_SUPABASE_SDK + 'if(!sessionStorage.getItem("__mockDb"))sessionStorage.setItem("__mockDb", JSON.stringify({tables:{profiles:' + JSON.stringify({ smoketestuser: storedRow }) + ',suggestions:[],media_status:[]},upsertCalls:0,insertCalls:0,deleteCalls:0}));');
     await page2.goto('file://' + tmpPath);
+    await waitForBoot(page2);
     await page2.waitForTimeout(400);
     await page2.fill('#acctHandleInput', 'smoketestuser');
     await page2.click('#acctContinueBtn');
@@ -1056,6 +1083,7 @@ async function runAccountFlow(browser, file) {
     await page3.route('**/supabase-js*/**', route => route.fulfill({ contentType: 'application/javascript', body: '' }));
     await page3.addInitScript(MOCK_SUPABASE_SDK + 'if(!sessionStorage.getItem("__mockDb"))sessionStorage.setItem("__mockDb", JSON.stringify({tables:{profiles:' + JSON.stringify({ smoketestuser: storedRow }) + ',suggestions:[],media_status:[]},upsertCalls:0,insertCalls:0,deleteCalls:0,failNextProfileSelectOnce:true}));');
     await page3.goto('file://' + tmpPath);
+    await waitForBoot(page3);
     await page3.waitForTimeout(400);
     await page3.fill('#acctHandleInput', 'smoketestuser');
     await page3.click('#acctContinueBtn');
@@ -1153,11 +1181,15 @@ async function runAccountFlow(browser, file) {
     });
     await page2.click('#suggestTabs [data-tab="open"]');
     await page2.evaluate(() => window.location.reload());
-    await page2.waitForTimeout(600);
+    // Wait for the app to actually finish booting rather than sleeping a fixed 600ms and hoping.
+    // The reload re-parses the whole corpus, so the boot cost grows with the dataset: a sleep long
+    // enough today is a flaky failure at twice the data, and this one already failed intermittently.
+    await page2.waitForFunction(() => !!document.getElementById('suggestBtn') && typeof ALL !== 'undefined', { timeout: 30000 });
     await page2.click('#suggestBtn');
-    await page2.waitForTimeout(400);
-    const otherRowInOpenTab = await page2.evaluate(() =>
-      Array.from(document.querySelectorAll('#suggestList [data-suggest-id]')).some(r => r.textContent.includes('more kazoo')));
+    // Same again for the list itself -- it renders after an async read of the (mocked) table.
+    const otherRowInOpenTab = await page2.waitForFunction(() =>
+      Array.from(document.querySelectorAll('#suggestList [data-suggest-id]')).some(r => r.textContent.includes('more kazoo')),
+      { timeout: 10000 }).then(() => true).catch(() => false);
     check('a suggestion from someone else appears in the Not done tab by default', otherRowInOpenTab);
     const otherHasDeleteNoEdit = await page2.evaluate(() => {
       const row = Array.from(document.querySelectorAll('#suggestList [data-suggest-id]')).find(r => r.textContent.includes('more kazoo'));
@@ -1165,10 +1197,17 @@ async function runAccountFlow(browser, file) {
     });
     check('Delete (but not Edit) is offered on a suggestion someone else submitted', otherHasDeleteNoEdit);
 
-    await page2.evaluate(() => {
+    // Return a boolean instead of dereferencing a row that may not be there: a missing row is a
+    // failed check above, and should stay one -- it should not throw and abort the whole run,
+    // taking every later check with it.
+    const resolveClicked = await page2.evaluate(() => {
       const row = Array.from(document.querySelectorAll('#suggestList [data-suggest-id]')).find(r => r.textContent.includes('more kazoo'));
-      row.querySelector('.suggestResolveBtn').click();
+      const btn = row && row.querySelector('.suggestResolveBtn');
+      if (!btn) return false;
+      btn.click();
+      return true;
     });
+    check('a suggestion from someone else offers a Resolve control', resolveClicked);
     await page2.waitForTimeout(300);
     const goneFromOpenAfterResolve = await page2.evaluate(() =>
       !Array.from(document.querySelectorAll('#suggestList [data-suggest-id]')).some(r => r.textContent.includes('more kazoo')));
@@ -1431,6 +1470,7 @@ async function runSeedPickerFlow(browser, file) {
   const pageErrors = [];
   page.on('pageerror', e => pageErrors.push(e.message));
   await page.goto('file://' + path.join(ROOT, file));
+  await waitForBoot(page);
   await page.waitForTimeout(500);
   await page.click('#onboardSeed');
   await page.waitForTimeout(300);
@@ -1493,6 +1533,7 @@ async function runFromScratchFlow(browser, file) {
   const pageErrors = [];
   page.on('pageerror', e => pageErrors.push(e.message));
   await page.goto('file://' + path.join(ROOT, file));
+  await waitForBoot(page);
   await page.waitForTimeout(500);
   await page.click('#onboardBlank');
   await page.waitForTimeout(600);
@@ -1550,6 +1591,7 @@ async function runGoatPickerFlow(browser, file) {
   const pageErrors = [];
   page.on('pageerror', e => pageErrors.push(e.message));
   await page.goto('file://' + path.join(ROOT, file));
+  await waitForBoot(page);
   await page.waitForTimeout(500);
   await page.click('#onboardGoatPicker');
   await page.waitForTimeout(300);
@@ -1582,6 +1624,7 @@ async function runTabFiltersFlow(browser, file) {
   const pageErrors = [];
   page.on('pageerror', e => pageErrors.push(e.message));
   await page.goto(full);
+  await waitForBoot(page);
   await page.waitForTimeout(600);
   const gateVisible = await page.evaluate(() => {
     const g = document.getElementById('onboardGate');
@@ -1686,13 +1729,89 @@ async function runTabFiltersFlow(browser, file) {
   });
   check('Timeline decade zoom previews in place without leaving the tab', zoomOpened);
 
+  // ---- Corpus-quality invariants, asserted through the running app ----
+  // These are the app-side halves of checks scripts/validate-corpus.js enforces on the data. They
+  // live here because what matters is not that a field holds a tidy value, but that the derived
+  // thing the user actually sees comes out right -- and each of these was a real defect found by
+  // walking the app, not a hypothetical.
+  await goto('controller');
+  await page.waitForTimeout(200);
+
+  // Books: content certification. "Verse" must mean poetry. It used to be decided by searching a
+  // book's genre strings for "poetry", which matched the compound family label "Literary & Poetry"
+  // carried by 225 mostly-prose books -- so The Great Gatsby, Anna Karenina, Middlemarch and 197
+  // others were all certified as poetry, on their cards and in the content-rating filter.
+  const verse = await page.evaluate(() => {
+    const books = ALL.filter(x => x.kind === 'book');
+    const v = books.filter(x => x.rating === 'Verse');
+    return {
+      total: v.length,
+      allAreVerseForm: v.every(x => x.format === 'Poetry'),
+      gatsby: (books.find(x => x.title === 'The Great Gatsby') || {}).rating,
+      karenina: (books.find(x => x.title === 'Anna Karenina') || {}).rating,
+    };
+  });
+  check('books certified "Verse" are all actually poetry (' + verse.total + ' of them)', verse.total > 0 && verse.allAreVerseForm);
+  check('a prose novel carrying the "Literary & Poetry" family label is not certified as Verse',
+    verse.gatsby && verse.gatsby !== 'Verse' && verse.karenina && verse.karenina !== 'Verse');
+
+  // Books: every card's format chip shows a real book form, never a placeholder or a copy of the
+  // vibe. 42 books used to render a bare "—" chip and ~90 rendered their vibe string twice.
+  const bookForms = await page.evaluate(() => {
+    const forms = new Set(ALL.filter(x => x.kind === 'book').map(x => x.format));
+    return {
+      values: [...forms],
+      anyEchoesItsOwnVibe: ALL.some(x => x.kind === 'book' && x.format === x.vibe),
+    };
+  });
+  const KNOWN_BOOK_FORMS = ['Novel', 'Non-Fiction', 'Poetry', 'Short Stories', 'Graphic Novel', 'Memoir', 'Essays'];
+  check('every book\'s form chip is a known book form, not a placeholder',
+    bookForms.values.length > 0 && bookForms.values.every(f => KNOWN_BOOK_FORMS.includes(f)));
+  check('no book\'s form chip is just a copy of its vibe chip', !bookForms.anyEchoesItsOwnVibe);
+
+  // TV: the structure filter offers exactly two options, so every series must be reachable by one
+  // of them. Three stray structuralType values ("Limited Series", "Continuation Film", "Anime
+  // Series") used to leave 28 of 250 series matching neither.
+  const tvStruct = await page.evaluate(() => {
+    const tv = ALL.filter(x => x.kind === 'tv');
+    return {
+      total: tv.length,
+      reachable: tv.filter(x => x.format === 'Limited/Mini-Series' || x.format === 'Multi-Season Epic').length,
+    };
+  });
+  check('every TV series is reachable by the structure filter (' + tvStruct.reachable + '/' + tvStruct.total + ')',
+    tvStruct.total > 0 && tvStruct.reachable === tvStruct.total);
+
+  // Genre families are what the family lens, the family filter, cross-medium pairings, the rabbit
+  // hole and the relationship graph all navigate by. A work no family matches is invisible to all
+  // of them at once, while still looking perfectly fine on its own card.
+  const famless = await page.evaluate(() => ALL.filter(x => !x.fam || !x.fam.length).map(x => x.id));
+  check('every work in the corpus maps to at least one genre family', famless.length === 0);
+  if (famless.length) console.log('     ' + famless.slice(0, 10).join(', '));
+
+  // A creator spelled two ways splits their filmography: a creator boost matched with
+  // String.includes lifts only one spelling, and Creator Archives lists them as two people.
+  const creatorSplit = await page.evaluate(() => {
+    const strip = s => s.toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g, '');
+    const buckets = {};
+    ALL.forEach(x => {
+      const k = strip(x.creator).replace(/[^a-z0-9]/g, '');
+      (buckets[k] = buckets[k] || new Set()).add(x.creator);
+    });
+    return Object.values(buckets).filter(v => v.size > 1).map(v => [...v].join(' vs '));
+  });
+  check('no creator in the corpus is spelled two different ways', creatorSplit.length === 0);
+  if (creatorSplit.length) console.log('     ' + creatorSplit.slice(0, 6).join(' | '));
+
   // URL bookmarking: filters set across three different tabs all round-trip through a fresh load.
+  await goto('timeline');
   const bookmarkUrl = page.url();
   const page2 = await browser.newPage({ viewport: { width: 1400, height: 1000 } });
   await page2.route('**/supabase-js*/**', route => route.abort());
   const page2Errors = [];
   page2.on('pageerror', e => page2Errors.push(e.message));
   await page2.goto(bookmarkUrl);
+  await waitForBoot(page2);
   await page2.waitForTimeout(700);
   const restored = await page2.evaluate(() => ({
     view: document.querySelector('#nav .navBtn.active') ? document.querySelector('#nav .navBtn.active').dataset.view : null,
