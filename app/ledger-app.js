@@ -73,7 +73,7 @@ const ALL=[
   tech:Math.round((g.engineeringFidelity.engineGraphicsPerformance+g.engineeringFidelity.artDirection)/2),
   dread:g.immersionTensionIndex,myst:g.systemsComplexity,format:'Interactive',vibe:g.contextTags.vibeTime,just:g.contextTags.justification,
   fid:[['Engine & Performance',g.engineeringFidelity.engineGraphicsPerformance],['Art Direction',g.engineeringFidelity.artDirection]],
-  plats:g.platformAvailability.slice(),owned:PERSONAL_PROFILE.ownedGameIds&&PERSONAL_PROFILE.ownedGameIds.includes(g.id),physFormat:(PERSONAL_PROFILE.ownedGameIds&&PERSONAL_PROFILE.ownedGameIds.includes(g.id)?'Collector Edition':null)})),
+  plats:g.platformAvailability.slice(),owned:PERSONAL_PROFILE.ownedGameIds&&PERSONAL_PROFILE.ownedGameIds.includes(g.id),physFormat:null})),
  ...books.map(bk=>({kind:'book',id:bk.id,title:bk.title,year:bk.year,creator:bk.creator,org:bk.publisher,span:bk.pages+' pages',genres:bk.genres,crit:bk.metrics.criticalScore,aud:bk.metrics.audienceScore,
   tech:Math.round((bk.craft.proseCraft+bk.craft.ideaDensity)/2),
   dread:bk.atmosphericDreadIndex,myst:bk.ontologicalComplexity,format:bk.contextTags.formatType,vibe:bk.contextTags.vibeTime,just:bk.contextTags.justification,
@@ -103,8 +103,10 @@ const on=(sel,ev,fn)=>{const el=$(sel);if(el)el.addEventListener(ev,fn);else con
 const esc=s=>String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
 // Deterministic color per tag string (a creator's Core Themes, etc.) so a set of tags reads as
 // visually distinct from each other at a glance instead of a wall of same-colored chips -- same
-// string always lands on the same color, so it's still stable across renders/sessions.
-const THEME_PALETTE=['#c4b5fd','#7dd3fc','#fca5a5','#86efac','#fcd34d','#f0abfc','#67e8f9','#fdba74','#a5b4fc','#6ee7b7','#f9a8d4','#bef264'];
+// string always lands on the same color, so it's still stable across renders/sessions. Each entry
+// is a full hue apart from its neighbors (not just a lightness/saturation tweak on the same violet)
+// so a row of themes reads as genuinely different colors, not one tint repeated.
+const THEME_PALETTE=['#a78bfa','#38bdf8','#fb7185','#4ade80','#fbbf24','#e879f9','#2dd4bf','#f97316','#818cf8','#facc15','#f472b6','#84cc16','#22d3ee','#ef4444'];
 function themeColor(s){let h=0;for(let i=0;i<s.length;i++)h=(h*31+s.charCodeAt(i))|0;return THEME_PALETTE[Math.abs(h)%THEME_PALETTE.length];}
 const SORTS={overall:(a,b)=>(b.ovr-a.ovr)||(b.crit-a.crit),cosmic:(a,b)=>(b.ch-a.ch)||(b.dread-a.dread),sound:(a,b)=>(b.snd-a.snd)||(b.crit-a.crit),ref4k:(a,b)=>(b.ref-a.ref)||(b.crit-a.crit),emotion:(a,b)=>(b.emo-a.emo)||(b.crit-a.crit),awe:(a,b)=>(b.awe-a.awe)||(b.crit-a.crit),comfort:(a,b)=>(b.cozy-a.cozy)||(b.aud-a.aud),perf:(a,b)=>(b.perf-a.perf)||(b.crit-a.crit),icon:(a,b)=>(b.icon-a.icon)||(b.crit-a.crit),scary:(a,b)=>(b.scary-a.scary)||(b.dread-a.dread),real:(a,b)=>(b.real-a.real)||(b.crit-a.crit),reality:(a,b)=>(b.reality-a.reality)||(b.myst-a.myst),shock:(a,b)=>(b.shock-a.shock)||(b.dread-a.dread),sci:(a,b)=>(b.sci-a.sci)||(b.myst-a.myst),funny:(a,b)=>(b.funny-a.funny)||(b.aud-a.aud),hist:(a,b)=>(b.hist-a.hist)||(b.crit-a.crit),vibe2:(a,b)=>(b.vibe2-a.vibe2)||(b.tech-a.tech),blend:(a,b)=>(bespokeScore(b)-bespokeScore(a))||(b.crit-a.crit),crit:(a,b)=>b.crit-a.crit,aud:(a,b)=>b.aud-a.aud,tech:(a,b)=>b.tech-a.tech,dread:(a,b)=>b.dread-a.dread,myst:(a,b)=>b.myst-a.myst,yearNew:(a,b)=>b.year-a.year,yearOld:(a,b)=>a.year-b.year,title:(a,b)=>a.title.localeCompare(b.title),tier:(a,b)=>(tierRank(b)-tierRank(a))||(b.gm-a.gm)};
 
@@ -734,7 +736,7 @@ function creatorCard(c,tab){const isDir=tab===true||tab==='directors';const isAu
  const back='<div class="flip-face flip-back absolute inset-0 panel p-4 flex flex-col" style="border-color:'+accent+'40">'
   +'<div class="lbl">'+backSigLabel+'</div>'
   +'<p class="text-[10.5px] text-slate-300 mt-1 leading-relaxed">'+esc(sigField)+'</p>'
-  +'<div class="lbl mt-2">Core Themes</div><div class="flex flex-wrap gap-1 mt-1">'+c.primaryThemes.slice().sort((a,b)=>a.localeCompare(b)).map(t=>'<span class="chip" style="color:'+themeColor(t)+';border-color:'+themeColor(t)+'44">'+esc(t)+'</span>').join('')+'</div>'
+  +'<div class="lbl mt-2">Core Themes</div><div class="flex flex-wrap gap-1 mt-1">'+c.primaryThemes.slice().sort((a,b)=>a.localeCompare(b)).map(t=>{const tc=themeColor(t);return '<span class="chip" style="color:'+tc+';background:'+tc+'1f;border-color:'+tc+'66;font-weight:600">'+esc(t)+'</span>';}).join('')+'</div>'
   +'<div class="lbl mt-2">Ledger Entries ('+works.length+')</div>'
   +'<div class="mt-1 flex-1 overflow-y-auto pr-1 space-y-1">'+(works.length?works.map(w=>{const k=KM[w.kind];
     return '<div class="flex items-center gap-2 text-[11px] goatJump cursor-pointer hover:bg-slate-800/30 rounded px-1 -mx-1" data-q="'+esc(w.title)+'" title="Open '+esc(w.title)+' in the Global Controller"><span class="w-1.5 h-1.5 rounded-full shrink-0" style="background:'+k.c+'"></span><span class="flex-1 truncate text-slate-200 hover:text-teal-300">'+esc(w.title)+'</span><span class="text-slate-500 tabular-nums">'+w.year+'</span><span class="tabular-nums font-semibold" style="color:'+k.c+'">'+w.crit+'</span></div>';}).join(''):'<div class="text-[11px] text-slate-500">No direct credits indexed.</div>')+'</div></div>';
@@ -836,19 +838,22 @@ function renderGraph(center,fromTrail){
  // breadcrumb trail + legend
  var crumbs='';
  if(graphTrail.length){
-  crumbs='<div id="graphTrail" class="flex items-center flex-wrap gap-1 mb-2 text-[11px]">'
-   +'<span class="text-slate-600 mr-0.5">path:</span>'
-   +graphTrail.map(function(t,i){var lab=t.type==='creator'?t.key:((byId.get(t.key)||{}).title||t.key);return '<button type="button" class="graphCrumb px-1.5 py-0.5 rounded hover:bg-slate-700/50 text-slate-400 hover:text-slate-200" data-i="'+i+'">'+esc(lab.length>18?lab.slice(0,16)+'\u2026':lab)+'</button><span class="text-slate-700">\u203a</span>';}).join('')
-   +'<span class="px-1.5 py-0.5 text-slate-200 font-semibold">'+esc((center.type==='creator'?center.key:((byId.get(center.key)||{}).title||center.key)))+'</span>'
+  var backBtn='<button type="button" id="graphBack" class="flex items-center gap-1 px-2 py-1 rounded-md border border-slate-700 text-slate-300 hover:border-indigo-500 hover:text-indigo-300 transition-colors shrink-0" title="Back one step">\u2190 Back</button>';
+  var homeBtn='<button type="button" id="graphHome" class="px-2 py-1 rounded-md border border-slate-700 text-slate-500 hover:border-slate-500 hover:text-slate-300 transition-colors shrink-0" data-i="0" title="Jump to the start of this path">\u2302</button>';
+  crumbs='<div id="graphTrail" class="flex items-center flex-wrap gap-1.5 mb-2.5 p-1.5 rounded-lg text-[11px]" style="background:rgba(15,22,38,.6);border:1px solid rgba(51,65,85,.5)">'
+   +homeBtn+backBtn
+   +'<span class="text-slate-600 mx-0.5">/</span>'
+   +graphTrail.map(function(t,i){var lab=t.type==='creator'?t.key:((byId.get(t.key)||{}).title||t.key);return '<button type="button" class="graphCrumb px-2 py-1 rounded-md hover:bg-indigo-500/15 border border-transparent hover:border-indigo-500/40 text-slate-400 hover:text-indigo-200 transition-colors" data-i="'+i+'">'+esc(lab.length>18?lab.slice(0,16)+'\u2026':lab)+'</button><span class="text-slate-700">\u203a</span>';}).join('')
+   +'<span class="px-2 py-1 rounded-md text-slate-100 font-semibold" style="background:#4f46e533;border:1px solid #6366f155">'+esc((center.type==='creator'?center.key:((byId.get(center.key)||{}).title||center.key)))+'</span>'
    +'</div>';
  }
- var legend='<div class="flex items-center flex-wrap gap-x-3 gap-y-1 mt-2 text-[9.5px] text-slate-500">'
-  +'<span><span style="color:#a78bfa">\u2014</span> creator/work</span>'
-  +'<span><span style="color:#22d3ee">\u2014</span> same creator</span>'
-  +'<span><span style="color:#c084fc">\u2014</span> shared theme</span>'
-  +'<span><span style="color:#64748b">\u2014</span> kindred creator</span>'
-  +'<span style="color:#fbbf24">\u25cb your canon</span>'
-  +'<span class="text-slate-600">\u00b7 hover a line for why</span></div>';
+ var legend='<div class="flex items-center flex-wrap gap-x-2 gap-y-1.5 mt-2.5 p-2 rounded-lg text-[9.5px] text-slate-400" style="background:rgba(15,22,38,.5);border:1px solid rgba(51,65,85,.4)">'
+  +'<span class="flex items-center gap-1 px-1.5 py-0.5 rounded" style="background:#a78bfa1a"><span style="display:inline-block;width:10px;height:2px;background:#a78bfa;border-radius:2px"></span> creator/work</span>'
+  +'<span class="flex items-center gap-1 px-1.5 py-0.5 rounded" style="background:#22d3ee1a"><span style="display:inline-block;width:10px;height:2px;background:#22d3ee;border-radius:2px"></span> same creator</span>'
+  +'<span class="flex items-center gap-1 px-1.5 py-0.5 rounded" style="background:#c084fc1a"><span style="display:inline-block;width:10px;height:2px;background:#c084fc;border-radius:2px"></span> shared theme</span>'
+  +'<span class="flex items-center gap-1 px-1.5 py-0.5 rounded" style="background:#64748b1a"><span style="display:inline-block;width:10px;height:2px;background:#64748b;border-radius:2px"></span> kindred creator</span>'
+  +'<span class="flex items-center gap-1 px-1.5 py-0.5 rounded" style="background:#fbbf241a;color:#fbbf24"><span style="display:inline-block;width:8px;height:8px;border-radius:50%;border:1.5px solid #fbbf24"></span> your canon</span>'
+  +'<span class="text-slate-600 ml-auto">hover a line for why it connects</span></div>';
  wrap.innerHTML=crumbs+svg+legend;
 }
 function graphChips(){
@@ -858,6 +863,7 @@ function graphChips(){
 }
 let contMedium='all';
 let contUnverifiedOnly=false;
+let contVerifiedOnly=false;
 function anticipationScore(c){
  // Personal 'For You' anticipation: how much this upcoming release matches YOUR taste,
  // blended with the editorial GOAT probability. Driven by the creative lead's pull in your engine.
@@ -900,17 +906,23 @@ function isPastWindow(c){
  return d?d.getTime()<Date.now():false;
 }
 function renderContenders(){const MED={Film:'#a78bfa',TV:'#22d3ee',Game:'#fbbf24',Book:'#4ade80'};
- var pool=contenders.slice().filter(c=>contMedium==='all'||c.medium===contMedium).filter(c=>!contUnverifiedOnly||!c.verified);
+ var pool=contenders.slice().filter(c=>contMedium==='all'||c.medium===contMedium).filter(c=>!contUnverifiedOnly||!c.verified).filter(c=>!contVerifiedOnly||c.verified);
  pool.forEach(function(c){var a=anticipationScore(c);c._antScore=a.score;c._antReasons=a.reasons;});
  pool.sort(contSort==='foryou'?function(a,b){return b._antScore-a._antScore;}:function(a,b){return b.goatProbability-a.goatProbability;});
  $$('.contMedBtn').forEach(b=>{var on=b.dataset.med===contMedium;var mc=MED[b.dataset.med]||'#818cf8';b.style.color=on?mc:'#94a3b8';b.style.borderColor=on?mc+'88':'rgba(148,163,184,.25)';b.style.background=on?mc+'18':'transparent';b.style.fontWeight=on?'700':'400';});
  var cc=$('#contCount');if(cc)cc.textContent=pool.length+(contMedium==='all'?' contenders':' '+contMedium.toLowerCase()+' contenders');
  var vc=$('#contVerifiedCount');if(vc){var verifiedN=pool.filter(function(c){return c.verified;}).length;vc.textContent='◉ '+verifiedN+'/'+pool.length+' spot-checked';}
- // The "Unverified only" filter is only useful when there's actually something unverified to
- // isolate -- computed from the medium-scoped pool regardless of the checkbox's own current state,
- // so toggling it on/off doesn't make its own control disappear out from under the click.
+ // Each of "Verified only" / "Unverified only" is only useful -- and only shown -- when the
+ // medium-scoped pool actually has something in that state to isolate, computed independent of
+ // the checkboxes' own current state so toggling one on/off doesn't make its own control disappear
+ // out from under the click.
+ var mediumPool=contenders.filter(function(c){return contMedium==='all'||c.medium===contMedium;});
+ var anyUnverified=mediumPool.some(function(c){return !c.verified;});
+ var anyVerified=mediumPool.some(function(c){return c.verified;});
  var uw=$('#contUnverifiedOnlyWrap');
- if(uw){var mediumPool=contenders.filter(function(c){return contMedium==='all'||c.medium===contMedium;});var anyUnverified=mediumPool.some(function(c){return !c.verified;});uw.classList.toggle('hidden',!anyUnverified);if(!anyUnverified&&contUnverifiedOnly){contUnverifiedOnly=false;var cb=$('#contUnverifiedOnly');if(cb)cb.checked=false;}}
+ if(uw){uw.classList.toggle('hidden',!anyUnverified);if(!anyUnverified&&contUnverifiedOnly){contUnverifiedOnly=false;var cb=$('#contUnverifiedOnly');if(cb)cb.checked=false;}}
+ var vw=$('#contVerifiedOnlyWrap');
+ if(vw){vw.classList.toggle('hidden',!anyVerified);if(!anyVerified&&contVerifiedOnly){contVerifiedOnly=false;var vcb=$('#contVerifiedOnly');if(vcb)vcb.checked=false;}}
  $('#contenderGrid').innerHTML=pool.map(c=>{const col=MED[c.medium]||'#94a3b8';
   var antCol=c._antScore>=88?'#fbbf24':c._antScore>=78?'#f0abfc':'#818cf8';
   var reasonLine=(c._antReasons&&c._antReasons.length)?'<div class="text-[10.5px] mt-1.5" style="color:'+antCol+'">\u2605 For you: '+esc(c._antReasons.join(' \u00b7 '))+'</div>':'';
@@ -1684,7 +1696,7 @@ function collectionGaps(){
  // Auto-detect collection gaps: (A) creators you collect where strong works sit unowned,
  // (B) same-root franchise/series entries you're missing. Honors the medium segment filter.
  var cs=state.collSeg||'all';
- var owned=ALL.filter(function(x){return x.owned&&(cs==='all'||x.kind===cs);});
+ var owned=ALL.filter(function(x){return x.owned&&x.kind!=='game'&&(cs==='all'||x.kind===cs);});
  var out={creators:[],series:[]};
  // (A) Creators you own 2+ from, with unowned high-match works available
  var byCreator={};
@@ -1744,7 +1756,7 @@ function collectionGapsHTML(){
  return html;
 }
 function renderUpgradeAudit(){
- var owned=ALL.filter(x=>x.owned);
+ var owned=ALL.filter(x=>x.owned&&x.kind!=='game');
  var cs=state.collSeg||'all';
  if(cs!=='all')owned=owned.filter(x=>x.kind===cs);
  // An upgrade candidate = owned, and suggested best edition ranks higher than what you own.
@@ -1792,7 +1804,7 @@ function renderUpgradeAudit(){
  el.innerHTML=head+'<div class="space-y-2">'+rows+'</div>'+collectionGapsHTML();
 }
 function renderCollectionShelf(){
- var owned=ALL.filter(x=>x.owned);
+ var owned=ALL.filter(x=>x.owned&&x.kind!=='game');
  var cs=state.collSeg||'all';
  if(cs!=='all')owned=owned.filter(x=>x.kind===cs);
  // Group into shelves by medium; each item is a spine whose height/color reflect the work.
@@ -1823,7 +1835,7 @@ function renderCollectionShelf(){
  $('#collShelf').innerHTML=html;
 }
 function renderCollectionSeries(){
- const owned=ALL.filter(x=>x.owned);
+ const owned=ALL.filter(x=>x.owned&&x.kind!=='game');
  const cs=state.collSeg||'all';
  const byId2=new Map(ALL.map(x=>[x.title,x]));
  // Build series cards: only show series where you own >=2, honoring the medium filter.
@@ -1858,7 +1870,7 @@ function renderCollectionSeries(){
  el.innerHTML='<p class="text-[11px] text-slate-500 mb-1">Your collection grouped by franchise \u2014 completion at a glance. \u25e6 marks entries in the ledger you don\u2019t yet own.</p>'+cards.map(c=>c.html).join('');
 }
 function renderCollection(){
- const owned=ALL.filter(x=>x.owned);
+ const owned=ALL.filter(x=>x.owned&&x.kind!=='game');
  const cs=state.collSeg||'all';
  const scope=cs==='all'?owned:owned.filter(x=>x.kind===cs);
  // stats
@@ -1870,7 +1882,7 @@ function renderCollection(){
   ['Avg Quality',avg]
  ].map(s=>'<div class="panel p-3 text-center"><div class="text-xl font-extrabold text-slate-50 tabular-nums">'+s[1]+'</div><div class="lbl mt-1">'+s[0]+'</div></div>').join('');
  // group by format
- const FORMAT_ORDER=['4K','Blu-ray','DVD','BD/DVD','Collector Edition','Box Set','Deluxe','Hardcover','Softcover','Paperback'];
+ const FORMAT_ORDER=['4K','Blu-ray','DVD','BD/DVD','Box Set','Deluxe','Hardcover','Softcover','Paperback'];
  const groups={};scope.forEach(x=>{const f=x.physFormat||'Other';(groups[f]=groups[f]||[]).push(x);});
  const order=FORMAT_ORDER.filter(f=>groups[f]).concat(Object.keys(groups).filter(f=>!FORMAT_ORDER.includes(f)));
  $('#collFormats').innerHTML=order.map(f=>{
@@ -1959,7 +1971,7 @@ function weightedPick(cands){
 }
 function renderSpinResult(it,cands){
  var k=KM[it.kind];var f=suggestedFormat(it);
- var badge=it.owned?'<span class="text-[10px] px-1.5 py-0.5 rounded" style="background:#14532d;color:#4ade80">\u2713 OWNED \u00b7 '+esc(it.physFormat||'')+'</span>':'<span class="text-[10px] px-1.5 py-0.5 rounded" style="background:#3b0764;color:#e879f9">DISCOVER</span>';
+ var badge=it.owned?'<span class="text-[10px] px-1.5 py-0.5 rounded" style="background:#14532d;color:#4ade80">\u2713 OWNED'+(it.physFormat?' \u00b7 '+esc(it.physFormat):'')+'</span>':'<span class="text-[10px] px-1.5 py-0.5 rounded" style="background:#3b0764;color:#e879f9">DISCOVER</span>';
  var whyR=whyRecommended(it);
  var el=$('#surprisePanel');
  el.classList.remove('hidden');el.dataset.mode='spin';
@@ -2078,6 +2090,10 @@ document.addEventListener('click',function(e){
  if(chip){renderGraph({type:chip.dataset.gtype,key:chip.dataset.gkey});return;}
  var crumb=e.target.closest&&e.target.closest('.graphCrumb');
  if(crumb){var i=+crumb.dataset.i;var target=graphTrail[i];if(target){graphTrail=graphTrail.slice(0,i);renderGraph(target,true);}return;}
+ var back=e.target.closest&&e.target.closest('#graphBack');
+ if(back){if(graphTrail.length){var prev=graphTrail[graphTrail.length-1];graphTrail=graphTrail.slice(0,-1);renderGraph(prev,true);}return;}
+ var home=e.target.closest&&e.target.closest('#graphHome');
+ if(home){if(graphTrail.length){var first=graphTrail[0];graphTrail=[];renderGraph(first,true);}return;}
 });
 // Graph search: resolve a creator name or work title and center on it
 (function(){var gs=$('#graphSearch');if(gs)gs.addEventListener('input',function(){var v=this.value.trim().toLowerCase();if(v.length<2)return;
@@ -2317,8 +2333,7 @@ const FMT_STYLE={
  'Deluxe':{bg:'#c084fc',fg:'#1e0a33',bd:'#c084fc',ac:'#c084fc'},
  'Hardcover':{bg:'#86efac',fg:'#052e12',bd:'#86efac',ac:'#86efac'},
  'Softcover':{bg:'#a3e635',fg:'#1a2e05',bd:'#a3e635',ac:'#a3e635'},
- 'Paperback':{bg:'#a3e635',fg:'#1a2e05',bd:'#a3e635',ac:'#a3e635'},
- 'Collector Edition':{bg:'#fbbf24',fg:'#221600',bd:'#fbbf24',ac:'#fbbf24'}
+ 'Paperback':{bg:'#a3e635',fg:'#1a2e05',bd:'#a3e635',ac:'#a3e635'}
 };
 function fmtStyle(f){return FMT_STYLE[f]||{bg:'#94a3b8',fg:'#0B0F19',bd:'#94a3b8',ac:'#94a3b8'};}
 function setPhysFormat(id,kind,fmt){
@@ -3229,7 +3244,8 @@ renderMatrices();
 renderCreators();
 renderContenders();
 document.addEventListener('click',e=>{const b=e.target.closest('.contMedBtn');if(b){contMedium=b.dataset.med;renderContenders();}});
-on('#contUnverifiedOnly','change',e=>{contUnverifiedOnly=e.target.checked;renderContenders();});
+on('#contUnverifiedOnly','change',e=>{contUnverifiedOnly=e.target.checked;if(contUnverifiedOnly){contVerifiedOnly=false;var vcb=$('#contVerifiedOnly');if(vcb)vcb.checked=false;}renderContenders();});
+on('#contVerifiedOnly','change',e=>{contVerifiedOnly=e.target.checked;if(contVerifiedOnly){contUnverifiedOnly=false;var ucb=$('#contUnverifiedOnly');if(ucb)ucb.checked=false;}renderContenders();});
 document.addEventListener('click',e=>{const b=e.target.closest('.contSortBtn');if(b){contSort=b.dataset.sort;$$('.contSortBtn').forEach(function(x){x.classList.toggle('on',x===b);});renderContenders();}});
 document.addEventListener('click',e=>{const b=e.target.closest('.contMigratedBtn');if(b){state.q=b.dataset.q;const qi=$('#q');if(qi)qi.value=b.dataset.q;switchView('controller');refresh();}});
 renderGoat();
