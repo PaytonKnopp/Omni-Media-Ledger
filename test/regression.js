@@ -373,19 +373,18 @@ async function runFile(browser, file) {
     await page.click('#versionClose');
     await page.waitForTimeout(150);
 
-    // Quick Tips banner: shown once on Global Controller until dismissed, so first-time users
-    // learn cards expand and the compact row can tier without opening a card first.
-    const tipsVisibleInitially = await page.evaluate(() => document.getElementById('quickTips').offsetHeight > 0);
-    check('Quick Tips banner shows on a fresh profile', tipsVisibleInitially);
-    await page.click('#quickTipsClose');
+    // Quick Tips: a small "?" button next to the theme selector opens a popup with the same
+    // pointers the old banner had -- no nav tab, no page space taken up until asked for.
+    const tipsHiddenInitially = await page.evaluate(() => document.getElementById('tipsGate').classList.contains('hidden'));
+    check('Quick Tips popup is closed by default', tipsHiddenInitially);
+    await page.click('#tipsBtn');
     await page.waitForTimeout(150);
-    const tipsHiddenAfterDismiss = await page.evaluate(() => document.getElementById('quickTips').offsetHeight === 0);
-    const dismissalPersisted = await page.evaluate(() => localStorage.getItem('omniLedgerTipsDismissed') === '1');
-    check('dismissing Quick Tips hides it and remembers the dismissal', tipsHiddenAfterDismiss && dismissalPersisted);
-    await page.reload();
-    await page.waitForTimeout(600);
-    const tipsStillHiddenAfterReload = await page.evaluate(() => document.getElementById('quickTips').offsetHeight === 0);
-    check('Quick Tips stays dismissed across a reload', tipsStillHiddenAfterReload);
+    const tipsVisibleAfterClick = await page.evaluate(() => !document.getElementById('tipsGate').classList.contains('hidden'));
+    check('clicking the ? button opens the Quick Tips popup', tipsVisibleAfterClick);
+    await page.click('#tipsClose');
+    await page.waitForTimeout(150);
+    const tipsHiddenAfterClose = await page.evaluate(() => document.getElementById('tipsGate').classList.contains('hidden'));
+    check('closing Quick Tips hides the popup again', tipsHiddenAfterClose);
 
     // Per-work "most relevant 3" front bars: regression for the old behavior where every movie
     // showed the identical Image/Dread/Mind trio, every book the identical Prose/Ideas/Depth trio,

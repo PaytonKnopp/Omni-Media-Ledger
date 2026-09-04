@@ -494,7 +494,7 @@ function cardHTML(it){const k=KM[it.kind];
  +'<button type="button" class="cardHead w-full text-left p-3.5 flex gap-3 items-start" data-id="'+it.id+'">'
  +ring(it.crit,k.c,42)
  +'<div class="flex-1 min-w-0">'
- +'<div class="flex items-center gap-x-2 gap-y-1.5 flex-wrap"><span class="cardTitle text-[13px] font-semibold text-slate-100 leading-tight hover:text-teal-300 cursor-pointer underline decoration-dotted decoration-slate-600 underline-offset-2" data-flip="'+it.id+'" title="Click for a summary and full breakdown">'+esc(it.title)+'</span><span class="chip" style="color:'+k.c+';border-color:'+k.c+'44">'+k.label+'</span><span class="chip" style="color:#5eead4;border-color:#5eead455">'+esc(it.rating)+'</span>'+(it.owned?'<span class="chip" style="color:#0B0F19;background:#4ade80;border-color:#4ade80;font-weight:800;letter-spacing:.02em" title="In your physical collection">\u2713 OWNED'+(it.physFormat?' \u00b7 '+esc(it.physFormat):'')+'</span>':'')+'<span class="chip" style="color:#fbbf24;border-color:#fbbf2444" title="GOAT match /100">\u2605 '+it.gm+'</span>'+(window._blendActive?'<span class="chip" style="color:#0B0F19;background:#34d399;border-color:#34d399;font-weight:800" title="Weighted blend match">\u2696 '+bespokeScore(it).toFixed(0)+'%</span>':'')+(it.chFlag?'<span class="chip" style="color:#0B0F19;background:#c084fc;border-color:#c084fc;font-weight:700">\u25c9 CANON 100</span>':(it.ch>=70?'<span class="chip" style="color:#c084fc;border-color:#c084fc44">\u25c9 '+it.ch+'</span>':''))+'</div>'
+ +'<div class="flex items-center gap-x-2 gap-y-1.5 flex-wrap"><span class="cardTitle text-[13px] font-semibold text-slate-100 leading-tight hover:text-teal-300 cursor-pointer underline decoration-dotted decoration-slate-600 underline-offset-2" data-flip="'+it.id+'" title="Click for a summary and full breakdown">'+esc(it.title)+'</span><span class="chip" style="color:'+k.c+';border-color:'+k.c+'44">'+k.label+'</span><span class="chip" style="color:#5eead4;border-color:#5eead455">'+esc(it.rating)+'</span>'+'<span class="chip" style="color:#fbbf24;border-color:#fbbf2444" title="GOAT match /100">\u2605 '+it.gm+'</span>'+(window._blendActive?'<span class="chip" style="color:#0B0F19;background:#34d399;border-color:#34d399;font-weight:800" title="Weighted blend match">\u2696 '+bespokeScore(it).toFixed(0)+'%</span>':'')+(it.chFlag?'<span class="chip" style="color:#0B0F19;background:#c084fc;border-color:#c084fc;font-weight:700">\u25c9 CANON 100</span>':(it.ch>=70?'<span class="chip" style="color:#c084fc;border-color:#c084fc44">\u25c9 '+it.ch+'</span>':''))+'</div>'
  +'<div class="text-[11px] text-slate-400 mt-1.5 truncate" title="'+esc(it.creator)+' · '+esc(it.org)+'">'+it.year+' · '+esc(it.creator)+' · '+esc(it.span)+'</div>'
  +'<div class="mt-2 space-y-1 cardMicro" title="This work\'s 3 strongest indices out of ~19 tracked -- click the card to see all of them">'+frontBars(it)+'</div>'
  +'</div><span class="text-slate-600 text-xs mt-1" aria-hidden="true">&#9662;</span></button>'+'<button type="button" class="wlBtn absolute top-2 right-2 text-base leading-none transition-transform hover:scale-125" data-wl="'+it.id+'" title="Toggle watchlist" style="color:'+(wlHas(it.id)?'#fb7185':'#475569')+'">'+(wlHas(it.id)?'\u2665':'\u2661')+'</button>'
@@ -1408,8 +1408,17 @@ function renderGoat(){renderTasteDNA();
 function renderGoatSearchResults(q){
  q=(q||'').trim().toLowerCase();
  var el=$('#goatSearchResults');if(!el)return;
+ // Browsing with no search yet: lead with fresh suggestions, not a list topped by whatever's
+ // already Gold/Silver/Bronze/Owned (those pin gm to 100/~88/~80, so a plain gm sort just showed
+ // your own past picks back at you first). Untiered, not-yet-owned items sort first here by their
+ // genuine algorithmic match score; everything already tiered/owned still shows, just further
+ // down -- searching (or just scrolling) still reaches anything, tiered or not.
  var pool=q?ALL.filter(function(x){return (x.title+' '+x.creator+' '+(x.genres||[]).join(' ')).toLowerCase().indexOf(q)>=0;})
-  :ALL.slice().sort(function(a,b){return b.gm-a.gm;});
+  :ALL.slice().sort(function(a,b){
+    var au=!(a.goat||a.silver||a.bronze||a.owned),bu=!(b.goat||b.silver||b.bronze||b.owned);
+    if(au!==bu)return au?-1:1;
+    return b.gm-a.gm;
+   });
  var shown=pool.slice(0,25);
  // Status is communicated by tierRowHTML alone (its active segments already highlight in color
  // and, for Gold/Silver/Bronze/Owned, are self-explanatory) -- this used to ALSO render a separate
@@ -1962,24 +1971,15 @@ function doSpin(){
 on('#densityBtn','click',()=>{var on=document.body.classList.toggle('compact');var b=$('#densityBtn');b.textContent=on?'\u25a4 Comfortable':'\u25a6 Compact';b.classList.toggle('border-teal-500',on);b.classList.toggle('text-teal-300',on);try{localStorage.setItem('omniLedgerDensity',on?'1':'0');}catch(e){}});
 (function initDensity(){var v='0';try{v=localStorage.getItem('omniLedgerDensity')||'0';}catch(e){}if(v==='1'){document.body.classList.add('compact');var b=$('#densityBtn');if(b){b.textContent='\u25a4 Comfortable';b.classList.add('border-teal-500','text-teal-300');}}})();
 
-/* ===== Quick Tips banner: shown once (per browser) on Global Controller until dismissed =====
+/* ===== Quick Tips: a small "?" button next to the theme selector, opening a popup on demand =====
    Not tied to onboarding -- someone can finish onboarding and still not know cards expand, or
-   that the row under each card can tier/own without opening it. A one-time, easily dismissed
-   banner is a lighter touch than a guided tour and doesn't need maintaining as features move. */
+   that the row under each card can tier/own without opening it. Deliberately not a banner or a nav
+   tab (both compete for space/attention on every visit) -- just one quiet, always-in-the-same-place
+   button that's there when wanted and invisible otherwise. */
 (function initQuickTips(){
- var el=$('#quickTips');if(!el)return;
- var dismissed='0';try{dismissed=localStorage.getItem('omniLedgerTipsDismissed')||'0';}catch(e){}
- if(dismissed!=='1')el.classList.remove('hidden');
- on('#quickTipsClose','click',function(){el.classList.add('hidden');try{localStorage.setItem('omniLedgerTipsDismissed','1');}catch(e){}});
- // Dismissing is permanent (per browser) so it doesn't nag once read -- but the banner still has
- // real reference info in it (what Gold/Silver/Bronze mean, where pinning lives), so it needs to
- // stay reachable afterward rather than being gone for good. This button, always visible in the
- // nav row, brings it back on demand from anywhere in the app.
- on('#quickTipsReopen','click',function(){
-  if(state.view!=='controller')switchView('controller');
-  el.classList.remove('hidden');
-  if(el.scrollIntoView)el.scrollIntoView({behavior:'smooth',block:'start'});
- });
+ var gate=$('#tipsGate');if(!gate)return;
+ on('#tipsBtn','click',function(){gate.classList.remove('hidden');});
+ on('#tipsClose','click',function(){gate.classList.add('hidden');});
 })();
 on('#surpriseBtn','click',()=>{const sc=$('#surpriseScope');sc.classList.toggle('hidden');var opening=!sc.classList.contains('hidden');var panel=$('#surprisePanel');
  if(opening){if(panel.dataset.mode==='rabbit'){panel.classList.add('hidden');panel.innerHTML='';panel.dataset.mode='';$('#rabbitBtn').setAttribute('aria-expanded','false');}if(sc.scrollIntoView)sc.scrollIntoView({behavior:'smooth',block:'nearest'});}
@@ -2972,7 +2972,10 @@ on('#wlExport','click',()=>{const items=wlItems().map(x=>({title:x.title,year:x.
 on('#creatorGrid','keydown',e=>{if(e.key!=='Enter'&&e.key!==' ')return;const f=e.target.closest('.flip');if(f){e.preventDefault();f.classList.toggle('flipped');}});
 
 /* ===================== BOOT ===================== */
-const INDEX_DEFS=[['snd','Soundtrack / Audio','#7dd3fc'],['ref','4K Reference','#818cf8'],['ch','Cosmic Horror','#c084fc'],['emo','Emotional / Sad','#f0abfc'],['awe','Awe / Spectacle','#fbbf24'],['cozy','Comfort / Cozy','#34d399'],['perf','Best Performances','#fda4af'],['icon','Iconicness','#fcd34d'],['scary','Scariest','#f87171'],['real','Realism','#86efac'],['reality','Reality-Altering','#c4b5fd'],['shock','Genuine Shock','#fb923c'],['sci','Scientific','#67e8f9'],['funny','Funniest','#fde047'],['hist','Historically Accurate','#a3e635'],['vibe2','Vibe / Atmosphere','#e879f9'],['crit','Critical Score','#94a3b8'],['aud','Audience Score','#4ade80'],['tech','Technical Craft','#a5b4fc']];
+// Alphabetical by label -- both Advanced Filters' unpinned list and the pinned main row (which
+// filters this same array) start in a-z order, so a slider's position is predictable without
+// having to scan every entry first.
+const INDEX_DEFS=[['ref','4K Reference','#818cf8'],['aud','Audience Score','#4ade80'],['awe','Awe / Spectacle','#fbbf24'],['perf','Best Performances','#fda4af'],['cozy','Comfort / Cozy','#34d399'],['ch','Cosmic Horror','#c084fc'],['crit','Critical Score','#94a3b8'],['emo','Emotional / Sad','#f0abfc'],['funny','Funniest','#fde047'],['shock','Genuine Shock','#fb923c'],['hist','Historically Accurate','#a3e635'],['icon','Iconicness','#fcd34d'],['real','Realism','#86efac'],['reality','Reality-Altering','#c4b5fd'],['scary','Scariest','#f87171'],['sci','Scientific','#67e8f9'],['snd','Soundtrack / Audio','#7dd3fc'],['tech','Technical Craft','#a5b4fc'],['vibe2','Vibe / Atmosphere','#e879f9']];
 function buildGenreChips(){
  $('#genreChips').innerHTML=GENRE_FAMILIES.map(f=>{const name=f[0],n=GENRE_COUNTS[name]||0;if(!n)return '';
   const on=state.genres.includes(name);
@@ -3120,7 +3123,7 @@ buildPlatSelect();
  // Outside-click and Escape are handled once, for every .radarCombo including this one -- see the
  // shared closeAllCombos listener registered earlier in the script. No separate listener needed here.
 })();
-$('#headStats').innerHTML=[['Indexed Works',ALL.length],['Master Creators',directorsPantheon.length+authorsPantheon.length+gamingAuteurs.length],['Contenders',contenders.length]]
+$('#headStats').innerHTML=[['Indexed Works',ALL.length],['Contenders',contenders.length]]
  .map(s=>'<div><div class="text-lg font-extrabold text-slate-50 leading-none tabular-nums">'+s[1]+'</div><div class="lbl mt-1">'+s[0]+'</div></div>').join('');
 (function(){var lc=$('#luCount');if(lc){var m=ALL.filter(function(x){return x.kind==='movie'}).length,t=ALL.filter(function(x){return x.kind==='tv'}).length,g=ALL.filter(function(x){return x.kind==='game'}).length,b=ALL.filter(function(x){return x.kind==='book'}).length;lc.textContent=ALL.length+' works · '+m+' films / '+t+' series / '+g+' games / '+b+' books';}})();
 renderMatrices();
