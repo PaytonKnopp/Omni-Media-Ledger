@@ -176,7 +176,7 @@ body[data-theme="outer-wilds"]{--bg:#0e0a09;--panel:#181010;--panel-2:#120c0b;--
       </button>
       <button type="button" id="onboardSeed" class="w-full text-left rounded-xl border border-slate-700 hover:border-violet-500 p-3 transition-colors">
         <div class="text-sm font-semibold text-slate-100">Quick-rate a few titles</div>
-        <div class="text-[12px] text-slate-500 mt-0.5">Tap the ones you love out of 16 well-regarded, varied picks — request a different batch anytime if you don't recognize enough. Takes under a minute, gives recommendations something real to work from right away.</div>
+        <div class="text-[12px] text-slate-500 mt-0.5">Tier the ones you love — Gold, Silver, or Bronze — out of 16 well-regarded, varied picks — request a different batch anytime if you don't recognize enough. Takes under a minute, and your tiers are already accurate the moment you land in the app.</div>
       </button>
       <button type="button" id="onboardGoatPicker" class="w-full text-left rounded-xl border border-slate-700 hover:border-violet-500 p-3 transition-colors">
         <div class="text-sm font-semibold text-slate-100">Search &amp; pick your GOATs</div>
@@ -196,12 +196,12 @@ body[data-theme="outer-wilds"]{--bg:#0e0a09;--panel:#181010;--panel-2:#120c0b;--
   <div id="onboardSeedScreen" class="hidden panel p-6 max-w-lg w-full space-y-4 max-h-[85vh] overflow-y-auto">
     <div>
       <div class="text-[10px] tracking-[.35em] text-indigo-300/80 uppercase mb-1">Quick-rate</div>
-      <h2 class="text-lg font-bold text-slate-50">Tap anything you love</h2>
-      <p class="text-[13px] text-slate-400 mt-1">16 well-regarded, deliberately varied picks across film, TV, games, and books — loving even a few seeds real recommendations right away. Don't recognize enough of these? Tap 🔄 for a different batch. Skip anything you don't know or don't care for.</p>
+      <h2 class="text-lg font-bold text-slate-50">Tier anything you love</h2>
+      <p class="text-[13px] text-slate-400 mt-1">16 well-regarded, deliberately varied picks across film, TV, games, and books. Mark any of them 🥇 Gold, 🥈 Silver, or 🥉 Bronze — exactly like tiering from a card once you're in — and they'll already be accurate the moment you land, seeding real recommendations right away. Don't recognize enough of these? Tap 🔄 for a different batch. Leave anything you don't know or don't care for untiered.</p>
     </div>
     <div id="onboardSeedGrid" class="space-y-2"></div>
     <div class="flex items-center justify-between gap-2 pt-2 border-t border-slate-800/70">
-      <span id="onboardSeedCount" class="text-[12px] text-slate-500">0 selected</span>
+      <span id="onboardSeedCount" class="text-[12px] text-slate-500">0 tiered</span>
       <div class="flex gap-2 flex-wrap justify-end">
         <button type="button" id="onboardSeedBack" class="presetBtn" title="Go back to the other starting options -- nothing here is saved yet">← Back</button>
         <button type="button" id="onboardSeedMore" class="presetBtn" title="Swap out anything you haven't loved for a fresh, different batch">🔄 Show different picks</button>
@@ -231,8 +231,8 @@ body[data-theme="outer-wilds"]{--bg:#0e0a09;--panel:#181010;--panel-2:#120c0b;--
     <div class="flex items-start justify-between gap-2">
       <div>
         <div class="text-[10px] tracking-[.35em] text-indigo-300/80 uppercase mb-1">Pick Your GOATs</div>
-        <h2 class="text-lg font-bold text-slate-50">Search, select, finalize</h2>
-        <p class="text-[13px] text-slate-400 mt-1">Search the full 2,502-work corpus and tap anything to declare it a favorite. Declared works are pinned to a 100 match score and drive every recommendation. Come back here anytime — this adds to what you've already declared, it doesn't start over.</p>
+        <h2 class="text-lg font-bold text-slate-50">Search, tier, finalize</h2>
+        <p class="text-[13px] text-slate-400 mt-1">Search the full 2,502-work corpus and mark anything 🥇 Gold, 🥈 Silver, or 🥉 Bronze — the same three tiers a card's row uses once you're in. Gold pins a 100 match score, Silver and Bronze pull the score up a smaller amount, and all three drive every recommendation. Come back here anytime — this adds to what you've already tiered, it doesn't start over.</p>
       </div>
       <button type="button" id="goatPickerClose" class="text-slate-500 hover:text-slate-300 text-lg leading-none">✕</button>
     </div>
@@ -251,7 +251,7 @@ body[data-theme="outer-wilds"]{--bg:#0e0a09;--panel:#181010;--panel-2:#120c0b;--
     <div id="goatPickerResults" class="space-y-1.5 max-h-80 overflow-y-auto"></div>
     <div class="pt-3 border-t border-slate-800/70">
       <div class="flex items-center justify-between mb-2">
-        <span class="lbl">★ Declared so far · <span id="goatPickerCount">0</span></span>
+        <span class="lbl">Tiered so far · <span id="goatPickerCount">0</span></span>
         <button type="button" id="goatPickerClear" class="text-[10px] text-slate-500 hover:text-rose-300">clear all</button>
       </div>
       <div id="goatPickerStaged" class="flex flex-wrap gap-1.5"></div>
@@ -361,6 +361,7 @@ body[data-theme="outer-wilds"]{--bg:#0e0a09;--panel:#181010;--panel-2:#120c0b;--
       <button type="button" class="navBtn" data-view="viz">Visualization Suite</button>
       <button type="button" class="navBtn" data-view="timeline">◷ Timeline</button>
       <button type="button" id="suggestBtn" class="navBtn" style="border-color:#34d39955;color:#6ee7b7">💡 Suggest a feature</button>
+      <button type="button" id="quickTipsReopen" class="navBtn" style="border-color:#5eead455;color:#5eead4" title="Show the quick tips banner again">❓ Tips</button>
     </nav>
   </div>
 </header>
@@ -371,13 +372,14 @@ body[data-theme="outer-wilds"]{--bg:#0e0a09;--panel:#181010;--panel-2:#120c0b;--
   <div id="quickTips" class="hidden panel p-3.5 mb-4 border-teal-500/30" style="background:linear-gradient(135deg,#0f766e11,transparent)">
     <div class="flex items-start justify-between gap-3">
       <div class="text-[12px] text-slate-300 leading-relaxed space-y-1">
-        <div class="text-[10px] tracking-[.3em] text-teal-300/80 uppercase mb-1.5">New here? A few pointers</div>
+        <div class="text-[10px] tracking-[.3em] text-teal-300/80 uppercase mb-1.5">A few pointers</div>
         <div>🖱️ <strong class="text-slate-100">Click any card's title or body</strong> to expand it and see all ~19 stats, not just the 3 shown up front.</div>
-        <div>🥇 <strong class="text-slate-100">The row under each card</strong> lets you mark Gold / Silver / Bronze favorites or "owned" in one click — no need to expand first.</div>
-        <div>📌 <strong class="text-slate-100">In Advanced Filters</strong>, pin any slider you use a lot so it shows up here on the main screen every time.</div>
+        <div>🥇 <strong class="text-slate-100">The row under each card</strong> lets you mark Gold / Silver / Bronze favorites or "owned" in one click — no need to expand first. Gold is your absolute favorite, Silver the next tier down, Bronze the one after that — this tiering is the single thing that drives your ★ GOAT Match score and recommendations everywhere in the app.</div>
+        <div>📌 <strong class="text-slate-100">Pin any slider you use a lot</strong> (Advanced Filters, or the ≥ sliders themselves) so it shows up in the always-visible row up top instead of staying tucked away.</div>
+        <div>🔀 <strong class="text-slate-100">The Sort dropdown</strong> is grouped by category — Reception, Craft & Fidelity, Mood & Feel, Depth & Ideas — so related sorts sit together instead of one long list.</div>
         <div>☁️ <strong class="text-slate-100">Sign into an account</strong> (top right) to sync your picks across devices — type any name; the same name anywhere brings it all back.</div>
-        <div>★ <strong class="text-slate-100">The GOAT Profile tab</strong> has a full search to declare all-time favorites directly, plus your generated taste breakdown and recommendations.</div>
-        <div>💡 <strong class="text-slate-100">See something missing?</strong> Use "Suggest a feature" in the header, top of page.</div>
+        <div>★ <strong class="text-slate-100">The GOAT Profile tab</strong> has a full search to declare Gold/Silver/Bronze favorites directly, plus your generated taste breakdown and recommendations.</div>
+        <div>💡 <strong class="text-slate-100">See something missing?</strong> Use "Suggest a feature" in the header, top of page. Click the <strong class="text-slate-100">❓ Tips</strong> button next to it anytime to bring this banner back.</div>
       </div>
       <button type="button" id="quickTipsClose" class="text-slate-500 hover:text-slate-300 text-base leading-none shrink-0" title="Dismiss these tips">✕</button>
     </div>
@@ -409,10 +411,6 @@ body[data-theme="outer-wilds"]{--bg:#0e0a09;--panel:#181010;--panel-2:#120c0b;--
     <div class="mt-4 pt-4 border-t border-slate-800/70">
       <div class="fieldlbl mb-2">Your 5 quick filters <span class="text-slate-600 normal-case">· pin/unpin any specialized index below to swap what shows here</span></div>
       <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-5 gap-x-6 gap-y-4">
-        <div>
-          <div class="flex justify-between items-baseline mb-1.5"><span class="fieldlbl mb-0 cursor-help" title="Movies & TV: mean of 4K transfer fidelity, audio soundscape and cinematography. Games: mean of engine/graphics performance and art direction.">Technical Fidelity / Engine ≥</span><span class="text-[12px] font-bold text-indigo-300 tabular-nums" id="minTechV">0</span></div>
-          <input type="range" id="minTech" min="0" max="100" value="0" aria-label="Minimum technical fidelity"/>
-        </div>
         <div>
           <div class="flex justify-between items-baseline mb-1.5"><span class="fieldlbl mb-0 cursor-help" style="color:#fbbf24" title="Personal match computed from your declared GOAT profile. Declared favorites = 100; hand-scored recommendations keep their scores; everything else is scored algorithmically from the taste fingerprint.">★ GOAT Match ≥</span><span class="text-[12px] font-bold text-amber-300 tabular-nums" id="minGoatV">0</span></div>
           <input type="range" id="minGoat" min="0" max="100" value="0" aria-label="Minimum personal GOAT match"/>
@@ -495,31 +493,43 @@ body[data-theme="outer-wilds"]{--bg:#0e0a09;--panel:#181010;--panel-2:#120c0b;--
         <select id="sortSel" class="inp" style="width:auto">
           <option value="overall">Best Overall</option>
           <option value="tier">🥇 My Tiers · Gold → Silver → Bronze</option>
-          <option value="cosmic">◉ Cosmic Horror Index</option>
-          <option value="blend">⚖ Blend · Tech / Dread / Mind weights</option>
-          <option value="sound">Best Soundtrack / Audio</option>
-          <option value="ref4k">Best 4K Reference</option>
-          <option value="emotion">Saddest / Most Emotional</option>
-          <option value="awe">Most Awe / Spectacle</option>
-          <option value="comfort">Most Comforting / Cozy</option>
-          <option value="perf">Best Performances</option>
-          <option value="icon">Most Iconic</option>
-          <option value="scary">Scariest</option>
-          <option value="real">Most Realistic</option>
-          <option value="reality">Most Reality-Altering</option>
-          <option value="shock">Most Shocking</option>
-          <option value="sci">Most Scientific</option>
-          <option value="funny">Funniest</option>
-          <option value="hist">Most Historically Accurate</option>
-          <option value="vibe2">Best Vibe / Atmosphere</option>
-          <option value="crit">Critical Score</option>
-          <option value="aud">Audience Score</option>
-          <option value="tech">Technical Fidelity</option>
-          <option value="dread">Dread / Immersion</option>
-          <option value="myst">Complexity</option>
-          <option value="yearNew">Year · Newest</option>
-          <option value="yearOld">Year · Oldest</option>
-          <option value="title">Title A–Z</option>
+          <optgroup label="Reception">
+            <option value="crit">Critical Score</option>
+            <option value="aud">Audience Score</option>
+          </optgroup>
+          <optgroup label="Craft & Fidelity">
+            <option value="tech">Technical Craft</option>
+            <option value="ref4k">Best 4K Reference</option>
+            <option value="sound">Best Soundtrack / Audio</option>
+            <option value="perf">Best Performances</option>
+            <option value="vibe2">Best Vibe / Atmosphere</option>
+            <option value="icon">Most Iconic</option>
+          </optgroup>
+          <optgroup label="Mood & Feel">
+            <option value="comfort">Most Comforting / Cozy</option>
+            <option value="emotion">Saddest / Most Emotional</option>
+            <option value="awe">Most Awe / Spectacle</option>
+            <option value="scary">Scariest</option>
+            <option value="funny">Funniest</option>
+          </optgroup>
+          <optgroup label="Depth & Ideas">
+            <option value="real">Most Realistic</option>
+            <option value="hist">Most Historically Accurate</option>
+            <option value="sci">Most Scientific</option>
+            <option value="reality">Most Reality-Altering</option>
+            <option value="shock">Most Shocking</option>
+            <option value="dread">Dread / Immersion</option>
+            <option value="myst">Complexity</option>
+            <option value="cosmic">◉ Cosmic Horror Index</option>
+          </optgroup>
+          <optgroup label="Custom">
+            <option value="blend">⚖ Blend · Tech / Dread / Mind weights</option>
+          </optgroup>
+          <optgroup label="Basic">
+            <option value="yearNew">Year · Newest</option>
+            <option value="yearOld">Year · Oldest</option>
+            <option value="title">Title A–Z</option>
+          </optgroup>
         </select>
       </div>
     </div>
