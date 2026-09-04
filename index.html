@@ -452,7 +452,7 @@ body[data-theme="outer-wilds"]{--bg:#0e0a09;--panel:#181010;--panel-2:#120c0b;--
         </div>
       </div>
       <div class="lg:col-span-3">
-        <label class="fieldlbl" for="platField">Platform / Network / Studio</label>
+        <label class="fieldlbl" for="platField">Platform / Network / Studio / Publisher</label>
         <div class="radarCombo sCombo" data-slot="plat" id="platCombo"><div class="rcField" id="platField" tabindex="0" role="button" aria-haspopup="listbox"><span class="rcLabel">Any platform / network / studio</span><span class="rcCaret">▾</span></div><div class="rcPop hidden"><input type="text" class="rcSearch inp" placeholder="🔍 e.g. Universal, HBO, PS5… (pick as many as you like)" autocomplete="off"><div class="rcList"></div></div></div>
       </div>
       <div class="lg:col-span-1 flex items-end">
@@ -523,7 +523,17 @@ body[data-theme="outer-wilds"]{--bg:#0e0a09;--panel:#181010;--panel-2:#120c0b;--
         </div>
         <div class="flex flex-wrap items-center gap-x-6 gap-y-3">
           <label class="flex items-center gap-2 text-[11px] text-slate-300 cursor-pointer"><input type="checkbox" id="combineMode" class="accent-indigo-500"/> Require ALL active filters (strict AND)</label>
-          <div class="flex items-center gap-2"><span class="fieldlbl mb-0">Year</span><input type="number" id="yearMin" class="inp" style="width:84px" placeholder="from" min="1950" max="2026"/><span class="text-slate-600">–</span><input type="number" id="yearMax" class="inp" style="width:84px" placeholder="to" min="1950" max="2026"/></div>
+          <div class="flex items-center gap-2 flex-wrap"><span class="fieldlbl mb-0">Year</span><input type="number" id="yearMin" class="inp" style="width:84px" placeholder="from" min="1950" max="2026"/><span class="text-slate-600">–</span><input type="number" id="yearMax" class="inp" style="width:84px" placeholder="to" min="1950" max="2026"/>
+            <div class="flex items-center gap-1 flex-wrap" id="yearPresets">
+              <button type="button" class="presetBtn" data-ymin="" data-ymax="1899">Classical &amp; Pre-1900</button>
+              <button type="button" class="presetBtn" data-ymin="1900" data-ymax="1969">1900s–60s</button>
+              <button type="button" class="presetBtn" data-ymin="1970" data-ymax="1989">70s–80s</button>
+              <button type="button" class="presetBtn" data-ymin="1990" data-ymax="1999">90s</button>
+              <button type="button" class="presetBtn" data-ymin="2000" data-ymax="2009">2000s</button>
+              <button type="button" class="presetBtn" data-ymin="2010" data-ymax="2019">2010s</button>
+              <button type="button" class="presetBtn" data-ymin="2020" data-ymax="">2020s+</button>
+            </div>
+          </div>
         </div>
       </div>
       <div id="activeBar" class="flex flex-wrap items-center gap-1.5 mt-3"></div>

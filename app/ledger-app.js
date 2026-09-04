@@ -534,6 +534,7 @@ function renderController(list){
  $('#priorityNote').textContent=note;renderActiveBar();
  const shown=sorted.slice(0,state.limit);$('#grid').innerHTML=shown.map(cardHTML).join('')||'<div class="col-span-full text-center text-slate-500 text-sm py-14">No works match every active filter. Loosen a threshold, remove a chip, or widen your genres.</div>';
 }
+let activeBarExpanded=false;
 function renderActiveBar(){
  const bar=$('#activeBar');if(!bar)return;const chips=[];
  const X=(label,clear)=>'<button type="button" class="chip activeChip" data-clr="'+clear+'" style="color:#fca5a5;border-color:#fca5a544">'+label+' ✕</button>';
@@ -554,7 +555,17 @@ function renderActiveBar(){
  const TL={gold:'🥇 Gold',silver:'🥈 Silver',bronze:'🥉 Bronze'};
  state.tierFilter.forEach(t=>chips.push(X(TL[t],'tier:'+t)));
  if(state.combine&&chips.length)chips.unshift('<span class="chip" style="color:#fbbf24;border-color:#fbbf2455">STRICT AND</span>');
- bar.innerHTML=chips.length?('<span class="lbl mr-1">Active:</span>'+chips.join('')+'<button type="button" id="clearAllF" class="chip" style="color:#94a3b8">clear all</button>'):'';
+ // A heavily-filtered search (multi-platform, several genres in and out, half a dozen thresholds...)
+ // can produce enough chips to wrap several rows and push the actual results far down the page.
+ // Collapse past a threshold, same "N more" pattern used elsewhere in the app, rather than let the
+ // bar grow without bound -- expand/collapse state is deliberately not persisted, just a per-visit
+ // convenience.
+ const OVERFLOW_AT=10;
+ const overflowing=chips.length>OVERFLOW_AT;
+ const shown=overflowing&&!activeBarExpanded?chips.slice(0,OVERFLOW_AT):chips;
+ const moreBtn=overflowing?'<button type="button" id="activeBarToggle" class="chip" style="color:#7dd3fc;border-color:#7dd3fc44">'+(activeBarExpanded?'▲ show less':'▾ +'+(chips.length-OVERFLOW_AT)+' more')+'</button>':'';
+ bar.innerHTML=chips.length?('<span class="lbl mr-1">Active:</span>'+shown.join('')+moreBtn+'<button type="button" id="clearAllF" class="chip" style="color:#94a3b8">clear all</button>'):'';
+ if(!chips.length)activeBarExpanded=false; // reset so the next unrelated search doesn't open pre-expanded
 }
 
 /* ===================== VIEW 2 · BESPOKE TASTE ENGINE ===================== */
@@ -1249,32 +1260,33 @@ ALL.forEach(x=>{
 });
 const GENRE_FAMILIES=[
  ['Sci-Fi',/sci-?fi|cyberpunk|space|dystopia|apocalyp|alt-history|time (loop|travel)|philosophical sci/i],
- ['Horror',/horror|slasher|giallo|gothic|cosmic|body horror|folk horror/i],
- ['Drama',/(^|\b)drama|tragedy|family|medical|kitchen/i],
- ['Thriller',/thriller|espionage|spy|conspiracy|techno-/i],
+ ['Horror',/horror|slasher|giallo|gothic|cosmic|body horror|folk horror|supernatural|vampire|ghost story|possession|haunted/i],
+ ['Documentary',/documentary|mockumentary/i],
+ ['Drama',/(^|\b)drama|tragedy|family|medical|kitchen|coming.of.age|slice of life/i],
+ ['Thriller',/thriller|espionage|spy|conspiracy|techno-|revenge/i],
  ['Mystery / Detective',/mystery|detective|deduction|noir|procedural|fmv/i],
  ['Crime',/crime|heist|institutional|legal/i],
  ['Psychological',/psychological|surreal|metafiction|postmodern|new weird/i],
- ['Action / Adventure',/action|adventure|shooter|fps|run-and-gun|boss rush|rail|stealth|hack/i],
+ ['Action / Adventure',/action|adventure|shooter|fps|run-and-gun|boss rush|rail|stealth|hack|fighting|beat .em up/i],
  ['Epic / Historical',/epic|historical|period|mythology/i],
- ['Fantasy',/fantasy|dark fantasy|magical realism/i],
+ ['Fantasy',/fantasy|dark fantasy|magical realism|magical girl/i],
  ['Western',/western/i],
- ['Comedy / Satire',/comedy|satire|dramedy|black comedy/i],
- ['Anime / Animated',/anime|animated|mecha/i],
- ['RPG',/\brpg\b|crpg|jrpg|roguelike rpg/i],
- ['Open World / Survival',/open world|survival|sandbox|exploration|automation|city builder|simulation|\bsim\b|walking sim|farming|life sim|anthology/i],
- ['Puzzle / Systems',/puzzle|logic|deckbuilder|deck-build|tactics|metroidvania|immersive sim|deduction|synesthesia|roguelike|roguelite/i],
+ ['Comedy / Satire',/comedy|satire|dramedy|black comedy|sitcom|farce/i],
+ ['Anime / Animated',/anime|animat|mecha/i],
+ ['RPG',/\brpg\b|crpg|jrpg|roguelike rpg|mmorpg/i],
+ ['Open World / Survival',/open world|survival|sandbox|exploration|automation|city builder|\bbuilder\b|simulation|\bsim\b|walking sim|farming|life sim|anthology/i],
+ ['Puzzle / Systems',/puzzle|logic|deckbuilder|deck-build|tactics|tactical|metroidvania|immersive sim|deduction|synesthesia|roguelike|roguelite/i],
  ['Romance',/romance/i],
  ['Superhero',/superhero/i],
  ['War',/\bwar\b|anti-war|military/i],
  ['Physics & Cosmology',/physics|cosmology|astro/i],
- ['Philosophy & Ideas',/philosophy|futurism|stoic/i],
- ['Science & Nature',/\bscience\b|mathematics|engineering|technology|anthropology/i],
+ ['Philosophy & Ideas',/philosophy|philosophical|futurism|stoic|metaphysical/i],
+ ['Science & Nature',/\bscience\b|mathematics|engineering|technology|anthropology|psychology|sociology|journalism|biology|economics|nature/i],
  ['Biography & History',/biography|biopic|history|memoir|historical/i],
- ['Literary & Poetry',/literary|poetry|graphic novel|fiction/i],
+ ['Literary & Poetry',/literary|poetry|graphic novel|fiction|essay|short stor|verse novel/i],
  ['Platformer',/platformer|3d platformer|2d platformer/i],
- ['Strategy & Tactics',/strategy|4x|rts|turn-based|grand strategy/i],
- ['Sports & Music',/sports|racing|music|rhythm|\bband\b/i]
+ ['Strategy & Tactics',/strategy|4x|rts|turn-based|grand strategy|tactical/i],
+ ['Sports & Music',/sport|racing|music|rhythm|\bband\b/i]
 ];
 ALL.forEach(x=>{const g=x.genres.join(' ');x.fam=GENRE_FAMILIES.filter(f=>f[1].test(g)).map(f=>f[0]);});
 const GENRE_COUNTS={};GENRE_FAMILIES.forEach(f=>{GENRE_COUNTS[f[0]]=ALL.filter(x=>x.fam.includes(f[0])).length;});
@@ -2143,6 +2155,34 @@ on('#rabbitBtn','click',()=>{var panel=$('#surprisePanel');var sc=$('#surpriseSc
 [['minDread','minDreadV'],['minMyst','minMystV'],['minGoat','minGoatV']].forEach(p=>{
  $('#'+p[0]).addEventListener('input',e=>{state[p[0]]=+e.target.value;$('#'+p[1]).textContent=e.target.value;refresh();});});
 on('#runtimeMax','input',e=>{state.runtimeMax=+e.target.value;$('#runtimeMaxV').textContent=state.runtimeMax>0?state.runtimeMax+'m':'Any';syncAdvCount();refresh();});
+// Live match-count preview: a small floating bubble that tracks the thumb of whichever threshold
+// slider you're dragging (mouse or keyboard), showing how many works match right now -- so you can
+// feel where a threshold matters without looking away to the result count under the search bar.
+// One shared bubble/listener for every such slider rather than one per slider: `input` events
+// bubble, and by the time this document-level (bubble-phase, not capture) listener runs, the
+// slider's own listener above has already updated `state` and called refresh() -- so filtered()
+// here reflects the change this exact keystroke/drag just made.
+(function initSliderCountBubble(){
+ var bubble=document.createElement('div');
+ bubble.id='sliderCountBubble';
+ bubble.style.cssText='position:fixed;z-index:1200;pointer-events:none;left:0;top:0;transform:translate(-50%,-135%);background:#0f1626;border:1px solid #334155;border-radius:8px;padding:4px 10px;font-size:11px;font-weight:700;color:#5eead4;box-shadow:0 4px 14px rgba(0,0,0,.45);white-space:nowrap;display:none;opacity:0;transition:opacity .12s ease';
+ document.body.appendChild(bubble);
+ var hideT=null;
+ function isLiveSlider(t){return !!(t&&t.tagName==='INPUT'&&t.type==='range'&&(t.classList.contains('idxSlider')||['minGoat','minDread','minMyst','runtimeMax'].indexOf(t.id)>=0));}
+ document.addEventListener('input',function(e){
+  var t=e.target;if(!isLiveSlider(t))return;
+  var r=t.getBoundingClientRect();
+  var min=+t.min||0,max=+t.max||100,val=+t.value;
+  var frac=max>min?(val-min)/(max-min):0;
+  bubble.style.left=Math.round(r.left+frac*r.width)+'px';
+  bubble.style.top=Math.round(r.top)+'px';
+  var n=filtered().length;
+  bubble.textContent=n.toLocaleString()+' work'+(n===1?'':'s')+' match';
+  bubble.style.display='block';bubble.style.opacity='1';
+  clearTimeout(hideT);
+  hideT=setTimeout(function(){bubble.style.opacity='0';hideT=setTimeout(function(){bubble.style.display='none';},150);},1000);
+ });
+})();
 on('#resetBtn','click',()=>{state.sort='overall';$('#sortSel').value='overall';clearAllFilters();});
 function syncBlendPanel(){var on=state.sort==='blend';var pnl=$('#blendPanel');if(pnl)pnl.classList.toggle('hidden',!on);
  var vt=$('#wTechV'),vd=$('#wDreadV'),vm=$('#wMystV');
@@ -3280,8 +3320,13 @@ $$('.tierChk').forEach(chk=>chk.addEventListener('change',()=>{
 }));
 on('#yearMin','input',e=>{state.yearMin=e.target.value?+e.target.value:null;syncAdvCount();refresh();});
 on('#yearMax','input',e=>{state.yearMax=e.target.value?+e.target.value:null;syncAdvCount();refresh();});
+on('#yearPresets','click',e=>{const b=e.target.closest('button');if(!b)return;
+ state.yearMin=b.dataset.ymin?+b.dataset.ymin:null;state.yearMax=b.dataset.ymax?+b.dataset.ymax:null;
+ $('#yearMin').value=state.yearMin!=null?state.yearMin:'';$('#yearMax').value=state.yearMax!=null?state.yearMax:'';
+ syncAdvCount();refresh();});
 on('#activeBar','click',e=>{
  if(e.target.closest('#clearAllF')){clearAllFilters();return;}
+ if(e.target.closest('#activeBarToggle')){activeBarExpanded=!activeBarExpanded;renderActiveBar();return;}
  const b=e.target.closest('.activeChip');if(!b)return;const c=b.dataset.clr;
  if(c==='q'){state.q='';$('#q').value='';}
  else if(c==='type'){state.type='all';$$('#typeSeg button').forEach(x=>x.classList.toggle('on',x.dataset.type==='all'));}
@@ -3319,7 +3364,8 @@ function buildPlatSelect(){
  PLAT_GROUPS=[
   {name:'Networks & Streamers',opts:u(tvShows.map(t=>t.networkStreamer))},
   {name:'Gaming Platforms',opts:u(videoGames.flatMap(g=>g.platformAvailability))},
-  {name:'Film Studios',opts:u(movies.map(m=>m.studio))}
+  {name:'Film Studios',opts:u(movies.map(m=>m.studio))},
+  {name:'Book Publishers',opts:u(books.map(b=>b.publisher))}
  ];
 }
 // Multi-select: picking a platform/network/studio no longer replaces the previous pick or closes
