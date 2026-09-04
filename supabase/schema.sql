@@ -411,10 +411,16 @@ create policy "profile snapshots are publicly readable"
 -- 3. A defensive per-handle row cap on media_status and friends, same spirit as the existing
 --    200KB cap on profiles.data: not a real security boundary (the anon key is public by design;
 --    this can't stop a determined actor with their own Postgres client), just a backstop against
---    a client-side bug (a runaway loop) quietly ballooning one handle's row count forever. The
---    corpus is 2,508 works total, so 3,000 is generous headroom for media_status; 1,000 is
---    generous for a friends list. Only counts against the cap when the row is genuinely new (not
---    already tracked for that handle), so re-tiering something you already track never trips it.
+--    a client-side bug (a runaway loop) quietly ballooning one handle's row count forever. Only
+--    counts against the cap when the row is genuinely new (not already tracked for that handle),
+--    so re-tiering something you already track never trips it.
+--    The media_status cap is deliberately far above the corpus size rather than just above it.
+--    It used to be 3,000 against a 2,508-work corpus -- comfortable then, but it would have
+--    silently become a real functional ceiling the moment the corpus passed 3,000 works: someone
+--    who tiers or owns most of the library would start getting genuine saves rejected with an
+--    exception, which is not what a defensive backstop is for. 50,000 keeps the runaway-loop
+--    backstop while leaving room for the corpus to grow by an order of magnitude. If the corpus
+--    ever approaches that, raise this first -- it is a guard rail, not a product limit.
 
 alter table public.media_status
   drop constraint if exists media_status_length_check;
@@ -446,7 +452,7 @@ language plpgsql
 as $$
 begin
   if not exists (select 1 from public.media_status where handle = new.handle and media_id = new.media_id)
-     and (select count(*) from public.media_status where handle = new.handle) >= 3000 then
+     and (select count(*) from public.media_status where handle = new.handle) >= 50000 then
     raise exception 'media_status row cap reached for this handle';
   end if;
   return new;

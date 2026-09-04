@@ -1314,15 +1314,15 @@ ALL.forEach(x=>{
  x.cozy=Math.max(0,Math.min(100,Math.round((100-x.dread)*0.5+x.aud*0.35+(cozy?16:0)-(x.myst>88?8:0))));
 });
 const GENRE_FAMILIES=[
- ['Sci-Fi',/sci-?fi|cyberpunk|space|dystopia|apocalyp|alt-history|time (loop|travel)|philosophical sci/i],
+ ['Sci-Fi',/sci-?fi|cyberpunk|space|dystopia|apocalyp|alt-history|time (loop|travel)|philosophical sci|feminist sf|military sf/i],
  ['Horror',/horror|slasher|giallo|gothic|cosmic|body horror|folk horror|supernatural|vampire|ghost story|possession|haunted/i],
  ['Documentary',/documentary|mockumentary/i],
- ['Drama',/(^|\b)drama|tragedy|family|medical|kitchen|coming.of.age|slice of life/i],
- ['Thriller',/thriller|espionage|spy|conspiracy|techno-|revenge/i],
- ['Mystery / Detective',/mystery|detective|deduction|noir|procedural|fmv/i],
+ ['Drama',/(^|\b)drama|tragedy|family|medical|kitchen|coming.of.age|slice of life|domestic|social commentary/i],
+ ['Thriller',/thriller|espionage|spy|conspiracy|techno-|revenge|disaster/i],
+ ['Mystery / Detective',/mystery|detective|deduction|noir|procedural|fmv|point-and-click|visual novel/i],
  ['Crime',/crime|heist|institutional|legal/i],
- ['Psychological',/psychological|surreal|metafiction|postmodern|new weird/i],
- ['Action / Adventure',/action|adventure|shooter|fps|run-and-gun|boss rush|rail|stealth|hack|fighting|beat .em up/i],
+ ['Psychological',/psychological|surreal|metafiction|postmodern|new weird|experimental|arthouse|minimalist|\bmeta\b/i],
+ ['Action / Adventure',/action|adventure|shooter|fps|run-and-gun|boss rush|rail|stealth|hack|fighting|beat .em up|soulslike|first-person|top-down|team-based|multiplayer|\bparty\b|collectathon|\bvr\b/i],
  ['Epic / Historical',/epic|historical|period|mythology/i],
  ['Fantasy',/fantasy|dark fantasy|magical realism|magical girl/i],
  ['Western',/western/i],
@@ -1335,10 +1335,10 @@ const GENRE_FAMILIES=[
  ['Superhero',/superhero/i],
  ['War',/\bwar\b|anti-war|military/i],
  ['Physics & Cosmology',/physics|cosmology|astro/i],
- ['Philosophy & Ideas',/philosophy|philosophical|futurism|stoic|metaphysical/i],
- ['Science & Nature',/\bscience\b|mathematics|engineering|technology|anthropology|psychology|sociology|journalism|biology|economics|nature/i],
+ ['Philosophy & Ideas',/philosophy|philosophical|futurism|stoic|metaphysical|religious|political|revolution/i],
+ ['Science & Nature',/\bscience\b|mathematics|engineering|technology|anthropology|psychology|sociology|journalism|biology|economics|nature|linguistics|\bdesign\b|\bart\b|business|travel/i],
  ['Biography & History',/biography|biopic|history|memoir|historical/i],
- ['Literary & Poetry',/literary|poetry|graphic novel|fiction|essay|short stor|verse novel/i],
+ ['Literary & Poetry',/literary|poetry|graphic novel|fiction|essay|short stor|verse novel|narrative|\bsilent\b|nostalgia|\bindie\b|\bstrand\b/i],
  ['Platformer',/platformer|3d platformer|2d platformer/i],
  ['Strategy & Tactics',/strategy|4x|rts|turn-based|grand strategy|tactical/i],
  ['Sports & Music',/sport|racing|music|rhythm|\bband\b/i]
@@ -1396,9 +1396,14 @@ ALL.forEach(x=>{
 function certify(x){const g=x.genres.join(' ').toLowerCase();
  if(x.kind==='book'){
   if(/cosmic horror|weird fiction|gothic/.test(g)||x.dread>=80)return 'Mature Readers';
+  // Verse is decided by the book's FORM (contextTags.formatType, surfaced as x.format), not by
+  // searching its genre strings for "poetry". 200 prose novels -- The Great Gatsby, Anna Karenina,
+  // Middlemarch, Madame Bovary -- used to certify as Verse purely because they carry the compound
+  // family label "Literary & Poetry" among their genres, and a substring match cannot tell that
+  // apart from a genuine Poetry tag. Matching the form field exactly can.
+  if(x.format==='Poetry')return 'Verse';
   if(/physics|cosmology|mathematics|philosophy|engineering/.test(g))return 'Technical';
   if(/biography|history|memoir|anthropology|science|technology|futurism|design|art/.test(g))return 'Nonfiction';
-  if(/poetry/.test(g))return 'Verse';
   return 'General';
  }
  if(x.kind==='game'){

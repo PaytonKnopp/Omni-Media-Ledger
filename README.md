@@ -124,12 +124,17 @@ There's no name, email, address, or financial information anywhere in the app or
 - **External dependencies**: Chart.js (loaded from a public CDN), used only for 3 charts in the Visualization Suite — if it can't load, those 3 charts show a friendly message and everything else, including the interactive relationship map, keeps working. When cloud accounts are configured, the Supabase JS client also loads from a public CDN — if it can't load, the app falls back to local-only mode exactly as if cloud accounts weren't configured at all.
 - **Fully offline-capable**: no internet connection needed for anything except those 3 charts.
 - **Data storage**: without cloud accounts, everything is saved in the browser's own `localStorage` — per browser, per device. It's not backed up by this repository; committing code doesn't save anyone's personal data.
-- **Automated tests**: `scripts/validate-corpus.js` checks the library data for problems (duplicates, missing fields) with no dependencies. `test/regression.js` is a full Playwright browser-automation suite covering onboarding, every screen, filters, and the cloud-account flow (against a mocked cloud, so no real account needed to run it). Both are optional for using the app, but useful if you're changing code:
+- **Automated tests**: `scripts/validate-corpus.js` is the data-quality gate for the library — duplicates and missing fields, but also score values outside their scale, implausible years and runtimes, placeholder text, unknown values in the closed vocabularies, works no genre family can see, and creators spelled two different ways. (That last set matters because the recommendation engine has no external source of truth: a bad field doesn't error, it just makes every score derived from it quietly worse.) It has no dependencies. `test/regression.js` is a full Playwright browser-automation suite covering onboarding, every screen, filters, and the cloud-account flow (against a mocked cloud, so no real account needed to run it). Both are optional for using the app, but useful if you're changing code:
 
   ```
   npm install -D playwright-core
   npx playwright install chromium   # once
   npm test
+
+  npm run validate-corpus              # just the data checks (no browser needed)
+  node scripts/validate-corpus.js --report   # ...plus a health report and the next free IDs
   ```
+
+  `ARCHITECTURE.md` → **Corpus data quality** documents every rule and the vocabularies they enforce — worth reading before adding a batch of titles.
 
 Further engineering detail — every design decision, bug found and fixed, and the reasoning behind each — lives in `NOTES.md`, written as a running project log rather than a reference doc.

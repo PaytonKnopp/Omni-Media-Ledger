@@ -34,6 +34,86 @@ function check(label, cond) {
   else { console.log('  FAIL -', label); failures++; }
 }
 
+// Wait for the page to have finished booting, instead of sleeping a fixed number of milliseconds
+// after a load and hoping it was enough.
+//
+// This matters more than it looks. Boot cost scales with the corpus -- every data/*.js file is
+// parsed on every load -- so a sleep tuned to be "comfortably enough" at 2,500 works is a coin
+// flip at 5,000 and a reliable failure at 10,000. That is not a hypothetical: one check in the
+// account flow already failed intermittently at the current size. A suite that gets less
+// trustworthy as the dataset grows is worse than no suite, because it teaches you to ignore it
+// exactly when the data is changing fastest.
+//
+// "Booted" means one of two things, because the app deliberately has two resting states (see
+// ARCHITECTURE.md "Boot sequence"): initApp() has run and exported window.ALL, or the app is
+// waiting on a gate for the person to pick an account / a starting point.
+async function waitForBoot(page, timeout) {
+  await page.waitForFunction(() => {
+    if (typeof window.ALL !== 'undefined') return true;
+    return ['acctGate', 'onboardGate'].some(id => {
+      const g = document.getElementById(id);
+      return g && !g.classList.contains('hidden');
+    });
+  }, { timeout: timeout || 30000 }).catch(() => {});
+}
+
+// Read the id of the first result card, waiting for the grid to have actually rendered.
+//
+// A bare `document.querySelector('.cardHead')?.dataset.id` races the render: booting only gets you
+// window.ALL, and the 100-card grid is painted after that. Lose the race and the optional-chaining
+// hands back `undefined` instead of throwing -- so nothing fails here. The id is then interpolated
+// into a selector and compared against `media_id` in the mocked table, where it matches nothing,
+// and the check that finally reports FAIL is three steps downstream of the actual problem. That is
+// precisely how "declaring Gold upserts a row into the media_status table" failed on CI while the
+// same commit passed on the push run: a race, not a regression, reported in the wrong place.
+async function firstCardId(page, timeout) {
+  const handle = await page.waitForFunction(() => {
+    const el = document.querySelector('.cardHead[data-id]');
+    return el ? el.dataset.id : false;
+  }, { timeout: timeout || 15000 }).catch(() => null);
+  return handle ? handle.jsonValue() : undefined;
+}
+
+// Read a value once it satisfies `predicate`, rather than sleeping a fixed interval and reading
+// whatever happens to be there.
+//
+// Every caller shares a shape: a tier click reloads the whole page (the scoring pipeline recomputes
+// from scratch), the app boots again, and only then does the cloud write land in the mocked table.
+// The fixed sleep covering that chain has already crept from 500ms to 900ms as the app got heavier,
+// and it grows again with every title added -- so it is a coin flip that gets worse over time.
+// Waiting on the value is faster when things are quick and reliable when they are slow.
+//
+// Returns null instead of throwing when the condition never arrives, so a genuine regression fails
+// its own check rather than aborting the run and hiding every check after it.
+async function readWhen(page, predicate, arg, timeout) {
+  const handle = await page.waitForFunction(predicate, arg, { timeout: timeout || 15000 }).catch(() => null);
+  if (!handle) return null;
+  return handle.jsonValue().catch(() => null);
+}
+
+// Click something that tiers a work, and don't come back until the resulting reload has finished.
+//
+// Tiering writes the profile, flushes the cloud sync, then reloads the page (the scoring pipeline
+// recomputes from scratch rather than being patched in place). Every step after the click reads
+// state, so none of them may run against the outgoing document.
+//
+// Detecting that needs a marker, not a timer, and not a state check either:
+//   - A fixed sleep is the thing being replaced. It has already crept 500ms -> 900ms as the app
+//     got heavier and grows again with every title added.
+//   - waitForBoot alone cannot do it: window.ALL still exists in the OLD document, so it can
+//     return before the navigation has even started.
+//   - Waiting on the write landing cannot do it either: the flush happens BEFORE the reload, so
+//     the value arrives while the page is still on its way out. Doing that is what made two
+//     reload cycles overlap and broke the pending-sync checks on CI.
+// Stamping the document and waiting for the stamp to be gone is unambiguous: only a new document
+// lacks it.
+async function clickAndReload(page, selector, timeout) {
+  await page.evaluate(() => { window.__preReloadMarker = true; });
+  await page.click(selector);
+  await page.waitForFunction(() => !window.__preReloadMarker, { timeout: timeout || 20000 }).catch(() => {});
+  await waitForBoot(page);
+}
+
 function findChromium() {
   if (process.env.PLAYWRIGHT_CHROMIUM_PATH && fs.existsSync(process.env.PLAYWRIGHT_CHROMIUM_PATH)) {
     return process.env.PLAYWRIGHT_CHROMIUM_PATH;
@@ -108,6 +188,7 @@ async function runFile(browser, file) {
     const consoleAssertFailures = [];
     page.on('console', m => { if (m.type() === 'assert') consoleAssertFailures.push(m.text()); });
     await page.goto(full);
+    await waitForBoot(page);
     await page.waitForTimeout(600);
 
     const gateVisible = await page.evaluate(() => {
@@ -119,13 +200,19 @@ async function runFile(browser, file) {
     if (gateVisible) {
       const startBtn = isShare ? '#onboardBlank' : '#onboardSample';
       await page.click(startBtn);
-      await page.waitForTimeout(500);
+      // Choosing a start path saves a profile and reloads the page. Wait for that to finish rather
+      // than sleeping: mid-reload the fresh document shows the gate again until the app has booted
+      // far enough to decide onboarding is done, so a sleep landing inside that window reports
+      // "the gate never dismissed" -- and the check right after reads #nav on a document that is
+      // still navigating and counts zero nav buttons. Two failures, one race, neither of them a
+      // real regression, and both of them get likelier as the corpus makes the reload heavier.
+      await waitForBoot(page);
     }
 
-    const gateGoneAfterStart = await page.evaluate(() => {
+    const gateGoneAfterStart = !!(await readWhen(page, () => {
       const g = document.getElementById('onboardGate');
       return g && g.classList.contains('hidden');
-    });
+    }));
     check('onboarding gate dismisses after choosing a start path', gateGoneAfterStart);
 
     // Views render with content
@@ -292,8 +379,7 @@ async function runFile(browser, file) {
     }, targetId);
     // Re-select the button fresh -- the original handle's DOM node was replaced by the
     // Interstellar/dune re-searches above.
-    await page.click('#goatSearchResults .profEditBtn[data-act="declare"][data-id="' + targetId + '"]');
-    await page.waitForTimeout(900); // tiering reloads the page -- the full reload+re-render (recomputing scoring for the whole corpus) has gotten heavier release over release, and 500ms stopped being reliable margin
+    await clickAndReload(page, '#goatSearchResults .profEditBtn[data-act="declare"][data-id="' + targetId + '"]');
     const isDeclaredAfter = await page.evaluate((id) => {
       try { return (JSON.parse(localStorage.getItem('omniLedgerProfile')).declaredGoatIds || []).includes(id); }
       catch (e) { return false; }
@@ -362,7 +448,7 @@ async function runFile(browser, file) {
     await page.fill('#goatSearchInput', 'dune');
     await page.waitForTimeout(200);
     const undoBtn = await page.$('#goatSearchResults .profEditBtn[data-act="declare"][data-id="' + targetId + '"]');
-    if (undoBtn) { await undoBtn.click(); await page.waitForTimeout(500); }
+    if (undoBtn) { await clickAndReload(page, '#goatSearchResults .profEditBtn[data-act="declare"][data-id="' + targetId + '"]'); }
     await page.click('#nav .navBtn[data-view="controller"]');
     await page.waitForTimeout(200);
 
@@ -523,15 +609,13 @@ async function runFile(browser, file) {
     // delegated handler already checks .profEditBtn before .cardHead, so it was never needed).
     await page.click('#resetBtn');
     await page.waitForTimeout(300);
-    const firstCardId = await page.evaluate(() => document.querySelector('.cardHead')?.dataset.id);
-    const bronzeBtn = await page.$('.panel .profEditBtn[data-act="bronze"]');
-    await bronzeBtn.click();
-    await page.waitForTimeout(900); // toggling reloads the page -- 500ms was occasionally too tight for the reload+re-render to settle
+    const firstCardIdValue = await firstCardId(page);
+    await clickAndReload(page, '.panel .profEditBtn[data-act="bronze"][data-id="' + firstCardIdValue + '"]');
     const bronzeIds = await page.evaluate(() => {
       try { return JSON.parse(localStorage.getItem('omniLedgerProfile')).bronzeTierIds || []; }
       catch (e) { return []; }
     });
-    check('bronze tier toggle saves the id to the profile', bronzeIds.includes(firstCardId));
+    check('bronze tier toggle saves the id to the profile', bronzeIds.includes(firstCardIdValue));
     // The card's top badge row deliberately no longer repeats a text "BRONZE" pill -- the tiering
     // icon row (tierRowHTML) lower on the card is the single indicator of tier now, so check that
     // instead: the bronze medal segment should be in its active (highlighted) state.
@@ -540,7 +624,7 @@ async function runFile(browser, file) {
       const panel = head && head.closest('.panel');
       const bronzeBtn = panel && panel.querySelector('.profEditBtn[data-act="bronze"]');
       return !!(bronzeBtn && /background:\s*#cd7f32/.test(bronzeBtn.getAttribute('style') || ''));
-    }, firstCardId);
+    }, firstCardIdValue);
     check('card shows an active Bronze tier icon after tiering (not a redundant text badge)', cardShowsBronzeBadge);
     const detailStillHidden = await page.evaluate(() => {
       const d = document.querySelector('.detail');
@@ -623,7 +707,7 @@ async function runFile(browser, file) {
 
     await page.selectOption('#sortSel', 'tier');
     await page.waitForTimeout(200);
-    const firstAfterTierSort = await page.evaluate(() => document.querySelector('.cardHead')?.dataset.id);
+    const firstAfterTierSort = await firstCardId(page);
     const firstIsHigherTier = await page.evaluate((id) => {
       // A Gold-declared item should outrank the single Bronze item under the tier sort.
       const raw = localStorage.getItem('omniLedgerProfile');
@@ -652,6 +736,7 @@ async function runFile(browser, file) {
     const page = await browser.newPage({ viewport: { width: 390, height: 844 } });
     await page.route('**/supabase-js*/**', route => route.abort());
     await page.goto(full);
+    await waitForBoot(page);
     await page.waitForTimeout(600);
     const gateVisible = await page.evaluate(() => {
       const g = document.getElementById('onboardGate');
@@ -927,6 +1012,7 @@ async function runAccountFlow(browser, file) {
     await page.route('**/supabase-js*/**', route => route.fulfill({ contentType: 'application/javascript', body: '' }));
     await page.addInitScript(MOCK_SUPABASE_SDK);
     await page.goto('file://' + tmpPath);
+    await waitForBoot(page);
     await page.waitForTimeout(400);
 
     const gateVisible = await page.evaluate(() => !document.getElementById('acctGate').classList.contains('hidden'));
@@ -975,6 +1061,7 @@ async function runAccountFlow(browser, file) {
     // empty store, rather than stomping real mutations back to the original seed on every reload.
     await page2.addInitScript(MOCK_SUPABASE_SDK + 'if(!sessionStorage.getItem("__mockDb"))sessionStorage.setItem("__mockDb", JSON.stringify({tables:{profiles:' + JSON.stringify({ smoketestuser: storedRow }) + ',suggestions:[],media_status:[]},upsertCalls:0,insertCalls:0,deleteCalls:0}));');
     await page2.goto('file://' + tmpPath);
+    await waitForBoot(page2);
     await page2.waitForTimeout(400);
     await page2.fill('#acctHandleInput', 'smoketestuser');
     await page2.click('#acctContinueBtn');
@@ -1020,9 +1107,9 @@ async function runAccountFlow(browser, file) {
     check('a brand-new cloud handle gets the onboarding flow', onboardN);
     await pageN.click(isShare ? '#onboardBlank' : '#onboardSample');
     await pageN.waitForTimeout(900);
-    const newGoldId = await pageN.evaluate(() => document.querySelector('.cardHead')?.dataset.id);
-    await pageN.click('.panel .profEditBtn[data-act="bronze"][data-id="' + newGoldId + '"]');
-    await pageN.waitForTimeout(1200);
+    const newGoldId = await firstCardId(pageN);
+    await clickAndReload(pageN, '.panel .profEditBtn[data-act="bronze"][data-id="' + newGoldId + '"]');
+    await pageN.waitForTimeout(300);
     // Let any debounced background sync fire too, so a racing near-empty write would be caught.
     await pageN.waitForTimeout(2200);
     const newRowIsReal = await pageN.evaluate((id) => {
@@ -1056,6 +1143,7 @@ async function runAccountFlow(browser, file) {
     await page3.route('**/supabase-js*/**', route => route.fulfill({ contentType: 'application/javascript', body: '' }));
     await page3.addInitScript(MOCK_SUPABASE_SDK + 'if(!sessionStorage.getItem("__mockDb"))sessionStorage.setItem("__mockDb", JSON.stringify({tables:{profiles:' + JSON.stringify({ smoketestuser: storedRow }) + ',suggestions:[],media_status:[]},upsertCalls:0,insertCalls:0,deleteCalls:0,failNextProfileSelectOnce:true}));');
     await page3.goto('file://' + tmpPath);
+    await waitForBoot(page3);
     await page3.waitForTimeout(400);
     await page3.fill('#acctHandleInput', 'smoketestuser');
     await page3.click('#acctContinueBtn');
@@ -1153,11 +1241,15 @@ async function runAccountFlow(browser, file) {
     });
     await page2.click('#suggestTabs [data-tab="open"]');
     await page2.evaluate(() => window.location.reload());
-    await page2.waitForTimeout(600);
+    // Wait for the app to actually finish booting rather than sleeping a fixed 600ms and hoping.
+    // The reload re-parses the whole corpus, so the boot cost grows with the dataset: a sleep long
+    // enough today is a flaky failure at twice the data, and this one already failed intermittently.
+    await page2.waitForFunction(() => !!document.getElementById('suggestBtn') && typeof ALL !== 'undefined', { timeout: 30000 });
     await page2.click('#suggestBtn');
-    await page2.waitForTimeout(400);
-    const otherRowInOpenTab = await page2.evaluate(() =>
-      Array.from(document.querySelectorAll('#suggestList [data-suggest-id]')).some(r => r.textContent.includes('more kazoo')));
+    // Same again for the list itself -- it renders after an async read of the (mocked) table.
+    const otherRowInOpenTab = await page2.waitForFunction(() =>
+      Array.from(document.querySelectorAll('#suggestList [data-suggest-id]')).some(r => r.textContent.includes('more kazoo')),
+      { timeout: 10000 }).then(() => true).catch(() => false);
     check('a suggestion from someone else appears in the Not done tab by default', otherRowInOpenTab);
     const otherHasDeleteNoEdit = await page2.evaluate(() => {
       const row = Array.from(document.querySelectorAll('#suggestList [data-suggest-id]')).find(r => r.textContent.includes('more kazoo'));
@@ -1165,10 +1257,17 @@ async function runAccountFlow(browser, file) {
     });
     check('Delete (but not Edit) is offered on a suggestion someone else submitted', otherHasDeleteNoEdit);
 
-    await page2.evaluate(() => {
+    // Return a boolean instead of dereferencing a row that may not be there: a missing row is a
+    // failed check above, and should stay one -- it should not throw and abort the whole run,
+    // taking every later check with it.
+    const resolveClicked = await page2.evaluate(() => {
       const row = Array.from(document.querySelectorAll('#suggestList [data-suggest-id]')).find(r => r.textContent.includes('more kazoo'));
-      row.querySelector('.suggestResolveBtn').click();
+      const btn = row && row.querySelector('.suggestResolveBtn');
+      if (!btn) return false;
+      btn.click();
+      return true;
     });
+    check('a suggestion from someone else offers a Resolve control', resolveClicked);
     await page2.waitForTimeout(300);
     const goneFromOpenAfterResolve = await page2.evaluate(() =>
       !Array.from(document.querySelectorAll('#suggestList [data-suggest-id]')).some(r => r.textContent.includes('more kazoo')));
@@ -1219,25 +1318,30 @@ async function runAccountFlow(browser, file) {
     await page2.click('#acctContinueBtn');
     await page2.waitForTimeout(500);
     const onboardVisible3 = await page2.evaluate(() => !document.getElementById('onboardGate').classList.contains('hidden'));
-    if (onboardVisible3) { await page2.click(isShare ? '#onboardBlank' : '#onboardSample'); await page2.waitForTimeout(300); }
+    if (onboardVisible3) { await page2.click(isShare ? '#onboardBlank' : '#onboardSample'); await waitForBoot(page2); }
 
     // Gold/silver/bronze/owned are also mirrored into the normalized media_status table (see
     // supabase/schema.sql), not just left inside the profiles.data jsonb blob -- so this is
     // exercising both the app's own recommendation-driving state AND that it's actually queryable
     // in the DB per title. Declaring something Gold should upsert a row; un-declaring it should
     // remove that row entirely (nothing left to track once there's no tier and it's not owned).
-    const goldCardId = await page2.evaluate(() => document.querySelector('.cardHead')?.dataset.id);
-    await page2.click('.panel .profEditBtn[data-act="declare"]');
-    await page2.waitForTimeout(900); // toggling reloads the page, plus the flush-before-reload sync
-    const mediaRowAfterDeclare = await page2.evaluate((id) =>
-      (window.__mockTables.media_status || []).find(r => r.handle === 'smoketestuser2' && r.media_id === id), goldCardId);
+    const goldCardId = await firstCardId(page2);
+    await clickAndReload(page2, '.panel .profEditBtn[data-act="declare"][data-id="' + goldCardId + '"]');
+    const mediaRowAfterDeclare = await readWhen(page2, (id) => {
+      const rows = (window.__mockTables && window.__mockTables.media_status) || [];
+      return rows.find(r => r.handle === 'smoketestuser2' && r.media_id === id) || false;
+    }, goldCardId);
     check('declaring Gold upserts a row into the media_status table', !!mediaRowAfterDeclare && mediaRowAfterDeclare.tier === 'gold' && mediaRowAfterDeclare.owned === false);
 
-    await page2.click('.panel .profEditBtn[data-act="declare"][data-id="' + goldCardId + '"]');
-    await page2.waitForTimeout(900);
-    const mediaRowAfterUndeclare = await page2.evaluate((id) =>
-      (window.__mockTables.media_status || []).find(r => r.handle === 'smoketestuser2' && r.media_id === id), goldCardId);
-    check('un-declaring removes the media_status row entirely (no tier, not owned)', !mediaRowAfterUndeclare);
+    await clickAndReload(page2, '.panel .profEditBtn[data-act="declare"][data-id="' + goldCardId + '"]');
+    const undeclareLanded = await readWhen(page2, (id) => {
+      const t = window.__mockTables;
+      // Only answer once the mock store is readable again -- mid-reload it is briefly not, and
+      // treating "cannot see the table" as "the row is gone" would pass this check for the wrong reason.
+      if (!t || !t.media_status) return false;
+      return t.media_status.some(r => r.handle === 'smoketestuser2' && r.media_id === id) ? false : { gone: true };
+    }, goldCardId);
+    check('un-declaring removes the media_status row entirely (no tier, not owned)', !!undeclareLanded);
 
     // THE reported bug, reproduced end to end: "I select bronze from the main card, it shows up,
     // then I refresh the page and it's gone." The server accepts the write but doesn't store it
@@ -1246,25 +1350,25 @@ async function runAccountFlow(browser, file) {
     // tiering is covered by the one-shot skip-hydrate flag, so the damage only showed up on the
     // SECOND, manual refresh, which is exactly what this walks through: declare, let the app
     // reload, then reload again by hand and confirm the pick is still there.
-    const bronzeCardId = await page2.evaluate(() => document.querySelector('.cardHead')?.dataset.id);
+    const bronzeCardId = await firstCardId(page2);
     await page2.evaluate(() => {
       const db = JSON.parse(sessionStorage.getItem('__mockDb'));
       db.silentlyDropProfileUpserts = true;
       sessionStorage.setItem('__mockDb', JSON.stringify(db));
     });
-    await page2.click('.panel .profEditBtn[data-act="bronze"][data-id="' + bronzeCardId + '"]');
-    await page2.waitForTimeout(900); // the app's own post-tier reload
+    await clickAndReload(page2, '.panel .profEditBtn[data-act="bronze"][data-id="' + bronzeCardId + '"]');
     const bronzeRightAfterClick = await page2.evaluate((id) => {
       try { return (JSON.parse(localStorage.getItem('omniLedgerProfile') || '{}').bronzeTierIds || []).includes(id); }
       catch (e) { return false; }
     }, bronzeCardId);
     check('a Bronze pick is applied locally even when the cloud write silently does not store it', bronzeRightAfterClick);
 
-    const pendingAfterSilentDrop = await page2.evaluate(() => localStorage.getItem('omniLedgerPendingSync') === '1');
+    const pendingAfterSilentDrop = !!(await readWhen(page2,
+      () => localStorage.getItem('omniLedgerPendingSync') === '1', undefined, 8000));
     check('a write the server accepts but never stores is detected, not reported as saved', pendingAfterSilentDrop);
 
     await page2.reload();          // the manual refresh where picks used to disappear
-    await page2.waitForTimeout(900);
+    await waitForBoot(page2);
     const bronzeSurvivedManualRefresh = await page2.evaluate((id) => {
       try { return (JSON.parse(localStorage.getItem('omniLedgerProfile') || '{}').bronzeTierIds || []).includes(id); }
       catch (e) { return false; }
@@ -1279,6 +1383,7 @@ async function runAccountFlow(browser, file) {
       sessionStorage.setItem('__mockDb', JSON.stringify(db));
     });
     await page2.reload();
+    await waitForBoot(page2);
     // Polled rather than slept: boot has to notice the pending mark, re-push, and then verify the
     // write with a read-back (plus a possible retry), so a fixed wait here is guesswork that gets
     // brittle every time that path gains a round trip.
@@ -1301,15 +1406,15 @@ async function runAccountFlow(browser, file) {
       db.refuseProfileWritesSilently = true;
       sessionStorage.setItem('__mockDb', JSON.stringify(db));
     });
-    await page2.click('.panel .profEditBtn[data-act="silver"][data-id="' + bronzeCardId + '"]');
-    await page2.waitForTimeout(900);
-    const pendingAfterRefusal = await page2.evaluate(() => localStorage.getItem('omniLedgerPendingSync') === '1');
+    await clickAndReload(page2, '.panel .profEditBtn[data-act="silver"][data-id="' + bronzeCardId + '"]');
+    const pendingAfterRefusal = !!(await readWhen(page2,
+      () => localStorage.getItem('omniLedgerPendingSync') === '1', undefined, 8000));
     const refusalReason = await page2.evaluate(() => localStorage.getItem('omniLedgerLastSyncError') || '');
     check('a write the database silently refuses (zero rows written) is caught, not counted as saved',
       pendingAfterRefusal && /wrote no row/.test(refusalReason));
 
     await page2.reload();
-    await page2.waitForTimeout(900);
+    await waitForBoot(page2);
     const silverSurvivedRefusal = await page2.evaluate((id) => {
       try { return (JSON.parse(localStorage.getItem('omniLedgerProfile') || '{}').silverTierIds || []).includes(id); }
       catch (e) { return false; }
@@ -1402,7 +1507,7 @@ async function runAccountFlow(browser, file) {
     await page2.click('#acctContinueBtn');
     await page2.waitForTimeout(500);
     const onboardVisible4 = await page2.evaluate(() => !document.getElementById('onboardGate').classList.contains('hidden'));
-    if (onboardVisible4) { await page2.click(isShare ? '#onboardBlank' : '#onboardSample'); await page2.waitForTimeout(300); }
+    if (onboardVisible4) { await page2.click(isShare ? '#onboardBlank' : '#onboardSample'); await waitForBoot(page2); }
 
     await page2.click('#acctMenuField');
     await page2.waitForTimeout(200);
@@ -1431,6 +1536,7 @@ async function runSeedPickerFlow(browser, file) {
   const pageErrors = [];
   page.on('pageerror', e => pageErrors.push(e.message));
   await page.goto('file://' + path.join(ROOT, file));
+  await waitForBoot(page);
   await page.waitForTimeout(500);
   await page.click('#onboardSeed');
   await page.waitForTimeout(300);
@@ -1493,9 +1599,11 @@ async function runFromScratchFlow(browser, file) {
   const pageErrors = [];
   page.on('pageerror', e => pageErrors.push(e.message));
   await page.goto('file://' + path.join(ROOT, file));
+  await waitForBoot(page);
   await page.waitForTimeout(500);
   await page.click('#onboardBlank');
-  await page.waitForTimeout(600);
+  await waitForBoot(page);
+  await page.waitForTimeout(300);
 
   // initTheme() re-writes omniLedgerTheme with the value it just read on every boot. That no-op
   // write must NOT be treated as an edit: on a fresh account it was the only tracked key present,
@@ -1550,6 +1658,7 @@ async function runGoatPickerFlow(browser, file) {
   const pageErrors = [];
   page.on('pageerror', e => pageErrors.push(e.message));
   await page.goto('file://' + path.join(ROOT, file));
+  await waitForBoot(page);
   await page.waitForTimeout(500);
   await page.click('#onboardGoatPicker');
   await page.waitForTimeout(300);
@@ -1582,6 +1691,7 @@ async function runTabFiltersFlow(browser, file) {
   const pageErrors = [];
   page.on('pageerror', e => pageErrors.push(e.message));
   await page.goto(full);
+  await waitForBoot(page);
   await page.waitForTimeout(600);
   const gateVisible = await page.evaluate(() => {
     const g = document.getElementById('onboardGate');
@@ -1589,7 +1699,7 @@ async function runTabFiltersFlow(browser, file) {
   });
   if (gateVisible) {
     await page.click(file === 'share.html' ? '#onboardBlank' : '#onboardSample');
-    await page.waitForTimeout(500);
+    await waitForBoot(page);
   }
   const goto = async (v) => {
     await page.evaluate(vv => {
@@ -1686,13 +1796,89 @@ async function runTabFiltersFlow(browser, file) {
   });
   check('Timeline decade zoom previews in place without leaving the tab', zoomOpened);
 
+  // ---- Corpus-quality invariants, asserted through the running app ----
+  // These are the app-side halves of checks scripts/validate-corpus.js enforces on the data. They
+  // live here because what matters is not that a field holds a tidy value, but that the derived
+  // thing the user actually sees comes out right -- and each of these was a real defect found by
+  // walking the app, not a hypothetical.
+  await goto('controller');
+  await page.waitForTimeout(200);
+
+  // Books: content certification. "Verse" must mean poetry. It used to be decided by searching a
+  // book's genre strings for "poetry", which matched the compound family label "Literary & Poetry"
+  // carried by 225 mostly-prose books -- so The Great Gatsby, Anna Karenina, Middlemarch and 197
+  // others were all certified as poetry, on their cards and in the content-rating filter.
+  const verse = await page.evaluate(() => {
+    const books = ALL.filter(x => x.kind === 'book');
+    const v = books.filter(x => x.rating === 'Verse');
+    return {
+      total: v.length,
+      allAreVerseForm: v.every(x => x.format === 'Poetry'),
+      gatsby: (books.find(x => x.title === 'The Great Gatsby') || {}).rating,
+      karenina: (books.find(x => x.title === 'Anna Karenina') || {}).rating,
+    };
+  });
+  check('books certified "Verse" are all actually poetry (' + verse.total + ' of them)', verse.total > 0 && verse.allAreVerseForm);
+  check('a prose novel carrying the "Literary & Poetry" family label is not certified as Verse',
+    verse.gatsby && verse.gatsby !== 'Verse' && verse.karenina && verse.karenina !== 'Verse');
+
+  // Books: every card's format chip shows a real book form, never a placeholder or a copy of the
+  // vibe. 42 books used to render a bare "—" chip and ~90 rendered their vibe string twice.
+  const bookForms = await page.evaluate(() => {
+    const forms = new Set(ALL.filter(x => x.kind === 'book').map(x => x.format));
+    return {
+      values: [...forms],
+      anyEchoesItsOwnVibe: ALL.some(x => x.kind === 'book' && x.format === x.vibe),
+    };
+  });
+  const KNOWN_BOOK_FORMS = ['Novel', 'Non-Fiction', 'Poetry', 'Short Stories', 'Graphic Novel', 'Memoir', 'Essays'];
+  check('every book\'s form chip is a known book form, not a placeholder',
+    bookForms.values.length > 0 && bookForms.values.every(f => KNOWN_BOOK_FORMS.includes(f)));
+  check('no book\'s form chip is just a copy of its vibe chip', !bookForms.anyEchoesItsOwnVibe);
+
+  // TV: the structure filter offers exactly two options, so every series must be reachable by one
+  // of them. Three stray structuralType values ("Limited Series", "Continuation Film", "Anime
+  // Series") used to leave 28 of 250 series matching neither.
+  const tvStruct = await page.evaluate(() => {
+    const tv = ALL.filter(x => x.kind === 'tv');
+    return {
+      total: tv.length,
+      reachable: tv.filter(x => x.format === 'Limited/Mini-Series' || x.format === 'Multi-Season Epic').length,
+    };
+  });
+  check('every TV series is reachable by the structure filter (' + tvStruct.reachable + '/' + tvStruct.total + ')',
+    tvStruct.total > 0 && tvStruct.reachable === tvStruct.total);
+
+  // Genre families are what the family lens, the family filter, cross-medium pairings, the rabbit
+  // hole and the relationship graph all navigate by. A work no family matches is invisible to all
+  // of them at once, while still looking perfectly fine on its own card.
+  const famless = await page.evaluate(() => ALL.filter(x => !x.fam || !x.fam.length).map(x => x.id));
+  check('every work in the corpus maps to at least one genre family', famless.length === 0);
+  if (famless.length) console.log('     ' + famless.slice(0, 10).join(', '));
+
+  // A creator spelled two ways splits their filmography: a creator boost matched with
+  // String.includes lifts only one spelling, and Creator Archives lists them as two people.
+  const creatorSplit = await page.evaluate(() => {
+    const strip = s => s.toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g, '');
+    const buckets = {};
+    ALL.forEach(x => {
+      const k = strip(x.creator).replace(/[^a-z0-9]/g, '');
+      (buckets[k] = buckets[k] || new Set()).add(x.creator);
+    });
+    return Object.values(buckets).filter(v => v.size > 1).map(v => [...v].join(' vs '));
+  });
+  check('no creator in the corpus is spelled two different ways', creatorSplit.length === 0);
+  if (creatorSplit.length) console.log('     ' + creatorSplit.slice(0, 6).join(' | '));
+
   // URL bookmarking: filters set across three different tabs all round-trip through a fresh load.
+  await goto('timeline');
   const bookmarkUrl = page.url();
   const page2 = await browser.newPage({ viewport: { width: 1400, height: 1000 } });
   await page2.route('**/supabase-js*/**', route => route.abort());
   const page2Errors = [];
   page2.on('pageerror', e => page2Errors.push(e.message));
   await page2.goto(bookmarkUrl);
+  await waitForBoot(page2);
   await page2.waitForTimeout(700);
   const restored = await page2.evaluate(() => ({
     view: document.querySelector('#nav .navBtn.active') ? document.querySelector('#nav .navBtn.active').dataset.view : null,
