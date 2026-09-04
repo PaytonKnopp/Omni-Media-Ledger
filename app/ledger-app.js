@@ -1971,6 +1971,15 @@ on('#densityBtn','click',()=>{var on=document.body.classList.toggle('compact');v
  var dismissed='0';try{dismissed=localStorage.getItem('omniLedgerTipsDismissed')||'0';}catch(e){}
  if(dismissed!=='1')el.classList.remove('hidden');
  on('#quickTipsClose','click',function(){el.classList.add('hidden');try{localStorage.setItem('omniLedgerTipsDismissed','1');}catch(e){}});
+ // Dismissing is permanent (per browser) so it doesn't nag once read -- but the banner still has
+ // real reference info in it (what Gold/Silver/Bronze mean, where pinning lives), so it needs to
+ // stay reachable afterward rather than being gone for good. This button, always visible in the
+ // nav row, brings it back on demand from anywhere in the app.
+ on('#quickTipsReopen','click',function(){
+  if(state.view!=='controller')switchView('controller');
+  el.classList.remove('hidden');
+  if(el.scrollIntoView)el.scrollIntoView({behavior:'smooth',block:'start'});
+ });
 })();
 on('#surpriseBtn','click',()=>{const sc=$('#surpriseScope');sc.classList.toggle('hidden');var opening=!sc.classList.contains('hidden');var panel=$('#surprisePanel');
  if(opening){if(panel.dataset.mode==='rabbit'){panel.classList.add('hidden');panel.innerHTML='';panel.dataset.mode='';$('#rabbitBtn').setAttribute('aria-expanded','false');}if(sc.scrollIntoView)sc.scrollIntoView({behavior:'smooth',block:'nearest'});}
@@ -2693,7 +2702,7 @@ const CHANGELOG=[
    once) is a better fit than tiering one at a time before a profile even exists yet. */
 (function goatPicker(){
  var gate=$('#goatPickerGate');if(!gate)return;
- var staged=new Set();
+ var staged=new Map(); // id -> 'gold'|'silver'|'bronze'
  var fromOnboarding=false;
  var pickerType='all';
  function open(viaOnboarding){
@@ -2701,9 +2710,14 @@ const CHANGELOG=[
   // Onboarding always starts from a genuinely blank slate, even on index.html where
   // PERSONAL_PROFILE.declaredGoatIds already holds Payton's own hardcoded defaults -- someone
   // building their own taste from the first-run gate should never see Payton's picks pre-staged.
-  // Reopening from the persistent header button afterward does seed from the live profile, since
-  // by then it's the user's own (or whatever they imported), and the point is adding to it.
-  staged=fromOnboarding?new Set():new Set(PERSONAL_PROFILE.declaredGoatIds||[]);
+  // Reopening from the persistent header button afterward seeds from ALL THREE of the live
+  // profile's tier lists (not just Gold), so reopening shows exactly what's already tiered.
+  staged=new Map();
+  if(!fromOnboarding){
+   (PERSONAL_PROFILE.declaredGoatIds||[]).forEach(function(id){staged.set(id,'gold');});
+   (PERSONAL_PROFILE.silverTierIds||[]).forEach(function(id){if(!staged.has(id))staged.set(id,'silver');});
+   (PERSONAL_PROFILE.bronzeTierIds||[]).forEach(function(id){if(!staged.has(id))staged.set(id,'bronze');});
+  }
   var search=$('#goatPickerSearch');if(search)search.value='';
   pickerType='all';$$('#goatPickerType button').forEach(function(b){b.classList.toggle('on',b.dataset.t==='all');});
   renderResults('');
@@ -2725,22 +2739,23 @@ const CHANGELOG=[
   var cnt=$('#goatPickerResultCount');
   if(cnt)cnt.textContent=pool.length?('Showing '+shown.length+' of '+pool.length+' match'+(pool.length===1?'':'es')):'';
   $('#goatPickerResults').innerHTML=shown.map(function(x){
-   var isStaged=staged.has(x.id);
-   return '<button type="button" class="goatPickerItem w-full text-left rounded-lg border p-2 transition-colors flex items-center gap-2.5" data-id="'+x.id+'" style="'+(isStaged?'border-color:#fbbf2455;background:rgba(251,191,36,.08)':'border-color:var(--border-2)')+'">'
+   var t=staged.get(x.id);
+   return '<div class="goatPickerItem w-full rounded-lg border p-2 transition-colors flex items-center gap-2.5" data-id="'+x.id+'" style="'+(t?'border-color:'+borderColorForTier(t)+';background:rgba(251,191,36,.06)':'border-color:var(--border-2)')+'">'
     +'<span class="w-1.5 h-1.5 rounded-full shrink-0" style="background:'+k2[x.kind].c+'"></span>'
     +'<span class="flex-1 min-w-0 truncate"><span class="text-[12.5px] text-slate-200 font-medium">'+esc(x.title)+'</span> <span class="text-[10.5px] text-slate-500">· '+x.year+' · '+esc(x.creator)+'</span>'
     +(x.genres&&x.genres.length?' <span class="text-[10px] text-slate-600">· '+esc(x.genres.slice(0,2).join(', '))+'</span>':'')+'</span>'
     +'<span class="text-[10px] tabular-nums text-slate-500 shrink-0" title="Critic score">'+x.crit+'</span>'
-    +'<span style="color:'+(isStaged?'#fbbf24':'#475569')+'" class="shrink-0 text-base leading-none">'+(isStaged?'★':'☆')+'</span></button>';
+    +miniTierBtnsHTML(x.id,t,'goatPickerTierBtn')+'</div>';
   }).join('')||'<div class="rcEmpty">No matches'+(pickerType!=='all'?' in '+k2[pickerType].label:'')+'.</div>';
  }
  function renderStaged(){
-  var ids=Array.from(staged);
+  var ids=Array.from(staged.keys());
   $('#goatPickerCount').textContent=ids.length;
   $('#goatPickerStaged').innerHTML=ids.map(function(id){
    var x=byId.get(id);if(!x)return'';
-   return '<span class="chip" style="color:#fde68a;border-color:#fbbf2455">'+esc(x.title)+' <button type="button" class="goatPickerRemove" data-id="'+id+'" style="margin-left:4px;color:#f87171">✕</button></span>';
-  }).join('')||'<span class="text-[11px] text-slate-600">Nothing declared yet — search above to add some.</span>';
+   var t=staged.get(id);var m=MINI_TIER_ORDER.find(function(o){return o[0]===t;});
+   return '<span class="chip" style="color:'+m[2]+';border-color:'+m[2]+'55">'+m[1]+' '+esc(x.title)+' <button type="button" class="goatPickerRemove" data-id="'+id+'" style="margin-left:4px;color:#f87171">✕</button></span>';
+  }).join('')||'<span class="text-[11px] text-slate-600">Nothing tiered yet — search above to add some.</span>';
  }
  on('#onboardGoatPicker','click',function(){open(true);});
  on('#goatPickerClose','click',close);
@@ -2753,9 +2768,9 @@ const CHANGELOG=[
   renderResults($('#goatPickerSearch').value);
  });
  on('#goatPickerResults','click',function(e){
-  var b=e.target.closest('.goatPickerItem');if(!b)return;
-  var id=b.dataset.id;
-  if(staged.has(id))staged.delete(id);else staged.add(id);
+  var b=e.target.closest('.goatPickerTierBtn');if(!b)return;
+  var id=b.dataset.id,t=b.dataset.tier;
+  if(staged.get(id)===t)staged.delete(id);else staged.set(id,t);
   renderResults($('#goatPickerSearch').value);
   renderStaged();
  });
@@ -2765,38 +2780,46 @@ const CHANGELOG=[
   renderStaged();
   renderResults($('#goatPickerSearch').value);
  });
- on('#goatPickerClear','click',function(){staged=new Set();renderStaged();renderResults($('#goatPickerSearch').value);});
- function buildCanonGroups(ids,existing){
-  var byKind={movie:'Movies',book:'Books',tv:'TV Shows',game:'Video Game'};
-  var groups={};
-  ids.forEach(function(id){
-   var x=byId.get(id);if(!x)return;
-   var cat=byKind[x.kind];if(!cat)return;
-   groups[cat]=groups[cat]||[];
-   groups[cat].push({name:x.title,q:x.title});
-  });
-  var rebuilt=Object.keys(groups).map(function(cat){return {cat:cat,items:groups[cat]};});
-  return existing.concat(rebuilt);
- }
+ on('#goatPickerClear','click',function(){staged=new Map();renderStaged();renderResults($('#goatPickerSearch').value);});
  on('#goatPickerFinalize','click',function(){
-  var ids=Array.from(staged);
+  var golds=[],silvers=[],bronzes=[];
+  staged.forEach(function(t,id){(t==='gold'?golds:t==='silver'?silvers:bronzes).push(id);});
   if(fromOnboarding){
-   // Mirrors the blank staged set above: build a genuinely fresh profile from just these picks
+   // Mirrors the blank staged map above: build a genuinely fresh profile from just these picks
    // rather than cloning PERSONAL_PROFILE, which on index.html still holds Payton's full default
-   // taste weights (creatorBoost, ownedMedia, etc.) at this point in a fresh browser.
-   var profile={declaredGoatIds:ids,declaredCanon:buildCanonGroups(ids,[])};
+   // taste weights (creatorBoost, ownedMedia, etc.) at this point in a fresh browser. Same three
+   // fields a card's tier row writes -- no separate declaredCanon bucket needed, since the GOAT
+   // Profile page already renders Gold/Silver/Bronze live from these lists.
+   var profile={};
+   if(golds.length)profile.declaredGoatIds=golds;
+   if(silvers.length)profile.silverTierIds=silvers;
+   if(bronzes.length)profile.bronzeTierIds=bronzes;
    try{localStorage.setItem('omniLedgerOnboarded','1');localStorage.setItem('omniLedgerProfile',JSON.stringify(profile));}catch(e){alert('Could not save: '+e.message);return;}
    reloadWithMediaSync({});
   }else{
-   var corpusCats=['Movies','Books','TV Shows','Video Game'];
    mutateProfileAndReload(function(p){
-    p.declaredGoatIds=ids;
-    var existing=(p.declaredCanon||[]).filter(function(g){return corpusCats.indexOf(g.cat)<0;});
-    p.declaredCanon=buildCanonGroups(ids,existing);
+    p.declaredGoatIds=golds;
+    p.silverTierIds=silvers;
+    p.bronzeTierIds=bronzes;
    });
   }
  });
 })();
+
+/* Shared Gold/Silver/Bronze mini tier-picker used by BOTH onboarding flows (Quick-Rate and the GOAT
+   Picker search modal) so declaring taste before you're even in the app looks and behaves exactly
+   like tiering something from a card afterward -- same three medals, same colors, same "click the
+   active one to remove" behavior as tierRowHTML() -- just backed by a local staging map instead of
+   PERSONAL_PROFILE, since no profile exists yet at this point in onboarding. */
+const MINI_TIER_ORDER=[['gold','\u{1F947}','#fbbf24','Gold — your absolute favorite'],['silver','\u{1F948}','#cbd5e1','Silver — a strong favorite, one notch below Gold'],['bronze','\u{1F949}','#cd7f32','Bronze — really like it, a lighter nudge than Silver']];
+function miniTierBtnsHTML(id,activeTier,cls){
+ return '<div class="flex items-center gap-1 shrink-0">'+MINI_TIER_ORDER.map(function(o){
+  var on=activeTier===o[0];
+  return '<button type="button" class="'+cls+' tierSeg" data-id="'+id+'" data-tier="'+o[0]+'" title="'+o[3]+(on?' — click to remove':'')+'"'
+   +(on?' style="background:'+o[2]+';border-color:'+o[2]+';color:#0B0F19"':' style="color:'+o[2]+';border-color:transparent"')+'>'+o[1]+'</button>';
+ }).join('')+'</div>';
+}
+function borderColorForTier(tier){var m=MINI_TIER_ORDER.find(function(o){return o[0]===tier;});return m?m[2]+'66':'';}
 
 /* ===== Guided seed-picker (Phase 2 of the original plan: "rate these N items to seed taste") =====
    A pool picked at runtime by pre-personalization quality (crit+aud average) so it's a "well-
@@ -2846,18 +2869,19 @@ function pickSeedCandidates(excludeIds){
  var gate=$('#onboardGate');if(!gate)return;
  gate.classList.remove('hidden');
  var choiceScreen=$('#onboardChoiceScreen'),seedScreen=$('#onboardSeedScreen');
- var loved=new Set();
+ var tiers=new Map(); // id -> 'gold'|'silver'|'bronze', set directly here so it's already accurate on arrival
  var shownIds=new Set();
  var currentPicks=[];
  function renderSeedGrid(picks){
   currentPicks=picks;
-  $('#onboardSeedGrid').innerHTML=picks.map(x=>'<button type="button" class="onboardSeedItem w-full text-left rounded-xl border border-slate-700 hover:border-violet-500 p-3 transition-colors" data-id="'+x.id+'"'+(loved.has(x.id)?' style="border-color:#fb718566"':'')+'>'
+  $('#onboardSeedGrid').innerHTML=picks.map(x=>{var t=tiers.get(x.id);
+   return '<div class="onboardSeedItem w-full rounded-xl border border-slate-700 p-3 transition-colors" data-id="'+x.id+'"'+(t?' style="border-color:'+borderColorForTier(t)+'"':'')+'>'
    +'<div class="flex items-start justify-between gap-2"><div class="min-w-0">'
    +'<div class="text-sm font-semibold text-slate-100 truncate">'+esc(x.title)+' <span class="text-slate-500 font-normal">· '+x.year+'</span></div>'
    +'<div class="text-[11px] text-slate-500 mt-0.5">'+esc(x.creator)+' · '+esc((x.genres||[]).slice(0,2).join(', '))+'</div>'
-   +'</div><span class="seedHeart text-lg leading-none shrink-0" style="color:'+(loved.has(x.id)?'#fb7185':'#475569')+'">'+(loved.has(x.id)?'♥':'♡')+'</span></div>'
-   +'</button>').join('');
-  $('#onboardSeedCount').textContent=loved.size+' selected';
+   +'</div>'+miniTierBtnsHTML(x.id,t,'onboardSeedTierBtn')+'</div>'
+   +'</div>';}).join('');
+  $('#onboardSeedCount').textContent=tiers.size+' tiered';
  }
  // "Start from the PK Sample" used to just leave PERSONAL_PROFILE's hardcoded defaults in place
  // without ever writing omniLedgerProfile -- meaning there was no actual saved copy: anyone who
@@ -2898,7 +2922,7 @@ function pickSeedCandidates(excludeIds){
   renderSeedGrid(picks);
   choiceScreen.classList.add('hidden');seedScreen.classList.remove('hidden');
  });
- // "Show different picks": keeps anything already loved on screen (so hearting something then
+ // "Show different picks": keeps anything already tiered on screen (so tiering something then
  // asking for more doesn't lose your pick), fetches a genuinely fresh batch for the rest --
  // pickSeedCandidates excludes every id shown so far, so reshuffling never repeats a title.
  // Genuinely a no-op cancel, not a variant of Skip: nothing here has been saved yet (the whole
@@ -2906,28 +2930,30 @@ function pickSeedCandidates(excludeIds){
  // maybe Start from the PK Sample instead -- just swaps the visible screen back.
  on('#onboardSeedBack','click',()=>{seedScreen.classList.add('hidden');choiceScreen.classList.remove('hidden');});
  on('#onboardSeedMore','click',()=>{
-  const keep=currentPicks.filter(x=>loved.has(x.id));
+  const keep=currentPicks.filter(x=>tiers.has(x.id));
   const fresh=pickSeedCandidates(Array.from(shownIds));
   fresh.forEach(x=>shownIds.add(x.id));
   const keepIds=new Set(keep.map(x=>x.id));
   renderSeedGrid(keep.concat(fresh.filter(x=>!keepIds.has(x.id))));
  });
  on('#onboardSeedGrid','click',e=>{
-  const b=e.target.closest('.onboardSeedItem');if(!b)return;
-  const id=b.dataset.id;const heart=b.querySelector('.seedHeart');
-  if(loved.has(id)){loved.delete(id);heart.textContent='♡';heart.style.color='#475569';b.style.borderColor='';}
-  else{loved.add(id);heart.textContent='♥';heart.style.color='#fb7185';b.style.borderColor='#fb718566';}
-  $('#onboardSeedCount').textContent=loved.size+' selected';
+  const b=e.target.closest('.onboardSeedTierBtn');if(!b)return;
+  const id=b.dataset.id,t=b.dataset.tier;
+  if(tiers.get(id)===t)tiers.delete(id);else tiers.set(id,t);
+  renderSeedGrid(currentPicks);
  });
  on('#onboardSeedSkip','click',()=>{try{localStorage.setItem('omniLedgerOnboarded','1');localStorage.setItem('omniLedgerProfile','{}');}catch(e){}reloadWithMediaSync({});});
  on('#onboardSeedContinue','click',()=>{
   try{
-   const ids=[...loved];
    const profile={};
-   if(ids.length){
-    profile.declaredGoatIds=ids;
-    profile.declaredCanon=[{cat:'My Favorites',items:ids.map(id=>{const x=byId.get(id);return x?{name:x.title,q:x.title}:null;}).filter(Boolean)}];
-   }
+   const golds=[],silvers=[],bronzes=[];
+   tiers.forEach((t,id)=>{(t==='gold'?golds:t==='silver'?silvers:bronzes).push(id);});
+   // Same three fields toggleDeclaredFavorite/toggleSilverTier/toggleBronzeTier write once you're
+   // in the app -- no separate "My Favorites" bucket here, so a seed tiered Gold now looks and
+   // scores exactly like any other Gold pick from the moment you land, not a different category.
+   if(golds.length)profile.declaredGoatIds=golds;
+   if(silvers.length)profile.silverTierIds=silvers;
+   if(bronzes.length)profile.bronzeTierIds=bronzes;
    localStorage.setItem('omniLedgerOnboarded','1');
    localStorage.setItem('omniLedgerProfile',JSON.stringify(profile));
   }catch(e){}

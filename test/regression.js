@@ -1382,10 +1382,13 @@ async function runSeedPickerFlow(browser, file) {
   check('quick-rate offers 16 varied picks', itemCount === 16);
 
   const firstId = await page.evaluate(() => document.querySelector('.onboardSeedItem').dataset.id);
-  await page.click('.onboardSeedItem');
+  await page.click('.onboardSeedItem .onboardSeedTierBtn[data-tier="gold"]');
   await page.waitForTimeout(150);
-  const heartAfterLove = await page.evaluate(() => document.querySelector('.onboardSeedItem .seedHeart').textContent);
-  check('tapping a pick hearts it', heartAfterLove === '♥');
+  const goldActiveAfterTap = await page.evaluate(() => {
+    const btn = document.querySelector('.onboardSeedItem .onboardSeedTierBtn[data-tier="gold"]');
+    return btn && /background:\s*#fbbf24/.test(btn.getAttribute('style') || '');
+  });
+  check('tapping Gold on a pick tiers it Gold, right there in onboarding', goldActiveAfterTap);
 
   await page.click('#onboardSeedMore');
   await page.waitForTimeout(300);
