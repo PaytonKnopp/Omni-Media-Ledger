@@ -97,7 +97,7 @@ function wlSetWatched(id,v){if(WL[id]){WL[id].watched=v;wlSave();}}
 function wlCount(){return Object.keys(WL).length;}
 
 /* ===================== STATE & HELPERS ===================== */
-const state={view:'controller',q:'',type:'all',struct:'all',plats:[],minDread:0,minMyst:0,minGoat:0,runtimeMax:0,genres:[],genresExclude:[],ownedOnly:false,notOwnedOnly:false,limit:100,idx:{snd:0,ref:0,ch:0,emo:0,awe:0,cozy:0,perf:0,icon:0,scary:0,real:0,reality:0,shock:0,sci:0,funny:0,hist:0,vibe2:0,crit:0,aud:0,tech:0},ratings:[],tierFilter:[],yearMin:null,yearMax:null,combine:false,sort:'overall',w:{tech:0.85,dread:0.95,myst:0.90},creatorTab:'directors',creatorSearch:''};
+const state={view:'controller',q:'',type:'all',struct:'all',plats:[],minDread:0,minMyst:0,minGoat:0,runtimeMax:0,genres:[],genresExclude:[],ownedOnly:false,notOwnedOnly:false,limit:100,idx:{snd:0,ref:0,ch:0,emo:0,awe:0,cozy:0,perf:0,icon:0,scary:0,real:0,reality:0,shock:0,sci:0,funny:0,hist:0,vibe2:0,crit:0,aud:0,tech:0},ratings:[],tierFilter:[],yearMin:null,yearMax:null,combine:false,sort:'overall',w:{tech:0.85,dread:0.95,myst:0.90},creatorTab:'directors',creatorSearch:'',goatType:'all',goatTierFilter:'all',goatSort:'match',goatDeclaredQ:''};
 const $=s=>document.querySelector(s),$$=s=>Array.from(document.querySelectorAll(s));
 const on=(sel,ev,fn)=>{const el=$(sel);if(el)el.addEventListener(ev,fn);else console.warn('missing element:',sel);};
 const esc=s=>String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
@@ -1393,26 +1393,34 @@ var TIER_STYLE={gold:['\u{1F947}','Gold','#fbbf24'],silver:['\u{1F948}','Silver'
 // zone to another within the same medium re-tiers it via moveToTier(), below, which goes through
 // the exact same mutateProfileAndReload path a click on the tier row does -- so a drag-based move
 // recomputes the GOAT match weight exactly as if you'd clicked the old tier off and the new one on.
-function tierChipGroupHTML(kind,items,tierKey){
+function tierChipGroupHTML(kind,items,tierKey,filterQ){
  var s=TIER_STYLE[tierKey];
- var body=items.length
-  ?items.map(function(x){return '<span class="chip goatJump tierDragChip" draggable="true" data-q="'+esc(x.title)+'" data-drag-id="'+x.id+'" data-drag-kind="'+kind+'" title="Click to open in Global Controller, or drag to Gold/Silver/Bronze below to re-tier" style="color:'+s[2]+';border-color:'+s[2]+'55;cursor:grab">'+esc(x.title)+'</span>';}).join('')
-  :'<span class="text-[10.5px] text-slate-600 italic">drag a title here to make it '+s[1]+'</span>';
- return '<div class="mt-2 first:mt-0 tierDropZone rounded-lg -m-1 p-1" data-tier="'+tierKey+'" data-kind="'+kind+'"><div class="text-[9.5px] tracking-[.16em] uppercase mb-1 font-bold" style="color:'+s[2]+'">'+s[0]+' '+s[1]+' <span class="text-slate-600 font-normal">('+items.length+')</span></div>'
+ var shown=filterQ?items.filter(function(x){return x.title.toLowerCase().indexOf(filterQ)>=0;}):items;
+ var body;
+ if(shown.length)body=shown.map(function(x){return '<span class="chip goatJump tierDragChip" draggable="true" data-q="'+esc(x.title)+'" data-drag-id="'+x.id+'" data-drag-kind="'+kind+'" title="Click to open in Global Controller, or drag to Gold/Silver/Bronze below to re-tier" style="color:'+s[2]+';border-color:'+s[2]+'55;cursor:grab">'+esc(x.title)+'</span>';}).join('');
+ else if(filterQ&&items.length)body='<span class="text-[10.5px] text-slate-600 italic">no matches for \u201c'+esc(filterQ)+'\u201d</span>';
+ else body='<span class="text-[10.5px] text-slate-600 italic">drag a title here to make it '+s[1]+'</span>';
+ return '<div class="mt-2 first:mt-0 tierDropZone rounded-lg -m-1 p-1" data-tier="'+tierKey+'" data-kind="'+kind+'"><div class="text-[9.5px] tracking-[.16em] uppercase mb-1 font-bold" style="color:'+s[2]+'">'+s[0]+' '+s[1]+' <span class="text-slate-600 font-normal">('+(filterQ?shown.length+'/'+items.length:items.length)+')</span></div>'
   +'<div class="flex flex-wrap gap-1.5 min-h-[24px]">'+body+'</div></div>';
 }
 function declaredCategoryHTML(d){
  var kind=CORPUS_CANON_KIND[d.cat];
+ var filterQ=(state.goatDeclaredQ||'').trim().toLowerCase();
  if(!kind){
+  var items=filterQ?d.items.filter(function(it){return it.name.toLowerCase().indexOf(filterQ)>=0;}):d.items;
+  if(filterQ&&!items.length)return '';
   return '<div class="panel p-3.5" style="border-color:#fbbf2433">'
    +'<div class="lbl" style="color:#fbbf24">\u2605 '+esc(d.cat)+'</div>'
-   +'<div class="flex flex-wrap gap-1.5 mt-2">'+d.items.map(it=>'<span class="chip'+(it.q?' goatJump':'')+'"'+(it.q?' data-q="'+esc(it.q)+'" title="Open in Global Controller" style="color:#fde68a;border-color:#fbbf2455;cursor:pointer"':' style="color:#fde68a;border-color:#fbbf2455"')+'>'+esc(it.name)+(it.note?' <span class="text-slate-500">\u00b7 '+esc(it.note)+'</span>':'')+'</span>').join('')+'</div></div>';
+   +'<div class="flex flex-wrap gap-1.5 mt-2">'+items.map(it=>'<span class="chip'+(it.q?' goatJump':'')+'"'+(it.q?' data-q="'+esc(it.q)+'" title="Open in Global Controller" style="color:#fde68a;border-color:#fbbf2455;cursor:pointer"':' style="color:#fde68a;border-color:#fbbf2455"')+'>'+esc(it.name)+(it.note?' <span class="text-slate-500">\u00b7 '+esc(it.note)+'</span>':'')+'</span>').join('')+'</div></div>';
  }
  var pool=ALL.filter(function(x){return x.kind===kind;});
  var anyTiered=pool.some(function(x){return x.goat||x.silver||x.bronze;});
- var body=tierChipGroupHTML(kind,pool.filter(function(x){return x.goat;}),'gold')
-  +tierChipGroupHTML(kind,pool.filter(function(x){return x.silver;}),'silver')
-  +tierChipGroupHTML(kind,pool.filter(function(x){return x.bronze;}),'bronze');
+ // With a filter typed and this whole category having nothing matching it, drop the category
+ // entirely rather than show three empty "no matches" drop zones in a row.
+ if(filterQ&&anyTiered&&!pool.some(function(x){return (x.goat||x.silver||x.bronze)&&x.title.toLowerCase().indexOf(filterQ)>=0;}))return '';
+ var body=tierChipGroupHTML(kind,pool.filter(function(x){return x.goat;}),'gold',filterQ)
+  +tierChipGroupHTML(kind,pool.filter(function(x){return x.silver;}),'silver',filterQ)
+  +tierChipGroupHTML(kind,pool.filter(function(x){return x.bronze;}),'bronze',filterQ);
  return '<div class="panel p-3.5" style="border-color:#47556933"><div class="lbl" style="color:#e2e8f0">'+esc(d.cat)+'</div>'
   +(anyTiered?'':'<div class="text-[11px] text-slate-500 mt-1">None declared yet \u2014 search above to tier some.</div>')
   +body+'</div>';
@@ -1434,38 +1442,70 @@ function declaredCategoriesToRender(){
  return cats;
 }
 function renderGoat(){renderTasteDNA();
- $('#goatDeclared').innerHTML=declaredCategoriesToRender().map(declaredCategoryHTML).join('');
- $('#goatRecs').innerHTML=goatProfile.recs.map(cat=>'<div class="panel overflow-hidden fade-in">'
+ var declaredHTML=declaredCategoriesToRender().map(declaredCategoryHTML).join('');
+ $('#goatDeclared').innerHTML=declaredHTML||((state.goatDeclaredQ||'').trim()?'<div class="col-span-full text-center text-slate-500 text-sm py-6">Nothing in your declared canon matches “'+esc(state.goatDeclaredQ.trim())+'”.</div>':'');
+ $('#goatRecs').innerHTML=goatProfile.recs.map(cat=>{
+  var hidden=PERSONAL_PROFILE.hiddenRecs||[];
+  var visible=cat.items.filter(function(it){return hidden.indexOf(recKey(cat.cat,it))<0;});
+  var hiddenN=cat.items.length-visible.length;
+  return '<div class="panel overflow-hidden fade-in">'
   +'<div class="px-4 pt-4 pb-3 border-b border-slate-800/70"><div class="flex items-baseline justify-between gap-2"><h3 class="text-[12px] font-bold tracking-[.14em] uppercase text-slate-100">'+esc(cat.cat)+(cat.approx?(cat.partiallyLinked?' <span class="text-[8.5px] font-normal normal-case tracking-normal text-emerald-400/80" title="Where a pick has a known, ledger-linked work (marked ◆ below), the score is a real average of that work'+"'"+'s GOAT match, not a guess. Unlinked picks fall back to genre overlap.">◆ partly ledger-linked</span>':' <span class="text-[8.5px] font-normal normal-case tracking-normal text-amber-400/70" title="No corpus of music/video-essay works exists to link these picks to (the ledger only tracks movies, TV, games and books), so these stay hand-curated -- but the score and order do respond to both your genre AND vibe weights.">◈ approximate — by genre + vibe overlap</span>'):'')+'</h3><span class="lbl">match /100</span></div>'
-  +'<p class="text-[10.5px] text-slate-500 mt-1 leading-relaxed">'+esc(cat.basis)+'</p></div>'
-  +cat.items.map((it,i)=>'<div class="flex items-center gap-2.5 px-3.5 py-2 border-b border-slate-800/50 last:border-0 hover:bg-slate-800/20'+(it.q?' goatJump cursor-pointer':'')+'"'+(it.q?' data-q="'+esc(it.q)+'" title="Open in Global Controller"':'')+'>'
+  +'<p class="text-[10.5px] text-slate-500 mt-1 leading-relaxed">'+esc(cat.basis)+'</p>'
+  +(hiddenN?'<button type="button" class="recUnhideAll text-[10px] text-sky-400/80 hover:text-sky-300 mt-1.5" data-cat="'+esc(cat.cat)+'">'+hiddenN+' hidden here — show again</button>':'')
+  +'</div>'
+  +(visible.length?visible.map((it,i)=>'<div class="flex items-center gap-2.5 px-3.5 py-2 border-b border-slate-800/50 last:border-0 hover:bg-slate-800/20 group'+(it.q?' goatJump cursor-pointer':'')+'"'+(it.q?' data-q="'+esc(it.q)+'" title="Open in Global Controller"':'')+'>'
    +'<span class="text-[10px] text-slate-500 w-5 tabular-nums">'+String(i+1).padStart(2,'0')+'</span>'
    +'<span class="w-1.5 h-1.5 rounded-full shrink-0" style="background:'+(it.k?KM[it.k].c:'#475569')+'"></span>'
    +'<div class="flex-1 min-w-0"><div class="text-[12px] text-slate-200 truncate">'+esc(it.n)+(it.linked?' <span class="text-[8.5px] text-emerald-400/80 uppercase tracking-[.12em]" title="Score is a real average of this person’s linked ledger work(s)">◆ linked</span>':'')+(it.q?' <span class="text-[8.5px] text-amber-300/70 uppercase tracking-[.12em]">on ledger</span>':'')+'</div>'
    +'<div class="text-[10px] text-slate-500 truncate" title="'+esc(it.why)+'">'+esc(it.why)+'</div></div>'
    +'<span class="hidden sm:flex w-24 shrink-0"><span class="bar flex-1"><i style="width:'+it.s+'%;background:linear-gradient(90deg,#b45309,#fbbf24)"></i></span></span>'
-   +'<span class="text-[11px] font-bold tabular-nums w-7 text-right" style="color:#fbbf24">'+it.s+'</span></div>').join('')
-  +'</div>').join('');
+   +'<span class="text-[11px] font-bold tabular-nums w-7 text-right" style="color:#fbbf24">'+it.s+'</span>'
+   +'<button type="button" class="recHideBtn shrink-0 opacity-0 group-hover:opacity-100 transition-opacity text-slate-500 hover:text-rose-300 text-[13px] leading-none px-1" data-cat="'+esc(cat.cat)+'" data-key="'+esc(recKey(cat.cat,it))+'" title="Hide this from recommendations">✕</button>'
+   +'</div>').join(''):'<div class="px-3.5 py-3 text-[11px] text-slate-500">Everything here is hidden.</div>')
+  +'</div>';
+ }).join('');
 }
 // Search & Build Your Favorites: the GOAT Profile tab's embedded replacement for the old separate
 // "Pick Your GOATs" header button/modal. Reuses tierRowHTML() -- the exact same compact Gold/
 // Silver/Bronze/Owned row every card already has -- so there's one tiering UI in the whole app to
 // learn, not two. Delegated via #goatSearchResults rather than #grid, since this list isn't part
 // of the results grid.
+// Type/tier filters + sort turn this from "type a title, hope it's near the top" into something
+// you can actually browse -- e.g. Books + Untiered to work through your whole to-be-tiered backlog
+// by medium, or My Tiers first to review/audit what's already declared instead of only discovering
+// new things.
+function goatSearchPool(q){
+ var pool=ALL;
+ if(state.goatType!=='all')pool=pool.filter(function(x){return x.kind===state.goatType;});
+ if(state.goatTierFilter==='untiered')pool=pool.filter(function(x){return !(x.goat||x.silver||x.bronze||x.owned);});
+ else if(state.goatTierFilter==='gold')pool=pool.filter(function(x){return x.goat;});
+ else if(state.goatTierFilter==='silver')pool=pool.filter(function(x){return x.silver;});
+ else if(state.goatTierFilter==='bronze')pool=pool.filter(function(x){return x.bronze;});
+ else if(state.goatTierFilter==='owned')pool=pool.filter(function(x){return x.owned;});
+ if(q)pool=pool.filter(function(x){return (x.title+' '+x.creator+' '+(x.genres||[]).join(' ')).toLowerCase().indexOf(q)>=0;});
+ return pool;
+}
+function goatSearchSort(pool,q){
+ if(state.goatSort==='title')return pool.slice().sort(function(a,b){return a.title.localeCompare(b.title);});
+ if(state.goatSort==='yearNew')return pool.slice().sort(function(a,b){return b.year-a.year;});
+ if(state.goatSort==='tier')return pool.slice().sort(function(a,b){return (tierRank(b)-tierRank(a))||(b.gm-a.gm);});
+ // 'match' (default): with no search typed, lead with fresh suggestions rather than a list topped
+ // by whatever's already Gold/Silver/Bronze/Owned (those pin gm to 100/~88/~80, so a plain gm sort
+ // just showed your own past picks back at you first). A search or any explicit filter is already
+ // a deliberate narrowing, so it sorts by raw match instead of hiding tiered picks at the bottom.
+ if(!q&&state.goatTierFilter==='all')return pool.slice().sort(function(a,b){
+   var au=!(a.goat||a.silver||a.bronze||a.owned),bu=!(b.goat||b.silver||b.bronze||b.owned);
+   if(au!==bu)return au?-1:1;
+   return b.gm-a.gm;
+  });
+ return pool.slice().sort(function(a,b){return b.gm-a.gm;});
+}
 function renderGoatSearchResults(q){
+ if(q==null){var qi=$('#goatSearchInput');q=qi?qi.value:'';}
  q=(q||'').trim().toLowerCase();
  var el=$('#goatSearchResults');if(!el)return;
- // Browsing with no search yet: lead with fresh suggestions, not a list topped by whatever's
- // already Gold/Silver/Bronze/Owned (those pin gm to 100/~88/~80, so a plain gm sort just showed
- // your own past picks back at you first). Untiered, not-yet-owned items sort first here by their
- // genuine algorithmic match score; everything already tiered/owned still shows, just further
- // down -- searching (or just scrolling) still reaches anything, tiered or not.
- var pool=q?ALL.filter(function(x){return (x.title+' '+x.creator+' '+(x.genres||[]).join(' ')).toLowerCase().indexOf(q)>=0;})
-  :ALL.slice().sort(function(a,b){
-    var au=!(a.goat||a.silver||a.bronze||a.owned),bu=!(b.goat||b.silver||b.bronze||b.owned);
-    if(au!==bu)return au?-1:1;
-    return b.gm-a.gm;
-   });
+ var pool=goatSearchSort(goatSearchPool(q),q);
+ var cc=$('#goatSearchCount');if(cc)cc.textContent=pool.length+(pool.length===1?' match':' matches')+(pool.length>25?' · showing top 25':'');
  var shown=pool.slice(0,25);
  // Status is communicated by tierRowHTML alone (its active segments already highlight in color
  // and, for Gold/Silver/Bronze/Owned, are self-explanatory) -- this used to ALSO render a separate
@@ -1483,6 +1523,17 @@ function renderGoatSearchResults(q){
 }
 on('#goatSearchInput','input',e=>{renderGoatSearchResults(e.target.value);});
 on('#goatSearchResults','click',e=>{const pe=e.target.closest('.profEditBtn');if(pe)handleProfileEditClick(pe);});
+on('#goatTypeSeg','click',e=>{const b=e.target.closest('button');if(!b)return;state.goatType=b.dataset.t;$$('#goatTypeSeg button').forEach(x=>x.classList.toggle('on',x===b));renderGoatSearchResults();});
+on('#goatTierSeg','click',e=>{const b=e.target.closest('button');if(!b)return;state.goatTierFilter=b.dataset.tf;$$('#goatTierSeg button').forEach(x=>x.classList.toggle('on',x===b));renderGoatSearchResults();});
+on('#goatSortSel','change',e=>{state.goatSort=e.target.value;renderGoatSearchResults();});
+let goatDeclaredSearchT=null;
+on('#goatDeclaredSearch','input',e=>{clearTimeout(goatDeclaredSearchT);const v=e.target.value;goatDeclaredSearchT=setTimeout(()=>{state.goatDeclaredQ=v;$('#goatDeclared').innerHTML=(declaredCategoriesToRender().map(declaredCategoryHTML).join(''))||((state.goatDeclaredQ||'').trim()?'<div class="col-span-full text-center text-slate-500 text-sm py-6">Nothing in your declared canon matches “'+esc(state.goatDeclaredQ.trim())+'”.</div>':'');},120);});
+on('#goatRecs','click',e=>{
+ const hb=e.target.closest('.recHideBtn');
+ if(hb){e.stopPropagation();hideRec(hb.dataset.cat,hb.dataset.key);return;}
+ const ub=e.target.closest('.recUnhideAll');
+ if(ub){e.stopPropagation();unhideAllRecsInCat(ub.dataset.cat);return;}
+});
 // Drag-and-drop between a medium's own Gold/Silver/Bronze columns (see tierChipGroupHTML/
 // moveToTier above). Scoped to #goatDeclared and, within it, to drop zones sharing the dragged
 // chip's own data-drag-kind -- a chip can only ever land in a same-medium zone since each
@@ -2432,6 +2483,22 @@ function toggleBronzeTier(id){
   p.bronzeTierIds=p.bronzeTierIds||[];
   const i=p.bronzeTierIds.indexOf(id);
   if(i>=0)p.bronzeTierIds.splice(i,1);else p.bronzeTierIds.push(id);
+ });
+}
+// Hiding a recommendation: some picks are permanently uninteresting to you (a creator you're just
+// not into, an approximate hand-curated guess that missed) and re-seeing them every visit is worse
+// than useless -- it's a taste signal the recs panel ignores. Identity is per-category since the
+// same title could plausibly appear in two different curated lists with two different "why"s.
+function recKey(cat,it){return cat+'|'+(it.q||it.n);}
+function hideRec(cat,key){
+ mutateProfileAndReload(p=>{
+  p.hiddenRecs=p.hiddenRecs||[];
+  if(p.hiddenRecs.indexOf(key)<0)p.hiddenRecs.push(key);
+ });
+}
+function unhideAllRecsInCat(cat){
+ mutateProfileAndReload(p=>{
+  p.hiddenRecs=(p.hiddenRecs||[]).filter(function(k){return k.indexOf(cat+'|')!==0;});
  });
 }
 // Drag-and-drop re-tiering (GOAT Profile's per-medium Gold/Silver/Bronze columns): moves `id`

@@ -757,6 +757,17 @@ body[data-theme="outer-wilds"]{--bg:#0e0a09;--panel:#181010;--panel-2:#120c0b;--
     <h2 class="text-[13px] font-bold uppercase tracking-[.18em]" style="color:#a5b4fc">🔍 Search &amp; Build Your Favorites</h2>
     <p class="text-[11px] text-slate-500 mt-1.5 max-w-3xl">Search the full 2,508-work corpus and tier or own anything right from the results — no separate picker, no popup. Everything below (your declared canon, taste DNA, and generated recommendations) updates the moment you do.</p>
     <input type="text" id="goatSearchInput" class="inp mt-3" placeholder="🔍 Search movies, TV, games, books by title, creator, genre…" autocomplete="off">
+    <div class="flex flex-wrap items-center gap-2 mt-3">
+      <div class="seg" id="goatTypeSeg" style="flex:0 0 auto"><button type="button" data-t="all" class="on">All</button><button type="button" data-t="movie">Movies</button><button type="button" data-t="tv">TV</button><button type="button" data-t="game">Games</button><button type="button" data-t="book">Books</button></div>
+      <div class="seg" id="goatTierSeg" style="flex:0 0 auto"><button type="button" data-tf="all" class="on">Any status</button><button type="button" data-tf="untiered" title="Not yet Gold/Silver/Bronze or owned">Untiered</button><button type="button" data-tf="gold">🥇 Gold</button><button type="button" data-tf="silver">🥈 Silver</button><button type="button" data-tf="bronze">🥉 Bronze</button><button type="button" data-tf="owned">◆ Owned</button></div>
+      <select id="goatSortSel" class="inp" style="width:auto">
+        <option value="match">Sort: Best Match</option>
+        <option value="tier">Sort: My Tiers first</option>
+        <option value="title">Sort: Title A–Z</option>
+        <option value="yearNew">Sort: Year, Newest</option>
+      </select>
+      <span id="goatSearchCount" class="text-[11px] text-slate-500 ml-auto"></span>
+    </div>
     <div id="goatSearchResults" class="space-y-2 mt-3 max-h-[420px] overflow-y-auto"></div>
   </div>
   <div class="panel p-4 md:p-5 mb-5" style="border-color:#fbbf2440;background:linear-gradient(180deg,rgba(251,191,36,.05),rgba(15,22,38,1) 60%)">
@@ -765,6 +776,7 @@ body[data-theme="outer-wilds"]{--bg:#0e0a09;--panel:#181010;--panel-2:#120c0b;--
       <span class="text-[11px] text-slate-500">Match scores /100 — inferred solely from the declared favorites below</span>
     </div>
     <p class="text-[11px] text-slate-500 mt-1.5 max-w-3xl">Detected taste fingerprint: cosmic scale wired to human intimacy · time and mortality as structure · sincerity over irony · dark Americana gravitas · score-and-sound-driven craft · curiosity-powered discovery · humane humor inside darkness. Gold entries are your declared canon; anything marked <span class="text-amber-300/80 uppercase text-[9px] tracking-wider">on ledger</span> can be clicked to open it in the Global Controller.</p>
+    <input type="text" id="goatDeclaredSearch" class="inp mt-3" style="max-width:360px" placeholder="🔍 Filter your declared canon by title…" autocomplete="off">
     <div id="goatDeclared" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-3 mt-4"></div>
     <div class="mt-5 pt-4 border-t border-slate-800/70">
       <div class="lbl mb-3" style="color:#fde68a">✨ Your Taste DNA · averaged signature of your declared &amp; silver canon vs. the full ledger</div>
