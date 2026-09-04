@@ -97,7 +97,7 @@ function wlSetWatched(id,v){if(WL[id]){WL[id].watched=v;wlSave();}}
 function wlCount(){return Object.keys(WL).length;}
 
 /* ===================== STATE & HELPERS ===================== */
-const state={view:'controller',q:'',type:'all',struct:'all',plats:[],minDread:0,minMyst:0,minGoat:0,runtimeMax:0,genres:[],genresExclude:[],ownedOnly:false,notOwnedOnly:false,limit:100,idx:{snd:0,ref:0,ch:0,emo:0,awe:0,cozy:0,perf:0,icon:0,scary:0,real:0,reality:0,shock:0,sci:0,funny:0,hist:0,vibe2:0,crit:0,aud:0,tech:0},ratings:[],tierFilter:[],yearMin:null,yearMax:null,combine:false,sort:'overall',w:{tech:0.85,dread:0.95,myst:0.90},creatorTab:'directors',creatorSearch:'',goatType:'all',goatTierFilter:'all',goatSort:'match',goatDeclaredQ:'',portraitScope:'all'};
+const state={view:'controller',q:'',type:'all',struct:'all',plats:[],minDread:0,minMyst:0,minGoat:0,runtimeMax:0,genres:[],genresExclude:[],ownedOnly:false,notOwnedOnly:false,limit:100,idx:{snd:0,ref:0,ch:0,emo:0,awe:0,cozy:0,perf:0,icon:0,scary:0,real:0,reality:0,shock:0,sci:0,funny:0,hist:0,vibe2:0,crit:0,aud:0,tech:0},ratings:[],tierFilter:[],yearMin:null,yearMax:null,combine:false,sort:'overall',w:{tech:0.85,dread:0.95,myst:0.90},creatorTab:'directors',creatorSearch:'',goatType:'all',goatTierFilter:'all',goatSort:'match',goatDeclaredQ:'',portraitScope:'all',collSearchQ:'',wlType:'all',wlSort:'added',wlSearchQ:''};
 const $=s=>document.querySelector(s),$$=s=>Array.from(document.querySelectorAll(s));
 const on=(sel,ev,fn)=>{const el=$(sel);if(el)el.addEventListener(ev,fn);else console.warn('missing element:',sel);};
 const esc=s=>String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
@@ -1558,24 +1558,40 @@ document.addEventListener('click',e=>{const pe=e.target.closest('.profEditBtn');
 /* ===================== ROUTING & BINDINGS ===================== */
 function updateWlNav(){const c=wlCount();const el=$('#wlNavCount');if(el)el.textContent=c?('('+c+')'):'';}
 function wlItems(){return Object.keys(WL).map(id=>byId.get(id)).filter(Boolean);}
+// Per-kind time-to-finish estimate. Movies use the real runtime field; TV assumes ~8hrs/season
+// (a reasonable prestige-TV average); games strip the "~" the corpus already prefixes hour
+// estimates with; books estimate from page count at a typical ~50 pages/hour reading pace.
+// Previously this shared one formula across TV *and* books (season-count logic applied to a book's
+// raw page count), which for a 400+ page novel multiplied by 8 into a wildly wrong four-digit
+// "hours" figure -- and the result was never even displayed anywhere, so the bug was invisible.
+function estimateHours(x){
+ if(x.kind==='movie')return (x.mins||parseInt(x.span)||120)/60;
+ if(x.kind==='tv')return (parseInt(x.span)||1)*8;
+ if(x.kind==='game')return parseInt(String(x.span).replace('~',''))||20;
+ if(x.kind==='book')return (parseInt(x.span)||300)/50;
+ return 0;
+}
+function formatHours(h){return h>=48?Math.round(h/24)+' days':Math.round(h)+' hrs';}
 function renderWatchlist(){
  const items=wlItems();
  const watched=items.filter(x=>WL[x.id].watched),todo=items.filter(x=>!WL[x.id].watched);
- const hrs=items.reduce((s,x)=>{const m=x.kind==='movie'?(parseInt(x.span)||120)/60:x.kind==='game'?(parseInt(String(x.span).replace('~',''))||20):(parseInt(x.span)||1)*8;return s+m;},0);
+ const backlogHrs=todo.reduce((s,x)=>s+estimateHours(x),0);
  const avg=items.length?Math.round(items.reduce((s,x)=>s+x.ovr,0)/items.length):0;
- $('#wlStats').innerHTML=[['Saved',items.length],['Up Next',todo.length],['Complete',watched.length],['Avg Quality',avg||'\u2014']]
+ $('#wlStats').innerHTML=[['Saved',items.length],['Up Next',todo.length],['Complete',watched.length],['Est. Backlog',todo.length?formatHours(backlogHrs):'\u2014'],['Avg Quality',avg||'\u2014']]
   .map(s=>'<div class="panel p-3 text-center"><div class="text-xl font-extrabold text-slate-50 tabular-nums">'+s[1]+'</div><div class="lbl mt-1">'+s[0]+'</div></div>').join('');
- const wf=state.wlFilter||'all';
+ const wf=state.wlFilter||'all',wt=state.wlType||'all',wq=(state.wlSearchQ||'').trim().toLowerCase(),ws=state.wlSort||'added';
  let list=wf==='todo'?todo:wf==='done'?watched:items;
- list=list.slice().sort((a,b)=>(WL[b.id].added||0)-(WL[a.id].added||0));
+ if(wt!=='all')list=list.filter(x=>x.kind===wt);
+ if(wq)list=list.filter(x=>(x.title+' '+x.creator).toLowerCase().indexOf(wq)>=0);
+ list=list.slice().sort(ws==='title'?(a,b)=>a.title.localeCompare(b.title):ws==='match'?(a,b)=>b.gm-a.gm:(a,b)=>(WL[b.id].added||0)-(WL[a.id].added||0));
  const DONE_VERB={movie:'Watched',tv:'Watched',game:'Played',book:'Read'};
  $('#wlGrid').innerHTML=list.length?list.map(x=>{const k=KM[x.kind];const done=WL[x.id].watched;const verb=DONE_VERB[x.kind]||'Done';
   return '<div class="panel p-3 flex gap-3 items-start'+(done?' opacity-60':'')+'">'
    +ring(x.crit,k.c,38)
    +'<div class="flex-1 min-w-0"><div class="flex items-center gap-1.5 flex-wrap"><span class="text-[13px] font-semibold text-slate-100">'+esc(x.title)+'</span><span class="chip" style="color:'+k.c+';border-color:'+k.c+'44">'+k.label+'</span><span class="chip" style="color:#5eead4;border-color:#5eead455">'+esc(x.rating)+'</span></div>'
-   +'<div class="text-[11px] text-slate-400 mt-0.5 truncate">'+x.year+' \u00b7 '+esc(x.creator)+'</div>'
+   +'<div class="text-[11px] text-slate-400 mt-0.5 truncate">'+x.year+' \u00b7 '+esc(x.creator)+' \u00b7 '+formatHours(estimateHours(x))+'</div>'
    +'<div class="flex gap-1.5 mt-2"><button type="button" class="wlDone presetBtn" data-id="'+x.id+'" title="'+(done?'Click to mark as not yet '+verb.toLowerCase():'Mark this '+verb.toLowerCase())+'" style="'+(done?'color:#34d399;border-color:#34d39955':'')+'">'+(done?'\u2713 '+verb+' \u00b7 click to undo':'Mark '+verb.toLowerCase())+'</button><button type="button" class="wlRemove presetBtn" data-id="'+x.id+'" title="Remove from your watchlist entirely" style="color:#fca5a5;border-color:#fca5a544">Remove</button></div>'
-   +'</div></div>';}).join(''):'<div class="col-span-full text-center text-slate-500 text-sm py-12">Nothing saved yet \u2014 tap the \u2661 on any card to build your backlog.</div>';
+   +'</div></div>';}).join(''):'<div class="col-span-full text-center text-slate-500 text-sm py-12">'+(items.length?'Nothing matches this filter.':'Nothing saved yet \u2014 tap the \u2661 on any card to build your backlog.')+'</div>';
  const saved=new Set(Object.keys(WL));
  const recs=ALL.filter(x=>!saved.has(x.id)).sort((a,b)=>(b.gm-a.gm)||(b.ovr-a.ovr)).slice(0,12);
  $('#wlRecs').innerHTML=recs.map(x=>{const k=KM[x.kind];
@@ -1922,6 +1938,8 @@ function renderCollectionShelf(){
  var owned=ALL.filter(x=>x.owned);
  var cs=state.collSeg||'all';
  if(cs!=='all')owned=owned.filter(x=>x.kind===cs);
+ var searchQ=(state.collSearchQ||'').trim().toLowerCase();
+ if(searchQ)owned=owned.filter(function(x){return x.title.toLowerCase().indexOf(searchQ)>=0;});
  // Group into shelves by medium; each item is a spine whose height/color reflect the work.
  var groups=[['movie','Films'],['tv','Series'],['book','Books'],['game','Games']];
  var html='<p class="text-[11px] text-slate-500 mb-3">Your physical collection as a shelf \u2014 spine height reflects quality, colour marks the medium. Hover a spine for the title.</p>';
@@ -1946,12 +1964,35 @@ function renderCollectionShelf(){
   // shelf board
   html+='</div><div style="height:8px;background:linear-gradient(180deg,#3a2a1a,#241a10);border-radius:0 0 3px 3px;box-shadow:0 4px 8px rgba(0,0,0,0.4)"></div></div>';
  });
- if(owned.length===0)html+='<div class="panel p-6 text-center text-slate-500 text-sm">No owned items in this category.</div>';
+ if(owned.length===0)html+='<div class="panel p-6 text-center text-slate-500 text-sm">'+(searchQ?'Nothing on the shelf matches “'+esc(state.collSearchQ.trim())+'”.':'No owned items in this category.')+'</div>';
  $('#collShelf').innerHTML=html;
 }
+// Shared by both the hand-curated SERIES_DEFS list and the auto-detected franchises below --
+// same card shape either way, so a TV or game franchise reads identically to a curated movie/book
+// trilogy instead of looking like a bolted-on second system.
+function seriesCardHTML(k,name,ownedMembers,missing,total,complete){
+ var pct=Math.round(ownedMembers.length/total*100);
+ var rows=ownedMembers.slice().sort((a,b)=>(a.year||0)-(b.year||0)).map(x=>
+  '<div class="flex items-center gap-2 py-1"><span class="w-1.5 h-1.5 rounded-full shrink-0" style="background:'+k.c+'"></span>'
+  +'<span class="flex-1 min-w-0 truncate text-[12px] text-slate-200">'+esc(x.title)+' <span class="text-slate-500 text-[10px]">'+x.year+'</span></span>'
+  +'<span class="text-[10px] text-emerald-400">\u2713 '+esc(x.physFormat||'owned')+'</span>'
+  +'<span class="text-[11px] font-bold tabular-nums ml-1" style="color:'+k.c+'">'+x.ovr+'</span></div>').join('');
+ var missingHTML=missing.length?'<div class="mt-2 pt-2 border-t border-slate-800/70"><div class="text-[10px] text-amber-400/80 mb-1">To complete \u2014 in ledger, not owned:</div>'
+  +missing.map(x=>'<div class="text-[11px] text-slate-400 truncate">\u25e6 '+esc(x.title)+'</div>').join('')+'</div>':'';
+ return '<div class="panel p-4"><div class="flex items-center justify-between gap-2 mb-2">'
+  +'<div class="lbl" style="color:'+k.c+'">'+k.label+' \u00b7 '+esc(name)+'</div>'
+  +'<div class="text-[11px] font-bold tabular-nums '+(complete?'text-emerald-400':'text-slate-400')+'">'+ownedMembers.length+' / '+total+(complete?' \u2713 complete':'')+'</div></div>'
+  +'<div class="h-1.5 rounded-full bg-slate-800 overflow-hidden mb-3"><div class="h-full rounded-full" style="width:'+pct+'%;background:'+(complete?'#34d399':k.c)+'"></div></div>'
+  +rows+missingHTML+'</div>';
+}
+// Same normalized-title-root clustering already used by collectionGaps() below, for the same
+// reason: TV shows and games get zero entries in the hand-curated SERIES_DEFS list (it only
+// covers movies and books), so franchises like a TV series' seasons or a game trilogy never
+// grouped here at all. Auto-detecting fills that gap instead of hand-curating two more lists.
+function seriesTitleRoot(t){return t.toLowerCase().replace(/[:\-\u2013].*$/,'').replace(/\b(part|vol|volume|book|season)\b.*$/,'').replace(/\b(i{1,3}|iv|v|vi{0,3}|\d+)\b\s*$/,'').replace(/[^a-z0-9 ]/g,'').trim();}
 function renderCollectionSeries(){
- const owned=ALL.filter(x=>x.owned);
  const cs=state.collSeg||'all';
+ const q=(state.collSearchQ||'').trim().toLowerCase();
  const byId2=new Map(ALL.map(x=>[x.title,x]));
  // Build series cards: only show series where you own >=2, honoring the medium filter.
  const cards=[];
@@ -1960,34 +2001,40 @@ function renderCollectionSeries(){
   const ownedMembers=def.members.map(t=>byId2.get(t)).filter(x=>x&&x.owned);
   const hasBox=def.boxSet&&(function(){const b=byId2.get(def.boxSet);return b&&b.owned;})();
   if(ownedMembers.length<2&&!hasBox) return; // only meaningful multi-item series (or a complete box set)
-  const ownedCount=hasBox?def.total:ownedMembers.length;
-  const pct=Math.round(ownedCount/def.total*100);
+  if(q&&def.name.toLowerCase().indexOf(q)<0&&!ownedMembers.some(x=>x.title.toLowerCase().indexOf(q)>=0))return;
   const k=KM[def.kind];
-  const rows=ownedMembers.slice().sort((a,b)=>(a.year||0)-(b.year||0)).map(x=>
-   '<div class="flex items-center gap-2 py-1"><span class="w-1.5 h-1.5 rounded-full shrink-0" style="background:'+k.c+'"></span>'
-   +'<span class="flex-1 min-w-0 truncate text-[12px] text-slate-200">'+esc(x.title)+' <span class="text-slate-500 text-[10px]">'+x.year+'</span></span>'
-   +'<span class="text-[10px] text-emerald-400">\u2713 '+esc(x.physFormat||'owned')+'</span>'
-   +'<span class="text-[11px] font-bold tabular-nums ml-1" style="color:'+k.c+'">'+x.ovr+'</span></div>').join('');
-  // Missing members (owned in ledger? not owned) -> gaps to complete the set
   const missing=hasBox?[]:def.members.map(t=>byId2.get(t)).filter(x=>x&&!x.owned);
-  const missingHTML=missing.length?'<div class="mt-2 pt-2 border-t border-slate-800/70"><div class="text-[10px] text-amber-400/80 mb-1">To complete \u2014 in ledger, not owned:</div>'
-   +missing.map(x=>'<div class="text-[11px] text-slate-400 truncate">\u25e6 '+esc(x.title)+'</div>').join('')+'</div>':'';
   const complete=hasBox||ownedMembers.length>=def.total;
-  cards.push({pct,name:def.name,html:'<div class="panel p-4"><div class="flex items-center justify-between gap-2 mb-2">'
-   +'<div class="lbl" style="color:'+k.c+'">'+k.label+' \u00b7 '+esc(def.name)+'</div>'
-   +'<div class="text-[11px] font-bold tabular-nums '+(complete?'text-emerald-400':'text-slate-400')+'">'+ownedCount+' / '+def.total+(complete?' \u2713 complete':'')+'</div></div>'
-   +'<div class="h-1.5 rounded-full bg-slate-800 overflow-hidden mb-3"><div class="h-full rounded-full" style="width:'+pct+'%;background:'+(complete?'#34d399':k.c)+'"></div></div>'
-   +rows+missingHTML+'</div>'});
+  const effOwned=hasBox?def.members.map(t=>byId2.get(t)).filter(Boolean):ownedMembers;
+  cards.push({pct:Math.round((hasBox?def.total:ownedMembers.length)/def.total*100),name:def.name,html:seriesCardHTML(k,def.name,hasBox?effOwned:ownedMembers,missing,def.total,complete)});
+ });
+ // Auto-detected TV / game franchises (curated list has neither)
+ const curatedTitles=new Set(SERIES_DEFS.flatMap(d=>d.members.concat(d.boxSet?[d.boxSet]:[])));
+ ['tv','game'].forEach(function(kind){
+  if(cs!=='all'&&cs!==kind)return;
+  const byRoot={};
+  ALL.forEach(function(x){if(x.kind!==kind||curatedTitles.has(x.title))return;const r=seriesTitleRoot(x.title);if(r.length<4)return;(byRoot[r]=byRoot[r]||[]).push(x);});
+  Object.keys(byRoot).forEach(function(r){
+   const grp=byRoot[r];
+   const ownedMembers=grp.filter(function(x){return x.owned;});
+   if(ownedMembers.length<2)return;
+   const name=grp[0].title.split(/[:\-\u2013]/)[0].trim();
+   if(q&&name.toLowerCase().indexOf(q)<0&&!ownedMembers.some(x=>x.title.toLowerCase().indexOf(q)>=0))return;
+   const missing=grp.filter(function(x){return !x.owned;});
+   const k=KM[kind];
+   cards.push({pct:Math.round(ownedMembers.length/grp.length*100),name:name,html:seriesCardHTML(k,name,ownedMembers,missing,grp.length,ownedMembers.length>=grp.length)});
+  });
  });
  cards.sort((a,b)=>a.name.localeCompare(b.name));
  const el=$('#collSeries');
- if(!cards.length){el.innerHTML='<div class="panel p-6 text-center text-slate-500 text-sm">No multi-item series in this category yet. Own two or more from a franchise to see it grouped here.</div>';return;}
+ if(!cards.length){el.innerHTML='<div class="panel p-6 text-center text-slate-500 text-sm">'+(q?'No series match \u201c'+esc(state.collSearchQ.trim())+'\u201d.':'No multi-item series in this category yet. Own two or more from a franchise to see it grouped here.')+'</div>';return;}
  el.innerHTML='<p class="text-[11px] text-slate-500 mb-1">Your collection grouped by franchise \u2014 completion at a glance. \u25e6 marks entries in the ledger you don\u2019t yet own.</p>'+cards.map(c=>c.html).join('');
 }
 function renderCollection(){
  const owned=ALL.filter(x=>x.owned);
  const cs=state.collSeg||'all';
- const scope=cs==='all'?owned:owned.filter(x=>x.kind===cs);
+ const q=(state.collSearchQ||'').trim().toLowerCase();
+ const scope=(cs==='all'?owned:owned.filter(x=>x.kind===cs)).filter(x=>!q||x.title.toLowerCase().indexOf(q)>=0);
  // stats
  const fmtCount=f=>owned.filter(x=>(x.physFormat||'')===f).length;
  const avg=scope.length?Math.round(scope.reduce((s,x)=>s+x.ovr,0)/scope.length):0;
@@ -2009,9 +2056,9 @@ function renderCollection(){
       +'<div class="flex-1 min-w-0"><div class="text-[12px] font-semibold text-slate-100 truncate">'+esc(x.title)+'</div>'
       +'<div class="text-[10px] text-slate-500 truncate">'+x.year+' \u00b7 '+esc(x.creator)+' \u00b7 <span style="color:'+k.c+'">'+k.label+'</span></div>'+formatPickerHTML(x)+'</div>'
       +'<div class="text-right shrink-0"><div class="text-[13px] font-bold tabular-nums" style="color:'+col+'">'+x.ovr+'</div>'+(x.goat?'<div class="text-[9px]" style="color:#fbbf24">\u2605 GOAT</div>':x.silver?'<div class="text-[9px] text-slate-400">\u2606</div>':'')+'</div></div>';}).join('')+'</div></div>';
- }).join('')||'<div class="text-center text-slate-500 text-sm py-10">No owned items in this category.</div>';
- // gaps: top-rated NOT owned, per medium
- const gaps=ALL.filter(x=>!x.owned&&x.kind!=='game').sort((a,b)=>b.ovr-a.ovr).slice(0,18);
+ }).join('')||'<div class="text-center text-slate-500 text-sm py-10">'+(q?'Nothing in your collection matches \u201c'+esc(state.collSearchQ.trim())+'\u201d.':'No owned items in this category.')+'</div>';
+ // gaps: top-rated NOT owned, per medium (games included now that they're part of the Collection tab)
+ const gaps=ALL.filter(x=>!x.owned).sort((a,b)=>b.ovr-a.ovr).slice(0,18);
  $('#collGaps').innerHTML=gaps.map(x=>{const k=KM[x.kind];
   return '<div class="panel p-2.5 flex items-center gap-2 goatJump cursor-pointer" data-q="'+esc(x.title)+'" title="Open in Global Controller"><span class="w-1.5 h-1.5 rounded-full shrink-0" style="background:'+k.c+'"></span>'
    +'<span class="flex-1 min-w-0 truncate text-[12px] text-slate-200">'+esc(x.title)+' <span class="text-slate-500 text-[10px]">'+x.year+'</span></span>'
@@ -2354,6 +2401,8 @@ on('#creatorSeg','click',e=>{const b=e.target.closest('button');if(!b)return;sta
 on('#creatorSearch','input',e=>{state.creatorSearch=e.target.value;renderCreators();});
 on('#creatorGrid','click',e=>{if(e.target.closest('.goatJump'))return;const f=e.target.closest('.flip');if(f)f.classList.toggle('flipped');});
 on('#collSeg','click',e=>{const b=e.target.closest('button');if(!b)return;state.collSeg=b.dataset.cs;$$('#collSeg button').forEach(x=>x.classList.toggle('on',x===b));renderCollection();if(state.collGroup==='series')renderCollectionSeries();if(state.collShelf)renderCollectionShelf();if(state.collUpgrade)renderUpgradeAudit();});
+let collSearchT=null;
+on('#collSearch','input',e=>{clearTimeout(collSearchT);const v=e.target.value;collSearchT=setTimeout(()=>{state.collSearchQ=v;renderCollection();if(state.collGroup==='series')renderCollectionSeries();if(state.collShelf)renderCollectionShelf();},120);});
 on('#seriesToggle','click',()=>{state.collGroup=state.collGroup==='series'?'format':'series';const on=state.collGroup==='series';const btn=$('#seriesToggle');btn.classList.toggle('border-cyan-500',on);btn.classList.toggle('text-cyan-300',on);btn.classList.toggle('bg-cyan-500/10',on);btn.textContent=on?'▤ Grouped by Series':'▤ Group by Series';$('#collSeries').classList.toggle('hidden',!on);if(on){state.collShelf=false;state.collUpgrade=false;$('#collShelf').classList.add('hidden');$('#collUpgrade').classList.add('hidden');var sb=$('#shelfToggle');sb.textContent='📚 Shelf View';sb.classList.remove('border-amber-500','text-amber-300','bg-amber-500/10');var ub=$('#upgradeToggle');ub.textContent='⬆ Upgrade Audit';ub.classList.remove('border-sky-500','text-sky-300','bg-sky-500/10');}$('#collFormats').classList.toggle('hidden',on||state.collShelf);if(on)renderCollectionSeries();});
 on('#shelfToggle','click',()=>{state.collShelf=!state.collShelf;const on=state.collShelf;const btn=$('#shelfToggle');btn.classList.toggle('border-amber-500',on);btn.classList.toggle('text-amber-300',on);btn.classList.toggle('bg-amber-500/10',on);btn.textContent=on?'📚 Shelf View ✓':'📚 Shelf View';$('#collShelf').classList.toggle('hidden',!on);if(on){state.collGroup='format';$('#collSeries').classList.add('hidden');var gb=$('#seriesToggle');gb.textContent='▤ Group by Series';gb.classList.remove('border-cyan-500','text-cyan-300','bg-cyan-500/10');}if(on){state.collUpgrade=false;$('#collUpgrade').classList.add('hidden');var ub=$('#upgradeToggle');ub.textContent='⬆ Upgrade Audit';ub.classList.remove('border-sky-500','text-sky-300','bg-sky-500/10');}$('#collFormats').classList.toggle('hidden',on||state.collGroup==='series'||state.collUpgrade);if(on)renderCollectionShelf();});
 on('#upgradeToggle','click',()=>{state.collUpgrade=!state.collUpgrade;const on=state.collUpgrade;const btn=$('#upgradeToggle');btn.classList.toggle('border-sky-500',on);btn.classList.toggle('text-sky-300',on);btn.classList.toggle('bg-sky-500/10',on);btn.textContent=on?'⬆ Upgrade Audit ✓':'⬆ Upgrade Audit';$('#collUpgrade').classList.toggle('hidden',!on);if(on){state.collGroup='format';state.collShelf=false;$('#collSeries').classList.add('hidden');$('#collShelf').classList.add('hidden');var gb=$('#seriesToggle');gb.textContent='▤ Group by Series';gb.classList.remove('border-cyan-500','text-cyan-300','bg-cyan-500/10');var sb=$('#shelfToggle');sb.textContent='📚 Shelf View';sb.classList.remove('border-amber-500','text-amber-300','bg-amber-500/10');}$('#collFormats').classList.toggle('hidden',on||state.collGroup==='series'||state.collShelf);if(on)renderUpgradeAudit();});
@@ -3334,6 +3383,10 @@ function pickSeedCandidates(excludeIds){
 })();
 
 on('#wlFilter','click',e=>{const b=e.target.closest('button');if(!b)return;state.wlFilter=b.dataset.wf;$$('#wlFilter button').forEach(x=>x.classList.toggle('on',x===b));renderWatchlist();});
+on('#wlTypeSeg','click',e=>{const b=e.target.closest('button');if(!b)return;state.wlType=b.dataset.wt;$$('#wlTypeSeg button').forEach(x=>x.classList.toggle('on',x===b));renderWatchlist();});
+on('#wlSortSel','change',e=>{state.wlSort=e.target.value;renderWatchlist();});
+let wlSearchT=null;
+on('#wlSearch','input',e=>{clearTimeout(wlSearchT);const v=e.target.value;wlSearchT=setTimeout(()=>{state.wlSearchQ=v;renderWatchlist();},120);});
 on('#wlGrid','click',e=>{const dn=e.target.closest('.wlDone'),rm=e.target.closest('.wlRemove');
  if(dn){wlSetWatched(dn.dataset.id,!WL[dn.dataset.id].watched);renderWatchlist();}
  else if(rm){wlToggle(rm.dataset.id);renderWatchlist();}});
