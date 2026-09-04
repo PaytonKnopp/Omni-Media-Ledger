@@ -220,7 +220,7 @@ body[data-theme="outer-wilds"]{--bg:#0e0a09;--panel:#181010;--panel-2:#120c0b;--
         <h2 class="text-lg font-bold text-slate-50">What's changed</h2>
         <p class="text-[12px] text-slate-500 mt-1">If a friend's copy shows an older number than yours, send them the current <code>index.html</code> link — their own account (or a fresh Export) picks up right where they left off.</p>
       </div>
-      <button type="button" id="versionClose" class="text-slate-500 hover:text-slate-300 text-lg leading-none">✕</button>
+      <button type="button" id="versionClose" class="text-slate-500 hover:text-slate-300 text-lg leading-none" aria-label="Close">✕</button>
     </div>
     <div id="versionLog" class="space-y-3"></div>
   </div>
@@ -234,7 +234,7 @@ body[data-theme="outer-wilds"]{--bg:#0e0a09;--panel:#181010;--panel-2:#120c0b;--
         <h2 class="text-lg font-bold text-slate-50">Search, tier, finalize</h2>
         <p class="text-[13px] text-slate-400 mt-1">Search the full 2,502-work corpus and mark anything 🥇 Gold, 🥈 Silver, or 🥉 Bronze — the same three tiers a card's row uses once you're in. Gold pins a 100 match score, Silver and Bronze pull the score up a smaller amount, and all three drive every recommendation. Come back here anytime — this adds to what you've already tiered, it doesn't start over.</p>
       </div>
-      <button type="button" id="goatPickerClose" class="text-slate-500 hover:text-slate-300 text-lg leading-none">✕</button>
+      <button type="button" id="goatPickerClose" class="text-slate-500 hover:text-slate-300 text-lg leading-none" aria-label="Close">✕</button>
     </div>
     <input type="text" id="goatPickerSearch" class="inp" placeholder="🔍 Search movies, TV, games, books by title, creator, genre…" autocomplete="off">
     <div class="flex items-center gap-2 flex-wrap">
@@ -271,7 +271,7 @@ body[data-theme="outer-wilds"]{--bg:#0e0a09;--panel:#181010;--panel-2:#120c0b;--
         <h2 class="text-xl font-bold text-slate-50">A few pointers</h2>
         <p class="text-[12px] text-slate-500 mt-1">Everything worth knowing to use this app well, in one place.</p>
       </div>
-      <button type="button" id="tipsClose" class="text-slate-500 hover:text-slate-300 text-lg leading-none">✕</button>
+      <button type="button" id="tipsClose" class="text-slate-500 hover:text-slate-300 text-lg leading-none" aria-label="Close">✕</button>
     </div>
 
     <div>
@@ -334,7 +334,7 @@ body[data-theme="outer-wilds"]{--bg:#0e0a09;--panel:#181010;--panel-2:#120c0b;--
         <h2 class="text-lg font-bold text-slate-50">What would make this better?</h2>
         <p class="text-[13px] text-slate-400 mt-1">Bug, idea, missing feature — anything. Visible to everyone using this app, not just the person who set it up.</p>
       </div>
-      <button type="button" id="suggestClose" class="text-slate-500 hover:text-slate-300 text-lg leading-none">✕</button>
+      <button type="button" id="suggestClose" class="text-slate-500 hover:text-slate-300 text-lg leading-none" aria-label="Close">✕</button>
     </div>
     <textarea id="suggestText" class="inp" rows="4" placeholder="e.g. It would be great if…" style="resize:vertical"></textarea>
     <div id="suggestError" class="hidden text-[12px] text-rose-400"></div>
@@ -712,6 +712,7 @@ body[data-theme="outer-wilds"]{--bg:#0e0a09;--panel:#181010;--panel-2:#120c0b;--
     <p class="text-[11px] text-slate-500 max-w-3xl" id="matrixIntro">Elite specialized brackets computed across the full corpus (Global Controller filters intentionally ignored here so brackets stay canonical). Hover rows for full credits.</p>
     <label class="flex items-center gap-1.5 text-[11px] cursor-pointer shrink-0" style="color:#86efac"><input type="checkbox" id="matrixOwnedOnly" class="accent-emerald-500"/> ◆ Owned only</label>
   </div>
+  <input type="text" id="matrixNavSearch" class="inp mb-3" style="max-width:320px" placeholder="🔍 Find a bracket by name…" autocomplete="off">
   <div id="matrixNav" class="flex flex-wrap gap-1.5 mb-4"></div>
   <div id="matrixWrap" class="grid grid-cols-1 xl:grid-cols-2 gap-5"></div>
 </section>
@@ -805,7 +806,7 @@ body[data-theme="outer-wilds"]{--bg:#0e0a09;--panel:#181010;--panel-2:#120c0b;--
     <p class="text-[11px] text-slate-500 mt-1.5 max-w-3xl">Your taste across time — every work placed by release year. The shape shows the eras your collection reaches into. Click any bar to open that decade in the Global Controller.</p>
     <div id="tlStats" class="grid grid-cols-2 md:grid-cols-4 gap-3 mt-4"></div>
   </div>
-  <div class="panel p-4 md:p-5"><div id="tlChart"></div></div>
+  <div class="panel p-4 md:p-5"><div id="tlChart"></div><div id="tlDecadeZoom"></div></div>
   <div id="tlEras" class="space-y-5 mt-5"></div>
 </section>
 <section data-sec="watchlist" class="hidden">
@@ -845,7 +846,7 @@ body[data-theme="outer-wilds"]{--bg:#0e0a09;--panel:#181010;--panel-2:#120c0b;--
       <button type="button" id="exportBtn" class="ml-auto text-[11px] px-3 py-1.5 rounded-lg border border-slate-700 text-slate-300 hover:border-violet-500 hover:text-violet-300 transition-colors" title="Download a backup of your watchlist and personal data">⬇ Export / Backup</button>
     </div>
     <p class="text-[11px] text-slate-500 mt-1.5 max-w-3xl">A data portrait of your taste, drawn from your collection and declared favorites — the shape of what you love, and the acclaimed works just outside it.</p>
-    <div class="flex items-center gap-2 mt-3"><span class="fieldlbl mb-0">Scope</span><div class="seg" id="portraitScopeSeg" style="flex:0 0 auto"><button type="button" data-ps="all" class="on">All</button><button type="button" data-ps="movie">Film</button><button type="button" data-ps="tv">TV</button><button type="button" data-ps="game">Games</button><button type="button" data-ps="book">Books</button></div><span class="text-[10.5px] text-slate-600">applies to the stats, genre gravity and decade distribution below</span></div>
+    <div class="flex items-center gap-2 mt-3 flex-wrap"><span class="fieldlbl mb-0">Scope</span><div class="seg" id="portraitScopeSeg" style="flex:0 0 auto"><button type="button" data-ps="all" class="on">All</button><button type="button" data-ps="movie">Film</button><button type="button" data-ps="tv">TV</button><button type="button" data-ps="game">Games</button><button type="button" data-ps="book">Books</button></div><span class="text-[10.5px] text-slate-600" style="min-width:0">applies to the stats, genre gravity and decade distribution below</span></div>
     <div id="portraitStats" class="grid grid-cols-2 md:grid-cols-4 gap-3 mt-4"></div>
   </div>
   <div class="panel p-4 md:p-5 mb-5" style="border-color:#22d3ee33">
