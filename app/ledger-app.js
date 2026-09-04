@@ -491,9 +491,9 @@ function tierRowHTML(it,roomy){
  // buttons -- addresses the specific "still quite close together" feedback about that screen
  // without touching the deliberately compact spacing every other card everywhere else relies on.
  return '<div class="flex items-center flex-wrap px-3.5 pb-3'+(roomy?' gap-3 mt-4':' gap-1.5 mt-auto pt-3')+'">'
- +seg('declare','\u{1F947}','Gold','Gold: your declared all-time favorites — pins a 100 match, the strongest recommendation signal',it.goat,'#fbbf24',roomy)
- +seg('silver','\u{1F948}','Silver','Silver: a strong favorite, one notch below Gold',it.silver,'#cbd5e1',roomy)
- +seg('bronze','\u{1F949}','Bronze','Bronze: really like it, a lighter nudge than Silver',it.bronze,'#cd7f32',roomy)
+ +seg('declare','\u{1F947}','Gold','Gold: your declared all-time favorites — pins a 100 match, the strongest recommendation signal',it.goat,'#fbbf24',false)
+ +seg('silver','\u{1F948}','Silver','Silver: a strong favorite, one notch below Gold',it.silver,'#cbd5e1',false)
+ +seg('bronze','\u{1F949}','Bronze','Bronze: really like it, a lighter nudge than Silver',it.bronze,'#cd7f32',false)
  +'<span class="w-px h-4 mx-0.5" style="background:#334155"></span>'
  +seg('own','◆','Owned','Toggle whether this is in your owned collection',it.owned,'#4ade80',true)
  +(roomy?'<span class="ml-auto flex items-center gap-3 text-[10.5px] text-slate-500 shrink-0"><span title="GOAT match /100">★ <b style="color:#fbbf24">'+it.gm+'</b></span><span title="Critical score /100">Crit <b class="text-slate-300">'+it.crit+'</b></span><span title="Audience score /100">Aud <b class="text-slate-300">'+it.aud+'</b></span></span>':'')
@@ -507,7 +507,7 @@ function cardHTML(it){const k=KM[it.kind];
  +'<div class="flex items-center gap-x-2 gap-y-1.5 flex-wrap"><span class="cardTitle text-[13px] font-semibold text-slate-100 leading-tight hover:text-teal-300 cursor-pointer underline decoration-dotted decoration-slate-600 underline-offset-2" data-flip="'+it.id+'" title="Click for a summary and full breakdown">'+esc(it.title)+'</span><span class="chip" style="color:'+k.c+';border-color:'+k.c+'44">'+k.label+'</span><span class="chip" style="color:#5eead4;border-color:#5eead455">'+esc(it.rating)+'</span>'+'<span class="chip" style="color:#fbbf24;border-color:#fbbf2444" title="GOAT match /100">\u2605 '+it.gm+'</span>'+(window._blendActive?'<span class="chip" style="color:#0B0F19;background:#34d399;border-color:#34d399;font-weight:800" title="Weighted blend match">\u2696 '+bespokeScore(it).toFixed(0)+'%</span>':'')+(it.chFlag?'<span class="chip" style="color:#0B0F19;background:#c084fc;border-color:#c084fc;font-weight:700">\u25c9 CANON 100</span>':(it.ch>=70?'<span class="chip" style="color:#c084fc;border-color:#c084fc44">\u25c9 '+it.ch+'</span>':''))+'</div>'
  +'<div class="text-[11px] text-slate-400 mt-1.5 truncate" title="'+esc(it.creator)+' · '+esc(it.org)+'">'+it.year+' · '+esc(it.creator)+' · '+esc(it.span)+'</div>'
  +'<div class="mt-2 space-y-1 cardMicro" title="This work\'s 3 strongest indices out of ~19 tracked -- click the card to see all of them">'+frontBars(it)+'</div>'
- +'</div><span class="text-slate-600 text-xs mt-1" aria-hidden="true">&#9662;</span></button>'+'<button type="button" class="wlBtn absolute top-2 right-2 text-base leading-none transition-transform hover:scale-125" data-wl="'+it.id+'" title="Toggle watchlist" style="color:'+(wlHas(it.id)?'#fb7185':'#475569')+'">'+(wlHas(it.id)?'\u2665':'\u2661')+'</button>'
+ +'</div><span class="text-slate-600 text-xs mt-1" aria-hidden="true">&#9662;</span></button>'+'<button type="button" class="wlBtn absolute top-2 right-2 text-base leading-none transition-transform hover:scale-125" data-wl="'+it.id+'" title="Toggle watchlist" aria-label="'+(wlHas(it.id)?'Remove from watchlist':'Add to watchlist')+'" style="color:'+(wlHas(it.id)?'#fb7185':'#475569')+'">'+(wlHas(it.id)?'\u2665':'\u2661')+'</button>'
  +tierRowHTML(it)
  +summaryHTML(it)
  +'<div class="detail hidden border-t border-slate-800/80 px-3.5 py-3.5 bg-[#0b1322]/60">'
@@ -603,13 +603,21 @@ function updateCharts(list){
  if(!CH.bubble)return;
  CH._vizList=list;
  renderBubble();
- const decs=[];for(let d=1950;d<=2020;d+=10)decs.push(d);
+ // Decade range used to be a hardcoded 1950-2020 window covering only 3 of the 4 media kinds --
+ // that silently dropped every pre-1950 or post-2020 work (real ones exist today, e.g. 1920s films
+ // and 2026 releases) and every book from the chart. Derived from the actual data instead, so it
+ // stays correct as the corpus grows in either direction.
+ const years=list.map(x=>x.year).filter(function(y){return y>0;});
+ const minD=years.length?Math.floor(Math.min.apply(null,years)/10)*10:1950;
+ const maxD=years.length?Math.floor(Math.max.apply(null,years)/10)*10:2020;
+ const decs=[];for(let d=minD;d<=maxD;d+=10)decs.push(d);
  const cnt=k=>decs.map(d=>list.filter(x=>x.kind===k&&x.year>=d&&x.year<d+10).length);
  CH.decade.data.labels=decs.map(d=>d+'s');
  CH.decade.data.datasets=[
   {label:'Movies',data:cnt('movie'),backgroundColor:'#8b5cf6'},
   {label:'TV',data:cnt('tv'),backgroundColor:'#22d3ee'},
-  {label:'Games',data:cnt('game'),backgroundColor:'#f59e0b'}];
+  {label:'Games',data:cnt('game'),backgroundColor:'#f59e0b'},
+  {label:'Books',data:cnt('book'),backgroundColor:'#4ade80'}];
  CH.decade.update('none');
 }
 var bubbleMed='all';
@@ -711,6 +719,7 @@ function matrixRow(it,i,cols){const k=KM[it.kind];
 // 17 others first.
 var MATRIX_TITLES=[];
 var matrixOwnedOnly=false;
+var matrixNavQ='';
 function slugify(s){return s.replace(/&[a-z]+;/gi,' ').replace(/[^\w\s-]/g,'').trim().toLowerCase().replace(/\s+/g,'-');}
 function matrixBlock(title,sub,arr,colFn,heads){
  if(MATRIX_TITLES.indexOf(title)<0)MATRIX_TITLES.push(title);
@@ -723,8 +732,12 @@ function matrixBlock(title,sub,arr,colFn,heads){
 }
 function renderMatrixNav(){
  var el=$('#matrixNav');if(!el)return;
- el.innerHTML=MATRIX_TITLES.map(function(t){var label=t.replace(/&amp;/g,'&').replace(/&ge;/g,'≥').replace(/&le;/g,'≤');
-  return '<a href="#mx-'+slugify(t)+'" class="matrixNavLink text-[10.5px] px-2.5 py-1 rounded-lg border border-slate-700 text-slate-400 hover:border-indigo-500 hover:text-indigo-300 transition-colors whitespace-nowrap" data-anchor="mx-'+slugify(t)+'">'+label+'</a>';}).join('');
+ var q=(matrixNavQ||'').trim().toLowerCase();
+ var titles=q?MATRIX_TITLES.filter(function(t){return t.toLowerCase().indexOf(q)>=0;}):MATRIX_TITLES;
+ el.innerHTML=titles.length?titles.map(function(t){var label=t.replace(/&amp;/g,'&').replace(/&ge;/g,'≥').replace(/&le;/g,'≤');
+  var slug=slugify(t);var panel=document.getElementById('mx-'+slug);var chip=panel?panel.querySelector('.chip'):null;var countLabel=chip?chip.textContent:'';
+  return '<a href="#mx-'+slug+'" class="matrixNavLink text-[10.5px] px-2.5 py-1 rounded-lg border border-slate-700 text-slate-400 hover:border-indigo-500 hover:text-indigo-300 transition-colors whitespace-nowrap flex items-center gap-1.5" data-anchor="mx-'+slug+'">'+label+(countLabel?'<span class="text-slate-600">·</span><span class="tabular-nums'+(matrixOwnedOnly?' text-emerald-400':'')+'">'+countLabel+'</span>':'')+'</a>';}).join('')
+  :'<div class="text-[11px] text-slate-500 px-1 py-1">No brackets match “'+esc(q)+'”.</div>';
 }
 function renderMatrices(){
  MATRIX_TITLES=[];
@@ -753,6 +766,8 @@ function renderMatrices(){
   +matrixBlock('😴 Comfort &amp; Warmth','Rainy-Sunday companions \u2014 the cozy, humane, restorative works to return to. Comfort index \u2265 74.',ALL.filter(x=>x.cozy>=74).sort((a,b)=>b.cozy-a.cozy),it=>[[it.cozy,'#fbbf24'],[it.aud,'#94a3b8']],['Comfort','Audience'])
   +matrixBlock('😀 Wit &amp; Comedy Peak','The sharpest, funniest works across every medium \u2014 satire, farce, and perfect timing. Comedy index \u2265 74.',ALL.filter(x=>x.funny>=74).sort((a,b)=>b.funny-a.funny),it=>[[it.funny,'#fde047'],[it.aud,'#94a3b8']],['Funny','Audience']);
  renderMatrixNav();
+ var q=(matrixNavQ||'').trim().toLowerCase();
+ if(q){$$('#matrixWrap > .panel').forEach(function(p){var h3=p.querySelector('h3');var match=h3&&h3.textContent.toLowerCase().indexOf(q)>=0;p.classList.toggle('hidden',!match);});}
 }
 
 /* ===================== VIEW 5 · PAN-CREATOR ARCHIVES ===================== */
@@ -761,12 +776,15 @@ function creatorCard(c,tab){const isDir=tab===true||tab==='directors';const isAu
  const frontLabel=isDir?'Director · Pantheon':(isAuthor?'Author · Pantheon':'Gaming Auteur');
  const sigField=isAuteur?c.designPhilosophy:c.visualSignature;
  const backSigLabel=isDir?'Visual Signature':(isAuthor?'Prose & Vision':'Design Philosophy');
+ const ownedN=works.filter(function(w){return w.owned;}).length;
+ const ownedPct=works.length?Math.round(ownedN/works.length*100):0;
  const front='<div class="flip-face absolute inset-0 panel p-4 flex flex-col">'
   +'<div class="flex items-start justify-between gap-2"><div class="min-w-0"><div class="lbl">'+frontLabel+'</div><div class="text-[15px] font-bold text-slate-50 mt-1 leading-tight">'+esc(c.name)+'</div></div>'
-  +'<div class="text-right shrink-0"><div class="text-2xl font-extrabold leading-none" style="color:'+accent+'">'+works.length+'</div><div class="lbl mt-1">on ledger</div></div></div>'
+  +'<div class="text-right shrink-0"><div class="text-2xl font-extrabold leading-none goatJump cursor-pointer" data-q="'+esc(c.name)+'" title="View all of '+esc(c.name)+'’s works in the Global Controller" style="color:'+accent+'">'+works.length+'</div><div class="lbl mt-1">on ledger</div></div></div>'
   +'<div class="flex flex-wrap gap-1.5 mt-3">'+c.activeEras.map(e=>'<span class="chip">'+esc(e)+'</span>').join('')+'</div>'
+  +(works.length?'<div class="flex items-center gap-1.5 mt-2 text-[10.5px]" title="'+ownedN+' of '+works.length+' ledger works owned"><div class="flex-1 h-1 rounded-full bg-slate-800 overflow-hidden"><div style="width:'+ownedPct+'%;height:100%;background:'+accent+'"></div></div><span class="text-slate-400 tabular-nums shrink-0">'+ownedPct+'% owned</span></div>':'')
   +'<p class="text-[11px] text-slate-400 mt-3 leading-relaxed clamp4">'+esc(sigField)+'</p>'
-  +'<div class="mt-auto pt-2 text-[9px] tracking-[.22em] uppercase text-slate-600">Click to flip &#10227;</div></div>';
+  +'<div class="mt-auto pt-2 flex items-center justify-between text-[9px] tracking-[.22em] uppercase text-slate-600"><span>Click to flip &#10227;</span>'+(works.length?'<span class="goatJump cursor-pointer hover:text-teal-400 normal-case tracking-normal" data-q="'+esc(c.name)+'" title="View all of '+esc(c.name)+'’s works in the Global Controller">View in Controller →</span>':'')+'</div></div>';
  const back='<div class="flip-face flip-back absolute inset-0 panel p-4 flex flex-col" style="border-color:'+accent+'40">'
   +'<div class="lbl">'+backSigLabel+'</div>'
   +'<p class="text-[10.5px] text-slate-300 mt-1 leading-relaxed">'+esc(sigField)+'</p>'
@@ -1614,8 +1632,9 @@ function renderWatchlist(){
  const watched=items.filter(x=>WL[x.id].watched),todo=items.filter(x=>!WL[x.id].watched);
  const backlogHrs=todo.reduce((s,x)=>s+estimateHours(x),0);
  const avg=items.length?Math.round(items.reduce((s,x)=>s+x.ovr,0)/items.length):0;
- $('#wlStats').innerHTML=[['Saved',items.length],['Up Next',todo.length],['Complete',watched.length],['Est. Backlog',todo.length?formatHours(backlogHrs):'\u2014'],['Avg Quality',avg||'\u2014']]
-  .map(s=>'<div class="panel p-3 text-center"><div class="text-xl font-extrabold text-slate-50 tabular-nums">'+s[1]+'</div><div class="lbl mt-1">'+s[0]+'</div></div>').join('');
+ var BACKLOG_TITLE='Estimated, not measured: movies use their actual runtime, TV uses ~8hrs/season, games use their listed playtime (or 20hrs if unlisted), books use pages\u00f750wpm. Treat this as a rough sense of scale, not a real countdown.';
+ $('#wlStats').innerHTML=[['Saved',items.length,null],['Up Next',todo.length,null],['Complete',watched.length,null],['Est. Backlog',todo.length?formatHours(backlogHrs):'\u2014',BACKLOG_TITLE],['Avg Quality',avg||'\u2014',null]]
+  .map(s=>'<div class="panel p-3 text-center"'+(s[2]?' title="'+esc(s[2])+'"':'')+'><div class="text-xl font-extrabold text-slate-50 tabular-nums">'+s[1]+(s[2]?' <span style="font-size:9px;color:#64748b" title="'+esc(s[2])+'">(est.)</span>':'')+'</div><div class="lbl mt-1">'+s[0]+'</div></div>').join('');
  const wf=state.wlFilter||'all',wt=state.wlType||'all',wq=(state.wlSearchQ||'').trim().toLowerCase(),ws=state.wlSort||'added';
  let list=wf==='todo'?todo:wf==='done'?watched:items;
  if(wt!=='all')list=list.filter(x=>x.kind===wt);
@@ -1626,7 +1645,7 @@ function renderWatchlist(){
   return '<div class="panel p-3 flex gap-3 items-start'+(done?' opacity-60':'')+'">'
    +ring(x.crit,k.c,38)
    +'<div class="flex-1 min-w-0"><div class="flex items-center gap-1.5 flex-wrap"><span class="text-[13px] font-semibold text-slate-100">'+esc(x.title)+'</span><span class="chip" style="color:'+k.c+';border-color:'+k.c+'44">'+k.label+'</span><span class="chip" style="color:#5eead4;border-color:#5eead455">'+esc(x.rating)+'</span></div>'
-   +'<div class="text-[11px] text-slate-400 mt-0.5 truncate">'+x.year+' \u00b7 '+esc(x.creator)+' \u00b7 '+formatHours(estimateHours(x))+'</div>'
+   +'<div class="text-[11px] text-slate-400 mt-0.5 truncate">'+x.year+' \u00b7 '+esc(x.creator)+' \u00b7 <span title="Estimated from runtime/season count/playtime/page count \u2014 not a guarantee">~'+formatHours(estimateHours(x))+'</span></div>'
    +'<div class="flex gap-1.5 mt-2"><button type="button" class="wlDone presetBtn" data-id="'+x.id+'" title="'+(done?'Click to mark as not yet '+verb.toLowerCase():'Mark this '+verb.toLowerCase())+'" style="'+(done?'color:#34d399;border-color:#34d39955':'')+'">'+(done?'\u2713 '+verb+' \u00b7 click to undo':'Mark '+verb.toLowerCase())+'</button><button type="button" class="wlRemove presetBtn" data-id="'+x.id+'" title="Remove from your watchlist entirely" style="color:#fca5a5;border-color:#fca5a544">Remove</button></div>'
    +'</div></div>';}).join(''):'<div class="col-span-full text-center text-slate-500 text-sm py-12">'+(items.length?'Nothing matches this filter.':'Nothing saved yet \u2014 tap the \u2661 on any card to build your backlog.')+'</div>';
  const saved=new Set(Object.keys(WL));
@@ -1641,6 +1660,7 @@ function renderWatchlist(){
 /* ===== Collection Timeline ===== */
 var tlScope='owned';
 var tlMedium='all';
+var tlZoomDecade=null;
 function renderTimeline(){
  var items=(tlScope==='owned'?ALL.filter(x=>x.owned):ALL).filter(x=>typeof x.year==='number'&&x.year!==0);
  if(tlMedium!=='all')items=items.filter(x=>x.kind===tlMedium);
@@ -1677,7 +1697,7 @@ function renderTimeline(){
  cols.forEach(function(c,i){
   var x=pad+i*(bw+gap);
   var items2=c[1];var h=(items2.length/maxCount)*(H-70);
-  svg+='<g class="tlBar" style="cursor:pointer" data-ymin="'+c[2]+'" data-ymax="'+c[3]+'" data-kind="'+(tlMedium!=='all'?tlMedium:'')+'"><title>'+c[0]+' — '+items2.length+' works · click to open in the Global Controller</title><rect x="'+x+'" y="'+(H-30-h-4)+'" width="'+bw+'" height="'+(h+4)+'" fill="transparent"/>';
+  svg+='<g class="tlBar" style="cursor:pointer" data-ymin="'+c[2]+'" data-ymax="'+c[3]+'" data-kind="'+(tlMedium!=='all'?tlMedium:'')+'" data-label="'+esc(c[0])+'"><title>'+c[0]+' — '+items2.length+' works · click to open in the Global Controller, or use the 🔍 to preview here</title><rect x="'+x+'" y="'+(H-30-h-4)+'" width="'+bw+'" height="'+(h+4)+'" fill="transparent"/>';
   // stacked by medium
   var order=['book','movie','tv','game'];
   var y=H-30;
@@ -1689,12 +1709,25 @@ function renderTimeline(){
   });
   svg+='<text x="'+(x+bw/2)+'" y="'+(H-14)+'" fill="#94a3b8" font-size="10" text-anchor="middle">'+c[0]+'</text>';
   svg+='<text x="'+(x+bw/2)+'" y="'+(H-38-h)+'" fill="#e2e8f0" font-size="11" font-weight="700" text-anchor="middle">'+items2.length+'</text>';
+  svg+='<text class="tlZoomBtn" x="'+(x+bw-2)+'" y="'+(H-30-h-8)+'" fill="#7dd3fc" font-size="12" text-anchor="end" style="cursor:zoom-in">🔍</text>';
   svg+='</g>';
  });
  svg+='</svg>';
  // legend
  var legend='<div class="flex gap-3 flex-wrap mt-2 text-[10px]">'+['movie','tv','game','book'].map(k=>'<span class="flex items-center gap-1"><span class="w-2.5 h-2.5 rounded-sm inline-block" style="background:'+KM[k].c+'"></span>'+KM[k].label+'</span>').join('')+'</div>';
- $('#tlChart').innerHTML=items.length?('<div class="lbl mb-2" style="color:#f0abfc">Works per decade · click a bar to open it in the Global Controller</div>'+svg+legend):'<div class="text-center text-slate-500 text-sm py-10">Nothing to show for this filter.</div>';
+ $('#tlChart').innerHTML=items.length?('<div class="lbl mb-2" style="color:#f0abfc">Works per decade · click a bar to open it in the Global Controller, or 🔍 to preview without leaving this tab</div>'+svg+legend):'<div class="text-center text-slate-500 text-sm py-10">Nothing to show for this filter.</div>';
+ // --- optional in-tab decade zoom/preview (no navigation away from Timeline) ---
+ var zoomBox=$('#tlDecadeZoom');
+ if(zoomBox){
+  if(tlZoomDecade!=null){
+   var col2=cols.filter(function(c){return c[2]===tlZoomDecade;})[0];
+   if(col2){
+    var top=col2[1].slice().sort(function(a,b){return b.gm-a.gm;}).slice(0,12);
+    zoomBox.innerHTML='<div class="panel p-3 mt-3"><div class="flex items-center justify-between mb-2"><span class="lbl" style="color:#7dd3fc">🔍 '+esc(col2[0])+' — top '+top.length+' of '+col2[1].length+'</span><button type="button" id="tlZoomClose" class="text-[10.5px] text-slate-500 hover:text-slate-300">✕ close</button></div>'
+     +'<div class="grid grid-cols-1 sm:grid-cols-2 gap-1.5">'+top.map(function(it){var k=KM[it.kind];return '<div class="flex items-center gap-2 text-[11px] goatJump cursor-pointer hover:bg-slate-800/30 rounded px-1 -mx-1" data-q="'+esc(it.title)+'" title="Open '+esc(it.title)+' in the Global Controller"><span class="w-1.5 h-1.5 rounded-full shrink-0" style="background:'+k.c+'"></span><span class="flex-1 truncate text-slate-200 hover:text-teal-300">'+esc(it.title)+'</span><span class="text-slate-500 tabular-nums">'+it.year+'</span><span class="tabular-nums font-semibold" style="color:'+k.c+'">'+it.gm+'</span></div>';}).join('')+'</div></div>';
+   } else {zoomBox.innerHTML='';tlZoomDecade=null;}
+  } else zoomBox.innerHTML='';
+ }
  // --- era highlight rows (chronological), each era shows top works ---
  var ERAS=[[-9999,1900,'Antiquity & Classics'],[1900,1960,'The Mid-Century'],[1960,1980,'The New Wave'],[1980,2000,'The Modern Canon'],[2000,2015,'The Digital Age'],[2015,9999,'The Present']];
  var html='';
@@ -2156,6 +2189,7 @@ function stateToParams(){
  if(typeof contSort!=='undefined'&&contSort!=='foryou')p.set('contSort',contSort);
  if(typeof contSearchQ!=='undefined'&&contSearchQ)p.set('contQ',contSearchQ);
  if(typeof matrixOwnedOnly!=='undefined'&&matrixOwnedOnly)p.set('mxOwned','1');
+ if(typeof matrixNavQ!=='undefined'&&matrixNavQ)p.set('mxQ',matrixNavQ);
  if(typeof bubbleMinScore!=='undefined'&&bubbleMinScore>0)p.set('bMin',bubbleMinScore);
  if(typeof tlMedium!=='undefined'&&tlMedium!=='all')p.set('tlMed',tlMedium);
  return p;
@@ -2199,6 +2233,7 @@ function paramsToState(){
   if(p.has('contSort')&&typeof contSort!=='undefined')contSort=p.get('contSort');
   if(p.has('contQ')&&typeof contSearchQ!=='undefined')contSearchQ=p.get('contQ');
   if(p.has('mxOwned')&&typeof matrixOwnedOnly!=='undefined')matrixOwnedOnly=p.get('mxOwned')==='1';
+  if(p.has('mxQ')&&typeof matrixNavQ!=='undefined')matrixNavQ=p.get('mxQ');
   if(p.has('bMin')&&typeof bubbleMinScore!=='undefined')bubbleMinScore=+p.get('bMin')||0;
   if(p.has('tlMed')&&typeof tlMedium!=='undefined')tlMedium=p.get('tlMed');
   return p.get('view')||null;
@@ -2261,6 +2296,7 @@ function applyStateToStaticControls(){
  if(typeof contSort!=='undefined'){$$('.contSortBtn').forEach(function(b){b.classList.toggle('on',b.dataset.sort===contSort);});}
  if(typeof contSearchQ!=='undefined'){var contQEl=$('#contSearch');if(contQEl)contQEl.value=contSearchQ;}
  if(typeof matrixOwnedOnly!=='undefined'){var mxo=$('#matrixOwnedOnly');if(mxo)mxo.checked=matrixOwnedOnly;}
+ if(typeof matrixNavQ!=='undefined'){var mxq=$('#matrixNavSearch');if(mxq)mxq.value=matrixNavQ;}
  if(typeof bubbleMinScore!=='undefined'){var bMinEl=$('#bubbleMin');if(bMinEl)bMinEl.value=bubbleMinScore;var bMinLbl=$('#bubbleMinLbl');if(bMinLbl)bMinLbl.textContent=bubbleMinScore>0?bubbleMinScore+'+':'Any';}
  if(typeof tlMedium!=='undefined'){$$('#tlMedium button').forEach(function(b){b.classList.toggle('on',b.dataset.tm===tlMedium);});}
  if(typeof renderGoat==='function')renderGoat();
@@ -2307,7 +2343,7 @@ function toggleCardExpanded(card){
  const sf=card&&card.querySelector('.summaryFace');
  setCardExpanded(card,!!(sf&&sf.classList.contains('hidden')));
 }
-on('#grid','click',e=>{const pc=e.target.closest('.pairingChip');if(pc){e.stopPropagation();const px=byId.get(pc.dataset.flipJump);if(px){state.q=px.title;const qinput=$('#q');if(qinput)qinput.value=px.title;refresh();}return;}const pe=e.target.closest('.profEditBtn');if(pe){e.stopPropagation();handleProfileEditClick(pe);return;}const w=e.target.closest('.wlBtn');if(w){e.stopPropagation();wlToggle(w.dataset.wl);const has=wlHas(w.dataset.wl);w.textContent=has?'\u2665':'\u2661';w.style.color=has?'#fb7185':'#475569';updateWlNav();if(state.view==='watchlist')renderWatchlist();return;}const fb=e.target.closest('.flipBack');if(fb){e.stopPropagation();const card=fb.closest('.panel');if(card)setCardExpanded(card,false);return;}const h=e.target.closest('.cardHead');if(!h)return;const card=h.closest('.panel');if(card)toggleCardExpanded(card);});
+on('#grid','click',e=>{const pc=e.target.closest('.pairingChip');if(pc){e.stopPropagation();const px=byId.get(pc.dataset.flipJump);if(px){state.q=px.title;const qinput=$('#q');if(qinput)qinput.value=px.title;refresh();}return;}const pe=e.target.closest('.profEditBtn');if(pe){e.stopPropagation();handleProfileEditClick(pe);return;}const w=e.target.closest('.wlBtn');if(w){e.stopPropagation();wlToggle(w.dataset.wl);const has=wlHas(w.dataset.wl);w.textContent=has?'\u2665':'\u2661';w.style.color=has?'#fb7185':'#475569';w.setAttribute('aria-label',has?'Remove from watchlist':'Add to watchlist');updateWlNav();if(state.view==='watchlist')renderWatchlist();return;}const fb=e.target.closest('.flipBack');if(fb){e.stopPropagation();const card=fb.closest('.panel');if(card)setCardExpanded(card,false);return;}const h=e.target.closest('.cardHead');if(!h)return;const card=h.closest('.panel');if(card)toggleCardExpanded(card);});
 let qT=null;
 on('#q','input',e=>{clearTimeout(qT);qT=setTimeout(()=>{state.q=e.target.value;refresh();},120);});
 on('#typeSeg','click',e=>{const b=e.target.closest('button');if(!b)return;state.type=b.dataset.type;$$('#typeSeg button').forEach(x=>x.classList.toggle('on',x===b));refresh();});
@@ -2522,7 +2558,10 @@ on('#gapSeg','click',e=>{const b=e.target.closest('button');if(!b)return;state.g
 on('#portraitScopeSeg','click',e=>{const b=e.target.closest('button');if(!b)return;state.portraitScope=b.dataset.ps;$$('#portraitScopeSeg button').forEach(x=>x.classList.toggle('on',x===b));renderPortrait();scheduleURLSync();});
 on('#tlScope','click',e=>{const b=e.target.closest('button');if(!b)return;tlScope=b.dataset.t;$$('#tlScope button').forEach(x=>x.classList.toggle('on',x===b));renderTimeline();});
 on('#tlMedium','click',e=>{const b=e.target.closest('button');if(!b)return;tlMedium=b.dataset.tm;$$('#tlMedium button').forEach(x=>x.classList.toggle('on',x===b));renderTimeline();scheduleURLSync();});
-on('#tlChart','click',e=>{const g=e.target.closest('.tlBar');if(!g)return;
+on('#tlChart','click',e=>{
+ const z=e.target.closest('.tlZoomBtn');
+ if(z){e.stopPropagation();const g2=z.closest('.tlBar');if(g2){const ym=+g2.dataset.ymin;tlZoomDecade=(tlZoomDecade===ym)?null:ym;renderTimeline();var zb=$('#tlDecadeZoom');if(zb&&tlZoomDecade!=null)zb.scrollIntoView({behavior:'smooth',block:'nearest'});}return;}
+ const g=e.target.closest('.tlBar');if(!g)return;
  const ymin=+g.dataset.ymin,ymax=+g.dataset.ymax,kind=g.dataset.kind;
  state.yearMin=ymin<=-9999?null:ymin;state.yearMax=ymax-1;
  const yminEl=$('#yearMin'),ymaxEl=$('#yearMax');if(yminEl)yminEl.value=state.yearMin!=null?state.yearMin:'';if(ymaxEl)ymaxEl.value=state.yearMax;
@@ -2531,6 +2570,7 @@ on('#tlChart','click',e=>{const g=e.target.closest('.tlBar');if(!g)return;
  const ap=$('#advPanel');if(ap&&ap.classList.contains('hidden')){ap.classList.remove('hidden');const caret=$('#advCaret');if(caret)caret.style.transform='rotate(90deg)';}
  syncAdvCount();switchView('controller');window.scrollTo({top:0,behavior:'smooth'});
 });
+on('#tlDecadeZoom','click',e=>{if(e.target.closest('#tlZoomClose')){tlZoomDecade=null;renderTimeline();}});
 on('#tlEras','click',e=>{var b=e.target.closest('.eraMore');if(b){var box=$('#'+b.dataset.era);if(box){var open=!box.classList.contains('hidden');box.classList.toggle('hidden');b.textContent=open?'\u2295 Show all '+(parseInt(b.dataset.n)+8):'\u2296 Show less';}return;}var t=e.target.closest('.cardTitle');if(t&&t.dataset.flip){var it=byId.get(t.dataset.flip);if(it){state.q=it.title;var qinput=$('#q');if(qinput)qinput.value=it.title;switchView('controller');refresh();}}});
 /* ===== Theme system ===== */
 function applyTheme(t){
@@ -3709,6 +3749,8 @@ $('#headStats').innerHTML=[['Indexed Works',ALL.length],['Contenders',contenders
 (function(){var lc=$('#luCount');if(lc){var m=ALL.filter(function(x){return x.kind==='movie'}).length,t=ALL.filter(function(x){return x.kind==='tv'}).length,g=ALL.filter(function(x){return x.kind==='game'}).length,b=ALL.filter(function(x){return x.kind==='book'}).length;lc.textContent=ALL.length+' works · '+m+' films / '+t+' series / '+g+' games / '+b+' books';}})();
 var mi=$('#matrixIntro');if(mi)mi.textContent='Elite specialized brackets computed across the full '+ALL.length.toLocaleString()+'-work corpus (Global Controller filters intentionally ignored here so brackets stay canonical). Hover rows for full credits.';
 on('#matrixOwnedOnly','change',e=>{matrixOwnedOnly=e.target.checked;renderMatrices();scheduleURLSync();});
+var matrixNavSearchT=null;
+on('#matrixNavSearch','input',e=>{clearTimeout(matrixNavSearchT);const v=e.target.value;matrixNavSearchT=setTimeout(()=>{matrixNavQ=v;renderMatrices();scheduleURLSync();},120);});
 on('#matrixNav','click',e=>{const a=e.target.closest('.matrixNavLink');if(!a)return;e.preventDefault();const el=document.getElementById(a.dataset.anchor);if(el)el.scrollIntoView({behavior:'smooth',block:'start'});});
 renderMatrices();
 renderCreators();
@@ -3777,4 +3819,5 @@ var _rzT;window.addEventListener('resize',function(){clearTimeout(_rzT);_rzT=set
  window.filtered=filtered;
  window.refresh=refresh;
  window.switchView=switchView;
+ window.CH=CH;
 }
