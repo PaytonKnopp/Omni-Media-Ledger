@@ -1454,7 +1454,14 @@ function certify(x){const g=x.genres.join(' ').toLowerCase();
  }
  // film/tv
  const mature=/horror|slasher|giallo|crime|revenge|war|neo-noir|body horror|cosmic|gangster|thriller/.test(g);
- const heavy=x.dread>=86||/^(the thing|hereditary|come and see|possession|oldboy|se7en)/.test(x.title.toLowerCase());
+ /* Certification reads a work's fields, never its name. This used to carry `|| /^(the thing|
+    hereditary|come and see|possession|oldboy|se7en)/` against the lowercased title, and every one
+    of those six already cleared dread>=86 on its own -- so the clause decided nothing and was pure
+    latent risk: it is a PREFIX match, so any future "Possession of Hannah Grace" or "The Thing
+    About Pam" would silently certify as heavy on the strength of its first two words. A title is
+    not a property of a work's content, and a rule keyed to one cannot generalise to the next
+    thousand records. */
+ const heavy=x.dread>=86;
  if(x.kind==='tv'){
   if(mature||x.dread>=78)return 'TV-MA';
   if(/drama|mystery|sci-fi|fantasy|period/.test(g))return 'TV-14';
@@ -3866,7 +3873,7 @@ var _rzT;window.addEventListener('resize',function(){clearTimeout(_rzT);_rzT=set
  // rather than leaking everything by accident, these few are exported on purpose: the corpus, the
  // live filter state, and the three entry points worth poking at from a console.
  window.tierTarget=tierTarget;window.TIER_FLOOR=TIER_FLOOR;
- window.computeMatch=computeMatch;window.activeDims=activeDims;
+ window.computeMatch=computeMatch;window.activeDims=activeDims;window.certify=certify;
  window.ALL=ALL;
  window.byId=byId;
  window.state=state;

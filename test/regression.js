@@ -2066,6 +2066,40 @@ async function runTabFiltersFlow(browser, file) {
     matchSymmetry.length === 0);
   if (matchSymmetry.length) console.log('     ' + matchSymmetry.join('\n     '));
 
+  // A content rating must be a function of a work's content, never of its name. certify() used to
+  // carry a hardcoded prefix match on six film titles alongside its dread threshold.
+  //
+  // Renaming the real corpus does NOT catch that, and the first version of this check did exactly
+  // that and passed with the bug restored -- proving nothing. All six of those titles already
+  // cleared the dread threshold, so the clause decided nothing *today*; it was a trap armed for
+  // later, since it matched on PREFIX. The next "Possession of Hannah Grace" or "The Thing About
+  // Pam" would inherit a rating off its first two words.
+  //
+  // So the adversarial case has to be built rather than looked for: take mild works, give them the
+  // names of the corpus's most dread-soaked ones, and require the rating not to move. That is the
+  // scenario the corpus does not contain yet and will the moment it grows.
+  const titleIndependent = await page.evaluate(() => {
+    if (typeof certify !== 'function') return ['certify is not exposed'];
+    const screen = ALL.filter(x => x.kind === 'movie' || x.kind === 'tv');
+    const byDread = screen.slice().sort((a, b) => b.dread - a.dread);
+    const scaryNames = byDread.slice(0, 25).map(x => x.title);
+    const mild = byDread.slice(-25);
+    const bad = [];
+    mild.forEach(work => {
+      const own = certify(work);
+      scaryNames.forEach(name => {
+        const wearing = certify(Object.assign({}, work, { title: name }));
+        if (wearing !== own) {
+          bad.push('"' + work.title + '" (dread ' + work.dread + ') certifies ' + own +
+            ' normally but ' + wearing + ' while named "' + name + '"');
+        }
+      });
+    });
+    return bad.slice(0, 8);
+  });
+  check('a work\'s content rating does not depend on its title', titleIndependent.length === 0);
+  if (titleIndependent.length) console.log('     ' + titleIndependent.join('\n     '));
+
 
   // URL bookmarking: filters set across three different tabs all round-trip through a fresh load.
   await goto('timeline');
