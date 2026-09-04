@@ -1696,7 +1696,7 @@ function collectionGaps(){
  // Auto-detect collection gaps: (A) creators you collect where strong works sit unowned,
  // (B) same-root franchise/series entries you're missing. Honors the medium segment filter.
  var cs=state.collSeg||'all';
- var owned=ALL.filter(function(x){return x.owned&&x.kind!=='game'&&(cs==='all'||x.kind===cs);});
+ var owned=ALL.filter(function(x){return x.owned&&(cs==='all'||x.kind===cs);});
  var out={creators:[],series:[]};
  // (A) Creators you own 2+ from, with unowned high-match works available
  var byCreator={};
@@ -1779,6 +1779,7 @@ function renderUpgradeAudit(){
  var head='<div class="panel p-4 mb-4"><div class="flex items-center gap-2 flex-wrap"><h3 class="text-base font-bold" style="color:#7dd3fc">\u2b06 Format Upgrade Audit</h3>'
   +'<span class="text-[11px] text-slate-500 ml-auto">'+cands.length+' worth upgrading</span></div>'
   +'<p class="text-[11px] text-slate-500 mt-1.5 max-w-3xl">Titles you own where a better edition would meaningfully improve the experience \u2014 ranked by how much the upgrade matters for that specific work.</p></div>';
+ if(cs==='game'){el.innerHTML=head+'<div class="panel p-6 text-center text-slate-500 text-sm">Games aren\u2019t tracked for format upgrades \u2014 most are digital, so there\u2019s no physical edition to audit. \u2b06 Switch to Film / TV / Books above.</div>'+collectionGapsHTML();return;}
  if(!cands.length){el.innerHTML=head+'<div class="panel p-6 text-center text-slate-500 text-sm">Nothing to upgrade in this category \u2014 you own the best editions. \u2728</div>'+collectionGapsHTML();return;}
  var rows=cands.map(function(c,i){
   var k=KM[c.x.kind];
@@ -1804,7 +1805,7 @@ function renderUpgradeAudit(){
  el.innerHTML=head+'<div class="space-y-2">'+rows+'</div>'+collectionGapsHTML();
 }
 function renderCollectionShelf(){
- var owned=ALL.filter(x=>x.owned&&x.kind!=='game');
+ var owned=ALL.filter(x=>x.owned);
  var cs=state.collSeg||'all';
  if(cs!=='all')owned=owned.filter(x=>x.kind===cs);
  // Group into shelves by medium; each item is a spine whose height/color reflect the work.
@@ -1835,7 +1836,7 @@ function renderCollectionShelf(){
  $('#collShelf').innerHTML=html;
 }
 function renderCollectionSeries(){
- const owned=ALL.filter(x=>x.owned&&x.kind!=='game');
+ const owned=ALL.filter(x=>x.owned);
  const cs=state.collSeg||'all';
  const byId2=new Map(ALL.map(x=>[x.title,x]));
  // Build series cards: only show series where you own >=2, honoring the medium filter.
@@ -1870,7 +1871,7 @@ function renderCollectionSeries(){
  el.innerHTML='<p class="text-[11px] text-slate-500 mb-1">Your collection grouped by franchise \u2014 completion at a glance. \u25e6 marks entries in the ledger you don\u2019t yet own.</p>'+cards.map(c=>c.html).join('');
 }
 function renderCollection(){
- const owned=ALL.filter(x=>x.owned&&x.kind!=='game');
+ const owned=ALL.filter(x=>x.owned);
  const cs=state.collSeg||'all';
  const scope=cs==='all'?owned:owned.filter(x=>x.kind===cs);
  // stats
@@ -1878,12 +1879,13 @@ function renderCollection(){
  const avg=scope.length?Math.round(scope.reduce((s,x)=>s+x.ovr,0)/scope.length):0;
  $('#collStats').innerHTML=[
   ['Total Owned',owned.length],['Films',owned.filter(x=>x.kind==='movie').length],
-  ['Series',owned.filter(x=>x.kind==='tv').length],['Books',owned.filter(x=>x.kind==='book').length],
+  ['Series',owned.filter(x=>x.kind==='tv').length],['Games',owned.filter(x=>x.kind==='game').length],['Books',owned.filter(x=>x.kind==='book').length],
   ['Avg Quality',avg]
  ].map(s=>'<div class="panel p-3 text-center"><div class="text-xl font-extrabold text-slate-50 tabular-nums">'+s[1]+'</div><div class="lbl mt-1">'+s[0]+'</div></div>').join('');
- // group by format
- const FORMAT_ORDER=['4K','Blu-ray','DVD','BD/DVD','Box Set','Deluxe','Hardcover','Softcover','Paperback'];
- const groups={};scope.forEach(x=>{const f=x.physFormat||'Other';(groups[f]=groups[f]||[]).push(x);});
+ // group by format -- games don't have an editable physical format (most are digital), so they
+ // just get their own plain "Games" bucket rather than a fake edition label.
+ const FORMAT_ORDER=['4K','Blu-ray','DVD','BD/DVD','Box Set','Deluxe','Hardcover','Softcover','Paperback','Games'];
+ const groups={};scope.forEach(x=>{const f=x.kind==='game'?'Games':(x.physFormat||'Other');(groups[f]=groups[f]||[]).push(x);});
  const order=FORMAT_ORDER.filter(f=>groups[f]).concat(Object.keys(groups).filter(f=>!FORMAT_ORDER.includes(f)));
  $('#collFormats').innerHTML=order.map(f=>{
   const items=groups[f].slice().sort((a,b)=>a.title.localeCompare(b.title));const fs=fmtStyle(f);const col=fs.ac;
@@ -2333,7 +2335,8 @@ const FMT_STYLE={
  'Deluxe':{bg:'#c084fc',fg:'#1e0a33',bd:'#c084fc',ac:'#c084fc'},
  'Hardcover':{bg:'#86efac',fg:'#052e12',bd:'#86efac',ac:'#86efac'},
  'Softcover':{bg:'#a3e635',fg:'#1a2e05',bd:'#a3e635',ac:'#a3e635'},
- 'Paperback':{bg:'#a3e635',fg:'#1a2e05',bd:'#a3e635',ac:'#a3e635'}
+ 'Paperback':{bg:'#a3e635',fg:'#1a2e05',bd:'#a3e635',ac:'#a3e635'},
+ 'Games':{bg:'#fbbf24',fg:'#221600',bd:'#fbbf24',ac:'#fbbf24'}
 };
 function fmtStyle(f){return FMT_STYLE[f]||{bg:'#94a3b8',fg:'#0B0F19',bd:'#94a3b8',ac:'#94a3b8'};}
 function setPhysFormat(id,kind,fmt){
