@@ -718,8 +718,7 @@ body[data-theme="outer-wilds"]{--bg:#0e0a09;--panel:#181010;--panel-2:#120c0b;--
   <div class="flex flex-wrap items-baseline justify-between gap-2 mb-4">
     <p class="text-[11px] text-slate-500 max-w-2xl">Predictive tracking terminal for upcoming releases backed by elite artistic / technical pedigree. Two scores per title: <span style="color:#fbbf24">For You</span> = how well it fits <em>your</em> taste engine; <span style="color:#7dd3fc">Editorial</span> = general odds it becomes an all-timer. Windows tracked as of early 2026 — calendars drift.</p>
     <span class="chip" id="contCount"></span>
-    <span class="chip" id="contVerifiedCount" style="color:#94a3b8" title="Entries with a real spot-check against live sources (release status, review scores) vs. entries still running on the original editorial estimate. See NOTES.md for the refresh runbook."></span>
-    <span class="chip hidden" id="contPassedCount" style="color:#fb923c;border-color:#fb923c44" title="Entries whose tracked release window is a specific past date but haven't been checked or reconciled yet -- these are the highest-priority picks for a refresh pass."></span>
+    <span class="chip" id="contVerifiedCount" style="color:#94a3b8" title="How many entries in view have been double-checked against a live source (Rotten Tomatoes, Metacritic, Steam, etc.) for their release status and scores, vs. still running on the original editorial estimate. A card with a ⚠ WINDOW PASSED badge is one of the unchecked ones whose release date has already come and gone -- the highest priority to verify next."></span>
   </div>
   <div id="contMediumFilter" class="flex flex-wrap items-center gap-1.5 mb-4">
     <span class="text-[10px] uppercase tracking-[.14em] text-slate-500 mr-1">Medium</span>
@@ -733,7 +732,7 @@ body[data-theme="outer-wilds"]{--bg:#0e0a09;--panel:#181010;--panel-2:#120c0b;--
     <button type="button" id="contSortForyou" class="contSortBtn text-[11px] px-3 py-1 rounded-lg border transition-colors on" data-sort="foryou">★ For You</button>
     <button type="button" id="contSortProb" class="contSortBtn text-[11px] px-3 py-1 rounded-lg border transition-colors" data-sort="prob">Editorial</button>
     <span class="mx-2 text-slate-700">|</span>
-    <label class="flex items-center gap-1.5 text-[11px] cursor-pointer" style="color:#f8717190" title="Show only entries not yet spot-checked against live sources -- see NOTES.md for the refresh runbook"><input type="checkbox" id="contUnverifiedOnly" class="accent-rose-500"> ◯ Unverified only</label>
+    <label id="contUnverifiedOnlyWrap" class="flex items-center gap-1.5 text-[11px] cursor-pointer" style="color:#f8717190" title="Show only entries not yet spot-checked against a live source"><input type="checkbox" id="contUnverifiedOnly" class="accent-rose-500"> ◯ Unverified only</label>
   </div>
   <div id="contenderGrid" class="grid grid-cols-1 md:grid-cols-2 gap-4"></div>
 </section>
@@ -786,7 +785,7 @@ body[data-theme="outer-wilds"]{--bg:#0e0a09;--panel:#181010;--panel-2:#120c0b;--
   </div>
   <div class="grid grid-cols-1 lg:grid-cols-3 gap-4">
     <div class="lg:col-span-2">
-      <div class="flex items-center gap-2 mb-3"><span class="lbl">Saved titles</span><div class="seg" id="wlFilter" style="flex:0 0 auto"><button type="button" data-wf="all" class="on">All</button><button type="button" data-wf="todo">To Watch</button><button type="button" data-wf="done">Watched</button></div></div>
+      <div class="flex items-center gap-2 mb-3"><span class="lbl">Saved titles</span><div class="seg" id="wlFilter" style="flex:0 0 auto"><button type="button" data-wf="all" class="on">All</button><button type="button" data-wf="todo" title="Not yet watched, read, or played">Up Next</button><button type="button" data-wf="done" title="Marked watched, read, or played">Complete</button></div></div>
       <div id="wlGrid" class="grid grid-cols-1 md:grid-cols-2 gap-3"></div>
     </div>
     <div>

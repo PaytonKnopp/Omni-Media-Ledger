@@ -101,6 +101,11 @@ const state={view:'controller',q:'',type:'all',struct:'all',plat:'all',minDread:
 const $=s=>document.querySelector(s),$$=s=>Array.from(document.querySelectorAll(s));
 const on=(sel,ev,fn)=>{const el=$(sel);if(el)el.addEventListener(ev,fn);else console.warn('missing element:',sel);};
 const esc=s=>String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+// Deterministic color per tag string (a creator's Core Themes, etc.) so a set of tags reads as
+// visually distinct from each other at a glance instead of a wall of same-colored chips -- same
+// string always lands on the same color, so it's still stable across renders/sessions.
+const THEME_PALETTE=['#c4b5fd','#7dd3fc','#fca5a5','#86efac','#fcd34d','#f0abfc','#67e8f9','#fdba74','#a5b4fc','#6ee7b7','#f9a8d4','#bef264'];
+function themeColor(s){let h=0;for(let i=0;i<s.length;i++)h=(h*31+s.charCodeAt(i))|0;return THEME_PALETTE[Math.abs(h)%THEME_PALETTE.length];}
 const SORTS={overall:(a,b)=>(b.ovr-a.ovr)||(b.crit-a.crit),cosmic:(a,b)=>(b.ch-a.ch)||(b.dread-a.dread),sound:(a,b)=>(b.snd-a.snd)||(b.crit-a.crit),ref4k:(a,b)=>(b.ref-a.ref)||(b.crit-a.crit),emotion:(a,b)=>(b.emo-a.emo)||(b.crit-a.crit),awe:(a,b)=>(b.awe-a.awe)||(b.crit-a.crit),comfort:(a,b)=>(b.cozy-a.cozy)||(b.aud-a.aud),perf:(a,b)=>(b.perf-a.perf)||(b.crit-a.crit),icon:(a,b)=>(b.icon-a.icon)||(b.crit-a.crit),scary:(a,b)=>(b.scary-a.scary)||(b.dread-a.dread),real:(a,b)=>(b.real-a.real)||(b.crit-a.crit),reality:(a,b)=>(b.reality-a.reality)||(b.myst-a.myst),shock:(a,b)=>(b.shock-a.shock)||(b.dread-a.dread),sci:(a,b)=>(b.sci-a.sci)||(b.myst-a.myst),funny:(a,b)=>(b.funny-a.funny)||(b.aud-a.aud),hist:(a,b)=>(b.hist-a.hist)||(b.crit-a.crit),vibe2:(a,b)=>(b.vibe2-a.vibe2)||(b.tech-a.tech),blend:(a,b)=>(bespokeScore(b)-bespokeScore(a))||(b.crit-a.crit),crit:(a,b)=>b.crit-a.crit,aud:(a,b)=>b.aud-a.aud,tech:(a,b)=>b.tech-a.tech,dread:(a,b)=>b.dread-a.dread,myst:(a,b)=>b.myst-a.myst,yearNew:(a,b)=>b.year-a.year,yearOld:(a,b)=>a.year-b.year,title:(a,b)=>a.title.localeCompare(b.title),tier:(a,b)=>(tierRank(b)-tierRank(a))||(b.gm-a.gm)};
 
 const IDX_KEYS=['snd','ref','ch','emo','awe','cozy','perf','icon','scary','real','reality','shock','sci','funny','hist','vibe2','crit','aud','tech'];
@@ -729,10 +734,10 @@ function creatorCard(c,tab){const isDir=tab===true||tab==='directors';const isAu
  const back='<div class="flip-face flip-back absolute inset-0 panel p-4 flex flex-col" style="border-color:'+accent+'40">'
   +'<div class="lbl">'+backSigLabel+'</div>'
   +'<p class="text-[10.5px] text-slate-300 mt-1 leading-relaxed">'+esc(sigField)+'</p>'
-  +'<div class="lbl mt-2">Core Themes</div><div class="flex flex-wrap gap-1 mt-1">'+c.primaryThemes.map(t=>'<span class="chip" style="color:#c4b5fd">'+esc(t)+'</span>').join('')+'</div>'
+  +'<div class="lbl mt-2">Core Themes</div><div class="flex flex-wrap gap-1 mt-1">'+c.primaryThemes.slice().sort((a,b)=>a.localeCompare(b)).map(t=>'<span class="chip" style="color:'+themeColor(t)+';border-color:'+themeColor(t)+'44">'+esc(t)+'</span>').join('')+'</div>'
   +'<div class="lbl mt-2">Ledger Entries ('+works.length+')</div>'
   +'<div class="mt-1 flex-1 overflow-y-auto pr-1 space-y-1">'+(works.length?works.map(w=>{const k=KM[w.kind];
-    return '<div class="flex items-center gap-2 text-[11px]"><span class="w-1.5 h-1.5 rounded-full shrink-0" style="background:'+k.c+'"></span><span class="flex-1 truncate text-slate-200">'+esc(w.title)+'</span><span class="text-slate-500 tabular-nums">'+w.year+'</span><span class="tabular-nums font-semibold" style="color:'+k.c+'">'+w.crit+'</span></div>';}).join(''):'<div class="text-[11px] text-slate-500">No direct credits indexed.</div>')+'</div></div>';
+    return '<div class="flex items-center gap-2 text-[11px] goatJump cursor-pointer hover:bg-slate-800/30 rounded px-1 -mx-1" data-q="'+esc(w.title)+'" title="Open '+esc(w.title)+' in the Global Controller"><span class="w-1.5 h-1.5 rounded-full shrink-0" style="background:'+k.c+'"></span><span class="flex-1 truncate text-slate-200 hover:text-teal-300">'+esc(w.title)+'</span><span class="text-slate-500 tabular-nums">'+w.year+'</span><span class="tabular-nums font-semibold" style="color:'+k.c+'">'+w.crit+'</span></div>';}).join(''):'<div class="text-[11px] text-slate-500">No direct credits indexed.</div>')+'</div></div>';
  return '<div class="flip h-[300px] select-none cursor-pointer" role="button" tabindex="0" aria-label="Flip card for '+esc(c.name)+'"><div class="flip-inner">'+front+back+'</div></div>';
 }
 function renderCreators(){const tab=state.creatorTab;
@@ -901,7 +906,11 @@ function renderContenders(){const MED={Film:'#a78bfa',TV:'#22d3ee',Game:'#fbbf24
  $$('.contMedBtn').forEach(b=>{var on=b.dataset.med===contMedium;var mc=MED[b.dataset.med]||'#818cf8';b.style.color=on?mc:'#94a3b8';b.style.borderColor=on?mc+'88':'rgba(148,163,184,.25)';b.style.background=on?mc+'18':'transparent';b.style.fontWeight=on?'700':'400';});
  var cc=$('#contCount');if(cc)cc.textContent=pool.length+(contMedium==='all'?' contenders':' '+contMedium.toLowerCase()+' contenders');
  var vc=$('#contVerifiedCount');if(vc){var verifiedN=pool.filter(function(c){return c.verified;}).length;vc.textContent='◉ '+verifiedN+'/'+pool.length+' spot-checked';}
- var pc=$('#contPassedCount');if(pc){var passedN=pool.filter(isPastWindow).length;pc.classList.toggle('hidden',passedN===0);pc.textContent='⚠ '+passedN+' window'+(passedN===1?'':'s')+' passed, unchecked';}
+ // The "Unverified only" filter is only useful when there's actually something unverified to
+ // isolate -- computed from the medium-scoped pool regardless of the checkbox's own current state,
+ // so toggling it on/off doesn't make its own control disappear out from under the click.
+ var uw=$('#contUnverifiedOnlyWrap');
+ if(uw){var mediumPool=contenders.filter(function(c){return contMedium==='all'||c.medium===contMedium;});var anyUnverified=mediumPool.some(function(c){return !c.verified;});uw.classList.toggle('hidden',!anyUnverified);if(!anyUnverified&&contUnverifiedOnly){contUnverifiedOnly=false;var cb=$('#contUnverifiedOnly');if(cb)cb.checked=false;}}
  $('#contenderGrid').innerHTML=pool.map(c=>{const col=MED[c.medium]||'#94a3b8';
   var antCol=c._antScore>=88?'#fbbf24':c._antScore>=78?'#f0abfc':'#818cf8';
   var reasonLine=(c._antReasons&&c._antReasons.length)?'<div class="text-[10.5px] mt-1.5" style="color:'+antCol+'">\u2605 For you: '+esc(c._antReasons.join(' \u00b7 '))+'</div>':'';
@@ -1475,17 +1484,18 @@ function renderWatchlist(){
  const watched=items.filter(x=>WL[x.id].watched),todo=items.filter(x=>!WL[x.id].watched);
  const hrs=items.reduce((s,x)=>{const m=x.kind==='movie'?(parseInt(x.span)||120)/60:x.kind==='game'?(parseInt(String(x.span).replace('~',''))||20):(parseInt(x.span)||1)*8;return s+m;},0);
  const avg=items.length?Math.round(items.reduce((s,x)=>s+x.ovr,0)/items.length):0;
- $('#wlStats').innerHTML=[['Saved',items.length],['To Watch',todo.length],['Watched',watched.length],['Avg Quality',avg||'\u2014']]
+ $('#wlStats').innerHTML=[['Saved',items.length],['Up Next',todo.length],['Complete',watched.length],['Avg Quality',avg||'\u2014']]
   .map(s=>'<div class="panel p-3 text-center"><div class="text-xl font-extrabold text-slate-50 tabular-nums">'+s[1]+'</div><div class="lbl mt-1">'+s[0]+'</div></div>').join('');
  const wf=state.wlFilter||'all';
  let list=wf==='todo'?todo:wf==='done'?watched:items;
  list=list.slice().sort((a,b)=>(WL[b.id].added||0)-(WL[a.id].added||0));
- $('#wlGrid').innerHTML=list.length?list.map(x=>{const k=KM[x.kind];const done=WL[x.id].watched;
+ const DONE_VERB={movie:'Watched',tv:'Watched',game:'Played',book:'Read'};
+ $('#wlGrid').innerHTML=list.length?list.map(x=>{const k=KM[x.kind];const done=WL[x.id].watched;const verb=DONE_VERB[x.kind]||'Done';
   return '<div class="panel p-3 flex gap-3 items-start'+(done?' opacity-60':'')+'">'
    +ring(x.crit,k.c,38)
    +'<div class="flex-1 min-w-0"><div class="flex items-center gap-1.5 flex-wrap"><span class="text-[13px] font-semibold text-slate-100">'+esc(x.title)+'</span><span class="chip" style="color:'+k.c+';border-color:'+k.c+'44">'+k.label+'</span><span class="chip" style="color:#5eead4;border-color:#5eead455">'+esc(x.rating)+'</span></div>'
    +'<div class="text-[11px] text-slate-400 mt-0.5 truncate">'+x.year+' \u00b7 '+esc(x.creator)+'</div>'
-   +'<div class="flex gap-1.5 mt-2"><button type="button" class="wlDone presetBtn" data-id="'+x.id+'" style="'+(done?'color:#34d399;border-color:#34d39955':'')+'">'+(done?'\u2713 Watched':'Mark watched')+'</button><button type="button" class="wlRemove presetBtn" data-id="'+x.id+'" style="color:#fca5a5;border-color:#fca5a544">Remove</button></div>'
+   +'<div class="flex gap-1.5 mt-2"><button type="button" class="wlDone presetBtn" data-id="'+x.id+'" title="'+(done?'Click to mark as not yet '+verb.toLowerCase():'Mark this '+verb.toLowerCase())+'" style="'+(done?'color:#34d399;border-color:#34d39955':'')+'">'+(done?'\u2713 '+verb+' \u00b7 click to undo':'Mark '+verb.toLowerCase())+'</button><button type="button" class="wlRemove presetBtn" data-id="'+x.id+'" title="Remove from your watchlist entirely" style="color:#fca5a5;border-color:#fca5a544">Remove</button></div>'
    +'</div></div>';}).join(''):'<div class="col-span-full text-center text-slate-500 text-sm py-12">Nothing saved yet \u2014 tap the \u2661 on any card to build your backlog.</div>';
  const saved=new Set(Object.keys(WL));
  const recs=ALL.filter(x=>!saved.has(x.id)).sort((a,b)=>(b.gm-a.gm)||(b.ovr-a.ovr)).slice(0,12);
@@ -1748,7 +1758,7 @@ function renderUpgradeAudit(){
    if(x.kind==='movie'||x.kind==='tv'){var cine=(x.fid&&x.fid[2])?x.fid[2][1]:x.tech;var trans=(x.fid&&x.fid[0])?x.fid[0][1]:x.tech;matter=Math.max(cine,trans,x.awe||0);}
    else if(x.kind==='book'){matter=Math.max(x.crit||0,x.aud||0);}
    else matter=x.ovr;
-   var mv=matter>10?matter:matter*10;var ov=x.ovr>10?x.ovr:x.ovr*10;var value=Math.round((mv*0.6+ov*0.3+(want-have)*8)*10)/10;
+   var mv=matter>10?matter:matter*10;var ov=x.ovr>10?x.ovr:x.ovr*10;var value=Math.min(100,Math.round((mv*0.6+ov*0.3+(want-have)*8)*10)/10);
    cands.push({x:x,from:x.physFormat,to:f.fmt,why:f.why,value:value,gap:want-have});
   }
  });
@@ -1860,13 +1870,12 @@ function renderCollection(){
   ['Avg Quality',avg]
  ].map(s=>'<div class="panel p-3 text-center"><div class="text-xl font-extrabold text-slate-50 tabular-nums">'+s[1]+'</div><div class="lbl mt-1">'+s[0]+'</div></div>').join('');
  // group by format
- const FORMAT_ORDER=['4K','BD/DVD','Box Set','Deluxe','Hardcover','Paperback'];
+ const FORMAT_ORDER=['4K','Blu-ray','DVD','BD/DVD','Collector Edition','Box Set','Deluxe','Hardcover','Softcover','Paperback'];
  const groups={};scope.forEach(x=>{const f=x.physFormat||'Other';(groups[f]=groups[f]||[]).push(x);});
  const order=FORMAT_ORDER.filter(f=>groups[f]).concat(Object.keys(groups).filter(f=>!FORMAT_ORDER.includes(f)));
- const FMT_COLOR={'4K':'#818cf8','BD/DVD':'#7dd3fc','Box Set':'#22d3ee','Deluxe':'#4ade80','Hardcover':'#86efac','Paperback':'#a3e635'};
  $('#collFormats').innerHTML=order.map(f=>{
-  const items=groups[f].slice().sort((a,b)=>a.title.localeCompare(b.title));const col=FMT_COLOR[f]||'#94a3b8';
-  return '<div><div class="flex items-center gap-2 mb-2"><span class="chip" style="color:#0B0F19;background:'+col+';border-color:'+col+';font-weight:700">'+esc(f)+'</span><span class="lbl">'+items.length+' title'+(items.length>1?'s':'')+'</span></div>'
+  const items=groups[f].slice().sort((a,b)=>a.title.localeCompare(b.title));const fs=fmtStyle(f);const col=fs.ac;
+  return '<div><div class="flex items-center gap-2 mb-2"><span class="chip" style="color:'+fs.fg+';background:'+fs.bg+';border-color:'+fs.bd+';font-weight:700">'+esc(f)+'</span><span class="lbl">'+items.length+' title'+(items.length>1?'s':'')+'</span></div>'
    +'<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-2">'+items.map(x=>{const k=KM[x.kind];
      return '<div class="panel p-2.5 flex items-center gap-2.5"><div class="w-1 self-stretch rounded" style="background:'+col+'"></div>'
       +'<div class="flex-1 min-w-0"><div class="text-[12px] font-semibold text-slate-100 truncate">'+esc(x.title)+'</div>'
@@ -2082,7 +2091,7 @@ document.addEventListener('click',function(e){
 });})();
 on('#creatorSeg','click',e=>{const b=e.target.closest('button');if(!b)return;state.creatorTab=b.dataset.tab;state.creatorSearch='';var cs=$('#creatorSearch');if(cs)cs.value='';renderCreators();});
 on('#creatorSearch','input',e=>{state.creatorSearch=e.target.value;renderCreators();});
-on('#creatorGrid','click',e=>{const f=e.target.closest('.flip');if(f)f.classList.toggle('flipped');});
+on('#creatorGrid','click',e=>{if(e.target.closest('.goatJump'))return;const f=e.target.closest('.flip');if(f)f.classList.toggle('flipped');});
 on('#collSeg','click',e=>{const b=e.target.closest('button');if(!b)return;state.collSeg=b.dataset.cs;$$('#collSeg button').forEach(x=>x.classList.toggle('on',x===b));renderCollection();if(state.collGroup==='series')renderCollectionSeries();if(state.collShelf)renderCollectionShelf();if(state.collUpgrade)renderUpgradeAudit();});
 on('#seriesToggle','click',()=>{state.collGroup=state.collGroup==='series'?'format':'series';const on=state.collGroup==='series';const btn=$('#seriesToggle');btn.classList.toggle('border-cyan-500',on);btn.classList.toggle('text-cyan-300',on);btn.classList.toggle('bg-cyan-500/10',on);btn.textContent=on?'▤ Grouped by Series':'▤ Group by Series';$('#collSeries').classList.toggle('hidden',!on);if(on){state.collShelf=false;state.collUpgrade=false;$('#collShelf').classList.add('hidden');$('#collUpgrade').classList.add('hidden');var sb=$('#shelfToggle');sb.textContent='📚 Shelf View';sb.classList.remove('border-amber-500','text-amber-300','bg-amber-500/10');var ub=$('#upgradeToggle');ub.textContent='⬆ Upgrade Audit';ub.classList.remove('border-sky-500','text-sky-300','bg-sky-500/10');}$('#collFormats').classList.toggle('hidden',on||state.collShelf);if(on)renderCollectionSeries();});
 on('#shelfToggle','click',()=>{state.collShelf=!state.collShelf;const on=state.collShelf;const btn=$('#shelfToggle');btn.classList.toggle('border-amber-500',on);btn.classList.toggle('text-amber-300',on);btn.classList.toggle('bg-amber-500/10',on);btn.textContent=on?'📚 Shelf View ✓':'📚 Shelf View';$('#collShelf').classList.toggle('hidden',!on);if(on){state.collGroup='format';$('#collSeries').classList.add('hidden');var gb=$('#seriesToggle');gb.textContent='▤ Group by Series';gb.classList.remove('border-cyan-500','text-cyan-300','bg-cyan-500/10');}if(on){state.collUpgrade=false;$('#collUpgrade').classList.add('hidden');var ub=$('#upgradeToggle');ub.textContent='⬆ Upgrade Audit';ub.classList.remove('border-sky-500','text-sky-300','bg-sky-500/10');}$('#collFormats').classList.toggle('hidden',on||state.collGroup==='series'||state.collUpgrade);if(on)renderCollectionShelf();});
@@ -2294,6 +2303,24 @@ function boostBookAffinity(id){
 // export/import. Clicking the already-active format clears it back to a bare "owned" (no edition
 // declared yet) instead of being a no-op, so a mis-click is one click to undo.
 const OWNED_FORMATS={movie:['DVD','Blu-ray','4K'],tv:['DVD','Blu-ray','4K'],book:['Hardcover','Softcover']};
+// Shared per-format color so the same edition always reads the same way everywhere it shows up
+// (Collection format groups, the per-item picker). DVD orange, Blu-ray blue, 4K near-black --
+// picked to loosely evoke each format's real-world case color, not just an arbitrary palette slot.
+// ac = accent: a variant used for text/bars against the app's own dark background, where the
+// near-black 4K swatch itself would be invisible.
+const FMT_STYLE={
+ '4K':{bg:'#0a0a0c',fg:'#e2e8f0',bd:'#475569',ac:'#94a3b8'},
+ 'Blu-ray':{bg:'#2563eb',fg:'#eff6ff',bd:'#2563eb',ac:'#60a5fa'},
+ 'DVD':{bg:'#f97316',fg:'#1a0f00',bd:'#f97316',ac:'#fb923c'},
+ 'BD/DVD':{bg:'#7dd3fc',fg:'#04283a',bd:'#7dd3fc',ac:'#7dd3fc'},
+ 'Box Set':{bg:'#22d3ee',fg:'#032b30',bd:'#22d3ee',ac:'#22d3ee'},
+ 'Deluxe':{bg:'#c084fc',fg:'#1e0a33',bd:'#c084fc',ac:'#c084fc'},
+ 'Hardcover':{bg:'#86efac',fg:'#052e12',bd:'#86efac',ac:'#86efac'},
+ 'Softcover':{bg:'#a3e635',fg:'#1a2e05',bd:'#a3e635',ac:'#a3e635'},
+ 'Paperback':{bg:'#a3e635',fg:'#1a2e05',bd:'#a3e635',ac:'#a3e635'},
+ 'Collector Edition':{bg:'#fbbf24',fg:'#221600',bd:'#fbbf24',ac:'#fbbf24'}
+};
+function fmtStyle(f){return FMT_STYLE[f]||{bg:'#94a3b8',fg:'#0B0F19',bd:'#94a3b8',ac:'#94a3b8'};}
 function setPhysFormat(id,kind,fmt){
  mutateProfileAndReload(p=>{
   if(kind==='movie'||kind==='tv'){
@@ -2308,8 +2335,8 @@ function setPhysFormat(id,kind,fmt){
 function formatPickerHTML(x){
  const opts=OWNED_FORMATS[x.kind];if(!opts||!x.owned)return '';
  return '<div class="flex items-center flex-wrap gap-1 mt-1.5" title="Which edition you own">'
-  +opts.map(function(f){const active=x.physFormat===f;
-   return '<button type="button" class="profEditBtn" data-act="setformat" data-id="'+x.id+'" data-kind="'+x.kind+'" data-fmt="'+esc(f)+'" style="font-size:9.5px;padding:2px 7px;border-radius:9999px;border:1px solid '+(active?'#4ade80':'var(--border-2,#334155)')+';background:'+(active?'#4ade8022':'transparent')+';color:'+(active?'#4ade80':'#94a3b8')+'" title="'+(active?'You own this on '+f+' — click to clear':'Mark as owned on '+f+'')+'">'+(active?'✓ ':'')+f+'</button>';}).join('')
+  +opts.map(function(f){const active=x.physFormat===f;const fs=fmtStyle(f);
+   return '<button type="button" class="profEditBtn" data-act="setformat" data-id="'+x.id+'" data-kind="'+x.kind+'" data-fmt="'+esc(f)+'" style="font-size:9.5px;padding:2px 7px;border-radius:9999px;border:1px solid '+(active?fs.bd:'var(--border-2,#334155)')+';background:'+(active?fs.bg:'transparent')+';color:'+(active?fs.fg:'#94a3b8')+'" title="'+(active?'You own this on '+f+' — click to clear':'Mark as owned on '+f+'')+'">'+(active?'✓ ':'')+f+'</button>';}).join('')
   +'</div>';
 }
 function handleProfileEditClick(btn){
