@@ -91,6 +91,29 @@ async function readWhen(page, predicate, arg, timeout) {
   return handle.jsonValue().catch(() => null);
 }
 
+// Click something that tiers a work, and don't come back until the resulting reload has finished.
+//
+// Tiering writes the profile, flushes the cloud sync, then reloads the page (the scoring pipeline
+// recomputes from scratch rather than being patched in place). Every step after the click reads
+// state, so none of them may run against the outgoing document.
+//
+// Detecting that needs a marker, not a timer, and not a state check either:
+//   - A fixed sleep is the thing being replaced. It has already crept 500ms -> 900ms as the app
+//     got heavier and grows again with every title added.
+//   - waitForBoot alone cannot do it: window.ALL still exists in the OLD document, so it can
+//     return before the navigation has even started.
+//   - Waiting on the write landing cannot do it either: the flush happens BEFORE the reload, so
+//     the value arrives while the page is still on its way out. Doing that is what made two
+//     reload cycles overlap and broke the pending-sync checks on CI.
+// Stamping the document and waiting for the stamp to be gone is unambiguous: only a new document
+// lacks it.
+async function clickAndReload(page, selector, timeout) {
+  await page.evaluate(() => { window.__preReloadMarker = true; });
+  await page.click(selector);
+  await page.waitForFunction(() => !window.__preReloadMarker, { timeout: timeout || 20000 }).catch(() => {});
+  await waitForBoot(page);
+}
+
 function findChromium() {
   if (process.env.PLAYWRIGHT_CHROMIUM_PATH && fs.existsSync(process.env.PLAYWRIGHT_CHROMIUM_PATH)) {
     return process.env.PLAYWRIGHT_CHROMIUM_PATH;
@@ -356,8 +379,7 @@ async function runFile(browser, file) {
     }, targetId);
     // Re-select the button fresh -- the original handle's DOM node was replaced by the
     // Interstellar/dune re-searches above.
-    await page.click('#goatSearchResults .profEditBtn[data-act="declare"][data-id="' + targetId + '"]');
-    await page.waitForTimeout(900); // tiering reloads the page -- the full reload+re-render (recomputing scoring for the whole corpus) has gotten heavier release over release, and 500ms stopped being reliable margin
+    await clickAndReload(page, '#goatSearchResults .profEditBtn[data-act="declare"][data-id="' + targetId + '"]');
     const isDeclaredAfter = await page.evaluate((id) => {
       try { return (JSON.parse(localStorage.getItem('omniLedgerProfile')).declaredGoatIds || []).includes(id); }
       catch (e) { return false; }
@@ -426,7 +448,7 @@ async function runFile(browser, file) {
     await page.fill('#goatSearchInput', 'dune');
     await page.waitForTimeout(200);
     const undoBtn = await page.$('#goatSearchResults .profEditBtn[data-act="declare"][data-id="' + targetId + '"]');
-    if (undoBtn) { await undoBtn.click(); await page.waitForTimeout(500); }
+    if (undoBtn) { await clickAndReload(page, '#goatSearchResults .profEditBtn[data-act="declare"][data-id="' + targetId + '"]'); }
     await page.click('#nav .navBtn[data-view="controller"]');
     await page.waitForTimeout(200);
 
@@ -588,8 +610,7 @@ async function runFile(browser, file) {
     await page.click('#resetBtn');
     await page.waitForTimeout(300);
     const firstCardIdValue = await firstCardId(page);
-    await page.click('.panel .profEditBtn[data-act="bronze"][data-id="' + firstCardIdValue + '"]');
-    await page.waitForTimeout(900); // toggling reloads the page -- 500ms was occasionally too tight for the reload+re-render to settle
+    await clickAndReload(page, '.panel .profEditBtn[data-act="bronze"][data-id="' + firstCardIdValue + '"]');
     const bronzeIds = await page.evaluate(() => {
       try { return JSON.parse(localStorage.getItem('omniLedgerProfile')).bronzeTierIds || []; }
       catch (e) { return []; }
@@ -1087,8 +1108,8 @@ async function runAccountFlow(browser, file) {
     await pageN.click(isShare ? '#onboardBlank' : '#onboardSample');
     await pageN.waitForTimeout(900);
     const newGoldId = await firstCardId(pageN);
-    await pageN.click('.panel .profEditBtn[data-act="bronze"][data-id="' + newGoldId + '"]');
-    await pageN.waitForTimeout(1200);
+    await clickAndReload(pageN, '.panel .profEditBtn[data-act="bronze"][data-id="' + newGoldId + '"]');
+    await pageN.waitForTimeout(300);
     // Let any debounced background sync fire too, so a racing near-empty write would be caught.
     await pageN.waitForTimeout(2200);
     const newRowIsReal = await pageN.evaluate((id) => {
@@ -1305,14 +1326,14 @@ async function runAccountFlow(browser, file) {
     // in the DB per title. Declaring something Gold should upsert a row; un-declaring it should
     // remove that row entirely (nothing left to track once there's no tier and it's not owned).
     const goldCardId = await firstCardId(page2);
-    await page2.click('.panel .profEditBtn[data-act="declare"][data-id="' + goldCardId + '"]');
+    await clickAndReload(page2, '.panel .profEditBtn[data-act="declare"][data-id="' + goldCardId + '"]');
     const mediaRowAfterDeclare = await readWhen(page2, (id) => {
       const rows = (window.__mockTables && window.__mockTables.media_status) || [];
       return rows.find(r => r.handle === 'smoketestuser2' && r.media_id === id) || false;
     }, goldCardId);
     check('declaring Gold upserts a row into the media_status table', !!mediaRowAfterDeclare && mediaRowAfterDeclare.tier === 'gold' && mediaRowAfterDeclare.owned === false);
 
-    await page2.click('.panel .profEditBtn[data-act="declare"][data-id="' + goldCardId + '"]');
+    await clickAndReload(page2, '.panel .profEditBtn[data-act="declare"][data-id="' + goldCardId + '"]');
     const undeclareLanded = await readWhen(page2, (id) => {
       const t = window.__mockTables;
       // Only answer once the mock store is readable again -- mid-reload it is briefly not, and
@@ -1335,19 +1356,19 @@ async function runAccountFlow(browser, file) {
       db.silentlyDropProfileUpserts = true;
       sessionStorage.setItem('__mockDb', JSON.stringify(db));
     });
-    await page2.click('.panel .profEditBtn[data-act="bronze"][data-id="' + bronzeCardId + '"]');
-    await page2.waitForTimeout(900); // the app's own post-tier reload
+    await clickAndReload(page2, '.panel .profEditBtn[data-act="bronze"][data-id="' + bronzeCardId + '"]');
     const bronzeRightAfterClick = await page2.evaluate((id) => {
       try { return (JSON.parse(localStorage.getItem('omniLedgerProfile') || '{}').bronzeTierIds || []).includes(id); }
       catch (e) { return false; }
     }, bronzeCardId);
     check('a Bronze pick is applied locally even when the cloud write silently does not store it', bronzeRightAfterClick);
 
-    const pendingAfterSilentDrop = await page2.evaluate(() => localStorage.getItem('omniLedgerPendingSync') === '1');
+    const pendingAfterSilentDrop = !!(await readWhen(page2,
+      () => localStorage.getItem('omniLedgerPendingSync') === '1', undefined, 8000));
     check('a write the server accepts but never stores is detected, not reported as saved', pendingAfterSilentDrop);
 
     await page2.reload();          // the manual refresh where picks used to disappear
-    await page2.waitForTimeout(900);
+    await waitForBoot(page2);
     const bronzeSurvivedManualRefresh = await page2.evaluate((id) => {
       try { return (JSON.parse(localStorage.getItem('omniLedgerProfile') || '{}').bronzeTierIds || []).includes(id); }
       catch (e) { return false; }
@@ -1362,6 +1383,7 @@ async function runAccountFlow(browser, file) {
       sessionStorage.setItem('__mockDb', JSON.stringify(db));
     });
     await page2.reload();
+    await waitForBoot(page2);
     // Polled rather than slept: boot has to notice the pending mark, re-push, and then verify the
     // write with a read-back (plus a possible retry), so a fixed wait here is guesswork that gets
     // brittle every time that path gains a round trip.
@@ -1384,15 +1406,15 @@ async function runAccountFlow(browser, file) {
       db.refuseProfileWritesSilently = true;
       sessionStorage.setItem('__mockDb', JSON.stringify(db));
     });
-    await page2.click('.panel .profEditBtn[data-act="silver"][data-id="' + bronzeCardId + '"]');
-    await page2.waitForTimeout(900);
-    const pendingAfterRefusal = await page2.evaluate(() => localStorage.getItem('omniLedgerPendingSync') === '1');
+    await clickAndReload(page2, '.panel .profEditBtn[data-act="silver"][data-id="' + bronzeCardId + '"]');
+    const pendingAfterRefusal = !!(await readWhen(page2,
+      () => localStorage.getItem('omniLedgerPendingSync') === '1', undefined, 8000));
     const refusalReason = await page2.evaluate(() => localStorage.getItem('omniLedgerLastSyncError') || '');
     check('a write the database silently refuses (zero rows written) is caught, not counted as saved',
       pendingAfterRefusal && /wrote no row/.test(refusalReason));
 
     await page2.reload();
-    await page2.waitForTimeout(900);
+    await waitForBoot(page2);
     const silverSurvivedRefusal = await page2.evaluate((id) => {
       try { return (JSON.parse(localStorage.getItem('omniLedgerProfile') || '{}').silverTierIds || []).includes(id); }
       catch (e) { return false; }
