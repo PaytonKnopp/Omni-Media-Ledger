@@ -97,7 +97,7 @@ function wlSetWatched(id,v){if(WL[id]){WL[id].watched=v;wlSave();}}
 function wlCount(){return Object.keys(WL).length;}
 
 /* ===================== STATE & HELPERS ===================== */
-const state={view:'controller',q:'',type:'all',struct:'all',plat:'all',minDread:0,minMyst:0,minGoat:0,genres:[],ownedOnly:false,notOwnedOnly:false,limit:100,idx:{snd:0,ref:0,ch:0,emo:0,awe:0,cozy:0,perf:0,icon:0,scary:0,real:0,reality:0,shock:0,sci:0,funny:0,hist:0,vibe2:0,crit:0,aud:0,tech:0},ratings:[],tierFilter:[],yearMin:null,yearMax:null,combine:false,sort:'overall',w:{tech:0.85,dread:0.95,myst:0.90},creatorTab:'directors',creatorSearch:''};
+const state={view:'controller',q:'',type:'all',struct:'all',plats:[],minDread:0,minMyst:0,minGoat:0,runtimeMax:0,genres:[],genresExclude:[],ownedOnly:false,notOwnedOnly:false,limit:100,idx:{snd:0,ref:0,ch:0,emo:0,awe:0,cozy:0,perf:0,icon:0,scary:0,real:0,reality:0,shock:0,sci:0,funny:0,hist:0,vibe2:0,crit:0,aud:0,tech:0},ratings:[],tierFilter:[],yearMin:null,yearMax:null,combine:false,sort:'overall',w:{tech:0.85,dread:0.95,myst:0.90},creatorTab:'directors',creatorSearch:''};
 const $=s=>document.querySelector(s),$$=s=>Array.from(document.querySelectorAll(s));
 const on=(sel,ev,fn)=>{const el=$(sel);if(el)el.addEventListener(ev,fn);else console.warn('missing element:',sel);};
 const esc=s=>String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
@@ -118,9 +118,11 @@ function filtered(){const q=state.q.trim().toLowerCase();
    if(state.struct==='limited'&&it.format!=='Limited/Mini-Series')return false;
    if(state.struct==='multi'&&it.format!=='Multi-Season Epic')return false;
   }
-  if(state.plat!=='all'&&!it.plats.includes(state.plat))return false;
+  if(state.plats.length&&!state.plats.some(p=>it.plats.includes(p)))return false;
+  if(state.runtimeMax>0&&it.kind==='movie'&&it.mins&&it.mins>state.runtimeMax)return false;
   if(it.tech<state.idx.tech||it.dread<state.minDread||it.myst<state.minMyst||it.gm<state.minGoat)return false;
   if(state.genres.length&&!state.genres.some(g=>it.fam.includes(g)))return false;
+  if(state.genresExclude.length&&state.genresExclude.some(g=>it.fam.includes(g)))return false;
   if(state.ratings.length&&!state.ratings.includes(it.rating))return false;
   if(state.ownedOnly&&!it.owned)return false;
   if(state.notOwnedOnly&&it.owned)return false;
@@ -538,10 +540,12 @@ function renderActiveBar(){
  if(state.q)chips.push(X('“'+esc(state.q)+'”','q'));
  if(state.type!=='all')chips.push(X(KM[state.type].label,'type'));
  if(state.struct!=='all')chips.push(X(state.struct==='limited'?'Limited series':'Multi-season','struct'));
- if(state.plat!=='all')chips.push(X(esc(state.plat),'plat'));
+ state.plats.forEach(p=>chips.push(X(esc(p),'plat:'+p)));
  state.genres.forEach(g=>chips.push(X(esc(g),'genre:'+g)));
+ state.genresExclude.forEach(g=>chips.push(X('✕ '+esc(g),'genreEx:'+g)));
  state.ratings.forEach(r=>chips.push(X(esc(r),'rating:'+r)));
  [['minDread','Dread'],['minMyst','Mind'],['minGoat','★ GOAT']].forEach(pr=>{if(state[pr[0]]>0)chips.push(X(pr[1]+' ≥'+state[pr[0]],pr[0]));});
+ if(state.runtimeMax>0)chips.push(X('Runtime ≤'+state.runtimeMax+'m','runtime'));
  const IL={snd:'Soundtrack',ref:'4K Ref',ch:'◉ Cosmic',emo:'Emotional',awe:'Awe',cozy:'Comfort',perf:'Performances',icon:'Iconic',scary:'Scariest',real:'Realistic',reality:'Reality-Altering',shock:'Shocking',sci:'Scientific',funny:'Funniest',hist:'Historical',vibe2:'Vibe',crit:'Critical',aud:'Audience',tech:'Technical Craft'};
  Object.keys(IL).forEach(k=>{if(state.idx[k]>0)chips.push(X(IL[k]+' ≥'+state.idx[k],'idx:'+k));});
  if(state.yearMin!=null||state.yearMax!=null)chips.push(X('Year '+(state.yearMin||'←')+'–'+(state.yearMax||'→'),'year'));
@@ -1903,11 +1907,111 @@ function renderCollection(){
    +'<span class="flex-1 min-w-0 truncate text-[12px] text-slate-200">'+esc(x.title)+' <span class="text-slate-500 text-[10px]">'+x.year+'</span></span>'
    +'<span class="text-[11px] font-bold tabular-nums" style="color:'+k.c+'">'+x.ovr+'</span></div>';}).join('');
 }
+/* ===== Shareable / bookmarkable URL state =====
+   Encodes which tab you're on plus the Global Controller's active filters into the query string,
+   via history.replaceState -- not pushState, since the goal is "this exact page is bookmarkable
+   right now," not a back/forward trail through every slider drag. Only non-default values are
+   written, so an untouched search keeps a clean URL. Hooked into refresh() (called by virtually
+   every filter/view change already) rather than sprinkled across every individual handler. */
+function stateToParams(){
+ var p=new URLSearchParams();
+ if(state.view&&state.view!=='controller')p.set('view',state.view);
+ if(state.q)p.set('q',state.q);
+ if(state.type&&state.type!=='all')p.set('type',state.type);
+ if(state.plats&&state.plats.length)p.set('plat',state.plats.join('|'));
+ if(state.genres&&state.genres.length)p.set('g',state.genres.join('|'));
+ if(state.genresExclude&&state.genresExclude.length)p.set('gx',state.genresExclude.join('|'));
+ if(state.ratings&&state.ratings.length)p.set('rt',state.ratings.join('|'));
+ if(state.tierFilter&&state.tierFilter.length)p.set('tier',state.tierFilter.join('|'));
+ if(state.ownedOnly)p.set('owned','1');
+ if(state.notOwnedOnly)p.set('notowned','1');
+ if(state.minGoat)p.set('goat',state.minGoat);
+ if(state.minDread)p.set('dread',state.minDread);
+ if(state.minMyst)p.set('myst',state.minMyst);
+ if(state.runtimeMax)p.set('runtime',state.runtimeMax);
+ if(state.struct&&state.struct!=='all')p.set('struct',state.struct);
+ if(state.combine)p.set('and','1');
+ if(state.yearMin!=null)p.set('ymin',state.yearMin);
+ if(state.yearMax!=null)p.set('ymax',state.yearMax);
+ if(state.sort&&state.sort!=='overall')p.set('sort',state.sort);
+ if(state.limit&&state.limit!==100)p.set('n',state.limit);
+ IDX_KEYS.forEach(function(k){if(state.idx[k]>0)p.set('i_'+k,state.idx[k]);});
+ return p;
+}
+function paramsToState(){
+ try{
+  var p=new URLSearchParams(location.search);
+  if(!Array.from(p.keys()).length)return null;
+  if(p.has('q'))state.q=p.get('q');
+  if(p.has('type'))state.type=p.get('type');
+  if(p.has('plat'))state.plats=p.get('plat').split('|').filter(Boolean);
+  if(p.has('g'))state.genres=p.get('g').split('|').filter(Boolean);
+  if(p.has('gx'))state.genresExclude=p.get('gx').split('|').filter(Boolean);
+  if(p.has('rt'))state.ratings=p.get('rt').split('|').filter(Boolean);
+  if(p.has('tier'))state.tierFilter=p.get('tier').split('|').filter(Boolean);
+  if(p.has('owned'))state.ownedOnly=p.get('owned')==='1';
+  if(p.has('notowned'))state.notOwnedOnly=p.get('notowned')==='1';
+  if(p.has('goat'))state.minGoat=+p.get('goat')||0;
+  if(p.has('dread'))state.minDread=+p.get('dread')||0;
+  if(p.has('myst'))state.minMyst=+p.get('myst')||0;
+  if(p.has('runtime'))state.runtimeMax=+p.get('runtime')||0;
+  if(p.has('struct'))state.struct=p.get('struct');
+  if(p.has('and'))state.combine=p.get('and')==='1';
+  if(p.has('ymin'))state.yearMin=+p.get('ymin');
+  if(p.has('ymax'))state.yearMax=+p.get('ymax');
+  if(p.has('sort'))state.sort=p.get('sort');
+  if(p.has('n'))state.limit=+p.get('n')||100;
+  IDX_KEYS.forEach(function(k){if(p.has('i_'+k))state.idx[k]=+p.get('i_'+k)||0;});
+  return p.get('view')||null;
+ }catch(e){return null;}
+}
+var _urlSyncT=null;
+function scheduleURLSync(){
+ clearTimeout(_urlSyncT);
+ _urlSyncT=setTimeout(function(){
+  try{
+   var qs=stateToParams().toString();
+   history.replaceState(null,'',location.pathname+(qs?'?'+qs:'')+location.hash);
+  }catch(e){}
+ },250);
+}
+// Pushes every restored value into the controls that aren't already rebuilt fresh from `state`
+// (genre/rating chips and the index sliders are -- see buildGenreChips/buildRatingChips/
+// buildIndexSliders, all of which read state directly) -- the plain HTML inputs, selects and
+// checkboxes need their DOM state set explicitly to match.
+function applyStateToStaticControls(){
+ var qi=$('#q');if(qi)qi.value=state.q;
+ $$('#typeSeg button').forEach(function(b){b.classList.toggle('on',b.dataset.type===state.type);});
+ [['minGoat','minGoatV'],['minDread','minDreadV'],['minMyst','minMystV']].forEach(function(p){var el=$('#'+p[0]);if(el){el.value=state[p[0]];var v=$('#'+p[1]);if(v)v.textContent=state[p[0]];}});
+ var rt=$('#runtimeMax');if(rt){rt.value=state.runtimeMax;var rv=$('#runtimeMaxV');if(rv)rv.textContent=state.runtimeMax>0?state.runtimeMax+'m':'Any';}
+ var ss=$('#structSel');if(ss)ss.value=state.struct;
+ var cm=$('#combineMode');if(cm)cm.checked=state.combine;
+ var ot=$('#ownedToggle');if(ot)ot.checked=state.ownedOnly;
+ var nt=$('#notOwnedToggle');if(nt)nt.checked=state.notOwnedOnly;
+ $$('.tierChk').forEach(function(c){c.checked=state.tierFilter.indexOf(c.dataset.tier)>=0;});
+ var ymin=$('#yearMin');if(ymin)ymin.value=state.yearMin!=null?state.yearMin:'';
+ var ymax=$('#yearMax');if(ymax)ymax.value=state.yearMax!=null?state.yearMax:'';
+ var sortSel=$('#sortSel');if(sortSel)sortSel.value=state.sort;
+ var limitSel=$('#limitSel');if(limitSel)limitSel.value=state.limit;
+ if(typeof updatePlatLabel==='function')updatePlatLabel();
+ if(typeof buildGenreChips==='function')buildGenreChips();
+ if(typeof buildRatingChips==='function')buildRatingChips();
+ if(typeof buildIndexSliders==='function')buildIndexSliders();
+ if(typeof syncAdvCount==='function')syncAdvCount();
+ // If restoring the URL turned on anything that lives inside the collapsed Advanced Filters panel,
+ // open it -- otherwise a bookmark that filtered on e.g. content rating looks like it silently lost
+ // that filter until you happen to expand the panel yourself.
+ var advCount=$('#advCount');
+ if(advCount&&advCount.style.display!=='none'){
+  var pnl=$('#advPanel');if(pnl&&pnl.classList.contains('hidden')){pnl.classList.remove('hidden');var caret=$('#advCaret');if(caret)caret.style.transform='rotate(90deg)';}
+ }
+}
 function refresh(){const list=filtered();
  if(state.view==='controller')renderController(list);
  else if(state.view==='viz'){initCharts();updateCharts(list);}
  else if(state.view==='watchlist')renderWatchlist();
  else if(state.view==='collection')renderCollection();
+ scheduleURLSync();
 }
 function switchView(v){state.view=v;
  // #nav scrolls horizontally on mobile (see the MOBILE media-query block) rather than wrapping
@@ -2038,6 +2142,7 @@ on('#rabbitBtn','click',()=>{var panel=$('#surprisePanel');var sc=$('#surpriseSc
 
 [['minDread','minDreadV'],['minMyst','minMystV'],['minGoat','minGoatV']].forEach(p=>{
  $('#'+p[0]).addEventListener('input',e=>{state[p[0]]=+e.target.value;$('#'+p[1]).textContent=e.target.value;refresh();});});
+on('#runtimeMax','input',e=>{state.runtimeMax=+e.target.value;$('#runtimeMaxV').textContent=state.runtimeMax>0?state.runtimeMax+'m':'Any';syncAdvCount();refresh();});
 on('#resetBtn','click',()=>{state.sort='overall';$('#sortSel').value='overall';clearAllFilters();});
 function syncBlendPanel(){var on=state.sort==='blend';var pnl=$('#blendPanel');if(pnl)pnl.classList.toggle('hidden',!on);
  var vt=$('#wTechV'),vd=$('#wDreadV'),vm=$('#wMystV');
@@ -3093,10 +3198,15 @@ const INDEX_DEFS=[['ref','4K Reference','#818cf8'],['aud','Audience Score','#4ad
 // "primary" family) for a work matching more than one regex, which pickSeedCandidates and others
 // rely on. Sorting the source array would silently change that unrelated behavior.
 const GENRE_FAMILIES_AZ=GENRE_FAMILIES.slice().sort((a,b)=>a[0].localeCompare(b[0]));
+// Genre chips are tri-state: neutral -> included (must match) -> excluded (must NOT match) -> back
+// to neutral. Included stays the existing indigo "on" look; excluded gets a distinct red/struck
+// treatment so the two are never confusable at a glance.
 function buildGenreChips(){
  $('#genreChips').innerHTML=GENRE_FAMILIES_AZ.map(f=>{const name=f[0],n=GENRE_COUNTS[name]||0;if(!n)return '';
-  const on=state.genres.includes(name);
-  return '<button type="button" class="chip genreChip" data-g="'+esc(name)+'" style="cursor:pointer;'+(on?'color:#0B0F19;background:#a5b4fc;border-color:#a5b4fc;font-weight:700':'')+'">'+esc(name)+' <span style="opacity:.6">'+n+'</span></button>';}).join('');
+  const on=state.genres.includes(name),off=state.genresExclude.includes(name);
+  const style=on?'color:#0B0F19;background:#a5b4fc;border-color:#a5b4fc;font-weight:700':off?'color:#fca5a5;background:#7f1d1d33;border-color:#f8717166;text-decoration:line-through;font-weight:700':'';
+  const title=on?'Included -- click to exclude instead':off?'Excluded -- click to clear':'Click to include, click again to exclude';
+  return '<button type="button" class="chip genreChip" data-g="'+esc(name)+'" title="'+title+'" style="cursor:pointer;'+style+'">'+(off?'✕ ':'')+esc(name)+' <span style="opacity:.6">'+n+'</span></button>';}).join('');
 }
 function buildRatingChips(){
  $('#ratingChips').innerHTML=RATING_ORDER.filter(r=>RATING_COUNTS[r]).map(r=>{const on=state.ratings.includes(r);
@@ -3142,12 +3252,17 @@ function syncAdvCount(){
  // Only counts filters that actually live inside the collapsed Advanced panel -- genre, owned/not-
  // owned, and tier moved to the always-visible main row, so they no longer need this badge to
  // surface them.
- let n=state.ratings.length+IDX_KEYS.filter(k=>state.idx[k]>0).length+(state.yearMin!=null||state.yearMax!=null?1:0)+(state.combine?1:0);
+ let n=state.ratings.length+IDX_KEYS.filter(k=>state.idx[k]>0).length+(state.yearMin!=null||state.yearMax!=null?1:0)+(state.combine?1:0)+(state.runtimeMax>0?1:0);
  const c=$('#advCount');if(c){c.style.display=n?'inline-flex':'none';c.textContent=n+' on';}
 }
 on('#advToggle','click',()=>{const pnl=$('#advPanel');pnl.classList.toggle('hidden');$('#advCaret').style.transform=pnl.classList.contains('hidden')?'':'rotate(90deg)';});
-on('#genreChips','click',e=>{const b=e.target.closest('.genreChip');if(!b)return;const g=b.dataset.g;const i=state.genres.indexOf(g);if(i<0)state.genres.push(g);else state.genres.splice(i,1);buildGenreChips();syncAdvCount();refresh();});
-on('#genreClear','click',()=>{state.genres=[];buildGenreChips();syncAdvCount();refresh();});
+on('#genreChips','click',e=>{const b=e.target.closest('.genreChip');if(!b)return;const g=b.dataset.g;
+ const inI=state.genres.indexOf(g),inX=state.genresExclude.indexOf(g);
+ if(inI>=0){state.genres.splice(inI,1);state.genresExclude.push(g);} // included -> excluded
+ else if(inX>=0){state.genresExclude.splice(inX,1);} // excluded -> neutral
+ else{state.genres.push(g);} // neutral -> included
+ buildGenreChips();syncAdvCount();refresh();});
+on('#genreClear','click',()=>{state.genres=[];state.genresExclude=[];buildGenreChips();syncAdvCount();refresh();});
 on('#ratingChips','click',e=>{const b=e.target.closest('.ratingChip');if(!b)return;const r=b.dataset.r;const i=state.ratings.indexOf(r);if(i<0)state.ratings.push(r);else state.ratings.splice(i,1);buildRatingChips();syncAdvCount();refresh();});
 on('#ratingClear','click',()=>{state.ratings=[];buildRatingChips();syncAdvCount();refresh();});
 function handleIdxSliderInput(e){const sl=e.target.closest('.idxSlider');if(!sl)return;const k=sl.dataset.k;state.idx[k]=+sl.value;$('#idxV_'+k).textContent=sl.value;syncAdvCount();refresh();}
@@ -3171,24 +3286,27 @@ on('#activeBar','click',e=>{
  if(c==='q'){state.q='';$('#q').value='';}
  else if(c==='type'){state.type='all';$$('#typeSeg button').forEach(x=>x.classList.toggle('on',x.dataset.type==='all'));}
  else if(c==='struct'){state.struct='all';$('#structSel').value='all';}
- else if(c==='plat'){setPlat('all');}
+ else if(c.indexOf('plat:')===0){const p=c.slice(5);state.plats=state.plats.filter(x=>x!==p);updatePlatLabel();}
+ else if(c==='runtime'){state.runtimeMax=0;const rs=$('#runtimeMax');if(rs)rs.value=0;const rv=$('#runtimeMaxV');if(rv)rv.textContent='Any';}
  else if(c==='year'){state.yearMin=state.yearMax=null;$('#yearMin').value='';$('#yearMax').value='';}
  else if(c==='owned'){state.ownedOnly=false;const o=$('#ownedToggle');if(o)o.checked=false;}
  else if(c==='notowned'){state.notOwnedOnly=false;const no=$('#notOwnedToggle');if(no)no.checked=false;}
  else if(c.indexOf('tier:')===0){const t=c.slice(5);state.tierFilter=state.tierFilter.filter(x=>x!==t);$$('.tierChk').forEach(chk=>{if(chk.dataset.tier===t)chk.checked=false;});}
  else if(c.indexOf('genre:')===0){const g=c.slice(6);state.genres=state.genres.filter(x=>x!==g);buildGenreChips();}
+ else if(c.indexOf('genreEx:')===0){const g=c.slice(8);state.genresExclude=state.genresExclude.filter(x=>x!==g);buildGenreChips();}
  else if(c.indexOf('rating:')===0){const r=c.slice(7);state.ratings=state.ratings.filter(x=>x!==r);buildRatingChips();}
  else if(c.indexOf('idx:')===0){const k=c.slice(4);state.idx[k]=0;const sl=$$('.idxSlider').find(s=>s.dataset.k===k);if(sl)sl.value=0;$('#idxV_'+k).textContent='0';}
  else if(['minDread','minMyst','minGoat'].indexOf(c)>=0){state[c]=0;$('#'+c).value=0;const vmap={minDread:'minDreadV',minMyst:'minMystV',minGoat:'minGoatV'};$('#'+vmap[c]).textContent='0';}
  syncAdvCount();refresh();
 });
 function clearAllFilters(){
- Object.assign(state,{q:'',type:'all',struct:'all',plat:'all',minDread:0,minMyst:0,minGoat:0,genres:[],ratings:[],ownedOnly:false,notOwnedOnly:false,tierFilter:[],yearMin:null,yearMax:null,combine:false});
+ Object.assign(state,{q:'',type:'all',struct:'all',plats:[],minDread:0,minMyst:0,minGoat:0,runtimeMax:0,genres:[],genresExclude:[],ratings:[],ownedOnly:false,notOwnedOnly:false,tierFilter:[],yearMin:null,yearMax:null,combine:false});
  $$('.tierChk').forEach(c=>{c.checked=false;});
  state.idx={snd:0,ref:0,ch:0,emo:0,awe:0,cozy:0,perf:0,icon:0,scary:0,real:0,reality:0,shock:0,sci:0,funny:0,hist:0,vibe2:0,crit:0,aud:0,tech:0};state.ratings=[];
- $('#q').value='';var ss=$('#structSel');if(ss)ss.value='all';$('#platSel').value='all';var pl=$('#platCombo .rcLabel');if(pl)pl.textContent='Any platform / network / studio';
+ $('#q').value='';var ss=$('#structSel');if(ss)ss.value='all';updatePlatLabel();
  ['minDread','minMyst','minGoat'].forEach(id=>{$('#'+id).value=0;});
  ['minDreadV','minMystV','minGoatV'].forEach(v=>$('#'+v).textContent='0');
+ var rs=$('#runtimeMax');if(rs)rs.value=0;var rv=$('#runtimeMaxV');if(rv)rv.textContent='Any';
  $$('#typeSeg button').forEach(x=>x.classList.toggle('on',x.dataset.type==='all'));
  $$('.idxSlider').forEach(sl=>{sl.value=0;$('#idxV_'+sl.dataset.k).textContent='0';});
  $('#combineMode').checked=false;const _o=$('#ownedToggle');if(_o)_o.checked=false;const _no=$('#notOwnedToggle');if(_no)_no.checked=false;$('#yearMin').value='';$('#yearMax').value='';
@@ -3204,27 +3322,33 @@ function buildPlatSelect(){
   {name:'Film Studios',opts:u(movies.map(m=>m.studio))}
  ];
 }
+// Multi-select: picking a platform/network/studio no longer replaces the previous pick or closes
+// the popup -- it toggles that one option on/off in state.plats (OR-matched, same "any selected"
+// semantics as genre chips), so someone can build "A24 + Warner Bros." in one open/close cycle.
 function renderPlatList(q){
  if(!PLAT_GROUPS)buildPlatSelect();
  q=(q||'').trim().toLowerCase();
- var cur=$('#platSel').value;
  var listEl=$('#platCombo .rcList');if(!listEl)return;
- var html='<div class="rcOpt'+(cur==='all'?' sel':'')+'" data-v="all">Any platform / network / studio</div>';
+ var html=state.plats.length?'<div class="rcOpt" data-v="__clear__" style="color:#fca5a5">\u2715 Clear selection ('+state.plats.length+')</div>':'';
  var any=false;
  PLAT_GROUPS.forEach(function(g){
   var matches=q?g.opts.filter(function(o){return o.toLowerCase().indexOf(q)>=0;}):g.opts;
   if(!matches.length)return;
   any=true;
   html+='<div class="rcOptGroup">'+esc(g.name)+'</div>';
-  html+=matches.map(function(o){return '<div class="rcOpt'+(cur===o?' sel':'')+'" data-v="'+esc(o)+'" title="'+esc(o)+'">'+esc(o)+'</div>';}).join('');
+  html+=matches.map(function(o){var sel=state.plats.indexOf(o)>=0;return '<div class="rcOpt'+(sel?' sel':'')+'" data-v="'+esc(o)+'" title="'+esc(o)+'">'+(sel?'\u2611 ':'\u2610 ')+esc(o)+'</div>';}).join('');
  });
- if(!any)html='<div class="rcEmpty">No platform matches \u201c'+esc(q)+'\u201d</div>';
+ if(!any&&!html)html='<div class="rcEmpty">No platform matches \u201c'+esc(q)+'\u201d</div>';
  listEl.innerHTML=html;
 }
-function setPlat(v){
- state.plat=v;$('#platSel').value=v;
- var lbl=$('#platCombo .rcLabel');if(lbl)lbl.textContent=(v==='all'?'Any platform / network / studio':v);
- refresh();
+function updatePlatLabel(){
+ var lbl=$('#platCombo .rcLabel');if(!lbl)return;
+ lbl.textContent=!state.plats.length?'Any platform / network / studio':state.plats.length===1?state.plats[0]:state.plats.length+' selected: '+state.plats.join(', ');
+}
+function togglePlat(v){
+ if(v==='__clear__'){state.plats=[];}
+ else{var i=state.plats.indexOf(v);if(i>=0)state.plats.splice(i,1);else state.plats.push(v);}
+ updatePlatLabel();renderPlatList($('#platCombo .rcSearch')?$('#platCombo .rcSearch').value:'');refresh();
 }
 buildPlatSelect();
 (function initPlatCombo(){
@@ -3235,8 +3359,14 @@ buildPlatSelect();
  field.addEventListener('click',function(e){e.stopPropagation();combo.classList.contains('open')?close():open();});
  field.addEventListener('keydown',function(e){if(e.key==='Enter'||e.key===' '){e.preventDefault();open();}});
  search.addEventListener('input',function(){renderPlatList(this.value);});
- search.addEventListener('keydown',function(e){if(e.key==='Escape'){close();field.focus();}else if(e.key==='Enter'){var f=combo.querySelector('.rcOpt');if(f){setPlat(f.dataset.v);close();}}});
- combo.querySelector('.rcList').addEventListener('click',function(e){var opt=e.target.closest('.rcOpt');if(!opt)return;setPlat(opt.dataset.v);close();});
+ search.addEventListener('keydown',function(e){if(e.key==='Escape'){close();field.focus();}else if(e.key==='Enter'){var f=combo.querySelector('.rcOpt');if(f){togglePlat(f.dataset.v);}}});
+ combo.querySelector('.rcList').addEventListener('click',function(e){var opt=e.target.closest('.rcOpt');if(!opt)return;
+  // togglePlat() re-renders .rcList's innerHTML synchronously, which detaches the clicked node
+  // before this click finishes bubbling -- the shared outside-click-close listener on `document`
+  // then sees a target with no `.radarCombo` ancestor to find (it's an orphaned node) and closes
+  // the popup as if this had been a click outside it. stopPropagation keeps a pick from ever
+  // reaching that listener, so the popup stays open across multiple picks as intended.
+  e.stopPropagation();togglePlat(opt.dataset.v);});
  // Outside-click and Escape are handled once, for every .radarCombo including this one -- see the
  // shared closeAllCombos listener registered earlier in the script. No separate listener needed here.
 })();
@@ -3283,7 +3413,15 @@ var _rzT;window.addEventListener('resize',function(){clearTimeout(_rzT);_rzT=set
 },200);});
 (function(){
  var resume=null;try{resume=sessionStorage.getItem('omniLedgerResumeView');sessionStorage.removeItem('omniLedgerResumeView');}catch(e){}
- switchView((resume&&document.querySelector('main > section[data-sec="'+resume+'"]'))?resume:'controller');
+ // resume (an internal post-action reload) wins over the URL (an actual bookmark/shared link) --
+ // the two shouldn't collide in practice since resume only ever exists right after this app's own
+ // reload calls, never on a fresh navigation, but resume is the more specific signal either way.
+ var urlView=paramsToState();
+ applyStateToStaticControls();
+ var target=(resume&&document.querySelector('main > section[data-sec="'+resume+'"]'))?resume
+  :(urlView&&document.querySelector('main > section[data-sec="'+urlView+'"]'))?urlView
+  :'controller';
+ switchView(target);
 })();
 
  // Deliberate debug surface, and the last line of initApp().
