@@ -1487,11 +1487,16 @@ async function runAccountFlow(browser, file) {
     await page2.waitForTimeout(2000); // > the 1500ms scheduleCloudSync debounce
     await readWhen(page2, () => localStorage.getItem('omniLedgerPendingSync') !== '1', undefined, 10000);
     await clickAndReload(page2, '.panel .profEditBtn[data-act="silver"][data-id="' + bronzeCardId + '"]');
-    const pendingAfterRefusal = !!(await readWhen(page2,
-      () => localStorage.getItem('omniLedgerPendingSync') === '1', undefined, 8000));
-    const refusalReason = await page2.evaluate(() => localStorage.getItem('omniLedgerLastSyncError') || '');
+    // Wait for BOTH halves together. The pending mark is set the moment the edit is written, but
+    // the error message only lands once the push has round-tripped and been rejected -- so reading
+    // pending with a wait and the reason with a bare evaluate samples them at different instants,
+    // and on a slower runner the reason is still empty when it is read.
+    const refusalDetected = !!(await readWhen(page2, () =>
+      localStorage.getItem('omniLedgerPendingSync') === '1' &&
+      /wrote no row/.test(localStorage.getItem('omniLedgerLastSyncError') || ''),
+      undefined, 10000));
     check('a write the database silently refuses (zero rows written) is caught, not counted as saved',
-      pendingAfterRefusal && /wrote no row/.test(refusalReason));
+      refusalDetected);
 
     await page2.reload();
     await waitForBoot(page2);
