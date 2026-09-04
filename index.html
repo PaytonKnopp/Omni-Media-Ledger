@@ -410,10 +410,6 @@ body[data-theme="outer-wilds"]{--bg:#0e0a09;--panel:#181010;--panel-2:#120c0b;--
       <div class="fieldlbl mb-2">Your 5 quick filters <span class="text-slate-600 normal-case">· pin/unpin any specialized index below to swap what shows here</span></div>
       <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-5 gap-x-6 gap-y-4">
         <div>
-          <div class="flex justify-between items-baseline mb-1.5"><span class="fieldlbl mb-0 cursor-help" title="Movies & TV: mean of 4K transfer fidelity, audio soundscape and cinematography. Games: mean of engine/graphics performance and art direction.">Technical Fidelity / Engine ≥</span><span class="text-[12px] font-bold text-indigo-300 tabular-nums" id="minTechV">0</span></div>
-          <input type="range" id="minTech" min="0" max="100" value="0" aria-label="Minimum technical fidelity"/>
-        </div>
-        <div>
           <div class="flex justify-between items-baseline mb-1.5"><span class="fieldlbl mb-0 cursor-help" style="color:#fbbf24" title="Personal match computed from your declared GOAT profile. Declared favorites = 100; hand-scored recommendations keep their scores; everything else is scored algorithmically from the taste fingerprint.">★ GOAT Match ≥</span><span class="text-[12px] font-bold text-amber-300 tabular-nums" id="minGoatV">0</span></div>
           <input type="range" id="minGoat" min="0" max="100" value="0" aria-label="Minimum personal GOAT match"/>
         </div>
@@ -495,31 +491,43 @@ body[data-theme="outer-wilds"]{--bg:#0e0a09;--panel:#181010;--panel-2:#120c0b;--
         <select id="sortSel" class="inp" style="width:auto">
           <option value="overall">Best Overall</option>
           <option value="tier">🥇 My Tiers · Gold → Silver → Bronze</option>
-          <option value="cosmic">◉ Cosmic Horror Index</option>
-          <option value="blend">⚖ Blend · Tech / Dread / Mind weights</option>
-          <option value="sound">Best Soundtrack / Audio</option>
-          <option value="ref4k">Best 4K Reference</option>
-          <option value="emotion">Saddest / Most Emotional</option>
-          <option value="awe">Most Awe / Spectacle</option>
-          <option value="comfort">Most Comforting / Cozy</option>
-          <option value="perf">Best Performances</option>
-          <option value="icon">Most Iconic</option>
-          <option value="scary">Scariest</option>
-          <option value="real">Most Realistic</option>
-          <option value="reality">Most Reality-Altering</option>
-          <option value="shock">Most Shocking</option>
-          <option value="sci">Most Scientific</option>
-          <option value="funny">Funniest</option>
-          <option value="hist">Most Historically Accurate</option>
-          <option value="vibe2">Best Vibe / Atmosphere</option>
-          <option value="crit">Critical Score</option>
-          <option value="aud">Audience Score</option>
-          <option value="tech">Technical Fidelity</option>
-          <option value="dread">Dread / Immersion</option>
-          <option value="myst">Complexity</option>
-          <option value="yearNew">Year · Newest</option>
-          <option value="yearOld">Year · Oldest</option>
-          <option value="title">Title A–Z</option>
+          <optgroup label="Reception">
+            <option value="crit">Critical Score</option>
+            <option value="aud">Audience Score</option>
+          </optgroup>
+          <optgroup label="Craft & Fidelity">
+            <option value="tech">Technical Craft</option>
+            <option value="ref4k">Best 4K Reference</option>
+            <option value="sound">Best Soundtrack / Audio</option>
+            <option value="perf">Best Performances</option>
+            <option value="vibe2">Best Vibe / Atmosphere</option>
+            <option value="icon">Most Iconic</option>
+          </optgroup>
+          <optgroup label="Mood & Feel">
+            <option value="comfort">Most Comforting / Cozy</option>
+            <option value="emotion">Saddest / Most Emotional</option>
+            <option value="awe">Most Awe / Spectacle</option>
+            <option value="scary">Scariest</option>
+            <option value="funny">Funniest</option>
+          </optgroup>
+          <optgroup label="Depth & Ideas">
+            <option value="real">Most Realistic</option>
+            <option value="hist">Most Historically Accurate</option>
+            <option value="sci">Most Scientific</option>
+            <option value="reality">Most Reality-Altering</option>
+            <option value="shock">Most Shocking</option>
+            <option value="dread">Dread / Immersion</option>
+            <option value="myst">Complexity</option>
+            <option value="cosmic">◉ Cosmic Horror Index</option>
+          </optgroup>
+          <optgroup label="Custom">
+            <option value="blend">⚖ Blend · Tech / Dread / Mind weights</option>
+          </optgroup>
+          <optgroup label="Basic">
+            <option value="yearNew">Year · Newest</option>
+            <option value="yearOld">Year · Oldest</option>
+            <option value="title">Title A–Z</option>
+          </optgroup>
         </select>
       </div>
     </div>

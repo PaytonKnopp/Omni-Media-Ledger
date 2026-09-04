@@ -31,14 +31,14 @@ function initApp(){
    to Payton's canon. A fresh browser with nothing saved yet still boots from the defaults below,
    which today are Payton's own profile -- that's the "sample profile" until Phase 3 ships a real
    blank-first-run flow for new copies. */
-// Which specialized index sliders show pinned to the main filter row (alongside the two fixed
-// ones, Technical Fidelity and GOAT Match) for a profile that's never touched pinning itself.
-// Cosmic Horror is pinned by default here so a fresh profile's main row looks exactly like it
-// always has -- but, unlike Technical Fidelity/GOAT Match, it's a genuine member of the same
-// pinnable pool as the other 17 specialized indices now, not a third permanently-fixed slider, so
-// it can be unpinned/re-pinned the same way any of them can. Declared this early since
+// Which specialized index sliders show pinned to the main filter row (alongside the one genuinely
+// fixed slider, ★ GOAT Match -- a personal-taste score with no equivalent elsewhere) for a profile
+// that's never touched pinning itself. Technical Craft and Cosmic Horror are pinned by default here
+// so a fresh profile's main row looks exactly like it always has -- but both are genuine members of
+// the same pinnable pool as the other specialized indices, not permanently-fixed sliders, so either
+// can be unpinned/re-pinned the same way any of them can. Declared this early since
 // PERSONAL_PROFILE's own default-fallback construction below needs it.
-const DEFAULT_PINNED_IDX=['ref','snd','ch'];
+const DEFAULT_PINNED_IDX=['tech','ref','snd','ch'];
 let PROFILE_FROM_STORAGE=false;
 const PERSONAL_PROFILE=(function(){
  try{const raw=localStorage.getItem('omniLedgerProfile');if(raw!==null){PROFILE_FROM_STORAGE=true;return JSON.parse(raw)||{};}}catch(e){}
@@ -97,13 +97,13 @@ function wlSetWatched(id,v){if(WL[id]){WL[id].watched=v;wlSave();}}
 function wlCount(){return Object.keys(WL).length;}
 
 /* ===================== STATE & HELPERS ===================== */
-const state={view:'controller',q:'',type:'all',struct:'all',plat:'all',minTech:0,minDread:0,minMyst:0,minGoat:0,genres:[],ownedOnly:false,notOwnedOnly:false,limit:100,idx:{snd:0,ref:0,ch:0,emo:0,awe:0,cozy:0,perf:0,icon:0,scary:0,real:0,reality:0,shock:0,sci:0,funny:0,hist:0,vibe2:0,crit:0,aud:0},ratings:[],tierFilter:[],yearMin:null,yearMax:null,combine:false,sort:'overall',w:{tech:0.85,dread:0.95,myst:0.90},creatorTab:'directors',creatorSearch:''};
+const state={view:'controller',q:'',type:'all',struct:'all',plat:'all',minDread:0,minMyst:0,minGoat:0,genres:[],ownedOnly:false,notOwnedOnly:false,limit:100,idx:{snd:0,ref:0,ch:0,emo:0,awe:0,cozy:0,perf:0,icon:0,scary:0,real:0,reality:0,shock:0,sci:0,funny:0,hist:0,vibe2:0,crit:0,aud:0,tech:0},ratings:[],tierFilter:[],yearMin:null,yearMax:null,combine:false,sort:'overall',w:{tech:0.85,dread:0.95,myst:0.90},creatorTab:'directors',creatorSearch:''};
 const $=s=>document.querySelector(s),$$=s=>Array.from(document.querySelectorAll(s));
 const on=(sel,ev,fn)=>{const el=$(sel);if(el)el.addEventListener(ev,fn);else console.warn('missing element:',sel);};
 const esc=s=>String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
 const SORTS={overall:(a,b)=>(b.ovr-a.ovr)||(b.crit-a.crit),cosmic:(a,b)=>(b.ch-a.ch)||(b.dread-a.dread),sound:(a,b)=>(b.snd-a.snd)||(b.crit-a.crit),ref4k:(a,b)=>(b.ref-a.ref)||(b.crit-a.crit),emotion:(a,b)=>(b.emo-a.emo)||(b.crit-a.crit),awe:(a,b)=>(b.awe-a.awe)||(b.crit-a.crit),comfort:(a,b)=>(b.cozy-a.cozy)||(b.aud-a.aud),perf:(a,b)=>(b.perf-a.perf)||(b.crit-a.crit),icon:(a,b)=>(b.icon-a.icon)||(b.crit-a.crit),scary:(a,b)=>(b.scary-a.scary)||(b.dread-a.dread),real:(a,b)=>(b.real-a.real)||(b.crit-a.crit),reality:(a,b)=>(b.reality-a.reality)||(b.myst-a.myst),shock:(a,b)=>(b.shock-a.shock)||(b.dread-a.dread),sci:(a,b)=>(b.sci-a.sci)||(b.myst-a.myst),funny:(a,b)=>(b.funny-a.funny)||(b.aud-a.aud),hist:(a,b)=>(b.hist-a.hist)||(b.crit-a.crit),vibe2:(a,b)=>(b.vibe2-a.vibe2)||(b.tech-a.tech),blend:(a,b)=>(bespokeScore(b)-bespokeScore(a))||(b.crit-a.crit),crit:(a,b)=>b.crit-a.crit,aud:(a,b)=>b.aud-a.aud,tech:(a,b)=>b.tech-a.tech,dread:(a,b)=>b.dread-a.dread,myst:(a,b)=>b.myst-a.myst,yearNew:(a,b)=>b.year-a.year,yearOld:(a,b)=>a.year-b.year,title:(a,b)=>a.title.localeCompare(b.title),tier:(a,b)=>(tierRank(b)-tierRank(a))||(b.gm-a.gm)};
 
-const IDX_KEYS=['snd','ref','ch','emo','awe','cozy','perf','icon','scary','real','reality','shock','sci','funny','hist','vibe2','crit','aud'];
+const IDX_KEYS=['snd','ref','ch','emo','awe','cozy','perf','icon','scary','real','reality','shock','sci','funny','hist','vibe2','crit','aud','tech'];
 function filtered(){const q=state.q.trim().toLowerCase();
  return ALL.filter(it=>{
   if(state.type!=='all'&&it.kind!==state.type)return false;
@@ -112,7 +112,7 @@ function filtered(){const q=state.q.trim().toLowerCase();
    if(state.struct==='multi'&&it.format!=='Multi-Season Epic')return false;
   }
   if(state.plat!=='all'&&!it.plats.includes(state.plat))return false;
-  if(it.tech<state.minTech||it.dread<state.minDread||it.myst<state.minMyst||it.gm<state.minGoat)return false;
+  if(it.tech<state.idx.tech||it.dread<state.minDread||it.myst<state.minMyst||it.gm<state.minGoat)return false;
   if(state.genres.length&&!state.genres.some(g=>it.fam.includes(g)))return false;
   if(state.ratings.length&&!state.ratings.includes(it.rating))return false;
   if(state.ownedOnly&&!it.owned)return false;
@@ -146,7 +146,7 @@ function activeDims(){
  if(state.idx.vibe2>0)d.push(['vibe2','Vibe',state.idx.vibe2]);
  if(state.idx.crit>0)d.push(['crit','Critical Score',state.idx.crit]);
  if(state.idx.aud>0)d.push(['aud','Audience Score',state.idx.aud]);
- if(state.minTech>0)d.push(['tech','Technical',state.minTech]);
+ if(state.idx.tech>0)d.push(['tech','Technical Craft',state.idx.tech]);
  if(state.minDread>0)d.push(['dread','Dread',state.minDread]);
  if(state.minMyst>0)d.push(['myst','Complexity',state.minMyst]);
  return d;
@@ -533,8 +533,8 @@ function renderActiveBar(){
  if(state.plat!=='all')chips.push(X(esc(state.plat),'plat'));
  state.genres.forEach(g=>chips.push(X(esc(g),'genre:'+g)));
  state.ratings.forEach(r=>chips.push(X(esc(r),'rating:'+r)));
- [['minTech','Tech'],['minDread','Dread'],['minMyst','Mind'],['minGoat','★ GOAT']].forEach(pr=>{if(state[pr[0]]>0)chips.push(X(pr[1]+' ≥'+state[pr[0]],pr[0]));});
- const IL={snd:'Soundtrack',ref:'4K Ref',ch:'◉ Cosmic',emo:'Emotional',awe:'Awe',cozy:'Comfort',perf:'Performances',icon:'Iconic',scary:'Scariest',real:'Realistic',reality:'Reality-Altering',shock:'Shocking',sci:'Scientific',funny:'Funniest',hist:'Historical',vibe2:'Vibe',crit:'Critical',aud:'Audience'};
+ [['minDread','Dread'],['minMyst','Mind'],['minGoat','★ GOAT']].forEach(pr=>{if(state[pr[0]]>0)chips.push(X(pr[1]+' ≥'+state[pr[0]],pr[0]));});
+ const IL={snd:'Soundtrack',ref:'4K Ref',ch:'◉ Cosmic',emo:'Emotional',awe:'Awe',cozy:'Comfort',perf:'Performances',icon:'Iconic',scary:'Scariest',real:'Realistic',reality:'Reality-Altering',shock:'Shocking',sci:'Scientific',funny:'Funniest',hist:'Historical',vibe2:'Vibe',crit:'Critical',aud:'Audience',tech:'Technical Craft'};
  Object.keys(IL).forEach(k=>{if(state.idx[k]>0)chips.push(X(IL[k]+' ≥'+state.idx[k],'idx:'+k));});
  if(state.yearMin!=null||state.yearMax!=null)chips.push(X('Year '+(state.yearMin||'←')+'–'+(state.yearMax||'→'),'year'));
  if(state.ownedOnly)chips.push(X('◆ Owned only','owned'));
@@ -1981,7 +1981,7 @@ on('#spinPool','click',e=>{const b=e.target.closest('button');if(!b)return;spinS
 on('#spinGo','click',doSpin);
 on('#rabbitBtn','click',()=>{var panel=$('#surprisePanel');var sc=$('#surpriseScope');if(sc)sc.classList.add('hidden');var showing=!panel.classList.contains('hidden')&&panel.dataset.mode==='rabbit';if(showing){panel.classList.add('hidden');panel.innerHTML='';panel.dataset.mode='';$('#rabbitBtn').setAttribute('aria-expanded','false');return;}var pool=filtered();if(!pool.length)pool=ALL;var top=pool.slice().sort((a,b)=>b.gm-a.gm).slice(0,20);var seed=top[Math.floor(Math.random()*top.length)];renderRabbitHole(seed.id);$('#rabbitBtn').setAttribute('aria-expanded','true');});
 
-[['minTech','minTechV'],['minDread','minDreadV'],['minMyst','minMystV'],['minGoat','minGoatV']].forEach(p=>{
+[['minDread','minDreadV'],['minMyst','minMystV'],['minGoat','minGoatV']].forEach(p=>{
  $('#'+p[0]).addEventListener('input',e=>{state[p[0]]=+e.target.value;$('#'+p[1]).textContent=e.target.value;refresh();});});
 on('#resetBtn','click',()=>{state.sort='overall';$('#sortSel').value='overall';clearAllFilters();});
 function syncBlendPanel(){var on=state.sort==='blend';var pnl=$('#blendPanel');if(pnl)pnl.classList.toggle('hidden',!on);
@@ -2946,7 +2946,7 @@ on('#wlExport','click',()=>{const items=wlItems().map(x=>({title:x.title,year:x.
 on('#creatorGrid','keydown',e=>{if(e.key!=='Enter'&&e.key!==' ')return;const f=e.target.closest('.flip');if(f){e.preventDefault();f.classList.toggle('flipped');}});
 
 /* ===================== BOOT ===================== */
-const INDEX_DEFS=[['snd','Soundtrack / Audio','#7dd3fc'],['ref','4K Reference','#818cf8'],['ch','Cosmic Horror','#c084fc'],['emo','Emotional / Sad','#f0abfc'],['awe','Awe / Spectacle','#fbbf24'],['cozy','Comfort / Cozy','#34d399'],['perf','Best Performances','#fda4af'],['icon','Iconicness','#fcd34d'],['scary','Scariest','#f87171'],['real','Realism','#86efac'],['reality','Reality-Altering','#c4b5fd'],['shock','Genuine Shock','#fb923c'],['sci','Scientific','#67e8f9'],['funny','Funniest','#fde047'],['hist','Historically Accurate','#a3e635'],['vibe2','Vibe / Atmosphere','#e879f9'],['crit','Critical Score','#94a3b8'],['aud','Audience Score','#4ade80']];
+const INDEX_DEFS=[['snd','Soundtrack / Audio','#7dd3fc'],['ref','4K Reference','#818cf8'],['ch','Cosmic Horror','#c084fc'],['emo','Emotional / Sad','#f0abfc'],['awe','Awe / Spectacle','#fbbf24'],['cozy','Comfort / Cozy','#34d399'],['perf','Best Performances','#fda4af'],['icon','Iconicness','#fcd34d'],['scary','Scariest','#f87171'],['real','Realism','#86efac'],['reality','Reality-Altering','#c4b5fd'],['shock','Genuine Shock','#fb923c'],['sci','Scientific','#67e8f9'],['funny','Funniest','#fde047'],['hist','Historically Accurate','#a3e635'],['vibe2','Vibe / Atmosphere','#e879f9'],['crit','Critical Score','#94a3b8'],['aud','Audience Score','#4ade80'],['tech','Technical Craft','#a5b4fc']];
 function buildGenreChips(){
  $('#genreChips').innerHTML=GENRE_FAMILIES.map(f=>{const name=f[0],n=GENRE_COUNTS[name]||0;if(!n)return '';
   const on=state.genres.includes(name);
@@ -2961,9 +2961,15 @@ function buildRatingChips(){
 // exactly one place at a time (moved, not duplicated) so there's only ever one live DOM element per
 // index and no risk of two copies drifting out of sync.
 function pinnedIdxSet(){return new Set(PERSONAL_PROFILE.pinnedIdx||DEFAULT_PINNED_IDX);}
+// Per-index tooltip text where the label alone doesn't make the metric's meaning obvious --
+// Technical Craft in particular blends different components per media type and otherwise looks
+// like an unexplained duplicate of 4K Reference / Soundtrack.
+const IDX_DESC={tech:'A broad craft average, distinct from the more specific 4K Reference and Soundtrack sliders below. Movies & TV: mean of 4K transfer fidelity, audio soundscape and cinematography. Games: mean of engine/graphics performance and art direction. Books: mean of prose craft and idea density.'};
 function sliderBlockHTML(d,pinned){
  var star='<button type="button" class="pinIdxBtn" data-k="'+d[0]+'" title="'+(pinned?'Unpin from the main filter row':'Pin to the main filter row, so it always shows without opening Advanced Filters')+'" style="cursor:pointer;background:none;border:none;padding:0;line-height:1;color:'+(pinned?d[2]:'#475569')+'">📌</button>';
- return '<div><div class="flex justify-between items-baseline mb-1.5"><span class="fieldlbl mb-0 flex items-center gap-1.5" style="color:'+d[2]+'">'+star+' '+d[1]+' ≥</span><span class="text-[12px] font-bold tabular-nums" style="color:'+d[2]+'" id="idxV_'+d[0]+'">'+(state.idx[d[0]]||0)+'</span></div>'
+ var desc=IDX_DESC[d[0]];
+ var labelSpan='<span class="fieldlbl mb-0 flex items-center gap-1.5'+(desc?' cursor-help':'')+'"'+(desc?' title="'+esc(desc)+'"':'')+' style="color:'+d[2]+'">'+star+' '+d[1]+' ≥</span>';
+ return '<div><div class="flex justify-between items-baseline mb-1.5">'+labelSpan+'<span class="text-[12px] font-bold tabular-nums" style="color:'+d[2]+'" id="idxV_'+d[0]+'">'+(state.idx[d[0]]||0)+'</span></div>'
  +'<input type="range" class="idxSlider" data-k="'+d[0]+'" min="0" max="100" value="'+(state.idx[d[0]]||0)+'" aria-label="Minimum '+d[1]+'"/></div>';
 }
 function buildIndexSliders(){
@@ -3027,16 +3033,16 @@ on('#activeBar','click',e=>{
  else if(c.indexOf('genre:')===0){const g=c.slice(6);state.genres=state.genres.filter(x=>x!==g);buildGenreChips();}
  else if(c.indexOf('rating:')===0){const r=c.slice(7);state.ratings=state.ratings.filter(x=>x!==r);buildRatingChips();}
  else if(c.indexOf('idx:')===0){const k=c.slice(4);state.idx[k]=0;const sl=$$('.idxSlider').find(s=>s.dataset.k===k);if(sl)sl.value=0;$('#idxV_'+k).textContent='0';}
- else if(['minTech','minDread','minMyst','minGoat'].indexOf(c)>=0){state[c]=0;$('#'+c).value=0;const vmap={minTech:'minTechV',minDread:'minDreadV',minMyst:'minMystV',minGoat:'minGoatV'};$('#'+vmap[c]).textContent='0';}
+ else if(['minDread','minMyst','minGoat'].indexOf(c)>=0){state[c]=0;$('#'+c).value=0;const vmap={minDread:'minDreadV',minMyst:'minMystV',minGoat:'minGoatV'};$('#'+vmap[c]).textContent='0';}
  syncAdvCount();refresh();
 });
 function clearAllFilters(){
- Object.assign(state,{q:'',type:'all',struct:'all',plat:'all',minTech:0,minDread:0,minMyst:0,minGoat:0,genres:[],ratings:[],ownedOnly:false,notOwnedOnly:false,tierFilter:[],yearMin:null,yearMax:null,combine:false});
+ Object.assign(state,{q:'',type:'all',struct:'all',plat:'all',minDread:0,minMyst:0,minGoat:0,genres:[],ratings:[],ownedOnly:false,notOwnedOnly:false,tierFilter:[],yearMin:null,yearMax:null,combine:false});
  $$('.tierChk').forEach(c=>{c.checked=false;});
- state.idx={snd:0,ref:0,ch:0,emo:0,awe:0,cozy:0,perf:0,icon:0,scary:0,real:0,reality:0,shock:0,sci:0,funny:0,hist:0,vibe2:0};state.ratings=[];
+ state.idx={snd:0,ref:0,ch:0,emo:0,awe:0,cozy:0,perf:0,icon:0,scary:0,real:0,reality:0,shock:0,sci:0,funny:0,hist:0,vibe2:0,crit:0,aud:0,tech:0};state.ratings=[];
  $('#q').value='';var ss=$('#structSel');if(ss)ss.value='all';$('#platSel').value='all';var pl=$('#platCombo .rcLabel');if(pl)pl.textContent='Any platform / network / studio';
- ['minTech','minDread','minMyst','minGoat'].forEach(id=>{$('#'+id).value=0;});
- ['minTechV','minDreadV','minMystV','minGoatV'].forEach(v=>$('#'+v).textContent='0');
+ ['minDread','minMyst','minGoat'].forEach(id=>{$('#'+id).value=0;});
+ ['minDreadV','minMystV','minGoatV'].forEach(v=>$('#'+v).textContent='0');
  $$('#typeSeg button').forEach(x=>x.classList.toggle('on',x.dataset.type==='all'));
  $$('.idxSlider').forEach(sl=>{sl.value=0;$('#idxV_'+sl.dataset.k).textContent='0';});
  $('#combineMode').checked=false;const _o=$('#ownedToggle');if(_o)_o.checked=false;const _no=$('#notOwnedToggle');if(_no)_no.checked=false;$('#yearMin').value='';$('#yearMax').value='';
