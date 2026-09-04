@@ -1350,11 +1350,18 @@ function renderTasteDNA(){
 // have no tier concept, so they keep the original flat "declared" rendering.
 var CORPUS_CANON_KIND={Movies:'movie',Books:'book','TV Shows':'tv','Video Game':'game'};
 var TIER_STYLE={gold:['\u{1F947}','Gold','#fbbf24'],silver:['\u{1F948}','Silver','#cbd5e1'],bronze:['\u{1F949}','Bronze','#cd7f32']};
-function tierChipGroupHTML(items,tierKey){
- if(!items.length)return '';
+// Each tier group is ALSO a drop zone (data-tier/data-kind), and always renders -- even with zero
+// items -- so an empty tier still has somewhere to drag a chip into. Dragging a chip from one
+// zone to another within the same medium re-tiers it via moveToTier(), below, which goes through
+// the exact same mutateProfileAndReload path a click on the tier row does -- so a drag-based move
+// recomputes the GOAT match weight exactly as if you'd clicked the old tier off and the new one on.
+function tierChipGroupHTML(kind,items,tierKey){
  var s=TIER_STYLE[tierKey];
- return '<div class="mt-2 first:mt-0"><div class="text-[9.5px] tracking-[.16em] uppercase mb-1 font-bold" style="color:'+s[2]+'">'+s[0]+' '+s[1]+' <span class="text-slate-600 font-normal">('+items.length+')</span></div>'
-  +'<div class="flex flex-wrap gap-1.5">'+items.map(function(x){return '<span class="chip goatJump" data-q="'+esc(x.title)+'" title="Open in Global Controller" style="color:'+s[2]+';border-color:'+s[2]+'55;cursor:pointer">'+esc(x.title)+'</span>';}).join('')+'</div></div>';
+ var body=items.length
+  ?items.map(function(x){return '<span class="chip goatJump tierDragChip" draggable="true" data-q="'+esc(x.title)+'" data-drag-id="'+x.id+'" data-drag-kind="'+kind+'" title="Click to open in Global Controller, or drag to Gold/Silver/Bronze below to re-tier" style="color:'+s[2]+';border-color:'+s[2]+'55;cursor:grab">'+esc(x.title)+'</span>';}).join('')
+  :'<span class="text-[10.5px] text-slate-600 italic">drag a title here to make it '+s[1]+'</span>';
+ return '<div class="mt-2 first:mt-0 tierDropZone rounded-lg -m-1 p-1" data-tier="'+tierKey+'" data-kind="'+kind+'"><div class="text-[9.5px] tracking-[.16em] uppercase mb-1 font-bold" style="color:'+s[2]+'">'+s[0]+' '+s[1]+' <span class="text-slate-600 font-normal">('+items.length+')</span></div>'
+  +'<div class="flex flex-wrap gap-1.5 min-h-[24px]">'+body+'</div></div>';
 }
 function declaredCategoryHTML(d){
  var kind=CORPUS_CANON_KIND[d.cat];
@@ -1364,11 +1371,13 @@ function declaredCategoryHTML(d){
    +'<div class="flex flex-wrap gap-1.5 mt-2">'+d.items.map(it=>'<span class="chip'+(it.q?' goatJump':'')+'"'+(it.q?' data-q="'+esc(it.q)+'" title="Open in Global Controller" style="color:#fde68a;border-color:#fbbf2455;cursor:pointer"':' style="color:#fde68a;border-color:#fbbf2455"')+'>'+esc(it.name)+(it.note?' <span class="text-slate-500">\u00b7 '+esc(it.note)+'</span>':'')+'</span>').join('')+'</div></div>';
  }
  var pool=ALL.filter(function(x){return x.kind===kind;});
- var body=tierChipGroupHTML(pool.filter(function(x){return x.goat;}),'gold')
-  +tierChipGroupHTML(pool.filter(function(x){return x.silver;}),'silver')
-  +tierChipGroupHTML(pool.filter(function(x){return x.bronze;}),'bronze');
- if(!body)body='<div class="text-[11px] text-slate-500">None declared yet \u2014 search above to tier some.</div>';
- return '<div class="panel p-3.5" style="border-color:#47556933"><div class="lbl" style="color:#e2e8f0">'+esc(d.cat)+'</div>'+body+'</div>';
+ var anyTiered=pool.some(function(x){return x.goat||x.silver||x.bronze;});
+ var body=tierChipGroupHTML(kind,pool.filter(function(x){return x.goat;}),'gold')
+  +tierChipGroupHTML(kind,pool.filter(function(x){return x.silver;}),'silver')
+  +tierChipGroupHTML(kind,pool.filter(function(x){return x.bronze;}),'bronze');
+ return '<div class="panel p-3.5" style="border-color:#47556933"><div class="lbl" style="color:#e2e8f0">'+esc(d.cat)+'</div>'
+  +(anyTiered?'':'<div class="text-[11px] text-slate-500 mt-1">None declared yet \u2014 search above to tier some.</div>')
+  +body+'</div>';
 }
 // The four corpus categories are shown whenever the profile has ANY tiered work in them, even if
 // declaredCanon never mentions that category. Previously this list came only from declaredCanon,
@@ -1436,6 +1445,18 @@ function renderGoatSearchResults(q){
 }
 on('#goatSearchInput','input',e=>{renderGoatSearchResults(e.target.value);});
 on('#goatSearchResults','click',e=>{const pe=e.target.closest('.profEditBtn');if(pe)handleProfileEditClick(pe);});
+// Drag-and-drop between a medium's own Gold/Silver/Bronze columns (see tierChipGroupHTML/
+// moveToTier above). Scoped to #goatDeclared and, within it, to drop zones sharing the dragged
+// chip's own data-drag-kind -- a chip can only ever land in a same-medium zone since each
+// category panel only contains its own kind's zones, but the explicit kind check also makes a
+// same-panel-only drag obvious from the code, not just true by construction.
+on('#goatDeclared','dragstart',e=>{const chip=e.target.closest('.tierDragChip');if(!chip)return;e.dataTransfer.setData('text/plain',chip.dataset.dragId);e.dataTransfer.effectAllowed='move';});
+on('#goatDeclared','dragover',e=>{const zone=e.target.closest('.tierDropZone');if(!zone)return;e.preventDefault();e.dataTransfer.dropEffect='move';});
+on('#goatDeclared','drop',e=>{const zone=e.target.closest('.tierDropZone');if(!zone)return;e.preventDefault();
+ const id=e.dataTransfer.getData('text/plain');if(!id)return;
+ const x=byId.get(id);if(!x||x.kind!==zone.dataset.kind)return;
+ moveToTier(id,zone.dataset.tier);
+});
 function goatJumpTo(q){
  state.q=q;$('#q').value=q;
  state.type='all';$$('#typeSeg button').forEach(x=>x.classList.toggle('on',x.dataset.type==='all'));
@@ -1546,7 +1567,7 @@ function renderFamilyLens(){
   var owned=members.filter(function(x){return x.owned;}).length;
   var topGm=Math.max.apply(null,members.map(function(x){return x.gm;}));
   return {name:name,total:members.length,owned:owned,topGm:topGm};
- }).filter(Boolean).sort(function(a,b){return b.total-a.total;});
+ }).filter(Boolean).sort(function(a,b){return a.name.localeCompare(b.name);});
  el.innerHTML=rows.map(function(r){
   var col=FAMILY_COLORS[r.name]||'#94a3b8';
   var pct=Math.round(r.owned/r.total*100);
@@ -1613,7 +1634,7 @@ function renderPortraitGaps(){
    .filter(x=>{if(seen[x.title])return false;seen[x.title]=1;return true;})
    .slice(0,12);
  $('#portraitGaps').innerHTML=gaps.map(x=>{const k=KM[x.kind];const thinFam=(x.fam||[]).find(f=>thin.includes(f))||'';
-  return '<div class="panel p-2.5"><div class="flex items-center gap-2"><span class="w-1.5 h-1.5 rounded-full shrink-0" style="background:'+k.c+'"></span>'
+  return '<div class="panel p-2.5 goatJump cursor-pointer" data-q="'+esc(x.title)+'" title="Open in Global Controller"><div class="flex items-center gap-2"><span class="w-1.5 h-1.5 rounded-full shrink-0" style="background:'+k.c+'"></span>'
    +'<span class="flex-1 min-w-0 truncate text-[12px] text-slate-200">'+esc(x.title)+' <span class="text-slate-500 text-[10px]">'+x.year+'</span></span>'
    +'<span class="text-[11px] font-bold tabular-nums" style="color:'+k.c+'">'+x.ovr+'</span></div>'
    +(thinFam?'<div class="text-[10px] text-slate-500 mt-1 ml-3.5 truncate">'+esc(k.label)+' \u00b7 '+esc(thinFam)+'</div>':'')+'</div>';}).join('')
@@ -2237,6 +2258,24 @@ function toggleBronzeTier(id){
   p.bronzeTierIds=p.bronzeTierIds||[];
   const i=p.bronzeTierIds.indexOf(id);
   if(i>=0)p.bronzeTierIds.splice(i,1);else p.bronzeTierIds.push(id);
+ });
+}
+// Drag-and-drop re-tiering (GOAT Profile's per-medium Gold/Silver/Bronze columns): moves `id`
+// cleanly into exactly `targetTier`, removing it from whichever of the three lists it was already
+// in first -- the same net effect as clicking the old tier button off and the new one on, done as
+// one profile mutation/reload instead of two, so the GOAT match weight lands on the target tier's
+// value directly rather than passing through "untiered" in between.
+function moveToTier(id,targetTier){
+ var x=byId.get(id);if(!x)return;
+ var currentTier=x.goat?'gold':x.silver?'silver':x.bronze?'bronze':null;
+ if(currentTier===targetTier)return;
+ mutateProfileAndReload(function(p){
+  p.declaredGoatIds=(p.declaredGoatIds||[]).filter(function(i){return i!==id;});
+  p.silverTierIds=(p.silverTierIds||[]).filter(function(i){return i!==id;});
+  p.bronzeTierIds=(p.bronzeTierIds||[]).filter(function(i){return i!==id;});
+  if(targetTier==='gold')p.declaredGoatIds.push(id);
+  else if(targetTier==='silver')p.silverTierIds.push(id);
+  else if(targetTier==='bronze')p.bronzeTierIds.push(id);
  });
 }
 function boostBookAffinity(id){
@@ -2976,8 +3015,13 @@ on('#creatorGrid','keydown',e=>{if(e.key!=='Enter'&&e.key!==' ')return;const f=e
 // filters this same array) start in a-z order, so a slider's position is predictable without
 // having to scan every entry first.
 const INDEX_DEFS=[['ref','4K Reference','#818cf8'],['aud','Audience Score','#4ade80'],['awe','Awe / Spectacle','#fbbf24'],['perf','Best Performances','#fda4af'],['cozy','Comfort / Cozy','#34d399'],['ch','Cosmic Horror','#c084fc'],['crit','Critical Score','#94a3b8'],['emo','Emotional / Sad','#f0abfc'],['funny','Funniest','#fde047'],['shock','Genuine Shock','#fb923c'],['hist','Historically Accurate','#a3e635'],['icon','Iconicness','#fcd34d'],['real','Realism','#86efac'],['reality','Reality-Altering','#c4b5fd'],['scary','Scariest','#f87171'],['sci','Scientific','#67e8f9'],['snd','Soundtrack / Audio','#7dd3fc'],['tech','Technical Craft','#a5b4fc'],['vibe2','Vibe / Atmosphere','#e879f9']];
+// Alphabetical display order for genre families -- a separate sorted copy, not a reorder of
+// GENRE_FAMILIES itself, since that array's order also decides which family wins as fam[0] (the
+// "primary" family) for a work matching more than one regex, which pickSeedCandidates and others
+// rely on. Sorting the source array would silently change that unrelated behavior.
+const GENRE_FAMILIES_AZ=GENRE_FAMILIES.slice().sort((a,b)=>a[0].localeCompare(b[0]));
 function buildGenreChips(){
- $('#genreChips').innerHTML=GENRE_FAMILIES.map(f=>{const name=f[0],n=GENRE_COUNTS[name]||0;if(!n)return '';
+ $('#genreChips').innerHTML=GENRE_FAMILIES_AZ.map(f=>{const name=f[0],n=GENRE_COUNTS[name]||0;if(!n)return '';
   const on=state.genres.includes(name);
   return '<button type="button" class="chip genreChip" data-g="'+esc(name)+'" style="cursor:pointer;'+(on?'color:#0B0F19;background:#a5b4fc;border-color:#a5b4fc;font-weight:700':'')+'">'+esc(name)+' <span style="opacity:.6">'+n+'</span></button>';}).join('');
 }
