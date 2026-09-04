@@ -6,7 +6,8 @@ current one, and it is deliberately written so a session that has never seen the
 it up cold. Update it at the end of every phase.
 
 **Owner:** Payton. **Branch:** `claude/omni-media-ledger-audit-mrsljq`.
-**Status:** Phase 0 complete and pushed. Phase 1 not started.
+**Status:** Phase 0 complete. Phase 1 drafted (`RUBRIC.md`) — **blocked on the owner's sign-off**
+on the anchors and five open questions. Phase 2 onward not started.
 
 ---
 
@@ -165,10 +166,18 @@ onward**, while the owner is making the calls — not reconstructed at the end.
 - **Phase 0 — Instrumentation. DONE.** `scripts/score-snapshot.js` (derived-value snapshot + diff,
   read from the real app via `window.ALL`, `--profile pk|blank`) and `scripts/corpus-metrics.js`
   (drift, separation, recency bias). Commit `ba147b6`.
-- **Phase 1 — `RUBRIC.md`. NEXT.** All four constructs defined separately. Five anchor works per
-  index at 95/80/65/50/25, proposed by Claude, **adjudicated by the owner**. Self-test: re-score 30
-  random works from the rubric alone with current values hidden, twice in separate contexts;
-  needs ±5 agreement on 26+/30 before it is fit to use.
+- **Phase 1 — `RUBRIC.md`. DRAFTED, AWAITING SIGN-OFF.** Commit `f4cfa5d`. All four constructs
+  defined separately with "this is NOT" lists; five proposed anchor works per index; the derived
+  indices' hand-tuned override tables brought under the same rubric.
+  **Blind self-test, pass 1 done** (20 films, stratified across all ten ID deciles, current values
+  withheld until after scoring): mean absolute difference from the current corpus **9.9 points**,
+  13/20 within 10, 4/20 moved 20+. The important result is the direction — early deciles scored
+  **lower** under the rubric (−8 to −15.5) and late deciles **higher** (+5 to +12.5), i.e. applied
+  blind, the rubric moves scores the way that *reduces* batch drift. n=2 per decile, so suggestive
+  rather than conclusive.
+  **Still outstanding:** (a) the owner's ruling on the anchors and the five open questions in
+  RUBRIC.md; (b) reproducibility pass 2 — must run in a **fresh session**, since the session that
+  did pass 1 remembers its answers and cannot re-score blind. Target ±5 on 26+/30.
 - **Phase 2 — Cheap engine fixes.** E2, E5, E7, E6, plus decision 4's craft-term change. One commit
   each; repo convention — add the check, revert the fix, confirm the check fails. E1 and E4 wait
   for the rubric. E3 defers to Phase 4 (see decision 5).
