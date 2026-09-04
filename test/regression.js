@@ -1351,11 +1351,25 @@ async function runAccountFlow(browser, file) {
     // SECOND, manual refresh, which is exactly what this walks through: declare, let the app
     // reload, then reload again by hand and confirm the pick is still there.
     const bronzeCardId = await firstCardId(page2);
+    // Let the sync layer go quiet before pretending the cloud has started dropping writes.
+    //
+    // Profile writes are serialised on one chain (pushChain in index.html) and ANY successful push
+    // calls clearPending(). A push still in flight when the flag flips therefore succeeds, lands
+    // after the bronze edit below, and clears the pending mark that edit had just set -- so the
+    // check reads "the app reported a silently-dropped write as saved" when the app did nothing
+    // wrong. That is the check that failed on CI while passing locally.
+    //
+    // Order matters: flip the flag FIRST, then drain. Anything already in flight or already
+    // scheduled resolves inside that window, while there is still nothing pending for it to clear.
+    // Draining before the flag would leave the same push free to resolve after the edit instead.
+    await readWhen(page2, () => localStorage.getItem('omniLedgerPendingSync') !== '1', undefined, 10000);
     await page2.evaluate(() => {
       const db = JSON.parse(sessionStorage.getItem('__mockDb'));
       db.silentlyDropProfileUpserts = true;
       sessionStorage.setItem('__mockDb', JSON.stringify(db));
     });
+    await page2.waitForTimeout(2000); // > the 1500ms scheduleCloudSync debounce
+    await readWhen(page2, () => localStorage.getItem('omniLedgerPendingSync') !== '1', undefined, 10000);
     await clickAndReload(page2, '.panel .profEditBtn[data-act="bronze"][data-id="' + bronzeCardId + '"]');
     const bronzeRightAfterClick = await page2.evaluate((id) => {
       try { return (JSON.parse(localStorage.getItem('omniLedgerProfile') || '{}').bronzeTierIds || []).includes(id); }
@@ -1401,11 +1415,16 @@ async function runAccountFlow(browser, file) {
     // ON CONFLICT DO UPDATE: 2xx, no error, zero rows written) has to be caught too -- this is the
     // shape a real Supabase project reports when its policies are wrong, and the only evidence is
     // the empty result set, which the app could not see at all before it asked for the rows back.
+    // Same quiesce, same reason: a push still in flight from the heal above would succeed and
+    // clear the pending mark the next edit sets.
+    await readWhen(page2, () => localStorage.getItem('omniLedgerPendingSync') !== '1', undefined, 10000);
     await page2.evaluate(() => {
       const db = JSON.parse(sessionStorage.getItem('__mockDb'));
       db.refuseProfileWritesSilently = true;
       sessionStorage.setItem('__mockDb', JSON.stringify(db));
     });
+    await page2.waitForTimeout(2000); // > the 1500ms scheduleCloudSync debounce
+    await readWhen(page2, () => localStorage.getItem('omniLedgerPendingSync') !== '1', undefined, 10000);
     await clickAndReload(page2, '.panel .profEditBtn[data-act="silver"][data-id="' + bronzeCardId + '"]');
     const pendingAfterRefusal = !!(await readWhen(page2,
       () => localStorage.getItem('omniLedgerPendingSync') === '1', undefined, 8000));
