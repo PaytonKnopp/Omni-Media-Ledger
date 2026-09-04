@@ -97,7 +97,7 @@ function wlSetWatched(id,v){if(WL[id]){WL[id].watched=v;wlSave();}}
 function wlCount(){return Object.keys(WL).length;}
 
 /* ===================== STATE & HELPERS ===================== */
-const state={view:'controller',q:'',type:'all',struct:'all',plats:[],minDread:0,minMyst:0,minGoat:0,runtimeMax:0,genres:[],genresExclude:[],ownedOnly:false,notOwnedOnly:false,limit:100,idx:{snd:0,ref:0,ch:0,emo:0,awe:0,cozy:0,perf:0,icon:0,scary:0,real:0,reality:0,shock:0,sci:0,funny:0,hist:0,vibe2:0,crit:0,aud:0,tech:0},ratings:[],tierFilter:[],yearMin:null,yearMax:null,combine:false,sort:'overall',w:{tech:0.85,dread:0.95,myst:0.90},creatorTab:'directors',creatorSearch:'',goatType:'all',goatTierFilter:'all',goatSort:'match',goatDeclaredQ:'',portraitScope:'all',collSearchQ:'',wlType:'all',wlSort:'added',wlSearchQ:'',creatorSearchScope:'all',creatorSort:'default'};
+const state={view:'controller',q:'',type:'all',struct:'all',plats:[],minGoat:0,genres:[],genresExclude:[],ownedOnly:false,notOwnedOnly:false,limit:100,idx:{snd:0,ref:0,ch:0,emo:0,awe:0,cozy:0,perf:0,icon:0,scary:0,real:0,reality:0,shock:0,sci:0,funny:0,hist:0,vibe2:0,crit:0,aud:0,tech:0,dread:0,myst:0,runtime:0},ratings:[],tierFilter:[],yearMin:null,yearMax:null,combine:false,sort:'overall',w:{tech:0.85,dread:0.95,myst:0.90},creatorTab:'directors',creatorSearch:'',goatType:'all',goatTierFilter:'all',goatSort:'match',goatDeclaredQ:'',portraitScope:'all',collSearchQ:'',wlType:'all',wlSort:'added',wlSearchQ:'',creatorSearchScope:'all',creatorSort:'default'};
 const $=s=>document.querySelector(s),$$=s=>Array.from(document.querySelectorAll(s));
 const on=(sel,ev,fn)=>{const el=$(sel);if(el)el.addEventListener(ev,fn);else console.warn('missing element:',sel);};
 const esc=s=>String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
@@ -110,7 +110,7 @@ const THEME_PALETTE=['#a78bfa','#38bdf8','#fb7185','#4ade80','#fbbf24','#e879f9'
 function themeColor(s){let h=0;for(let i=0;i<s.length;i++)h=(h*31+s.charCodeAt(i))|0;return THEME_PALETTE[Math.abs(h)%THEME_PALETTE.length];}
 const SORTS={overall:(a,b)=>(b.ovr-a.ovr)||(b.crit-a.crit),cosmic:(a,b)=>(b.ch-a.ch)||(b.dread-a.dread),sound:(a,b)=>(b.snd-a.snd)||(b.crit-a.crit),ref4k:(a,b)=>(b.ref-a.ref)||(b.crit-a.crit),emotion:(a,b)=>(b.emo-a.emo)||(b.crit-a.crit),awe:(a,b)=>(b.awe-a.awe)||(b.crit-a.crit),comfort:(a,b)=>(b.cozy-a.cozy)||(b.aud-a.aud),perf:(a,b)=>(b.perf-a.perf)||(b.crit-a.crit),icon:(a,b)=>(b.icon-a.icon)||(b.crit-a.crit),scary:(a,b)=>(b.scary-a.scary)||(b.dread-a.dread),real:(a,b)=>(b.real-a.real)||(b.crit-a.crit),reality:(a,b)=>(b.reality-a.reality)||(b.myst-a.myst),shock:(a,b)=>(b.shock-a.shock)||(b.dread-a.dread),sci:(a,b)=>(b.sci-a.sci)||(b.myst-a.myst),funny:(a,b)=>(b.funny-a.funny)||(b.aud-a.aud),hist:(a,b)=>(b.hist-a.hist)||(b.crit-a.crit),vibe2:(a,b)=>(b.vibe2-a.vibe2)||(b.tech-a.tech),blend:(a,b)=>(bespokeScore(b)-bespokeScore(a))||(b.crit-a.crit),crit:(a,b)=>b.crit-a.crit,aud:(a,b)=>b.aud-a.aud,tech:(a,b)=>b.tech-a.tech,dread:(a,b)=>b.dread-a.dread,myst:(a,b)=>b.myst-a.myst,yearNew:(a,b)=>b.year-a.year,yearOld:(a,b)=>a.year-b.year,title:(a,b)=>a.title.localeCompare(b.title),tier:(a,b)=>(tierRank(b)-tierRank(a))||(b.gm-a.gm)};
 
-const IDX_KEYS=['snd','ref','ch','emo','awe','cozy','perf','icon','scary','real','reality','shock','sci','funny','hist','vibe2','crit','aud','tech'];
+const IDX_KEYS=['snd','ref','ch','emo','awe','cozy','perf','icon','scary','real','reality','shock','sci','funny','hist','vibe2','crit','aud','tech','dread','myst'];
 function filtered(){const q=state.q.trim().toLowerCase();
  return ALL.filter(it=>{
   if(state.type!=='all'&&it.kind!==state.type)return false;
@@ -119,8 +119,8 @@ function filtered(){const q=state.q.trim().toLowerCase();
    if(state.struct==='multi'&&it.format!=='Multi-Season Epic')return false;
   }
   if(state.plats.length&&!state.plats.some(p=>it.plats.includes(p)))return false;
-  if(state.runtimeMax>0&&it.kind==='movie'&&it.mins&&it.mins>state.runtimeMax)return false;
-  if(it.tech<state.idx.tech||it.dread<state.minDread||it.myst<state.minMyst||it.gm<state.minGoat)return false;
+  if(state.idx.runtime>0&&it.kind==='movie'&&it.mins&&it.mins>state.idx.runtime)return false;
+  if(it.tech<state.idx.tech||it.gm<state.minGoat)return false;
   if(state.genres.length&&!state.genres.some(g=>it.fam.includes(g)))return false;
   if(state.genresExclude.length&&state.genresExclude.some(g=>it.fam.includes(g)))return false;
   if(state.ratings.length&&!state.ratings.includes(it.rating))return false;
@@ -156,8 +156,8 @@ function activeDims(){
  if(state.idx.crit>0)d.push(['crit','Critical Score',state.idx.crit]);
  if(state.idx.aud>0)d.push(['aud','Audience Score',state.idx.aud]);
  if(state.idx.tech>0)d.push(['tech','Technical Craft',state.idx.tech]);
- if(state.minDread>0)d.push(['dread','Dread',state.minDread]);
- if(state.minMyst>0)d.push(['myst','Complexity',state.minMyst]);
+ if(state.idx.dread>0)d.push(['dread','Dread',state.idx.dread]);
+ if(state.idx.myst>0)d.push(['myst','Complexity',state.idx.myst]);
  return d;
 }
 function computeMatch(list){
@@ -545,9 +545,9 @@ function renderActiveBar(){
  state.genres.forEach(g=>chips.push(X(esc(g),'genre:'+g)));
  state.genresExclude.forEach(g=>chips.push(X('✕ '+esc(g),'genreEx:'+g)));
  state.ratings.forEach(r=>chips.push(X(esc(r),'rating:'+r)));
- [['minDread','Dread'],['minMyst','Mind'],['minGoat','★ GOAT']].forEach(pr=>{if(state[pr[0]]>0)chips.push(X(pr[1]+' ≥'+state[pr[0]],pr[0]));});
- if(state.runtimeMax>0)chips.push(X('Runtime ≤'+state.runtimeMax+'m','runtime'));
- const IL={snd:'Soundtrack',ref:'4K Ref',ch:'◉ Cosmic',emo:'Emotional',awe:'Awe',cozy:'Comfort',perf:'Performances',icon:'Iconic',scary:'Scariest',real:'Realistic',reality:'Reality-Altering',shock:'Shocking',sci:'Scientific',funny:'Funniest',hist:'Historical',vibe2:'Vibe',crit:'Critical',aud:'Audience',tech:'Technical Craft'};
+ if(state.minGoat>0)chips.push(X('★ GOAT ≥'+state.minGoat,'minGoat'));
+ if(state.idx.runtime>0)chips.push(X('Runtime ≤'+state.idx.runtime+'m','idx:runtime'));
+ const IL={snd:'Soundtrack',ref:'4K Ref',ch:'◉ Cosmic',emo:'Emotional',awe:'Awe',cozy:'Comfort',perf:'Performances',icon:'Iconic',scary:'Scariest',real:'Realistic',reality:'Reality-Altering',dread:'Dread',myst:'Mind',shock:'Shocking',sci:'Scientific',funny:'Funniest',hist:'Historical',vibe2:'Vibe',crit:'Critical',aud:'Audience',tech:'Technical Craft'};
  Object.keys(IL).forEach(k=>{if(state.idx[k]>0)chips.push(X(IL[k]+' ≥'+state.idx[k],'idx:'+k));});
  if(state.yearMin!=null||state.yearMax!=null)chips.push(X('Year '+(state.yearMin||'←')+'–'+(state.yearMax||'→'),'year'));
  if(state.ownedOnly)chips.push(X('◆ Owned only','owned'));
@@ -2169,9 +2169,9 @@ function stateToParams(){
  if(state.ownedOnly)p.set('owned','1');
  if(state.notOwnedOnly)p.set('notowned','1');
  if(state.minGoat)p.set('goat',state.minGoat);
- if(state.minDread)p.set('dread',state.minDread);
- if(state.minMyst)p.set('myst',state.minMyst);
- if(state.runtimeMax)p.set('runtime',state.runtimeMax);
+ if(state.idx.dread)p.set('dread',state.idx.dread);
+ if(state.idx.myst)p.set('myst',state.idx.myst);
+ if(state.idx.runtime)p.set('runtime',state.idx.runtime);
  if(state.struct&&state.struct!=='all')p.set('struct',state.struct);
  if(state.combine)p.set('and','1');
  if(state.yearMin!=null)p.set('ymin',state.yearMin);
@@ -2213,9 +2213,9 @@ function paramsToState(){
   if(p.has('owned'))state.ownedOnly=p.get('owned')==='1';
   if(p.has('notowned'))state.notOwnedOnly=p.get('notowned')==='1';
   if(p.has('goat'))state.minGoat=+p.get('goat')||0;
-  if(p.has('dread'))state.minDread=+p.get('dread')||0;
-  if(p.has('myst'))state.minMyst=+p.get('myst')||0;
-  if(p.has('runtime'))state.runtimeMax=+p.get('runtime')||0;
+  if(p.has('dread'))state.idx.dread=+p.get('dread')||0;
+  if(p.has('myst'))state.idx.myst=+p.get('myst')||0;
+  if(p.has('runtime'))state.idx.runtime=+p.get('runtime')||0;
   if(p.has('struct'))state.struct=p.get('struct');
   if(p.has('and'))state.combine=p.get('and')==='1';
   if(p.has('ymin'))state.yearMin=+p.get('ymin');
@@ -2261,8 +2261,7 @@ function scheduleURLSync(){
 function applyStateToStaticControls(){
  var qi=$('#q');if(qi)qi.value=state.q;
  $$('#typeSeg button').forEach(function(b){b.classList.toggle('on',b.dataset.type===state.type);});
- [['minGoat','minGoatV'],['minDread','minDreadV'],['minMyst','minMystV']].forEach(function(p){var el=$('#'+p[0]);if(el){el.value=state[p[0]];var v=$('#'+p[1]);if(v)v.textContent=state[p[0]];}});
- var rt=$('#runtimeMax');if(rt){rt.value=state.runtimeMax;var rv=$('#runtimeMaxV');if(rv)rv.textContent=state.runtimeMax>0?state.runtimeMax+'m':'Any';}
+ var mg=$('#minGoat');if(mg){mg.value=state.minGoat;var mgv=$('#minGoatV');if(mgv)mgv.textContent=state.minGoat;}
  var ss=$('#structSel');if(ss)ss.value=state.struct;
  var cm=$('#combineMode');if(cm)cm.checked=state.combine;
  var ot=$('#ownedToggle');if(ot)ot.checked=state.ownedOnly;
@@ -2445,9 +2444,7 @@ on('#spinPool','click',e=>{const b=e.target.closest('button');if(!b)return;spinS
 on('#spinGo','click',doSpin);
 on('#rabbitBtn','click',()=>{var panel=$('#surprisePanel');var sc=$('#surpriseScope');if(sc)sc.classList.add('hidden');var showing=!panel.classList.contains('hidden')&&panel.dataset.mode==='rabbit';if(showing){panel.classList.add('hidden');panel.innerHTML='';panel.dataset.mode='';$('#rabbitBtn').setAttribute('aria-expanded','false');return;}var pool=filtered();if(!pool.length)pool=ALL;var top=pool.slice().sort((a,b)=>b.gm-a.gm).slice(0,20);var seed=top[Math.floor(Math.random()*top.length)];renderRabbitHole(seed.id);$('#rabbitBtn').setAttribute('aria-expanded','true');});
 
-[['minDread','minDreadV'],['minMyst','minMystV'],['minGoat','minGoatV']].forEach(p=>{
- $('#'+p[0]).addEventListener('input',e=>{state[p[0]]=+e.target.value;$('#'+p[1]).textContent=e.target.value;refresh();});});
-on('#runtimeMax','input',e=>{state.runtimeMax=+e.target.value;$('#runtimeMaxV').textContent=state.runtimeMax>0?state.runtimeMax+'m':'Any';syncAdvCount();refresh();});
+on('#minGoat','input',e=>{state.minGoat=+e.target.value;$('#minGoatV').textContent=e.target.value;refresh();});
 // Live match-count preview: a small floating bubble that tracks the thumb of whichever threshold
 // slider you're dragging (mouse or keyboard), showing how many works match right now -- so you can
 // feel where a threshold matters without looking away to the result count under the search bar.
@@ -2461,7 +2458,7 @@ on('#runtimeMax','input',e=>{state.runtimeMax=+e.target.value;$('#runtimeMaxV').
  bubble.style.cssText='position:fixed;z-index:1200;pointer-events:none;left:0;top:0;transform:translate(-50%,-135%);background:#0f1626;border:1px solid #334155;border-radius:8px;padding:4px 10px;font-size:11px;font-weight:700;color:#5eead4;box-shadow:0 4px 14px rgba(0,0,0,.45);white-space:nowrap;display:none;opacity:0;transition:opacity .12s ease';
  document.body.appendChild(bubble);
  var hideT=null;
- function isLiveSlider(t){return !!(t&&t.tagName==='INPUT'&&t.type==='range'&&(t.classList.contains('idxSlider')||['minGoat','minDread','minMyst','runtimeMax'].indexOf(t.id)>=0));}
+ function isLiveSlider(t){return !!(t&&t.tagName==='INPUT'&&t.type==='range'&&(t.classList.contains('idxSlider')||t.id==='minGoat'));}
  document.addEventListener('input',function(e){
   var t=e.target;if(!isLiveSlider(t))return;
   var r=t.getBoundingClientRect();
@@ -3565,7 +3562,16 @@ on('#creatorGrid','keydown',e=>{if(e.key!=='Enter'&&e.key!==' ')return;const f=e
 // Alphabetical by label -- both Advanced Filters' unpinned list and the pinned main row (which
 // filters this same array) start in a-z order, so a slider's position is predictable without
 // having to scan every entry first.
-const INDEX_DEFS=[['ref','4K Reference','#818cf8'],['aud','Audience Score','#4ade80'],['awe','Awe / Spectacle','#fbbf24'],['perf','Best Performances','#fda4af'],['cozy','Comfort / Cozy','#34d399'],['ch','Cosmic Horror','#c084fc'],['crit','Critical Score','#94a3b8'],['emo','Emotional / Sad','#f0abfc'],['funny','Funniest','#fde047'],['shock','Genuine Shock','#fb923c'],['hist','Historically Accurate','#a3e635'],['icon','Iconicness','#fcd34d'],['real','Realism','#86efac'],['reality','Reality-Altering','#c4b5fd'],['scary','Scariest','#f87171'],['sci','Scientific','#67e8f9'],['snd','Soundtrack / Audio','#7dd3fc'],['tech','Technical Craft','#a5b4fc'],['vibe2','Vibe / Atmosphere','#e879f9']];
+const INDEX_DEFS=[['ref','4K Reference','#818cf8'],['dread','Atmospheric Dread / Immersion','#fb7185'],['aud','Audience Score','#4ade80'],['awe','Awe / Spectacle','#fbbf24'],['perf','Best Performances','#fda4af'],['cozy','Comfort / Cozy','#34d399'],['ch','Cosmic Horror','#c084fc'],['crit','Critical Score','#94a3b8'],['emo','Emotional / Sad','#f0abfc'],['funny','Funniest','#fde047'],['shock','Genuine Shock','#fb923c'],['hist','Historically Accurate','#a3e635'],['icon','Iconicness','#fcd34d'],['myst','Ontological / Systems Complexity','#2dd4bf'],['real','Realism','#86efac'],['reality','Reality-Altering','#c4b5fd'],['runtime','Runtime (movies)','#38bdf8',{max:240,step:5,cap:true,zeroLabel:'Any',unit:'m'}],['scary','Scariest','#f87171'],['sci','Scientific','#67e8f9'],['snd','Soundtrack / Audio','#7dd3fc'],['tech','Technical Craft','#a5b4fc'],['vibe2','Vibe / Atmosphere','#e879f9']];
+// Per-slider options, for the one slider that is not a plain 0-100 floor. Runtime is a CAP in
+// minutes whose 0 means "no limit", so it needs its own max/step and reads as "Any" or "120m"
+// rather than a bare number. Everything else falls through to the defaults.
+const INDEX_OPTS={};INDEX_DEFS.forEach(function(d){INDEX_OPTS[d[0]]=d[3]||{};});
+function idxDisplay(k,v){
+ var o=INDEX_OPTS[k]||{};
+ if(!v&&o.zeroLabel)return o.zeroLabel;
+ return String(v)+(o.unit||'');
+}
 // Alphabetical display order for genre families -- a separate sorted copy, not a reorder of
 // GENRE_FAMILIES itself, since that array's order also decides which family wins as fam[0] (the
 // "primary" family) for a work matching more than one regex, which pickSeedCandidates and others
@@ -3593,13 +3599,18 @@ function pinnedIdxSet(){return new Set(PERSONAL_PROFILE.pinnedIdx||DEFAULT_PINNE
 // Per-index tooltip text where the label alone doesn't make the metric's meaning obvious --
 // Technical Craft in particular blends different components per media type and otherwise looks
 // like an unexplained duplicate of 4K Reference / Soundtrack.
-const IDX_DESC={tech:'A broad craft average, distinct from the more specific 4K Reference and Soundtrack sliders below. Movies & TV: mean of 4K transfer fidelity, audio soundscape and cinematography. Games: mean of engine/graphics performance and art direction. Books: mean of prose craft and idea density.'};
+const IDX_DESC={dread:'Atmospheric dread index for film & TV \u00b7 immersion / tension index for games.',myst:'Ontological complexity for film & TV \u00b7 systems complexity for games. Puzzle-boxes, recursive timelines, deep mechanics.',runtime:'Caps movie runtime -- TV, games and books are unaffected since there is no one comparable length metric across them. Slide to 240+ or leave at Any to turn it off.',tech:'A broad craft average, distinct from the more specific 4K Reference and Soundtrack sliders below. Movies & TV: mean of 4K transfer fidelity, audio soundscape and cinematography. Games: mean of engine/graphics performance and art direction. Books: mean of prose craft and idea density.'};
 function sliderBlockHTML(d,pinned){
  var star='<button type="button" class="pinIdxBtn" data-k="'+d[0]+'" title="'+(pinned?'Unpin from the main filter row':'Pin to the main filter row, so it always shows without opening Advanced Filters')+'" style="cursor:pointer;background:none;border:none;padding:0;line-height:1;color:'+(pinned?d[2]:'#475569')+'">📌</button>';
  var desc=IDX_DESC[d[0]];
- var labelSpan='<span class="fieldlbl mb-0 flex items-center gap-1.5'+(desc?' cursor-help':'')+'"'+(desc?' title="'+esc(desc)+'"':'')+' style="color:'+d[2]+'">'+star+' '+d[1]+' ≥</span>';
- return '<div><div class="flex justify-between items-baseline mb-1.5">'+labelSpan+'<span class="text-[12px] font-bold tabular-nums" style="color:'+d[2]+'" id="idxV_'+d[0]+'">'+(state.idx[d[0]]||0)+'</span></div>'
- +'<input type="range" class="idxSlider" data-k="'+d[0]+'" min="0" max="100" value="'+(state.idx[d[0]]||0)+'" aria-label="Minimum '+d[1]+'"/></div>';
+ var o=d[3]||{};
+ // A cap ("≤ 120m") reads the opposite way round from a floor ("≥ 80"), so the operator and the
+ // aria-label follow the slider's own meaning instead of being hardcoded as a minimum.
+ var op=o.cap?' \u2264':' \u2265';
+ var labelSpan='<span class="fieldlbl mb-0 flex items-center gap-1.5'+(desc?' cursor-help':'')+'"'+(desc?' title="'+esc(desc)+'"':'')+' style="color:'+d[2]+'">'+star+' '+d[1]+op+'</span>';
+ var v=state.idx[d[0]]||0;
+ return '<div><div class="flex justify-between items-baseline mb-1.5">'+labelSpan+'<span class="text-[12px] font-bold tabular-nums" style="color:'+d[2]+'" id="idxV_'+d[0]+'">'+idxDisplay(d[0],v)+'</span></div>'
+  +'<input type="range" class="idxSlider" data-k="'+d[0]+'" min="0" max="'+(o.max||100)+'" step="'+(o.step||1)+'" value="'+v+'" aria-label="'+(o.cap?'Maximum ':'Minimum ')+esc(d[1])+'"/></div>';
 }
 function buildIndexSliders(){
  var pinned=pinnedIdxSet();
@@ -3625,7 +3636,7 @@ function syncAdvCount(){
  // Only counts filters that actually live inside the collapsed Advanced panel -- genre, owned/not-
  // owned, and tier moved to the always-visible main row, so they no longer need this badge to
  // surface them.
- let n=state.ratings.length+IDX_KEYS.filter(k=>state.idx[k]>0).length+(state.yearMin!=null||state.yearMax!=null?1:0)+(state.combine?1:0)+(state.runtimeMax>0?1:0);
+ let n=state.ratings.length+IDX_KEYS.filter(k=>state.idx[k]>0).length+(state.yearMin!=null||state.yearMax!=null?1:0)+(state.combine?1:0)+(state.idx.runtime>0?1:0);
  const c=$('#advCount');if(c){c.style.display=n?'inline-flex':'none';c.textContent=n+' on';}
 }
 on('#advToggle','click',()=>{const pnl=$('#advPanel');pnl.classList.toggle('hidden');$('#advCaret').style.transform=pnl.classList.contains('hidden')?'':'rotate(90deg)';});
@@ -3638,7 +3649,7 @@ on('#genreChips','click',e=>{const b=e.target.closest('.genreChip');if(!b)return
 on('#genreClear','click',()=>{state.genres=[];state.genresExclude=[];buildGenreChips();syncAdvCount();refresh();});
 on('#ratingChips','click',e=>{const b=e.target.closest('.ratingChip');if(!b)return;const r=b.dataset.r;const i=state.ratings.indexOf(r);if(i<0)state.ratings.push(r);else state.ratings.splice(i,1);buildRatingChips();syncAdvCount();refresh();});
 on('#ratingClear','click',()=>{state.ratings=[];buildRatingChips();syncAdvCount();refresh();});
-function handleIdxSliderInput(e){const sl=e.target.closest('.idxSlider');if(!sl)return;const k=sl.dataset.k;state.idx[k]=+sl.value;$('#idxV_'+k).textContent=sl.value;syncAdvCount();refresh();}
+function handleIdxSliderInput(e){const sl=e.target.closest('.idxSlider');if(!sl)return;const k=sl.dataset.k;state.idx[k]=+sl.value;const v=$('#idxV_'+k);if(v)v.textContent=idxDisplay(k,+sl.value);syncAdvCount();refresh();}
 on('#indexSliders','input',handleIdxSliderInput);
 on('#pinnedMainSliders','input',handleIdxSliderInput);
 function handlePinBtnClick(e){const b=e.target.closest('.pinIdxBtn');if(!b)return;togglePinIdx(b.dataset.k);}
@@ -3665,7 +3676,6 @@ on('#activeBar','click',e=>{
  else if(c==='type'){state.type='all';$$('#typeSeg button').forEach(x=>x.classList.toggle('on',x.dataset.type==='all'));}
  else if(c==='struct'){state.struct='all';$('#structSel').value='all';}
  else if(c.indexOf('plat:')===0){const p=c.slice(5);state.plats=state.plats.filter(x=>x!==p);updatePlatLabel();}
- else if(c==='runtime'){state.runtimeMax=0;const rs=$('#runtimeMax');if(rs)rs.value=0;const rv=$('#runtimeMaxV');if(rv)rv.textContent='Any';}
  else if(c==='year'){state.yearMin=state.yearMax=null;$('#yearMin').value='';$('#yearMax').value='';}
  else if(c==='owned'){state.ownedOnly=false;const o=$('#ownedToggle');if(o)o.checked=false;}
  else if(c==='notowned'){state.notOwnedOnly=false;const no=$('#notOwnedToggle');if(no)no.checked=false;}
@@ -3673,20 +3683,18 @@ on('#activeBar','click',e=>{
  else if(c.indexOf('genre:')===0){const g=c.slice(6);state.genres=state.genres.filter(x=>x!==g);buildGenreChips();}
  else if(c.indexOf('genreEx:')===0){const g=c.slice(8);state.genresExclude=state.genresExclude.filter(x=>x!==g);buildGenreChips();}
  else if(c.indexOf('rating:')===0){const r=c.slice(7);state.ratings=state.ratings.filter(x=>x!==r);buildRatingChips();}
- else if(c.indexOf('idx:')===0){const k=c.slice(4);state.idx[k]=0;const sl=$$('.idxSlider').find(s=>s.dataset.k===k);if(sl)sl.value=0;$('#idxV_'+k).textContent='0';}
- else if(['minDread','minMyst','minGoat'].indexOf(c)>=0){state[c]=0;$('#'+c).value=0;const vmap={minDread:'minDreadV',minMyst:'minMystV',minGoat:'minGoatV'};$('#'+vmap[c]).textContent='0';}
+ else if(c.indexOf('idx:')===0){const k=c.slice(4);state.idx[k]=0;const sl=$$('.idxSlider').find(s=>s.dataset.k===k);if(sl)sl.value=0;const vv=$('#idxV_'+k);if(vv)vv.textContent=idxDisplay(k,0);}
+ else if(c==='minGoat'){state.minGoat=0;$('#minGoat').value=0;$('#minGoatV').textContent='0';}
  syncAdvCount();refresh();
 });
 function clearAllFilters(){
- Object.assign(state,{q:'',type:'all',struct:'all',plats:[],minDread:0,minMyst:0,minGoat:0,runtimeMax:0,genres:[],genresExclude:[],ratings:[],ownedOnly:false,notOwnedOnly:false,tierFilter:[],yearMin:null,yearMax:null,combine:false});
+ Object.assign(state,{q:'',type:'all',struct:'all',plats:[],minGoat:0,genres:[],genresExclude:[],ratings:[],ownedOnly:false,notOwnedOnly:false,tierFilter:[],yearMin:null,yearMax:null,combine:false});
  $$('.tierChk').forEach(c=>{c.checked=false;});
- state.idx={snd:0,ref:0,ch:0,emo:0,awe:0,cozy:0,perf:0,icon:0,scary:0,real:0,reality:0,shock:0,sci:0,funny:0,hist:0,vibe2:0,crit:0,aud:0,tech:0};state.ratings=[];
+ state.idx={snd:0,ref:0,ch:0,emo:0,awe:0,cozy:0,perf:0,icon:0,scary:0,real:0,reality:0,shock:0,sci:0,funny:0,hist:0,vibe2:0,crit:0,aud:0,tech:0,dread:0,myst:0,runtime:0};state.ratings=[];
  $('#q').value='';var ss=$('#structSel');if(ss)ss.value='all';updatePlatLabel();
- ['minDread','minMyst','minGoat'].forEach(id=>{$('#'+id).value=0;});
- ['minDreadV','minMystV','minGoatV'].forEach(v=>$('#'+v).textContent='0');
- var rs=$('#runtimeMax');if(rs)rs.value=0;var rv=$('#runtimeMaxV');if(rv)rv.textContent='Any';
+ var mgs=$('#minGoat');if(mgs)mgs.value=0;var mgv2=$('#minGoatV');if(mgv2)mgv2.textContent='0';
  $$('#typeSeg button').forEach(x=>x.classList.toggle('on',x.dataset.type==='all'));
- $$('.idxSlider').forEach(sl=>{sl.value=0;$('#idxV_'+sl.dataset.k).textContent='0';});
+ $$('.idxSlider').forEach(sl=>{sl.value=0;var c=$('#idxV_'+sl.dataset.k);if(c)c.textContent=idxDisplay(sl.dataset.k,0);});
  $('#combineMode').checked=false;const _o=$('#ownedToggle');if(_o)_o.checked=false;const _no=$('#notOwnedToggle');if(_no)_no.checked=false;$('#yearMin').value='';$('#yearMax').value='';
  buildGenreChips();buildRatingChips();syncAdvCount();refresh();
 }
