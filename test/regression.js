@@ -302,6 +302,50 @@ async function runFile(browser, file) {
     check('declared Movies section shows a labeled Gold group', declaredHtml.includes('🥇 Gold') && declaredHtml.includes('Oppenheimer'));
     check('declared Movies section shows a labeled Silver group (previously invisible on this page)', declaredHtml.includes('🥈 Silver') && declaredHtml.includes('The Shining'));
 
+    // Drag-and-drop re-tiering: dragging a chip from its current tier's zone into a different
+    // tier's zone in the same medium's panel should re-tier it exactly like using the tier
+    // buttons would -- Oppenheimer starts Gold in the sample profile, drag it into the Silver
+    // zone of the same (Movies) panel and confirm the profile actually moved it, not just the DOM.
+    const oppId = await page.evaluate(() => {
+      const chip = Array.from(document.querySelectorAll('#goatDeclared .tierDragChip'))
+        .find(c => c.dataset.q === 'Oppenheimer');
+      return chip ? chip.dataset.dragId : null;
+    });
+    check('Oppenheimer renders as a draggable Gold chip in the GOAT Profile', !!oppId);
+    await page.evaluate((id) => {
+      const chip = document.querySelector('#goatDeclared .tierDropZone[data-tier="gold"] .tierDragChip[data-drag-id="' + id + '"]');
+      const silverZone = document.querySelector('#goatDeclared .tierDropZone[data-tier="silver"][data-kind="movie"]');
+      const dt = new DataTransfer();
+      chip.dispatchEvent(new DragEvent('dragstart', { dataTransfer: dt, bubbles: true }));
+      silverZone.dispatchEvent(new DragEvent('drop', { dataTransfer: dt, bubbles: true, cancelable: true }));
+    }, oppId);
+    await page.waitForTimeout(900); // moveToTier reloads the page, same as any other tier change
+    const movedToSilver = await page.evaluate((id) => {
+      try {
+        const p = JSON.parse(localStorage.getItem('omniLedgerProfile'));
+        return !(p.declaredGoatIds || []).includes(id) && (p.silverTierIds || []).includes(id);
+      } catch (e) { return false; }
+    }, oppId);
+    check('dragging a Gold chip into the Silver zone re-tiers it Silver in the saved profile', movedToSilver);
+
+    // Drag it back to Gold the same way, restoring the sample profile for anything downstream
+    // that (like the check above) expects Oppenheimer to still be Gold.
+    await page.evaluate((id) => {
+      const chip = document.querySelector('#goatDeclared .tierDropZone[data-tier="silver"] .tierDragChip[data-drag-id="' + id + '"]');
+      const goldZone = document.querySelector('#goatDeclared .tierDropZone[data-tier="gold"][data-kind="movie"]');
+      const dt = new DataTransfer();
+      chip.dispatchEvent(new DragEvent('dragstart', { dataTransfer: dt, bubbles: true }));
+      goldZone.dispatchEvent(new DragEvent('drop', { dataTransfer: dt, bubbles: true, cancelable: true }));
+    }, oppId);
+    await page.waitForTimeout(900);
+    const movedBackToGold = await page.evaluate((id) => {
+      try {
+        const p = JSON.parse(localStorage.getItem('omniLedgerProfile'));
+        return (p.declaredGoatIds || []).includes(id) && !(p.silverTierIds || []).includes(id);
+      } catch (e) { return false; }
+    }, oppId);
+    check('dragging it back to the Gold zone restores Gold (a real move, not a one-way copy)', movedBackToGold);
+
     // Toggle back to whatever it was before this test touched it, so later checks (and repeat
     // runs) aren't affected by a lingering change to the default profile.
     await page.fill('#goatSearchInput', 'dune');
@@ -373,19 +417,18 @@ async function runFile(browser, file) {
     await page.click('#versionClose');
     await page.waitForTimeout(150);
 
-    // Quick Tips banner: shown once on Global Controller until dismissed, so first-time users
-    // learn cards expand and the compact row can tier without opening a card first.
-    const tipsVisibleInitially = await page.evaluate(() => document.getElementById('quickTips').offsetHeight > 0);
-    check('Quick Tips banner shows on a fresh profile', tipsVisibleInitially);
-    await page.click('#quickTipsClose');
+    // Quick Tips: a small "?" button next to the theme selector opens a popup with the same
+    // pointers the old banner had -- no nav tab, no page space taken up until asked for.
+    const tipsHiddenInitially = await page.evaluate(() => document.getElementById('tipsGate').classList.contains('hidden'));
+    check('Quick Tips popup is closed by default', tipsHiddenInitially);
+    await page.click('#tipsBtn');
     await page.waitForTimeout(150);
-    const tipsHiddenAfterDismiss = await page.evaluate(() => document.getElementById('quickTips').offsetHeight === 0);
-    const dismissalPersisted = await page.evaluate(() => localStorage.getItem('omniLedgerTipsDismissed') === '1');
-    check('dismissing Quick Tips hides it and remembers the dismissal', tipsHiddenAfterDismiss && dismissalPersisted);
-    await page.reload();
-    await page.waitForTimeout(600);
-    const tipsStillHiddenAfterReload = await page.evaluate(() => document.getElementById('quickTips').offsetHeight === 0);
-    check('Quick Tips stays dismissed across a reload', tipsStillHiddenAfterReload);
+    const tipsVisibleAfterClick = await page.evaluate(() => !document.getElementById('tipsGate').classList.contains('hidden'));
+    check('clicking the ? button opens the Quick Tips popup', tipsVisibleAfterClick);
+    await page.click('#tipsClose');
+    await page.waitForTimeout(150);
+    const tipsHiddenAfterClose = await page.evaluate(() => document.getElementById('tipsGate').classList.contains('hidden'));
+    check('closing Quick Tips hides the popup again', tipsHiddenAfterClose);
 
     // Per-work "most relevant 3" front bars: regression for the old behavior where every movie
     // showed the identical Image/Dread/Mind trio, every book the identical Prose/Ideas/Depth trio,

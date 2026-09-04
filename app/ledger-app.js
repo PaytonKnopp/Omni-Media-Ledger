@@ -494,7 +494,7 @@ function cardHTML(it){const k=KM[it.kind];
  +'<button type="button" class="cardHead w-full text-left p-3.5 flex gap-3 items-start" data-id="'+it.id+'">'
  +ring(it.crit,k.c,42)
  +'<div class="flex-1 min-w-0">'
- +'<div class="flex items-center gap-x-2 gap-y-1.5 flex-wrap"><span class="cardTitle text-[13px] font-semibold text-slate-100 leading-tight hover:text-teal-300 cursor-pointer underline decoration-dotted decoration-slate-600 underline-offset-2" data-flip="'+it.id+'" title="Click for a summary and full breakdown">'+esc(it.title)+'</span><span class="chip" style="color:'+k.c+';border-color:'+k.c+'44">'+k.label+'</span><span class="chip" style="color:#5eead4;border-color:#5eead455">'+esc(it.rating)+'</span>'+(it.owned?'<span class="chip" style="color:#0B0F19;background:#4ade80;border-color:#4ade80;font-weight:800;letter-spacing:.02em" title="In your physical collection">\u2713 OWNED'+(it.physFormat?' \u00b7 '+esc(it.physFormat):'')+'</span>':'')+'<span class="chip" style="color:#fbbf24;border-color:#fbbf2444" title="GOAT match /100">\u2605 '+it.gm+'</span>'+(window._blendActive?'<span class="chip" style="color:#0B0F19;background:#34d399;border-color:#34d399;font-weight:800" title="Weighted blend match">\u2696 '+bespokeScore(it).toFixed(0)+'%</span>':'')+(it.chFlag?'<span class="chip" style="color:#0B0F19;background:#c084fc;border-color:#c084fc;font-weight:700">\u25c9 CANON 100</span>':(it.ch>=70?'<span class="chip" style="color:#c084fc;border-color:#c084fc44">\u25c9 '+it.ch+'</span>':''))+'</div>'
+ +'<div class="flex items-center gap-x-2 gap-y-1.5 flex-wrap"><span class="cardTitle text-[13px] font-semibold text-slate-100 leading-tight hover:text-teal-300 cursor-pointer underline decoration-dotted decoration-slate-600 underline-offset-2" data-flip="'+it.id+'" title="Click for a summary and full breakdown">'+esc(it.title)+'</span><span class="chip" style="color:'+k.c+';border-color:'+k.c+'44">'+k.label+'</span><span class="chip" style="color:#5eead4;border-color:#5eead455">'+esc(it.rating)+'</span>'+'<span class="chip" style="color:#fbbf24;border-color:#fbbf2444" title="GOAT match /100">\u2605 '+it.gm+'</span>'+(window._blendActive?'<span class="chip" style="color:#0B0F19;background:#34d399;border-color:#34d399;font-weight:800" title="Weighted blend match">\u2696 '+bespokeScore(it).toFixed(0)+'%</span>':'')+(it.chFlag?'<span class="chip" style="color:#0B0F19;background:#c084fc;border-color:#c084fc;font-weight:700">\u25c9 CANON 100</span>':(it.ch>=70?'<span class="chip" style="color:#c084fc;border-color:#c084fc44">\u25c9 '+it.ch+'</span>':''))+'</div>'
  +'<div class="text-[11px] text-slate-400 mt-1.5 truncate" title="'+esc(it.creator)+' · '+esc(it.org)+'">'+it.year+' · '+esc(it.creator)+' · '+esc(it.span)+'</div>'
  +'<div class="mt-2 space-y-1 cardMicro" title="This work\'s 3 strongest indices out of ~19 tracked -- click the card to see all of them">'+frontBars(it)+'</div>'
  +'</div><span class="text-slate-600 text-xs mt-1" aria-hidden="true">&#9662;</span></button>'+'<button type="button" class="wlBtn absolute top-2 right-2 text-base leading-none transition-transform hover:scale-125" data-wl="'+it.id+'" title="Toggle watchlist" style="color:'+(wlHas(it.id)?'#fb7185':'#475569')+'">'+(wlHas(it.id)?'\u2665':'\u2661')+'</button>'
@@ -1350,11 +1350,18 @@ function renderTasteDNA(){
 // have no tier concept, so they keep the original flat "declared" rendering.
 var CORPUS_CANON_KIND={Movies:'movie',Books:'book','TV Shows':'tv','Video Game':'game'};
 var TIER_STYLE={gold:['\u{1F947}','Gold','#fbbf24'],silver:['\u{1F948}','Silver','#cbd5e1'],bronze:['\u{1F949}','Bronze','#cd7f32']};
-function tierChipGroupHTML(items,tierKey){
- if(!items.length)return '';
+// Each tier group is ALSO a drop zone (data-tier/data-kind), and always renders -- even with zero
+// items -- so an empty tier still has somewhere to drag a chip into. Dragging a chip from one
+// zone to another within the same medium re-tiers it via moveToTier(), below, which goes through
+// the exact same mutateProfileAndReload path a click on the tier row does -- so a drag-based move
+// recomputes the GOAT match weight exactly as if you'd clicked the old tier off and the new one on.
+function tierChipGroupHTML(kind,items,tierKey){
  var s=TIER_STYLE[tierKey];
- return '<div class="mt-2 first:mt-0"><div class="text-[9.5px] tracking-[.16em] uppercase mb-1 font-bold" style="color:'+s[2]+'">'+s[0]+' '+s[1]+' <span class="text-slate-600 font-normal">('+items.length+')</span></div>'
-  +'<div class="flex flex-wrap gap-1.5">'+items.map(function(x){return '<span class="chip goatJump" data-q="'+esc(x.title)+'" title="Open in Global Controller" style="color:'+s[2]+';border-color:'+s[2]+'55;cursor:pointer">'+esc(x.title)+'</span>';}).join('')+'</div></div>';
+ var body=items.length
+  ?items.map(function(x){return '<span class="chip goatJump tierDragChip" draggable="true" data-q="'+esc(x.title)+'" data-drag-id="'+x.id+'" data-drag-kind="'+kind+'" title="Click to open in Global Controller, or drag to Gold/Silver/Bronze below to re-tier" style="color:'+s[2]+';border-color:'+s[2]+'55;cursor:grab">'+esc(x.title)+'</span>';}).join('')
+  :'<span class="text-[10.5px] text-slate-600 italic">drag a title here to make it '+s[1]+'</span>';
+ return '<div class="mt-2 first:mt-0 tierDropZone rounded-lg -m-1 p-1" data-tier="'+tierKey+'" data-kind="'+kind+'"><div class="text-[9.5px] tracking-[.16em] uppercase mb-1 font-bold" style="color:'+s[2]+'">'+s[0]+' '+s[1]+' <span class="text-slate-600 font-normal">('+items.length+')</span></div>'
+  +'<div class="flex flex-wrap gap-1.5 min-h-[24px]">'+body+'</div></div>';
 }
 function declaredCategoryHTML(d){
  var kind=CORPUS_CANON_KIND[d.cat];
@@ -1364,11 +1371,13 @@ function declaredCategoryHTML(d){
    +'<div class="flex flex-wrap gap-1.5 mt-2">'+d.items.map(it=>'<span class="chip'+(it.q?' goatJump':'')+'"'+(it.q?' data-q="'+esc(it.q)+'" title="Open in Global Controller" style="color:#fde68a;border-color:#fbbf2455;cursor:pointer"':' style="color:#fde68a;border-color:#fbbf2455"')+'>'+esc(it.name)+(it.note?' <span class="text-slate-500">\u00b7 '+esc(it.note)+'</span>':'')+'</span>').join('')+'</div></div>';
  }
  var pool=ALL.filter(function(x){return x.kind===kind;});
- var body=tierChipGroupHTML(pool.filter(function(x){return x.goat;}),'gold')
-  +tierChipGroupHTML(pool.filter(function(x){return x.silver;}),'silver')
-  +tierChipGroupHTML(pool.filter(function(x){return x.bronze;}),'bronze');
- if(!body)body='<div class="text-[11px] text-slate-500">None declared yet \u2014 search above to tier some.</div>';
- return '<div class="panel p-3.5" style="border-color:#47556933"><div class="lbl" style="color:#e2e8f0">'+esc(d.cat)+'</div>'+body+'</div>';
+ var anyTiered=pool.some(function(x){return x.goat||x.silver||x.bronze;});
+ var body=tierChipGroupHTML(kind,pool.filter(function(x){return x.goat;}),'gold')
+  +tierChipGroupHTML(kind,pool.filter(function(x){return x.silver;}),'silver')
+  +tierChipGroupHTML(kind,pool.filter(function(x){return x.bronze;}),'bronze');
+ return '<div class="panel p-3.5" style="border-color:#47556933"><div class="lbl" style="color:#e2e8f0">'+esc(d.cat)+'</div>'
+  +(anyTiered?'':'<div class="text-[11px] text-slate-500 mt-1">None declared yet \u2014 search above to tier some.</div>')
+  +body+'</div>';
 }
 // The four corpus categories are shown whenever the profile has ANY tiered work in them, even if
 // declaredCanon never mentions that category. Previously this list came only from declaredCanon,
@@ -1408,8 +1417,17 @@ function renderGoat(){renderTasteDNA();
 function renderGoatSearchResults(q){
  q=(q||'').trim().toLowerCase();
  var el=$('#goatSearchResults');if(!el)return;
+ // Browsing with no search yet: lead with fresh suggestions, not a list topped by whatever's
+ // already Gold/Silver/Bronze/Owned (those pin gm to 100/~88/~80, so a plain gm sort just showed
+ // your own past picks back at you first). Untiered, not-yet-owned items sort first here by their
+ // genuine algorithmic match score; everything already tiered/owned still shows, just further
+ // down -- searching (or just scrolling) still reaches anything, tiered or not.
  var pool=q?ALL.filter(function(x){return (x.title+' '+x.creator+' '+(x.genres||[]).join(' ')).toLowerCase().indexOf(q)>=0;})
-  :ALL.slice().sort(function(a,b){return b.gm-a.gm;});
+  :ALL.slice().sort(function(a,b){
+    var au=!(a.goat||a.silver||a.bronze||a.owned),bu=!(b.goat||b.silver||b.bronze||b.owned);
+    if(au!==bu)return au?-1:1;
+    return b.gm-a.gm;
+   });
  var shown=pool.slice(0,25);
  // Status is communicated by tierRowHTML alone (its active segments already highlight in color
  // and, for Gold/Silver/Bronze/Owned, are self-explanatory) -- this used to ALSO render a separate
@@ -1427,6 +1445,18 @@ function renderGoatSearchResults(q){
 }
 on('#goatSearchInput','input',e=>{renderGoatSearchResults(e.target.value);});
 on('#goatSearchResults','click',e=>{const pe=e.target.closest('.profEditBtn');if(pe)handleProfileEditClick(pe);});
+// Drag-and-drop between a medium's own Gold/Silver/Bronze columns (see tierChipGroupHTML/
+// moveToTier above). Scoped to #goatDeclared and, within it, to drop zones sharing the dragged
+// chip's own data-drag-kind -- a chip can only ever land in a same-medium zone since each
+// category panel only contains its own kind's zones, but the explicit kind check also makes a
+// same-panel-only drag obvious from the code, not just true by construction.
+on('#goatDeclared','dragstart',e=>{const chip=e.target.closest('.tierDragChip');if(!chip)return;e.dataTransfer.setData('text/plain',chip.dataset.dragId);e.dataTransfer.effectAllowed='move';});
+on('#goatDeclared','dragover',e=>{const zone=e.target.closest('.tierDropZone');if(!zone)return;e.preventDefault();e.dataTransfer.dropEffect='move';});
+on('#goatDeclared','drop',e=>{const zone=e.target.closest('.tierDropZone');if(!zone)return;e.preventDefault();
+ const id=e.dataTransfer.getData('text/plain');if(!id)return;
+ const x=byId.get(id);if(!x||x.kind!==zone.dataset.kind)return;
+ moveToTier(id,zone.dataset.tier);
+});
 function goatJumpTo(q){
  state.q=q;$('#q').value=q;
  state.type='all';$$('#typeSeg button').forEach(x=>x.classList.toggle('on',x.dataset.type==='all'));
@@ -1537,7 +1567,7 @@ function renderFamilyLens(){
   var owned=members.filter(function(x){return x.owned;}).length;
   var topGm=Math.max.apply(null,members.map(function(x){return x.gm;}));
   return {name:name,total:members.length,owned:owned,topGm:topGm};
- }).filter(Boolean).sort(function(a,b){return b.total-a.total;});
+ }).filter(Boolean).sort(function(a,b){return a.name.localeCompare(b.name);});
  el.innerHTML=rows.map(function(r){
   var col=FAMILY_COLORS[r.name]||'#94a3b8';
   var pct=Math.round(r.owned/r.total*100);
@@ -1604,7 +1634,7 @@ function renderPortraitGaps(){
    .filter(x=>{if(seen[x.title])return false;seen[x.title]=1;return true;})
    .slice(0,12);
  $('#portraitGaps').innerHTML=gaps.map(x=>{const k=KM[x.kind];const thinFam=(x.fam||[]).find(f=>thin.includes(f))||'';
-  return '<div class="panel p-2.5"><div class="flex items-center gap-2"><span class="w-1.5 h-1.5 rounded-full shrink-0" style="background:'+k.c+'"></span>'
+  return '<div class="panel p-2.5 goatJump cursor-pointer" data-q="'+esc(x.title)+'" title="Open in Global Controller"><div class="flex items-center gap-2"><span class="w-1.5 h-1.5 rounded-full shrink-0" style="background:'+k.c+'"></span>'
    +'<span class="flex-1 min-w-0 truncate text-[12px] text-slate-200">'+esc(x.title)+' <span class="text-slate-500 text-[10px]">'+x.year+'</span></span>'
    +'<span class="text-[11px] font-bold tabular-nums" style="color:'+k.c+'">'+x.ovr+'</span></div>'
    +(thinFam?'<div class="text-[10px] text-slate-500 mt-1 ml-3.5 truncate">'+esc(k.label)+' \u00b7 '+esc(thinFam)+'</div>':'')+'</div>';}).join('')
@@ -1962,24 +1992,15 @@ function doSpin(){
 on('#densityBtn','click',()=>{var on=document.body.classList.toggle('compact');var b=$('#densityBtn');b.textContent=on?'\u25a4 Comfortable':'\u25a6 Compact';b.classList.toggle('border-teal-500',on);b.classList.toggle('text-teal-300',on);try{localStorage.setItem('omniLedgerDensity',on?'1':'0');}catch(e){}});
 (function initDensity(){var v='0';try{v=localStorage.getItem('omniLedgerDensity')||'0';}catch(e){}if(v==='1'){document.body.classList.add('compact');var b=$('#densityBtn');if(b){b.textContent='\u25a4 Comfortable';b.classList.add('border-teal-500','text-teal-300');}}})();
 
-/* ===== Quick Tips banner: shown once (per browser) on Global Controller until dismissed =====
+/* ===== Quick Tips: a small "?" button next to the theme selector, opening a popup on demand =====
    Not tied to onboarding -- someone can finish onboarding and still not know cards expand, or
-   that the row under each card can tier/own without opening it. A one-time, easily dismissed
-   banner is a lighter touch than a guided tour and doesn't need maintaining as features move. */
+   that the row under each card can tier/own without opening it. Deliberately not a banner or a nav
+   tab (both compete for space/attention on every visit) -- just one quiet, always-in-the-same-place
+   button that's there when wanted and invisible otherwise. */
 (function initQuickTips(){
- var el=$('#quickTips');if(!el)return;
- var dismissed='0';try{dismissed=localStorage.getItem('omniLedgerTipsDismissed')||'0';}catch(e){}
- if(dismissed!=='1')el.classList.remove('hidden');
- on('#quickTipsClose','click',function(){el.classList.add('hidden');try{localStorage.setItem('omniLedgerTipsDismissed','1');}catch(e){}});
- // Dismissing is permanent (per browser) so it doesn't nag once read -- but the banner still has
- // real reference info in it (what Gold/Silver/Bronze mean, where pinning lives), so it needs to
- // stay reachable afterward rather than being gone for good. This button, always visible in the
- // nav row, brings it back on demand from anywhere in the app.
- on('#quickTipsReopen','click',function(){
-  if(state.view!=='controller')switchView('controller');
-  el.classList.remove('hidden');
-  if(el.scrollIntoView)el.scrollIntoView({behavior:'smooth',block:'start'});
- });
+ var gate=$('#tipsGate');if(!gate)return;
+ on('#tipsBtn','click',function(){gate.classList.remove('hidden');});
+ on('#tipsClose','click',function(){gate.classList.add('hidden');});
 })();
 on('#surpriseBtn','click',()=>{const sc=$('#surpriseScope');sc.classList.toggle('hidden');var opening=!sc.classList.contains('hidden');var panel=$('#surprisePanel');
  if(opening){if(panel.dataset.mode==='rabbit'){panel.classList.add('hidden');panel.innerHTML='';panel.dataset.mode='';$('#rabbitBtn').setAttribute('aria-expanded','false');}if(sc.scrollIntoView)sc.scrollIntoView({behavior:'smooth',block:'nearest'});}
@@ -2237,6 +2258,24 @@ function toggleBronzeTier(id){
   p.bronzeTierIds=p.bronzeTierIds||[];
   const i=p.bronzeTierIds.indexOf(id);
   if(i>=0)p.bronzeTierIds.splice(i,1);else p.bronzeTierIds.push(id);
+ });
+}
+// Drag-and-drop re-tiering (GOAT Profile's per-medium Gold/Silver/Bronze columns): moves `id`
+// cleanly into exactly `targetTier`, removing it from whichever of the three lists it was already
+// in first -- the same net effect as clicking the old tier button off and the new one on, done as
+// one profile mutation/reload instead of two, so the GOAT match weight lands on the target tier's
+// value directly rather than passing through "untiered" in between.
+function moveToTier(id,targetTier){
+ var x=byId.get(id);if(!x)return;
+ var currentTier=x.goat?'gold':x.silver?'silver':x.bronze?'bronze':null;
+ if(currentTier===targetTier)return;
+ mutateProfileAndReload(function(p){
+  p.declaredGoatIds=(p.declaredGoatIds||[]).filter(function(i){return i!==id;});
+  p.silverTierIds=(p.silverTierIds||[]).filter(function(i){return i!==id;});
+  p.bronzeTierIds=(p.bronzeTierIds||[]).filter(function(i){return i!==id;});
+  if(targetTier==='gold')p.declaredGoatIds.push(id);
+  else if(targetTier==='silver')p.silverTierIds.push(id);
+  else if(targetTier==='bronze')p.bronzeTierIds.push(id);
  });
 }
 function boostBookAffinity(id){
@@ -2972,9 +3011,17 @@ on('#wlExport','click',()=>{const items=wlItems().map(x=>({title:x.title,year:x.
 on('#creatorGrid','keydown',e=>{if(e.key!=='Enter'&&e.key!==' ')return;const f=e.target.closest('.flip');if(f){e.preventDefault();f.classList.toggle('flipped');}});
 
 /* ===================== BOOT ===================== */
-const INDEX_DEFS=[['snd','Soundtrack / Audio','#7dd3fc'],['ref','4K Reference','#818cf8'],['ch','Cosmic Horror','#c084fc'],['emo','Emotional / Sad','#f0abfc'],['awe','Awe / Spectacle','#fbbf24'],['cozy','Comfort / Cozy','#34d399'],['perf','Best Performances','#fda4af'],['icon','Iconicness','#fcd34d'],['scary','Scariest','#f87171'],['real','Realism','#86efac'],['reality','Reality-Altering','#c4b5fd'],['shock','Genuine Shock','#fb923c'],['sci','Scientific','#67e8f9'],['funny','Funniest','#fde047'],['hist','Historically Accurate','#a3e635'],['vibe2','Vibe / Atmosphere','#e879f9'],['crit','Critical Score','#94a3b8'],['aud','Audience Score','#4ade80'],['tech','Technical Craft','#a5b4fc']];
+// Alphabetical by label -- both Advanced Filters' unpinned list and the pinned main row (which
+// filters this same array) start in a-z order, so a slider's position is predictable without
+// having to scan every entry first.
+const INDEX_DEFS=[['ref','4K Reference','#818cf8'],['aud','Audience Score','#4ade80'],['awe','Awe / Spectacle','#fbbf24'],['perf','Best Performances','#fda4af'],['cozy','Comfort / Cozy','#34d399'],['ch','Cosmic Horror','#c084fc'],['crit','Critical Score','#94a3b8'],['emo','Emotional / Sad','#f0abfc'],['funny','Funniest','#fde047'],['shock','Genuine Shock','#fb923c'],['hist','Historically Accurate','#a3e635'],['icon','Iconicness','#fcd34d'],['real','Realism','#86efac'],['reality','Reality-Altering','#c4b5fd'],['scary','Scariest','#f87171'],['sci','Scientific','#67e8f9'],['snd','Soundtrack / Audio','#7dd3fc'],['tech','Technical Craft','#a5b4fc'],['vibe2','Vibe / Atmosphere','#e879f9']];
+// Alphabetical display order for genre families -- a separate sorted copy, not a reorder of
+// GENRE_FAMILIES itself, since that array's order also decides which family wins as fam[0] (the
+// "primary" family) for a work matching more than one regex, which pickSeedCandidates and others
+// rely on. Sorting the source array would silently change that unrelated behavior.
+const GENRE_FAMILIES_AZ=GENRE_FAMILIES.slice().sort((a,b)=>a[0].localeCompare(b[0]));
 function buildGenreChips(){
- $('#genreChips').innerHTML=GENRE_FAMILIES.map(f=>{const name=f[0],n=GENRE_COUNTS[name]||0;if(!n)return '';
+ $('#genreChips').innerHTML=GENRE_FAMILIES_AZ.map(f=>{const name=f[0],n=GENRE_COUNTS[name]||0;if(!n)return '';
   const on=state.genres.includes(name);
   return '<button type="button" class="chip genreChip" data-g="'+esc(name)+'" style="cursor:pointer;'+(on?'color:#0B0F19;background:#a5b4fc;border-color:#a5b4fc;font-weight:700':'')+'">'+esc(name)+' <span style="opacity:.6">'+n+'</span></button>';}).join('');
 }
@@ -3120,7 +3167,7 @@ buildPlatSelect();
  // Outside-click and Escape are handled once, for every .radarCombo including this one -- see the
  // shared closeAllCombos listener registered earlier in the script. No separate listener needed here.
 })();
-$('#headStats').innerHTML=[['Indexed Works',ALL.length],['Master Creators',directorsPantheon.length+authorsPantheon.length+gamingAuteurs.length],['Contenders',contenders.length]]
+$('#headStats').innerHTML=[['Indexed Works',ALL.length],['Contenders',contenders.length]]
  .map(s=>'<div><div class="text-lg font-extrabold text-slate-50 leading-none tabular-nums">'+s[1]+'</div><div class="lbl mt-1">'+s[0]+'</div></div>').join('');
 (function(){var lc=$('#luCount');if(lc){var m=ALL.filter(function(x){return x.kind==='movie'}).length,t=ALL.filter(function(x){return x.kind==='tv'}).length,g=ALL.filter(function(x){return x.kind==='game'}).length,b=ALL.filter(function(x){return x.kind==='book'}).length;lc.textContent=ALL.length+' works · '+m+' films / '+t+' series / '+g+' games / '+b+' books';}})();
 renderMatrices();
