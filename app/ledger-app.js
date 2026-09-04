@@ -97,7 +97,7 @@ function wlSetWatched(id,v){if(WL[id]){WL[id].watched=v;wlSave();}}
 function wlCount(){return Object.keys(WL).length;}
 
 /* ===================== STATE & HELPERS ===================== */
-const state={view:'controller',q:'',type:'all',struct:'all',plats:[],minDread:0,minMyst:0,minGoat:0,runtimeMax:0,genres:[],genresExclude:[],ownedOnly:false,notOwnedOnly:false,limit:100,idx:{snd:0,ref:0,ch:0,emo:0,awe:0,cozy:0,perf:0,icon:0,scary:0,real:0,reality:0,shock:0,sci:0,funny:0,hist:0,vibe2:0,crit:0,aud:0,tech:0},ratings:[],tierFilter:[],yearMin:null,yearMax:null,combine:false,sort:'overall',w:{tech:0.85,dread:0.95,myst:0.90},creatorTab:'directors',creatorSearch:'',goatType:'all',goatTierFilter:'all',goatSort:'match',goatDeclaredQ:''};
+const state={view:'controller',q:'',type:'all',struct:'all',plats:[],minDread:0,minMyst:0,minGoat:0,runtimeMax:0,genres:[],genresExclude:[],ownedOnly:false,notOwnedOnly:false,limit:100,idx:{snd:0,ref:0,ch:0,emo:0,awe:0,cozy:0,perf:0,icon:0,scary:0,real:0,reality:0,shock:0,sci:0,funny:0,hist:0,vibe2:0,crit:0,aud:0,tech:0},ratings:[],tierFilter:[],yearMin:null,yearMax:null,combine:false,sort:'overall',w:{tech:0.85,dread:0.95,myst:0.90},creatorTab:'directors',creatorSearch:'',goatType:'all',goatTierFilter:'all',goatSort:'match',goatDeclaredQ:'',portraitScope:'all'};
 const $=s=>document.querySelector(s),$$=s=>Array.from(document.querySelectorAll(s));
 const on=(sel,ev,fn)=>{const el=$(sel);if(el)el.addEventListener(ev,fn);else console.warn('missing element:',sel);};
 const esc=s=>String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
@@ -1649,7 +1649,7 @@ function renderTimeline(){
  $('#tlEras').innerHTML=html;
 }
 /* ===== Taste Portrait dashboard ===== */
-var FAMILY_COLORS={'Sci-Fi':'#67e8f9','Horror':'#f87171','Drama':'#cbd5e1','Thriller':'#fbbf24','Mystery / Detective':'#a5b4fc','Crime':'#fb923c','Psychological':'#c084fc','Action / Adventure':'#fb7185','Epic / Historical':'#fcd34d','Fantasy':'#818cf8','Western':'#d97706','Comedy / Satire':'#fde047','Anime / Animated':'#f0abfc','RPG':'#a78bfa','Open World / Survival':'#4ade80','Puzzle / Systems':'#34d399','Romance':'#f472b6','Superhero':'#38bdf8','War':'#a3a3a3','Physics & Cosmology':'#22d3ee','Philosophy & Ideas':'#c4b5fd','Science & Nature':'#86efac','Biography & History':'#a3e635','Literary & Poetry':'#93c5fd'};
+var FAMILY_COLORS={'Sci-Fi':'#67e8f9','Horror':'#f87171','Documentary':'#e2e8f0','Drama':'#cbd5e1','Thriller':'#fbbf24','Mystery / Detective':'#a5b4fc','Crime':'#fb923c','Psychological':'#c084fc','Action / Adventure':'#fb7185','Epic / Historical':'#fcd34d','Fantasy':'#818cf8','Western':'#d97706','Comedy / Satire':'#fde047','Anime / Animated':'#f0abfc','RPG':'#a78bfa','Open World / Survival':'#4ade80','Puzzle / Systems':'#34d399','Romance':'#f472b6','Superhero':'#38bdf8','War':'#a3a3a3','Physics & Cosmology':'#22d3ee','Philosophy & Ideas':'#c4b5fd','Science & Nature':'#86efac','Biography & History':'#a3e635','Literary & Poetry':'#93c5fd','Platformer':'#fb7185','Strategy & Tactics':'#f59e0b','Sports & Music':'#2dd4bf'};
 function renderFamilyLens(){
  var el=$('#familyLens');if(!el)return;
  var rows=GENRE_FAMILIES.map(function(f){
@@ -1670,45 +1670,92 @@ function renderFamilyLens(){
    +'</button>';
  }).join('');
 }
+// --- helper: horizontal bar list (shared by every "most-owned X" / distribution panel) ---
+function barList(entries,color,max){
+ const mx=max||Math.max(1,...entries.map(e=>e[1]));
+ return entries.map(e=>'<div class="flex items-center gap-2"><span class="text-[12px] text-slate-300 w-40 shrink-0 truncate">'+esc(e[0])+'</span>'
+  +'<span class="flex-1 h-2 rounded-full bg-slate-800 overflow-hidden"><span class="block h-full rounded-full" style="width:'+(e[1]/mx*100)+'%;background:'+color+'"></span></span>'
+  +'<span class="text-[11px] font-bold tabular-nums w-6 text-right" style="color:'+color+'">'+e[1]+'</span></div>').join('');
+}
 function renderPortrait(){
  renderFamilyLens();
  const owned=ALL.filter(x=>x.owned);
  const films=owned.filter(x=>x.kind==='movie');
+ const tv=owned.filter(x=>x.kind==='tv');
+ const games=owned.filter(x=>x.kind==='game');
  const books=owned.filter(x=>x.kind==='book');
+ // Headline stats, genre center-of-gravity and decade distribution all honor the same medium
+ // scope picker -- previously they always summed across every medium at once, so "your" decade
+ // distribution or genre gravity was really "your movies + TV + games + books" undifferentiated,
+ // with no way to see just e.g. your book-collecting habits in isolation the way Blind Spots
+ // already let you scope by medium.
+ const ps=state.portraitScope||'all';
+ const scoped=ps==='all'?owned:owned.filter(x=>x.kind===ps);
  // --- headline stats ---
- const bestOverall=Math.round(ALL.slice().sort((a,b)=>b.ovr-a.ovr).slice(0,50).reduce((s,x)=>s+x.ovr,0)/50);
- const ownedAvg=owned.length?Math.round(owned.reduce((s,x)=>s+x.ovr,0)/owned.length):0;
- const decadeSpan=(function(){const ys=owned.map(x=>x.year).filter(y=>y&&y>0);const modern=ys.filter(y=>y>=1900);return modern.length?(Math.min(...modern)+'\u2013'+Math.max(...modern)):(ys.length?Math.min(...ys)+'\u2013'+Math.max(...ys):'\u2014');})();
- const topCreator=(function(){const c={};films.forEach(x=>c[x.creator]=(c[x.creator]||0)+1);const e=Object.entries(c).sort((a,b)=>b[1]-a[1])[0];return e?e[0]:'\u2014';})();
+ const ownedAvg=scoped.length?Math.round(scoped.reduce((s,x)=>s+x.ovr,0)/scoped.length):0;
+ const decadeSpan=(function(){const ys=scoped.map(x=>x.year).filter(y=>y&&y>0);const modern=ys.filter(y=>y>=1900);return modern.length?(Math.min(...modern)+'\u2013'+Math.max(...modern)):(ys.length?Math.min(...ys)+'\u2013'+Math.max(...ys):'\u2014');})();
+ // Top creator now scans whichever kind(s) are in scope, not just movies -- someone whose
+ // collection is really a TV or book collection previously got either the wrong answer or "\u2014".
+ const topCreator=(function(){const c={};scoped.forEach(x=>{if(x.creator)c[x.creator]=(c[x.creator]||0)+1;});const e=Object.entries(c).sort((a,b)=>b[1]-a[1])[0];return e?e[0]:'\u2014';})();
  $('#portraitStats').innerHTML=[
-  ['Works owned',owned.length,'#c4b5fd'],
+  ['Works owned',scoped.length,'#c4b5fd'],
   ['Avg quality',ownedAvg+' / 100','#4ade80'],
   ['Collection span',decadeSpan,'#22d3ee'],
-  ['Top director',topCreator,'#fbbf24']
+  ['Top creator',topCreator,'#fbbf24']
  ].map(s=>'<div class="panel p-3 text-center"><div class="text-lg font-extrabold text-slate-50 tabular-nums leading-tight">'+s[1]+'</div><div class="lbl mt-1" style="color:'+s[2]+'">'+s[0]+'</div></div>').join('');
- // --- helper: horizontal bar list ---
- function barList(entries,color,max){
-  const mx=max||Math.max(1,...entries.map(e=>e[1]));
-  return entries.map(e=>'<div class="flex items-center gap-2"><span class="text-[12px] text-slate-300 w-40 shrink-0 truncate">'+esc(e[0])+'</span>'
-   +'<span class="flex-1 h-2 rounded-full bg-slate-800 overflow-hidden"><span class="block h-full rounded-full" style="width:'+(e[1]/mx*100)+'%;background:'+color+'"></span></span>'
-   +'<span class="text-[11px] font-bold tabular-nums w-6 text-right" style="color:'+color+'">'+e[1]+'</span></div>').join('');
- }
- // --- most-owned directors ---
- const dc={};films.forEach(x=>dc[x.creator]=(dc[x.creator]||0)+1);
- $('#portraitDirectors').innerHTML=barList(Object.entries(dc).filter(e=>e[1]>=2).sort((a,b)=>b[1]-a[1]).slice(0,8),'#a78bfa')||'<div class="text-slate-500 text-[12px]">\u2014</div>';
- // --- most-owned authors ---
- const ac={};books.forEach(x=>ac[x.creator]=(ac[x.creator]||0)+1);
- $('#portraitAuthors').innerHTML=barList(Object.entries(ac).filter(e=>e[1]>=2).sort((a,b)=>b[1]-a[1]).slice(0,8),'#4ade80')||'<div class="text-slate-500 text-[12px]">\u2014</div>';
- // --- genre center of gravity (owned, by family) ---
- const gc={};owned.forEach(x=>(x.fam||[]).forEach(f=>gc[f]=(gc[f]||0)+1));
+ // --- most-owned creators, one panel per medium (all four now, not just movies/books) ---
+ function topCreatorsOf(list){const c={};list.forEach(x=>{if(x.creator)c[x.creator]=(c[x.creator]||0)+1;});return Object.entries(c).filter(e=>e[1]>=2).sort((a,b)=>b[1]-a[1]).slice(0,8);}
+ $('#portraitDirectors').innerHTML=barList(topCreatorsOf(films),'#a78bfa')||'<div class="text-slate-500 text-[12px]">\u2014</div>';
+ $('#portraitAuthors').innerHTML=barList(topCreatorsOf(books),'#4ade80')||'<div class="text-slate-500 text-[12px]">\u2014</div>';
+ $('#portraitTV').innerHTML=barList(topCreatorsOf(tv),'#22d3ee')||'<div class="text-slate-500 text-[12px]">\u2014</div>';
+ $('#portraitGames').innerHTML=barList(topCreatorsOf(games),'#fbbf24')||'<div class="text-slate-500 text-[12px]">\u2014</div>';
+ // --- genre center of gravity (owned, by family, scoped) ---
+ const gc={};scoped.forEach(x=>(x.fam||[]).forEach(f=>gc[f]=(gc[f]||0)+1));
  $('#portraitGenres').innerHTML=barList(Object.entries(gc).sort((a,b)=>b[1]-a[1]).slice(0,10),'#22d3ee')||'<div class="text-slate-500 text-[12px]">\u2014</div>';
- // --- decade distribution ---
- const dd={};let preCount=0;owned.forEach(x=>{if(x.year&&x.year>0){if(x.year<1900){preCount++;}else{const d=Math.floor(x.year/10)*10;dd[d+'s']=(dd[d+'s']||0)+1;}}});
+ // --- decade distribution (scoped) ---
+ const dd={};let preCount=0;scoped.forEach(x=>{if(x.year&&x.year>0){if(x.year<1900){preCount++;}else{const d=Math.floor(x.year/10)*10;dd[d+'s']=(dd[d+'s']||0)+1;}}});
  let decEntries=Object.keys(dd).sort().map(d=>[d,dd[d]]);
  if(preCount)decEntries=[['Pre-1900',preCount]].concat(decEntries);
  $('#portraitDecades').innerHTML=barList(decEntries,'#fbbf24')||'<div class="text-slate-500 text-[12px]">\u2014</div>';
- // --- blind spots (filterable by medium) ---
+ // --- blind spots (its own, independent medium filter -- deliberately not tied to portraitScope,
+ // since "what am I missing in X" is a different question from "show me my Y stats") ---
  renderPortraitGaps();
+ renderCreatorBlindSpots();
+}
+// A genre-level blind spot detector already existed (renderPortraitGaps: acclaimed works in
+// families you own little of); there was no creator-level equivalent -- a way to see "creators
+// you own literally nothing from, whose work actually matches your taste." Different from the
+// Collection tab's "creators you collect with more to get" gap finder, which only ever looks at
+// creators you already own 2+ works from.
+function creatorBlindSpots(){
+ var ownedCreators={};
+ ALL.filter(function(x){return x.owned;}).forEach(function(x){
+  (x.creator||'').split(/,| and | & /).forEach(function(cr){cr=cr.trim();if(cr)ownedCreators[cr]=true;});
+ });
+ var byCreator={};
+ ALL.forEach(function(x){
+  if(!x.creator)return;
+  x.creator.split(/,| and | & /).forEach(function(cr){
+   cr=cr.trim();if(cr.length<3||ownedCreators[cr])return;
+   (byCreator[cr]=byCreator[cr]||{creator:cr,kind:x.kind,works:[]}).works.push(x);
+  });
+ });
+ return Object.values(byCreator)
+  .map(function(c){var top=c.works.slice().sort(function(a,b){return b.gm-a.gm;})[0];return {creator:c.creator,kind:c.kind,n:c.works.length,top:top};})
+  .filter(function(r){return r.top.gm>=80;})
+  .sort(function(a,b){return b.top.gm-a.top.gm;})
+  .slice(0,9);
+}
+function renderCreatorBlindSpots(){
+ var el=$('#creatorBlindSpots');if(!el)return;
+ var rows=creatorBlindSpots();
+ el.innerHTML=rows.map(function(r){var k=KM[r.kind];
+  return '<div class="panel p-2.5 goatJump cursor-pointer" data-q="'+esc(r.top.title)+'" title="Open '+esc(r.top.title)+' in the Global Controller">'
+   +'<div class="flex items-center gap-2"><span class="w-1.5 h-1.5 rounded-full shrink-0" style="background:'+k.c+'"></span>'
+   +'<span class="flex-1 min-w-0 truncate text-[12px] font-semibold text-slate-200">'+esc(r.creator)+'</span>'
+   +'<span class="text-[11px] font-bold tabular-nums" style="color:#fbbf24">\u2605'+r.top.gm+'</span></div>'
+   +'<div class="text-[10px] text-slate-500 mt-1 ml-3.5 truncate">'+esc(k.label)+' \u00b7 start with '+esc(r.top.title)+(r.n>1?' \u00b7 '+r.n+' works on ledger':'')+'</div></div>';
+ }).join('')||'<div class="text-slate-500 text-[12px]">No strong-matching creators outside your collection right now.</div>';
 }
 function renderPortraitGaps(){
  const owned=ALL.filter(x=>x.owned);
@@ -2313,6 +2360,7 @@ on('#upgradeToggle','click',()=>{state.collUpgrade=!state.collUpgrade;const on=s
 on('#exportBtn','click',()=>{try{const owned=ALL.filter(x=>x.owned).map(x=>({id:x.id,title:x.title,kind:x.kind,format:x.physFormat}));const wl=(typeof WL!=='undefined')?Object.keys(WL):[];const wlItems=wl.map(id=>{const x=byId.get(id);return x?{id:id,title:x.title,kind:x.kind}:{id:id};});const data={exported:new Date().toISOString(),app:'Omni-Media Ledger',totals:{works:ALL.length,owned:owned.length,watchlist:wl.length},watchlist:wlItems,ownedCollection:owned};const blob=new Blob([JSON.stringify(data,null,2)],{type:'application/json'});const url=URL.createObjectURL(blob);const a=document.createElement('a');a.href=url;a.download='omni-ledger-backup-'+new Date().toISOString().slice(0,10)+'.json';document.body.appendChild(a);a.click();document.body.removeChild(a);setTimeout(()=>URL.revokeObjectURL(url),1000);const btn=$('#exportBtn');const t=btn.textContent;btn.textContent='✓ Downloaded';setTimeout(()=>{btn.textContent=t;},1800);}catch(err){const btn=$('#exportBtn');btn.textContent='Export failed';setTimeout(()=>{btn.textContent='⬇ Export / Backup';},1800);}});
 on('#familyLens','click',e=>{var b=e.target.closest('.familyTile');if(b)focusFamily(b.dataset.fam);});
 on('#gapSeg','click',e=>{const b=e.target.closest('button');if(!b)return;state.gapFilter=b.dataset.gap;$$('#gapSeg button').forEach(x=>x.classList.toggle('on',x===b));renderPortraitGaps();});
+on('#portraitScopeSeg','click',e=>{const b=e.target.closest('button');if(!b)return;state.portraitScope=b.dataset.ps;$$('#portraitScopeSeg button').forEach(x=>x.classList.toggle('on',x===b));renderPortrait();});
 on('#tlScope','click',e=>{const b=e.target.closest('button');if(!b)return;tlScope=b.dataset.t;$$('#tlScope button').forEach(x=>x.classList.toggle('on',x===b));renderTimeline();});
 on('#tlEras','click',e=>{var b=e.target.closest('.eraMore');if(b){var box=$('#'+b.dataset.era);if(box){var open=!box.classList.contains('hidden');box.classList.toggle('hidden');b.textContent=open?'\u2295 Show all '+(parseInt(b.dataset.n)+8):'\u2296 Show less';}return;}var t=e.target.closest('.cardTitle');if(t&&t.dataset.flip){var it=byId.get(t.dataset.flip);if(it){state.q=it.title;var qinput=$('#q');if(qinput)qinput.value=it.title;switchView('controller');refresh();}}});
 /* ===== Theme system ===== */
