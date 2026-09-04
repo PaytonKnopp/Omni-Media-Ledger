@@ -86,9 +86,36 @@ async function firstCardId(page, timeout) {
 // Returns null instead of throwing when the condition never arrives, so a genuine regression fails
 // its own check rather than aborting the run and hiding every check after it.
 async function readWhen(page, predicate, arg, timeout) {
-  const handle = await page.waitForFunction(predicate, arg, { timeout: timeout || 15000 }).catch(() => null);
-  if (!handle) return null;
-  return handle.jsonValue().catch(() => null);
+  const deadline = Date.now() + (timeout || 15000);
+  // A reload landing mid-poll destroys the execution context, and waitForFunction rejects with
+  // "Execution context was destroyed". That is NOT a failed condition -- it is the question being
+  // asked of a document that no longer exists. Swallowing it made it indistinguishable from "the
+  // condition never became true", so the check reported the app as broken when all that happened
+  // was a reload arriving at an awkward moment.
+  //
+  // That is exactly the shape of the two account-flow checks that passed on every local run and
+  // failed on CI: a slower runner widens the window for the reload to land inside the poll. The
+  // app was never wrong in those runs; the harness was asking a dead page and calling the silence
+  // an answer. Retry across the navigation instead, and only give up on a real timeout.
+  const transient = /execution context .*destroyed|target closed|frame was detached|navigation/i;
+  let lastError = null;
+  while (Date.now() < deadline) {
+    try {
+      const handle = await page.waitForFunction(predicate, arg, { timeout: Math.max(250, deadline - Date.now()) });
+      return await handle.jsonValue();
+    } catch (e) {
+      lastError = e;
+      if (!transient.test(String((e && e.message) || e))) break;
+      await page.waitForTimeout(100); // let the new document install itself, then ask it again
+    }
+  }
+  // A plain timeout means the condition genuinely never held -- the caller's check should fail and
+  // say so. Anything else (a predicate that threw, say) is worth printing, because otherwise it
+  // looks identical to a failed assertion and sends the next person hunting in the wrong place.
+  if (lastError && !/timeout/i.test(String((lastError && lastError.message) || ''))) {
+    console.log('       readWhen gave up: ' + String((lastError && lastError.message) || lastError).split('\n')[0]);
+  }
+  return null;
 }
 
 // Click something that tiers a work, and don't come back until the resulting reload has finished.
@@ -1053,6 +1080,15 @@ async function runAccountFlow(browser, file) {
 
     const ctx2 = await browser.newContext();
     const page2 = await ctx2.newPage();
+    // OMNI_THROTTLE=8 slows this page's CPU the way a loaded CI runner does, which is the only
+    // way found so far to reproduce the races that live in this flow locally. Generic machine
+    // load does not do it -- the failures come from the page being slow, not the host being busy.
+    // Off unless the variable is set, so it changes nothing about a normal run. It found two real
+    // bugs; reach for it before guessing at a CI-only failure here.
+    if (process.env.OMNI_THROTTLE) {
+      const cdp = await ctx2.newCDPSession(page2);
+      await cdp.send('Emulation.setCPUThrottlingRate', { rate: Number(process.env.OMNI_THROTTLE) });
+    }
     const page2Errors = [];
     page2.on('pageerror', e => page2Errors.push(e.message));
     await page2.route('**/supabase-js*/**', route => route.fulfill({ contentType: 'application/javascript', body: '' }));
@@ -1308,9 +1344,15 @@ async function runAccountFlow(browser, file) {
     check('confirming delete removes the row from the shared Supabase table', deleteCalls >= 1);
     const rowGoneFromStore = await page2.evaluate(() => !window.__mockTables.profiles['smoketestuser']);
     check('the deleted handle\'s row is actually gone from the store', rowGoneFromStore);
-    const handleAfterDelete = await page2.evaluate(() => localStorage.getItem('omniLedgerHandle'));
-    const gateAfterDelete = await page2.evaluate(() => !document.getElementById('acctGate').classList.contains('hidden'));
-    check('deleting the account clears the remembered handle and re-shows the account gate', handleAfterDelete === null && gateAfterDelete);
+    // Deleting the account clears local state and brings the gate back, but not instantly -- the
+    // delete round-trips first. Sampling the DOM a fixed 500ms later is a race the moment the
+    // machine is busy, and the bare `.classList` on a possibly-absent element throws rather than
+    // failing this one check. Wait for the end state instead.
+    const deleteSettled = !!(await readWhen(page2, () => {
+      const gate = document.getElementById('acctGate');
+      return localStorage.getItem('omniLedgerHandle') === null && !!gate && !gate.classList.contains('hidden');
+    }, undefined, 10000));
+    check('deleting the account clears the remembered handle and re-shows the account gate', deleteSettled);
 
     // Switch account clears the remembered handle and shows the gate again. Re-sign-in first
     // (delete above signed this device out entirely) so there's an account to switch away from.
@@ -1379,6 +1421,25 @@ async function runAccountFlow(browser, file) {
 
     const pendingAfterSilentDrop = !!(await readWhen(page2,
       () => localStorage.getItem('omniLedgerPendingSync') === '1', undefined, 8000));
+    // If this ever fails again, say WHY rather than leaving a bare FAIL. It has cost three CI
+    // cycles already, twice because the harness misread a settled page and once for a real race,
+    // and a bare boolean cannot tell those apart from the log.
+    if (!pendingAfterSilentDrop) {
+      console.log('       state: ' + JSON.stringify(await page2.evaluate(() => {
+        const db = JSON.parse(sessionStorage.getItem('__mockDb') || '{}');
+        const read = (s) => { try { return JSON.parse(s || '{}'); } catch (e) { return {}; } };
+        const cloud = read((((db.tables || {}).profiles || {})['smoketestuser2'] || {}).data ?
+          ((db.tables.profiles['smoketestuser2'].data) || {}).omniLedgerProfile : '{}');
+        return {
+          pending: localStorage.getItem('omniLedgerPendingSync'),
+          syncError: (localStorage.getItem('omniLedgerLastSyncError') || '(none)').slice(0, 80),
+          skipHydrateArmed: sessionStorage.getItem('omniLedgerSkipHydrateOnce'),
+          bronzeLocal: (read(localStorage.getItem('omniLedgerProfile')).bronzeTierIds || []).length,
+          bronzeInCloud: (cloud.bronzeTierIds || []).length,
+          dropFlagStillSet: !!db.silentlyDropProfileUpserts,
+        };
+      })));
+    }
     check('a write the server accepts but never stores is detected, not reported as saved', pendingAfterSilentDrop);
 
     await page2.reload();          // the manual refresh where picks used to disappear
