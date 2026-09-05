@@ -239,13 +239,15 @@ button:focus-visible,select:focus-visible,input:focus-visible{outline:2px solid 
     that desktop right-anchored position on mobile -- which is exactly the bug reported (popup
     pinned top-right instead of centered). Scoped to this max-width:767px block only -- desktop's
     inline style is untouched and still governs there. */
- /* top:50%+translateY(-50%) centers against a percentage of the fixed-position containing block,
-    which mobile Chrome can size using the *layout* viewport (taller, includes the address-bar
-    area) rather than what's actually visible on screen -- that pushed the popup up under the
-    browser chrome, worse once the compact header shrank the page content above it. Explicit
-    top+bottom pixel insets (not percentages) plus margin:auto to center within that box sidesteps
-    the ambiguity entirely -- the popup can never land above row 16px from the true visible top. */
- #acctMenuPop{position:fixed;left:16px!important;right:16px!important;top:16px!important;bottom:16px!important;margin:auto!important;height:fit-content;transform:none!important;width:auto;max-width:420px;box-sizing:border-box;max-height:min(70dvh,420px)!important;min-width:0!important;border-radius:18px;z-index:1001;box-shadow:0 12px 48px rgba(0,0,0,.6),0 0 0 1px var(--border-2)}
+ /* Centering this with top:50%/translateY(-50%), or with top+bottom+margin:auto relying on the
+    CSS abspos "auto margins center it" algorithm, both turned out unreliable on mobile Chrome --
+    the former against a taller-than-visible layout viewport, the latter because that centering
+    algorithm isn't consistently applied when height is a sizing keyword like fit-content rather
+    than a plain auto/length. Simplest robust fix: anchor a fixed, small distance from the TRUE
+    top of the visible viewport (no percentage/centering math at all) with a matching bottom
+    margin reserved via max-height -- it can never render above that offset, on any browser,
+    with the header compact or expanded, address bar shown or hidden. */
+ #acctMenuPop{position:fixed;left:16px!important;right:16px!important;top:16px!important;bottom:auto!important;margin:0!important;transform:none!important;width:auto;max-width:420px;box-sizing:border-box;max-height:calc(100dvh - 32px)!important;min-width:0!important;border-radius:18px;z-index:1001;box-shadow:0 12px 48px rgba(0,0,0,.6),0 0 0 1px var(--border-2);overflow-y:auto}
  #acctMenuPop *{min-width:0}
  #acctMenuStatus{white-space:normal;overflow-wrap:anywhere;flex:1}
  #acctMenuPop .rcOpt{min-height:44px;display:flex;align-items:center;box-sizing:border-box}
