@@ -326,25 +326,137 @@ every unscored work.
 
 ---
 
-## What is still uncovered
+### 6. `comicIntent` — all four media — **NEW FIELD, not yet in the schema**
 
-Warmth closes the largest gap. It does not close all of them, and the honest list matters more
-than a tidy one. After warmth, the constructs measure: unease, absorption, intellectual demand,
-mechanical depth, care, craft and reception.
+**How much the work is trying to be funny, and how well it lands.** Wit, absurdity, timing,
+comic construction — whether or not the work is a comedy.
 
-Two qualities a person could reasonably organise their taste around are still **derived rather
-than measured** — computed from the other axes rather than judged on their own, so they inherit
-whatever those axes get wrong:
+Promoted from a derived index to a scored one because the derived version cannot see what matters.
+`funny` is computed as *genre contains "comedy"* plus a slice of audience score, so a genuinely
+witty drama scores as though it were humourless, and a leaden comedy scores as though it worked.
+That makes humour the one major taste a person cannot actually filter for.
 
-- **Humour.** `funny` is computed from genre plus audience score. A genuinely witty drama is
-  invisible to it.
-- **Beauty.** `awe` blends craft with a genre and vibe bonus. Cinematography is measured for film,
-  but nothing captures beauty for books or games as its own quality.
+**This is NOT:**
+- **Genre.** *Succession* and *Fleabag* are funnier than most things filed under Comedy. A work's
+  shelf is not its wit.
+- **Lightness or warmth.** *Dr. Strangelove* is one of the funniest films ever made and glacial;
+  *Grave of the Fireflies* is warm and has no jokes. Independent of construct 5 by design.
+- **Whether *you* laughed.** The question is whether the comic construction works, not whether it
+  is to your taste.
 
-Whether either deserves promotion to a raw scored field is the owner's call, and deliberately not
-decided here. Each carries the same 2,508-record cost as warmth.
+**Decision procedure.** Ask: *is comedy one of the tools this work is using, and does it work?*
+Sustained and successful, 80+. Real and frequent inside another mode, 55–75. Occasional levity,
+25–45. No comic intent at all, below 15 — and that is a normal, correct score, not a gap.
+
+**Anchors** — film/TV:
+
+| Score | Work | Why |
+|---|---|---|
+| **97** | *Monty Python and the Holy Grail* (m137) | Comedy is the entire architecture. Definitional. |
+| **85** | *Dr. Strangelove* (m244) | Sustained, exact, and never once warm — which is the point of separating this from warmth. |
+| **65** | *Succession* (t44) | Filed as Drama, and one of the funniest things in the ledger. Exactly the case `funny` cannot see. |
+| **35** | *Good Will Hunting* (m101) | Genuinely funny in places, inside a film that is not built on it. |
+| **5** | *The Shining* (m02) | None intended. |
+
+**Anchors** — books and games:
+
+| Score | Work | Why |
+|---|---|---|
+| **95** | *The Ultimate Hitchhiker's Guide to the Galaxy* (b28) | The prose exists to be funny. |
+| **90** | *Portal 2* (g38) | Comic writing and timing carry the whole game. |
+| **60** | *Catch-22* (b87) | Relentlessly funny and about atrocity at the same time. |
+| **30** | *Disco Elysium* (g59) | Very funny in a register that is mostly despair. |
+| **5** | *Blindsight* (b34) | None intended. |
 
 ---
+
+### 7. `aestheticBeauty` — all four media — **NEW FIELD, not yet in the schema**
+
+**How beautiful the work is as a made object** — composition, imagery, sound, language, design.
+Beauty as an achievement, independent of subject matter or how pleasant it is to sit with.
+
+Promoted for the same reason as humour: the derived `awe` index blends craft with a genre-and-vibe
+bonus, so it approximates *spectacle* rather than beauty, and it has nothing to say about books at
+all. Film has `cinematographyScore`, so film's beauty is already measured — this extends the same
+question to the other three media, and takes it beyond scale.
+
+**This is NOT:**
+- **Spectacle or scale.** A quiet film can be more beautiful than a loud one. That conflation is
+  precisely what `awe` gets wrong.
+- **Production budget or technical fidelity.** That is `physicalMediaFidelity` /
+  `engineeringFidelity`. A hand-drawn game can outscore a photorealistic one.
+- **Pleasantness.** *Blood Meridian* is beautiful and appalling.
+- **Craft in general.** Prose can be superbly efficient and not beautiful — *Don't Make Me Think*
+  is well made and not attempting beauty.
+
+**Decision procedure.** Ask: *would I stop on a single frame, sentence, or screen just to look at
+it?* Repeatedly and by design, 85+. Frequently, 65–80. In moments, 40–60. Functional, below 30.
+
+**Anchors** — film/TV:
+
+| Score | Work | Why |
+|---|---|---|
+| **99** | *Barry Lyndon* (m03) | Every frame composed as a painting, by explicit intent. Definitional. |
+| **90** | *In the Mood for Love* (m197) | Colour, framing and restraint doing the work of dialogue. |
+| **70** | *Spirited Away* (m59) | Sustained visual invention, in service of story rather than display. |
+| **45** | *Good Will Hunting* (m101) | Competently shot; beauty is not what it is for. |
+| **20** | *12 Angry Men* (m127) | Deliberately plain — a great film with no aesthetic ambition. |
+
+**Anchors** — books and games:
+
+| Score | Work | Why |
+|---|---|---|
+| **97** | *Blood Meridian* (b82) | Sentence-level beauty so sustained it survives the horror it describes. |
+| **90** | *Journey* (g70) | Every screen composed; the game's argument is made visually. |
+| **75** | *Shadow of the Colossus* (g69) | Emptiness and scale used as composition, not spectacle. |
+| **45** | *Hollow Knight* (g81) | Handsome and coherent; beauty is a quality, not the point. |
+| **15** | *Don't Make Me Think* (b45) | Well made, plainly written, not attempting beauty at all. |
+
+---
+
+## What is still uncovered
+
+The owner's instruction was to do it once and do it properly, so the three gaps the audit found
+are all being closed in the same pass rather than one now and two later. After constructs 5-7 the
+schema measures: unease, absorption, intellectual demand, mechanical depth, **care, humour and
+beauty**, plus craft and reception.
+
+That is deliberately a *taste-space* claim, not a claim to completeness. What it means is that the
+main axes a person organises their taste around each have a field their preferences can load onto,
+rather than four axes serving one shape of taste and nothing serving the rest.
+
+Known and accepted limits, so nobody mistakes silence for coverage:
+
+- **Romance, catharsis and tension-as-thrill** have no field of their own. Each is reachable
+  through a combination that does exist (warmth plus genre; warmth plus dread; dread plus pacing),
+  which is why they are not being promoted — but a person whose taste is *specifically* one of
+  these is served by genre boosts rather than by an index.
+- **Every construct is scored by one person against one rubric.** Consistency is provable;
+  correctness is not, because no external source of truth exists for any of them.
+- **Nothing measures how a work ages, or the gap between first and repeat encounters.** A work is
+  one number per axis, forever.
+
+---
+
+## Cost of constructs 5-7, stated once
+
+Three new fields across 2,508 records is the single largest piece of work in this pass — larger
+than the calibration it sits alongside. The sequence is the same for all three, and the order
+matters:
+
+1. **Score in reviewed batches during Phase 3**, same rubric and same protocol as every other
+   index, with the owner adjudicating the judgement calls.
+2. **Only then** wire them into `validate-corpus.js` (required + 0-100 scale), the adapter, `gm`,
+   and the filter sliders — in one commit per field, once that field is complete on every record.
+
+A field cannot become required until every record carries it, and half-populating one is worse
+than not having it: a filter reading a missing value silently hides every unscored work, which
+looks like a smaller library rather than a bug.
+
+Scoring all three together, per work, is also cheaper and better than three separate passes: the
+judgements interact (warmth against humour on a comedy, beauty against craft on a film), and
+making them side by side is what keeps them independent rather than three restatements of "I liked
+it".
 
 ## Craft and fidelity fields
 
