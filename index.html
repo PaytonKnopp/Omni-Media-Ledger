@@ -122,14 +122,80 @@ button:focus-visible,select:focus-visible,input:focus-visible{outline:2px solid 
    buttons just to reach the search bar. See switchView() for the matching JS: switching tabs
    scrolls the newly-active one into view, in case it was off to the side. */
 @media (max-width:767px){
- #headerInner{padding-top:.75rem;padding-bottom:.5rem}
- #headerControlsRow{gap:.6rem}
- #nav{flex-wrap:nowrap;overflow-x:auto;-webkit-overflow-scrolling:touch;scrollbar-width:none;margin-top:.75rem;padding-bottom:2px}
+ /* ---- Header: on a phone this stack (title -> account chip -> stats/theme/profile row ->
+    tab strip) was four-plus rows tall before any content was visible, each row full of its
+    desktop-sized text and gaps. Compact every row in place -- smaller title, a slimmer account
+    chip, tighter stat/label typography -- without touching the desktop layout (all of this is
+    gated behind this same max-width:767px block the tab-strip and account-popover fixes above
+    already use), so the whole header takes noticeably less vertical space and the tab strip
+    (already a horizontal-scroll row, see below) sits close under it. */
+ #headerInner{padding-top:.6rem;padding-bottom:.4rem}
+ #headerInner .flex.flex-col.gap-3{gap:.5rem}
+ #headerInner h1{font-size:15px;line-height:1.25}
+ #lastUpdated{font-size:9px;margin-top:2px}
+ #acctMenuField{padding:4px 9px 4px 5px!important;min-height:32px!important;gap:6px}
+ #acctAvatar{width:22px!important;height:22px!important;font-size:10px!important}
+ #acctMenuField>.flex.flex-col>span:first-child{display:none}
+ #acctBadge{font-size:11.5px!important}
+ #headerControlsRow{gap:.5rem;row-gap:.4rem}
+ #headStats{gap:.9rem}
+ #headStats .text-lg{font-size:14px}
+ #headerControlsRow .lbl,#headerControlsRow label.text-\[9px\]{font-size:8px}
+ #themeSel{padding:4px 6px!important;font-size:10.5px!important}
+ #tipsBtn{width:24px!important;height:24px!important}
+ #nav{flex-wrap:nowrap;overflow-x:auto;-webkit-overflow-scrolling:touch;scrollbar-width:none;margin-top:.55rem;padding-bottom:2px}
  #nav::-webkit-scrollbar{display:none}
- #nav .navBtn{flex:0 0 auto}
+ #nav{gap:6px}
+ #nav .navBtn{flex:0 0 auto;padding:6px 10px;font-size:10.5px}
  #profileBtnRow{flex-wrap:nowrap;overflow-x:auto;-webkit-overflow-scrolling:touch;scrollbar-width:none;max-width:100%}
  #profileBtnRow::-webkit-scrollbar{display:none}
- #profileBtnRow>*{flex:0 0 auto}
+ #profileBtnRow>*{flex:0 0 auto;padding-top:.5rem;padding-bottom:.5rem;min-height:36px;display:inline-flex;align-items:center}
+
+ /* Account panel: on a narrow phone the popover is anchored (right:0) to a header element that
+    sits close to the right edge, and its inner status row (avatar dot + free-text status like
+    "Synced to the account…") is a flex row whose text child refuses to wrap by default (flex
+    items have an implicit min-width:auto), so a long status line forced the whole popover wider
+    than the screen -- growing further left, past the edge, clipped with no way to scroll to it.
+    Clamp the popover to the viewport and let that text wrap instead of pushing width. */
+ #acctMenuPop{max-width:calc(100vw - 24px);width:min(280px,calc(100vw - 24px));box-sizing:border-box;left:auto;right:0}
+ #acctMenuPop *{min-width:0}
+ #acctMenuStatus{white-space:normal;overflow-wrap:anywhere;flex:1}
+ #acctMenuPop .rcOpt{min-height:40px;display:flex;align-items:center;box-sizing:border-box}
+
+ /* Search/filter card: tighten the vertical rhythm (each block below had its own mt-4/pt-4,
+    which stacks fast on a short viewport) without touching font sizes or touch target heights. */
+ #q,.inp{padding-top:9px;padding-bottom:9px}
+ section[data-sec="controller"]>.panel{padding:.75rem}
+ section[data-sec="controller"] .mt-4{margin-top:.65rem!important}
+ section[data-sec="controller"] .pt-4{padding-top:.65rem!important}
+ .seg button{padding-top:10px;padding-bottom:10px;min-height:40px}
+
+ /* Quick Tips wall of text -> per-category accordion. Structure below is unchanged (still plain
+    text, still in document order); on mobile only, JS (see initMobileTipsAccordion) wraps each
+    category into a <details> so it can collapse. Desktop never runs that code, so its DOM and
+    behavior stay exactly as they were. */
+ #tipsGate details{border-top:1px solid rgba(30,41,59,.7);padding-top:.5rem}
+ #tipsGate details:first-of-type{border-top:none;padding-top:0}
+ #tipsGate details>summary{list-style:none;cursor:pointer;display:flex;align-items:center;justify-content:space-between;gap:8px;min-height:40px}
+ #tipsGate details>summary::-webkit-details-marker{display:none}
+ #tipsGate details>summary::after{content:'+';font-size:16px;line-height:1;color:#5eead4;transition:transform .15s;flex:0 0 auto}
+ #tipsGate details[open]>summary::after{transform:rotate(45deg)}
+
+ /* Modals/overlays (add-to-collection edit fields, GOAT picker, Rabbit Hole/Surprise Me,
+    Shelf View, Upgrade Audit, tips, suggestions, version log, onboarding, account gate) all
+    share the same fixed inset-0 + centered .panel pattern, already width-capped (max-w-* +
+    w-full) and internally scrollable (max-h-[..vh] + overflow-y-auto) so none of them overflow
+    the viewport -- but their desktop p-6/p-8 padding eats a lot of a short phone screen before
+    any real content shows. Tighten just the padding/heading size, not the width/scroll behavior. */
+ #acctGate>.panel,#onboardGate .panel,#versionGate>.panel,#goatPickerGate>.panel,#tipsGate>.panel,#suggestGate>.panel{padding:1rem}
+ #acctGate .text-lg,#onboardGate .text-lg,#versionGate .text-lg,#goatPickerGate .text-lg,#tipsGate .text-lg,#suggestGate .text-lg{font-size:16px}
+
+ /* Range sliders: the 15px/13px desktop thumb (see input[type=range]::-webkit/-moz-range-thumb
+    above) is a small drag target for a finger. Grow the thumb and its track's hit area on mobile
+    only -- same track color/behavior, just bigger to grab. */
+ input[type=range]{height:6px;margin:14px 0}
+ input[type=range]::-webkit-slider-thumb{width:24px;height:24px;border-width:4px}
+ input[type=range]::-moz-range-thumb{width:22px;height:22px;border-width:4px}
 }
 
 /* ===== THEMES ===== */

@@ -2550,6 +2550,36 @@ on('#densityBtn','click',()=>{var on=document.body.classList.toggle('compact');v
  on('#tipsBtn','click',function(){gate.classList.remove('hidden');});
  on('#tipsClose','click',function(){gate.classList.add('hidden');});
 })();
+
+/* Quick Tips on mobile only: turn each category (the "Cards & tiering" / "Filtering & sorting" /
+   "Collection" / etc. divs -- a label + its paragraph block) into a collapsible <details> so the
+   phone screenshot's "wall of text with no way to collapse" stops being one long scroll. Desktop
+   never runs this -- matchMedia is checked once at load, matching the max-width:767px breakpoint
+   already used for every other mobile-only rule in index.html -- so desktop's DOM and behavior
+   are untouched. Purely a DOM restructure (label -> <summary>, rest -> wrapped body); no content
+   is changed. First section starts open so the panel isn't empty at a glance; the rest start
+   collapsed. */
+(function initMobileTipsAccordion(){
+ if(!window.matchMedia || !window.matchMedia('(max-width:767px)').matches)return;
+ var gate=$('#tipsGate');if(!gate)return;
+ var container=gate.querySelector('.space-y-5');if(!container)return;
+ var kids=Array.prototype.slice.call(container.children);
+ var sectionIdx=0;
+ kids.forEach(function(kid){
+  if(kid.tagName!=='DIV')return; // skip the header row and anything already special-cased
+  var label=kid.querySelector(':scope > div:first-child');
+  var rest=Array.prototype.slice.call(kid.children).slice(1);
+  if(!label||!rest.length)return; // not a "label + body" category block -- leave as-is
+  var details=document.createElement('details');
+  if(sectionIdx===0)details.open=true;
+  var summary=document.createElement('summary');
+  summary.appendChild(label);
+  details.appendChild(summary);
+  rest.forEach(function(el){details.appendChild(el);});
+  kid.replaceWith(details);
+  sectionIdx++;
+ });
+})();
 on('#surpriseBtn','click',()=>{const sc=$('#surpriseScope');sc.classList.toggle('hidden');var opening=!sc.classList.contains('hidden');var panel=$('#surprisePanel');
  if(opening){if(panel.dataset.mode==='rabbit'){panel.classList.add('hidden');panel.innerHTML='';panel.dataset.mode='';$('#rabbitBtn').setAttribute('aria-expanded','false');}if(sc.scrollIntoView)sc.scrollIntoView({behavior:'smooth',block:'nearest'});}
  else if(panel.dataset.mode==='spin'){/* closing Surprise Me clears its result too */panel.classList.add('hidden');panel.innerHTML='';panel.dataset.mode='';}
