@@ -254,6 +254,14 @@ button:focus-visible,select:focus-visible,input:focus-visible{outline:2px solid 
  section[data-sec="controller"] .mt-4{margin-top:.65rem!important}
  section[data-sec="controller"] .pt-4{padding-top:.65rem!important}
  .seg button{padding-top:10px;padding-bottom:10px;min-height:40px}
+ /* GOAT Profile's status filter (Any status/Gold/Silver/Bronze/Untiered/Owned) wraps to two rows on
+    mobile, but plain flex-wrap gives each row its own independent flex context -- the 2-button
+    second row stretched those buttons much wider than the 4 above them, so nothing lined up column
+    to column. A fixed 4-column grid keeps every button the same width across both rows. */
+ #goatTierSeg{display:grid;grid-template-columns:repeat(4,1fr)}
+ #goatTierSeg button{border-right:1px solid var(--border);border-bottom:1px solid var(--border)}
+ #goatTierSeg button:nth-child(4n){border-right:none}
+ #goatTierSeg button:nth-last-child(-n+2){border-bottom:none}
 
  /* Tier checkboxes (Owned-only / Not-owned / Tiers row): plain flex-wrap let "Tiers" + Gold split
     onto the same line as Owned/Not-owned while Silver+Bronze fell to the next line, so the group of
@@ -1079,7 +1087,7 @@ body[data-theme="outer-wilds"]{--bg:#0e0a09;--panel:#181010;--panel-2:#120c0b;--
     <input type="text" id="goatSearchInput" class="inp mt-3" placeholder="🔍 Search movies, TV, games, books by title, creator, genre…" autocomplete="off">
     <div class="flex flex-wrap items-center gap-2 mt-3">
       <div class="seg" id="goatTypeSeg" style="flex:0 0 auto"><button type="button" data-t="all" class="on">All</button><button type="button" data-t="movie">Movies</button><button type="button" data-t="tv">TV</button><button type="button" data-t="game">Games</button><button type="button" data-t="book">Books</button></div>
-      <div class="seg" id="goatTierSeg" style="flex:0 0 auto"><button type="button" data-tf="all" class="on">Any status</button><button type="button" data-tf="untiered" title="Not yet Gold/Silver/Bronze or owned">Untiered</button><button type="button" data-tf="gold">🥇 Gold</button><button type="button" data-tf="silver">🥈 Silver</button><button type="button" data-tf="bronze">🥉 Bronze</button><button type="button" data-tf="owned">◆ Owned</button></div>
+      <div class="seg" id="goatTierSeg" style="flex:0 0 auto"><button type="button" data-tf="all" class="on">Any status</button><button type="button" data-tf="gold">🥇 Gold</button><button type="button" data-tf="silver">🥈 Silver</button><button type="button" data-tf="bronze">🥉 Bronze</button><button type="button" data-tf="untiered" title="Not yet Gold/Silver/Bronze or owned">Untiered</button><button type="button" data-tf="owned">◆ Owned</button></div>
       <select id="goatSortSel" class="inp" style="width:auto">
         <option value="match">Sort: Best Match</option>
         <option value="tier">Sort: My Tiers first</option>
