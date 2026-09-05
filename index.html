@@ -187,17 +187,25 @@ button:focus-visible,select:focus-visible,input:focus-visible{outline:2px solid 
     text fades into the header background instead of just clipping -- a visible cue there's more
     to swipe to. Injected as real (non-clickable) children, not backgrounds, so they scroll away
     at the true start/end instead of covering content that's still reachable. */
+ /* Generalized off #nav so any horizontally-scrolling strip (currently #nav and #tipsTabPicker,
+    see initMobileNavScrollHint/initMobileScrollHint) can reuse the identical fade+chevron+pulse
+    affordance -- both elements get the sticky-fade children and the nav-at-start/nav-at-end/
+    nav-hint-pulse state classes toggled on themselves by JS, so this class list works unmodified
+    for either. */
  .navFade{position:sticky;top:0;align-self:stretch;width:34px;flex:0 0 34px;pointer-events:none;z-index:2;transition:opacity .15s;display:flex;align-items:center;font-size:15px;font-weight:700;color:#5eead4}
  .navFadeL{left:-1px;margin-right:-34px;background:linear-gradient(to right,#0B0F19 45%,rgba(11,15,25,0));opacity:1;justify-content:flex-start}
  .navFadeR{right:-1px;margin-left:-34px;background:linear-gradient(to left,#0B0F19 45%,rgba(11,15,25,0));opacity:1;justify-content:flex-end}
  .navFadeL::after,.navFadeR::after{content:'\203A';line-height:1;text-shadow:0 0 6px rgba(94,234,212,.7)}
  .navFadeL::after{content:'\2039'}
- #nav.nav-at-start .navFadeL{opacity:0}
- #nav.nav-at-end .navFadeR{opacity:0}
+ #nav.nav-at-start .navFadeL,#tipsTabPicker.nav-at-start .navFadeL{opacity:0}
+ #nav.nav-at-end .navFadeR,#tipsTabPicker.nav-at-end .navFadeR{opacity:0}
  /* One-time attention shimmer on the trailing (right) fade so a first-time phone user's eye is
     drawn to the fact there's more to swipe to, before they've touched the strip at all. */
  @keyframes navFadeHint{0%,100%{opacity:1}50%{opacity:.35}}
- #nav.nav-hint-pulse .navFadeR{animation:navFadeHint 1s ease-in-out 3}
+ #nav.nav-hint-pulse .navFadeR,#tipsTabPicker.nav-hint-pulse .navFadeR{animation:navFadeHint 1s ease-in-out 3}
+ /* #tipsTabPicker needs position:relative for the sticky fades to pin correctly, same as #nav (set
+    via #nav{position:relative} above). */
+ #tipsTabPicker{position:relative}
  #profileBtnRow{flex-wrap:nowrap;overflow-x:auto;-webkit-overflow-scrolling:touch;scrollbar-width:none;max-width:100%}
  #profileBtnRow::-webkit-scrollbar{display:none}
  #profileBtnRow>*{flex:0 0 auto;padding-top:.5rem;padding-bottom:.5rem;min-height:36px;display:inline-flex;align-items:center}

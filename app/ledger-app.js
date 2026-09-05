@@ -2600,6 +2600,10 @@ function tipsBuildPicker(){
  Object.keys(TAB_LABELS).forEach(function(k){html+='<button type="button" class="tipsTabBtn" data-tab="'+k+'">'+esc(TAB_LABELS[k])+'</button>';});
  picker.innerHTML=html;
  on('#tipsTabPicker','click',function(e){var b=e.target.closest('.tipsTabBtn');if(!b)return;_tipsSelectedTab=b.dataset.tab;tipsApplyFilter();});
+ // #tipsTabPicker scrolls sideways on mobile instead of wrapping (see the max-width:767px CSS),
+ // but its content is built here, on demand, well after the page-load-time #nav wiring above --
+ // so the scroll hint has to be wired here too, once the pills it fades actually exist.
+ if(window.matchMedia && window.matchMedia('(max-width:767px)').matches)initMobileScrollHint(picker);
 }
 (function initQuickTips(){
  var gate=$('#tipsGate');if(!gate)return;
@@ -2653,30 +2657,38 @@ function tipsBuildPicker(){
    next button's text into the background, plus a scroll listener that hides the left fade until
    you've actually scrolled and hides the right fade once you've reached the end. Desktop never
    runs this (matchMedia checked once at load) and its DOM/behavior are untouched. */
-(function initMobileNavScrollHint(){
- if(!window.matchMedia || !window.matchMedia('(max-width:767px)').matches)return;
- var nav=$('#nav');if(!nav)return;
+// Shared by #nav (wired at load) and #tipsTabPicker (wired each time its content is (re)built --
+// see tipsBuildPicker -- since that strip is populated dynamically, not present at load). Mobile-
+// only (checked once by each caller before this runs); idempotent per element via a dataset flag
+// so calling it again on the same element (e.g. Quick Tips reopened) is a harmless no-op.
+function initMobileScrollHint(el){
+ if(!el||el.dataset.scrollHintWired)return;
+ el.dataset.scrollHintWired='1';
  var fadeL=document.createElement('span');fadeL.className='navFade navFadeL';fadeL.setAttribute('aria-hidden','true');
  var fadeR=document.createElement('span');fadeR.className='navFade navFadeR';fadeR.setAttribute('aria-hidden','true');
- nav.insertBefore(fadeL,nav.firstChild);
- nav.appendChild(fadeR);
+ el.insertBefore(fadeL,el.firstChild);
+ el.appendChild(fadeR);
  function update(){
-  var atStart=nav.scrollLeft<=2;
-  var atEnd=nav.scrollLeft+nav.clientWidth>=nav.scrollWidth-2;
-  nav.classList.toggle('nav-at-start',atStart);
-  nav.classList.toggle('nav-at-end',atEnd);
+  var atStart=el.scrollLeft<=2;
+  var atEnd=el.scrollLeft+el.clientWidth>=el.scrollWidth-2;
+  el.classList.toggle('nav-at-start',atStart);
+  el.classList.toggle('nav-at-end',atEnd);
  }
- nav.addEventListener('scroll',update,{passive:true});
+ el.addEventListener('scroll',update,{passive:true});
  update();
  // Content (nav buttons, e.g. the watchlist count) can change scrollWidth after load.
  setTimeout(update,300);
  // One-time attention pulse on first load so a phone user notices the strip scrolls before they've
  // touched it; stops permanently once they scroll (start listener below), never repeats after.
- if(!nav.classList.contains('nav-at-end')){
-  nav.classList.add('nav-hint-pulse');
-  nav.addEventListener('scroll',function stopHint(){nav.classList.remove('nav-hint-pulse');nav.removeEventListener('scroll',stopHint);},{passive:true,once:true});
-  setTimeout(function(){nav.classList.remove('nav-hint-pulse');},3500);
+ if(!el.classList.contains('nav-at-end')){
+  el.classList.add('nav-hint-pulse');
+  el.addEventListener('scroll',function stopHint(){el.classList.remove('nav-hint-pulse');el.removeEventListener('scroll',stopHint);},{passive:true,once:true});
+  setTimeout(function(){el.classList.remove('nav-hint-pulse');},3500);
  }
+}
+(function initMobileNavScrollHint(){
+ if(!window.matchMedia || !window.matchMedia('(max-width:767px)').matches)return;
+ initMobileScrollHint($('#nav'));
 })();
 on('#surpriseBtn','click',()=>{const sc=$('#surpriseScope');sc.classList.toggle('hidden');var opening=!sc.classList.contains('hidden');var panel=$('#surprisePanel');
  if(opening){if(panel.dataset.mode==='rabbit'){panel.classList.add('hidden');panel.innerHTML='';panel.dataset.mode='';$('#rabbitBtn').setAttribute('aria-expanded','false');}if(sc.scrollIntoView)sc.scrollIntoView({behavior:'smooth',block:'nearest'});}
