@@ -22,6 +22,16 @@
  --grad-1:#0b0f19; --grad-2:#0d1220;
 }
 
+/* #6 fix, desktop share: <header class="sticky top-0 ..."> (see below) stays pinned above the page
+   on BOTH desktop and mobile -- it's the same element/class, no breakpoint guard -- so a bracket
+   panel jumped to via #matrixNav's scrollIntoView({block:'start'}) lands with its true top edge at
+   viewport y=0, tucked directly under that pinned header, which reads as landing mid-section rather
+   than at the heading. scroll-margin-top reserves the header's own height so the jump stops short of
+   it. Desktop's header is one wrapped row (title+account row, then the stats/theme/export controls
+   row) -- roughly this tall; the mobile media query below raises the reserve further because that
+   same header content stacks into more, shorter rows there. */
+[id^="mx-"]{scroll-margin-top:132px}
+
 html{scrollbar-color:var(--scroll-thumb) var(--bg)}
 ::-webkit-scrollbar{width:9px;height:9px}::-webkit-scrollbar-track{background:var(--bg)}::-webkit-scrollbar-thumb{background:var(--scroll-thumb);border-radius:5px}::-webkit-scrollbar-thumb:hover{background:var(--scroll-thumb-hover)}
 body{font-family:ui-sans-serif,system-ui,-apple-system,'Segoe UI',Roboto,'Helvetica Neue',sans-serif;background:var(--bg)!important;transition:background .4s ease,color .4s ease}
@@ -166,11 +176,17 @@ button:focus-visible,select:focus-visible,input:focus-visible{outline:2px solid 
     text fades into the header background instead of just clipping -- a visible cue there's more
     to swipe to. Injected as real (non-clickable) children, not backgrounds, so they scroll away
     at the true start/end instead of covering content that's still reachable. */
- .navFade{position:sticky;top:0;align-self:stretch;width:22px;flex:0 0 22px;pointer-events:none;z-index:2;transition:opacity .15s}
- .navFadeL{left:-1px;margin-right:-22px;background:linear-gradient(to right,#0B0F19,rgba(11,15,25,0));opacity:1}
- .navFadeR{right:-1px;margin-left:-22px;background:linear-gradient(to left,#0B0F19,rgba(11,15,25,0));opacity:1}
+ .navFade{position:sticky;top:0;align-self:stretch;width:34px;flex:0 0 34px;pointer-events:none;z-index:2;transition:opacity .15s;display:flex;align-items:center;font-size:15px;font-weight:700;color:#5eead4}
+ .navFadeL{left:-1px;margin-right:-34px;background:linear-gradient(to right,#0B0F19 45%,rgba(11,15,25,0));opacity:1;justify-content:flex-start}
+ .navFadeR{right:-1px;margin-left:-34px;background:linear-gradient(to left,#0B0F19 45%,rgba(11,15,25,0));opacity:1;justify-content:flex-end}
+ .navFadeL::after,.navFadeR::after{content:'\203A';line-height:1;text-shadow:0 0 6px rgba(94,234,212,.7)}
+ .navFadeL::after{content:'\2039'}
  #nav.nav-at-start .navFadeL{opacity:0}
  #nav.nav-at-end .navFadeR{opacity:0}
+ /* One-time attention shimmer on the trailing (right) fade so a first-time phone user's eye is
+    drawn to the fact there's more to swipe to, before they've touched the strip at all. */
+ @keyframes navFadeHint{0%,100%{opacity:1}50%{opacity:.35}}
+ #nav.nav-hint-pulse .navFadeR{animation:navFadeHint 1s ease-in-out 3}
  #profileBtnRow{flex-wrap:nowrap;overflow-x:auto;-webkit-overflow-scrolling:touch;scrollbar-width:none;max-width:100%}
  #profileBtnRow::-webkit-scrollbar{display:none}
  #profileBtnRow>*{flex:0 0 auto;padding-top:.5rem;padding-bottom:.5rem;min-height:36px;display:inline-flex;align-items:center}
@@ -182,7 +198,7 @@ button:focus-visible,select:focus-visible,input:focus-visible{outline:2px solid 
     the viewport, full-width, sliding up from the bottom, above everything (including the sticky
     header), with a dim backdrop behind it. This still uses the exact same open/close JS (the
     .open / .hidden classes toggled in initAcctMenu) -- only the popover's own positioning changes. */
- #acctMenuPop{position:fixed;left:12px;right:12px;top:auto;bottom:12px;width:auto;max-width:none;box-sizing:border-box;max-height:min(70vh,420px);border-radius:14px;z-index:1001;box-shadow:0 -8px 40px rgba(0,0,0,.6),0 0 0 1px var(--border-2)}
+ #acctMenuPop{position:fixed;left:16px;right:16px;top:50%;bottom:auto;transform:translateY(-50%);width:auto;max-width:420px;margin:0 auto;box-sizing:border-box;max-height:min(70vh,420px);border-radius:18px;z-index:1001;box-shadow:0 12px 48px rgba(0,0,0,.6),0 0 0 1px var(--border-2)}
  #acctMenuPop *{min-width:0}
  #acctMenuStatus{white-space:normal;overflow-wrap:anywhere;flex:1}
  #acctMenuPop .rcOpt{min-height:44px;display:flex;align-items:center;box-sizing:border-box}
@@ -224,6 +240,35 @@ button:focus-visible,select:focus-visible,input:focus-visible{outline:2px solid 
  input[type=range]{height:6px;margin:14px 0}
  input[type=range]::-webkit-slider-thumb{width:24px;height:24px;border-width:4px}
  input[type=range]::-moz-range-thumb{width:22px;height:22px;border-width:4px}
+
+ /* Internal scroll panels (GOAT Profile's "Search & Build Your Favorites" results, each Reference
+    Matrices bracket's row list) are tall enough on desktop that a swipe starting over one of them
+    is very likely to hit the panel instead of the page, making it feel like the page is "stuck."
+    Shorten them on mobile so more of a typical swipe starts (or quickly leaves) the panel and lands
+    on page background instead, and contain overscroll so hitting either end of the inner list
+    doesn't chain into a jarring page-level bounce. This doesn't change desktop's #goatSearchResults/
+    .matrixScroll sizing at all -- those keep their max-h-[420px]/max-h-[460px] Tailwind values. */
+ #goatSearchResults{max-height:280px!important;overscroll-behavior:contain}
+ .matrixScroll{max-height:280px!important;overscroll-behavior:contain}
+
+ /* Reference Matrices top area: the intro paragraph + "Owned only" checkbox row, the search box, and
+    the jump-to-bracket pill nav used to just stack with default block spacing, reading as one loose
+    pile on a narrow screen with no visual separation between "what this page is" and "how to filter
+    / jump around it." Tighten the rhythm, style the checkbox+search as one cohesive filter bar (same
+    surface/border), and label the pill row so it clearly reads as jump-to-section nav rather than
+    more body copy -- all via CSS on the existing ids/structure, no markup change needed. */
+ section[data-sec="matrix"]>.flex.mb-3{margin-bottom:.55rem;gap:.5rem 0}
+ #matrixIntro{flex-basis:100%;margin-bottom:.35rem}
+ label:has(#matrixOwnedOnly){background:var(--panel-2);border:1px solid var(--border-2);border-radius:8px;padding:.4rem .6rem;min-height:36px}
+ #matrixNavSearch{background:var(--panel-2);border-color:var(--border-2)}
+ #matrixNav{margin-top:.15rem;padding-top:.6rem;border-top:1px dashed var(--border-2);position:relative}
+ #matrixNav::before{content:'Jump to a bracket';display:block;flex-basis:100%;font-size:9.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--text-faint);margin-bottom:.3rem}
+
+ /* #6, mobile override: same sticky-header occlusion as the global rule above, but the header's
+    controls row stacks into a column here (#headerControlsRow{flex-direction:column} above) instead
+    of one wrapped row, making the pinned header taller on a phone -- so the reserved offset needs to
+    be larger here, not smaller, even though every other mobile element is more compact. */
+ [id^="mx-"]{scroll-margin-top:172px}
 }
 
 /* ===== THEMES ===== */
