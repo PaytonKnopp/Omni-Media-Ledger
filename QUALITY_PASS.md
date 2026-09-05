@@ -247,8 +247,33 @@ Wilds* stays mis-rated `M` in the meantime; it is the most visible open defect.
 - **Phase 4 — Genre and vibe vocabulary.** 269 genre strings, 109 used once, 162 used ≤3; 763 works
   carry only one genre. 30 vibes, of which `Notebook-and-Theories Night` covers 270 works and
   carries the profile's largest single weight (+8). Ships with decision 5's exact matching.
-- **Phase 5 — Facts.** Tier A (machine-checkable, no network, 100% coverage) → Tier B
-  (source-verified, prioritised) → Tier C (documented as unverifiable). **Owned 179 first.**
+- **Phase 5 — Facts. THE HARNESS IS BUILT AND TESTED; IT NEEDS KEYS AND NETWORK, NOTHING ELSE.**
+  Tier A (machine-checkable, no network, 100% coverage) → Tier B (source-verified, prioritised) →
+  Tier C (documented as unverifiable). **Owned 179 first** (`--owned-first`).
+  - `scripts/fetch-facts.js` asks OMDb + TMDB (film/TV), OpenLibrary + Google Books (books) and
+    IGDB (games) what they hold, reconciles the answers, and writes `evidence/<medium>-<date>.json`
+    plus a markdown review queue. **It never writes to `data/`.**
+  - `scripts/apply-facts.js` is the only script that edits the corpus, and it applies **grade A
+    only** — two independent sources agreeing — by exact-match replacement scoped to the record's
+    own line, refusing outright if the value it means to replace is not there exactly once. Dry run
+    unless `--write`.
+  - Grades: **A** two sources corroborate → applyable. **B** one source, sources disagreeing, or a
+    naming-convention field (studio, publisher, network, platform list) → review queue, never
+    auto-applied. **C** model recall → *not produced by this harness at all*.
+  - Numbers are compared **exactly**; there is no tolerance band. A one-minute runtime difference
+    goes to a human, because deciding which small differences don't matter is exactly the judgement
+    the harness is not allowed to make.
+  - A record earns `prov:{facts:"sourced",…}` when every **hard** fact came back grade A. `indices`
+    stays `unscored`: sourcing a runtime says nothing about whether the work was scored against
+    RUBRIC.md, and conflating the two would certify a judgement nobody made.
+  - `--offline <raw.json>` replays recorded responses through the identical pipeline; `--record`
+    captures a live run so it stays replayable. Everything downstream of the network is covered by
+    `test/fetch-facts.js` (18 checks, in `npm test`) against a fixture built from real records.
+  - **Keys are environment variables only** — `OMDB_API_KEY`, `TMDB_API_KEY`, `IGDB_CLIENT_ID` /
+    `IGDB_CLIENT_SECRET`; OpenLibrary and Google Books need none. Every recorded URL passes through
+    one redaction chokepoint, tested, because recorded runs are meant to be committed. A missing key
+    is not an error: that source is skipped and every field it would have carried drops a grade,
+    which the output says out loud.
 - **Phase 6 — Real provenance. MECHANISM DONE; the stamps themselves are Phase 5 output.**
   Per-record stamp `{facts: sourced|estimated|edition-dependent, checked: YYYY-MM-DD, src: …,
   indices: rubric-v1|unscored}`, resolved by `provStampOf()` in the adapter, enforced in
