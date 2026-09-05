@@ -172,11 +172,30 @@ async function signInAndSettle(page, handle, startBtn) {
   return { signedIn: signedIn, onboarding: onboarding };
 }
 
+// Click something that makes the app reload, and confirm the reload actually happened.
+//
+// The marker is set on window, the click fires, and the reload wipes it. If the marker is still
+// there when the wait expires, the click did NOT take -- almost always because the button was in
+// the DOM but its handler had not been bound yet, which a slower runner makes far more likely.
+//
+// The original swallowed that timeout and carried on, so a click that never registered looked
+// exactly like one that did, and the failure surfaced two steps later as "declaring Gold upserts a
+// row into the media_status table" -- a database check reporting a mouse event. That check failed
+// on CI while passing locally more than once. So: retry the click once, and return whether the
+// reload was ever observed, so a caller can say what actually went wrong instead of guessing.
 async function clickAndReload(page, selector, timeout) {
-  await page.evaluate(() => { window.__preReloadMarker = true; });
-  await page.click(selector);
-  await page.waitForFunction(() => !window.__preReloadMarker, { timeout: timeout || 20000 }).catch(() => {});
-  await waitForBoot(page);
+  const budget = timeout || 20000;
+  for (let attempt = 0; attempt < 2; attempt++) {
+    await page.evaluate(() => { window.__preReloadMarker = true; });
+    await page.click(selector).catch(() => {});
+    const reloaded = await page.waitForFunction(() => !window.__preReloadMarker, { timeout: budget })
+      .then(() => true).catch(() => false);
+    await waitForBoot(page);
+    if (reloaded) return true;
+    // Give the second attempt a page whose handlers have had time to bind.
+    await page.waitForSelector(selector, { timeout: 5000 }).catch(() => {});
+  }
+  return false;
 }
 
 function findChromium() {
@@ -1396,7 +1415,9 @@ async function runAccountFlow(browser, file) {
     // in the DB per title. Declaring something Gold should upsert a row; un-declaring it should
     // remove that row entirely (nothing left to track once there's no tier and it's not owned).
     const goldCardId = await firstCardId(page2);
-    await clickAndReload(page2, '.panel .profEditBtn[data-act="declare"][data-id="' + goldCardId + '"]');
+    const goldClickLanded = await clickAndReload(page2, '.panel .profEditBtn[data-act="declare"][data-id="' + goldCardId + '"]');
+    check('the Gold button on card ' + goldCardId + ' actually fired (a missed click is not a database bug)',
+      goldClickLanded);
     const mediaRowAfterDeclare = await readWhen(page2, (id) => {
       const rows = (window.__mockTables && window.__mockTables.media_status) || [];
       return rows.find(r => r.handle === 'smoketestuser2' && r.media_id === id) || false;
