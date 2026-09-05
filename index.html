@@ -191,7 +191,6 @@ button:focus-visible,select:focus-visible,input:focus-visible{outline:2px solid 
     completely unaffected regardless of body class. */
  #headerCompactToggle{display:inline-flex}
  body.headerCompact #headerTitleBlock,body.headerCompact #headStats,body.headerCompact #headerControlsRow>.flex.flex-wrap.items-end.gap-4{display:none}
- body.headerCompact #headerCompactToggle{transform:rotate(180deg)}
  body.headerCompact #headerControlsRow{margin:0;gap:0}
  body.headerCompact #headerInner{padding-bottom:.25rem}
  #nav{flex-wrap:nowrap;overflow-x:auto;-webkit-overflow-scrolling:touch;scrollbar-width:none;margin-top:.55rem;padding-bottom:2px;position:relative}
@@ -680,7 +679,7 @@ body[data-theme="outer-wilds"]{--bg:#0e0a09;--panel:#181010;--panel-2:#120c0b;--
              by default here (desktop); the mobile media query is what turns it on, so desktop can
              never show or trigger this. Sits right next to the account chip so it's easy to find and
              thumb-reach, and always visible itself (never part of what it hides). -->
-        <button type="button" id="headerCompactToggle" class="hidden items-center justify-center rounded-full border shrink-0" style="width:26px;height:26px;border-color:#5eead455;color:#5eead4;font-size:12px;line-height:1" title="Collapse header" aria-label="Collapse header" aria-expanded="true">▲</button>
+        <button type="button" id="headerCompactToggle" class="hidden items-center gap-1 rounded-full border shrink-0 font-semibold" style="padding:5px 10px;border-color:#5eead455;color:#5eead4;font-size:10.5px;line-height:1;letter-spacing:.03em" title="Collapse header to just the account and tabs" aria-label="Collapse header to just the account and tabs" aria-expanded="true"><span id="headerCompactIcon">▲</span> <span id="headerCompactLabel">Compact header</span></button>
         <div class="radarCombo" id="acctMenu">
           <div class="rcField flex items-center gap-2" id="acctMenuField" tabindex="0" role="button" aria-haspopup="menu" style="min-height:40px;padding:6px 12px 6px 7px;border-radius:999px;border:1px solid var(--border-soft,#1e293b)">
             <span id="acctAvatar" class="flex items-center justify-center rounded-full shrink-0 font-bold uppercase" style="width:28px;height:28px;font-size:12px;background:#1e293b;color:#94a3b8">·</span>
