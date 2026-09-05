@@ -262,6 +262,12 @@ button:focus-visible,select:focus-visible,input:focus-visible{outline:2px solid 
  #goatTierSeg button{border-right:1px solid var(--border);border-bottom:1px solid var(--border)}
  #goatTierSeg button:nth-child(4n){border-right:none}
  #goatTierSeg button:nth-last-child(-n+2){border-bottom:none;grid-column:span 2}
+ /* Contenders Ledger's Rank/sort row (For You/Editorial/Title A-Z/Soonest Window): plain flex-wrap
+    left the 4th pill ("Soonest Window") alone on its own row since 3 fit on the first. A 2-column
+    grid for just the sort buttons keeps two per row consistently instead of an uneven 3-then-1. */
+ #contRankGroup{display:grid;grid-template-columns:repeat(2,1fr);gap:6px 8px;align-items:center}
+ #contRankGroup>.text-\[10px\]{grid-column:1/-1;margin:0 0 2px}
+ #contRankGroup .contSortBtn{text-align:center}
 
  /* Tier checkboxes (Owned-only / Not-owned / Tiers row): plain flex-wrap let "Tiers" + Gold split
     onto the same line as Owned/Not-owned while Silver+Bronze fell to the next line, so the group of
