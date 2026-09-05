@@ -75,11 +75,18 @@ body.compact #grid .cardHead{padding-top:.5rem;padding-bottom:.5rem}
 .rcPop.hidden{display:none}
 .rcSearch{margin-bottom:6px;font-size:13px}
 .rcList{overflow-y:auto;flex:1}
-.rcOptGroup{font-size:9.5px;text-transform:uppercase;letter-spacing:.12em;color:#64748b;padding:6px 8px 3px}
+.rcOptGroup{position:sticky;top:0;z-index:1;font-size:10.5px;font-weight:800;text-transform:uppercase;letter-spacing:.1em;color:#93c5fd;background:#111c34;padding:6px 8px;margin:4px -8px 4px;border-top:1px solid rgba(148,163,184,.18);border-bottom:1px solid rgba(148,163,184,.18)}
+.rcOptGroup:first-child{margin-top:-8px;border-top:none}
 .rcOpt{padding:7px 10px;border-radius:7px;cursor:pointer;font-size:12.5px;color:#cbd5e1;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .rcOpt:hover,.rcOpt.active{background:rgba(129,140,248,.16);color:#e2e8f0}
 .rcOpt.sel{color:#a5b4fc;font-weight:600}
 .rcEmpty{padding:12px;text-align:center;color:#64748b;font-size:12px}
+/* Manual (non-Tailwind-compiled) height cap for the Quick Tips panel -- see the HTML comment right
+   above #tipsGate's .panel for why max-h-[88vh] as a class doesn't work in this precompiled-CSS
+   file. Both platforms: without this, the panel can render taller than the viewport and, since it's
+   centered with no scroll container around it, its top (title + close button) gets pushed off-screen
+   with no way to scroll back up to it -- exactly the "can't see the close button" bug. */
+#tipsGate>.panel{max-height:88vh}
 /* Command palette */
 
 .familyTile{cursor:pointer}
@@ -268,6 +275,21 @@ button:focus-visible,select:focus-visible,input:focus-visible{outline:2px solid 
     the same way the shared rule above tightens every other modal's single padded .panel. */
  #tipsHeaderWrap,#tipsBody{padding-left:1rem!important;padding-right:1rem!important;padding-top:1rem!important;padding-bottom:1rem!important}
  #tipsGate .text-xl{font-size:16px}
+ /* Header was still eating most of a short phone screen before any tip content (or the close
+    button) was visible: the intro/eyebrow/subtitle stack plus 11 tab pills wrapping into 2-3 full
+    rows. Condense the copy (smaller title, no letter-spaced eyebrow line, shorter subtitle hidden
+    in favor of the body's intro message) and turn the tab picker into a horizontally-scrolling row
+    -- same pattern as #nav (see initMobileNavScrollHint) -- instead of wrapping, so the header
+    settles to roughly one title line + one pill row. Desktop keeps the original stacked/wrapped
+    layout untouched (none of these selectors exist outside this media query). */
+ #tipsHeaderWrap{padding-top:.85rem!important;padding-bottom:.6rem!important}
+ #tipsHeaderWrap.space-y-5>:not([hidden])~:not([hidden]){margin-top:.55rem}
+ #tipsEyebrow{display:none}
+ #tipsTitle{font-size:15px}
+ #tipsSubtitle{display:none}
+ #tipsTabPicker{flex-wrap:nowrap;overflow-x:auto;-webkit-overflow-scrolling:touch;scrollbar-width:none;padding-bottom:2px}
+ #tipsTabPicker::-webkit-scrollbar{display:none}
+ #tipsTabPicker .tipsTabBtn{flex:0 0 auto}
 
  /* Range sliders: the 15px/13px desktop thumb (see input[type=range]::-webkit/-moz-range-thumb
     above) is a small drag target for a finger. Grow the thumb and its track's hit area on mobile
@@ -445,13 +467,21 @@ body[data-theme="outer-wilds"]{--bg:#0e0a09;--panel:#181010;--panel-2:#120c0b;--
        non-scrolling header (#tipsHeaderWrap, title+close+tab picker, sits at the top, never moves)
        and a separately-scrolling body (#tipsBody, the tip categories only) below it -- a standard
        sticky-header/scrollable-body modal pattern, correct at any width, not just mobile. -->
-  <div class="panel max-w-3xl w-full max-h-[88vh] flex flex-col overflow-hidden">
+  <!-- max-h-[88vh] below is a *manual* CSS rule (see "#tipsGate>.panel" in the <style> block), not a
+       Tailwind arbitrary-value class -- this file ships a statically precompiled Tailwind stylesheet
+       (see the <style> block's own comment / npx tailwindcss build command near the top), so any
+       bracketed utility not already present in that precompiled output silently does nothing. That
+       was the actual reason the "sticky header" fix in the previous commit didn't work: max-h-[88vh]
+       was never compiled in, so the panel had no height cap at all, could render taller than the
+       viewport, and -- being centered with no scroll container around it -- had its top (title +
+       close button) pushed off-screen with no way to scroll up to it. -->
+  <div class="panel max-w-3xl w-full flex flex-col overflow-hidden">
     <div id="tipsHeaderWrap" class="p-8 pb-5 space-y-5 shrink-0 border-b border-slate-800/70">
       <div class="flex items-start justify-between gap-2">
         <div>
-          <div class="text-[10px] tracking-[.3em] text-teal-300/80 uppercase mb-1">Quick tips</div>
-          <h2 class="text-xl font-bold text-slate-50">A few pointers</h2>
-          <p class="text-[12px] text-slate-500 mt-1">Everything worth knowing to use this app well, in one place.</p>
+          <div id="tipsEyebrow" class="text-[10px] tracking-[.3em] text-teal-300/80 uppercase mb-1">Quick tips</div>
+          <h2 id="tipsTitle" class="text-xl font-bold text-slate-50">A few pointers</h2>
+          <p id="tipsSubtitle" class="text-[12px] text-slate-500 mt-1">Everything worth knowing to use this app well, in one place.</p>
         </div>
         <button type="button" id="tipsClose" class="text-slate-500 hover:text-slate-300 text-lg leading-none" aria-label="Close">✕</button>
       </div>
@@ -463,6 +493,12 @@ body[data-theme="outer-wilds"]{--bg:#0e0a09;--panel:#181010;--panel-2:#120c0b;--
     </div>
 
     <div id="tipsBody" class="p-8 pt-5 space-y-5 overflow-y-auto">
+    <!-- Shown only until a tab pill is picked (see tipsApplyFilter) -- a plain-language nudge instead
+         of silently dumping one tab's content by default, so it's obvious the picker above is the
+         way to browse the rest of the app one area at a time. -->
+    <div id="tipsIntroMsg" class="text-[13px] text-slate-300 leading-relaxed">
+      👋 <strong class="text-slate-100">New here, or just want a refresher?</strong> Pick a tab above to see every tip for that part of the app, one area at a time — or choose <strong class="text-slate-100">★ General</strong> for tips that apply everywhere. You can come back anytime with the <strong class="text-slate-100">?</strong> button next to the theme selector.
+    </div>
     <div class="tipCat" data-tabs="all">
       <div class="text-[10px] tracking-[.2em] uppercase text-teal-300/70 mb-2.5">Cards &amp; tiering</div>
       <div class="text-[13px] text-slate-300 leading-relaxed space-y-3.5">
