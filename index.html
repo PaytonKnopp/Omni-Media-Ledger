@@ -261,7 +261,7 @@ button:focus-visible,select:focus-visible,input:focus-visible{outline:2px solid 
  #goatTierSeg{display:grid;grid-template-columns:repeat(4,1fr)}
  #goatTierSeg button{border-right:1px solid var(--border);border-bottom:1px solid var(--border)}
  #goatTierSeg button:nth-child(4n){border-right:none}
- #goatTierSeg button:nth-last-child(-n+2){border-bottom:none}
+ #goatTierSeg button:nth-last-child(-n+2){border-bottom:none;grid-column:span 2}
 
  /* Tier checkboxes (Owned-only / Not-owned / Tiers row): plain flex-wrap let "Tiers" + Gold split
     onto the same line as Owned/Not-owned while Silver+Bronze fell to the next line, so the group of
