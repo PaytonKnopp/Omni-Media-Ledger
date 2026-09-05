@@ -308,6 +308,14 @@ button:focus-visible,select:focus-visible,input:focus-visible{outline:2px solid 
  #wlSortGroup #wlSortSel{width:100%}
  #wlSearch{max-width:none!important}
 
+ /* Timeline's "My Collection / All Works" scope toggle uses margin-left:auto to sit at the far
+    right of its header row on desktop; once that row wraps on mobile (once #tlMedium's 5 buttons
+    take the full width), the auto margin just pins it to the right edge alone on its own line,
+    which reads as stray/unbalanced rather than a clear second control. Drop the auto margin and
+    let it stretch full-width and centered on its own row instead, matching the sibling groups. */
+ #tlScope{margin-left:0!important;width:100%;display:flex}
+ #tlScope button{flex:1 1 0;text-align:center}
+
  /* Quick Tips wall of text -> per-category accordion. Structure below is unchanged (still plain
     text, still in document order); on mobile only, JS (see initMobileTipsAccordion) wraps each
     category into a <details> so it can collapse. Desktop never runs that code, so its DOM and
