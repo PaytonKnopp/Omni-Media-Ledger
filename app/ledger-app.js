@@ -1993,7 +1993,7 @@ function creatorBlindSpots(){
   .map(function(c){var top=c.works.slice().sort(function(a,b){return b.gm-a.gm;})[0];return {creator:c.creator,kind:c.kind,n:c.works.length,top:top};})
   .filter(function(r){return r.top.gm>=80;})
   .sort(function(a,b){return b.top.gm-a.top.gm;})
-  .slice(0,9);
+  .slice(0,12);
 }
 function renderCreatorBlindSpots(){
  var el=$('#creatorBlindSpots');if(!el)return;
@@ -2291,7 +2291,7 @@ function renderCollection(){
       +'<div class="text-right shrink-0"><div class="text-[13px] font-bold tabular-nums" style="color:'+col+'">'+x.ovr+'</div>'+(x.goat?'<div class="text-[9px]" style="color:#fbbf24">\u2605 GOAT</div>':x.silver?'<div class="text-[9px] text-slate-400">\u2606</div>':'')+'</div></div>';}).join('')+'</div></div>';
  }).join('')||'<div class="text-center text-slate-500 text-sm py-10">'+(q?'Nothing in your collection matches \u201c'+esc(state.collSearchQ.trim())+'\u201d.':'No owned items in this category.')+'</div>';
  // gaps: top-rated NOT owned, per medium (games included now that they're part of the Collection tab)
- const gaps=ALL.filter(x=>!x.owned).sort((a,b)=>b.ovr-a.ovr).slice(0,18);
+ const gaps=ALL.filter(x=>!x.owned).sort((a,b)=>b.ovr-a.ovr).slice(0,12);
  $('#collGaps').innerHTML=gaps.map(x=>{const k=KM[x.kind];
   return '<div class="panel p-2.5 flex items-center gap-2 goatJump cursor-pointer" data-q="'+esc(x.title)+'" title="Open in Global Controller"><span class="w-1.5 h-1.5 rounded-full shrink-0" style="background:'+k.c+'"></span>'
    +'<span class="flex-1 min-w-0 truncate text-[12px] text-slate-200">'+esc(x.title)+' <span class="text-slate-500 text-[10px]">'+x.year+'</span></span>'
