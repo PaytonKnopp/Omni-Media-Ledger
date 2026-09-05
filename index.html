@@ -296,6 +296,18 @@ button:focus-visible,select:focus-visible,input:focus-visible{outline:2px solid 
  #contMedGroup,#contRankGroup,#contVerifyGroup{background:rgba(148,163,184,.04);border:1px solid rgba(148,163,184,.1);border-radius:10px;padding:7px 8px}
  .contFilterDivider{display:none}
 
+ /* Watchlist's filter row (status seg / type seg / sort dropdown) was the same kind of flat
+    flex-wrap row as Contenders Ledger's was before that cleanup -- three unrelated controls with
+    no visual separation, wrapping unpredictably on a phone. Same treatment: each becomes its own
+    labeled, bordered band stacked full-width, and the search box below spans the full width
+    instead of stopping at its desktop max-width:320px. */
+ #wlFilterRow{flex-direction:column;align-items:stretch;gap:.5rem}
+ #wlFilter,#wlTypeSeg{width:100%}
+ #wlFilterGroup,#wlTypeGroup,#wlSortGroup{display:block;width:100%;background:rgba(148,163,184,.04);border:1px solid rgba(148,163,184,.1);border-radius:10px;padding:7px 8px;box-sizing:border-box}
+ #wlFilterGroup{display:flex;flex-direction:column;align-items:stretch;gap:.4rem}
+ #wlSortGroup #wlSortSel{width:100%}
+ #wlSearch{max-width:none!important}
+
  /* Quick Tips wall of text -> per-category accordion. Structure below is unchanged (still plain
     text, still in document order); on mobile only, JS (see initMobileTipsAccordion) wraps each
     category into a <details> so it can collapse. Desktop never runs that code, so its DOM and
@@ -1155,11 +1167,11 @@ body[data-theme="outer-wilds"]{--bg:#0e0a09;--panel:#181010;--panel-2:#120c0b;--
   </div>
   <div class="grid grid-cols-1 lg:grid-cols-3 gap-4">
     <div class="lg:col-span-2">
-      <div class="flex items-center gap-2 mb-3 flex-wrap">
-        <span class="lbl">Saved titles</span>
-        <div class="seg" id="wlFilter" style="flex:0 0 auto"><button type="button" data-wf="all" class="on">All</button><button type="button" data-wf="todo" title="Not yet watched, read, or played">Up Next</button><button type="button" data-wf="done" title="Marked watched, read, or played">Complete</button></div>
-        <div class="seg" id="wlTypeSeg" style="flex:0 0 auto"><button type="button" data-wt="all" class="on">All types</button><button type="button" data-wt="movie">Movies</button><button type="button" data-wt="tv">TV</button><button type="button" data-wt="game">Games</button><button type="button" data-wt="book">Books</button></div>
-        <select id="wlSortSel" class="inp" style="width:auto"><option value="added">Sort: Recently added</option><option value="match">Sort: Best Match</option><option value="title">Sort: Title A–Z</option></select>
+      <div id="wlFilterRow" class="flex items-center gap-2 mb-3 flex-wrap">
+        <span id="wlFilterGroup" class="flex items-center gap-2 flex-wrap"><span class="lbl">Saved titles</span>
+        <div class="seg" id="wlFilter" style="flex:0 0 auto"><button type="button" data-wf="all" class="on">All</button><button type="button" data-wf="todo" title="Not yet watched, read, or played">Up Next</button><button type="button" data-wf="done" title="Marked watched, read, or played">Complete</button></div></span>
+        <span id="wlTypeGroup"><div class="seg" id="wlTypeSeg" style="flex:0 0 auto"><button type="button" data-wt="all" class="on">All types</button><button type="button" data-wt="movie">Movies</button><button type="button" data-wt="tv">TV</button><button type="button" data-wt="game">Games</button><button type="button" data-wt="book">Books</button></div></span>
+        <span id="wlSortGroup"><select id="wlSortSel" class="inp" style="width:auto"><option value="added">Sort: Recently added</option><option value="match">Sort: Best Match</option><option value="title">Sort: Title A–Z</option></select></span>
       </div>
       <input type="text" id="wlSearch" class="inp mb-3" style="max-width:320px" placeholder="🔍 Search your watchlist…" autocomplete="off">
       <div id="wlGrid" class="grid grid-cols-1 md:grid-cols-2 gap-3"></div>
