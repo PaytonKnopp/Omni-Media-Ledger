@@ -302,6 +302,59 @@ console.log('\n=== genre families ===');
   }
 }
 
+/* ===================== genre taxonomy ===================== */
+
+// data/genre-taxonomy.js declares what every genre tag inherits from, and it is what replaces
+// substring matching on genres. That only holds if it stays complete: a tag missing from it
+// inherits nothing, so it silently stops matching any boost or filter above its own exact name --
+// a new "Folk Horror" would quietly become invisible to a Horror boost. Nothing would error.
+//
+// So a genre entering the corpus without declaring its parents is a build failure, not a warning.
+console.log('\n=== genre taxonomy ===');
+{
+  const taxPath = path.join(ROOT, 'data/genre-taxonomy.js');
+  if (!fs.existsSync(taxPath)) {
+    check('data/genre-taxonomy.js exists', false);
+  } else {
+    let TAX;
+    try {
+      TAX = new Function(fs.readFileSync(taxPath, 'utf8') + '\nreturn GENRE_TAXONOMY;')();
+      check('genre taxonomy parses (' + Object.keys(TAX).length + ' tags)', true);
+    } catch (e) {
+      check('genre taxonomy parses', false);
+      console.log('     ' + e.message);
+      TAX = null;
+    }
+    if (TAX) {
+      const used = new Set();
+      for (const sec of SECTIONS) for (const r of loaded[sec.key] || []) (r.genres || []).forEach(g => used.add(g));
+      const missing = [...used].filter(g => !TAX[g]);
+      check('every genre in the corpus is declared in the taxonomy', missing.length === 0);
+      detail(missing.map(g => '"' + g + '" is used by works but has no taxonomy entry'));
+
+      // A parent nothing carries is a boost target that can never match. Catching it here is the
+      // difference between "that filter returns nothing" and "that filter is broken".
+      const known = new Set(Object.keys(TAX));
+      const danglingParents = [];
+      for (const [tag, parents] of Object.entries(TAX)) {
+        if (!Array.isArray(parents) || !parents.length) { danglingParents.push('"' + tag + '" has no entries (must at least contain itself)'); continue; }
+        if (!parents.includes(tag)) danglingParents.push('"' + tag + '" does not include itself');
+        parents.filter(p => !known.has(p)).forEach(p => danglingParents.push('"' + tag + '" inherits from "' + p + '", which is not a tag'));
+      }
+      check('every taxonomy entry includes itself and inherits only from real tags', danglingParents.length === 0);
+      detail(danglingParents);
+
+      // Unused entries are not an error -- keeping a tag's declaration after its last work is
+      // retagged is harmless, and deleting it would only make the next use re-derive it.
+      const orphans = Object.keys(TAX).filter(t => !used.has(t));
+      if (orphans.length) {
+        warn('taxonomy declares tags no work currently uses (harmless; they are ready if reused)',
+          orphans.map(t => '"' + t + '"'));
+      }
+    }
+  }
+}
+
 /* ===================== creator identity ===================== */
 
 // Two spellings of one person split their filmography in half everywhere it matters: a creator
