@@ -6,9 +6,10 @@ current one, and it is deliberately written so a session that has never seen the
 it up cold. Update it at the end of every phase.
 
 **Owner:** Payton. **Branch:** `claude/omni-media-ledger-audit-mrsljq`.
-**Status:** Phase 0 complete. Phase 1 complete (`RUBRIC.md` v1, anchors approved). Phase 2 in
-progress — E2, E5, E6, E7 landed; E1/E4 wait on Phase 3, E3 on Phase 4. Phase 3 not started.
-PR #32 is open on this branch (opened by the owner).
+**Status:** Phases 0-2 complete. Phase 1 delivered `RUBRIC.md` v1 with **seven** constructs (four
+original, plus `emotionalWarmth`, `comicIntent`, `aestheticBeauty`); no open interpretations.
+Phase 2 landed E2, E5, E6, E7 and closed; its last two items are deferred on measurement (see
+below). **Phase 3 is next and is now the bulk of the work.** PR #32 is open on this branch.
 
 ---
 
@@ -198,8 +199,46 @@ onward**, while the owner is making the calls — not reconstructed at the end.
     a trap for tomorrow. **Note the process failure worth remembering:** the first check (rename the
     corpus, re-certify) *passed with the bug restored*, because the corpus contains no case that can
     expose a currently-redundant clause. The working check builds the adversarial case instead.
-  - **Still to do in Phase 2:** decision 4's era-neutral craft term for `gm`, and cross-medium score
-    normalisation (an engine bug, separate from the deferred reception-source question).
+  - **Both remaining items DEFERRED, on measurement, not preference.** Phase 2 is closed at four
+    fixes.
+
+**Why decision 4's era-neutral craft term cannot land yet.** The ruling was sound but was reasoned
+from *movie* correlations and I generalised it without checking the other three media. Measured,
+`corr(field, year)` moving from the blended `tech` to the era-neutral component:
+
+| medium | blended | era-neutral | verdict |
+|---|---|---|---|
+| movies | 0.460 | **0.015** | works exactly as intended |
+| TV | 0.689 | **0.660** | barely moves |
+| games | 0.501 | 0.287 | partial |
+| books | −0.018 | **0.170** | *worse* — proseCraft alone is more year-linked than the blend |
+
+TV is the instructive one. Its `cinematographyScore` looks era-linked, but the decile table shows
+two cohorts with the *same* mean year (2014) scored **93.0 and 75.8** — 17 points apart. That is
+batch drift wearing era's clothes. Switching `gm` to read that field today would bake the drift
+into the score under the banner of removing an era bias. The change is right and stays planned; it
+must run **after** Phase 3 recalibrates the fields, then be re-measured.
+
+**Why cross-medium normalisation is deferred to after Phase 5.** The RT-vs-Metacritic theory
+predicted a large distortion; measured, the reception distributions are far closer than that:
+
+| medium | mean | p50 | p90 | max |
+|---|---|---|---|---|
+| movies | 87.9 | 90 | 96 | 100 |
+| TV | 87.8 | 88 | 96 | 100 |
+| games | 87.9 | 88 | 94 | 97 |
+| books | 84.7 | 85 | 91 | 98 |
+
+Means agree within 0.1 across the first three. The real difference is in the top decile (movies
+reach 100, games cap at 97), so the distortion is modest and concentrated exactly where Phase 5
+will re-source the numbers anyway. Normalising now means correcting values already scheduled for
+replacement, and would have to be redone against the real ones.
+
+**E1's `certify()` half is also deferred to Phase 3/4**, deliberately. The rubric has settled the
+semantics (immersion is absorption, not menace), so reading games' immersion for an `M` rating is
+wrong on its face — but what replaces it depends on the games genre vocabulary that Phase 4
+cleans. Shipping a half-fix that Phase 3 then redoes is worse than one correct change. *Outer
+Wilds* stays mis-rated `M` in the meantime; it is the most visible open defect.
 - **Phase 3 — Index calibration / re-score**, per the separation table. The bulk of the work;
   realistically 8–15 sessions. Rubric-implied values computed from each record's own evidence
   **without reference to the current value** (the current value only orders the review queue).

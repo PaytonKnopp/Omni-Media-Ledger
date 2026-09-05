@@ -3,9 +3,8 @@
 What every subjective index in the corpus **means**, on a scale anyone can apply the same way
 twice.
 
-**Status: v1 — anchors approved by the owner.** All five open questions are ruled on; see
+**Status: v1 — approved by the owner, no open interpretations.** All rulings are recorded under
 "Owner's rulings" at the end. Records scored against this document are stamped `rubric-v1`.
-One interpretation is flagged for confirmation (dread; see construct 1).
 
 ---
 
@@ -78,14 +77,12 @@ on its own terms below, and a work in one medium is never scored by analogy to a
 not solid.** Dread is ambient and anticipatory, carried by tone, space, sound and pacing. Sustained
 tension counts. Episodic tension does not.
 
-> **Owner's ruling, and the one place this document interprets rather than records.** Asked whether
-> dread means "wrongness" or "tension", the owner answered: *"I always thought dread was tension
-> like the Shining."* Those two halves pull slightly apart — *The Shining* is the archetype of
-> sustained atmospheric oppression, and is **not** a tense film in the plot-suspense sense for long
-> stretches. This definition takes the example as the authority and reads "tension" as *sustained*
-> tension: the register *The Shining* sustains, not the spike a chase scene produces. If that is
-> wrong, it is cheap to correct — say so and the anchors below shift, before Phase 3 writes
-> anything.
+> **Owner's ruling — confirmed, closed.** Asked whether dread means "wrongness" or "tension", the
+> owner answered *"I always thought dread was tension like the Shining."* Those halves pull
+> slightly apart, since *The Shining* is the archetype of sustained atmospheric oppression rather
+> than a tense film in the plot-suspense sense. Put back to him explicitly, the reading below was
+> confirmed: **"sustained tension sounds good to me."** So tension counts when it is sustained and
+> not when it is episodic, and the anchors reflect that.
 
 **This is NOT:**
 - **Fright.** Jump scares, shocks and gore are the derived `scary` index. A film can be terrifying
@@ -549,7 +546,7 @@ All five open questions were answered. Recorded here so they are not reopened.
 | # | Question | Ruling |
 |---|---|---|
 | 1 | Do the proposed anchors stand? | **Approved.** "The anchors look solid, I trust it." Two dread anchors were then adjusted by ruling 2 below — *Jaws* 65 → **70**, *Inglourious Basterds* 45 → **55** — since widening the definition necessarily widens the scale. Anchor *works* are unchanged. |
-| 2 | Dread — wrongness or tension? | **Tension, read as sustained tension.** See the interpretation note under construct 1: the answer and its example (*The Shining*) pull slightly apart, and the example wins. Episodic suspense still scores mid-band. **Flagged for correction if that reading is wrong.** |
+| 2 | Dread — wrongness or tension? | **Sustained tension.** The first answer and its example pulled apart, so the reading was put back to the owner explicitly and confirmed: *"sustained tension sounds good to me."* Episodic suspense scores mid-band. Closed. |
 | 3 | Immersion — absorption or menace? | **Absorption.** "Immersion seems more like absorption to me." Menace moves to the derived `scary` index. This is what unblocks the fix for *Outer Wilds* being rated `M`. |
 | 4 | `systemsComplexity` — mechanical or conceptual? | **Mechanical** — plus a new `conceptualDepth` field for games (construct 4b), on the owner's request for "a conceptual equivalent". |
 | 5 | Reception sources | **Deferred to Phase 5**, when real sources are reachable. Values stand as best estimates until then. The cross-medium *scale* normalisation is separate and stays in Phase 2. |
