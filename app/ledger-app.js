@@ -2563,6 +2563,34 @@ function doSpin(){
 on('#densityBtn','click',()=>{var on=document.body.classList.toggle('compact');var b=$('#densityBtn');b.textContent=on?'\u25a4 Comfortable':'\u25a6 Compact';b.classList.toggle('border-teal-500',on);b.classList.toggle('text-teal-300',on);try{localStorage.setItem('omniLedgerDensity',on?'1':'0');}catch(e){}});
 (function initDensity(){var v='0';try{v=localStorage.getItem('omniLedgerDensity')||'0';}catch(e){}if(v==='1'){document.body.classList.add('compact');var b=$('#densityBtn');if(b){b.textContent='\u25a4 Comfortable';b.classList.add('border-teal-500','text-teal-300');}}})();
 
+/* Compact header, mobile only: a toggle next to the account chip collapses the header down to just
+   the account chip + tab nav (see body.headerCompact rules in the max-width:767px CSS block),
+   hiding the title/last-updated block, the stats strip, and the theme/tips/profile controls row --
+   freeing up vertical space on a short phone screen. #headerCompactToggle itself is display:none by
+   default in the base stylesheet and only switches on inside that same mobile media query, so
+   nothing here can ever show or trigger on desktop even though this init function always runs --
+   the matchMedia check below is what actually gates the behavior. Persisted the same simple way
+   #densityBtn/initDensity already persists its own per-viewer flag. */
+(function initHeaderCompact(){
+ var btn=$('#headerCompactToggle');if(!btn)return;
+ var isMobile=!!(window.matchMedia && window.matchMedia('(max-width:767px)').matches);
+ function apply(on){
+  document.body.classList.toggle('headerCompact',on);
+  btn.title=on?'Expand header':'Collapse header';
+  btn.setAttribute('aria-label',btn.title);
+  btn.setAttribute('aria-expanded',on?'false':'true');
+  btn.textContent=on?'\u25bc':'\u25b2';
+ }
+ var v='0';try{v=localStorage.getItem('omniLedgerHeaderCompact')||'0';}catch(e){}
+ apply(isMobile&&v==='1');
+ if(!isMobile)return; // toggle stays inert (and invisible, via CSS) off mobile
+ btn.addEventListener('click',function(){
+  var on=!document.body.classList.contains('headerCompact');
+  apply(on);
+  try{localStorage.setItem('omniLedgerHeaderCompact',on?'1':'0');}catch(e){}
+ });
+})();
+
 /* ===== Quick Tips: a small "?" button next to the theme selector, opening a popup on demand =====
    Not tied to onboarding -- someone can finish onboarding and still not know cards expand, or
    that the row under each card can tier/own without opening it. Deliberately not a banner or a nav

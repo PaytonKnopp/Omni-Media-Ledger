@@ -178,6 +178,22 @@ button:focus-visible,select:focus-visible,input:focus-visible{outline:2px solid 
  #headerControlsRow>.flex.flex-wrap.items-end.gap-4>.flex.flex-col.items-end.gap-1:last-child{margin-left:auto;padding-left:.7rem;border-left:1px solid rgba(148,163,184,.16)}
  #themeSel{padding:4px 6px!important;font-size:10.5px!important}
  #tipsBtn{width:24px!important;height:24px!important}
+
+ /* Compact header (mobile only): a small toggle next to the account chip lets a phone user shrink
+    the header down to just the account chip + tab nav, hiding the title/last-updated block, the
+    stats strip, and the theme/tips/profile controls row -- freeing up vertical space on a short
+    screen. State lives as a plain class on <body> (see initHeaderCompact in ledger-app.js, which
+    also persists the choice to localStorage the same way #densityBtn/initDensity already does) so
+    it's a pure CSS flag; #nav is deliberately never touched here so the tabs stay reachable no
+    matter what. The toggle itself is display:none by default (see the base #headerCompactToggle
+    rule above the media queries) and only switches on inside this mobile block, so desktop can
+    never see or trigger it, and every rule below is scoped to this same block so desktop is
+    completely unaffected regardless of body class. */
+ #headerCompactToggle{display:inline-flex}
+ body.headerCompact #headerTitleBlock,body.headerCompact #headStats,body.headerCompact #headerControlsRow>.flex.flex-wrap.items-end.gap-4{display:none}
+ body.headerCompact #headerCompactToggle{transform:rotate(180deg)}
+ body.headerCompact #headerControlsRow{margin:0;gap:0}
+ body.headerCompact #headerInner{padding-bottom:.25rem}
  #nav{flex-wrap:nowrap;overflow-x:auto;-webkit-overflow-scrolling:touch;scrollbar-width:none;margin-top:.55rem;padding-bottom:2px;position:relative}
  #nav::-webkit-scrollbar{display:none}
  #nav{gap:6px}
@@ -654,10 +670,17 @@ body[data-theme="outer-wilds"]{--bg:#0e0a09;--panel:#181010;--panel-2:#120c0b;--
   <div id="headerInner" class="max-w-[1400px] mx-auto px-4 pt-4 pb-3">
     <div class="flex flex-col gap-3">
       <div class="flex flex-wrap items-start justify-between gap-3">
-        <div>
+        <div id="headerTitleBlock">
           <h1 class="text-xl md:text-2xl font-bold tracking-tight text-slate-50">The Ultimate Omni-Media &amp; Entertainment Ledger</h1>
           <div id="lastUpdated" class="text-[10px] text-slate-500 mt-1 tracking-wide">Last updated · Aug 30, 2026 · <span id="luCount" class="text-slate-400"></span> · <button type="button" id="versionBtn" class="text-slate-500 hover:text-slate-300 underline decoration-dotted underline-offset-2">v<span id="versionText"></span></button></div>
         </div>
+        <!-- Mobile-only "compact header" toggle: collapses everything except the account chip and
+             the tab nav below (see body.headerCompact rules in the max-width:767px CSS block, and
+             initHeaderCompact in ledger-app.js) to free up vertical space on a phone. display:none
+             by default here (desktop); the mobile media query is what turns it on, so desktop can
+             never show or trigger this. Sits right next to the account chip so it's easy to find and
+             thumb-reach, and always visible itself (never part of what it hides). -->
+        <button type="button" id="headerCompactToggle" class="hidden items-center justify-center rounded-full border shrink-0" style="width:26px;height:26px;border-color:#5eead455;color:#5eead4;font-size:12px;line-height:1" title="Collapse header" aria-label="Collapse header" aria-expanded="true">▲</button>
         <div class="radarCombo" id="acctMenu">
           <div class="rcField flex items-center gap-2" id="acctMenuField" tabindex="0" role="button" aria-haspopup="menu" style="min-height:40px;padding:6px 12px 6px 7px;border-radius:999px;border:1px solid var(--border-soft,#1e293b)">
             <span id="acctAvatar" class="flex items-center justify-center rounded-full shrink-0 font-bold uppercase" style="width:28px;height:28px;font-size:12px;background:#1e293b;color:#94a3b8">·</span>
