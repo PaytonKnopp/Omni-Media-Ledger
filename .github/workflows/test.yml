@@ -57,8 +57,17 @@ jobs:
       # Chromium binary at a few well-known paths -- installing it via the full `playwright`
       # package's CLI (without adding it as a project dependency) is the standard way to get
       # a matching browser build onto the runner.
+      #
+      # The installer version is pinned to whatever playwright-core actually resolved to, and that
+      # is load-bearing rather than tidiness. Bare `npx --yes playwright install` fetches the
+      # NEWEST playwright release, while playwright-core here is a caret range that resolves to
+      # something older, and each release wants its own browser revision. The two agree right up
+      # until Playwright ships a new version, and then CI fails on a commit that changed nothing:
+      # the installer laid down chromium 1243 while playwright-core went looking for 1234, and the
+      # run died at browserType.launch before a single check executed. Deriving the version means
+      # they cannot drift apart again.
       - name: Install Chromium for Playwright
-        run: npx --yes playwright install --with-deps chromium
+        run: npx --yes playwright@$(node -p "require('playwright-core/package.json').version") install --with-deps chromium
 
       # The live checks shell out to psql. The runner image ships the client already; this is the
       # cheap guard against a future image that doesn't, since a missing psql would otherwise fail

@@ -244,6 +244,42 @@ for (const sec of SECTIONS) {
   if (flooded.length) warn(sec.key + ': a single value dominates a numeric field (possible placeholder fill)', flooded);
 }
 
+/* ===================== provenance stamps ===================== */
+
+/* A record may carry prov:{facts,checked,src,indices} saying how its facts got there. The stamp
+   is optional -- a record without one is an unverified estimate, which the app says out loud --
+   but a stamp that IS present has to be honest and well-formed, because it is the one thing in
+   the corpus that claims a fact was checked. Enforced here so a malformed or vocabulary-drifted
+   stamp cannot quietly read as "verified". See QUALITY_PASS.md decision 13. */
+{
+  const FACTS = ['sourced', 'estimated', 'edition-dependent'];
+  const INDICES = ['rubric-v1', 'unscored'];
+  const bad = [];
+  let stamped = 0, sourced = 0;
+  for (const sec of SECTIONS) {
+    for (const r of (loaded[sec.key] || [])) {
+      if (!('prov' in r)) continue;
+      stamped++;
+      const s = r.prov;
+      if (s === null || typeof s !== 'object' || Array.isArray(s)) {
+        bad.push(r.id + ': prov is not an object'); continue;
+      }
+      const extra = Object.keys(s).filter(k => ['facts', 'checked', 'src', 'indices'].indexOf(k) < 0);
+      if (extra.length) bad.push(r.id + ': prov has unknown keys ' + extra.join(','));
+      if (FACTS.indexOf(s.facts) < 0) bad.push(r.id + ': prov.facts must be one of ' + FACTS.join('|') + ' (got ' + JSON.stringify(s.facts) + ')');
+      if (INDICES.indexOf(s.indices) < 0) bad.push(r.id + ': prov.indices must be one of ' + INDICES.join('|') + ' (got ' + JSON.stringify(s.indices) + ')');
+      if (s.checked !== undefined && !/^\d{4}-\d{2}-\d{2}$/.test(String(s.checked))) bad.push(r.id + ': prov.checked must be YYYY-MM-DD');
+      if (s.facts === 'sourced') {
+        sourced++;
+        if (!s.src || typeof s.src !== 'string' || !s.src.trim()) bad.push(r.id + ': prov.facts is "sourced" but no prov.src names where from');
+        if (!s.checked) bad.push(r.id + ': prov.facts is "sourced" but no prov.checked date');
+      }
+    }
+  }
+  check('provenance stamps are well-formed (' + stamped + ' stamped, ' + sourced + ' claiming sourced facts)', bad.length === 0);
+  detail(bad);
+}
+
 /* ===================== genre families ===================== */
 
 // GENRE_FAMILIES is the map every family-based surface reads: the Controller's genre filter, the
@@ -298,6 +334,78 @@ console.log('\n=== genre families ===');
     if (Object.keys(asGenre).length) {
       warn('compound genre-family labels used as raw genre values (redundant; can skew substring matching)',
         Object.entries(asGenre).sort((a, b) => b[1] - a[1]).map(e => '"' + e[0] + '" on ' + e[1] + ' works'));
+    }
+  }
+}
+
+/* ===================== genre taxonomy ===================== */
+
+// data/genre-taxonomy.js declares what every genre tag inherits from, and it is what replaces
+// substring matching on genres. That only holds if it stays complete: a tag missing from it
+// inherits nothing, so it silently stops matching any boost or filter above its own exact name --
+// a new "Folk Horror" would quietly become invisible to a Horror boost. Nothing would error.
+//
+// So a genre entering the corpus without declaring its parents is a build failure, not a warning.
+console.log('\n=== genre taxonomy ===');
+{
+  const taxPath = path.join(ROOT, 'data/genre-taxonomy.js');
+  if (!fs.existsSync(taxPath)) {
+    check('data/genre-taxonomy.js exists', false);
+  } else {
+    let TAX, VIRTUAL = [];
+    try {
+      const taxSrc = fs.readFileSync(taxPath, 'utf8');
+      TAX = new Function(taxSrc + '\nreturn GENRE_TAXONOMY;')();
+      VIRTUAL = new Function(taxSrc + '\nreturn typeof GENRE_VIRTUAL_ROOTS!=="undefined"?GENRE_VIRTUAL_ROOTS:[];')();
+      check('genre taxonomy parses (' + Object.keys(TAX).length + ' tags)', true);
+    } catch (e) {
+      check('genre taxonomy parses', false);
+      console.log('     ' + e.message);
+      TAX = null;
+    }
+    if (TAX) {
+      const used = new Set();
+      for (const sec of SECTIONS) for (const r of loaded[sec.key] || []) (r.genres || []).forEach(g => used.add(g));
+      const missing = [...used].filter(g => !TAX[g]);
+      check('every genre in the corpus is declared in the taxonomy', missing.length === 0);
+      detail(missing.map(g => '"' + g + '" is used by works but has no taxonomy entry'));
+
+      // A parent nothing carries is a boost target that can never match. Catching it here is the
+      // difference between "that filter returns nothing" and "that filter is broken".
+      // A parent may be a real tag OR a declared virtual root (a concept nothing is tagged with
+      // directly, like "Time"). Anything else is a boost target that can never match.
+      const known = new Set(Object.keys(TAX).concat(VIRTUAL));
+      const danglingParents = [];
+      for (const [tag, parents] of Object.entries(TAX)) {
+        if (!Array.isArray(parents) || !parents.length) { danglingParents.push('"' + tag + '" has no entries (must at least contain itself)'); continue; }
+        if (!parents.includes(tag)) danglingParents.push('"' + tag + '" does not include itself');
+        parents.filter(p => !known.has(p)).forEach(p => danglingParents.push('"' + tag + '" inherits from "' + p + '", which is neither a tag nor a declared virtual root'));
+      }
+      check('every taxonomy entry includes itself and inherits only from real tags', danglingParents.length === 0);
+      detail(danglingParents);
+
+      // Family membership is now a per-tag lookup rather than a regex over a joined string, so a
+      // tag with no family entry is invisible to the family lens, the family filters, cross-medium
+      // pairings, the rabbit hole and the graph -- all at once, while its own card looks fine.
+      let FAMOF = null;
+      try {
+        FAMOF = new Function(fs.readFileSync(taxPath, 'utf8') +
+          '\nreturn typeof GENRE_FAMILY_OF!=="undefined"?GENRE_FAMILY_OF:null;')();
+      } catch (e) { FAMOF = null; }
+      check('genre taxonomy declares a family map', !!FAMOF);
+      if (FAMOF) {
+        const noFamily = [...used].filter(g => !Array.isArray(FAMOF[g]) || !FAMOF[g].length);
+        check('every genre in use belongs to at least one genre family', noFamily.length === 0);
+        detail(noFamily.map(g => '"' + g + '" has no family, so every work carrying it drops out of the family lens'));
+      }
+
+      // Unused entries are not an error -- keeping a tag's declaration after its last work is
+      // retagged is harmless, and deleting it would only make the next use re-derive it.
+      const orphans = Object.keys(TAX).filter(t => !used.has(t) && !VIRTUAL.includes(t));
+      if (orphans.length) {
+        warn('taxonomy declares tags no work currently uses (harmless; they are ready if reused)',
+          orphans.map(t => '"' + t + '"'));
+      }
     }
   }
 }

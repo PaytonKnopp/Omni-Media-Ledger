@@ -48,13 +48,13 @@ if(!PROFILE_FROM_STORAGE)PERSONAL_PROFILE.watchlist={c02:1,c78:2,c79:3,c80:4,c81
 contenders.forEach(c=>{const wl=PERSONAL_PROFILE.watchlist||{};if(wl[c.id])c.watchRank=wl[c.id];});
 
 /* ===================== UNIFIED ADAPTER LAYER ===================== */
-if(!PROFILE_FROM_STORAGE)PERSONAL_PROFILE.ownedBooksExtra={'b508':'Hardcover','b59':'Paperback','b60':'Paperback','b58':'Paperback','b71':'Paperback','b53':'Paperback','b96':'Hardcover','b100':'Hardcover','b88':'Hardcover','b56':'Paperback','b148':'Paperback','b74':'Paperback','b79':'Deluxe','b151':'Paperback','b152':'Paperback','b153':'Boxed Set','b154':'Boxed Set','b155':'Paperback','b156':'Paperback','b157':'Paperback','b158':'Deluxe','b159':'Paperback','b160':'Paperback','b168':'Hardcover','b161':'Hardcover','b162':'Hardcover','b163':'Hardcover','b164':'Hardcover','b165':'Hardcover','b166':'Hardcover','b167':'Hardcover','b169':'Deluxe','b170':'Hardcover','b171':'Hardcover'};
+if(!PROFILE_FROM_STORAGE)PERSONAL_PROFILE.ownedBooksExtra={'b01':'Paperback','b02':'Hardcover','b03':'Hardcover','b04':'Hardcover','b05':'Deluxe','b06':'Paperback','b07':'Paperback','b08':'Hardcover','b09':'Hardcover','b10':'Hardcover','b11':'Hardcover','b12':'Hardcover','b13':'Hardcover','b14':'Hardcover','b15':'Hardcover','b16':'Hardcover','b17':'Paperback','b18':'Deluxe','b19':'Deluxe','b20':'Deluxe','b21':'Deluxe','b22':'Deluxe','b23':'Hardcover','b24':'Hardcover','b25':'Hardcover','b26':'Hardcover','b27':'Hardcover','b28':'Hardcover','b29':'Paperback','b30':'Hardcover','b31':'Hardcover','b32':'Hardcover','b33':'Deluxe','b34':'Paperback','b35':'Hardcover','b36':'Hardcover','b37':'Hardcover','b38':'Deluxe','b39':'Deluxe','b40':'Hardcover','b41':'Hardcover','b42':'Hardcover','b43':'Hardcover','b44':'Hardcover','b45':'Paperback','b46':'Hardcover','b47':'Hardcover','b48':'Paperback','b49':'Hardcover','b50':'Paperback','b51':'Hardcover','b508':'Hardcover','b59':'Paperback','b60':'Paperback','b58':'Paperback','b71':'Paperback','b53':'Paperback','b96':'Hardcover','b100':'Hardcover','b88':'Hardcover','b56':'Paperback','b148':'Paperback','b74':'Paperback','b79':'Deluxe','b151':'Paperback','b152':'Paperback','b153':'Boxed Set','b154':'Boxed Set','b155':'Paperback','b156':'Paperback','b157':'Paperback','b158':'Deluxe','b159':'Paperback','b160':'Paperback','b168':'Hardcover','b161':'Hardcover','b162':'Hardcover','b163':'Hardcover','b164':'Hardcover','b165':'Hardcover','b166':'Hardcover','b167':'Hardcover','b169':'Deluxe','b170':'Hardcover','b171':'Hardcover'};
 const OWNED_BOOKS_EXTRA=PERSONAL_PROFILE.ownedBooksExtra||{};
 const OB=id=>OWNED_BOOKS_EXTRA[id]!==undefined;
-/* Books id<=51 are owned by convention in this corpus's numbering (Payton's original shelf
-   reconciliation) -- that convention is itself personal data, not a corpus fact, so it lives on
-   the profile too rather than being a bare "51" baked into the adapter below. */
-if(!PROFILE_FROM_STORAGE)PERSONAL_PROFILE.ownedBookIdCeiling=51;
+/* Ownership is now stated per book, in ownedBooksExtra above -- the old "id<=51 is owned by
+   convention" rule made a personal shelf fact a property of the corpus's numbering. The ceiling
+   is kept at 0 so a profile saved before that change still loads with its books owned. */
+if(!PROFILE_FROM_STORAGE)PERSONAL_PROFILE.ownedBookIdCeiling=0;
 const OWNED_BOOK_ID_CEILING=PERSONAL_PROFILE.ownedBookIdCeiling||0;
 if(!PROFILE_FROM_STORAGE)PERSONAL_PROFILE.ownedGameIds=['g45'];
 const KM={movie:{label:'FILM',c:'#a78bfa'},tv:{label:'TV',c:'#22d3ee'},game:{label:'GAME',c:'#fbbf24'},book:{label:'BOOK',c:'#4ade80'}};
@@ -63,27 +63,39 @@ const ALL=[
   tech:Math.round((m.physicalMediaFidelity.transferFidelity+m.physicalMediaFidelity.audioSoundscape+m.physicalMediaFidelity.cinematographyScore)/3),
   dread:m.atmosphericDreadIndex,myst:m.ontologicalComplexity,format:m.contextTags.formatType,vibe:m.contextTags.vibeTime,just:m.contextTags.justification,
   fid:[['4K Transfer',m.physicalMediaFidelity.transferFidelity],['Audio Soundscape',m.physicalMediaFidelity.audioSoundscape],['Cinematography',m.physicalMediaFidelity.cinematographyScore]],
-  plats:[m.studio],owned:!!m.owned,physFormat:m.physFormat||(m.owned?'4K':null)})),
+  plats:[m.studio],provRaw:m.prov,owned:!!m.owned,physFormat:m.physFormat||(m.owned?'4K':null)})),
  ...tvShows.map(t=>({kind:'tv',id:t.id,title:t.title,year:t.year,creator:t.creator,org:t.networkStreamer,span:t.totalSeasons+(t.totalSeasons===1?' season':' seasons'),genres:t.genres,crit:t.metrics.criticalScore,aud:t.metrics.audienceScore,
   tech:Math.round((t.physicalMediaFidelity.transferFidelity+t.physicalMediaFidelity.audioSoundscape+t.physicalMediaFidelity.cinematographyScore)/3),
   dread:t.atmosphericDreadIndex,myst:t.ontologicalComplexity,format:t.formats.structuralType,vibe:t.contextTags.vibeTime,just:t.contextTags.justification,
   fid:[['Master Transfer',t.physicalMediaFidelity.transferFidelity],['Audio Soundscape',t.physicalMediaFidelity.audioSoundscape],['Cinematography',t.physicalMediaFidelity.cinematographyScore]],
-  plats:[t.networkStreamer],owned:!!t.owned,physFormat:t.physFormat||(t.owned?'Box Set':null)})),
+  plats:[t.networkStreamer],provRaw:t.prov,owned:!!t.owned,physFormat:t.physFormat||(t.owned?'Box Set':null)})),
  ...videoGames.map(g=>({kind:'game',id:g.id,title:g.title,year:g.year,creator:g.creator,org:g.platformAvailability.join(' · '),span:'~'+g.averagePlaytime+' hrs',genres:g.genres,crit:g.metrics.criticalScore,aud:g.metrics.audienceScore,
   tech:Math.round((g.engineeringFidelity.engineGraphicsPerformance+g.engineeringFidelity.artDirection)/2),
   dread:g.immersionTensionIndex,myst:g.systemsComplexity,format:'Interactive',vibe:g.contextTags.vibeTime,just:g.contextTags.justification,
   fid:[['Engine & Performance',g.engineeringFidelity.engineGraphicsPerformance],['Art Direction',g.engineeringFidelity.artDirection]],
-  plats:g.platformAvailability.slice(),owned:PERSONAL_PROFILE.ownedGameIds&&PERSONAL_PROFILE.ownedGameIds.includes(g.id),physFormat:null})),
+  plats:g.platformAvailability.slice(),provRaw:g.prov,owned:PERSONAL_PROFILE.ownedGameIds&&PERSONAL_PROFILE.ownedGameIds.includes(g.id),physFormat:null})),
  ...books.map(bk=>({kind:'book',id:bk.id,title:bk.title,year:bk.year,creator:bk.creator,org:bk.publisher,span:bk.pages+' pages',genres:bk.genres,crit:bk.metrics.criticalScore,aud:bk.metrics.audienceScore,
   tech:Math.round((bk.craft.proseCraft+bk.craft.ideaDensity)/2),
   dread:bk.atmosphericDreadIndex,myst:bk.ontologicalComplexity,format:bk.contextTags.formatType,vibe:bk.contextTags.vibeTime,just:bk.contextTags.justification,
   fid:[['Prose Craft',bk.craft.proseCraft],['Idea Density',bk.craft.ideaDensity],['Edition Quality',bk.format==='Deluxe'?95:bk.format==='Hardcover'?85:75]],
-  plats:[bk.publisher],owned:(parseInt(bk.id.slice(1))<=OWNED_BOOK_ID_CEILING||OB(bk.id)),physFormat:(parseInt(bk.id.slice(1))<=OWNED_BOOK_ID_CEILING?bk.format:(OB(bk.id)?OWNED_BOOKS_EXTRA[bk.id]:null))}))
+  plats:[bk.publisher],provRaw:bk.prov,owned:(parseInt(bk.id.slice(1))<=OWNED_BOOK_ID_CEILING||OB(bk.id)),physFormat:(parseInt(bk.id.slice(1))<=OWNED_BOOK_ID_CEILING?bk.format:(OB(bk.id)?OWNED_BOOKS_EXTRA[bk.id]:null))}))
 ];
 const byId=new Map(ALL.map(x=>[x.id,x]));
 ALL.forEach(x=>{x.ovr=Math.round(((x.crit+x.aud+x.tech)/3)*10)/10;});
-const PROV_CEIL={movie:221,tv:144,game:158,book:171};
-ALL.forEach(x=>{const num=parseInt(x.id.slice(1));const orig=num<=(PROV_CEIL[x.kind]||0);x.prov=(orig||x.owned)?'verified':'estimated';});
+/* Provenance is a per-record stamp, never inferred from a record's ID or from whether the shelf
+   holds a copy. Owning a disc verifies that it is owned; it verifies nothing about the runtime
+   printed on the back. A record whose facts have been checked against sources carries
+   prov:{facts,checked,src,indices}; everything else is an unverified estimate and says so.
+   See QUALITY_PASS.md decision 13. */
+const PROV_FACTS=['sourced','estimated','edition-dependent'];
+const PROV_INDICES=['rubric-v1','unscored'];
+function provStampOf(raw){
+ const s=(raw&&typeof raw==='object')?raw:{};
+ return {facts:PROV_FACTS.indexOf(s.facts)>=0?s.facts:'estimated',
+         indices:PROV_INDICES.indexOf(s.indices)>=0?s.indices:'unscored',
+         checked:s.checked||null,src:s.src||null};
+}
+ALL.forEach(x=>{const s=provStampOf(x.provRaw);delete x.provRaw;x.provStamp=s;x.prov=s.facts==='sourced'?'verified':'estimated';});
 /* Owned physical collection, reconciled against the master shelf ledger (film/TV + books). */
 if(!PROFILE_FROM_STORAGE)PERSONAL_PROFILE.ownedMedia={"m120":"4K","m106":"4K","m444":"4K","m384":"4K","t144":"BD/DVD","m116":"BD/DVD","m89":"BD/DVD","m66":"4K","m117":"4K","m65":"4K","m118":"4K","m119":"4K","m01":"4K","m121":"4K","m103":"4K","m122":"4K","m39":"BD/DVD","m158":"BD/DVD","m37":"4K","m40":"4K","m63":"4K","m20":"4K","m81":"BD/DVD","m02":"4K","m84":"4K","m114":"4K","m64":"4K","m14":"4K","m108":"4K","m159":"4K","m06":"4K","m105":"BD/DVD","m07":"4K","m88":"4K","m56":"4K","m12":"4K","m123":"BD/DVD","m54":"4K","m10":"BD/DVD","m124":"4K","m125":"4K","m107":"BD/DVD","m104":"4K","m126":"BD/DVD","m127":"4K","m128":"BD/DVD","m101":"BD/DVD","m110":"BD/DVD","m129":"BD/DVD","m130":"4K","m131":"BD/DVD","m132":"BD/DVD","m133":"BD/DVD","m134":"4K","m135":"BD/DVD","m09":"4K","m109":"4K","m102":"BD/DVD","m136":"4K","m113":"BD/DVD","m137":"BD/DVD","m138":"BD/DVD","m139":"BD/DVD","m140":"BD/DVD","m141":"BD/DVD","m142":"BD/DVD","m143":"BD/DVD","m144":"4K","m115":"BD/DVD","m145":"BD/DVD","m146":"BD/DVD","m147":"4K","m148":"BD/DVD","m149":"4K","m150":"4K","m151":"BD/DVD","m152":"4K","m160":"4K","m111":"BD/DVD","m154":"BD/DVD","m155":"BD/DVD","m156":"4K","m157":"4K","m86":"4K","m112":"BD/DVD","t17":"Box Set","t97":"Box Set","t03":"Box Set","t10":"Box Set","t47":"Box Set","t13":"Box Set","t28":"Box Set","t101":"Box Set"};
 const OWNED_MEDIA=PERSONAL_PROFILE.ownedMedia||{};
@@ -160,11 +172,26 @@ function activeDims(){
  if(state.idx.myst>0)d.push(['myst','Complexity',state.idx.myst]);
  return d;
 }
+/* The "Match" number on a card while filters are active: how well a work answers the specific
+   question the sliders are asking, blended with its overall standing.
+
+   Each active dimension is weighted by how high its slider is set. That is the only signal of
+   intent available -- someone who asks for Scariest >= 80 and Funniest >= 20 is telling you which
+   of the two they came for -- and it is the same for everyone, which matters because this number
+   has to serve any taste, not one shape of taste.
+
+   It used to weight by `dims.length - i`, the dimension's position in activeDims(), which is a
+   hardcoded list of if-statements in app source order. So ★ GOAT outranked every other filter for
+   no reason except being written first, Cosmic Horror outranked Scariest, and Complexity came last
+   however hard you pulled it. Nothing about that ordering was a claim about taste; it was an
+   artifact of the order someone typed the conditions, and it silently ranked every filtered
+   result. */
 function computeMatch(list){
  const dims=activeDims();
+ const wsum=dims.reduce((s,d)=>s+d[2],0);
  list.forEach(it=>{
-  if(!dims.length){it._m=it.ovr;return;}
-  let sum=0,wsum=0;dims.forEach((d,i)=>{const w=dims.length-i;sum+=it[d[0]]*w;wsum+=w;});
+  if(!dims.length||wsum<=0){it._m=it.ovr;return;}
+  let sum=0;dims.forEach(d=>{sum+=it[d[0]]*d[2];});
   it._m=Math.round((sum/wsum)*0.8+it.ovr*0.2);
  });
 }
@@ -412,7 +439,12 @@ function gmBreakdownHTML(it){
  var body=ov?'<div class="text-[10.5px] mb-1" style="color:'+ov[1]+'">'+ov[0]+'</div>':'';
  if(chips.length)body+='<div class="flex flex-wrap gap-1">'+chips.join('')+'</div>';
  else if(!ov)body+='<div class="text-[10px] text-slate-500">Scored on critical, audience and craft consensus \u2014 no personal-taste multipliers triggered.</div>';
- var prov=it.prov==='verified'?'<span title="Scores drawn from the core ledger / your collection" style="color:#4ade80">\u25c9 Verified data</span>':'<span title="Curated best-of pick; scores are careful approximations of critical consensus" style="color:#94a3b8">\u25cb Curated estimate</span>';
+ var ps=it.provStamp||{facts:'estimated',indices:'unscored'};
+ var provTitle=ps.facts==='sourced'?('Facts checked against '+(ps.src||'sources')+(ps.checked?' on '+ps.checked:'')):ps.facts==='edition-dependent'?'Facts vary by edition/cut -- the value shown is one edition, not the only one':'Not yet checked against a source: scores and details are careful approximations';
+ var provLabel=ps.facts==='sourced'?'\u25c9 Facts sourced':ps.facts==='edition-dependent'?'\u25d1 Edition-dependent':'\u25cb Unverified estimate';
+ var provColor=ps.facts==='sourced'?'#4ade80':ps.facts==='edition-dependent'?'#fbbf24':'#94a3b8';
+ var prov='<span title="'+provTitle+'" style="color:'+provColor+'">'+provLabel+'</span>'
+  +(ps.indices==='rubric-v1'?'<span class="text-slate-600"> \u00b7 indices rubric v1</span>':'');
  body+='<div class="text-[9px] mt-1.5">'+prov+'</div>';
  return '<div class="mt-2 pt-2 border-t border-slate-800/50">'+head+body+'</div>';
 }
@@ -1112,28 +1144,73 @@ if(!PROFILE_FROM_STORAGE)PERSONAL_PROFILE.vibeBoost={'Notebook-and-Theories Nigh
 const GOAT_VIBE_BOOST=PERSONAL_PROFILE.vibeBoost||{};
 if(!PROFILE_FROM_STORAGE)PERSONAL_PROFILE.bookCreatorBoost=[['Tolkien',12],['Dan Simmons',9],['Patrick Rothfuss',9],['Ursula K. Le Guin',8],['Isaac Asimov',7],['Liu Cixin',7],['Carl Sagan',7],['Gene Wolfe',6],['Frank Herbert',6],['Arthur C. Clarke',5],['Neil deGrasse Tyson',5],['Walter Isaacson',5],['Yuval Noah Harari',4],['China Mi\u00e9ville',5],['Jeff VanderMeer',5],['H.P. Lovecraft',5],['Cormac McCarthy',5],['Neal Stephenson',5],['Ted Chiang',5],['Susanna Clarke',5],['Stephen King',8]];
 const BOOK_CREATOR_BOOST=PERSONAL_PROFILE.bookCreatorBoost||[];
+/* Does this work carry `keyword` as a genre, or as something that inherits from it?
+   Looked up through data/genre-taxonomy.js rather than searched for as a substring.
+
+   The substring version this replaces (`x.genres.join(' ').toLowerCase().includes(keyword)`) is
+   the mechanism behind two of the worst defects this repo has had, and its failure mode is always
+   the same: letters that happen to line up. A boost on "time" hit anything containing those four
+   letters; one compound tag drew two different boosts because two keywords both appeared inside
+   its name; and the reverse error is just as bad -- a plain exact match would stop a Horror boost
+   from ever reaching Body Horror or Folk Horror, which is 27 tags in this corpus.
+
+   Matching a declared inheritance list fixes both directions at once, and counts once per boost
+   no matter how many of a work's tags inherit from the keyword -- so a work tagged both
+   "Cosmic Horror" and "Gothic Horror" collects the Horror boost a single time, not twice. */
+function genreMatches(x,keyword){
+ const want=String(keyword).toLowerCase();
+ const tax=(typeof GENRE_TAXONOMY!=='undefined')?GENRE_TAXONOMY:{};
+ return (x.genres||[]).some(function(tag){
+  const inherits=tax[tag]||[tag];
+  return inherits.some(function(p){return p.toLowerCase()===want;});
+ });
+}
 ALL.forEach(x=>{
  let base=0.5*x.crit+0.2*x.aud+0.3*x.tech,a=0;const br=[];
  GOAT_CREATOR_BOOST.forEach(c=>{if(x.creator.includes(c[0])){a+=c[1];br.push(['creator',c[0],c[1]]);}});
  if(x.kind==='book'){BOOK_CREATOR_BOOST.forEach(c=>{if(x.creator.includes(c[0])){a+=c[1];br.push(['author',c[0],c[1]]);}});}
  const gs=x.genres.join(' ').toLowerCase();
- GOAT_GENRE_BOOST.forEach(g=>{if(gs.includes(g[0])){a+=g[1];br.push(['genre',g[0],g[1]]);}});
+ GOAT_GENRE_BOOST.forEach(g=>{if(genreMatches(x,g[0])){a+=g[1];br.push(['genre',g[0],g[1]]);}});
  const vb=GOAT_VIBE_BOOST[x.vibe]||0;if(vb){a+=vb;br.push(['vibe',x.vibe,vb]);}
  if(x.myst>70){var mb=(x.myst-70)/6;a+=mb;br.push(['complexity','Ontological depth',Math.round(mb*10)/10]);}
  if(x.tech>85){var tb=(x.tech-85)/5;a+=tb;br.push(['craft','Technical craft',Math.round(tb*10)/10]);}
- if(x.dread>80&&x.dread<=95){var db=(x.dread-80)/10;a+=db;br.push(['dread','Atmospheric dread',Math.round(db*10)/10]);}
+ /* No upper bound. This used to read `x.dread>80&&x.dread<=95`, which meant the boost climbed to
+    +1.5 at dread 95 and then fell off a cliff to zero at 96 -- so the sixteen most dread-soaked
+    works in the corpus (The Shining 97, The Thing 98, Hereditary 99, Come and See 99) were the
+    only ones that got nothing for it. A threshold with a ceiling reads like a range check, but
+    every other boost here is monotonic, and a taste signal that reverses at the top of its own
+    scale is a bug in any reading. */
+ if(x.dread>80){var db=(x.dread-80)/10;a+=db;br.push(['dread','Atmospheric dread',Math.round(db*10)/10]);}
  x.gm=Math.max(40,Math.min(99,Math.round(base*0.5+a*1.2+14)));
  x.goat=false;
  x.gmBase=Math.round(base*0.5+14);x.gmBoosts=br;x.gmBoostTotal=Math.round(a*1.2*10)/10;
 });
+/* ---- The tier ladder ----
+   Gold / Silver / Bronze / merely-owned are four strengths of the same statement: "this matches
+   me". Each lifts a work's match score toward a floor, and the floors are what separate them.
+
+   Every rung blends the work's own score with its floor using the SAME weight, so the four are
+   parallel lines that cannot cross. That is the whole fix here. They used to use different
+   weights -- Silver 0.45/0.55, Bronze 0.65/0.35, owned 0.5/0.5 -- which made them lines of
+   different slopes, and lines of different slopes intersect. Owned (floor 82) overtook Bronze
+   (floor 80) below gm 86.7, so marking something Bronze did nothing at all to anything you own,
+   which is most of what a person tiers. The ladder was only a ladder in the comment.
+
+   Ownership sits at the bottom deliberately: you own things you have not decided about yet, so it
+   is the weakest of the four signals. Gold is a pin to 100 rather than a blend, applied last.
+
+   A rung only ever raises a score (each is applied with `if (target > gm)`), so being tiered can
+   never cost a work anything, and the highest applicable rung wins regardless of evaluation
+   order. */
+const TIER_FLOOR={silver:88,bronze:84,owned:80};
+const TIER_OWN_WEIGHT=0.5;
+function tierTarget(gm,tier){return Math.round(gm*TIER_OWN_WEIGHT+TIER_FLOOR[tier]*(1-TIER_OWN_WEIGHT));}
 /* Silver tier: declared second-tier favorites. Half the pull of a GOAT pick; lifts the floor and reshapes the algorithmic neighborhood. */
 if(!PROFILE_FROM_STORAGE)PERSONAL_PROFILE.silverTierIds=['m101','m102','m14','m12','m10','m81','m07','m02','m37','m84','m56','m103','m104','m20','m105','m106','t17','t47','t13','t101','m107','m108','m109','m110','m111','m112','m113','m114','m115','m116','m86','g101','m159'];
 const GOAT_SILVER=new Set(PERSONAL_PROFILE.silverTierIds||[]);
-ALL.forEach(x=>{x.silver=GOAT_SILVER.has(x.id);if(x.silver){var sg=Math.round(x.gm*0.45+88*0.55);if(sg>x.gm){x.gm=sg;x.gmOverride=x.gmOverride||'silver';}}});
+ALL.forEach(x=>{x.silver=GOAT_SILVER.has(x.id);if(x.silver){var sg=tierTarget(x.gm,'silver');if(sg>x.gm){x.gm=sg;x.gmOverride=x.gmOverride||'silver';}}});
 /* Bronze tier: a third, lighter-pull tier below Silver -- "really like, worth a nudge" rather than
-   a full favorite. Weaker blend than Silver (own score weighted higher, floor lower) so the three
-   tiers form a clear Gold(100) > Silver(->88) > Bronze(->80) hierarchy without any of them ever
-   pulling a score down. */
+   a full favorite. Same blend as every other rung, one floor lower (see the tier ladder above). */
 if(!PROFILE_FROM_STORAGE)PERSONAL_PROFILE.bronzeTierIds=[];
 /* Pinned specialized-index sliders: a UI preference (which of the 17 Advanced sliders also show
    in the always-visible main filter row, alongside Technical Fidelity / GOAT Match / Cosmic Horror),
@@ -1142,10 +1219,11 @@ if(!PROFILE_FROM_STORAGE)PERSONAL_PROFILE.bronzeTierIds=[];
    shows 5 well-rounded quick filters instead of an empty row. */
 if(!PROFILE_FROM_STORAGE)PERSONAL_PROFILE.pinnedIdx=DEFAULT_PINNED_IDX.slice();
 const GOAT_BRONZE=new Set(PERSONAL_PROFILE.bronzeTierIds||[]);
-ALL.forEach(x=>{x.bronze=GOAT_BRONZE.has(x.id);if(x.bronze){var bg=Math.round(x.gm*0.65+80*0.35);if(bg>x.gm){x.gm=bg;x.gmOverride=x.gmOverride||'bronze';}}});
+ALL.forEach(x=>{x.bronze=GOAT_BRONZE.has(x.id);if(x.bronze){var bg=tierTarget(x.gm,'bronze');if(bg>x.gm){x.gm=bg;x.gmOverride=x.gmOverride||'bronze';}}});
 function tierRank(x){return x.goat?3:x.silver?2:x.bronze?1:0;}
-/* Owned physical collection is a top-tier personal taste signal: lift subjective match toward a floor. */
-ALL.forEach(x=>{if(x.owned&&!x.goat){const target=Math.round(x.gm*0.5+82*0.5);if(target>x.gm){x.gm=target;x.gmOverride=x.gmOverride||'owned';}x.ownedBoost=true;}});
+/* Owned, but not tiered: the weakest rung of the ladder above -- a real signal, since you bought
+   it, but weaker than any deliberate tier because you own things you have not judged yet. */
+ALL.forEach(x=>{if(x.owned&&!x.goat){const target=tierTarget(x.gm,'owned');if(target>x.gm){x.gm=target;x.gmOverride=x.gmOverride||'owned';}x.ownedBoost=true;}});
 /* Book affinity: your fingerprint (Tolkien mythology, cosmic horror, physics/space, sincere science bios) lifts matching books. */
 if(!PROFILE_FROM_STORAGE)PERSONAL_PROFILE.bookAffinity={b19:96,b20:94,b21:95,b18:90,b22:92,b31:86,b26:92,b08:94,b12:90,b34:90,b29:90,b30:88,b33:88,b32:86,b04:86,b02:84,b05:88,b09:84,b10:84,b38:86,b37:88,b39:90,b28:84,b27:86,b47:84,b40:82,b58:90,b153:90,b154:92,b71:92,b53:86,b155:84,b156:84,b64:86,b56:90,b148:88,b74:92,b118:88,b151:86,b152:88,b157:88,b158:88,b159:84,b160:88,b88:86,b96:82,b100:84,b54:90,b52:90,b55:92,b126:88,b129:86,b130:88,b131:88,b132:88,b133:90,b78:90,b77:90,b79:88,b68:84,b70:86,b72:82,b150:86,b149:86,b76:86,b161:82,b162:84,b163:84,b164:84,b165:82,b166:82,b167:88,b93:84,b94:78};
 const BOOK_AFFINITY=PERSONAL_PROFILE.bookAffinity||{};
@@ -1242,7 +1320,13 @@ function goatWhy(x){
 }
 function buildGeneratedRec(cat){
  const kind=RECS_KIND_BY_CAT[cat];
- const items=ALL.filter(x=>x.kind===kind&&!x.owned&&!x.goat)
+ /* Nothing you have already declared is a recommendation. Owned and Gold were excluded from the
+    start; Silver and Bronze were not, which is backwards -- tiering a work pulls its gm UP toward
+    the rung's floor, so a Silver pick you do not happen to own is *more* likely to be handed back
+    to you as a discovery than an untiered work of the same quality. Payton's Silver list is almost
+    entirely also-owned so this never showed locally, but the app has to work for someone who tiers
+    without owning, which is most people. */
+ const items=ALL.filter(x=>x.kind===kind&&!x.owned&&!x.goat&&!x.silver&&!x.bronze)
   .sort((a,b)=>b.gm-a.gm)
   .slice(0,10)
   .map(x=>({n:x.title,s:x.gm,k:x.kind,q:x.title,why:goatWhy(x)}));
@@ -1343,7 +1427,20 @@ const GENRE_FAMILIES=[
  ['Strategy & Tactics',/strategy|4x|rts|turn-based|grand strategy|tactical/i],
  ['Sports & Music',/sport|racing|music|rhythm|\bband\b/i]
 ];
-ALL.forEach(x=>{const g=x.genres.join(' ');x.fam=GENRE_FAMILIES.filter(f=>f[1].test(g)).map(f=>f[0]);});
+/* Family membership by lookup, not by running 28 regexes over a joined genre string.
+   That string search is the last substring surface in the scoring path, and it is the one that
+   filed A Storm of Swords and A Clash of Kings under Biography, because a compound label matched
+   a history pattern. Which families a tag belongs to is a curation decision, so data/genre-
+   taxonomy.js states it per tag; a tag in two families says so, and no work can be swept into a
+   third by an accident of spelling. GENRE_FAMILIES is kept as the ordered family list that drives
+   the lens UI. */
+ALL.forEach(x=>{
+ const fams={};
+ (x.genres||[]).forEach(function(tag){
+  ((typeof GENRE_FAMILY_OF!=='undefined'&&GENRE_FAMILY_OF[tag])||[]).forEach(function(f){fams[f]=1;});
+ });
+ x.fam=GENRE_FAMILIES.map(f=>f[0]).filter(f=>fams[f]);
+});
 const GENRE_COUNTS={};GENRE_FAMILIES.forEach(f=>{GENRE_COUNTS[f[0]]=ALL.filter(x=>x.fam.includes(f[0])).length;});
 
 /* ===================== DEEP INDEX BATTERY ===================== */
@@ -1407,14 +1504,32 @@ function certify(x){const g=x.genres.join(' ').toLowerCase();
   return 'General';
  }
  if(x.kind==='game'){
-  if(/horror|cosmic|survival horror|body/.test(g)||x.dread>=88)return 'M';
-  if(/shooter|action rpg|stealth action|crime|revenge|cyberpunk|war/.test(g)||x.dread>=70)return 'M';
-  if(/puzzle|platformer|3d platformer|simulation|exploration|sandbox|automation|synesthesia/.test(g)&&x.dread<55)return (x.dread<35?'E':'E10+');
+  /* Rated from GENRE alone, never from x.dread. For a game, x.dread carries
+     immersionTensionIndex, and RUBRIC.md construct 2 defines that as absorption -- how
+     completely the game takes you in -- explicitly NOT menace. Rating content maturity from
+     how gripping something is says that anything hard to put down must be for adults, and
+     that is exactly what it did: 71 of 258 games certified M with no violent or horror genre
+     anywhere, among them Outer Wilds, Return of the Obra Dinn, Subnautica and Inside. Outer
+     Wilds is rated E10+ in reality.
+     A game's real age rating is a FACT (ESRB/PEGI, and IGDB carries it), not something to
+     infer from a taste index. Phase 5 fetches it. Until then genre is the honest signal:
+     narrower coverage, but it stops asserting something false about a third of the library. */
+  if(/horror|cosmic|gothic|body|vampire/.test(g))return 'M';
+  if(/shooter|\bfps\b|action rpg|soulslike|dark fantasy|stealth action|crime|revenge|cyberpunk|\bwar\b|fighting|beat .em up|run-and-gun|boss rush|dystopian/.test(g))return 'M';
+  if(/party|sports|rhythm|racing|collectathon|social sim/.test(g))return 'E';
+  if(/puzzle|platformer|metroidvania|simulation|\bsim\b|exploration|sandbox|builder|automation|synesthesia|walking sim|point-and-click|visual novel|deduction/.test(g))return 'E10+';
   return 'T';
  }
  // film/tv
  const mature=/horror|slasher|giallo|crime|revenge|war|neo-noir|body horror|cosmic|gangster|thriller/.test(g);
- const heavy=x.dread>=86||/^(the thing|hereditary|come and see|possession|oldboy|se7en)/.test(x.title.toLowerCase());
+ /* Certification reads a work's fields, never its name. This used to carry `|| /^(the thing|
+    hereditary|come and see|possession|oldboy|se7en)/` against the lowercased title, and every one
+    of those six already cleared dread>=86 on its own -- so the clause decided nothing and was pure
+    latent risk: it is a PREFIX match, so any future "Possession of Hannah Grace" or "The Thing
+    About Pam" would silently certify as heavy on the strength of its first two words. A title is
+    not a property of a work's content, and a rule keyed to one cannot generalise to the next
+    thousand records. */
+ const heavy=x.dread>=86;
  if(x.kind==='tv'){
   if(mature||x.dread>=78)return 'TV-MA';
   if(/drama|mystery|sci-fi|fantasy|period/.test(g))return 'TV-14';
@@ -3825,6 +3940,10 @@ var _rzT;window.addEventListener('resize',function(){clearTimeout(_rzT);_rzT=set
  // them is the right default, but devtools and the regression suite both still need a way in. So
  // rather than leaking everything by accident, these few are exported on purpose: the corpus, the
  // live filter state, and the three entry points worth poking at from a console.
+ window.tierTarget=tierTarget;window.TIER_FLOOR=TIER_FLOOR;
+ window.computeMatch=computeMatch;window.activeDims=activeDims;window.certify=certify;
+ window.provStampOf=provStampOf;
+ window.buildGeneratedRec=buildGeneratedRec;
  window.ALL=ALL;
  window.byId=byId;
  window.state=state;

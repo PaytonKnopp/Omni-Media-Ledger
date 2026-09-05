@@ -3,9 +3,11 @@
   "private": true,
   "description": "No build step for the app itself -- this package.json exists only to run the committed regression suite in test/regression.js.",
   "scripts": {
-    "test": "node scripts/validate-corpus.js && node test/schema.js && node test/regression.js",
+    "test": "node scripts/validate-corpus.js && node test/schema.js && node test/fetch-facts.js && node test/regression.js",
     "validate-corpus": "node scripts/validate-corpus.js",
-    "test-schema": "node test/schema.js"
+    "test-schema": "node test/schema.js",
+    "test-facts": "node test/fetch-facts.js",
+    "fetch-facts": "node scripts/fetch-facts.js"
   },
   "devDependencies": {
     "playwright-core": "^1.62.1"

@@ -134,11 +134,67 @@ async function readWhen(page, predicate, arg, timeout) {
 //     reload cycles overlap and broke the pending-sync checks on CI.
 // Stamping the document and waiting for the stamp to be gone is unambiguous: only a new document
 // lacks it.
+// Sign in at the account gate and wait for it to actually finish, rather than sleeping.
+//
+// Signing in does NOT navigate: resolveHandle() fetches the profile, then hides the account gate
+// and re-boots the app in place against the new profile. That breaks the usual waiting tools --
+// there is no navigation for clickAndReload's marker to detect, and window.ALL is already defined
+// from the previous handle, so waitForBoot() returns immediately and proves nothing.
+//
+// The account gate closing is the one event that means resolveHandle() actually resolved, so that
+// is what to wait on. Then the onboarding gate is read once the app has settled: a brand-new handle
+// shows it, a returning one does not, and the caller needs to know which.
+//
+// This replaces `await page.waitForTimeout(500)`, which is the pattern ARCHITECTURE.md explicitly
+// forbids after a boot -- boot cost scales with the corpus, so 500ms is comfortable at 2,500 works,
+// a coin flip on a loaded CI runner, and a reliable failure as the library grows. When it lost that
+// race the onboarding gate had not appeared yet, the caller skipped clicking "start", the profile
+// was never initialised, and the failure surfaced three steps later as "declaring Gold upserts a
+// row into the media_status table" -- a check with nothing wrong with it, in a part of the app the
+// change under test had not touched.
+async function signInAndSettle(page, handle, startBtn) {
+  await page.fill('#acctHandleInput', handle);
+  await page.click('#acctContinueBtn');
+  const signedIn = !!(await readWhen(page, () => {
+    const g = document.getElementById('acctGate');
+    return !!g && g.classList.contains('hidden');
+  }, undefined, 20000));
+  // A fresh handle raises the onboarding gate; a returning one boots straight in, so a miss here is
+  // an answer, not a failure. Bounded so the returning case does not pay the full timeout.
+  const onboarding = !!(await readWhen(page, () => {
+    const g = document.getElementById('onboardGate');
+    return !!g && !g.classList.contains('hidden');
+  }, undefined, 8000));
+  if (onboarding && startBtn) {
+    await page.click(startBtn);
+    await waitForBoot(page);
+  }
+  return { signedIn: signedIn, onboarding: onboarding };
+}
+
+// Click something that makes the app reload, and report whether the reload actually happened.
+//
+// The marker is set on window, the click fires, and the reload wipes it. If the marker survives the
+// wait, the click did NOT take -- typically the button was in the DOM but its handler had not been
+// bound yet, which a slower runner makes more likely.
+//
+// The original swallowed that timeout, so a click that never registered was indistinguishable from
+// one that did, and the failure surfaced two steps later as "declaring Gold upserts a row into the
+// media_status table" -- a database check reporting a mouse event, red on CI while green locally.
+// Returning the outcome lets a caller assert on the click itself, so the failure names the real
+// cause instead of the next thing that trips over it.
+//
+// Deliberately NOT retried. Every caller clicks a TIER TOGGLE, so a second click undoes the first:
+// retrying converts "the reload was slow" into "the tier is now off", and the two account-flow
+// checks after this one then fail for a reason that never existed. That is not hypothetical -- it
+// is what a retry here did on CI. The budget is generous instead, and a genuine miss fails loudly.
 async function clickAndReload(page, selector, timeout) {
   await page.evaluate(() => { window.__preReloadMarker = true; });
   await page.click(selector);
-  await page.waitForFunction(() => !window.__preReloadMarker, { timeout: timeout || 20000 }).catch(() => {});
+  const reloaded = await page.waitForFunction(() => !window.__preReloadMarker, { timeout: timeout || 30000 })
+    .then(() => true).catch(() => false);
   await waitForBoot(page);
+  return reloaded;
 }
 
 function findChromium() {
@@ -1053,16 +1109,10 @@ async function runAccountFlow(browser, file) {
     const gateVisible = await page.evaluate(() => !document.getElementById('acctGate').classList.contains('hidden'));
     check('account gate appears when cloud is configured and no handle is remembered', gateVisible);
 
-    await page.fill('#acctHandleInput', 'SmokeTestUser');
-    await page.click('#acctContinueBtn');
-    await page.waitForTimeout(500);
-    const gateHidden = await page.evaluate(() => document.getElementById('acctGate').classList.contains('hidden'));
-    check('account gate closes after choosing a handle', gateHidden);
-
     const startBtn = isShare ? '#onboardBlank' : '#onboardSample';
-    const onboardVisible = await page.evaluate(() => !document.getElementById('onboardGate').classList.contains('hidden'));
-    check('brand-new account gets the normal onboarding flow', onboardVisible);
-    if (onboardVisible) { await page.click(startBtn); await page.waitForTimeout(500); }
+    const firstSignIn = await signInAndSettle(page, 'SmokeTestUser', startBtn);
+    check('account gate closes after choosing a handle', firstSignIn.signedIn);
+    check('brand-new account gets the normal onboarding flow', firstSignIn.onboarding);
 
     // Regression: "Start from the PK Sample" used to leave PERSONAL_PROFILE's hardcoded defaults
     // sitting in memory without ever writing omniLedgerProfile to localStorage -- meaning nothing
@@ -1364,11 +1414,7 @@ async function runAccountFlow(browser, file) {
 
     // Switch account clears the remembered handle and shows the gate again. Re-sign-in first
     // (delete above signed this device out entirely) so there's an account to switch away from.
-    await page2.fill('#acctHandleInput', 'smoketestuser2');
-    await page2.click('#acctContinueBtn');
-    await page2.waitForTimeout(500);
-    const onboardVisible3 = await page2.evaluate(() => !document.getElementById('onboardGate').classList.contains('hidden'));
-    if (onboardVisible3) { await page2.click(isShare ? '#onboardBlank' : '#onboardSample'); await waitForBoot(page2); }
+    await signInAndSettle(page2, 'smoketestuser2', isShare ? '#onboardBlank' : '#onboardSample');
 
     // Gold/silver/bronze/owned are also mirrored into the normalized media_status table (see
     // supabase/schema.sql), not just left inside the profiles.data jsonb blob -- so this is
@@ -1376,7 +1422,9 @@ async function runAccountFlow(browser, file) {
     // in the DB per title. Declaring something Gold should upsert a row; un-declaring it should
     // remove that row entirely (nothing left to track once there's no tier and it's not owned).
     const goldCardId = await firstCardId(page2);
-    await clickAndReload(page2, '.panel .profEditBtn[data-act="declare"][data-id="' + goldCardId + '"]');
+    const goldClickLanded = await clickAndReload(page2, '.panel .profEditBtn[data-act="declare"][data-id="' + goldCardId + '"]');
+    check('the Gold button on card ' + goldCardId + ' actually fired (a missed click is not a database bug)',
+      goldClickLanded);
     const mediaRowAfterDeclare = await readWhen(page2, (id) => {
       const rows = (window.__mockTables && window.__mockTables.media_status) || [];
       return rows.find(r => r.handle === 'smoketestuser2' && r.media_id === id) || false;
@@ -1946,6 +1994,268 @@ async function runTabFiltersFlow(browser, file) {
   });
   check('no creator in the corpus is spelled two different ways', creatorSplit.length === 0);
   if (creatorSplit.length) console.log('     ' + creatorSplit.slice(0, 6).join(' | '));
+
+  // Every gm boost must be monotonic in the field it reads: more of the quality can never earn
+  // less of the boost. This is not a style preference -- the dread boost was written as a band
+  // (`dread>80 && dread<=95`), so it rose to +1.5 at 95 and dropped to zero at 96, leaving the
+  // sixteen most dread-soaked works in the corpus as the only ones earning nothing for it. That
+  // inverts the signal precisely where it should be strongest, and nothing anywhere failed.
+  //
+  // Checked over the real corpus rather than with synthetic values, because the defect is only
+  // visible where works actually sit on the scale.
+  const boostMonotonic = await page.evaluate(() => {
+    const bad = [];
+    ['dread', 'myst', 'tech'].forEach(field => {
+      const label = { dread: 'Atmospheric dread', myst: 'Ontological depth', tech: 'Technical craft' }[field];
+      const got = x => {
+        const b = (x.gmBoosts || []).find(e => e[1] === label);
+        return b ? b[2] : 0;
+      };
+      const pts = ALL.map(x => ({ v: x[field], b: got(x), t: x.title }))
+        .sort((a, b) => a.v - b.v);
+      for (let i = 1; i < pts.length; i++) {
+        if (pts[i].b < pts[i - 1].b - 1e-9) {
+          bad.push(field + ': "' + pts[i].t + '" (' + field + ' ' + pts[i].v + ') earns ' + pts[i].b +
+            ' but "' + pts[i - 1].t + '" (' + pts[i - 1].v + ') earns ' + pts[i - 1].b);
+          break;
+        }
+      }
+    });
+    return bad;
+  });
+  check('every gm boost is monotonic in the index it reads (more of it never earns less)',
+    boostMonotonic.length === 0);
+  if (boostMonotonic.length) console.log('     ' + boostMonotonic.join('\n     '));
+
+  // A recommendation is a suggestion of something you have NOT already claimed. Owned and Gold were
+  // excluded; Silver and Bronze were not -- and tiering a work raises its gm toward that rung's
+  // floor, so a Silver pick you don't own outranked untiered works of the same quality and got
+  // handed back to you as a discovery. It never showed on Payton's profile because his Silver list
+  // is nearly all also-owned, so this is tested adversarially: tier an unowned work Silver and
+  // Bronze in turn and confirm it leaves the list. The corpus can't demonstrate the bug, so the
+  // test builds the case that can.
+  //
+  // The diversity half is the other way a recommendation list fails without failing: ten films by
+  // one director is a working pipeline and a useless answer.
+  const recs = await page.evaluate(() => {
+    if (typeof buildGeneratedRec !== 'function') return ['buildGeneratedRec is not exposed'];
+    const bad = [];
+    const names = c => c.items.map(i => i.n);
+    ['Movies', 'TV Series', 'Video Games', 'Books'].forEach(cat => {
+      const cur = buildGeneratedRec(cat);
+      if (cur.items.length < 5) { bad.push(cat + ': only ' + cur.items.length + ' recommendations'); return; }
+      const listed = names(cur);
+      const creators = new Set(cur.items.map(i => {
+        const w = ALL.find(x => x.title === i.n);
+        return w ? w.creator : i.n;
+      }));
+      if (creators.size < 4) {
+        bad.push(cat + ': ' + cur.items.length + ' recommendations from only ' + creators.size + ' creators');
+      }
+      // Pick a work that IS being recommended, then tier it and check it leaves.
+      const victim = ALL.find(x => x.title === listed[0]);
+      if (!victim) { bad.push(cat + ': cannot resolve its top recommendation "' + listed[0] + '"'); return; }
+      ['silver', 'bronze'].forEach(rung => {
+        victim[rung] = true;
+        const after = names(buildGeneratedRec(cat));
+        victim[rung] = false;
+        if (after.indexOf(victim.title) >= 0) {
+          bad.push(cat + ': "' + victim.title + '" is still recommended after being tiered ' + rung);
+        }
+      });
+      if (names(buildGeneratedRec(cat)).indexOf(victim.title) < 0) {
+        bad.push(cat + ': un-tiering "' + victim.title + '" did not restore it (test left state dirty)');
+      }
+    });
+    return bad;
+  });
+  check('recommendations exclude everything already tiered, and span more than a few creators',
+    recs.length === 0);
+  if (recs.length) console.log('     ' + recs.slice(0, 6).join('\n     '));
+
+  // Provenance must come from a per-record stamp, never from a record's ID or from whether the
+  // shelf holds a copy. The app used to call a work "Verified data" if its ID fell under a
+  // per-medium ceiling (m<=221, t<=144, g<=158, b<=171) or if it was owned -- so 661 works claimed
+  // verified facts on the strength of having been typed in early. NOTES.md Phase 10 records
+  // Casablanca and Rififi as prov:verified AND factually wrong, which is the whole problem: the
+  // badge was measuring import order, not truth.
+  //
+  // Two things are checked. First that nothing claims verified facts without a stamp saying so --
+  // no corpus record carries one yet, so today every work must read as an estimate. Second that
+  // the resolver actually honours a stamp when one arrives in Phase 5, and defaults honestly when
+  // the stamp is junk; that is what keeps this check meaningful after the corpus gets stamped.
+  const provenance = await page.evaluate(() => {
+    const bad = [];
+    if (typeof provStampOf !== 'function') return ['provStampOf is not exposed'];
+    ALL.forEach(x => {
+      const stamped = x.provStamp && x.provStamp.facts === 'sourced';
+      if (x.prov === 'verified' && !stamped) {
+        bad.push('"' + x.title + '" (' + x.id + ') reads as verified with no sourced stamp');
+      }
+    });
+    const cases = [
+      [undefined, 'estimated', 'unscored'],
+      [null, 'estimated', 'unscored'],
+      ['sourced', 'estimated', 'unscored'],
+      [{ facts: 'nonsense', indices: 'nonsense' }, 'estimated', 'unscored'],
+      [{ facts: 'sourced', indices: 'rubric-v1' }, 'sourced', 'rubric-v1'],
+      [{ facts: 'edition-dependent' }, 'edition-dependent', 'unscored'],
+    ];
+    cases.forEach(c => {
+      const got = provStampOf(c[0]);
+      if (got.facts !== c[1] || got.indices !== c[2]) {
+        bad.push('provStampOf(' + JSON.stringify(c[0]) + ') gave ' + got.facts + '/' + got.indices +
+          ', expected ' + c[1] + '/' + c[2]);
+      }
+    });
+    return bad;
+  });
+  check('provenance is read from a per-record stamp, not inferred from ID or ownership',
+    provenance.length === 0);
+  if (provenance.length) console.log('     ' + provenance.slice(0, 5).join('\n     '));
+
+  // The tier ladder must stay a ladder at every score, not just at the scores someone spot-checked.
+  // Silver > Bronze > owned has to hold across the whole 0-100 range, because the rungs are applied
+  // to a work's own gm and a person's library is spread across all of it.
+  //
+  // This is the check for a real defect: the rungs used to blend with different weights (Silver
+  // 0.45, Bronze 0.65, owned 0.5), which makes them lines of different slopes, and lines of
+  // different slopes cross. Owned overtook Bronze below gm 86.7, so Bronze did nothing whatsoever
+  // to anything you already owned -- which is most of what anyone tiers. Sampling one score would
+  // have missed it; the crossover is what matters, so every score gets checked.
+  const ladder = await page.evaluate(() => {
+    if (typeof tierTarget !== 'function') return ['tierTarget is not exposed'];
+    const bad = [];
+    for (let gm = 0; gm <= 100; gm++) {
+      const s = tierTarget(gm, 'silver'), b = tierTarget(gm, 'bronze'), o = tierTarget(gm, 'owned');
+      if (!(s > b && b > o)) bad.push('gm ' + gm + ': silver ' + s + ', bronze ' + b + ', owned ' + o);
+      if (s >= 100) bad.push('gm ' + gm + ': silver ' + s + ' reaches Gold, which is a pin at 100');
+    }
+    return bad;
+  });
+  check('the tier ladder holds at every score (Gold > Silver > Bronze > owned)', ladder.length === 0);
+  if (ladder.length) console.log('     ' + ladder.slice(0, 5).join('\n     '));
+
+  // Two filters pulled equally hard must count equally. The Match score used to weight each active
+  // dimension by its position in activeDims() -- a hardcoded list of if-statements in source order
+  // -- so ★ GOAT beat everything by being written first and Complexity came last however hard you
+  // pulled it. That is an artifact of typing order silently ranking every filtered result, and it
+  // penalises exactly the tastes whose dimensions happen to appear late in the list.
+  //
+  // Tested by symmetry rather than by asserting a number: two works identical except that their
+  // values on two equally-set dimensions are swapped must score the same. That holds under any
+  // sane weighting and fails under a positional one, without pinning the formula itself.
+  const matchSymmetry = await page.evaluate(() => {
+    if (typeof computeMatch !== 'function') return ['computeMatch is not exposed'];
+    const saved = JSON.stringify(state.idx);
+    try {
+      Object.keys(state.idx).forEach(k => { state.idx[k] = 0; });
+      state.idx.scary = 50; state.idx.funny = 50;   // pulled equally hard
+      const base = ALL[0];
+      const mk = (scary, funny) => Object.assign({}, base, { scary: scary, funny: funny });
+      const a = mk(90, 10), b = mk(10, 90);
+      computeMatch([a, b]);
+      return a._m === b._m ? []
+        : ['swapping two equally-weighted dimensions changed the Match score: ' + a._m + ' vs ' + b._m];
+    } finally {
+      state.idx = JSON.parse(saved);
+    }
+  });
+  check('Match weights active filters by how hard they are pulled, not by their source order',
+    matchSymmetry.length === 0);
+  if (matchSymmetry.length) console.log('     ' + matchSymmetry.join('\n     '));
+
+  // A content rating must be a function of a work's content, never of its name. certify() used to
+  // carry a hardcoded prefix match on six film titles alongside its dread threshold.
+  //
+  // Renaming the real corpus does NOT catch that, and the first version of this check did exactly
+  // that and passed with the bug restored -- proving nothing. All six of those titles already
+  // cleared the dread threshold, so the clause decided nothing *today*; it was a trap armed for
+  // later, since it matched on PREFIX. The next "Possession of Hannah Grace" or "The Thing About
+  // Pam" would inherit a rating off its first two words.
+  //
+  // So the adversarial case has to be built rather than looked for: take mild works, give them the
+  // names of the corpus's most dread-soaked ones, and require the rating not to move. That is the
+  // scenario the corpus does not contain yet and will the moment it grows.
+  const titleIndependent = await page.evaluate(() => {
+    if (typeof certify !== 'function') return ['certify is not exposed'];
+    const screen = ALL.filter(x => x.kind === 'movie' || x.kind === 'tv');
+    const byDread = screen.slice().sort((a, b) => b.dread - a.dread);
+    const scaryNames = byDread.slice(0, 25).map(x => x.title);
+    const mild = byDread.slice(-25);
+    const bad = [];
+    mild.forEach(work => {
+      const own = certify(work);
+      scaryNames.forEach(name => {
+        const wearing = certify(Object.assign({}, work, { title: name }));
+        if (wearing !== own) {
+          bad.push('"' + work.title + '" (dread ' + work.dread + ') certifies ' + own +
+            ' normally but ' + wearing + ' while named "' + name + '"');
+        }
+      });
+    });
+    return bad.slice(0, 8);
+  });
+  check('a work\'s content rating does not depend on its title', titleIndependent.length === 0);
+  if (titleIndependent.length) console.log('     ' + titleIndependent.join('\n     '));
+
+  // A game's content rating must not be derived from immersionTensionIndex. That field rides in
+  // the shared `dread` slot, but RUBRIC.md construct 2 defines it as absorption -- how completely
+  // a game takes you in -- explicitly NOT menace. Rating maturity from it says anything hard to
+  // put down must be for adults, and it did exactly that: 71 of 258 games certified M with no
+  // violent or horror genre, Outer Wilds and Return of the Obra Dinn among them.
+  //
+  // Tested by moving the field to both extremes and requiring the rating to hold, which is a
+  // property no amount of pattern-tuning can fake, and which stays true when Phase 5 replaces
+  // these inferences with real ESRB data.
+  const ratingIgnoresImmersion = await page.evaluate(() => {
+    if (typeof certify !== 'function') return ['certify is not exposed'];
+    const bad = [];
+    ALL.filter(x => x.kind === 'game').forEach(x => {
+      const base = certify(x);
+      [0, 50, 100].forEach(v => {
+        const moved = certify(Object.assign({}, x, { dread: v }));
+        if (moved !== base) {
+          bad.push(x.id + ' "' + x.title + '": ' + base + ' -> ' + moved + ' when immersion = ' + v);
+        }
+      });
+    });
+    return bad.slice(0, 8);
+  });
+  check('a game\'s content rating ignores immersionTensionIndex (absorption is not maturity)',
+    ratingIgnoresImmersion.length === 0);
+  if (ratingIgnoresImmersion.length) console.log('     ' + ratingIgnoresImmersion.join('\n     '));
+
+  // Every genre a person boosts must reach at least one work, and must count once per work.
+  //
+  // Both halves come from real regressions. Moving genre boosts from substring matching to the
+  // declared taxonomy silently cost five works their boost -- Outer Wilds, Majora's Mask, Chrono
+  // Trigger, Into the Breach and The End of Eternity -- because the boost keyword "time" is a
+  // concept nothing is tagged with, and the old substring match had been catching "Time Loop" and
+  // "Time Travel" by accident. Nothing errored; the scores just quietly dropped. And the defect
+  // the taxonomy exists to fix was the mirror image: one tag drawing two boosts because two
+  // keywords both appeared inside its name.
+  const boostReach = await page.evaluate(() => {
+    const bad = [];
+    const boosts = (PERSONAL_PROFILE.genreBoost || []);
+    boosts.forEach(([keyword]) => {
+      const hits = ALL.filter(x => (x.gmBoosts || []).some(b => b[0] === 'genre' && b[1] === keyword));
+      if (!hits.length) bad.push('genre boost "' + keyword + '" matches no work at all');
+    });
+    // Counted once: a work must never carry the same genre boost twice, however many of its tags
+    // inherit from that keyword.
+    ALL.forEach(x => {
+      const seen = {};
+      (x.gmBoosts || []).filter(b => b[0] === 'genre').forEach(b => {
+        seen[b[1]] = (seen[b[1]] || 0) + 1;
+        if (seen[b[1]] === 2) bad.push(x.id + ' "' + x.title + '" collects the "' + b[1] + '" boost more than once');
+      });
+    });
+    return bad.slice(0, 8);
+  });
+  check('every boosted genre reaches at least one work, and counts once per work', boostReach.length === 0);
+  if (boostReach.length) console.log('     ' + boostReach.join('\n     '));
+
 
   // URL bookmarking: filters set across three different tabs all round-trip through a fresh load.
   await goto('timeline');
