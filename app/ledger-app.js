@@ -1934,7 +1934,17 @@ function renderPortrait(){
   ['Top creator',topCreator,'#fbbf24']
  ].map(s=>'<div class="panel p-3 text-center"><div class="text-lg font-extrabold text-slate-50 tabular-nums leading-tight">'+s[1]+'</div><div class="lbl mt-1" style="color:'+s[2]+'">'+s[0]+'</div></div>').join('');
  // --- most-owned creators, one panel per medium (all four now, not just movies/books) ---
- function topCreatorsOf(list){const c={};list.forEach(x=>{if(x.creator)c[x.creator]=(c[x.creator]||0)+1;});return Object.entries(c).filter(e=>e[1]>=2).sort((a,b)=>b[1]-a[1]).slice(0,8);}
+ // Only surfacing creators with 2+ owned works reads as broken (a dead "—") for anyone who
+ // simply owns one film each from several different directors -- a completely normal collection
+ // shape, not an edge case. Keep the >=2 bar as the *preferred* view (it's the more interesting
+ // signal when it exists), but fall back to the top owned creators regardless of count so the
+ // panel is never misleadingly empty just because nobody has been collected twice yet.
+ function topCreatorsOf(list){
+  const c={};list.forEach(x=>{if(x.creator)c[x.creator]=(c[x.creator]||0)+1;});
+  const all=Object.entries(c).sort((a,b)=>b[1]-a[1]||a[0].localeCompare(b[0]));
+  const repeat=all.filter(e=>e[1]>=2);
+  return (repeat.length?repeat:all).slice(0,8);
+ }
  $('#portraitDirectors').innerHTML=barList(topCreatorsOf(films),'#a78bfa')||'<div class="text-slate-500 text-[12px]">\u2014</div>';
  $('#portraitAuthors').innerHTML=barList(topCreatorsOf(books),'#4ade80')||'<div class="text-slate-500 text-[12px]">\u2014</div>';
  $('#portraitTV').innerHTML=barList(topCreatorsOf(tv),'#22d3ee')||'<div class="text-slate-500 text-[12px]">\u2014</div>';
@@ -2565,12 +2575,20 @@ on('#densityBtn','click',()=>{var on=document.body.classList.toggle('compact');v
    Deliberately not built until the button is first clicked -- TAB_LABELS is defined further down
    the file, and by the time a person can click "?" the whole script has already run once. */
 var _tipsPickerBuilt=false;
-var _tipsSelectedTab='__general__'; // '__general__' shows only tips marked data-tabs="all"
+// null = nothing picked yet -> show the intro message, no tip content, no pill highlighted.
+// '__general__' shows only tips marked data-tabs="all"; any other value is a TAB_LABELS key.
+var _tipsSelectedTab=null;
 function tipsApplyFilter(){
+ var intro=$('#tipsIntroMsg');
+ if(intro)intro.classList.toggle('hidden',_tipsSelectedTab!==null);
  var cats=$$('#tipsGate .tipCat');
  cats.forEach(function(c){
-  var tabs=(c.dataset.tabs||'').split(/\s+/);
-  var show=_tipsSelectedTab==='__general__'?tabs.indexOf('all')>=0:(tabs.indexOf('all')>=0||tabs.indexOf(_tipsSelectedTab)>=0);
+  var show;
+  if(_tipsSelectedTab===null)show=false;
+  else{
+   var tabs=(c.dataset.tabs||'').split(/\s+/);
+   show=_tipsSelectedTab==='__general__'?tabs.indexOf('all')>=0:(tabs.indexOf('all')>=0||tabs.indexOf(_tipsSelectedTab)>=0);
+  }
   c.classList.toggle('hidden',!show);
  });
  $$('#tipsTabPicker button').forEach(function(b){b.classList.toggle('on',b.dataset.tab===_tipsSelectedTab);});
@@ -2587,7 +2605,9 @@ function tipsBuildPicker(){
  var gate=$('#tipsGate');if(!gate)return;
  on('#tipsBtn','click',function(){
   tipsBuildPicker();
-  _tipsSelectedTab=(typeof TAB_LABELS!=='undefined'&&TAB_LABELS[state.view])?state.view:'__general__';
+  // Open onto the intro message (see tipsApplyFilter) instead of auto-picking a tab -- the point is
+  // for someone to consciously choose which part of the app they want tips for, one at a time.
+  _tipsSelectedTab=null;
   tipsApplyFilter();
   gate.classList.remove('hidden');
  });
