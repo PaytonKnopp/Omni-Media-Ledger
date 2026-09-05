@@ -172,30 +172,29 @@ async function signInAndSettle(page, handle, startBtn) {
   return { signedIn: signedIn, onboarding: onboarding };
 }
 
-// Click something that makes the app reload, and confirm the reload actually happened.
+// Click something that makes the app reload, and report whether the reload actually happened.
 //
-// The marker is set on window, the click fires, and the reload wipes it. If the marker is still
-// there when the wait expires, the click did NOT take -- almost always because the button was in
-// the DOM but its handler had not been bound yet, which a slower runner makes far more likely.
+// The marker is set on window, the click fires, and the reload wipes it. If the marker survives the
+// wait, the click did NOT take -- typically the button was in the DOM but its handler had not been
+// bound yet, which a slower runner makes more likely.
 //
-// The original swallowed that timeout and carried on, so a click that never registered looked
-// exactly like one that did, and the failure surfaced two steps later as "declaring Gold upserts a
-// row into the media_status table" -- a database check reporting a mouse event. That check failed
-// on CI while passing locally more than once. So: retry the click once, and return whether the
-// reload was ever observed, so a caller can say what actually went wrong instead of guessing.
+// The original swallowed that timeout, so a click that never registered was indistinguishable from
+// one that did, and the failure surfaced two steps later as "declaring Gold upserts a row into the
+// media_status table" -- a database check reporting a mouse event, red on CI while green locally.
+// Returning the outcome lets a caller assert on the click itself, so the failure names the real
+// cause instead of the next thing that trips over it.
+//
+// Deliberately NOT retried. Every caller clicks a TIER TOGGLE, so a second click undoes the first:
+// retrying converts "the reload was slow" into "the tier is now off", and the two account-flow
+// checks after this one then fail for a reason that never existed. That is not hypothetical -- it
+// is what a retry here did on CI. The budget is generous instead, and a genuine miss fails loudly.
 async function clickAndReload(page, selector, timeout) {
-  const budget = timeout || 20000;
-  for (let attempt = 0; attempt < 2; attempt++) {
-    await page.evaluate(() => { window.__preReloadMarker = true; });
-    await page.click(selector).catch(() => {});
-    const reloaded = await page.waitForFunction(() => !window.__preReloadMarker, { timeout: budget })
-      .then(() => true).catch(() => false);
-    await waitForBoot(page);
-    if (reloaded) return true;
-    // Give the second attempt a page whose handlers have had time to bind.
-    await page.waitForSelector(selector, { timeout: 5000 }).catch(() => {});
-  }
-  return false;
+  await page.evaluate(() => { window.__preReloadMarker = true; });
+  await page.click(selector);
+  const reloaded = await page.waitForFunction(() => !window.__preReloadMarker, { timeout: timeout || 30000 })
+    .then(() => true).catch(() => false);
+  await waitForBoot(page);
+  return reloaded;
 }
 
 function findChromium() {
