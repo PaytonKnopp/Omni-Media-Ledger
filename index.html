@@ -147,8 +147,12 @@ button:focus-visible,select:focus-visible,input:focus-visible{outline:2px solid 
  #headerInner h1{font-size:15px;line-height:1.25}
  #lastUpdated{font-size:9px;margin-top:2px}
  /* Title + account chip: give the account cluster its own visual weight instead of it looking
-    like a stray pill fighting the title for space on one cramped line. */
- #headerInner>.flex.flex-col.gap-3>.flex.flex-wrap.items-start.justify-between.gap-3{align-items:center}
+    like a stray pill fighting the title for space on one cramped line, and center it the same way
+    #headStats below is centered so the whole header reads as one consistent centered stack rather
+    than a centered stats strip under a left/right-split title row. justify-between (its desktop
+    value) pushes the title to the far left and the chip to the far right of whichever row each
+    wraps onto; centered here instead, matching #headStats. */
+ #headerInner>.flex.flex-col.gap-3>.flex.flex-wrap.items-start.justify-between.gap-3{align-items:center;justify-content:center;text-align:center}
  #acctMenuField{padding:4px 9px 4px 5px!important;min-height:32px!important;gap:6px}
  #acctAvatar{width:22px!important;height:22px!important;font-size:10px!important}
  #acctMenuField>.flex.flex-col>span:first-child{display:none}
@@ -198,7 +202,14 @@ button:focus-visible,select:focus-visible,input:focus-visible{outline:2px solid 
     the viewport, full-width, sliding up from the bottom, above everything (including the sticky
     header), with a dim backdrop behind it. This still uses the exact same open/close JS (the
     .open / .hidden classes toggled in initAcctMenu) -- only the popover's own positioning changes. */
- #acctMenuPop{position:fixed;left:16px;right:16px;top:50%;bottom:auto;transform:translateY(-50%);width:auto;max-width:420px;margin:0 auto;box-sizing:border-box;max-height:min(70vh,420px);border-radius:18px;z-index:1001;box-shadow:0 12px 48px rgba(0,0,0,.6),0 0 0 1px var(--border-2)}
+ /* !important below: #acctMenuPop is rendered with an inline style attribute (left:auto;right:0;
+    min-width:230px;max-height:none) meant for its DESKTOP position, anchored under the chip.
+    Inline styles beat any external stylesheet rule regardless of selector specificity, so without
+    !important this whole mobile centered-sheet block would be silently overridden right back to
+    that desktop right-anchored position on mobile -- which is exactly the bug reported (popup
+    pinned top-right instead of centered). Scoped to this max-width:767px block only -- desktop's
+    inline style is untouched and still governs there. */
+ #acctMenuPop{position:fixed;left:16px!important;right:16px!important;top:50%;bottom:auto;transform:translateY(-50%);width:auto;max-width:420px;margin:0 auto;box-sizing:border-box;max-height:min(70vh,420px)!important;min-width:0!important;border-radius:18px;z-index:1001;box-shadow:0 12px 48px rgba(0,0,0,.6),0 0 0 1px var(--border-2)}
  #acctMenuPop *{min-width:0}
  #acctMenuStatus{white-space:normal;overflow-wrap:anywhere;flex:1}
  #acctMenuPop .rcOpt{min-height:44px;display:flex;align-items:center;box-sizing:border-box}
@@ -213,6 +224,25 @@ button:focus-visible,select:focus-visible,input:focus-visible{outline:2px solid 
  section[data-sec="controller"] .mt-4{margin-top:.65rem!important}
  section[data-sec="controller"] .pt-4{padding-top:.65rem!important}
  .seg button{padding-top:10px;padding-bottom:10px;min-height:40px}
+
+ /* Tier checkboxes (Owned-only / Not-owned / Tiers row): plain flex-wrap let "Tiers" + Gold split
+    onto the same line as Owned/Not-owned while Silver+Bronze fell to the next line, so the group of
+    three tier checkboxes wasn't reading as one unit. #tierGroup wraps just "Tiers"+Gold+Silver+
+    Bronze (see index.html markup) so it can be pushed onto its own full-width row here and kept
+    together -- desktop keeps the original single flex-wrap row (this selector only exists inside
+    this media query, and #tierGroup is itself display:flex there too, so desktop's visual order/
+    wrapping is unchanged). */
+ #tierGroup{flex-basis:100%;padding-top:.4rem;margin-top:.15rem;border-top:1px dashed var(--border-2)}
+
+ /* Contenders Ledger top filter row: Medium buttons, Rank/sort buttons, and the Verified/
+    Unverified checkboxes used to be one flat flex-wrap row (divided only by "|" glyphs), which
+    reads as clutter once it wraps across 2-3 lines on a phone. Stack the three groups (see
+    index.html markup: #contMedGroup/#contRankGroup/#contVerifyGroup) as clearly separated bands,
+    same spirit as the Reference Matrices top-area cleanup above -- group labels stay, "|" dividers
+    (only meaningful in a single row) are hidden. Desktop keeps its original one-row layout. */
+ #contMediumFilter{flex-direction:column;align-items:stretch;gap:.5rem}
+ #contMedGroup,#contRankGroup,#contVerifyGroup{background:rgba(148,163,184,.04);border:1px solid rgba(148,163,184,.1);border-radius:10px;padding:7px 8px}
+ .contFilterDivider{display:none}
 
  /* Quick Tips wall of text -> per-category accordion. Structure below is unchanged (still plain
     text, still in document order); on mobile only, JS (see initMobileTipsAccordion) wraps each
@@ -231,8 +261,13 @@ button:focus-visible,select:focus-visible,input:focus-visible{outline:2px solid 
     w-full) and internally scrollable (max-h-[..vh] + overflow-y-auto) so none of them overflow
     the viewport -- but their desktop p-6/p-8 padding eats a lot of a short phone screen before
     any real content shows. Tighten just the padding/heading size, not the width/scroll behavior. */
- #acctGate>.panel,#onboardGate .panel,#versionGate>.panel,#goatPickerGate>.panel,#tipsGate>.panel,#suggestGate>.panel{padding:1rem}
+ #acctGate>.panel,#onboardGate .panel,#versionGate>.panel,#goatPickerGate>.panel,#suggestGate>.panel{padding:1rem}
  #acctGate .text-lg,#onboardGate .text-lg,#versionGate .text-lg,#goatPickerGate .text-lg,#tipsGate .text-lg,#suggestGate .text-lg{font-size:16px}
+ /* #tipsGate split its padding onto #tipsHeaderWrap/#tipsBody instead of the outer .panel (see
+    markup) so the sticky-header structural fix works at any width -- tighten those two on mobile
+    the same way the shared rule above tightens every other modal's single padded .panel. */
+ #tipsHeaderWrap,#tipsBody{padding-left:1rem!important;padding-right:1rem!important;padding-top:1rem!important;padding-bottom:1rem!important}
+ #tipsGate .text-xl{font-size:16px}
 
  /* Range sliders: the 15px/13px desktop thumb (see input[type=range]::-webkit/-moz-range-thumb
     above) is a small drag target for a finger. Grow the thumb and its track's hit area on mobile
@@ -403,21 +438,31 @@ body[data-theme="outer-wilds"]{--bg:#0e0a09;--panel:#181010;--panel-2:#120c0b;--
 </div>
 
 <div id="tipsGate" class="hidden fixed inset-0 z-[999] flex items-center justify-center bg-black/80 backdrop-blur-sm p-4">
-  <div class="panel p-8 max-w-3xl w-full space-y-5 max-h-[88vh] overflow-y-auto">
-    <div class="flex items-start justify-between gap-2">
-      <div>
-        <div class="text-[10px] tracking-[.3em] text-teal-300/80 uppercase mb-1">Quick tips</div>
-        <h2 class="text-xl font-bold text-slate-50">A few pointers</h2>
-        <p class="text-[12px] text-slate-500 mt-1">Everything worth knowing to use this app well, in one place.</p>
+  <!-- Structural fix: title/close button and the "Show tips for" tab picker used to live in the
+       same scrolling container as every tip category below, so on a short viewport they scrolled
+       out of view along with the tip text -- no way to see the top of the modal or find the close
+       button once scrolled down. Split into two stacked children of a flex-column panel: a
+       non-scrolling header (#tipsHeaderWrap, title+close+tab picker, sits at the top, never moves)
+       and a separately-scrolling body (#tipsBody, the tip categories only) below it -- a standard
+       sticky-header/scrollable-body modal pattern, correct at any width, not just mobile. -->
+  <div class="panel max-w-3xl w-full max-h-[88vh] flex flex-col overflow-hidden">
+    <div id="tipsHeaderWrap" class="p-8 pb-5 space-y-5 shrink-0 border-b border-slate-800/70">
+      <div class="flex items-start justify-between gap-2">
+        <div>
+          <div class="text-[10px] tracking-[.3em] text-teal-300/80 uppercase mb-1">Quick tips</div>
+          <h2 class="text-xl font-bold text-slate-50">A few pointers</h2>
+          <p class="text-[12px] text-slate-500 mt-1">Everything worth knowing to use this app well, in one place.</p>
+        </div>
+        <button type="button" id="tipsClose" class="text-slate-500 hover:text-slate-300 text-lg leading-none" aria-label="Close">✕</button>
       </div>
-      <button type="button" id="tipsClose" class="text-slate-500 hover:text-slate-300 text-lg leading-none" aria-label="Close">✕</button>
+
+      <div>
+        <div class="text-[10px] tracking-[.2em] uppercase text-slate-500 mb-2">Show tips for</div>
+        <div id="tipsTabPicker" class="flex flex-wrap gap-1.5"></div>
+      </div>
     </div>
 
-    <div>
-      <div class="text-[10px] tracking-[.2em] uppercase text-slate-500 mb-2">Show tips for</div>
-      <div id="tipsTabPicker" class="flex flex-wrap gap-1.5"></div>
-    </div>
-
+    <div id="tipsBody" class="p-8 pt-5 space-y-5 overflow-y-auto">
     <div class="tipCat" data-tabs="all">
       <div class="text-[10px] tracking-[.2em] uppercase text-teal-300/70 mb-2.5">Cards &amp; tiering</div>
       <div class="text-[13px] text-slate-300 leading-relaxed space-y-3.5">
@@ -466,6 +511,7 @@ body[data-theme="outer-wilds"]{--bg:#0e0a09;--panel:#181010;--panel-2:#120c0b;--
       <div class="text-[13px] text-slate-300 leading-relaxed space-y-3.5">
         <div>💡 <strong class="text-slate-100">See something missing?</strong> Use "Suggest a feature" in the header, top of page. Click the <strong class="text-slate-100">?</strong> button next to the theme selector anytime to bring these tips back.</div>
       </div>
+    </div>
     </div>
   </div>
 </div>
@@ -521,6 +567,7 @@ body[data-theme="outer-wilds"]{--bg:#0e0a09;--panel:#181010;--panel-2:#120c0b;--
               <div class="flex items-center gap-1.5">
                 <span id="acctStatusDot2" class="inline-block rounded-full shrink-0" style="width:6px;height:6px;background:#475569"></span>
                 <span id="acctMenuStatus" class="text-[11px] text-slate-400"></span>
+                <button type="button" id="acctMenuClose" class="ml-auto text-slate-500 hover:text-slate-300 text-sm leading-none shrink-0" style="background:none;border:none;cursor:pointer;padding:2px" aria-label="Close without switching or deleting" title="Close">✕</button>
               </div>
             </div>
             <button type="button" id="acctSwitchBtn" class="rcOpt" style="width:100%;text-align:left;background:none;border:none;font:inherit;cursor:pointer" title="Sign out and pick a different account by name">⇄ Switch account…</button>
@@ -620,10 +667,12 @@ body[data-theme="outer-wilds"]{--bg:#0e0a09;--panel:#181010;--panel-2:#120c0b;--
     <div class="flex flex-wrap items-center gap-x-6 gap-y-3 mt-4 pt-4 border-t border-slate-800/70">
       <label class="flex items-center gap-2 text-[11px] cursor-pointer" style="color:#86efac"><input type="checkbox" id="ownedToggle" class="accent-emerald-500"/> ◆ Owned in my collection only</label>
       <label class="flex items-center gap-2 text-[11px] cursor-pointer" style="color:#fca5a5"><input type="checkbox" id="notOwnedToggle" class="accent-rose-500"/> ○ Not owned · discover only</label>
-      <span class="fieldlbl mb-0">Tiers</span>
-      <label class="flex items-center gap-1.5 text-[11px] cursor-pointer" style="color:#fbbf24"><input type="checkbox" class="tierChk accent-amber-500" data-tier="gold"/> 🥇 Gold</label>
-      <label class="flex items-center gap-1.5 text-[11px] cursor-pointer" style="color:#cbd5e1"><input type="checkbox" class="tierChk accent-slate-400" data-tier="silver"/> 🥈 Silver</label>
-      <label class="flex items-center gap-1.5 text-[11px] cursor-pointer" style="color:#cd7f32"><input type="checkbox" class="tierChk accent-orange-700" data-tier="bronze"/> 🥉 Bronze</label>
+      <span id="tierGroup" class="flex flex-wrap items-center gap-x-6 gap-y-3">
+        <span class="fieldlbl mb-0">Tiers</span>
+        <label class="flex items-center gap-1.5 text-[11px] cursor-pointer" style="color:#fbbf24"><input type="checkbox" class="tierChk accent-amber-500" data-tier="gold"/> 🥇 Gold</label>
+        <label class="flex items-center gap-1.5 text-[11px] cursor-pointer" style="color:#cbd5e1"><input type="checkbox" class="tierChk accent-slate-400" data-tier="silver"/> 🥈 Silver</label>
+        <label class="flex items-center gap-1.5 text-[11px] cursor-pointer" style="color:#cd7f32"><input type="checkbox" class="tierChk accent-orange-700" data-tier="bronze"/> 🥉 Bronze</label>
+      </span>
     </div>
     <div class="mt-4 pt-4 border-t border-slate-800/70">
       <button type="button" id="advToggle" class="flex items-center gap-2 text-[11.5px] font-bold tracking-[.12em] uppercase transition-colors" style="color:#fbbf24" onmouseover="this.style.color='#fcd34d'" onmouseout="this.style.color='#fbbf24'">
@@ -870,21 +919,27 @@ body[data-theme="outer-wilds"]{--bg:#0e0a09;--panel:#181010;--panel-2:#120c0b;--
   </div>
   <input type="text" id="contSearch" class="inp mb-3" style="max-width:340px" placeholder="🔍 Search contenders by title, lead, or platform…" autocomplete="off">
   <div id="contMediumFilter" class="flex flex-wrap items-center gap-1.5 mb-4">
-    <span class="text-[10px] uppercase tracking-[.14em] text-slate-500 mr-1">Medium</span>
-    <button type="button" class="contMedBtn text-[11px] px-3 py-1 rounded-lg border transition-colors" data-med="all">All</button>
-    <button type="button" class="contMedBtn text-[11px] px-3 py-1 rounded-lg border transition-colors" data-med="Film">Film</button>
-    <button type="button" class="contMedBtn text-[11px] px-3 py-1 rounded-lg border transition-colors" data-med="TV">TV</button>
-    <button type="button" class="contMedBtn text-[11px] px-3 py-1 rounded-lg border transition-colors" data-med="Game">Game</button>
-    <button type="button" class="contMedBtn text-[11px] px-3 py-1 rounded-lg border transition-colors" data-med="Book">Book</button>
-    <span class="mx-2 text-slate-700">|</span>
-    <span class="text-[10px] uppercase tracking-[.14em] text-slate-500 mr-1">Rank</span>
-    <button type="button" id="contSortForyou" class="contSortBtn text-[11px] px-3 py-1 rounded-lg border transition-colors on" data-sort="foryou">★ For You</button>
-    <button type="button" id="contSortProb" class="contSortBtn text-[11px] px-3 py-1 rounded-lg border transition-colors" data-sort="prob">Editorial</button>
-    <button type="button" id="contSortTitle" class="contSortBtn text-[11px] px-3 py-1 rounded-lg border transition-colors" data-sort="title">Title A–Z</button>
-    <button type="button" id="contSortWindow" class="contSortBtn text-[11px] px-3 py-1 rounded-lg border transition-colors" data-sort="window">Soonest Window</button>
-    <span class="mx-2 text-slate-700">|</span>
-    <label id="contVerifiedOnlyWrap" class="flex items-center gap-1.5 text-[11px] cursor-pointer" style="color:#4ade8090" title="Show only entries already spot-checked against a live source"><input type="checkbox" id="contVerifiedOnly" class="accent-emerald-500"> ◉ Verified only</label>
-    <label id="contUnverifiedOnlyWrap" class="flex items-center gap-1.5 text-[11px] cursor-pointer" style="color:#f8717190" title="Show only entries not yet spot-checked against a live source"><input type="checkbox" id="contUnverifiedOnly" class="accent-rose-500"> ◯ Unverified only</label>
+    <span id="contMedGroup" class="flex flex-wrap items-center gap-1.5">
+      <span class="text-[10px] uppercase tracking-[.14em] text-slate-500 mr-1">Medium</span>
+      <button type="button" class="contMedBtn text-[11px] px-3 py-1 rounded-lg border transition-colors" data-med="all">All</button>
+      <button type="button" class="contMedBtn text-[11px] px-3 py-1 rounded-lg border transition-colors" data-med="Film">Film</button>
+      <button type="button" class="contMedBtn text-[11px] px-3 py-1 rounded-lg border transition-colors" data-med="TV">TV</button>
+      <button type="button" class="contMedBtn text-[11px] px-3 py-1 rounded-lg border transition-colors" data-med="Game">Game</button>
+      <button type="button" class="contMedBtn text-[11px] px-3 py-1 rounded-lg border transition-colors" data-med="Book">Book</button>
+    </span>
+    <span class="contFilterDivider mx-2 text-slate-700">|</span>
+    <span id="contRankGroup" class="flex flex-wrap items-center gap-1.5">
+      <span class="text-[10px] uppercase tracking-[.14em] text-slate-500 mr-1">Rank</span>
+      <button type="button" id="contSortForyou" class="contSortBtn text-[11px] px-3 py-1 rounded-lg border transition-colors on" data-sort="foryou">★ For You</button>
+      <button type="button" id="contSortProb" class="contSortBtn text-[11px] px-3 py-1 rounded-lg border transition-colors" data-sort="prob">Editorial</button>
+      <button type="button" id="contSortTitle" class="contSortBtn text-[11px] px-3 py-1 rounded-lg border transition-colors" data-sort="title">Title A–Z</button>
+      <button type="button" id="contSortWindow" class="contSortBtn text-[11px] px-3 py-1 rounded-lg border transition-colors" data-sort="window">Soonest Window</button>
+    </span>
+    <span class="contFilterDivider mx-2 text-slate-700">|</span>
+    <span id="contVerifyGroup" class="flex flex-wrap items-center gap-1.5">
+      <label id="contVerifiedOnlyWrap" class="flex items-center gap-1.5 text-[11px] cursor-pointer" style="color:#4ade8090" title="Show only entries already spot-checked against a live source"><input type="checkbox" id="contVerifiedOnly" class="accent-emerald-500"> ◉ Verified only</label>
+      <label id="contUnverifiedOnlyWrap" class="flex items-center gap-1.5 text-[11px] cursor-pointer" style="color:#f8717190" title="Show only entries not yet spot-checked against a live source"><input type="checkbox" id="contUnverifiedOnly" class="accent-rose-500"> ◯ Unverified only</label>
+    </span>
   </div>
   <div id="contenderGrid" class="grid grid-cols-1 md:grid-cols-2 gap-4"></div>
 </section>
@@ -1374,6 +1429,11 @@ var SUPABASE_CONFIG={url:"https://gqpjeccmwsjxrlrazqxt.supabase.co",anonKey:"sb_
   });
   field.addEventListener('keydown',function(e){
    if(e.key==='Enter'||e.key===' '){e.preventDefault();field.click();}
+  });
+  var closeBtn=$('#acctMenuClose');
+  if(closeBtn)closeBtn.addEventListener('click',function(e){
+   e.stopPropagation();
+   menu.classList.remove('open');pop.classList.add('hidden');
   });
  }
  initAcctMenu();
