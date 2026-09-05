@@ -788,7 +788,9 @@ function renderMatrices(){
  $('#matrixWrap').innerHTML=
   matrixBlock('4K Physical UHD Reference Tier','Disc-pushing transfers and object-audio mixes for calibrated HDR rigs. Films &amp; series with Transfer &ge; 94 and Audio &ge; 90.',ref,it=>[[it.fid[0][1],'#818cf8'],[it.fid[1][1],'#7dd3fc'],[it.fid[2][1],'#c4b5fd']],['Transfer','Audio','Cinema'])
   +matrixBlock('\u266b Soundtrack &amp; Audio Hall','Reference scores and sound design \u2014 the works that justify the speakers. Soundtrack index &ge; 90.',ALL.filter(x=>x.snd>=90).sort((a,b)=>b.snd-a.snd),it=>[[it.snd,'#7dd3fc'],[it.ref,'#818cf8']],['Audio','4K'])
-  +matrixBlock('\u2605 Peak GOAT Match \u2014 Tuned To You','The single highest personalized matches across every medium \u2014 your taste engine\u2019s top picks. GOAT match \u2265 90.',ALL.filter(x=>x.gm>=90).sort((a,b)=>(b.gm-a.gm)||(b.ovr-a.ovr)),it=>[[it.gm,'#fbbf24'],[it.ovr,'#94a3b8']],['Match','Overall'])
+  // "Peak GOAT Match -- Tuned To You" removed: personal GOAT-match leaderboards already live on the
+  // GOAT Profile tab, so duplicating one here (a corpus that's meant to stay canonical/impersonal,
+  // per this view's own intro copy) was redundant rather than useful.
   +matrixBlock('Atmospheric Isolation &amp; Cosmic Dread','High-tension slow-burns across every medium. Dread / Immersion Index &ge; 90.',dread,it=>[[it.dread,'#fb7185'],[it.tech,'#818cf8']],['Dread','Tech'])
   +matrixBlock('\u25c9 Eldritch Cosmic Horror Canon','The void looks back: indifferent universes, unknowable entities, sanity under siege. Cosmic Horror Index &ge; 78 \u2014 anchored to your declared canon.',eldritch,it=>[[it.ch,'#c084fc'],[it.dread,'#fb7185']],['Mind','Critic'])
   +matrixBlock('🌌 Cosmic Awe &amp; Sense of Wonder','Vastness, transcendence, the sublime \u2014 works that make you feel small before something immense. Awe index \u2265 88.',ALL.filter(x=>x.awe>=88).sort((a,b)=>b.awe-a.awe),it=>[[it.awe,'#38bdf8'],[it.myst,'#34d399']],['Awe','Mind'])
