@@ -64,10 +64,10 @@ about the corpus's selection, not a reason to re-centre the medium.
 
 ---
 
-## The four core constructs
+## The core constructs
 
-These carry the most weight: they are 84% of pre-override score variance. They are **four separate
-constructs**, per the owner's decision — not two constructs with two names each. Each is defined
+These carry the most weight: they are 84% of pre-override score variance. The first four are
+**four separate constructs**, per the owner's decision — not two constructs with two names each. Each is defined
 on its own terms below, and a work in one medium is never scored by analogy to another.
 
 ---
@@ -256,6 +256,96 @@ adapter and engine wiring. Scheduled for Phase 3 alongside the games rescore, no
 
 ---
 
+### 5. `emotionalWarmth` — all four media — **NEW FIELD, not yet in the schema**
+
+**How much the work extends care — toward the people in it, and toward you.** Generosity,
+affection, humane attention. The sense of being in good hands.
+
+This is the fifth core construct, and the reason it exists is structural rather than aesthetic.
+The other four — dread, immersion, ontological complexity, systems complexity — are all
+*intensity* axes: unease, absorption, difficulty. Nothing in the schema measured whether a work is
+kind. So a person whose taste runs to warmth, wit or company had **no index their taste could load
+onto**, and could express it only through genre boosts, while a person who likes dread-soaked
+puzzle-boxes had four indices working for them. That is a property of who the corpus was first
+built for, not a fact about media, and it capped how well the app could ever serve anyone else.
+
+**This is NOT:**
+- **A happy ending, or happiness at all.** *Grave of the Fireflies* is devastating and among the
+  warmest works in the ledger. *The Wolf of Wall Street* is a party and ice cold.
+- **Comedy.** Independent axes. *Dr. Strangelove* is hilarious and glacial; *The Bear* is warm and
+  frequently unbearable.
+- **Sentimentality.** Manipulation is the *opposite* of warmth — it uses characters to produce a
+  feeling in you rather than attending to them. Score it low, not high.
+- **Low stakes or coziness.** A brutal work can be deeply warm; a gentle one can be indifferent.
+- **The absence of dread.** Deliberately orthogonal, which is what makes it worth its own field:
+  *Come and See* is near-maximal on both.
+
+**Decision procedure.** Ask: *does this work love anybody in it?* If it regards its people with
+affection and takes their inner lives seriously — including the ones it condemns — you are above
+70. If it regards them with interest but no tenderness, 40–60. If it uses them as instruments for
+a plot, a spectacle or a thesis, below 30. For non-fiction and games without characters, the
+question becomes *does it care about its subject and its reader/player?* — Sagan does, a reference
+textbook does not, and a textbook scoring low is correct rather than a gap.
+
+**Anchors** — film/TV:
+
+| Score | Work | Why |
+|---|---|---|
+| **95** | *It's a Wonderful Life* (m514) | The subject *is* a community's care for one man. Definitional. |
+| **80** | *Grave of the Fireflies* (m183) | Unbearable and tender at once — the proof that warmth is not happiness. |
+| **65** | *Interstellar* (m06) | Real love at its centre, delivered through a film that is often cold in execution. |
+| **40** | *No Country for Old Men* (m56) | Moral seriousness about its people, no affection for them. |
+| **10** | *The Shining* (m02) | Sympathy actively withheld; the family is material. |
+
+**Anchors** — books:
+
+| Score | Work | Why |
+|---|---|---|
+| **95** | *Cosmos* (b05) | Sagan's humanism, extended to the reader and the universe alike. |
+| **80** | *The Hobbit* (b18) | Affectionate toward nearly everyone in it. |
+| **60** | *Endurance* (b47) | Humane and admiring, but the register is competence rather than care. |
+| **35** | *Blindsight* (b34) | Cold by design — the coldness *is* the argument. |
+| **10** | *The Principles of Quantum Mechanics* (b03) | None, and correctly so. |
+
+**Anchors** — games:
+
+| Score | Work | Why |
+|---|---|---|
+| **95** | *Stardew Valley* (g119) | The entire design is an act of care. |
+| **80** | *Undertale* (g52) | Insists you reckon with the interiority of everything you meet. |
+| **65** | *Journey* (g70) | Wordless companionship, real but abstract. |
+| **40** | *Wii Sports* (g255) | Cheerful and empty of persons — nothing to extend care toward. |
+| **15** | *Dark Souls* (g03) | A world that regards you with indifference, deliberately and thematically. |
+
+**Cost, stated plainly.** This is a schema addition on **2,508 records**, not a formula change.
+Until every record carries a value it cannot become a required field, so the sequence is: score it
+in reviewed batches during Phase 3 (same rubric, same protocol as every other index), then wire it
+into `validate-corpus.js`, the adapter, `gm`, and the filter sliders in one commit once the data
+is complete. Half-populating it would be worse than not having it — a filter that silently hides
+every unscored work.
+
+---
+
+## What is still uncovered
+
+Warmth closes the largest gap. It does not close all of them, and the honest list matters more
+than a tidy one. After warmth, the constructs measure: unease, absorption, intellectual demand,
+mechanical depth, care, craft and reception.
+
+Two qualities a person could reasonably organise their taste around are still **derived rather
+than measured** — computed from the other axes rather than judged on their own, so they inherit
+whatever those axes get wrong:
+
+- **Humour.** `funny` is computed from genre plus audience score. A genuinely witty drama is
+  invisible to it.
+- **Beauty.** `awe` blends craft with a genre and vibe bonus. Cinematography is measured for film,
+  but nothing captures beauty for books or games as its own quality.
+
+Whether either deserves promotion to a raw scored field is the owner's call, and deliberately not
+decided here. Each carries the same 2,508-record cost as warmth.
+
+---
+
 ## Craft and fidelity fields
 
 Per the owner's decision, `physicalMediaFidelity` is **not one construct**. Two of its three fields
@@ -354,21 +444,17 @@ All five open questions were answered. Recorded here so they are not reopened.
 
 ### Still to settle — raised, not yet ruled on
 
-**The four core constructs are all "dark" axes**, and that limits who the app can serve. Dread,
-ontological complexity, immersion and systems complexity describe intensity, difficulty and unease.
-Nothing in the schema measures warmth, wit, romance, beauty, catharsis or joy. A person whose taste
-runs to comedy or romance can only express it through genre boosts, because there is no *index*
-their taste loads onto — while a person who likes dread-soaked puzzle-boxes has four.
+**Resolved: the owner chose the real fix.** All four original constructs were "dark" axes, which
+capped who the app could serve. The owner's ruling, in his words: *"this originally started as an
+app just for me so it is skewed in favor of the things I was looking for... if I want it to be
+available to everyone and work for everyone best there should be everything in the system... mine
+should still be reflected properly because if it works for everybody it will and should still work
+for me."*
 
-Against the owner's stated goal — *"I want everyone using the app to have it be useful for them no
-matter what their taste is"* — this is the largest remaining structural gap, larger than any
-individual wrong value. The derived indices (`cozy`, `funny`, `emo`) partly cover it, but they are
-computed from the same dark axes rather than measured, so they inherit the same blind spot.
-
-Options, in ascending cost: score the existing `cozy`/`funny`/`emo` override tables against this
-rubric so at least the light axes are consistent; or add one genuinely new raw construct
-(*warmth*, say, or *emotional generosity*) across all four media. The second is a schema change on
-2,508 records. **Owner's call — deliberately not decided here.**
+So `emotionalWarmth` (construct 5) is added across all four media as a genuinely new raw scored
+field, rather than the cheaper option of merely re-scoring the derived `cozy`/`funny`/`emo`
+override tables — those are computed *from* the dark axes and would have inherited the same blind
+spot. See "What is still uncovered" for the two qualities that remain derived.
 
 ## Change control
 
