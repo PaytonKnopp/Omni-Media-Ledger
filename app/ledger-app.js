@@ -1404,7 +1404,20 @@ const GENRE_FAMILIES=[
  ['Strategy & Tactics',/strategy|4x|rts|turn-based|grand strategy|tactical/i],
  ['Sports & Music',/sport|racing|music|rhythm|\bband\b/i]
 ];
-ALL.forEach(x=>{const g=x.genres.join(' ');x.fam=GENRE_FAMILIES.filter(f=>f[1].test(g)).map(f=>f[0]);});
+/* Family membership by lookup, not by running 28 regexes over a joined genre string.
+   That string search is the last substring surface in the scoring path, and it is the one that
+   filed A Storm of Swords and A Clash of Kings under Biography, because a compound label matched
+   a history pattern. Which families a tag belongs to is a curation decision, so data/genre-
+   taxonomy.js states it per tag; a tag in two families says so, and no work can be swept into a
+   third by an accident of spelling. GENRE_FAMILIES is kept as the ordered family list that drives
+   the lens UI. */
+ALL.forEach(x=>{
+ const fams={};
+ (x.genres||[]).forEach(function(tag){
+  ((typeof GENRE_FAMILY_OF!=='undefined'&&GENRE_FAMILY_OF[tag])||[]).forEach(function(f){fams[f]=1;});
+ });
+ x.fam=GENRE_FAMILIES.map(f=>f[0]).filter(f=>fams[f]);
+});
 const GENRE_COUNTS={};GENRE_FAMILIES.forEach(f=>{GENRE_COUNTS[f[0]]=ALL.filter(x=>x.fam.includes(f[0])).length;});
 
 /* ===================== DEEP INDEX BATTERY ===================== */

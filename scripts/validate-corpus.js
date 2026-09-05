@@ -348,6 +348,21 @@ console.log('\n=== genre taxonomy ===');
       check('every taxonomy entry includes itself and inherits only from real tags', danglingParents.length === 0);
       detail(danglingParents);
 
+      // Family membership is now a per-tag lookup rather than a regex over a joined string, so a
+      // tag with no family entry is invisible to the family lens, the family filters, cross-medium
+      // pairings, the rabbit hole and the graph -- all at once, while its own card looks fine.
+      let FAMOF = null;
+      try {
+        FAMOF = new Function(fs.readFileSync(taxPath, 'utf8') +
+          '\nreturn typeof GENRE_FAMILY_OF!=="undefined"?GENRE_FAMILY_OF:null;')();
+      } catch (e) { FAMOF = null; }
+      check('genre taxonomy declares a family map', !!FAMOF);
+      if (FAMOF) {
+        const noFamily = [...used].filter(g => !Array.isArray(FAMOF[g]) || !FAMOF[g].length);
+        check('every genre in use belongs to at least one genre family', noFamily.length === 0);
+        detail(noFamily.map(g => '"' + g + '" has no family, so every work carrying it drops out of the family lens'));
+      }
+
       // Unused entries are not an error -- keeping a tag's declaration after its last work is
       // retagged is harmless, and deleting it would only make the next use re-derive it.
       const orphans = Object.keys(TAX).filter(t => !used.has(t) && !VIRTUAL.includes(t));
