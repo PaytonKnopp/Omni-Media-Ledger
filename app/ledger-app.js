@@ -806,7 +806,9 @@ function renderMatrices(){
   +matrixBlock('🎭 Bravura Performances','Career-defining acting and voice work \u2014 the roles that carry their whole piece. Performance index \u2265 88.',ALL.filter(x=>x.perf>=88).sort((a,b)=>b.perf-a.perf),it=>[[it.perf,'#f472b6'],[it.crit,'#94a3b8']],['Perf','Critic'])
   +matrixBlock('💧 Tearjerker &amp; Emotional Gut-Punch','Bring tissues \u2014 the most devastating, moving works across every medium. Emotional index \u2265 86.',ALL.filter(x=>x.emo>=86).sort((a,b)=>b.emo-a.emo),it=>[[it.emo,'#f0abfc'],[it.crit,'#94a3b8']],['Emotion','Critic'])
   +matrixBlock('😴 Comfort &amp; Warmth','Rainy-Sunday companions \u2014 the cozy, humane, restorative works to return to. Comfort index \u2265 74.',ALL.filter(x=>x.cozy>=74).sort((a,b)=>b.cozy-a.cozy),it=>[[it.cozy,'#fbbf24'],[it.aud,'#94a3b8']],['Comfort','Audience'])
-  +matrixBlock('😀 Wit &amp; Comedy Peak','The sharpest, funniest works across every medium \u2014 satire, farce, and perfect timing. Comedy index \u2265 74.',ALL.filter(x=>x.funny>=74).sort((a,b)=>b.funny-a.funny),it=>[[it.funny,'#fde047'],[it.aud,'#94a3b8']],['Funny','Audience']);
+  +matrixBlock('😀 Wit &amp; Comedy Peak','The sharpest, funniest works across every medium \u2014 satire, farce, and perfect timing. Comedy index \u2265 74.',ALL.filter(x=>x.funny>=74).sort((a,b)=>b.funny-a.funny),it=>[[it.funny,'#fde047'],[it.aud,'#94a3b8']],['Funny','Audience'])
+  +matrixBlock('🎬 Grounded &amp; Realistic','Life as it is, not stylized — plausible situations and real-world stakes, no genre gloss. Realism index ≥ 80.',ALL.filter(x=>x.real>=80).sort((a,b)=>(b.real-a.real)||(b.crit-a.crit)),it=>[[it.real,'#d4d4d8'],[it.crit,'#94a3b8']],['Real','Critic'])
+  +matrixBlock('🔁 Endlessly Rewatchable','Comfort-food favorites you would happily return to any night — low-friction, high-reward. Rewatchability index ≥ 78.',ALL.filter(x=>x.rewatch>=78).sort((a,b)=>(b.rewatch-a.rewatch)||(b.aud-a.aud)),it=>[[it.rewatch,'#5eead4'],[it.aud,'#94a3b8']],['Rewatch','Audience']);
  renderMatrixNav();
  var q=(matrixNavQ||'').trim().toLowerCase();
  if(q){$$('#matrixWrap > .panel').forEach(function(p){var h3=p.querySelector('h3');var match=h3&&h3.textContent.toLowerCase().indexOf(q)>=0;p.classList.toggle('hidden',!match);});}
@@ -1498,6 +1500,11 @@ ALL.forEach(x=>{
  x.funny=lerpScore(x,FUNNY,it=>{const c=/comedy|satire|dramedy|black comedy/.test(g);return Math.round((c?42:8)+(c?it.aud*0.4:it.aud*0.1));},5,82);
  x.hist=lerpScore(x,HIST,it=>{const h=/historical|biopic|war|period/.test(g);return h?Math.round(60+(it.crit-80)*0.4):Math.max(5,Math.round(it.myst*0.15));},5,80);
  x.vibe2=lerpScore(x,VIBEIDX,it=>Math.round(0.4*it.tech+0.3*it.aud+(it.vibe&&/cosmic|midnight|ritual|neon|noir/i.test(it.vibe)?10:0)),30,90);
+ // Rewatchability: low-friction comfort favorites people actually return to -- weighted toward
+ // audience love, cozy/comfort tone and humor, and pulled down by heavy ontological complexity or
+ // dread (the kind of thing that demands full attention each time, the opposite of a rewatch).
+ // No hand-curated override table like the indices above; this one's heuristic-only for now.
+ x.rewatch=Math.max(0,Math.min(100,Math.round(0.30*x.aud+0.24*x.cozy+0.20*x.funny-0.14*x.myst-0.08*x.dread+18)));
 });
 /* ---- Content ratings (algorithmic certification) ---- */
 function certify(x){const g=x.genres.join(' ').toLowerCase();
