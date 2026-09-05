@@ -2015,6 +2015,47 @@ async function runTabFiltersFlow(browser, file) {
     boostMonotonic.length === 0);
   if (boostMonotonic.length) console.log('     ' + boostMonotonic.join('\n     '));
 
+  // Provenance must come from a per-record stamp, never from a record's ID or from whether the
+  // shelf holds a copy. The app used to call a work "Verified data" if its ID fell under a
+  // per-medium ceiling (m<=221, t<=144, g<=158, b<=171) or if it was owned -- so 661 works claimed
+  // verified facts on the strength of having been typed in early. NOTES.md Phase 10 records
+  // Casablanca and Rififi as prov:verified AND factually wrong, which is the whole problem: the
+  // badge was measuring import order, not truth.
+  //
+  // Two things are checked. First that nothing claims verified facts without a stamp saying so --
+  // no corpus record carries one yet, so today every work must read as an estimate. Second that
+  // the resolver actually honours a stamp when one arrives in Phase 5, and defaults honestly when
+  // the stamp is junk; that is what keeps this check meaningful after the corpus gets stamped.
+  const provenance = await page.evaluate(() => {
+    const bad = [];
+    if (typeof provStampOf !== 'function') return ['provStampOf is not exposed'];
+    ALL.forEach(x => {
+      const stamped = x.provStamp && x.provStamp.facts === 'sourced';
+      if (x.prov === 'verified' && !stamped) {
+        bad.push('"' + x.title + '" (' + x.id + ') reads as verified with no sourced stamp');
+      }
+    });
+    const cases = [
+      [undefined, 'estimated', 'unscored'],
+      [null, 'estimated', 'unscored'],
+      ['sourced', 'estimated', 'unscored'],
+      [{ facts: 'nonsense', indices: 'nonsense' }, 'estimated', 'unscored'],
+      [{ facts: 'sourced', indices: 'rubric-v1' }, 'sourced', 'rubric-v1'],
+      [{ facts: 'edition-dependent' }, 'edition-dependent', 'unscored'],
+    ];
+    cases.forEach(c => {
+      const got = provStampOf(c[0]);
+      if (got.facts !== c[1] || got.indices !== c[2]) {
+        bad.push('provStampOf(' + JSON.stringify(c[0]) + ') gave ' + got.facts + '/' + got.indices +
+          ', expected ' + c[1] + '/' + c[2]);
+      }
+    });
+    return bad;
+  });
+  check('provenance is read from a per-record stamp, not inferred from ID or ownership',
+    provenance.length === 0);
+  if (provenance.length) console.log('     ' + provenance.slice(0, 5).join('\n     '));
+
   // The tier ladder must stay a ladder at every score, not just at the scores someone spot-checked.
   // Silver > Bronze > owned has to hold across the whole 0-100 range, because the rungs are applied
   // to a work's own gm and a person's library is spread across all of it.

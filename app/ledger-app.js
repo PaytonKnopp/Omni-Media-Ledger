@@ -48,13 +48,13 @@ if(!PROFILE_FROM_STORAGE)PERSONAL_PROFILE.watchlist={c02:1,c78:2,c79:3,c80:4,c81
 contenders.forEach(c=>{const wl=PERSONAL_PROFILE.watchlist||{};if(wl[c.id])c.watchRank=wl[c.id];});
 
 /* ===================== UNIFIED ADAPTER LAYER ===================== */
-if(!PROFILE_FROM_STORAGE)PERSONAL_PROFILE.ownedBooksExtra={'b508':'Hardcover','b59':'Paperback','b60':'Paperback','b58':'Paperback','b71':'Paperback','b53':'Paperback','b96':'Hardcover','b100':'Hardcover','b88':'Hardcover','b56':'Paperback','b148':'Paperback','b74':'Paperback','b79':'Deluxe','b151':'Paperback','b152':'Paperback','b153':'Boxed Set','b154':'Boxed Set','b155':'Paperback','b156':'Paperback','b157':'Paperback','b158':'Deluxe','b159':'Paperback','b160':'Paperback','b168':'Hardcover','b161':'Hardcover','b162':'Hardcover','b163':'Hardcover','b164':'Hardcover','b165':'Hardcover','b166':'Hardcover','b167':'Hardcover','b169':'Deluxe','b170':'Hardcover','b171':'Hardcover'};
+if(!PROFILE_FROM_STORAGE)PERSONAL_PROFILE.ownedBooksExtra={'b01':'Paperback','b02':'Hardcover','b03':'Hardcover','b04':'Hardcover','b05':'Deluxe','b06':'Paperback','b07':'Paperback','b08':'Hardcover','b09':'Hardcover','b10':'Hardcover','b11':'Hardcover','b12':'Hardcover','b13':'Hardcover','b14':'Hardcover','b15':'Hardcover','b16':'Hardcover','b17':'Paperback','b18':'Deluxe','b19':'Deluxe','b20':'Deluxe','b21':'Deluxe','b22':'Deluxe','b23':'Hardcover','b24':'Hardcover','b25':'Hardcover','b26':'Hardcover','b27':'Hardcover','b28':'Hardcover','b29':'Paperback','b30':'Hardcover','b31':'Hardcover','b32':'Hardcover','b33':'Deluxe','b34':'Paperback','b35':'Hardcover','b36':'Hardcover','b37':'Hardcover','b38':'Deluxe','b39':'Deluxe','b40':'Hardcover','b41':'Hardcover','b42':'Hardcover','b43':'Hardcover','b44':'Hardcover','b45':'Paperback','b46':'Hardcover','b47':'Hardcover','b48':'Paperback','b49':'Hardcover','b50':'Paperback','b51':'Hardcover','b508':'Hardcover','b59':'Paperback','b60':'Paperback','b58':'Paperback','b71':'Paperback','b53':'Paperback','b96':'Hardcover','b100':'Hardcover','b88':'Hardcover','b56':'Paperback','b148':'Paperback','b74':'Paperback','b79':'Deluxe','b151':'Paperback','b152':'Paperback','b153':'Boxed Set','b154':'Boxed Set','b155':'Paperback','b156':'Paperback','b157':'Paperback','b158':'Deluxe','b159':'Paperback','b160':'Paperback','b168':'Hardcover','b161':'Hardcover','b162':'Hardcover','b163':'Hardcover','b164':'Hardcover','b165':'Hardcover','b166':'Hardcover','b167':'Hardcover','b169':'Deluxe','b170':'Hardcover','b171':'Hardcover'};
 const OWNED_BOOKS_EXTRA=PERSONAL_PROFILE.ownedBooksExtra||{};
 const OB=id=>OWNED_BOOKS_EXTRA[id]!==undefined;
-/* Books id<=51 are owned by convention in this corpus's numbering (Payton's original shelf
-   reconciliation) -- that convention is itself personal data, not a corpus fact, so it lives on
-   the profile too rather than being a bare "51" baked into the adapter below. */
-if(!PROFILE_FROM_STORAGE)PERSONAL_PROFILE.ownedBookIdCeiling=51;
+/* Ownership is now stated per book, in ownedBooksExtra above -- the old "id<=51 is owned by
+   convention" rule made a personal shelf fact a property of the corpus's numbering. The ceiling
+   is kept at 0 so a profile saved before that change still loads with its books owned. */
+if(!PROFILE_FROM_STORAGE)PERSONAL_PROFILE.ownedBookIdCeiling=0;
 const OWNED_BOOK_ID_CEILING=PERSONAL_PROFILE.ownedBookIdCeiling||0;
 if(!PROFILE_FROM_STORAGE)PERSONAL_PROFILE.ownedGameIds=['g45'];
 const KM={movie:{label:'FILM',c:'#a78bfa'},tv:{label:'TV',c:'#22d3ee'},game:{label:'GAME',c:'#fbbf24'},book:{label:'BOOK',c:'#4ade80'}};
@@ -63,27 +63,39 @@ const ALL=[
   tech:Math.round((m.physicalMediaFidelity.transferFidelity+m.physicalMediaFidelity.audioSoundscape+m.physicalMediaFidelity.cinematographyScore)/3),
   dread:m.atmosphericDreadIndex,myst:m.ontologicalComplexity,format:m.contextTags.formatType,vibe:m.contextTags.vibeTime,just:m.contextTags.justification,
   fid:[['4K Transfer',m.physicalMediaFidelity.transferFidelity],['Audio Soundscape',m.physicalMediaFidelity.audioSoundscape],['Cinematography',m.physicalMediaFidelity.cinematographyScore]],
-  plats:[m.studio],owned:!!m.owned,physFormat:m.physFormat||(m.owned?'4K':null)})),
+  plats:[m.studio],provRaw:m.prov,owned:!!m.owned,physFormat:m.physFormat||(m.owned?'4K':null)})),
  ...tvShows.map(t=>({kind:'tv',id:t.id,title:t.title,year:t.year,creator:t.creator,org:t.networkStreamer,span:t.totalSeasons+(t.totalSeasons===1?' season':' seasons'),genres:t.genres,crit:t.metrics.criticalScore,aud:t.metrics.audienceScore,
   tech:Math.round((t.physicalMediaFidelity.transferFidelity+t.physicalMediaFidelity.audioSoundscape+t.physicalMediaFidelity.cinematographyScore)/3),
   dread:t.atmosphericDreadIndex,myst:t.ontologicalComplexity,format:t.formats.structuralType,vibe:t.contextTags.vibeTime,just:t.contextTags.justification,
   fid:[['Master Transfer',t.physicalMediaFidelity.transferFidelity],['Audio Soundscape',t.physicalMediaFidelity.audioSoundscape],['Cinematography',t.physicalMediaFidelity.cinematographyScore]],
-  plats:[t.networkStreamer],owned:!!t.owned,physFormat:t.physFormat||(t.owned?'Box Set':null)})),
+  plats:[t.networkStreamer],provRaw:t.prov,owned:!!t.owned,physFormat:t.physFormat||(t.owned?'Box Set':null)})),
  ...videoGames.map(g=>({kind:'game',id:g.id,title:g.title,year:g.year,creator:g.creator,org:g.platformAvailability.join(' · '),span:'~'+g.averagePlaytime+' hrs',genres:g.genres,crit:g.metrics.criticalScore,aud:g.metrics.audienceScore,
   tech:Math.round((g.engineeringFidelity.engineGraphicsPerformance+g.engineeringFidelity.artDirection)/2),
   dread:g.immersionTensionIndex,myst:g.systemsComplexity,format:'Interactive',vibe:g.contextTags.vibeTime,just:g.contextTags.justification,
   fid:[['Engine & Performance',g.engineeringFidelity.engineGraphicsPerformance],['Art Direction',g.engineeringFidelity.artDirection]],
-  plats:g.platformAvailability.slice(),owned:PERSONAL_PROFILE.ownedGameIds&&PERSONAL_PROFILE.ownedGameIds.includes(g.id),physFormat:null})),
+  plats:g.platformAvailability.slice(),provRaw:g.prov,owned:PERSONAL_PROFILE.ownedGameIds&&PERSONAL_PROFILE.ownedGameIds.includes(g.id),physFormat:null})),
  ...books.map(bk=>({kind:'book',id:bk.id,title:bk.title,year:bk.year,creator:bk.creator,org:bk.publisher,span:bk.pages+' pages',genres:bk.genres,crit:bk.metrics.criticalScore,aud:bk.metrics.audienceScore,
   tech:Math.round((bk.craft.proseCraft+bk.craft.ideaDensity)/2),
   dread:bk.atmosphericDreadIndex,myst:bk.ontologicalComplexity,format:bk.contextTags.formatType,vibe:bk.contextTags.vibeTime,just:bk.contextTags.justification,
   fid:[['Prose Craft',bk.craft.proseCraft],['Idea Density',bk.craft.ideaDensity],['Edition Quality',bk.format==='Deluxe'?95:bk.format==='Hardcover'?85:75]],
-  plats:[bk.publisher],owned:(parseInt(bk.id.slice(1))<=OWNED_BOOK_ID_CEILING||OB(bk.id)),physFormat:(parseInt(bk.id.slice(1))<=OWNED_BOOK_ID_CEILING?bk.format:(OB(bk.id)?OWNED_BOOKS_EXTRA[bk.id]:null))}))
+  plats:[bk.publisher],provRaw:bk.prov,owned:(parseInt(bk.id.slice(1))<=OWNED_BOOK_ID_CEILING||OB(bk.id)),physFormat:(parseInt(bk.id.slice(1))<=OWNED_BOOK_ID_CEILING?bk.format:(OB(bk.id)?OWNED_BOOKS_EXTRA[bk.id]:null))}))
 ];
 const byId=new Map(ALL.map(x=>[x.id,x]));
 ALL.forEach(x=>{x.ovr=Math.round(((x.crit+x.aud+x.tech)/3)*10)/10;});
-const PROV_CEIL={movie:221,tv:144,game:158,book:171};
-ALL.forEach(x=>{const num=parseInt(x.id.slice(1));const orig=num<=(PROV_CEIL[x.kind]||0);x.prov=(orig||x.owned)?'verified':'estimated';});
+/* Provenance is a per-record stamp, never inferred from a record's ID or from whether the shelf
+   holds a copy. Owning a disc verifies that it is owned; it verifies nothing about the runtime
+   printed on the back. A record whose facts have been checked against sources carries
+   prov:{facts,checked,src,indices}; everything else is an unverified estimate and says so.
+   See QUALITY_PASS.md decision 13. */
+const PROV_FACTS=['sourced','estimated','edition-dependent'];
+const PROV_INDICES=['rubric-v1','unscored'];
+function provStampOf(raw){
+ const s=(raw&&typeof raw==='object')?raw:{};
+ return {facts:PROV_FACTS.indexOf(s.facts)>=0?s.facts:'estimated',
+         indices:PROV_INDICES.indexOf(s.indices)>=0?s.indices:'unscored',
+         checked:s.checked||null,src:s.src||null};
+}
+ALL.forEach(x=>{const s=provStampOf(x.provRaw);delete x.provRaw;x.provStamp=s;x.prov=s.facts==='sourced'?'verified':'estimated';});
 /* Owned physical collection, reconciled against the master shelf ledger (film/TV + books). */
 if(!PROFILE_FROM_STORAGE)PERSONAL_PROFILE.ownedMedia={"m120":"4K","m106":"4K","m444":"4K","m384":"4K","t144":"BD/DVD","m116":"BD/DVD","m89":"BD/DVD","m66":"4K","m117":"4K","m65":"4K","m118":"4K","m119":"4K","m01":"4K","m121":"4K","m103":"4K","m122":"4K","m39":"BD/DVD","m158":"BD/DVD","m37":"4K","m40":"4K","m63":"4K","m20":"4K","m81":"BD/DVD","m02":"4K","m84":"4K","m114":"4K","m64":"4K","m14":"4K","m108":"4K","m159":"4K","m06":"4K","m105":"BD/DVD","m07":"4K","m88":"4K","m56":"4K","m12":"4K","m123":"BD/DVD","m54":"4K","m10":"BD/DVD","m124":"4K","m125":"4K","m107":"BD/DVD","m104":"4K","m126":"BD/DVD","m127":"4K","m128":"BD/DVD","m101":"BD/DVD","m110":"BD/DVD","m129":"BD/DVD","m130":"4K","m131":"BD/DVD","m132":"BD/DVD","m133":"BD/DVD","m134":"4K","m135":"BD/DVD","m09":"4K","m109":"4K","m102":"BD/DVD","m136":"4K","m113":"BD/DVD","m137":"BD/DVD","m138":"BD/DVD","m139":"BD/DVD","m140":"BD/DVD","m141":"BD/DVD","m142":"BD/DVD","m143":"BD/DVD","m144":"4K","m115":"BD/DVD","m145":"BD/DVD","m146":"BD/DVD","m147":"4K","m148":"BD/DVD","m149":"4K","m150":"4K","m151":"BD/DVD","m152":"4K","m160":"4K","m111":"BD/DVD","m154":"BD/DVD","m155":"BD/DVD","m156":"4K","m157":"4K","m86":"4K","m112":"BD/DVD","t17":"Box Set","t97":"Box Set","t03":"Box Set","t10":"Box Set","t47":"Box Set","t13":"Box Set","t28":"Box Set","t101":"Box Set"};
 const OWNED_MEDIA=PERSONAL_PROFILE.ownedMedia||{};
@@ -427,7 +439,12 @@ function gmBreakdownHTML(it){
  var body=ov?'<div class="text-[10.5px] mb-1" style="color:'+ov[1]+'">'+ov[0]+'</div>':'';
  if(chips.length)body+='<div class="flex flex-wrap gap-1">'+chips.join('')+'</div>';
  else if(!ov)body+='<div class="text-[10px] text-slate-500">Scored on critical, audience and craft consensus \u2014 no personal-taste multipliers triggered.</div>';
- var prov=it.prov==='verified'?'<span title="Scores drawn from the core ledger / your collection" style="color:#4ade80">\u25c9 Verified data</span>':'<span title="Curated best-of pick; scores are careful approximations of critical consensus" style="color:#94a3b8">\u25cb Curated estimate</span>';
+ var ps=it.provStamp||{facts:'estimated',indices:'unscored'};
+ var provTitle=ps.facts==='sourced'?('Facts checked against '+(ps.src||'sources')+(ps.checked?' on '+ps.checked:'')):ps.facts==='edition-dependent'?'Facts vary by edition/cut -- the value shown is one edition, not the only one':'Not yet checked against a source: scores and details are careful approximations';
+ var provLabel=ps.facts==='sourced'?'\u25c9 Facts sourced':ps.facts==='edition-dependent'?'\u25d1 Edition-dependent':'\u25cb Unverified estimate';
+ var provColor=ps.facts==='sourced'?'#4ade80':ps.facts==='edition-dependent'?'#fbbf24':'#94a3b8';
+ var prov='<span title="'+provTitle+'" style="color:'+provColor+'">'+provLabel+'</span>'
+  +(ps.indices==='rubric-v1'?'<span class="text-slate-600"> \u00b7 indices rubric v1</span>':'');
  body+='<div class="text-[9px] mt-1.5">'+prov+'</div>';
  return '<div class="mt-2 pt-2 border-t border-slate-800/50">'+head+body+'</div>';
 }
@@ -3919,6 +3936,7 @@ var _rzT;window.addEventListener('resize',function(){clearTimeout(_rzT);_rzT=set
  // live filter state, and the three entry points worth poking at from a console.
  window.tierTarget=tierTarget;window.TIER_FLOOR=TIER_FLOOR;
  window.computeMatch=computeMatch;window.activeDims=activeDims;window.certify=certify;
+ window.provStampOf=provStampOf;
  window.ALL=ALL;
  window.byId=byId;
  window.state=state;

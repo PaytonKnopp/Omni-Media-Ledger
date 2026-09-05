@@ -249,9 +249,23 @@ Wilds* stays mis-rated `M` in the meantime; it is the most visible open defect.
   carries the profile's largest single weight (+8). Ships with decision 5's exact matching.
 - **Phase 5 — Facts.** Tier A (machine-checkable, no network, 100% coverage) → Tier B
   (source-verified, prioritised) → Tier C (documented as unverifiable). **Owned 179 first.**
-- **Phase 6 — Real provenance.** Per-record stamp: `{facts: sourced|estimated|edition-dependent,
-  checked: date, src: …, indices: rubric-v1|unscored}`, validator-enforced, badge reads the record
-  not the ID. Also converts `ownedBookIdCeiling` to an explicit list.
+- **Phase 6 — Real provenance. MECHANISM DONE; the stamps themselves are Phase 5 output.**
+  Per-record stamp `{facts: sourced|estimated|edition-dependent, checked: YYYY-MM-DD, src: …,
+  indices: rubric-v1|unscored}`, resolved by `provStampOf()` in the adapter, enforced in
+  `scripts/validate-corpus.js` (a stamp is optional, but a stamp claiming `sourced` must name a
+  `src` and a `checked` date), and covered by a regression check that fails if anything reads as
+  verified without a sourced stamp.
+  `PROV_CEIL` is gone. It called a work "Verified data" if its ID fell under a per-medium ceiling
+  (m≤221, t≤144, g≤158, b≤171) **or** if it was owned — 661 works, badged for having been typed in
+  early. `NOTES.md` Phase 10 records *Casablanca* and *Rififi* as `prov: verified` **and**
+  factually wrong, which is the whole indictment: the badge measured import order, not truth.
+  Ownership no longer implies verified facts either — owning a disc verifies that it is owned, not
+  the runtime printed on the back. Every work now reads **○ Unverified estimate** until Phase 5
+  stamps it, which is a visible downgrade and an honest one.
+  `ownedBookIdCeiling` is converted: the 51 books owned by the old `id≤51` convention are now
+  listed explicitly alongside the other 34, 85 in all. The ceiling remains readable from a stored
+  profile (defaulting to 0) so a profile saved before this change still loads with its books
+  owned.
 - **Phase 7 — Harden the recommendation test** and wire the machine-checkable half of the
   definition of done into `scripts/validate-corpus.js`.
 

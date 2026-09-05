@@ -244,6 +244,42 @@ for (const sec of SECTIONS) {
   if (flooded.length) warn(sec.key + ': a single value dominates a numeric field (possible placeholder fill)', flooded);
 }
 
+/* ===================== provenance stamps ===================== */
+
+/* A record may carry prov:{facts,checked,src,indices} saying how its facts got there. The stamp
+   is optional -- a record without one is an unverified estimate, which the app says out loud --
+   but a stamp that IS present has to be honest and well-formed, because it is the one thing in
+   the corpus that claims a fact was checked. Enforced here so a malformed or vocabulary-drifted
+   stamp cannot quietly read as "verified". See QUALITY_PASS.md decision 13. */
+{
+  const FACTS = ['sourced', 'estimated', 'edition-dependent'];
+  const INDICES = ['rubric-v1', 'unscored'];
+  const bad = [];
+  let stamped = 0, sourced = 0;
+  for (const sec of SECTIONS) {
+    for (const r of (loaded[sec.key] || [])) {
+      if (!('prov' in r)) continue;
+      stamped++;
+      const s = r.prov;
+      if (s === null || typeof s !== 'object' || Array.isArray(s)) {
+        bad.push(r.id + ': prov is not an object'); continue;
+      }
+      const extra = Object.keys(s).filter(k => ['facts', 'checked', 'src', 'indices'].indexOf(k) < 0);
+      if (extra.length) bad.push(r.id + ': prov has unknown keys ' + extra.join(','));
+      if (FACTS.indexOf(s.facts) < 0) bad.push(r.id + ': prov.facts must be one of ' + FACTS.join('|') + ' (got ' + JSON.stringify(s.facts) + ')');
+      if (INDICES.indexOf(s.indices) < 0) bad.push(r.id + ': prov.indices must be one of ' + INDICES.join('|') + ' (got ' + JSON.stringify(s.indices) + ')');
+      if (s.checked !== undefined && !/^\d{4}-\d{2}-\d{2}$/.test(String(s.checked))) bad.push(r.id + ': prov.checked must be YYYY-MM-DD');
+      if (s.facts === 'sourced') {
+        sourced++;
+        if (!s.src || typeof s.src !== 'string' || !s.src.trim()) bad.push(r.id + ': prov.facts is "sourced" but no prov.src names where from');
+        if (!s.checked) bad.push(r.id + ': prov.facts is "sourced" but no prov.checked date');
+      }
+    }
+  }
+  check('provenance stamps are well-formed (' + stamped + ' stamped, ' + sourced + ' claiming sourced facts)', bad.length === 0);
+  detail(bad);
+}
+
 /* ===================== genre families ===================== */
 
 // GENRE_FAMILIES is the map every family-based surface reads: the Controller's genre filter, the
