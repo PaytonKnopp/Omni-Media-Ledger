@@ -1127,12 +1127,33 @@ if(!PROFILE_FROM_STORAGE)PERSONAL_PROFILE.vibeBoost={'Notebook-and-Theories Nigh
 const GOAT_VIBE_BOOST=PERSONAL_PROFILE.vibeBoost||{};
 if(!PROFILE_FROM_STORAGE)PERSONAL_PROFILE.bookCreatorBoost=[['Tolkien',12],['Dan Simmons',9],['Patrick Rothfuss',9],['Ursula K. Le Guin',8],['Isaac Asimov',7],['Liu Cixin',7],['Carl Sagan',7],['Gene Wolfe',6],['Frank Herbert',6],['Arthur C. Clarke',5],['Neil deGrasse Tyson',5],['Walter Isaacson',5],['Yuval Noah Harari',4],['China Mi\u00e9ville',5],['Jeff VanderMeer',5],['H.P. Lovecraft',5],['Cormac McCarthy',5],['Neal Stephenson',5],['Ted Chiang',5],['Susanna Clarke',5],['Stephen King',8]];
 const BOOK_CREATOR_BOOST=PERSONAL_PROFILE.bookCreatorBoost||[];
+/* Does this work carry `keyword` as a genre, or as something that inherits from it?
+   Looked up through data/genre-taxonomy.js rather than searched for as a substring.
+
+   The substring version this replaces (`x.genres.join(' ').toLowerCase().includes(keyword)`) is
+   the mechanism behind two of the worst defects this repo has had, and its failure mode is always
+   the same: letters that happen to line up. A boost on "time" hit anything containing those four
+   letters; one compound tag drew two different boosts because two keywords both appeared inside
+   its name; and the reverse error is just as bad -- a plain exact match would stop a Horror boost
+   from ever reaching Body Horror or Folk Horror, which is 27 tags in this corpus.
+
+   Matching a declared inheritance list fixes both directions at once, and counts once per boost
+   no matter how many of a work's tags inherit from the keyword -- so a work tagged both
+   "Cosmic Horror" and "Gothic Horror" collects the Horror boost a single time, not twice. */
+function genreMatches(x,keyword){
+ const want=String(keyword).toLowerCase();
+ const tax=(typeof GENRE_TAXONOMY!=='undefined')?GENRE_TAXONOMY:{};
+ return (x.genres||[]).some(function(tag){
+  const inherits=tax[tag]||[tag];
+  return inherits.some(function(p){return p.toLowerCase()===want;});
+ });
+}
 ALL.forEach(x=>{
  let base=0.5*x.crit+0.2*x.aud+0.3*x.tech,a=0;const br=[];
  GOAT_CREATOR_BOOST.forEach(c=>{if(x.creator.includes(c[0])){a+=c[1];br.push(['creator',c[0],c[1]]);}});
  if(x.kind==='book'){BOOK_CREATOR_BOOST.forEach(c=>{if(x.creator.includes(c[0])){a+=c[1];br.push(['author',c[0],c[1]]);}});}
  const gs=x.genres.join(' ').toLowerCase();
- GOAT_GENRE_BOOST.forEach(g=>{if(gs.includes(g[0])){a+=g[1];br.push(['genre',g[0],g[1]]);}});
+ GOAT_GENRE_BOOST.forEach(g=>{if(genreMatches(x,g[0])){a+=g[1];br.push(['genre',g[0],g[1]]);}});
  const vb=GOAT_VIBE_BOOST[x.vibe]||0;if(vb){a+=vb;br.push(['vibe',x.vibe,vb]);}
  if(x.myst>70){var mb=(x.myst-70)/6;a+=mb;br.push(['complexity','Ontological depth',Math.round(mb*10)/10]);}
  if(x.tech>85){var tb=(x.tech-85)/5;a+=tb;br.push(['craft','Technical craft',Math.round(tb*10)/10]);}

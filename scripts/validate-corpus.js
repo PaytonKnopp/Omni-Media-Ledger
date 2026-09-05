@@ -316,9 +316,11 @@ console.log('\n=== genre taxonomy ===');
   if (!fs.existsSync(taxPath)) {
     check('data/genre-taxonomy.js exists', false);
   } else {
-    let TAX;
+    let TAX, VIRTUAL = [];
     try {
-      TAX = new Function(fs.readFileSync(taxPath, 'utf8') + '\nreturn GENRE_TAXONOMY;')();
+      const taxSrc = fs.readFileSync(taxPath, 'utf8');
+      TAX = new Function(taxSrc + '\nreturn GENRE_TAXONOMY;')();
+      VIRTUAL = new Function(taxSrc + '\nreturn typeof GENRE_VIRTUAL_ROOTS!=="undefined"?GENRE_VIRTUAL_ROOTS:[];')();
       check('genre taxonomy parses (' + Object.keys(TAX).length + ' tags)', true);
     } catch (e) {
       check('genre taxonomy parses', false);
@@ -334,19 +336,21 @@ console.log('\n=== genre taxonomy ===');
 
       // A parent nothing carries is a boost target that can never match. Catching it here is the
       // difference between "that filter returns nothing" and "that filter is broken".
-      const known = new Set(Object.keys(TAX));
+      // A parent may be a real tag OR a declared virtual root (a concept nothing is tagged with
+      // directly, like "Time"). Anything else is a boost target that can never match.
+      const known = new Set(Object.keys(TAX).concat(VIRTUAL));
       const danglingParents = [];
       for (const [tag, parents] of Object.entries(TAX)) {
         if (!Array.isArray(parents) || !parents.length) { danglingParents.push('"' + tag + '" has no entries (must at least contain itself)'); continue; }
         if (!parents.includes(tag)) danglingParents.push('"' + tag + '" does not include itself');
-        parents.filter(p => !known.has(p)).forEach(p => danglingParents.push('"' + tag + '" inherits from "' + p + '", which is not a tag'));
+        parents.filter(p => !known.has(p)).forEach(p => danglingParents.push('"' + tag + '" inherits from "' + p + '", which is neither a tag nor a declared virtual root'));
       }
       check('every taxonomy entry includes itself and inherits only from real tags', danglingParents.length === 0);
       detail(danglingParents);
 
       // Unused entries are not an error -- keeping a tag's declaration after its last work is
       // retagged is harmless, and deleting it would only make the next use re-derive it.
-      const orphans = Object.keys(TAX).filter(t => !used.has(t));
+      const orphans = Object.keys(TAX).filter(t => !used.has(t) && !VIRTUAL.includes(t));
       if (orphans.length) {
         warn('taxonomy declares tags no work currently uses (harmless; they are ready if reused)',
           orphans.map(t => '"' + t + '"'));

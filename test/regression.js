@@ -2127,6 +2127,36 @@ async function runTabFiltersFlow(browser, file) {
     ratingIgnoresImmersion.length === 0);
   if (ratingIgnoresImmersion.length) console.log('     ' + ratingIgnoresImmersion.join('\n     '));
 
+  // Every genre a person boosts must reach at least one work, and must count once per work.
+  //
+  // Both halves come from real regressions. Moving genre boosts from substring matching to the
+  // declared taxonomy silently cost five works their boost -- Outer Wilds, Majora's Mask, Chrono
+  // Trigger, Into the Breach and The End of Eternity -- because the boost keyword "time" is a
+  // concept nothing is tagged with, and the old substring match had been catching "Time Loop" and
+  // "Time Travel" by accident. Nothing errored; the scores just quietly dropped. And the defect
+  // the taxonomy exists to fix was the mirror image: one tag drawing two boosts because two
+  // keywords both appeared inside its name.
+  const boostReach = await page.evaluate(() => {
+    const bad = [];
+    const boosts = (PERSONAL_PROFILE.genreBoost || []);
+    boosts.forEach(([keyword]) => {
+      const hits = ALL.filter(x => (x.gmBoosts || []).some(b => b[0] === 'genre' && b[1] === keyword));
+      if (!hits.length) bad.push('genre boost "' + keyword + '" matches no work at all');
+    });
+    // Counted once: a work must never carry the same genre boost twice, however many of its tags
+    // inherit from that keyword.
+    ALL.forEach(x => {
+      const seen = {};
+      (x.gmBoosts || []).filter(b => b[0] === 'genre').forEach(b => {
+        seen[b[1]] = (seen[b[1]] || 0) + 1;
+        if (seen[b[1]] === 2) bad.push(x.id + ' "' + x.title + '" collects the "' + b[1] + '" boost more than once');
+      });
+    });
+    return bad.slice(0, 8);
+  });
+  check('every boosted genre reaches at least one work, and counts once per work', boostReach.length === 0);
+  if (boostReach.length) console.log('     ' + boostReach.join('\n     '));
+
 
   // URL bookmarking: filters set across three different tabs all round-trip through a fresh load.
   await goto('timeline');

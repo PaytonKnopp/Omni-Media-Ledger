@@ -25,7 +25,15 @@
 //
 // scripts/validate-corpus.js fails if any genre in data/*.js is missing from this file, so a
 // new tag cannot enter the corpus without declaring what it inherits from.
+
+// VIRTUAL ROOTS: canonical concepts that are valid boost and filter targets but that no work
+// carries as a tag of its own. "Time" is the case that proved these are needed -- boosting it
+// is a coherent taste, and Time Loop / Time Travel are how this corpus expresses it, but
+// nothing is tagged plain "Time". Requiring every parent to be a real tag dropped the concept
+// and silently cost Outer Wilds, Majora's Mask, Chrono Trigger, Into the Breach and The End
+// of Eternity their boost -- caught by the snapshot diff before it shipped.
 'use strict';
+const GENRE_VIRTUAL_ROOTS=["Time"];
 const GENRE_TAXONOMY={
  "3D Platformer":["3D Platformer","Platformer"],
  "Action":["Action"],
@@ -274,8 +282,8 @@ const GENRE_TAXONOMY={
  "Teen Drama":["Drama","Teen Drama"],
  "Third-Person Shooter":["Action","Shooter","Third-Person Shooter"],
  "Thriller":["Thriller"],
- "Time Loop":["Time Loop"],
- "Time Travel":["Sci-Fi","Time Travel"],
+ "Time Loop":["Time","Time Loop"],
+ "Time Travel":["Sci-Fi","Time","Time Travel"],
  "Top-Down":["Top-Down"],
  "Tragedy":["Drama","Tragedy"],
  "Travel":["Travel"],
