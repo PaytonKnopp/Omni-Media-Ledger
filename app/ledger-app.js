@@ -1447,9 +1447,20 @@ function certify(x){const g=x.genres.join(' ').toLowerCase();
   return 'General';
  }
  if(x.kind==='game'){
-  if(/horror|cosmic|survival horror|body/.test(g)||x.dread>=88)return 'M';
-  if(/shooter|action rpg|stealth action|crime|revenge|cyberpunk|war/.test(g)||x.dread>=70)return 'M';
-  if(/puzzle|platformer|3d platformer|simulation|exploration|sandbox|automation|synesthesia/.test(g)&&x.dread<55)return (x.dread<35?'E':'E10+');
+  /* Rated from GENRE alone, never from x.dread. For a game, x.dread carries
+     immersionTensionIndex, and RUBRIC.md construct 2 defines that as absorption -- how
+     completely the game takes you in -- explicitly NOT menace. Rating content maturity from
+     how gripping something is says that anything hard to put down must be for adults, and
+     that is exactly what it did: 71 of 258 games certified M with no violent or horror genre
+     anywhere, among them Outer Wilds, Return of the Obra Dinn, Subnautica and Inside. Outer
+     Wilds is rated E10+ in reality.
+     A game's real age rating is a FACT (ESRB/PEGI, and IGDB carries it), not something to
+     infer from a taste index. Phase 5 fetches it. Until then genre is the honest signal:
+     narrower coverage, but it stops asserting something false about a third of the library. */
+  if(/horror|cosmic|gothic|body|vampire/.test(g))return 'M';
+  if(/shooter|\bfps\b|action rpg|soulslike|dark fantasy|stealth action|crime|revenge|cyberpunk|\bwar\b|fighting|beat .em up|run-and-gun|boss rush|dystopian/.test(g))return 'M';
+  if(/party|sports|rhythm|racing|collectathon|social sim/.test(g))return 'E';
+  if(/puzzle|platformer|metroidvania|simulation|\bsim\b|exploration|sandbox|builder|automation|synesthesia|walking sim|point-and-click|visual novel|deduction/.test(g))return 'E10+';
   return 'T';
  }
  // film/tv

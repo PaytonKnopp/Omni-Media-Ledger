@@ -2100,6 +2100,33 @@ async function runTabFiltersFlow(browser, file) {
   check('a work\'s content rating does not depend on its title', titleIndependent.length === 0);
   if (titleIndependent.length) console.log('     ' + titleIndependent.join('\n     '));
 
+  // A game's content rating must not be derived from immersionTensionIndex. That field rides in
+  // the shared `dread` slot, but RUBRIC.md construct 2 defines it as absorption -- how completely
+  // a game takes you in -- explicitly NOT menace. Rating maturity from it says anything hard to
+  // put down must be for adults, and it did exactly that: 71 of 258 games certified M with no
+  // violent or horror genre, Outer Wilds and Return of the Obra Dinn among them.
+  //
+  // Tested by moving the field to both extremes and requiring the rating to hold, which is a
+  // property no amount of pattern-tuning can fake, and which stays true when Phase 5 replaces
+  // these inferences with real ESRB data.
+  const ratingIgnoresImmersion = await page.evaluate(() => {
+    if (typeof certify !== 'function') return ['certify is not exposed'];
+    const bad = [];
+    ALL.filter(x => x.kind === 'game').forEach(x => {
+      const base = certify(x);
+      [0, 50, 100].forEach(v => {
+        const moved = certify(Object.assign({}, x, { dread: v }));
+        if (moved !== base) {
+          bad.push(x.id + ' "' + x.title + '": ' + base + ' -> ' + moved + ' when immersion = ' + v);
+        }
+      });
+    });
+    return bad.slice(0, 8);
+  });
+  check('a game\'s content rating ignores immersionTensionIndex (absorption is not maturity)',
+    ratingIgnoresImmersion.length === 0);
+  if (ratingIgnoresImmersion.length) console.log('     ' + ratingIgnoresImmersion.join('\n     '));
+
 
   // URL bookmarking: filters set across three different tabs all round-trip through a fresh load.
   await goto('timeline');
