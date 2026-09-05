@@ -266,8 +266,19 @@ Wilds* stays mis-rated `M` in the meantime; it is the most visible open defect.
   listed explicitly alongside the other 34, 85 in all. The ceiling remains readable from a stored
   profile (defaulting to 0) so a profile saved before this change still loads with its books
   owned.
-- **Phase 7 — Harden the recommendation test** and wire the machine-checkable half of the
-  definition of done into `scripts/validate-corpus.js`.
+- **Phase 7 — Harden the recommendation test. DONE for everything that can be checked offline.**
+  - `scripts/corpus-metrics.js --assert` is the **Phase 5 acceptance gate**: an itemised,
+    executable definition of done. It currently fails with 15 named problems (four recency-bias
+    correlations around −0.6, 94/100 of the top from the hand-scored block, and ten index fields
+    whose decile means span more than 25 points). It is deliberately **not** in `npm test` — a
+    suite that is red on every run stops being read — and gets wired in the moment it passes, so
+    the property cannot silently regress afterwards.
+  - Recommendations now exclude **everything already tiered**, not just Owned and Gold. Silver and
+    Bronze were being recommended back to the user, and tiering *raises* a work's `gm` toward the
+    rung's floor, so a Silver pick you don't own outranked untiered works of equal quality. Payton's
+    Silver list is nearly all also-owned so it never showed locally; it would hit anyone who tiers
+    without owning, which is most people. Covered by an adversarial check (tier a work that *is*
+    being recommended, confirm it leaves, confirm un-tiering restores it) plus a diversity floor.
 
 ### Leverage order — where effort actually pays
 

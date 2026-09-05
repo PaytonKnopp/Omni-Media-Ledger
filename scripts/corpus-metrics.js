@@ -45,6 +45,7 @@ const path = require('path');
 const ROOT = path.resolve(__dirname, '..');
 const ARGV = process.argv.slice(2);
 const AS_JSON = ARGV.includes('--json');
+const ASSERT = ARGV.includes('--assert');
 const SNAP_AT = ARGV.indexOf('--snapshot');
 const SNAP_FILE = SNAP_AT >= 0 ? ARGV[SNAP_AT + 1] : null;
 
@@ -197,7 +198,10 @@ function scoreShape(snapshot) {
 
 function topConcentration(snapshot) {
   if (!snapshot) return null;
-  // The original hand-scored ledger, by ID ceiling per medium (PROV_CEIL in app/ledger-app.js).
+  // The original hand-scored ledger, by ID ceiling per medium. These ceilings used to double as
+  // the app's provenance rule until that was replaced by a per-record stamp; they survive here
+  // because the block is still a real thing to measure -- it is the cohort that batch drift
+  // advantaged, and "how much of the top 100 does it hold?" is the clearest reading of the damage.
   const CEIL = { movie: 221, tv: 144, game: 158, book: 171 };
   const inBlock = w => parseInt(w.id.slice(1)) <= (CEIL[w.kind] || 0);
   const sorted = snapshot.works.slice().sort((a, b) => b.gm - a.gm);
@@ -221,6 +225,54 @@ const metrics = {
   scoreShape: scoreShape(snapshot),
   topConcentration: topConcentration(snapshot),
 };
+
+/* ===================== Phase 5 acceptance gate ===================== */
+
+/* --assert is the exit criterion for the recalibration, not a check that passes today. Run with a
+   snapshot, it fails unless the corpus has actually stopped ranking by import order. It is
+   deliberately NOT wired into `npm test`: the whole point of the quality pass is that these
+   thresholds currently fail (corr(gm, id) is about -0.6 and the first quarter of the file holds
+   94 of the top 100), and a suite that goes red on every run stops being read. Wire it in once it
+   passes, so the property cannot silently regress afterwards. */
+const GATE = {
+  maxAbsRecencyBias: 0.15,   // when a work was added must not predict how well it scores
+  maxTop100Block: 40,        // the hand-scored block is ~26% of the corpus; 40/100 allows real
+                             // quality concentration without allowing the current 94/100
+  maxDriftSpread: 25,        // an index whose decile means span more than this means two scales
+};
+if (ASSERT) {
+  const problems = [];
+  if (!snapshot) {
+    problems.push('--assert needs --snapshot <file> from scripts/score-snapshot.js');
+  } else {
+    for (const [kind, r] of Object.entries(metrics.recencyBias)) {
+      if (Math.abs(r) > GATE.maxAbsRecencyBias) {
+        problems.push('recency bias: ' + kind + ' corr(gm, id) = ' + r + ', want |r| <= ' + GATE.maxAbsRecencyBias);
+      }
+    }
+    const t = metrics.topConcentration;
+    if (t.top100FromBlock > GATE.maxTop100Block) {
+      problems.push('concentration: ' + t.top100FromBlock + '/100 top works come from the ' +
+        t.blockShareOfCorpus + '% hand-scored block, want <= ' + GATE.maxTop100Block);
+    }
+  }
+  for (const sec of SECTIONS) {
+    for (const [field, d] of Object.entries(metrics.drift[sec.key] || {})) {
+      if (d.spread > GATE.maxDriftSpread) {
+        problems.push('batch drift: ' + sec.key + '.' + field + ' decile means span ' + d.spread +
+          ', want <= ' + GATE.maxDriftSpread);
+      }
+    }
+  }
+  if (problems.length) {
+    console.error('\nFAIL - the corpus does not yet meet the Phase 5 acceptance gate:');
+    problems.forEach(l => console.error('  - ' + l));
+    console.error('');
+    process.exit(1);
+  }
+  console.log('\nPASS - corpus meets the Phase 5 acceptance gate.\n');
+  process.exit(0);
+}
 
 if (AS_JSON) {
   console.log(JSON.stringify(metrics, null, 1));

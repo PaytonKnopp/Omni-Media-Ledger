@@ -2015,6 +2015,52 @@ async function runTabFiltersFlow(browser, file) {
     boostMonotonic.length === 0);
   if (boostMonotonic.length) console.log('     ' + boostMonotonic.join('\n     '));
 
+  // A recommendation is a suggestion of something you have NOT already claimed. Owned and Gold were
+  // excluded; Silver and Bronze were not -- and tiering a work raises its gm toward that rung's
+  // floor, so a Silver pick you don't own outranked untiered works of the same quality and got
+  // handed back to you as a discovery. It never showed on Payton's profile because his Silver list
+  // is nearly all also-owned, so this is tested adversarially: tier an unowned work Silver and
+  // Bronze in turn and confirm it leaves the list. The corpus can't demonstrate the bug, so the
+  // test builds the case that can.
+  //
+  // The diversity half is the other way a recommendation list fails without failing: ten films by
+  // one director is a working pipeline and a useless answer.
+  const recs = await page.evaluate(() => {
+    if (typeof buildGeneratedRec !== 'function') return ['buildGeneratedRec is not exposed'];
+    const bad = [];
+    const names = c => c.items.map(i => i.n);
+    ['Movies', 'TV Series', 'Video Games', 'Books'].forEach(cat => {
+      const cur = buildGeneratedRec(cat);
+      if (cur.items.length < 5) { bad.push(cat + ': only ' + cur.items.length + ' recommendations'); return; }
+      const listed = names(cur);
+      const creators = new Set(cur.items.map(i => {
+        const w = ALL.find(x => x.title === i.n);
+        return w ? w.creator : i.n;
+      }));
+      if (creators.size < 4) {
+        bad.push(cat + ': ' + cur.items.length + ' recommendations from only ' + creators.size + ' creators');
+      }
+      // Pick a work that IS being recommended, then tier it and check it leaves.
+      const victim = ALL.find(x => x.title === listed[0]);
+      if (!victim) { bad.push(cat + ': cannot resolve its top recommendation "' + listed[0] + '"'); return; }
+      ['silver', 'bronze'].forEach(rung => {
+        victim[rung] = true;
+        const after = names(buildGeneratedRec(cat));
+        victim[rung] = false;
+        if (after.indexOf(victim.title) >= 0) {
+          bad.push(cat + ': "' + victim.title + '" is still recommended after being tiered ' + rung);
+        }
+      });
+      if (names(buildGeneratedRec(cat)).indexOf(victim.title) < 0) {
+        bad.push(cat + ': un-tiering "' + victim.title + '" did not restore it (test left state dirty)');
+      }
+    });
+    return bad;
+  });
+  check('recommendations exclude everything already tiered, and span more than a few creators',
+    recs.length === 0);
+  if (recs.length) console.log('     ' + recs.slice(0, 6).join('\n     '));
+
   // Provenance must come from a per-record stamp, never from a record's ID or from whether the
   // shelf holds a copy. The app used to call a work "Verified data" if its ID fell under a
   // per-medium ceiling (m<=221, t<=144, g<=158, b<=171) or if it was owned -- so 661 works claimed

@@ -1320,7 +1320,13 @@ function goatWhy(x){
 }
 function buildGeneratedRec(cat){
  const kind=RECS_KIND_BY_CAT[cat];
- const items=ALL.filter(x=>x.kind===kind&&!x.owned&&!x.goat)
+ /* Nothing you have already declared is a recommendation. Owned and Gold were excluded from the
+    start; Silver and Bronze were not, which is backwards -- tiering a work pulls its gm UP toward
+    the rung's floor, so a Silver pick you do not happen to own is *more* likely to be handed back
+    to you as a discovery than an untiered work of the same quality. Payton's Silver list is almost
+    entirely also-owned so this never showed locally, but the app has to work for someone who tiers
+    without owning, which is most people. */
+ const items=ALL.filter(x=>x.kind===kind&&!x.owned&&!x.goat&&!x.silver&&!x.bronze)
   .sort((a,b)=>b.gm-a.gm)
   .slice(0,10)
   .map(x=>({n:x.title,s:x.gm,k:x.kind,q:x.title,why:goatWhy(x)}));
@@ -3937,6 +3943,7 @@ var _rzT;window.addEventListener('resize',function(){clearTimeout(_rzT);_rzT=set
  window.tierTarget=tierTarget;window.TIER_FLOOR=TIER_FLOOR;
  window.computeMatch=computeMatch;window.activeDims=activeDims;window.certify=certify;
  window.provStampOf=provStampOf;
+ window.buildGeneratedRec=buildGeneratedRec;
  window.ALL=ALL;
  window.byId=byId;
  window.state=state;
