@@ -2576,10 +2576,12 @@ on('#densityBtn','click',()=>{var on=document.body.classList.toggle('compact');v
  var isMobile=!!(window.matchMedia && window.matchMedia('(max-width:767px)').matches);
  function apply(on){
   document.body.classList.toggle('headerCompact',on);
-  btn.title=on?'Expand header':'Collapse header';
+  btn.title=on?'Expand header back to full view':'Collapse header to just the account and tabs';
   btn.setAttribute('aria-label',btn.title);
   btn.setAttribute('aria-expanded',on?'false':'true');
-  btn.textContent=on?'\u25bc':'\u25b2';
+  var icon=$('#headerCompactIcon'),label=$('#headerCompactLabel');
+  if(icon)icon.textContent=on?'\u25bc':'\u25b2';
+  if(label)label.textContent=on?'Expand header':'Compact header';
  }
  var v='0';try{v=localStorage.getItem('omniLedgerHeaderCompact')||'0';}catch(e){}
  apply(isMobile&&v==='1');
@@ -2615,7 +2617,9 @@ function tipsApplyFilter(){
   if(_tipsSelectedTab===null)show=false;
   else{
    var tabs=(c.dataset.tabs||'').split(/\s+/);
-   show=_tipsSelectedTab==='__general__'?tabs.indexOf('all')>=0:(tabs.indexOf('all')>=0||tabs.indexOf(_tipsSelectedTab)>=0);
+   // A specific tab shows ONLY its own tips -- General's cross-cutting content ("all") no longer
+   // bleeds into every other tab's view, so picking e.g. Watchlist shows just Watchlist tips.
+   show=_tipsSelectedTab==='__general__'?tabs.indexOf('all')>=0:tabs.indexOf(_tipsSelectedTab)>=0;
   }
   c.classList.toggle('hidden',!show);
  });
