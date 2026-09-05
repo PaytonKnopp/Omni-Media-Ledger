@@ -768,7 +768,7 @@ function matrixBlock(title,sub,arr,colFn,heads){
  +'<div class="flex items-baseline justify-between gap-2"><h3 class="text-[12px] font-bold tracking-[.14em] text-slate-100 uppercase">'+title+'</h3><span class="chip">'+shown.length+(matrixOwnedOnly?' owned':' qualify')+'</span></div>'
  +'<p class="text-[11px] text-slate-500 mt-1.5 leading-relaxed">'+sub+'</p>'
  +'<div class="hidden sm:flex justify-end gap-2.5 mt-2.5">'+heads.map(h=>'<span class="lbl w-24 text-right">'+h+'</span>').join('')+'</div></div>'
- +'<div class="max-h-[460px] overflow-y-auto">'+(shown.length?shown.map((it,i)=>matrixRow(it,i,colFn(it))).join(''):'<div class="px-4 py-6 text-center text-slate-500 text-[12px]">None of these are in your collection yet.</div>')+'</div></div>';
+ +'<div class="matrixScroll max-h-[460px] overflow-y-auto">'+(shown.length?shown.map((it,i)=>matrixRow(it,i,colFn(it))).join(''):'<div class="px-4 py-6 text-center text-slate-500 text-[12px]">None of these are in your collection yet.</div>')+'</div></div>';
 }
 function renderMatrixNav(){
  var el=$('#matrixNav');if(!el)return;
@@ -1837,7 +1837,12 @@ function renderTimeline(){
   });
   svg+='<text x="'+(x+bw/2)+'" y="'+(H-14)+'" fill="#94a3b8" font-size="10" text-anchor="middle">'+c[0]+'</text>';
   svg+='<text x="'+(x+bw/2)+'" y="'+(H-38-h)+'" fill="#e2e8f0" font-size="11" font-weight="700" text-anchor="middle">'+items2.length+'</text>';
-  svg+='<text class="tlZoomBtn" x="'+(x+bw-2)+'" y="'+(H-30-h-8)+'" fill="#7dd3fc" font-size="12" text-anchor="end" style="cursor:zoom-in">🔍</text>';
+  /* Zoom icon sits on its own row well above the count label (never the same y, regardless of bar
+     height or column width) and is centered like the count rather than right-anchored against a
+     narrow bw, so it can't collide with or get clipped by the number at any column count/width. A
+     transparent circle behind it enlarges the tap target beyond the emoji glyph's own small hit box. */
+  svg+='<circle cx="'+(x+bw/2)+'" cy="'+(H-38-h-16)+'" r="9" fill="transparent" class="tlZoomBtn" style="cursor:zoom-in"/>';
+  svg+='<text class="tlZoomBtn" x="'+(x+bw/2)+'" y="'+(H-34-h-16)+'" fill="#7dd3fc" font-size="13" text-anchor="middle" style="cursor:zoom-in">🔍</text>';
   svg+='</g>';
  });
  svg+='</svg>';
@@ -2645,6 +2650,13 @@ function tipsBuildPicker(){
  update();
  // Content (nav buttons, e.g. the watchlist count) can change scrollWidth after load.
  setTimeout(update,300);
+ // One-time attention pulse on first load so a phone user notices the strip scrolls before they've
+ // touched it; stops permanently once they scroll (start listener below), never repeats after.
+ if(!nav.classList.contains('nav-at-end')){
+  nav.classList.add('nav-hint-pulse');
+  nav.addEventListener('scroll',function stopHint(){nav.classList.remove('nav-hint-pulse');nav.removeEventListener('scroll',stopHint);},{passive:true,once:true});
+  setTimeout(function(){nav.classList.remove('nav-hint-pulse');},3500);
+ }
 })();
 on('#surpriseBtn','click',()=>{const sc=$('#surpriseScope');sc.classList.toggle('hidden');var opening=!sc.classList.contains('hidden');var panel=$('#surprisePanel');
  if(opening){if(panel.dataset.mode==='rabbit'){panel.classList.add('hidden');panel.innerHTML='';panel.dataset.mode='';$('#rabbitBtn').setAttribute('aria-expanded','false');}if(sc.scrollIntoView)sc.scrollIntoView({behavior:'smooth',block:'nearest'});}
