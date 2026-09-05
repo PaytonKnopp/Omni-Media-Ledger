@@ -79,6 +79,9 @@ body.compact #grid .cardHead{padding-top:.5rem;padding-bottom:.5rem}
 .navBtn.active{color:var(--nav-active-text);background:var(--accent-bright);border-color:var(--accent-bright);font-weight:700}
 .presetBtn{font-size:10.5px;padding:6px 12px;border-radius:9999px;border:1px solid var(--border-2);color:var(--accent-bright);background:rgba(30,41,59,.4);transition:.15s}
 .presetBtn:hover{border-color:var(--accent-soft);color:var(--accent-pale)}
+.tipsTabBtn{font-size:10.5px;padding:6px 12px;border-radius:9999px;border:1px solid var(--border-2);color:#5eead4;background:rgba(30,41,59,.4);transition:.15s;cursor:pointer}
+.tipsTabBtn:hover{border-color:#2dd4bf}
+.tipsTabBtn.on{background:#0d9488;border-color:#2dd4bf;color:#f0fdfa;font-weight:600}
 .tierSeg{font-size:11px;font-weight:700;line-height:1;padding:5px 8px;border-radius:8px;border:1px solid transparent;background:rgba(30,41,59,.5);transition:.15s;white-space:nowrap}
 .tierSeg:hover{background:rgba(51,65,85,.6)}
 .tierSegRoomy{font-size:13px;padding:8px 13px;border-radius:10px}
@@ -130,37 +133,62 @@ button:focus-visible,select:focus-visible,input:focus-visible{outline:2px solid 
     already use), so the whole header takes noticeably less vertical space and the tab strip
     (already a horizontal-scroll row, see below) sits close under it. */
  #headerInner{padding-top:.6rem;padding-bottom:.4rem}
- #headerInner .flex.flex-col.gap-3{gap:.5rem}
+ #headerInner .flex.flex-col.gap-3{gap:.6rem}
  #headerInner h1{font-size:15px;line-height:1.25}
  #lastUpdated{font-size:9px;margin-top:2px}
+ /* Title + account chip: give the account cluster its own visual weight instead of it looking
+    like a stray pill fighting the title for space on one cramped line. */
+ #headerInner>.flex.flex-col.gap-3>.flex.flex-wrap.items-start.justify-between.gap-3{align-items:center}
  #acctMenuField{padding:4px 9px 4px 5px!important;min-height:32px!important;gap:6px}
  #acctAvatar{width:22px!important;height:22px!important;font-size:10px!important}
  #acctMenuField>.flex.flex-col>span:first-child{display:none}
  #acctBadge{font-size:11.5px!important}
- #headerControlsRow{gap:.5rem;row-gap:.4rem}
- #headStats{gap:.9rem}
+ /* Header regrouping: the stats / theme / help / Export-Import-Reset row used to be one flat flex-
+    wrap of six-plus small controls with no visual grouping, so it read as clutter rather than a
+    couple of clear clusters. Keep every control exactly where it is in the DOM (no functionality
+    moved or removed) but stack it into two clearly-separated bands: a centered stats strip, then
+    a controls strip where Theme+Help sit on the left and Export/Import/Reset (Profile) sit on the
+    right of a divider -- so related controls read together instead of one long row to scan. */
+ #headerControlsRow{flex-direction:column;align-items:stretch;gap:.5rem;row-gap:.5rem}
+ #headStats{gap:.9rem;justify-content:center;background:rgba(148,163,184,.06);border:1px solid rgba(148,163,184,.14);border-radius:10px;padding:7px 10px}
  #headStats .text-lg{font-size:14px}
  #headerControlsRow .lbl,#headerControlsRow label.text-\[9px\]{font-size:8px}
+ #headerControlsRow>.flex.flex-wrap.items-end.gap-4{justify-content:space-between;align-items:center;background:rgba(148,163,184,.04);border:1px solid rgba(148,163,184,.1);border-radius:10px;padding:7px 10px;row-gap:.5rem}
+ #headerControlsRow>.flex.flex-wrap.items-end.gap-4>.flex.flex-col.items-end.gap-1:last-child{margin-left:auto;padding-left:.7rem;border-left:1px solid rgba(148,163,184,.16)}
  #themeSel{padding:4px 6px!important;font-size:10.5px!important}
  #tipsBtn{width:24px!important;height:24px!important}
- #nav{flex-wrap:nowrap;overflow-x:auto;-webkit-overflow-scrolling:touch;scrollbar-width:none;margin-top:.55rem;padding-bottom:2px}
+ #nav{flex-wrap:nowrap;overflow-x:auto;-webkit-overflow-scrolling:touch;scrollbar-width:none;margin-top:.55rem;padding-bottom:2px;position:relative}
  #nav::-webkit-scrollbar{display:none}
  #nav{gap:6px}
  #nav .navBtn{flex:0 0 auto;padding:6px 10px;font-size:10.5px}
+ /* Sideways-scroll affordance (see initMobileNavScrollHint): sticky edge fades that pin to the
+    visible left/right edge of the scrolling strip as it scrolls, so a partially-hidden button's
+    text fades into the header background instead of just clipping -- a visible cue there's more
+    to swipe to. Injected as real (non-clickable) children, not backgrounds, so they scroll away
+    at the true start/end instead of covering content that's still reachable. */
+ .navFade{position:sticky;top:0;align-self:stretch;width:22px;flex:0 0 22px;pointer-events:none;z-index:2;transition:opacity .15s}
+ .navFadeL{left:-1px;margin-right:-22px;background:linear-gradient(to right,#0B0F19,rgba(11,15,25,0));opacity:1}
+ .navFadeR{right:-1px;margin-left:-22px;background:linear-gradient(to left,#0B0F19,rgba(11,15,25,0));opacity:1}
+ #nav.nav-at-start .navFadeL{opacity:0}
+ #nav.nav-at-end .navFadeR{opacity:0}
  #profileBtnRow{flex-wrap:nowrap;overflow-x:auto;-webkit-overflow-scrolling:touch;scrollbar-width:none;max-width:100%}
  #profileBtnRow::-webkit-scrollbar{display:none}
  #profileBtnRow>*{flex:0 0 auto;padding-top:.5rem;padding-bottom:.5rem;min-height:36px;display:inline-flex;align-items:center}
 
- /* Account panel: on a narrow phone the popover is anchored (right:0) to a header element that
-    sits close to the right edge, and its inner status row (avatar dot + free-text status like
-    "Synced to the account…") is a flex row whose text child refuses to wrap by default (flex
-    items have an implicit min-width:auto), so a long status line forced the whole popover wider
-    than the screen -- growing further left, past the edge, clipped with no way to scroll to it.
-    Clamp the popover to the viewport and let that text wrap instead of pushing width. */
- #acctMenuPop{max-width:calc(100vw - 24px);width:min(280px,calc(100vw - 24px));box-sizing:border-box;left:auto;right:0}
+ /* Account panel: an absolutely-positioned dropdown anchored to a chip near the right edge kept
+    overlapping the header content below it (stats row) and clipping its own text no matter how
+    the width/anchor was tuned -- it's fighting for space in a header that's already short on a
+    phone. Detach it from the chip's flow entirely and present it as a real bottom sheet: fixed to
+    the viewport, full-width, sliding up from the bottom, above everything (including the sticky
+    header), with a dim backdrop behind it. This still uses the exact same open/close JS (the
+    .open / .hidden classes toggled in initAcctMenu) -- only the popover's own positioning changes. */
+ #acctMenuPop{position:fixed;left:12px;right:12px;top:auto;bottom:12px;width:auto;max-width:none;box-sizing:border-box;max-height:min(70vh,420px);border-radius:14px;z-index:1001;box-shadow:0 -8px 40px rgba(0,0,0,.6),0 0 0 1px var(--border-2)}
  #acctMenuPop *{min-width:0}
  #acctMenuStatus{white-space:normal;overflow-wrap:anywhere;flex:1}
- #acctMenuPop .rcOpt{min-height:40px;display:flex;align-items:center;box-sizing:border-box}
+ #acctMenuPop .rcOpt{min-height:44px;display:flex;align-items:center;box-sizing:border-box}
+ /* Dim backdrop behind the sheet -- a plain fixed overlay, not a focus trap; tapping it lands
+    outside .radarCombo so the existing document-level outside-click listener closes the menu. */
+ #acctMenu.open::before{content:'';position:fixed;inset:0;background:rgba(0,0,0,.55);z-index:1000}
 
  /* Search/filter card: tighten the vertical rhythm (each block below had its own mt-4/pt-4,
     which stacks fast on a short viewport) without touching font sizes or touch target heights. */
@@ -341,6 +369,11 @@ body[data-theme="outer-wilds"]{--bg:#0e0a09;--panel:#181010;--panel-2:#120c0b;--
     </div>
 
     <div>
+      <div class="text-[10px] tracking-[.2em] uppercase text-slate-500 mb-2">Show tips for</div>
+      <div id="tipsTabPicker" class="flex flex-wrap gap-1.5"></div>
+    </div>
+
+    <div class="tipCat" data-tabs="all">
       <div class="text-[10px] tracking-[.2em] uppercase text-teal-300/70 mb-2.5">Cards &amp; tiering</div>
       <div class="text-[13px] text-slate-300 leading-relaxed space-y-3.5">
         <div>🖱️ <strong class="text-slate-100">Click any card's title or body</strong> to expand it and see all ~19 stats, not just the 3 shown up front.</div>
@@ -350,7 +383,7 @@ body[data-theme="outer-wilds"]{--bg:#0e0a09;--panel:#181010;--panel-2:#120c0b;--
       </div>
     </div>
 
-    <div>
+    <div class="tipCat" data-tabs="controller">
       <div class="text-[10px] tracking-[.2em] uppercase text-teal-300/70 mb-2.5">Filtering &amp; sorting</div>
       <div class="text-[13px] text-slate-300 leading-relaxed space-y-3.5">
         <div>📌 <strong class="text-slate-100">Pin any slider you use a lot</strong> (Advanced Filters, or the ≥ sliders themselves) so it shows up in the always-visible row up top instead of staying tucked away. Both the pinned row and Advanced Filters start in alphabetical order.</div>
@@ -358,7 +391,7 @@ body[data-theme="outer-wilds"]{--bg:#0e0a09;--panel:#181010;--panel-2:#120c0b;--
       </div>
     </div>
 
-    <div>
+    <div class="tipCat" data-tabs="collection">
       <div class="text-[10px] tracking-[.2em] uppercase text-teal-300/70 mb-2.5">Collection</div>
       <div class="text-[13px] text-slate-300 leading-relaxed space-y-3.5">
         <div>◆ <strong class="text-slate-100">Mark what you own</strong> from the tier row on any card, then head to the Collection tab to manage it.</div>
@@ -367,7 +400,7 @@ body[data-theme="outer-wilds"]{--bg:#0e0a09;--panel:#181010;--panel-2:#120c0b;--
       </div>
     </div>
 
-    <div>
+    <div class="tipCat" data-tabs="controller goat">
       <div class="text-[10px] tracking-[.2em] uppercase text-teal-300/70 mb-2.5">Discovery</div>
       <div class="text-[13px] text-slate-300 leading-relaxed space-y-3.5">
         <div>🕳 <strong class="text-slate-100">Rabbit Hole</strong> and 🎲 <strong class="text-slate-100">Surprise Me</strong> pull a weighted pick for you — by mood, medium, ownership, or how much time you have.</div>
@@ -375,7 +408,7 @@ body[data-theme="outer-wilds"]{--bg:#0e0a09;--panel:#181010;--panel-2:#120c0b;--
       </div>
     </div>
 
-    <div>
+    <div class="tipCat" data-tabs="all">
       <div class="text-[10px] tracking-[.2em] uppercase text-teal-300/70 mb-2.5">Accounts &amp; your profile</div>
       <div class="text-[13px] text-slate-300 leading-relaxed space-y-3.5">
         <div>☁️ <strong class="text-slate-100">Sign into an account</strong> (top right) to sync your picks across devices — type any name; the same name anywhere brings it all back. Every profile — tiers, owned formats, pinned sliders, theme, everything — is remembered per account.</div>
@@ -383,7 +416,7 @@ body[data-theme="outer-wilds"]{--bg:#0e0a09;--panel:#181010;--panel-2:#120c0b;--
       </div>
     </div>
 
-    <div>
+    <div class="tipCat" data-tabs="all">
       <div class="text-[10px] tracking-[.2em] uppercase text-teal-300/70 mb-2.5">One more thing</div>
       <div class="text-[13px] text-slate-300 leading-relaxed space-y-3.5">
         <div>💡 <strong class="text-slate-100">See something missing?</strong> Use "Suggest a feature" in the header, top of page. Click the <strong class="text-slate-100">?</strong> button next to the theme selector anytime to bring these tips back.</div>
@@ -548,7 +581,7 @@ body[data-theme="outer-wilds"]{--bg:#0e0a09;--panel:#181010;--panel-2:#120c0b;--
       <label class="flex items-center gap-1.5 text-[11px] cursor-pointer" style="color:#cd7f32"><input type="checkbox" class="tierChk accent-orange-700" data-tier="bronze"/> 🥉 Bronze</label>
     </div>
     <div class="mt-4 pt-4 border-t border-slate-800/70">
-      <button type="button" id="advToggle" class="flex items-center gap-2 text-[11px] tracking-[.12em] uppercase text-slate-300 hover:text-white transition-colors">
+      <button type="button" id="advToggle" class="flex items-center gap-2 text-[11.5px] font-bold tracking-[.12em] uppercase transition-colors" style="color:#fbbf24" onmouseover="this.style.color='#fcd34d'" onmouseout="this.style.color='#fbbf24'">
         <span id="advCaret" class="inline-block transition-transform">&#9656;</span> Advanced Filters &amp; Indices <span id="advCount" class="chip" style="display:none"></span>
       </button>
       <div id="advPanel" class="hidden mt-4 space-y-5">

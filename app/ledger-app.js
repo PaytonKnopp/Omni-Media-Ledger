@@ -639,17 +639,25 @@ function updateCharts(list){
  // that silently dropped every pre-1950 or post-2020 work (real ones exist today, e.g. 1920s films
  // and 2026 releases) and every book from the chart. Derived from the actual data instead, so it
  // stays correct as the corpus grows in either direction.
+ // A handful of items (ancient texts etc.) carry years in the low hundreds, which used to drag
+ // minD down with them -- the decade axis then spanned ~200 mostly-empty decades and Chart.js's
+ // tick auto-skipping showed a few widely-spaced ancient decades while the real (mostly modern)
+ // distribution was crushed into an invisible sliver. Mirror the Timeline SVG histogram's
+ // Pre-1900-bucket approach: clamp the per-decade axis to 1900+ and fold every earlier item into
+ // one leading "Pre-1900" bar instead of dropping them.
  const years=list.map(x=>x.year).filter(function(y){return y>0;});
- const minD=years.length?Math.floor(Math.min.apply(null,years)/10)*10:1950;
  const maxD=years.length?Math.floor(Math.max.apply(null,years)/10)*10:2020;
+ const minD=years.length?Math.max(1900,Math.floor(Math.min.apply(null,years)/10)*10):1900;
  const decs=[];for(let d=minD;d<=maxD;d+=10)decs.push(d);
+ const hasPre=list.some(x=>x.year>0&&x.year<1900);
  const cnt=k=>decs.map(d=>list.filter(x=>x.kind===k&&x.year>=d&&x.year<d+10).length);
- CH.decade.data.labels=decs.map(d=>d+'s');
+ const preCnt=k=>list.filter(x=>x.kind===k&&x.year>0&&x.year<1900).length;
+ CH.decade.data.labels=(hasPre?['Pre-1900']:[]).concat(decs.map(d=>d+'s'));
  CH.decade.data.datasets=[
-  {label:'Movies',data:cnt('movie'),backgroundColor:'#8b5cf6'},
-  {label:'TV',data:cnt('tv'),backgroundColor:'#22d3ee'},
-  {label:'Games',data:cnt('game'),backgroundColor:'#f59e0b'},
-  {label:'Books',data:cnt('book'),backgroundColor:'#4ade80'}];
+  {label:'Movies',data:(hasPre?[preCnt('movie')]:[]).concat(cnt('movie')),backgroundColor:'#8b5cf6'},
+  {label:'TV',data:(hasPre?[preCnt('tv')]:[]).concat(cnt('tv')),backgroundColor:'#22d3ee'},
+  {label:'Games',data:(hasPre?[preCnt('game')]:[]).concat(cnt('game')),backgroundColor:'#f59e0b'},
+  {label:'Books',data:(hasPre?[preCnt('book')]:[]).concat(cnt('book')),backgroundColor:'#4ade80'}];
  CH.decade.update('none');
 }
 var bubbleMed='all';
@@ -2545,9 +2553,39 @@ on('#densityBtn','click',()=>{var on=document.body.classList.toggle('compact');v
    that the row under each card can tier/own without opening it. Deliberately not a banner or a nav
    tab (both compete for space/attention on every visit) -- just one quiet, always-in-the-same-place
    button that's there when wanted and invisible otherwise. */
+/* Quick Tips now opens onto a tab picker first (see TAB_LABELS below, and the .tipCat data-tabs
+   attributes in index.html) instead of dumping every tip for the whole app in one wall of text.
+   Picking a tab (or "★ General", the tips marked data-tabs="all") filters which .tipCat blocks
+   show; the tab you're currently viewing is pre-selected so the popup is useful immediately.
+   Deliberately not built until the button is first clicked -- TAB_LABELS is defined further down
+   the file, and by the time a person can click "?" the whole script has already run once. */
+var _tipsPickerBuilt=false;
+var _tipsSelectedTab='__general__'; // '__general__' shows only tips marked data-tabs="all"
+function tipsApplyFilter(){
+ var cats=$$('#tipsGate .tipCat');
+ cats.forEach(function(c){
+  var tabs=(c.dataset.tabs||'').split(/\s+/);
+  var show=_tipsSelectedTab==='__general__'?tabs.indexOf('all')>=0:(tabs.indexOf('all')>=0||tabs.indexOf(_tipsSelectedTab)>=0);
+  c.classList.toggle('hidden',!show);
+ });
+ $$('#tipsTabPicker button').forEach(function(b){b.classList.toggle('on',b.dataset.tab===_tipsSelectedTab);});
+}
+function tipsBuildPicker(){
+ var picker=$('#tipsTabPicker');if(!picker||_tipsPickerBuilt)return;
+ _tipsPickerBuilt=true;
+ var html='<button type="button" class="tipsTabBtn" data-tab="__general__">★ General</button>';
+ Object.keys(TAB_LABELS).forEach(function(k){html+='<button type="button" class="tipsTabBtn" data-tab="'+k+'">'+esc(TAB_LABELS[k])+'</button>';});
+ picker.innerHTML=html;
+ on('#tipsTabPicker','click',function(e){var b=e.target.closest('.tipsTabBtn');if(!b)return;_tipsSelectedTab=b.dataset.tab;tipsApplyFilter();});
+}
 (function initQuickTips(){
  var gate=$('#tipsGate');if(!gate)return;
- on('#tipsBtn','click',function(){gate.classList.remove('hidden');});
+ on('#tipsBtn','click',function(){
+  tipsBuildPicker();
+  _tipsSelectedTab=(typeof TAB_LABELS!=='undefined'&&TAB_LABELS[state.view])?state.view:'__general__';
+  tipsApplyFilter();
+  gate.classList.remove('hidden');
+ });
  on('#tipsClose','click',function(){gate.classList.add('hidden');});
 })();
 
@@ -2562,15 +2600,17 @@ on('#densityBtn','click',()=>{var on=document.body.classList.toggle('compact');v
 (function initMobileTipsAccordion(){
  if(!window.matchMedia || !window.matchMedia('(max-width:767px)').matches)return;
  var gate=$('#tipsGate');if(!gate)return;
- var container=gate.querySelector('.space-y-5');if(!container)return;
- var kids=Array.prototype.slice.call(container.children);
+ // Only the per-tab .tipCat blocks become an accordion -- the header row and the tab picker
+ // (added for item 5, filtered by tipsApplyFilter via the same .hidden class) are left alone.
+ var kids=Array.prototype.slice.call(gate.querySelectorAll('.tipCat'));
  var sectionIdx=0;
  kids.forEach(function(kid){
-  if(kid.tagName!=='DIV')return; // skip the header row and anything already special-cased
   var label=kid.querySelector(':scope > div:first-child');
   var rest=Array.prototype.slice.call(kid.children).slice(1);
   if(!label||!rest.length)return; // not a "label + body" category block -- leave as-is
   var details=document.createElement('details');
+  details.className='tipCat';
+  details.dataset.tabs=kid.dataset.tabs||'';
   if(sectionIdx===0)details.open=true;
   var summary=document.createElement('summary');
   summary.appendChild(label);
@@ -2579,6 +2619,32 @@ on('#densityBtn','click',()=>{var on=document.body.classList.toggle('compact');v
   kid.replaceWith(details);
   sectionIdx++;
  });
+})();
+
+/* Nav tab strip on mobile only: #nav already scrolls sideways instead of wrapping (see the
+   max-width:767px CSS block), but nothing about it visually says "there's more, swipe" to a
+   first-time phone user -- it just looks like it ends at the edge of the screen. Add sticky edge
+   fades (CSS .navFade*, gated the same as everything else in that mobile block) that mask the
+   next button's text into the background, plus a scroll listener that hides the left fade until
+   you've actually scrolled and hides the right fade once you've reached the end. Desktop never
+   runs this (matchMedia checked once at load) and its DOM/behavior are untouched. */
+(function initMobileNavScrollHint(){
+ if(!window.matchMedia || !window.matchMedia('(max-width:767px)').matches)return;
+ var nav=$('#nav');if(!nav)return;
+ var fadeL=document.createElement('span');fadeL.className='navFade navFadeL';fadeL.setAttribute('aria-hidden','true');
+ var fadeR=document.createElement('span');fadeR.className='navFade navFadeR';fadeR.setAttribute('aria-hidden','true');
+ nav.insertBefore(fadeL,nav.firstChild);
+ nav.appendChild(fadeR);
+ function update(){
+  var atStart=nav.scrollLeft<=2;
+  var atEnd=nav.scrollLeft+nav.clientWidth>=nav.scrollWidth-2;
+  nav.classList.toggle('nav-at-start',atStart);
+  nav.classList.toggle('nav-at-end',atEnd);
+ }
+ nav.addEventListener('scroll',update,{passive:true});
+ update();
+ // Content (nav buttons, e.g. the watchlist count) can change scrollWidth after load.
+ setTimeout(update,300);
 })();
 on('#surpriseBtn','click',()=>{const sc=$('#surpriseScope');sc.classList.toggle('hidden');var opening=!sc.classList.contains('hidden');var panel=$('#surprisePanel');
  if(opening){if(panel.dataset.mode==='rabbit'){panel.classList.add('hidden');panel.innerHTML='';panel.dataset.mode='';$('#rabbitBtn').setAttribute('aria-expanded','false');}if(sc.scrollIntoView)sc.scrollIntoView({behavior:'smooth',block:'nearest'});}
