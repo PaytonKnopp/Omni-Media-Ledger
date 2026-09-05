@@ -178,6 +178,22 @@ button:focus-visible,select:focus-visible,input:focus-visible{outline:2px solid 
  #headerControlsRow>.flex.flex-wrap.items-end.gap-4>.flex.flex-col.items-end.gap-1:last-child{margin-left:auto;padding-left:.7rem;border-left:1px solid rgba(148,163,184,.16)}
  #themeSel{padding:4px 6px!important;font-size:10.5px!important}
  #tipsBtn{width:24px!important;height:24px!important}
+
+ /* Compact header (mobile only): a small toggle next to the account chip lets a phone user shrink
+    the header down to just the account chip + tab nav, hiding the title/last-updated block, the
+    stats strip, and the theme/tips/profile controls row -- freeing up vertical space on a short
+    screen. State lives as a plain class on <body> (see initHeaderCompact in ledger-app.js, which
+    also persists the choice to localStorage the same way #densityBtn/initDensity already does) so
+    it's a pure CSS flag; #nav is deliberately never touched here so the tabs stay reachable no
+    matter what. The toggle itself is display:none by default (see the base #headerCompactToggle
+    rule above the media queries) and only switches on inside this mobile block, so desktop can
+    never see or trigger it, and every rule below is scoped to this same block so desktop is
+    completely unaffected regardless of body class. */
+ #headerCompactToggle{display:inline-flex}
+ body.headerCompact #headerTitleBlock,body.headerCompact #headStats,body.headerCompact #headerControlsRow>.flex.flex-wrap.items-end.gap-4{display:none}
+ body.headerCompact #headerCompactToggle{transform:rotate(180deg)}
+ body.headerCompact #headerControlsRow{margin:0;gap:0}
+ body.headerCompact #headerInner{padding-bottom:.25rem}
  #nav{flex-wrap:nowrap;overflow-x:auto;-webkit-overflow-scrolling:touch;scrollbar-width:none;margin-top:.55rem;padding-bottom:2px;position:relative}
  #nav::-webkit-scrollbar{display:none}
  #nav{gap:6px}
@@ -187,17 +203,25 @@ button:focus-visible,select:focus-visible,input:focus-visible{outline:2px solid 
     text fades into the header background instead of just clipping -- a visible cue there's more
     to swipe to. Injected as real (non-clickable) children, not backgrounds, so they scroll away
     at the true start/end instead of covering content that's still reachable. */
+ /* Generalized off #nav so any horizontally-scrolling strip (currently #nav and #tipsTabPicker,
+    see initMobileNavScrollHint/initMobileScrollHint) can reuse the identical fade+chevron+pulse
+    affordance -- both elements get the sticky-fade children and the nav-at-start/nav-at-end/
+    nav-hint-pulse state classes toggled on themselves by JS, so this class list works unmodified
+    for either. */
  .navFade{position:sticky;top:0;align-self:stretch;width:34px;flex:0 0 34px;pointer-events:none;z-index:2;transition:opacity .15s;display:flex;align-items:center;font-size:15px;font-weight:700;color:#5eead4}
  .navFadeL{left:-1px;margin-right:-34px;background:linear-gradient(to right,#0B0F19 45%,rgba(11,15,25,0));opacity:1;justify-content:flex-start}
  .navFadeR{right:-1px;margin-left:-34px;background:linear-gradient(to left,#0B0F19 45%,rgba(11,15,25,0));opacity:1;justify-content:flex-end}
  .navFadeL::after,.navFadeR::after{content:'\203A';line-height:1;text-shadow:0 0 6px rgba(94,234,212,.7)}
  .navFadeL::after{content:'\2039'}
- #nav.nav-at-start .navFadeL{opacity:0}
- #nav.nav-at-end .navFadeR{opacity:0}
+ #nav.nav-at-start .navFadeL,#tipsTabPicker.nav-at-start .navFadeL{opacity:0}
+ #nav.nav-at-end .navFadeR,#tipsTabPicker.nav-at-end .navFadeR{opacity:0}
  /* One-time attention shimmer on the trailing (right) fade so a first-time phone user's eye is
     drawn to the fact there's more to swipe to, before they've touched the strip at all. */
  @keyframes navFadeHint{0%,100%{opacity:1}50%{opacity:.35}}
- #nav.nav-hint-pulse .navFadeR{animation:navFadeHint 1s ease-in-out 3}
+ #nav.nav-hint-pulse .navFadeR,#tipsTabPicker.nav-hint-pulse .navFadeR{animation:navFadeHint 1s ease-in-out 3}
+ /* #tipsTabPicker needs position:relative for the sticky fades to pin correctly, same as #nav (set
+    via #nav{position:relative} above). */
+ #tipsTabPicker{position:relative}
  #profileBtnRow{flex-wrap:nowrap;overflow-x:auto;-webkit-overflow-scrolling:touch;scrollbar-width:none;max-width:100%}
  #profileBtnRow::-webkit-scrollbar{display:none}
  #profileBtnRow>*{flex:0 0 auto;padding-top:.5rem;padding-bottom:.5rem;min-height:36px;display:inline-flex;align-items:center}
@@ -497,7 +521,7 @@ body[data-theme="outer-wilds"]{--bg:#0e0a09;--panel:#181010;--panel-2:#120c0b;--
          of silently dumping one tab's content by default, so it's obvious the picker above is the
          way to browse the rest of the app one area at a time. -->
     <div id="tipsIntroMsg" class="text-[13px] text-slate-300 leading-relaxed">
-      👋 <strong class="text-slate-100">New here, or just want a refresher?</strong> Pick a tab above to see every tip for that part of the app, one area at a time — or choose <strong class="text-slate-100">★ General</strong> for tips that apply everywhere. You can come back anytime with the <strong class="text-slate-100">?</strong> button next to the theme selector.
+      👋 <strong class="text-slate-100">New here, or just want a refresher?</strong> Pick <strong class="text-slate-100">★ General</strong> above for the core things you need to know to run the app — cards, tiering, accounts, backups. If you want information specifically about each tab, go to that tab above instead: every tab has its own dedicated tips and doesn't repeat what's in General. You can come back anytime with the <strong class="text-slate-100">?</strong> button next to the theme selector.
     </div>
     <div class="tipCat" data-tabs="all">
       <div class="text-[10px] tracking-[.2em] uppercase text-teal-300/70 mb-2.5">Cards &amp; tiering</div>
@@ -506,31 +530,6 @@ body[data-theme="outer-wilds"]{--bg:#0e0a09;--panel:#181010;--panel-2:#120c0b;--
         <div>🥇 <strong class="text-slate-100">The row under each card</strong> lets you mark Gold / Silver / Bronze favorites or "owned" in one click — no need to expand first. Gold is your absolute favorite, Silver the next tier down, Bronze the one after that — this tiering is the single thing that drives your ★ GOAT Match score and recommendations everywhere in the app. That row always sits at the bottom of the card, so it lines up card to card no matter how long a title is or whether you're in compact or comfortable view.</div>
         <div>🏷️ <strong class="text-slate-100">Genre, vibe, format and platform tags</strong> inside an expanded card are read-only — just information, like the stat bars next to them.</div>
         <div>🔗 <strong class="text-slate-100">"Cross-medium pairings" and "If you like this, cross over to"</strong> inside an expanded card are clickable — click one to jump straight to it in the Global Controller search.</div>
-      </div>
-    </div>
-
-    <div class="tipCat" data-tabs="controller">
-      <div class="text-[10px] tracking-[.2em] uppercase text-teal-300/70 mb-2.5">Filtering &amp; sorting</div>
-      <div class="text-[13px] text-slate-300 leading-relaxed space-y-3.5">
-        <div>📌 <strong class="text-slate-100">Pin any slider you use a lot</strong> (Advanced Filters, or the ≥ sliders themselves) so it shows up in the always-visible row up top instead of staying tucked away. Both the pinned row and Advanced Filters start in alphabetical order.</div>
-        <div>🔀 <strong class="text-slate-100">The Sort dropdown</strong> is grouped by category — Reception, Craft &amp; Fidelity, Mood &amp; Feel, Depth &amp; Ideas — with each group alphabetized, so related sorts sit together instead of one long list.</div>
-      </div>
-    </div>
-
-    <div class="tipCat" data-tabs="collection">
-      <div class="text-[10px] tracking-[.2em] uppercase text-teal-300/70 mb-2.5">Collection</div>
-      <div class="text-[13px] text-slate-300 leading-relaxed space-y-3.5">
-        <div>◆ <strong class="text-slate-100">Mark what you own</strong> from the tier row on any card, then head to the Collection tab to manage it.</div>
-        <div>💿 <strong class="text-slate-100">Document the exact edition you own</strong> — DVD / Blu-ray / 4K for movies &amp; TV, Hardcover / Softcover for books — right from the Collection tab. The ⬆ Upgrade Audit reads this to suggest real upgrades instead of guessing.</div>
-        <div>▤ <strong class="text-slate-100">Group by Series</strong> and the <strong class="text-slate-100">📚 Shelf View</strong> both list your collection alphabetically, so a series or a shelf reads the same way every time.</div>
-      </div>
-    </div>
-
-    <div class="tipCat" data-tabs="controller goat">
-      <div class="text-[10px] tracking-[.2em] uppercase text-teal-300/70 mb-2.5">Discovery</div>
-      <div class="text-[13px] text-slate-300 leading-relaxed space-y-3.5">
-        <div>🕳 <strong class="text-slate-100">Rabbit Hole</strong> and 🎲 <strong class="text-slate-100">Surprise Me</strong> pull a weighted pick for you — by mood, medium, ownership, or how much time you have.</div>
-        <div>★ <strong class="text-slate-100">The GOAT Profile tab</strong> has a full search to declare Gold/Silver/Bronze favorites directly, plus your generated taste breakdown and recommendations.</div>
       </div>
     </div>
 
@@ -546,6 +545,93 @@ body[data-theme="outer-wilds"]{--bg:#0e0a09;--panel:#181010;--panel-2:#120c0b;--
       <div class="text-[10px] tracking-[.2em] uppercase text-teal-300/70 mb-2.5">One more thing</div>
       <div class="text-[13px] text-slate-300 leading-relaxed space-y-3.5">
         <div>💡 <strong class="text-slate-100">See something missing?</strong> Use "Suggest a feature" in the header, top of page. Click the <strong class="text-slate-100">?</strong> button next to the theme selector anytime to bring these tips back.</div>
+      </div>
+    </div>
+
+    <div class="tipCat" data-tabs="controller">
+      <div class="text-[10px] tracking-[.2em] uppercase text-teal-300/70 mb-2.5">Global Controller · filtering &amp; sorting</div>
+      <div class="text-[13px] text-slate-300 leading-relaxed space-y-3.5">
+        <div>🔍 <strong class="text-slate-100">Omni-Search</strong> matches on title, creator, studio, genre, vibe, and year all at once — try a director's name, a network, or just a year.</div>
+        <div>🏷️ <strong class="text-slate-100">Genre chips</strong> under the main filters let you click any genre to filter straight to it — click again to clear it.</div>
+        <div>📌 <strong class="text-slate-100">Pin any slider you use a lot</strong> — from Advanced Filters, or the specialized index thresholds inside it — so it shows up in the always-visible "Your 5 quick filters" row up top instead of staying tucked away. Both the pinned row and Advanced Filters start in alphabetical order.</div>
+        <div>▶ <strong class="text-slate-100">Advanced Filters &amp; Indices</strong> (collapsed by default) stacks as many specialized index thresholds as you like — dread, complexity, awe, and more — on top of the main filters.</div>
+        <div>🔀 <strong class="text-slate-100">The Sort dropdown</strong> is grouped by category — Reception, Craft &amp; Fidelity, Mood &amp; Feel, Depth &amp; Ideas — with each group alphabetized, so related sorts sit together instead of one long list.</div>
+        <div>🕳 <strong class="text-slate-100">Rabbit Hole</strong> and 🎲 <strong class="text-slate-100">Surprise Me</strong>, both here in the Global Controller, pull a weighted pick for you — Rabbit Hole starts a connected journey across media from one of your top matches, Surprise Me spins by mood, medium, ownership, or how much time you have.</div>
+      </div>
+    </div>
+
+    <div class="tipCat" data-tabs="goat">
+      <div class="text-[10px] tracking-[.2em] uppercase text-teal-300/70 mb-2.5">★ GOAT Profile</div>
+      <div class="text-[13px] text-slate-300 leading-relaxed space-y-3.5">
+        <div>★ <strong class="text-slate-100">This tab has a full search</strong> to declare Gold/Silver/Bronze favorites directly across the whole corpus, plus your generated taste breakdown (Taste DNA) and personalized recommendations by category.</div>
+        <div>🖐 <strong class="text-slate-100">Drag any declared title's chip</strong> between the Gold / Silver / Bronze drop zones to re-tier it without leaving this tab — or click a chip to jump to it in the Global Controller.</div>
+        <div>🔎 <strong class="text-slate-100">The search box above your declared canon</strong> filters those chips down live as you type, so a long list of favorites stays easy to scan.</div>
+      </div>
+    </div>
+
+    <div class="tipCat" data-tabs="portrait">
+      <div class="text-[10px] tracking-[.2em] uppercase text-teal-300/70 mb-2.5">◐ Taste Portrait</div>
+      <div class="text-[13px] text-slate-300 leading-relaxed space-y-3.5">
+        <div>◐ <strong class="text-slate-100">This dashboard visualizes your taste</strong> as it stands today — genre-family tiles (click one to browse that genre in the Global Controller), most-owned breakdowns, and gaps in what you've tiered or collected — computed live from your current profile, not a static snapshot.</div>
+        <div>📊 <strong class="text-slate-100">Each genre tile</strong> shows how many works are on the ledger in that family, how many you own, and your top match within it — the fill bar is your owned percentage.</div>
+      </div>
+    </div>
+
+    <div class="tipCat" data-tabs="collection">
+      <div class="text-[10px] tracking-[.2em] uppercase text-teal-300/70 mb-2.5">◆ Collection</div>
+      <div class="text-[13px] text-slate-300 leading-relaxed space-y-3.5">
+        <div>◆ <strong class="text-slate-100">Mark what you own</strong> from the tier row on any card, then manage it here.</div>
+        <div>💿 <strong class="text-slate-100">Document the exact edition you own</strong> — DVD / Blu-ray / 4K for movies &amp; TV, Hardcover / Softcover for books — right from this tab. The ⬆ Upgrade Audit reads this to suggest real upgrades instead of guessing.</div>
+        <div>▤ <strong class="text-slate-100">Group by Series</strong> and the <strong class="text-slate-100">📚 Shelf View</strong> both list your collection alphabetically, so a series or a shelf reads the same way every time.</div>
+      </div>
+    </div>
+
+    <div class="tipCat" data-tabs="watchlist">
+      <div class="text-[10px] tracking-[.2em] uppercase text-teal-300/70 mb-2.5">♡ Watchlist</div>
+      <div class="text-[13px] text-slate-300 leading-relaxed space-y-3.5">
+        <div>♡ <strong class="text-slate-100">Tap the ♡ on any card</strong> to add or remove it from this tab's backlog. Filter it by Up Next / Complete, by medium, sort by date added / title / match, and mark items done (or undo that) right from here — this tab also shows your saved count, an estimated backlog time, and a few personalized picks to add next.</div>
+      </div>
+    </div>
+
+    <div class="tipCat" data-tabs="contenders">
+      <div class="text-[10px] tracking-[.2em] uppercase text-teal-300/70 mb-2.5">Contenders Ledger</div>
+      <div class="text-[13px] text-slate-300 leading-relaxed space-y-3.5">
+        <div>🔮 <strong class="text-slate-100">This tab tracks not-yet-released or not-yet-reconciled titles</strong> — upcoming films, shows, games and books — each with a "For You" gauge (personalized anticipation) alongside an "Editorial" gauge (general GOAT probability).</div>
+        <div>◉ <strong class="text-slate-100">Spot-checked</strong> means the release/window info was verified against live sources on that date; unverified entries still run on the original editorial estimate. Filter to Verified-only or Unverified-only, by medium, or sort by For You / Editorial / Title / Release Window.</div>
+        <div>✓ <strong class="text-slate-100">"IN LEDGER — VIEW SCORE"</strong> appears once a contender has released and been reconciled into the scored corpus — click it to jump straight to its real entry in the Global Controller.</div>
+      </div>
+    </div>
+
+    <div class="tipCat" data-tabs="creators">
+      <div class="text-[10px] tracking-[.2em] uppercase text-teal-300/70 mb-2.5">Creator Archives</div>
+      <div class="text-[13px] text-slate-300 leading-relaxed space-y-3.5">
+        <div>🎬 <strong class="text-slate-100">Three pantheons</strong> — Directors, Authors, and Gaming Auteurs — each a set of flip-cards. Click a card to flip it and see their core themes and every one of their works on the ledger, ranked by score.</div>
+        <div>🔎 <strong class="text-slate-100">Search</strong> looks across all three pantheons at once by default (scope it to just one with the segmented control next to it), and you can sort A–Z or by number of works.</div>
+      </div>
+    </div>
+
+    <div class="tipCat" data-tabs="matrix">
+      <div class="text-[10px] tracking-[.2em] uppercase text-teal-300/70 mb-2.5">Reference Matrices</div>
+      <div class="text-[13px] text-slate-300 leading-relaxed space-y-3.5">
+        <div>🏆 <strong class="text-slate-100">Each bracket is a themed leaderboard</strong> — 4K Reference Tier, Cosmic Dread, Peak GOAT Match, Iconic, Tearjerker, and many more — ranked by the index named in its subtitle.</div>
+        <div>🧭 <strong class="text-slate-100">"Jump to a bracket"</strong> up top is a searchable pill nav so you can reach any of the 18 brackets without scrolling past the rest; "Owned only" filters every bracket down to just what's in your collection at once.</div>
+      </div>
+    </div>
+
+    <div class="tipCat" data-tabs="viz">
+      <div class="text-[10px] tracking-[.2em] uppercase text-teal-300/70 mb-2.5">Visualization Suite</div>
+      <div class="text-[13px] text-slate-300 leading-relaxed space-y-3.5">
+        <div>🫧 <strong class="text-slate-100">The bubble chart</strong> plots Critical vs. Audience score for whatever's currently in scope (your live Global Controller filters apply to it) — bubble size is Technical score, and you can filter it to one medium or a minimum score.</div>
+        <div>🕸 <strong class="text-slate-100">The radar chart</strong> compares up to three titles or creators (averaged across their works) across Critical, Audience, Technical, Dread, and Complexity — pick each of the three slots from the searchable dropdowns.</div>
+        <div>📊 <strong class="text-slate-100">The decade chart</strong> stacks how many works per decade qualify by medium, spanning your data's real range (pre-1900 works are folded into one leading bar).</div>
+      </div>
+    </div>
+
+    <div class="tipCat" data-tabs="timeline">
+      <div class="text-[10px] tracking-[.2em] uppercase text-teal-300/70 mb-2.5">◷ Timeline</div>
+      <div class="text-[13px] text-slate-300 leading-relaxed space-y-3.5">
+        <div>📊 <strong class="text-slate-100">The decade histogram</strong> is clickable — click a bar to open that decade in the Global Controller, or tap the 🔍 on a bar to preview its top matches right here without leaving the tab. Scope it to your owned collection or everything, and filter by medium.</div>
+        <div>🏛 <strong class="text-slate-100">Era rows below the chart</strong> (Antiquity through The Present) group your in-scope works chronologically, each showing its top matches first with a "Show all" to expand the rest.</div>
       </div>
     </div>
     </div>
@@ -584,10 +670,17 @@ body[data-theme="outer-wilds"]{--bg:#0e0a09;--panel:#181010;--panel-2:#120c0b;--
   <div id="headerInner" class="max-w-[1400px] mx-auto px-4 pt-4 pb-3">
     <div class="flex flex-col gap-3">
       <div class="flex flex-wrap items-start justify-between gap-3">
-        <div>
+        <div id="headerTitleBlock">
           <h1 class="text-xl md:text-2xl font-bold tracking-tight text-slate-50">The Ultimate Omni-Media &amp; Entertainment Ledger</h1>
           <div id="lastUpdated" class="text-[10px] text-slate-500 mt-1 tracking-wide">Last updated · Aug 30, 2026 · <span id="luCount" class="text-slate-400"></span> · <button type="button" id="versionBtn" class="text-slate-500 hover:text-slate-300 underline decoration-dotted underline-offset-2">v<span id="versionText"></span></button></div>
         </div>
+        <!-- Mobile-only "compact header" toggle: collapses everything except the account chip and
+             the tab nav below (see body.headerCompact rules in the max-width:767px CSS block, and
+             initHeaderCompact in ledger-app.js) to free up vertical space on a phone. display:none
+             by default here (desktop); the mobile media query is what turns it on, so desktop can
+             never show or trigger this. Sits right next to the account chip so it's easy to find and
+             thumb-reach, and always visible itself (never part of what it hides). -->
+        <button type="button" id="headerCompactToggle" class="hidden items-center justify-center rounded-full border shrink-0" style="width:26px;height:26px;border-color:#5eead455;color:#5eead4;font-size:12px;line-height:1" title="Collapse header" aria-label="Collapse header" aria-expanded="true">▲</button>
         <div class="radarCombo" id="acctMenu">
           <div class="rcField flex items-center gap-2" id="acctMenuField" tabindex="0" role="button" aria-haspopup="menu" style="min-height:40px;padding:6px 12px 6px 7px;border-radius:999px;border:1px solid var(--border-soft,#1e293b)">
             <span id="acctAvatar" class="flex items-center justify-center rounded-full shrink-0 font-bold uppercase" style="width:28px;height:28px;font-size:12px;background:#1e293b;color:#94a3b8">·</span>

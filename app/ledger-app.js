@@ -2563,6 +2563,34 @@ function doSpin(){
 on('#densityBtn','click',()=>{var on=document.body.classList.toggle('compact');var b=$('#densityBtn');b.textContent=on?'\u25a4 Comfortable':'\u25a6 Compact';b.classList.toggle('border-teal-500',on);b.classList.toggle('text-teal-300',on);try{localStorage.setItem('omniLedgerDensity',on?'1':'0');}catch(e){}});
 (function initDensity(){var v='0';try{v=localStorage.getItem('omniLedgerDensity')||'0';}catch(e){}if(v==='1'){document.body.classList.add('compact');var b=$('#densityBtn');if(b){b.textContent='\u25a4 Comfortable';b.classList.add('border-teal-500','text-teal-300');}}})();
 
+/* Compact header, mobile only: a toggle next to the account chip collapses the header down to just
+   the account chip + tab nav (see body.headerCompact rules in the max-width:767px CSS block),
+   hiding the title/last-updated block, the stats strip, and the theme/tips/profile controls row --
+   freeing up vertical space on a short phone screen. #headerCompactToggle itself is display:none by
+   default in the base stylesheet and only switches on inside that same mobile media query, so
+   nothing here can ever show or trigger on desktop even though this init function always runs --
+   the matchMedia check below is what actually gates the behavior. Persisted the same simple way
+   #densityBtn/initDensity already persists its own per-viewer flag. */
+(function initHeaderCompact(){
+ var btn=$('#headerCompactToggle');if(!btn)return;
+ var isMobile=!!(window.matchMedia && window.matchMedia('(max-width:767px)').matches);
+ function apply(on){
+  document.body.classList.toggle('headerCompact',on);
+  btn.title=on?'Expand header':'Collapse header';
+  btn.setAttribute('aria-label',btn.title);
+  btn.setAttribute('aria-expanded',on?'false':'true');
+  btn.textContent=on?'\u25bc':'\u25b2';
+ }
+ var v='0';try{v=localStorage.getItem('omniLedgerHeaderCompact')||'0';}catch(e){}
+ apply(isMobile&&v==='1');
+ if(!isMobile)return; // toggle stays inert (and invisible, via CSS) off mobile
+ btn.addEventListener('click',function(){
+  var on=!document.body.classList.contains('headerCompact');
+  apply(on);
+  try{localStorage.setItem('omniLedgerHeaderCompact',on?'1':'0');}catch(e){}
+ });
+})();
+
 /* ===== Quick Tips: a small "?" button next to the theme selector, opening a popup on demand =====
    Not tied to onboarding -- someone can finish onboarding and still not know cards expand, or
    that the row under each card can tier/own without opening it. Deliberately not a banner or a nav
@@ -2600,6 +2628,10 @@ function tipsBuildPicker(){
  Object.keys(TAB_LABELS).forEach(function(k){html+='<button type="button" class="tipsTabBtn" data-tab="'+k+'">'+esc(TAB_LABELS[k])+'</button>';});
  picker.innerHTML=html;
  on('#tipsTabPicker','click',function(e){var b=e.target.closest('.tipsTabBtn');if(!b)return;_tipsSelectedTab=b.dataset.tab;tipsApplyFilter();});
+ // #tipsTabPicker scrolls sideways on mobile instead of wrapping (see the max-width:767px CSS),
+ // but its content is built here, on demand, well after the page-load-time #nav wiring above --
+ // so the scroll hint has to be wired here too, once the pills it fades actually exist.
+ if(window.matchMedia && window.matchMedia('(max-width:767px)').matches)initMobileScrollHint(picker);
 }
 (function initQuickTips(){
  var gate=$('#tipsGate');if(!gate)return;
@@ -2653,30 +2685,38 @@ function tipsBuildPicker(){
    next button's text into the background, plus a scroll listener that hides the left fade until
    you've actually scrolled and hides the right fade once you've reached the end. Desktop never
    runs this (matchMedia checked once at load) and its DOM/behavior are untouched. */
-(function initMobileNavScrollHint(){
- if(!window.matchMedia || !window.matchMedia('(max-width:767px)').matches)return;
- var nav=$('#nav');if(!nav)return;
+// Shared by #nav (wired at load) and #tipsTabPicker (wired each time its content is (re)built --
+// see tipsBuildPicker -- since that strip is populated dynamically, not present at load). Mobile-
+// only (checked once by each caller before this runs); idempotent per element via a dataset flag
+// so calling it again on the same element (e.g. Quick Tips reopened) is a harmless no-op.
+function initMobileScrollHint(el){
+ if(!el||el.dataset.scrollHintWired)return;
+ el.dataset.scrollHintWired='1';
  var fadeL=document.createElement('span');fadeL.className='navFade navFadeL';fadeL.setAttribute('aria-hidden','true');
  var fadeR=document.createElement('span');fadeR.className='navFade navFadeR';fadeR.setAttribute('aria-hidden','true');
- nav.insertBefore(fadeL,nav.firstChild);
- nav.appendChild(fadeR);
+ el.insertBefore(fadeL,el.firstChild);
+ el.appendChild(fadeR);
  function update(){
-  var atStart=nav.scrollLeft<=2;
-  var atEnd=nav.scrollLeft+nav.clientWidth>=nav.scrollWidth-2;
-  nav.classList.toggle('nav-at-start',atStart);
-  nav.classList.toggle('nav-at-end',atEnd);
+  var atStart=el.scrollLeft<=2;
+  var atEnd=el.scrollLeft+el.clientWidth>=el.scrollWidth-2;
+  el.classList.toggle('nav-at-start',atStart);
+  el.classList.toggle('nav-at-end',atEnd);
  }
- nav.addEventListener('scroll',update,{passive:true});
+ el.addEventListener('scroll',update,{passive:true});
  update();
  // Content (nav buttons, e.g. the watchlist count) can change scrollWidth after load.
  setTimeout(update,300);
  // One-time attention pulse on first load so a phone user notices the strip scrolls before they've
  // touched it; stops permanently once they scroll (start listener below), never repeats after.
- if(!nav.classList.contains('nav-at-end')){
-  nav.classList.add('nav-hint-pulse');
-  nav.addEventListener('scroll',function stopHint(){nav.classList.remove('nav-hint-pulse');nav.removeEventListener('scroll',stopHint);},{passive:true,once:true});
-  setTimeout(function(){nav.classList.remove('nav-hint-pulse');},3500);
+ if(!el.classList.contains('nav-at-end')){
+  el.classList.add('nav-hint-pulse');
+  el.addEventListener('scroll',function stopHint(){el.classList.remove('nav-hint-pulse');el.removeEventListener('scroll',stopHint);},{passive:true,once:true});
+  setTimeout(function(){el.classList.remove('nav-hint-pulse');},3500);
  }
+}
+(function initMobileNavScrollHint(){
+ if(!window.matchMedia || !window.matchMedia('(max-width:767px)').matches)return;
+ initMobileScrollHint($('#nav'));
 })();
 on('#surpriseBtn','click',()=>{const sc=$('#surpriseScope');sc.classList.toggle('hidden');var opening=!sc.classList.contains('hidden');var panel=$('#surprisePanel');
  if(opening){if(panel.dataset.mode==='rabbit'){panel.classList.add('hidden');panel.innerHTML='';panel.dataset.mode='';$('#rabbitBtn').setAttribute('aria-expanded','false');}if(sc.scrollIntoView)sc.scrollIntoView({behavior:'smooth',block:'nearest'});}
