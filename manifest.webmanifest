@@ -1,0 +1,15 @@
+{
+  "name": "The Ultimate Omni-Media & Entertainment Ledger",
+  "short_name": "Omni Ledger",
+  "description": "Themed leaderboards and rankings across movies, TV, games, books, and more.",
+  "start_url": "./index.html",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#0B0F19",
+  "theme_color": "#0B0F19",
+  "icons": [
+    { "src": "icons/icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any" },
+    { "src": "icons/icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any" },
+    { "src": "icons/icon-maskable-512.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable" }
+  ]
+}
