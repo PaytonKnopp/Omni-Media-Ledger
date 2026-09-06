@@ -205,15 +205,26 @@ button:focus-visible,select:focus-visible,input:focus-visible{outline:2px solid 
     read ("Theme+Help on the left, Profile on the right of a divider"). Drop space-between and let
     Theme+Help sit together at the natural gap-4 spacing; the :last-child rule below still pushes
     Profile all the way to the right via margin-left:auto, so the two-cluster grouping is deterministic
-    regardless of how wide the Theme <select> renders on any given browser/platform. */
- #headerControlsRow>.flex.flex-wrap.items-end.gap-4{align-items:center;background:rgba(148,163,184,.04);border:1px solid rgba(148,163,184,.1);border-radius:10px;padding:7px 10px;row-gap:.5rem}
- #headerControlsRow>.flex.flex-wrap.items-end.gap-4>.flex.flex-col.items-end.gap-1:last-child{margin-left:auto;padding-left:.7rem;border-left:1px solid rgba(148,163,184,.16)}
+    regardless of how wide the Theme <select> renders on any given browser/platform.
+    The three columns also have to stay on ONE line for that grouping to read at all. Their combined
+    intrinsic width lands right at the edge of a phone's available width, so whether the row fits or
+    wraps came down to how wide each engine happens to render the same controls -- Chrome/Android fit
+    it on one line, iOS Safari's slightly wider system-font metrics tipped it over and wrapped Profile
+    onto its own line, which is what made the whole band look disorganized on iPhone. Pin it with
+    flex-wrap:nowrap and buy real headroom (tighter gaps/padding, a narrower select) instead of
+    leaving it to fit by luck; the Profile column may shrink, and #profileBtnRow already scrolls
+    sideways on its own if it ever has to. */
+ #headerControlsRow>.flex.flex-wrap.items-end.gap-4{flex-wrap:nowrap;gap:.45rem;align-items:center;background:rgba(148,163,184,.04);border:1px solid rgba(148,163,184,.1);border-radius:10px;padding:7px 8px;row-gap:.5rem}
+ #headerControlsRow>.flex.flex-wrap.items-end.gap-4>.flex.flex-col.items-start.gap-1,#headerControlsRow>.flex.flex-wrap.items-end.gap-4>.flex.flex-col.items-end.gap-1:not(:last-child){flex:0 0 auto}
+ #headerControlsRow>.flex.flex-wrap.items-end.gap-4>.flex.flex-col.items-end.gap-1:last-child{margin-left:auto;min-width:0;padding-left:.5rem;border-left:1px solid rgba(148,163,184,.16)}
+ #profileBtnRow{gap:3px}
+ #profileBtnRow>*{padding-left:.4rem!important;padding-right:.4rem!important}
  /* iOS Safari sizes a native <select> to its widest <option> text ("The Lord of the Rings"),
     not the currently selected value, unlike Chrome/Android which sizes to the selection -- so the
     inline width:auto on #themeSel stretched it near full-width on iPhone, breaking the two-cluster
     row layout below and pushing Theme/Help/Profile out of alignment with the Android reference.
     Force a fixed max-width so both platforms render the same compact control. */
- #themeSel{padding:4px 6px!important;font-size:10.5px!important;max-width:128px!important;text-overflow:ellipsis}
+ #themeSel{padding:4px 6px!important;font-size:10.5px!important;max-width:118px!important;text-overflow:ellipsis}
  #tipsBtn{width:24px!important;height:24px!important}
 
  /* Compact header (mobile only): a small toggle next to the account chip lets a phone user shrink
