@@ -39,6 +39,16 @@ header.sticky{background:color-mix(in srgb,var(--bg) 85%,transparent)!important;
 .panel{transition:background .4s ease,border-color .4s ease}
 .panel{background:var(--panel);border:1px solid var(--border);border-radius:14px}
 .lbl{font-size:9px;letter-spacing:.14em;text-transform:uppercase;color:var(--text-faint)}
+/* Collection tab: medium (Films/Series/Books/Games) and edition sections are <details>, so
+   collapsing is native and keyboard-accessible. The default triangle marker is replaced with a
+   caret we rotate ourselves, so the medium and format levels read identically. */
+.collSum{list-style:none}
+.collSum::-webkit-details-marker{display:none}
+.collCaret{display:inline-block;font-size:10px;transition:transform .15s ease}
+details[open]>.collSum .collCaret{transform:rotate(90deg)}
+.collSum:hover .collCaret{color:#94a3b8}
+.collGroup{border-left:1px solid var(--border);padding-left:10px}
+.collGroup+.collGroup{margin-top:2px}
 .chip{display:inline-flex;align-items:center;gap:4px;font-size:10px;line-height:1.1;padding:3px 9px;border-radius:9999px;border:1px solid var(--border-2);color:var(--text-dim);background:rgba(30,41,59,.45);white-space:nowrap}
 .bar{height:5px;border-radius:3px;background:var(--panel-3);overflow:hidden}
 .bar>i{display:block;height:100%;border-radius:3px;transition:width .25s ease}
@@ -622,7 +632,7 @@ body[data-theme="outer-wilds"]{--bg:#0e0a09;--panel:#181010;--panel-2:#120c0b;--
       <div class="text-[10px] tracking-[.2em] uppercase text-teal-300/70 mb-2.5">◆ Collection</div>
       <div class="text-[13px] text-slate-300 leading-relaxed space-y-3.5">
         <div>◆ <strong class="text-slate-100">Mark what you own</strong> from the tier row on any card, then manage it here.</div>
-        <div>💿 <strong class="text-slate-100">Document the exact edition you own</strong> — DVD / Blu-ray / 4K for movies &amp; TV, Hardcover / Softcover for books — right from this tab. The ⬆ Upgrade Audit reads this to suggest real upgrades instead of guessing.</div>
+        <div>💿 <strong class="text-slate-100">Document the exact edition you own</strong> — DVD / Blu-ray / 4K / Box Set for movies &amp; TV, Hardcover / Paperback / Box Set for books — right from this tab. The ⬆ Upgrade Audit reads this to suggest real upgrades instead of guessing.</div>
         <div>▤ <strong class="text-slate-100">Group by Series</strong> and the <strong class="text-slate-100">📚 Shelf View</strong> both list your collection alphabetically, so a series or a shelf reads the same way every time.</div>
       </div>
     </div>

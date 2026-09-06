@@ -1809,6 +1809,100 @@ async function runGoatPickerFlow(browser, file) {
   if (pageErrors.length) pageErrors.forEach(e => console.log('     ' + e));
 }
 
+// The Collection tab groups medium -> edition, both levels collapsible, every row a link into the
+// Global Controller. Each of those is a thing a careless render can silently drop (a nested
+// <details> that renders flat, a format button that navigates instead of setting the format), so
+// they're asserted here rather than left to be noticed by eye.
+async function runCollectionFlow(browser, file) {
+  const page = await browser.newPage({ viewport: { width: 1400, height: 1000 } });
+  await page.route('**/supabase-js*/**', route => route.abort());
+  const pageErrors = [];
+  page.on('pageerror', e => pageErrors.push(e.message));
+  await page.goto('file://' + path.join(ROOT, file));
+  await waitForBoot(page);
+  await page.waitForTimeout(600);
+  const gateVisible = await page.evaluate(() => {
+    const g = document.getElementById('onboardGate');
+    return g && !g.classList.contains('hidden');
+  });
+  if (gateVisible) {
+    await page.click(file === 'share.html' ? '#onboardBlank' : '#onboardSample');
+    await waitForBoot(page);
+  }
+  await page.click('button[data-view="collection"]');
+  await page.waitForTimeout(600);
+
+  const info = await page.evaluate(() => {
+    const media = Array.from(document.querySelectorAll('#collFormats details.collMedium'));
+    return {
+      media: media.map(d => ({
+        ck: d.dataset.ck,
+        formats: Array.from(d.querySelectorAll('details.collGroup')).map(f => f.dataset.ck)
+      })),
+      jumpables: document.querySelectorAll('#collFormats .panel.goatJump[data-q]').length,
+      pickerFormats: Array.from(document.querySelectorAll('#collFormats [data-act="setformat"]'))
+        .map(b => b.dataset.fmt).filter((v, i, a) => a.indexOf(v) === i),
+      legacyLabels: /Softcover|Boxed Set|BD\/DVD/.test(document.getElementById('collFormats').innerHTML)
+    };
+  });
+  check('Collection groups by medium, not one flat list of formats', info.media.length >= 2 && info.media.every(m => m.ck.indexOf('m:') === 0));
+  check('each non-game medium nests its editions inside it', info.media.filter(m => m.ck !== 'm:game').every(m => m.formats.length >= 1 && m.formats.every(f => f.indexOf('f:') === 0)));
+  check('games stay a flat list -- no invented physical edition tier', (info.media.find(m => m.ck === 'm:game') || { formats: [] }).formats.length === 0);
+  check('every owned title in the Collection links into the Global Controller', info.jumpables > 0);
+  check('books are offered Paperback, never "Softcover"', info.pickerFormats.includes('Paperback') && !info.pickerFormats.includes('Softcover'));
+  check('Box Set is a pickable edition', info.pickerFormats.includes('Box Set'));
+  check('no legacy edition spelling survives normalization', !info.legacyLabels);
+
+  // Collapse state: a closed section stays closed, and is remembered outside the profile blob.
+  await page.evaluate(() => { document.querySelector('#collFormats details.collMedium > summary').click(); });
+  await page.waitForTimeout(200);
+  const stored = await page.evaluate(() => localStorage.getItem('omniLedgerCollOpen') || '');
+  check('collapsing a section is remembered', /:false/.test(stored));
+  await page.evaluate(() => { document.querySelector('#collFormats .collAll[data-open="0"]').click(); });
+  await page.waitForTimeout(200);
+  const allClosed = await page.evaluate(() => Array.from(document.querySelectorAll('#collFormats details[data-ck]')).every(d => !d.open));
+  check('Collapse all closes every medium and edition', allClosed);
+  await page.evaluate(() => { document.querySelector('#collFormats .collAll[data-open="1"]').click(); });
+  await page.waitForTimeout(200);
+  const allOpen = await page.evaluate(() => Array.from(document.querySelectorAll('#collFormats details[data-ck]')).every(d => d.open));
+  check('Expand all reopens every medium and edition', allOpen);
+
+  // Setting an edition must not navigate -- the picker sits inside a row that is itself a link.
+  const beforeFmt = await page.evaluate(() => {
+    const b = document.querySelector('#collFormats [data-act="setformat"]');
+    return { id: b.dataset.id, kind: b.dataset.kind, fmt: b.dataset.fmt, view: state.view };
+  });
+  check('Collection is still the active view before picking an edition', beforeFmt.view === 'collection');
+
+  await page.evaluate(() => { document.querySelector('#collFormats .panel.goatJump[data-q]').click(); });
+  await page.waitForTimeout(600);
+  const afterJump = await page.evaluate(() => ({ view: state.view, q: state.q }));
+  check('clicking an owned title opens it in the Global Controller', afterJump.view === 'controller' && !!afterJump.q);
+
+  // Group by Series
+  await page.click('button[data-view="collection"]');
+  await page.waitForTimeout(400);
+  await page.click('#seriesToggle');
+  await page.waitForTimeout(600);
+  const series = await page.evaluate(() => ({
+    cards: document.querySelectorAll('#collSeries .panel').length,
+    jump: document.querySelectorAll('#collSeries .goatJump[data-q]').length,
+    seriesVisible: !document.getElementById('collSeries').classList.contains('hidden'),
+    formatsHidden: document.getElementById('collFormats').classList.contains('hidden')
+  }));
+  check('Group by Series renders franchise cards', series.cards > 0);
+  check('Group by Series swaps out the format view rather than stacking on it', series.seriesVisible && series.formatsHidden);
+  check('series entries link into the Global Controller too', series.jump > 0);
+  await page.evaluate(() => { document.querySelector('#collSeries .goatJump[data-q]').click(); });
+  await page.waitForTimeout(600);
+  const seriesJumped = await page.evaluate(() => state.view);
+  check('clicking a series entry opens it in the Global Controller', seriesJumped === 'controller');
+
+  await page.close();
+  check('no uncaught page errors during the Collection pass', pageErrors.length === 0);
+  if (pageErrors.length) pageErrors.forEach(e => console.log('     ' + e));
+}
+
 async function runTabFiltersFlow(browser, file) {
   const full = 'file://' + path.join(ROOT, file);
   const page = await browser.newPage({ viewport: { width: 1400, height: 1000 } });
@@ -2294,6 +2388,8 @@ async function runTabFiltersFlow(browser, file) {
     await runGoatPickerFlow(browser, t);
     console.log('\n=== ' + t + ' — starting from scratch ===');
     await runFromScratchFlow(browser, t);
+    console.log('\n=== ' + t + ' — Collection tab (medium/format grouping, collapse, links) ===');
+    await runCollectionFlow(browser, t);
     console.log('\n=== ' + t + ' — tab filters, search/sort, URL bookmarking ===');
     await runTabFiltersFlow(browser, t);
   }
