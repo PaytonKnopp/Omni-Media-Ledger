@@ -2703,6 +2703,7 @@ function refresh(changedIds){const list=filtered();
  scheduleURLSync();
 }
 function switchView(v){state.view=v;
+ window.scrollTo(0,0);
  // #nav scrolls horizontally on mobile (see the MOBILE media-query block) rather than wrapping
  // into several rows -- scrollIntoView here keeps whichever tab is now active from getting stuck
  // off to the side out of view. inline/block:'nearest' makes this a no-op wherever it isn't
