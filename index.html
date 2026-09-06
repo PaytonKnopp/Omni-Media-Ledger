@@ -1745,7 +1745,16 @@ var SUPABASE_CONFIG={url:"https://gqpjeccmwsjxrlrazqxt.supabase.co",anonKey:"sb_
  // allowClear is only true when someone is explicitly signing in by name: there, finding nothing
  // genuinely means "new account, start fresh". On an ordinary boot of a remembered handle it stays
  // false, because a momentarily unreadable row must never be a reason to wipe what's on the device.
- function hydrateOrRecover(h,rowData,allowClear){
+ //
+ // rowExists distinguishes "no profiles row matched this handle at all" (rowData undefined AND
+ // rowExists===false) from "a row exists but its jsonb blob is empty/mangled" (rowExists===true,
+ // handled by the media_status rebuild below). Only the former, combined with media_status also
+ // having nothing for this handle, is real evidence the account was deleted (from this device or
+ // another one) rather than a transient read -- so it's the one case where deletion is honored on
+ // an ordinary boot even though allowClear is false. Returns the literal string 'deleted' so boot()
+ // can force this device out of the account and back to the sign-in gate, matching how tier/watch-
+ // list changes already appear on the other device on its next load.
+ function hydrateOrRecover(h,rowData,allowClear,rowExists){
   var blob=(rowData&&typeof rowData==='object')?rowData:null;
   var hasProfile=!!(blob&&typeof blob.omniLedgerProfile==='string'&&blob.omniLedgerProfile.length>2);
   if(hasProfile){hydrateFromCloud(blob);return Promise.resolve(true);}
@@ -1753,6 +1762,7 @@ var SUPABASE_CONFIG={url:"https://gqpjeccmwsjxrlrazqxt.supabase.co",anonKey:"sb_
    if(!rebuilt){
     if(blob&&Object.keys(blob).length)hydrateFromCloud(blob);
     else if(allowClear)clearLocalProfile();
+    else if(rowExists===false){clearLocalProfile();return 'deleted';}
     return false;
    }
    // Keep whatever else the blob did carry (theme, density, watchlist, tips) without letting an
@@ -1802,7 +1812,7 @@ var SUPABASE_CONFIG={url:"https://gqpjeccmwsjxrlrazqxt.supabase.co",anonKey:"sb_
    handle=h;try{localStorage.setItem(ACCT_KEY,h);}catch(e){}
    // allowClear: signing in by name and finding nothing really does mean a brand-new handle, so a
    // fresh slate (and normal onboarding) is correct -- the first save creates the row.
-   return hydrateOrRecover(h,res.data&&res.data.data,true);
+   return hydrateOrRecover(h,res.data&&res.data.data,true,!!res.data);
   });
  }
 
@@ -1820,6 +1830,32 @@ var SUPABASE_CONFIG={url:"https://gqpjeccmwsjxrlrazqxt.supabase.co",anonKey:"sb_
  function consumeSkipHydrateFlag(){
   var v=false;try{v=sessionStorage.getItem(SKIP_HYDRATE_KEY)==='1';sessionStorage.removeItem(SKIP_HYDRATE_KEY);}catch(e){}
   return v;
+ }
+ // Logging into an account -- whether that's typing a handle at the gate, switching accounts, or
+ // just reopening the app with one already remembered -- should always land on the Global
+ // Controller (the home/search screen), not wherever the address bar's `view` param happens to
+ // still point from before. That param is also how a genuine bookmark or shared link opens
+ // straight into a specific tab (Timeline, Collection, etc.), so it's left alone everywhere else
+ // -- this only strips it right before the account/login boot paths below run bootApp(), so
+ // ledger-app's own boot logic (which still honors `view` for that bookmarking case) finds none
+ // and falls through to its Controller default.
+ function clearViewParamForLogin(){
+  try{
+   var p=new URLSearchParams(location.search);
+   if(!p.has('view'))return;
+   p.delete('view');
+   var qs=p.toString();
+   history.replaceState(null,'',location.pathname+(qs?'?'+qs:'')+location.hash);
+  }catch(e){}
+ }
+ // Reached when a device that was signed into a handle discovers, on an ordinary boot, that the
+ // account no longer exists in the cloud (deleted from this device or another one) and has no
+ // media_status rows to rebuild from either. Clears this device's copy and drops it back to the
+ // sign-in gate instead of continuing to run on a stale local profile for an account that's gone.
+ function forceSignOutToGate(){
+  try{localStorage.removeItem(ACCT_KEY);}catch(e){}
+  handle=null;
+  showGate().then(function(){clearViewParamForLogin();bootApp();});
  }
  function boot(){
   if(!CONFIGURED||typeof supabase==='undefined'){renderFooterNote();bootApp();return;}
@@ -1842,15 +1878,22 @@ var SUPABASE_CONFIG={url:"https://gqpjeccmwsjxrlrazqxt.supabase.co",anonKey:"sb_
    // change. Now local wins until a write is actually verified, and the push is retried here.
    if(hasPendingFor(remembered)){
     handle=remembered;
+    clearViewParamForLogin();
     bootApp();
     runScheduledSync();
     return;
    }
    fetchProfileRow(remembered).then(function(res){
     handle=remembered;
+    clearViewParamForLogin();
     // allowClear stays false here: a row that momentarily reads back empty must never be a reason
-    // to wipe this device's copy of an account it is already signed into.
-    return hydrateOrRecover(remembered,res.data&&res.data.data,false).then(function(){bootApp();});
+    // to wipe this device's copy of an account it is already signed into. rowExists (!!res.data)
+    // is passed through so hydrateOrRecover can still tell a genuinely-missing row (deleted, on
+    // this device or another) apart from a row that exists but read back empty.
+    return hydrateOrRecover(remembered,res.data&&res.data.data,false,!!res.data).then(function(result){
+     if(result==='deleted'){forceSignOutToGate();return;}
+     bootApp();
+    });
    }).catch(function(e){
     // Falls back to whatever's already in local storage rather than blocking the app open --
     // reasonable on the SAME device that was just using this account (local cache is current), but
@@ -1858,10 +1901,10 @@ var SUPABASE_CONFIG={url:"https://gqpjeccmwsjxrlrazqxt.supabase.co",anonKey:"sb_
     // this will look like a blank profile. fetchProfileRow's retry (and the realistic 15s-per-
     // attempt timeout, not the old 8s) makes actually landing here far less likely than before.
     console.warn('Could not reach cloud after retrying, using local cache:',e.message||e);
-    handle=remembered;bootApp();
+    handle=remembered;clearViewParamForLogin();bootApp();
    });
   }else{
-   showGate().then(bootApp);
+   showGate().then(function(){clearViewParamForLogin();bootApp();});
   }
  }
  function renderFooterNote(){
