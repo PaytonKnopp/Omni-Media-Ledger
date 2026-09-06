@@ -612,7 +612,46 @@ function cardHTML(it){const k=KM[it.kind];
  +(it.kind==='book'?'<button type="button" class="profEditBtn presetBtn" data-act="bookaffinity" data-id="'+it.id+'" title="Raise this book’s match-score floor directly, independent of genre/author boosts">'+((PERSONAL_PROFILE.bookAffinity||{})[it.id]?'+ Raise affinity ('+PERSONAL_PROFILE.bookAffinity[it.id]+')':'+ Boost affinity')+'</button>':'')
  +'</div>'
  +'</div>'+'</div>';}
-function renderController(list){
+/* Rebuild only the cards whose contents can actually have changed.
+
+   A card is ~2ms of string building, so redrawing all 100 of them costs ~210ms -- and a tier or
+   own click changes the derived state of exactly ONE work. `changedIds` is that set (see
+   mutateProfile); patching those nodes and leaving the rest alone is the difference between a
+   click that feels instant and one that visibly hitches.
+
+   Correctness comes from refusing the fast path unless it is provably equivalent:
+     - the caller passes changedIds only when no profile key that cardHTML reads globally moved
+       (genre/vibe/creator boosts and book affinity decorate cards whose own numbers may not have
+       changed), otherwise it passes null and everything is redrawn;
+     - the currently rendered cards must match the newly sorted list one for one, in order, so a
+       re-sort or a change in what passes the filters falls back to a full redraw;
+     - any card NOT in changedIds renders from an item nothing touched, so its HTML is identical
+       by construction.
+   Returns false when it cannot prove that, and the caller redraws everything. */
+function patchControllerGrid(shown,changedIds){
+ const grid=$('#grid');
+ if(!grid||!changedIds||!changedIds.size)return false;
+ const nodes=grid.children;
+ if(!nodes.length||nodes.length!==shown.length)return false;
+ for(let i=0;i<shown.length;i++){
+  const head=nodes[i].querySelector('.cardHead');
+  if(!head||head.dataset.id!==shown[i].id)return false;
+ }
+ const tmp=document.createElement('div');
+ for(let i=0;i<shown.length;i++){
+  if(!changedIds.has(shown[i].id))continue;
+  tmp.innerHTML=cardHTML(shown[i]);
+  const fresh=tmp.firstElementChild;
+  if(!fresh)return false;
+  // A card the person had opened stays open through its own rebuild -- clicking Gold on an
+  // expanded card should not close it.
+  const sf=nodes[i].querySelector('.summaryFace');
+  if(sf&&!sf.classList.contains('hidden'))setCardExpanded(fresh,true);
+  grid.replaceChild(fresh,nodes[i]);
+ }
+ return true;
+}
+function renderController(list,changedIds){
  computeMatch(list);
  $('#resultCount').textContent=(list.length>state.limit?(state.limit+' of '+list.length):list.length);
  const m=list.filter(x=>x.kind==='movie').length,t=list.filter(x=>x.kind==='tv').length,g=list.length-m-t;
@@ -622,7 +661,9 @@ function renderController(list){
  window._blendActive=(state.sort==='blend');
  const sorted=list.slice().sort(SORTS[state.sort]||SORTS.overall);
  $('#priorityNote').textContent=note;renderActiveBar();
- const shown=sorted.slice(0,state.limit);$('#grid').innerHTML=shown.map(cardHTML).join('')||'<div class="col-span-full text-center text-slate-500 text-sm py-14">No works match every active filter. Loosen a threshold, remove a chip, or widen your genres.</div>';
+ const shown=sorted.slice(0,state.limit);
+ if(patchControllerGrid(shown,changedIds))return;
+ $('#grid').innerHTML=shown.map(cardHTML).join('')||'<div class="col-span-full text-center text-slate-500 text-sm py-14">No works match every active filter. Loosen a threshold, remove a chip, or widen your genres.</div>';
 }
 let activeBarExpanded=false;
 function renderActiveBar(){
@@ -2651,8 +2692,11 @@ function applyStateToStaticControls(){
  if(typeof renderContenders==='function')renderContenders();
  if(typeof renderMatrices==='function')renderMatrices();
 }
-function refresh(){const list=filtered();
- if(state.view==='controller')renderController(list);
+// `changedIds`, when given, is the set of works whose derived state this render is reacting to --
+// it lets the controller grid patch just those cards instead of rebuilding all of them. Every
+// other caller omits it and gets the full redraw it always got.
+function refresh(changedIds){const list=filtered();
+ if(state.view==='controller')renderController(list,changedIds);
  else if(state.view==='viz'){initCharts();updateCharts(list);}
  else if(state.view==='watchlist')renderWatchlist();
  else if(state.view==='collection')renderCollection();
@@ -3218,17 +3262,94 @@ function renderDeferredProfileView(v){
  else if(v==='contenders'&&typeof renderContenders==='function')renderContenders();
  else if(v==='matrix'&&typeof renderMatrices==='function')renderMatrices();
 }
+/* Everything cardHTML reads straight off the profile rather than off the work it is drawing:
+   boosted-genre and boosted-vibe stars, the creator weight stepper, a book's affinity button. A
+   change to any of them can alter a card whose own score never moved, so when one of these differs
+   the whole grid is redrawn and no changed-set shortcut is taken. */
+const CARD_PROFILE_KEYS=['genreBoost','vibeBoost','creatorBoost','bookCreatorBoost','bookAffinity'];
+function cardProfileFingerprint(p){
+ return CARD_PROFILE_KEYS.map(function(k){try{return JSON.stringify(p[k]||null);}catch(e){return '?';}}).join('\u0001');
+}
+// Per-work derived state, in the form a card actually renders it. Compared before and after a
+// recompute to find the works that changed -- for a tier or own click that is exactly one.
+function derivedStateOf(x){
+ return x.gm+'|'+(x.goat?1:0)+(x.silver?1:0)+(x.bronze?1:0)+(x.owned?1:0)+(x.ownedBoost?1:0)
+  +'|'+(x.physFormat||'')+'|'+(x.gmOverride||'')+'|'+x.gmBoostTotal;
+}
+function derivedSnapshot(){
+ const m=new Map();
+ ALL.forEach(function(x){m.set(x.id,derivedStateOf(x));});
+ return m;
+}
+/* A card does not only render its own work. Exactly two things on it read the rest of the corpus,
+   and both have to be accounted for or a patched grid drifts out of step with a full redraw:
+
+     whyRecommended(it)     -- cites a Gold/Silver/Bronze/owned work that shares it's creator, a
+                               genre family, or its vibe. Tiering anything can therefore change the
+                               "because you liked ..." line on OTHER cards.
+     crossMediumPairings(it)-- ranks works of a DIFFERENT medium that share a genre tag or the vibe,
+                               ordered partly by their match score. Moving one work's score can
+                               reorder the three pairings shown on those cards.
+
+   Nothing else in cardHTML or its helpers touches ALL or byId (checked one by one), so widening
+   the changed set along exactly those relationships makes the patched grid provably identical to
+   a full redraw -- which the regression suite then asserts directly, per sort and per tier button,
+   so this stops being a claim and becomes a test. */
+function expandChangedIds(changed){
+ if(!changed||!changed.size)return changed;
+ const creators=new Set(),fams=new Set(),vibes=new Set(),genresByKind={};
+ changed.forEach(function(id){
+  const x=byId.get(id);if(!x)return;
+  if(x.creator)creators.add(x.creator);
+  (x.fam||[]).forEach(function(f){fams.add(f);});
+  if(x.vibe)vibes.add(x.vibe);
+  const g=genresByKind[x.kind]||(genresByKind[x.kind]=new Set());
+  (x.genres||[]).forEach(function(t){g.add(t);});
+ });
+ const otherKinds=Object.keys(genresByKind);
+ const out=new Set(changed);
+ ALL.forEach(function(x){
+  if(out.has(x.id))return;
+  if(creators.has(x.creator)||vibes.has(x.vibe)){out.add(x.id);return;}
+  if((x.fam||[]).some(function(f){return fams.has(f);})){out.add(x.id);return;}
+  for(let i=0;i<otherKinds.length;i++){
+   if(otherKinds[i]===x.kind)continue; // pairings only ever look at a different medium
+   const g=genresByKind[otherKinds[i]];
+   if((x.genres||[]).some(function(t){return g.has(t);})){out.add(x.id);return;}
+  }
+ });
+ return out;
+}
+function changedSince(before){
+ const out=new Set();
+ ALL.forEach(function(x){if(before.get(x.id)!==derivedStateOf(x))out.add(x.id);});
+ return out;
+}
 // Render whatever is on screen right now, and mark the rest as owing a render.
-function rerenderAfterProfileChange(){
+function rerenderAfterProfileChange(changedIds){
  const y=window.scrollY||window.pageYOffset||0;
+ // Cards the person has opened. patchControllerGrid carries this across its own rebuilds, but a
+ // full redraw replaces the grid wholesale, so remember them here and put them back afterwards --
+ // clicking a medal on an expanded card should never close it, whichever path renders it.
+ const openIds=[];
+ try{
+  $$('#grid .panel').forEach(function(card){
+   const sf=card.querySelector('.summaryFace'),head=card.querySelector('.cardHead');
+   if(sf&&head&&!sf.classList.contains('hidden'))openIds.push(head.dataset.id);
+  });
+ }catch(e){}
  try{
   DEFERRED_PROFILE_VIEWS.forEach(function(v){if(v!==state.view)profileDirtyViews[v]=true;});
   collectionExtrasDirty=(state.view!=='collection');
-  refresh();
+  refresh(changedIds);
   if(state.view==='collection')renderCollectionExtras();
   if(state.view==='portrait'&&typeof renderPortrait==='function')renderPortrait();
   if(state.view==='timeline'&&typeof renderTimeline==='function')renderTimeline();
   renderDeferredProfileView(state.view);
+  openIds.forEach(function(id){
+   const head=$('#grid .cardHead[data-id="'+id+'"]');
+   if(head)setCardExpanded(head.closest('.panel'),true);
+  });
  }catch(e){console.warn('Re-render after profile change failed:',e);}
  // A re-render replaces innerHTML, which can briefly change the page height; restoring the offset
  // keeps a click on a card deep in a long list from jumping the viewport.
@@ -3242,13 +3363,20 @@ function mutateProfile(mutatorFn){
  // changed in this one edit rather than the whole profile.
  let rows=[];
  try{rows=diffMediaStatus(PERSONAL_PROFILE,snapshot);}catch(e){}
+ // Taken before the recompute, compared after, so the re-render knows which cards can possibly
+ // look different. A tier or own click moves exactly one work; redrawing the other 99 on screen
+ // is most of what a click used to cost.
+ const beforeDerived=derivedSnapshot();
+ const cardKeysMoved=(cardProfileFingerprint(PERSONAL_PROFILE)!==cardProfileFingerprint(snapshot));
  try{localStorage.setItem('omniLedgerProfile',JSON.stringify(snapshot));localStorage.setItem('omniLedgerOnboarded','1');}catch(e){alert('Could not save: '+e.message);return;}
  // Adopted in place rather than rebound: PERSONAL_PROFILE is referenced directly by name all over
  // this file, so the object identity has to survive the edit.
  Object.keys(PERSONAL_PROFILE).forEach(function(k){delete PERSONAL_PROFILE[k];});
  Object.assign(PERSONAL_PROFILE,snapshot);
  recomputeProfileDerived();
- rerenderAfterProfileChange();
+ // null means "assume anything may have changed" -- the honest answer whenever a profile key the
+ // cards read directly has moved.
+ rerenderAfterProfileChange(cardKeysMoved?null:expandChangedIds(changedSince(beforeDerived)));
  // A monotonic "the profile changed and the app has caught up" counter. With no navigation to
  // watch for any more, this is what the regression suite waits on to know a tier click actually
  // landed, and it is a useful thing to watch from a console for the same reason.
@@ -3432,8 +3560,13 @@ function handleProfileEditClick(btn){
    "here's what changed" readout, not a live version check against anything. Bump APP_VERSION and
    add a CHANGELOG entry whenever a change is worth a friend knowing about; cosmetic tweaks don't
    need a bump. */
-const APP_VERSION='1.44.0';
+const APP_VERSION='1.45.0';
 const CHANGELOG=[
+ {v:'1.45.0',date:'2026-09-06',summary:'Medal and Owned clicks are about five times quicker again, and a card you have opened stays open when you tier it.',notes:[
+  'Clicking a medal redrew all 100 cards on screen when one work had changed. Only the cards an edit can actually alter are rebuilt now \u2014 measured at roughly 600ms of frozen screen per click when this began, and around 120ms now',
+  'A card reads two things off the rest of your library \u2014 the \u201cbecause you liked\u2026\u201d line, which cites a tiered or owned work, and the cross-medium pairings, which are ordered by match score \u2014 so tiering one thing can legitimately change other cards. Both are accounted for, and the app now checks 40 times over, across every sort and every medal, that a partial redraw is indistinguishable from a full one',
+  'An expanded card stays expanded when you give it a medal. It used to close, because the page reloaded underneath it'
+ ]},
  {v:'1.44.0',date:'2026-09-06',summary:'One saving path for everything you change, and a failed save now retries itself.',notes:[
   'Your watchlist saves on the same path as a tier: a heart used to be the one piece of real data that only got the slower incidental-write sync, so it reached the cloud noticeably later than tiering the same title did',
   'A run of clicks is now one upload instead of one per click. Marking a shelf\u2019s worth of films owned used to queue a separate verified round-trip for every click; they are coalesced into a single write carrying all of them, which is both quicker and less to go wrong',

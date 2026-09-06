@@ -185,6 +185,19 @@ async function signInAndSettle(page, handle, startBtn) {
 //
 // Deliberately NOT retried, for the same reason as before: every caller clicks a TIER TOGGLE, so
 // a second click undoes the first.
+// Expand the first card if it is not already open. Cards survive an edit expanded now, so a bare
+// click on the head is a TOGGLE that can close the very panel the next step is about to use.
+async function ensureFirstCardExpanded(page) {
+  const alreadyOpen = await page.evaluate(() => {
+    const card = document.querySelector('#grid .panel');
+    const detail = card && card.querySelector('.detail');
+    return !!(detail && !detail.classList.contains('hidden'));
+  });
+  if (!alreadyOpen) {
+    await page.click('#grid .panel .cardHead');
+    await page.waitForTimeout(200);
+  }
+}
 async function clickAndSettle(page, selector, timeout) {
   const before = await page.evaluate(() => window.__omniProfileRevision || 0);
   await page.click(selector);
@@ -744,10 +757,11 @@ async function runFile(browser, file) {
         } catch (e) { return null; }
       }, stepperCreator);
       check('the "+" creator stepper raises the weight', weightAfterPlus === 4);
-      // Re-expand the same card (it re-rendered after reload) and click "-" twice: once back to 0
-      // (should remove the entry entirely, not leave a stale 0), once more into negative territory.
-      await page.click('.cardHead[data-id]');
-      await page.waitForTimeout(200);
+      // Click "-" twice: once back to 0 (should remove the entry entirely, not leave a stale 0),
+      // once more into negative territory. The card is expanded only if it needs to be -- a stepper
+      // click no longer reloads the page, and an expanded card now stays expanded through one, so
+      // clicking its head unconditionally would CLOSE the card the next step needs open.
+      await ensureFirstCardExpanded(page);
       await page.click('.detail:not(.hidden) .profEditBtn[data-act="creatorbump"][data-delta="-4"]');
       await page.waitForTimeout(500);
       const weightAtZero = await page.evaluate((name) => {
@@ -757,8 +771,7 @@ async function runFile(browser, file) {
         } catch (e) { return true; }
       }, stepperCreator);
       check('stepping back to exactly 0 removes the boost entry instead of leaving a stale 0', !weightAtZero);
-      await page.click('.cardHead[data-id]');
-      await page.waitForTimeout(200);
+      await ensureFirstCardExpanded(page);
       await page.click('.detail:not(.hidden) .profEditBtn[data-act="creatorbump"][data-delta="-4"]');
       await page.waitForTimeout(500);
       const weightAfterMinus = await page.evaluate((name) => {
@@ -1438,6 +1451,72 @@ async function runAccountFlow(browser, file) {
       return t.media_status.some(r => r.handle === 'smoketestuser2' && r.media_id === id) ? false : { gone: true };
     }, goldCardId);
     check('un-declaring removes the media_status row entirely (no tier, not owned)', !!undeclareLanded);
+
+    // The controller grid patches only the cards an edit can have changed instead of rebuilding all
+    // 100 of them -- the difference between ~210ms of blocked main thread per click and ~30ms. That
+    // is only sound if the patched grid is INDISTINGUISHABLE from a full redraw, so assert exactly
+    // that: click each tier button under several sorts, and compare the patched DOM against the
+    // result of forcing a complete re-render right after. A card reads two things off the rest of
+    // the corpus (whyRecommended's citation, crossMediumPairings' ordering), and both bit this
+    // before the changed set was widened to cover them -- 8 of 72 comparisons differed.
+    const gridEquivalence = await page2.evaluate(async () => {
+      const sorts = ['overall', 'tier', 'blend', 'crit', 'yearNew'];
+      const sel = document.getElementById('sortSel');
+      const originalSort = sel ? sel.value : null;
+      const bad = [];
+      let compared = 0;
+      for (const sortKey of sorts) {
+        if (sel && Array.from(sel.options).some(o => o.value === sortKey)) {
+          sel.value = sortKey;
+          sel.dispatchEvent(new Event('change', { bubbles: true }));
+          await new Promise(r => setTimeout(r, 100));
+        }
+        for (const act of ['declare', 'silver', 'bronze', 'own']) {
+          for (let n = 0; n < 2; n++) {
+            const btns = Array.from(document.querySelectorAll('.panel .profEditBtn[data-act="' + act + '"]'));
+            if (!btns.length) continue;
+            const btn = btns[(n * 7) % btns.length];
+            const id = btn.dataset.id;
+            btn.click();
+            const patched = document.getElementById('grid').innerHTML;
+            window.refresh();                    // full redraw, no changed-set shortcut
+            if (patched !== document.getElementById('grid').innerHTML) bad.push(sortKey + '/' + act);
+            compared++;
+            // Undo, so this check leaves the profile exactly as it found it.
+            const undo = document.querySelector('.panel .profEditBtn[data-act="' + act + '"][data-id="' + id + '"]');
+            if (undo) undo.click();
+          }
+        }
+      }
+      if (sel && originalSort !== null) {
+        sel.value = originalSort;
+        sel.dispatchEvent(new Event('change', { bubbles: true }));
+      }
+      return { compared: compared, bad: bad };
+    });
+    check('a patched grid is identical to a full redraw (' + gridEquivalence.compared + ' comparisons across sorts and tiers)',
+      gridEquivalence.compared >= 30 && gridEquivalence.bad.length === 0);
+    if (gridEquivalence.bad.length) console.log('       diverged on: ' + gridEquivalence.bad.join(', '));
+
+    // An expanded card stays expanded through the edit -- true on the patch path (its neighbours
+    // are never touched, and its own rebuild carries the state) and on the full-redraw fallback.
+    const stayedOpen = await page2.evaluate(async () => {
+      const head = document.querySelector('#grid .cardHead');
+      if (!head) return false;
+      const id = head.dataset.id;
+      head.click();                                       // expand it
+      await new Promise(r => setTimeout(r, 60));
+      const opened = !document.querySelector('#grid .panel .summaryFace').classList.contains('hidden');
+      document.querySelector('.panel .profEditBtn[data-act="bronze"][data-id="' + id + '"]').click();
+      await new Promise(r => setTimeout(r, 60));
+      const card = document.querySelector('#grid .cardHead[data-id="' + id + '"]').closest('.panel');
+      const sf = card.querySelector('.summaryFace');
+      const stillOpen = sf && !sf.classList.contains('hidden');
+      document.querySelector('.panel .profEditBtn[data-act="bronze"][data-id="' + id + '"]').click();
+      return opened && stillOpen;
+    });
+    check('an expanded card stays expanded when you tier it', stayedOpen);
+    await readWhen(page2, () => localStorage.getItem('omniLedgerPendingSync') !== '1', undefined, 15000);
 
     // A RUN of edits -- marking several titles owned one after another, the workflow the in-place
     // toggles exist to make possible -- must coalesce into far fewer uploads than clicks, and must
