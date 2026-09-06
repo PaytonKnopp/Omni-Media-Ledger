@@ -1831,6 +1831,23 @@ var SUPABASE_CONFIG={url:"https://gqpjeccmwsjxrlrazqxt.supabase.co",anonKey:"sb_
   var v=false;try{v=sessionStorage.getItem(SKIP_HYDRATE_KEY)==='1';sessionStorage.removeItem(SKIP_HYDRATE_KEY);}catch(e){}
   return v;
  }
+ // Logging into an account -- whether that's typing a handle at the gate, switching accounts, or
+ // just reopening the app with one already remembered -- should always land on the Global
+ // Controller (the home/search screen), not wherever the address bar's `view` param happens to
+ // still point from before. That param is also how a genuine bookmark or shared link opens
+ // straight into a specific tab (Timeline, Collection, etc.), so it's left alone everywhere else
+ // -- this only strips it right before the account/login boot paths below run bootApp(), so
+ // ledger-app's own boot logic (which still honors `view` for that bookmarking case) finds none
+ // and falls through to its Controller default.
+ function clearViewParamForLogin(){
+  try{
+   var p=new URLSearchParams(location.search);
+   if(!p.has('view'))return;
+   p.delete('view');
+   var qs=p.toString();
+   history.replaceState(null,'',location.pathname+(qs?'?'+qs:'')+location.hash);
+  }catch(e){}
+ }
  // Reached when a device that was signed into a handle discovers, on an ordinary boot, that the
  // account no longer exists in the cloud (deleted from this device or another one) and has no
  // media_status rows to rebuild from either. Clears this device's copy and drops it back to the
@@ -1838,7 +1855,7 @@ var SUPABASE_CONFIG={url:"https://gqpjeccmwsjxrlrazqxt.supabase.co",anonKey:"sb_
  function forceSignOutToGate(){
   try{localStorage.removeItem(ACCT_KEY);}catch(e){}
   handle=null;
-  showGate().then(bootApp);
+  showGate().then(function(){clearViewParamForLogin();bootApp();});
  }
  function boot(){
   if(!CONFIGURED||typeof supabase==='undefined'){renderFooterNote();bootApp();return;}
@@ -1861,12 +1878,14 @@ var SUPABASE_CONFIG={url:"https://gqpjeccmwsjxrlrazqxt.supabase.co",anonKey:"sb_
    // change. Now local wins until a write is actually verified, and the push is retried here.
    if(hasPendingFor(remembered)){
     handle=remembered;
+    clearViewParamForLogin();
     bootApp();
     runScheduledSync();
     return;
    }
    fetchProfileRow(remembered).then(function(res){
     handle=remembered;
+    clearViewParamForLogin();
     // allowClear stays false here: a row that momentarily reads back empty must never be a reason
     // to wipe this device's copy of an account it is already signed into. rowExists (!!res.data)
     // is passed through so hydrateOrRecover can still tell a genuinely-missing row (deleted, on
@@ -1882,10 +1901,10 @@ var SUPABASE_CONFIG={url:"https://gqpjeccmwsjxrlrazqxt.supabase.co",anonKey:"sb_
     // this will look like a blank profile. fetchProfileRow's retry (and the realistic 15s-per-
     // attempt timeout, not the old 8s) makes actually landing here far less likely than before.
     console.warn('Could not reach cloud after retrying, using local cache:',e.message||e);
-    handle=remembered;bootApp();
+    handle=remembered;clearViewParamForLogin();bootApp();
    });
   }else{
-   showGate().then(bootApp);
+   showGate().then(function(){clearViewParamForLogin();bootApp();});
   }
  }
  function renderFooterNote(){

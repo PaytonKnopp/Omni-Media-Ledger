@@ -4544,11 +4544,11 @@ var _rzT;window.addEventListener('resize',function(){clearTimeout(_rzT);_rzT=set
  if(state.view==='viz'){['bubble','radar','decade'].forEach(function(k){if(CH[k]&&CH[k].resize)try{CH[k].resize();}catch(e){}});if(typeof graphCenter!=='undefined'&&graphCenter&&typeof renderGraph==='function')renderGraph(graphCenter,true);}
 },200);});
 (function(){
- // Which tab to open on boot. The only signal left is the URL, which is what a bookmark or a
- // shared link carries -- there used to be a sessionStorage "resume" pair here as well, written
- // right before a tier/own click reloaded the page so the reload could land you back on the tab
- // and scroll offset you clicked from. Those edits no longer reload (see mutateProfile), so there
- // is nothing to resume: you never left the page in the first place.
+ // Which tab to open on boot. The URL's `view` param is what a bookmark or a shared link
+ // carries, and that still wins here -- but a fresh sign-in (a handle just entered at the gate,
+ // or landing after switching accounts) clears it first, in index.html, precisely so this reads
+ // back null and falls through to the Controller. Signing into an account is a request to start
+ // from the app's home screen, not to resume whatever tab a stale/bookmarked URL still names.
  var urlView=paramsToState();
  applyStateToStaticControls();
  switchView((urlView&&document.querySelector('main > section[data-sec="'+urlView+'"]'))?urlView:'controller');
