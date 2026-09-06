@@ -30,15 +30,13 @@
  --grad-1:#0b0f19; --grad-2:#0d1220;
 }
 
-/* #6 fix, desktop share: <header class="sticky top-0 ..."> (see below) stays pinned above the page
-   on BOTH desktop and mobile -- it's the same element/class, no breakpoint guard -- so a bracket
-   panel jumped to via #matrixNav's scrollIntoView({block:'start'}) lands with its true top edge at
-   viewport y=0, tucked directly under that pinned header, which reads as landing mid-section rather
-   than at the heading. scroll-margin-top reserves the header's own height so the jump stops short of
-   it. Desktop's header is one wrapped row (title+account row, then the stats/theme/export controls
-   row) -- roughly this tall; the mobile media query below raises the reserve further because that
-   same header content stacks into more, shorter rows there. */
-[id^="mx-"]{scroll-margin-top:132px}
+/* #6 fix: <header class="sticky top-0 ..."> stays pinned above the page on both desktop and
+   mobile, so a bracket panel jumped to via #matrixNav would otherwise land with its true top edge
+   at viewport y=0, tucked directly under that pinned header, which reads as landing mid-section
+   rather than at the heading. jumpToMatrixSection() in ledger-app.js measures the header's actual
+   rendered height at click time and scrolls with that offset -- more reliable than a fixed
+   scroll-margin-top here, since the header's height varies by theme/width and by whether its
+   controls row has wrapped into extra lines. */
 
 html{scrollbar-color:var(--scroll-thumb) var(--bg)}
 ::-webkit-scrollbar{width:9px;height:9px}::-webkit-scrollbar-track{background:var(--bg)}::-webkit-scrollbar-thumb{background:var(--scroll-thumb);border-radius:5px}::-webkit-scrollbar-thumb:hover{background:var(--scroll-thumb-hover)}
@@ -404,11 +402,6 @@ button:focus-visible,select:focus-visible,input:focus-visible{outline:2px solid 
  #matrixNav{margin-top:.15rem;padding-top:.6rem;border-top:1px dashed var(--border-2);position:relative}
  #matrixNav::before{content:'Jump to a bracket';display:block;flex-basis:100%;font-size:9.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--text-faint);margin-bottom:.3rem}
 
- /* #6, mobile override: same sticky-header occlusion as the global rule above, but the header's
-    controls row stacks into a column here (#headerControlsRow{flex-direction:column} above) instead
-    of one wrapped row, making the pinned header taller on a phone -- so the reserved offset needs to
-    be larger here, not smaller, even though every other mobile element is more compact. */
- [id^="mx-"]{scroll-margin-top:172px}
 }
 
 /* ===== THEMES ===== */
