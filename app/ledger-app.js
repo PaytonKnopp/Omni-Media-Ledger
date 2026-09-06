@@ -2374,7 +2374,7 @@ function renderCollection(){
    fOrder=pref.concat(extra).concat(buckets[COLL_NO_FORMAT]?[COLL_NO_FORMAT]:[]);
   }
   // Medium header carries a per-format tally, so a collapsed medium still tells you what's in it.
-  const tally=fOrder.map(function(f){const fs=fmtStyle(f);
+  const tally=(kind==='game')?'':fOrder.map(function(f){const fs=fmtStyle(f);
    return '<span class="text-[9.5px] px-1.5 py-0.5 rounded-full" style="background:'+fs.bg+'22;color:'+fs.ac+';border:1px solid '+fs.bd+'55">'+esc(f)+' '+buckets[f].length+'</span>';}).join('');
   let inner='';
   if(kind==='game'){
