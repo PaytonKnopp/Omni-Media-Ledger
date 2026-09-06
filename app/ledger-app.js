@@ -4502,7 +4502,20 @@ var mi=$('#matrixIntro');if(mi)mi.textContent='Elite specialized brackets comput
 on('#matrixOwnedOnly','change',e=>{matrixOwnedOnly=e.target.checked;renderMatrices();scheduleURLSync();});
 var matrixNavSearchT=null;
 on('#matrixNavSearch','input',e=>{clearTimeout(matrixNavSearchT);const v=e.target.value;matrixNavSearchT=setTimeout(()=>{matrixNavQ=v;renderMatrices();scheduleURLSync();},120);});
-on('#matrixNav','click',e=>{const a=e.target.closest('.matrixNavLink');if(!a)return;e.preventDefault();const el=document.getElementById(a.dataset.anchor);if(el)el.scrollIntoView({behavior:'smooth',block:'start'});});
+on('#matrixNav','click',e=>{const a=e.target.closest('.matrixNavLink');if(!a)return;e.preventDefault();const el=document.getElementById(a.dataset.anchor);if(el)jumpToMatrixSection(el);});
+// The sticky <header> covers whatever's pinned to viewport y=0, and its height isn't a constant
+// -- it wraps differently by theme/width and by whether the controls row has broken into extra
+// lines -- so a fixed scroll-margin-top (the old approach) drifts out of sync with reality and the
+// jump lands with the section's heading still tucked under the header. Measuring the header's live
+// rendered height right before every jump keeps the section's top edge (and its heading) landing
+// just below the header no matter how tall it currently is.
+function jumpToMatrixSection(el){
+ const header=document.querySelector('header.sticky');
+ const headerH=header?header.getBoundingClientRect().height:0;
+ const gap=12;
+ const top=el.getBoundingClientRect().top+window.pageYOffset-headerH-gap;
+ window.scrollTo({top:Math.max(0,top),behavior:'smooth'});
+}
 renderMatrices();
 renderCreators();
 renderContenders();
