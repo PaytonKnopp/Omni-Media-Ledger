@@ -1809,6 +1809,167 @@ async function runGoatPickerFlow(browser, file) {
   if (pageErrors.length) pageErrors.forEach(e => console.log('     ' + e));
 }
 
+// The Collection tab groups medium -> edition, both levels collapsible, every row a link into the
+// Global Controller. Each of those is a thing a careless render can silently drop (a nested
+// <details> that renders flat, a format button that navigates instead of setting the format), so
+// they're asserted here rather than left to be noticed by eye.
+async function runCollectionFlow(browser, file) {
+  const page = await browser.newPage({ viewport: { width: 1400, height: 1000 } });
+  await page.route('**/supabase-js*/**', route => route.abort());
+  const pageErrors = [];
+  page.on('pageerror', e => pageErrors.push(e.message));
+  await page.goto('file://' + path.join(ROOT, file));
+  await waitForBoot(page);
+  await page.waitForTimeout(600);
+  const gateVisible = await page.evaluate(() => {
+    const g = document.getElementById('onboardGate');
+    return g && !g.classList.contains('hidden');
+  });
+  if (gateVisible) {
+    await page.click(file === 'share.html' ? '#onboardBlank' : '#onboardSample');
+    await waitForBoot(page);
+  }
+  await page.click('button[data-view="collection"]');
+  await page.waitForTimeout(600);
+
+  const info = await page.evaluate(() => {
+    const media = Array.from(document.querySelectorAll('#collFormats details.collMedium'));
+    return {
+      media: media.map(d => ({
+        ck: d.dataset.ck,
+        formats: Array.from(d.querySelectorAll('details.collGroup')).map(f => f.dataset.ck)
+      })),
+      jumpables: document.querySelectorAll('#collFormats .panel.goatJump[data-q]').length,
+      pickerFormats: Array.from(document.querySelectorAll('#collFormats [data-act="setformat"]'))
+        .map(b => b.dataset.fmt).filter((v, i, a) => a.indexOf(v) === i),
+      legacyLabels: /Softcover|Boxed Set|BD\/DVD|Deluxe/.test(document.getElementById('collFormats').innerHTML)
+    };
+  });
+  check('Collection groups by medium, not one flat list of formats', info.media.length >= 2 && info.media.every(m => m.ck.indexOf('m:') === 0));
+  check('each non-game medium nests its editions inside it', info.media.filter(m => m.ck !== 'm:game').every(m => m.formats.length >= 1 && m.formats.every(f => f.indexOf('f:') === 0)));
+  check('games stay a flat list -- no invented physical edition tier', (info.media.find(m => m.ck === 'm:game') || { formats: [] }).formats.length === 0);
+  check('every owned title in the Collection links into the Global Controller', info.jumpables > 0);
+  check('books are offered Paperback, never "Softcover"', info.pickerFormats.includes('Paperback') && !info.pickerFormats.includes('Softcover'));
+  check('Box Set is a pickable edition', info.pickerFormats.includes('Box Set'));
+  check('Deluxe is not an edition in any medium', !info.pickerFormats.includes('Deluxe'));
+  check('no legacy edition spelling survives normalization', !info.legacyLabels);
+
+  // Collapse state: a closed section stays closed, and is remembered outside the profile blob.
+  await page.evaluate(() => { document.querySelector('#collFormats details.collMedium > summary').click(); });
+  await page.waitForTimeout(200);
+  const stored = await page.evaluate(() => localStorage.getItem('omniLedgerCollOpen') || '');
+  check('collapsing a section is remembered', /:false/.test(stored));
+  await page.evaluate(() => { document.querySelector('#collFormats .collAll[data-open="0"]').click(); });
+  await page.waitForTimeout(200);
+  const allClosed = await page.evaluate(() => Array.from(document.querySelectorAll('#collFormats details[data-ck]')).every(d => !d.open));
+  check('Collapse all closes every medium and edition', allClosed);
+  await page.evaluate(() => { document.querySelector('#collFormats .collAll[data-open="1"]').click(); });
+  await page.waitForTimeout(200);
+  const allOpen = await page.evaluate(() => Array.from(document.querySelectorAll('#collFormats details[data-ck]')).every(d => d.open));
+  check('Expand all reopens every medium and edition', allOpen);
+
+  // Setting an edition must not navigate. The picker sits inside a row that is ITSELF a link to the
+  // Global Controller, and both handlers are bound on `document` -- where stopPropagation() cannot
+  // separate them. Asserting the view AFTER the click (and after the recompute reload it triggers)
+  // is the only version of this check that can fail when they are wired wrong; checking beforehand
+  // proves nothing. Scroll position is asserted with it: declaring editions in a run is the whole
+  // point of the buttons, and being thrown back to the top of a 179-item tab each time defeats it.
+  const fmtTarget = await page.evaluate(() => {
+    const cards = Array.from(document.querySelectorAll('#collFormats .panel.goatJump'));
+    const card = cards[Math.min(20, cards.length - 1)];
+    card.scrollIntoView({ block: 'center' });
+    const btn = card.querySelector('[data-act="setformat"]');
+    return { title: card.dataset.q, fmt: btn ? btn.dataset.fmt : null };
+  });
+  await page.waitForTimeout(300);
+  const scrollBefore = await page.evaluate(() => Math.round(window.scrollY));
+  await page.evaluate(() => {
+    const cards = Array.from(document.querySelectorAll('#collFormats .panel.goatJump'));
+    cards[Math.min(20, cards.length - 1)].querySelector('[data-act="setformat"]').click();
+  });
+  await page.waitForLoadState('load');
+  await page.waitForTimeout(1800);
+  const afterFmt = await page.evaluate(() => ({ view: state.view, y: Math.round(window.scrollY) }));
+  check('picking an edition does not navigate away from the Collection', afterFmt.view === 'collection');
+  check('picking an edition keeps your place in the list', scrollBefore < 400 || Math.abs(afterFmt.y - scrollBefore) < 300);
+  if (afterFmt.view !== 'collection' || (scrollBefore >= 400 && Math.abs(afterFmt.y - scrollBefore) >= 300)) {
+    console.log('     target=' + fmtTarget.title + ' fmt=' + fmtTarget.fmt + ' scroll ' + scrollBefore + ' -> ' + afterFmt.y + ' view=' + afterFmt.view);
+  }
+
+  await page.evaluate(() => { document.querySelector('#collFormats .panel.goatJump[data-q]').click(); });
+  await page.waitForTimeout(600);
+  const afterJump = await page.evaluate(() => ({ view: state.view, q: state.q }));
+  check('clicking an owned title opens it in the Global Controller', afterJump.view === 'controller' && !!afterJump.q);
+
+  // Group by Series
+  await page.click('button[data-view="collection"]');
+  await page.waitForTimeout(400);
+  await page.click('#seriesToggle');
+  await page.waitForTimeout(600);
+  const series = await page.evaluate(() => ({
+    cards: document.querySelectorAll('#collSeries .panel').length,
+    jump: document.querySelectorAll('#collSeries .goatJump[data-q]').length,
+    seriesVisible: !document.getElementById('collSeries').classList.contains('hidden'),
+    formatsHidden: document.getElementById('collFormats').classList.contains('hidden')
+  }));
+  check('Group by Series renders franchise cards', series.cards > 0);
+  check('Group by Series swaps out the format view rather than stacking on it', series.seriesVisible && series.formatsHidden);
+  check('series entries link into the Global Controller too', series.jump > 0);
+  await page.evaluate(() => { document.querySelector('#collSeries .goatJump[data-q]').click(); });
+  await page.waitForTimeout(600);
+  const seriesJumped = await page.evaluate(() => state.view);
+  check('clicking a series entry opens it in the Global Controller', seriesJumped === 'controller');
+
+  await page.close();
+  check('no uncaught page errors during the Collection pass', pageErrors.length === 0);
+  if (pageErrors.length) pageErrors.forEach(e => console.log('     ' + e));
+}
+
+// A profile saved BEFORE the edition vocabulary was settled must keep loading correctly, forever:
+// that is the whole reason normalization happens on read instead of by rewriting stored profiles.
+// This seeds a profile carrying every retired spelling and asserts it renders as the current one,
+// with nothing lost and the stored strings left exactly as they were.
+async function runLegacyProfileFlow(browser, file) {
+  const legacy = {
+    ownedMedia: { m120: '4K', m106: 'BD/DVD', m444: 'BD/DVD', t17: 'Box Set', t97: 'Boxed Set' },
+    ownedBooksExtra: { b01: 'Softcover', b02: 'Hardcover', b05: 'Deluxe', b153: 'Boxed Set', b09: 'Owned' },
+    ownedGameIds: ['g45'], declaredGoatIds: ['m120'], silverTierIds: ['m106'], watchlist: { c02: 1 }
+  };
+  const seededOwned = 5 + 5 + 1;
+  const ctx = await browser.newContext({ viewport: { width: 1400, height: 1000 } });
+  const page = await ctx.newPage();
+  const pageErrors = [];
+  page.on('pageerror', e => pageErrors.push(e.message));
+  await page.route('**/supabase-js*/**', route => route.abort());
+  await page.addInitScript(p => {
+    localStorage.setItem('omniLedgerProfile', JSON.stringify(p));
+    localStorage.setItem('omniLedgerOnboarded', '1');
+  }, legacy);
+  await page.goto('file://' + path.join(ROOT, file));
+  await waitForBoot(page);
+  await page.waitForTimeout(800);
+  await page.evaluate(() => document.querySelector('button[data-view="collection"]').click());
+  await page.waitForTimeout(700);
+
+  const r = await page.evaluate(() => ({
+    chips: Array.from(document.querySelectorAll('#collFormats details.collGroup .chip')).map(c => c.textContent),
+    legacyOnScreen: /Softcover|Boxed Set|BD\/DVD|Deluxe/.test(document.getElementById('collFormats').innerHTML),
+    owned: ALL.filter(x => x.owned).length,
+    stored: localStorage.getItem('omniLedgerProfile') || '',
+    gold: (PERSONAL_PROFILE.declaredGoatIds || []).length,
+    silver: (PERSONAL_PROFILE.silverTierIds || []).length
+  }));
+  check('a profile saved before the vocabulary change still loads every owned title', r.owned === seededOwned);
+  check('no retired edition spelling reaches the screen from an old profile', !r.legacyOnScreen);
+  check('a retired spelling resolves to a current one, not its own bucket', r.chips.includes('Paperback') && r.chips.includes('Box Set') && !r.chips.includes('Softcover'));
+  check('an owned title with no declared edition is labelled, not dropped', r.chips.includes('Format not set'));
+  check('tiers on an old profile survive the load', r.gold === 1 && r.silver === 1);
+  check('reading an old profile never rewrites it', r.stored.indexOf('Softcover') >= 0 && r.stored.indexOf('BD/DVD') >= 0);
+  await ctx.close();
+  check('no uncaught page errors loading a pre-change profile', pageErrors.length === 0);
+  if (pageErrors.length) pageErrors.forEach(e => console.log('     ' + e));
+}
+
 async function runTabFiltersFlow(browser, file) {
   const full = 'file://' + path.join(ROOT, file);
   const page = await browser.newPage({ viewport: { width: 1400, height: 1000 } });
@@ -2294,6 +2455,10 @@ async function runTabFiltersFlow(browser, file) {
     await runGoatPickerFlow(browser, t);
     console.log('\n=== ' + t + ' — starting from scratch ===');
     await runFromScratchFlow(browser, t);
+    console.log('\n=== ' + t + ' — Collection tab (medium/format grouping, collapse, links) ===');
+    await runCollectionFlow(browser, t);
+    console.log('\n=== ' + t + ' — a profile saved before the edition vocabulary changed ===');
+    await runLegacyProfileFlow(browser, t);
     console.log('\n=== ' + t + ' — tab filters, search/sort, URL bookmarking ===');
     await runTabFiltersFlow(browser, t);
   }

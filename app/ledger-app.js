@@ -48,7 +48,7 @@ if(!PROFILE_FROM_STORAGE)PERSONAL_PROFILE.watchlist={c02:1,c78:2,c79:3,c80:4,c81
 contenders.forEach(c=>{const wl=PERSONAL_PROFILE.watchlist||{};if(wl[c.id])c.watchRank=wl[c.id];});
 
 /* ===================== UNIFIED ADAPTER LAYER ===================== */
-if(!PROFILE_FROM_STORAGE)PERSONAL_PROFILE.ownedBooksExtra={'b01':'Paperback','b02':'Hardcover','b03':'Hardcover','b04':'Hardcover','b05':'Deluxe','b06':'Paperback','b07':'Paperback','b08':'Hardcover','b09':'Hardcover','b10':'Hardcover','b11':'Hardcover','b12':'Hardcover','b13':'Hardcover','b14':'Hardcover','b15':'Hardcover','b16':'Hardcover','b17':'Paperback','b18':'Deluxe','b19':'Deluxe','b20':'Deluxe','b21':'Deluxe','b22':'Deluxe','b23':'Hardcover','b24':'Hardcover','b25':'Hardcover','b26':'Hardcover','b27':'Hardcover','b28':'Hardcover','b29':'Paperback','b30':'Hardcover','b31':'Hardcover','b32':'Hardcover','b33':'Deluxe','b34':'Paperback','b35':'Hardcover','b36':'Hardcover','b37':'Hardcover','b38':'Deluxe','b39':'Deluxe','b40':'Hardcover','b41':'Hardcover','b42':'Hardcover','b43':'Hardcover','b44':'Hardcover','b45':'Paperback','b46':'Hardcover','b47':'Hardcover','b48':'Paperback','b49':'Hardcover','b50':'Paperback','b51':'Hardcover','b508':'Hardcover','b59':'Paperback','b60':'Paperback','b58':'Paperback','b71':'Paperback','b53':'Paperback','b96':'Hardcover','b100':'Hardcover','b88':'Hardcover','b56':'Paperback','b148':'Paperback','b74':'Paperback','b79':'Deluxe','b151':'Paperback','b152':'Paperback','b153':'Boxed Set','b154':'Boxed Set','b155':'Paperback','b156':'Paperback','b157':'Paperback','b158':'Deluxe','b159':'Paperback','b160':'Paperback','b168':'Hardcover','b161':'Hardcover','b162':'Hardcover','b163':'Hardcover','b164':'Hardcover','b165':'Hardcover','b166':'Hardcover','b167':'Hardcover','b169':'Deluxe','b170':'Hardcover','b171':'Hardcover'};
+if(!PROFILE_FROM_STORAGE)PERSONAL_PROFILE.ownedBooksExtra={'b01':'Paperback','b02':'Hardcover','b03':'Hardcover','b04':'Hardcover','b05':'Hardcover','b06':'Paperback','b07':'Paperback','b08':'Hardcover','b09':'Hardcover','b10':'Hardcover','b11':'Hardcover','b12':'Hardcover','b13':'Hardcover','b14':'Hardcover','b15':'Hardcover','b16':'Hardcover','b17':'Paperback','b18':'Hardcover','b19':'Hardcover','b20':'Hardcover','b21':'Hardcover','b22':'Hardcover','b23':'Hardcover','b24':'Hardcover','b25':'Hardcover','b26':'Hardcover','b27':'Hardcover','b28':'Hardcover','b29':'Paperback','b30':'Hardcover','b31':'Hardcover','b32':'Hardcover','b33':'Hardcover','b34':'Paperback','b35':'Hardcover','b36':'Hardcover','b37':'Hardcover','b38':'Hardcover','b39':'Hardcover','b40':'Hardcover','b41':'Hardcover','b42':'Hardcover','b43':'Hardcover','b44':'Hardcover','b45':'Paperback','b46':'Hardcover','b47':'Hardcover','b48':'Paperback','b49':'Hardcover','b50':'Paperback','b51':'Hardcover','b508':'Hardcover','b59':'Paperback','b60':'Paperback','b58':'Paperback','b71':'Paperback','b53':'Paperback','b96':'Hardcover','b100':'Hardcover','b88':'Hardcover','b56':'Paperback','b148':'Paperback','b74':'Paperback','b79':'Hardcover','b151':'Paperback','b152':'Paperback','b153':'Box Set','b154':'Box Set','b155':'Paperback','b156':'Paperback','b157':'Paperback','b158':'Hardcover','b159':'Paperback','b160':'Paperback','b168':'Hardcover','b161':'Hardcover','b162':'Hardcover','b163':'Hardcover','b164':'Hardcover','b165':'Hardcover','b166':'Hardcover','b167':'Hardcover','b169':'Hardcover','b170':'Hardcover','b171':'Hardcover'};
 const OWNED_BOOKS_EXTRA=PERSONAL_PROFILE.ownedBooksExtra||{};
 const OB=id=>OWNED_BOOKS_EXTRA[id]!==undefined;
 /* Ownership is now stated per book, in ownedBooksExtra above -- the old "id<=51 is owned by
@@ -97,9 +97,33 @@ function provStampOf(raw){
 }
 ALL.forEach(x=>{const s=provStampOf(x.provRaw);delete x.provRaw;x.provStamp=s;x.prov=s.facts==='sourced'?'verified':'estimated';});
 /* Owned physical collection, reconciled against the master shelf ledger (film/TV + books). */
-if(!PROFILE_FROM_STORAGE)PERSONAL_PROFILE.ownedMedia={"m120":"4K","m106":"4K","m444":"4K","m384":"4K","t144":"BD/DVD","m116":"BD/DVD","m89":"BD/DVD","m66":"4K","m117":"4K","m65":"4K","m118":"4K","m119":"4K","m01":"4K","m121":"4K","m103":"4K","m122":"4K","m39":"BD/DVD","m158":"BD/DVD","m37":"4K","m40":"4K","m63":"4K","m20":"4K","m81":"BD/DVD","m02":"4K","m84":"4K","m114":"4K","m64":"4K","m14":"4K","m108":"4K","m159":"4K","m06":"4K","m105":"BD/DVD","m07":"4K","m88":"4K","m56":"4K","m12":"4K","m123":"BD/DVD","m54":"4K","m10":"BD/DVD","m124":"4K","m125":"4K","m107":"BD/DVD","m104":"4K","m126":"BD/DVD","m127":"4K","m128":"BD/DVD","m101":"BD/DVD","m110":"BD/DVD","m129":"BD/DVD","m130":"4K","m131":"BD/DVD","m132":"BD/DVD","m133":"BD/DVD","m134":"4K","m135":"BD/DVD","m09":"4K","m109":"4K","m102":"BD/DVD","m136":"4K","m113":"BD/DVD","m137":"BD/DVD","m138":"BD/DVD","m139":"BD/DVD","m140":"BD/DVD","m141":"BD/DVD","m142":"BD/DVD","m143":"BD/DVD","m144":"4K","m115":"BD/DVD","m145":"BD/DVD","m146":"BD/DVD","m147":"4K","m148":"BD/DVD","m149":"4K","m150":"4K","m151":"BD/DVD","m152":"4K","m160":"4K","m111":"BD/DVD","m154":"BD/DVD","m155":"BD/DVD","m156":"4K","m157":"4K","m86":"4K","m112":"BD/DVD","t17":"Box Set","t97":"Box Set","t03":"Box Set","t10":"Box Set","t47":"Box Set","t13":"Box Set","t28":"Box Set","t101":"Box Set"};
+if(!PROFILE_FROM_STORAGE)PERSONAL_PROFILE.ownedMedia={"m120":"4K","m106":"4K","m444":"4K","m384":"4K","t144":"Blu-ray","m116":"Blu-ray","m89":"Blu-ray","m66":"4K","m117":"4K","m65":"4K","m118":"4K","m119":"4K","m01":"4K","m121":"4K","m103":"4K","m122":"4K","m39":"Blu-ray","m158":"Blu-ray","m37":"4K","m40":"4K","m63":"4K","m20":"4K","m81":"Blu-ray","m02":"4K","m84":"4K","m114":"4K","m64":"4K","m14":"4K","m108":"4K","m159":"4K","m06":"4K","m105":"Blu-ray","m07":"4K","m88":"4K","m56":"4K","m12":"4K","m123":"Blu-ray","m54":"4K","m10":"Blu-ray","m124":"4K","m125":"4K","m107":"Blu-ray","m104":"4K","m126":"Blu-ray","m127":"4K","m128":"Blu-ray","m101":"Blu-ray","m110":"Blu-ray","m129":"Blu-ray","m130":"4K","m131":"Blu-ray","m132":"Blu-ray","m133":"Blu-ray","m134":"4K","m135":"Blu-ray","m09":"4K","m109":"4K","m102":"Blu-ray","m136":"4K","m113":"Blu-ray","m137":"Blu-ray","m138":"Blu-ray","m139":"Blu-ray","m140":"Blu-ray","m141":"Blu-ray","m142":"Blu-ray","m143":"Blu-ray","m144":"4K","m115":"Blu-ray","m145":"Blu-ray","m146":"Blu-ray","m147":"4K","m148":"Blu-ray","m149":"4K","m150":"4K","m151":"Blu-ray","m152":"4K","m160":"4K","m111":"Blu-ray","m154":"Blu-ray","m155":"Blu-ray","m156":"4K","m157":"4K","m86":"4K","m112":"Blu-ray","t17":"Box Set","t97":"Box Set","t03":"Box Set","t10":"Box Set","t47":"Box Set","t13":"Box Set","t28":"Box Set","t101":"Box Set"};
 const OWNED_MEDIA=PERSONAL_PROFILE.ownedMedia||{};
 ALL.forEach(x=>{if(OWNED_MEDIA[x.id]){x.owned=true;x.physFormat=OWNED_MEDIA[x.id];}if(x.kind==='book'&&(parseInt(x.id.slice(1))<=OWNED_BOOK_ID_CEILING||OB(x.id))){x.owned=true;if(OWNED_BOOKS_EXTRA[x.id])x.physFormat=OWNED_BOOKS_EXTRA[x.id];}});
+/* One canonical vocabulary for physical editions, applied once at load so every downstream
+   reader (Collection groups, the per-item picker, the Upgrade Audit, Series cards, export)
+   sees the same spellings no matter which era of the profile format wrote them:
+     Softcover  -> Paperback   (the word actually meant)
+     Boxed Set  -> Box Set
+     BD/DVD     -> Blu-ray     (there is no combo edition; a combo pack is a Blu-ray)
+     Deluxe     -> Hardcover on a book, Box Set on a disc (retired as an edition of its own)
+   The default profile below no longer writes any of these -- not BD/DVD, Deluxe, Boxed Set or
+   Softcover -- so a fresh account never picks one up; the aliases exist purely for profiles
+   saved before this change. Normalizing on read rather
+   than rewriting stored profiles keeps old exports and cloud rows loading correctly forever. */
+const PHYS_FORMAT_ALIASES={'softcover':'Paperback','soft cover':'Paperback','boxed set':'Box Set','boxset':'Box Set','box-set':'Box Set','bd/dvd':'Blu-ray','blu-ray/dvd':'Blu-ray','blu ray':'Blu-ray','bluray':'Blu-ray','uhd':'4K','4k uhd':'4K','deluxe':'Deluxe','deluxe / illustrated':'Deluxe','collector\'s edition':'Deluxe','owned':null};
+function normPhysFormat(kind,f){
+ if(!f)return null;
+ var key=String(f).trim().toLowerCase();
+ var mapped=PHYS_FORMAT_ALIASES.hasOwnProperty(key)?PHYS_FORMAT_ALIASES[key]:String(f).trim();
+ if(!mapped)return null;
+ // Deluxe is not an edition you can own any more, in any medium. A saved profile that still
+ // says so resolves to the nearest edition that IS pickable: the durable copy for a book, the
+ // boxed edition for a disc. Nothing renders the word.
+ if(mapped==='Deluxe')return (kind==='book')?'Hardcover':'Box Set';
+ return mapped;
+}
+ALL.forEach(x=>{x.physFormat=normPhysFormat(x.kind,x.physFormat);});
 let WL={};
 try{const raw=localStorage.getItem('omniLedgerWatchlist');if(raw)WL=JSON.parse(raw)||{};}catch(e){WL={};}
 function wlSave(){try{localStorage.setItem('omniLedgerWatchlist',JSON.stringify(WL));}catch(e){}}
@@ -295,9 +319,9 @@ function suggestedFormat(it){
   const idea=(it.fid&&it.fid[1])?it.fid[1][1]:it.tech;
   const stature=Math.max(it.crit||0,it.aud||0);
   const illustr=(it.fam||[]).some(f=>/Myth|Fantasy|Poetry|Cosmic|Literary/.test(f));
-  if(stature>=92&&illustr) return {fmt:'Deluxe / Illustrated',why:'a canonical work where a fine illustrated edition transforms it'};
+  if(stature>=92&&illustr) return {fmt:'Hardcover',why:'a canonical work worth a durable illustrated hardcover'};
   if(prose>=86||stature>=90) return {fmt:'Hardcover',why:'prose and stature justify a durable hardcover'};
-  return {fmt:'Softcover',why:'a reading copy serves it well'};
+  return {fmt:'Paperback',why:'a reading copy serves it well'};
  }
  if(it.kind==='game'){
   const plat=(it.plats&&it.plats.length)?it.plats[0]:'current-gen';
@@ -1744,7 +1768,15 @@ function goatJumpTo(q){
  switchView('controller');
  window.scrollTo({top:0,behavior:'smooth'});
 }
-document.addEventListener('click',e=>{const j=e.target.closest('.goatJump');if(j&&j.dataset.q)goatJumpTo(j.dataset.q);});
+// Both of these are bound on `document`, and stopPropagation() does NOT stop other listeners on
+// the SAME node -- only stopImmediatePropagation() does, and only for ones registered after it.
+// So a profile-edit control sitting inside a .goatJump row (a Collection card carries both) has
+// to be excluded here, by the listener that would otherwise navigate. Anything else and clicking
+// "Paperback" would set the format AND jump to the Global Controller in the same click.
+document.addEventListener('click',e=>{
+ if(e.target.closest('.profEditBtn')||e.target.closest('button,a,input,select,textarea'))return;
+ const j=e.target.closest('.goatJump');if(j&&j.dataset.q)goatJumpTo(j.dataset.q);
+});
 document.addEventListener('click',e=>{const pe=e.target.closest('.profEditBtn');if(pe&&pe.dataset.act==='setformat'){e.stopPropagation();handleProfileEditClick(pe);}});
 
 /* ===================== ROUTING & BINDINGS ===================== */
@@ -2047,11 +2079,10 @@ const SERIES_DEFS=[
 function formatRank(fmt){
  if(!fmt)return 0;var f=fmt.toLowerCase();
  if(f.indexOf('4k')>=0||f.indexOf('uhd')>=0)return 4;
- if(f.indexOf('deluxe')>=0||f.indexOf('illustrated')>=0)return 4;
  if(f.indexOf('blu')>=0||f.indexOf('bd')>=0)return 3;
  if(f.indexOf('hardcover')>=0)return 3;
  if(f.indexOf('dvd')>=0)return 2;
- if(f.indexOf('paperback')>=0||f.indexOf('softcover')>=0)return 2;
+ if(f.indexOf('paperback')>=0)return 2;
  if(f.indexOf('box')>=0)return 3;
  return 1;
 }
@@ -2190,7 +2221,7 @@ function renderCollectionShelf(){
    var goldRing=x.goat?'box-shadow:0 0 6px #fcd34d,inset 0 0 0 1px #fcd34d;':'';
    var lbl=esc(x.title);
    var initials=(x.title||'').split(' ').filter(w=>/[A-Za-z0-9]/.test(w[0])).slice(0,3).map(w=>w[0]).join('');
-   html+='<div class="group relative cursor-default" style="width:16px;height:'+hgt+'px;border-radius:2px 2px 0 0;background:linear-gradient(180deg,'+k.c+'ee,'+k.c+'99);'+goldRing+'" title="'+lbl+' ('+x.year+') \u00b7 '+esc(x.physFormat||'')+'">'
+   html+='<div class="group relative cursor-pointer goatJump" data-q="'+esc(x.title)+'" style="width:16px;height:'+hgt+'px;border-radius:2px 2px 0 0;background:linear-gradient(180deg,'+k.c+'ee,'+k.c+'99);'+goldRing+'" title="'+lbl+' ('+x.year+')'+(x.physFormat?' \u00b7 '+esc(x.physFormat):'')+' \u2014 open in Global Controller">'
     +'<span class="absolute inset-0 flex items-center justify-center text-[7px] font-bold text-black/60" style="writing-mode:vertical-rl;transform:rotate(180deg);letter-spacing:0.5px">'+esc(initials)+'</span>'
     +'</div>';
   });
@@ -2206,12 +2237,12 @@ function renderCollectionShelf(){
 function seriesCardHTML(k,name,ownedMembers,missing,total,complete){
  var pct=Math.round(ownedMembers.length/total*100);
  var rows=ownedMembers.slice().sort((a,b)=>(a.year||0)-(b.year||0)).map(x=>
-  '<div class="flex items-center gap-2 py-1"><span class="w-1.5 h-1.5 rounded-full shrink-0" style="background:'+k.c+'"></span>'
+  '<div class="flex items-center gap-2 py-1 goatJump cursor-pointer rounded px-1 -mx-1 hover:bg-slate-800/30" data-q="'+esc(x.title)+'" title="Open '+esc(x.title)+' in the Global Controller"><span class="w-1.5 h-1.5 rounded-full shrink-0" style="background:'+k.c+'"></span>'
   +'<span class="flex-1 min-w-0 truncate text-[12px] text-slate-200">'+esc(x.title)+' <span class="text-slate-500 text-[10px]">'+x.year+'</span></span>'
   +'<span class="text-[10px] text-emerald-400">\u2713 '+esc(x.physFormat||'owned')+'</span>'
   +'<span class="text-[11px] font-bold tabular-nums ml-1" style="color:'+k.c+'">'+x.ovr+'</span></div>').join('');
  var missingHTML=missing.length?'<div class="mt-2 pt-2 border-t border-slate-800/70"><div class="text-[10px] text-amber-400/80 mb-1">To complete \u2014 in ledger, not owned:</div>'
-  +missing.map(x=>'<div class="text-[11px] text-slate-400 truncate">\u25e6 '+esc(x.title)+'</div>').join('')+'</div>':'';
+  +missing.map(x=>'<div class="text-[11px] text-slate-400 truncate goatJump cursor-pointer rounded px-1 -mx-1 hover:bg-slate-800/30 hover:text-slate-200" data-q="'+esc(x.title)+'" title="Open '+esc(x.title)+' in the Global Controller">\u25e6 '+esc(x.title)+'</div>').join('')+'</div>':'';
  return '<div class="panel p-4"><div class="flex items-center justify-between gap-2 mb-2">'
   +'<div class="lbl" style="color:'+k.c+'">'+k.label+' \u00b7 '+esc(name)+'</div>'
   +'<div class="text-[11px] font-bold tabular-nums '+(complete?'text-emerald-400':'text-slate-400')+'">'+ownedMembers.length+' / '+total+(complete?' \u2713 complete':'')+'</div></div>'
@@ -2226,11 +2257,17 @@ function seriesTitleRoot(t){return t.toLowerCase().replace(/[:\-\u2013].*$/,'').
 function renderCollectionSeries(){
  const cs=state.collSeg||'all';
  const q=(state.collSearchQ||'').trim().toLowerCase();
- const byId2=new Map(ALL.map(x=>[x.title,x]));
+ // Keyed by kind+title, not title alone: a book and its film adaptation share a title often
+ // enough that a title-only map silently resolved a book series' member to the movie record
+ // (and then reported it unowned because the disc isn't on the shelf).
+ const byKindTitle=new Map(ALL.map(x=>[x.kind+'|'+x.title,x]));
+ const byId2={get:function(t){return byKindTitle.get(SERIES_LOOKUP_KIND+'|'+t);}};
+ let SERIES_LOOKUP_KIND='movie';
  // Build series cards: only show series where you own >=2, honoring the medium filter.
  const cards=[];
  SERIES_DEFS.forEach(def=>{
   if(cs!=='all'&&def.kind!==cs) return;
+  SERIES_LOOKUP_KIND=def.kind;
   const ownedMembers=def.members.map(t=>byId2.get(t)).filter(x=>x&&x.owned);
   const hasBox=def.boxSet&&(function(){const b=byId2.get(def.boxSet);return b&&b.owned;})();
   if(ownedMembers.length<2&&!hasBox) return; // only meaningful multi-item series (or a complete box set)
@@ -2239,14 +2276,17 @@ function renderCollectionSeries(){
   const missing=hasBox?[]:def.members.map(t=>byId2.get(t)).filter(x=>x&&!x.owned);
   const complete=hasBox||ownedMembers.length>=def.total;
   const effOwned=hasBox?def.members.map(t=>byId2.get(t)).filter(Boolean):ownedMembers;
-  cards.push({pct:Math.round((hasBox?def.total:ownedMembers.length)/def.total*100),name:def.name,html:seriesCardHTML(k,def.name,hasBox?effOwned:ownedMembers,missing,def.total,complete)});
+  cards.push({kind:def.kind,pct:Math.round((hasBox?def.total:ownedMembers.length)/def.total*100),name:def.name,html:seriesCardHTML(k,def.name,hasBox?effOwned:ownedMembers,missing,def.total,complete)});
  });
- // Auto-detected TV / game franchises (curated list has neither)
- const curatedTitles=new Set(SERIES_DEFS.flatMap(d=>d.members.concat(d.boxSet?[d.boxSet]:[])));
- ['tv','game'].forEach(function(kind){
+ const curatedTitles=new Set(SERIES_DEFS.flatMap(d=>d.members.concat(d.boxSet?[d.boxSet]:[]).map(t=>d.kind+'|'+t)));
+ // Auto-detected franchises. Originally tv/game only -- but the curated list covers a handful of
+ // movie and book series and nothing else, so a film or book franchise outside it never grouped
+ // at all. Same conservative rule for every medium: skip anything the curated list already owns,
+ // require a shared title root of real length, and require two or more owned entries.
+ ['movie','tv','book','game'].forEach(function(kind){
   if(cs!=='all'&&cs!==kind)return;
   const byRoot={};
-  ALL.forEach(function(x){if(x.kind!==kind||curatedTitles.has(x.title))return;const r=seriesTitleRoot(x.title);if(r.length<4)return;(byRoot[r]=byRoot[r]||[]).push(x);});
+  ALL.forEach(function(x){if(x.kind!==kind||curatedTitles.has(x.kind+'|'+x.title))return;const r=seriesTitleRoot(x.title);if(r.length<4)return;(byRoot[r]=byRoot[r]||[]).push(x);});
   Object.keys(byRoot).forEach(function(r){
    const grp=byRoot[r];
    const ownedMembers=grp.filter(function(x){return x.owned;});
@@ -2255,41 +2295,124 @@ function renderCollectionSeries(){
    if(q&&name.toLowerCase().indexOf(q)<0&&!ownedMembers.some(x=>x.title.toLowerCase().indexOf(q)>=0))return;
    const missing=grp.filter(function(x){return !x.owned;});
    const k=KM[kind];
-   cards.push({pct:Math.round(ownedMembers.length/grp.length*100),name:name,html:seriesCardHTML(k,name,ownedMembers,missing,grp.length,ownedMembers.length>=grp.length)});
+   cards.push({kind:kind,pct:Math.round(ownedMembers.length/grp.length*100),name:name,html:seriesCardHTML(k,name,ownedMembers,missing,grp.length,ownedMembers.length>=grp.length)});
   });
  });
- cards.sort((a,b)=>a.name.localeCompare(b.name));
+ // Group the cards by medium first (same Films / Series / Books / Games order the Collection's
+ // format view uses), then alphabetically inside each -- so film franchises don't interleave with
+ // book series just because of where their names fall in the alphabet.
+ const kindRank=k=>{const i=COLL_MEDIA.findIndex(m=>m[0]===k);return i<0?99:i;};
+ cards.sort((a,b)=>(kindRank(a.kind)-kindRank(b.kind))||a.name.localeCompare(b.name));
  const el=$('#collSeries');
  if(!cards.length){el.innerHTML='<div class="panel p-6 text-center text-slate-500 text-sm">'+(q?'No series match \u201c'+esc(state.collSearchQ.trim())+'\u201d.':'No multi-item series in this category yet. Own two or more from a franchise to see it grouped here.')+'</div>';return;}
  el.innerHTML='<p class="text-[11px] text-slate-500 mb-1">Your collection grouped by franchise \u2014 completion at a glance. \u25e6 marks entries in the ledger you don\u2019t yet own.</p>'+cards.map(c=>c.html).join('');
 }
+/* ===== Collection, grouped medium -> format =====
+   The flat "one bucket per format" list mixed 4K discs and Hardcovers into one alphabet of
+   groups, so a shelf of films and a shelf of books read as the same undifferentiated stream.
+   Now the medium is the outer grouping (Films / Series / Books / Games) and the edition is the
+   inner one, with BOTH levels collapsible -- collapse Books to skim the discs, or open Books and
+   collapse Hardcover to see just the paperbacks. Games have no physical edition worth tracking
+   (most are digital), so they stay a single flat list rather than growing a fake format tier. */
+const COLL_MEDIA=[['movie','Films'],['tv','Series'],['book','Books'],['game','Games']];
+// Per-medium edition order: best/most-prized edition first, so the top of an open medium is the
+// part of the shelf you're proudest of. "Not set" is appended last by the renderer.
+function collFormatOrder(kind){
+ if(kind==='game')return [];
+ if(kind==='book')return ['Hardcover','Paperback','Box Set'];
+ return ['4K','Blu-ray','DVD','Box Set'];
+}
+const COLL_NO_FORMAT='Format not set';
+/* Which sections are open is a UI preference, not profile data, so it lives in its own
+   localStorage key rather than riding the profile blob out to every export and cloud sync.
+   Default is open: a first visit shows the whole collection, and collapsing is opt-in. */
+let COLL_OPEN={};
+try{COLL_OPEN=JSON.parse(localStorage.getItem('omniLedgerCollOpen')||'{}')||{};}catch(e){COLL_OPEN={};}
+function collIsOpen(key){return COLL_OPEN[key]!==false;}
+function collSetOpen(key,open){
+ if(open)delete COLL_OPEN[key];else COLL_OPEN[key]=false;
+ try{localStorage.setItem('omniLedgerCollOpen',JSON.stringify(COLL_OPEN));}catch(e){}
+}
+function collSetAllOpen(open){
+ if(open){COLL_OPEN={};}
+ else{$$('#collFormats details[data-ck]').forEach(function(d){COLL_OPEN[d.dataset.ck]=false;});}
+ try{localStorage.setItem('omniLedgerCollOpen',JSON.stringify(COLL_OPEN));}catch(e){}
+ $$('#collFormats details[data-ck]').forEach(function(d){d.open=open;});
+}
+function collItemCardHTML(x,col){
+ const k=KM[x.kind];
+ // The whole card jumps to Global Controller (same as every other cross-linked row in the app);
+ // the format buttons inside stop propagation, so picking an edition never navigates away.
+ return '<div class="panel p-2.5 flex items-center gap-2.5 goatJump cursor-pointer hover:border-slate-600 transition-colors" data-q="'+esc(x.title)+'" title="Open '+esc(x.title)+' in the Global Controller">'
+  +'<div class="w-1 self-stretch rounded" style="background:'+col+'"></div>'
+  +'<div class="flex-1 min-w-0"><div class="text-[12px] font-semibold text-slate-100 truncate">'+esc(x.title)+'</div>'
+  +'<div class="text-[10px] text-slate-500 truncate">'+x.year+' · '+esc(x.creator)+' · <span style="color:'+k.c+'">'+k.label+'</span></div>'+formatPickerHTML(x)+'</div>'
+  +'<div class="text-right shrink-0"><div class="text-[13px] font-bold tabular-nums" style="color:'+col+'">'+x.ovr+'</div>'
+  +(x.goat?'<div class="text-[9px]" style="color:#fbbf24">★ GOAT</div>':x.silver?'<div class="text-[9px] text-slate-400">☆</div>':'')+'</div></div>';
+}
+function collCaret(){return '<span class="collCaret text-slate-500 shrink-0">▸</span>';}
 function renderCollection(){
  const owned=ALL.filter(x=>x.owned);
  const cs=state.collSeg||'all';
  const q=(state.collSearchQ||'').trim().toLowerCase();
  const scope=(cs==='all'?owned:owned.filter(x=>x.kind===cs)).filter(x=>!q||x.title.toLowerCase().indexOf(q)>=0);
- // stats
- const fmtCount=f=>owned.filter(x=>(x.physFormat||'')===f).length;
  const avg=scope.length?Math.round(scope.reduce((s,x)=>s+x.ovr,0)/scope.length):0;
  $('#collStats').innerHTML=[
   ['Total Owned',owned.length],['Films',owned.filter(x=>x.kind==='movie').length],
   ['Series',owned.filter(x=>x.kind==='tv').length],['Games',owned.filter(x=>x.kind==='game').length],['Books',owned.filter(x=>x.kind==='book').length],
   ['Avg Quality',avg]
  ].map(s=>'<div class="panel p-3 text-center"><div class="text-xl font-extrabold text-slate-50 tabular-nums">'+s[1]+'</div><div class="lbl mt-1">'+s[0]+'</div></div>').join('');
- // group by format -- games don't have an editable physical format (most are digital), so they
- // just get their own plain "Games" bucket rather than a fake edition label.
- const FORMAT_ORDER=['4K','Blu-ray','DVD','BD/DVD','Box Set','Deluxe','Hardcover','Softcover','Paperback','Games'];
- const groups={};scope.forEach(x=>{const f=x.kind==='game'?'Games':(x.physFormat||'Other');(groups[f]=groups[f]||[]).push(x);});
- const order=FORMAT_ORDER.filter(f=>groups[f]).concat(Object.keys(groups).filter(f=>!FORMAT_ORDER.includes(f)));
- $('#collFormats').innerHTML=order.map(f=>{
-  const items=groups[f].slice().sort((a,b)=>a.title.localeCompare(b.title));const fs=fmtStyle(f);const col=fs.ac;
-  return '<div><div class="flex items-center gap-2 mb-2"><span class="chip" style="color:'+fs.fg+';background:'+fs.bg+';border-color:'+fs.bd+';font-weight:700">'+esc(f)+'</span><span class="lbl">'+items.length+' title'+(items.length>1?'s':'')+'</span></div>'
-   +'<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-2">'+items.map(x=>{const k=KM[x.kind];
-     return '<div class="panel p-2.5 flex items-center gap-2.5"><div class="w-1 self-stretch rounded" style="background:'+col+'"></div>'
-      +'<div class="flex-1 min-w-0"><div class="text-[12px] font-semibold text-slate-100 truncate">'+esc(x.title)+'</div>'
-      +'<div class="text-[10px] text-slate-500 truncate">'+x.year+' \u00b7 '+esc(x.creator)+' \u00b7 <span style="color:'+k.c+'">'+k.label+'</span></div>'+formatPickerHTML(x)+'</div>'
-      +'<div class="text-right shrink-0"><div class="text-[13px] font-bold tabular-nums" style="color:'+col+'">'+x.ovr+'</div>'+(x.goat?'<div class="text-[9px]" style="color:#fbbf24">\u2605 GOAT</div>':x.silver?'<div class="text-[9px] text-slate-400">\u2606</div>':'')+'</div></div>';}).join('')+'</div></div>';
- }).join('')||'<div class="text-center text-slate-500 text-sm py-10">'+(q?'Nothing in your collection matches \u201c'+esc(state.collSearchQ.trim())+'\u201d.':'No owned items in this category.')+'</div>';
+
+ let html='';
+ COLL_MEDIA.forEach(function(g){
+  const kind=g[0],label=g[1];
+  const items=scope.filter(x=>x.kind===kind);
+  if(!items.length)return;
+  const k=KM[kind];
+  const mKey='m:'+kind;
+  // Bucket by edition, honoring this medium's own edition vocabulary; anything unrecognized
+  // (an old profile's one-off label) still gets its own bucket rather than being dropped.
+  const buckets={};
+  items.forEach(function(x){const f=(kind==='game')?'Games':(x.physFormat||COLL_NO_FORMAT);(buckets[f]=buckets[f]||[]).push(x);});
+  let fOrder;
+  if(kind==='game')fOrder=['Games'];
+  else{
+   const pref=collFormatOrder(kind).filter(f=>buckets[f]);
+   const extra=Object.keys(buckets).filter(f=>pref.indexOf(f)<0&&f!==COLL_NO_FORMAT).sort();
+   fOrder=pref.concat(extra).concat(buckets[COLL_NO_FORMAT]?[COLL_NO_FORMAT]:[]);
+  }
+  // Medium header carries a per-format tally, so a collapsed medium still tells you what's in it.
+  const tally=(kind==='game')?'':fOrder.map(function(f){const fs=fmtStyle(f);
+   return '<span class="text-[9.5px] px-1.5 py-0.5 rounded-full" style="background:'+fs.bg+'22;color:'+fs.ac+';border:1px solid '+fs.bd+'55">'+esc(f)+' '+buckets[f].length+'</span>';}).join('');
+  let inner='';
+  if(kind==='game'){
+   inner='<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-2">'+buckets['Games'].slice().sort((a,b)=>a.title.localeCompare(b.title)).map(x=>collItemCardHTML(x,fmtStyle('Games').ac)).join('')+'</div>';
+  }else{
+   inner=fOrder.map(function(f){
+    const list=buckets[f].slice().sort((a,b)=>a.title.localeCompare(b.title));
+    const fs=fmtStyle(f);const col=fs.ac;const fKey='f:'+kind+'|'+f;
+    return '<details class="collGroup" data-ck="'+esc(fKey)+'"'+(collIsOpen(fKey)?' open':'')+'>'
+     +'<summary class="collSum flex items-center gap-2 py-1.5 cursor-pointer select-none">'+collCaret()
+     +'<span class="chip" style="color:'+fs.fg+';background:'+fs.bg+';border-color:'+fs.bd+';font-weight:700">'+esc(f)+'</span>'
+     +'<span class="lbl">'+list.length+' title'+(list.length===1?'':'s')+'</span></summary>'
+     +'<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-2 pt-1 pb-2">'+list.map(x=>collItemCardHTML(x,col)).join('')+'</div></details>';
+   }).join('');
+  }
+  html+='<details class="collMedium panel px-3.5 py-2.5" data-ck="'+esc(mKey)+'"'+(collIsOpen(mKey)?' open':'')+' style="border-left:3px solid '+k.c+'">'
+   +'<summary class="collSum flex items-center gap-2 flex-wrap cursor-pointer select-none">'+collCaret()
+   +'<span class="text-[13px] font-bold" style="color:'+k.c+'">'+esc(label)+'</span>'
+   +'<span class="lbl">'+items.length+' title'+(items.length===1?'':'s')+'</span>'
+   +'<span class="flex items-center gap-1 flex-wrap ml-auto">'+tally+'</span></summary>'
+   +'<div class="mt-2 pt-2 border-t border-slate-800/70 space-y-1">'+inner+'</div></details>';
+ });
+ if(!html){
+  $('#collFormats').innerHTML='<div class="text-center text-slate-500 text-sm py-10">'+(q?'Nothing in your collection matches “'+esc(state.collSearchQ.trim())+'”.':'No owned items in this category.')+'</div>';
+ }else{
+  $('#collFormats').innerHTML='<div class="flex items-center gap-2 justify-end">'
+   +'<button type="button" class="collAll text-[10.5px] px-2.5 py-1 rounded-lg border border-slate-700 text-slate-400 hover:text-slate-200 hover:border-slate-500 transition-colors" data-open="1">⬌ Expand all</button>'
+   +'<button type="button" class="collAll text-[10.5px] px-2.5 py-1 rounded-lg border border-slate-700 text-slate-400 hover:text-slate-200 hover:border-slate-500 transition-colors" data-open="0">⬍ Collapse all</button></div>'
+   +'<div class="space-y-3">'+html+'</div>';
+ }
  // gaps: top-rated NOT owned, per medium (games included now that they're part of the Collection tab)
  const gaps=ALL.filter(x=>!x.owned).sort((a,b)=>b.ovr-a.ovr).slice(0,12);
  $('#collGaps').innerHTML=gaps.map(x=>{const k=KM[x.kind];
@@ -2847,6 +2970,18 @@ on('#creatorGrid','click',e=>{if(e.target.closest('.goatJump'))return;const f=e.
 on('#collSeg','click',e=>{const b=e.target.closest('button');if(!b)return;state.collSeg=b.dataset.cs;$$('#collSeg button').forEach(x=>x.classList.toggle('on',x===b));renderCollection();if(state.collGroup==='series')renderCollectionSeries();if(state.collShelf)renderCollectionShelf();if(state.collUpgrade)renderUpgradeAudit();});
 let collSearchT=null;
 on('#collSearch','input',e=>{clearTimeout(collSearchT);const v=e.target.value;collSearchT=setTimeout(()=>{state.collSearchQ=v;renderCollection();if(state.collGroup==='series')renderCollectionSeries();if(state.collShelf)renderCollectionShelf();scheduleURLSync();},120);});
+// Collapse state for the Collection's medium / format sections. <details> fires `toggle` on the
+// element itself and it doesn't bubble, so it's captured at the container instead of bound per
+// section (the sections are re-rendered on every filter change). The .collAll buttons live inside
+// the same container and are handled here too, before the goatJump delegate can see them.
+on('#collFormats','click',e=>{
+ const a=e.target.closest('.collAll');
+ if(a){e.stopPropagation();collSetAllOpen(a.dataset.open==='1');return;}
+});
+$('#collFormats').addEventListener('toggle',e=>{
+ const d=e.target;
+ if(d&&d.tagName==='DETAILS'&&d.dataset.ck)collSetOpen(d.dataset.ck,d.open);
+},true);
 on('#seriesToggle','click',()=>{state.collGroup=state.collGroup==='series'?'format':'series';const on=state.collGroup==='series';const btn=$('#seriesToggle');btn.classList.toggle('border-cyan-500',on);btn.classList.toggle('text-cyan-300',on);btn.classList.toggle('bg-cyan-500/10',on);btn.textContent=on?'▤ Grouped by Series':'▤ Group by Series';$('#collSeries').classList.toggle('hidden',!on);if(on){state.collShelf=false;state.collUpgrade=false;$('#collShelf').classList.add('hidden');$('#collUpgrade').classList.add('hidden');var sb=$('#shelfToggle');sb.textContent='📚 Shelf View';sb.classList.remove('border-amber-500','text-amber-300','bg-amber-500/10');var ub=$('#upgradeToggle');ub.textContent='⬆ Upgrade Audit';ub.classList.remove('border-sky-500','text-sky-300','bg-sky-500/10');}$('#collFormats').classList.toggle('hidden',on||state.collShelf);if(on)renderCollectionSeries();});
 on('#shelfToggle','click',()=>{state.collShelf=!state.collShelf;const on=state.collShelf;const btn=$('#shelfToggle');btn.classList.toggle('border-amber-500',on);btn.classList.toggle('text-amber-300',on);btn.classList.toggle('bg-amber-500/10',on);btn.textContent=on?'📚 Shelf View ✓':'📚 Shelf View';$('#collShelf').classList.toggle('hidden',!on);if(on){state.collGroup='format';$('#collSeries').classList.add('hidden');var gb=$('#seriesToggle');gb.textContent='▤ Group by Series';gb.classList.remove('border-cyan-500','text-cyan-300','bg-cyan-500/10');}if(on){state.collUpgrade=false;$('#collUpgrade').classList.add('hidden');var ub=$('#upgradeToggle');ub.textContent='⬆ Upgrade Audit';ub.classList.remove('border-sky-500','text-sky-300','bg-sky-500/10');}$('#collFormats').classList.toggle('hidden',on||state.collGroup==='series'||state.collUpgrade);if(on)renderCollectionShelf();});
 on('#upgradeToggle','click',()=>{state.collUpgrade=!state.collUpgrade;const on=state.collUpgrade;const btn=$('#upgradeToggle');btn.classList.toggle('border-sky-500',on);btn.classList.toggle('text-sky-300',on);btn.classList.toggle('bg-sky-500/10',on);btn.textContent=on?'⬆ Upgrade Audit ✓':'⬆ Upgrade Audit';$('#collUpgrade').classList.toggle('hidden',!on);if(on){state.collGroup='format';state.collShelf=false;$('#collSeries').classList.add('hidden');$('#collShelf').classList.add('hidden');var gb=$('#seriesToggle');gb.textContent='▤ Group by Series';gb.classList.remove('border-cyan-500','text-cyan-300','bg-cyan-500/10');var sb=$('#shelfToggle');sb.textContent='📚 Shelf View';sb.classList.remove('border-amber-500','text-amber-300','bg-amber-500/10');}$('#collFormats').classList.toggle('hidden',on||state.collGroup==='series'||state.collShelf);if(on)renderUpgradeAudit();});
@@ -2971,7 +3106,11 @@ function mutateProfileAndReload(mutatorFn){
  // Tiering/owning something reloads the whole page (the scoring pipeline needs a full recompute,
  // not a patch) -- remember which tab was open so a click from, say, the GOAT Profile tab's search
  // results doesn't bounce back to Global Controller. Read on boot, see initRoutingAndBindings.
- try{sessionStorage.setItem('omniLedgerResumeView',state.view);}catch(e){}
+ // ...and where you were looking. Declaring an edition from deep in a 179-item Collection used to
+ // throw away the scroll position and drop you back at the top of the tab -- unusable for setting
+ // formats in a run, which is exactly what the format buttons are for.
+ try{sessionStorage.setItem('omniLedgerResumeView',state.view);
+     sessionStorage.setItem('omniLedgerResumeScroll',String(window.scrollY||window.pageYOffset||0));}catch(e){}
  reloadWithMediaSync(PERSONAL_PROFILE);
 }
 function toggleDeclaredFavorite(id){
@@ -3082,12 +3221,12 @@ function boostBookAffinity(id){
  });
 }
 // Owned-format tracking: which physical edition you actually have. Movies/TV pick from
-// DVD/Blu-ray/4K, books from Hardcover/Softcover -- stored on the same profile keys the adapter
+// DVD/Blu-ray/4K/Box Set, books from Hardcover/Paperback/Box Set -- stored on the same profile keys the adapter
 // layer already reads (ownedMedia for movie/tv, ownedBooksExtra for book), so this doesn't need
 // any new sync plumbing: it rides the existing profile jsonb blob to Supabase and every existing
 // export/import. Clicking the already-active format clears it back to a bare "owned" (no edition
 // declared yet) instead of being a no-op, so a mis-click is one click to undo.
-const OWNED_FORMATS={movie:['DVD','Blu-ray','4K'],tv:['DVD','Blu-ray','4K'],book:['Hardcover','Softcover']};
+const OWNED_FORMATS={movie:['DVD','Blu-ray','4K','Box Set'],tv:['DVD','Blu-ray','4K','Box Set'],book:['Hardcover','Paperback','Box Set']};
 // Shared per-format color so the same edition always reads the same way everywhere it shows up
 // (Collection format groups, the per-item picker). DVD orange, Blu-ray blue, 4K near-black --
 // picked to loosely evoke each format's real-world case color, not just an arbitrary palette slot.
@@ -3097,11 +3236,8 @@ const FMT_STYLE={
  '4K':{bg:'#0a0a0c',fg:'#e2e8f0',bd:'#475569',ac:'#94a3b8'},
  'Blu-ray':{bg:'#2563eb',fg:'#eff6ff',bd:'#2563eb',ac:'#60a5fa'},
  'DVD':{bg:'#f97316',fg:'#1a0f00',bd:'#f97316',ac:'#fb923c'},
- 'BD/DVD':{bg:'#7dd3fc',fg:'#04283a',bd:'#7dd3fc',ac:'#7dd3fc'},
  'Box Set':{bg:'#22d3ee',fg:'#032b30',bd:'#22d3ee',ac:'#22d3ee'},
- 'Deluxe':{bg:'#c084fc',fg:'#1e0a33',bd:'#c084fc',ac:'#c084fc'},
  'Hardcover':{bg:'#86efac',fg:'#052e12',bd:'#86efac',ac:'#86efac'},
- 'Softcover':{bg:'#a3e635',fg:'#1a2e05',bd:'#a3e635',ac:'#a3e635'},
  'Paperback':{bg:'#a3e635',fg:'#1a2e05',bd:'#a3e635',ac:'#a3e635'},
  'Games':{bg:'#fbbf24',fg:'#221600',bd:'#fbbf24',ac:'#fbbf24'}
 };
@@ -3151,8 +3287,21 @@ function handleProfileEditClick(btn){
    "here's what changed" readout, not a live version check against anything. Bump APP_VERSION and
    add a CHANGELOG entry whenever a change is worth a friend knowing about; cosmetic tweaks don't
    need a bump. */
-const APP_VERSION='1.41.0';
+const APP_VERSION='1.42.0';
 const CHANGELOG=[
+ {v:'1.42.0',date:'2026-09-06',summary:'The Collection tab is now organised the way a shelf actually is \u2014 by medium first, then by edition, with everything collapsible and every title one click from the Global Controller.',notes:[
+  'Collection is grouped medium \u2192 edition instead of one flat run of format buckets: Films, Series, Books and Games are the outer sections, and 4K / Blu-ray / DVD / Box Set (or Hardcover / Paperback / Box Set) sit inside the medium they belong to',
+  'Both levels collapse and expand independently, and what you close stays closed across visits \u2014 collapse Books to skim the discs, or open Books and collapse Hardcover to see just the paperbacks. Expand all / Collapse all handle the whole tab at once. A collapsed medium still shows a per-edition tally, so you can see what is inside without opening it',
+  'Every owned title in the Collection, in Group by Series, and on the Shelf View now opens in the Global Controller when clicked \u2014 the same jump the gaps and matrix rows already had. The edition buttons inside a row still just set the edition; they never navigate',
+  'Box Set is a pickable edition for films, TV and books, not only something a record could already happen to be',
+  '"Softcover" is now "Paperback" \u2014 the word that was actually meant \u2014 and books are simply Hardcover / Paperback / Box Set',
+  'Deluxe is retired as an edition in every medium, not just for books \u2014 it was never pickable and nothing produced it, so it had become a colour and a sort position waiting on a value that no longer existed',
+  'One canonical spelling for every edition, applied when a profile is read rather than by rewriting saved profiles: Softcover \u2192 Paperback, Boxed Set \u2192 Box Set, BD/DVD \u2192 Blu-ray, and Deluxe \u2192 Hardcover on a book or Box Set on a disc. Old exports and existing cloud rows keep loading exactly as before, they just stop showing four spellings of two things',
+  'The retired labels are gone from the built-in profile itself, not just from the screen: the 37 films stored as BD/DVD are Blu-ray, the 12 books stored as Deluxe are Hardcover, and the 2 stored as Boxed Set are Box Set. A fresh account never picks any of them up in the first place',
+  'The Upgrade Audit no longer proposes a Deluxe / Illustrated edition for canonical books \u2014 an edition that no longer exists, and so an upgrade that could never be marked done',
+  'Group by Series fixed and widened: it now auto-detects film and book franchises too (it only ever did TV and games outside the hand-curated list), groups its cards by medium, and no longer resolves a book series\u2019 entry to a same-titled film \u2014 which had been reporting owned books as missing',
+  'A committed regression pass covers all of it: the nesting, the collapse memory, the links out to the Global Controller, the edition vocabulary, and Group by Series'
+ ]},
  {v:'1.41.0',date:'2026-09-03',summary:'Found and fixed the real cause of new accounts saving nothing: the app was uploading a near-empty snapshot that overwrote your actual picks, leaving a row containing only an empty theme.',notes:[
   'The bug, exactly: the theme system re-writes the saved theme with the value it just read on EVERY page load. On a brand-new account — where local data has just been cleared, so the theme is the only saved key that exists — that pointless write scheduled a cloud save whose entire contents were {"omniLedgerTheme":""}. That near-empty upload then raced the real save of your picks, and whichever finished last won. When the empty one won, the database row became literally {"omniLedgerTheme":""} — which is exactly what was showing up',
   'Fixed three ways so it cannot come back: re-writing a value that has not changed is no longer treated as an edit and schedules nothing; all profile saves now go through a single queue so two uploads are never in flight at once (the newest data always lands last); and a profile with nothing in it yet is never uploaded at all, so the empty placeholder row can no longer be created',
@@ -4102,7 +4251,9 @@ var _rzT;window.addEventListener('resize',function(){clearTimeout(_rzT);_rzT=set
  if(state.view==='viz'){['bubble','radar','decade'].forEach(function(k){if(CH[k]&&CH[k].resize)try{CH[k].resize();}catch(e){}});if(typeof graphCenter!=='undefined'&&graphCenter&&typeof renderGraph==='function')renderGraph(graphCenter,true);}
 },200);});
 (function(){
- var resume=null;try{resume=sessionStorage.getItem('omniLedgerResumeView');sessionStorage.removeItem('omniLedgerResumeView');}catch(e){}
+ var resume=null,resumeScroll=null;
+ try{resume=sessionStorage.getItem('omniLedgerResumeView');sessionStorage.removeItem('omniLedgerResumeView');
+     resumeScroll=sessionStorage.getItem('omniLedgerResumeScroll');sessionStorage.removeItem('omniLedgerResumeScroll');}catch(e){}
  // resume (an internal post-action reload) wins over the URL (an actual bookmark/shared link) --
  // the two shouldn't collide in practice since resume only ever exists right after this app's own
  // reload calls, never on a fresh navigation, but resume is the more specific signal either way.
@@ -4112,6 +4263,14 @@ var _rzT;window.addEventListener('resize',function(){clearTimeout(_rzT);_rzT=set
   :(urlView&&document.querySelector('main > section[data-sec="'+urlView+'"]'))?urlView
   :'controller';
  switchView(target);
+ // Restored after switchView, which scrolls to the top of the tab it opens; and on the next frame,
+ // so the restored tab has actually laid out and the page is tall enough to scroll there at all.
+ if(resume&&resumeScroll!=null&&target===resume){
+  var y=parseInt(resumeScroll,10);
+  if(y>0)(window.requestAnimationFrame||setTimeout)(function(){
+   (window.requestAnimationFrame||setTimeout)(function(){window.scrollTo(0,y);},0);
+  },0);
+ }
 })();
 
  // Deliberate debug surface, and the last line of initApp().

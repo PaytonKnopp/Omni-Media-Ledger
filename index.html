@@ -39,6 +39,16 @@ header.sticky{background:color-mix(in srgb,var(--bg) 85%,transparent)!important;
 .panel{transition:background .4s ease,border-color .4s ease}
 .panel{background:var(--panel);border:1px solid var(--border);border-radius:14px}
 .lbl{font-size:9px;letter-spacing:.14em;text-transform:uppercase;color:var(--text-faint)}
+/* Collection tab: medium (Films/Series/Books/Games) and edition sections are <details>, so
+   collapsing is native and keyboard-accessible. The default triangle marker is replaced with a
+   caret we rotate ourselves, so the medium and format levels read identically. */
+.collSum{list-style:none}
+.collSum::-webkit-details-marker{display:none}
+.collCaret{display:inline-block;font-size:10px;transition:transform .15s ease}
+details[open]>.collSum .collCaret{transform:rotate(90deg)}
+.collSum:hover .collCaret{color:#94a3b8}
+.collGroup{border-left:1px solid var(--border);padding-left:10px}
+.collGroup+.collGroup{margin-top:2px}
 .chip{display:inline-flex;align-items:center;gap:4px;font-size:10px;line-height:1.1;padding:3px 9px;border-radius:9999px;border:1px solid var(--border-2);color:var(--text-dim);background:rgba(30,41,59,.45);white-space:nowrap}
 .bar{height:5px;border-radius:3px;background:var(--panel-3);overflow:hidden}
 .bar>i{display:block;height:100%;border-radius:3px;transition:width .25s ease}
@@ -622,7 +632,7 @@ body[data-theme="outer-wilds"]{--bg:#0e0a09;--panel:#181010;--panel-2:#120c0b;--
       <div class="text-[10px] tracking-[.2em] uppercase text-teal-300/70 mb-2.5">◆ Collection</div>
       <div class="text-[13px] text-slate-300 leading-relaxed space-y-3.5">
         <div>◆ <strong class="text-slate-100">Mark what you own</strong> from the tier row on any card, then manage it here.</div>
-        <div>💿 <strong class="text-slate-100">Document the exact edition you own</strong> — DVD / Blu-ray / 4K for movies &amp; TV, Hardcover / Softcover for books — right from this tab. The ⬆ Upgrade Audit reads this to suggest real upgrades instead of guessing.</div>
+        <div>💿 <strong class="text-slate-100">Document the exact edition you own</strong> — DVD / Blu-ray / 4K / Box Set for movies &amp; TV, Hardcover / Paperback / Box Set for books — right from this tab. The ⬆ Upgrade Audit reads this to suggest real upgrades instead of guessing.</div>
         <div>▤ <strong class="text-slate-100">Group by Series</strong> and the <strong class="text-slate-100">📚 Shelf View</strong> both list your collection alphabetically, so a series or a shelf reads the same way every time.</div>
       </div>
     </div>
@@ -1232,7 +1242,7 @@ body[data-theme="outer-wilds"]{--bg:#0e0a09;--panel:#181010;--panel-2:#120c0b;--
       <h2 class="text-[13px] font-bold uppercase tracking-[.18em]" style="color:#86efac">◆ My Collection</h2>
       <div class="seg" id="collSeg" style="flex:0 0 auto"><button type="button" data-cs="all" class="on">All</button><button type="button" data-cs="movie">Film</button><button type="button" data-cs="tv">TV</button><button type="button" data-cs="game">Games</button><button type="button" data-cs="book">Books</button></div><button type="button" id="seriesToggle" class="text-[11px] px-3 py-1.5 rounded-lg border border-slate-700 text-slate-300 hover:border-cyan-500 hover:text-cyan-300 transition-colors" style="flex:0 0 auto" title="Group your collection by franchise / series">▤ Group by Series</button><button type="button" id="shelfToggle" class="text-[11px] px-3 py-1.5 rounded-lg border border-slate-700 text-slate-300 hover:border-amber-500 hover:text-amber-300 transition-colors" style="flex:0 0 auto" title="See your collection as a visual shelf">📚 Shelf View</button><button type="button" id="upgradeToggle" class="text-[11px] px-3 py-1.5 rounded-lg border border-slate-700 text-slate-300 hover:border-sky-500 hover:text-sky-300 transition-colors" style="flex:0 0 auto" title="Owned titles worth upgrading to a better physical format -- movies, TV and books only, since games are mostly digital">⬆ Upgrade Audit</button>
     </div>
-    <p class="text-[11px] text-slate-500 mt-1.5 max-w-3xl">Everything you own — physical media plus your game library — is the strongest signal of your taste. The ledger treats these as your canon: they anchor your GOAT fingerprint and personalized scoring. Sorted by quality within each group.</p>
+    <p class="text-[11px] text-slate-500 mt-1.5 max-w-3xl">Everything you own — physical media plus your game library — is the strongest signal of your taste. The ledger treats these as your canon: they anchor your GOAT fingerprint and personalized scoring. Grouped by medium, then by the edition you own — open or collapse any level. Titles run A–Z within each group; tap one to open it in the Global Controller.</p>
     <input type="text" id="collSearch" class="inp mt-3" style="max-width:360px" placeholder="🔍 Find something in your collection…" autocomplete="off">
     <div id="collStats" class="grid grid-cols-2 md:grid-cols-6 gap-3 mt-4"></div>
   </div>
