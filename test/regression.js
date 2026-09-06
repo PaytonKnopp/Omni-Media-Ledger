@@ -138,7 +138,7 @@ async function readWhen(page, predicate, arg, timeout) {
 //
 // Signing in does NOT navigate: resolveHandle() fetches the profile, then hides the account gate
 // and re-boots the app in place against the new profile. That breaks the usual waiting tools --
-// there is no navigation for clickAndReload's marker to detect, and window.ALL is already defined
+// there is no profile edit for clickAndSettle's revision counter to detect, and window.ALL is
 // from the previous handle, so waitForBoot() returns immediately and proves nothing.
 //
 // The account gate closing is the one event that means resolveHandle() actually resolved, so that
@@ -172,29 +172,38 @@ async function signInAndSettle(page, handle, startBtn) {
   return { signedIn: signedIn, onboarding: onboarding };
 }
 
-// Click something that makes the app reload, and report whether the reload actually happened.
+// Click something that changes the profile, and report whether the change actually landed.
 //
-// The marker is set on window, the click fires, and the reload wipes it. If the marker survives the
-// wait, the click did NOT take -- typically the button was in the DOM but its handler had not been
-// bound yet, which a slower runner makes more likely.
+// Tiering used to reload the whole page, and this helper used to watch for that navigation. It no
+// longer does: a tier click recomputes the scores and re-renders in place (see mutateProfile), so
+// there is no navigation to wait on and the old marker would survive every successful click.
 //
-// The original swallowed that timeout, so a click that never registered was indistinguishable from
-// one that did, and the failure surfaced two steps later as "declaring Gold upserts a row into the
-// media_status table" -- a database check reporting a mouse event, red on CI while green locally.
-// Returning the outcome lets a caller assert on the click itself, so the failure names the real
-// cause instead of the next thing that trips over it.
+// window.__omniProfileRevision is bumped once per applied profile edit, after the recompute AND
+// the re-render, so waiting for it to advance means exactly what the reload wait used to mean:
+// the click registered and the app has caught up with it. A false return still distinguishes "the
+// button was in the DOM but its handler was not bound yet" from a later, unrelated failure.
 //
-// Deliberately NOT retried. Every caller clicks a TIER TOGGLE, so a second click undoes the first:
-// retrying converts "the reload was slow" into "the tier is now off", and the two account-flow
-// checks after this one then fail for a reason that never existed. That is not hypothetical -- it
-// is what a retry here did on CI. The budget is generous instead, and a genuine miss fails loudly.
-async function clickAndReload(page, selector, timeout) {
-  await page.evaluate(() => { window.__preReloadMarker = true; });
+// Deliberately NOT retried, for the same reason as before: every caller clicks a TIER TOGGLE, so
+// a second click undoes the first.
+// Expand the first card if it is not already open. Cards survive an edit expanded now, so a bare
+// click on the head is a TOGGLE that can close the very panel the next step is about to use.
+async function ensureFirstCardExpanded(page) {
+  const alreadyOpen = await page.evaluate(() => {
+    const card = document.querySelector('#grid .panel');
+    const detail = card && card.querySelector('.detail');
+    return !!(detail && !detail.classList.contains('hidden'));
+  });
+  if (!alreadyOpen) {
+    await page.click('#grid .panel .cardHead');
+    await page.waitForTimeout(200);
+  }
+}
+async function clickAndSettle(page, selector, timeout) {
+  const before = await page.evaluate(() => window.__omniProfileRevision || 0);
   await page.click(selector);
-  const reloaded = await page.waitForFunction(() => !window.__preReloadMarker, { timeout: timeout || 30000 })
+  return await page.waitForFunction(
+    (n) => (window.__omniProfileRevision || 0) > n, before, { timeout: timeout || 30000 })
     .then(() => true).catch(() => false);
-  await waitForBoot(page);
-  return reloaded;
 }
 
 function findChromium() {
@@ -462,7 +471,7 @@ async function runFile(browser, file) {
     }, targetId);
     // Re-select the button fresh -- the original handle's DOM node was replaced by the
     // Interstellar/dune re-searches above.
-    await clickAndReload(page, '#goatSearchResults .profEditBtn[data-act="declare"][data-id="' + targetId + '"]');
+    await clickAndSettle(page, '#goatSearchResults .profEditBtn[data-act="declare"][data-id="' + targetId + '"]');
     const isDeclaredAfter = await page.evaluate((id) => {
       try { return (JSON.parse(localStorage.getItem('omniLedgerProfile')).declaredGoatIds || []).includes(id); }
       catch (e) { return false; }
@@ -472,7 +481,7 @@ async function runFile(browser, file) {
       const s = document.querySelector('main > section[data-sec="goat"]');
       return s && !s.classList.contains('hidden');
     });
-    check('tiering from a non-controller tab returns to that same tab after the reload', resumedOnGoatView);
+    check('tiering from a non-controller tab leaves you on that tab (no reload, no bounce)', resumedOnGoatView);
 
     // Personal GOAT Profile's declared section: the 4 corpus-backed categories (Movies/Books/TV
     // Shows/Video Game) render live Gold/Silver/Bronze groups computed from actual tier data,
@@ -499,7 +508,7 @@ async function runFile(browser, file) {
       chip.dispatchEvent(new DragEvent('dragstart', { dataTransfer: dt, bubbles: true }));
       silverZone.dispatchEvent(new DragEvent('drop', { dataTransfer: dt, bubbles: true, cancelable: true }));
     }, oppId);
-    await page.waitForTimeout(900); // moveToTier reloads the page, same as any other tier change
+    await page.waitForTimeout(300); // moveToTier applies in place, same as any other tier change
     const movedToSilver = await page.evaluate((id) => {
       try {
         const p = JSON.parse(localStorage.getItem('omniLedgerProfile'));
@@ -531,7 +540,7 @@ async function runFile(browser, file) {
     await page.fill('#goatSearchInput', 'dune');
     await page.waitForTimeout(200);
     const undoBtn = await page.$('#goatSearchResults .profEditBtn[data-act="declare"][data-id="' + targetId + '"]');
-    if (undoBtn) { await clickAndReload(page, '#goatSearchResults .profEditBtn[data-act="declare"][data-id="' + targetId + '"]'); }
+    if (undoBtn) { await clickAndSettle(page, '#goatSearchResults .profEditBtn[data-act="declare"][data-id="' + targetId + '"]'); }
     await page.click('#nav .navBtn[data-view="controller"]');
     await page.waitForTimeout(200);
 
@@ -693,7 +702,7 @@ async function runFile(browser, file) {
     await page.click('#resetBtn');
     await page.waitForTimeout(300);
     const firstCardIdValue = await firstCardId(page);
-    await clickAndReload(page, '.panel .profEditBtn[data-act="bronze"][data-id="' + firstCardIdValue + '"]');
+    await clickAndSettle(page, '.panel .profEditBtn[data-act="bronze"][data-id="' + firstCardIdValue + '"]');
     const bronzeIds = await page.evaluate(() => {
       try { return JSON.parse(localStorage.getItem('omniLedgerProfile')).bronzeTierIds || []; }
       catch (e) { return []; }
@@ -717,7 +726,7 @@ async function runFile(browser, file) {
 
     // Creator boost/bury stepper: replaces the old one-way "+Boost <creator>" button with a +/-
     // control, so nudging a creator DOWN is exactly as available as nudging one up ("the opposite
-    // of boosting"). Each click reloads the page (mutateProfileAndReload), so re-locate the same
+    // of boosting"). Each click re-renders the grid in place (mutateProfile), so re-locate the same
     // card by id after each one rather than assuming the DOM survives.
     await page.click('.cardHead');
     await page.waitForTimeout(200);
@@ -748,10 +757,11 @@ async function runFile(browser, file) {
         } catch (e) { return null; }
       }, stepperCreator);
       check('the "+" creator stepper raises the weight', weightAfterPlus === 4);
-      // Re-expand the same card (it re-rendered after reload) and click "-" twice: once back to 0
-      // (should remove the entry entirely, not leave a stale 0), once more into negative territory.
-      await page.click('.cardHead[data-id]');
-      await page.waitForTimeout(200);
+      // Click "-" twice: once back to 0 (should remove the entry entirely, not leave a stale 0),
+      // once more into negative territory. The card is expanded only if it needs to be -- a stepper
+      // click no longer reloads the page, and an expanded card now stays expanded through one, so
+      // clicking its head unconditionally would CLOSE the card the next step needs open.
+      await ensureFirstCardExpanded(page);
       await page.click('.detail:not(.hidden) .profEditBtn[data-act="creatorbump"][data-delta="-4"]');
       await page.waitForTimeout(500);
       const weightAtZero = await page.evaluate((name) => {
@@ -761,8 +771,7 @@ async function runFile(browser, file) {
         } catch (e) { return true; }
       }, stepperCreator);
       check('stepping back to exactly 0 removes the boost entry instead of leaving a stale 0', !weightAtZero);
-      await page.click('.cardHead[data-id]');
-      await page.waitForTimeout(200);
+      await ensureFirstCardExpanded(page);
       await page.click('.detail:not(.hidden) .profEditBtn[data-act="creatorbump"][data-delta="-4"]');
       await page.waitForTimeout(500);
       const weightAfterMinus = await page.evaluate((name) => {
@@ -891,7 +900,7 @@ const MOCK_SUPABASE_SDK = `
 // in-memory-only mock, making it impossible to assert on state that was written right before
 // the reload. A brand-new browser context (a real "second device" in these tests) still starts
 // with empty sessionStorage, so isolation between simulated devices is unaffected.
-function __mockDefaultDb(){ return { tables: { profiles: {}, suggestions: [], media_status: [] }, upsertCalls: 0, insertCalls: 0, deleteCalls: 0 }; }
+function __mockDefaultDb(){ return { tables: { profiles: {}, suggestions: [], media_status: [] }, upsertCalls: 0, profileUpsertCalls: 0, insertCalls: 0, deleteCalls: 0 }; }
 function __mockLoad(){
   try {
     var db = JSON.parse(sessionStorage.getItem('__mockDb')) || __mockDefaultDb();
@@ -910,6 +919,7 @@ function __mockSetFlag(name, on){ try { sessionStorage.setItem('__mockFlag_' + n
 window.__mockSetFlag = __mockSetFlag;
 Object.defineProperty(window, '__mockTables', { get: function(){ return __mockLoad().tables; } });
 Object.defineProperty(window, '__upsertCalls', { get: function(){ return __mockLoad().upsertCalls; } });
+Object.defineProperty(window, '__profileUpsertCalls', { get: function(){ return __mockLoad().profileUpsertCalls || 0; } });
 Object.defineProperty(window, '__insertCalls', { get: function(){ return __mockLoad().insertCalls; } });
 Object.defineProperty(window, '__deleteCalls', { get: function(){ return __mockLoad().deleteCalls; } });
 function __mockBuilder(table){
@@ -935,6 +945,7 @@ function __mockBuilder(table){
       if (table === 'profiles') {
         if (state.op === 'upsert') {
           db.upsertCalls++;
+          db.profileUpsertCalls = (db.profileUpsertCalls || 0) + 1;
           // Test-only escape hatch (window.__mockFailNextProfileUpsert) to simulate a write that
           // reaches the server but fails, or times out client-side -- without it, there's no way
           // to test what happens when a self-triggered reload's own sync doesn't land, since every
@@ -1202,7 +1213,7 @@ async function runAccountFlow(browser, file) {
     await pageN.click(isShare ? '#onboardBlank' : '#onboardSample');
     await pageN.waitForTimeout(900);
     const newGoldId = await firstCardId(pageN);
-    await clickAndReload(pageN, '.panel .profEditBtn[data-act="bronze"][data-id="' + newGoldId + '"]');
+    await clickAndSettle(pageN, '.panel .profEditBtn[data-act="bronze"][data-id="' + newGoldId + '"]');
     await pageN.waitForTimeout(300);
     // Let any debounced background sync fire too, so a racing near-empty write would be caught.
     await pageN.waitForTimeout(2200);
@@ -1422,7 +1433,7 @@ async function runAccountFlow(browser, file) {
     // in the DB per title. Declaring something Gold should upsert a row; un-declaring it should
     // remove that row entirely (nothing left to track once there's no tier and it's not owned).
     const goldCardId = await firstCardId(page2);
-    const goldClickLanded = await clickAndReload(page2, '.panel .profEditBtn[data-act="declare"][data-id="' + goldCardId + '"]');
+    const goldClickLanded = await clickAndSettle(page2, '.panel .profEditBtn[data-act="declare"][data-id="' + goldCardId + '"]');
     check('the Gold button on card ' + goldCardId + ' actually fired (a missed click is not a database bug)',
       goldClickLanded);
     const mediaRowAfterDeclare = await readWhen(page2, (id) => {
@@ -1431,7 +1442,7 @@ async function runAccountFlow(browser, file) {
     }, goldCardId);
     check('declaring Gold upserts a row into the media_status table', !!mediaRowAfterDeclare && mediaRowAfterDeclare.tier === 'gold' && mediaRowAfterDeclare.owned === false);
 
-    await clickAndReload(page2, '.panel .profEditBtn[data-act="declare"][data-id="' + goldCardId + '"]');
+    await clickAndSettle(page2, '.panel .profEditBtn[data-act="declare"][data-id="' + goldCardId + '"]');
     const undeclareLanded = await readWhen(page2, (id) => {
       const t = window.__mockTables;
       // Only answer once the mock store is readable again -- mid-reload it is briefly not, and
@@ -1440,6 +1451,129 @@ async function runAccountFlow(browser, file) {
       return t.media_status.some(r => r.handle === 'smoketestuser2' && r.media_id === id) ? false : { gone: true };
     }, goldCardId);
     check('un-declaring removes the media_status row entirely (no tier, not owned)', !!undeclareLanded);
+
+    // The controller grid patches only the cards an edit can have changed instead of rebuilding all
+    // 100 of them -- the difference between ~210ms of blocked main thread per click and ~30ms. That
+    // is only sound if the patched grid is INDISTINGUISHABLE from a full redraw, so assert exactly
+    // that: click each tier button under several sorts, and compare the patched DOM against the
+    // result of forcing a complete re-render right after. A card reads two things off the rest of
+    // the corpus (whyRecommended's citation, crossMediumPairings' ordering), and both bit this
+    // before the changed set was widened to cover them -- 8 of 72 comparisons differed.
+    const gridEquivalence = await page2.evaluate(async () => {
+      const sorts = ['overall', 'tier', 'blend', 'crit', 'yearNew'];
+      const sel = document.getElementById('sortSel');
+      const originalSort = sel ? sel.value : null;
+      const bad = [];
+      let compared = 0;
+      for (const sortKey of sorts) {
+        if (sel && Array.from(sel.options).some(o => o.value === sortKey)) {
+          sel.value = sortKey;
+          sel.dispatchEvent(new Event('change', { bubbles: true }));
+          await new Promise(r => setTimeout(r, 100));
+        }
+        for (const act of ['declare', 'silver', 'bronze', 'own']) {
+          for (let n = 0; n < 2; n++) {
+            const btns = Array.from(document.querySelectorAll('.panel .profEditBtn[data-act="' + act + '"]'));
+            if (!btns.length) continue;
+            const btn = btns[(n * 7) % btns.length];
+            const id = btn.dataset.id;
+            btn.click();
+            const patched = document.getElementById('grid').innerHTML;
+            window.refresh();                    // full redraw, no changed-set shortcut
+            if (patched !== document.getElementById('grid').innerHTML) bad.push(sortKey + '/' + act);
+            compared++;
+            // Undo, so this check leaves the profile exactly as it found it.
+            const undo = document.querySelector('.panel .profEditBtn[data-act="' + act + '"][data-id="' + id + '"]');
+            if (undo) undo.click();
+          }
+        }
+      }
+      if (sel && originalSort !== null) {
+        sel.value = originalSort;
+        sel.dispatchEvent(new Event('change', { bubbles: true }));
+      }
+      return { compared: compared, bad: bad };
+    });
+    check('a patched grid is identical to a full redraw (' + gridEquivalence.compared + ' comparisons across sorts and tiers)',
+      gridEquivalence.compared >= 30 && gridEquivalence.bad.length === 0);
+    if (gridEquivalence.bad.length) console.log('       diverged on: ' + gridEquivalence.bad.join(', '));
+
+    // An expanded card stays expanded through the edit -- true on the patch path (its neighbours
+    // are never touched, and its own rebuild carries the state) and on the full-redraw fallback.
+    const stayedOpen = await page2.evaluate(async () => {
+      const head = document.querySelector('#grid .cardHead');
+      if (!head) return false;
+      const id = head.dataset.id;
+      head.click();                                       // expand it
+      await new Promise(r => setTimeout(r, 60));
+      const opened = !document.querySelector('#grid .panel .summaryFace').classList.contains('hidden');
+      document.querySelector('.panel .profEditBtn[data-act="bronze"][data-id="' + id + '"]').click();
+      await new Promise(r => setTimeout(r, 60));
+      const card = document.querySelector('#grid .cardHead[data-id="' + id + '"]').closest('.panel');
+      const sf = card.querySelector('.summaryFace');
+      const stillOpen = sf && !sf.classList.contains('hidden');
+      document.querySelector('.panel .profEditBtn[data-act="bronze"][data-id="' + id + '"]').click();
+      return opened && stillOpen;
+    });
+    check('an expanded card stays expanded when you tier it', stayedOpen);
+    await readWhen(page2, () => localStorage.getItem('omniLedgerPendingSync') !== '1', undefined, 15000);
+
+    // A RUN of edits -- marking several titles owned one after another, the workflow the in-place
+    // toggles exist to make possible -- must coalesce into far fewer uploads than clicks, and must
+    // still get every title's row into media_status. Before the shared debounce, each click fired
+    // its own verified upsert AND read-back, so twenty owned clicks queued twenty round-trips.
+    await readWhen(page2, () => localStorage.getItem('omniLedgerPendingSync') !== '1', undefined, 10000);
+    const runIds = await page2.evaluate(() => Array.from(document.querySelectorAll('.panel .profEditBtn[data-act="own"]'))
+      .slice(0, 5).map(b => b.dataset.id));
+    const upsertsBeforeRun = await page2.evaluate(() => window.__profileUpsertCalls);
+    // Dispatched back-to-back in one pass, which is what a run of clicks actually looks like and
+    // what the debounce is for. Driving them through Playwright instead would put a few hundred
+    // milliseconds of its own between clicks and measure the harness, not the app.
+    const revBefore = await page2.evaluate(() => window.__omniProfileRevision || 0);
+    await page2.evaluate((ids) => {
+      // Re-query each button: every edit re-renders the grid, so the previous node is gone.
+      ids.forEach(id => {
+        const b = document.querySelector('.panel .profEditBtn[data-act="own"][data-id="' + id + '"]');
+        if (b) b.click();
+      });
+    }, runIds);
+    const allApplied = await page2.waitForFunction(
+      (n) => (window.__omniProfileRevision || 0) >= n, revBefore + runIds.length, { timeout: 15000 })
+      .then(() => true).catch(() => false);
+    check('every click in a rapid run of ' + runIds.length + ' is applied', allApplied);
+    const runLanded = !!(await readWhen(page2, (ids) => {
+      const rows = (window.__mockTables && window.__mockTables.media_status) || [];
+      return ids.every(id => rows.some(r => r.handle === 'smoketestuser2' && r.media_id === id && r.owned === true));
+    }, runIds, 15000));
+    check('a run of Owned clicks gets every title into media_status', runLanded);
+    const upsertsForRun = (await page2.evaluate(() => window.__profileUpsertCalls)) - upsertsBeforeRun;
+    check('a rapid run of ' + runIds.length + ' edits coalesces into fewer profile uploads than clicks (was one each), got ' + upsertsForRun,
+      upsertsForRun > 0 && upsertsForRun < runIds.length);
+
+    // The watchlist is a tracked key like any other, but it used to be the one piece of real user
+    // data that only ever got the slower incidental-write sync. It now takes the same path as a
+    // tier click, so a heart reaches the cloud snapshot on its own.
+    await readWhen(page2, () => localStorage.getItem('omniLedgerPendingSync') !== '1', undefined, 10000);
+    const wlId = await page2.evaluate(() => {
+      const b = document.querySelector('.panel .wlBtn');
+      if (!b) return null;
+      b.click();
+      return b.dataset.wl;
+    });
+    const wlInCloud = !!(await readWhen(page2, (id) => {
+      const row = window.__mockTables && window.__mockTables.profiles && window.__mockTables.profiles['smoketestuser2'];
+      if (!row || !row.data) return false;
+      try { return Object.prototype.hasOwnProperty.call(JSON.parse(row.data.omniLedgerWatchlist || '{}'), id); }
+      catch (e) { return false; }
+    }, wlId, 10000));
+    check('a watchlist heart reaches the cloud on the same path as a tier click', !!wlId && wlInCloud);
+    // Put it back so nothing downstream inherits a stray watchlist entry.
+    await page2.evaluate((id) => { const b = document.querySelector('.panel .wlBtn[data-wl="' + id + '"]'); if (b) b.click(); }, wlId);
+    await readWhen(page2, () => localStorage.getItem('omniLedgerPendingSync') !== '1', undefined, 10000);
+
+    // Undo the run, so the rest of the flow sees the profile it expects.
+    for (const rid of runIds) await clickAndSettle(page2, '.panel .profEditBtn[data-act="own"][data-id="' + rid + '"]');
+    await readWhen(page2, () => localStorage.getItem('omniLedgerPendingSync') !== '1', undefined, 10000);
 
     // THE reported bug, reproduced end to end: "I select bronze from the main card, it shows up,
     // then I refresh the page and it's gone." The server accepts the write but doesn't store it
@@ -1464,7 +1598,7 @@ async function runAccountFlow(browser, file) {
     await page2.evaluate(() => window.__mockSetFlag('silentlyDropProfileUpserts', true));
     await page2.waitForTimeout(2000); // > the 1500ms scheduleCloudSync debounce
     await readWhen(page2, () => localStorage.getItem('omniLedgerPendingSync') !== '1', undefined, 10000);
-    await clickAndReload(page2, '.panel .profEditBtn[data-act="bronze"][data-id="' + bronzeCardId + '"]');
+    await clickAndSettle(page2, '.panel .profEditBtn[data-act="bronze"][data-id="' + bronzeCardId + '"]');
     const bronzeRightAfterClick = await page2.evaluate((id) => {
       try { return (JSON.parse(localStorage.getItem('omniLedgerProfile') || '{}').bronzeTierIds || []).includes(id); }
       catch (e) { return false; }
@@ -1530,7 +1664,7 @@ async function runAccountFlow(browser, file) {
     await page2.evaluate(() => window.__mockSetFlag('refuseProfileWritesSilently', true));
     await page2.waitForTimeout(2000); // > the 1500ms scheduleCloudSync debounce
     await readWhen(page2, () => localStorage.getItem('omniLedgerPendingSync') !== '1', undefined, 10000);
-    await clickAndReload(page2, '.panel .profEditBtn[data-act="silver"][data-id="' + bronzeCardId + '"]');
+    await clickAndSettle(page2, '.panel .profEditBtn[data-act="silver"][data-id="' + bronzeCardId + '"]');
     // Wait for BOTH halves together. The pending mark is set the moment the edit is written, but
     // the error message only lands once the push has round-tripped and been rejected -- so reading
     // pending with a wait and the reason with a bare evaluate samples them at different instants,
@@ -1581,12 +1715,27 @@ async function runAccountFlow(browser, file) {
       sessionStorage.setItem('__mockDb', JSON.stringify(db));
     });
     await page2.click('.panel .profEditBtn[data-act="declare"][data-id="' + secondGoldId + '"]');
-    await page2.waitForTimeout(600);
+    await page2.waitForTimeout(1500); // > the edit debounce, so the (failing) upsert has been attempted
     const survivedFailedSync = await page2.evaluate((id) => {
       try { return (JSON.parse(localStorage.getItem('omniLedgerProfile')).declaredGoatIds || []).includes(id); }
       catch (e) { return false; }
     }, secondGoldId);
     check('a self-triggered reload does not get clobbered when its own sync fails', survivedFailedSync);
+
+    // ...and the failed sync now heals itself while the tab just sits there. Before, a failure was
+    // only ever retried by the NEXT edit or the next boot, so a tab left open after one stayed
+    // rose-dotted and unsynced indefinitely -- correct about the data, but waiting on the person to
+    // do something about it. The declare above failed its one upsert (failNextProfileUpsert is
+    // one-shot), so nothing here touches the app: the backoff's first attempt lands on its own.
+    const healedByRetry = !!(await readWhen(page2, (id) => {
+      const row = window.__mockTables && window.__mockTables.profiles && window.__mockTables.profiles['smoketestuser2'];
+      if (!row || !row.data) return false;
+      let stored = false;
+      try { stored = (JSON.parse(row.data.omniLedgerProfile || '{}').declaredGoatIds || []).includes(id); }
+      catch (e) { return false; }
+      return stored && localStorage.getItem('omniLedgerPendingSync') !== '1';
+    }, secondGoldId, 20000));
+    check('a failed sync retries on its own, with no further edit and no reload', healedByRetry);
 
     // Root-cause regression for the bug that kept recurring in real use even after the Phase 34
     // fix: withTimeout races the real network request against a timeout, but doesn't cancel the
@@ -1603,7 +1752,7 @@ async function runAccountFlow(browser, file) {
       return heads[2] && heads[2].dataset.id;
     });
     await page2.click('.panel .profEditBtn[data-act="declare"][data-id="' + thirdGoldId + '"]');
-    await page2.waitForTimeout(900);
+    await page2.waitForTimeout(1500);
     await page2.evaluate(() => {
       const db = JSON.parse(sessionStorage.getItem('__mockDb'));
       db.slowNextProfileUpsertMs = 6000;
