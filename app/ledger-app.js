@@ -2669,7 +2669,11 @@ function switchView(v){state.view=v;
   if(on&&typeof b.scrollIntoView==='function')b.scrollIntoView({inline:'nearest',block:'nearest'});
  });
  $$('main > section').forEach(s=>s.classList.toggle('hidden',s.dataset.sec!==v));
+ // Pay for a tab that went stale while it was hidden, once, on the way in (see
+ // rerenderAfterProfileChange). Nothing happens for a tab that is already current.
+ if(profileDirtyViews[v]){delete profileDirtyViews[v];renderDeferredProfileView(v);}
  refresh();
+ if(v==='collection'&&collectionExtrasDirty){collectionExtrasDirty=false;renderCollectionExtras();}
  if(v==='viz'){graphChips();if(!graphCenter)renderGraph({type:'creator',key:'Christopher Nolan'},true);else renderGraph(graphCenter,true);(window.requestAnimationFrame||setTimeout)(()=>{['bubble','radar','decade'].forEach(k=>{if(CH[k])CH[k].resize();});if(graphCenter)renderGraph(graphCenter,true);});setTimeout(function(){['bubble','radar','decade'].forEach(k=>{if(CH[k])CH[k].resize();});if(graphCenter&&state.view==='viz')renderGraph(graphCenter,true);},260);}
  if(v==='portrait')renderPortrait();
  if(v==='timeline')renderTimeline();
@@ -3183,29 +3187,48 @@ function reloadWithMediaSync(oldProfile){
    card you had open. The cloud sync is no longer in the critical path either: it is fired in the
    background and reports itself in the sync pill, since with no navigation coming there is
    nothing to race. */
+/* Which hidden tabs are showing pre-edit state and need re-rendering before they are looked at.
+   Re-rendering all of them on every click is the obvious thing to do and it is what this did
+   first, but it cost about 600ms of blocked main thread per click on a 2,500-item corpus -- most
+   of it spent rebuilding six tabs nobody was looking at, and all of it paid again on the next
+   click. Marking them instead defers that work to the moment a tab is actually opened, where it
+   is one render the person is waiting for anyway rather than a stall between every click.
+
+   Only the tabs switchView does NOT already rebuild belong here. refresh() re-renders the
+   controller, viz, watchlist and the Collection's main list from live data every time a tab is
+   opened, and switchView calls renderPortrait/renderTimeline itself, so those are never stale. */
+const DEFERRED_PROFILE_VIEWS=['goat','creators','contenders','matrix'];
+const profileDirtyViews={};
+// The Collection's alternate layouts (Group by Series, Shelf View, Upgrade Audit) are rendered
+// into their own containers and are not touched by refresh(), so they are tracked alongside.
+let collectionExtrasDirty=false;
+function renderCollectionExtras(){
+ if(state.collGroup==='series'&&typeof renderCollectionSeries==='function')renderCollectionSeries();
+ if(state.collShelf&&typeof renderCollectionShelf==='function')renderCollectionShelf();
+ if(state.collUpgrade&&typeof renderUpgradeAudit==='function')renderUpgradeAudit();
+}
+function renderDeferredProfileView(v){
+ if(v==='goat'){
+  if(typeof renderGoat==='function')renderGoat();
+  // The GOAT tab's "Search & Build Your Favorites" pane is driven by whatever is typed into it and
+  // renderGoat does not touch it -- and it is exactly where a run of tier clicks happens.
+  if(typeof renderGoatSearchResults==='function')renderGoatSearchResults();
+ }
+ else if(v==='creators'&&typeof renderCreators==='function')renderCreators();
+ else if(v==='contenders'&&typeof renderContenders==='function')renderContenders();
+ else if(v==='matrix'&&typeof renderMatrices==='function')renderMatrices();
+}
+// Render whatever is on screen right now, and mark the rest as owing a render.
 function rerenderAfterProfileChange(){
- // Every profile-dependent surface is refreshed, not just the visible tab: the other tabs are
- // hidden, not unmounted, so leaving them stale would show a wrong medal or match score the
- // instant someone switched to one. They are cheap enough (a few hundred items each) that
- // re-rendering all of them beats tracking which ones went stale.
  const y=window.scrollY||window.pageYOffset||0;
  try{
+  DEFERRED_PROFILE_VIEWS.forEach(function(v){if(v!==state.view)profileDirtyViews[v]=true;});
+  collectionExtrasDirty=(state.view!=='collection');
   refresh();
-  if(typeof renderGoat==='function')renderGoat();
-  if(typeof renderCollection==='function')renderCollection();
-  if(typeof renderWatchlist==='function')renderWatchlist();
-  if(typeof renderCreators==='function')renderCreators();
-  if(typeof renderContenders==='function')renderContenders();
-  if(typeof renderMatrices==='function')renderMatrices();
-  if(state.collGroup==='series'&&typeof renderCollectionSeries==='function')renderCollectionSeries();
-  if(state.collShelf&&typeof renderCollectionShelf==='function')renderCollectionShelf();
-  if(state.collUpgrade&&typeof renderUpgradeAudit==='function')renderUpgradeAudit();
+  if(state.view==='collection')renderCollectionExtras();
   if(state.view==='portrait'&&typeof renderPortrait==='function')renderPortrait();
   if(state.view==='timeline'&&typeof renderTimeline==='function')renderTimeline();
-  // The GOAT tab's "Search & Build Your Favorites" list is its own results pane, driven by
-  // whatever is currently typed into it -- renderGoat doesn't touch it, and it is exactly where a
-  // run of tier clicks happens, so it has to reflect the new state too.
-  if(typeof renderGoatSearchResults==='function')renderGoatSearchResults();
+  renderDeferredProfileView(state.view);
  }catch(e){console.warn('Re-render after profile change failed:',e);}
  // A re-render replaces innerHTML, which can briefly change the page height; restoring the offset
  // keeps a click on a card deep in a long list from jumping the viewport.
@@ -3415,7 +3438,8 @@ const CHANGELOG=[
   'Your watchlist saves on the same path as a tier: a heart used to be the one piece of real data that only got the slower incidental-write sync, so it reached the cloud noticeably later than tiering the same title did',
   'A run of clicks is now one upload instead of one per click. Marking a shelf\u2019s worth of films owned used to queue a separate verified round-trip for every click; they are coalesced into a single write carrying all of them, which is both quicker and less to go wrong',
   'A failed save retries on its own, backing off, instead of waiting for you to edit something else or reload. The dot still turns red and still says why, and your change is still safe on the device meanwhile \u2014 it just no longer sits there needing you to notice it',
-  'Tier and ownership rows queued for the database survive a failed save instead of being dropped, and are re-sent with the retry'
+  'Tier and ownership rows queued for the database survive a failed save instead of being dropped, and are re-sent with the retry',
+  'Clicking a medal is roughly twice as quick again: the tabs you are not looking at are re-rendered when you open them rather than on every click'
  ]},
  {v:'1.43.0',date:'2026-09-06',summary:'Gold, Silver, Bronze and Owned now apply instantly. Clicking one no longer reloads the page.',notes:[
   'Tiering or owning a title used to reload the whole app \u2014 a white flash, the entire corpus re-scored from a cold start, every tab re-rendered, and the card you had open closed again. It now updates in place, so a click reads as a click',
