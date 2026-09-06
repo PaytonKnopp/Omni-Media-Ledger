@@ -201,7 +201,12 @@ button:focus-visible,select:focus-visible,input:focus-visible{outline:2px solid 
  #headerControlsRow .lbl,#headerControlsRow label.text-\[9px\]{font-size:8px}
  #headerControlsRow>.flex.flex-wrap.items-end.gap-4{justify-content:space-between;align-items:center;background:rgba(148,163,184,.04);border:1px solid rgba(148,163,184,.1);border-radius:10px;padding:7px 10px;row-gap:.5rem}
  #headerControlsRow>.flex.flex-wrap.items-end.gap-4>.flex.flex-col.items-end.gap-1:last-child{margin-left:auto;padding-left:.7rem;border-left:1px solid rgba(148,163,184,.16)}
- #themeSel{padding:4px 6px!important;font-size:10.5px!important}
+ /* iOS Safari sizes a native <select> to its widest <option> text ("The Lord of the Rings"),
+    not the currently selected value, unlike Chrome/Android which sizes to the selection -- so the
+    inline width:auto on #themeSel stretched it near full-width on iPhone, breaking the two-cluster
+    row layout below and pushing Theme/Help/Profile out of alignment with the Android reference.
+    Force a fixed max-width so both platforms render the same compact control. */
+ #themeSel{padding:4px 6px!important;font-size:10.5px!important;max-width:128px!important;text-overflow:ellipsis}
  #tipsBtn{width:24px!important;height:24px!important}
 
  /* Compact header (mobile only): a small toggle next to the account chip lets a phone user shrink
