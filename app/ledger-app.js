@@ -49,13 +49,13 @@ contenders.forEach(c=>{const wl=PERSONAL_PROFILE.watchlist||{};if(wl[c.id])c.wat
 
 /* ===================== UNIFIED ADAPTER LAYER ===================== */
 if(!PROFILE_FROM_STORAGE)PERSONAL_PROFILE.ownedBooksExtra={'b01':'Paperback','b02':'Hardcover','b03':'Hardcover','b04':'Hardcover','b05':'Hardcover','b06':'Paperback','b07':'Paperback','b08':'Hardcover','b09':'Hardcover','b10':'Hardcover','b11':'Hardcover','b12':'Hardcover','b13':'Hardcover','b14':'Hardcover','b15':'Hardcover','b16':'Hardcover','b17':'Paperback','b18':'Hardcover','b19':'Hardcover','b20':'Hardcover','b21':'Hardcover','b22':'Hardcover','b23':'Hardcover','b24':'Hardcover','b25':'Hardcover','b26':'Hardcover','b27':'Hardcover','b28':'Hardcover','b29':'Paperback','b30':'Hardcover','b31':'Hardcover','b32':'Hardcover','b33':'Hardcover','b34':'Paperback','b35':'Hardcover','b36':'Hardcover','b37':'Hardcover','b38':'Hardcover','b39':'Hardcover','b40':'Hardcover','b41':'Hardcover','b42':'Hardcover','b43':'Hardcover','b44':'Hardcover','b45':'Paperback','b46':'Hardcover','b47':'Hardcover','b48':'Paperback','b49':'Hardcover','b50':'Paperback','b51':'Hardcover','b508':'Hardcover','b59':'Paperback','b60':'Paperback','b58':'Paperback','b71':'Paperback','b53':'Paperback','b96':'Hardcover','b100':'Hardcover','b88':'Hardcover','b56':'Paperback','b148':'Paperback','b74':'Paperback','b79':'Hardcover','b151':'Paperback','b152':'Paperback','b153':'Box Set','b154':'Box Set','b155':'Paperback','b156':'Paperback','b157':'Paperback','b158':'Hardcover','b159':'Paperback','b160':'Paperback','b168':'Hardcover','b161':'Hardcover','b162':'Hardcover','b163':'Hardcover','b164':'Hardcover','b165':'Hardcover','b166':'Hardcover','b167':'Hardcover','b169':'Hardcover','b170':'Hardcover','b171':'Hardcover'};
-const OWNED_BOOKS_EXTRA=PERSONAL_PROFILE.ownedBooksExtra||{};
+let OWNED_BOOKS_EXTRA=PERSONAL_PROFILE.ownedBooksExtra||{};
 const OB=id=>OWNED_BOOKS_EXTRA[id]!==undefined;
 /* Ownership is now stated per book, in ownedBooksExtra above -- the old "id<=51 is owned by
    convention" rule made a personal shelf fact a property of the corpus's numbering. The ceiling
    is kept at 0 so a profile saved before that change still loads with its books owned. */
 if(!PROFILE_FROM_STORAGE)PERSONAL_PROFILE.ownedBookIdCeiling=0;
-const OWNED_BOOK_ID_CEILING=PERSONAL_PROFILE.ownedBookIdCeiling||0;
+let OWNED_BOOK_ID_CEILING=PERSONAL_PROFILE.ownedBookIdCeiling||0;
 if(!PROFILE_FROM_STORAGE)PERSONAL_PROFILE.ownedGameIds=['g45'];
 const KM={movie:{label:'FILM',c:'#a78bfa'},tv:{label:'TV',c:'#22d3ee'},game:{label:'GAME',c:'#fbbf24'},book:{label:'BOOK',c:'#4ade80'}};
 const ALL=[
@@ -78,9 +78,16 @@ const ALL=[
   tech:Math.round((bk.craft.proseCraft+bk.craft.ideaDensity)/2),
   dread:bk.atmosphericDreadIndex,myst:bk.ontologicalComplexity,format:bk.contextTags.formatType,vibe:bk.contextTags.vibeTime,just:bk.contextTags.justification,
   fid:[['Prose Craft',bk.craft.proseCraft],['Idea Density',bk.craft.ideaDensity],['Edition Quality',bk.format==='Deluxe'?95:bk.format==='Hardcover'?85:75]],
-  plats:[bk.publisher],provRaw:bk.prov,owned:(parseInt(bk.id.slice(1))<=OWNED_BOOK_ID_CEILING||OB(bk.id)),physFormat:(parseInt(bk.id.slice(1))<=OWNED_BOOK_ID_CEILING?bk.format:(OB(bk.id)?OWNED_BOOKS_EXTRA[bk.id]:null))}))
+  plats:[bk.publisher],bookFmt:bk.format,provRaw:bk.prov,owned:(parseInt(bk.id.slice(1))<=OWNED_BOOK_ID_CEILING||OB(bk.id)),physFormat:(parseInt(bk.id.slice(1))<=OWNED_BOOK_ID_CEILING?bk.format:(OB(bk.id)?OWNED_BOOKS_EXTRA[bk.id]:null))}))
 ];
 const byId=new Map(ALL.map(x=>[x.id,x]));
+/* The data-file baseline for ownership, captured once before any profile overlay is applied.
+   Everything else about owning something comes from PERSONAL_PROFILE, and the profile can change
+   while the app is running (see applyOwnershipFromProfile / recomputeProfileDerived below), so the
+   overlay has to be re-appliable from a clean starting point rather than layered onto whatever the
+   last toggle left behind. Films and series are the only kinds the corpus itself marks as owned;
+   games and books are entirely profile-driven. */
+ALL.forEach(x=>{const fromCorpus=(x.kind==='movie'||x.kind==='tv');x._baseOwned=fromCorpus&&!!x.owned;x._basePhys=fromCorpus?(x.physFormat||null):null;});
 ALL.forEach(x=>{x.ovr=Math.round(((x.crit+x.aud+x.tech)/3)*10)/10;});
 /* Provenance is a per-record stamp, never inferred from a record's ID or from whether the shelf
    holds a copy. Owning a disc verifies that it is owned; it verifies nothing about the runtime
@@ -98,8 +105,7 @@ function provStampOf(raw){
 ALL.forEach(x=>{const s=provStampOf(x.provRaw);delete x.provRaw;x.provStamp=s;x.prov=s.facts==='sourced'?'verified':'estimated';});
 /* Owned physical collection, reconciled against the master shelf ledger (film/TV + books). */
 if(!PROFILE_FROM_STORAGE)PERSONAL_PROFILE.ownedMedia={"m120":"4K","m106":"4K","m444":"4K","m384":"4K","t144":"Blu-ray","m116":"Blu-ray","m89":"Blu-ray","m66":"4K","m117":"4K","m65":"4K","m118":"4K","m119":"4K","m01":"4K","m121":"4K","m103":"4K","m122":"4K","m39":"Blu-ray","m158":"Blu-ray","m37":"4K","m40":"4K","m63":"4K","m20":"4K","m81":"Blu-ray","m02":"4K","m84":"4K","m114":"4K","m64":"4K","m14":"4K","m108":"4K","m159":"4K","m06":"4K","m105":"Blu-ray","m07":"4K","m88":"4K","m56":"4K","m12":"4K","m123":"Blu-ray","m54":"4K","m10":"Blu-ray","m124":"4K","m125":"4K","m107":"Blu-ray","m104":"4K","m126":"Blu-ray","m127":"4K","m128":"Blu-ray","m101":"Blu-ray","m110":"Blu-ray","m129":"Blu-ray","m130":"4K","m131":"Blu-ray","m132":"Blu-ray","m133":"Blu-ray","m134":"4K","m135":"Blu-ray","m09":"4K","m109":"4K","m102":"Blu-ray","m136":"4K","m113":"Blu-ray","m137":"Blu-ray","m138":"Blu-ray","m139":"Blu-ray","m140":"Blu-ray","m141":"Blu-ray","m142":"Blu-ray","m143":"Blu-ray","m144":"4K","m115":"Blu-ray","m145":"Blu-ray","m146":"Blu-ray","m147":"4K","m148":"Blu-ray","m149":"4K","m150":"4K","m151":"Blu-ray","m152":"4K","m160":"4K","m111":"Blu-ray","m154":"Blu-ray","m155":"Blu-ray","m156":"4K","m157":"4K","m86":"4K","m112":"Blu-ray","t17":"Box Set","t97":"Box Set","t03":"Box Set","t10":"Box Set","t47":"Box Set","t13":"Box Set","t28":"Box Set","t101":"Box Set"};
-const OWNED_MEDIA=PERSONAL_PROFILE.ownedMedia||{};
-ALL.forEach(x=>{if(OWNED_MEDIA[x.id]){x.owned=true;x.physFormat=OWNED_MEDIA[x.id];}if(x.kind==='book'&&(parseInt(x.id.slice(1))<=OWNED_BOOK_ID_CEILING||OB(x.id))){x.owned=true;if(OWNED_BOOKS_EXTRA[x.id])x.physFormat=OWNED_BOOKS_EXTRA[x.id];}});
+let OWNED_MEDIA=PERSONAL_PROFILE.ownedMedia||{};
 /* One canonical vocabulary for physical editions, applied once at load so every downstream
    reader (Collection groups, the per-item picker, the Upgrade Audit, Series cards, export)
    sees the same spellings no matter which era of the profile format wrote them:
@@ -123,7 +129,27 @@ function normPhysFormat(kind,f){
  if(mapped==='Deluxe')return (kind==='book')?'Hardcover':'Box Set';
  return mapped;
 }
-ALL.forEach(x=>{x.physFormat=normPhysFormat(x.kind,x.physFormat);});
+/* Re-derives every item's owned flag and edition from the current PERSONAL_PROFILE, starting from
+   the corpus baseline each time so it is safe to call again after the profile changes (marking
+   something owned, setting an edition, importing a profile). Format normalization runs at the end
+   of the same pass, so a profile written in an older vocabulary is canonicalized here too. */
+function applyOwnershipFromProfile(){
+ OWNED_MEDIA=PERSONAL_PROFILE.ownedMedia||{};
+ OWNED_BOOKS_EXTRA=PERSONAL_PROFILE.ownedBooksExtra||{};
+ OWNED_BOOK_ID_CEILING=PERSONAL_PROFILE.ownedBookIdCeiling||0;
+ const ownedGames=PERSONAL_PROFILE.ownedGameIds||[];
+ ALL.forEach(x=>{
+  x.owned=x._baseOwned;x.physFormat=x._basePhys;
+  if(x.kind==='game')x.owned=ownedGames.indexOf(x.id)>=0;
+  if(x.kind==='book'){
+   if(parseInt(x.id.slice(1),10)<=OWNED_BOOK_ID_CEILING){x.owned=true;x.physFormat=x.bookFmt;}
+   else if(OB(x.id)){x.owned=true;x.physFormat=OWNED_BOOKS_EXTRA[x.id];}
+  }
+  if(OWNED_MEDIA[x.id]){x.owned=true;x.physFormat=OWNED_MEDIA[x.id];}
+  x.physFormat=normPhysFormat(x.kind,x.physFormat);
+ });
+}
+applyOwnershipFromProfile();
 let WL={};
 try{const raw=localStorage.getItem('omniLedgerWatchlist');if(raw)WL=JSON.parse(raw)||{};}catch(e){WL={};}
 function wlSave(){try{localStorage.setItem('omniLedgerWatchlist',JSON.stringify(WL));}catch(e){}}
@@ -1171,15 +1197,15 @@ if(PROFILE_FROM_STORAGE)goatProfile.declared=PERSONAL_PROFILE.declaredCanon||[];
 else PERSONAL_PROFILE.declaredCanon=goatProfile.declared;
 /* --- Personal GOAT-match scoring across the full 2,502-work corpus --- */
 if(!PROFILE_FROM_STORAGE)PERSONAL_PROFILE.declaredGoatIds=['m09','m06','m65','t03','t10','g45','m120','b19','b20','b21','b32','b23'];
-const GOAT_DECLARED=new Set(PERSONAL_PROFILE.declaredGoatIds||[]);
+let GOAT_DECLARED=new Set(PERSONAL_PROFILE.declaredGoatIds||[]);
 if(!PROFILE_FROM_STORAGE)PERSONAL_PROFILE.creatorBoost=[['Christopher Nolan',14],['Denis Villeneuve',12],['Peter Jackson',10],['Steven Spielberg',9],['Stanley Kubrick',9],['Alex Garland',8],['Sam Esmail',8],['Jonathan Nolan',8],['David Fincher',7],['Alfonso Cuar\u00f3n',7],['Ridley Scott',7],['Martin Scorsese',7],['John Carpenter',7],['Peter Weir',7],['Sam Mendes',6],['Craig Mazin',6],['Vince Gilligan',6],['Sergio Leone',6],['Ron Howard',6],['Quentin Tarantino',6],['Clint Eastwood',6],['Robert Zemeckis',6],['Frank Darabont',6],['Joel & Ethan Coen',5],['Gus Van Sant',5],['Joseph Kosinski',5],['Bong Joon-ho',5],['Paul Thomas Anderson',5],['Akira Kurosawa',5]];
-const GOAT_CREATOR_BOOST=PERSONAL_PROFILE.creatorBoost||[];
+let GOAT_CREATOR_BOOST=PERSONAL_PROFILE.creatorBoost||[];
 if(!PROFILE_FROM_STORAGE)PERSONAL_PROFILE.genreBoost=[['time',6],['sci-fi',5],['epic',4],['space',4],['western',4],['mystery',3],['war',3],['psychological',4],['drama',3],['crime',3],['historical',3]];
-const GOAT_GENRE_BOOST=PERSONAL_PROFILE.genreBoost||[];
+let GOAT_GENRE_BOOST=PERSONAL_PROFILE.genreBoost||[];
 if(!PROFILE_FROM_STORAGE)PERSONAL_PROFILE.vibeBoost={'Notebook-and-Theories Night':8,'Puzzle-Box Replay':7,'Reference Demo Night':4,'Projector-Worthy Spectacle':4,'Late-Night Cosmic Dread':3,'World-Builder Marathon':3,'Systems Rabbit Hole':3,'Appointment Slow-Burn':2};
-const GOAT_VIBE_BOOST=PERSONAL_PROFILE.vibeBoost||{};
+let GOAT_VIBE_BOOST=PERSONAL_PROFILE.vibeBoost||{};
 if(!PROFILE_FROM_STORAGE)PERSONAL_PROFILE.bookCreatorBoost=[['Tolkien',12],['Dan Simmons',9],['Patrick Rothfuss',9],['Ursula K. Le Guin',8],['Isaac Asimov',7],['Liu Cixin',7],['Carl Sagan',7],['Gene Wolfe',6],['Frank Herbert',6],['Arthur C. Clarke',5],['Neil deGrasse Tyson',5],['Walter Isaacson',5],['Yuval Noah Harari',4],['China Mi\u00e9ville',5],['Jeff VanderMeer',5],['H.P. Lovecraft',5],['Cormac McCarthy',5],['Neal Stephenson',5],['Ted Chiang',5],['Susanna Clarke',5],['Stephen King',8]];
-const BOOK_CREATOR_BOOST=PERSONAL_PROFILE.bookCreatorBoost||[];
+let BOOK_CREATOR_BOOST=PERSONAL_PROFILE.bookCreatorBoost||[];
 /* Does this work carry `keyword` as a genre, or as something that inherits from it?
    Looked up through data/genre-taxonomy.js rather than searched for as a substring.
 
@@ -1201,26 +1227,15 @@ function genreMatches(x,keyword){
   return inherits.some(function(p){return p.toLowerCase()===want;});
  });
 }
-ALL.forEach(x=>{
- let base=0.5*x.crit+0.2*x.aud+0.3*x.tech,a=0;const br=[];
- GOAT_CREATOR_BOOST.forEach(c=>{if(x.creator.includes(c[0])){a+=c[1];br.push(['creator',c[0],c[1]]);}});
- if(x.kind==='book'){BOOK_CREATOR_BOOST.forEach(c=>{if(x.creator.includes(c[0])){a+=c[1];br.push(['author',c[0],c[1]]);}});}
- const gs=x.genres.join(' ').toLowerCase();
- GOAT_GENRE_BOOST.forEach(g=>{if(genreMatches(x,g[0])){a+=g[1];br.push(['genre',g[0],g[1]]);}});
- const vb=GOAT_VIBE_BOOST[x.vibe]||0;if(vb){a+=vb;br.push(['vibe',x.vibe,vb]);}
- if(x.myst>70){var mb=(x.myst-70)/6;a+=mb;br.push(['complexity','Ontological depth',Math.round(mb*10)/10]);}
- if(x.tech>85){var tb=(x.tech-85)/5;a+=tb;br.push(['craft','Technical craft',Math.round(tb*10)/10]);}
- /* No upper bound. This used to read `x.dread>80&&x.dread<=95`, which meant the boost climbed to
-    +1.5 at dread 95 and then fell off a cliff to zero at 96 -- so the sixteen most dread-soaked
-    works in the corpus (The Shining 97, The Thing 98, Hereditary 99, Come and See 99) were the
-    only ones that got nothing for it. A threshold with a ceiling reads like a range check, but
-    every other boost here is monotonic, and a taste signal that reverses at the top of its own
-    scale is a bug in any reading. */
- if(x.dread>80){var db=(x.dread-80)/10;a+=db;br.push(['dread','Atmospheric dread',Math.round(db*10)/10]);}
- x.gm=Math.max(40,Math.min(99,Math.round(base*0.5+a*1.2+14)));
- x.goat=false;
- x.gmBase=Math.round(base*0.5+14);x.gmBoosts=br;x.gmBoostTotal=Math.round(a*1.2*10)/10;
-});
+/* The taste pipeline, in one re-runnable pass.
+
+   Everything below -- the boost-driven match score, then the Gold/Silver/Bronze/owned ladder on
+   top of it -- is derived purely from PERSONAL_PROFILE, so it has to be recomputable at any time
+   rather than only at boot. It used to run once as a series of top-level statements, which is why
+   declaring a favorite or marking something owned reloaded the whole page: a full reload was the
+   only way to get these numbers recomputed. Now recomputeProfileDerived() calls it directly and
+   the app re-renders in place. Every field it writes is reset at the top of the pass, so running
+   it a second time produces exactly the same result as a fresh boot. */
 /* ---- The tier ladder ----
    Gold / Silver / Bronze / merely-owned are four strengths of the same statement: "this matches
    me". Each lifts a work's match score toward a floor, and the floors are what separate them.
@@ -1238,13 +1253,12 @@ ALL.forEach(x=>{
    A rung only ever raises a score (each is applied with `if (target > gm)`), so being tiered can
    never cost a work anything, and the highest applicable rung wins regardless of evaluation
    order. */
+function tierRank(x){return x.goat?3:x.silver?2:x.bronze?1:0;}
 const TIER_FLOOR={silver:88,bronze:84,owned:80};
 const TIER_OWN_WEIGHT=0.5;
 function tierTarget(gm,tier){return Math.round(gm*TIER_OWN_WEIGHT+TIER_FLOOR[tier]*(1-TIER_OWN_WEIGHT));}
 /* Silver tier: declared second-tier favorites. Half the pull of a GOAT pick; lifts the floor and reshapes the algorithmic neighborhood. */
 if(!PROFILE_FROM_STORAGE)PERSONAL_PROFILE.silverTierIds=['m101','m102','m14','m12','m10','m81','m07','m02','m37','m84','m56','m103','m104','m20','m105','m106','t17','t47','t13','t101','m107','m108','m109','m110','m111','m112','m113','m114','m115','m116','m86','g101','m159'];
-const GOAT_SILVER=new Set(PERSONAL_PROFILE.silverTierIds||[]);
-ALL.forEach(x=>{x.silver=GOAT_SILVER.has(x.id);if(x.silver){var sg=tierTarget(x.gm,'silver');if(sg>x.gm){x.gm=sg;x.gmOverride=x.gmOverride||'silver';}}});
 /* Bronze tier: a third, lighter-pull tier below Silver -- "really like, worth a nudge" rather than
    a full favorite. Same blend as every other rung, one floor lower (see the tier ladder above). */
 if(!PROFILE_FROM_STORAGE)PERSONAL_PROFILE.bronzeTierIds=[];
@@ -1254,17 +1268,49 @@ if(!PROFILE_FROM_STORAGE)PERSONAL_PROFILE.bronzeTierIds=[];
    Defaults to 4K Reference + Soundtrack (see DEFAULT_PINNED_IDX below) so a fresh profile already
    shows 5 well-rounded quick filters instead of an empty row. */
 if(!PROFILE_FROM_STORAGE)PERSONAL_PROFILE.pinnedIdx=DEFAULT_PINNED_IDX.slice();
-const GOAT_BRONZE=new Set(PERSONAL_PROFILE.bronzeTierIds||[]);
-ALL.forEach(x=>{x.bronze=GOAT_BRONZE.has(x.id);if(x.bronze){var bg=tierTarget(x.gm,'bronze');if(bg>x.gm){x.gm=bg;x.gmOverride=x.gmOverride||'bronze';}}});
-function tierRank(x){return x.goat?3:x.silver?2:x.bronze?1:0;}
 /* Owned, but not tiered: the weakest rung of the ladder above -- a real signal, since you bought
    it, but weaker than any deliberate tier because you own things you have not judged yet. */
-ALL.forEach(x=>{if(x.owned&&!x.goat){const target=tierTarget(x.gm,'owned');if(target>x.gm){x.gm=target;x.gmOverride=x.gmOverride||'owned';}x.ownedBoost=true;}});
 /* Book affinity: your fingerprint (Tolkien mythology, cosmic horror, physics/space, sincere science bios) lifts matching books. */
 if(!PROFILE_FROM_STORAGE)PERSONAL_PROFILE.bookAffinity={b19:96,b20:94,b21:95,b18:90,b22:92,b31:86,b26:92,b08:94,b12:90,b34:90,b29:90,b30:88,b33:88,b32:86,b04:86,b02:84,b05:88,b09:84,b10:84,b38:86,b37:88,b39:90,b28:84,b27:86,b47:84,b40:82,b58:90,b153:90,b154:92,b71:92,b53:86,b155:84,b156:84,b64:86,b56:90,b148:88,b74:92,b118:88,b151:86,b152:88,b157:88,b158:88,b159:84,b160:88,b88:86,b96:82,b100:84,b54:90,b52:90,b55:92,b126:88,b129:86,b130:88,b131:88,b132:88,b133:90,b78:90,b77:90,b79:88,b68:84,b70:86,b72:82,b150:86,b149:86,b76:86,b161:82,b162:84,b163:84,b164:84,b165:82,b166:82,b167:88,b93:84,b94:78};
-const BOOK_AFFINITY=PERSONAL_PROFILE.bookAffinity||{};
-ALL.forEach(x=>{if(x.kind==='book'&&BOOK_AFFINITY[x.id]){x.gm=Math.max(x.gm,BOOK_AFFINITY[x.id]);}});
-GOAT_DECLARED.forEach(id=>{const x=byId.get(id);if(x){x.gm=100;x.goat=true;x.gmOverride='declared';}});
+/* Declared here, assigned inside recomputeTasteScores below (which runs immediately after) so
+   every one of them is re-read from the profile on each recompute rather than frozen at boot. */
+let GOAT_SILVER,GOAT_BRONZE,BOOK_AFFINITY;
+function recomputeTasteScores(){
+ GOAT_DECLARED=new Set(PERSONAL_PROFILE.declaredGoatIds||[]);
+ GOAT_CREATOR_BOOST=PERSONAL_PROFILE.creatorBoost||[];
+ GOAT_GENRE_BOOST=PERSONAL_PROFILE.genreBoost||[];
+ GOAT_VIBE_BOOST=PERSONAL_PROFILE.vibeBoost||{};
+ BOOK_CREATOR_BOOST=PERSONAL_PROFILE.bookCreatorBoost||[];
+ GOAT_SILVER=new Set(PERSONAL_PROFILE.silverTierIds||[]);
+ GOAT_BRONZE=new Set(PERSONAL_PROFILE.bronzeTierIds||[]);
+ BOOK_AFFINITY=PERSONAL_PROFILE.bookAffinity||{};
+ ALL.forEach(x=>{
+ let base=0.5*x.crit+0.2*x.aud+0.3*x.tech,a=0;const br=[];
+ GOAT_CREATOR_BOOST.forEach(c=>{if(x.creator.includes(c[0])){a+=c[1];br.push(['creator',c[0],c[1]]);}});
+ if(x.kind==='book'){BOOK_CREATOR_BOOST.forEach(c=>{if(x.creator.includes(c[0])){a+=c[1];br.push(['author',c[0],c[1]]);}});}
+ const gs=x.genres.join(' ').toLowerCase();
+ GOAT_GENRE_BOOST.forEach(g=>{if(genreMatches(x,g[0])){a+=g[1];br.push(['genre',g[0],g[1]]);}});
+ const vb=GOAT_VIBE_BOOST[x.vibe]||0;if(vb){a+=vb;br.push(['vibe',x.vibe,vb]);}
+ if(x.myst>70){var mb=(x.myst-70)/6;a+=mb;br.push(['complexity','Ontological depth',Math.round(mb*10)/10]);}
+ if(x.tech>85){var tb=(x.tech-85)/5;a+=tb;br.push(['craft','Technical craft',Math.round(tb*10)/10]);}
+ /* No upper bound. This used to read `x.dread>80&&x.dread<=95`, which meant the boost climbed to
+    +1.5 at dread 95 and then fell off a cliff to zero at 96 -- so the sixteen most dread-soaked
+    works in the corpus (The Shining 97, The Thing 98, Hereditary 99, Come and See 99) were the
+    only ones that got nothing for it. A threshold with a ceiling reads like a range check, but
+    every other boost here is monotonic, and a taste signal that reverses at the top of its own
+    scale is a bug in any reading. */
+ if(x.dread>80){var db=(x.dread-80)/10;a+=db;br.push(['dread','Atmospheric dread',Math.round(db*10)/10]);}
+ x.gm=Math.max(40,Math.min(99,Math.round(base*0.5+a*1.2+14)));
+ x.goat=false;x.silver=false;x.bronze=false;x.gmOverride=null;x.ownedBoost=false;
+ x.gmBase=Math.round(base*0.5+14);x.gmBoosts=br;x.gmBoostTotal=Math.round(a*1.2*10)/10;
+ });
+ ALL.forEach(x=>{x.silver=GOAT_SILVER.has(x.id);if(x.silver){var sg=tierTarget(x.gm,'silver');if(sg>x.gm){x.gm=sg;x.gmOverride=x.gmOverride||'silver';}}});
+ ALL.forEach(x=>{x.bronze=GOAT_BRONZE.has(x.id);if(x.bronze){var bg=tierTarget(x.gm,'bronze');if(bg>x.gm){x.gm=bg;x.gmOverride=x.gmOverride||'bronze';}}});
+ ALL.forEach(x=>{if(x.owned&&!x.goat){const target=tierTarget(x.gm,'owned');if(target>x.gm){x.gm=target;x.gmOverride=x.gmOverride||'owned';}x.ownedBoost=true;}});
+ ALL.forEach(x=>{if(x.kind==='book'&&BOOK_AFFINITY[x.id]){x.gm=Math.max(x.gm,BOOK_AFFINITY[x.id]);}});
+ GOAT_DECLARED.forEach(id=>{const x=byId.get(id);if(x){x.gm=100;x.goat=true;x.gmOverride='declared';}});
+}
+recomputeTasteScores();
 /* ===== Generated recommendations, corpus-backed and people-backed (Phase 4 of the sharing roadmap) =====
    Movies/Books/TV Series/Video Games recommendations below are computed live from the same gm
    score (and its gmBoosts reasons) that PERSONAL_PROFILE drives everywhere else in the app,
@@ -1368,11 +1414,18 @@ function buildGeneratedRec(cat){
   .map(x=>({n:x.title,s:x.gm,k:x.kind,q:x.title,why:goatWhy(x)}));
  return {cat:cat,basis:computeBasisText(cat),items:items,generated:true};
 }
-Object.keys(RECS_KIND_BY_CAT).forEach(cat=>{
- const idx=goatProfile.recs.findIndex(c=>c.cat===cat);
- const rec=buildGeneratedRec(cat);
- if(idx>=0)goatProfile.recs[idx]=rec;else goatProfile.recs.push(rec);
-});
+/* Recommendations are a function of the match scores above (they are the top-scoring things you
+   have NOT owned or tiered), so they are rebuilt whenever those scores are. Replacing each
+   category in place rather than appending keeps this safe to call repeatedly. */
+function rebuildGeneratedRecs(){
+ Object.keys(RECS_KIND_BY_CAT).forEach(cat=>{
+  const idx=goatProfile.recs.findIndex(c=>c.cat===cat);
+  const rec=buildGeneratedRec(cat);
+  if(idx>=0)goatProfile.recs[idx]=rec;else goatProfile.recs.push(rec);
+ });
+ goatProfile.recs.forEach(c=>{if(c.generated)return;c.basis=computeBasisText(c.cat);});
+}
+rebuildGeneratedRecs();
 goatProfile.recs.forEach(c=>{
  if(c.generated)return;
  c.basis=computeBasisText(c.cat);
@@ -1387,6 +1440,16 @@ goatProfile.recs.forEach(c=>{
   c.partiallyLinked=c.items.some(it=>it.linked);
  }
 });
+/* Re-derives everything the app computes FROM the profile: ownership and editions, the match
+   score and its Gold/Silver/Bronze/owned ladder, and the generated recommendations that sit on
+   top of them. This is the whole reason a tier/own click no longer reloads the page -- see
+   mutateProfile below. Nothing outside the profile is touched, so the corpus indices computed
+   further down (Cosmic Horror, Soundtrack, ratings, genre families) stay valid across calls. */
+function recomputeProfileDerived(){
+ applyOwnershipFromProfile();
+ recomputeTasteScores();
+ rebuildGeneratedRecs();
+}
 /* --- Cosmic Horror Index: declared canon locked at 100, eldritch canon hand-scored, remainder algorithmic --- */
 if(!PROFILE_FROM_STORAGE)PERSONAL_PROFILE.cosmicHorrorDeclaredIds=['m02','m37','m39','m20','g101'];
 const CH_DECLARED=PERSONAL_PROFILE.cosmicHorrorDeclaredIds||[];
@@ -1607,7 +1670,7 @@ var TIER_STYLE={gold:['\u{1F947}','Gold','#fbbf24'],silver:['\u{1F948}','Silver'
 // Each tier group is ALSO a drop zone (data-tier/data-kind), and always renders -- even with zero
 // items -- so an empty tier still has somewhere to drag a chip into. Dragging a chip from one
 // zone to another within the same medium re-tiers it via moveToTier(), below, which goes through
-// the exact same mutateProfileAndReload path a click on the tier row does -- so a drag-based move
+// the exact same mutateProfile path a click on the tier row does -- so a drag-based move
 // recomputes the GOAT match weight exactly as if you'd clicked the old tier off and the new one on.
 function tierChipGroupHTML(kind,items,tierKey,filterQ){
  var s=TIER_STYLE[tierKey];
@@ -3093,35 +3156,86 @@ function reloadWithMediaSync(oldProfile){
 
 /* ===== In-app profile editor: declare / own / boost from any card, no JSON editing required =====
    PERSONAL_PROFILE at this point in execution already holds the fully resolved current profile,
-   whether that came from defaults or from localStorage -- so mutating a clone of it and saving
-   that clone is correct either way, without needing to special-case PROFILE_FROM_STORAGE. This is
-   the same write-then-reload pattern Import/Reset already use, chosen for the same reason: it
-   guarantees the whole scoring pipeline recomputes correctly rather than trying to patch already-
-   derived scores in place. */
-function mutateProfileAndReload(mutatorFn){
+   whether that came from defaults or from localStorage -- so mutating a clone of it, saving that
+   clone, and then adopting it in place is correct either way, without needing to special-case
+   PROFILE_FROM_STORAGE.
+
+   This used to write the profile and then reload the whole page, because the scoring pipeline
+   only ran once, at module evaluation: a reload was the only way to get it to run again. That
+   made the most-used interaction in the app -- clicking Gold, or Owned, on a card -- cost a full
+   navigation: a white flash, every script and stylesheet re-parsed, all 700-odd corpus items
+   re-scored from scratch, every tab re-rendered, expanded cards collapsed, and (when signed in)
+   up to fifteen seconds of blocking cloud sync first, because the reload would otherwise race the
+   write. Marking a shelf's worth of films owned meant sitting through that once per film.
+
+   The pipeline is now a function (recomputeProfileDerived), so the click does what it looks like
+   it does: update the profile, recompute the scores, re-render what is on screen. Same result,
+   same numbers -- the recompute resets every field it derives, so a run of it is identical to a
+   fresh boot -- but instantly, without losing the tab, the scroll position, the filters, or the
+   card you had open. The cloud sync is no longer in the critical path either: it is fired in the
+   background and reports itself in the sync pill, since with no navigation coming there is
+   nothing to race. */
+function rerenderAfterProfileChange(){
+ // Every profile-dependent surface is refreshed, not just the visible tab: the other tabs are
+ // hidden, not unmounted, so leaving them stale would show a wrong medal or match score the
+ // instant someone switched to one. They are cheap enough (a few hundred items each) that
+ // re-rendering all of them beats tracking which ones went stale.
+ const y=window.scrollY||window.pageYOffset||0;
+ try{
+  refresh();
+  if(typeof renderGoat==='function')renderGoat();
+  if(typeof renderCollection==='function')renderCollection();
+  if(typeof renderWatchlist==='function')renderWatchlist();
+  if(typeof renderCreators==='function')renderCreators();
+  if(typeof renderContenders==='function')renderContenders();
+  if(typeof renderMatrices==='function')renderMatrices();
+  if(state.collGroup==='series'&&typeof renderCollectionSeries==='function')renderCollectionSeries();
+  if(state.collShelf&&typeof renderCollectionShelf==='function')renderCollectionShelf();
+  if(state.collUpgrade&&typeof renderUpgradeAudit==='function')renderUpgradeAudit();
+  if(state.view==='portrait'&&typeof renderPortrait==='function')renderPortrait();
+  if(state.view==='timeline'&&typeof renderTimeline==='function')renderTimeline();
+  // The GOAT tab's "Search & Build Your Favorites" list is its own results pane, driven by
+  // whatever is currently typed into it -- renderGoat doesn't touch it, and it is exactly where a
+  // run of tier clicks happens, so it has to reflect the new state too.
+  if(typeof renderGoatSearchResults==='function')renderGoatSearchResults();
+ }catch(e){console.warn('Re-render after profile change failed:',e);}
+ // A re-render replaces innerHTML, which can briefly change the page height; restoring the offset
+ // keeps a click on a card deep in a long list from jumping the viewport.
+ window.scrollTo(0,y);
+}
+function mutateProfile(mutatorFn){
  let snapshot;
  try{snapshot=JSON.parse(JSON.stringify(PERSONAL_PROFILE));}catch(e){alert('Could not read current profile: '+e.message);return;}
  try{mutatorFn(snapshot);}catch(e){alert('Could not apply that change: '+e.message);return;}
+ // Diffed before PERSONAL_PROFILE is overwritten, so the media_status rows describe what actually
+ // changed in this one edit rather than the whole profile.
+ let rows=[];
+ try{rows=diffMediaStatus(PERSONAL_PROFILE,snapshot);}catch(e){}
  try{localStorage.setItem('omniLedgerProfile',JSON.stringify(snapshot));localStorage.setItem('omniLedgerOnboarded','1');}catch(e){alert('Could not save: '+e.message);return;}
- // Tiering/owning something reloads the whole page (the scoring pipeline needs a full recompute,
- // not a patch) -- remember which tab was open so a click from, say, the GOAT Profile tab's search
- // results doesn't bounce back to Global Controller. Read on boot, see initRoutingAndBindings.
- // ...and where you were looking. Declaring an edition from deep in a 179-item Collection used to
- // throw away the scroll position and drop you back at the top of the tab -- unusable for setting
- // formats in a run, which is exactly what the format buttons are for.
- try{sessionStorage.setItem('omniLedgerResumeView',state.view);
-     sessionStorage.setItem('omniLedgerResumeScroll',String(window.scrollY||window.pageYOffset||0));}catch(e){}
- reloadWithMediaSync(PERSONAL_PROFILE);
+ // Adopted in place rather than rebound: PERSONAL_PROFILE is referenced directly by name all over
+ // this file, so the object identity has to survive the edit.
+ Object.keys(PERSONAL_PROFILE).forEach(function(k){delete PERSONAL_PROFILE[k];});
+ Object.assign(PERSONAL_PROFILE,snapshot);
+ recomputeProfileDerived();
+ rerenderAfterProfileChange();
+ // A monotonic "the profile changed and the app has caught up" counter. With no navigation to
+ // watch for any more, this is what the regression suite waits on to know a tier click actually
+ // landed, and it is a useful thing to watch from a console for the same reason.
+ try{window.__omniProfileRevision=(window.__omniProfileRevision||0)+1;}catch(e){}
+ // Fire-and-forget: the local write above already landed, and the sync pill in the header reports
+ // success or failure. Falls back to the debounced sync that the localStorage write itself
+ // schedules if this hook isn't present.
+ if(typeof window.__omniSyncAfterChange==='function')window.__omniSyncAfterChange(rows);
 }
 function toggleDeclaredFavorite(id){
- mutateProfileAndReload(p=>{
+ mutateProfile(p=>{
   p.declaredGoatIds=p.declaredGoatIds||[];
   const i=p.declaredGoatIds.indexOf(id);
   if(i>=0)p.declaredGoatIds.splice(i,1);else p.declaredGoatIds.push(id);
  });
 }
 function toggleOwned(id,kind){
- mutateProfileAndReload(p=>{
+ mutateProfile(p=>{
   if(kind==='movie'||kind==='tv'){
    p.ownedMedia=p.ownedMedia||{};
    if(p.ownedMedia[id])delete p.ownedMedia[id];else p.ownedMedia[id]='Owned';
@@ -3139,7 +3253,7 @@ function toggleOwned(id,kind){
 // bounded to [-20,20], and an entry that lands back on exactly 0 is removed rather than kept
 // around as a no-op weight, so a creator you've never touched shows no boost/bury state at all.
 function bumpCreatorBoost(name,kind,delta){
- mutateProfileAndReload(p=>{
+ mutateProfile(p=>{
   const key=kind==='book'?'bookCreatorBoost':'creatorBoost';
   p[key]=p[key]||[];
   const existing=p[key].find(e=>e[0]===name);
@@ -3152,7 +3266,7 @@ function bumpCreatorBoost(name,kind,delta){
  });
 }
 function toggleGenreBoost(genre){
- mutateProfileAndReload(p=>{
+ mutateProfile(p=>{
   p.genreBoost=p.genreBoost||[];
   const key=genre.toLowerCase();
   const i=p.genreBoost.findIndex(g=>g[0]===key);
@@ -3160,20 +3274,20 @@ function toggleGenreBoost(genre){
  });
 }
 function toggleVibeBoost(vibe){
- mutateProfileAndReload(p=>{
+ mutateProfile(p=>{
   p.vibeBoost=p.vibeBoost||{};
   if(p.vibeBoost[vibe])delete p.vibeBoost[vibe];else p.vibeBoost[vibe]=5;
  });
 }
 function toggleSilverTier(id){
- mutateProfileAndReload(p=>{
+ mutateProfile(p=>{
   p.silverTierIds=p.silverTierIds||[];
   const i=p.silverTierIds.indexOf(id);
   if(i>=0)p.silverTierIds.splice(i,1);else p.silverTierIds.push(id);
  });
 }
 function toggleBronzeTier(id){
- mutateProfileAndReload(p=>{
+ mutateProfile(p=>{
   p.bronzeTierIds=p.bronzeTierIds||[];
   const i=p.bronzeTierIds.indexOf(id);
   if(i>=0)p.bronzeTierIds.splice(i,1);else p.bronzeTierIds.push(id);
@@ -3185,13 +3299,13 @@ function toggleBronzeTier(id){
 // same title could plausibly appear in two different curated lists with two different "why"s.
 function recKey(cat,it){return cat+'|'+(it.q||it.n);}
 function hideRec(cat,key){
- mutateProfileAndReload(p=>{
+ mutateProfile(p=>{
   p.hiddenRecs=p.hiddenRecs||[];
   if(p.hiddenRecs.indexOf(key)<0)p.hiddenRecs.push(key);
  });
 }
 function unhideAllRecsInCat(cat){
- mutateProfileAndReload(p=>{
+ mutateProfile(p=>{
   p.hiddenRecs=(p.hiddenRecs||[]).filter(function(k){return k.indexOf(cat+'|')!==0;});
  });
 }
@@ -3204,7 +3318,7 @@ function moveToTier(id,targetTier){
  var x=byId.get(id);if(!x)return;
  var currentTier=x.goat?'gold':x.silver?'silver':x.bronze?'bronze':null;
  if(currentTier===targetTier)return;
- mutateProfileAndReload(function(p){
+ mutateProfile(function(p){
   p.declaredGoatIds=(p.declaredGoatIds||[]).filter(function(i){return i!==id;});
   p.silverTierIds=(p.silverTierIds||[]).filter(function(i){return i!==id;});
   p.bronzeTierIds=(p.bronzeTierIds||[]).filter(function(i){return i!==id;});
@@ -3214,7 +3328,7 @@ function moveToTier(id,targetTier){
  });
 }
 function boostBookAffinity(id){
- mutateProfileAndReload(p=>{
+ mutateProfile(p=>{
   p.bookAffinity=p.bookAffinity||{};
   const cur=p.bookAffinity[id]||0;
   p.bookAffinity[id]=Math.min(99,cur?cur+5:75);
@@ -3243,7 +3357,7 @@ const FMT_STYLE={
 };
 function fmtStyle(f){return FMT_STYLE[f]||{bg:'#94a3b8',fg:'#0B0F19',bd:'#94a3b8',ac:'#94a3b8'};}
 function setPhysFormat(id,kind,fmt){
- mutateProfileAndReload(p=>{
+ mutateProfile(p=>{
   if(kind==='movie'||kind==='tv'){
    p.ownedMedia=p.ownedMedia||{};
    p.ownedMedia[id]=(p.ownedMedia[id]===fmt)?'Owned':fmt;
@@ -3287,8 +3401,15 @@ function handleProfileEditClick(btn){
    "here's what changed" readout, not a live version check against anything. Bump APP_VERSION and
    add a CHANGELOG entry whenever a change is worth a friend knowing about; cosmetic tweaks don't
    need a bump. */
-const APP_VERSION='1.42.0';
+const APP_VERSION='1.43.0';
 const CHANGELOG=[
+ {v:'1.43.0',date:'2026-09-06',summary:'Gold, Silver, Bronze and Owned now apply instantly. Clicking one no longer reloads the page.',notes:[
+  'Tiering or owning a title used to reload the whole app \u2014 a white flash, the entire corpus re-scored from a cold start, every tab re-rendered, and the card you had open closed again. It now updates in place, so a click reads as a click',
+  'Nothing about the scores changes: the match score, the Gold/Silver/Bronze/owned ladder and the generated recommendations are recomputed by the same code as before, just called directly instead of only at boot',
+  'You keep your place \u2014 the tab you were on, how far you had scrolled, your filters and your search. Marking a shelf\u2019s worth of films owned, or setting editions in a run down the Collection, is now one continuous pass instead of a reload between every click',
+  'Signed in, a tier click used to block on the cloud write before reloading, for up to fifteen seconds on a slow connection or a cold database. With no reload to race, the sync now happens in the background and reports itself in the header pill as it always did; your change is on the device the moment you click either way',
+  'Every other tab updates too, not just the one you are looking at \u2014 switching to the GOAT Profile or the Collection after tiering something shows the new state immediately'
+ ]},
  {v:'1.42.0',date:'2026-09-06',summary:'The Collection tab is now organised the way a shelf actually is \u2014 by medium first, then by edition, with everything collapsible and every title one click from the Global Controller.',notes:[
   'Collection is grouped medium \u2192 edition instead of one flat run of format buckets: Films, Series, Books and Games are the outer sections, and 4K / Blu-ray / DVD / Box Set (or Hardcover / Paperback / Box Set) sit inside the medium they belong to',
   'Both levels collapse and expand independently, and what you close stays closed across visits \u2014 collapse Books to skim the discs, or open Books and collapse Hardcover to see just the paperbacks. Expand all / Collapse all handle the whole tab at once. A collapsed medium still shows a per-edition tally, so you can see what is inside without opening it',
@@ -3825,7 +3946,7 @@ const CHANGELOG=[
    try{localStorage.setItem('omniLedgerOnboarded','1');localStorage.setItem('omniLedgerProfile',JSON.stringify(profile));}catch(e){alert('Could not save: '+e.message);return;}
    reloadWithMediaSync({});
   }else{
-   mutateProfileAndReload(function(p){
+   mutateProfile(function(p){
     p.declaredGoatIds=golds;
     p.silverTierIds=silvers;
     p.bronzeTierIds=bronzes;
@@ -4251,26 +4372,14 @@ var _rzT;window.addEventListener('resize',function(){clearTimeout(_rzT);_rzT=set
  if(state.view==='viz'){['bubble','radar','decade'].forEach(function(k){if(CH[k]&&CH[k].resize)try{CH[k].resize();}catch(e){}});if(typeof graphCenter!=='undefined'&&graphCenter&&typeof renderGraph==='function')renderGraph(graphCenter,true);}
 },200);});
 (function(){
- var resume=null,resumeScroll=null;
- try{resume=sessionStorage.getItem('omniLedgerResumeView');sessionStorage.removeItem('omniLedgerResumeView');
-     resumeScroll=sessionStorage.getItem('omniLedgerResumeScroll');sessionStorage.removeItem('omniLedgerResumeScroll');}catch(e){}
- // resume (an internal post-action reload) wins over the URL (an actual bookmark/shared link) --
- // the two shouldn't collide in practice since resume only ever exists right after this app's own
- // reload calls, never on a fresh navigation, but resume is the more specific signal either way.
+ // Which tab to open on boot. The only signal left is the URL, which is what a bookmark or a
+ // shared link carries -- there used to be a sessionStorage "resume" pair here as well, written
+ // right before a tier/own click reloaded the page so the reload could land you back on the tab
+ // and scroll offset you clicked from. Those edits no longer reload (see mutateProfile), so there
+ // is nothing to resume: you never left the page in the first place.
  var urlView=paramsToState();
  applyStateToStaticControls();
- var target=(resume&&document.querySelector('main > section[data-sec="'+resume+'"]'))?resume
-  :(urlView&&document.querySelector('main > section[data-sec="'+urlView+'"]'))?urlView
-  :'controller';
- switchView(target);
- // Restored after switchView, which scrolls to the top of the tab it opens; and on the next frame,
- // so the restored tab has actually laid out and the page is tall enough to scroll there at all.
- if(resume&&resumeScroll!=null&&target===resume){
-  var y=parseInt(resumeScroll,10);
-  if(y>0)(window.requestAnimationFrame||setTimeout)(function(){
-   (window.requestAnimationFrame||setTimeout)(function(){window.scrollTo(0,y);},0);
-  },0);
- }
+ switchView((urlView&&document.querySelector('main > section[data-sec="'+urlView+'"]'))?urlView:'controller');
 })();
 
  // Deliberate debug surface, and the last line of initApp().

@@ -1471,16 +1471,16 @@ var SUPABASE_CONFIG={url:"https://gqpjeccmwsjxrlrazqxt.supabase.co",anonKey:"sb_
   if(toDelete.length)jobs.push(client.from('media_status').delete().eq('handle',handle).in('media_id',toDelete));
   return Promise.all(jobs).catch(function(e){console.warn('media_status sync failed:',e);});
  }
- // Tiering/owning something reloads the whole page (see mutateProfileAndReload in ledger-app --
- // the scoring pipeline needs a full recompute, not a patch), and that reload was racing the
+ // Import, Reset, switching accounts and onboarding still reload the page (they replace the
+ // whole profile, so a clean boot is the honest way to apply one), and that reload was racing the
  // debounced scheduleCloudSync above: the 1.5s timer almost never got to fire before navigation
  // cut it off, and the NEXT boot's cloud hydrate would then silently overwrite the fresh (never-
  // synced) local change with the stale cloud copy -- so tiering something, then having the app
  // reload as part of the normal flow, could revert itself. Fixed by flushing an immediate,
  // un-debounced sync and waiting for it (bounded by a timeout) before reloading at all, instead of
  // firing a debounced one and reloading straight past it. Exposed on window so ledger-app's several
- // reload sites (mutateProfileAndReload, Import, Reset, onboarding) can call it without duplicating
- // any of this.
+ // reload sites (Import, Reset, onboarding) can call it without duplicating
+ // any of this. Tiering and owning no longer reload at all -- they use syncAfterLocalChange below.
  // How long a reload-triggering sync gets before this app gives up waiting on it. This used to be
  // 4 seconds -- nowhere near enough real margin: Promise.race (what withTimeout uses) doesn't
  // cancel the loser, so when the real request took longer than that (a slow connection, or a
@@ -1527,6 +1527,31 @@ var SUPABASE_CONFIG={url:"https://gqpjeccmwsjxrlrazqxt.supabase.co",anonKey:"sb_
   });
  }
  window.__omniReloadAfterSync=reloadAfterSync;
+ // The non-reloading counterpart, used by every in-app profile edit (tiering, owning, setting an
+ // edition, nudging a creator) now that those recompute and re-render in place instead of
+ // navigating -- see mutateProfile in ledger-app. With no navigation coming there is nothing for
+ // the sync to race, so this doesn't block anything and doesn't need the timeout/skip-hydrate
+ // dance reloadAfterSync needs: it fires immediately (rather than waiting out the 1.5s debounce,
+ // so a closed tab can't strand the write), reports itself in the sync pill, and leaves the local
+ // copy authoritative if it fails. The pending mark set by a failed pushSnapshot still keeps a
+ // later boot from hydrating over local state that never reached the cloud.
+ function syncAfterLocalChange(mediaRows){
+  if(!cloudReady||!handle||!client)return;
+  clearTimeout(syncTimer);syncTimer=null;
+  setSyncState('amber','Signed in as '+handle+'. Syncing…');
+  // Sequenced for the same foreign-key reason reloadAfterSync sequences them: media_status.handle
+  // references profiles.handle, so the profiles row has to exist before any media_status row can.
+  pushSnapshot().then(function(){
+   return (mediaRows&&mediaRows.length)?syncMediaStatusRows(mediaRows):null;
+  }).then(function(){
+   setSyncState('emerald','Signed in as '+handle+'. Synced to the cloud.');
+  },function(e){
+   var msg=recordSyncError(e);
+   console.warn('Cloud sync failed — your change is kept on this device and will retry:',msg);
+   setSyncState('rose','Signed in as '+handle+'. NOT saved to the cloud: '+msg);
+  });
+ }
+ window.__omniSyncAfterChange=syncAfterLocalChange;
  // Used right before switching accounts or otherwise abandoning the current local state: the
  // debounced scheduleCloudSync above only fires 1.5s after the last TRACKED-key write, so an edit
  // that never reloads the page on its own (toggling the watchlist, changing density, dismissing

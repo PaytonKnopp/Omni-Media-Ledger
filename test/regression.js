@@ -138,7 +138,7 @@ async function readWhen(page, predicate, arg, timeout) {
 //
 // Signing in does NOT navigate: resolveHandle() fetches the profile, then hides the account gate
 // and re-boots the app in place against the new profile. That breaks the usual waiting tools --
-// there is no navigation for clickAndReload's marker to detect, and window.ALL is already defined
+// there is no profile edit for clickAndSettle's revision counter to detect, and window.ALL is
 // from the previous handle, so waitForBoot() returns immediately and proves nothing.
 //
 // The account gate closing is the one event that means resolveHandle() actually resolved, so that
@@ -172,29 +172,25 @@ async function signInAndSettle(page, handle, startBtn) {
   return { signedIn: signedIn, onboarding: onboarding };
 }
 
-// Click something that makes the app reload, and report whether the reload actually happened.
+// Click something that changes the profile, and report whether the change actually landed.
 //
-// The marker is set on window, the click fires, and the reload wipes it. If the marker survives the
-// wait, the click did NOT take -- typically the button was in the DOM but its handler had not been
-// bound yet, which a slower runner makes more likely.
+// Tiering used to reload the whole page, and this helper used to watch for that navigation. It no
+// longer does: a tier click recomputes the scores and re-renders in place (see mutateProfile), so
+// there is no navigation to wait on and the old marker would survive every successful click.
 //
-// The original swallowed that timeout, so a click that never registered was indistinguishable from
-// one that did, and the failure surfaced two steps later as "declaring Gold upserts a row into the
-// media_status table" -- a database check reporting a mouse event, red on CI while green locally.
-// Returning the outcome lets a caller assert on the click itself, so the failure names the real
-// cause instead of the next thing that trips over it.
+// window.__omniProfileRevision is bumped once per applied profile edit, after the recompute AND
+// the re-render, so waiting for it to advance means exactly what the reload wait used to mean:
+// the click registered and the app has caught up with it. A false return still distinguishes "the
+// button was in the DOM but its handler was not bound yet" from a later, unrelated failure.
 //
-// Deliberately NOT retried. Every caller clicks a TIER TOGGLE, so a second click undoes the first:
-// retrying converts "the reload was slow" into "the tier is now off", and the two account-flow
-// checks after this one then fail for a reason that never existed. That is not hypothetical -- it
-// is what a retry here did on CI. The budget is generous instead, and a genuine miss fails loudly.
-async function clickAndReload(page, selector, timeout) {
-  await page.evaluate(() => { window.__preReloadMarker = true; });
+// Deliberately NOT retried, for the same reason as before: every caller clicks a TIER TOGGLE, so
+// a second click undoes the first.
+async function clickAndSettle(page, selector, timeout) {
+  const before = await page.evaluate(() => window.__omniProfileRevision || 0);
   await page.click(selector);
-  const reloaded = await page.waitForFunction(() => !window.__preReloadMarker, { timeout: timeout || 30000 })
+  return await page.waitForFunction(
+    (n) => (window.__omniProfileRevision || 0) > n, before, { timeout: timeout || 30000 })
     .then(() => true).catch(() => false);
-  await waitForBoot(page);
-  return reloaded;
 }
 
 function findChromium() {
@@ -462,7 +458,7 @@ async function runFile(browser, file) {
     }, targetId);
     // Re-select the button fresh -- the original handle's DOM node was replaced by the
     // Interstellar/dune re-searches above.
-    await clickAndReload(page, '#goatSearchResults .profEditBtn[data-act="declare"][data-id="' + targetId + '"]');
+    await clickAndSettle(page, '#goatSearchResults .profEditBtn[data-act="declare"][data-id="' + targetId + '"]');
     const isDeclaredAfter = await page.evaluate((id) => {
       try { return (JSON.parse(localStorage.getItem('omniLedgerProfile')).declaredGoatIds || []).includes(id); }
       catch (e) { return false; }
@@ -472,7 +468,7 @@ async function runFile(browser, file) {
       const s = document.querySelector('main > section[data-sec="goat"]');
       return s && !s.classList.contains('hidden');
     });
-    check('tiering from a non-controller tab returns to that same tab after the reload', resumedOnGoatView);
+    check('tiering from a non-controller tab leaves you on that tab (no reload, no bounce)', resumedOnGoatView);
 
     // Personal GOAT Profile's declared section: the 4 corpus-backed categories (Movies/Books/TV
     // Shows/Video Game) render live Gold/Silver/Bronze groups computed from actual tier data,
@@ -499,7 +495,7 @@ async function runFile(browser, file) {
       chip.dispatchEvent(new DragEvent('dragstart', { dataTransfer: dt, bubbles: true }));
       silverZone.dispatchEvent(new DragEvent('drop', { dataTransfer: dt, bubbles: true, cancelable: true }));
     }, oppId);
-    await page.waitForTimeout(900); // moveToTier reloads the page, same as any other tier change
+    await page.waitForTimeout(300); // moveToTier applies in place, same as any other tier change
     const movedToSilver = await page.evaluate((id) => {
       try {
         const p = JSON.parse(localStorage.getItem('omniLedgerProfile'));
@@ -531,7 +527,7 @@ async function runFile(browser, file) {
     await page.fill('#goatSearchInput', 'dune');
     await page.waitForTimeout(200);
     const undoBtn = await page.$('#goatSearchResults .profEditBtn[data-act="declare"][data-id="' + targetId + '"]');
-    if (undoBtn) { await clickAndReload(page, '#goatSearchResults .profEditBtn[data-act="declare"][data-id="' + targetId + '"]'); }
+    if (undoBtn) { await clickAndSettle(page, '#goatSearchResults .profEditBtn[data-act="declare"][data-id="' + targetId + '"]'); }
     await page.click('#nav .navBtn[data-view="controller"]');
     await page.waitForTimeout(200);
 
@@ -693,7 +689,7 @@ async function runFile(browser, file) {
     await page.click('#resetBtn');
     await page.waitForTimeout(300);
     const firstCardIdValue = await firstCardId(page);
-    await clickAndReload(page, '.panel .profEditBtn[data-act="bronze"][data-id="' + firstCardIdValue + '"]');
+    await clickAndSettle(page, '.panel .profEditBtn[data-act="bronze"][data-id="' + firstCardIdValue + '"]');
     const bronzeIds = await page.evaluate(() => {
       try { return JSON.parse(localStorage.getItem('omniLedgerProfile')).bronzeTierIds || []; }
       catch (e) { return []; }
@@ -717,7 +713,7 @@ async function runFile(browser, file) {
 
     // Creator boost/bury stepper: replaces the old one-way "+Boost <creator>" button with a +/-
     // control, so nudging a creator DOWN is exactly as available as nudging one up ("the opposite
-    // of boosting"). Each click reloads the page (mutateProfileAndReload), so re-locate the same
+    // of boosting"). Each click re-renders the grid in place (mutateProfile), so re-locate the same
     // card by id after each one rather than assuming the DOM survives.
     await page.click('.cardHead');
     await page.waitForTimeout(200);
@@ -1202,7 +1198,7 @@ async function runAccountFlow(browser, file) {
     await pageN.click(isShare ? '#onboardBlank' : '#onboardSample');
     await pageN.waitForTimeout(900);
     const newGoldId = await firstCardId(pageN);
-    await clickAndReload(pageN, '.panel .profEditBtn[data-act="bronze"][data-id="' + newGoldId + '"]');
+    await clickAndSettle(pageN, '.panel .profEditBtn[data-act="bronze"][data-id="' + newGoldId + '"]');
     await pageN.waitForTimeout(300);
     // Let any debounced background sync fire too, so a racing near-empty write would be caught.
     await pageN.waitForTimeout(2200);
@@ -1422,7 +1418,7 @@ async function runAccountFlow(browser, file) {
     // in the DB per title. Declaring something Gold should upsert a row; un-declaring it should
     // remove that row entirely (nothing left to track once there's no tier and it's not owned).
     const goldCardId = await firstCardId(page2);
-    const goldClickLanded = await clickAndReload(page2, '.panel .profEditBtn[data-act="declare"][data-id="' + goldCardId + '"]');
+    const goldClickLanded = await clickAndSettle(page2, '.panel .profEditBtn[data-act="declare"][data-id="' + goldCardId + '"]');
     check('the Gold button on card ' + goldCardId + ' actually fired (a missed click is not a database bug)',
       goldClickLanded);
     const mediaRowAfterDeclare = await readWhen(page2, (id) => {
@@ -1431,7 +1427,7 @@ async function runAccountFlow(browser, file) {
     }, goldCardId);
     check('declaring Gold upserts a row into the media_status table', !!mediaRowAfterDeclare && mediaRowAfterDeclare.tier === 'gold' && mediaRowAfterDeclare.owned === false);
 
-    await clickAndReload(page2, '.panel .profEditBtn[data-act="declare"][data-id="' + goldCardId + '"]');
+    await clickAndSettle(page2, '.panel .profEditBtn[data-act="declare"][data-id="' + goldCardId + '"]');
     const undeclareLanded = await readWhen(page2, (id) => {
       const t = window.__mockTables;
       // Only answer once the mock store is readable again -- mid-reload it is briefly not, and
@@ -1464,7 +1460,7 @@ async function runAccountFlow(browser, file) {
     await page2.evaluate(() => window.__mockSetFlag('silentlyDropProfileUpserts', true));
     await page2.waitForTimeout(2000); // > the 1500ms scheduleCloudSync debounce
     await readWhen(page2, () => localStorage.getItem('omniLedgerPendingSync') !== '1', undefined, 10000);
-    await clickAndReload(page2, '.panel .profEditBtn[data-act="bronze"][data-id="' + bronzeCardId + '"]');
+    await clickAndSettle(page2, '.panel .profEditBtn[data-act="bronze"][data-id="' + bronzeCardId + '"]');
     const bronzeRightAfterClick = await page2.evaluate((id) => {
       try { return (JSON.parse(localStorage.getItem('omniLedgerProfile') || '{}').bronzeTierIds || []).includes(id); }
       catch (e) { return false; }
@@ -1530,7 +1526,7 @@ async function runAccountFlow(browser, file) {
     await page2.evaluate(() => window.__mockSetFlag('refuseProfileWritesSilently', true));
     await page2.waitForTimeout(2000); // > the 1500ms scheduleCloudSync debounce
     await readWhen(page2, () => localStorage.getItem('omniLedgerPendingSync') !== '1', undefined, 10000);
-    await clickAndReload(page2, '.panel .profEditBtn[data-act="silver"][data-id="' + bronzeCardId + '"]');
+    await clickAndSettle(page2, '.panel .profEditBtn[data-act="silver"][data-id="' + bronzeCardId + '"]');
     // Wait for BOTH halves together. The pending mark is set the moment the edit is written, but
     // the error message only lands once the push has round-tripped and been rejected -- so reading
     // pending with a wait and the reason with a bare evaluate samples them at different instants,
