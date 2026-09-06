@@ -1868,12 +1868,33 @@ async function runCollectionFlow(browser, file) {
   const allOpen = await page.evaluate(() => Array.from(document.querySelectorAll('#collFormats details[data-ck]')).every(d => d.open));
   check('Expand all reopens every medium and edition', allOpen);
 
-  // Setting an edition must not navigate -- the picker sits inside a row that is itself a link.
-  const beforeFmt = await page.evaluate(() => {
-    const b = document.querySelector('#collFormats [data-act="setformat"]');
-    return { id: b.dataset.id, kind: b.dataset.kind, fmt: b.dataset.fmt, view: state.view };
+  // Setting an edition must not navigate. The picker sits inside a row that is ITSELF a link to the
+  // Global Controller, and both handlers are bound on `document` -- where stopPropagation() cannot
+  // separate them. Asserting the view AFTER the click (and after the recompute reload it triggers)
+  // is the only version of this check that can fail when they are wired wrong; checking beforehand
+  // proves nothing. Scroll position is asserted with it: declaring editions in a run is the whole
+  // point of the buttons, and being thrown back to the top of a 179-item tab each time defeats it.
+  const fmtTarget = await page.evaluate(() => {
+    const cards = Array.from(document.querySelectorAll('#collFormats .panel.goatJump'));
+    const card = cards[Math.min(20, cards.length - 1)];
+    card.scrollIntoView({ block: 'center' });
+    const btn = card.querySelector('[data-act="setformat"]');
+    return { title: card.dataset.q, fmt: btn ? btn.dataset.fmt : null };
   });
-  check('Collection is still the active view before picking an edition', beforeFmt.view === 'collection');
+  await page.waitForTimeout(300);
+  const scrollBefore = await page.evaluate(() => Math.round(window.scrollY));
+  await page.evaluate(() => {
+    const cards = Array.from(document.querySelectorAll('#collFormats .panel.goatJump'));
+    cards[Math.min(20, cards.length - 1)].querySelector('[data-act="setformat"]').click();
+  });
+  await page.waitForLoadState('load');
+  await page.waitForTimeout(1800);
+  const afterFmt = await page.evaluate(() => ({ view: state.view, y: Math.round(window.scrollY) }));
+  check('picking an edition does not navigate away from the Collection', afterFmt.view === 'collection');
+  check('picking an edition keeps your place in the list', scrollBefore < 400 || Math.abs(afterFmt.y - scrollBefore) < 300);
+  if (afterFmt.view !== 'collection' || (scrollBefore >= 400 && Math.abs(afterFmt.y - scrollBefore) >= 300)) {
+    console.log('     target=' + fmtTarget.title + ' fmt=' + fmtTarget.fmt + ' scroll ' + scrollBefore + ' -> ' + afterFmt.y + ' view=' + afterFmt.view);
+  }
 
   await page.evaluate(() => { document.querySelector('#collFormats .panel.goatJump[data-q]').click(); });
   await page.waitForTimeout(600);

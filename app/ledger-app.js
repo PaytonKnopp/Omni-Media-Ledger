@@ -1768,7 +1768,15 @@ function goatJumpTo(q){
  switchView('controller');
  window.scrollTo({top:0,behavior:'smooth'});
 }
-document.addEventListener('click',e=>{const j=e.target.closest('.goatJump');if(j&&j.dataset.q)goatJumpTo(j.dataset.q);});
+// Both of these are bound on `document`, and stopPropagation() does NOT stop other listeners on
+// the SAME node -- only stopImmediatePropagation() does, and only for ones registered after it.
+// So a profile-edit control sitting inside a .goatJump row (a Collection card carries both) has
+// to be excluded here, by the listener that would otherwise navigate. Anything else and clicking
+// "Paperback" would set the format AND jump to the Global Controller in the same click.
+document.addEventListener('click',e=>{
+ if(e.target.closest('.profEditBtn')||e.target.closest('button,a,input,select,textarea'))return;
+ const j=e.target.closest('.goatJump');if(j&&j.dataset.q)goatJumpTo(j.dataset.q);
+});
 document.addEventListener('click',e=>{const pe=e.target.closest('.profEditBtn');if(pe&&pe.dataset.act==='setformat'){e.stopPropagation();handleProfileEditClick(pe);}});
 
 /* ===================== ROUTING & BINDINGS ===================== */
@@ -3098,7 +3106,11 @@ function mutateProfileAndReload(mutatorFn){
  // Tiering/owning something reloads the whole page (the scoring pipeline needs a full recompute,
  // not a patch) -- remember which tab was open so a click from, say, the GOAT Profile tab's search
  // results doesn't bounce back to Global Controller. Read on boot, see initRoutingAndBindings.
- try{sessionStorage.setItem('omniLedgerResumeView',state.view);}catch(e){}
+ // ...and where you were looking. Declaring an edition from deep in a 179-item Collection used to
+ // throw away the scroll position and drop you back at the top of the tab -- unusable for setting
+ // formats in a run, which is exactly what the format buttons are for.
+ try{sessionStorage.setItem('omniLedgerResumeView',state.view);
+     sessionStorage.setItem('omniLedgerResumeScroll',String(window.scrollY||window.pageYOffset||0));}catch(e){}
  reloadWithMediaSync(PERSONAL_PROFILE);
 }
 function toggleDeclaredFavorite(id){
@@ -4239,7 +4251,9 @@ var _rzT;window.addEventListener('resize',function(){clearTimeout(_rzT);_rzT=set
  if(state.view==='viz'){['bubble','radar','decade'].forEach(function(k){if(CH[k]&&CH[k].resize)try{CH[k].resize();}catch(e){}});if(typeof graphCenter!=='undefined'&&graphCenter&&typeof renderGraph==='function')renderGraph(graphCenter,true);}
 },200);});
 (function(){
- var resume=null;try{resume=sessionStorage.getItem('omniLedgerResumeView');sessionStorage.removeItem('omniLedgerResumeView');}catch(e){}
+ var resume=null,resumeScroll=null;
+ try{resume=sessionStorage.getItem('omniLedgerResumeView');sessionStorage.removeItem('omniLedgerResumeView');
+     resumeScroll=sessionStorage.getItem('omniLedgerResumeScroll');sessionStorage.removeItem('omniLedgerResumeScroll');}catch(e){}
  // resume (an internal post-action reload) wins over the URL (an actual bookmark/shared link) --
  // the two shouldn't collide in practice since resume only ever exists right after this app's own
  // reload calls, never on a fresh navigation, but resume is the more specific signal either way.
@@ -4249,6 +4263,14 @@ var _rzT;window.addEventListener('resize',function(){clearTimeout(_rzT);_rzT=set
   :(urlView&&document.querySelector('main > section[data-sec="'+urlView+'"]'))?urlView
   :'controller';
  switchView(target);
+ // Restored after switchView, which scrolls to the top of the tab it opens; and on the next frame,
+ // so the restored tab has actually laid out and the page is tall enough to scroll there at all.
+ if(resume&&resumeScroll!=null&&target===resume){
+  var y=parseInt(resumeScroll,10);
+  if(y>0)(window.requestAnimationFrame||setTimeout)(function(){
+   (window.requestAnimationFrame||setTimeout)(function(){window.scrollTo(0,y);},0);
+  },0);
+ }
 })();
 
  // Deliberate debug surface, and the last line of initApp().
