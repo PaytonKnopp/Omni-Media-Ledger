@@ -97,7 +97,7 @@ function provStampOf(raw){
 }
 ALL.forEach(x=>{const s=provStampOf(x.provRaw);delete x.provRaw;x.provStamp=s;x.prov=s.facts==='sourced'?'verified':'estimated';});
 /* Owned physical collection, reconciled against the master shelf ledger (film/TV + books). */
-if(!PROFILE_FROM_STORAGE)PERSONAL_PROFILE.ownedMedia={"m120":"4K","m106":"4K","m444":"4K","m384":"4K","t144":"BD/DVD","m116":"BD/DVD","m89":"BD/DVD","m66":"4K","m117":"4K","m65":"4K","m118":"4K","m119":"4K","m01":"4K","m121":"4K","m103":"4K","m122":"4K","m39":"BD/DVD","m158":"BD/DVD","m37":"4K","m40":"4K","m63":"4K","m20":"4K","m81":"BD/DVD","m02":"4K","m84":"4K","m114":"4K","m64":"4K","m14":"4K","m108":"4K","m159":"4K","m06":"4K","m105":"BD/DVD","m07":"4K","m88":"4K","m56":"4K","m12":"4K","m123":"BD/DVD","m54":"4K","m10":"BD/DVD","m124":"4K","m125":"4K","m107":"BD/DVD","m104":"4K","m126":"BD/DVD","m127":"4K","m128":"BD/DVD","m101":"BD/DVD","m110":"BD/DVD","m129":"BD/DVD","m130":"4K","m131":"BD/DVD","m132":"BD/DVD","m133":"BD/DVD","m134":"4K","m135":"BD/DVD","m09":"4K","m109":"4K","m102":"BD/DVD","m136":"4K","m113":"BD/DVD","m137":"BD/DVD","m138":"BD/DVD","m139":"BD/DVD","m140":"BD/DVD","m141":"BD/DVD","m142":"BD/DVD","m143":"BD/DVD","m144":"4K","m115":"BD/DVD","m145":"BD/DVD","m146":"BD/DVD","m147":"4K","m148":"BD/DVD","m149":"4K","m150":"4K","m151":"BD/DVD","m152":"4K","m160":"4K","m111":"BD/DVD","m154":"BD/DVD","m155":"BD/DVD","m156":"4K","m157":"4K","m86":"4K","m112":"BD/DVD","t17":"Box Set","t97":"Box Set","t03":"Box Set","t10":"Box Set","t47":"Box Set","t13":"Box Set","t28":"Box Set","t101":"Box Set"};
+if(!PROFILE_FROM_STORAGE)PERSONAL_PROFILE.ownedMedia={"m120":"4K","m106":"4K","m444":"4K","m384":"4K","t144":"Blu-ray","m116":"Blu-ray","m89":"Blu-ray","m66":"4K","m117":"4K","m65":"4K","m118":"4K","m119":"4K","m01":"4K","m121":"4K","m103":"4K","m122":"4K","m39":"Blu-ray","m158":"Blu-ray","m37":"4K","m40":"4K","m63":"4K","m20":"4K","m81":"Blu-ray","m02":"4K","m84":"4K","m114":"4K","m64":"4K","m14":"4K","m108":"4K","m159":"4K","m06":"4K","m105":"Blu-ray","m07":"4K","m88":"4K","m56":"4K","m12":"4K","m123":"Blu-ray","m54":"4K","m10":"Blu-ray","m124":"4K","m125":"4K","m107":"Blu-ray","m104":"4K","m126":"Blu-ray","m127":"4K","m128":"Blu-ray","m101":"Blu-ray","m110":"Blu-ray","m129":"Blu-ray","m130":"4K","m131":"Blu-ray","m132":"Blu-ray","m133":"Blu-ray","m134":"4K","m135":"Blu-ray","m09":"4K","m109":"4K","m102":"Blu-ray","m136":"4K","m113":"Blu-ray","m137":"Blu-ray","m138":"Blu-ray","m139":"Blu-ray","m140":"Blu-ray","m141":"Blu-ray","m142":"Blu-ray","m143":"Blu-ray","m144":"4K","m115":"Blu-ray","m145":"Blu-ray","m146":"Blu-ray","m147":"4K","m148":"Blu-ray","m149":"4K","m150":"4K","m151":"Blu-ray","m152":"4K","m160":"4K","m111":"Blu-ray","m154":"Blu-ray","m155":"Blu-ray","m156":"4K","m157":"4K","m86":"4K","m112":"Blu-ray","t17":"Box Set","t97":"Box Set","t03":"Box Set","t10":"Box Set","t47":"Box Set","t13":"Box Set","t28":"Box Set","t101":"Box Set"};
 const OWNED_MEDIA=PERSONAL_PROFILE.ownedMedia||{};
 ALL.forEach(x=>{if(OWNED_MEDIA[x.id]){x.owned=true;x.physFormat=OWNED_MEDIA[x.id];}if(x.kind==='book'&&(parseInt(x.id.slice(1))<=OWNED_BOOK_ID_CEILING||OB(x.id))){x.owned=true;if(OWNED_BOOKS_EXTRA[x.id])x.physFormat=OWNED_BOOKS_EXTRA[x.id];}});
 /* One canonical vocabulary for physical editions, applied once at load so every downstream
@@ -105,10 +105,11 @@ ALL.forEach(x=>{if(OWNED_MEDIA[x.id]){x.owned=true;x.physFormat=OWNED_MEDIA[x.id
    sees the same spellings no matter which era of the profile format wrote them:
      Softcover  -> Paperback   (the word actually meant)
      Boxed Set  -> Box Set
-     BD/DVD     -> Blu-ray     (a combo pack is a Blu-ray; the picker offers no combo option)
+     BD/DVD     -> Blu-ray     (there is no combo edition; a combo pack is a Blu-ray)
      Deluxe     -> Hardcover   (books are just Hardcover / Paperback / Box Set now)
-   Legacy values only ever live in a saved profile, so normalizing on read (rather than
-   rewriting stored profiles) keeps old exports and cloud rows loading correctly forever. */
+   The default profile below no longer writes any of these, so a fresh account never picks one
+   up; the aliases exist purely for profiles saved before this change. Normalizing on read rather
+   than rewriting stored profiles keeps old exports and cloud rows loading correctly forever. */
 const PHYS_FORMAT_ALIASES={'softcover':'Paperback','soft cover':'Paperback','boxed set':'Box Set','boxset':'Box Set','box-set':'Box Set','bd/dvd':'Blu-ray','blu-ray/dvd':'Blu-ray','blu ray':'Blu-ray','bluray':'Blu-ray','uhd':'4K','4k uhd':'4K','deluxe':'Deluxe','owned':null};
 function normPhysFormat(kind,f){
  if(!f)return null;
@@ -3282,6 +3283,7 @@ const CHANGELOG=[
   'Box Set is a pickable edition for films, TV and books, not only something a record could already happen to be',
   '"Softcover" is now "Paperback" \u2014 the word that was actually meant \u2014 and books are simply Hardcover / Paperback / Box Set: the Deluxe tier for books is gone, folding into Hardcover',
   'One canonical spelling for every edition, applied when a profile is read rather than by rewriting saved profiles: Softcover \u2192 Paperback, Boxed Set \u2192 Box Set, BD/DVD \u2192 Blu-ray, and Deluxe \u2192 Hardcover for books. Old exports and existing cloud rows keep loading exactly as before, they just stop showing four spellings of two things',
+  'There is no BD/DVD combo edition any more \u2014 the 37 films the built-in profile had stored that way are simply Blu-ray now, at the source, so a fresh account never picks the label up in the first place',
   'Group by Series fixed and widened: it now auto-detects film and book franchises too (it only ever did TV and games outside the hand-curated list), groups its cards by medium, and no longer resolves a book series\u2019 entry to a same-titled film \u2014 which had been reporting owned books as missing',
   'A committed regression pass covers all of it: the nesting, the collapse memory, the links out to the Global Controller, the edition vocabulary, and Group by Series'
  ]},
