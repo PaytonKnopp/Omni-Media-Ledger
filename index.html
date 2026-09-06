@@ -199,7 +199,14 @@ button:focus-visible,select:focus-visible,input:focus-visible{outline:2px solid 
  #headStats{gap:.9rem;justify-content:center;background:rgba(148,163,184,.06);border:1px solid rgba(148,163,184,.14);border-radius:10px;padding:7px 10px}
  #headStats .text-lg{font-size:14px}
  #headerControlsRow .lbl,#headerControlsRow label.text-\[9px\]{font-size:8px}
- #headerControlsRow>.flex.flex-wrap.items-end.gap-4{justify-content:space-between;align-items:center;background:rgba(148,163,184,.04);border:1px solid rgba(148,163,184,.1);border-radius:10px;padding:7px 10px;row-gap:.5rem}
+ /* This row holds 3 sibling columns -- Theme, Help, Profile -- not 2. justify-content:space-between
+    spreads all 3 evenly across the full row width, which strands the Help ("?") button in a large
+    dead gap between Theme and Profile instead of sitting right next to Theme as the row is meant to
+    read ("Theme+Help on the left, Profile on the right of a divider"). Drop space-between and let
+    Theme+Help sit together at the natural gap-4 spacing; the :last-child rule below still pushes
+    Profile all the way to the right via margin-left:auto, so the two-cluster grouping is deterministic
+    regardless of how wide the Theme <select> renders on any given browser/platform. */
+ #headerControlsRow>.flex.flex-wrap.items-end.gap-4{align-items:center;background:rgba(148,163,184,.04);border:1px solid rgba(148,163,184,.1);border-radius:10px;padding:7px 10px;row-gap:.5rem}
  #headerControlsRow>.flex.flex-wrap.items-end.gap-4>.flex.flex-col.items-end.gap-1:last-child{margin-left:auto;padding-left:.7rem;border-left:1px solid rgba(148,163,184,.16)}
  /* iOS Safari sizes a native <select> to its widest <option> text ("The Lord of the Rings"),
     not the currently selected value, unlike Chrome/Android which sizes to the selection -- so the
