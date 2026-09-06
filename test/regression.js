@@ -1925,6 +1925,51 @@ async function runCollectionFlow(browser, file) {
   if (pageErrors.length) pageErrors.forEach(e => console.log('     ' + e));
 }
 
+// A profile saved BEFORE the edition vocabulary was settled must keep loading correctly, forever:
+// that is the whole reason normalization happens on read instead of by rewriting stored profiles.
+// This seeds a profile carrying every retired spelling and asserts it renders as the current one,
+// with nothing lost and the stored strings left exactly as they were.
+async function runLegacyProfileFlow(browser, file) {
+  const legacy = {
+    ownedMedia: { m120: '4K', m106: 'BD/DVD', m444: 'BD/DVD', t17: 'Box Set', t97: 'Boxed Set' },
+    ownedBooksExtra: { b01: 'Softcover', b02: 'Hardcover', b05: 'Deluxe', b153: 'Boxed Set', b09: 'Owned' },
+    ownedGameIds: ['g45'], declaredGoatIds: ['m120'], silverTierIds: ['m106'], watchlist: { c02: 1 }
+  };
+  const seededOwned = 5 + 5 + 1;
+  const ctx = await browser.newContext({ viewport: { width: 1400, height: 1000 } });
+  const page = await ctx.newPage();
+  const pageErrors = [];
+  page.on('pageerror', e => pageErrors.push(e.message));
+  await page.route('**/supabase-js*/**', route => route.abort());
+  await page.addInitScript(p => {
+    localStorage.setItem('omniLedgerProfile', JSON.stringify(p));
+    localStorage.setItem('omniLedgerOnboarded', '1');
+  }, legacy);
+  await page.goto('file://' + path.join(ROOT, file));
+  await waitForBoot(page);
+  await page.waitForTimeout(800);
+  await page.evaluate(() => document.querySelector('button[data-view="collection"]').click());
+  await page.waitForTimeout(700);
+
+  const r = await page.evaluate(() => ({
+    chips: Array.from(document.querySelectorAll('#collFormats details.collGroup .chip')).map(c => c.textContent),
+    legacyOnScreen: /Softcover|Boxed Set|BD\/DVD|Deluxe/.test(document.getElementById('collFormats').innerHTML),
+    owned: ALL.filter(x => x.owned).length,
+    stored: localStorage.getItem('omniLedgerProfile') || '',
+    gold: (PERSONAL_PROFILE.declaredGoatIds || []).length,
+    silver: (PERSONAL_PROFILE.silverTierIds || []).length
+  }));
+  check('a profile saved before the vocabulary change still loads every owned title', r.owned === seededOwned);
+  check('no retired edition spelling reaches the screen from an old profile', !r.legacyOnScreen);
+  check('a retired spelling resolves to a current one, not its own bucket', r.chips.includes('Paperback') && r.chips.includes('Box Set') && !r.chips.includes('Softcover'));
+  check('an owned title with no declared edition is labelled, not dropped', r.chips.includes('Format not set'));
+  check('tiers on an old profile survive the load', r.gold === 1 && r.silver === 1);
+  check('reading an old profile never rewrites it', r.stored.indexOf('Softcover') >= 0 && r.stored.indexOf('BD/DVD') >= 0);
+  await ctx.close();
+  check('no uncaught page errors loading a pre-change profile', pageErrors.length === 0);
+  if (pageErrors.length) pageErrors.forEach(e => console.log('     ' + e));
+}
+
 async function runTabFiltersFlow(browser, file) {
   const full = 'file://' + path.join(ROOT, file);
   const page = await browser.newPage({ viewport: { width: 1400, height: 1000 } });
@@ -2412,6 +2457,8 @@ async function runTabFiltersFlow(browser, file) {
     await runFromScratchFlow(browser, t);
     console.log('\n=== ' + t + ' — Collection tab (medium/format grouping, collapse, links) ===');
     await runCollectionFlow(browser, t);
+    console.log('\n=== ' + t + ' — a profile saved before the edition vocabulary changed ===');
+    await runLegacyProfileFlow(browser, t);
     console.log('\n=== ' + t + ' — tab filters, search/sort, URL bookmarking ===');
     await runTabFiltersFlow(browser, t);
   }
