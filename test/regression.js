@@ -1842,7 +1842,7 @@ async function runCollectionFlow(browser, file) {
       jumpables: document.querySelectorAll('#collFormats .panel.goatJump[data-q]').length,
       pickerFormats: Array.from(document.querySelectorAll('#collFormats [data-act="setformat"]'))
         .map(b => b.dataset.fmt).filter((v, i, a) => a.indexOf(v) === i),
-      legacyLabels: /Softcover|Boxed Set|BD\/DVD/.test(document.getElementById('collFormats').innerHTML)
+      legacyLabels: /Softcover|Boxed Set|BD\/DVD|Deluxe/.test(document.getElementById('collFormats').innerHTML)
     };
   });
   check('Collection groups by medium, not one flat list of formats', info.media.length >= 2 && info.media.every(m => m.ck.indexOf('m:') === 0));
@@ -1851,6 +1851,7 @@ async function runCollectionFlow(browser, file) {
   check('every owned title in the Collection links into the Global Controller', info.jumpables > 0);
   check('books are offered Paperback, never "Softcover"', info.pickerFormats.includes('Paperback') && !info.pickerFormats.includes('Softcover'));
   check('Box Set is a pickable edition', info.pickerFormats.includes('Box Set'));
+  check('Deluxe is not an edition in any medium', !info.pickerFormats.includes('Deluxe'));
   check('no legacy edition spelling survives normalization', !info.legacyLabels);
 
   // Collapse state: a closed section stays closed, and is remembered outside the profile blob.

@@ -106,19 +106,21 @@ ALL.forEach(x=>{if(OWNED_MEDIA[x.id]){x.owned=true;x.physFormat=OWNED_MEDIA[x.id
      Softcover  -> Paperback   (the word actually meant)
      Boxed Set  -> Box Set
      BD/DVD     -> Blu-ray     (there is no combo edition; a combo pack is a Blu-ray)
-     Deluxe     -> Hardcover   (books are just Hardcover / Paperback / Box Set now)
+     Deluxe     -> Hardcover on a book, Box Set on a disc (retired as an edition of its own)
    The default profile below no longer writes any of these -- not BD/DVD, Deluxe, Boxed Set or
    Softcover -- so a fresh account never picks one up; the aliases exist purely for profiles
    saved before this change. Normalizing on read rather
    than rewriting stored profiles keeps old exports and cloud rows loading correctly forever. */
-const PHYS_FORMAT_ALIASES={'softcover':'Paperback','soft cover':'Paperback','boxed set':'Box Set','boxset':'Box Set','box-set':'Box Set','bd/dvd':'Blu-ray','blu-ray/dvd':'Blu-ray','blu ray':'Blu-ray','bluray':'Blu-ray','uhd':'4K','4k uhd':'4K','deluxe':'Deluxe','owned':null};
+const PHYS_FORMAT_ALIASES={'softcover':'Paperback','soft cover':'Paperback','boxed set':'Box Set','boxset':'Box Set','box-set':'Box Set','bd/dvd':'Blu-ray','blu-ray/dvd':'Blu-ray','blu ray':'Blu-ray','bluray':'Blu-ray','uhd':'4K','4k uhd':'4K','deluxe':'Deluxe','deluxe / illustrated':'Deluxe','collector\'s edition':'Deluxe','owned':null};
 function normPhysFormat(kind,f){
  if(!f)return null;
  var key=String(f).trim().toLowerCase();
  var mapped=PHYS_FORMAT_ALIASES.hasOwnProperty(key)?PHYS_FORMAT_ALIASES[key]:String(f).trim();
  if(!mapped)return null;
- // Deluxe survives only as a movie/TV edition tier; for books it collapses into Hardcover.
- if(kind==='book'&&mapped==='Deluxe')return 'Hardcover';
+ // Deluxe is not an edition you can own any more, in any medium. A saved profile that still
+ // says so resolves to the nearest edition that IS pickable: the durable copy for a book, the
+ // boxed edition for a disc. Nothing renders the word.
+ if(mapped==='Deluxe')return (kind==='book')?'Hardcover':'Box Set';
  return mapped;
 }
 ALL.forEach(x=>{x.physFormat=normPhysFormat(x.kind,x.physFormat);});
@@ -2069,7 +2071,6 @@ const SERIES_DEFS=[
 function formatRank(fmt){
  if(!fmt)return 0;var f=fmt.toLowerCase();
  if(f.indexOf('4k')>=0||f.indexOf('uhd')>=0)return 4;
- if(f.indexOf('deluxe')>=0||f.indexOf('illustrated')>=0)return 4;
  if(f.indexOf('blu')>=0||f.indexOf('bd')>=0)return 3;
  if(f.indexOf('hardcover')>=0)return 3;
  if(f.indexOf('dvd')>=0)return 2;
@@ -2311,7 +2312,7 @@ const COLL_MEDIA=[['movie','Films'],['tv','Series'],['book','Books'],['game','Ga
 function collFormatOrder(kind){
  if(kind==='game')return [];
  if(kind==='book')return ['Hardcover','Paperback','Box Set'];
- return ['4K','Blu-ray','DVD','Box Set','Deluxe'];
+ return ['4K','Blu-ray','DVD','Box Set'];
 }
 const COLL_NO_FORMAT='Format not set';
 /* Which sections are open is a UI preference, not profile data, so it lives in its own
@@ -3224,7 +3225,6 @@ const FMT_STYLE={
  'Blu-ray':{bg:'#2563eb',fg:'#eff6ff',bd:'#2563eb',ac:'#60a5fa'},
  'DVD':{bg:'#f97316',fg:'#1a0f00',bd:'#f97316',ac:'#fb923c'},
  'Box Set':{bg:'#22d3ee',fg:'#032b30',bd:'#22d3ee',ac:'#22d3ee'},
- 'Deluxe':{bg:'#c084fc',fg:'#1e0a33',bd:'#c084fc',ac:'#c084fc'},
  'Hardcover':{bg:'#86efac',fg:'#052e12',bd:'#86efac',ac:'#86efac'},
  'Paperback':{bg:'#a3e635',fg:'#1a2e05',bd:'#a3e635',ac:'#a3e635'},
  'Games':{bg:'#fbbf24',fg:'#221600',bd:'#fbbf24',ac:'#fbbf24'}
@@ -3282,9 +3282,11 @@ const CHANGELOG=[
   'Both levels collapse and expand independently, and what you close stays closed across visits \u2014 collapse Books to skim the discs, or open Books and collapse Hardcover to see just the paperbacks. Expand all / Collapse all handle the whole tab at once. A collapsed medium still shows a per-edition tally, so you can see what is inside without opening it',
   'Every owned title in the Collection, in Group by Series, and on the Shelf View now opens in the Global Controller when clicked \u2014 the same jump the gaps and matrix rows already had. The edition buttons inside a row still just set the edition; they never navigate',
   'Box Set is a pickable edition for films, TV and books, not only something a record could already happen to be',
-  '"Softcover" is now "Paperback" \u2014 the word that was actually meant \u2014 and books are simply Hardcover / Paperback / Box Set: the Deluxe tier for books is gone, folding into Hardcover',
-  'One canonical spelling for every edition, applied when a profile is read rather than by rewriting saved profiles: Softcover \u2192 Paperback, Boxed Set \u2192 Box Set, BD/DVD \u2192 Blu-ray, and Deluxe \u2192 Hardcover for books. Old exports and existing cloud rows keep loading exactly as before, they just stop showing four spellings of two things',
+  '"Softcover" is now "Paperback" \u2014 the word that was actually meant \u2014 and books are simply Hardcover / Paperback / Box Set',
+  'Deluxe is retired as an edition in every medium, not just for books \u2014 it was never pickable and nothing produced it, so it had become a colour and a sort position waiting on a value that no longer existed',
+  'One canonical spelling for every edition, applied when a profile is read rather than by rewriting saved profiles: Softcover \u2192 Paperback, Boxed Set \u2192 Box Set, BD/DVD \u2192 Blu-ray, and Deluxe \u2192 Hardcover on a book or Box Set on a disc. Old exports and existing cloud rows keep loading exactly as before, they just stop showing four spellings of two things',
   'The retired labels are gone from the built-in profile itself, not just from the screen: the 37 films stored as BD/DVD are Blu-ray, the 12 books stored as Deluxe are Hardcover, and the 2 stored as Boxed Set are Box Set. A fresh account never picks any of them up in the first place',
+  'The Upgrade Audit no longer proposes a Deluxe / Illustrated edition for canonical books \u2014 an edition that no longer exists, and so an upgrade that could never be marked done',
   'Group by Series fixed and widened: it now auto-detects film and book franchises too (it only ever did TV and games outside the hand-curated list), groups its cards by medium, and no longer resolves a book series\u2019 entry to a same-titled film \u2014 which had been reporting owned books as missing',
   'A committed regression pass covers all of it: the nesting, the collapse memory, the links out to the Global Controller, the edition vocabulary, and Group by Series'
  ]},
