@@ -152,7 +152,15 @@ function applyOwnershipFromProfile(){
 applyOwnershipFromProfile();
 let WL={};
 try{const raw=localStorage.getItem('omniLedgerWatchlist');if(raw)WL=JSON.parse(raw)||{};}catch(e){WL={};}
-function wlSave(){try{localStorage.setItem('omniLedgerWatchlist',JSON.stringify(WL));}catch(e){}}
+/* The watchlist saves on the same path as every other edit you make. It used to be the odd one
+   out: the localStorage write alone scheduled the slower, incidental-write sync, so a heart click
+   took noticeably longer to reach the cloud than tiering the same title did. It carries no
+   media_status rows of its own (only tier/owned state is normalized per title), but the snapshot
+   that goes up holds the whole watchlist either way. */
+function wlSave(){
+ try{localStorage.setItem('omniLedgerWatchlist',JSON.stringify(WL));}catch(e){}
+ if(typeof window.__omniSyncAfterChange==='function')window.__omniSyncAfterChange([]);
+}
 function wlHas(id){return !!WL[id];}
 function wlToggle(id){if(WL[id])delete WL[id];else WL[id]={watched:false,added:Date.now()};wlSave();}
 function wlSetWatched(id,v){if(WL[id]){WL[id].watched=v;wlSave();}}
@@ -3401,8 +3409,14 @@ function handleProfileEditClick(btn){
    "here's what changed" readout, not a live version check against anything. Bump APP_VERSION and
    add a CHANGELOG entry whenever a change is worth a friend knowing about; cosmetic tweaks don't
    need a bump. */
-const APP_VERSION='1.43.0';
+const APP_VERSION='1.44.0';
 const CHANGELOG=[
+ {v:'1.44.0',date:'2026-09-06',summary:'One saving path for everything you change, and a failed save now retries itself.',notes:[
+  'Your watchlist saves on the same path as a tier: a heart used to be the one piece of real data that only got the slower incidental-write sync, so it reached the cloud noticeably later than tiering the same title did',
+  'A run of clicks is now one upload instead of one per click. Marking a shelf\u2019s worth of films owned used to queue a separate verified round-trip for every click; they are coalesced into a single write carrying all of them, which is both quicker and less to go wrong',
+  'A failed save retries on its own, backing off, instead of waiting for you to edit something else or reload. The dot still turns red and still says why, and your change is still safe on the device meanwhile \u2014 it just no longer sits there needing you to notice it',
+  'Tier and ownership rows queued for the database survive a failed save instead of being dropped, and are re-sent with the retry'
+ ]},
  {v:'1.43.0',date:'2026-09-06',summary:'Gold, Silver, Bronze and Owned now apply instantly. Clicking one no longer reloads the page.',notes:[
   'Tiering or owning a title used to reload the whole app \u2014 a white flash, the entire corpus re-scored from a cold start, every tab re-rendered, and the card you had open closed again. It now updates in place, so a click reads as a click',
   'Nothing about the scores changes: the match score, the Gold/Silver/Bronze/owned ladder and the generated recommendations are recomputed by the same code as before, just called directly instead of only at boot',

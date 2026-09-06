@@ -887,7 +887,7 @@ const MOCK_SUPABASE_SDK = `
 // in-memory-only mock, making it impossible to assert on state that was written right before
 // the reload. A brand-new browser context (a real "second device" in these tests) still starts
 // with empty sessionStorage, so isolation between simulated devices is unaffected.
-function __mockDefaultDb(){ return { tables: { profiles: {}, suggestions: [], media_status: [] }, upsertCalls: 0, insertCalls: 0, deleteCalls: 0 }; }
+function __mockDefaultDb(){ return { tables: { profiles: {}, suggestions: [], media_status: [] }, upsertCalls: 0, profileUpsertCalls: 0, insertCalls: 0, deleteCalls: 0 }; }
 function __mockLoad(){
   try {
     var db = JSON.parse(sessionStorage.getItem('__mockDb')) || __mockDefaultDb();
@@ -906,6 +906,7 @@ function __mockSetFlag(name, on){ try { sessionStorage.setItem('__mockFlag_' + n
 window.__mockSetFlag = __mockSetFlag;
 Object.defineProperty(window, '__mockTables', { get: function(){ return __mockLoad().tables; } });
 Object.defineProperty(window, '__upsertCalls', { get: function(){ return __mockLoad().upsertCalls; } });
+Object.defineProperty(window, '__profileUpsertCalls', { get: function(){ return __mockLoad().profileUpsertCalls || 0; } });
 Object.defineProperty(window, '__insertCalls', { get: function(){ return __mockLoad().insertCalls; } });
 Object.defineProperty(window, '__deleteCalls', { get: function(){ return __mockLoad().deleteCalls; } });
 function __mockBuilder(table){
@@ -931,6 +932,7 @@ function __mockBuilder(table){
       if (table === 'profiles') {
         if (state.op === 'upsert') {
           db.upsertCalls++;
+          db.profileUpsertCalls = (db.profileUpsertCalls || 0) + 1;
           // Test-only escape hatch (window.__mockFailNextProfileUpsert) to simulate a write that
           // reaches the server but fails, or times out client-side -- without it, there's no way
           // to test what happens when a self-triggered reload's own sync doesn't land, since every
@@ -1437,6 +1439,63 @@ async function runAccountFlow(browser, file) {
     }, goldCardId);
     check('un-declaring removes the media_status row entirely (no tier, not owned)', !!undeclareLanded);
 
+    // A RUN of edits -- marking several titles owned one after another, the workflow the in-place
+    // toggles exist to make possible -- must coalesce into far fewer uploads than clicks, and must
+    // still get every title's row into media_status. Before the shared debounce, each click fired
+    // its own verified upsert AND read-back, so twenty owned clicks queued twenty round-trips.
+    await readWhen(page2, () => localStorage.getItem('omniLedgerPendingSync') !== '1', undefined, 10000);
+    const runIds = await page2.evaluate(() => Array.from(document.querySelectorAll('.panel .profEditBtn[data-act="own"]'))
+      .slice(0, 5).map(b => b.dataset.id));
+    const upsertsBeforeRun = await page2.evaluate(() => window.__profileUpsertCalls);
+    // Dispatched back-to-back in one pass, which is what a run of clicks actually looks like and
+    // what the debounce is for. Driving them through Playwright instead would put a few hundred
+    // milliseconds of its own between clicks and measure the harness, not the app.
+    const revBefore = await page2.evaluate(() => window.__omniProfileRevision || 0);
+    await page2.evaluate((ids) => {
+      // Re-query each button: every edit re-renders the grid, so the previous node is gone.
+      ids.forEach(id => {
+        const b = document.querySelector('.panel .profEditBtn[data-act="own"][data-id="' + id + '"]');
+        if (b) b.click();
+      });
+    }, runIds);
+    const allApplied = await page2.waitForFunction(
+      (n) => (window.__omniProfileRevision || 0) >= n, revBefore + runIds.length, { timeout: 15000 })
+      .then(() => true).catch(() => false);
+    check('every click in a rapid run of ' + runIds.length + ' is applied', allApplied);
+    const runLanded = !!(await readWhen(page2, (ids) => {
+      const rows = (window.__mockTables && window.__mockTables.media_status) || [];
+      return ids.every(id => rows.some(r => r.handle === 'smoketestuser2' && r.media_id === id && r.owned === true));
+    }, runIds, 15000));
+    check('a run of Owned clicks gets every title into media_status', runLanded);
+    const upsertsForRun = (await page2.evaluate(() => window.__profileUpsertCalls)) - upsertsBeforeRun;
+    check('a rapid run of ' + runIds.length + ' edits coalesces into fewer profile uploads than clicks (was one each), got ' + upsertsForRun,
+      upsertsForRun > 0 && upsertsForRun < runIds.length);
+
+    // The watchlist is a tracked key like any other, but it used to be the one piece of real user
+    // data that only ever got the slower incidental-write sync. It now takes the same path as a
+    // tier click, so a heart reaches the cloud snapshot on its own.
+    await readWhen(page2, () => localStorage.getItem('omniLedgerPendingSync') !== '1', undefined, 10000);
+    const wlId = await page2.evaluate(() => {
+      const b = document.querySelector('.panel .wlBtn');
+      if (!b) return null;
+      b.click();
+      return b.dataset.wl;
+    });
+    const wlInCloud = !!(await readWhen(page2, (id) => {
+      const row = window.__mockTables && window.__mockTables.profiles && window.__mockTables.profiles['smoketestuser2'];
+      if (!row || !row.data) return false;
+      try { return Object.prototype.hasOwnProperty.call(JSON.parse(row.data.omniLedgerWatchlist || '{}'), id); }
+      catch (e) { return false; }
+    }, wlId, 10000));
+    check('a watchlist heart reaches the cloud on the same path as a tier click', !!wlId && wlInCloud);
+    // Put it back so nothing downstream inherits a stray watchlist entry.
+    await page2.evaluate((id) => { const b = document.querySelector('.panel .wlBtn[data-wl="' + id + '"]'); if (b) b.click(); }, wlId);
+    await readWhen(page2, () => localStorage.getItem('omniLedgerPendingSync') !== '1', undefined, 10000);
+
+    // Undo the run, so the rest of the flow sees the profile it expects.
+    for (const rid of runIds) await clickAndSettle(page2, '.panel .profEditBtn[data-act="own"][data-id="' + rid + '"]');
+    await readWhen(page2, () => localStorage.getItem('omniLedgerPendingSync') !== '1', undefined, 10000);
+
     // THE reported bug, reproduced end to end: "I select bronze from the main card, it shows up,
     // then I refresh the page and it's gone." The server accepts the write but doesn't store it
     // (silentlyDropProfileUpserts), which is what a rejecting/rewriting trigger or an out-of-date
@@ -1577,12 +1636,27 @@ async function runAccountFlow(browser, file) {
       sessionStorage.setItem('__mockDb', JSON.stringify(db));
     });
     await page2.click('.panel .profEditBtn[data-act="declare"][data-id="' + secondGoldId + '"]');
-    await page2.waitForTimeout(600);
+    await page2.waitForTimeout(1500); // > the edit debounce, so the (failing) upsert has been attempted
     const survivedFailedSync = await page2.evaluate((id) => {
       try { return (JSON.parse(localStorage.getItem('omniLedgerProfile')).declaredGoatIds || []).includes(id); }
       catch (e) { return false; }
     }, secondGoldId);
     check('a self-triggered reload does not get clobbered when its own sync fails', survivedFailedSync);
+
+    // ...and the failed sync now heals itself while the tab just sits there. Before, a failure was
+    // only ever retried by the NEXT edit or the next boot, so a tab left open after one stayed
+    // rose-dotted and unsynced indefinitely -- correct about the data, but waiting on the person to
+    // do something about it. The declare above failed its one upsert (failNextProfileUpsert is
+    // one-shot), so nothing here touches the app: the backoff's first attempt lands on its own.
+    const healedByRetry = !!(await readWhen(page2, (id) => {
+      const row = window.__mockTables && window.__mockTables.profiles && window.__mockTables.profiles['smoketestuser2'];
+      if (!row || !row.data) return false;
+      let stored = false;
+      try { stored = (JSON.parse(row.data.omniLedgerProfile || '{}').declaredGoatIds || []).includes(id); }
+      catch (e) { return false; }
+      return stored && localStorage.getItem('omniLedgerPendingSync') !== '1';
+    }, secondGoldId, 20000));
+    check('a failed sync retries on its own, with no further edit and no reload', healedByRetry);
 
     // Root-cause regression for the bug that kept recurring in real use even after the Phase 34
     // fix: withTimeout races the real network request against a timeout, but doesn't cancel the
@@ -1599,7 +1673,7 @@ async function runAccountFlow(browser, file) {
       return heads[2] && heads[2].dataset.id;
     });
     await page2.click('.panel .profEditBtn[data-act="declare"][data-id="' + thirdGoldId + '"]');
-    await page2.waitForTimeout(900);
+    await page2.waitForTimeout(1500);
     await page2.evaluate(() => {
       const db = JSON.parse(sessionStorage.getItem('__mockDb'));
       db.slowNextProfileUpsertMs = 6000;

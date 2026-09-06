@@ -1296,6 +1296,10 @@ var SUPABASE_CONFIG={url:"https://gqpjeccmwsjxrlrazqxt.supabase.co",anonKey:"sb_
  var ACCT_KEY='omniLedgerHandle';
  var TRACKED=['omniLedgerProfile','omniLedgerWatchlist','omniLedgerTheme','omniLedgerDensity','omniLedgerOnboarded','omniLedgerTipsDismissed'];
  var client=null,handle=null,syncTimer=null,cloudReady=false;
+ // Media-status rows waiting to go up, keyed by media_id so repeated edits to the same title
+ // collapse to its latest state rather than queueing a write each. Drained by runScheduledSync,
+ // and put back if that push fails, so a failed sync loses nothing.
+ var pendingMediaRows={},retryTimer=null,retryStep=0;
 
  function $(s){return document.querySelector(s);}
  function slugify(raw){return String(raw||'').trim().toLowerCase().replace(/[^a-z0-9_-]+/g,'-').replace(/^-+|-+$/g,'').slice(0,40);}
@@ -1431,21 +1435,57 @@ var SUPABASE_CONFIG={url:"https://gqpjeccmwsjxrlrazqxt.supabase.co",anonKey:"sb_
  }
  function runScheduledSync(){
   if(!cloudReady||!handle||!client)return Promise.resolve(false);
+  // Taken before the push and restored if it fails: these rows are derived from one profile edit
+  // that has already happened, so nothing regenerates them on a later attempt.
+  var rows=Object.keys(pendingMediaRows).map(function(k){return pendingMediaRows[k];});
+  pendingMediaRows={};
+  // Sequenced, not parallel: media_status.handle references profiles.handle, so for a brand-new
+  // handle's first write the profiles row has to exist before any media_status row can.
   return pushSnapshot().then(function(){
+   return rows.length?syncMediaStatusRows(rows):null;
+  }).then(function(){
+   retryStep=0;
    setSyncState('emerald','Signed in as '+handle+'. Synced to the cloud.');
    return true;
   },function(e){
+   rows.forEach(function(r){if(!pendingMediaRows[r.id])pendingMediaRows[r.id]=r;});
    var msg=recordSyncError(e);
    console.warn('Cloud sync failed — your change is kept on this device and will retry:',msg);
    setSyncState('rose','Signed in as '+handle+'. NOT saved to the cloud: '+msg);
+   scheduleRetry();
    return false;
   });
  }
- function scheduleCloudSync(){
+ // How long after your last edit the upload goes out. Two windows, for two different kinds of
+ // write, both short enough that closing the tab is covered by the visibilitychange flush below:
+ //   EDIT  -- a deliberate change to your data (tiering, owning, an edition, the watchlist).
+ //            Sub-second, so it goes up essentially as you make it, but still a debounce, because
+ //            these come in RUNS: marking a shelf's worth of films owned fires one per click, and
+ //            each upload is a verified round-trip (upsert, then read the row back), so one per
+ //            click would queue twenty of them. Set a little above a comfortable clicking pace
+ //            rather than as low as it will go -- a window shorter than the gap between two real
+ //            clicks coalesces nothing, which is the whole point of having one.
+ //   IDLE  -- an incidental write (theme, density, dismissing a banner) arriving through the
+ //            setItem hook, where nothing is waiting on it.
+ var EDIT_DEBOUNCE_MS=800,IDLE_DEBOUNCE_MS=1500;
+ function scheduleCloudSync(delayMs){
   if(!cloudReady||!handle)return;
   clearTimeout(syncTimer);
+  clearTimeout(retryTimer);retryTimer=null; // a new edit supersedes a pending retry
   setSyncState('amber','Signed in as '+handle+'. Syncing…');
-  syncTimer=setTimeout(runScheduledSync,1500);
+  syncTimer=setTimeout(runScheduledSync,delayMs||IDLE_DEBOUNCE_MS);
+ }
+ // "Retries on the next change" was true but not enough: a tab left open after a failed sync sat
+ // there rose-dotted and unsynced until the person happened to edit something else or reload. A
+ // failure now re-attempts on its own, backing off so a genuinely down server is not hammered,
+ // and giving up only after the backoff is exhausted -- at which point the pending mark, the rose
+ // dot and the recorded reason are all still in place, and the next edit or boot tries again.
+ var RETRY_DELAYS=[5000,15000,45000,120000];
+ function scheduleRetry(){
+  if(!cloudReady||!handle)return;
+  if(retryStep>=RETRY_DELAYS.length)return;
+  clearTimeout(retryTimer);
+  retryTimer=setTimeout(function(){retryTimer=null;runScheduledSync();},RETRY_DELAYS[retryStep++]);
  }
  // A change that doesn't itself trigger a reload (theme, watchlist, density, dismissing Quick
  // Tips) only gets sent 1.5s after the last edit -- fine while the tab stays open, but if it's
@@ -1455,7 +1495,9 @@ var SUPABASE_CONFIG={url:"https://gqpjeccmwsjxrlrazqxt.supabase.co",anonKey:"sb_
  // `beforeunload` (which mobile browsers often skip) -- so a pending sync fires immediately here
  // instead of waiting out a debounce window that might never get the chance to complete.
  document.addEventListener('visibilitychange',function(){
-  if(document.visibilityState==='hidden'&&syncTimer){clearTimeout(syncTimer);syncTimer=null;runScheduledSync();}
+  if(document.visibilityState!=='hidden')return;
+  clearTimeout(retryTimer);retryTimer=null;
+  if(syncTimer||Object.keys(pendingMediaRows).length){clearTimeout(syncTimer);syncTimer=null;runScheduledSync();}
  });
  // Upserts/deletes rows in the normalized media_status table (see supabase/schema.sql) so
  // gold/silver/bronze/owned status is queryable per title, not just locked inside the profiles.data
@@ -1498,6 +1540,11 @@ var SUPABASE_CONFIG={url:"https://gqpjeccmwsjxrlrazqxt.supabase.co",anonKey:"sb_
  function reloadAfterSync(mediaRows){
   if(!cloudReady||!handle||!client){location.reload();return;}
   clearTimeout(syncTimer);syncTimer=null;
+  // Every caller here replaces the profile wholesale (import, reset, onboarding), and the rows
+  // passed in already describe that whole transition -- so anything queued from edits to the
+  // OUTGOING profile is stale and must not be written. Dropped, along with any pending retry that
+  // would otherwise fire into the navigation.
+  clearTimeout(retryTimer);retryTimer=null;pendingMediaRows={};
   setSyncState('amber','Signed in as '+handle+'. Syncing…');
   // The profiles upsert has to land (and commit) before media_status rows referencing this handle
   // can be written -- media_status.handle foreign-keys to profiles.handle, so for a brand-new
@@ -1527,43 +1574,40 @@ var SUPABASE_CONFIG={url:"https://gqpjeccmwsjxrlrazqxt.supabase.co",anonKey:"sb_
   });
  }
  window.__omniReloadAfterSync=reloadAfterSync;
- // The non-reloading counterpart, used by every in-app profile edit (tiering, owning, setting an
- // edition, nudging a creator) now that those recompute and re-render in place instead of
- // navigating -- see mutateProfile in ledger-app. With no navigation coming there is nothing for
- // the sync to race, so this doesn't block anything and doesn't need the timeout/skip-hydrate
- // dance reloadAfterSync needs: it fires immediately (rather than waiting out the 1.5s debounce,
- // so a closed tab can't strand the write), reports itself in the sync pill, and leaves the local
- // copy authoritative if it fails. The pending mark set by a failed pushSnapshot still keeps a
- // later boot from hydrating over local state that never reached the cloud.
+ // The non-reloading counterpart to reloadAfterSync, and now the single path every in-app edit
+ // takes: tiering, owning, setting an edition, nudging a creator, and toggling the watchlist all
+ // call it (see mutateProfile and wlSave in ledger-app). With no navigation coming there is
+ // nothing for the sync to race, so it doesn't block anything and doesn't need the timeout /
+ // skip-hydrate dance reloadAfterSync needs.
+ //
+ // `mediaRows` is the per-title gold/silver/bronze/owned state this edit changed; it is merged
+ // into whatever is already waiting rather than sent on its own, so a run of clicks becomes one
+ // upload carrying all of them. An edit with no media rows (the watchlist, say) still belongs
+ // here: pushSnapshot always uploads the whole tracked snapshot, so what differs between these
+ // callers is only the extra normalized rows, never whether the change gets saved.
  function syncAfterLocalChange(mediaRows){
   if(!cloudReady||!handle||!client)return;
-  clearTimeout(syncTimer);syncTimer=null;
-  setSyncState('amber','Signed in as '+handle+'. Syncing…');
-  // Sequenced for the same foreign-key reason reloadAfterSync sequences them: media_status.handle
-  // references profiles.handle, so the profiles row has to exist before any media_status row can.
-  pushSnapshot().then(function(){
-   return (mediaRows&&mediaRows.length)?syncMediaStatusRows(mediaRows):null;
-  }).then(function(){
-   setSyncState('emerald','Signed in as '+handle+'. Synced to the cloud.');
-  },function(e){
-   var msg=recordSyncError(e);
-   console.warn('Cloud sync failed — your change is kept on this device and will retry:',msg);
-   setSyncState('rose','Signed in as '+handle+'. NOT saved to the cloud: '+msg);
-  });
+  (mediaRows||[]).forEach(function(r){if(r&&r.id)pendingMediaRows[r.id]=r;});
+  scheduleCloudSync(EDIT_DEBOUNCE_MS);
  }
  window.__omniSyncAfterChange=syncAfterLocalChange;
  // Used right before switching accounts or otherwise abandoning the current local state: the
- // debounced scheduleCloudSync above only fires 1.5s after the last TRACKED-key write, so an edit
- // that never reloads the page on its own (toggling the watchlist, changing density, dismissing
- // the tips banner, picking a theme) could still be sitting unsynced in that debounce window when
- // the user switches accounts. Unlike reloadAfterSync, a failure here is NOT safe to just proceed
+ // debounced scheduleCloudSync above fires a few hundred milliseconds to 1.5s after the last
+ // tracked write, so an edit (a tier, the watchlist, density, dismissing the tips banner, picking
+ // a theme) could still be sitting unsynced in that debounce window when the user switches
+ // accounts. Unlike reloadAfterSync, a failure here is NOT safe to just proceed
  // past: switching immediately calls clearLocalProfile(), which is the only copy of that data if
  // the sync genuinely didn't land -- so this now resolves false (not swallowing the error) on a
  // real failure or timeout, and the caller must not clear/switch when that happens.
  function flushPendingSync(){
   if(!cloudReady||!handle||!client)return Promise.resolve(true);
   clearTimeout(syncTimer);syncTimer=null;
-  return withTimeout(pushSnapshot(),SYNC_TIMEOUT_MS)
+  clearTimeout(retryTimer);retryTimer=null;
+  var rows=Object.keys(pendingMediaRows).map(function(k){return pendingMediaRows[k];});
+  pendingMediaRows={};
+  return withTimeout(pushSnapshot().then(function(){
+   return rows.length?syncMediaStatusRows(rows):null;
+  }),SYNC_TIMEOUT_MS)
    .then(function(){return true;})
    .catch(function(e){recordSyncError(e);console.warn('Final sync before switching accounts failed:',e&&e.message||e);return false;});
  }
@@ -1586,7 +1630,7 @@ var SUPABASE_CONFIG={url:"https://gqpjeccmwsjxrlrazqxt.supabase.co",anonKey:"sb_
    orig.apply(this,arguments);
    // markPending BEFORE scheduling: the edit is unsynced from this instant until a write is
    // verified, so even a tab closed a millisecond later leaves a record that local is ahead.
-   if(tracked&&!unchanged&&!suppressSync){markPending();scheduleCloudSync();}
+   if(tracked&&!unchanged&&!suppressSync){markPending();scheduleCloudSync(IDLE_DEBOUNCE_MS);}
   };
  })();
 
