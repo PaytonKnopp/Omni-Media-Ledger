@@ -2948,15 +2948,29 @@ function tipsBuildPicker(){
 function initMobileScrollHint(el){
  if(!el||el.dataset.scrollHintWired)return;
  el.dataset.scrollHintWired='1';
+ // Fades are siblings in a non-scrolling wrapper, not children of the scrolling flex strip itself:
+ // iOS Safari doesn't reliably keep position:sticky pinned on a flex item inside a horizontally
+ // scrolling flex container (the sticky child can render inline/out of place instead of pinned to
+ // the edge), which showed up as a stray letter/chevron floating mid-strip on iPhone. Absolutely
+ // positioning the fades against a plain wrapper sidesteps that WebKit flex+sticky bug entirely and
+ // renders identically on Android and iOS.
+ var wrap=document.createElement('div');
+ wrap.className='navScrollWrap';
+ el.parentNode.insertBefore(wrap,el);
+ wrap.appendChild(el);
  var fadeL=document.createElement('span');fadeL.className='navFade navFadeL';fadeL.setAttribute('aria-hidden','true');
  var fadeR=document.createElement('span');fadeR.className='navFade navFadeR';fadeR.setAttribute('aria-hidden','true');
- el.insertBefore(fadeL,el.firstChild);
- el.appendChild(fadeR);
+ wrap.insertBefore(fadeL,el);
+ wrap.appendChild(fadeR);
  function update(){
   var atStart=el.scrollLeft<=2;
   var atEnd=el.scrollLeft+el.clientWidth>=el.scrollWidth-2;
+  // State classes live on both el and wrap: el keeps them for any existing #nav/#tipsTabPicker
+  // selectors, wrap gets them too since the fades now live there instead of inside el.
   el.classList.toggle('nav-at-start',atStart);
   el.classList.toggle('nav-at-end',atEnd);
+  wrap.classList.toggle('nav-at-start',atStart);
+  wrap.classList.toggle('nav-at-end',atEnd);
  }
  el.addEventListener('scroll',update,{passive:true});
  update();
@@ -2966,8 +2980,9 @@ function initMobileScrollHint(el){
  // touched it; stops permanently once they scroll (start listener below), never repeats after.
  if(!el.classList.contains('nav-at-end')){
   el.classList.add('nav-hint-pulse');
-  el.addEventListener('scroll',function stopHint(){el.classList.remove('nav-hint-pulse');el.removeEventListener('scroll',stopHint);},{passive:true,once:true});
-  setTimeout(function(){el.classList.remove('nav-hint-pulse');},3500);
+  wrap.classList.add('nav-hint-pulse');
+  el.addEventListener('scroll',function stopHint(){el.classList.remove('nav-hint-pulse');wrap.classList.remove('nav-hint-pulse');el.removeEventListener('scroll',stopHint);},{passive:true,once:true});
+  setTimeout(function(){el.classList.remove('nav-hint-pulse');wrap.classList.remove('nav-hint-pulse');},3500);
  }
 }
 (function initMobileNavScrollHint(){
