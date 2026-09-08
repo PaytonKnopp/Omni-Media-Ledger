@@ -17,3 +17,12 @@ npm-debug.log*
 *.local
 *.bak
 *.tmp
+
+# Substance packs that carry synopsis prose (scripts/fetch-substance.js --include-prose).
+# A synopsis is expressive text, not a fact, and this repository is public -- so the prose pack
+# stays local while the tag-only pack beside it is committed as the scoring evidence of record.
+evidence/*.prose.json
+
+# Recorded raw API responses. Committing these makes a fetch run replayable, which is often worth
+# it -- but they can carry synopsis prose too, so they are opt-in via `git add -f`.
+evidence/raw-*.json

@@ -239,7 +239,18 @@ const GATE = {
   maxTop100Block: 40,        // the hand-scored block is ~26% of the corpus; 40/100 allows real
                              // quality concentration without allowing the current 94/100
   maxDriftSpread: 25,        // an index whose decile means span more than this means two scales
+  minDistinctGm: 200,        // see below
 };
+
+/* On minDistinctGm. A corpus can pass every other row here and still rank badly, because a score
+   with no RESOLUTION cannot express an opinion. Measured on a blank profile today, gm collapses to
+   29 distinct values across 2,508 works -- a ~10-point band, because base*0.5 compresses a 0-100
+   input into 37-48 before the +14 offset, and a person who has declared nothing has no boosts to
+   spread it back out. Two hundred distinct values is roughly one per twelve works: enough for the
+   score to separate a good film from a slightly better one.
+   This row is the reason to run --assert against a BLANK-profile snapshot as well as a personal
+   one (score-snapshot.js --profile blank). A personal profile's boost stack hides the problem --
+   which is exactly why it went unnoticed. */
 if (ASSERT) {
   const problems = [];
   if (!snapshot) {
@@ -254,6 +265,13 @@ if (ASSERT) {
     if (t.top100FromBlock > GATE.maxTop100Block) {
       problems.push('concentration: ' + t.top100FromBlock + '/100 top works come from the ' +
         t.blockShareOfCorpus + '% hand-scored block, want <= ' + GATE.maxTop100Block);
+    }
+    const shape = metrics.scoreShape;
+    if (shape.distinctValues < GATE.minDistinctGm) {
+      problems.push('score resolution: gm takes only ' + shape.distinctValues + ' distinct values ' +
+        'across the corpus (range ' + shape.min + '-' + shape.max + '), want >= ' + GATE.minDistinctGm +
+        (snapshot.profile === 'blank' ? '' : '  [run again with a --profile blank snapshot: a ' +
+         'personal profile\'s boosts hide this]'));
     }
   }
   for (const sec of SECTIONS) {

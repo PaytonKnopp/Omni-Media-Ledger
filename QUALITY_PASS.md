@@ -274,6 +274,31 @@ Wilds* stays mis-rated `M` in the meantime; it is the most visible open defect.
     one redaction chokepoint, tested, because recorded runs are meant to be committed. A missing key
     is not an error: that source is skipped and every field it would have carried drops a grade,
     which the output says out loud.
+- **Phase 5b — Substance. THE HARNESS IS BUILT AND TESTED.** `scripts/fetch-substance.js`.
+  Facts and substance are deliberately separate scripts, because they are different kinds of thing.
+  A fact has one right answer and two sources agreeing settles it. Substance — what a work is
+  *about* — has no right answer to reconcile; it is raw material for a judgement, and **nothing it
+  gathers is ever written into `data/` automatically**. Keeping them apart preserves the invariant
+  the whole pass rests on: `apply-facts.js` is the only script that edits the corpus.
+  - **Why substance is the high-leverage fetch.** `gmBase` sd 2.82 vs the boost stack's 6.52, so
+    ~84% of pre-override variance is the boost stack — which keys on genres, vibes, creators and
+    the rubric indices, *not* on critic scores. A 12-point critic correction moves `gm` by ~3.
+    Aggregate scores are the least leveraged thing this project could fetch; what a work is about
+    is the most.
+  - Sources: TMDB **keywords** (film/TV), IGDB **themes** (games), OpenLibrary **subjects** +
+    Google Books categories (books). Tags, not prose — see below.
+  - **Tags are the default and prose is opt-in, on licensing grounds.** This repository is public.
+    Facts are not copyrightable (*Feist*); a synopsis is expressive text, so committing 2,500 of
+    them verbatim is redistribution, not personal use. `--include-prose` writes a `.prose.json`
+    that `.gitignore` excludes. Tags are the better scoring input anyway.
+  - TMDB's required attribution travels *in* the pack and prints at the top of any worksheet built
+    from it.
+  - `score-batch.js --worksheet --substance <pack>` attaches the evidence. A work with no evidence
+    prints **"NO EVIDENCE GATHERED — do not score from memory"** rather than a blank line, and a
+    pack for the wrong medium is refused. Tested, including that no index value can reach a
+    worksheet through the pack (falsified: leaking one makes the check fail).
+  - `--plan-only` counts the HTTP calls a run would make without making any.
+
 - **Phase 6 — Real provenance. MECHANISM DONE; the stamps themselves are Phase 5 output.**
   Per-record stamp `{facts: sourced|estimated|edition-dependent, checked: YYYY-MM-DD, src: …,
   indices: rubric-v1|unscored}`, resolved by `provStampOf()` in the adapter, enforced in
@@ -293,7 +318,9 @@ Wilds* stays mis-rated `M` in the meantime; it is the most visible open defect.
   owned.
 - **Phase 7 — Harden the recommendation test. DONE for everything that can be checked offline.**
   - `scripts/corpus-metrics.js --assert` is the **Phase 5 acceptance gate**: an itemised,
-    executable definition of done. It currently fails with 15 named problems (four recency-bias
+    executable definition of done. Run it against a **blank-profile** snapshot as well as a personal
+    one — a personal profile's boost stack hides the resolution problem, which is exactly why it went
+    unnoticed. On a blank profile today it fails with 16 named problems (four recency-bias
     correlations around −0.6, 94/100 of the top from the hand-scored block, and ten index fields
     whose decile means span more than 25 points). It is deliberately **not** in `npm test` — a
     suite that is red on every run stops being read — and gets wired in the moment it passes, so
