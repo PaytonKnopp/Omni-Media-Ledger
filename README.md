@@ -137,4 +137,6 @@ There's no name, email, address, or financial information anywhere in the app or
 
   `ARCHITECTURE.md` → **Corpus data quality** documents every rule and the vocabularies they enforce — worth reading before adding a batch of titles.
 
+  `DATA_RUNBOOK.md` is the operating manual for getting facts and scores into the corpus: which sources are used and which are deliberately not, what may and may not be committed to a public repo, the order the work runs in, and the four measured properties a batch has to satisfy before it counts as done. Follow it for the existing corpus and for every expansion after it. `QUALITY_PASS.md` records *why* each of those rules exists and what was measured to justify it.
+
 Further engineering detail — every design decision, bug found and fixed, and the reasoning behind each — lives in `NOTES.md`, written as a running project log rather than a reference doc.
