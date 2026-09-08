@@ -16,6 +16,15 @@
  *
  *   node scripts/score-batch.js --worksheet --medium movies --ids m01,m02   blind worksheet
  *   node scripts/score-batch.js --worksheet --medium books --owned          ...the owned shelf
+ *   node scripts/score-batch.js --worksheet --medium movies \
+ *        --substance evidence/substance-movie-2026-09-08.json                ...with the evidence
+ *
+ * `--substance` attaches the tag vocabulary gathered by scripts/fetch-substance.js. Without it a
+ * worksheet carries only what the corpus already says about a work, which is thin evidence for
+ * judging how dread-soaked or warm something is -- and thin evidence is how the current values got
+ * scored in the first place. With it, each entry carries what the catalogues say the work is
+ * ABOUT, which is the material RUBRIC.md actually reasons over. It stays blind either way: the
+ * substance pack contains no index values.
  *   node scripts/score-batch.js --apply decisions.json                      write them
  *   node scripts/score-batch.js --apply decisions.json --dry-run            show, write nothing
  *
@@ -65,6 +74,25 @@ function load(key) {
 
 /* ===================== worksheet ===================== */
 
+// Load a substance pack from scripts/fetch-substance.js, keyed by work id.
+//
+// A missing pack is not an error -- a worksheet without evidence is still blind and still usable,
+// it is just harder to score well. A pack for the WRONG medium is an error, because silently
+// attaching no evidence to every entry would look exactly like a pack that had nothing to say.
+function loadSubstance(file, mediumKey) {
+  if (!file) return null;
+  const pack = JSON.parse(fs.readFileSync(path.resolve(ROOT, file), 'utf8'));
+  const expected = { movies: 'movie', tvShows: 'tv', videoGames: 'game', books: 'book' }[mediumKey];
+  if (pack.medium !== expected) {
+    console.error('substance pack is for "' + pack.medium + '" but the worksheet is for "' +
+      expected + '" -- refusing to attach evidence about other works');
+    process.exit(2);
+  }
+  const by = new Map((pack.works || []).map(w => [w.id, w]));
+  return { by: by, attribution: pack.attribution };
+}
+
+
 // The owned set lives in the profile defaults inside app/ledger-app.js rather than in the corpus,
 // because ownership is personal data. Read it from there rather than duplicating the list.
 function ownedIds() {
@@ -99,6 +127,7 @@ function worksheet() {
   if (limit > 0) records = records.slice(0, limit);
 
   const fields = Object.entries(RUBRIC_FIELDS).filter(([, d]) => d.media.includes(key)).map(([f]) => f);
+  const substance = loadSubstance(arg('substance'), key);
 
   console.log('# Blind scoring worksheet — ' + key + ' (' + records.length + ' works)');
   console.log('#');
@@ -107,6 +136,7 @@ function worksheet() {
   console.log('# the drift this pass exists to repair.');
   console.log('#');
   console.log('# Fields to score: ' + fields.join(', '));
+  if (substance && substance.attribution) console.log('# ' + substance.attribution);
   console.log('');
   records.forEach((r, i) => {
     const span = r.runtime ? r.runtime + ' min'
@@ -118,6 +148,17 @@ function worksheet() {
     console.log('   genres: ' + (r.genres || []).join(', '));
     console.log('   vibe:   ' + ((r.contextTags || {}).vibeTime || ''));
     console.log('   "' + ((r.contextTags || {}).justification || '') + '"');
+    if (substance) {
+      const s = substance.by.get(r.id);
+      if (s && s.tags && s.tags.length) {
+        console.log('   about:  ' + s.tags.slice(0, 24).join(' · '));
+        console.log('   per ' + (s.sources || []).map(x => x.src).join(', '));
+      } else {
+        // Say so out loud. A worksheet entry that silently carries no evidence invites scoring it
+        // from recall, which is the one thing this whole pass forbids.
+        console.log('   about:  (NO EVIDENCE GATHERED — do not score from memory; leave blank)');
+      }
+    }
     console.log('');
   });
 }
@@ -227,6 +268,7 @@ else if (has('apply')) applyDecisions();
 else {
   console.log('usage:');
   console.log('  --worksheet --medium <movies|tv|games|books> [--ids a,b,c] [--owned] [--n N]');
+  console.log('              [--substance evidence/substance-<medium>-<date>.json]');
   console.log('  --apply <decisions.json> [--dry-run]');
   process.exit(2);
 }

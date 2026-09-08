@@ -1,0 +1,20 @@
+{
+ "m01": [
+  {"src":"TMDB","url":"https://api.themoviedb.org/3/movie/62","matchedTitle":"2001: A Space Odyssey",
+   "tags":["artificial intelligence","space","monolith","evolution","Space  Travel","artificial intelligence"],
+   "sourceGenres":["Science Fiction","Adventure"],
+   "synopsis":"Humanity finds a mysterious object buried beneath the lunar surface."}
+ ],
+ "m02": [
+  {"src":"TMDB","url":"https://api.themoviedb.org/3/movie/694","matchedTitle":"The Shining",
+   "tags":["hotel","isolation","madness","based on novel or book"],
+   "sourceGenres":["Horror","Thriller"],
+   "synopsis":"Jack takes a caretaking job at an isolated hotel."}
+ ],
+ "m03": [
+  {"src":"TMDB","miss":"no match for \"Barry Lyndon\""}
+ ],
+ "m04": [
+  {"src":"TMDB","skipped":"no TMDB_API_KEY in environment"}
+ ]
+}
