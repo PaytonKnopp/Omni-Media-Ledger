@@ -652,7 +652,7 @@ async function runFile(browser, file) {
     const alwaysVisible = await page.evaluate(() => {
       const genre = document.getElementById('genreChips');
       const owned = document.getElementById('ownedToggle');
-      const tier = document.querySelector('.tierChk');
+      const tier = document.querySelector('.tierChip');
       return !!(genre && genre.offsetParent !== null && owned && owned.offsetParent !== null && tier && tier.offsetParent !== null);
     });
     check('genre, owned/not-owned, and tier filters are visible without opening Advanced Filters', alwaysVisible);
@@ -790,11 +790,13 @@ async function runFile(browser, file) {
 
     await page.click('#advToggle');
     await page.waitForTimeout(150);
-    await page.click('.tierChk[data-tier="bronze"]');
+    await page.click('.tierChip[data-tier="bronze"]');
     await page.waitForTimeout(200);
     const bronzeOnlyCount = await page.textContent('#resultCount');
     check('bronze-only tier filter narrows to just the tiered item', bronzeOnlyCount.trim() === '1');
-    await page.click('.tierChk[data-tier="bronze"]');
+    await page.click('.tierChip[data-tier="bronze"]'); // required -> excluded
+    await page.waitForTimeout(100);
+    await page.click('.tierChip[data-tier="bronze"]'); // excluded -> neutral
     await page.waitForTimeout(150);
 
     await page.selectOption('#sortSel', 'tier');

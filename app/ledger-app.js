@@ -167,7 +167,7 @@ function wlSetWatched(id,v){if(WL[id]){WL[id].watched=v;wlSave();}}
 function wlCount(){return Object.keys(WL).length;}
 
 /* ===================== STATE & HELPERS ===================== */
-const state={view:'controller',q:'',type:'all',struct:'all',plats:[],minGoat:0,genres:[],genresExclude:[],ownedOnly:false,notOwnedOnly:false,limit:100,idx:{snd:0,ref:0,ch:0,emo:0,awe:0,cozy:0,perf:0,icon:0,scary:0,real:0,reality:0,shock:0,sci:0,funny:0,hist:0,vibe2:0,crit:0,aud:0,tech:0,dread:0,myst:0,runtime:0},ratings:[],tierFilter:[],yearMin:null,yearMax:null,combine:false,sort:'overall',w:{tech:0.85,dread:0.95,myst:0.90},creatorTab:'directors',creatorSearch:'',goatType:'all',goatTierFilter:'all',goatSort:'match',goatDeclaredQ:'',portraitScope:'all',collSearchQ:'',wlType:'all',wlSort:'added',wlSearchQ:'',creatorSearchScope:'all',creatorSort:'default'};
+const state={view:'controller',q:'',type:'all',struct:'all',plats:[],minGoat:0,genres:[],genresExclude:[],ownedOnly:false,notOwnedOnly:false,limit:100,idx:{snd:0,ref:0,ch:0,emo:0,awe:0,cozy:0,perf:0,icon:0,scary:0,real:0,reality:0,shock:0,sci:0,funny:0,hist:0,vibe2:0,crit:0,aud:0,tech:0,dread:0,myst:0,runtime:0},ratings:[],tierFilter:[],tierFilterExclude:[],yearMin:null,yearMax:null,combine:false,sort:'overall',w:{tech:0.85,dread:0.95,myst:0.90},creatorTab:'directors',creatorSearch:'',goatType:'all',goatTierFilter:'all',goatSort:'match',goatDeclaredQ:'',portraitScope:'all',collSearchQ:'',wlType:'all',wlSort:'added',wlSearchQ:'',creatorSearchScope:'all',creatorSort:'default'};
 const $=s=>document.querySelector(s),$$=s=>Array.from(document.querySelectorAll(s));
 const on=(sel,ev,fn)=>{const el=$(sel);if(el)el.addEventListener(ev,fn);else console.warn('missing element:',sel);};
 const esc=s=>String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
@@ -197,6 +197,7 @@ function filtered(){const q=state.q.trim().toLowerCase();
   if(state.ownedOnly&&!it.owned)return false;
   if(state.notOwnedOnly&&it.owned)return false;
   if(state.tierFilter.length&&!state.tierFilter.some(t=>(t==='gold'&&it.goat)||(t==='silver'&&it.silver)||(t==='bronze'&&it.bronze)))return false;
+  if(state.tierFilterExclude.length&&state.tierFilterExclude.some(t=>(t==='gold'&&it.goat)||(t==='silver'&&it.silver)||(t==='bronze'&&it.bronze)))return false;
   for(const k of IDX_KEYS){if(state.idx[k]>0&&it[k]<state.idx[k])return false;}
   if(state.yearMin!=null&&it.year<state.yearMin)return false;
   if(state.yearMax!=null&&it.year>state.yearMax)return false;
@@ -685,6 +686,7 @@ function renderActiveBar(){
  if(state.notOwnedOnly)chips.push(X('○ Not owned','notowned'));
  const TL={gold:'🥇 Gold',silver:'🥈 Silver',bronze:'🥉 Bronze'};
  state.tierFilter.forEach(t=>chips.push(X(TL[t],'tier:'+t)));
+ state.tierFilterExclude.forEach(t=>chips.push(X('✕ '+TL[t],'tierEx:'+t)));
  if(state.combine&&chips.length)chips.unshift('<span class="chip" style="color:#fbbf24;border-color:#fbbf2455">STRICT AND</span>');
  // A heavily-filtered search (multi-platform, several genres in and out, half a dozen thresholds...)
  // can produce enough chips to wrap several rows and push the actual results far down the page.
@@ -2548,6 +2550,7 @@ function stateToParams(){
  if(state.genresExclude&&state.genresExclude.length)p.set('gx',state.genresExclude.join('|'));
  if(state.ratings&&state.ratings.length)p.set('rt',state.ratings.join('|'));
  if(state.tierFilter&&state.tierFilter.length)p.set('tier',state.tierFilter.join('|'));
+ if(state.tierFilterExclude&&state.tierFilterExclude.length)p.set('tierx',state.tierFilterExclude.join('|'));
  if(state.ownedOnly)p.set('owned','1');
  if(state.notOwnedOnly)p.set('notowned','1');
  if(state.minGoat)p.set('goat',state.minGoat);
@@ -2592,6 +2595,7 @@ function paramsToState(){
   if(p.has('gx'))state.genresExclude=p.get('gx').split('|').filter(Boolean);
   if(p.has('rt'))state.ratings=p.get('rt').split('|').filter(Boolean);
   if(p.has('tier'))state.tierFilter=p.get('tier').split('|').filter(Boolean);
+  if(p.has('tierx'))state.tierFilterExclude=p.get('tierx').split('|').filter(Boolean);
   if(p.has('owned'))state.ownedOnly=p.get('owned')==='1';
   if(p.has('notowned'))state.notOwnedOnly=p.get('notowned')==='1';
   if(p.has('goat'))state.minGoat=+p.get('goat')||0;
@@ -2648,7 +2652,7 @@ function applyStateToStaticControls(){
  var cm=$('#combineMode');if(cm)cm.checked=state.combine;
  var ot=$('#ownedToggle');if(ot)ot.checked=state.ownedOnly;
  var nt=$('#notOwnedToggle');if(nt)nt.checked=state.notOwnedOnly;
- $$('.tierChk').forEach(function(c){c.checked=state.tierFilter.indexOf(c.dataset.tier)>=0;});
+ buildTierFilterChips();
  var ymin=$('#yearMin');if(ymin)ymin.value=state.yearMin!=null?state.yearMin:'';
  var ymax=$('#yearMax');if(ymax)ymax.value=state.yearMax!=null?state.yearMax:'';
  var sortSel=$('#sortSel');if(sortSel)sortSel.value=state.sort;
@@ -4340,6 +4344,17 @@ function buildGenreChips(){
   const title=on?'Included -- click to exclude instead':off?'Excluded -- click to clear':'Click to include, click again to exclude';
   return '<button type="button" class="chip genreChip" data-g="'+esc(name)+'" title="'+title+'" style="cursor:pointer;'+style+'">'+(off?'✕ ':'')+esc(name)+' <span style="opacity:.6">'+n+'</span></button>';}).join('');
 }
+const TIER_CHIP_DEFS=[['gold','🥇 Gold','#fbbf24'],['silver','🥈 Silver','#cbd5e1'],['bronze','🥉 Bronze','#cd7f32']];
+// Tier chips are tri-state, same cycle as genre chips: neutral -> required (must have this tier) ->
+// excluded (must NOT have this tier) -> back to neutral.
+function buildTierFilterChips(){
+ const el=$('#tierChips');if(!el)return;
+ el.innerHTML=TIER_CHIP_DEFS.map(d=>{const key=d[0],label=d[1],color=d[2];
+  const on=state.tierFilter.includes(key),off=state.tierFilterExclude.includes(key);
+  const style=on?'color:#0B0F19;background:'+color+';border-color:'+color+';font-weight:700':off?'color:#fca5a5;background:#7f1d1d33;border-color:#f8717166;text-decoration:line-through;font-weight:700':'color:'+color;
+  const title=on?'Required -- click to exclude instead':off?'Excluded -- click to clear':'Click to require, click again to exclude';
+  return '<button type="button" class="chip tierChip" data-tier="'+key+'" title="'+title+'" style="cursor:pointer;'+style+'">'+(off?'✕ ':'')+label+'</button>';}).join('');
+}
 function buildRatingChips(){
  $('#ratingChips').innerHTML=RATING_ORDER.filter(r=>RATING_COUNTS[r]).map(r=>{const on=state.ratings.includes(r);
   return '<button type="button" class="chip ratingChip" data-r="'+esc(r)+'" style="cursor:pointer;'+(on?'color:#0B0F19;background:#5eead4;border-color:#5eead4;font-weight:700':'')+'">'+esc(r)+' <span style="opacity:.6">'+RATING_COUNTS[r]+'</span></button>';}).join('');
@@ -4411,10 +4426,12 @@ on('#pinnedMainSliders','click',handlePinBtnClick);
 on('#combineMode','change',e=>{state.combine=e.target.checked;refresh();});
 on('#ownedToggle','change',e=>{state.ownedOnly=e.target.checked;if(e.target.checked){state.notOwnedOnly=false;const no=$('#notOwnedToggle');if(no)no.checked=false;}syncAdvCount();refresh();});
 on('#notOwnedToggle','change',e=>{state.notOwnedOnly=e.target.checked;if(e.target.checked){state.ownedOnly=false;const o=$('#ownedToggle');if(o)o.checked=false;}syncAdvCount();refresh();});
-$$('.tierChk').forEach(chk=>chk.addEventListener('change',()=>{
- state.tierFilter=$$('.tierChk').filter(c=>c.checked).map(c=>c.dataset.tier);
- syncAdvCount();refresh();
-}));
+on('#tierChips','click',e=>{const b=e.target.closest('.tierChip');if(!b)return;const t=b.dataset.tier;
+ const inI=state.tierFilter.indexOf(t),inX=state.tierFilterExclude.indexOf(t);
+ if(inI>=0){state.tierFilter.splice(inI,1);state.tierFilterExclude.push(t);} // required -> excluded
+ else if(inX>=0){state.tierFilterExclude.splice(inX,1);} // excluded -> neutral
+ else{state.tierFilter.push(t);} // neutral -> required
+ buildTierFilterChips();syncAdvCount();refresh();});
 on('#yearMin','input',e=>{state.yearMin=e.target.value?+e.target.value:null;syncAdvCount();refresh();});
 on('#yearMax','input',e=>{state.yearMax=e.target.value?+e.target.value:null;syncAdvCount();refresh();});
 on('#yearPresets','click',e=>{const b=e.target.closest('button');if(!b)return;
@@ -4432,7 +4449,8 @@ on('#activeBar','click',e=>{
  else if(c==='year'){state.yearMin=state.yearMax=null;$('#yearMin').value='';$('#yearMax').value='';}
  else if(c==='owned'){state.ownedOnly=false;const o=$('#ownedToggle');if(o)o.checked=false;}
  else if(c==='notowned'){state.notOwnedOnly=false;const no=$('#notOwnedToggle');if(no)no.checked=false;}
- else if(c.indexOf('tier:')===0){const t=c.slice(5);state.tierFilter=state.tierFilter.filter(x=>x!==t);$$('.tierChk').forEach(chk=>{if(chk.dataset.tier===t)chk.checked=false;});}
+ else if(c.indexOf('tierEx:')===0){const t=c.slice(7);state.tierFilterExclude=state.tierFilterExclude.filter(x=>x!==t);buildTierFilterChips();}
+ else if(c.indexOf('tier:')===0){const t=c.slice(5);state.tierFilter=state.tierFilter.filter(x=>x!==t);buildTierFilterChips();}
  else if(c.indexOf('genre:')===0){const g=c.slice(6);state.genres=state.genres.filter(x=>x!==g);buildGenreChips();}
  else if(c.indexOf('genreEx:')===0){const g=c.slice(8);state.genresExclude=state.genresExclude.filter(x=>x!==g);buildGenreChips();}
  else if(c.indexOf('rating:')===0){const r=c.slice(7);state.ratings=state.ratings.filter(x=>x!==r);buildRatingChips();}
@@ -4441,8 +4459,8 @@ on('#activeBar','click',e=>{
  syncAdvCount();refresh();
 });
 function clearAllFilters(){
- Object.assign(state,{q:'',type:'all',struct:'all',plats:[],minGoat:0,genres:[],genresExclude:[],ratings:[],ownedOnly:false,notOwnedOnly:false,tierFilter:[],yearMin:null,yearMax:null,combine:false});
- $$('.tierChk').forEach(c=>{c.checked=false;});
+ Object.assign(state,{q:'',type:'all',struct:'all',plats:[],minGoat:0,genres:[],genresExclude:[],ratings:[],ownedOnly:false,notOwnedOnly:false,tierFilter:[],tierFilterExclude:[],yearMin:null,yearMax:null,combine:false});
+ buildTierFilterChips();
  state.idx={snd:0,ref:0,ch:0,emo:0,awe:0,cozy:0,perf:0,icon:0,scary:0,real:0,reality:0,shock:0,sci:0,funny:0,hist:0,vibe2:0,crit:0,aud:0,tech:0,dread:0,myst:0,runtime:0};state.ratings=[];
  $('#q').value='';var ss=$('#structSel');if(ss)ss.value='all';updatePlatLabel();
  var mgs=$('#minGoat');if(mgs)mgs.value=0;var mgv2=$('#minGoatV');if(mgv2)mgv2.textContent='0';
@@ -4451,7 +4469,7 @@ function clearAllFilters(){
  $('#combineMode').checked=false;const _o=$('#ownedToggle');if(_o)_o.checked=false;const _no=$('#notOwnedToggle');if(_no)_no.checked=false;$('#yearMin').value='';$('#yearMax').value='';
  buildGenreChips();buildRatingChips();syncAdvCount();refresh();
 }
-buildGenreChips();buildRatingChips();buildIndexSliders();
+buildGenreChips();buildRatingChips();buildTierFilterChips();buildIndexSliders();
 var PLAT_GROUPS=null;
 function buildPlatSelect(){
  var u=a=>Array.from(new Set(a.filter(Boolean))).sort();
