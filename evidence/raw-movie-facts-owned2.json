@@ -1,0 +1,526 @@
+{
+ "m06": [
+  {
+   "src": "OMDb",
+   "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Interstellar&type=movie&y=2014",
+   "fields": {
+    "year": 2014,
+    "runtime": 169,
+    "creator": "Christopher Nolan"
+   }
+  },
+  {
+   "src": "TMDB",
+   "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Interstellar&year=2014",
+   "fields": {
+    "year": 2014,
+    "runtime": 169,
+    "creator": "Christopher Nolan",
+    "studio": "Legendary Pictures"
+   }
+  }
+ ],
+ "m07": [
+  {
+   "src": "OMDb",
+   "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Inception&type=movie&y=2010",
+   "fields": {
+    "year": 2010,
+    "runtime": 148,
+    "creator": "Christopher Nolan"
+   }
+  },
+  {
+   "src": "TMDB",
+   "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Inception&year=2010",
+   "fields": {
+    "year": 2010,
+    "runtime": 148,
+    "creator": "Christopher Nolan",
+    "studio": "Warner Bros. Pictures"
+   }
+  }
+ ],
+ "m10": [
+  {
+   "src": "OMDb",
+   "url": "https://www.omdbapi.com/?apikey=REDACTED&t=The+Prestige&type=movie&y=2006",
+   "fields": {
+    "year": 2006,
+    "runtime": 130,
+    "creator": "Christopher Nolan"
+   }
+  },
+  {
+   "src": "TMDB",
+   "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=The+Prestige&year=2006",
+   "fields": {
+    "year": 2006,
+    "runtime": 130,
+    "creator": "Christopher Nolan",
+    "studio": "Warner Bros. Pictures"
+   }
+  }
+ ],
+ "m12": [
+  {
+   "src": "OMDb",
+   "url": "https://www.omdbapi.com/?apikey=REDACTED&t=The+Dark+Knight&type=movie&y=2008",
+   "fields": {
+    "year": 2008,
+    "runtime": 152,
+    "creator": "Christopher Nolan"
+   }
+  },
+  {
+   "src": "TMDB",
+   "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=The+Dark+Knight&year=2008",
+   "fields": {
+    "year": 2008,
+    "runtime": 152,
+    "creator": "Christopher Nolan",
+    "studio": "Warner Bros. Pictures"
+   }
+  }
+ ],
+ "m14": [
+  {
+   "src": "OMDb",
+   "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Arrival&type=movie&y=2016",
+   "fields": {
+    "year": 2016,
+    "runtime": 116,
+    "creator": "Denis Villeneuve"
+   }
+  },
+  {
+   "src": "TMDB",
+   "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Arrival&year=2016",
+   "fields": {
+    "year": 2016,
+    "runtime": 116,
+    "creator": "Denis Villeneuve",
+    "studio": "FilmNation Entertainment"
+   }
+  }
+ ],
+ "m54": [
+  {
+   "src": "OMDb",
+   "url": "https://www.omdbapi.com/?apikey=REDACTED&t=There+Will+Be+Blood&type=movie&y=2007",
+   "fields": {
+    "year": 2007,
+    "runtime": 158,
+    "creator": "Paul Thomas Anderson"
+   }
+  },
+  {
+   "src": "TMDB",
+   "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=There+Will+Be+Blood&year=2007",
+   "fields": {
+    "year": 2007,
+    "runtime": 158,
+    "creator": "Paul Thomas Anderson",
+    "studio": "Paramount Vantage"
+   }
+  }
+ ],
+ "m56": [
+  {
+   "src": "OMDb",
+   "url": "https://www.omdbapi.com/?apikey=REDACTED&t=No+Country+for+Old+Men&type=movie&y=2007",
+   "fields": {
+    "year": 2007,
+    "runtime": 122,
+    "creator": "Ethan Coen, Joel Coen"
+   }
+  },
+  {
+   "src": "TMDB",
+   "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=No+Country+for+Old+Men&year=2007",
+   "fields": {
+    "year": 2007,
+    "runtime": 122,
+    "creator": "Joel Coen, Ethan Coen",
+    "studio": "Miramax"
+   }
+  }
+ ],
+ "m64": [
+  {
+   "src": "OMDb",
+   "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Jurassic+Park&type=movie&y=1993",
+   "fields": {
+    "year": 1993,
+    "runtime": 127,
+    "creator": "Steven Spielberg"
+   }
+  },
+  {
+   "src": "TMDB",
+   "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Jurassic+Park&year=1993",
+   "fields": {
+    "year": 1993,
+    "runtime": 127,
+    "creator": "Steven Spielberg",
+    "studio": "Universal Pictures"
+   }
+  }
+ ],
+ "m88": [
+  {
+   "src": "OMDb",
+   "url": "https://www.omdbapi.com/?apikey=REDACTED&t=The+Matrix&type=movie&y=1999",
+   "fields": {
+    "year": 1999,
+    "runtime": 136,
+    "creator": "Lana Wachowski, Lilly Wachowski"
+   }
+  },
+  {
+   "src": "TMDB",
+   "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=The+Matrix&year=1999",
+   "fields": {
+    "year": 1999,
+    "runtime": 136,
+    "creator": "Lana Wachowski, Lilly Wachowski",
+    "studio": "Village Roadshow Pictures"
+   }
+  }
+ ],
+ "m101": [
+  {
+   "src": "OMDb",
+   "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Good+Will+Hunting&type=movie&y=1997",
+   "fields": {
+    "year": 1997,
+    "runtime": 7
+   }
+  },
+  {
+   "src": "TMDB",
+   "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Good+Will+Hunting&year=1997",
+   "fields": {
+    "year": 1997,
+    "runtime": 127,
+    "creator": "Gus Van Sant",
+    "studio": "Lawrence Bender Productions"
+   }
+  }
+ ],
+ "m104": [
+  {
+   "src": "OMDb",
+   "url": "https://www.omdbapi.com/?apikey=REDACTED&t=The+Shawshank+Redemption&type=movie&y=1994",
+   "fields": {
+    "year": 1994,
+    "runtime": 142,
+    "creator": "Frank Darabont"
+   }
+  },
+  {
+   "src": "TMDB",
+   "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=The+Shawshank+Redemption&year=1994",
+   "fields": {
+    "year": 1994,
+    "runtime": 142,
+    "creator": "Frank Darabont",
+    "studio": "Castle Rock Entertainment"
+   }
+  }
+ ],
+ "m105": [
+  {
+   "src": "OMDb",
+   "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Contact&type=movie&y=1997",
+   "fields": {
+    "year": 1997,
+    "runtime": 150,
+    "creator": "Robert Zemeckis"
+   }
+  },
+  {
+   "src": "TMDB",
+   "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Contact&year=1997",
+   "fields": {
+    "year": 1997,
+    "runtime": 150,
+    "creator": "Robert Zemeckis",
+    "studio": "South Side Amusement Company"
+   }
+  }
+ ],
+ "m107": [
+  {
+   "src": "OMDb",
+   "url": "https://www.omdbapi.com/?apikey=REDACTED&t=The+Green+Mile&type=movie&y=1999",
+   "fields": {
+    "year": 1999,
+    "runtime": 189,
+    "creator": "Frank Darabont"
+   }
+  },
+  {
+   "src": "TMDB",
+   "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=The+Green+Mile&year=1999",
+   "fields": {
+    "year": 1999,
+    "runtime": 189,
+    "creator": "Frank Darabont",
+    "studio": "Castle Rock Entertainment"
+   }
+  }
+ ],
+ "m108": [
+  {
+   "src": "OMDb",
+   "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Sunshine&type=movie&y=2007",
+   "fields": {
+    "year": 2007,
+    "runtime": 107,
+    "creator": "Danny Boyle"
+   }
+  },
+  {
+   "src": "TMDB",
+   "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Sunshine&year=2007",
+   "fields": {
+    "year": 2007,
+    "runtime": 108,
+    "creator": "Danny Boyle",
+    "studio": "Ingenious Media"
+   }
+  }
+ ],
+ "m110": [
+  {
+   "src": "OMDb",
+   "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Dead+Poets+Society&type=movie&y=1989",
+   "fields": {
+    "year": 1989,
+    "runtime": 128,
+    "creator": "Peter Weir"
+   }
+  },
+  {
+   "src": "TMDB",
+   "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Dead+Poets+Society&year=1989",
+   "fields": {
+    "year": 1989,
+    "runtime": 129,
+    "creator": "Peter Weir",
+    "studio": "A Steven Haft Production"
+   }
+  }
+ ],
+ "m123": [
+  {
+   "src": "OMDb",
+   "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Insomnia&type=movie&y=2002",
+   "fields": {
+    "year": 2002,
+    "runtime": 118,
+    "creator": "Christopher Nolan"
+   }
+  },
+  {
+   "src": "TMDB",
+   "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Insomnia&year=2002",
+   "fields": {
+    "year": 2002,
+    "runtime": 118,
+    "creator": "Christopher Nolan",
+    "studio": "Alcon Entertainment"
+   }
+  }
+ ],
+ "m124": [
+  {
+   "src": "OMDb",
+   "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Joker&type=movie&y=2019",
+   "fields": {
+    "year": 2019,
+    "runtime": 122,
+    "creator": "Todd Phillips"
+   }
+  },
+  {
+   "src": "TMDB",
+   "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Joker&year=2019",
+   "fields": {
+    "year": 2019,
+    "runtime": 122,
+    "creator": "Todd Phillips",
+    "studio": "Warner Bros. Pictures"
+   }
+  }
+ ],
+ "m125": [
+  {
+   "src": "OMDb",
+   "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Whiplash&type=movie&y=2014",
+   "fields": {
+    "year": 2014,
+    "runtime": 106,
+    "creator": "Damien Chazelle"
+   }
+  },
+  {
+   "src": "TMDB",
+   "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Whiplash&year=2014",
+   "fields": {
+    "year": 2014,
+    "runtime": 107,
+    "creator": "Damien Chazelle",
+    "studio": "Bold Films"
+   }
+  }
+ ],
+ "m126": [
+  {
+   "src": "OMDb",
+   "url": "https://www.omdbapi.com/?apikey=REDACTED&t=One+Flew+Over+the+Cuckoo%27s+Nest&type=movie&y=1975",
+   "fields": {
+    "year": 1975,
+    "runtime": 133,
+    "creator": "Miloš Forman"
+   }
+  },
+  {
+   "src": "TMDB",
+   "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=One+Flew+Over+the+Cuckoo%27s+Nest&year=1975",
+   "fields": {
+    "year": 1975,
+    "runtime": 135,
+    "creator": "Miloš Forman",
+    "studio": "Fantasy Films"
+   }
+  }
+ ],
+ "m127": [
+  {
+   "src": "OMDb",
+   "url": "https://www.omdbapi.com/?apikey=REDACTED&t=12+Angry+Men&type=movie&y=1957",
+   "fields": {
+    "year": 1957,
+    "runtime": 96,
+    "creator": "Sidney Lumet"
+   }
+  },
+  {
+   "src": "TMDB",
+   "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=12+Angry+Men&year=1957",
+   "fields": {
+    "year": 1957,
+    "runtime": 97,
+    "creator": "Sidney Lumet",
+    "studio": "Orion-Nova Productions"
+   }
+  }
+ ],
+ "m128": [
+  {
+   "src": "OMDb",
+   "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Papillon&type=movie&y=2017",
+   "fields": {
+    "year": 2017,
+    "runtime": 133,
+    "creator": "Michael Noer"
+   }
+  },
+  {
+   "src": "TMDB",
+   "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Papillon&year=2017",
+   "fields": {
+    "year": 2017,
+    "runtime": 134,
+    "creator": "Michael Noer",
+    "studio": "Red Granite Pictures"
+   }
+  }
+ ],
+ "m129": [
+  {
+   "src": "OMDb",
+   "url": "https://www.omdbapi.com/?apikey=REDACTED&t=The+Fisher+King&type=movie&y=1991",
+   "fields": {
+    "year": 1991,
+    "runtime": 137,
+    "creator": "Terry Gilliam"
+   }
+  },
+  {
+   "src": "TMDB",
+   "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=The+Fisher+King&year=1991",
+   "fields": {
+    "year": 1991,
+    "runtime": 138,
+    "creator": "Terry Gilliam",
+    "studio": "TriStar Pictures"
+   }
+  }
+ ],
+ "m130": [
+  {
+   "src": "OMDb",
+   "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Life+of+Pi&type=movie&y=2012",
+   "fields": {
+    "year": 2012,
+    "runtime": 127,
+    "creator": "Ang Lee"
+   }
+  },
+  {
+   "src": "TMDB",
+   "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Life+of+Pi&year=2012",
+   "fields": {
+    "year": 2012,
+    "runtime": 127,
+    "creator": "Ang Lee",
+    "studio": "Fox 2000 Pictures"
+   }
+  }
+ ],
+ "m131": [
+  {
+   "src": "OMDb",
+   "url": "https://www.omdbapi.com/?apikey=REDACTED&t=The+Truman+Show&type=movie&y=1998",
+   "fields": {
+    "year": 1998,
+    "runtime": 103,
+    "creator": "Peter Weir"
+   }
+  },
+  {
+   "src": "TMDB",
+   "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=The+Truman+Show&year=1998",
+   "fields": {
+    "year": 1998,
+    "runtime": 103,
+    "creator": "Peter Weir",
+    "studio": "Paramount Pictures"
+   }
+  }
+ ],
+ "m159": [
+  {
+   "src": "OMDb",
+   "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Project+Hail+Mary&type=movie&y=2026",
+   "fields": {
+    "year": 2026,
+    "runtime": 156,
+    "creator": "Phil Lord, Christopher Miller"
+   }
+  },
+  {
+   "src": "TMDB",
+   "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Project+Hail+Mary&year=2026",
+   "fields": {
+    "year": 2026,
+    "runtime": 157,
+    "creator": "Phil Lord, Christopher Miller",
+    "studio": "Lord Miller"
+   }
+  }
+ ]
+}
