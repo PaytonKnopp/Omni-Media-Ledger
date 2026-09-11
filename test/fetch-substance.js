@@ -22,13 +22,15 @@ const path = require('path');
 const os = require('os');
 const { execFileSync } = require('child_process');
 const ROOT = path.resolve(__dirname, '..');
-const { mergeTags, normTag, packEntry } = require(path.join(ROOT, 'scripts/fetch-substance.js'));
+const { mergeTags, normTag, packEntry, tmdbSubstance } = require(path.join(ROOT, 'scripts/fetch-substance.js'));
 
 let failures = 0;
 function check(label, cond, detail) {
   if (cond) console.log('  ok   - ' + label);
   else { console.log('  FAIL - ' + label); if (detail) console.log('     ' + detail); failures++; }
 }
+
+async function main() {
 
 console.log('\n=== substance harness: tag handling ===');
 check('tags are lowercased and internal whitespace collapsed',
@@ -44,6 +46,39 @@ check('empty and missing lists are survivable',
 // The substring trap, stated as a test so it cannot come back: these two tags must stay distinct.
 check('two tags that share a prefix stay two tags (no substring collapsing)',
   mergeTags(['war', 'warmth']).length === 2);
+
+console.log('\n=== substance harness: TMDB search does not trust a wrong-title hit ===');
+// Reproduces a live failure found in the same session: fetching substance for WALL-E pulled tags
+// from "WALL·E's Treasures & Trinkets", a same-year Pixar short that TMDB's search ranks above the
+// real film (which spells its title with a middle dot, not the corpus's ASCII hyphen). Wrong tags
+// here are worse than fetch-facts.js's equivalent bug, because there is no reconciliation step to
+// catch them -- they would go straight into a rubric score's cited evidence.
+{
+  const realFetch = global.fetch;
+  global.fetch = async (url) => {
+    const u = String(url);
+    if (u.includes('/search/movie')) {
+      return { ok: true, json: async () => ({ results: [
+        { id: 877268, title: "WALL·E's Treasures & Trinkets", release_date: '2008-11-18' },
+        { id: 10681, title: 'WALL·E', release_date: '2008-06-26' },
+      ] }) };
+    }
+    if (u.includes('/movie/10681')) {
+      return { ok: true, json: async () => ({ keywords: { keywords: [{ name: 'robot' }, { name: 'dystopia' }] }, genres: [{ name: 'Animation' }], overview: 'A lonely robot.' }) };
+    }
+    throw new Error('unexpected fetch in test: ' + u);
+  };
+  const orig = process.env.TMDB_API_KEY;
+  process.env.TMDB_API_KEY = 'test-key';
+  try {
+    const got = await tmdbSubstance({ id: 'm144', title: 'WALL-E', year: 2008 }, 'movie');
+    check('substance is gathered from the actual film, not the search-ranked doppelganger',
+      got.matchedTitle === 'WALL·E' && got.tags.includes('robot'), JSON.stringify(got));
+  } finally {
+    global.fetch = realFetch;
+    process.env.TMDB_API_KEY = orig;
+  }
+}
 
 console.log('\n=== substance harness: the pack ===');
 const movies = new Function(fs.readFileSync(path.join(ROOT, 'data/movies.js'), 'utf8') + '\nreturn movies;')();
@@ -111,6 +146,11 @@ try {
 check('a substance pack for the wrong medium is refused, not silently ignored', refused);
 
 fs.rmSync(tmp, { recursive: true, force: true });
-console.log(failures ? '\n' + failures + ' substance-harness check(s) failed.\n'
-                     : '\nSubstance harness passed all checks.\n');
-process.exit(failures ? 1 : 0);
+
+}
+
+main().then(() => {
+  console.log(failures ? '\n' + failures + ' substance-harness check(s) failed.\n'
+                       : '\nSubstance harness passed all checks.\n');
+  process.exit(failures ? 1 : 0);
+}).catch(e => { console.error(e); process.exit(1); });

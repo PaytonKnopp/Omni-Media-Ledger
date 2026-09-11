@@ -53,7 +53,7 @@
 const fs = require('fs');
 const path = require('path');
 const ROOT = path.resolve(__dirname, '..');
-const { redactKeys } = require('./fetch-facts.js');
+const { redactKeys, pickTmdbHit } = require('./fetch-facts.js');
 
 const TMDB_ATTRIBUTION = 'This product uses the TMDB API but is not endorsed or certified by TMDB.';
 
@@ -110,7 +110,12 @@ async function tmdbSubstance(work, medium) {
     const q = new URLSearchParams({ api_key: key, query: work.title });
     if (medium === 'movie' && work.year) q.set('year', String(work.year));
     const search = await getJSON('https://api.themoviedb.org/3/search/' + kind + '?' + q);
-    const hit = search && Array.isArray(search.results) && search.results[0];
+    // Same guard as fetch-facts.js's pickTmdbHit, and for the same live-discovered reason: TMDB's
+    // search ranking is not "the work asked for", it's TMDB's relevance score, and it has been
+    // caught ranking a same-year same-prefix doppelganger above the real film (WALL-E). Wrong tags
+    // are worse than missing ones here -- they'd silently misinform a rubric score later instead of
+    // showing up as "NO tags at all", which is the one signal this script gives a human to check.
+    const hit = pickTmdbHit(search && search.results, medium, work);
     if (!hit) return { src: 'TMDB', miss: 'no match for "' + work.title + '"' };
 
     const detail = await getJSON('https://api.themoviedb.org/3/' + kind + '/' + hit.id + '?' +
@@ -324,4 +329,4 @@ function median(ns) {
 }
 
 if (require.main === module) main().catch(e => { console.error(e); process.exit(1); });
-module.exports = { mergeTags, normTag, packEntry, TMDB_ATTRIBUTION };
+module.exports = { mergeTags, normTag, packEntry, TMDB_ATTRIBUTION, tmdbSubstance };
