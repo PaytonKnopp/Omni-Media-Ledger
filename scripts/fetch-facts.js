@@ -345,6 +345,14 @@ const ADAPTERS = {
         const entry = l && (l.en || l.mul || Object.values(l)[0]);
         return entry && entry.value;
       };
+      // Wikidata occasionally carries the SAME claim twice under different statement ids (found
+      // live: The Three-Body Problem's P50 lists Liu Cixin's Q-id in two statements, each with its
+      // own references, resolving to "Liu Cixin & Liu Cixin" if not deduplicated) -- dedupe by Q-id
+      // before resolving labels, not after, since two different Q-ids could coincidentally resolve
+      // to the same display string and that IS two credited people.
+      const idsOf = prop => [...new Set((claims[prop] || [])
+        .map(c => c.mainsnak && c.mainsnak.datavalue && c.mainsnak.datavalue.value && c.mainsnak.datavalue.value.id)
+        .filter(Boolean))];
       const dates = (claims.P577 || [])
         .map(c => c.mainsnak && c.mainsnak.datavalue && c.mainsnak.datavalue.value && c.mainsnak.datavalue.value.time)
         .filter(Boolean)
@@ -353,14 +361,14 @@ const ADAPTERS = {
       const year = dates.length ? Math.min(...dates) : undefined;
 
       if (medium === 'game') {
-        const devs = (claims.P178 || []).map(c => labelOf(c.mainsnak.datavalue.value.id)).filter(Boolean);
+        const devs = idsOf('P178').map(labelOf).filter(Boolean);
         if (!creatorNameOverlaps(work, devs)) return null;
-        const platforms = (claims.P400 || []).map(c => labelOf(c.mainsnak.datavalue.value.id)).filter(Boolean);
+        const platforms = idsOf('P400').map(labelOf).filter(Boolean);
         return { year, creator: str(devs.join(' & ')), platforms };
       }
-      const authors = (claims.P50 || []).map(c => labelOf(c.mainsnak.datavalue.value.id)).filter(Boolean);
+      const authors = idsOf('P50').map(labelOf).filter(Boolean);
       if (!creatorNameOverlaps(work, authors)) return null;
-      const publisher = (claims.P123 || []).map(c => labelOf(c.mainsnak.datavalue.value.id)).filter(Boolean)[0];
+      const publisher = idsOf('P123').map(labelOf).filter(Boolean)[0];
       const pagesClaim = claims.P1104 && claims.P1104[0] && claims.P1104[0].mainsnak.datavalue &&
         claims.P1104[0].mainsnak.datavalue.value;
       const pages = pagesClaim ? num(pagesClaim.amount) : undefined;

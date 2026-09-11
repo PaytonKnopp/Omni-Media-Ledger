@@ -309,6 +309,20 @@ console.log('\n=== fact harness: Wikidata adapter (search -> entity claims -> la
     JSON.stringify(r5.fields.platforms) === JSON.stringify(['Microsoft Windows']),
     JSON.stringify(r5.fields));
 
+  // A duplicated P50 claim (same Q-id, two separate statements with different references -- a real
+  // Wikidata data quirk, found live on The Three-Body Problem) must not double up the credited person.
+  const dupAuthorEntity = { entities: { Q190192: { claims: {
+    P50: [
+      { mainsnak: { datavalue: { value: { id: 'Q607588' } } } },
+      { mainsnak: { datavalue: { value: { id: 'Q607588' } } } },
+    ],
+  } } } };
+  const dupAuthorLabels = { entities: { Q607588: { labels: { en: { language: 'en', value: 'Liu Cixin' } } } } };
+  global.fetch = mockRoute(duneSearch, dupAuthorEntity, dupAuthorLabels);
+  const r6 = await callSource('wikidata', { id: 'b58', title: 'The Three-Body Problem', creator: 'Liu Cixin' }, 'book');
+  check('a duplicated claim for the SAME person does not double their name in the credit',
+    r6.fields && r6.fields.creator === 'Liu Cixin', JSON.stringify(r6.fields));
+
   global.fetch = realFetch;
 }
 
