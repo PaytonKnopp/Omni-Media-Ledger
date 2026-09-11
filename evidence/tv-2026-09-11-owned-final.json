@@ -1,0 +1,769 @@
+{
+ "medium": "tv",
+ "generated": "2026-09-11T02:02:09.458Z",
+ "offline": false,
+ "sources": [
+  "OMDb",
+  "TMDB"
+ ],
+ "works": [
+  {
+   "id": "t03",
+   "title": "True Detective",
+   "sourcesReached": [
+    "OMDb",
+    "TMDB"
+   ],
+   "sourcesMissed": [],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "first air year",
+     "soft": false,
+     "current": 2014,
+     "proposed": 2014,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 2014,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=True+Detective&type=series&y=2014"
+      },
+      {
+       "src": "TMDB",
+       "value": 2014,
+       "url": "https://api.themoviedb.org/3/search/tv?api_key=REDACTED&query=True+Detective"
+      }
+     ]
+    },
+    {
+     "field": "seasons",
+     "label": "seasons",
+     "soft": false,
+     "current": 4,
+     "proposed": 5,
+     "status": "sources-disagree",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 5,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=True+Detective&type=series&y=2014"
+      },
+      {
+       "src": "TMDB",
+       "value": 4,
+       "url": "https://api.themoviedb.org/3/search/tv?api_key=REDACTED&query=True+Detective"
+      }
+     ],
+     "alternatives": [
+      4
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "creator",
+     "soft": false,
+     "current": "Nic Pizzolatto, Issa López",
+     "proposed": "Nic Pizzolatto, Issa López",
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": "Nic Pizzolatto, Issa López",
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=True+Detective&type=series&y=2014"
+      },
+      {
+       "src": "TMDB",
+       "value": "Nic Pizzolatto, Issa López",
+       "url": "https://api.themoviedb.org/3/search/tv?api_key=REDACTED&query=True+Detective"
+      }
+     ]
+    },
+    {
+     "field": "network",
+     "label": "network / streamer",
+     "soft": true,
+     "current": "HBO",
+     "proposed": "HBO",
+     "status": "confirmed",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "TMDB",
+       "value": "HBO",
+       "url": "https://api.themoviedb.org/3/search/tv?api_key=REDACTED&query=True+Detective"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "t10",
+   "title": "Mr. Robot",
+   "sourcesReached": [
+    "OMDb",
+    "TMDB"
+   ],
+   "sourcesMissed": [],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "first air year",
+     "soft": false,
+     "current": 2015,
+     "proposed": 2015,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 2015,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Mr.+Robot&type=series&y=2015"
+      },
+      {
+       "src": "TMDB",
+       "value": 2015,
+       "url": "https://api.themoviedb.org/3/search/tv?api_key=REDACTED&query=Mr.+Robot"
+      }
+     ]
+    },
+    {
+     "field": "seasons",
+     "label": "seasons",
+     "soft": false,
+     "current": 4,
+     "proposed": 4,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 4,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Mr.+Robot&type=series&y=2015"
+      },
+      {
+       "src": "TMDB",
+       "value": 4,
+       "url": "https://api.themoviedb.org/3/search/tv?api_key=REDACTED&query=Mr.+Robot"
+      }
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "creator",
+     "soft": false,
+     "current": "Sam Esmail",
+     "proposed": "Sam Esmail",
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": "Sam Esmail",
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Mr.+Robot&type=series&y=2015"
+      },
+      {
+       "src": "TMDB",
+       "value": "Sam Esmail",
+       "url": "https://api.themoviedb.org/3/search/tv?api_key=REDACTED&query=Mr.+Robot"
+      }
+     ]
+    },
+    {
+     "field": "network",
+     "label": "network / streamer",
+     "soft": true,
+     "current": "USA Network",
+     "proposed": "USA Network",
+     "status": "confirmed",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "TMDB",
+       "value": "USA Network",
+       "url": "https://api.themoviedb.org/3/search/tv?api_key=REDACTED&query=Mr.+Robot"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "t13",
+   "title": "Chernobyl",
+   "sourcesReached": [
+    "OMDb",
+    "TMDB"
+   ],
+   "sourcesMissed": [],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "first air year",
+     "soft": false,
+     "current": 2019,
+     "proposed": 2019,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 2019,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Chernobyl&type=series&y=2019"
+      },
+      {
+       "src": "TMDB",
+       "value": 2019,
+       "url": "https://api.themoviedb.org/3/search/tv?api_key=REDACTED&query=Chernobyl"
+      }
+     ]
+    },
+    {
+     "field": "seasons",
+     "label": "seasons",
+     "soft": false,
+     "current": 1,
+     "proposed": 1,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 1,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Chernobyl&type=series&y=2019"
+      },
+      {
+       "src": "TMDB",
+       "value": 1,
+       "url": "https://api.themoviedb.org/3/search/tv?api_key=REDACTED&query=Chernobyl"
+      }
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "creator",
+     "soft": false,
+     "current": "Craig Mazin",
+     "proposed": "Craig Mazin",
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": "Craig Mazin",
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Chernobyl&type=series&y=2019"
+      },
+      {
+       "src": "TMDB",
+       "value": "Craig Mazin",
+       "url": "https://api.themoviedb.org/3/search/tv?api_key=REDACTED&query=Chernobyl"
+      }
+     ]
+    },
+    {
+     "field": "network",
+     "label": "network / streamer",
+     "soft": true,
+     "current": "HBO",
+     "proposed": "HBO",
+     "status": "confirmed",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "TMDB",
+       "value": "HBO",
+       "url": "https://api.themoviedb.org/3/search/tv?api_key=REDACTED&query=Chernobyl"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "t17",
+   "title": "Breaking Bad",
+   "sourcesReached": [
+    "OMDb",
+    "TMDB"
+   ],
+   "sourcesMissed": [],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "first air year",
+     "soft": false,
+     "current": 2008,
+     "proposed": 2008,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 2008,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Breaking+Bad&type=series&y=2008"
+      },
+      {
+       "src": "TMDB",
+       "value": 2008,
+       "url": "https://api.themoviedb.org/3/search/tv?api_key=REDACTED&query=Breaking+Bad"
+      }
+     ]
+    },
+    {
+     "field": "seasons",
+     "label": "seasons",
+     "soft": false,
+     "current": 5,
+     "proposed": 5,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 5,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Breaking+Bad&type=series&y=2008"
+      },
+      {
+       "src": "TMDB",
+       "value": 5,
+       "url": "https://api.themoviedb.org/3/search/tv?api_key=REDACTED&query=Breaking+Bad"
+      }
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "creator",
+     "soft": false,
+     "current": "Vince Gilligan",
+     "proposed": "Vince Gilligan",
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": "Vince Gilligan",
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Breaking+Bad&type=series&y=2008"
+      },
+      {
+       "src": "TMDB",
+       "value": "Vince Gilligan",
+       "url": "https://api.themoviedb.org/3/search/tv?api_key=REDACTED&query=Breaking+Bad"
+      }
+     ]
+    },
+    {
+     "field": "network",
+     "label": "network / streamer",
+     "soft": true,
+     "current": "AMC",
+     "proposed": "AMC",
+     "status": "confirmed",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "TMDB",
+       "value": "AMC",
+       "url": "https://api.themoviedb.org/3/search/tv?api_key=REDACTED&query=Breaking+Bad"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "t28",
+   "title": "The Twilight Zone",
+   "sourcesReached": [
+    "OMDb",
+    "TMDB"
+   ],
+   "sourcesMissed": [],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "first air year",
+     "soft": false,
+     "current": 1959,
+     "proposed": 1959,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 1959,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=The+Twilight+Zone&type=series&y=1959"
+      },
+      {
+       "src": "TMDB",
+       "value": 1959,
+       "url": "https://api.themoviedb.org/3/search/tv?api_key=REDACTED&query=The+Twilight+Zone"
+      }
+     ]
+    },
+    {
+     "field": "seasons",
+     "label": "seasons",
+     "soft": false,
+     "current": 5,
+     "proposed": 5,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 5,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=The+Twilight+Zone&type=series&y=1959"
+      },
+      {
+       "src": "TMDB",
+       "value": 5,
+       "url": "https://api.themoviedb.org/3/search/tv?api_key=REDACTED&query=The+Twilight+Zone"
+      }
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "creator",
+     "soft": false,
+     "current": "Rod Serling",
+     "proposed": "Rod Serling",
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": "Rod Serling",
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=The+Twilight+Zone&type=series&y=1959"
+      },
+      {
+       "src": "TMDB",
+       "value": "Rod Serling",
+       "url": "https://api.themoviedb.org/3/search/tv?api_key=REDACTED&query=The+Twilight+Zone"
+      }
+     ]
+    },
+    {
+     "field": "network",
+     "label": "network / streamer",
+     "soft": true,
+     "current": "CBS",
+     "proposed": "CBS",
+     "status": "confirmed",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "TMDB",
+       "value": "CBS",
+       "url": "https://api.themoviedb.org/3/search/tv?api_key=REDACTED&query=The+Twilight+Zone"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "t47",
+   "title": "Band of Brothers",
+   "sourcesReached": [
+    "OMDb",
+    "TMDB"
+   ],
+   "sourcesMissed": [],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "first air year",
+     "soft": false,
+     "current": 2001,
+     "proposed": 2001,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 2001,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Band+of+Brothers&type=series&y=2001"
+      },
+      {
+       "src": "TMDB",
+       "value": 2001,
+       "url": "https://api.themoviedb.org/3/search/tv?api_key=REDACTED&query=Band+of+Brothers"
+      }
+     ]
+    },
+    {
+     "field": "seasons",
+     "label": "seasons",
+     "soft": false,
+     "current": 1,
+     "proposed": 1,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 1,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Band+of+Brothers&type=series&y=2001"
+      },
+      {
+       "src": "TMDB",
+       "value": 1,
+       "url": "https://api.themoviedb.org/3/search/tv?api_key=REDACTED&query=Band+of+Brothers"
+      }
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "creator",
+     "soft": false,
+     "current": "Steven Spielberg & Tom Hanks",
+     "status": "no-source",
+     "grade": null,
+     "sources": []
+    },
+    {
+     "field": "network",
+     "label": "network / streamer",
+     "soft": true,
+     "current": "HBO",
+     "proposed": "HBO",
+     "status": "confirmed",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "TMDB",
+       "value": "HBO",
+       "url": "https://api.themoviedb.org/3/search/tv?api_key=REDACTED&query=Band+of+Brothers"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "t97",
+   "title": "Peaky Blinders",
+   "sourcesReached": [
+    "OMDb",
+    "TMDB"
+   ],
+   "sourcesMissed": [],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "first air year",
+     "soft": false,
+     "current": 2013,
+     "proposed": 2013,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 2013,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Peaky+Blinders&type=series&y=2013"
+      },
+      {
+       "src": "TMDB",
+       "value": 2013,
+       "url": "https://api.themoviedb.org/3/search/tv?api_key=REDACTED&query=Peaky+Blinders"
+      }
+     ]
+    },
+    {
+     "field": "seasons",
+     "label": "seasons",
+     "soft": false,
+     "current": 6,
+     "proposed": 6,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 6,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Peaky+Blinders&type=series&y=2013"
+      },
+      {
+       "src": "TMDB",
+       "value": 6,
+       "url": "https://api.themoviedb.org/3/search/tv?api_key=REDACTED&query=Peaky+Blinders"
+      }
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "creator",
+     "soft": false,
+     "current": "Steven Knight",
+     "proposed": "Steven Knight",
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": "Steven Knight",
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Peaky+Blinders&type=series&y=2013"
+      },
+      {
+       "src": "TMDB",
+       "value": "Steven Knight",
+       "url": "https://api.themoviedb.org/3/search/tv?api_key=REDACTED&query=Peaky+Blinders"
+      }
+     ]
+    },
+    {
+     "field": "network",
+     "label": "network / streamer",
+     "soft": true,
+     "current": "BBC",
+     "proposed": "BBC One",
+     "status": "proposed-change",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "TMDB",
+       "value": "BBC One",
+       "url": "https://api.themoviedb.org/3/search/tv?api_key=REDACTED&query=Peaky+Blinders"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "t101",
+   "title": "M*A*S*H",
+   "sourcesReached": [
+    "OMDb",
+    "TMDB"
+   ],
+   "sourcesMissed": [],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "first air year",
+     "soft": false,
+     "current": 1972,
+     "proposed": 1972,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 1972,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=M*A*S*H&type=series&y=1972"
+      },
+      {
+       "src": "TMDB",
+       "value": 1972,
+       "url": "https://api.themoviedb.org/3/search/tv?api_key=REDACTED&query=M*A*S*H"
+      }
+     ]
+    },
+    {
+     "field": "seasons",
+     "label": "seasons",
+     "soft": false,
+     "current": 11,
+     "proposed": 11,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 11,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=M*A*S*H&type=series&y=1972"
+      },
+      {
+       "src": "TMDB",
+       "value": 11,
+       "url": "https://api.themoviedb.org/3/search/tv?api_key=REDACTED&query=M*A*S*H"
+      }
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "creator",
+     "soft": false,
+     "current": "Larry Gelbart",
+     "proposed": "Larry Gelbart",
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": "Larry Gelbart",
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=M*A*S*H&type=series&y=1972"
+      },
+      {
+       "src": "TMDB",
+       "value": "Larry Gelbart",
+       "url": "https://api.themoviedb.org/3/search/tv?api_key=REDACTED&query=M*A*S*H"
+      }
+     ]
+    },
+    {
+     "field": "network",
+     "label": "network / streamer",
+     "soft": true,
+     "current": "CBS",
+     "proposed": "CBS",
+     "status": "confirmed",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "TMDB",
+       "value": "CBS",
+       "url": "https://api.themoviedb.org/3/search/tv?api_key=REDACTED&query=M*A*S*H"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "t144",
+   "title": "Peaky Blinders: The Immortal Man",
+   "sourcesReached": [],
+   "sourcesMissed": [
+    "OMDb (no match)",
+    "TMDB (no match)"
+   ],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "first air year",
+     "soft": false,
+     "current": 2026,
+     "status": "no-source",
+     "grade": null,
+     "sources": []
+    },
+    {
+     "field": "seasons",
+     "label": "seasons",
+     "soft": false,
+     "current": 1,
+     "status": "no-source",
+     "grade": null,
+     "sources": []
+    },
+    {
+     "field": "creator",
+     "label": "creator",
+     "soft": false,
+     "current": "Steven Knight",
+     "status": "no-source",
+     "grade": null,
+     "sources": []
+    },
+    {
+     "field": "network",
+     "label": "network / streamer",
+     "soft": true,
+     "current": "Netflix",
+     "status": "no-source",
+     "grade": null,
+     "sources": []
+    }
+   ]
+  }
+ ]
+}
