@@ -269,10 +269,13 @@ for (const sec of SECTIONS) {
       if (FACTS.indexOf(s.facts) < 0) bad.push(r.id + ': prov.facts must be one of ' + FACTS.join('|') + ' (got ' + JSON.stringify(s.facts) + ')');
       if (INDICES.indexOf(s.indices) < 0) bad.push(r.id + ': prov.indices must be one of ' + INDICES.join('|') + ' (got ' + JSON.stringify(s.indices) + ')');
       if (s.checked !== undefined && !/^\d{4}-\d{2}-\d{2}$/.test(String(s.checked))) bad.push(r.id + ': prov.checked must be YYYY-MM-DD');
-      if (s.facts === 'sourced') {
-        sourced++;
-        if (!s.src || typeof s.src !== 'string' || !s.src.trim()) bad.push(r.id + ': prov.facts is "sourced" but no prov.src names where from');
-        if (!s.checked) bad.push(r.id + ': prov.facts is "sourced" but no prov.checked date');
+      if (s.facts === 'sourced') sourced++;
+      // "edition-dependent" is an evidence-backed claim too -- it says the harness checked and
+      // found the field genuinely varies by copy, which is exactly as much a claim to back up as
+      // "sourced" is. A stamp claiming either without saying where it looked is not sourced.
+      if (s.facts === 'sourced' || s.facts === 'edition-dependent') {
+        if (!s.src || typeof s.src !== 'string' || !s.src.trim()) bad.push(r.id + ': prov.facts is "' + s.facts + '" but no prov.src names where from');
+        if (!s.checked) bad.push(r.id + ': prov.facts is "' + s.facts + '" but no prov.checked date');
       }
     }
   }

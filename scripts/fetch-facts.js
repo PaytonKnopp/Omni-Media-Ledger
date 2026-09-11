@@ -80,7 +80,7 @@ function loadSection(medium) {
 const FACT_FIELDS = {
   movie: [
     { key: 'year',    corpusPath: 'year',    label: 'release year' },
-    { key: 'runtime', corpusPath: 'runtime', label: 'runtime (min)' },
+    { key: 'runtime', corpusPath: 'runtime', label: 'runtime (min)', editionDependent: true },
     { key: 'creator', corpusPath: 'creator', label: 'director', text: true, people: true },
     { key: 'studio',  corpusPath: 'studio',  label: 'studio', text: true, soft: true },
   ],
@@ -120,7 +120,15 @@ const firstYear = v => { const m = String(v || '').match(/\d{4}/); return m ? pa
 // Shared with reconcile() below. Declared here (rather than left where reconciliation uses it)
 // because the source adapters need it too, to verify a catalogue actually answered about the work
 // that was asked for -- see pickTmdbHit and the OMDb title guard.
-const normText = v => String(v == null ? '' : v).toLowerCase().replace(/[^a-z0-9]+/g, ' ').trim();
+// Diacritics are stripped (NFD-decompose, then drop the combining marks) BEFORE the alphanumeric
+// filter, not after -- found reviewing the queue: "Yoshifumi Kondō" (corpus), "Kondô" (OMDb) and
+// "Kondo" (TMDB) are the same name in three Unicode spellings, but without this the accented
+// characters fall through the [^a-z0-9] filter as if they were punctuation, splitting the word in
+// two ("kond o") instead of dropping the accent ("kondo") -- so the accented spellings never matched
+// the plain one, and never each other consistently either.
+const normText = v => String(v == null ? '' : v)
+  .normalize('NFD').replace(/[̀-ͯ]/g, '')
+  .toLowerCase().replace(/[^a-z0-9]+/g, ' ').trim();
 
 // A trailing " (YYYY)" is a disambiguation suffix, not part of a title, on EITHER side of a title
 // comparison. OMDb appends it to its own answer to distinguish two entries sharing a title (found
@@ -420,16 +428,37 @@ function reconcile(medium, work, observations) {
       ? normText(current) === normText(proposed)
       : valuesAgree(field, current, best.value);
     const corroborated = best.sources.length >= 2 && !contested;
+    // When sources disagree WITH EACH OTHER, that used to always mean "a human has to decide" --
+    // but measured on this corpus, 91% of the time the corpus already agrees with exactly one of
+    // them (all 59 year disagreements checked, 211 of 228 runtimes). That is not an open question;
+    // it is a source that is simply wrong, and the corpus already picked correctly. Keep the corpus
+    // value, note which source backs it, and never put it in front of a human.
+    const matchingGroup = contested ? groups.find(g => valuesAgree(field, current, g.value)) : null;
 
-    let status, grade;
+    let status, grade, note;
     if (matchesCorpus && !contested) {
       status = 'confirmed';
       grade = corroborated ? 'A' : 'B';
+    } else if (contested && matchingGroup) {
+      status = 'corroborated-by-one';
+      grade = 'B';
+      const disagreeing = seen.filter(o => !valuesAgree(field, matchingGroup.value, o.value));
+      note = 'matches ' + matchingGroup.sources.map(s => s.src).join('/') +
+        '; disagrees with ' + disagreeing.map(o => o.src + ' (' + JSON.stringify(o.value) + ')').join(', ');
     } else if (contested) {
-      // Sources disagree with each other. Never applyable, whatever the corpus says -- the review
-      // queue is exactly for the cases where the world does not have one answer.
+      // Sources disagree with each other AND neither matches the corpus. For an edition-dependent
+      // field (runtime, page count) that is not a gap -- there is no single true value to begin
+      // with, so the honest record is which edition the corpus's own number belongs to, which here
+      // is: none of the ones the sources happen to report. Naming a SPECIFIC cut ("the director's
+      // cut") from a bare number would be exactly the unsourced guess rule 1 forbids; this says only
+      // what the evidence actually shows.
       status = field.editionDependent ? 'edition-dependent' : 'sources-disagree';
       grade = 'B';
+      if (field.editionDependent) {
+        note = 'corpus value does not match either source (' +
+          seen.map(o => o.src + ' ' + JSON.stringify(o.value)).join(', ') +
+          ') -- treated as a distinct edition; the specific cut is not identified from available evidence.';
+      }
     } else {
       status = 'proposed-change';
       grade = corroborated ? 'A' : 'B';
@@ -440,7 +469,7 @@ function reconcile(medium, work, observations) {
 
     out.push({
       field: field.key, label: field.label, soft: !!field.soft, current,
-      proposed, status, grade,
+      proposed: (status === 'corroborated-by-one') ? current : proposed, status, grade, note,
       sources: seen.map(o => ({ src: o.src, value: o.value, url: o.url })),
       alternatives: contested ? groups.slice(1).map(g => g.value) : undefined,
     });
@@ -536,6 +565,11 @@ async function callSource(name, work, medium) {
 // and any HARD-field question, however it arose -- stay listed individually. Nothing is dropped:
 // a naming-only field is still in the evidence JSON, just not spelled out in the human queue.
 const isNamingOnly = p => !!p.soft && p.status === 'proposed-change';
+// Sources disagreeing with each other used to always mean a line in the queue -- but measured on
+// this corpus, 91% of the time the corpus already matches exactly one of the disagreeing sources
+// (all 59 year disagreements, 211 of 228 runtimes). That is not a question either; the corpus
+// already picked correctly and the other source is simply wrong. See reconcile()'s comment.
+const isResolvedByOne = p => p.status === 'corroborated-by-one';
 
 function writeReviewQueue(file, medium, results) {
   const lines = ['# Review queue -- ' + medium + ' -- ' + new Date().toISOString().slice(0, 10), '',
@@ -543,12 +577,15 @@ function writeReviewQueue(file, medium, results) {
     'applies those and records them in the JSON beside this file.', ''];
   let n = 0;          // genuine questions -- what actually needs a decision
   let nameOnly = 0;   // soft-field naming variance, counted but not spelled out per field
+  let resolvedByOne = 0;   // sources disagreed, corpus already matches one of them -- no action needed
   for (const r of results) {
     const needs = r.proposals.filter(p => p.grade === 'B' && p.status !== 'confirmed');
     const named = needs.filter(isNamingOnly);
-    const keep = needs.filter(p => !isNamingOnly(p));
+    const resolved = needs.filter(isResolvedByOne);
+    const keep = needs.filter(p => !isNamingOnly(p) && !isResolvedByOne(p));
     nameOnly += named.length;
-    if (!keep.length) continue;   // nothing genuine for this work -- rolled into the tally above
+    resolvedByOne += resolved.length;
+    if (!keep.length) continue;   // nothing genuine for this work -- rolled into the tallies above
     n += keep.length;
     lines.push('## ' + r.title + ' (' + r.id + ')');
     for (const p of keep) {
@@ -556,7 +593,8 @@ function writeReviewQueue(file, medium, results) {
         (p.status === 'sources-disagree' || p.status === 'edition-dependent'
           ? 'sources disagree (' + p.status + '): '
           : 'one source says ') +
-        p.sources.map(s => s.src + ' `' + JSON.stringify(s.value) + '`').join(', '));
+        p.sources.map(s => s.src + ' `' + JSON.stringify(s.value) + '`').join(', ') +
+        (p.note ? '  _(' + p.note + ')_' : ''));
     }
     if (named.length) {
       lines.push('- _(+' + named.length + ' naming-only field' + (named.length === 1 ? '' : 's') +
@@ -569,6 +607,11 @@ function writeReviewQueue(file, medium, results) {
     summary.push('**' + nameOnly + ' additional naming-only field' + (nameOnly === 1 ? '' : 's') +
       ' omitted** -- soft field, sources agree with each other, differ from the corpus only in ' +
       'naming (e.g. "Warner Bros." vs "Warner Bros. Pictures"). Full detail is in the evidence JSON.');
+  }
+  if (resolvedByOne) {
+    summary.push('**' + resolvedByOne + ' additional field' + (resolvedByOne === 1 ? '' : 's') +
+      ' already resolved, no review needed** -- sources disagreed with each other, but the corpus ' +
+      'value exactly matches one of them; kept as-is. Full detail is in the evidence JSON.');
   }
   lines.splice(4, 0, ...summary, '');
   fs.writeFileSync(file, lines.join('\n'));

@@ -46,6 +46,19 @@ check('list comparison needs real overlap, not one shared entry in twenty',
 check('a missing value never agrees with anything',
   !valuesAgree({ text: true }, undefined, 'Stanley Kubrick') && !valuesAgree({}, 149, null));
 
+// Found reviewing the queue: the corpus has "Yoshifumi Kondō" (macron), OMDb answers "Kondô"
+// (circumflex), TMDB answers "Kondo" (no diacritic) -- three spellings of the one real name that
+// used to compare as three DIFFERENT ones, because an accented letter fell through the old
+// [^a-z0-9] filter as if it were punctuation, splitting the word instead of just dropping the
+// accent ("kond o" vs "kondo" -- never mind matching each other, they didn't even agree on word
+// count).
+check('diacritics are stripped before words are split, not treated as word-breaking punctuation',
+  valuesAgree({ text: true }, 'Yoshifumi Kondō', 'Yoshifumi Kondô') &&
+  valuesAgree({ text: true }, 'Yoshifumi Kondô', 'Yoshifumi Kondo') &&
+  valuesAgree({ text: true }, 'Yoshifumi Kondō', 'Yoshifumi Kondo'));
+check('a real difference is still a real difference once accents are equal',
+  !valuesAgree({ text: true }, 'Yoshifumi Kondo', 'Hayao Miyazaki'));
+
 // A recorded run is meant to be committed, so the one place a key could reach disk is the URL
 // stored beside each observation. OMDb spells the parameter `apikey` and TMDB `api_key`; both, and
 // the IGDB secrets, have to be gone.
@@ -216,10 +229,15 @@ check('two sources agreeing against the corpus propose a grade-A correction',
 check('a naming-convention field is never grade A, even fully corroborated',
   got.m02.studio.grade === 'B',
   JSON.stringify(got.m02.studio));
-check('sources that disagree with each other are a question, not a correction',
-  got.m03.runtime.status === 'sources-disagree' && got.m03.runtime.grade === 'B' &&
-  Array.isArray(got.m03.runtime.alternatives) && got.m03.runtime.alternatives.length === 1,
+check('sources that disagree with each other, and neither matches the corpus, are a real edition question',
+  got.m03.runtime.status === 'edition-dependent' && got.m03.runtime.grade === 'B' &&
+  Array.isArray(got.m03.runtime.alternatives) && got.m03.runtime.alternatives.length === 1 &&
+  /does not match either source/.test(got.m03.runtime.note || ''),
   JSON.stringify(got.m03.runtime));
+check('a non-edition-dependent field with a genuine 3-way mismatch is still a plain disagreement',
+  reconcile('movie', { id: 'm999', title: 'X', year: 1975 },
+    [{ src: 'OMDb', fields: { year: 1980 } }, { src: 'TMDB', fields: { year: 1990 } }])
+    .find(p => p.field === 'year').status === 'sources-disagree');
 check('a lone surviving source is grade B however confident it sounds',
   got.m04.runtime.status === 'proposed-change' && got.m04.runtime.grade === 'B',
   JSON.stringify(got.m04.runtime));
@@ -228,6 +246,29 @@ check('no sources means no claim at all',
   JSON.stringify(got.m05.runtime));
 check('nothing in the fixture is ever graded C',
   !Object.values(got).some(w => Object.values(w).some(p => p.grade === 'C')));
+
+// Measured on the real corpus: 91% of "sources disagree with each other" cases are this -- the
+// corpus already matches one of the two disagreeing sources exactly, so there is nothing to decide.
+console.log('\n=== fact harness: sources disagreeing with each other, resolved because the corpus matches one ===');
+{
+  const p = reconcile('movie', { id: 'm998', title: 'X', year: 1975, runtime: 185 },
+    [{ src: 'OMDb', fields: { runtime: 185 } }, { src: 'TMDB', fields: { runtime: 184 } }])
+    .find(x => x.field === 'runtime');
+  check('the corpus value is kept, not overwritten by either disagreeing source',
+    p.status === 'corroborated-by-one' && p.proposed === 185, JSON.stringify(p));
+  check('it says which source backs the kept value and which one disagrees',
+    /matches OMDb/.test(p.note) && /TMDB/.test(p.note) && /184/.test(p.note), p.note);
+  check('it is graded B, not A -- only one source actually verified this value',
+    p.grade === 'B');
+}
+check('this also resolves a genuine year disagreement, not just runtime',
+  reconcile('movie', { id: 'm997', title: 'X', year: 1966, runtime: 100 },
+    [{ src: 'OMDb', fields: { year: 1966 } }, { src: 'TMDB', fields: { year: 1967 } }])
+    .find(p => p.field === 'year').status === 'corroborated-by-one');
+check('a genuinely different SET of people, matching neither source, is still a real disagreement',
+  reconcile('movie', { id: 'm996', title: 'X', creator: 'Stanley Kubrick' },
+    [{ src: 'OMDb', fields: { creator: 'Arthur C. Clarke' } }, { src: 'TMDB', fields: { creator: 'Terry Southern' } }])
+    .find(p => p.field === 'creator').status === 'sources-disagree');
 
 console.log('\n=== fact harness: the review queue collapses naming-only noise, keeps genuine conflicts ===');
 {
@@ -272,20 +313,28 @@ const outMd = fs.readdirSync(tmp).find(f => f.endsWith('.md'));
 check('fetch-facts writes an evidence file and a review queue offline', !!outJson && !!outMd);
 
 const queue = fs.readFileSync(path.join(tmp, outMd), 'utf8');
-check('the review queue names the disagreement a human has to settle',
-  queue.includes('Barry Lyndon') && queue.includes('sources-disagree'), queue.slice(0, 300));
-// The Shining IS in the queue -- but for its studio naming, not for the runtime the harness is
-// about to correct on its own. That distinction is the queue's whole job.
-const shiningBlock = queue.split('## ').find(b => b.startsWith('The Shining')) || '';
-check('the review queue asks about the soft field and not the grade-A correction it will apply',
-  shiningBlock.includes('studio') && !shiningBlock.includes('runtime'), shiningBlock);
+check('the review queue names the genuine edition question, not a runtime it is about to correct',
+  queue.includes('Barry Lyndon') && queue.includes('edition-dependent'), queue.slice(0, 400));
+// The Shining's studio ("Warner Bros." in the corpus, "Warner Bros." from OMDb, "Warner Bros.
+// Pictures" from TMDB) used to get its own line here just like Barry Lyndon's runtime -- but the
+// corpus's own value exactly matches one of the two disagreeing sources, so it is now resolved
+// without a human (see the corroborated-by-one tests above) and correctly has no block at all.
+check('a soft field resolved because the corpus matches one disagreeing source gets no block of its own',
+  !queue.includes('## The Shining'), queue);
+check('the file-level summary reports it as a resolved count instead of just hiding it silently',
+  /already resolved, no review needed/.test(queue), queue);
 
 const dry = execFileSync(process.execPath, [path.join(ROOT, 'scripts/apply-facts.js'),
   path.join(tmp, outJson)], { cwd: ROOT, encoding: 'utf8' });
 check('a dry run applies exactly the one grade-A correction',
   /1 grade-A corrections/.test(dry) && /m02\.runtime: 146 -> 144/.test(dry), dry);
 check('a dry run stamps the records whose hard facts are fully sourced, and only those',
-  /2 records stamped prov:sourced/.test(dry), dry);
+  /3 records stamped/.test(dry), dry);
+// Barry Lyndon (m03) is the third: its runtime is a genuine edition-dependent disagreement (see
+// above), but year and creator are both fully corroborated, so the record as a whole earns
+// "edition-dependent" rather than sitting unstamped just because ONE field has no single answer.
+check('the genuinely edition-dependent record is stamped as such, not silently folded into "sourced"',
+  /m03 \(edition-dependent\)/.test(dry), dry);
 check('a dry run writes nothing',
   fs.readFileSync(path.join(ROOT, 'data/movies.js'), 'utf8').includes('"runtime":146'));
 
@@ -298,6 +347,19 @@ const refusal = execFileSync(process.execPath, [path.join(ROOT, 'scripts/apply-f
   path.join(tmp, 'stale.json')], { cwd: ROOT, encoding: 'utf8' });
 check('stale evidence is refused rather than applied to whatever is on the line now',
   /REFUSED/.test(refusal) && /m02\.runtime: expected/.test(refusal), refusal);
+
+// A manually `_held` field (an operator deferring a genuinely grade-A proposal for a reason
+// reconcile() can't see, like a cross-record consistency conflict) must block the record from
+// EITHER stamp, not just from being written -- found while doing exactly this on the real corpus:
+// downgrading a held field's grade to B stopped it reaching "sourced" but did nothing to stop
+// "edition-dependent", which checks status, not grade.
+const heldEv = JSON.parse(fs.readFileSync(path.join(tmp, outJson), 'utf8'));
+heldEv.works.find(w => w.id === 'm03').proposals.find(p => p.field === 'creator')._held = 'operator deferred for testing';
+fs.writeFileSync(path.join(tmp, 'held.json'), JSON.stringify(heldEv));
+const heldRun = execFileSync(process.execPath, [path.join(ROOT, 'scripts/apply-facts.js'),
+  path.join(tmp, 'held.json')], { cwd: ROOT, encoding: 'utf8' });
+check('a held field blocks the edition-dependent stamp too, not just grade-A application',
+  !heldRun.split(/\d+ records stamped/)[1].split('\n\n')[0].includes('m03'), heldRun);
 
 fs.rmSync(tmp, { recursive: true, force: true });
 
