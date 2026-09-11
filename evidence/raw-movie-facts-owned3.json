@@ -1,0 +1,515 @@
+{
+ "m09": [
+  {
+   "src": "OMDb",
+   "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Oppenheimer&type=movie&y=2023",
+   "fields": {
+    "year": 2023,
+    "runtime": 180,
+    "creator": "Christopher Nolan"
+   }
+  },
+  {
+   "src": "TMDB",
+   "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Oppenheimer&year=2023",
+   "fields": {
+    "year": 2023,
+    "runtime": 181,
+    "creator": "Christopher Nolan",
+    "studio": "Syncopy"
+   }
+  }
+ ],
+ "m102": [
+  {
+   "src": "OMDb",
+   "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Catch+Me+If+You+Can&type=movie&y=2002",
+   "fields": {
+    "year": 2002,
+    "runtime": 141,
+    "creator": "Steven Spielberg"
+   }
+  },
+  {
+   "src": "TMDB",
+   "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Catch+Me+If+You+Can&year=2002",
+   "fields": {
+    "year": 2002,
+    "runtime": 141,
+    "creator": "Steven Spielberg",
+    "studio": "Kemp Company"
+   }
+  }
+ ],
+ "m109": [
+  {
+   "src": "OMDb",
+   "url": "https://www.omdbapi.com/?apikey=REDACTED&t=The+Aviator&type=movie&y=2004",
+   "fields": {
+    "year": 2004,
+    "runtime": 170,
+    "creator": "Martin Scorsese"
+   }
+  },
+  {
+   "src": "TMDB",
+   "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=The+Aviator&year=2004",
+   "fields": {
+    "year": 2004,
+    "runtime": 170,
+    "creator": "Martin Scorsese",
+    "studio": "Warner Bros. Pictures"
+   }
+  }
+ ],
+ "m113": [
+  {
+   "src": "OMDb",
+   "url": "https://www.omdbapi.com/?apikey=REDACTED&t=The+Imitation+Game&type=movie&y=2014",
+   "fields": {
+    "year": 2014,
+    "runtime": 114,
+    "creator": "Morten Tyldum"
+   }
+  },
+  {
+   "src": "TMDB",
+   "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=The+Imitation+Game&year=2014",
+   "fields": {
+    "year": 2014,
+    "runtime": 113,
+    "creator": "Morten Tyldum",
+    "studio": "Bristol Automotive"
+   }
+  }
+ ],
+ "m115": [
+  {
+   "src": "OMDb",
+   "url": "https://www.omdbapi.com/?apikey=REDACTED&t=In+the+Heart+of+the+Sea&type=movie&y=2015",
+   "fields": {
+    "year": 2015,
+    "runtime": 122,
+    "creator": "Ron Howard"
+   }
+  },
+  {
+   "src": "TMDB",
+   "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=In+the+Heart+of+the+Sea&year=2015",
+   "fields": {
+    "year": 2015,
+    "runtime": 122,
+    "creator": "Ron Howard",
+    "studio": "Imagine Entertainment"
+   }
+  }
+ ],
+ "m132": [
+  {
+   "src": "OMDb",
+   "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Forrest+Gump&type=movie&y=1994",
+   "fields": {
+    "year": 1994,
+    "runtime": 142,
+    "creator": "Robert Zemeckis"
+   }
+  },
+  {
+   "src": "TMDB",
+   "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Forrest+Gump&year=1994",
+   "fields": {
+    "year": 1994,
+    "runtime": 142,
+    "creator": "Robert Zemeckis",
+    "studio": "Paramount Pictures"
+   }
+  }
+ ],
+ "m133": [
+  {
+   "src": "OMDb",
+   "url": "https://www.omdbapi.com/?apikey=REDACTED&t=A+Beautiful+Mind&type=movie&y=2001",
+   "fields": null
+  },
+  {
+   "src": "TMDB",
+   "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=A+Beautiful+Mind&year=2001",
+   "fields": {
+    "year": 2001,
+    "runtime": 135,
+    "creator": "Ron Howard",
+    "studio": "Universal Pictures"
+   }
+  }
+ ],
+ "m134": [
+  {
+   "src": "OMDb",
+   "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Apollo+13&type=movie&y=1995",
+   "fields": {
+    "year": 1995,
+    "runtime": 140,
+    "creator": "Ron Howard"
+   }
+  },
+  {
+   "src": "TMDB",
+   "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Apollo+13&year=1995",
+   "fields": {
+    "year": 1995,
+    "runtime": 140,
+    "creator": "Ron Howard",
+    "studio": "Imagine Entertainment"
+   }
+  }
+ ],
+ "m135": [
+  {
+   "src": "OMDb",
+   "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Walk+the+Line&type=movie&y=2005",
+   "fields": {
+    "year": 2005,
+    "runtime": 136,
+    "creator": "James Mangold"
+   }
+  },
+  {
+   "src": "TMDB",
+   "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Walk+the+Line&year=2005",
+   "fields": {
+    "year": 2005,
+    "runtime": 136,
+    "creator": "James Mangold",
+    "studio": "Mars Media Beteiligungs"
+   }
+  }
+ ],
+ "m136": [
+  {
+   "src": "OMDb",
+   "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Schindler%27s+List&type=movie&y=1993",
+   "fields": null
+  },
+  {
+   "src": "TMDB",
+   "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Schindler%27s+List&year=1993",
+   "fields": {
+    "year": 1993,
+    "runtime": 195,
+    "creator": "Steven Spielberg",
+    "studio": "Amblin Entertainment"
+   }
+  }
+ ],
+ "m137": [
+  {
+   "src": "OMDb",
+   "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Monty+Python+and+the+Holy+Grail&type=movie&y=1975",
+   "fields": {
+    "year": 1975,
+    "runtime": 91,
+    "creator": "Terry Gilliam, Terry Jones"
+   }
+  },
+  {
+   "src": "TMDB",
+   "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Monty+Python+and+the+Holy+Grail&year=1975",
+   "fields": {
+    "year": 1975,
+    "runtime": 91,
+    "creator": "Terry Gilliam, Terry Jones",
+    "studio": "Python (Monty) Pictures"
+   }
+  }
+ ],
+ "m138": [
+  {
+   "src": "OMDb",
+   "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Army+of+Darkness&type=movie&y=1992",
+   "fields": {
+    "year": 1992,
+    "runtime": 81,
+    "creator": "Sam Raimi"
+   }
+  },
+  {
+   "src": "TMDB",
+   "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Army+of+Darkness&year=1992",
+   "fields": {
+    "year": 1992,
+    "runtime": 81,
+    "creator": "Sam Raimi",
+    "studio": "Renaissance Pictures"
+   }
+  }
+ ],
+ "m139": [
+  {
+   "src": "OMDb",
+   "url": "https://www.omdbapi.com/?apikey=REDACTED&t=10+Things+I+Hate+About+You&type=movie&y=1999",
+   "fields": {
+    "year": 1999,
+    "runtime": 97,
+    "creator": "Gil Junger"
+   }
+  },
+  {
+   "src": "TMDB",
+   "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=10+Things+I+Hate+About+You&year=1999",
+   "fields": {
+    "year": 1999,
+    "runtime": 97,
+    "creator": "Gil Junger",
+    "studio": "Mad Chance"
+   }
+  }
+ ],
+ "m140": [
+  {
+   "src": "OMDb",
+   "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Good+Morning%2C+Vietnam&type=movie&y=1987",
+   "fields": {
+    "year": 1987,
+    "runtime": 121,
+    "creator": "Barry Levinson"
+   }
+  },
+  {
+   "src": "TMDB",
+   "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Good+Morning%2C+Vietnam&year=1987",
+   "fields": {
+    "year": 1987,
+    "runtime": 121,
+    "creator": "Barry Levinson",
+    "studio": "Touchstone Pictures"
+   }
+  }
+ ],
+ "m141": [
+  {
+   "src": "OMDb",
+   "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Aladdin&type=movie&y=1992",
+   "fields": {
+    "year": 1992,
+    "runtime": 90,
+    "creator": "Ron Clements, John Musker"
+   }
+  },
+  {
+   "src": "TMDB",
+   "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Aladdin&year=1992",
+   "fields": {
+    "year": 1992,
+    "runtime": 91,
+    "creator": "John Musker, Ron Clements",
+    "studio": "Walt Disney Feature Animation"
+   }
+  }
+ ],
+ "m142": [
+  {
+   "src": "OMDb",
+   "url": "https://www.omdbapi.com/?apikey=REDACTED&t=The+Lion+King&type=movie&y=1994",
+   "fields": {
+    "year": 1994,
+    "runtime": 88,
+    "creator": "Roger Allers, Rob Minkoff"
+   }
+  },
+  {
+   "src": "TMDB",
+   "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=The+Lion+King&year=1994",
+   "fields": {
+    "year": 1994,
+    "runtime": 89,
+    "creator": "Roger Allers, Rob Minkoff",
+    "studio": "Walt Disney Pictures"
+   }
+  }
+ ],
+ "m143": [
+  {
+   "src": "OMDb",
+   "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Mickey%27s+Christmas+Carol&type=movie&y=1983",
+   "fields": {
+    "year": 1983,
+    "runtime": 26,
+    "creator": "Burny Mattinson"
+   }
+  },
+  {
+   "src": "TMDB",
+   "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Mickey%27s+Christmas+Carol&year=1983",
+   "fields": {
+    "year": 1983,
+    "runtime": 25,
+    "creator": "Burny Mattinson",
+    "studio": "Walt Disney Pictures"
+   }
+  }
+ ],
+ "m144": [
+  {
+   "src": "OMDb",
+   "url": "https://www.omdbapi.com/?apikey=REDACTED&t=WALL-E&type=movie&y=2008",
+   "fields": null
+  },
+  {
+   "src": "TMDB",
+   "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=WALL-E&year=2008",
+   "fields": {
+    "year": 2008,
+    "runtime": 98,
+    "creator": "Andrew Stanton",
+    "studio": "Pixar"
+   }
+  }
+ ],
+ "m145": [
+  {
+   "src": "OMDb",
+   "url": "https://www.omdbapi.com/?apikey=REDACTED&t=The+Princess+Bride&type=movie&y=1987",
+   "fields": {
+    "year": 1987,
+    "runtime": 98,
+    "creator": "Rob Reiner"
+   }
+  },
+  {
+   "src": "TMDB",
+   "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=The+Princess+Bride&year=1987",
+   "fields": {
+    "year": 1987,
+    "runtime": 99,
+    "creator": "Rob Reiner",
+    "studio": "The Princess Bride"
+   }
+  }
+ ],
+ "m146": [
+  {
+   "src": "OMDb",
+   "url": "https://www.omdbapi.com/?apikey=REDACTED&t=The+Mummy&type=movie&y=1999",
+   "fields": {
+    "year": 1999,
+    "runtime": 124,
+    "creator": "Stephen Sommers"
+   }
+  },
+  {
+   "src": "TMDB",
+   "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=The+Mummy&year=1999",
+   "fields": {
+    "year": 1999,
+    "runtime": 124,
+    "creator": "Stephen Sommers",
+    "studio": "Alphaville Films"
+   }
+  }
+ ],
+ "m147": [
+  {
+   "src": "OMDb",
+   "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Raiders+of+the+Lost+Ark&type=movie&y=1981",
+   "fields": {
+    "year": 1981,
+    "runtime": 115,
+    "creator": "Steven Spielberg"
+   }
+  },
+  {
+   "src": "TMDB",
+   "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Raiders+of+the+Lost+Ark&year=1981",
+   "fields": {
+    "year": 1981,
+    "runtime": 115,
+    "creator": "Steven Spielberg",
+    "studio": "Paramount Pictures"
+   }
+  }
+ ],
+ "m148": [
+  {
+   "src": "OMDb",
+   "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Pirates+of+the+Caribbean%3A+The+Curse+of+the+Black+Pearl&type=movie&y=2003",
+   "fields": {
+    "year": 2003,
+    "runtime": 143,
+    "creator": "Gore Verbinski"
+   }
+  },
+  {
+   "src": "TMDB",
+   "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Pirates+of+the+Caribbean%3A+The+Curse+of+the+Black+Pearl&year=2003",
+   "fields": {
+    "year": 2003,
+    "runtime": 143,
+    "creator": "Gore Verbinski",
+    "studio": "Walt Disney Pictures"
+   }
+  }
+ ],
+ "m149": [
+  {
+   "src": "OMDb",
+   "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Master+and+Commander%3A+The+Far+Side+of+the+World&type=movie&y=2003",
+   "fields": {
+    "year": 2003,
+    "runtime": 138,
+    "creator": "Peter Weir"
+   }
+  },
+  {
+   "src": "TMDB",
+   "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Master+and+Commander%3A+The+Far+Side+of+the+World&year=2003",
+   "fields": {
+    "year": 2003,
+    "runtime": 138,
+    "creator": "Peter Weir",
+    "studio": "20th Century Fox"
+   }
+  }
+ ],
+ "m150": [
+  {
+   "src": "OMDb",
+   "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Back+to+the+Future&type=movie&y=1985",
+   "fields": {
+    "year": 1985,
+    "runtime": 116,
+    "creator": "Robert Zemeckis"
+   }
+  },
+  {
+   "src": "TMDB",
+   "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Back+to+the+Future&year=1985",
+   "fields": {
+    "year": 1985,
+    "runtime": 116,
+    "creator": "Robert Zemeckis",
+    "studio": "Universal Pictures"
+   }
+  }
+ ],
+ "m151": [
+  {
+   "src": "OMDb",
+   "url": "https://www.omdbapi.com/?apikey=REDACTED&t=The+Outlaw+Josey+Wales&type=movie&y=1976",
+   "fields": {
+    "year": 1976,
+    "runtime": 135,
+    "creator": "Clint Eastwood"
+   }
+  },
+  {
+   "src": "TMDB",
+   "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=The+Outlaw+Josey+Wales&year=1976",
+   "fields": {
+    "year": 1976,
+    "runtime": 135,
+    "creator": "Clint Eastwood",
+    "studio": "Warner Bros. Pictures"
+   }
+  }
+ ]
+}

@@ -23,7 +23,7 @@ const path = require('path');
 const { execFileSync } = require('child_process');
 const os = require('os');
 const ROOT = path.resolve(__dirname, '..');
-const { reconcile, valuesAgree, redactKeys, ADAPTERS } = require(path.join(ROOT, 'scripts/fetch-facts.js'));
+const { reconcile, valuesAgree, redactKeys, ADAPTERS, pickTmdbHit } = require(path.join(ROOT, 'scripts/fetch-facts.js'));
 
 let failures = 0;
 function check(label, cond, detail) {
@@ -62,6 +62,23 @@ check('OMDb literal "N/A" is treated as no data, not as a value that can disagre
   ADAPTERS.omdb.parse({ Response: 'True', Year: '1980', Production: 'N/A', Director: 'Stanley Kubrick' }, 'movie').studio === undefined);
 check('a real OMDb studio value still comes through',
   ADAPTERS.omdb.parse({ Response: 'True', Year: '1980', Production: 'Warner Bros.', Director: 'Stanley Kubrick' }, 'movie').studio === 'Warner Bros.');
+
+// Reproduces a real live-run failure: searching "WALL-E" ranked the same-year Pixar short
+// "WALL·E's Treasures & Trinkets" above the actual film in TMDB's own results, and OMDb's "exact
+// title" endpoint answered with the same wrong film -- both catalogues corroborating a 5-minute
+// runtime that would have overwritten the real 98 minutes at grade A.
+const wallE = { id: 'm144', title: 'WALL-E' };
+check('OMDb answering with a different title (a same-year doppelganger) is not evidence about the work asked for',
+  ADAPTERS.omdb.parse({ Response: 'True', Title: "WALL-E: Treasures and Trinkets", Year: '2008', Runtime: '5 min', Director: 'Andrew Stanton' }, 'movie', wallE) === null);
+check('OMDb answering with the actual title (allowing for punctuation) still counts',
+  ADAPTERS.omdb.parse({ Response: 'True', Title: 'WALL·E', Year: '2008', Runtime: '98 min', Director: 'Andrew Stanton' }, 'movie', wallE).runtime === 98);
+check('a TMDB search does not blindly trust result 0 when a later result is the actual title match',
+  pickTmdbHit([
+    { id: 877268, title: "WALL·E's Treasures & Trinkets", release_date: '2008-11-18' },
+    { id: 10681, title: 'WALL·E', release_date: '2008-06-26' },
+  ], 'movie', wallE).id === 10681);
+check('a TMDB search with no real title match returns nothing, rather than guessing result 0',
+  pickTmdbHit([{ id: 1, title: 'Completely Unrelated Movie', release_date: '2008-01-01' }], 'movie', wallE) === null);
 
 console.log('\n=== fact harness: reconciliation ===');
 const movies = new Function(fs.readFileSync(path.join(ROOT, 'data/movies.js'), 'utf8') + '\nreturn movies;')();

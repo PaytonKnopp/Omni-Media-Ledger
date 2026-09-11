@@ -111,6 +111,26 @@ const num = v => { const n = parseInt(String(v).replace(/[^0-9]/g, ''), 10); ret
 const str = v => { if (typeof v !== 'string') return undefined; const t = v.trim(); return (t && !/^n\/a$/i.test(t)) ? t : undefined; };
 const firstYear = v => { const m = String(v || '').match(/\d{4}/); return m ? parseInt(m[0], 10) : undefined; };
 
+// Shared with reconcile() below. Declared here (rather than left where reconciliation uses it)
+// because the source adapters need it too, to verify a catalogue actually answered about the work
+// that was asked for -- see pickTmdbHit and the OMDb title guard.
+const normText = v => String(v == null ? '' : v).toLowerCase().replace(/[^a-z0-9]+/g, ' ').trim();
+
+// TMDB's /search endpoint ranks by its own relevance score, not by exact title, so `results[0]` is
+// not "the movie we searched for" -- it is "TMDB's best guess". Found live: searching "WALL-E"
+// (the corpus's ASCII-hyphen spelling) ranks the same-year Pixar short "WALL·E's Treasures &
+// Trinkets" ABOVE the real film (titled with a middle dot, not a hyphen) in TMDB's own results, and
+// OMDb's "exact title" endpoint made the identical wrong call for the identical reason. Both
+// catalogues corroborating each other looked like grade-A evidence and would have overwritten a
+// correct 98-minute runtime with the short's 5 minutes. A search hit only counts as the work if its
+// title actually matches once punctuation/case are normalised; otherwise it is not evidence at all.
+function pickTmdbHit(results, medium, work) {
+  if (!Array.isArray(results) || !results.length || !work) return null;
+  const want = normText(work.title);
+  const titleOf = r => (medium === 'tv' ? r.name : r.title);
+  return results.find(r => normText(titleOf(r)) === want) || null;
+}
+
 const ADAPTERS = {
   omdb: {
     label: 'OMDb',
@@ -121,8 +141,12 @@ const ADAPTERS = {
       if (work.year) q.set('y', String(work.year));
       return 'https://www.omdbapi.com/?' + q;
     },
-    parse(json, medium) {
+    parse(json, medium, work) {
       if (!json || json.Response === 'False') return null;
+      // OMDb's "exact title" endpoint can still answer with a different work of the same name and
+      // year (see pickTmdbHit's comment for the live WALL-E case, where OMDb made this exact
+      // mistake). If what came back isn't actually the title asked for, it is not evidence.
+      if (work && normText(json.Title) !== normText(work.title)) return null;
       const f = { year: firstYear(json.Year) };
       if (medium === 'movie') {
         f.runtime = num(json.Runtime);
@@ -147,8 +171,8 @@ const ADAPTERS = {
       if (medium === 'movie' && work.year) q.set('year', String(work.year));
       return 'https://api.themoviedb.org/3/search/' + (medium === 'tv' ? 'tv' : 'movie') + '?' + q;
     },
-    parse(json, medium) {
-      const hit = json && Array.isArray(json.results) && json.results[0];
+    parse(json, medium, work) {
+      const hit = pickTmdbHit(json && json.results, medium, work);
       if (!hit) return null;
       return medium === 'movie'
         ? { year: firstYear(hit.release_date) }
@@ -244,8 +268,8 @@ const ADAPTERS = {
 /* Text comparison is deliberately loose on punctuation and case and strict on everything else:
    "Stanley Kubrick" and "stanley kubrick" are the same director, "Kubrick" and "Christopher Nolan"
    are not, and no amount of substring cleverness should be allowed to decide otherwise. Substring
-   matching is what put a genre boost on the wrong works twice in this repo's history. */
-const normText = v => String(v == null ? '' : v).toLowerCase().replace(/[^a-z0-9]+/g, ' ').trim();
+   matching is what put a genre boost on the wrong works twice in this repo's history.
+   (normText itself is declared up with the source adapters -- they need it too.) */
 
 function valuesAgree(field, a, b) {
   if (a == null || b == null) return false;
@@ -367,9 +391,12 @@ async function callSource(name, work, medium) {
     }
     const url = ad.request(work, medium, key);
     const json = await getJSON(url);
-    let fields = ad.parse(json, medium);
+    let fields = ad.parse(json, medium, work);
     if (name === 'tmdb' && ad.detailRequest) {
-      const hit = json && json.results && json.results[0];
+      // Same hit pickTmdbHit chose for parse() above -- re-deriving it independently here (as this
+      // used to do with a bare `results[0]`) is exactly how a search-ranking mismatch could pick two
+      // different "hits" for the summary and the detail fetch without anything noticing.
+      const hit = pickTmdbHit(json && json.results, medium, work);
       const durl = ad.detailRequest(hit, medium, key);
       if (durl) fields = Object.assign({}, fields, ad.parseDetail(await getJSON(durl), medium));
     }
@@ -492,4 +519,4 @@ async function main() {
 }
 
 if (require.main === module) main().catch(e => { console.error(e); process.exit(1); });
-module.exports = { reconcile, valuesAgree, redactKeys, FACT_FIELDS, ADAPTERS, writeReviewQueue };
+module.exports = { reconcile, valuesAgree, redactKeys, FACT_FIELDS, ADAPTERS, writeReviewQueue, pickTmdbHit };
