@@ -94,7 +94,7 @@ ALL.forEach(x=>{x.ovr=Math.round(((x.crit+x.aud+x.tech)/3)*10)/10;});
    printed on the back. A record whose facts have been checked against sources carries
    prov:{facts,checked,src,indices}; everything else is an unverified estimate and says so.
    See QUALITY_PASS.md decision 13. */
-const PROV_FACTS=['sourced','estimated','edition-dependent'];
+const PROV_FACTS=['sourced','estimated','edition-dependent','corroborated'];
 const PROV_INDICES=['rubric-v1','unscored'];
 function provStampOf(raw){
  const s=(raw&&typeof raw==='object')?raw:{};
@@ -499,9 +499,9 @@ function gmBreakdownHTML(it){
  if(chips.length)body+='<div class="flex flex-wrap gap-1">'+chips.join('')+'</div>';
  else if(!ov)body+='<div class="text-[10px] text-slate-500">Scored on critical, audience and craft consensus \u2014 no personal-taste multipliers triggered.</div>';
  var ps=it.provStamp||{facts:'estimated',indices:'unscored'};
- var provTitle=ps.facts==='sourced'?('Facts checked against '+(ps.src||'sources')+(ps.checked?' on '+ps.checked:'')):ps.facts==='edition-dependent'?'Facts vary by edition/cut -- the value shown is one edition, not the only one':'Not yet checked against a source: scores and details are careful approximations';
- var provLabel=ps.facts==='sourced'?'\u25c9 Facts sourced':ps.facts==='edition-dependent'?'\u25d1 Edition-dependent':'\u25cb Unverified estimate';
- var provColor=ps.facts==='sourced'?'#4ade80':ps.facts==='edition-dependent'?'#fbbf24':'#94a3b8';
+ var provTitle=ps.facts==='sourced'?('Facts checked against '+(ps.src||'sources')+(ps.checked?' on '+ps.checked:'')):ps.facts==='edition-dependent'?'Facts vary by edition/cut -- the value shown is one edition, not the only one':ps.facts==='corroborated'?('A live source was checked and the corpus\u2019s value is the one that matched it (a disagreeing second source was judged wrong), on '+(ps.checked||'file')+' -- not the same strength as two sources agreeing, but not a guess either'):'Not yet checked against a source: scores and details are careful approximations';
+ var provLabel=ps.facts==='sourced'?'\u25c9 Facts sourced':ps.facts==='edition-dependent'?'\u25d1 Edition-dependent':ps.facts==='corroborated'?'\u25d0 Facts corroborated':'\u25cb Unverified estimate';
+ var provColor=ps.facts==='sourced'?'#4ade80':ps.facts==='edition-dependent'?'#fbbf24':ps.facts==='corroborated'?'#60a5fa':'#94a3b8';
  var prov='<span title="'+provTitle+'" style="color:'+provColor+'">'+provLabel+'</span>'
   +(ps.indices==='rubric-v1'?'<span class="text-slate-600"> \u00b7 indices rubric v1</span>':'');
  body+='<div class="text-[9px] mt-1.5">'+prov+'</div>';

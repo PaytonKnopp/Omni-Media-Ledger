@@ -531,6 +531,41 @@ check('the genuinely edition-dependent record is stamped as such, not silently f
 check('a dry run writes nothing',
   fs.readFileSync(path.join(ROOT, 'data/movies.js'), 'utf8').includes('"runtime":146'));
 
+// A record every one of whose fields resolved -- some grade-A confirmed, the rest
+// corroborated-by-one (corpus already matches one source; the disagreeing source is simply wrong)
+// -- must earn its OWN stamp, not sit unstamped just because nothing in it was literally an edition
+// question. Found live running the real corpus: 394 of 407 unstamped movies and 70 of 96 unstamped
+// TV shows were exactly this shape.
+{
+  const moviesPath = path.join(ROOT, 'data/movies.js');
+  const backup = fs.readFileSync(moviesPath, 'utf8');
+  try {
+    const corroboratedEv = {
+      medium: 'movie', generated: new Date().toISOString(), works: [{
+        id: 'm01', title: '2001: A Space Odyssey',
+        sourcesReached: ['OMDb', 'TMDB'],
+        proposals: [
+          { field: 'year', label: 'release year', current: 1968, proposed: 1968, status: 'confirmed', grade: 'A', sources: [{ src: 'OMDb', value: 1968 }, { src: 'TMDB', value: 1968 }] },
+          { field: 'creator', label: 'director', current: 'Stanley Kubrick', proposed: 'Stanley Kubrick', status: 'confirmed', grade: 'A', sources: [{ src: 'OMDb', value: 'Stanley Kubrick' }, { src: 'TMDB', value: 'Stanley Kubrick' }] },
+          // Genuinely contested, but the corpus already matches OMDb -- corroborated-by-one, not
+          // edition-dependent, because this is "one source is wrong," not "the value varies by cut".
+          { field: 'runtime', label: 'runtime (min)', current: 149, proposed: 149, status: 'corroborated-by-one', grade: 'B', sources: [{ src: 'OMDb', value: 149 }, { src: 'TMDB', value: 141 }] },
+        ],
+      }],
+    };
+    fs.writeFileSync(path.join(tmp, 'corroborated.json'), JSON.stringify(corroboratedEv));
+    const out = execFileSync(process.execPath, [path.join(ROOT, 'scripts/apply-facts.js'),
+      path.join(tmp, 'corroborated.json'), '--write'], { cwd: ROOT, encoding: 'utf8' });
+    check('a record resolved only via confirmed + corroborated-by-one (no edition-dependent field) earns a "corroborated" stamp',
+      /m01 \(corroborated\)/.test(out), out);
+    const m01Line = fs.readFileSync(moviesPath, 'utf8').match(/^.*"id"\s*:\s*"m01".*$/m)[0];
+    check('the written stamp itself says facts:"corroborated"',
+      /"prov":\{"facts":"corroborated"/.test(m01Line), m01Line);
+  } finally {
+    fs.writeFileSync(moviesPath, backup);
+  }
+}
+
 // The refusal path: an evidence file whose "current" value is not what the corpus actually says
 // (a stale evidence file, or a corpus edited underneath it) must be refused, not force-fitted.
 const stale = JSON.parse(fs.readFileSync(path.join(tmp, outJson), 'utf8'));

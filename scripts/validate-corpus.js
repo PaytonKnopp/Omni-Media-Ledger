@@ -252,7 +252,7 @@ for (const sec of SECTIONS) {
    the corpus that claims a fact was checked. Enforced here so a malformed or vocabulary-drifted
    stamp cannot quietly read as "verified". See QUALITY_PASS.md decision 13. */
 {
-  const FACTS = ['sourced', 'estimated', 'edition-dependent'];
+  const FACTS = ['sourced', 'estimated', 'edition-dependent', 'corroborated'];
   const INDICES = ['rubric-v1', 'unscored'];
   const bad = [];
   let stamped = 0, sourced = 0;
@@ -270,10 +270,12 @@ for (const sec of SECTIONS) {
       if (INDICES.indexOf(s.indices) < 0) bad.push(r.id + ': prov.indices must be one of ' + INDICES.join('|') + ' (got ' + JSON.stringify(s.indices) + ')');
       if (s.checked !== undefined && !/^\d{4}-\d{2}-\d{2}$/.test(String(s.checked))) bad.push(r.id + ': prov.checked must be YYYY-MM-DD');
       if (s.facts === 'sourced') sourced++;
-      // "edition-dependent" is an evidence-backed claim too -- it says the harness checked and
-      // found the field genuinely varies by copy, which is exactly as much a claim to back up as
-      // "sourced" is. A stamp claiming either without saying where it looked is not sourced.
-      if (s.facts === 'sourced' || s.facts === 'edition-dependent') {
+      // "edition-dependent" and "corroborated" are evidence-backed claims too -- one says the
+      // harness checked and found the field genuinely varies by copy, the other says a live source
+      // was checked and the corpus's existing value is the one that matched it. Both are exactly as
+      // much a claim to back up as "sourced" is. A stamp claiming any of the three without saying
+      // where it looked is not sourced.
+      if (s.facts === 'sourced' || s.facts === 'edition-dependent' || s.facts === 'corroborated') {
         if (!s.src || typeof s.src !== 'string' || !s.src.trim()) bad.push(r.id + ': prov.facts is "' + s.facts + '" but no prov.src names where from');
         if (!s.checked) bad.push(r.id + ': prov.facts is "' + s.facts + '" but no prov.checked date');
       }

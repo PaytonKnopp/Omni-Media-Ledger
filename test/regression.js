@@ -2426,6 +2426,7 @@ async function runTabFiltersFlow(browser, file) {
       [{ facts: 'nonsense', indices: 'nonsense' }, 'estimated', 'unscored'],
       [{ facts: 'sourced', indices: 'rubric-v1' }, 'sourced', 'rubric-v1'],
       [{ facts: 'edition-dependent' }, 'edition-dependent', 'unscored'],
+      [{ facts: 'corroborated' }, 'corroborated', 'unscored'],
     ];
     cases.forEach(c => {
       const got = provStampOf(c[0]);

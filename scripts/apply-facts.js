@@ -110,7 +110,21 @@ function main() {
     const RESOLVED_NO_HUMAN = new Set(['confirmed', 'proposed-change', 'corroborated-by-one', 'edition-dependent']);
     const allResolved = settled.length > 0 && settled.every(p => !p._held && RESOLVED_NO_HUMAN.has(p.status));
     const hasEditionDependent = settled.some(p => !p._held && p.status === 'edition-dependent');
-    const facts = allSourced ? 'sourced' : (allResolved && hasEditionDependent ? 'edition-dependent' : null);
+    const hasCorroboratedByOne = settled.some(p => !p._held && p.status === 'corroborated-by-one');
+    // Found live running movies/TV through this: a record every one of whose fields resolved --
+    // some grade-A confirmed/corrected, the rest corroborated-by-one (corpus already matches one
+    // source; the OTHER source is simply wrong, per reconcile()'s own 91%-measured comment above)
+    // -- earned NO stamp at all, not even edition-dependent, because nothing in it was literally an
+    // edition question. 394 of 407 unstamped movies and 70 of 96 unstamped TV shows were exactly
+    // this: fully resolved, sitting unstamped, for no reason a human needed to act on. A
+    // corroborated-by-one field is real evidence (a live source was checked, and the corpus's value
+    // is the one that survived), just not the SAME strength of evidence as two sources agreeing --
+    // "edition-dependent" would be a dishonest label for it (nothing here varies by edition), so it
+    // earns its own third tier rather than being folded into either existing one.
+    const facts = allSourced ? 'sourced'
+      : (allResolved && hasEditionDependent) ? 'edition-dependent'
+      : (allResolved && hasCorroboratedByOne) ? 'corroborated'
+      : null;
 
     if (facts) {
       const stamp = '"prov":{"facts":"' + facts + '","checked":"' + checked + '","src":"' +
@@ -122,7 +136,7 @@ function main() {
         if (at < 0) { refused.push(w.id + ': cannot find the record\'s closing brace to stamp'); continue; }
         line = line.slice(0, at) + ',' + stamp + line.slice(at);
       }
-      stamped.push(w.id + (facts === 'edition-dependent' ? ' (edition-dependent)' : ''));
+      stamped.push(w.id + (facts !== 'sourced' ? ' (' + facts + ')' : ''));
     }
 
     if (line !== before) text = text.replace(before, line);
