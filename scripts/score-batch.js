@@ -126,7 +126,11 @@ function worksheet() {
   const limit = parseInt(arg('n', '0'), 10);
   if (limit > 0) records = records.slice(0, limit);
 
-  const fields = Object.entries(RUBRIC_FIELDS).filter(([, d]) => d.media.includes(key)).map(([f]) => f);
+  const excludeFields = new Set((arg('exclude-fields', '') || '').split(',').map(s => s.trim()).filter(Boolean));
+  const onlyFields = new Set((arg('only-fields', '') || '').split(',').map(s => s.trim()).filter(Boolean));
+  const fields = Object.entries(RUBRIC_FIELDS)
+    .filter(([f, d]) => d.media.includes(key) && !excludeFields.has(f) && (!onlyFields.size || onlyFields.has(f)))
+    .map(([f]) => f);
   const substance = loadSubstance(arg('substance'), key);
 
   console.log('# Blind scoring worksheet — ' + key + ' (' + records.length + ' works)');
