@@ -2307,6 +2307,20 @@ async function runTabFiltersFlow(browser, file) {
   check('no creator in the corpus is spelled two different ways', creatorSplit.length === 0);
   if (creatorSplit.length) console.log('     ' + creatorSplit.slice(0, 6).join(' | '));
 
+  // PERSONAL_PROFILE.creatorBoost matches by literal `String.includes` against a work's `creator`
+  // field (recomputeTasteScores, GOAT_CREATOR_BOOST.forEach) -- there is no normalization step. A
+  // corpus-side rewrite of a creator's display spelling (even one that preserves the same real
+  // people, just reordered or reformatted -- e.g. a fact-harness "canonicalization") silently
+  // orphans that boost with no error anywhere: the work's gm score just quietly drops. Caught live:
+  // renaming "Joel & Ethan Coen" to "Ethan Coen, Joel Coen" on 10 films zeroed a +5 boost on all of
+  // them with every other check still green.
+  const orphanedCreatorBoosts = await page.evaluate(() =>
+    (PERSONAL_PROFILE.creatorBoost || [])
+      .filter(([name]) => !ALL.some(x => x.creator && x.creator.includes(name)))
+      .map(([name]) => name));
+  check('every creator in PERSONAL_PROFILE.creatorBoost matches at least one work',
+    orphanedCreatorBoosts.length === 0, orphanedCreatorBoosts.join(', '));
+
   // Every gm boost must be monotonic in the field it reads: more of the quality can never earn
   // less of the boost. This is not a style preference -- the dread boost was written as a band
   // (`dread>80 && dread<=95`), so it rose to +1.5 at 95 and dropped to zero at 96, leaving the

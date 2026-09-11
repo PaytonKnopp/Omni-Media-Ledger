@@ -438,15 +438,21 @@ function reconcile(medium, work, observations) {
     const best = groups[0];
     const contested = groups.length > 1;
 
-    // For a people field, "matches the corpus" means matches EXACTLY, not just the same set of
-    // names -- otherwise a record already correct in substance but formatted "Joel & Ethan Coen"
-    // would be marked merely `confirmed` and never rewritten to the one literal string the corpus's
-    // own creator-identity check (validate-corpus.js) requires every record for that duo to share.
-    // Convergence has to be an active rewrite, not something that only happens to records that
-    // already happened to be typed in the canonical order.
+    // For a people field, "matches the corpus" means the SAME SET of people, not the same literal
+    // string -- comparison is normalized (order-independent, shorthand-expanded via peopleKey), but
+    // the corpus's own display spelling is never rewritten just because two sources happen to write
+    // the set in a different order or a fuller form. Found live: rewriting "Joel & Ethan Coen" to
+    // "Ethan Coen, Joel Coen" on the films a fresh fetch happened to touch, while sibling films by
+    // the same two people kept the old spelling, split one duo's identity into two literal strings
+    // (validate-corpus's own creator-identity check caught it) -- and PERSONAL_PROFILE.creatorBoost
+    // matches by literal `.includes()` against the corpus string, so the rewrite silently zeroed a
+    // real personalization boost on every film it touched. A set match is the correct, complete
+    // "this is confirmed" signal on its own; forcing convergence to one canonical string is not this
+    // script's job. Only a genuinely different SET (a source naming a person the corpus doesn't
+    // credit, or vice versa) is worth writing, since that IS new information.
     const proposed = field.people ? canonicalizePeople(best.value) : best.value;
     const matchesCorpus = field.people
-      ? normText(current) === normText(proposed)
+      ? peopleKey(current) === peopleKey(best.value)
       : valuesAgree(field, current, best.value);
     const corroborated = best.sources.length >= 2 && !contested;
     // When sources disagree WITH EACH OTHER, that used to always mean "a human has to decide" --

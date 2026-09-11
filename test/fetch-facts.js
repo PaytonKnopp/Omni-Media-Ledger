@@ -194,10 +194,13 @@ check('canonicalization is deterministic regardless of which order it was handed
   canonicalizePeople('Joel Coen, Ethan Coen') === canonicalizePeople('Ethan Coen, Joel Coen'));
 check('a solo credit is left alone', canonicalizePeople('Stanley Kubrick') === 'Stanley Kubrick');
 
-// The point of all this: reconcile() must propose the CANONICAL string and mark a merely-reordered
-// corpus value as needing the rewrite, not "confirmed" -- otherwise a record already correct in
-// substance but typed "Joel & Ethan Coen" would never converge to the one literal string
-// validate-corpus.js's creator-identity check requires every record for that duo to share.
+// The point of all this: reconcile() must recognize a merely-reordered corpus value as CONFIRMED,
+// not propose a rewrite to the canonical string. Comparison is normalized (peopleKey, order- and
+// shorthand-independent); the corpus's own display spelling is not. Found live: rewriting "Joel &
+// Ethan Coen" to "Ethan Coen, Joel Coen" on only the films a fetch happened to touch split one
+// duo's identity into two literal strings across sibling films (caught by validate-corpus.js's
+// creator-identity check) AND silently zeroed PERSONAL_PROFILE.creatorBoost's `.includes()` match
+// against the old spelling on every film it touched. Convergence must never be an active rewrite.
 {
   const russoWork = { id: 'm999', creator: 'Anthony & Joe Russo' };
   const russoObs = [
@@ -205,7 +208,20 @@ check('a solo credit is left alone', canonicalizePeople('Stanley Kubrick') === '
     { src: 'TMDB', fields: { creator: 'Joe Russo, Anthony Russo' } },
   ];
   const p = reconcile('movie', russoWork, russoObs).find(x => x.field === 'creator');
-  check('two sources disagreeing only on order still corroborate at grade A',
+  check('two sources disagreeing only on order still corroborate at grade A, WITHOUT rewriting the corpus spelling',
+    p.status === 'confirmed' && p.grade === 'A' && p.current === 'Anthony & Joe Russo',
+    JSON.stringify(p));
+}
+// A genuinely different SET of people (a source naming someone the corpus doesn't credit) is real
+// information and is still proposed as a rewrite, in the deterministic canonical form.
+{
+  const soloWork = { id: 'm998', creator: 'Anthony Russo' };
+  const trioObs = [
+    { src: 'OMDb', fields: { creator: 'Anthony Russo, Joe Russo' } },
+    { src: 'TMDB', fields: { creator: 'Joe Russo, Anthony Russo' } },
+  ];
+  const p = reconcile('movie', soloWork, trioObs).find(x => x.field === 'creator');
+  check('a genuinely different set of people is still proposed as a grade-A rewrite',
     p.status === 'proposed-change' && p.grade === 'A' && p.proposed === 'Anthony Russo, Joe Russo',
     JSON.stringify(p));
 }
