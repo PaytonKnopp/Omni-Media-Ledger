@@ -23,7 +23,7 @@ const path = require('path');
 const { execFileSync } = require('child_process');
 const os = require('os');
 const ROOT = path.resolve(__dirname, '..');
-const { reconcile, valuesAgree, redactKeys, ADAPTERS, pickTmdbHit, reparseObservation, writeReviewQueue, callSource, canonicalizePeople, peopleKey } = require(path.join(ROOT, 'scripts/fetch-facts.js'));
+const { reconcile, valuesAgree, redactKeys, ADAPTERS, pickTmdbHit, reparseObservation, writeReviewQueue, callSource, canonicalizePeople, peopleKey, getJSON } = require(path.join(ROOT, 'scripts/fetch-facts.js'));
 
 let failures = 0;
 function check(label, cond, detail) {
@@ -175,6 +175,48 @@ console.log('\n=== fact harness: OMDb retries without a year constraint, safely 
 
   global.fetch = realFetch;
   process.env.OMDB_API_KEY = origKey;
+}
+
+console.log('\n=== fact harness: getJSON tells a transient 429 from an exhausted DAILY quota ===');
+{
+  const realFetch = global.fetch;
+  const mkRes = (status, bodyText, headers) => ({
+    ok: status < 300, status,
+    headers: { get: h => (headers && headers[h.toLowerCase()]) || null },
+    clone() { return this; },
+    text: async () => bodyText,
+    json: async () => JSON.parse(bodyText),
+  });
+
+  // A burst 429 (no "per day"/"daily" in the body) is transient -- back off and retry, and a
+  // subsequent success comes through.
+  let calls = 0;
+  global.fetch = async () => {
+    calls++;
+    return calls === 1
+      ? mkRes(429, JSON.stringify({ error: { message: 'Too many requests, slow down' } }))
+      : mkRes(200, JSON.stringify({ ok: true }));
+  };
+  const burstResult = await getJSON('https://example.test/burst');
+  check('a burst 429 (no daily-quota language) retries and recovers',
+    calls === 2 && burstResult.ok === true, 'calls=' + calls);
+
+  // A DAILY quota's 429 body says so -- found live against Google Books' real error text -- and
+  // must fail on the FIRST attempt, not spend up to ~31s of backoff on something that cannot
+  // possibly resolve within this run.
+  calls = 0;
+  global.fetch = async () => {
+    calls++;
+    return mkRes(429, JSON.stringify({ error: {
+      message: "Quota exceeded for quota metric 'Queries' and limit 'Queries per day' of service 'books.googleapis.com'.",
+    } }));
+  };
+  let dailyThrew = false;
+  try { await getJSON('https://example.test/daily'); } catch (e) { dailyThrew = /daily quota/i.test(e.message); }
+  check('a daily-quota 429 fails immediately, with exactly one call, instead of retrying',
+    dailyThrew && calls === 1, 'calls=' + calls + ' threw=' + dailyThrew);
+
+  global.fetch = realFetch;
 }
 
 console.log('\n=== fact harness: multi-person credits compare and canonicalize by set, not word order ===');

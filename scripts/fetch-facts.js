@@ -516,18 +516,32 @@ const sleep = ms => new Promise(r => setTimeout(r, ms));
 
 // OpenLibrary and Google Books are keyless-or-courtesy-limited and this harness fires requests
 // back-to-back with no pacing -- found live running the full 1,000-book corpus: Google Books' burst
-// quota (roughly 100 requests/100s) trips well before the run finishes, and without a retry every
-// book past that point silently loses that source for the rest of the run. A 429 is transient by
-// definition, so back off and retry rather than surface it as a permanent miss; anything else (404,
-// 500, a real auth failure) is not, and fails immediately same as before.
+// quota trips well before the run finishes, and without a retry every book past that point silently
+// loses that source for the rest of the run. A burst 429 is transient, so back off and retry rather
+// than surface it as a permanent miss.
+//
+// A DAILY quota exceeded, though, is not transient on any timescale this harness should wait for --
+// found live, also the hard way: Google Books' 429 body for that case reads "Quota exceeded for
+// quota metric 'Queries' and limit 'Queries per day'", and blindly retrying it with backoff (as if
+// it were the burst case) meant every one of ~2,000 requests in a run paid up to ~31s of pointless
+// backoff before failing anyway -- turning what should have been an instant, visible failure into a
+// run that looked hung for the better part of an hour. Read the body before deciding to retry at
+// all; "per day" (or "daily") means stop now, not back off and try again.
 async function getJSON(url, init, attempt) {
   attempt = attempt || 0;
   const res = await fetch(url, init);
-  if (res.status === 429 && attempt < 5) {
-    const retryAfter = Number(res.headers.get('retry-after'));
-    const waitMs = retryAfter > 0 ? retryAfter * 1000 : Math.min(30000, 1000 * 2 ** attempt);
-    await sleep(waitMs);
-    return getJSON(url, init, attempt + 1);
+  if (res.status === 429) {
+    let bodyText = '';
+    try { bodyText = await res.clone().text(); } catch (e) { /* body already consumed or unreadable */ }
+    if (/per\s*day|daily/i.test(bodyText)) {
+      throw new Error('HTTP 429 (daily quota exceeded -- not retrying)');
+    }
+    if (attempt < 5) {
+      const retryAfter = Number(res.headers.get('retry-after'));
+      const waitMs = retryAfter > 0 ? retryAfter * 1000 : Math.min(30000, 1000 * 2 ** attempt);
+      await sleep(waitMs);
+      return getJSON(url, init, attempt + 1);
+    }
   }
   if (!res.ok) throw new Error('HTTP ' + res.status + ' ' + res.statusText);
   return res.json();
@@ -707,8 +721,18 @@ async function main() {
     if (missing.length) console.error('  note: skipping ' + missing.map(n => ADAPTERS[n].label).join(', ') + ' (no key)');
   }
 
+  // Google Books' burst quota is roughly 100 requests/100s -- reactive 429 retry (getJSON) is
+  // correct but expensive once tripped, since every request after that point pays the backoff
+  // instead of just one. Found live: an unpaced 1,000-book run that hit the quota partway through
+  // took far longer retrying its way through the rest than pacing would have cost up front. Book
+  // medium only -- TMDB/OMDb (movie, tv, game) have generously documented quotas and no observed
+  // 429s in this harness's history.
   const results = [];
   for (const work of works) {
+    if (!replay && args.medium === 'book' && results.length > 0) await sleep(1100);
+    if (!replay && works.length > 20 && results.length % 10 === 0) {
+      console.error('  ... ' + results.length + '/' + works.length + ' (' + work.id + ' next)');
+    }
     const observations = replay
       ? (replay[work.id] || []).map(o => reparseObservation(o, args.medium, work))
       : await Promise.all(sources.map(n => callSource(n, work, args.medium)));
@@ -747,4 +771,4 @@ async function main() {
 }
 
 if (require.main === module) main().catch(e => { console.error(e); process.exit(1); });
-module.exports = { reconcile, valuesAgree, redactKeys, FACT_FIELDS, ADAPTERS, writeReviewQueue, pickTmdbHit, reparseObservation, callSource, canonicalizePeople, peopleKey, stripYearSuffix, bookHitLooksRight };
+module.exports = { reconcile, valuesAgree, redactKeys, FACT_FIELDS, ADAPTERS, writeReviewQueue, pickTmdbHit, reparseObservation, callSource, canonicalizePeople, peopleKey, stripYearSuffix, bookHitLooksRight, getJSON };

@@ -97,10 +97,20 @@ const sleep = ms => new Promise(r => setTimeout(r, ms));
 
 // See the matching comment in fetch-facts.js's getJSON: OpenLibrary/Google Books are courtesy- or
 // burst-limited and this harness fires requests with no pacing, so a transient 429 gets a bounded
-// retry-with-backoff instead of being surfaced as a permanent miss for the rest of the run.
+// retry-with-backoff instead of being surfaced as a permanent miss for the rest of the run -- but a
+// DAILY quota (Google Books' 429 body says "...limit 'Queries per day'") is not transient on any
+// timescale worth waiting for, so that case fails immediately instead of paying up to ~31s of
+// pointless backoff per request.
 async function getJSON(url, init, attempt) {
   attempt = attempt || 0;
   const res = await fetch(url, init);
+  if (res.status === 429) {
+    let bodyText = '';
+    try { bodyText = await res.clone().text(); } catch (e) { /* body already consumed or unreadable */ }
+    if (/per\s*day|daily/i.test(bodyText)) {
+      throw new Error('HTTP 429 (daily quota exceeded -- not retrying)');
+    }
+  }
   if (res.status === 429 && attempt < 5) {
     const retryAfter = Number(res.headers.get('retry-after'));
     const waitMs = retryAfter > 0 ? retryAfter * 1000 : Math.min(30000, 1000 * 2 ** attempt);
