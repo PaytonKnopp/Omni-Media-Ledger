@@ -526,6 +526,31 @@ const heldRun = execFileSync(process.execPath, [path.join(ROOT, 'scripts/apply-f
 check('a held field blocks the edition-dependent stamp too, not just grade-A application',
   !heldRun.split(/\d+ records stamped/)[1].split('\n\n')[0].includes('m03'), heldRun);
 
+// The stamp-blocking test above only ever ran a DRY RUN (every other apply-facts test in this file
+// does too) -- which prints what it WOULD change, but never actually proves `_held` stops the
+// REWRITE itself when --write is passed. It didn't: found live doing exactly this on the real
+// corpus (holding back two risky book creator corrections) -- apply-facts.js's `changes` filter
+// checked grade and status but never `_held`, so a held field's dry-run print looked identical to
+// an unheld one, and only the stamp was actually suppressed. Real --write against a backed-up-and-
+// restored copy of the real corpus file, since apply-facts.js's data path isn't parameterizable.
+{
+  const moviesPath = path.join(ROOT, 'data/movies.js');
+  const backup = fs.readFileSync(moviesPath, 'utf8');
+  try {
+    const writeHeldEv = JSON.parse(fs.readFileSync(path.join(tmp, outJson), 'utf8'));
+    writeHeldEv.works.find(w => w.id === 'm02').proposals.find(p => p.field === 'runtime')._held = 'operator deferred for testing';
+    fs.writeFileSync(path.join(tmp, 'write-held.json'), JSON.stringify(writeHeldEv));
+    execFileSync(process.execPath, [path.join(ROOT, 'scripts/apply-facts.js'),
+      path.join(tmp, 'write-held.json'), '--write'], { cwd: ROOT, stdio: 'pipe' });
+    const after = fs.readFileSync(moviesPath, 'utf8');
+    const m02Line = after.match(/^.*"id"\s*:\s*"m02".*$/m)[0];
+    check('--write actually leaves a held field\'s value untouched, not just its stamp',
+      m02Line.includes('"runtime":146'), m02Line);
+  } finally {
+    fs.writeFileSync(moviesPath, backup);
+  }
+}
+
 fs.rmSync(tmp, { recursive: true, force: true });
 
 }

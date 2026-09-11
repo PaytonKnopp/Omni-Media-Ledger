@@ -58,7 +58,7 @@ function main() {
     let line = m[0];
     const before = line;
 
-    const changes = w.proposals.filter(p => p.grade === 'A' && p.status === 'proposed-change');
+    const changes = w.proposals.filter(p => p.grade === 'A' && p.status === 'proposed-change' && !p._held);
     let ok = true;
     for (const p of changes) {
       const cp = pathOf[p.field];
