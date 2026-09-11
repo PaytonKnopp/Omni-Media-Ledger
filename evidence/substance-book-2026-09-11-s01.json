@@ -1,0 +1,7226 @@
+{
+ "medium": "book",
+ "generated": "2026-09-11T08:36:18.616Z",
+ "offline": false,
+ "includesProse": false,
+ "works": [
+  {
+   "id": "b01",
+   "title": "Flatland: A Romance of Many Dimensions",
+   "year": 1884,
+   "corpusGenres": [
+    "Mathematics",
+    "Sci-Fi"
+   ],
+   "tags": [
+    "science fiction",
+    "mathematical fiction",
+    "satirical fiction"
+   ],
+   "sourceGenres": [],
+   "sources": [
+    {
+     "src": "Wikidata",
+     "matchedTitle": "Flatland",
+     "url": "https://www.wikidata.org/wiki/Q728312"
+    }
+   ],
+   "missed": [
+    "OpenLibrary (fetch failed)",
+    "Google Books (HTTP 429 (daily quota exceeded -- not retrying))"
+   ],
+   "coverage": 3
+  },
+  {
+   "id": "b02",
+   "title": "The Order of Time",
+   "year": 2017,
+   "corpusGenres": [
+    "Physics",
+    "Philosophy"
+   ],
+   "tags": [
+    "essay",
+    "popular science",
+    "physics"
+   ],
+   "sourceGenres": [],
+   "sources": [
+    {
+     "src": "Wikidata",
+     "matchedTitle": "The Order of Time",
+     "url": "https://www.wikidata.org/wiki/Q56290576"
+    }
+   ],
+   "missed": [
+    "OpenLibrary (title matched but author \"\" does not -- likely a different book titled \"The Order of Time\")",
+    "Google Books (title matched but author \"Zip Reads\" does not -- likely a different book titled \"The Order of Time\")"
+   ],
+   "coverage": 3
+  },
+  {
+   "id": "b03",
+   "title": "The Principles of Quantum Mechanics",
+   "year": 1930,
+   "corpusGenres": [
+    "Physics"
+   ],
+   "tags": [
+    "science"
+   ],
+   "sourceGenres": [],
+   "sources": [
+    {
+     "src": "OpenLibrary",
+     "matchedTitle": "The Principles of Quantum Mechanics",
+     "url": "https://openlibrary.org/search.json?title=The%20Principles%20of%20Quantum%20Mechanics"
+    },
+    {
+     "src": "Google Books",
+     "matchedTitle": "The Principles of Quantum Mechanics",
+     "url": "https://www.googleapis.com/books/v1/volumes?q=intitle:The%20Principles%20of%20Quantum%20Mechanics"
+    }
+   ],
+   "missed": [
+    "Wikidata (no type-matching candidate for \"The Principles of Quantum Mechanics\")"
+   ],
+   "coverage": 1
+  },
+  {
+   "id": "b04",
+   "title": "A Brief History of Time",
+   "year": 1988,
+   "corpusGenres": [
+    "Cosmology",
+    "Physics"
+   ],
+   "tags": [
+    "science",
+    "popular science",
+    "essay",
+    "cosmology"
+   ],
+   "sourceGenres": [],
+   "sources": [
+    {
+     "src": "OpenLibrary",
+     "matchedTitle": "A Brief History of Time",
+     "url": "https://openlibrary.org/search.json?title=A%20Brief%20History%20of%20Time"
+    },
+    {
+     "src": "Google Books",
+     "matchedTitle": "A Brief History of Time",
+     "url": "https://www.googleapis.com/books/v1/volumes?q=intitle:A%20Brief%20History%20of%20Time"
+    },
+    {
+     "src": "Wikidata",
+     "matchedTitle": "A Brief History of Time",
+     "url": "https://www.wikidata.org/wiki/Q471726"
+    }
+   ],
+   "missed": [],
+   "coverage": 4
+  },
+  {
+   "id": "b05",
+   "title": "Cosmos",
+   "year": 1980,
+   "corpusGenres": [
+    "Cosmology",
+    "Science"
+   ],
+   "tags": [],
+   "sourceGenres": [],
+   "sources": [
+    {
+     "src": "OpenLibrary",
+     "matchedTitle": "Cosmos",
+     "url": "https://openlibrary.org/search.json?title=Cosmos"
+    }
+   ],
+   "missed": [
+    "Google Books (title matched but author \"A. Unsöld & B. Baschek\" does not -- likely a different book titled \"Cosmos\")",
+    "Wikidata (no type-matching candidate for \"Cosmos\")"
+   ],
+   "coverage": 0
+  },
+  {
+   "id": "b06",
+   "title": "Astrophysics for People in a Hurry",
+   "year": 2017,
+   "corpusGenres": [
+    "Cosmology",
+    "Science"
+   ],
+   "tags": [
+    "non-fiction",
+    "astrophysics"
+   ],
+   "sourceGenres": [],
+   "sources": [
+    {
+     "src": "OpenLibrary",
+     "matchedTitle": "Astrophysics for People in a Hurry",
+     "url": "https://openlibrary.org/search.json?title=Astrophysics%20for%20People%20in%20a%20Hurry"
+    },
+    {
+     "src": "Wikidata",
+     "matchedTitle": "Astrophysics for People in a Hurry",
+     "url": "https://www.wikidata.org/wiki/Q30078299"
+    }
+   ],
+   "missed": [
+    "Google Books (HTTP 429 (daily quota exceeded -- not retrying))"
+   ],
+   "coverage": 2
+  },
+  {
+   "id": "b07",
+   "title": "Starry Messenger",
+   "year": 2022,
+   "corpusGenres": [
+    "Science",
+    "Philosophy"
+   ],
+   "tags": [],
+   "sourceGenres": [],
+   "sources": [],
+   "missed": [
+    "OpenLibrary (title matched but author \"Peter Sís\" does not -- likely a different book titled \"Starry Messenger\")",
+    "Google Books (HTTP 429 (daily quota exceeded -- not retrying))",
+    "Wikidata (title matched but credited \"Peter Sís\" does not -- likely a different work titled \"Starry Messenger\")"
+   ],
+   "coverage": 0
+  },
+  {
+   "id": "b08",
+   "title": "American Prometheus",
+   "year": 2005,
+   "corpusGenres": [
+    "Biography",
+    "History"
+   ],
+   "tags": [],
+   "sourceGenres": [],
+   "sources": [
+    {
+     "src": "OpenLibrary",
+     "matchedTitle": "American Prometheus",
+     "url": "https://openlibrary.org/search.json?title=American%20Prometheus"
+    },
+    {
+     "src": "Wikidata",
+     "matchedTitle": "American Prometheus",
+     "url": "https://www.wikidata.org/wiki/Q116182062"
+    }
+   ],
+   "missed": [
+    "Google Books (title matched but author \"GP SUMMARY\" does not -- likely a different book titled \"American Prometheus\")"
+   ],
+   "coverage": 0
+  },
+  {
+   "id": "b09",
+   "title": "The Strangest Man",
+   "year": 2009,
+   "corpusGenres": [
+    "Biography",
+    "Physics"
+   ],
+   "tags": [
+    "biography & autobiography",
+    "biography"
+   ],
+   "sourceGenres": [],
+   "sources": [
+    {
+     "src": "OpenLibrary",
+     "matchedTitle": "The strangest man",
+     "url": "https://openlibrary.org/search.json?title=The%20Strangest%20Man"
+    },
+    {
+     "src": "Google Books",
+     "matchedTitle": "The Strangest Man",
+     "url": "https://www.googleapis.com/books/v1/volumes?q=intitle:The%20Strangest%20Man"
+    },
+    {
+     "src": "Wikidata",
+     "matchedTitle": "The Strangest Man",
+     "url": "https://www.wikidata.org/wiki/Q7766959"
+    }
+   ],
+   "missed": [],
+   "coverage": 2
+  },
+  {
+   "id": "b10",
+   "title": "Einstein: His Life and Universe",
+   "year": 2007,
+   "corpusGenres": [
+    "Biography",
+    "Physics"
+   ],
+   "tags": [],
+   "sourceGenres": [],
+   "sources": [
+    {
+     "src": "Wikidata",
+     "matchedTitle": "Einstein: His Life and Universe",
+     "url": "https://www.wikidata.org/wiki/Q96377049"
+    }
+   ],
+   "missed": [
+    "OpenLibrary (title matched but author \"\" does not -- likely a different book titled \"Einstein: His Life and Universe\")",
+    "Google Books (HTTP 429 (daily quota exceeded -- not retrying))"
+   ],
+   "coverage": 0
+  },
+  {
+   "id": "b11",
+   "title": "The Inventions, Researches and Writings of Nikola Tesla",
+   "year": 1894,
+   "corpusGenres": [
+    "Engineering",
+    "Science"
+   ],
+   "tags": [],
+   "sourceGenres": [],
+   "sources": [
+    {
+     "src": "OpenLibrary",
+     "matchedTitle": "The inventions, researches and writings of Nikola Tesla",
+     "url": "https://openlibrary.org/search.json?title=The%20Inventions%2C%20Researches%20and%20Writings%20of%20Nikola%20Tesla"
+    }
+   ],
+   "missed": [
+    "Google Books (HTTP 429 (daily quota exceeded -- not retrying))",
+    "Wikidata (no type-matching candidate for \"The Inventions, Researches and Writings of Nikola Tesla\")"
+   ],
+   "coverage": 0
+  },
+  {
+   "id": "b12",
+   "title": "Gödel, Escher, Bach",
+   "year": 1979,
+   "corpusGenres": [
+    "Philosophy",
+    "Mathematics"
+   ],
+   "tags": [
+    "popular science",
+    "consciousness",
+    "intelligence",
+    "typographical number theory",
+    "gödel's incompleteness theorems",
+    "self-reference",
+    "mu puzzle"
+   ],
+   "sourceGenres": [],
+   "sources": [
+    {
+     "src": "OpenLibrary",
+     "matchedTitle": "Gödel, Escher, Bach",
+     "url": "https://openlibrary.org/search.json?title=G%C3%B6del%2C%20Escher%2C%20Bach"
+    },
+    {
+     "src": "Wikidata",
+     "matchedTitle": "Gödel, Escher, Bach",
+     "url": "https://www.wikidata.org/wiki/Q831517"
+    }
+   ],
+   "missed": [
+    "Google Books (HTTP 429 (daily quota exceeded -- not retrying))"
+   ],
+   "coverage": 7
+  },
+  {
+   "id": "b13",
+   "title": "Turing's Cathedral",
+   "year": 2012,
+   "corpusGenres": [
+    "History",
+    "Technology"
+   ],
+   "tags": [],
+   "sourceGenres": [],
+   "sources": [
+    {
+     "src": "OpenLibrary",
+     "matchedTitle": "Turing's cathedral",
+     "url": "https://openlibrary.org/search.json?title=Turing's%20Cathedral"
+    },
+    {
+     "src": "Wikidata",
+     "matchedTitle": "Turing's Cathedral",
+     "url": "https://www.wikidata.org/wiki/Q17591553"
+    }
+   ],
+   "missed": [
+    "Google Books (HTTP 429 (daily quota exceeded -- not retrying))"
+   ],
+   "coverage": 0
+  },
+  {
+   "id": "b14",
+   "title": "The Innovators",
+   "year": 2014,
+   "corpusGenres": [
+    "History",
+    "Technology"
+   ],
+   "tags": [
+    "biography",
+    "computer science"
+   ],
+   "sourceGenres": [],
+   "sources": [
+    {
+     "src": "OpenLibrary",
+     "matchedTitle": "The Innovators",
+     "url": "https://openlibrary.org/search.json?title=The%20Innovators"
+    },
+    {
+     "src": "Wikidata",
+     "matchedTitle": "The Innovators: How a Group of Inventors, Hackers, Geniuses, and Geeks Created the Digital Revolution",
+     "url": "https://www.wikidata.org/wiki/Q18389865"
+    }
+   ],
+   "missed": [
+    "Google Books (HTTP 429 (daily quota exceeded -- not retrying))"
+   ],
+   "coverage": 2
+  },
+  {
+   "id": "b15",
+   "title": "The Age of Wonder",
+   "year": 2008,
+   "corpusGenres": [
+    "History",
+    "Science"
+   ],
+   "tags": [
+    "non-fiction",
+    "history of science"
+   ],
+   "sourceGenres": [],
+   "sources": [
+    {
+     "src": "OpenLibrary",
+     "matchedTitle": "The age of wonder",
+     "url": "https://openlibrary.org/search.json?title=The%20Age%20of%20Wonder"
+    },
+    {
+     "src": "Wikidata",
+     "matchedTitle": "The Age of Wonder",
+     "url": "https://www.wikidata.org/wiki/Q7712875"
+    }
+   ],
+   "missed": [
+    "Google Books (HTTP 429 (daily quota exceeded -- not retrying))"
+   ],
+   "coverage": 2
+  },
+  {
+   "id": "b16",
+   "title": "The Map of Knowledge",
+   "year": 2018,
+   "corpusGenres": [
+    "History",
+    "Science"
+   ],
+   "tags": [],
+   "sourceGenres": [],
+   "sources": [],
+   "missed": [
+    "OpenLibrary (title matched but author \"R. G. Collingwood\" does not -- likely a different book titled \"The Map of Knowledge\")",
+    "Google Books (HTTP 429 (daily quota exceeded -- not retrying))",
+    "Wikidata (no type-matching candidate for \"The Map of Knowledge\")"
+   ],
+   "coverage": 0
+  },
+  {
+   "id": "b17",
+   "title": "This Idea Must Die",
+   "year": 2015,
+   "corpusGenres": [
+    "Science",
+    "Philosophy"
+   ],
+   "tags": [],
+   "sourceGenres": [],
+   "sources": [
+    {
+     "src": "OpenLibrary",
+     "matchedTitle": "This idea must die",
+     "url": "https://openlibrary.org/search.json?title=This%20Idea%20Must%20Die"
+    }
+   ],
+   "missed": [
+    "Google Books (HTTP 429 (daily quota exceeded -- not retrying))",
+    "Wikidata (no type-matching candidate for \"This Idea Must Die\")"
+   ],
+   "coverage": 0
+  },
+  {
+   "id": "b18",
+   "title": "The Hobbit",
+   "year": 1937,
+   "corpusGenres": [
+    "Fantasy",
+    "Adventure"
+   ],
+   "tags": [
+    "fiction"
+   ],
+   "sourceGenres": [],
+   "sources": [
+    {
+     "src": "OpenLibrary",
+     "matchedTitle": "The Hobbit",
+     "url": "https://openlibrary.org/search.json?title=The%20Hobbit"
+    },
+    {
+     "src": "Google Books",
+     "matchedTitle": "The Hobbit",
+     "url": "https://www.googleapis.com/books/v1/volumes?q=intitle:The%20Hobbit"
+    }
+   ],
+   "missed": [
+    "Wikidata (title matched but credited \"\" does not -- likely a different work titled \"The Hobbit\")"
+   ],
+   "coverage": 1
+  },
+  {
+   "id": "b19",
+   "title": "The Fellowship of the Ring",
+   "year": 1954,
+   "corpusGenres": [
+    "Fantasy",
+    "Epic"
+   ],
+   "tags": [
+    "high fantasy",
+    "fantasy",
+    "fellowship of the ring"
+   ],
+   "sourceGenres": [],
+   "sources": [
+    {
+     "src": "OpenLibrary",
+     "matchedTitle": "The Fellowship of the Ring",
+     "url": "https://openlibrary.org/search.json?title=The%20Fellowship%20of%20the%20Ring"
+    },
+    {
+     "src": "Wikidata",
+     "matchedTitle": "The Fellowship of the Ring",
+     "url": "https://www.wikidata.org/wiki/Q208002"
+    }
+   ],
+   "missed": [
+    "Google Books (HTTP 429 (daily quota exceeded -- not retrying))"
+   ],
+   "coverage": 3
+  },
+  {
+   "id": "b20",
+   "title": "The Two Towers",
+   "year": 1954,
+   "corpusGenres": [
+    "Fantasy",
+    "Epic"
+   ],
+   "tags": [
+    "fantasy",
+    "high fantasy",
+    "tolkien's legendarium"
+   ],
+   "sourceGenres": [],
+   "sources": [
+    {
+     "src": "OpenLibrary",
+     "matchedTitle": "The Two Towers",
+     "url": "https://openlibrary.org/search.json?title=The%20Two%20Towers"
+    },
+    {
+     "src": "Wikidata",
+     "matchedTitle": "The Two Towers",
+     "url": "https://www.wikidata.org/wiki/Q332388"
+    }
+   ],
+   "missed": [
+    "Google Books (HTTP 429 (daily quota exceeded -- not retrying))"
+   ],
+   "coverage": 3
+  },
+  {
+   "id": "b21",
+   "title": "The Return of the King",
+   "year": 1955,
+   "corpusGenres": [
+    "Fantasy",
+    "Epic"
+   ],
+   "tags": [
+    "fantasy",
+    "high fantasy",
+    "war of the ring",
+    "tolkien's legendarium"
+   ],
+   "sourceGenres": [],
+   "sources": [
+    {
+     "src": "OpenLibrary",
+     "matchedTitle": "The Return of the King",
+     "url": "https://openlibrary.org/search.json?title=The%20Return%20of%20the%20King"
+    },
+    {
+     "src": "Wikidata",
+     "matchedTitle": "The Return of the King",
+     "url": "https://www.wikidata.org/wiki/Q332581"
+    }
+   ],
+   "missed": [
+    "Google Books (HTTP 429 (daily quota exceeded -- not retrying))"
+   ],
+   "coverage": 4
+  },
+  {
+   "id": "b22",
+   "title": "The Silmarillion",
+   "year": 1977,
+   "corpusGenres": [
+    "Fantasy",
+    "Mythology"
+   ],
+   "tags": [
+    "fiction"
+   ],
+   "sourceGenres": [],
+   "sources": [
+    {
+     "src": "OpenLibrary",
+     "matchedTitle": "The Silmarillion",
+     "url": "https://openlibrary.org/search.json?title=The%20Silmarillion"
+    },
+    {
+     "src": "Google Books",
+     "matchedTitle": "The Silmarillion",
+     "url": "https://www.googleapis.com/books/v1/volumes?q=intitle:The%20Silmarillion"
+    }
+   ],
+   "missed": [
+    "Wikidata (no type-matching candidate for \"The Silmarillion\")"
+   ],
+   "coverage": 1
+  },
+  {
+   "id": "b23",
+   "title": "The Name of the Wind",
+   "year": 2007,
+   "corpusGenres": [
+    "Fantasy",
+    "Epic"
+   ],
+   "tags": [
+    "heroic fantasy",
+    "high fantasy",
+    "fantasy"
+   ],
+   "sourceGenres": [],
+   "sources": [
+    {
+     "src": "OpenLibrary",
+     "matchedTitle": "The Name of the Wind",
+     "url": "https://openlibrary.org/search.json?title=The%20Name%20of%20the%20Wind"
+    },
+    {
+     "src": "Wikidata",
+     "matchedTitle": "The Name of the Wind",
+     "url": "https://www.wikidata.org/wiki/Q1195989"
+    }
+   ],
+   "missed": [
+    "Google Books (HTTP 429 (daily quota exceeded -- not retrying))"
+   ],
+   "coverage": 3
+  },
+  {
+   "id": "b24",
+   "title": "The Wise Man's Fear",
+   "year": 2011,
+   "corpusGenres": [
+    "Fantasy",
+    "Epic"
+   ],
+   "tags": [
+    "heroic fantasy",
+    "high fantasy",
+    "fantasy"
+   ],
+   "sourceGenres": [],
+   "sources": [
+    {
+     "src": "OpenLibrary",
+     "matchedTitle": "The Wise Man’s Fear",
+     "url": "https://openlibrary.org/search.json?title=The%20Wise%20Man's%20Fear"
+    },
+    {
+     "src": "Wikidata",
+     "matchedTitle": "The Wise Man's Fear",
+     "url": "https://www.wikidata.org/wiki/Q2016359"
+    }
+   ],
+   "missed": [
+    "Google Books (HTTP 429 (daily quota exceeded -- not retrying))"
+   ],
+   "coverage": 3
+  },
+  {
+   "id": "b25",
+   "title": "The Slow Regard of Silent Things",
+   "year": 2014,
+   "corpusGenres": [
+    "Fantasy"
+   ],
+   "tags": [
+    "fiction",
+    "fantasy"
+   ],
+   "sourceGenres": [],
+   "sources": [
+    {
+     "src": "Google Books",
+     "matchedTitle": "The Slow Regard of Silent Things",
+     "url": "https://www.googleapis.com/books/v1/volumes?q=intitle:The%20Slow%20Regard%20of%20Silent%20Things"
+    },
+    {
+     "src": "Wikidata",
+     "matchedTitle": "The Slow Regard of Silent Things",
+     "url": "https://www.wikidata.org/wiki/Q20751961"
+    }
+   ],
+   "missed": [
+    "OpenLibrary (no match for \"The Slow Regard of Silent Things\")"
+   ],
+   "coverage": 2
+  },
+  {
+   "id": "b26",
+   "title": "The Odyssey",
+   "year": -700,
+   "corpusGenres": [
+    "Epic",
+    "Mythology"
+   ],
+   "tags": [
+    "epic poem",
+    "adventure fiction",
+    "returns from troy"
+   ],
+   "sourceGenres": [],
+   "sources": [
+    {
+     "src": "Wikidata",
+     "matchedTitle": "Odyssey",
+     "url": "https://www.wikidata.org/wiki/Q35160"
+    }
+   ],
+   "missed": [
+    "OpenLibrary (title matched but author \"Όμηρος\" does not -- likely a different book titled \"The Odyssey\")",
+    "Google Books (HTTP 429 (daily quota exceeded -- not retrying))"
+   ],
+   "coverage": 3
+  },
+  {
+   "id": "b27",
+   "title": "The Count of Monte Cristo",
+   "year": 1844,
+   "corpusGenres": [
+    "Historical",
+    "Adventure"
+   ],
+   "tags": [
+    "serialized fiction",
+    "romantic fiction",
+    "adventure fiction",
+    "historical fiction"
+   ],
+   "sourceGenres": [],
+   "sources": [
+    {
+     "src": "Wikidata",
+     "matchedTitle": "The Count of Monte Cristo",
+     "url": "https://www.wikidata.org/wiki/Q191838"
+    }
+   ],
+   "missed": [
+    "OpenLibrary (title matched but author \"Mitsu Yamamoto\" does not -- likely a different book titled \"The Count of Monte Cristo\")",
+    "Google Books (HTTP 429 (daily quota exceeded -- not retrying))"
+   ],
+   "coverage": 4
+  },
+  {
+   "id": "b28",
+   "title": "The Ultimate Hitchhiker's Guide to the Galaxy",
+   "year": 1979,
+   "corpusGenres": [
+    "Sci-Fi",
+    "Comedy"
+   ],
+   "tags": [],
+   "sourceGenres": [],
+   "sources": [
+    {
+     "src": "OpenLibrary",
+     "matchedTitle": "The Ultimate Hitchhiker's Guide to the Galaxy",
+     "url": "https://openlibrary.org/search.json?title=The%20Ultimate%20Hitchhiker's%20Guide%20to%20the%20Galaxy"
+    },
+    {
+     "src": "Wikidata",
+     "matchedTitle": "The Ultimate Hitchhiker's Guide to the Galaxy",
+     "url": "https://www.wikidata.org/wiki/Q133358708"
+    }
+   ],
+   "missed": [
+    "Google Books (HTTP 429 (daily quota exceeded -- not retrying))"
+   ],
+   "coverage": 0
+  },
+  {
+   "id": "b29",
+   "title": "Hyperion",
+   "year": 1989,
+   "corpusGenres": [
+    "Sci-Fi",
+    "Epic"
+   ],
+   "tags": [],
+   "sourceGenres": [],
+   "sources": [
+    {
+     "src": "OpenLibrary",
+     "matchedTitle": "Hyperion",
+     "url": "https://openlibrary.org/search.json?title=Hyperion"
+    },
+    {
+     "src": "Wikidata",
+     "matchedTitle": "Hyperion",
+     "url": "https://www.wikidata.org/wiki/Q110797048"
+    }
+   ],
+   "missed": [
+    "Google Books (HTTP 429 (daily quota exceeded -- not retrying))"
+   ],
+   "coverage": 0
+  },
+  {
+   "id": "b30",
+   "title": "The Fall of Hyperion",
+   "year": 1990,
+   "corpusGenres": [
+    "Sci-Fi",
+    "Epic"
+   ],
+   "tags": [
+    "fiction",
+    "science fantasy",
+    "science fiction"
+   ],
+   "sourceGenres": [],
+   "sources": [
+    {
+     "src": "OpenLibrary",
+     "matchedTitle": "The Fall of Hyperion",
+     "url": "https://openlibrary.org/search.json?title=The%20Fall%20of%20Hyperion"
+    },
+    {
+     "src": "Google Books",
+     "matchedTitle": "The Fall of Hyperion",
+     "url": "https://www.googleapis.com/books/v1/volumes?q=intitle:The%20Fall%20of%20Hyperion"
+    },
+    {
+     "src": "Wikidata",
+     "matchedTitle": "The Fall of Hyperion",
+     "url": "https://www.wikidata.org/wiki/Q2362526"
+    }
+   ],
+   "missed": [],
+   "coverage": 3
+  },
+  {
+   "id": "b31",
+   "title": "Unfinished Tales",
+   "year": 1980,
+   "corpusGenres": [
+    "Fantasy",
+    "Mythology"
+   ],
+   "tags": [
+    "fiction"
+   ],
+   "sourceGenres": [],
+   "sources": [
+    {
+     "src": "OpenLibrary",
+     "matchedTitle": "Unfinished Tales of Númenor and Middle-earth",
+     "url": "https://openlibrary.org/search.json?title=Unfinished%20Tales"
+    },
+    {
+     "src": "Google Books",
+     "matchedTitle": "Unfinished Tales",
+     "url": "https://www.googleapis.com/books/v1/volumes?q=intitle:Unfinished%20Tales"
+    }
+   ],
+   "missed": [
+    "Wikidata (title matched but credited \"\" does not -- likely a different work titled \"Unfinished Tales\")"
+   ],
+   "coverage": 1
+  },
+  {
+   "id": "b32",
+   "title": "The Fisherman",
+   "year": 2016,
+   "corpusGenres": [
+    "Cosmic Horror",
+    "Weird Fiction"
+   ],
+   "tags": [],
+   "sourceGenres": [],
+   "sources": [
+    {
+     "src": "OpenLibrary",
+     "matchedTitle": "The Fisherman",
+     "url": "https://openlibrary.org/search.json?title=The%20Fisherman"
+    }
+   ],
+   "missed": [
+    "Google Books (HTTP 429 (daily quota exceeded -- not retrying))",
+    "Wikidata (title matched but credited \"Clifford D. Simak\" does not -- likely a different work titled \"The Fisherman\")"
+   ],
+   "coverage": 0
+  },
+  {
+   "id": "b33",
+   "title": "The Necronomicon (Lovecraft)",
+   "year": 1927,
+   "corpusGenres": [
+    "Cosmic Horror",
+    "Weird Fiction"
+   ],
+   "tags": [],
+   "sourceGenres": [],
+   "sources": [],
+   "missed": [
+    "OpenLibrary (title matched but author \"T. Allan Bilstad\" does not -- likely a different book titled \"The Necronomicon (Lovecraft)\")",
+    "Google Books (HTTP 429 (daily quota exceeded -- not retrying))",
+    "Wikidata (no type-matching candidate for \"The Necronomicon (Lovecraft)\")"
+   ],
+   "coverage": 0
+  },
+  {
+   "id": "b34",
+   "title": "Blindsight",
+   "year": 2006,
+   "corpusGenres": [
+    "Sci-Fi",
+    "Cosmic Horror"
+   ],
+   "tags": [
+    "vampire fiction",
+    "science fiction",
+    "hard science fiction",
+    "metaphysical science fiction",
+    "first contact fiction"
+   ],
+   "sourceGenres": [],
+   "sources": [
+    {
+     "src": "OpenLibrary",
+     "matchedTitle": "Blindsight",
+     "url": "https://openlibrary.org/search.json?title=Blindsight"
+    },
+    {
+     "src": "Wikidata",
+     "matchedTitle": "Blindsight",
+     "url": "https://www.wikidata.org/wiki/Q2511421"
+    }
+   ],
+   "missed": [
+    "Google Books (HTTP 429 (daily quota exceeded -- not retrying))"
+   ],
+   "coverage": 5
+  },
+  {
+   "id": "b35",
+   "title": "Frankenstein",
+   "year": 1818,
+   "corpusGenres": [
+    "Gothic",
+    "Sci-Fi"
+   ],
+   "tags": [
+    "fiction",
+    "epistolary novel",
+    "body horror literature",
+    "gothic fiction",
+    "science fiction",
+    "fantasy",
+    "epic"
+   ],
+   "sourceGenres": [],
+   "sources": [
+    {
+     "src": "OpenLibrary",
+     "matchedTitle": "Frankenstein; or, The Modern Prometheus",
+     "url": "https://openlibrary.org/search.json?title=Frankenstein"
+    },
+    {
+     "src": "Google Books",
+     "matchedTitle": "Frankenstein",
+     "url": "https://www.googleapis.com/books/v1/volumes?q=intitle:Frankenstein"
+    },
+    {
+     "src": "Wikidata",
+     "matchedTitle": "Frankenstein; or, The Modern Prometheus",
+     "url": "https://www.wikidata.org/wiki/Q150827"
+    }
+   ],
+   "missed": [],
+   "coverage": 7
+  },
+  {
+   "id": "b36",
+   "title": "Dracula",
+   "year": 1897,
+   "corpusGenres": [
+    "Gothic",
+    "Horror"
+   ],
+   "tags": [
+    "dracula, count (fictitious character)"
+   ],
+   "sourceGenres": [],
+   "sources": [
+    {
+     "src": "OpenLibrary",
+     "matchedTitle": "Dracula",
+     "url": "https://openlibrary.org/search.json?title=Dracula"
+    },
+    {
+     "src": "Google Books",
+     "matchedTitle": "Dracula",
+     "url": "https://www.googleapis.com/books/v1/volumes?q=intitle:Dracula"
+    }
+   ],
+   "missed": [
+    "Wikidata (title matched but credited \"\" does not -- likely a different work titled \"Dracula\")"
+   ],
+   "coverage": 1
+  },
+  {
+   "id": "b37",
+   "title": "Labyrinths",
+   "year": 1962,
+   "corpusGenres": [
+    "Literary",
+    "Philosophy"
+   ],
+   "tags": [],
+   "sourceGenres": [],
+   "sources": [
+    {
+     "src": "OpenLibrary",
+     "matchedTitle": "Labyrinths",
+     "url": "https://openlibrary.org/search.json?title=Labyrinths"
+    }
+   ],
+   "missed": [
+    "Google Books (HTTP 429 (daily quota exceeded -- not retrying))",
+    "Wikidata (title matched but credited \"Tanure Ojaide\" does not -- likely a different work titled \"Labyrinths\")"
+   ],
+   "coverage": 0
+  },
+  {
+   "id": "b38",
+   "title": "Moby-Dick",
+   "year": 1851,
+   "corpusGenres": [
+    "Literary",
+    "Adventure"
+   ],
+   "tags": [
+    "nautical fiction",
+    "adventure fiction",
+    "whaling"
+   ],
+   "sourceGenres": [],
+   "sources": [
+    {
+     "src": "OpenLibrary",
+     "matchedTitle": "Moby Dick",
+     "url": "https://openlibrary.org/search.json?title=Moby-Dick"
+    },
+    {
+     "src": "Wikidata",
+     "matchedTitle": "Moby-Dick",
+     "url": "https://www.wikidata.org/wiki/Q174596"
+    }
+   ],
+   "missed": [
+    "Google Books (HTTP 429 (daily quota exceeded -- not retrying))"
+   ],
+   "coverage": 3
+  },
+  {
+   "id": "b39",
+   "title": "Watchmen",
+   "year": 1986,
+   "corpusGenres": [
+    "Graphic Novel",
+    "Literary"
+   ],
+   "tags": [
+    "alternate history comics",
+    "superhero comics",
+    "fantasy"
+   ],
+   "sourceGenres": [],
+   "sources": [
+    {
+     "src": "OpenLibrary",
+     "matchedTitle": "Watchmen",
+     "url": "https://openlibrary.org/search.json?title=Watchmen"
+    },
+    {
+     "src": "Wikidata",
+     "matchedTitle": "Watchmen",
+     "url": "https://www.wikidata.org/wiki/Q128444"
+    }
+   ],
+   "missed": [
+    "Google Books (HTTP 429 (daily quota exceeded -- not retrying))"
+   ],
+   "coverage": 3
+  },
+  {
+   "id": "b40",
+   "title": "Sapiens",
+   "year": 2011,
+   "corpusGenres": [
+    "History",
+    "Anthropology"
+   ],
+   "tags": [
+    "popular science",
+    "anthropology",
+    "history"
+   ],
+   "sourceGenres": [],
+   "sources": [
+    {
+     "src": "OpenLibrary",
+     "matchedTitle": "Sapiens",
+     "url": "https://openlibrary.org/search.json?title=Sapiens"
+    },
+    {
+     "src": "Google Books",
+     "matchedTitle": "Sapiens",
+     "url": "https://www.googleapis.com/books/v1/volumes?q=intitle:Sapiens"
+    },
+    {
+     "src": "Wikidata",
+     "matchedTitle": "Sapiens: A Brief History of Humankind",
+     "url": "https://www.wikidata.org/wiki/Q12411055"
+    }
+   ],
+   "missed": [],
+   "coverage": 3
+  },
+  {
+   "id": "b41",
+   "title": "The Rise of Theodore Roosevelt",
+   "year": 1979,
+   "corpusGenres": [
+    "Biography",
+    "History"
+   ],
+   "tags": [
+    "biography"
+   ],
+   "sourceGenres": [],
+   "sources": [
+    {
+     "src": "OpenLibrary",
+     "matchedTitle": "The rise of Theodore Roosevelt",
+     "url": "https://openlibrary.org/search.json?title=The%20Rise%20of%20Theodore%20Roosevelt"
+    },
+    {
+     "src": "Wikidata",
+     "matchedTitle": "The Rise of Theodore Roosevelt",
+     "url": "https://www.wikidata.org/wiki/Q2534271"
+    }
+   ],
+   "missed": [
+    "Google Books (HTTP 429 (daily quota exceeded -- not retrying))"
+   ],
+   "coverage": 1
+  },
+  {
+   "id": "b42",
+   "title": "Meditations",
+   "year": 180,
+   "corpusGenres": [
+    "Philosophy"
+   ],
+   "tags": [
+    "stoicism"
+   ],
+   "sourceGenres": [],
+   "sources": [
+    {
+     "src": "OpenLibrary",
+     "matchedTitle": "Meditations",
+     "url": "https://openlibrary.org/search.json?title=Meditations"
+    },
+    {
+     "src": "Wikidata",
+     "matchedTitle": "Meditations",
+     "url": "https://www.wikidata.org/wiki/Q1152283"
+    }
+   ],
+   "missed": [
+    "Google Books (HTTP 429 (daily quota exceeded -- not retrying))"
+   ],
+   "coverage": 1
+  },
+  {
+   "id": "b43",
+   "title": "Homo Deus",
+   "year": 2015,
+   "corpusGenres": [
+    "Futurism",
+    "Philosophy"
+   ],
+   "tags": [
+    "non-fiction",
+    "history"
+   ],
+   "sourceGenres": [],
+   "sources": [
+    {
+     "src": "Wikidata",
+     "matchedTitle": "Homo Deus: A Brief History of Tomorrow",
+     "url": "https://www.wikidata.org/wiki/Q21111997"
+    }
+   ],
+   "missed": [
+    "OpenLibrary (title matched but author \"Anselm of Canterbury\" does not -- likely a different book titled \"Homo Deus\")",
+    "Google Books (HTTP 429 (daily quota exceeded -- not retrying))"
+   ],
+   "coverage": 2
+  },
+  {
+   "id": "b44",
+   "title": "Nexus",
+   "year": 2024,
+   "corpusGenres": [
+    "History",
+    "Technology"
+   ],
+   "tags": [],
+   "sourceGenres": [],
+   "sources": [
+    {
+     "src": "OpenLibrary",
+     "matchedTitle": "Nexus",
+     "url": "https://openlibrary.org/search.json?title=Nexus"
+    }
+   ],
+   "missed": [
+    "Google Books (title matched but author \"\" does not -- likely a different book titled \"Nexus\")",
+    "Wikidata (no type-matching candidate for \"Nexus\")"
+   ],
+   "coverage": 0
+  },
+  {
+   "id": "b45",
+   "title": "Don't Make Me Think",
+   "year": 2000,
+   "corpusGenres": [
+    "Design",
+    "Technology"
+   ],
+   "tags": [
+    "web usability"
+   ],
+   "sourceGenres": [],
+   "sources": [
+    {
+     "src": "OpenLibrary",
+     "matchedTitle": "Don't Make Me Think",
+     "url": "https://openlibrary.org/search.json?title=Don't%20Make%20Me%20Think"
+    },
+    {
+     "src": "Wikidata",
+     "matchedTitle": "Don't Make Me Think",
+     "url": "https://www.wikidata.org/wiki/Q3503996"
+    }
+   ],
+   "missed": [
+    "Google Books (HTTP 429 (daily quota exceeded -- not retrying))"
+   ],
+   "coverage": 1
+  },
+  {
+   "id": "b46",
+   "title": "The Face of Glory",
+   "year": 1996,
+   "corpusGenres": [
+    "Art",
+    "Philosophy"
+   ],
+   "tags": [],
+   "sourceGenres": [],
+   "sources": [
+    {
+     "src": "OpenLibrary",
+     "matchedTitle": "The Face of Glory",
+     "url": "https://openlibrary.org/search.json?title=The%20Face%20of%20Glory"
+    }
+   ],
+   "missed": [
+    "Google Books (HTTP 429 (daily quota exceeded -- not retrying))",
+    "Wikidata (no type-matching candidate for \"The Face of Glory\")"
+   ],
+   "coverage": 0
+  },
+  {
+   "id": "b47",
+   "title": "Endurance: Shackleton's Incredible Voyage",
+   "year": 1959,
+   "corpusGenres": [
+    "Adventure",
+    "History"
+   ],
+   "tags": [
+    "non-fiction",
+    "expedition endurance"
+   ],
+   "sourceGenres": [],
+   "sources": [
+    {
+     "src": "OpenLibrary",
+     "matchedTitle": "Endurance; Shackleton's incredible voyage",
+     "url": "https://openlibrary.org/search.json?title=Endurance%3A%20Shackleton's%20Incredible%20Voyage"
+    },
+    {
+     "src": "Wikidata",
+     "matchedTitle": "Endurance: Shackleton's Incredible Voyage",
+     "url": "https://www.wikidata.org/wiki/Q5376653"
+    }
+   ],
+   "missed": [
+    "Google Books (HTTP 429 (daily quota exceeded -- not retrying))"
+   ],
+   "coverage": 2
+  },
+  {
+   "id": "b48",
+   "title": "Niki Lauda: To Hell and Back",
+   "year": 1986,
+   "corpusGenres": [
+    "Memoir",
+    "Sports"
+   ],
+   "tags": [],
+   "sourceGenres": [],
+   "sources": [],
+   "missed": [
+    "OpenLibrary (no match for \"Niki Lauda: To Hell and Back\")",
+    "Google Books (HTTP 429 (daily quota exceeded -- not retrying))",
+    "Wikidata (no type-matching candidate for \"Niki Lauda: To Hell and Back\")"
+   ],
+   "coverage": 0
+  },
+  {
+   "id": "b49",
+   "title": "Greenlights",
+   "year": 2020,
+   "corpusGenres": [
+    "Memoir"
+   ],
+   "tags": [
+    "memoir"
+   ],
+   "sourceGenres": [],
+   "sources": [
+    {
+     "src": "OpenLibrary",
+     "matchedTitle": "Greenlights",
+     "url": "https://openlibrary.org/search.json?title=Greenlights"
+    },
+    {
+     "src": "Wikidata",
+     "matchedTitle": "Greenlights",
+     "url": "https://www.wikidata.org/wiki/Q100711952"
+    }
+   ],
+   "missed": [
+    "Google Books (HTTP 429 (daily quota exceeded -- not retrying))"
+   ],
+   "coverage": 1
+  },
+  {
+   "id": "b50",
+   "title": "The Alchemist",
+   "year": 1988,
+   "corpusGenres": [
+    "Fiction",
+    "Philosophy"
+   ],
+   "tags": [
+    "adventure fiction",
+    "fantasy"
+   ],
+   "sourceGenres": [],
+   "sources": [
+    {
+     "src": "Wikidata",
+     "matchedTitle": "The Alchemist",
+     "url": "https://www.wikidata.org/wiki/Q179021"
+    }
+   ],
+   "missed": [
+    "OpenLibrary (title matched but author \"Ben Jonson & Elizabeth Cook\" does not -- likely a different book titled \"The Alchemist\")",
+    "Google Books (HTTP 429 (daily quota exceeded -- not retrying))"
+   ],
+   "coverage": 2
+  },
+  {
+   "id": "b51",
+   "title": "Egghead",
+   "year": 2017,
+   "corpusGenres": [
+    "Poetry",
+    "Comedy"
+   ],
+   "tags": [],
+   "sourceGenres": [],
+   "sources": [
+    {
+     "src": "OpenLibrary",
+     "matchedTitle": "Egghead",
+     "url": "https://openlibrary.org/search.json?title=Egghead"
+    }
+   ],
+   "missed": [
+    "Google Books (title matched but author \"Eiichiro Oda\" does not -- likely a different book titled \"Egghead\")",
+    "Wikidata (no type-matching candidate for \"Egghead\")"
+   ],
+   "coverage": 0
+  },
+  {
+   "id": "b52",
+   "title": "Dune",
+   "year": 1965,
+   "corpusGenres": [
+    "Sci-Fi",
+    "Epic"
+   ],
+   "tags": [
+    "soft science fiction",
+    "planetary romance",
+    "social science fiction",
+    "science fiction",
+    "adventure fiction",
+    "religion",
+    "outer space",
+    "ecology",
+    "society",
+    "civilization",
+    "culture",
+    "power"
+   ],
+   "sourceGenres": [],
+   "sources": [
+    {
+     "src": "OpenLibrary",
+     "matchedTitle": "Dune",
+     "url": "https://openlibrary.org/search.json?title=Dune"
+    },
+    {
+     "src": "Wikidata",
+     "matchedTitle": "Dune",
+     "url": "https://www.wikidata.org/wiki/Q190192"
+    }
+   ],
+   "missed": [
+    "Google Books (HTTP 429 (daily quota exceeded -- not retrying))"
+   ],
+   "coverage": 12
+  },
+  {
+   "id": "b53",
+   "title": "Foundation",
+   "year": 1951,
+   "corpusGenres": [
+    "Sci-Fi"
+   ],
+   "tags": [
+    "science fiction"
+   ],
+   "sourceGenres": [],
+   "sources": [
+    {
+     "src": "OpenLibrary",
+     "matchedTitle": "Foundation",
+     "url": "https://openlibrary.org/search.json?title=Foundation"
+    },
+    {
+     "src": "Wikidata",
+     "matchedTitle": "Foundation",
+     "url": "https://www.wikidata.org/wiki/Q753894"
+    }
+   ],
+   "missed": [
+    "Google Books (HTTP 429 (daily quota exceeded -- not retrying))"
+   ],
+   "coverage": 1
+  },
+  {
+   "id": "b54",
+   "title": "Neuromancer",
+   "year": 1984,
+   "corpusGenres": [
+    "Sci-Fi",
+    "Cyberpunk"
+   ],
+   "tags": [
+    "cyberpunk novel",
+    "science fiction",
+    "dystopian fiction"
+   ],
+   "sourceGenres": [],
+   "sources": [
+    {
+     "src": "OpenLibrary",
+     "matchedTitle": "Neuromancer",
+     "url": "https://openlibrary.org/search.json?title=Neuromancer"
+    },
+    {
+     "src": "Wikidata",
+     "matchedTitle": "Neuromancer",
+     "url": "https://www.wikidata.org/wiki/Q662029"
+    }
+   ],
+   "missed": [
+    "Google Books (HTTP 429 (daily quota exceeded -- not retrying))"
+   ],
+   "coverage": 3
+  },
+  {
+   "id": "b55",
+   "title": "The Left Hand of Darkness",
+   "year": 1969,
+   "corpusGenres": [
+    "Sci-Fi"
+   ],
+   "tags": [
+    "science fiction",
+    "gay literature",
+    "feminist science fiction"
+   ],
+   "sourceGenres": [],
+   "sources": [
+    {
+     "src": "OpenLibrary",
+     "matchedTitle": "The Left Hand of Darkness",
+     "url": "https://openlibrary.org/search.json?title=The%20Left%20Hand%20of%20Darkness"
+    },
+    {
+     "src": "Wikidata",
+     "matchedTitle": "The Left Hand of Darkness",
+     "url": "https://www.wikidata.org/wiki/Q2008211"
+    }
+   ],
+   "missed": [
+    "Google Books (HTTP 429 (daily quota exceeded -- not retrying))"
+   ],
+   "coverage": 3
+  },
+  {
+   "id": "b56",
+   "title": "The Dispossessed",
+   "year": 1974,
+   "corpusGenres": [
+    "Sci-Fi",
+    "Philosophy"
+   ],
+   "tags": [
+    "utopian fiction",
+    "science fiction",
+    "anarchism"
+   ],
+   "sourceGenres": [],
+   "sources": [
+    {
+     "src": "OpenLibrary",
+     "matchedTitle": "The Dispossessed",
+     "url": "https://openlibrary.org/search.json?title=The%20Dispossessed"
+    },
+    {
+     "src": "Wikidata",
+     "matchedTitle": "The Dispossessed",
+     "url": "https://www.wikidata.org/wiki/Q467720"
+    }
+   ],
+   "missed": [
+    "Google Books (HTTP 429 (daily quota exceeded -- not retrying))"
+   ],
+   "coverage": 3
+  },
+  {
+   "id": "b57",
+   "title": "Children of Time",
+   "year": 2015,
+   "corpusGenres": [
+    "Sci-Fi"
+   ],
+   "tags": [
+    "science fiction"
+   ],
+   "sourceGenres": [],
+   "sources": [
+    {
+     "src": "OpenLibrary",
+     "matchedTitle": "Children of Time",
+     "url": "https://openlibrary.org/search.json?title=Children%20of%20Time"
+    },
+    {
+     "src": "Google Books",
+     "matchedTitle": "Children of Time 3-Book Set by Adrian Tchaikovsky (Children of Time, Children of Ruin, Children of Memory)",
+     "url": "https://www.googleapis.com/books/v1/volumes?q=intitle:Children%20of%20Time"
+    },
+    {
+     "src": "Wikidata",
+     "matchedTitle": "Children of Time",
+     "url": "https://www.wikidata.org/wiki/Q30131633"
+    }
+   ],
+   "missed": [],
+   "coverage": 1
+  },
+  {
+   "id": "b58",
+   "title": "The Three-Body Problem",
+   "year": 2008,
+   "corpusGenres": [
+    "Sci-Fi"
+   ],
+   "tags": [
+    "science fiction",
+    "hard science fiction",
+    "alien invasion",
+    "first contact fiction",
+    "cultural revolution",
+    "three-body problem",
+    "scientific progress",
+    "artificial intelligence"
+   ],
+   "sourceGenres": [],
+   "sources": [
+    {
+     "src": "Wikidata",
+     "matchedTitle": "The Three-Body Problem",
+     "url": "https://www.wikidata.org/wiki/Q607112"
+    }
+   ],
+   "missed": [
+    "OpenLibrary (title matched but author \"刘慈欣\" does not -- likely a different book titled \"The Three-Body Problem\")",
+    "Google Books (HTTP 429 (daily quota exceeded -- not retrying))"
+   ],
+   "coverage": 8
+  },
+  {
+   "id": "b59",
+   "title": "Solaris",
+   "year": 1961,
+   "corpusGenres": [
+    "Sci-Fi",
+    "Cosmic Horror"
+   ],
+   "tags": [
+    "hard science fiction",
+    "planetary romance",
+    "science fiction",
+    "philosophical fiction",
+    "psychological fiction"
+   ],
+   "sourceGenres": [],
+   "sources": [
+    {
+     "src": "OpenLibrary",
+     "matchedTitle": "Solaris",
+     "url": "https://openlibrary.org/search.json?title=Solaris"
+    },
+    {
+     "src": "Wikidata",
+     "matchedTitle": "Solaris",
+     "url": "https://www.wikidata.org/wiki/Q261281"
+    }
+   ],
+   "missed": [
+    "Google Books (HTTP 429 (daily quota exceeded -- not retrying))"
+   ],
+   "coverage": 5
+  },
+  {
+   "id": "b60",
+   "title": "Roadside Picnic",
+   "year": 1972,
+   "corpusGenres": [
+    "Sci-Fi"
+   ],
+   "tags": [
+    "science fiction",
+    "philosophical fiction",
+    "hard science fiction",
+    "philosophical novel",
+    "adventure fiction",
+    "psychological fiction"
+   ],
+   "sourceGenres": [],
+   "sources": [
+    {
+     "src": "OpenLibrary",
+     "matchedTitle": "Roadside Picnic",
+     "url": "https://openlibrary.org/search.json?title=Roadside%20Picnic"
+    },
+    {
+     "src": "Wikidata",
+     "matchedTitle": "Roadside Picnic",
+     "url": "https://www.wikidata.org/wiki/Q848517"
+    }
+   ],
+   "missed": [
+    "Google Books (title matched but author \"Michael Andre-Driussi\" does not -- likely a different book titled \"Roadside Picnic\")"
+   ],
+   "coverage": 6
+  },
+  {
+   "id": "b61",
+   "title": "Do Androids Dream of Electric Sheep?",
+   "year": 1968,
+   "corpusGenres": [
+    "Sci-Fi"
+   ],
+   "tags": [
+    "science fiction",
+    "philosophical fiction",
+    "dystopian fiction",
+    "cyberpunk",
+    "noir fiction",
+    "postmodern fiction"
+   ],
+   "sourceGenres": [],
+   "sources": [
+    {
+     "src": "OpenLibrary",
+     "matchedTitle": "Do Androids Dream of Electric Sheep?",
+     "url": "https://openlibrary.org/search.json?title=Do%20Androids%20Dream%20of%20Electric%20Sheep%3F"
+    },
+    {
+     "src": "Wikidata",
+     "matchedTitle": "Do Androids Dream of Electric Sheep?",
+     "url": "https://www.wikidata.org/wiki/Q605249"
+    }
+   ],
+   "missed": [
+    "Google Books (HTTP 429 (daily quota exceeded -- not retrying))"
+   ],
+   "coverage": 6
+  },
+  {
+   "id": "b62",
+   "title": "Ender's Game",
+   "year": 1985,
+   "corpusGenres": [
+    "Sci-Fi"
+   ],
+   "tags": [
+    "science fiction"
+   ],
+   "sourceGenres": [],
+   "sources": [
+    {
+     "src": "OpenLibrary",
+     "matchedTitle": "Ender's Game",
+     "url": "https://openlibrary.org/search.json?title=Ender's%20Game"
+    },
+    {
+     "src": "Wikidata",
+     "matchedTitle": "Ender's Game",
+     "url": "https://www.wikidata.org/wiki/Q816016"
+    }
+   ],
+   "missed": [
+    "Google Books (HTTP 429 (daily quota exceeded -- not retrying))"
+   ],
+   "coverage": 1
+  },
+  {
+   "id": "b63",
+   "title": "The Forever War",
+   "year": 1974,
+   "corpusGenres": [
+    "Sci-Fi",
+    "War"
+   ],
+   "tags": [
+    "aging",
+    "military science fiction",
+    "science fiction"
+   ],
+   "sourceGenres": [],
+   "sources": [
+    {
+     "src": "OpenLibrary",
+     "matchedTitle": "The Forever War",
+     "url": "https://openlibrary.org/search.json?title=The%20Forever%20War"
+    },
+    {
+     "src": "Google Books",
+     "matchedTitle": "The Forever War",
+     "url": "https://www.googleapis.com/books/v1/volumes?q=intitle:The%20Forever%20War"
+    },
+    {
+     "src": "Wikidata",
+     "matchedTitle": "The Forever War",
+     "url": "https://www.wikidata.org/wiki/Q5406934"
+    }
+   ],
+   "missed": [],
+   "coverage": 3
+  },
+  {
+   "id": "b64",
+   "title": "A Fire Upon the Deep",
+   "year": 1992,
+   "corpusGenres": [
+    "Sci-Fi",
+    "Epic"
+   ],
+   "tags": [
+    "fiction",
+    "science fiction"
+   ],
+   "sourceGenres": [],
+   "sources": [
+    {
+     "src": "OpenLibrary",
+     "matchedTitle": "A Fire upon the Deep",
+     "url": "https://openlibrary.org/search.json?title=A%20Fire%20Upon%20the%20Deep"
+    },
+    {
+     "src": "Google Books",
+     "matchedTitle": "A Fire Upon The Deep",
+     "url": "https://www.googleapis.com/books/v1/volumes?q=intitle:A%20Fire%20Upon%20the%20Deep"
+    },
+    {
+     "src": "Wikidata",
+     "matchedTitle": "A Fire Upon the Deep",
+     "url": "https://www.wikidata.org/wiki/Q74335"
+    }
+   ],
+   "missed": [],
+   "coverage": 2
+  },
+  {
+   "id": "b65",
+   "title": "Rendezvous with Rama",
+   "year": 1973,
+   "corpusGenres": [
+    "Sci-Fi"
+   ],
+   "tags": [
+    "science fiction",
+    "impact event"
+   ],
+   "sourceGenres": [],
+   "sources": [
+    {
+     "src": "OpenLibrary",
+     "matchedTitle": "Rendezvous with Rama",
+     "url": "https://openlibrary.org/search.json?title=Rendezvous%20with%20Rama"
+    },
+    {
+     "src": "Wikidata",
+     "matchedTitle": "Rendezvous with Rama",
+     "url": "https://www.wikidata.org/wiki/Q741222"
+    }
+   ],
+   "missed": [
+    "Google Books (HTTP 429 (daily quota exceeded -- not retrying))"
+   ],
+   "coverage": 2
+  },
+  {
+   "id": "b66",
+   "title": "Snow Crash",
+   "year": 1992,
+   "corpusGenres": [
+    "Sci-Fi",
+    "Cyberpunk"
+   ],
+   "tags": [
+    "cyberpunk",
+    "postcyberpunk",
+    "science fiction",
+    "postmodern fiction",
+    "neurolinguistics",
+    "anarcho-capitalism",
+    "sumerian",
+    "mysticism",
+    "metaverse"
+   ],
+   "sourceGenres": [],
+   "sources": [
+    {
+     "src": "OpenLibrary",
+     "matchedTitle": "Snow Crash",
+     "url": "https://openlibrary.org/search.json?title=Snow%20Crash"
+    },
+    {
+     "src": "Wikidata",
+     "matchedTitle": "Snow Crash",
+     "url": "https://www.wikidata.org/wiki/Q768389"
+    }
+   ],
+   "missed": [
+    "Google Books (HTTP 429 (daily quota exceeded -- not retrying))"
+   ],
+   "coverage": 9
+  },
+  {
+   "id": "b67",
+   "title": "A Game of Thrones",
+   "year": 1996,
+   "corpusGenres": [
+    "Fantasy",
+    "Epic"
+   ],
+   "tags": [
+    "high fantasy",
+    "fantasy"
+   ],
+   "sourceGenres": [],
+   "sources": [
+    {
+     "src": "OpenLibrary",
+     "matchedTitle": "A Game of Thrones",
+     "url": "https://openlibrary.org/search.json?title=A%20Game%20of%20Thrones"
+    },
+    {
+     "src": "Wikidata",
+     "matchedTitle": "A Game of Thrones",
+     "url": "https://www.wikidata.org/wiki/Q1751870"
+    }
+   ],
+   "missed": [
+    "Google Books (HTTP 429 (daily quota exceeded -- not retrying))"
+   ],
+   "coverage": 2
+  },
+  {
+   "id": "b68",
+   "title": "The Way of Kings",
+   "year": 2010,
+   "corpusGenres": [
+    "Fantasy",
+    "Epic"
+   ],
+   "tags": [
+    "high fantasy",
+    "fantasy",
+    "fiction"
+   ],
+   "sourceGenres": [],
+   "sources": [
+    {
+     "src": "OpenLibrary",
+     "matchedTitle": "The Way of Kings",
+     "url": "https://openlibrary.org/search.json?title=The%20Way%20of%20Kings"
+    },
+    {
+     "src": "Wikidata",
+     "matchedTitle": "The Way of Kings",
+     "url": "https://www.wikidata.org/wiki/Q2136877"
+    }
+   ],
+   "missed": [
+    "Google Books (HTTP 429 (daily quota exceeded -- not retrying))"
+   ],
+   "coverage": 3
+  },
+  {
+   "id": "b69",
+   "title": "Mistborn: The Final Empire",
+   "year": 2006,
+   "corpusGenres": [
+    "Fantasy"
+   ],
+   "tags": [
+    "fiction",
+    "fantasy"
+   ],
+   "sourceGenres": [],
+   "sources": [
+    {
+     "src": "OpenLibrary",
+     "matchedTitle": "Brandon Sanderson's Fantasy Firsts : (the Way of Kings, Mistborn: the Final Empire, Rithmatist, Alcatraz vs. the Evil Librarians)",
+     "url": "https://openlibrary.org/search.json?title=Mistborn%3A%20The%20Final%20Empire"
+    },
+    {
+     "src": "Google Books",
+     "matchedTitle": "Mistborn",
+     "url": "https://www.googleapis.com/books/v1/volumes?q=intitle:Mistborn%3A%20The%20Final%20Empire"
+    },
+    {
+     "src": "Wikidata",
+     "matchedTitle": "Mistborn: The Final Empire",
+     "url": "https://www.wikidata.org/wiki/Q2778373"
+    }
+   ],
+   "missed": [],
+   "coverage": 2
+  },
+  {
+   "id": "b70",
+   "title": "The Blade Itself",
+   "year": 2006,
+   "corpusGenres": [
+    "Fantasy"
+   ],
+   "tags": [
+    "fantasy"
+   ],
+   "sourceGenres": [],
+   "sources": [
+    {
+     "src": "OpenLibrary",
+     "matchedTitle": "The Blade Itself",
+     "url": "https://openlibrary.org/search.json?title=The%20Blade%20Itself"
+    },
+    {
+     "src": "Wikidata",
+     "matchedTitle": "The Blade Itself",
+     "url": "https://www.wikidata.org/wiki/Q3986014"
+    }
+   ],
+   "missed": [
+    "Google Books (HTTP 429 (daily quota exceeded -- not retrying))"
+   ],
+   "coverage": 1
+  },
+  {
+   "id": "b71",
+   "title": "The Book of the New Sun",
+   "year": 1980,
+   "corpusGenres": [
+    "Fantasy",
+    "Sci-Fi"
+   ],
+   "tags": [
+    "fantasy",
+    "science fiction"
+   ],
+   "sourceGenres": [],
+   "sources": [
+    {
+     "src": "OpenLibrary",
+     "matchedTitle": "Book of the New Sun",
+     "url": "https://openlibrary.org/search.json?title=The%20Book%20of%20the%20New%20Sun"
+    },
+    {
+     "src": "Wikidata",
+     "matchedTitle": "The Book of the New Sun",
+     "url": "https://www.wikidata.org/wiki/Q3269840"
+    }
+   ],
+   "missed": [
+    "Google Books (HTTP 429 (daily quota exceeded -- not retrying))"
+   ],
+   "coverage": 2
+  },
+  {
+   "id": "b72",
+   "title": "The Lies of Locke Lamora",
+   "year": 2006,
+   "corpusGenres": [
+    "Fantasy"
+   ],
+   "tags": [
+    "fantasy"
+   ],
+   "sourceGenres": [],
+   "sources": [
+    {
+     "src": "OpenLibrary",
+     "matchedTitle": "The Lies of Locke Lamora",
+     "url": "https://openlibrary.org/search.json?title=The%20Lies%20of%20Locke%20Lamora"
+    },
+    {
+     "src": "Wikidata",
+     "matchedTitle": "The Lies of Locke Lamora",
+     "url": "https://www.wikidata.org/wiki/Q1608505"
+    }
+   ],
+   "missed": [
+    "Google Books (HTTP 429 (daily quota exceeded -- not retrying))"
+   ],
+   "coverage": 1
+  },
+  {
+   "id": "b73",
+   "title": "American Gods",
+   "year": 2001,
+   "corpusGenres": [
+    "Fantasy",
+    "Literary"
+   ],
+   "tags": [
+    "fantasy"
+   ],
+   "sourceGenres": [],
+   "sources": [
+    {
+     "src": "OpenLibrary",
+     "matchedTitle": "American Gods",
+     "url": "https://openlibrary.org/search.json?title=American%20Gods"
+    },
+    {
+     "src": "Wikidata",
+     "matchedTitle": "American Gods",
+     "url": "https://www.wikidata.org/wiki/Q430514"
+    }
+   ],
+   "missed": [
+    "Google Books (HTTP 429 (daily quota exceeded -- not retrying))"
+   ],
+   "coverage": 1
+  },
+  {
+   "id": "b74",
+   "title": "Piranesi",
+   "year": 2020,
+   "corpusGenres": [
+    "Fantasy",
+    "Mystery"
+   ],
+   "tags": [
+    "fantasy"
+   ],
+   "sourceGenres": [],
+   "sources": [
+    {
+     "src": "OpenLibrary",
+     "matchedTitle": "Piranesi",
+     "url": "https://openlibrary.org/search.json?title=Piranesi"
+    },
+    {
+     "src": "Wikidata",
+     "matchedTitle": "Piranesi",
+     "url": "https://www.wikidata.org/wiki/Q99434216"
+    }
+   ],
+   "missed": [
+    "Google Books (HTTP 429 (daily quota exceeded -- not retrying))"
+   ],
+   "coverage": 1
+  },
+  {
+   "id": "b75",
+   "title": "Jonathan Strange & Mr Norrell",
+   "year": 2004,
+   "corpusGenres": [
+    "Fantasy",
+    "Historical"
+   ],
+   "tags": [
+    "fantasy",
+    "fantasy alternative history",
+    "alternate history",
+    "science fiction",
+    "historical fantasy",
+    "historical fiction"
+   ],
+   "sourceGenres": [],
+   "sources": [
+    {
+     "src": "OpenLibrary",
+     "matchedTitle": "Jonathan Strange and Mr. Norrell",
+     "url": "https://openlibrary.org/search.json?title=Jonathan%20Strange%20%26%20Mr%20Norrell"
+    },
+    {
+     "src": "Wikidata",
+     "matchedTitle": "Jonathan Strange & Mr Norrell",
+     "url": "https://www.wikidata.org/wiki/Q1474920"
+    }
+   ],
+   "missed": [
+    "Google Books (HTTP 429 (daily quota exceeded -- not retrying))"
+   ],
+   "coverage": 6
+  },
+  {
+   "id": "b76",
+   "title": "The Fifth Season",
+   "year": 2015,
+   "corpusGenres": [
+    "Fantasy",
+    "Sci-Fi"
+   ],
+   "tags": [
+    "science fantasy",
+    "fantasy",
+    "science fiction"
+   ],
+   "sourceGenres": [],
+   "sources": [
+    {
+     "src": "OpenLibrary",
+     "matchedTitle": "The Fifth Season",
+     "url": "https://openlibrary.org/search.json?title=The%20Fifth%20Season"
+    },
+    {
+     "src": "Wikidata",
+     "matchedTitle": "The Fifth Season",
+     "url": "https://www.wikidata.org/wiki/Q25217632"
+    }
+   ],
+   "missed": [
+    "Google Books (HTTP 429 (daily quota exceeded -- not retrying))"
+   ],
+   "coverage": 3
+  },
+  {
+   "id": "b77",
+   "title": "House of Leaves",
+   "year": 2000,
+   "corpusGenres": [
+    "Horror",
+    "Literary"
+   ],
+   "tags": [
+    "epistolary fiction",
+    "metafiction",
+    "ergodic literature",
+    "horror fiction"
+   ],
+   "sourceGenres": [],
+   "sources": [
+    {
+     "src": "OpenLibrary",
+     "matchedTitle": "House of Leaves",
+     "url": "https://openlibrary.org/search.json?title=House%20of%20Leaves"
+    },
+    {
+     "src": "Wikidata",
+     "matchedTitle": "House of Leaves",
+     "url": "https://www.wikidata.org/wiki/Q521688"
+    }
+   ],
+   "missed": [
+    "Google Books (HTTP 429 (daily quota exceeded -- not retrying))"
+   ],
+   "coverage": 4
+  },
+  {
+   "id": "b78",
+   "title": "Annihilation",
+   "year": 2014,
+   "corpusGenres": [
+    "Cosmic Horror",
+    "Sci-Fi"
+   ],
+   "tags": [
+    "body horror literature",
+    "science fiction",
+    "fantasy"
+   ],
+   "sourceGenres": [],
+   "sources": [
+    {
+     "src": "OpenLibrary",
+     "matchedTitle": "Annihilation",
+     "url": "https://openlibrary.org/search.json?title=Annihilation"
+    },
+    {
+     "src": "Wikidata",
+     "matchedTitle": "Annihilation",
+     "url": "https://www.wikidata.org/wiki/Q16961640"
+    }
+   ],
+   "missed": [
+    "Google Books (HTTP 429 (daily quota exceeded -- not retrying))"
+   ],
+   "coverage": 3
+  },
+  {
+   "id": "b79",
+   "title": "At the Mountains of Madness",
+   "year": 1936,
+   "corpusGenres": [
+    "Cosmic Horror"
+   ],
+   "tags": [
+    "lost world fiction",
+    "science fiction",
+    "horror fiction",
+    "weird fiction"
+   ],
+   "sourceGenres": [],
+   "sources": [
+    {
+     "src": "OpenLibrary",
+     "matchedTitle": "At the Mountains of Madness",
+     "url": "https://openlibrary.org/search.json?title=At%20the%20Mountains%20of%20Madness"
+    },
+    {
+     "src": "Wikidata",
+     "matchedTitle": "At the Mountains of Madness",
+     "url": "https://www.wikidata.org/wiki/Q786586"
+    }
+   ],
+   "missed": [
+    "Google Books (HTTP 429 (daily quota exceeded -- not retrying))"
+   ],
+   "coverage": 4
+  },
+  {
+   "id": "b80",
+   "title": "We Have Always Lived in the Castle",
+   "year": 1962,
+   "corpusGenres": [
+    "Gothic",
+    "Literary"
+   ],
+   "tags": [
+    "fiction",
+    "horror fiction",
+    "gothic fiction"
+   ],
+   "sourceGenres": [],
+   "sources": [
+    {
+     "src": "OpenLibrary",
+     "matchedTitle": "We Have Always Lived in the Castle",
+     "url": "https://openlibrary.org/search.json?title=We%20Have%20Always%20Lived%20in%20the%20Castle"
+    },
+    {
+     "src": "Google Books",
+     "matchedTitle": "We Have Always Lived in the Castle",
+     "url": "https://www.googleapis.com/books/v1/volumes?q=intitle:We%20Have%20Always%20Lived%20in%20the%20Castle"
+    },
+    {
+     "src": "Wikidata",
+     "matchedTitle": "We Have Always Lived in the Castle",
+     "url": "https://www.wikidata.org/wiki/Q3603302"
+    }
+   ],
+   "missed": [],
+   "coverage": 3
+  },
+  {
+   "id": "b81",
+   "title": "Mexican Gothic",
+   "year": 2020,
+   "corpusGenres": [
+    "Gothic",
+    "Horror"
+   ],
+   "tags": [
+    "gothic fiction",
+    "horror fiction",
+    "fantasy"
+   ],
+   "sourceGenres": [],
+   "sources": [
+    {
+     "src": "OpenLibrary",
+     "matchedTitle": "Mexican Gothic",
+     "url": "https://openlibrary.org/search.json?title=Mexican%20Gothic"
+    },
+    {
+     "src": "Wikidata",
+     "matchedTitle": "Mexican Gothic",
+     "url": "https://www.wikidata.org/wiki/Q99838669"
+    }
+   ],
+   "missed": [
+    "Google Books (HTTP 429 (daily quota exceeded -- not retrying))"
+   ],
+   "coverage": 3
+  },
+  {
+   "id": "b82",
+   "title": "Blood Meridian",
+   "year": 1985,
+   "corpusGenres": [
+    "Literary",
+    "Western"
+   ],
+   "tags": [
+    "western novel",
+    "historical fiction"
+   ],
+   "sourceGenres": [],
+   "sources": [
+    {
+     "src": "OpenLibrary",
+     "matchedTitle": "Blood Meridian",
+     "url": "https://openlibrary.org/search.json?title=Blood%20Meridian"
+    },
+    {
+     "src": "Wikidata",
+     "matchedTitle": "Blood Meridian",
+     "url": "https://www.wikidata.org/wiki/Q581426"
+    }
+   ],
+   "missed": [
+    "Google Books (HTTP 429 (daily quota exceeded -- not retrying))"
+   ],
+   "coverage": 2
+  },
+  {
+   "id": "b83",
+   "title": "The Road",
+   "year": 2006,
+   "corpusGenres": [
+    "Literary",
+    "Sci-Fi"
+   ],
+   "tags": [],
+   "sourceGenres": [],
+   "sources": [
+    {
+     "src": "OpenLibrary",
+     "matchedTitle": "The Road",
+     "url": "https://openlibrary.org/search.json?title=The%20Road"
+    }
+   ],
+   "missed": [
+    "Google Books (HTTP 429 (daily quota exceeded -- not retrying))",
+    "Wikidata (title matched but credited \"Jack London\" does not -- likely a different work titled \"The Road\")"
+   ],
+   "coverage": 0
+  },
+  {
+   "id": "b84",
+   "title": "1984",
+   "year": 1949,
+   "corpusGenres": [
+    "Sci-Fi",
+    "Dystopia"
+   ],
+   "tags": [
+    "social science fiction",
+    "political fiction",
+    "science fiction",
+    "dystopian fiction",
+    "surveillance state",
+    "human rights",
+    "freedom of thought",
+    "totalitarianism"
+   ],
+   "sourceGenres": [],
+   "sources": [
+    {
+     "src": "OpenLibrary",
+     "matchedTitle": "1984 (adaptation)",
+     "url": "https://openlibrary.org/search.json?title=1984"
+    },
+    {
+     "src": "Wikidata",
+     "matchedTitle": "Nineteen Eighty-Four",
+     "url": "https://www.wikidata.org/wiki/Q208460"
+    }
+   ],
+   "missed": [
+    "Google Books (HTTP 429 (daily quota exceeded -- not retrying))"
+   ],
+   "coverage": 8
+  },
+  {
+   "id": "b85",
+   "title": "Brave New World",
+   "year": 1932,
+   "corpusGenres": [
+    "Sci-Fi",
+    "Dystopia"
+   ],
+   "tags": [
+    "fiction",
+    "parody",
+    "political fiction",
+    "science fiction",
+    "philosophical fiction",
+    "dystopian fiction",
+    "dystopia",
+    "society",
+    "surveillance",
+    "efficiency",
+    "discipline",
+    "control"
+   ],
+   "sourceGenres": [],
+   "sources": [
+    {
+     "src": "OpenLibrary",
+     "matchedTitle": "Brave New World",
+     "url": "https://openlibrary.org/search.json?title=Brave%20New%20World"
+    },
+    {
+     "src": "Google Books",
+     "matchedTitle": "Brave New World",
+     "url": "https://www.googleapis.com/books/v1/volumes?q=intitle:Brave%20New%20World"
+    },
+    {
+     "src": "Wikidata",
+     "matchedTitle": "Brave New World",
+     "url": "https://www.wikidata.org/wiki/Q191949"
+    }
+   ],
+   "missed": [],
+   "coverage": 12
+  },
+  {
+   "id": "b86",
+   "title": "Slaughterhouse-Five",
+   "year": 1969,
+   "corpusGenres": [
+    "Literary",
+    "Sci-Fi"
+   ],
+   "tags": [
+    "fiction",
+    "time-travel fiction",
+    "satirical fiction",
+    "black comedy",
+    "war fiction",
+    "metafiction",
+    "science fiction",
+    "anti-war fiction",
+    "world war ii",
+    "bombing of dresden",
+    "time travel"
+   ],
+   "sourceGenres": [],
+   "sources": [
+    {
+     "src": "OpenLibrary",
+     "matchedTitle": "Slaughterhouse-Five",
+     "url": "https://openlibrary.org/search.json?title=Slaughterhouse-Five"
+    },
+    {
+     "src": "Google Books",
+     "matchedTitle": "Slaughterhouse-Five",
+     "url": "https://www.googleapis.com/books/v1/volumes?q=intitle:Slaughterhouse-Five"
+    },
+    {
+     "src": "Wikidata",
+     "matchedTitle": "Slaughterhouse-Five",
+     "url": "https://www.wikidata.org/wiki/Q265954"
+    }
+   ],
+   "missed": [],
+   "coverage": 11
+  },
+  {
+   "id": "b87",
+   "title": "Catch-22",
+   "year": 1961,
+   "corpusGenres": [
+    "Literary",
+    "War"
+   ],
+   "tags": [
+    "black comedy",
+    "absurdist literature",
+    "military fiction",
+    "war fiction",
+    "war literature",
+    "war novel",
+    "historical fiction",
+    "satirical novel",
+    "world war ii"
+   ],
+   "sourceGenres": [],
+   "sources": [
+    {
+     "src": "OpenLibrary",
+     "matchedTitle": "Catch-22",
+     "url": "https://openlibrary.org/search.json?title=Catch-22"
+    },
+    {
+     "src": "Wikidata",
+     "matchedTitle": "Catch-22",
+     "url": "https://www.wikidata.org/wiki/Q278208"
+    }
+   ],
+   "missed": [
+    "Google Books (HTTP 429 (daily quota exceeded -- not retrying))"
+   ],
+   "coverage": 9
+  },
+  {
+   "id": "b88",
+   "title": "One Hundred Years of Solitude",
+   "year": 1967,
+   "corpusGenres": [
+    "Literary"
+   ],
+   "tags": [
+    "magic realism"
+   ],
+   "sourceGenres": [],
+   "sources": [
+    {
+     "src": "Wikidata",
+     "matchedTitle": "One Hundred Years of Solitude",
+     "url": "https://www.wikidata.org/wiki/Q178869"
+    }
+   ],
+   "missed": [
+    "OpenLibrary (title matched but author \"Regina Janes\" does not -- likely a different book titled \"One Hundred Years of Solitude\")",
+    "Google Books (HTTP 429 (daily quota exceeded -- not retrying))"
+   ],
+   "coverage": 1
+  },
+  {
+   "id": "b89",
+   "title": "Crime and Punishment",
+   "year": 1866,
+   "corpusGenres": [
+    "Literary"
+   ],
+   "tags": [
+    "philosophical fiction",
+    "serialized fiction",
+    "crime fiction",
+    "psychological fiction",
+    "murder",
+    "anguish"
+   ],
+   "sourceGenres": [],
+   "sources": [
+    {
+     "src": "Wikidata",
+     "matchedTitle": "Crime and Punishment",
+     "url": "https://www.wikidata.org/wiki/Q165318"
+    }
+   ],
+   "missed": [
+    "OpenLibrary (title matched but author \"James Lamar Roberts & Roberts, James L.\" does not -- likely a different book titled \"Crime and Punishment\")",
+    "Google Books (HTTP 429 (daily quota exceeded -- not retrying))"
+   ],
+   "coverage": 6
+  },
+  {
+   "id": "b90",
+   "title": "The Brothers Karamazov",
+   "year": 1880,
+   "corpusGenres": [
+    "Literary",
+    "Philosophy"
+   ],
+   "tags": [
+    "serialized fiction",
+    "philosophical fiction"
+   ],
+   "sourceGenres": [],
+   "sources": [
+    {
+     "src": "Wikidata",
+     "matchedTitle": "The Brothers Karamazov",
+     "url": "https://www.wikidata.org/wiki/Q183157"
+    }
+   ],
+   "missed": [
+    "OpenLibrary (title matched but author \"Фёдор Михайлович Достоевский & Constance Garrett\" does not -- likely a different book titled \"The Brothers Karamazov\")",
+    "Google Books (HTTP 429 (daily quota exceeded -- not retrying))"
+   ],
+   "coverage": 2
+  },
+  {
+   "id": "b91",
+   "title": "Infinite Jest",
+   "year": 1996,
+   "corpusGenres": [
+    "Literary"
+   ],
+   "tags": [
+    "hysterical realism",
+    "postmodern literature",
+    "science fiction"
+   ],
+   "sourceGenres": [],
+   "sources": [
+    {
+     "src": "OpenLibrary",
+     "matchedTitle": "Infinite Jest",
+     "url": "https://openlibrary.org/search.json?title=Infinite%20Jest"
+    },
+    {
+     "src": "Wikidata",
+     "matchedTitle": "Infinite Jest",
+     "url": "https://www.wikidata.org/wiki/Q1077445"
+    }
+   ],
+   "missed": [
+    "Google Books (HTTP 429 (daily quota exceeded -- not retrying))"
+   ],
+   "coverage": 3
+  },
+  {
+   "id": "b92",
+   "title": "Cloud Atlas",
+   "year": 2004,
+   "corpusGenres": [
+    "Literary",
+    "Sci-Fi"
+   ],
+   "tags": [
+    "epistolary novel",
+    "science fiction",
+    "post-apocalyptic fiction",
+    "fantasy"
+   ],
+   "sourceGenres": [],
+   "sources": [
+    {
+     "src": "OpenLibrary",
+     "matchedTitle": "Cloud Atlas",
+     "url": "https://openlibrary.org/search.json?title=Cloud%20Atlas"
+    },
+    {
+     "src": "Wikidata",
+     "matchedTitle": "Cloud Atlas",
+     "url": "https://www.wikidata.org/wiki/Q40205"
+    }
+   ],
+   "missed": [
+    "Google Books (HTTP 429 (daily quota exceeded -- not retrying))"
+   ],
+   "coverage": 4
+  },
+  {
+   "id": "b93",
+   "title": "The Stand",
+   "year": 1978,
+   "corpusGenres": [
+    "Horror",
+    "Sci-Fi"
+   ],
+   "tags": [
+    "post-apocalyptic fiction",
+    "fantasy",
+    "horror fiction",
+    "science fiction",
+    "dystopian fiction",
+    "magical negro"
+   ],
+   "sourceGenres": [],
+   "sources": [
+    {
+     "src": "OpenLibrary",
+     "matchedTitle": "The Stand",
+     "url": "https://openlibrary.org/search.json?title=The%20Stand"
+    },
+    {
+     "src": "Wikidata",
+     "matchedTitle": "The Stand",
+     "url": "https://www.wikidata.org/wiki/Q149552"
+    }
+   ],
+   "missed": [
+    "Google Books (HTTP 429 (daily quota exceeded -- not retrying))"
+   ],
+   "coverage": 6
+  },
+  {
+   "id": "b94",
+   "title": "It",
+   "year": 1986,
+   "corpusGenres": [
+    "Horror"
+   ],
+   "tags": [],
+   "sourceGenres": [],
+   "sources": [
+    {
+     "src": "OpenLibrary",
+     "matchedTitle": "It",
+     "url": "https://openlibrary.org/search.json?title=It"
+    }
+   ],
+   "missed": [
+    "Google Books (HTTP 429 (daily quota exceeded -- not retrying))",
+    "Wikidata (no type-matching candidate for \"It\")"
+   ],
+   "coverage": 0
+  },
+  {
+   "id": "b95",
+   "title": "The Selfish Gene",
+   "year": 1976,
+   "corpusGenres": [
+    "Science",
+    "Philosophy"
+   ],
+   "tags": [
+    "history",
+    "essay",
+    "evolutionary biology"
+   ],
+   "sourceGenres": [],
+   "sources": [
+    {
+     "src": "OpenLibrary",
+     "matchedTitle": "The Selfish Gene",
+     "url": "https://openlibrary.org/search.json?title=The%20Selfish%20Gene"
+    },
+    {
+     "src": "Google Books",
+     "matchedTitle": "The Selfish Gene",
+     "url": "https://www.googleapis.com/books/v1/volumes?q=intitle:The%20Selfish%20Gene"
+    },
+    {
+     "src": "Wikidata",
+     "matchedTitle": "The Selfish Gene",
+     "url": "https://www.wikidata.org/wiki/Q212789"
+    }
+   ],
+   "missed": [],
+   "coverage": 3
+  },
+  {
+   "id": "b96",
+   "title": "A Short History of Nearly Everything",
+   "year": 2003,
+   "corpusGenres": [
+    "Science",
+    "History"
+   ],
+   "tags": [
+    "non-fiction",
+    "essay"
+   ],
+   "sourceGenres": [],
+   "sources": [
+    {
+     "src": "OpenLibrary",
+     "matchedTitle": "A short history of nearly everything",
+     "url": "https://openlibrary.org/search.json?title=A%20Short%20History%20of%20Nearly%20Everything"
+    },
+    {
+     "src": "Wikidata",
+     "matchedTitle": "A Short History of Nearly Everything",
+     "url": "https://www.wikidata.org/wiki/Q1306809"
+    }
+   ],
+   "missed": [
+    "Google Books (HTTP 429 (daily quota exceeded -- not retrying))"
+   ],
+   "coverage": 2
+  },
+  {
+   "id": "b97",
+   "title": "Thinking, Fast and Slow",
+   "year": 2011,
+   "corpusGenres": [
+    "Science",
+    "Philosophy"
+   ],
+   "tags": [
+    "non-fiction",
+    "psychology"
+   ],
+   "sourceGenres": [],
+   "sources": [
+    {
+     "src": "OpenLibrary",
+     "matchedTitle": "Thinking, Fast and Slow",
+     "url": "https://openlibrary.org/search.json?title=Thinking%2C%20Fast%20and%20Slow"
+    },
+    {
+     "src": "Wikidata",
+     "matchedTitle": "Thinking, Fast and Slow",
+     "url": "https://www.wikidata.org/wiki/Q983718"
+    }
+   ],
+   "missed": [
+    "Google Books (HTTP 429 (daily quota exceeded -- not retrying))"
+   ],
+   "coverage": 2
+  },
+  {
+   "id": "b98",
+   "title": "The Emperor of All Maladies",
+   "year": 2010,
+   "corpusGenres": [
+    "Science",
+    "History"
+   ],
+   "tags": [
+    "non-fiction",
+    "essay",
+    "cancer"
+   ],
+   "sourceGenres": [],
+   "sources": [
+    {
+     "src": "OpenLibrary",
+     "matchedTitle": "The Emperor of All Maladies",
+     "url": "https://openlibrary.org/search.json?title=The%20Emperor%20of%20All%20Maladies"
+    },
+    {
+     "src": "Wikidata",
+     "matchedTitle": "The Emperor of All Maladies",
+     "url": "https://www.wikidata.org/wiki/Q4202130"
+    }
+   ],
+   "missed": [
+    "Google Books (HTTP 429 (daily quota exceeded -- not retrying))"
+   ],
+   "coverage": 3
+  },
+  {
+   "id": "b99",
+   "title": "Surely You're Joking, Mr. Feynman!",
+   "year": 1985,
+   "corpusGenres": [
+    "Memoir",
+    "Science"
+   ],
+   "tags": [
+    "richard feynman"
+   ],
+   "sourceGenres": [],
+   "sources": [
+    {
+     "src": "OpenLibrary",
+     "matchedTitle": "\"Surely You're Joking, Mr. Feynman\"",
+     "url": "https://openlibrary.org/search.json?title=Surely%20You're%20Joking%2C%20Mr.%20Feynman!"
+    },
+    {
+     "src": "Wikidata",
+     "matchedTitle": "“Surely You're Joking, Mr. Feynman!”",
+     "url": "https://www.wikidata.org/wiki/Q2743592"
+    }
+   ],
+   "missed": [
+    "Google Books (HTTP 429 (daily quota exceeded -- not retrying))"
+   ],
+   "coverage": 1
+  },
+  {
+   "id": "b100",
+   "title": "The Demon-Haunted World",
+   "year": 1995,
+   "corpusGenres": [
+    "Science",
+    "Philosophy"
+   ],
+   "tags": [
+    "popular science literature",
+    "essay"
+   ],
+   "sourceGenres": [],
+   "sources": [
+    {
+     "src": "OpenLibrary",
+     "matchedTitle": "The Demon-Haunted World",
+     "url": "https://openlibrary.org/search.json?title=The%20Demon-Haunted%20World"
+    },
+    {
+     "src": "Wikidata",
+     "matchedTitle": "The Demon-Haunted World",
+     "url": "https://www.wikidata.org/wiki/Q2482106"
+    }
+   ],
+   "missed": [
+    "Google Books (HTTP 429 (daily quota exceeded -- not retrying))"
+   ],
+   "coverage": 2
+  },
+  {
+   "id": "b101",
+   "title": "Guns, Germs, and Steel",
+   "year": 1997,
+   "corpusGenres": [
+    "History",
+    "Anthropology"
+   ],
+   "tags": [
+    "essay",
+    "geography",
+    "history"
+   ],
+   "sourceGenres": [],
+   "sources": [
+    {
+     "src": "OpenLibrary",
+     "matchedTitle": "Guns, Germs, and Steel",
+     "url": "https://openlibrary.org/search.json?title=Guns%2C%20Germs%2C%20and%20Steel"
+    },
+    {
+     "src": "Wikidata",
+     "matchedTitle": "Guns, Germs, and Steel",
+     "url": "https://www.wikidata.org/wiki/Q279022"
+    }
+   ],
+   "missed": [
+    "Google Books (HTTP 429 (daily quota exceeded -- not retrying))"
+   ],
+   "coverage": 3
+  },
+  {
+   "id": "b103",
+   "title": "Gravity's Rainbow",
+   "year": 1973,
+   "corpusGenres": [
+    "Literary"
+   ],
+   "tags": [
+    "postmodern novel",
+    "science fiction",
+    "historical fiction",
+    "world war ii"
+   ],
+   "sourceGenres": [],
+   "sources": [
+    {
+     "src": "OpenLibrary",
+     "matchedTitle": "Gravity's Rainbow",
+     "url": "https://openlibrary.org/search.json?title=Gravity's%20Rainbow"
+    },
+    {
+     "src": "Wikidata",
+     "matchedTitle": "Gravity's Rainbow",
+     "url": "https://www.wikidata.org/wiki/Q1212160"
+    }
+   ],
+   "missed": [
+    "Google Books (HTTP 429 (daily quota exceeded -- not retrying))"
+   ],
+   "coverage": 4
+  },
+  {
+   "id": "b104",
+   "title": "The Sound and the Fury",
+   "year": 1929,
+   "corpusGenres": [
+    "Literary"
+   ],
+   "tags": [
+    "southern gothic",
+    "deep south"
+   ],
+   "sourceGenres": [],
+   "sources": [
+    {
+     "src": "OpenLibrary",
+     "matchedTitle": "The Sound and the Fury",
+     "url": "https://openlibrary.org/search.json?title=The%20Sound%20and%20the%20Fury"
+    },
+    {
+     "src": "Wikidata",
+     "matchedTitle": "The Sound and the Fury",
+     "url": "https://www.wikidata.org/wiki/Q135515"
+    }
+   ],
+   "missed": [
+    "Google Books (HTTP 429 (daily quota exceeded -- not retrying))"
+   ],
+   "coverage": 2
+  },
+  {
+   "id": "b105",
+   "title": "Beloved",
+   "year": 1987,
+   "corpusGenres": [
+    "Literary"
+   ],
+   "tags": [
+    "magic realist fiction",
+    "historical fiction",
+    "slavery in the united states"
+   ],
+   "sourceGenres": [],
+   "sources": [
+    {
+     "src": "OpenLibrary",
+     "matchedTitle": "Beloved",
+     "url": "https://openlibrary.org/search.json?title=Beloved"
+    },
+    {
+     "src": "Wikidata",
+     "matchedTitle": "Beloved",
+     "url": "https://www.wikidata.org/wiki/Q971767"
+    }
+   ],
+   "missed": [
+    "Google Books (HTTP 429 (daily quota exceeded -- not retrying))"
+   ],
+   "coverage": 3
+  },
+  {
+   "id": "b106",
+   "title": "Lolita",
+   "year": 1955,
+   "corpusGenres": [
+    "Literary"
+   ],
+   "tags": [
+    "tragicomedy",
+    "metafiction",
+    "confessional fiction",
+    "found manuscript",
+    "erotica",
+    "detective fiction",
+    "solipsism",
+    "morality",
+    "artistic creation",
+    "child abuse",
+    "hebephilia",
+    "pedophilia"
+   ],
+   "sourceGenres": [],
+   "sources": [
+    {
+     "src": "OpenLibrary",
+     "matchedTitle": "Lolita",
+     "url": "https://openlibrary.org/search.json?title=Lolita"
+    },
+    {
+     "src": "Wikidata",
+     "matchedTitle": "Lolita",
+     "url": "https://www.wikidata.org/wiki/Q127149"
+    }
+   ],
+   "missed": [
+    "Google Books (HTTP 429 (daily quota exceeded -- not retrying))"
+   ],
+   "coverage": 12
+  },
+  {
+   "id": "b107",
+   "title": "Ulysses",
+   "year": 1922,
+   "corpusGenres": [
+    "Literary"
+   ],
+   "tags": [
+    "modernist literature",
+    "experimental literature",
+    "high literature",
+    "metafiction",
+    "serialized fiction",
+    "autobiography",
+    "bildungsroman",
+    "jewish people",
+    "dublin",
+    "ireland"
+   ],
+   "sourceGenres": [],
+   "sources": [
+    {
+     "src": "OpenLibrary",
+     "matchedTitle": "Ulysses",
+     "url": "https://openlibrary.org/search.json?title=Ulysses"
+    },
+    {
+     "src": "Wikidata",
+     "matchedTitle": "Ulysses",
+     "url": "https://www.wikidata.org/wiki/Q6511"
+    }
+   ],
+   "missed": [
+    "Google Books (HTTP 429 (daily quota exceeded -- not retrying))"
+   ],
+   "coverage": 10
+  },
+  {
+   "id": "b108",
+   "title": "The Trial",
+   "year": 1925,
+   "corpusGenres": [
+    "Literary"
+   ],
+   "tags": [
+    "absurdist literature",
+    "dystopian fiction"
+   ],
+   "sourceGenres": [],
+   "sources": [
+    {
+     "src": "Wikidata",
+     "matchedTitle": "The Trial",
+     "url": "https://www.wikidata.org/wiki/Q36097"
+    }
+   ],
+   "missed": [
+    "OpenLibrary (title matched but author \"James Dashner\" does not -- likely a different book titled \"The Trial\")",
+    "Google Books (HTTP 429 (daily quota exceeded -- not retrying))"
+   ],
+   "coverage": 2
+  },
+  {
+   "id": "b109",
+   "title": "Heart of Darkness",
+   "year": 1899,
+   "corpusGenres": [
+    "Literary"
+   ],
+   "tags": [
+    "fiction literature",
+    "serialized fiction",
+    "historical fiction",
+    "colonialism",
+    "genocide"
+   ],
+   "sourceGenres": [],
+   "sources": [
+    {
+     "src": "OpenLibrary",
+     "matchedTitle": "Heart of Darkness",
+     "url": "https://openlibrary.org/search.json?title=Heart%20of%20Darkness"
+    },
+    {
+     "src": "Wikidata",
+     "matchedTitle": "Heart of Darkness",
+     "url": "https://www.wikidata.org/wiki/Q129778"
+    }
+   ],
+   "missed": [
+    "Google Books (HTTP 429 (daily quota exceeded -- not retrying))"
+   ],
+   "coverage": 5
+  },
+  {
+   "id": "b110",
+   "title": "The Master and Margarita",
+   "year": 1967,
+   "corpusGenres": [
+    "Literary",
+    "Fantasy"
+   ],
+   "tags": [
+    "fantastic realism"
+   ],
+   "sourceGenres": [],
+   "sources": [
+    {
+     "src": "Wikidata",
+     "matchedTitle": "The Master and Margarita",
+     "url": "https://www.wikidata.org/wiki/Q188538"
+    }
+   ],
+   "missed": [
+    "OpenLibrary (title matched but author \"Edward Kemp\" does not -- likely a different book titled \"The Master and Margarita\")",
+    "Google Books (HTTP 429 (daily quota exceeded -- not retrying))"
+   ],
+   "coverage": 1
+  },
+  {
+   "id": "b111",
+   "title": "Never Let Me Go",
+   "year": 2005,
+   "corpusGenres": [
+    "Sci-Fi",
+    "Literary"
+   ],
+   "tags": [
+    "science fiction",
+    "dystopian fiction",
+    "alternate history",
+    "friendship"
+   ],
+   "sourceGenres": [],
+   "sources": [
+    {
+     "src": "OpenLibrary",
+     "matchedTitle": "Never Let Me Go",
+     "url": "https://openlibrary.org/search.json?title=Never%20Let%20Me%20Go"
+    },
+    {
+     "src": "Wikidata",
+     "matchedTitle": "Never Let Me Go",
+     "url": "https://www.wikidata.org/wiki/Q951587"
+    }
+   ],
+   "missed": [
+    "Google Books (HTTP 429 (daily quota exceeded -- not retrying))"
+   ],
+   "coverage": 4
+  },
+  {
+   "id": "b112",
+   "title": "The Remains of the Day",
+   "year": 1989,
+   "corpusGenres": [
+    "Literary"
+   ],
+   "tags": [
+    "postmodern fiction",
+    "historical fiction"
+   ],
+   "sourceGenres": [],
+   "sources": [
+    {
+     "src": "OpenLibrary",
+     "matchedTitle": "The Remains of the Day",
+     "url": "https://openlibrary.org/search.json?title=The%20Remains%20of%20the%20Day"
+    },
+    {
+     "src": "Wikidata",
+     "matchedTitle": "The Remains of the Day",
+     "url": "https://www.wikidata.org/wiki/Q829934"
+    }
+   ],
+   "missed": [
+    "Google Books (HTTP 429 (daily quota exceeded -- not retrying))"
+   ],
+   "coverage": 2
+  },
+  {
+   "id": "b113",
+   "title": "Kafka on the Shore",
+   "year": 2002,
+   "corpusGenres": [
+    "Fantasy",
+    "Literary"
+   ],
+   "tags": [
+    "magic realist fiction",
+    "metafiction",
+    "fantasy",
+    "postmodern fiction"
+   ],
+   "sourceGenres": [],
+   "sources": [
+    {
+     "src": "Wikidata",
+     "matchedTitle": "Kafka on the Shore",
+     "url": "https://www.wikidata.org/wiki/Q579744"
+    }
+   ],
+   "missed": [
+    "OpenLibrary (title matched but author \"Gale Cengage Learning\" does not -- likely a different book titled \"Kafka on the Shore\")",
+    "Google Books (HTTP 429 (daily quota exceeded -- not retrying))"
+   ],
+   "coverage": 4
+  },
+  {
+   "id": "b114",
+   "title": "The Wind-Up Bird Chronicle",
+   "year": 1994,
+   "corpusGenres": [
+    "Fantasy",
+    "Literary"
+   ],
+   "tags": [
+    "fiction",
+    "science fiction",
+    "magic realist fiction",
+    "mystery fiction",
+    "surrealism",
+    "japan",
+    "asia",
+    "absurdism",
+    "dream"
+   ],
+   "sourceGenres": [],
+   "sources": [
+    {
+     "src": "Google Books",
+     "matchedTitle": "The Wind-Up Bird Chronicle",
+     "url": "https://www.googleapis.com/books/v1/volumes?q=intitle:The%20Wind-Up%20Bird%20Chronicle"
+    },
+    {
+     "src": "Wikidata",
+     "matchedTitle": "The Wind-Up Bird Chronicle",
+     "url": "https://www.wikidata.org/wiki/Q976992"
+    }
+   ],
+   "missed": [
+    "OpenLibrary (title matched but author \"Matthew Strecher\" does not -- likely a different book titled \"The Wind-Up Bird Chronicle\")"
+   ],
+   "coverage": 9
+  },
+  {
+   "id": "b115",
+   "title": "Norwegian Wood",
+   "year": 1987,
+   "corpusGenres": [
+    "Literary",
+    "Romance"
+   ],
+   "tags": [
+    "romance",
+    "bildungsroman",
+    "adolescence"
+   ],
+   "sourceGenres": [],
+   "sources": [
+    {
+     "src": "Wikidata",
+     "matchedTitle": "Norwegian Wood",
+     "url": "https://www.wikidata.org/wiki/Q751348"
+    }
+   ],
+   "missed": [
+    "OpenLibrary (title matched but author \"村上春樹\" does not -- likely a different book titled \"Norwegian Wood\")",
+    "Google Books (HTTP 429 (daily quota exceeded -- not retrying))"
+   ],
+   "coverage": 3
+  },
+  {
+   "id": "b116",
+   "title": "2666",
+   "year": 2004,
+   "corpusGenres": [
+    "Literary"
+   ],
+   "tags": [
+    "mystery fiction",
+    "metafiction"
+   ],
+   "sourceGenres": [],
+   "sources": [
+    {
+     "src": "OpenLibrary",
+     "matchedTitle": "2666",
+     "url": "https://openlibrary.org/search.json?title=2666"
+    },
+    {
+     "src": "Wikidata",
+     "matchedTitle": "2666",
+     "url": "https://www.wikidata.org/wiki/Q219437"
+    }
+   ],
+   "missed": [
+    "Google Books (HTTP 429 (daily quota exceeded -- not retrying))"
+   ],
+   "coverage": 2
+  },
+  {
+   "id": "b117",
+   "title": "Pale Fire",
+   "year": 1962,
+   "corpusGenres": [
+    "Literary",
+    "Mystery"
+   ],
+   "tags": [
+    "antinovel"
+   ],
+   "sourceGenres": [],
+   "sources": [
+    {
+     "src": "OpenLibrary",
+     "matchedTitle": "Pale Fire",
+     "url": "https://openlibrary.org/search.json?title=Pale%20Fire"
+    },
+    {
+     "src": "Wikidata",
+     "matchedTitle": "Pale Fire",
+     "url": "https://www.wikidata.org/wiki/Q1229792"
+    }
+   ],
+   "missed": [
+    "Google Books (HTTP 429 (daily quota exceeded -- not retrying))"
+   ],
+   "coverage": 1
+  },
+  {
+   "id": "b118",
+   "title": "A Wizard of Earthsea",
+   "year": 1968,
+   "corpusGenres": [
+    "Fantasy"
+   ],
+   "tags": [
+    "fantasy",
+    "high fantasy",
+    "bildungsroman"
+   ],
+   "sourceGenres": [],
+   "sources": [
+    {
+     "src": "OpenLibrary",
+     "matchedTitle": "A Wizard of Earthsea",
+     "url": "https://openlibrary.org/search.json?title=A%20Wizard%20of%20Earthsea"
+    },
+    {
+     "src": "Wikidata",
+     "matchedTitle": "A Wizard of Earthsea",
+     "url": "https://www.wikidata.org/wiki/Q1771810"
+    }
+   ],
+   "missed": [
+    "Google Books (HTTP 429 (daily quota exceeded -- not retrying))"
+   ],
+   "coverage": 3
+  },
+  {
+   "id": "b119",
+   "title": "The Priory of the Orange Tree",
+   "year": 2019,
+   "corpusGenres": [
+    "Fantasy",
+    "Epic"
+   ],
+   "tags": [
+    "fantasy"
+   ],
+   "sourceGenres": [],
+   "sources": [
+    {
+     "src": "OpenLibrary",
+     "matchedTitle": "The Priory of the Orange Tree",
+     "url": "https://openlibrary.org/search.json?title=The%20Priory%20of%20the%20Orange%20Tree"
+    },
+    {
+     "src": "Wikidata",
+     "matchedTitle": "The Priory of the Orange Tree",
+     "url": "https://www.wikidata.org/wiki/Q65042675"
+    }
+   ],
+   "missed": [
+    "Google Books (HTTP 429 (daily quota exceeded -- not retrying))"
+   ],
+   "coverage": 1
+  },
+  {
+   "id": "b120",
+   "title": "Gardens of the Moon",
+   "year": 1999,
+   "corpusGenres": [
+    "Fantasy",
+    "Epic"
+   ],
+   "tags": [
+    "fantasy",
+    "high fantasy"
+   ],
+   "sourceGenres": [],
+   "sources": [
+    {
+     "src": "OpenLibrary",
+     "matchedTitle": "Gardens of the Moon",
+     "url": "https://openlibrary.org/search.json?title=Gardens%20of%20the%20Moon"
+    },
+    {
+     "src": "Wikidata",
+     "matchedTitle": "Gardens of the Moon",
+     "url": "https://www.wikidata.org/wiki/Q441055"
+    }
+   ],
+   "missed": [
+    "Google Books (HTTP 429 (daily quota exceeded -- not retrying))"
+   ],
+   "coverage": 2
+  },
+  {
+   "id": "b122",
+   "title": "Dune Messiah",
+   "year": 1969,
+   "corpusGenres": [
+    "Sci-Fi"
+   ],
+   "tags": [
+    "science fiction"
+   ],
+   "sourceGenres": [],
+   "sources": [
+    {
+     "src": "OpenLibrary",
+     "matchedTitle": "Dune Messiah",
+     "url": "https://openlibrary.org/search.json?title=Dune%20Messiah"
+    },
+    {
+     "src": "Wikidata",
+     "matchedTitle": "Dune Messiah",
+     "url": "https://www.wikidata.org/wiki/Q437383"
+    }
+   ],
+   "missed": [
+    "Google Books (HTTP 429 (daily quota exceeded -- not retrying))"
+   ],
+   "coverage": 1
+  },
+  {
+   "id": "b123",
+   "title": "Children of Dune",
+   "year": 1976,
+   "corpusGenres": [
+    "Sci-Fi"
+   ],
+   "tags": [
+    "science fiction"
+   ],
+   "sourceGenres": [],
+   "sources": [
+    {
+     "src": "OpenLibrary",
+     "matchedTitle": "Children of Dune",
+     "url": "https://openlibrary.org/search.json?title=Children%20of%20Dune"
+    },
+    {
+     "src": "Wikidata",
+     "matchedTitle": "Children of Dune",
+     "url": "https://www.wikidata.org/wiki/Q437365"
+    }
+   ],
+   "missed": [
+    "Google Books (HTTP 429 (daily quota exceeded -- not retrying))"
+   ],
+   "coverage": 1
+  },
+  {
+   "id": "b124",
+   "title": "Ringworld",
+   "year": 1970,
+   "corpusGenres": [
+    "Sci-Fi"
+   ],
+   "tags": [
+    "science fiction",
+    "adventure fiction"
+   ],
+   "sourceGenres": [],
+   "sources": [
+    {
+     "src": "OpenLibrary",
+     "matchedTitle": "Ringworld",
+     "url": "https://openlibrary.org/search.json?title=Ringworld"
+    },
+    {
+     "src": "Wikidata",
+     "matchedTitle": "Ringworld",
+     "url": "https://www.wikidata.org/wiki/Q1505793"
+    }
+   ],
+   "missed": [
+    "Google Books (HTTP 429 (daily quota exceeded -- not retrying))"
+   ],
+   "coverage": 2
+  },
+  {
+   "id": "b125",
+   "title": "The Stars My Destination",
+   "year": 1956,
+   "corpusGenres": [
+    "Sci-Fi"
+   ],
+   "tags": [
+    "science fiction"
+   ],
+   "sourceGenres": [],
+   "sources": [
+    {
+     "src": "OpenLibrary",
+     "matchedTitle": "The Stars My Destination",
+     "url": "https://openlibrary.org/search.json?title=The%20Stars%20My%20Destination"
+    },
+    {
+     "src": "Wikidata",
+     "matchedTitle": "The Stars My Destination",
+     "url": "https://www.wikidata.org/wiki/Q1063587"
+    }
+   ],
+   "missed": [
+    "Google Books (HTTP 429 (daily quota exceeded -- not retrying))"
+   ],
+   "coverage": 1
+  },
+  {
+   "id": "b126",
+   "title": "A Canticle for Leibowitz",
+   "year": 1959,
+   "corpusGenres": [
+    "Sci-Fi"
+   ],
+   "tags": [
+    "science fiction",
+    "post-apocalyptic fiction"
+   ],
+   "sourceGenres": [],
+   "sources": [
+    {
+     "src": "OpenLibrary",
+     "matchedTitle": "A Canticle for Leibowitz",
+     "url": "https://openlibrary.org/search.json?title=A%20Canticle%20for%20Leibowitz"
+    },
+    {
+     "src": "Google Books",
+     "matchedTitle": "A Canticle for Leibowitz",
+     "url": "https://www.googleapis.com/books/v1/volumes?q=intitle:A%20Canticle%20for%20Leibowitz"
+    },
+    {
+     "src": "Wikidata",
+     "matchedTitle": "A Canticle for Leibowitz",
+     "url": "https://www.wikidata.org/wiki/Q1659714"
+    }
+   ],
+   "missed": [],
+   "coverage": 2
+  },
+  {
+   "id": "b129",
+   "title": "Consider Phlebas",
+   "year": 1987,
+   "corpusGenres": [
+    "Sci-Fi",
+    "Epic"
+   ],
+   "tags": [],
+   "sourceGenres": [],
+   "sources": [
+    {
+     "src": "OpenLibrary",
+     "matchedTitle": "Consider Phlebas",
+     "url": "https://openlibrary.org/search.json?title=Consider%20Phlebas"
+    }
+   ],
+   "missed": [
+    "Google Books (HTTP 429 (daily quota exceeded -- not retrying))",
+    "Wikidata (title matched but credited \"\" does not -- likely a different work titled \"Consider Phlebas\")"
+   ],
+   "coverage": 0
+  },
+  {
+   "id": "b130",
+   "title": "The Player of Games",
+   "year": 1988,
+   "corpusGenres": [
+    "Sci-Fi"
+   ],
+   "tags": [
+    "science fiction",
+    "space opera",
+    "anarchism",
+    "game"
+   ],
+   "sourceGenres": [],
+   "sources": [
+    {
+     "src": "OpenLibrary",
+     "matchedTitle": "The player of games",
+     "url": "https://openlibrary.org/search.json?title=The%20Player%20of%20Games"
+    },
+    {
+     "src": "Wikidata",
+     "matchedTitle": "The Player of Games",
+     "url": "https://www.wikidata.org/wiki/Q467139"
+    }
+   ],
+   "missed": [
+    "Google Books (HTTP 429 (daily quota exceeded -- not retrying))"
+   ],
+   "coverage": 4
+  },
+  {
+   "id": "b131",
+   "title": "Perdido Street Station",
+   "year": 2000,
+   "corpusGenres": [
+    "Fantasy",
+    "Sci-Fi"
+   ],
+   "tags": [
+    "science fiction",
+    "steampunk",
+    "weird fiction",
+    "fantasy",
+    "science fantasy"
+   ],
+   "sourceGenres": [],
+   "sources": [
+    {
+     "src": "OpenLibrary",
+     "matchedTitle": "Perdido Street Station",
+     "url": "https://openlibrary.org/search.json?title=Perdido%20Street%20Station"
+    },
+    {
+     "src": "Wikidata",
+     "matchedTitle": "Perdido Street Station",
+     "url": "https://www.wikidata.org/wiki/Q1143215"
+    }
+   ],
+   "missed": [
+    "Google Books (HTTP 429 (daily quota exceeded -- not retrying))"
+   ],
+   "coverage": 5
+  },
+  {
+   "id": "b132",
+   "title": "The City & the City",
+   "year": 2009,
+   "corpusGenres": [
+    "Sci-Fi",
+    "Mystery"
+   ],
+   "tags": [
+    "weird fiction",
+    "crime fiction",
+    "science fiction",
+    "fantasy",
+    "dystopian fiction"
+   ],
+   "sourceGenres": [],
+   "sources": [
+    {
+     "src": "OpenLibrary",
+     "matchedTitle": "The City & The City",
+     "url": "https://openlibrary.org/search.json?title=The%20City%20%26%20the%20City"
+    },
+    {
+     "src": "Wikidata",
+     "matchedTitle": "The City & the City",
+     "url": "https://www.wikidata.org/wiki/Q3520291"
+    }
+   ],
+   "missed": [
+    "Google Books (HTTP 429 (daily quota exceeded -- not retrying))"
+   ],
+   "coverage": 5
+  },
+  {
+   "id": "b133",
+   "title": "The Ballad of Black Tom",
+   "year": 2016,
+   "corpusGenres": [
+    "Cosmic Horror"
+   ],
+   "tags": [
+    "fiction",
+    "horror fiction",
+    "urban fantasy",
+    "historical fantasy",
+    "dark fantasy",
+    "lovecraftian horror"
+   ],
+   "sourceGenres": [],
+   "sources": [
+    {
+     "src": "OpenLibrary",
+     "matchedTitle": "The Ballad of Black Tom",
+     "url": "https://openlibrary.org/search.json?title=The%20Ballad%20of%20Black%20Tom"
+    },
+    {
+     "src": "Google Books",
+     "matchedTitle": "The Ballad of Black Tom",
+     "url": "https://www.googleapis.com/books/v1/volumes?q=intitle:The%20Ballad%20of%20Black%20Tom"
+    },
+    {
+     "src": "Wikidata",
+     "matchedTitle": "The Ballad of Black Tom",
+     "url": "https://www.wikidata.org/wiki/Q42851480"
+    }
+   ],
+   "missed": [],
+   "coverage": 6
+  },
+  {
+   "id": "b134",
+   "title": "The Only Good Indians",
+   "year": 2020,
+   "corpusGenres": [
+    "Horror"
+   ],
+   "tags": [
+    "horror fiction"
+   ],
+   "sourceGenres": [],
+   "sources": [
+    {
+     "src": "OpenLibrary",
+     "matchedTitle": "The Only Good Indians",
+     "url": "https://openlibrary.org/search.json?title=The%20Only%20Good%20Indians"
+    },
+    {
+     "src": "Wikidata",
+     "matchedTitle": "The Only Good Indians",
+     "url": "https://www.wikidata.org/wiki/Q102079264"
+    }
+   ],
+   "missed": [
+    "Google Books (HTTP 429 (daily quota exceeded -- not retrying))"
+   ],
+   "coverage": 1
+  },
+  {
+   "id": "b135",
+   "title": "The Haunting of Hill House",
+   "year": 1959,
+   "corpusGenres": [
+    "Gothic",
+    "Horror"
+   ],
+   "tags": [
+    "gothic fiction",
+    "horror fiction",
+    "weird fiction"
+   ],
+   "sourceGenres": [],
+   "sources": [
+    {
+     "src": "OpenLibrary",
+     "matchedTitle": "The Haunting of Hill House",
+     "url": "https://openlibrary.org/search.json?title=The%20Haunting%20of%20Hill%20House"
+    },
+    {
+     "src": "Wikidata",
+     "matchedTitle": "The Haunting of Hill House",
+     "url": "https://www.wikidata.org/wiki/Q3819311"
+    }
+   ],
+   "missed": [
+    "Google Books (HTTP 429 (daily quota exceeded -- not retrying))"
+   ],
+   "coverage": 3
+  },
+  {
+   "id": "b136",
+   "title": "Pet Sematary",
+   "year": 1983,
+   "corpusGenres": [
+    "Horror"
+   ],
+   "tags": [
+    "horror fiction",
+    "zombie animal"
+   ],
+   "sourceGenres": [],
+   "sources": [
+    {
+     "src": "OpenLibrary",
+     "matchedTitle": "Pet Sematary",
+     "url": "https://openlibrary.org/search.json?title=Pet%20Sematary"
+    },
+    {
+     "src": "Wikidata",
+     "matchedTitle": "Pet Sematary",
+     "url": "https://www.wikidata.org/wiki/Q742226"
+    }
+   ],
+   "missed": [
+    "Google Books (HTTP 429 (daily quota exceeded -- not retrying))"
+   ],
+   "coverage": 2
+  },
+  {
+   "id": "b138",
+   "title": "Gideon the Ninth",
+   "year": 2019,
+   "corpusGenres": [
+    "Sci-Fi",
+    "Fantasy"
+   ],
+   "tags": [
+    "fantasy",
+    "science fantasy",
+    "science fiction"
+   ],
+   "sourceGenres": [],
+   "sources": [
+    {
+     "src": "OpenLibrary",
+     "matchedTitle": "Gideon the Ninth",
+     "url": "https://openlibrary.org/search.json?title=Gideon%20the%20Ninth"
+    },
+    {
+     "src": "Wikidata",
+     "matchedTitle": "Gideon the Ninth",
+     "url": "https://www.wikidata.org/wiki/Q79557367"
+    }
+   ],
+   "missed": [
+    "Google Books (HTTP 429 (daily quota exceeded -- not retrying))"
+   ],
+   "coverage": 3
+  },
+  {
+   "id": "b139",
+   "title": "This Is How You Lose the Time War",
+   "year": 2019,
+   "corpusGenres": [
+    "Sci-Fi",
+    "Romance"
+   ],
+   "tags": [
+    "science fiction",
+    "fantasy",
+    "lgbt literature"
+   ],
+   "sourceGenres": [],
+   "sources": [
+    {
+     "src": "OpenLibrary",
+     "matchedTitle": "This is How You Lose the Time War",
+     "url": "https://openlibrary.org/search.json?title=This%20Is%20How%20You%20Lose%20the%20Time%20War"
+    },
+    {
+     "src": "Wikidata",
+     "matchedTitle": "This Is How You Lose the Time War",
+     "url": "https://www.wikidata.org/wiki/Q73742845"
+    }
+   ],
+   "missed": [
+    "Google Books (HTTP 429 (daily quota exceeded -- not retrying))"
+   ],
+   "coverage": 3
+  },
+  {
+   "id": "b140",
+   "title": "A Memory Called Empire",
+   "year": 2019,
+   "corpusGenres": [
+    "Sci-Fi"
+   ],
+   "tags": [
+    "space opera",
+    "science fiction"
+   ],
+   "sourceGenres": [],
+   "sources": [
+    {
+     "src": "OpenLibrary",
+     "matchedTitle": "A Memory Called Empire",
+     "url": "https://openlibrary.org/search.json?title=A%20Memory%20Called%20Empire"
+    },
+    {
+     "src": "Wikidata",
+     "matchedTitle": "A Memory Called Empire",
+     "url": "https://www.wikidata.org/wiki/Q82566838"
+    }
+   ],
+   "missed": [
+    "Google Books (HTTP 429 (daily quota exceeded -- not retrying))"
+   ],
+   "coverage": 2
+  },
+  {
+   "id": "b141",
+   "title": "Project Hail Mary (book)",
+   "year": 2021,
+   "corpusGenres": [
+    "Sci-Fi"
+   ],
+   "tags": [],
+   "sourceGenres": [],
+   "sources": [],
+   "missed": [
+    "OpenLibrary (no match for \"Project Hail Mary (book)\")",
+    "Google Books (HTTP 429 (daily quota exceeded -- not retrying))",
+    "Wikidata (no type-matching candidate for \"Project Hail Mary (book)\")"
+   ],
+   "coverage": 0
+  },
+  {
+   "id": "b142",
+   "title": "The Martian (book)",
+   "year": 2011,
+   "corpusGenres": [
+    "Sci-Fi"
+   ],
+   "tags": [],
+   "sourceGenres": [],
+   "sources": [],
+   "missed": [
+    "OpenLibrary (title matched but author \"\" does not -- likely a different book titled \"The Martian (book)\")",
+    "Google Books (HTTP 429 (daily quota exceeded -- not retrying))",
+    "Wikidata (no type-matching candidate for \"The Martian (book)\")"
+   ],
+   "coverage": 0
+  },
+  {
+   "id": "b143",
+   "title": "Recursion",
+   "year": 2019,
+   "corpusGenres": [
+    "Sci-Fi",
+    "Thriller"
+   ],
+   "tags": [
+    "science fiction",
+    "thriller"
+   ],
+   "sourceGenres": [],
+   "sources": [
+    {
+     "src": "OpenLibrary",
+     "matchedTitle": "Recursion",
+     "url": "https://openlibrary.org/search.json?title=Recursion"
+    },
+    {
+     "src": "Wikidata",
+     "matchedTitle": "Recursion",
+     "url": "https://www.wikidata.org/wiki/Q98933886"
+    }
+   ],
+   "missed": [
+    "Google Books (HTTP 429 (daily quota exceeded -- not retrying))"
+   ],
+   "coverage": 2
+  },
+  {
+   "id": "b144",
+   "title": "Dark Matter",
+   "year": 2016,
+   "corpusGenres": [
+    "Sci-Fi",
+    "Thriller"
+   ],
+   "tags": [],
+   "sourceGenres": [],
+   "sources": [
+    {
+     "src": "OpenLibrary",
+     "matchedTitle": "Dark Matter",
+     "url": "https://openlibrary.org/search.json?title=Dark%20Matter"
+    },
+    {
+     "src": "Wikidata",
+     "matchedTitle": "Dark Matter",
+     "url": "https://www.wikidata.org/wiki/Q116191082"
+    }
+   ],
+   "missed": [
+    "Google Books (HTTP 429 (daily quota exceeded -- not retrying))"
+   ],
+   "coverage": 0
+  },
+  {
+   "id": "b146",
+   "title": "Klara and the Sun",
+   "year": 2021,
+   "corpusGenres": [
+    "Sci-Fi",
+    "Literary"
+   ],
+   "tags": [
+    "science fiction",
+    "dystopian fiction",
+    "fictional android"
+   ],
+   "sourceGenres": [],
+   "sources": [
+    {
+     "src": "OpenLibrary",
+     "matchedTitle": "Klara and the Sun",
+     "url": "https://openlibrary.org/search.json?title=Klara%20and%20the%20Sun"
+    },
+    {
+     "src": "Wikidata",
+     "matchedTitle": "Klara and the Sun",
+     "url": "https://www.wikidata.org/wiki/Q105704813"
+    }
+   ],
+   "missed": [
+    "Google Books (HTTP 429 (daily quota exceeded -- not retrying))"
+   ],
+   "coverage": 3
+  },
+  {
+   "id": "b148",
+   "title": "Anathem",
+   "year": 2008,
+   "corpusGenres": [
+    "Sci-Fi",
+    "Philosophy"
+   ],
+   "tags": [
+    "science fiction",
+    "philosophical fiction"
+   ],
+   "sourceGenres": [],
+   "sources": [
+    {
+     "src": "OpenLibrary",
+     "matchedTitle": "Anathem",
+     "url": "https://openlibrary.org/search.json?title=Anathem"
+    },
+    {
+     "src": "Wikidata",
+     "matchedTitle": "Anathem",
+     "url": "https://www.wikidata.org/wiki/Q487364"
+    }
+   ],
+   "missed": [
+    "Google Books (HTTP 429 (daily quota exceeded -- not retrying))"
+   ],
+   "coverage": 2
+  },
+  {
+   "id": "b149",
+   "title": "Cryptonomicon",
+   "year": 1999,
+   "corpusGenres": [
+    "Sci-Fi",
+    "Historical"
+   ],
+   "tags": [
+    "cryptologic fiction",
+    "science fiction",
+    "historical fiction",
+    "world war ii",
+    "cryptology",
+    "alan turing",
+    "bletchley park"
+   ],
+   "sourceGenres": [],
+   "sources": [
+    {
+     "src": "OpenLibrary",
+     "matchedTitle": "Cryptonomicon",
+     "url": "https://openlibrary.org/search.json?title=Cryptonomicon"
+    },
+    {
+     "src": "Wikidata",
+     "matchedTitle": "Cryptonomicon",
+     "url": "https://www.wikidata.org/wiki/Q534975"
+    }
+   ],
+   "missed": [
+    "Google Books (HTTP 429 (daily quota exceeded -- not retrying))"
+   ],
+   "coverage": 7
+  },
+  {
+   "id": "b150",
+   "title": "The Name of the Rose",
+   "year": 1980,
+   "corpusGenres": [
+    "Mystery",
+    "Historical"
+   ],
+   "tags": [
+    "historical mystery",
+    "crime fiction",
+    "thriller",
+    "found manuscript",
+    "historical fiction"
+   ],
+   "sourceGenres": [],
+   "sources": [
+    {
+     "src": "Wikidata",
+     "matchedTitle": "The Name of the Rose",
+     "url": "https://www.wikidata.org/wiki/Q172850"
+    }
+   ],
+   "missed": [
+    "OpenLibrary (title matched but author \"Adele J. Haft\" does not -- likely a different book titled \"The Name of the Rose\")",
+    "Google Books (HTTP 429 (daily quota exceeded -- not retrying))"
+   ],
+   "coverage": 5
+  },
+  {
+   "id": "b151",
+   "title": "Endymion",
+   "year": 1996,
+   "corpusGenres": [
+    "Sci-Fi",
+    "Epic"
+   ],
+   "tags": [
+    "science fantasy",
+    "science fiction"
+   ],
+   "sourceGenres": [],
+   "sources": [
+    {
+     "src": "OpenLibrary",
+     "matchedTitle": "Endymion",
+     "url": "https://openlibrary.org/search.json?title=Endymion"
+    },
+    {
+     "src": "Wikidata",
+     "matchedTitle": "Endymion",
+     "url": "https://www.wikidata.org/wiki/Q2656138"
+    }
+   ],
+   "missed": [
+    "Google Books (HTTP 429 (daily quota exceeded -- not retrying))"
+   ],
+   "coverage": 2
+  },
+  {
+   "id": "b152",
+   "title": "The Rise of Endymion",
+   "year": 1997,
+   "corpusGenres": [
+    "Sci-Fi",
+    "Epic"
+   ],
+   "tags": [
+    "science fantasy",
+    "science fiction"
+   ],
+   "sourceGenres": [],
+   "sources": [
+    {
+     "src": "OpenLibrary",
+     "matchedTitle": "The Rise of Endymion",
+     "url": "https://openlibrary.org/search.json?title=The%20Rise%20of%20Endymion"
+    },
+    {
+     "src": "Wikidata",
+     "matchedTitle": "The Rise of Endymion",
+     "url": "https://www.wikidata.org/wiki/Q2521688"
+    }
+   ],
+   "missed": [
+    "Google Books (HTTP 429 (daily quota exceeded -- not retrying))"
+   ],
+   "coverage": 2
+  },
+  {
+   "id": "b153",
+   "title": "The Dark Forest",
+   "year": 2008,
+   "corpusGenres": [
+    "Sci-Fi"
+   ],
+   "tags": [
+    "science fiction",
+    "alien invasion",
+    "first contact fiction",
+    "scientific progress",
+    "spaceflight",
+    "fermi paradox",
+    "artificial intelligence",
+    "hibernation",
+    "dead man's switch",
+    "extraterrestrial life"
+   ],
+   "sourceGenres": [],
+   "sources": [
+    {
+     "src": "Wikidata",
+     "matchedTitle": "The Dark Forest",
+     "url": "https://www.wikidata.org/wiki/Q607276"
+    }
+   ],
+   "missed": [
+    "OpenLibrary (title matched but author \"刘慈欣\" does not -- likely a different book titled \"The Dark Forest\")",
+    "Google Books (HTTP 429 (daily quota exceeded -- not retrying))"
+   ],
+   "coverage": 10
+  },
+  {
+   "id": "b154",
+   "title": "Death's End",
+   "year": 2010,
+   "corpusGenres": [
+    "Sci-Fi",
+    "Epic"
+   ],
+   "tags": [
+    "science fiction"
+   ],
+   "sourceGenres": [],
+   "sources": [
+    {
+     "src": "Wikidata",
+     "matchedTitle": "Death's End",
+     "url": "https://www.wikidata.org/wiki/Q607511"
+    }
+   ],
+   "missed": [
+    "OpenLibrary (title matched but author \"刘慈欣\" does not -- likely a different book titled \"Death's End\")",
+    "Google Books (HTTP 429 (daily quota exceeded -- not retrying))"
+   ],
+   "coverage": 1
+  },
+  {
+   "id": "b155",
+   "title": "Foundation and Empire",
+   "year": 1952,
+   "corpusGenres": [
+    "Sci-Fi"
+   ],
+   "tags": [
+    "science fiction"
+   ],
+   "sourceGenres": [],
+   "sources": [
+    {
+     "src": "OpenLibrary",
+     "matchedTitle": "Foundation and Empire",
+     "url": "https://openlibrary.org/search.json?title=Foundation%20and%20Empire"
+    },
+    {
+     "src": "Wikidata",
+     "matchedTitle": "Foundation and Empire",
+     "url": "https://www.wikidata.org/wiki/Q839800"
+    }
+   ],
+   "missed": [
+    "Google Books (HTTP 429 (daily quota exceeded -- not retrying))"
+   ],
+   "coverage": 1
+  },
+  {
+   "id": "b156",
+   "title": "Second Foundation",
+   "year": 1953,
+   "corpusGenres": [
+    "Sci-Fi"
+   ],
+   "tags": [
+    "science fiction"
+   ],
+   "sourceGenres": [],
+   "sources": [
+    {
+     "src": "OpenLibrary",
+     "matchedTitle": "Second Foundation",
+     "url": "https://openlibrary.org/search.json?title=Second%20Foundation"
+    },
+    {
+     "src": "Wikidata",
+     "matchedTitle": "Second Foundation",
+     "url": "https://www.wikidata.org/wiki/Q853927"
+    }
+   ],
+   "missed": [
+    "Google Books (HTTP 429 (daily quota exceeded -- not retrying))"
+   ],
+   "coverage": 1
+  },
+  {
+   "id": "b157",
+   "title": "Best Ghost Stories of Algernon Blackwood",
+   "year": 1973,
+   "corpusGenres": [
+    "Cosmic Horror",
+    "Weird Fiction"
+   ],
+   "tags": [],
+   "sourceGenres": [],
+   "sources": [
+    {
+     "src": "OpenLibrary",
+     "matchedTitle": "Best ghost stories of Algernon Blackwood",
+     "url": "https://openlibrary.org/search.json?title=Best%20Ghost%20Stories%20of%20Algernon%20Blackwood"
+    }
+   ],
+   "missed": [
+    "Google Books (HTTP 429 (daily quota exceeded -- not retrying))",
+    "Wikidata (no type-matching candidate for \"Best Ghost Stories of Algernon Blackwood\")"
+   ],
+   "coverage": 0
+  },
+  {
+   "id": "b158",
+   "title": "The King in Yellow",
+   "year": 1895,
+   "corpusGenres": [
+    "Cosmic Horror",
+    "Weird Fiction"
+   ],
+   "tags": [
+    "decadent movement",
+    "horror fiction",
+    "supernatural fiction",
+    "weird fiction",
+    "supernatural",
+    "fictional play",
+    "insanity"
+   ],
+   "sourceGenres": [],
+   "sources": [
+    {
+     "src": "OpenLibrary",
+     "matchedTitle": "The King in Yellow",
+     "url": "https://openlibrary.org/search.json?title=The%20King%20in%20Yellow"
+    },
+    {
+     "src": "Wikidata",
+     "matchedTitle": "The King in Yellow",
+     "url": "https://www.wikidata.org/wiki/Q1195112"
+    }
+   ],
+   "missed": [
+    "Google Books (HTTP 429 (daily quota exceeded -- not retrying))"
+   ],
+   "coverage": 7
+  },
+  {
+   "id": "b159",
+   "title": "The Adventures of Tom Bombadil",
+   "year": 1962,
+   "corpusGenres": [
+    "Fantasy",
+    "Poetry"
+   ],
+   "tags": [
+    "fantasy"
+   ],
+   "sourceGenres": [],
+   "sources": [
+    {
+     "src": "OpenLibrary",
+     "matchedTitle": "The Adventures of Tom Bombadil and Other Verses from the Red Book",
+     "url": "https://openlibrary.org/search.json?title=The%20Adventures%20of%20Tom%20Bombadil"
+    },
+    {
+     "src": "Wikidata",
+     "matchedTitle": "The Adventures of Tom Bombadil",
+     "url": "https://www.wikidata.org/wiki/Q331804"
+    }
+   ],
+   "missed": [
+    "Google Books (HTTP 429 (daily quota exceeded -- not retrying))"
+   ],
+   "coverage": 1
+  },
+  {
+   "id": "b160",
+   "title": "The Terror",
+   "year": 2007,
+   "corpusGenres": [
+    "Horror",
+    "Historical"
+   ],
+   "tags": [
+    "thriller",
+    "historical fiction"
+   ],
+   "sourceGenres": [],
+   "sources": [
+    {
+     "src": "OpenLibrary",
+     "matchedTitle": "The Terror",
+     "url": "https://openlibrary.org/search.json?title=The%20Terror"
+    },
+    {
+     "src": "Wikidata",
+     "matchedTitle": "The Terror",
+     "url": "https://www.wikidata.org/wiki/Q1991597"
+    }
+   ],
+   "missed": [
+    "Google Books (HTTP 429 (daily quota exceeded -- not retrying))"
+   ],
+   "coverage": 2
+  },
+  {
+   "id": "b161",
+   "title": "The Gunslinger",
+   "year": 1982,
+   "corpusGenres": [
+    "Dark Fantasy",
+    "Western"
+   ],
+   "tags": [
+    "horror fiction",
+    "dark fantasy"
+   ],
+   "sourceGenres": [],
+   "sources": [
+    {
+     "src": "OpenLibrary",
+     "matchedTitle": "The Gunslinger",
+     "url": "https://openlibrary.org/search.json?title=The%20Gunslinger"
+    },
+    {
+     "src": "Wikidata",
+     "matchedTitle": "The Dark Tower: The Gunslinger",
+     "url": "https://www.wikidata.org/wiki/Q1422318"
+    }
+   ],
+   "missed": [
+    "Google Books (HTTP 429 (daily quota exceeded -- not retrying))"
+   ],
+   "coverage": 2
+  },
+  {
+   "id": "b162",
+   "title": "The Drawing of the Three",
+   "year": 1987,
+   "corpusGenres": [
+    "Dark Fantasy",
+    "Western"
+   ],
+   "tags": [
+    "horror fiction",
+    "dark fantasy",
+    "science fiction"
+   ],
+   "sourceGenres": [],
+   "sources": [
+    {
+     "src": "OpenLibrary",
+     "matchedTitle": "The Drawing of the Three",
+     "url": "https://openlibrary.org/search.json?title=The%20Drawing%20of%20the%20Three"
+    },
+    {
+     "src": "Wikidata",
+     "matchedTitle": "The Dark Tower II: The Drawing of the Three",
+     "url": "https://www.wikidata.org/wiki/Q1256948"
+    }
+   ],
+   "missed": [
+    "Google Books (HTTP 429 (daily quota exceeded -- not retrying))"
+   ],
+   "coverage": 3
+  },
+  {
+   "id": "b163",
+   "title": "The Waste Lands",
+   "year": 1991,
+   "corpusGenres": [
+    "Dark Fantasy",
+    "Western"
+   ],
+   "tags": [
+    "science fiction",
+    "horror fiction",
+    "fantasy",
+    "dark fantasy"
+   ],
+   "sourceGenres": [],
+   "sources": [
+    {
+     "src": "Wikidata",
+     "matchedTitle": "The Dark Tower III: The Waste Lands",
+     "url": "https://www.wikidata.org/wiki/Q1637730"
+    }
+   ],
+   "missed": [
+    "OpenLibrary (title matched but author \"T. S. Eliot\" does not -- likely a different book titled \"The Waste Lands\")",
+    "Google Books (HTTP 429 (daily quota exceeded -- not retrying))"
+   ],
+   "coverage": 4
+  },
+  {
+   "id": "b164",
+   "title": "Wizard and Glass",
+   "year": 1997,
+   "corpusGenres": [
+    "Dark Fantasy",
+    "Western"
+   ],
+   "tags": [
+    "science fiction",
+    "fantasy",
+    "horror fiction",
+    "dark fantasy"
+   ],
+   "sourceGenres": [],
+   "sources": [
+    {
+     "src": "OpenLibrary",
+     "matchedTitle": "Wizard and Glass",
+     "url": "https://openlibrary.org/search.json?title=Wizard%20and%20Glass"
+    },
+    {
+     "src": "Wikidata",
+     "matchedTitle": "The Dark Tower IV: Wizard and Glass",
+     "url": "https://www.wikidata.org/wiki/Q670552"
+    }
+   ],
+   "missed": [
+    "Google Books (HTTP 429 (daily quota exceeded -- not retrying))"
+   ],
+   "coverage": 4
+  },
+  {
+   "id": "b165",
+   "title": "Wolves of the Calla",
+   "year": 2003,
+   "corpusGenres": [
+    "Dark Fantasy",
+    "Western"
+   ],
+   "tags": [
+    "science fiction",
+    "fantasy",
+    "horror fiction",
+    "dark fantasy",
+    "sacrifice",
+    "resistance movement",
+    "multiverse"
+   ],
+   "sourceGenres": [],
+   "sources": [
+    {
+     "src": "OpenLibrary",
+     "matchedTitle": "Wolves of the Calla",
+     "url": "https://openlibrary.org/search.json?title=Wolves%20of%20the%20Calla"
+    },
+    {
+     "src": "Wikidata",
+     "matchedTitle": "The Dark Tower V: Wolves of the Calla",
+     "url": "https://www.wikidata.org/wiki/Q247364"
+    }
+   ],
+   "missed": [
+    "Google Books (HTTP 429 (daily quota exceeded -- not retrying))"
+   ],
+   "coverage": 7
+  },
+  {
+   "id": "b166",
+   "title": "Song of Susannah",
+   "year": 2004,
+   "corpusGenres": [
+    "Dark Fantasy",
+    "Western"
+   ],
+   "tags": [
+    "science fantasy",
+    "science fiction",
+    "horror fiction",
+    "dark fantasy"
+   ],
+   "sourceGenres": [],
+   "sources": [
+    {
+     "src": "OpenLibrary",
+     "matchedTitle": "Song of Susannah",
+     "url": "https://openlibrary.org/search.json?title=Song%20of%20Susannah"
+    },
+    {
+     "src": "Wikidata",
+     "matchedTitle": "The Dark Tower VI: Song of Susannah",
+     "url": "https://www.wikidata.org/wiki/Q1637738"
+    }
+   ],
+   "missed": [
+    "Google Books (HTTP 429 (daily quota exceeded -- not retrying))"
+   ],
+   "coverage": 4
+  },
+  {
+   "id": "b167",
+   "title": "The Dark Tower",
+   "year": 2004,
+   "corpusGenres": [
+    "Dark Fantasy",
+    "Western"
+   ],
+   "tags": [
+    "horror fiction",
+    "dark fantasy",
+    "science fantasy",
+    "western fiction",
+    "science fiction",
+    "fantasy",
+    "multiverse",
+    "âventiure"
+   ],
+   "sourceGenres": [],
+   "sources": [
+    {
+     "src": "OpenLibrary",
+     "matchedTitle": "The dark tower",
+     "url": "https://openlibrary.org/search.json?title=The%20Dark%20Tower"
+    },
+    {
+     "src": "Wikidata",
+     "matchedTitle": "The Dark Tower",
+     "url": "https://www.wikidata.org/wiki/Q280898"
+    }
+   ],
+   "missed": [
+    "Google Books (HTTP 429 (daily quota exceeded -- not retrying))"
+   ],
+   "coverage": 8
+  },
+  {
+   "id": "b168",
+   "title": "Harry Potter (Books 1–7)",
+   "year": 1997,
+   "corpusGenres": [
+    "Fantasy",
+    "Coming-of-Age"
+   ],
+   "tags": [],
+   "sourceGenres": [],
+   "sources": [
+    {
+     "src": "OpenLibrary",
+     "matchedTitle": "Harry Potter Paperback Full Book Set Volumes 1-7",
+     "url": "https://openlibrary.org/search.json?title=Harry%20Potter%20(Books%201%E2%80%937)"
+    }
+   ],
+   "missed": [
+    "Google Books (HTTP 429 (daily quota exceeded -- not retrying))",
+    "Wikidata (no type-matching candidate for \"Harry Potter (Books 1–7)\")"
+   ],
+   "coverage": 0
+  },
+  {
+   "id": "b169",
+   "title": "The Children of Húrin",
+   "year": 2007,
+   "corpusGenres": [
+    "Fantasy",
+    "Tragedy"
+   ],
+   "tags": [
+    "high fantasy",
+    "fantasy",
+    "tolkien's legendarium"
+   ],
+   "sourceGenres": [],
+   "sources": [
+    {
+     "src": "OpenLibrary",
+     "matchedTitle": "The Children of Húrin",
+     "url": "https://openlibrary.org/search.json?title=The%20Children%20of%20H%C3%BArin"
+    },
+    {
+     "src": "Wikidata",
+     "matchedTitle": "The Children of Húrin",
+     "url": "https://www.wikidata.org/wiki/Q331651"
+    }
+   ],
+   "missed": [
+    "Google Books (HTTP 429 (daily quota exceeded -- not retrying))"
+   ],
+   "coverage": 3
+  },
+  {
+   "id": "b170",
+   "title": "The Doors of Stone",
+   "year": 2026,
+   "corpusGenres": [
+    "Fantasy",
+    "Epic"
+   ],
+   "tags": [],
+   "sourceGenres": [],
+   "sources": [],
+   "missed": [
+    "OpenLibrary (title matched but author \"F. T. Prince\" does not -- likely a different book titled \"The Doors of Stone\")",
+    "Google Books (HTTP 429 (daily quota exceeded -- not retrying))",
+    "Wikidata (no type-matching candidate for \"The Doors of Stone\")"
+   ],
+   "coverage": 0
+  },
+  {
+   "id": "b171",
+   "title": "The Cleaving Stone",
+   "year": 2027,
+   "corpusGenres": [
+    "Cosmic Horror",
+    "Weird Fiction"
+   ],
+   "tags": [],
+   "sourceGenres": [],
+   "sources": [],
+   "missed": [
+    "OpenLibrary (no match for \"The Cleaving Stone\")",
+    "Google Books (HTTP 429 (daily quota exceeded -- not retrying))",
+    "Wikidata (no type-matching candidate for \"The Cleaving Stone\")"
+   ],
+   "coverage": 0
+  },
+  {
+   "id": "b172",
+   "title": "The Power Broker",
+   "year": 1974,
+   "corpusGenres": [
+    "History"
+   ],
+   "tags": [
+    "biography",
+    "robert moses"
+   ],
+   "sourceGenres": [],
+   "sources": [
+    {
+     "src": "OpenLibrary",
+     "matchedTitle": "The power broker: Robert Moses and the fall of New York",
+     "url": "https://openlibrary.org/search.json?title=The%20Power%20Broker"
+    },
+    {
+     "src": "Wikidata",
+     "matchedTitle": "The Power Broker",
+     "url": "https://www.wikidata.org/wiki/Q7757917"
+    }
+   ],
+   "missed": [
+    "Google Books (HTTP 429 (daily quota exceeded -- not retrying))"
+   ],
+   "coverage": 2
+  },
+  {
+   "id": "b173",
+   "title": "War and Peace",
+   "year": 1869,
+   "corpusGenres": [
+    "Literary Fiction",
+    "Epic",
+    "Historical"
+   ],
+   "tags": [
+    "romantic fiction",
+    "war fiction",
+    "philosophical fiction",
+    "historical fiction",
+    "french invasion of russia"
+   ],
+   "sourceGenres": [],
+   "sources": [
+    {
+     "src": "Wikidata",
+     "matchedTitle": "War and Peace",
+     "url": "https://www.wikidata.org/wiki/Q161531"
+    }
+   ],
+   "missed": [
+    "OpenLibrary (title matched but author \"Лев Толстой\" does not -- likely a different book titled \"War and Peace\")",
+    "Google Books (HTTP 429 (daily quota exceeded -- not retrying))"
+   ],
+   "coverage": 5
+  },
+  {
+   "id": "b174",
+   "title": "The Making of the Atomic Bomb",
+   "year": 1986,
+   "corpusGenres": [
+    "History",
+    "Science"
+   ],
+   "tags": [
+    "world war ii",
+    "manhattan project"
+   ],
+   "sourceGenres": [],
+   "sources": [
+    {
+     "src": "OpenLibrary",
+     "matchedTitle": "The making of the atomic bomb",
+     "url": "https://openlibrary.org/search.json?title=The%20Making%20of%20the%20Atomic%20Bomb"
+    },
+    {
+     "src": "Wikidata",
+     "matchedTitle": "The Making of the Atomic Bomb",
+     "url": "https://www.wikidata.org/wiki/Q7749726"
+    }
+   ],
+   "missed": [
+    "Google Books (HTTP 429 (daily quota exceeded -- not retrying))"
+   ],
+   "coverage": 2
+  },
+  {
+   "id": "b175",
+   "title": "Anna Karenina",
+   "year": 1877,
+   "corpusGenres": [
+    "Literary Fiction",
+    "Romance"
+   ],
+   "tags": [
+    "realist novel",
+    "love",
+    "rural gentry",
+    "suicide",
+    "train",
+    "betrayal",
+    "faith",
+    "family",
+    "marriage",
+    "russian empire",
+    "affair"
+   ],
+   "sourceGenres": [],
+   "sources": [
+    {
+     "src": "Wikidata",
+     "matchedTitle": "Anna Karenina",
+     "url": "https://www.wikidata.org/wiki/Q147787"
+    }
+   ],
+   "missed": [
+    "OpenLibrary (title matched but author \"Louise Maude\" does not -- likely a different book titled \"Anna Karenina\")",
+    "Google Books (HTTP 429 (daily quota exceeded -- not retrying))"
+   ],
+   "coverage": 11
+  },
+  {
+   "id": "b176",
+   "title": "Maus",
+   "year": 1991,
+   "corpusGenres": [
+    "Graphic Novel",
+    "History"
+   ],
+   "tags": [
+    "biography",
+    "memoir",
+    "anthropomorphic comic",
+    "graphic novel",
+    "the holocaust",
+    "children of holocaust survivors",
+    "holocaust survivor",
+    "jews in poland",
+    "parents and children",
+    "psychological trauma",
+    "american jews",
+    "vladek spiegelman",
+    "art spiegelman"
+   ],
+   "sourceGenres": [],
+   "sources": [
+    {
+     "src": "OpenLibrary",
+     "matchedTitle": "Maus I",
+     "url": "https://openlibrary.org/search.json?title=Maus"
+    },
+    {
+     "src": "Wikidata",
+     "matchedTitle": "Maus",
+     "url": "https://www.wikidata.org/wiki/Q59696"
+    }
+   ],
+   "missed": [
+    "Google Books (HTTP 429 (daily quota exceeded -- not retrying))"
+   ],
+   "coverage": 13
+  },
+  {
+   "id": "b177",
+   "title": "The Divine Comedy",
+   "year": 1320,
+   "corpusGenres": [
+    "Literary Fiction",
+    "Epic",
+    "Historical"
+   ],
+   "tags": [
+    "epic poem"
+   ],
+   "sourceGenres": [],
+   "sources": [
+    {
+     "src": "Wikidata",
+     "matchedTitle": "The Divine Comedy",
+     "url": "https://www.wikidata.org/wiki/Q40185"
+    }
+   ],
+   "missed": [
+    "OpenLibrary (title matched but author \"Joan M. Ferrante\" does not -- likely a different book titled \"The Divine Comedy\")",
+    "Google Books (HTTP 429 (daily quota exceeded -- not retrying))"
+   ],
+   "coverage": 1
+  },
+  {
+   "id": "b178",
+   "title": "Don Quixote",
+   "year": 1605,
+   "corpusGenres": [
+    "Literary Fiction",
+    "Comedy"
+   ],
+   "tags": [
+    "chivalric romance",
+    "adventure fiction",
+    "parody",
+    "found manuscript"
+   ],
+   "sourceGenres": [],
+   "sources": [
+    {
+     "src": "Wikidata",
+     "matchedTitle": "Don Quixote",
+     "url": "https://www.wikidata.org/wiki/Q480"
+    }
+   ],
+   "missed": [
+    "OpenLibrary (title matched but author \"Kathy Acker\" does not -- likely a different book titled \"Don Quixote\")",
+    "Google Books (HTTP 429 (daily quota exceeded -- not retrying))"
+   ],
+   "coverage": 4
+  },
+  {
+   "id": "b179",
+   "title": "Middlemarch",
+   "year": 1871,
+   "corpusGenres": [
+    "Literary Fiction"
+   ],
+   "tags": [
+    "realist novel",
+    "bildungsroman",
+    "psychological fiction",
+    "social novel"
+   ],
+   "sourceGenres": [],
+   "sources": [
+    {
+     "src": "OpenLibrary",
+     "matchedTitle": "Middlemarch",
+     "url": "https://openlibrary.org/search.json?title=Middlemarch"
+    },
+    {
+     "src": "Wikidata",
+     "matchedTitle": "Middlemarch",
+     "url": "https://www.wikidata.org/wiki/Q313129"
+    }
+   ],
+   "missed": [
+    "Google Books (HTTP 429 (daily quota exceeded -- not retrying))"
+   ],
+   "coverage": 4
+  },
+  {
+   "id": "b180",
+   "title": "The Path to Power",
+   "year": 1982,
+   "corpusGenres": [
+    "History"
+   ],
+   "tags": [],
+   "sourceGenres": [],
+   "sources": [
+    {
+     "src": "OpenLibrary",
+     "matchedTitle": "The Path To Power",
+     "url": "https://openlibrary.org/search.json?title=The%20Path%20to%20Power"
+    }
+   ],
+   "missed": [
+    "Google Books (HTTP 429 (daily quota exceeded -- not retrying))",
+    "Wikidata (title matched but credited \"Margaret Thatcher\" does not -- likely a different work titled \"The Path to Power\")"
+   ],
+   "coverage": 0
+  },
+  {
+   "id": "b181",
+   "title": "The Great Gatsby",
+   "year": 1925,
+   "corpusGenres": [
+    "Literary Fiction"
+   ],
+   "tags": [
+    "tragedy",
+    "great american novel"
+   ],
+   "sourceGenres": [],
+   "sources": [
+    {
+     "src": "OpenLibrary",
+     "matchedTitle": "The Great Gatsby(Published In 1925)",
+     "url": "https://openlibrary.org/search.json?title=The%20Great%20Gatsby"
+    },
+    {
+     "src": "Wikidata",
+     "matchedTitle": "The Great Gatsby",
+     "url": "https://www.wikidata.org/wiki/Q214371"
+    }
+   ],
+   "missed": [
+    "Google Books (HTTP 429 (daily quota exceeded -- not retrying))"
+   ],
+   "coverage": 2
+  },
+  {
+   "id": "b182",
+   "title": "Stories of Your Life and Others",
+   "year": 2002,
+   "corpusGenres": [
+    "Sci-Fi",
+    "Philosophy"
+   ],
+   "tags": [
+    "science fiction",
+    "speculative fiction"
+   ],
+   "sourceGenres": [],
+   "sources": [
+    {
+     "src": "OpenLibrary",
+     "matchedTitle": "Stories of Your Life and Others",
+     "url": "https://openlibrary.org/search.json?title=Stories%20of%20Your%20Life%20and%20Others"
+    },
+    {
+     "src": "Wikidata",
+     "matchedTitle": "Stories of Your Life and Others",
+     "url": "https://www.wikidata.org/wiki/Q3045861"
+    }
+   ],
+   "missed": [
+    "Google Books (HTTP 429 (daily quota exceeded -- not retrying))"
+   ],
+   "coverage": 2
+  },
+  {
+   "id": "b183",
+   "title": "Lonesome Dove",
+   "year": 1985,
+   "corpusGenres": [
+    "Western",
+    "Epic",
+    "Historical"
+   ],
+   "tags": [
+    "western novel",
+    "adventure fiction",
+    "cattle drive",
+    "wild west"
+   ],
+   "sourceGenres": [],
+   "sources": [
+    {
+     "src": "OpenLibrary",
+     "matchedTitle": "Lonesome Dove",
+     "url": "https://openlibrary.org/search.json?title=Lonesome%20Dove"
+    },
+    {
+     "src": "Wikidata",
+     "matchedTitle": "Lonesome Dove",
+     "url": "https://www.wikidata.org/wiki/Q973883"
+    }
+   ],
+   "missed": [
+    "Google Books (HTTP 429 (daily quota exceeded -- not retrying))"
+   ],
+   "coverage": 4
+  },
+  {
+   "id": "b184",
+   "title": "Exhalation",
+   "year": 2019,
+   "corpusGenres": [
+    "Sci-Fi",
+    "Philosophy"
+   ],
+   "tags": [
+    "speculative fiction",
+    "science fiction"
+   ],
+   "sourceGenres": [],
+   "sources": [
+    {
+     "src": "OpenLibrary",
+     "matchedTitle": "Exhalation",
+     "url": "https://openlibrary.org/search.json?title=Exhalation"
+    },
+    {
+     "src": "Wikidata",
+     "matchedTitle": "Exhalation: Stories",
+     "url": "https://www.wikidata.org/wiki/Q63677209"
+    }
+   ],
+   "missed": [
+    "Google Books (HTTP 429 (daily quota exceeded -- not retrying))"
+   ],
+   "coverage": 2
+  },
+  {
+   "id": "b185",
+   "title": "The Warmth of Other Suns",
+   "year": 2010,
+   "corpusGenres": [
+    "History"
+   ],
+   "tags": [
+    "creative nonfiction",
+    "great migration"
+   ],
+   "sourceGenres": [],
+   "sources": [
+    {
+     "src": "OpenLibrary",
+     "matchedTitle": "The Warmth of Other Suns",
+     "url": "https://openlibrary.org/search.json?title=The%20Warmth%20of%20Other%20Suns"
+    },
+    {
+     "src": "Wikidata",
+     "matchedTitle": "The Warmth of Other Suns",
+     "url": "https://www.wikidata.org/wiki/Q7773566"
+    }
+   ],
+   "missed": [
+    "Google Books (HTTP 429 (daily quota exceeded -- not retrying))"
+   ],
+   "coverage": 2
+  },
+  {
+   "id": "b186",
+   "title": "Invisible Man",
+   "year": 1952,
+   "corpusGenres": [
+    "Literary Fiction"
+   ],
+   "tags": [
+    "bildungsroman",
+    "autobiographical novel",
+    "social novel",
+    "african american literature",
+    "science fiction"
+   ],
+   "sourceGenres": [],
+   "sources": [
+    {
+     "src": "Wikidata",
+     "matchedTitle": "Invisible Man",
+     "url": "https://www.wikidata.org/wiki/Q1784288"
+    }
+   ],
+   "missed": [
+    "OpenLibrary (title matched but author \"H. G. Wells\" does not -- likely a different book titled \"Invisible Man\")",
+    "Google Books (HTTP 429 (daily quota exceeded -- not retrying))"
+   ],
+   "coverage": 5
+  },
+  {
+   "id": "b187",
+   "title": "Les Misérables",
+   "year": 1862,
+   "corpusGenres": [
+    "Literary Fiction",
+    "Epic",
+    "Historical"
+   ],
+   "tags": [
+    "tragedy",
+    "historical fiction"
+   ],
+   "sourceGenres": [],
+   "sources": [
+    {
+     "src": "OpenLibrary",
+     "matchedTitle": "Les Misérables",
+     "url": "https://openlibrary.org/search.json?title=Les%20Mis%C3%A9rables"
+    },
+    {
+     "src": "Wikidata",
+     "matchedTitle": "Les Misérables",
+     "url": "https://www.wikidata.org/wiki/Q180736"
+    }
+   ],
+   "missed": [
+    "Google Books (HTTP 429 (daily quota exceeded -- not retrying))"
+   ],
+   "coverage": 2
+  },
+  {
+   "id": "b188",
+   "title": "Pride and Prejudice",
+   "year": 1813,
+   "corpusGenres": [
+    "Romance",
+    "Literary Fiction"
+   ],
+   "tags": [
+    "novel of manners",
+    "satirical fiction",
+    "psychological fiction",
+    "romantic fiction",
+    "self-knowledge",
+    "happiness",
+    "femininity",
+    "social order",
+    "marriage",
+    "social class",
+    "perspectivism",
+    "pride",
+    "rural gentry"
+   ],
+   "sourceGenres": [],
+   "sources": [
+    {
+     "src": "OpenLibrary",
+     "matchedTitle": "Pride and Prejudice",
+     "url": "https://openlibrary.org/search.json?title=Pride%20and%20Prejudice"
+    },
+    {
+     "src": "Wikidata",
+     "matchedTitle": "Pride and Prejudice",
+     "url": "https://www.wikidata.org/wiki/Q170583"
+    }
+   ],
+   "missed": [
+    "Google Books (HTTP 429 (daily quota exceeded -- not retrying))"
+   ],
+   "coverage": 13
+  },
+  {
+   "id": "b189",
+   "title": "Notes from Underground",
+   "year": 1864,
+   "corpusGenres": [
+    "Literary Fiction",
+    "Philosophy"
+   ],
+   "tags": [
+    "philosophical fiction"
+   ],
+   "sourceGenres": [],
+   "sources": [
+    {
+     "src": "OpenLibrary",
+     "matchedTitle": "Dostoyevsky. Notes From Underground / White Nights / The Dream of a Ridiculous Man / Selections from The House of the Dead",
+     "url": "https://openlibrary.org/search.json?title=Notes%20from%20Underground"
+    },
+    {
+     "src": "Wikidata",
+     "matchedTitle": "Notes from Underground",
+     "url": "https://www.wikidata.org/wiki/Q695116"
+    }
+   ],
+   "missed": [
+    "Google Books (HTTP 429 (daily quota exceeded -- not retrying))"
+   ],
+   "coverage": 1
+  },
+  {
+   "id": "b190",
+   "title": "Night Watch",
+   "year": 2002,
+   "corpusGenres": [
+    "Fantasy",
+    "Comedy"
+   ],
+   "tags": [
+    "fantasy comedy",
+    "time travel"
+   ],
+   "sourceGenres": [],
+   "sources": [
+    {
+     "src": "OpenLibrary",
+     "matchedTitle": "Night Watch",
+     "url": "https://openlibrary.org/search.json?title=Night%20Watch"
+    },
+    {
+     "src": "Wikidata",
+     "matchedTitle": "Night Watch",
+     "url": "https://www.wikidata.org/wiki/Q2410203"
+    }
+   ],
+   "missed": [
+    "Google Books (HTTP 429 (daily quota exceeded -- not retrying))"
+   ],
+   "coverage": 2
+  },
+  {
+   "id": "b191",
+   "title": "The Stranger",
+   "year": 1942,
+   "corpusGenres": [
+    "Literary Fiction",
+    "Philosophy"
+   ],
+   "tags": [],
+   "sourceGenres": [],
+   "sources": [],
+   "missed": [
+    "OpenLibrary (title matched but author \"Mark Twain\" does not -- likely a different book titled \"The Stranger\")",
+    "Google Books (HTTP 429 (daily quota exceeded -- not retrying))",
+    "Wikidata (title matched but credited \"Ambrose Bierce\" does not -- likely a different work titled \"The Stranger\")"
+   ],
+   "coverage": 0
+  },
+  {
+   "id": "b192",
+   "title": "Madame Bovary",
+   "year": 1856,
+   "corpusGenres": [
+    "Literary Fiction"
+   ],
+   "tags": [
+    "realist novel"
+   ],
+   "sourceGenres": [],
+   "sources": [
+    {
+     "src": "OpenLibrary",
+     "matchedTitle": "Madame Bovary",
+     "url": "https://openlibrary.org/search.json?title=Madame%20Bovary"
+    },
+    {
+     "src": "Wikidata",
+     "matchedTitle": "Madame Bovary",
+     "url": "https://www.wikidata.org/wiki/Q193417"
+    }
+   ],
+   "missed": [
+    "Google Books (HTTP 429 (daily quota exceeded -- not retrying))"
+   ],
+   "coverage": 1
+  },
+  {
+   "id": "b193",
+   "title": "The Guns of August",
+   "year": 1962,
+   "corpusGenres": [
+    "History",
+    "War"
+   ],
+   "tags": [],
+   "sourceGenres": [],
+   "sources": [
+    {
+     "src": "OpenLibrary",
+     "matchedTitle": "The Guns of August",
+     "url": "https://openlibrary.org/search.json?title=The%20Guns%20of%20August"
+    }
+   ],
+   "missed": [
+    "Google Books (HTTP 429 (daily quota exceeded -- not retrying))",
+    "Wikidata (no type-matching candidate for \"The Guns of August\")"
+   ],
+   "coverage": 0
+  },
+  {
+   "id": "b194",
+   "title": "Paradise Lost",
+   "year": 1667,
+   "corpusGenres": [
+    "Literary Fiction",
+    "Epic",
+    "Historical"
+   ],
+   "tags": [],
+   "sourceGenres": [],
+   "sources": [
+    {
+     "src": "OpenLibrary",
+     "matchedTitle": "Paradise Lost",
+     "url": "https://openlibrary.org/search.json?title=Paradise%20Lost"
+    },
+    {
+     "src": "Wikidata",
+     "matchedTitle": "Paradise Lost",
+     "url": "https://www.wikidata.org/wiki/Q28754"
+    }
+   ],
+   "missed": [
+    "Google Books (HTTP 429 (daily quota exceeded -- not retrying))"
+   ],
+   "coverage": 0
+  },
+  {
+   "id": "b195",
+   "title": "In Search of Lost Time: Swann's Way",
+   "year": 1913,
+   "corpusGenres": [
+    "Literary Fiction"
+   ],
+   "tags": [],
+   "sourceGenres": [],
+   "sources": [
+    {
+     "src": "OpenLibrary",
+     "matchedTitle": "In Search of Lost Time (Swann's Way)",
+     "url": "https://openlibrary.org/search.json?title=In%20Search%20of%20Lost%20Time%3A%20Swann's%20Way"
+    }
+   ],
+   "missed": [
+    "Google Books (HTTP 429 (daily quota exceeded -- not retrying))",
+    "Wikidata (no type-matching candidate for \"In Search of Lost Time: Swann's Way\")"
+   ],
+   "coverage": 0
+  },
+  {
+   "id": "b196",
+   "title": "Collected Poems of Emily Dickinson",
+   "year": 1890,
+   "corpusGenres": [
+    "Poetry"
+   ],
+   "tags": [],
+   "sourceGenres": [],
+   "sources": [
+    {
+     "src": "OpenLibrary",
+     "matchedTitle": "Collected Poems of Emily Dickinson",
+     "url": "https://openlibrary.org/search.json?title=Collected%20Poems%20of%20Emily%20Dickinson"
+    }
+   ],
+   "missed": [
+    "Google Books (HTTP 429 (daily quota exceeded -- not retrying))",
+    "Wikidata (no type-matching candidate for \"Collected Poems of Emily Dickinson\")"
+   ],
+   "coverage": 0
+  },
+  {
+   "id": "b197",
+   "title": "Berserk: Deluxe Volume 1",
+   "year": 1990,
+   "corpusGenres": [
+    "Graphic Novel",
+    "Dark Fantasy"
+   ],
+   "tags": [],
+   "sourceGenres": [],
+   "sources": [],
+   "missed": [
+    "OpenLibrary (title matched but author \"三浦建太郎 & Jason DeAngelis\" does not -- likely a different book titled \"Berserk: Deluxe Volume 1\")",
+    "Google Books (HTTP 429 (daily quota exceeded -- not retrying))",
+    "Wikidata (no type-matching candidate for \"Berserk: Deluxe Volume 1\")"
+   ],
+   "coverage": 0
+  },
+  {
+   "id": "b198",
+   "title": "Song of Solomon",
+   "year": 1977,
+   "corpusGenres": [
+    "Literary Fiction"
+   ],
+   "tags": [],
+   "sourceGenres": [],
+   "sources": [
+    {
+     "src": "OpenLibrary",
+     "matchedTitle": "Song of Solomon",
+     "url": "https://openlibrary.org/search.json?title=Song%20of%20Solomon"
+    }
+   ],
+   "missed": [
+    "Google Books (HTTP 429 (daily quota exceeded -- not retrying))",
+    "Wikidata (title matched but credited \"\" does not -- likely a different work titled \"Song of Solomon\")"
+   ],
+   "coverage": 0
+  },
+  {
+   "id": "b199",
+   "title": "Pale Blue Dot",
+   "year": 1994,
+   "corpusGenres": [
+    "Physics",
+    "Philosophy"
+   ],
+   "tags": [
+    "popular science",
+    "astronomy",
+    "earth"
+   ],
+   "sourceGenres": [],
+   "sources": [
+    {
+     "src": "OpenLibrary",
+     "matchedTitle": "Pale Blue Dot",
+     "url": "https://openlibrary.org/search.json?title=Pale%20Blue%20Dot"
+    },
+    {
+     "src": "Wikidata",
+     "matchedTitle": "Pale Blue Dot",
+     "url": "https://www.wikidata.org/wiki/Q5231098"
+    }
+   ],
+   "missed": [
+    "Google Books (HTTP 429 (daily quota exceeded -- not retrying))"
+   ],
+   "coverage": 3
+  },
+  {
+   "id": "b200",
+   "title": "Six Easy Pieces",
+   "year": 1994,
+   "corpusGenres": [
+    "Physics",
+    "Science"
+   ],
+   "tags": [],
+   "sourceGenres": [],
+   "sources": [
+    {
+     "src": "OpenLibrary",
+     "matchedTitle": "Six Easy Pieces",
+     "url": "https://openlibrary.org/search.json?title=Six%20Easy%20Pieces"
+    }
+   ],
+   "missed": [
+    "Google Books (HTTP 429 (daily quota exceeded -- not retrying))",
+    "Wikidata (no type-matching candidate for \"Six Easy Pieces\")"
+   ],
+   "coverage": 0
+  },
+  {
+   "id": "b201",
+   "title": "Tao Te Ching",
+   "year": -400,
+   "corpusGenres": [
+    "Philosophy"
+   ],
+   "tags": [],
+   "sourceGenres": [],
+   "sources": [],
+   "missed": [
+    "OpenLibrary (title matched but author \"老子\" does not -- likely a different book titled \"Tao Te Ching\")",
+    "Google Books (HTTP 429 (daily quota exceeded -- not retrying))",
+    "Wikidata (no type-matching candidate for \"Tao Te Ching\")"
+   ],
+   "coverage": 0
+  },
+  {
+   "id": "b202",
+   "title": "The Gene",
+   "year": 2016,
+   "corpusGenres": [
+    "Science",
+    "History"
+   ],
+   "tags": [],
+   "sourceGenres": [],
+   "sources": [],
+   "missed": [
+    "OpenLibrary (title matched but author \"Richard Dawkins\" does not -- likely a different book titled \"The Gene\")",
+    "Google Books (HTTP 429 (daily quota exceeded -- not retrying))",
+    "Wikidata (title matched but credited \"John Vornholt\" does not -- likely a different work titled \"The Gene\")"
+   ],
+   "coverage": 0
+  },
+  {
+   "id": "b203",
+   "title": "QED: The Strange Theory of Light and Matter",
+   "year": 1985,
+   "corpusGenres": [
+    "Physics"
+   ],
+   "tags": [
+    "non-fiction",
+    "quantum electrodynamics"
+   ],
+   "sourceGenres": [],
+   "sources": [
+    {
+     "src": "OpenLibrary",
+     "matchedTitle": "Qed - The Strange Theory of Light and Matter",
+     "url": "https://openlibrary.org/search.json?title=QED%3A%20The%20Strange%20Theory%20of%20Light%20and%20Matter"
+    },
+    {
+     "src": "Wikidata",
+     "matchedTitle": "QED: The Strange Theory of Light and Matter",
+     "url": "https://www.wikidata.org/wiki/Q7265419"
+    }
+   ],
+   "missed": [
+    "Google Books (HTTP 429 (daily quota exceeded -- not retrying))"
+   ],
+   "coverage": 2
+  },
+  {
+   "id": "b204",
+   "title": "Animal Farm",
+   "year": 1945,
+   "corpusGenres": [
+    "Comedy",
+    "Literary Fiction"
+   ],
+   "tags": [
+    "roman à clef",
+    "satirical fiction",
+    "fable",
+    "dystopian fiction",
+    "totalitarianism"
+   ],
+   "sourceGenres": [],
+   "sources": [
+    {
+     "src": "OpenLibrary",
+     "matchedTitle": "Animal Farm",
+     "url": "https://openlibrary.org/search.json?title=Animal%20Farm"
+    },
+    {
+     "src": "Wikidata",
+     "matchedTitle": "Animal Farm",
+     "url": "https://www.wikidata.org/wiki/Q1396889"
+    }
+   ],
+   "missed": [
+    "Google Books (HTTP 429 (daily quota exceeded -- not retrying))"
+   ],
+   "coverage": 5
+  },
+  {
+   "id": "b205",
+   "title": "Leaves of Grass",
+   "year": 1855,
+   "corpusGenres": [
+    "Literary Fiction"
+   ],
+   "tags": [
+    "poetry"
+   ],
+   "sourceGenres": [],
+   "sources": [
+    {
+     "src": "OpenLibrary",
+     "matchedTitle": "Leaves of Grass",
+     "url": "https://openlibrary.org/search.json?title=Leaves%20of%20Grass"
+    },
+    {
+     "src": "Wikidata",
+     "matchedTitle": "Leaves of Grass",
+     "url": "https://www.wikidata.org/wiki/Q132042"
+    }
+   ],
+   "missed": [
+    "Google Books (HTTP 429 (daily quota exceeded -- not retrying))"
+   ],
+   "coverage": 1
+  },
+  {
+   "id": "b206",
+   "title": "Akira: Volume 1",
+   "year": 1982,
+   "corpusGenres": [
+    "Graphic Novel",
+    "Sci-Fi"
+   ],
+   "tags": [],
+   "sourceGenres": [],
+   "sources": [],
+   "missed": [
+    "OpenLibrary (no match for \"Akira: Volume 1\")",
+    "Google Books (HTTP 429 (daily quota exceeded -- not retrying))",
+    "Wikidata (no type-matching candidate for \"Akira: Volume 1\")"
+   ],
+   "coverage": 0
+  },
+  {
+   "id": "b207",
+   "title": "To Kill a Mockingbird",
+   "year": 1960,
+   "corpusGenres": [
+    "Literary Fiction"
+   ],
+   "tags": [
+    "bildungsroman",
+    "southern gothic",
+    "social fiction",
+    "legal fiction",
+    "racism"
+   ],
+   "sourceGenres": [],
+   "sources": [
+    {
+     "src": "OpenLibrary",
+     "matchedTitle": "To Kill a Mockingbird",
+     "url": "https://openlibrary.org/search.json?title=To%20Kill%20a%20Mockingbird"
+    },
+    {
+     "src": "Wikidata",
+     "matchedTitle": "To Kill a Mockingbird",
+     "url": "https://www.wikidata.org/wiki/Q212340"
+    }
+   ],
+   "missed": [
+    "Google Books (HTTP 429 (daily quota exceeded -- not retrying))"
+   ],
+   "coverage": 5
+  },
+  {
+   "id": "b208",
+   "title": "Grapes of Wrath",
+   "year": 1939,
+   "corpusGenres": [
+    "Literary Fiction",
+    "History"
+   ],
+   "tags": [
+    "historical fiction",
+    "great depression in the united states"
+   ],
+   "sourceGenres": [],
+   "sources": [
+    {
+     "src": "OpenLibrary",
+     "matchedTitle": "The Grapes of Wrath",
+     "url": "https://openlibrary.org/search.json?title=Grapes%20of%20Wrath"
+    },
+    {
+     "src": "Wikidata",
+     "matchedTitle": "The Grapes of Wrath",
+     "url": "https://www.wikidata.org/wiki/Q215983"
+    }
+   ],
+   "missed": [
+    "Google Books (HTTP 429 (daily quota exceeded -- not retrying))"
+   ],
+   "coverage": 2
+  },
+  {
+   "id": "b209",
+   "title": "The Spy Who Came in from the Cold",
+   "year": 1963,
+   "corpusGenres": [
+    "Thriller",
+    "Espionage"
+   ],
+   "tags": [
+    "adventure fiction",
+    "spy fiction",
+    "detective fiction",
+    "cold war"
+   ],
+   "sourceGenres": [],
+   "sources": [
+    {
+     "src": "OpenLibrary",
+     "matchedTitle": "The Spy Who Came in from the Cold",
+     "url": "https://openlibrary.org/search.json?title=The%20Spy%20Who%20Came%20in%20from%20the%20Cold"
+    },
+    {
+     "src": "Wikidata",
+     "matchedTitle": "The Spy Who Came in from the Cold",
+     "url": "https://www.wikidata.org/wiki/Q468071"
+    }
+   ],
+   "missed": [
+    "Google Books (HTTP 429 (daily quota exceeded -- not retrying))"
+   ],
+   "coverage": 4
+  },
+  {
+   "id": "b210",
+   "title": "A Storm of Swords",
+   "year": 2000,
+   "corpusGenres": [
+    "Fantasy",
+    "Epic"
+   ],
+   "tags": [
+    "fantasy"
+   ],
+   "sourceGenres": [],
+   "sources": [
+    {
+     "src": "OpenLibrary",
+     "matchedTitle": "A Storm of Swords",
+     "url": "https://openlibrary.org/search.json?title=A%20Storm%20of%20Swords"
+    },
+    {
+     "src": "Wikidata",
+     "matchedTitle": "A Storm of Swords",
+     "url": "https://www.wikidata.org/wiki/Q431927"
+    }
+   ],
+   "missed": [
+    "Google Books (HTTP 429 (daily quota exceeded -- not retrying))"
+   ],
+   "coverage": 1
+  },
+  {
+   "id": "b211",
+   "title": "Man's Search for Meaning",
+   "year": 1946,
+   "corpusGenres": [
+    "Philosophy",
+    "History"
+   ],
+   "tags": [
+    "essay",
+    "psychology"
+   ],
+   "sourceGenres": [],
+   "sources": [
+    {
+     "src": "OpenLibrary",
+     "matchedTitle": "Man's Search for Meaning adapted for Young Adults [adaptation]",
+     "url": "https://openlibrary.org/search.json?title=Man's%20Search%20for%20Meaning"
+    },
+    {
+     "src": "Wikidata",
+     "matchedTitle": "Man's Search for Meaning",
+     "url": "https://www.wikidata.org/wiki/Q426369"
+    }
+   ],
+   "missed": [
+    "Google Books (HTTP 429 (daily quota exceeded -- not retrying))"
+   ],
+   "coverage": 2
+  },
+  {
+   "id": "b212",
+   "title": "Tinker Tailor Soldier Spy",
+   "year": 1974,
+   "corpusGenres": [
+    "Thriller",
+    "Espionage"
+   ],
+   "tags": [
+    "spy fiction",
+    "cold war"
+   ],
+   "sourceGenres": [],
+   "sources": [
+    {
+     "src": "OpenLibrary",
+     "matchedTitle": "Tinker Tailor Soldier Spy",
+     "url": "https://openlibrary.org/search.json?title=Tinker%20Tailor%20Soldier%20Spy"
+    },
+    {
+     "src": "Wikidata",
+     "matchedTitle": "Tinker Tailor Soldier Spy",
+     "url": "https://www.wikidata.org/wiki/Q582811"
+    }
+   ],
+   "missed": [
+    "Google Books (HTTP 429 (daily quota exceeded -- not retrying))"
+   ],
+   "coverage": 2
+  },
+  {
+   "id": "b213",
+   "title": "To the Lighthouse",
+   "year": 1927,
+   "corpusGenres": [
+    "Literary Fiction"
+   ],
+   "tags": [
+    "modernist literature",
+    "psychological fiction"
+   ],
+   "sourceGenres": [],
+   "sources": [
+    {
+     "src": "OpenLibrary",
+     "matchedTitle": "To the Lighthouse",
+     "url": "https://openlibrary.org/search.json?title=To%20the%20Lighthouse"
+    },
+    {
+     "src": "Wikidata",
+     "matchedTitle": "To the Lighthouse",
+     "url": "https://www.wikidata.org/wiki/Q478016"
+    }
+   ],
+   "missed": [
+    "Google Books (HTTP 429 (daily quota exceeded -- not retrying))"
+   ],
+   "coverage": 2
+  },
+  {
+   "id": "b214",
+   "title": "The Waste Land and Other Poems",
+   "year": 1922,
+   "corpusGenres": [
+    "Poetry"
+   ],
+   "tags": [],
+   "sourceGenres": [],
+   "sources": [
+    {
+     "src": "OpenLibrary",
+     "matchedTitle": "The waste land and other poems",
+     "url": "https://openlibrary.org/search.json?title=The%20Waste%20Land%20and%20Other%20Poems"
+    },
+    {
+     "src": "Wikidata",
+     "matchedTitle": "The Waste Land and Other Poems",
+     "url": "https://www.wikidata.org/wiki/Q138649216"
+    }
+   ],
+   "missed": [
+    "Google Books (HTTP 429 (daily quota exceeded -- not retrying))"
+   ],
+   "coverage": 0
+  },
+  {
+   "id": "b215",
+   "title": "The Complete Poems of Robert Frost",
+   "year": 1969,
+   "corpusGenres": [
+    "Poetry"
+   ],
+   "tags": [],
+   "sourceGenres": [],
+   "sources": [
+    {
+     "src": "OpenLibrary",
+     "matchedTitle": "Complete Poems of Robert Frost, The",
+     "url": "https://openlibrary.org/search.json?title=The%20Complete%20Poems%20of%20Robert%20Frost"
+    }
+   ],
+   "missed": [
+    "Google Books (HTTP 429 (daily quota exceeded -- not retrying))",
+    "Wikidata (no type-matching candidate for \"The Complete Poems of Robert Frost\")"
+   ],
+   "coverage": 0
+  },
+  {
+   "id": "b216",
+   "title": "The Metamorphosis",
+   "year": 1915,
+   "corpusGenres": [
+    "Literary Fiction",
+    "Psychological"
+   ],
+   "tags": [
+    "epic literature",
+    "absurdist literature",
+    "body horror literature"
+   ],
+   "sourceGenres": [],
+   "sources": [
+    {
+     "src": "Wikidata",
+     "matchedTitle": "The Metamorphosis",
+     "url": "https://www.wikidata.org/wiki/Q184222"
+    }
+   ],
+   "missed": [
+    "OpenLibrary (title matched but author \"Kuper, Peter\" does not -- likely a different book titled \"The Metamorphosis\")",
+    "Google Books (HTTP 429 (daily quota exceeded -- not retrying))"
+   ],
+   "coverage": 3
+  },
+  {
+   "id": "b217",
+   "title": "The Republic",
+   "year": -380,
+   "corpusGenres": [
+    "Philosophy"
+   ],
+   "tags": [],
+   "sourceGenres": [],
+   "sources": [],
+   "missed": [
+    "OpenLibrary (title matched but author \"Scott Lynch\" does not -- likely a different book titled \"The Republic\")",
+    "Google Books (HTTP 429 (daily quota exceeded -- not retrying))",
+    "Wikidata (no type-matching candidate for \"The Republic\")"
+   ],
+   "coverage": 0
+  },
+  {
+   "id": "b218",
+   "title": "Invisible Cities",
+   "year": 1972,
+   "corpusGenres": [
+    "Literary Fiction",
+    "Fantasy"
+   ],
+   "tags": [
+    "postmodern fiction",
+    "historical fiction"
+   ],
+   "sourceGenres": [],
+   "sources": [
+    {
+     "src": "Wikidata",
+     "matchedTitle": "Invisible Cities",
+     "url": "https://www.wikidata.org/wiki/Q1219705"
+    }
+   ],
+   "missed": [
+    "OpenLibrary (title matched but author \"Roman Mars & Kurt Kohlstedt\" does not -- likely a different book titled \"Invisible Cities\")",
+    "Google Books (HTTP 429 (daily quota exceeded -- not retrying))"
+   ],
+   "coverage": 2
+  },
+  {
+   "id": "b219",
+   "title": "Team of Rivals",
+   "year": 2005,
+   "corpusGenres": [
+    "History"
+   ],
+   "tags": [
+    "non-fiction",
+    "biographical work",
+    "abraham lincoln",
+    "american civil war"
+   ],
+   "sourceGenres": [],
+   "sources": [
+    {
+     "src": "OpenLibrary",
+     "matchedTitle": "Team of Rivals",
+     "url": "https://openlibrary.org/search.json?title=Team%20of%20Rivals"
+    },
+    {
+     "src": "Wikidata",
+     "matchedTitle": "Team of Rivals: The Political Genius of Abraham Lincoln",
+     "url": "https://www.wikidata.org/wiki/Q7691655"
+    }
+   ],
+   "missed": [
+    "Google Books (HTTP 429 (daily quota exceeded -- not retrying))"
+   ],
+   "coverage": 4
+  },
+  {
+   "id": "b220",
+   "title": "Small Gods",
+   "year": 1992,
+   "corpusGenres": [
+    "Fantasy",
+    "Comedy"
+   ],
+   "tags": [
+    "fantasy",
+    "humorous literature",
+    "religion",
+    "god",
+    "clergy",
+    "inquisitorial system"
+   ],
+   "sourceGenres": [],
+   "sources": [
+    {
+     "src": "OpenLibrary",
+     "matchedTitle": "Small Gods",
+     "url": "https://openlibrary.org/search.json?title=Small%20Gods"
+    },
+    {
+     "src": "Wikidata",
+     "matchedTitle": "Small Gods",
+     "url": "https://www.wikidata.org/wiki/Q1307144"
+    }
+   ],
+   "missed": [
+    "Google Books (HTTP 429 (daily quota exceeded -- not retrying))"
+   ],
+   "coverage": 6
+  },
+  {
+   "id": "b221",
+   "title": "Bleak House",
+   "year": 1853,
+   "corpusGenres": [
+    "Literary Fiction",
+    "Mystery"
+   ],
+   "tags": [
+    "detective fiction"
+   ],
+   "sourceGenres": [],
+   "sources": [
+    {
+     "src": "OpenLibrary",
+     "matchedTitle": "Bleak House",
+     "url": "https://openlibrary.org/search.json?title=Bleak%20House"
+    },
+    {
+     "src": "Wikidata",
+     "matchedTitle": "Bleak House",
+     "url": "https://www.wikidata.org/wiki/Q883305"
+    }
+   ],
+   "missed": [
+    "Google Books (HTTP 429 (daily quota exceeded -- not retrying))"
+   ],
+   "coverage": 1
+  },
+  {
+   "id": "b222",
+   "title": "Gilead",
+   "year": 2004,
+   "corpusGenres": [
+    "Literary Fiction"
+   ],
+   "tags": [
+    "epistolary novel"
+   ],
+   "sourceGenres": [],
+   "sources": [
+    {
+     "src": "OpenLibrary",
+     "matchedTitle": "Gilead",
+     "url": "https://openlibrary.org/search.json?title=Gilead"
+    },
+    {
+     "src": "Wikidata",
+     "matchedTitle": "Gilead",
+     "url": "https://www.wikidata.org/wiki/Q5561577"
+    }
+   ],
+   "missed": [
+    "Google Books (HTTP 429 (daily quota exceeded -- not retrying))"
+   ],
+   "coverage": 1
+  },
+  {
+   "id": "b223",
+   "title": "The Diary of a Young Girl",
+   "year": 1947,
+   "corpusGenres": [
+    "History"
+   ],
+   "tags": [],
+   "sourceGenres": [],
+   "sources": [
+    {
+     "src": "OpenLibrary",
+     "matchedTitle": "The Diary of a Young Girl- Anne Frank",
+     "url": "https://openlibrary.org/search.json?title=The%20Diary%20of%20a%20Young%20Girl"
+    }
+   ],
+   "missed": [
+    "Google Books (HTTP 429 (daily quota exceeded -- not retrying))",
+    "Wikidata (no type-matching candidate for \"The Diary of a Young Girl\")"
+   ],
+   "coverage": 0
+  },
+  {
+   "id": "b224",
+   "title": "The Adventures of Sherlock Holmes",
+   "year": 1892,
+   "corpusGenres": [
+    "Mystery",
+    "Detective"
+   ],
+   "tags": [
+    "detective fiction"
+   ],
+   "sourceGenres": [],
+   "sources": [
+    {
+     "src": "OpenLibrary",
+     "matchedTitle": "The Adventures of Sherlock Holmes [12 stories]",
+     "url": "https://openlibrary.org/search.json?title=The%20Adventures%20of%20Sherlock%20Holmes"
+    },
+    {
+     "src": "Wikidata",
+     "matchedTitle": "The Adventures of Sherlock Holmes",
+     "url": "https://www.wikidata.org/wiki/Q141008766"
+    }
+   ],
+   "missed": [
+    "Google Books (HTTP 429 (daily quota exceeded -- not retrying))"
+   ],
+   "coverage": 1
+  },
+  {
+   "id": "b225",
+   "title": "Letters from a Stoic",
+   "year": 65,
+   "corpusGenres": [
+    "Philosophy"
+   ],
+   "tags": [],
+   "sourceGenres": [],
+   "sources": [
+    {
+     "src": "OpenLibrary",
+     "matchedTitle": "Letters from a Stoic",
+     "url": "https://openlibrary.org/search.json?title=Letters%20from%20a%20Stoic"
+    },
+    {
+     "src": "Wikidata",
+     "matchedTitle": "Letters from a Stoic",
+     "url": "https://www.wikidata.org/wiki/Q138515751"
+    }
+   ],
+   "missed": [
+    "Google Books (HTTP 429 (daily quota exceeded -- not retrying))"
+   ],
+   "coverage": 0
+  },
+  {
+   "id": "b226",
+   "title": "Jane Eyre",
+   "year": 1847,
+   "corpusGenres": [
+    "Literary Fiction",
+    "Romance"
+   ],
+   "tags": [
+    "education novel",
+    "autobiographical novel",
+    "gothic fiction",
+    "romance",
+    "bildungsroman",
+    "orphan"
+   ],
+   "sourceGenres": [],
+   "sources": [
+    {
+     "src": "OpenLibrary",
+     "matchedTitle": "Jane Eyre",
+     "url": "https://openlibrary.org/search.json?title=Jane%20Eyre"
+    },
+    {
+     "src": "Wikidata",
+     "matchedTitle": "Jane Eyre",
+     "url": "https://www.wikidata.org/wiki/Q182961"
+    }
+   ],
+   "missed": [
+    "Google Books (HTTP 429 (daily quota exceeded -- not retrying))"
+   ],
+   "coverage": 6
+  },
+  {
+   "id": "b227",
+   "title": "Persepolis",
+   "year": 2000,
+   "corpusGenres": [
+    "Graphic Novel",
+    "History"
+   ],
+   "tags": [
+    "graphic novel",
+    "graphic memoir",
+    "bildungsroman"
+   ],
+   "sourceGenres": [],
+   "sources": [
+    {
+     "src": "OpenLibrary",
+     "matchedTitle": "Persepolis 1-4",
+     "url": "https://openlibrary.org/search.json?title=Persepolis"
+    },
+    {
+     "src": "Wikidata",
+     "matchedTitle": "Persepolis",
+     "url": "https://www.wikidata.org/wiki/Q756604"
+    }
+   ],
+   "missed": [
+    "Google Books (HTTP 429 (daily quota exceeded -- not retrying))"
+   ],
+   "coverage": 3
+  },
+  {
+   "id": "b228",
+   "title": "Behave",
+   "year": 2017,
+   "corpusGenres": [
+    "Science"
+   ],
+   "tags": [],
+   "sourceGenres": [],
+   "sources": [
+    {
+     "src": "OpenLibrary",
+     "matchedTitle": "Behave",
+     "url": "https://openlibrary.org/search.json?title=Behave"
+    }
+   ],
+   "missed": [
+    "Google Books (HTTP 429 (daily quota exceeded -- not retrying))",
+    "Wikidata (no type-matching candidate for \"Behave\")"
+   ],
+   "coverage": 0
+  },
+  {
+   "id": "b229",
+   "title": "The Long Goodbye (novel)",
+   "year": 1953,
+   "corpusGenres": [
+    "Mystery",
+    "Crime"
+   ],
+   "tags": [
+    "hardboiled",
+    "crime fiction",
+    "noir fiction",
+    "detective fiction"
+   ],
+   "sourceGenres": [],
+   "sources": [
+    {
+     "src": "Wikidata",
+     "matchedTitle": "The Long Goodbye",
+     "url": "https://www.wikidata.org/wiki/Q2464542"
+    }
+   ],
+   "missed": [
+    "OpenLibrary (title matched but author \"Masaki Yamada\" does not -- likely a different book titled \"The Long Goodbye (novel)\")",
+    "Google Books (HTTP 429 (daily quota exceeded -- not retrying))"
+   ],
+   "coverage": 4
+  },
+  {
+   "id": "b230",
+   "title": "Great Expectations",
+   "year": 1861,
+   "corpusGenres": [
+    "Literary Fiction"
+   ],
+   "tags": [
+    "black comedy",
+    "bildungsroman",
+    "orphan"
+   ],
+   "sourceGenres": [],
+   "sources": [
+    {
+     "src": "OpenLibrary",
+     "matchedTitle": "Great Expectations",
+     "url": "https://openlibrary.org/search.json?title=Great%20Expectations"
+    },
+    {
+     "src": "Wikidata",
+     "matchedTitle": "Great Expectations",
+     "url": "https://www.wikidata.org/wiki/Q219552"
+    }
+   ],
+   "missed": [
+    "Google Books (HTTP 429 (daily quota exceeded -- not retrying))"
+   ],
+   "coverage": 3
+  },
+  {
+   "id": "b231",
+   "title": "The Handmaid's Tale",
+   "year": 1985,
+   "corpusGenres": [
+    "Sci-Fi",
+    "Dystopia"
+   ],
+   "tags": [
+    "feminist science fiction",
+    "social science fiction novel",
+    "science fiction",
+    "dystopian fiction",
+    "historical fiction"
+   ],
+   "sourceGenres": [],
+   "sources": [
+    {
+     "src": "OpenLibrary",
+     "matchedTitle": "The Handmaid's Tale",
+     "url": "https://openlibrary.org/search.json?title=The%20Handmaid's%20Tale"
+    },
+    {
+     "src": "Wikidata",
+     "matchedTitle": "The Handmaid's Tale",
+     "url": "https://www.wikidata.org/wiki/Q1541914"
+    }
+   ],
+   "missed": [
+    "Google Books (HTTP 429 (daily quota exceeded -- not retrying))"
+   ],
+   "coverage": 5
+  },
+  {
+   "id": "b232",
+   "title": "Mrs Dalloway",
+   "year": 1925,
+   "corpusGenres": [
+    "Literary Fiction"
+   ],
+   "tags": [
+    "modernist literature",
+    "psychological fiction"
+   ],
+   "sourceGenres": [],
+   "sources": [
+    {
+     "src": "OpenLibrary",
+     "matchedTitle": "Mrs. Dalloway",
+     "url": "https://openlibrary.org/search.json?title=Mrs%20Dalloway"
+    },
+    {
+     "src": "Wikidata",
+     "matchedTitle": "Mrs Dalloway",
+     "url": "https://www.wikidata.org/wiki/Q752584"
+    }
+   ],
+   "missed": [
+    "Google Books (HTTP 429 (daily quota exceeded -- not retrying))"
+   ],
+   "coverage": 2
+  },
+  {
+   "id": "b233",
+   "title": "Stoner",
+   "year": 1965,
+   "corpusGenres": [
+    "Literary Fiction"
+   ],
+   "tags": [
+    "campus novel"
+   ],
+   "sourceGenres": [],
+   "sources": [
+    {
+     "src": "OpenLibrary",
+     "matchedTitle": "Stoner",
+     "url": "https://openlibrary.org/search.json?title=Stoner"
+    },
+    {
+     "src": "Wikidata",
+     "matchedTitle": "Stoner",
+     "url": "https://www.wikidata.org/wiki/Q7619282"
+    }
+   ],
+   "missed": [
+    "Google Books (HTTP 429 (daily quota exceeded -- not retrying))"
+   ],
+   "coverage": 1
+  },
+  {
+   "id": "b234",
+   "title": "Silent Spring",
+   "year": 1962,
+   "corpusGenres": [
+    "Science"
+   ],
+   "tags": [
+    "essay",
+    "natural environment",
+    "ddt"
+   ],
+   "sourceGenres": [],
+   "sources": [
+    {
+     "src": "OpenLibrary",
+     "matchedTitle": "Silent Spring",
+     "url": "https://openlibrary.org/search.json?title=Silent%20Spring"
+    },
+    {
+     "src": "Wikidata",
+     "matchedTitle": "Silent Spring",
+     "url": "https://www.wikidata.org/wiki/Q591623"
+    }
+   ],
+   "missed": [
+    "Google Books (HTTP 429 (daily quota exceeded -- not retrying))"
+   ],
+   "coverage": 3
+  },
+  {
+   "id": "b235",
+   "title": "Educated",
+   "year": 2018,
+   "corpusGenres": [
+    "History"
+   ],
+   "tags": [
+    "memoir"
+   ],
+   "sourceGenres": [],
+   "sources": [
+    {
+     "src": "OpenLibrary",
+     "matchedTitle": "Educated",
+     "url": "https://openlibrary.org/search.json?title=Educated"
+    },
+    {
+     "src": "Wikidata",
+     "matchedTitle": "Educated",
+     "url": "https://www.wikidata.org/wiki/Q61064573"
+    }
+   ],
+   "missed": [
+    "Google Books (HTTP 429 (daily quota exceeded -- not retrying))"
+   ],
+   "coverage": 1
+  },
+  {
+   "id": "b236",
+   "title": "The Plague",
+   "year": 1947,
+   "corpusGenres": [
+    "Literary Fiction",
+    "Philosophy"
+   ],
+   "tags": [
+    "absurdism",
+    "plague",
+    "epidemic"
+   ],
+   "sourceGenres": [],
+   "sources": [
+    {
+     "src": "Wikidata",
+     "matchedTitle": "The Plague",
+     "url": "https://www.wikidata.org/wiki/Q320372"
+    }
+   ],
+   "missed": [
+    "OpenLibrary (title matched but author \"Jack London\" does not -- likely a different book titled \"The Plague\")",
+    "Google Books (HTTP 429 (daily quota exceeded -- not retrying))"
+   ],
+   "coverage": 3
+  },
+  {
+   "id": "b237",
+   "title": "One Day in the Life of Ivan Denisovich",
+   "year": 1962,
+   "corpusGenres": [
+    "Literary Fiction",
+    "History"
+   ],
+   "tags": [
+    "novella"
+   ],
+   "sourceGenres": [],
+   "sources": [
+    {
+     "src": "Wikidata",
+     "matchedTitle": "One Day in the Life of Ivan Denisovich",
+     "url": "https://www.wikidata.org/wiki/Q27321"
+    }
+   ],
+   "missed": [
+    "OpenLibrary (title matched but author \"Александр Исаевич Солженицын & Ronald Hingley & Max Hayward\" does not -- likely a different book titled \"One Day in the Life of Ivan Denisovich\")",
+    "Google Books (HTTP 429 (daily quota exceeded -- not retrying))"
+   ],
+   "coverage": 1
+  },
+  {
+   "id": "b238",
+   "title": "Kindred",
+   "year": 1979,
+   "corpusGenres": [
+    "Sci-Fi",
+    "Literary Fiction"
+   ],
+   "tags": [
+    "science fiction",
+    "fantasy",
+    "african american literature",
+    "slavery in the united states",
+    "time travel",
+    "slave narrative"
+   ],
+   "sourceGenres": [],
+   "sources": [
+    {
+     "src": "OpenLibrary",
+     "matchedTitle": "Kindred",
+     "url": "https://openlibrary.org/search.json?title=Kindred"
+    },
+    {
+     "src": "Wikidata",
+     "matchedTitle": "Kindred",
+     "url": "https://www.wikidata.org/wiki/Q6410642"
+    }
+   ],
+   "missed": [
+    "Google Books (HTTP 429 (daily quota exceeded -- not retrying))"
+   ],
+   "coverage": 6
+  },
+  {
+   "id": "b239",
+   "title": "The Man Who Mistook His Wife for a Hat",
+   "year": 1985,
+   "corpusGenres": [
+    "Science"
+   ],
+   "tags": [
+    "medical history",
+    "essay",
+    "neurology"
+   ],
+   "sourceGenres": [],
+   "sources": [
+    {
+     "src": "OpenLibrary",
+     "matchedTitle": "The Man Who Mistook His Wife for a Hat",
+     "url": "https://openlibrary.org/search.json?title=The%20Man%20Who%20Mistook%20His%20Wife%20for%20a%20Hat"
+    },
+    {
+     "src": "Wikidata",
+     "matchedTitle": "The Man Who Mistook His Wife for a Hat",
+     "url": "https://www.wikidata.org/wiki/Q2603302"
+    }
+   ],
+   "missed": [
+    "Google Books (HTTP 429 (daily quota exceeded -- not retrying))"
+   ],
+   "coverage": 3
+  },
+  {
+   "id": "b240",
+   "title": "Demons",
+   "year": 1872,
+   "corpusGenres": [
+    "Literary Fiction"
+   ],
+   "tags": [
+    "political fiction",
+    "psychological fiction"
+   ],
+   "sourceGenres": [],
+   "sources": [
+    {
+     "src": "Wikidata",
+     "matchedTitle": "Demons",
+     "url": "https://www.wikidata.org/wiki/Q329989"
+    }
+   ],
+   "missed": [
+    "OpenLibrary (title matched but author \"Dan Brown\" does not -- likely a different book titled \"Demons\")",
+    "Google Books (HTTP 429 (daily quota exceeded -- not retrying))"
+   ],
+   "coverage": 2
+  },
+  {
+   "id": "b241",
+   "title": "Seven Brief Lessons on Physics",
+   "year": 2014,
+   "corpusGenres": [
+    "Physics"
+   ],
+   "tags": [
+    "non-fiction",
+    "evolutionary biology",
+    "physics"
+   ],
+   "sourceGenres": [],
+   "sources": [
+    {
+     "src": "OpenLibrary",
+     "matchedTitle": "Seven Brief Lessons on Physics 8-Copy Counter Display",
+     "url": "https://openlibrary.org/search.json?title=Seven%20Brief%20Lessons%20on%20Physics"
+    },
+    {
+     "src": "Wikidata",
+     "matchedTitle": "Seven Brief Lessons on Physics",
+     "url": "https://www.wikidata.org/wiki/Q24939853"
+    }
+   ],
+   "missed": [
+    "Google Books (HTTP 429 (daily quota exceeded -- not retrying))"
+   ],
+   "coverage": 3
+  },
+  {
+   "id": "b242",
+   "title": "Entangled Life",
+   "year": 2020,
+   "corpusGenres": [
+    "Science"
+   ],
+   "tags": [
+    "mycology"
+   ],
+   "sourceGenres": [],
+   "sources": [
+    {
+     "src": "OpenLibrary",
+     "matchedTitle": "Entangled Life",
+     "url": "https://openlibrary.org/search.json?title=Entangled%20Life"
+    },
+    {
+     "src": "Wikidata",
+     "matchedTitle": "Entangled Life",
+     "url": "https://www.wikidata.org/wiki/Q98686638"
+    }
+   ],
+   "missed": [
+    "Google Books (HTTP 429 (daily quota exceeded -- not retrying))"
+   ],
+   "coverage": 1
+  },
+  {
+   "id": "b243",
+   "title": "John Adams",
+   "year": 2001,
+   "corpusGenres": [
+    "History"
+   ],
+   "tags": [],
+   "sourceGenres": [],
+   "sources": [
+    {
+     "src": "OpenLibrary",
+     "matchedTitle": "John Adams",
+     "url": "https://openlibrary.org/search.json?title=John%20Adams"
+    }
+   ],
+   "missed": [
+    "Google Books (HTTP 429 (daily quota exceeded -- not retrying))",
+    "Wikidata (no type-matching candidate for \"John Adams\")"
+   ],
+   "coverage": 0
+  },
+  {
+   "id": "b244",
+   "title": "Vagabond: Volume 1",
+   "year": 1998,
+   "corpusGenres": [
+    "Graphic Novel",
+    "Action",
+    "Adventure"
+   ],
+   "tags": [],
+   "sourceGenres": [],
+   "sources": [
+    {
+     "src": "OpenLibrary",
+     "matchedTitle": "Vagabond, Volume 1",
+     "url": "https://openlibrary.org/search.json?title=Vagabond%3A%20Volume%201"
+    }
+   ],
+   "missed": [
+    "Google Books (HTTP 429 (daily quota exceeded -- not retrying))",
+    "Wikidata (no type-matching candidate for \"Vagabond: Volume 1\")"
+   ],
+   "coverage": 0
+  },
+  {
+   "id": "b245",
+   "title": "Absalom, Absalom!",
+   "year": 1936,
+   "corpusGenres": [
+    "Literary Fiction"
+   ],
+   "tags": [
+    "southern gothic",
+    "historical fiction",
+    "slavery in the united states"
+   ],
+   "sourceGenres": [],
+   "sources": [
+    {
+     "src": "OpenLibrary",
+     "matchedTitle": "Absalom, Absalom!",
+     "url": "https://openlibrary.org/search.json?title=Absalom%2C%20Absalom!"
+    },
+    {
+     "src": "Wikidata",
+     "matchedTitle": "Absalom, Absalom!",
+     "url": "https://www.wikidata.org/wiki/Q2181982"
+    }
+   ],
+   "missed": [
+    "Google Books (HTTP 429 (daily quota exceeded -- not retrying))"
+   ],
+   "coverage": 3
+  },
+  {
+   "id": "b246",
+   "title": "Black Holes and Time Warps",
+   "year": 1994,
+   "corpusGenres": [
+    "Physics"
+   ],
+   "tags": [
+    "non-fiction",
+    "general relativity",
+    "black hole",
+    "quantum gravity"
+   ],
+   "sourceGenres": [],
+   "sources": [
+    {
+     "src": "OpenLibrary",
+     "matchedTitle": "Black holes and time warps",
+     "url": "https://openlibrary.org/search.json?title=Black%20Holes%20and%20Time%20Warps"
+    },
+    {
+     "src": "Wikidata",
+     "matchedTitle": "Black Holes and Time Warps",
+     "url": "https://www.wikidata.org/wiki/Q3540992"
+    }
+   ],
+   "missed": [
+    "Google Books (HTTP 429 (daily quota exceeded -- not retrying))"
+   ],
+   "coverage": 4
+  },
+  {
+   "id": "b247",
+   "title": "The Character of Physical Law",
+   "year": 1965,
+   "corpusGenres": [
+    "Physics",
+    "Philosophy"
+   ],
+   "tags": [
+    "non-fiction",
+    "physical law"
+   ],
+   "sourceGenres": [],
+   "sources": [
+    {
+     "src": "OpenLibrary",
+     "matchedTitle": "The Character of Physical Law",
+     "url": "https://openlibrary.org/search.json?title=The%20Character%20of%20Physical%20Law"
+    },
+    {
+     "src": "Wikidata",
+     "matchedTitle": "The Character of Physical Law",
+     "url": "https://www.wikidata.org/wiki/Q4351947"
+    }
+   ],
+   "missed": [
+    "Google Books (HTTP 429 (daily quota exceeded -- not retrying))"
+   ],
+   "coverage": 2
+  },
+  {
+   "id": "b248",
+   "title": "The Sixth Extinction",
+   "year": 2014,
+   "corpusGenres": [
+    "Science"
+   ],
+   "tags": [
+    "popular science",
+    "conservation biology"
+   ],
+   "sourceGenres": [],
+   "sources": [
+    {
+     "src": "OpenLibrary",
+     "matchedTitle": "The Sixth Extinction",
+     "url": "https://openlibrary.org/search.json?title=The%20Sixth%20Extinction"
+    },
+    {
+     "src": "Wikidata",
+     "matchedTitle": "The Sixth Extinction",
+     "url": "https://www.wikidata.org/wiki/Q17105817"
+    }
+   ],
+   "missed": [
+    "Google Books (HTTP 429 (daily quota exceeded -- not retrying))"
+   ],
+   "coverage": 2
+  },
+  {
+   "id": "b249",
+   "title": "Just Kids",
+   "year": 2010,
+   "corpusGenres": [
+    "History",
+    "Literary Fiction"
+   ],
+   "tags": [
+    "memoir"
+   ],
+   "sourceGenres": [],
+   "sources": [
+    {
+     "src": "OpenLibrary",
+     "matchedTitle": "Just Kids",
+     "url": "https://openlibrary.org/search.json?title=Just%20Kids"
+    },
+    {
+     "src": "Wikidata",
+     "matchedTitle": "Just Kids",
+     "url": "https://www.wikidata.org/wiki/Q3190286"
+    }
+   ],
+   "missed": [
+    "Google Books (HTTP 429 (daily quota exceeded -- not retrying))"
+   ],
+   "coverage": 1
+  },
+  {
+   "id": "b250",
+   "title": "All the Pretty Horses",
+   "year": 1992,
+   "corpusGenres": [
+    "Western",
+    "Literary Fiction"
+   ],
+   "tags": [
+    "western novel"
+   ],
+   "sourceGenres": [],
+   "sources": [
+    {
+     "src": "OpenLibrary",
+     "matchedTitle": "All the Pretty Horses",
+     "url": "https://openlibrary.org/search.json?title=All%20the%20Pretty%20Horses"
+    },
+    {
+     "src": "Wikidata",
+     "matchedTitle": "All the Pretty Horses",
+     "url": "https://www.wikidata.org/wiki/Q264519"
+    }
+   ],
+   "missed": [
+    "Google Books (HTTP 429 (daily quota exceeded -- not retrying))"
+   ],
+   "coverage": 1
+  },
+  {
+   "id": "b251",
+   "title": "Alexander Hamilton",
+   "year": 2004,
+   "corpusGenres": [
+    "History"
+   ],
+   "tags": [],
+   "sourceGenres": [],
+   "sources": [
+    {
+     "src": "OpenLibrary",
+     "matchedTitle": "Alexander Hamilton",
+     "url": "https://openlibrary.org/search.json?title=Alexander%20Hamilton"
+    }
+   ],
+   "missed": [
+    "Google Books (HTTP 429 (daily quota exceeded -- not retrying))",
+    "Wikidata (no type-matching candidate for \"Alexander Hamilton\")"
+   ],
+   "coverage": 0
+  },
+  {
+   "id": "b252",
+   "title": "The Rise and Fall of the Third Reich",
+   "year": 1960,
+   "corpusGenres": [
+    "History",
+    "War"
+   ],
+   "tags": [
+    "historiography",
+    "essay",
+    "historical non-fiction work",
+    "world war ii",
+    "third reich"
+   ],
+   "sourceGenres": [],
+   "sources": [
+    {
+     "src": "OpenLibrary",
+     "matchedTitle": "The Rise and Fall of the Third Reich",
+     "url": "https://openlibrary.org/search.json?title=The%20Rise%20and%20Fall%20of%20the%20Third%20Reich"
+    },
+    {
+     "src": "Wikidata",
+     "matchedTitle": "The Rise and Fall of the Third Reich",
+     "url": "https://www.wikidata.org/wiki/Q655921"
+    }
+   ],
+   "missed": [
+    "Google Books (HTTP 429 (daily quota exceeded -- not retrying))"
+   ],
+   "coverage": 5
+  },
+  {
+   "id": "b253",
+   "title": "Circe",
+   "year": 2018,
+   "corpusGenres": [
+    "Fantasy",
+    "Epic"
+   ],
+   "tags": [],
+   "sourceGenres": [],
+   "sources": [
+    {
+     "src": "OpenLibrary",
+     "matchedTitle": "Circe",
+     "url": "https://openlibrary.org/search.json?title=Circe"
+    }
+   ],
+   "missed": [
+    "Google Books (HTTP 429 (daily quota exceeded -- not retrying))",
+    "Wikidata (no type-matching candidate for \"Circe\")"
+   ],
+   "coverage": 0
+  },
+  {
+   "id": "b254",
+   "title": "As I Lay Dying",
+   "year": 1930,
+   "corpusGenres": [
+    "Literary Fiction"
+   ],
+   "tags": [
+    "modernist literature",
+    "southern gothic"
+   ],
+   "sourceGenres": [],
+   "sources": [
+    {
+     "src": "OpenLibrary",
+     "matchedTitle": "As I Lay Dying",
+     "url": "https://openlibrary.org/search.json?title=As%20I%20Lay%20Dying"
+    },
+    {
+     "src": "Wikidata",
+     "matchedTitle": "As I Lay Dying",
+     "url": "https://www.wikidata.org/wiki/Q1544119"
+    }
+   ],
+   "missed": [
+    "Google Books (HTTP 429 (daily quota exceeded -- not retrying))"
+   ],
+   "coverage": 2
+  },
+  {
+   "id": "b255",
+   "title": "True Grit (novel)",
+   "year": 1968,
+   "corpusGenres": [
+    "Western"
+   ],
+   "tags": [],
+   "sourceGenres": [],
+   "sources": [],
+   "missed": [
+    "OpenLibrary (no match for \"True Grit (novel)\")",
+    "Google Books (HTTP 429 (daily quota exceeded -- not retrying))",
+    "Wikidata (no type-matching candidate for \"True Grit (novel)\")"
+   ],
+   "coverage": 0
+  },
+  {
+   "id": "b256",
+   "title": "Midnight's Children",
+   "year": 1981,
+   "corpusGenres": [
+    "Literary Fiction",
+    "Fantasy"
+   ],
+   "tags": [
+    "magic realist fiction",
+    "historical fiction"
+   ],
+   "sourceGenres": [],
+   "sources": [
+    {
+     "src": "OpenLibrary",
+     "matchedTitle": "Midnight's Children",
+     "url": "https://openlibrary.org/search.json?title=Midnight's%20Children"
+    },
+    {
+     "src": "Wikidata",
+     "matchedTitle": "Midnight's Children",
+     "url": "https://www.wikidata.org/wiki/Q625764"
+    }
+   ],
+   "missed": [
+    "Google Books (HTTP 429 (daily quota exceeded -- not retrying))"
+   ],
+   "coverage": 2
+  },
+  {
+   "id": "b257",
+   "title": "Love in the Time of Cholera",
+   "year": 1985,
+   "corpusGenres": [
+    "Romance",
+    "Literary Fiction"
+   ],
+   "tags": [
+    "romance novel"
+   ],
+   "sourceGenres": [],
+   "sources": [
+    {
+     "src": "OpenLibrary",
+     "matchedTitle": "Love in the Time of Cholera",
+     "url": "https://openlibrary.org/search.json?title=Love%20in%20the%20Time%20of%20Cholera"
+    },
+    {
+     "src": "Wikidata",
+     "matchedTitle": "Love in the Time of Cholera",
+     "url": "https://www.wikidata.org/wiki/Q499396"
+    }
+   ],
+   "missed": [
+    "Google Books (HTTP 429 (daily quota exceeded -- not retrying))"
+   ],
+   "coverage": 1
+  }
+ ]
+}
