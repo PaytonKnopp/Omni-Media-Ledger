@@ -23,7 +23,7 @@ const path = require('path');
 const { execFileSync } = require('child_process');
 const os = require('os');
 const ROOT = path.resolve(__dirname, '..');
-const { reconcile, valuesAgree, redactKeys } = require(path.join(ROOT, 'scripts/fetch-facts.js'));
+const { reconcile, valuesAgree, redactKeys, ADAPTERS } = require(path.join(ROOT, 'scripts/fetch-facts.js'));
 
 let failures = 0;
 function check(label, cond, detail) {
@@ -54,6 +54,14 @@ check('API keys are redacted out of every recorded URL, whichever way the parame
     redactKeys('https://id.twitch.tv/oauth2/token?client_secret=SECRET&grant_type=x'),
     redactKeys('https://x/?access_token=SECRET'),
   ].join(' ')));
+
+// OMDb's Production field returns the literal string "N/A" for nearly every title (the field has
+// been dead on OMDb's end for years). Discovered running the real harness on the owned movie set:
+// 26 of 32 review-queue items in a 25-film batch were this, not a real disagreement.
+check('OMDb literal "N/A" is treated as no data, not as a value that can disagree with the corpus',
+  ADAPTERS.omdb.parse({ Response: 'True', Year: '1980', Production: 'N/A', Director: 'Stanley Kubrick' }, 'movie').studio === undefined);
+check('a real OMDb studio value still comes through',
+  ADAPTERS.omdb.parse({ Response: 'True', Year: '1980', Production: 'Warner Bros.', Director: 'Stanley Kubrick' }, 'movie').studio === 'Warner Bros.');
 
 console.log('\n=== fact harness: reconciliation ===');
 const movies = new Function(fs.readFileSync(path.join(ROOT, 'data/movies.js'), 'utf8') + '\nreturn movies;')();

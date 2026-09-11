@@ -1,0 +1,495 @@
+{
+ "m01": [
+  {
+   "src": "OMDb",
+   "url": "https://www.omdbapi.com/?apikey=REDACTED&t=2001%3A+A+Space+Odyssey&type=movie&y=1968",
+   "fields": {
+    "year": 1968,
+    "runtime": 149,
+    "creator": "Stanley Kubrick"
+   }
+  },
+  {
+   "src": "TMDB",
+   "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=2001%3A+A+Space+Odyssey&year=1968",
+   "fields": {
+    "year": 1968,
+    "runtime": 149,
+    "creator": "Stanley Kubrick",
+    "studio": "Stanley Kubrick Productions"
+   }
+  }
+ ],
+ "m02": [
+  {
+   "src": "OMDb",
+   "url": "https://www.omdbapi.com/?apikey=REDACTED&t=The+Shining&type=movie&y=1980",
+   "fields": {
+    "year": 1980,
+    "runtime": 146,
+    "creator": "Stanley Kubrick"
+   }
+  },
+  {
+   "src": "TMDB",
+   "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=The+Shining&year=1980",
+   "fields": {
+    "year": 1980,
+    "runtime": 144,
+    "creator": "Stanley Kubrick",
+    "studio": "Warner Bros. Pictures"
+   }
+  }
+ ],
+ "m20": [
+  {
+   "src": "OMDb",
+   "url": "https://www.omdbapi.com/?apikey=REDACTED&t=The+Lighthouse&type=movie&y=2019",
+   "fields": {
+    "year": 2019,
+    "runtime": 109,
+    "creator": "Robert Eggers"
+   }
+  },
+  {
+   "src": "TMDB",
+   "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=The+Lighthouse&year=2019",
+   "fields": {
+    "year": 2019,
+    "runtime": 109,
+    "creator": "Robert Eggers",
+    "studio": "RT Features"
+   }
+  }
+ ],
+ "m37": [
+  {
+   "src": "OMDb",
+   "url": "https://www.omdbapi.com/?apikey=REDACTED&t=The+Thing&type=movie&y=1982",
+   "fields": {
+    "year": 1982,
+    "runtime": 109,
+    "creator": "John Carpenter"
+   }
+  },
+  {
+   "src": "TMDB",
+   "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=The+Thing&year=1982",
+   "fields": {
+    "year": 1982,
+    "runtime": 109,
+    "creator": "John Carpenter",
+    "studio": "Universal Pictures"
+   }
+  }
+ ],
+ "m39": [
+  {
+   "src": "OMDb",
+   "url": "https://www.omdbapi.com/?apikey=REDACTED&t=In+the+Mouth+of+Madness&type=movie&y=1994",
+   "fields": {
+    "year": 1994,
+    "runtime": 95,
+    "creator": "John Carpenter"
+   }
+  },
+  {
+   "src": "TMDB",
+   "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=In+the+Mouth+of+Madness&year=1994",
+   "fields": {
+    "year": 1995,
+    "runtime": 95,
+    "creator": "John Carpenter",
+    "studio": "New Line Cinema"
+   }
+  }
+ ],
+ "m40": [
+  {
+   "src": "OMDb",
+   "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Alien&type=movie&y=1979",
+   "fields": {
+    "year": 1979,
+    "runtime": 117,
+    "creator": "Ridley Scott"
+   }
+  },
+  {
+   "src": "TMDB",
+   "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Alien&year=1979",
+   "fields": {
+    "year": 1979,
+    "runtime": 117,
+    "creator": "Ridley Scott",
+    "studio": "Brandywine Productions"
+   }
+  }
+ ],
+ "m63": [
+  {
+   "src": "OMDb",
+   "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Jaws&type=movie&y=1975",
+   "fields": {
+    "year": 1975,
+    "runtime": 124,
+    "creator": "Steven Spielberg"
+   }
+  },
+  {
+   "src": "TMDB",
+   "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Jaws&year=1975",
+   "fields": {
+    "year": 1975,
+    "runtime": 124,
+    "creator": "Steven Spielberg",
+    "studio": "The Zanuck/Brown Company"
+   }
+  }
+ ],
+ "m65": [
+  {
+   "src": "OMDb",
+   "url": "https://www.omdbapi.com/?apikey=REDACTED&t=The+Lord+of+the+Rings%3A+The+Fellowship+of+the+Ring&type=movie&y=2001",
+   "fields": {
+    "year": 2001,
+    "runtime": 178,
+    "creator": "Peter Jackson"
+   }
+  },
+  {
+   "src": "TMDB",
+   "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=The+Lord+of+the+Rings%3A+The+Fellowship+of+the+Ring&year=2001",
+   "fields": {
+    "year": 2001,
+    "runtime": 179,
+    "creator": "Peter Jackson",
+    "studio": "New Line Cinema"
+   }
+  }
+ ],
+ "m66": [
+  {
+   "src": "OMDb",
+   "url": "https://www.omdbapi.com/?apikey=REDACTED&t=1917&type=movie&y=2019",
+   "fields": {
+    "year": 2019
+   }
+  },
+  {
+   "src": "TMDB",
+   "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=1917&year=2019",
+   "fields": {
+    "year": 2019,
+    "runtime": 119,
+    "creator": "Sam Mendes",
+    "studio": "DreamWorks Pictures"
+   }
+  }
+ ],
+ "m81": [
+  {
+   "src": "OMDb",
+   "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Donnie+Darko&type=movie&y=2001",
+   "fields": {
+    "year": 2001,
+    "runtime": 113,
+    "creator": "Richard Kelly"
+   }
+  },
+  {
+   "src": "TMDB",
+   "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Donnie+Darko&year=2001",
+   "fields": {
+    "year": 2001,
+    "runtime": 114,
+    "creator": "Richard Kelly",
+    "studio": "Flower Films"
+   }
+  }
+ ],
+ "m84": [
+  {
+   "src": "OMDb",
+   "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Shutter+Island&type=movie&y=2010",
+   "fields": {
+    "year": 2010,
+    "runtime": 138,
+    "creator": "Martin Scorsese"
+   }
+  },
+  {
+   "src": "TMDB",
+   "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Shutter+Island&year=2010",
+   "fields": {
+    "year": 2010,
+    "runtime": 138,
+    "creator": "Martin Scorsese",
+    "studio": "Paramount Pictures"
+   }
+  }
+ ],
+ "m89": [
+  {
+   "src": "OMDb",
+   "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Come+and+See&type=movie&y=1985",
+   "fields": {
+    "year": 1985,
+    "runtime": 142,
+    "creator": "Elem Klimov"
+   }
+  },
+  {
+   "src": "TMDB",
+   "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Come+and+See&year=1985",
+   "fields": {
+    "year": 1985,
+    "runtime": 142,
+    "creator": "Elem Klimov",
+    "studio": "Belarusfilm"
+   }
+  }
+ ],
+ "m103": [
+  {
+   "src": "OMDb",
+   "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Gladiator&type=movie&y=2000",
+   "fields": {
+    "year": 2000,
+    "runtime": 155,
+    "creator": "Ridley Scott"
+   }
+  },
+  {
+   "src": "TMDB",
+   "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Gladiator&year=2000",
+   "fields": {
+    "year": 2000,
+    "runtime": 155,
+    "creator": "Ridley Scott",
+    "studio": "Universal Pictures"
+   }
+  }
+ ],
+ "m106": [
+  {
+   "src": "OMDb",
+   "url": "https://www.omdbapi.com/?apikey=REDACTED&t=The+Good%2C+the+Bad+and+the+Ugly&type=movie&y=1966",
+   "fields": null
+  },
+  {
+   "src": "TMDB",
+   "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=The+Good%2C+the+Bad+and+the+Ugly&year=1966",
+   "fields": {
+    "year": 1966,
+    "runtime": 161,
+    "creator": "Sergio Leone",
+    "studio": "United Artists"
+   }
+  }
+ ],
+ "m114": [
+  {
+   "src": "OMDb",
+   "url": "https://www.omdbapi.com/?apikey=REDACTED&t=The+Martian&type=movie&y=2015",
+   "fields": {
+    "year": 2015,
+    "runtime": 144,
+    "creator": "Ridley Scott"
+   }
+  },
+  {
+   "src": "TMDB",
+   "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=The+Martian&year=2015",
+   "fields": {
+    "year": 2015,
+    "runtime": 141,
+    "creator": "Ridley Scott",
+    "studio": "Genre Films"
+   }
+  }
+ ],
+ "m116": [
+  {
+   "src": "OMDb",
+   "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Iron+Lung&type=movie&y=2025",
+   "fields": null
+  },
+  {
+   "src": "TMDB",
+   "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Iron+Lung&year=2025",
+   "fields": {
+    "year": 2025,
+    "runtime": 13,
+    "creator": "Andrew Reid"
+   }
+  }
+ ],
+ "m117": [
+  {
+   "src": "OMDb",
+   "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Harry+Potter+and+the+Sorcerer%27s+Stone&type=movie&y=2001",
+   "fields": {
+    "year": 2001,
+    "runtime": 152,
+    "creator": "Chris Columbus"
+   }
+  },
+  {
+   "src": "TMDB",
+   "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Harry+Potter+and+the+Sorcerer%27s+Stone&year=2001",
+   "fields": {
+    "year": 2001,
+    "runtime": 152,
+    "creator": "Chris Columbus",
+    "studio": "Warner Bros. Pictures"
+   }
+  }
+ ],
+ "m118": [
+  {
+   "src": "OMDb",
+   "url": "https://www.omdbapi.com/?apikey=REDACTED&t=The+Lord+of+the+Rings%3A+The+Two+Towers&type=movie&y=2002",
+   "fields": {
+    "year": 2002,
+    "runtime": 179,
+    "creator": "Peter Jackson"
+   }
+  },
+  {
+   "src": "TMDB",
+   "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=The+Lord+of+the+Rings%3A+The+Two+Towers&year=2002",
+   "fields": {
+    "year": 2002,
+    "runtime": 179,
+    "creator": "Peter Jackson",
+    "studio": "New Line Cinema"
+   }
+  }
+ ],
+ "m119": [
+  {
+   "src": "OMDb",
+   "url": "https://www.omdbapi.com/?apikey=REDACTED&t=The+Lord+of+the+Rings%3A+The+Return+of+the+King&type=movie&y=2003",
+   "fields": {
+    "year": 2003,
+    "runtime": 201,
+    "creator": "Peter Jackson"
+   }
+  },
+  {
+   "src": "TMDB",
+   "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=The+Lord+of+the+Rings%3A+The+Return+of+the+King&year=2003",
+   "fields": {
+    "year": 2003,
+    "runtime": 201,
+    "creator": "Peter Jackson",
+    "studio": "New Line Cinema"
+   }
+  }
+ ],
+ "m120": [
+  {
+   "src": "OMDb",
+   "url": "https://www.omdbapi.com/?apikey=REDACTED&t=The+Odyssey+%28Nolan%29&type=movie&y=2026",
+   "fields": null
+  },
+  {
+   "src": "TMDB",
+   "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=The+Odyssey+%28Nolan%29&year=2026",
+   "fields": null
+  }
+ ],
+ "m121": [
+  {
+   "src": "OMDb",
+   "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Lawrence+of+Arabia&type=movie&y=1962",
+   "fields": {
+    "year": 1962,
+    "runtime": 227,
+    "creator": "David Lean"
+   }
+  },
+  {
+   "src": "TMDB",
+   "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Lawrence+of+Arabia&year=1962",
+   "fields": {
+    "year": 1962,
+    "runtime": 228,
+    "creator": "David Lean",
+    "studio": "Horizon Pictures"
+   }
+  }
+ ],
+ "m122": [
+  {
+   "src": "OMDb",
+   "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Star+Wars%3A+A+New+Hope&type=movie&y=1977",
+   "fields": null
+  },
+  {
+   "src": "TMDB",
+   "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Star+Wars%3A+A+New+Hope&year=1977",
+   "fields": {
+    "year": 1977,
+    "runtime": 121,
+    "creator": "George Lucas",
+    "studio": "Lucasfilm Ltd."
+   }
+  }
+ ],
+ "m158": [
+  {
+   "src": "OMDb",
+   "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Prince+of+Darkness&type=movie&y=1987",
+   "fields": {
+    "year": 1987,
+    "runtime": 102,
+    "creator": "John Carpenter"
+   }
+  },
+  {
+   "src": "TMDB",
+   "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Prince+of+Darkness&year=1987",
+   "fields": {
+    "year": 1987,
+    "runtime": 102,
+    "creator": "John Carpenter",
+    "studio": "Alive Films"
+   }
+  }
+ ],
+ "m384": [
+  {
+   "src": "OMDb",
+   "url": "https://www.omdbapi.com/?apikey=REDACTED&t=For+a+Few+Dollars+More&type=movie&y=1965",
+   "fields": null
+  },
+  {
+   "src": "TMDB",
+   "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=For+a+Few+Dollars+More&year=1965",
+   "fields": {
+    "year": 1965,
+    "runtime": 132,
+    "creator": "Sergio Leone",
+    "studio": "PEA"
+   }
+  }
+ ],
+ "m444": [
+  {
+   "src": "OMDb",
+   "url": "https://www.omdbapi.com/?apikey=REDACTED&t=A+Fistful+of+Dollars&type=movie&y=1964",
+   "fields": null
+  },
+  {
+   "src": "TMDB",
+   "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=A+Fistful+of+Dollars&year=1964",
+   "fields": {
+    "year": 1964,
+    "runtime": 99,
+    "creator": "Sergio Leone",
+    "studio": "Jolly Film"
+   }
+  }
+ ]
+}

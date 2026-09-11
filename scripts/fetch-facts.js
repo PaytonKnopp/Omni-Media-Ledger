@@ -105,7 +105,10 @@ const FACT_FIELDS = {
    field name should degrade to "this source had nothing" rather than crash a 500-work run. */
 
 const num = v => { const n = parseInt(String(v).replace(/[^0-9]/g, ''), 10); return Number.isFinite(n) ? n : undefined; };
-const str = v => (typeof v === 'string' && v.trim()) ? v.trim() : undefined;
+// OMDb spells "we have nothing for this field" as the literal string "N/A" (its Production field
+// in particular has been a dead field returning only this for years). Treating it as a real value
+// makes every movie's studio look like a disagreement against the corpus -- noise, not a fact.
+const str = v => { if (typeof v !== 'string') return undefined; const t = v.trim(); return (t && !/^n\/a$/i.test(t)) ? t : undefined; };
 const firstYear = v => { const m = String(v || '').match(/\d{4}/); return m ? parseInt(m[0], 10) : undefined; };
 
 const ADAPTERS = {
