@@ -394,6 +394,34 @@ check('two sources agreeing against the corpus propose a grade-A correction',
 check('a naming-convention field is never grade A, even fully corroborated',
   got.m02.studio.grade === 'B',
   JSON.stringify(got.m02.studio));
+
+// A classical text's "first publication year" predates print entirely -- two catalogues
+// corroborating a modern reprint/translation year is not the same evidence quality as two
+// catalogues corroborating an actual typo fix, and must not be auto-applied. Found live:
+// Epictetus's "Discourses" (corpus 108 CE) had OpenLibrary + Google Books both report 2008 (a
+// real Penguin Classics printing).
+{
+  const epictetus = { id: 'b302', title: 'Discourses and Selected Writings', year: 108 };
+  const modernEditionObs = [
+    { src: 'OpenLibrary', fields: { year: 2008 } },
+    { src: 'Google Books', fields: { year: 2008 } },
+  ];
+  const p = reconcile('book', epictetus, modernEditionObs).find(x => x.field === 'year');
+  check('two sources corroborating a MODERN year for an ancient (pre-1500) corpus year is downgraded to B, not auto-applied',
+    p.status === 'proposed-change' && p.grade === 'B' && /print era/.test(p.note || ''),
+    JSON.stringify(p));
+
+  // The same guard must not fire on an ordinary modern book just because two sources correct a
+  // typo -- only pre-1500 corpus years asking to jump to a plausible print-era year are affected.
+  const modernBook = { id: 'b999', title: 'Some Modern Novel', year: 2017 };
+  const p2 = reconcile('book', modernBook, [
+    { src: 'OpenLibrary', fields: { year: 2018 } },
+    { src: 'Google Books', fields: { year: 2018 } },
+  ]).find(x => x.field === 'year');
+  check('an ordinary modern-book year correction is unaffected by the ancient-text guard',
+    p2.status === 'proposed-change' && p2.grade === 'A',
+    JSON.stringify(p2));
+}
 check('sources that disagree with each other, and neither matches the corpus, are a real edition question',
   got.m03.runtime.status === 'edition-dependent' && got.m03.runtime.grade === 'B' &&
   Array.isArray(got.m03.runtime.alternatives) && got.m03.runtime.alternatives.length === 1 &&

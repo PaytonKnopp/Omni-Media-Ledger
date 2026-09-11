@@ -596,6 +596,24 @@ function reconcile(medium, work, observations) {
       if (field.soft) grade = 'B';   // studio/publisher/network/platforms are naming conventions as
                                      // much as facts; two catalogues agreeing on "Warner Bros." vs
                                      // "Warner Bros. Pictures" is not licence to rewrite the field.
+      // A classical/ancient text's "first publication year" predates formal publishing altogether --
+      // OpenLibrary/Google Books/Wikidata catalogue EDITIONS, and for a 2,000-year-old work the only
+      // edition they have any record of is whichever modern translation or reprint got scanned, not
+      // the original composition date. Found live: Epictetus's "Discourses" (corpus year 108, i.e.
+      // ~108 CE) had OpenLibrary AND Google Books independently corroborate 2008 -- a real Penguin
+      // Classics printing, not a correction. Two sources agreeing is normally strong evidence, but
+      // here it just means two catalogues indexed the same popular modern edition; a bare year
+      // field can't distinguish "the sources corrected a typo" from "the sources are describing a
+      // different object" (a reprint) the way editionDependent fields (pages, publisher) can name
+      // outright. Any book already dated before the era of print (1500) proposing a move to a
+      // plausible print-era year is exactly that second case -- downgrade to B so a human decides
+      // whether this is the corpus's error or the edition ambiguity, never silently pick one.
+      if (medium === 'book' && field.key === 'year' && typeof current === 'number' && current < 1500 && proposed >= 1500) {
+        grade = 'B';
+        note = 'corpus year (' + current + ') predates the print era; ' +
+          seen.map(o => o.src + ' ' + JSON.stringify(o.value)).join(', ') +
+          ' likely describe a modern edition, not the original composition date -- not auto-applied.';
+      }
     }
 
     out.push({
