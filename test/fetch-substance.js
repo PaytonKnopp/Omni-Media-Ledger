@@ -22,7 +22,7 @@ const path = require('path');
 const os = require('os');
 const { execFileSync } = require('child_process');
 const ROOT = path.resolve(__dirname, '..');
-const { mergeTags, normTag, packEntry, tmdbSubstance } = require(path.join(ROOT, 'scripts/fetch-substance.js'));
+const { mergeTags, normTag, packEntry, tmdbSubstance, wikidataSubstance } = require(path.join(ROOT, 'scripts/fetch-substance.js'));
 
 let failures = 0;
 function check(label, cond, detail) {
@@ -78,6 +78,54 @@ console.log('\n=== substance harness: TMDB search does not trust a wrong-title h
     global.fetch = realFetch;
     process.env.TMDB_API_KEY = orig;
   }
+}
+
+console.log('\n=== substance harness: Wikidata (genre + main subject as tags) ===');
+{
+  const realFetch = global.fetch;
+  const mkJSON = body => ({ ok: true, status: 200, json: async () => body, text: async () => JSON.stringify(body), headers: { get: () => null } });
+  function mockRoute(search, entity, labels) {
+    return async (url) => {
+      const u = new URL(String(url));
+      if (u.searchParams.get('action') === 'wbsearchentities') return mkJSON(search);
+      const props = u.searchParams.get('props') || '';
+      return mkJSON(props.includes('claims') ? entity : labels);
+    };
+  }
+  // Modeled on live Wikidata data captured building this adapter: Dune's P136 (genre) and P921
+  // (main subject) claims, verified live to include real rubric-relevant tags ("soft science
+  // fiction", "outer space", "ecology") no book source in this harness otherwise carries.
+  const duneSearch = { search: [{ id: 'Q190192', label: 'Dune', description: '1965 science fiction novel by Frank Herbert' }] };
+  const duneEntity = { entities: { Q190192: { claims: {
+    P50: [{ mainsnak: { datavalue: { value: { id: 'Q7934' } } } }],
+    P136: [{ mainsnak: { datavalue: { value: { id: 'Q24925' } } } }],
+    P921: [{ mainsnak: { datavalue: { value: { id: 'Q4169' } } } }],
+  } } } };
+  const duneLabels = { entities: {
+    Q7934: { labels: { en: { language: 'en', value: 'Frank Herbert' } } },
+    Q24925: { labels: { en: { language: 'en', value: 'science fiction' } } },
+    Q4169: { labels: { en: { language: 'en', value: 'outer space' } } },
+  } };
+  global.fetch = mockRoute(duneSearch, duneEntity, duneLabels);
+  try {
+    const got = await wikidataSubstance({ id: 'b01', title: 'Dune', creator: 'Frank Herbert' }, 'book');
+    check('genre (P136) and main subject (P921) both become tags, resolved in the one follow-up label call',
+      got.tags.includes('science fiction') && got.tags.includes('outer space'), JSON.stringify(got));
+  } finally { global.fetch = realFetch; }
+
+  // Same title-collision guard as the fact adapter -- a type-matching candidate whose resolved
+  // author doesn't overlap the corpus creator must not leak its tags into the wrong book's evidence.
+  const wrongAuthorEntity = { entities: { Q190192: { claims: {
+    P50: [{ mainsnak: { datavalue: { value: { id: 'Q999' } } } }],
+    P136: [{ mainsnak: { datavalue: { value: { id: 'Q24925' } } } }],
+  } } } };
+  const wrongAuthorLabels = { entities: { Q999: { labels: { en: { language: 'en', value: 'Someone Unrelated' } } } } };
+  global.fetch = mockRoute(duneSearch, wrongAuthorEntity, wrongAuthorLabels);
+  try {
+    const got = await wikidataSubstance({ id: 'b603', title: 'No Exit', creator: 'Jean-Paul Sartre' }, 'book');
+    check('a wrong-author candidate contributes no tags, same guard as the fact adapter',
+      got.tags === undefined && !!got.miss, JSON.stringify(got));
+  } finally { global.fetch = realFetch; }
 }
 
 console.log('\n=== substance harness: the pack ===');

@@ -901,4 +901,4 @@ async function main() {
 }
 
 if (require.main === module) main().catch(e => { console.error(e); process.exit(1); });
-module.exports = { reconcile, valuesAgree, redactKeys, FACT_FIELDS, ADAPTERS, writeReviewQueue, pickTmdbHit, reparseObservation, callSource, canonicalizePeople, peopleKey, stripYearSuffix, creatorNameOverlaps, getJSON };
+module.exports = { reconcile, valuesAgree, redactKeys, FACT_FIELDS, ADAPTERS, writeReviewQueue, pickTmdbHit, reparseObservation, callSource, canonicalizePeople, peopleKey, stripYearSuffix, creatorNameOverlaps, getJSON, wikidataLookup, WIKIDATA_HEADERS };

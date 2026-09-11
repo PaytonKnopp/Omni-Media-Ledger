@@ -53,7 +53,7 @@
 const fs = require('fs');
 const path = require('path');
 const ROOT = path.resolve(__dirname, '..');
-const { redactKeys, pickTmdbHit, stripYearSuffix, creatorNameOverlaps } = require('./fetch-facts.js');
+const { redactKeys, pickTmdbHit, stripYearSuffix, creatorNameOverlaps, wikidataLookup, WIKIDATA_HEADERS } = require('./fetch-facts.js');
 
 const TMDB_ATTRIBUTION = 'This product uses the TMDB API but is not endorsed or certified by TMDB.';
 
@@ -229,15 +229,68 @@ async function googleBooksSubstance(work) {
   } catch (e) { return { src: 'Google Books', error: e.message }; }
 }
 
+// Wikidata's P136 (genre) and P921 (main subject) are a real, rubric-relevant tag vocabulary --
+// verified live against Dune: P136 gives "soft science fiction", "planetary romance", "social
+// science fiction", "adventure fiction"; P921 gives "religion", "outer space", "ecology", "society",
+// "civilization", "culture", "power". Reuses wikidataLookup() from fetch-facts.js (search -> matched
+// entity's claims), then does ONE more batched label-resolution call for whichever P136/P921 Q-ids
+// that lookup's own fact-oriented pass didn't already resolve (it only resolves the person/company/
+// platform properties facts.js needs, not genre/subject). Same title-collision guard as the fact
+// adapters (wikidataLookup already rejects a type-matching candidate whose author/developer doesn't
+// overlap the corpus creator) -- substance never sees a wrong book's/game's tags for a right one's ID.
+async function wikidataSubstance(work, medium) {
+  try {
+    const bundle = await wikidataLookup(work, medium);
+    if (!bundle.entity) return { src: 'Wikidata', miss: 'no type-matching candidate for "' + work.title + '"' };
+    const claims = bundle.entity.claims || {};
+    const labelOf0 = id => { const l = bundle.labels && bundle.labels[id]; const e = l && (l.en || l.mul || Object.values(l)[0]); return e && e.value; };
+    // wikidataLookup() itself does NOT apply the author/developer-overlap guard -- that only
+    // happens inside ADAPTERS.wikidata.parse() in fetch-facts.js, which this function never calls.
+    // Found by this file's own test catching it: a wrong-author candidate's tags leaked straight
+    // through untouched. Re-derive the credited person/company from whichever property facts.js
+    // already resolved labels for (P50 author, or P178 developer for games) and apply the same
+    // guard here, independently -- same title-collision risk as OpenLibrary/Google Books, since
+    // Wikidata's search is title-only too.
+    const creditProp = medium === 'game' ? 'P178' : 'P50';
+    const credited = (claims[creditProp] || [])
+      .map(c => c.mainsnak && c.mainsnak.datavalue && c.mainsnak.datavalue.value && c.mainsnak.datavalue.value.id)
+      .filter(Boolean).map(labelOf0).filter(Boolean);
+    if (!creatorNameOverlaps(work, credited)) {
+      return { src: 'Wikidata', miss: 'title matched but credited "' + credited.join(' & ') + '" does not -- likely a different work titled "' + work.title + '"' };
+    }
+    const tagIds = [...new Set([...(claims.P136 || []), ...(claims.P921 || [])]
+      .map(c => c.mainsnak && c.mainsnak.datavalue && c.mainsnak.datavalue.value && c.mainsnak.datavalue.value.id)
+      .filter(Boolean))];
+    const unresolvedIds = tagIds.filter(id => !(bundle.labels && bundle.labels[id]));
+    let labels = bundle.labels || {};
+    if (unresolvedIds.length) {
+      const lj = await getJSON('https://www.wikidata.org/w/api.php?' + new URLSearchParams({
+        action: 'wbgetentities', ids: unresolvedIds.join('|'), format: 'json', props: 'labels', languages: 'en|mul',
+      }), { headers: WIKIDATA_HEADERS });
+      labels = Object.assign({}, labels, Object.fromEntries(
+        Object.entries(lj.entities || {}).map(([id, e]) => [id, e.labels])));
+    }
+    const labelOf = id => { const l = labels[id]; const e = l && (l.en || l.mul || Object.values(l)[0]); return e && e.value; };
+    return {
+      src: 'Wikidata', url: 'https://www.wikidata.org/wiki/' + bundle.matchedId,
+      matchedTitle: bundle.matchedTitle,
+      tags: mergeTags(tagIds.map(labelOf)),
+      sourceGenres: [],
+    };
+  } catch (e) { return { src: 'Wikidata', error: e.message }; }
+}
+
 const SOURCES_FOR = {
   movie: [w => tmdbSubstance(w, 'movie')],
   tv:    [w => tmdbSubstance(w, 'tv')],
-  game:  [igdbSubstance],
-  book:  [openLibrarySubstance, googleBooksSubstance],
+  game:  [igdbSubstance, w => wikidataSubstance(w, 'game')],
+  book:  [openLibrarySubstance, googleBooksSubstance, w => wikidataSubstance(w, 'book')],
 };
 
 // How many HTTP calls one work costs, for --plan-only. TMDB is two (search, then detail).
-const CALLS_PER_WORK = { movie: 2, tv: 2, game: 1, book: 2 };
+// Wikidata's own 3 calls (search, entity, label resolution) are folded into wikidataLookup(); the
+// substance function adds at most 1 more for genre/subject labels not already resolved there.
+const CALLS_PER_WORK = { movie: 2, tv: 2, game: 5, book: 6 };
 
 /* ===================== the pack ===================== */
 
@@ -317,7 +370,13 @@ async function main() {
   const replay = args.offline ? JSON.parse(fs.readFileSync(args.offline, 'utf8')) : null;
   const recorded = {};
   const entries = [];
+  // Same pacing as fetch-facts.js's book-medium loop, and for the same live-found reason: Google
+  // Books' burst quota trips well before an unpaced 1,000-work run finishes.
   for (const work of works) {
+    if (!replay && args.medium === 'book' && entries.length > 0) await sleep(1100);
+    if (!replay && works.length > 20 && entries.length % 10 === 0) {
+      console.error('  ... ' + entries.length + '/' + works.length + ' (' + work.id + ' next)');
+    }
     const observations = replay
       ? (replay[work.id] || [])
       : await Promise.all(SOURCES_FOR[args.medium].map(fn => fn(work)));
@@ -358,4 +417,4 @@ function median(ns) {
 }
 
 if (require.main === module) main().catch(e => { console.error(e); process.exit(1); });
-module.exports = { mergeTags, normTag, packEntry, TMDB_ATTRIBUTION, tmdbSubstance };
+module.exports = { mergeTags, normTag, packEntry, TMDB_ATTRIBUTION, tmdbSubstance, wikidataSubstance };
