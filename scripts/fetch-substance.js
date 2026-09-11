@@ -53,7 +53,7 @@
 const fs = require('fs');
 const path = require('path');
 const ROOT = path.resolve(__dirname, '..');
-const { redactKeys, pickTmdbHit, stripYearSuffix } = require('./fetch-facts.js');
+const { redactKeys, pickTmdbHit, stripYearSuffix, bookHitLooksRight } = require('./fetch-facts.js');
 
 const TMDB_ATTRIBUTION = 'This product uses the TMDB API but is not endorsed or certified by TMDB.';
 
@@ -93,8 +93,20 @@ function mergeTags() {
 
 /* ===================== sources ===================== */
 
-async function getJSON(url, init) {
+const sleep = ms => new Promise(r => setTimeout(r, ms));
+
+// See the matching comment in fetch-facts.js's getJSON: OpenLibrary/Google Books are courtesy- or
+// burst-limited and this harness fires requests with no pacing, so a transient 429 gets a bounded
+// retry-with-backoff instead of being surfaced as a permanent miss for the rest of the run.
+async function getJSON(url, init, attempt) {
+  attempt = attempt || 0;
   const res = await fetch(url, init);
+  if (res.status === 429 && attempt < 5) {
+    const retryAfter = Number(res.headers.get('retry-after'));
+    const waitMs = retryAfter > 0 ? retryAfter * 1000 : Math.min(30000, 1000 * 2 ** attempt);
+    await sleep(waitMs);
+    return getJSON(url, init, attempt + 1);
+  }
   if (!res.ok) throw new Error('HTTP ' + res.status + ' ' + res.statusText);
   return res.json();
 }
@@ -173,6 +185,9 @@ async function openLibrarySubstance(work) {
       new URLSearchParams({ title: work.title, limit: '1' }));
     const hit = j && Array.isArray(j.docs) && j.docs[0];
     if (!hit) return { src: 'OpenLibrary', miss: 'no match for "' + work.title + '"' };
+    if (!bookHitLooksRight(work, hit.author_name)) {
+      return { src: 'OpenLibrary', miss: 'title matched but author "' + (hit.author_name || []).join(' & ') + '" does not -- likely a different book titled "' + work.title + '"' };
+    }
     return {
       src: 'OpenLibrary', url: 'https://openlibrary.org/search.json?title=' + encodeURIComponent(work.title),
       matchedTitle: hit.title,
@@ -186,12 +201,16 @@ async function openLibrarySubstance(work) {
 
 async function googleBooksSubstance(work) {
   try {
-    const j = await getJSON('https://www.googleapis.com/books/v1/volumes?' +
-      new URLSearchParams({ q: 'intitle:' + work.title, maxResults: '1' }));
+    const params = { q: 'intitle:' + work.title, maxResults: '1' };
+    if (process.env.GOOGLE_BOOKS_API_KEY) params.key = process.env.GOOGLE_BOOKS_API_KEY;
+    const j = await getJSON('https://www.googleapis.com/books/v1/volumes?' + new URLSearchParams(params));
     const v = j && Array.isArray(j.items) && j.items[0] && j.items[0].volumeInfo;
     if (!v) return { src: 'Google Books', miss: 'no match for "' + work.title + '"' };
+    if (!bookHitLooksRight(work, v.authors)) {
+      return { src: 'Google Books', miss: 'title matched but author "' + (v.authors || []).join(' & ') + '" does not -- likely a different book titled "' + work.title + '"' };
+    }
     return {
-      src: 'Google Books', url: 'https://www.googleapis.com/books/v1/volumes?q=intitle:' + encodeURIComponent(work.title),
+      src: 'Google Books', url: redactKeys('https://www.googleapis.com/books/v1/volumes?q=intitle:' + encodeURIComponent(work.title)),
       matchedTitle: v.title,
       tags: mergeTags(v.categories),
       sourceGenres: [],

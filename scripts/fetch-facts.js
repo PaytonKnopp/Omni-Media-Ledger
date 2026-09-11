@@ -130,6 +130,24 @@ const normText = v => String(v == null ? '' : v)
   .normalize('NFD').replace(/[̀-ͯ]/g, '')
   .toLowerCase().replace(/[^a-z0-9]+/g, ' ').trim();
 
+// Book search (OpenLibrary, Google Books) is title-only -- no author or year in the query -- so a
+// short or generic corpus title ("Grass", "No Exit") can match a completely different, more heavily
+// indexed book with the same name; found live, both sources independently "corroborating" Sheri S.
+// Tepper's "Grass" as Walt Whitman and Jean-Paul Sartre's "No Exit" as a Taylor Adams thriller,
+// which would otherwise have reached grade A. Guard the whole hit on whether ANY word (>2 chars, to
+// skip "jr"/"de"/etc.) of the source's author name(s) appears anywhere in the corpus's own creator
+// string -- loose on purpose, since corpora write authors many ways ("Niven & Pournelle" for "Larry
+// Niven and Jerry Pournelle"), but a total stranger's name sharing zero words is not this book.
+function bookHitLooksRight(work, sourceAuthors) {
+  const corpusCreator = work && normText(work.creator);
+  if (!corpusCreator) return true; // nothing to check the hit against
+  const list = Array.isArray(sourceAuthors) ? sourceAuthors : [sourceAuthors];
+  return list.some(a => {
+    const words = normText(a).split(' ').filter(w => w.length > 2);
+    return words.some(w => corpusCreator.includes(w));
+  });
+}
+
 // A trailing " (YYYY)" is a disambiguation suffix, not part of a title, on EITHER side of a title
 // comparison. OMDb appends it to its own answer to distinguish two entries sharing a title (found
 // live querying "1917": it answers "1917 (2019)" for the real film, not "1917"). The corpus does
@@ -252,13 +270,14 @@ const ADAPTERS = {
     request(work) {
       return 'https://openlibrary.org/search.json?' + new URLSearchParams({ title: work.title, limit: '1' });
     },
-    parse(json) {
+    parse(json, medium, work) {
       const hit = json && Array.isArray(json.docs) && json.docs[0];
       if (!hit) return null;
+      if (!bookHitLooksRight(work, hit.author_name)) return null;
       return {
         year: num(hit.first_publish_year),
         pages: num(hit.number_of_pages_median),
-        creator: str((hit.author_name || [])[0]),
+        creator: str((hit.author_name || []).join(' & ')),
         publisher: str((hit.publisher || [])[0]),
       };
     },
@@ -267,18 +286,20 @@ const ADAPTERS = {
   googlebooks: {
     label: 'Google Books',
     media: ['book'],
-    key: () => 'keyless',
+    key: () => 'keyless', // works without one, but GOOGLE_BOOKS_API_KEY (if set) lifts the anon quota
     request(work) {
-      return 'https://www.googleapis.com/books/v1/volumes?' +
-        new URLSearchParams({ q: 'intitle:' + work.title, maxResults: '1' });
+      const params = { q: 'intitle:' + work.title, maxResults: '1' };
+      if (process.env.GOOGLE_BOOKS_API_KEY) params.key = process.env.GOOGLE_BOOKS_API_KEY;
+      return 'https://www.googleapis.com/books/v1/volumes?' + new URLSearchParams(params);
     },
-    parse(json) {
+    parse(json, medium, work) {
       const v = json && Array.isArray(json.items) && json.items[0] && json.items[0].volumeInfo;
       if (!v) return null;
+      if (!bookHitLooksRight(work, v.authors)) return null;
       return {
         year: firstYear(v.publishedDate),
         pages: num(v.pageCount),
-        creator: str((v.authors || [])[0]),
+        creator: str((v.authors || []).join(' & ')),
         publisher: str(v.publisher),
       };
     },
@@ -480,12 +501,28 @@ function reconcile(medium, work, observations) {
 /* ===================== the network half ===================== */
 
 /* Every recorded URL passes through here before it can reach a file or the console. OMDb spells
-   it `apikey`, TMDB `api_key`, and a recorded run is meant to be committed -- so this is the one
-   place a key could leak, and it is deliberately a single chokepoint rather than a careful habit. */
-const redactKeys = u => String(u).replace(/(api_?key|client_secret|access_token)=[^&]*/gi, '$1=REDACTED');
+   it `apikey`, TMDB `api_key`, Google Books a bare `key`, and a recorded run is meant to be
+   committed -- so this is the one place a key could leak, and it is deliberately a single
+   chokepoint rather than a careful habit. */
+const redactKeys = u => String(u).replace(/\b(api_?key|client_secret|access_token|key)=[^&]*/gi, '$1=REDACTED');
 
-async function getJSON(url, init) {
+const sleep = ms => new Promise(r => setTimeout(r, ms));
+
+// OpenLibrary and Google Books are keyless-or-courtesy-limited and this harness fires requests
+// back-to-back with no pacing -- found live running the full 1,000-book corpus: Google Books' burst
+// quota (roughly 100 requests/100s) trips well before the run finishes, and without a retry every
+// book past that point silently loses that source for the rest of the run. A 429 is transient by
+// definition, so back off and retry rather than surface it as a permanent miss; anything else (404,
+// 500, a real auth failure) is not, and fails immediately same as before.
+async function getJSON(url, init, attempt) {
+  attempt = attempt || 0;
   const res = await fetch(url, init);
+  if (res.status === 429 && attempt < 5) {
+    const retryAfter = Number(res.headers.get('retry-after'));
+    const waitMs = retryAfter > 0 ? retryAfter * 1000 : Math.min(30000, 1000 * 2 ** attempt);
+    await sleep(waitMs);
+    return getJSON(url, init, attempt + 1);
+  }
   if (!res.ok) throw new Error('HTTP ' + res.status + ' ' + res.statusText);
   return res.json();
 }
@@ -704,4 +741,4 @@ async function main() {
 }
 
 if (require.main === module) main().catch(e => { console.error(e); process.exit(1); });
-module.exports = { reconcile, valuesAgree, redactKeys, FACT_FIELDS, ADAPTERS, writeReviewQueue, pickTmdbHit, reparseObservation, callSource, canonicalizePeople, peopleKey, stripYearSuffix };
+module.exports = { reconcile, valuesAgree, redactKeys, FACT_FIELDS, ADAPTERS, writeReviewQueue, pickTmdbHit, reparseObservation, callSource, canonicalizePeople, peopleKey, stripYearSuffix, bookHitLooksRight };
