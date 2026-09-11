@@ -1,0 +1,180 @@
+{
+ "t03": [
+  {
+   "src": "OMDb",
+   "url": "https://www.omdbapi.com/?apikey=REDACTED&t=True+Detective&type=series&y=2014",
+   "fields": {
+    "year": 2014,
+    "seasons": 5,
+    "creator": "Nic Pizzolatto, Issa López"
+   }
+  },
+  {
+   "src": "TMDB",
+   "url": "https://api.themoviedb.org/3/search/tv?api_key=REDACTED&query=True+Detective",
+   "fields": {
+    "year": 2014,
+    "seasons": 4,
+    "creator": "Nic Pizzolatto, Issa López",
+    "network": "HBO"
+   }
+  }
+ ],
+ "t10": [
+  {
+   "src": "OMDb",
+   "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Mr.+Robot&type=series&y=2015",
+   "fields": {
+    "year": 2015,
+    "seasons": 4,
+    "creator": "Sam Esmail"
+   }
+  },
+  {
+   "src": "TMDB",
+   "url": "https://api.themoviedb.org/3/search/tv?api_key=REDACTED&query=Mr.+Robot",
+   "fields": {
+    "year": 2015,
+    "seasons": 4,
+    "creator": "Sam Esmail",
+    "network": "USA Network"
+   }
+  }
+ ],
+ "t13": [
+  {
+   "src": "OMDb",
+   "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Chernobyl&type=series&y=2019",
+   "fields": {
+    "year": 2019,
+    "seasons": 1,
+    "creator": "Craig Mazin"
+   }
+  },
+  {
+   "src": "TMDB",
+   "url": "https://api.themoviedb.org/3/search/tv?api_key=REDACTED&query=Chernobyl",
+   "fields": {
+    "year": 2019,
+    "seasons": 1,
+    "creator": "Craig Mazin",
+    "network": "HBO"
+   }
+  }
+ ],
+ "t17": [
+  {
+   "src": "OMDb",
+   "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Breaking+Bad&type=series&y=2008",
+   "fields": {
+    "year": 2008,
+    "seasons": 5,
+    "creator": "Vince Gilligan"
+   }
+  },
+  {
+   "src": "TMDB",
+   "url": "https://api.themoviedb.org/3/search/tv?api_key=REDACTED&query=Breaking+Bad",
+   "fields": {
+    "year": 2008,
+    "seasons": 5,
+    "creator": "Vince Gilligan",
+    "network": "AMC"
+   }
+  }
+ ],
+ "t28": [
+  {
+   "src": "OMDb",
+   "url": "https://www.omdbapi.com/?apikey=REDACTED&t=The+Twilight+Zone&type=series&y=1959",
+   "fields": {
+    "year": 1959,
+    "seasons": 5,
+    "creator": "Rod Serling"
+   }
+  },
+  {
+   "src": "TMDB",
+   "url": "https://api.themoviedb.org/3/search/tv?api_key=REDACTED&query=The+Twilight+Zone",
+   "fields": {
+    "year": 1959,
+    "seasons": 5,
+    "creator": "Rod Serling",
+    "network": "CBS"
+   }
+  }
+ ],
+ "t47": [
+  {
+   "src": "OMDb",
+   "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Band+of+Brothers&type=series&y=2001",
+   "fields": {
+    "year": 2001,
+    "seasons": 1
+   }
+  },
+  {
+   "src": "TMDB",
+   "url": "https://api.themoviedb.org/3/search/tv?api_key=REDACTED&query=Band+of+Brothers",
+   "fields": {
+    "year": 2001,
+    "seasons": 1,
+    "network": "HBO"
+   }
+  }
+ ],
+ "t97": [
+  {
+   "src": "OMDb",
+   "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Peaky+Blinders&type=series&y=2013",
+   "fields": {
+    "year": 2013,
+    "seasons": 6,
+    "creator": "Steven Knight"
+   }
+  },
+  {
+   "src": "TMDB",
+   "url": "https://api.themoviedb.org/3/search/tv?api_key=REDACTED&query=Peaky+Blinders",
+   "fields": {
+    "year": 2013,
+    "seasons": 6,
+    "creator": "Steven Knight",
+    "network": "BBC One"
+   }
+  }
+ ],
+ "t101": [
+  {
+   "src": "OMDb",
+   "url": "https://www.omdbapi.com/?apikey=REDACTED&t=M*A*S*H&type=series&y=1972",
+   "fields": {
+    "year": 1972,
+    "seasons": 11,
+    "creator": "Larry Gelbart"
+   }
+  },
+  {
+   "src": "TMDB",
+   "url": "https://api.themoviedb.org/3/search/tv?api_key=REDACTED&query=M*A*S*H",
+   "fields": {
+    "year": 1972,
+    "seasons": 11,
+    "creator": "Larry Gelbart",
+    "network": "CBS"
+   }
+  }
+ ],
+ "t144": [
+  {
+   "src": "OMDb",
+   "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Peaky+Blinders%3A+The+Immortal+Man&type=series&y=2026",
+   "fields": null
+  },
+  {
+   "src": "TMDB",
+   "url": "https://api.themoviedb.org/3/search/tv?api_key=REDACTED&query=Peaky+Blinders%3A+The+Immortal+Man",
+   "fields": null
+  }
+ ]
+}
