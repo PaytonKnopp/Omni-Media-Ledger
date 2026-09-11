@@ -122,13 +122,17 @@ const firstYear = v => { const m = String(v || '').match(/\d{4}/); return m ? pa
 // that was asked for -- see pickTmdbHit and the OMDb title guard.
 const normText = v => String(v == null ? '' : v).toLowerCase().replace(/[^a-z0-9]+/g, ' ').trim();
 
-// OMDb disambiguates two entries that share a title by appending " (YYYY)" to the Title field of
-// its answer -- found live querying "1917": it answers "1917 (2019)" for the real film, not "1917".
-// That is OMDb's own formatting convention, not a different work, so it is stripped before the
-// title-match guard runs. Left in place, the guard would reject a correct match on every title OMDb
-// happens to disambiguate this way -- a real cost (lost corroboration) but not the WALL-E danger
-// (a genuinely different title slipping through), since this only strips a trailing year in parens.
-const stripOmdbYearSuffix = v => String(v == null ? '' : v).replace(/\s*\(\d{4}\)\s*$/, '');
+// A trailing " (YYYY)" is a disambiguation suffix, not part of a title, on EITHER side of a title
+// comparison. OMDb appends it to its own answer to distinguish two entries sharing a title (found
+// live querying "1917": it answers "1917 (2019)" for the real film, not "1917"). The corpus does
+// the identical thing for the same reason on its own side -- "Scream (2022)" exists to distinguish
+// itself from the 1996 film also in the corpus, and a query for that exact string against TMDB's
+// real title ("Scream") would otherwise be rejected as a mismatch. Stripped before the title-match
+// guard runs wherever a title is compared. Left in place, the guard would reject a correct match on
+// every title either side happens to disambiguate this way -- a real cost (lost corroboration) but
+// not the WALL-E danger (a genuinely different title slipping through), since this only strips a
+// trailing year in parens, nothing else about the string.
+const stripYearSuffix = v => String(v == null ? '' : v).replace(/\s*\(\d{4}\)\s*$/, '');
 
 // TMDB's /search endpoint ranks by its own relevance score, not by exact title, so `results[0]` is
 // not "the movie we searched for" -- it is "TMDB's best guess". Found live: searching "WALL-E"
@@ -140,7 +144,7 @@ const stripOmdbYearSuffix = v => String(v == null ? '' : v).replace(/\s*\(\d{4}\
 // title actually matches once punctuation/case are normalised; otherwise it is not evidence at all.
 function pickTmdbHit(results, medium, work) {
   if (!Array.isArray(results) || !results.length || !work) return null;
-  const want = normText(work.title);
+  const want = normText(stripYearSuffix(work.title));
   const titleOf = r => (medium === 'tv' ? r.name : r.title);
   return results.find(r => normText(titleOf(r)) === want) || null;
 }
@@ -151,7 +155,7 @@ const ADAPTERS = {
     media: ['movie', 'tv'],
     key: () => process.env.OMDB_API_KEY,
     request(work, medium, key) {
-      const q = new URLSearchParams({ apikey: key, t: work.title, type: medium === 'tv' ? 'series' : 'movie' });
+      const q = new URLSearchParams({ apikey: key, t: stripYearSuffix(work.title), type: medium === 'tv' ? 'series' : 'movie' });
       if (work.year) q.set('y', String(work.year));
       return 'https://www.omdbapi.com/?' + q;
     },
@@ -166,14 +170,14 @@ const ADAPTERS = {
     // 2025 stage-reading production first, and the guard rejects it on title exactly as it would a
     // year-constrained wrong match.
     retryRequest(work, medium, key) {
-      return 'https://www.omdbapi.com/?' + new URLSearchParams({ apikey: key, t: work.title, type: medium === 'tv' ? 'series' : 'movie' });
+      return 'https://www.omdbapi.com/?' + new URLSearchParams({ apikey: key, t: stripYearSuffix(work.title), type: medium === 'tv' ? 'series' : 'movie' });
     },
     parse(json, medium, work) {
       if (!json || json.Response === 'False') return null;
       // OMDb's "exact title" endpoint can still answer with a different work of the same name and
       // year (see pickTmdbHit's comment for the live WALL-E case, where OMDb made this exact
       // mistake). If what came back isn't actually the title asked for, it is not evidence.
-      if (work && normText(stripOmdbYearSuffix(json.Title)) !== normText(work.title)) return null;
+      if (work && normText(stripYearSuffix(json.Title)) !== normText(stripYearSuffix(work.title))) return null;
       const f = { year: firstYear(json.Year) };
       if (medium === 'movie') {
         f.runtime = num(json.Runtime);
@@ -194,7 +198,7 @@ const ADAPTERS = {
     media: ['movie', 'tv'],
     key: () => process.env.TMDB_API_KEY,
     request(work, medium, key) {
-      const q = new URLSearchParams({ api_key: key, query: work.title });
+      const q = new URLSearchParams({ api_key: key, query: stripYearSuffix(work.title) });
       if (medium === 'movie' && work.year) q.set('year', String(work.year));
       return 'https://api.themoviedb.org/3/search/' + (medium === 'tv' ? 'tv' : 'movie') + '?' + q;
     },
@@ -657,4 +661,4 @@ async function main() {
 }
 
 if (require.main === module) main().catch(e => { console.error(e); process.exit(1); });
-module.exports = { reconcile, valuesAgree, redactKeys, FACT_FIELDS, ADAPTERS, writeReviewQueue, pickTmdbHit, reparseObservation, callSource, canonicalizePeople, peopleKey };
+module.exports = { reconcile, valuesAgree, redactKeys, FACT_FIELDS, ADAPTERS, writeReviewQueue, pickTmdbHit, reparseObservation, callSource, canonicalizePeople, peopleKey, stripYearSuffix };

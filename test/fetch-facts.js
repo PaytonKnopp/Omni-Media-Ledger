@@ -83,6 +83,16 @@ check('OMDb\'s own "(YYYY)" disambiguation suffix does not look like a title mis
 // And the guard still catches a REAL mismatch that merely happens to end the same way.
 check('a genuinely different title is still rejected even if it also ends in "(YYYY)"',
   ADAPTERS.omdb.parse({ Response: 'True', Title: 'The Making of Good Will Hunting (1997)', Year: '1997', Runtime: '7 min' }, 'movie', { id: 'm101', title: 'Good Will Hunting' }) === null);
+// Found running the full-corpus movie substance batch: the corpus does the identical thing on ITS
+// OWN side for the same reason -- "Scream (2022)" exists to distinguish itself from the 1996 film
+// also in the corpus. Live-confirmed both ways: TMDB's search for the literal string "Scream (2022)"
+// returns an unrelated Chinese awards special, while a search for "Scream" alone (year param 2022)
+// finds the right film first. The suffix must be stripped from the corpus title before it is ever
+// sent as a query, not just before the returned title is compared against it.
+check('the corpus\'s own disambiguating "(YYYY)" is stripped from the OUTGOING query, not just the comparison',
+  ADAPTERS.omdb.request({ id: 'm960', title: 'Scream (2022)', year: 2022 }, 'movie', 'k').includes('t=Scream&'));
+check('the corpus\'s own disambiguating "(YYYY)" does not itself look like a mismatch once stripped on both sides',
+  ADAPTERS.omdb.parse({ Response: 'True', Title: 'Scream', Year: '2022', Runtime: '113 min' }, 'movie', { id: 'm960', title: 'Scream (2022)' }).runtime === 113);
 check('a TMDB search does not blindly trust result 0 when a later result is the actual title match',
   pickTmdbHit([
     { id: 877268, title: "WALL·E's Treasures & Trinkets", release_date: '2008-11-18' },

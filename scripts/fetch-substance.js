@@ -53,7 +53,7 @@
 const fs = require('fs');
 const path = require('path');
 const ROOT = path.resolve(__dirname, '..');
-const { redactKeys, pickTmdbHit } = require('./fetch-facts.js');
+const { redactKeys, pickTmdbHit, stripYearSuffix } = require('./fetch-facts.js');
 
 const TMDB_ATTRIBUTION = 'This product uses the TMDB API but is not endorsed or certified by TMDB.';
 
@@ -107,7 +107,7 @@ async function tmdbSubstance(work, medium) {
   if (!key) return { src: 'TMDB', skipped: 'no TMDB_API_KEY in environment' };
   const kind = medium === 'tv' ? 'tv' : 'movie';
   try {
-    const q = new URLSearchParams({ api_key: key, query: work.title });
+    const q = new URLSearchParams({ api_key: key, query: stripYearSuffix(work.title) });
     if (medium === 'movie' && work.year) q.set('year', String(work.year));
     const search = await getJSON('https://api.themoviedb.org/3/search/' + kind + '?' + q);
     // Same guard as fetch-facts.js's pickTmdbHit, and for the same live-discovered reason: TMDB's

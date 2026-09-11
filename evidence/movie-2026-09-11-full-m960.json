@@ -1,0 +1,87 @@
+{
+ "medium": "movie",
+ "generated": "2026-09-11T02:39:33.039Z",
+ "offline": false,
+ "sources": [
+  "OMDb",
+  "TMDB"
+ ],
+ "works": [
+  {
+   "id": "m960",
+   "title": "Scream (2022)",
+   "sourcesReached": [
+    "TMDB"
+   ],
+   "sourcesMissed": [
+    "OMDb (HTTP 401 Unauthorized)"
+   ],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "release year",
+     "soft": false,
+     "current": 2022,
+     "proposed": 2022,
+     "status": "confirmed",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "TMDB",
+       "value": 2022,
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Scream&year=2022"
+      }
+     ]
+    },
+    {
+     "field": "runtime",
+     "label": "runtime (min)",
+     "soft": false,
+     "current": 114,
+     "proposed": 114,
+     "status": "confirmed",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "TMDB",
+       "value": 114,
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Scream&year=2022"
+      }
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "director",
+     "soft": false,
+     "current": "Matt Bettinelli-Olpin, Tyler Gillett",
+     "proposed": "Matt Bettinelli-Olpin, Tyler Gillett",
+     "status": "confirmed",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "TMDB",
+       "value": "Tyler Gillett, Matt Bettinelli-Olpin",
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Scream&year=2022"
+      }
+     ]
+    },
+    {
+     "field": "studio",
+     "label": "studio",
+     "soft": true,
+     "current": "Paramount",
+     "proposed": "Paramount Pictures",
+     "status": "proposed-change",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "TMDB",
+       "value": "Paramount Pictures",
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Scream&year=2022"
+      }
+     ]
+    }
+   ]
+  }
+ ]
+}
