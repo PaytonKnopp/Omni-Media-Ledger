@@ -53,7 +53,7 @@
 const fs = require('fs');
 const path = require('path');
 const ROOT = path.resolve(__dirname, '..');
-const { redactKeys, pickTmdbHit, stripYearSuffix, bookHitLooksRight } = require('./fetch-facts.js');
+const { redactKeys, pickTmdbHit, stripYearSuffix, creatorNameOverlaps } = require('./fetch-facts.js');
 
 const TMDB_ATTRIBUTION = 'This product uses the TMDB API but is not endorsed or certified by TMDB.';
 
@@ -195,7 +195,7 @@ async function openLibrarySubstance(work) {
       new URLSearchParams({ title: work.title, limit: '1' }));
     const hit = j && Array.isArray(j.docs) && j.docs[0];
     if (!hit) return { src: 'OpenLibrary', miss: 'no match for "' + work.title + '"' };
-    if (!bookHitLooksRight(work, hit.author_name)) {
+    if (!creatorNameOverlaps(work, hit.author_name)) {
       return { src: 'OpenLibrary', miss: 'title matched but author "' + (hit.author_name || []).join(' & ') + '" does not -- likely a different book titled "' + work.title + '"' };
     }
     return {
@@ -216,7 +216,7 @@ async function googleBooksSubstance(work) {
     const j = await getJSON('https://www.googleapis.com/books/v1/volumes?' + new URLSearchParams(params));
     const v = j && Array.isArray(j.items) && j.items[0] && j.items[0].volumeInfo;
     if (!v) return { src: 'Google Books', miss: 'no match for "' + work.title + '"' };
-    if (!bookHitLooksRight(work, v.authors)) {
+    if (!creatorNameOverlaps(work, v.authors)) {
       return { src: 'Google Books', miss: 'title matched but author "' + (v.authors || []).join(' & ') + '" does not -- likely a different book titled "' + work.title + '"' };
     }
     return {

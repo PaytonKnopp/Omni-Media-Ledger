@@ -130,18 +130,19 @@ const normText = v => String(v == null ? '' : v)
   .normalize('NFD').replace(/[̀-ͯ]/g, '')
   .toLowerCase().replace(/[^a-z0-9]+/g, ' ').trim();
 
-// Book search (OpenLibrary, Google Books) is title-only -- no author or year in the query -- so a
-// short or generic corpus title ("Grass", "No Exit") can match a completely different, more heavily
-// indexed book with the same name; found live, both sources independently "corroborating" Sheri S.
-// Tepper's "Grass" as Walt Whitman and Jean-Paul Sartre's "No Exit" as a Taylor Adams thriller,
-// which would otherwise have reached grade A. Guard the whole hit on whether ANY word (>2 chars, to
-// skip "jr"/"de"/etc.) of the source's author name(s) appears anywhere in the corpus's own creator
-// string -- loose on purpose, since corpora write authors many ways ("Niven & Pournelle" for "Larry
-// Niven and Jerry Pournelle"), but a total stranger's name sharing zero words is not this book.
-function bookHitLooksRight(work, sourceAuthors) {
+// Title-only search (OpenLibrary, Google Books, Wikidata) has no author/developer or year in the
+// query -- so a short or generic corpus title ("Grass", "No Exit") can match a completely different,
+// more heavily indexed work with the same name; found live, both book sources independently
+// "corroborating" Sheri S. Tepper's "Grass" as Walt Whitman and Jean-Paul Sartre's "No Exit" as a
+// Taylor Adams thriller, which would otherwise have reached grade A. Guard the whole hit on whether
+// ANY word (>2 chars, to skip "jr"/"de"/etc.) of the source's credited person/people appears anywhere
+// in the corpus's own creator string -- loose on purpose, since corpora write credits many ways
+// ("Niven & Pournelle" for "Larry Niven and Jerry Pournelle"), but a total stranger sharing zero
+// words is not this work. Used for books (author) and, via the Wikidata adapter, games (developer).
+function creatorNameOverlaps(work, sourceCredits) {
   const corpusCreator = work && normText(work.creator);
   if (!corpusCreator) return true; // nothing to check the hit against
-  const list = Array.isArray(sourceAuthors) ? sourceAuthors : [sourceAuthors];
+  const list = Array.isArray(sourceCredits) ? sourceCredits : [sourceCredits];
   return list.some(a => {
     const words = normText(a).split(' ').filter(w => w.length > 2);
     return words.some(w => corpusCreator.includes(w));
@@ -273,7 +274,7 @@ const ADAPTERS = {
     parse(json, medium, work) {
       const hit = json && Array.isArray(json.docs) && json.docs[0];
       if (!hit) return null;
-      if (!bookHitLooksRight(work, hit.author_name)) return null;
+      if (!creatorNameOverlaps(work, hit.author_name)) return null;
       return {
         year: num(hit.first_publish_year),
         pages: num(hit.number_of_pages_median),
@@ -295,7 +296,7 @@ const ADAPTERS = {
     parse(json, medium, work) {
       const v = json && Array.isArray(json.items) && json.items[0] && json.items[0].volumeInfo;
       if (!v) return null;
-      if (!bookHitLooksRight(work, v.authors)) return null;
+      if (!creatorNameOverlaps(work, v.authors)) return null;
       return {
         year: firstYear(v.publishedDate),
         pages: num(v.pageCount),
@@ -321,7 +322,102 @@ const ADAPTERS = {
       };
     },
   },
+
+  // Keyless, CC0, no documented daily quota -- a second source for games (closing the gap IGDB's
+  // signup requirement leaves) and a third for books, so either medium can reach grade A without
+  // depending on a single quota-limited catalogue. Wikidata's search API is a fuzzy, unranked-by-type
+  // lookup (a title like "Dune" returns a sand landform and a music album ahead of the novel), and its
+  // structured facts live on a SEPARATE entity behind a Q-id, with referenced people/companies/
+  // platforms behind THEIR OWN Q-ids needing their own label lookup -- three calls, not the one
+  // request()/parse() every other adapter here fits in. The whole flow lives in wikidataLookup()
+  // and callSource()'s dedicated branch below, alongside IGDB's. parse() still exists and takes the
+  // ASSEMBLED bundle wikidataLookup() builds, so an --offline replay re-runs today's type/author
+  // guard against a recorded bundle instead of trusting whatever the live call decided.
+  wikidata: {
+    label: 'Wikidata',
+    media: ['book', 'game'],
+    key: () => 'keyless',
+    parse(bundle, medium, work) {
+      if (!bundle || !bundle.entity) return null;
+      const claims = bundle.entity.claims || {};
+      const labelOf = id => {
+        const l = bundle.labels && bundle.labels[id];
+        const entry = l && (l.en || l.mul || Object.values(l)[0]);
+        return entry && entry.value;
+      };
+      const dates = (claims.P577 || [])
+        .map(c => c.mainsnak && c.mainsnak.datavalue && c.mainsnak.datavalue.value && c.mainsnak.datavalue.value.time)
+        .filter(Boolean)
+        .map(t => parseInt(String(t).replace(/^[+-]/, ''), 10))
+        .filter(y => Number.isFinite(y) && y > 0);
+      const year = dates.length ? Math.min(...dates) : undefined;
+
+      if (medium === 'game') {
+        const devs = (claims.P178 || []).map(c => labelOf(c.mainsnak.datavalue.value.id)).filter(Boolean);
+        if (!creatorNameOverlaps(work, devs)) return null;
+        const platforms = (claims.P400 || []).map(c => labelOf(c.mainsnak.datavalue.value.id)).filter(Boolean);
+        return { year, creator: str(devs.join(' & ')), platforms };
+      }
+      const authors = (claims.P50 || []).map(c => labelOf(c.mainsnak.datavalue.value.id)).filter(Boolean);
+      if (!creatorNameOverlaps(work, authors)) return null;
+      const publisher = (claims.P123 || []).map(c => labelOf(c.mainsnak.datavalue.value.id)).filter(Boolean)[0];
+      const pagesClaim = claims.P1104 && claims.P1104[0] && claims.P1104[0].mainsnak.datavalue &&
+        claims.P1104[0].mainsnak.datavalue.value;
+      const pages = pagesClaim ? num(pagesClaim.amount) : undefined;
+      return { year, pages, creator: str(authors.join(' & ')), publisher: str(publisher) };
+    },
+  },
 };
+
+// wbsearchentities has no medium/type filter, so results are ranked by text relevance alone -- a
+// description like "1965 science fiction novel by Frank Herbert" or "1998 first-person shooter video
+// game" is the cheapest reliable type signal Wikidata offers without an extra round trip per
+// candidate. Loose keyword match, checked in the order results already came back in (Wikidata's own
+// relevance ranking), so the FIRST match is trusted rather than re-ranked.
+const WIKIDATA_TYPE_HINTS = {
+  book: /\b(novel|book|short story|novella|memoir|poem|poetry|essay|graphic novel|play|autobiography|non-?fiction|biography)\b/i,
+  game: /\bvideo game\b/i,
+};
+
+const WIKIDATA_HEADERS = { 'User-Agent': 'OmniMediaLedger/1.0 (https://github.com/PaytonKnopp/Omni-Media-Ledger)' };
+
+// The three-call flow parse() above expects a pre-assembled bundle for: 1) search by title and pick
+// the first result whose description matches the medium (WIKIDATA_TYPE_HINTS), 2) fetch that
+// candidate's claims (the structured facts) in the same call as its own label (for matchedTitle),
+// 3) batch-resolve every person/company/platform Q-id the CHOSEN candidate's relevant claims
+// reference to a display name in one more call. A title with no medium-matching candidate is a
+// genuine miss, not an error -- reported the same way every other adapter reports "nothing found".
+async function wikidataLookup(work, medium) {
+  const search = await getJSON('https://www.wikidata.org/w/api.php?' + new URLSearchParams({
+    action: 'wbsearchentities', search: work.title, language: 'en', format: 'json', type: 'item', limit: '10',
+  }), { headers: WIKIDATA_HEADERS });
+  const hint = WIKIDATA_TYPE_HINTS[medium];
+  const candidate = (search.search || []).find(s => hint.test(s.description || ''));
+  if (!candidate) return { search, entity: null, labels: null, matchedId: null };
+
+  const entityJson = await getJSON('https://www.wikidata.org/w/api.php?' + new URLSearchParams({
+    action: 'wbgetentities', ids: candidate.id, format: 'json', props: 'claims|labels', languages: 'en|mul',
+  }), { headers: WIKIDATA_HEADERS });
+  const entity = entityJson.entities && entityJson.entities[candidate.id];
+
+  const relevantProps = medium === 'game' ? ['P178', 'P400'] : ['P50', 'P123'];
+  const refIds = new Set();
+  relevantProps.forEach(p => (entity && entity.claims && entity.claims[p] || []).forEach(c => {
+    const v = c.mainsnak && c.mainsnak.datavalue && c.mainsnak.datavalue.value;
+    if (v && v.id) refIds.add(v.id);
+  }));
+
+  let labels = null;
+  if (refIds.size) {
+    const labelJson = await getJSON('https://www.wikidata.org/w/api.php?' + new URLSearchParams({
+      action: 'wbgetentities', ids: [...refIds].join('|'), format: 'json', props: 'labels', languages: 'en|mul',
+    }), { headers: WIKIDATA_HEADERS });
+    labels = {};
+    Object.entries(labelJson.entities || {}).forEach(([id, e]) => { labels[id] = e.labels; });
+  }
+
+  return { search, entity, labels, matchedId: candidate.id, matchedTitle: candidate.label, matchedDescription: candidate.description };
+}
 
 // Maps a recorded observation's human label ("TMDB") back to its ADAPTERS key ("tmdb"), so a
 // replayed run can find the adapter that produced it.
@@ -577,6 +673,13 @@ async function callSource(name, work, medium) {
       const raw = await res.json();
       return { src: ad.label, url: 'igdb:games', raw, fields: ad.parse(raw) };
     }
+    if (name === 'wikidata') {
+      const bundle = await wikidataLookup(work, medium);
+      const url = bundle.matchedId
+        ? 'https://www.wikidata.org/wiki/' + bundle.matchedId
+        : 'https://www.wikidata.org/w/index.php?search=' + encodeURIComponent(work.title);
+      return { src: ad.label, url, raw: bundle, fields: ad.parse(bundle, medium, work) };
+    }
     let url = ad.request(work, medium, key);
     let json = await getJSON(url);
     let fields = ad.parse(json, medium, work);
@@ -724,12 +827,13 @@ async function main() {
   // Google Books' burst quota is roughly 100 requests/100s -- reactive 429 retry (getJSON) is
   // correct but expensive once tripped, since every request after that point pays the backoff
   // instead of just one. Found live: an unpaced 1,000-book run that hit the quota partway through
-  // took far longer retrying its way through the rest than pacing would have cost up front. Book
-  // medium only -- TMDB/OMDb (movie, tv, game) have generously documented quotas and no observed
-  // 429s in this harness's history.
+  // took far longer retrying its way through the rest than pacing would have cost up front. Book and
+  // game media only (Google Books and Wikidata, both keyless/courtesy-limited) -- TMDB/OMDb/IGDB have
+  // generously documented quotas and no observed 429s in this harness's history.
+  const PACED_MEDIA = new Set(['book', 'game']);
   const results = [];
   for (const work of works) {
-    if (!replay && args.medium === 'book' && results.length > 0) await sleep(1100);
+    if (!replay && PACED_MEDIA.has(args.medium) && results.length > 0) await sleep(1100);
     if (!replay && works.length > 20 && results.length % 10 === 0) {
       console.error('  ... ' + results.length + '/' + works.length + ' (' + work.id + ' next)');
     }
@@ -771,4 +875,4 @@ async function main() {
 }
 
 if (require.main === module) main().catch(e => { console.error(e); process.exit(1); });
-module.exports = { reconcile, valuesAgree, redactKeys, FACT_FIELDS, ADAPTERS, writeReviewQueue, pickTmdbHit, reparseObservation, callSource, canonicalizePeople, peopleKey, stripYearSuffix, bookHitLooksRight, getJSON };
+module.exports = { reconcile, valuesAgree, redactKeys, FACT_FIELDS, ADAPTERS, writeReviewQueue, pickTmdbHit, reparseObservation, callSource, canonicalizePeople, peopleKey, stripYearSuffix, creatorNameOverlaps, getJSON };

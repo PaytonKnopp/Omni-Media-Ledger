@@ -219,6 +219,99 @@ console.log('\n=== fact harness: getJSON tells a transient 429 from an exhausted
   global.fetch = realFetch;
 }
 
+console.log('\n=== fact harness: Wikidata adapter (search -> entity claims -> label resolution) ===');
+{
+  const realFetch = global.fetch;
+  const mkJSON = body => ({ ok: true, status: 200, json: async () => body, text: async () => JSON.stringify(body), headers: { get: () => null } });
+
+  // Realistic shapes, trimmed to what the adapter reads, modeled on live Wikidata responses
+  // captured building this adapter (Q190192 = Dune the novel, Q7934 = Frank Herbert).
+  const duneSearch = { search: [
+    { id: 'Q60834962', label: 'Dune', description: '2021 film directed by Denis Villeneuve' },
+    { id: 'Q25391', label: 'dune', description: 'landform, hill of sand' },
+    { id: 'Q190192', label: 'Dune', description: '1965 science fiction novel by Frank Herbert' },
+  ] };
+  const duneEntity = { entities: { Q190192: { claims: {
+    P577: [{ mainsnak: { datavalue: { value: { time: '+1965-00-00T00:00:00Z' } } } }],
+    P50: [{ mainsnak: { datavalue: { value: { id: 'Q7934' } } } }],
+    P123: [{ mainsnak: { datavalue: { value: { id: 'Q5099225' } } } }],
+    P1104: [{ mainsnak: { datavalue: { value: { amount: '+412' } } } }],
+  } } } };
+  const duneLabels = { entities: {
+    Q7934: { labels: { en: { language: 'en', value: 'Frank Herbert' }, mul: { language: 'mul', value: 'Frank Herbert' } } },
+    Q5099225: { labels: { en: { language: 'en', value: 'Chilton Company' } } },
+  } };
+
+  function mockRoute(search, entity, labels) {
+    return async (url) => {
+      const u = new URL(String(url));
+      const action = u.searchParams.get('action');
+      if (action === 'wbsearchentities') return mkJSON(search);
+      const props = u.searchParams.get('props') || '';
+      return mkJSON(props.includes('claims') ? entity : labels);
+    };
+  }
+
+  global.fetch = mockRoute(duneSearch, duneEntity, duneLabels);
+  const r1 = await callSource('wikidata', { id: 'b01', title: 'Dune', creator: 'Frank Herbert' }, 'book');
+  check('picks the type-matching candidate over higher-relevance non-book hits, and resolves author/publisher/pages/year',
+    r1.fields && r1.fields.year === 1965 && r1.fields.pages === 412 &&
+    r1.fields.creator === 'Frank Herbert' && r1.fields.publisher === 'Chilton Company',
+    JSON.stringify(r1.fields));
+
+  // Label resolution must fall back mul -> first-available when a Q-id (e.g. a corporate entity)
+  // carries no "en" label -- found live: Valve Corporation's Wikidata item has no English label at
+  // all, only "mul" (Wikidata's language-neutral label for names that don't vary by language).
+  const noEnLabels = { entities: { Q7934: { labels: { mul: { language: 'mul', value: 'Frank Herbert (mul only)' } } } } };
+  global.fetch = mockRoute(duneSearch, duneEntity, { entities: { ...noEnLabels.entities } });
+  const r2 = await callSource('wikidata', { id: 'b01', title: 'Dune', creator: 'Frank Herbert' }, 'book');
+  check('label resolution falls back to "mul" when a Q-id has no "en" label',
+    r2.fields && r2.fields.creator === 'Frank Herbert (mul only)', JSON.stringify(r2.fields));
+
+  // Same title-collision risk as OpenLibrary/Google Books (search is title-only) -- a candidate
+  // whose description matches the type hint but whose resolved author shares no words with the
+  // corpus creator must be rejected as a whole, not partially trusted.
+  const wrongAuthorEntity = { entities: { Q190192: { claims: {
+    P577: [{ mainsnak: { datavalue: { value: { time: '+2018-00-00T00:00:00Z' } } } }],
+    P50: [{ mainsnak: { datavalue: { value: { id: 'Q999' } } } }],
+  } } } };
+  const wrongAuthorLabels = { entities: { Q999: { labels: { en: { language: 'en', value: 'Someone Unrelated' } } } } };
+  global.fetch = mockRoute(duneSearch, wrongAuthorEntity, wrongAuthorLabels);
+  const r3 = await callSource('wikidata', { id: 'b603', title: 'No Exit', creator: 'Jean-Paul Sartre' }, 'book');
+  check('a resolved author sharing no words with the corpus creator is rejected, not trusted',
+    r3.fields === null, JSON.stringify(r3.fields));
+
+  // No candidate matches the medium's type hint at all (e.g. every search result is a landform, a
+  // person's family name, an unrelated film) -- a genuine miss, not an error.
+  global.fetch = mockRoute({ search: [{ id: 'Q25391', label: 'dune', description: 'landform, hill of sand' }] }, null, null);
+  const r4 = await callSource('wikidata', { id: 'b537', title: 'Grass', creator: 'Sheri S. Tepper' }, 'book');
+  check('no type-matching candidate is a clean miss, not a crash', r4.fields === null && !r4.error, JSON.stringify(r4));
+
+  // Games: developer (P178) and platforms (P400) instead of author/publisher, and a game with
+  // re-release dates on P577 takes the EARLIEST year, not an arbitrary one.
+  const gameSearch = { search: [{ id: 'Q279744', label: 'Half-Life', description: '1998 first-person shooter video game' }] };
+  const gameEntity = { entities: { Q279744: { claims: {
+    P577: [
+      { mainsnak: { datavalue: { value: { time: '+2001-11-11T00:00:00Z' } } } },
+      { mainsnak: { datavalue: { value: { time: '+1998-11-19T00:00:00Z' } } } },
+    ],
+    P178: [{ mainsnak: { datavalue: { value: { id: 'Q193559' } } } }],
+    P400: [{ mainsnak: { datavalue: { value: { id: 'Q1406' } } } }],
+  } } } };
+  const gameLabels = { entities: {
+    Q193559: { labels: { mul: { language: 'mul', value: 'Valve Corporation' } } },
+    Q1406: { labels: { en: { language: 'en', value: 'Microsoft Windows' } } },
+  } };
+  global.fetch = mockRoute(gameSearch, gameEntity, gameLabels);
+  const r5 = await callSource('wikidata', { id: 'g01', title: 'Half-Life', creator: 'Valve' }, 'game');
+  check('games resolve developer + platforms, and take the EARLIEST of multiple release dates',
+    r5.fields && r5.fields.year === 1998 && r5.fields.creator === 'Valve Corporation' &&
+    JSON.stringify(r5.fields.platforms) === JSON.stringify(['Microsoft Windows']),
+    JSON.stringify(r5.fields));
+
+  global.fetch = realFetch;
+}
+
 console.log('\n=== fact harness: multi-person credits compare and canonicalize by set, not word order ===');
 // Reproduces two real full-corpus-batch findings: OMDb and TMDB corroborate the Coen brothers on
 // the same film in opposite orders, and the Russo brothers' own two films disagree with EACH OTHER
