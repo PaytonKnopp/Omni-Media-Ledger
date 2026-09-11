@@ -246,15 +246,62 @@ function applyDecisions() {
       applied++;
     }
 
+    // Stamp prov.indices:"rubric-v1" on every record this run gave a value for EVERY rubric field
+    // that applies to its medium -- deliberately excluding atmosphericDreadIndex, which is staged
+    // separately (RUBRIC.md's proposed mid-band anchor is not yet ratified) and out of scope for
+    // this pass. A record is "scored against the rubric" only once it has no gap; a record missing
+    // even one applicable field is still a partial pass, same reasoning apply-facts.js uses for
+    // "sourced" (all hard facts, not most of them). Preserves whatever `facts`/`checked`/`src` the
+    // record's prov already carries (Phase A/B verified this independently of index scoring, and
+    // this script has no business overwriting that); defaults `facts` to "estimated" -- explicit,
+    // not just absent -- when the record has no prov stamp at all yet.
+    const EXCLUDED_THIS_PASS = new Set(['atmosphericDreadIndex']);
+    const scopedFields = Object.entries(RUBRIC_FIELDS)
+      .filter(([f, d]) => d.media.includes(key) && !EXCLUDED_THIS_PASS.has(f))
+      .map(([f]) => f);
+    const byId = {};
+    list.forEach(d => (byId[d.id] = byId[d.id] || []).push(d));
+    let stamped = 0;
+    for (const id of Object.keys(byId)) {
+      const rec = records.find(r => r.id === id);
+      const decidedHere = new Set(byId[id].map(d => d.field));
+      const complete = scopedFields.every(f => decidedHere.has(f) || rec[f] !== undefined);
+      if (!complete) continue;
+      const lineRe = new RegExp('^.*"id"\\s*:\\s*"' + id + '".*$', 'm');
+      const m = src.match(lineRe);
+      if (!m) { console.error('cannot find record line to stamp indices for ' + id); process.exit(1); }
+      let line = m[0];
+      const before = line;
+      const existingFacts = (rec.prov && rec.prov.facts) || 'estimated';
+      const existingChecked = rec.prov && rec.prov.checked;
+      const existingSrc = rec.prov && rec.prov.src;
+      const stampObj = { facts: existingFacts, indices: 'rubric-v1' };
+      if (existingChecked) stampObj.checked = existingChecked;
+      if (existingSrc) stampObj.src = existingSrc;
+      // Match validate-corpus.js's own key order (facts, checked, src, indices) so a stamped
+      // record reads identically whether apply-facts.js or this script wrote it.
+      const orderedStamp = '"prov":{"facts":' + JSON.stringify(stampObj.facts) +
+        (stampObj.checked ? ',"checked":' + JSON.stringify(stampObj.checked) : '') +
+        (stampObj.src ? ',"src":' + JSON.stringify(stampObj.src) : '') +
+        ',"indices":"rubric-v1"}';
+      if (/"prov"\s*:/.test(line)) line = line.replace(/"prov"\s*:\s*\{[^}]*\}/, orderedStamp);
+      else {
+        const at = line.lastIndexOf('}');
+        if (at < 0) { console.error('cannot find closing brace to stamp indices for ' + id); process.exit(1); }
+        line = line.slice(0, at) + ',' + orderedStamp + line.slice(at);
+      }
+      if (line !== before) { src = src.replace(before, line); stamped++; }
+    }
+
     if (dry) {
-      console.log('[dry run] ' + SECTIONS[key].file + ': ' + list.length + ' change(s), not written');
+      console.log('[dry run] ' + SECTIONS[key].file + ': ' + list.length + ' change(s), ' + stamped + ' record(s) would be stamped rubric-v1, not written');
     } else {
       // Parse the result before trusting it. A string replacement that produces invalid JS would
       // otherwise be discovered by the next person to open the app.
       try { new Function(src + '\nreturn ' + SECTIONS[key].varName + ';')(); }
       catch (e) { console.error('edit produced invalid JS in ' + SECTIONS[key].file + ': ' + e.message); process.exit(1); }
       fs.writeFileSync(filePath, src);
-      console.log('wrote ' + SECTIONS[key].file + ': ' + list.length + ' change(s)');
+      console.log('wrote ' + SECTIONS[key].file + ': ' + list.length + ' change(s), ' + stamped + ' record(s) stamped rubric-v1');
     }
   }
   console.log((dry ? '[dry run] ' : '') + applied + ' decision(s) ' + (dry ? 'validated' : 'applied'));
