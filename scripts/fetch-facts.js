@@ -33,8 +33,14 @@
  * OFFLINE
  * The entire pipeline downstream of the network runs without it:
  *   --offline <file>   replay recorded observations instead of calling anything
- *   --record  <file>   write every raw observation of a live run to <file>, so that run can be
+ *   --record  <file>   write every raw API response of a live run to <file>, so that run can be
  *                      replayed, diffed, and argued with later
+ * A recorded observation carries the untouched API response (`raw`, and `rawDetail` for TMDB's
+ * second call), not just the fields parsed out of it -- so replaying re-runs the SAME adapter
+ * parse() a live call would, against TODAY's code. That matters: a parse()-level fix (a title-match
+ * guard, say) can only be verified against an old run if replay re-parses, rather than trusting
+ * fields decided back when the bug was still live. A recording made before this existed has no
+ * `raw` and falls back to trusting its stored fields, which is all it has.
  * This is how the harness was built and tested before any key existed, and it is why a live run
  * is reproducible rather than a one-off.
  *
@@ -116,6 +122,14 @@ const firstYear = v => { const m = String(v || '').match(/\d{4}/); return m ? pa
 // that was asked for -- see pickTmdbHit and the OMDb title guard.
 const normText = v => String(v == null ? '' : v).toLowerCase().replace(/[^a-z0-9]+/g, ' ').trim();
 
+// OMDb disambiguates two entries that share a title by appending " (YYYY)" to the Title field of
+// its answer -- found live querying "1917": it answers "1917 (2019)" for the real film, not "1917".
+// That is OMDb's own formatting convention, not a different work, so it is stripped before the
+// title-match guard runs. Left in place, the guard would reject a correct match on every title OMDb
+// happens to disambiguate this way -- a real cost (lost corroboration) but not the WALL-E danger
+// (a genuinely different title slipping through), since this only strips a trailing year in parens.
+const stripOmdbYearSuffix = v => String(v == null ? '' : v).replace(/\s*\(\d{4}\)\s*$/, '');
+
 // TMDB's /search endpoint ranks by its own relevance score, not by exact title, so `results[0]` is
 // not "the movie we searched for" -- it is "TMDB's best guess". Found live: searching "WALL-E"
 // (the corpus's ASCII-hyphen spelling) ranks the same-year Pixar short "WALL·E's Treasures &
@@ -141,12 +155,25 @@ const ADAPTERS = {
       if (work.year) q.set('y', String(work.year));
       return 'https://www.omdbapi.com/?' + q;
     },
+    // Used ONLY as a fallback when the year-constrained request above finds nothing. OMDb's `y=` is
+    // an exact filter, not a tolerance, and its registered year for a title is not always the
+    // corpus's -- found live re-verifying the owned batches: The Good, the Bad and the Ugly is 1966
+    // in the corpus, 1967 on OMDb; A Beautiful Mind 2001 vs 2002; Schindler's List 1993 vs 1994. One
+    // year off returns "Movie not found!" even though the title is right there, which permanently
+    // caps that field at single-source grade B for no real reason. Dropping the year constraint on
+    // retry is safe because the title-match guard in parse() below is the actual safety net, not
+    // this parameter -- proven live: an unconstrained search for "Star Wars: A New Hope" returns a
+    // 2025 stage-reading production first, and the guard rejects it on title exactly as it would a
+    // year-constrained wrong match.
+    retryRequest(work, medium, key) {
+      return 'https://www.omdbapi.com/?' + new URLSearchParams({ apikey: key, t: work.title, type: medium === 'tv' ? 'series' : 'movie' });
+    },
     parse(json, medium, work) {
       if (!json || json.Response === 'False') return null;
       // OMDb's "exact title" endpoint can still answer with a different work of the same name and
       // year (see pickTmdbHit's comment for the live WALL-E case, where OMDb made this exact
       // mistake). If what came back isn't actually the title asked for, it is not evidence.
-      if (work && normText(json.Title) !== normText(work.title)) return null;
+      if (work && normText(stripOmdbYearSuffix(json.Title)) !== normText(work.title)) return null;
       const f = { year: firstYear(json.Year) };
       if (medium === 'movie') {
         f.runtime = num(json.Runtime);
@@ -262,6 +289,29 @@ const ADAPTERS = {
     },
   },
 };
+
+// Maps a recorded observation's human label ("TMDB") back to its ADAPTERS key ("tmdb"), so a
+// replayed run can find the adapter that produced it.
+const LABEL_TO_KEY = Object.fromEntries(Object.entries(ADAPTERS).map(([k, a]) => [a.label, k]));
+
+/* --offline replay's whole point is letting an old run be re-argued against today's code. That only
+   works for reconcile()-level changes unless the recorded observation is re-parsed, too -- a
+   parse()-level fix (the title-collision guard is exactly this) can never be exercised by replaying
+   pre-computed `fields`, because those fields were already decided at record time. If the
+   observation carries `raw` (recorded after this was added), re-derive `fields` from it through
+   today's adapter; a legacy recording with no `raw` falls back to trusting its stored `fields`, the
+   only thing it has. */
+function reparseObservation(obs, medium, work) {
+  if (!obs || obs.error || obs.skipped || obs.raw === undefined) return obs;
+  const adKey = LABEL_TO_KEY[obs.src];
+  const ad = adKey && ADAPTERS[adKey];
+  if (!ad) return obs;
+  let fields = adKey === 'igdb' ? ad.parse(obs.raw) : ad.parse(obs.raw, medium, work);
+  if (adKey === 'tmdb' && obs.rawDetail !== undefined) {
+    fields = Object.assign({}, fields, ad.parseDetail(obs.rawDetail, medium));
+  }
+  return Object.assign({}, obs, { fields });
+}
 
 /* ===================== reconciliation ===================== */
 
@@ -387,21 +437,38 @@ async function callSource(name, work, medium) {
               'platforms.name,involved_companies.company.name,involved_companies.developer; limit 1;',
       });
       if (!res.ok) throw new Error('HTTP ' + res.status);
-      return { src: ad.label, url: 'igdb:games', fields: ad.parse(await res.json()) };
+      const raw = await res.json();
+      return { src: ad.label, url: 'igdb:games', raw, fields: ad.parse(raw) };
     }
-    const url = ad.request(work, medium, key);
-    const json = await getJSON(url);
+    let url = ad.request(work, medium, key);
+    let json = await getJSON(url);
     let fields = ad.parse(json, medium, work);
+    if (fields === null && ad.retryRequest && work.year) {
+      // The primary request found nothing usable -- retry without the year constraint (OMDb only;
+      // see retryRequest's comment for why this is safe). Keep the primary response as the record
+      // of what happened if the retry ALSO finds nothing, rather than overwriting it with a second
+      // failure that explains less.
+      const rurl = ad.retryRequest(work, medium, key);
+      const rjson = await getJSON(rurl);
+      const rfields = ad.parse(rjson, medium, work);
+      if (rfields !== null) { url = rurl; json = rjson; fields = rfields; }
+    }
+    let rawDetail;
     if (name === 'tmdb' && ad.detailRequest) {
       // Same hit pickTmdbHit chose for parse() above -- re-deriving it independently here (as this
       // used to do with a bare `results[0]`) is exactly how a search-ranking mismatch could pick two
       // different "hits" for the summary and the detail fetch without anything noticing.
       const hit = pickTmdbHit(json && json.results, medium, work);
       const durl = ad.detailRequest(hit, medium, key);
-      if (durl) fields = Object.assign({}, fields, ad.parseDetail(await getJSON(durl), medium));
+      if (durl) { rawDetail = await getJSON(durl); fields = Object.assign({}, fields, ad.parseDetail(rawDetail, medium)); }
     }
     // The key is in the URL for OMDb and TMDB. It must never reach a file or the console.
-    return { src: ad.label, url: redactKeys(String(url)), fields };
+    // `raw`/`rawDetail` are the untouched API responses -- kept alongside `fields` so a recorded run
+    // can be replayed through WHATEVER parse() looks like when it is replayed, not just whatever it
+    // looked like when it was recorded. Without this, a parse-level fix (like the title-collision
+    // guard above) could never be verified offline against an old recording -- only reconcile()-level
+    // fixes could, because reconcile is the only thing --offline used to re-run.
+    return { src: ad.label, url: redactKeys(String(url)), raw: json, rawDetail, fields };
   } catch (e) {
     return { src: ad.label, error: e.message };
   }
@@ -409,26 +476,50 @@ async function callSource(name, work, medium) {
 
 /* ===================== output ===================== */
 
+// A soft field (studio/publisher/network/platform list) whose OWN sources agree with each other is
+// a naming-convention question, not a fact in dispute -- "Warner Bros." vs "Warner Bros. Pictures"
+// is not the kind of thing a human needs to read one line at a time. At 93 works this was already
+// most of the queue (studio naming variance was the single largest category in every batch); at
+// 2,508 it would bury the genuine disagreements under thousands of lines nobody will ever read.
+// Genuine conflicts -- sources disagreeing WITH EACH OTHER (sources-disagree, edition-dependent),
+// and any HARD-field question, however it arose -- stay listed individually. Nothing is dropped:
+// a naming-only field is still in the evidence JSON, just not spelled out in the human queue.
+const isNamingOnly = p => !!p.soft && p.status === 'proposed-change';
+
 function writeReviewQueue(file, medium, results) {
   const lines = ['# Review queue -- ' + medium + ' -- ' + new Date().toISOString().slice(0, 10), '',
     'Everything here needs a human. Grade A proposals are not listed: `scripts/apply-facts.js`',
     'applies those and records them in the JSON beside this file.', ''];
-  let n = 0;
+  let n = 0;          // genuine questions -- what actually needs a decision
+  let nameOnly = 0;   // soft-field naming variance, counted but not spelled out per field
   for (const r of results) {
     const needs = r.proposals.filter(p => p.grade === 'B' && p.status !== 'confirmed');
-    if (!needs.length) continue;
-    n += needs.length;
+    const named = needs.filter(isNamingOnly);
+    const keep = needs.filter(p => !isNamingOnly(p));
+    nameOnly += named.length;
+    if (!keep.length) continue;   // nothing genuine for this work -- rolled into the tally above
+    n += keep.length;
     lines.push('## ' + r.title + ' (' + r.id + ')');
-    for (const p of needs) {
+    for (const p of keep) {
       lines.push('- **' + p.label + '** -- corpus has `' + JSON.stringify(p.current) + '`, ' +
         (p.status === 'sources-disagree' || p.status === 'edition-dependent'
           ? 'sources disagree (' + p.status + '): '
           : 'one source says ') +
         p.sources.map(s => s.src + ' `' + JSON.stringify(s.value) + '`').join(', '));
     }
+    if (named.length) {
+      lines.push('- _(+' + named.length + ' naming-only field' + (named.length === 1 ? '' : 's') +
+        ' not shown -- sources agree with each other, differ from the corpus only in naming; see the evidence JSON.)_');
+    }
     lines.push('');
   }
-  lines.splice(4, 0, n === 0 ? '_Nothing queued._' : '**' + n + ' fields awaiting a decision.**', '');
+  const summary = [n === 0 ? '_Nothing genuinely in question._' : '**' + n + ' fields awaiting a decision.**'];
+  if (nameOnly) {
+    summary.push('**' + nameOnly + ' additional naming-only field' + (nameOnly === 1 ? '' : 's') +
+      ' omitted** -- soft field, sources agree with each other, differ from the corpus only in ' +
+      'naming (e.g. "Warner Bros." vs "Warner Bros. Pictures"). Full detail is in the evidence JSON.');
+  }
+  lines.splice(4, 0, ...summary, '');
   fs.writeFileSync(file, lines.join('\n'));
   return n;
 }
@@ -482,7 +573,7 @@ async function main() {
   const results = [];
   for (const work of works) {
     const observations = replay
-      ? (replay[work.id] || [])
+      ? (replay[work.id] || []).map(o => reparseObservation(o, args.medium, work))
       : await Promise.all(sources.map(n => callSource(n, work, args.medium)));
     if (args.record) recorded[work.id] = observations;
     const usable = observations.filter(o => o && o.fields);
@@ -519,4 +610,4 @@ async function main() {
 }
 
 if (require.main === module) main().catch(e => { console.error(e); process.exit(1); });
-module.exports = { reconcile, valuesAgree, redactKeys, FACT_FIELDS, ADAPTERS, writeReviewQueue, pickTmdbHit };
+module.exports = { reconcile, valuesAgree, redactKeys, FACT_FIELDS, ADAPTERS, writeReviewQueue, pickTmdbHit, reparseObservation, callSource };

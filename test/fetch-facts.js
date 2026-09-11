@@ -23,13 +23,15 @@ const path = require('path');
 const { execFileSync } = require('child_process');
 const os = require('os');
 const ROOT = path.resolve(__dirname, '..');
-const { reconcile, valuesAgree, redactKeys, ADAPTERS, pickTmdbHit } = require(path.join(ROOT, 'scripts/fetch-facts.js'));
+const { reconcile, valuesAgree, redactKeys, ADAPTERS, pickTmdbHit, reparseObservation, writeReviewQueue, callSource } = require(path.join(ROOT, 'scripts/fetch-facts.js'));
 
 let failures = 0;
 function check(label, cond, detail) {
   if (cond) console.log('  ok   - ' + label);
   else { console.log('  FAIL - ' + label); if (detail) console.log('     ' + detail); failures++; }
 }
+
+async function main() {
 
 console.log('\n=== fact harness: value comparison ===');
 check('text comparison ignores case and punctuation',
@@ -72,6 +74,15 @@ check('OMDb answering with a different title (a same-year doppelganger) is not e
   ADAPTERS.omdb.parse({ Response: 'True', Title: "WALL-E: Treasures and Trinkets", Year: '2008', Runtime: '5 min', Director: 'Andrew Stanton' }, 'movie', wallE) === null);
 check('OMDb answering with the actual title (allowing for punctuation) still counts',
   ADAPTERS.omdb.parse({ Response: 'True', Title: 'WALL·E', Year: '2008', Runtime: '98 min', Director: 'Andrew Stanton' }, 'movie', wallE).runtime === 98);
+
+// Found re-verifying the owned batches offline: OMDb disambiguates same-titled entries by
+// appending " (YYYY)" to its own Title field (e.g. answering "1917 (2019)" for a query of "1917"),
+// which the guard above was rejecting as a title mismatch even though it is the right film.
+check('OMDb\'s own "(YYYY)" disambiguation suffix does not look like a title mismatch',
+  ADAPTERS.omdb.parse({ Response: 'True', Title: '1917 (2019)', Year: '2019', Runtime: '119 min', Director: 'Sam Mendes' }, 'movie', { id: 'm66', title: '1917' }).runtime === 119);
+// And the guard still catches a REAL mismatch that merely happens to end the same way.
+check('a genuinely different title is still rejected even if it also ends in "(YYYY)"',
+  ADAPTERS.omdb.parse({ Response: 'True', Title: 'The Making of Good Will Hunting (1997)', Year: '1997', Runtime: '7 min' }, 'movie', { id: 'm101', title: 'Good Will Hunting' }) === null);
 check('a TMDB search does not blindly trust result 0 when a later result is the actual title match',
   pickTmdbHit([
     { id: 877268, title: "WALL·E's Treasures & Trinkets", release_date: '2008-11-18' },
@@ -79,6 +90,69 @@ check('a TMDB search does not blindly trust result 0 when a later result is the 
   ], 'movie', wallE).id === 10681);
 check('a TMDB search with no real title match returns nothing, rather than guessing result 0',
   pickTmdbHit([{ id: 1, title: 'Completely Unrelated Movie', release_date: '2008-01-01' }], 'movie', wallE) === null);
+
+// A recording made before `raw`/`rawDetail` existed has nothing to re-parse and must keep trusting
+// its stored fields -- this is what makes every already-recorded evidence file in evidence/ still
+// replay identically rather than silently going blank.
+check('a legacy observation with no raw JSON is trusted as recorded, not discarded',
+  reparseObservation({ src: 'OMDb', fields: { year: 1980 } }, 'movie', { title: 'The Shining' }).fields.year === 1980);
+
+// The actual point of this: replaying a recorded run re-derives fields from the raw JSON through
+// TODAY's parse(), so a parse()-level fix made after the recording still applies to it. Without
+// this, --offline could only ever re-argue reconcile()-level questions.
+check('replaying a raw OMDb response re-applies the CURRENT title guard, not whatever parse() did at record time',
+  reparseObservation({ src: 'OMDb', raw: { Response: 'True', Title: 'WALL-E: Treasures and Trinkets', Year: '2008', Runtime: '5 min' } }, 'movie', { title: 'WALL-E' }).fields === null);
+check('replaying a raw OMDb response for the right title still comes through',
+  reparseObservation({ src: 'OMDb', raw: { Response: 'True', Title: 'WALL·E', Year: '2008', Runtime: '98 min' } }, 'movie', { title: 'WALL-E' }).fields.runtime === 98);
+check('replaying a raw TMDB search response re-applies the CURRENT hit-picking logic to `raw`, and merges rawDetail for the SAME hit',
+  reparseObservation({ src: 'TMDB',
+    raw: { results: [{ id: 877268, title: "WALL·E's Treasures & Trinkets", release_date: '2008-11-18' }, { id: 10681, title: 'WALL·E', release_date: '2008-06-26' }] },
+    rawDetail: { release_date: '2008-06-26', runtime: 98, credits: { crew: [{ job: 'Director', name: 'Andrew Stanton' }] } },
+  }, 'movie', { title: 'WALL-E' }).fields.runtime === 98);
+
+console.log('\n=== fact harness: OMDb retries without a year constraint, safely ===');
+{
+  const realFetch = global.fetch;
+  const origKey = process.env.OMDB_API_KEY;
+  process.env.OMDB_API_KEY = 'test-key';
+  const withYear = j => ({ ok: true, json: async () => j });
+
+  // Case 1: the corpus year is one off from OMDb's own (real live case: The Good, the Bad and the
+  // Ugly is 1966 in the corpus, 1967 on OMDb). The year-constrained request finds nothing; the
+  // retry without a year finds the same, correctly-titled film.
+  let calls = [];
+  global.fetch = async (url) => { calls.push(String(url)); return String(url).includes('y=1966')
+    ? withYear({ Response: 'False', Error: 'Movie not found!' })
+    : withYear({ Response: 'True', Title: 'The Good, the Bad and the Ugly', Year: '1967', Runtime: '178 min' }); };
+  const got1 = await callSource('omdb', { id: 'm106', title: 'The Good, the Bad and the Ugly', year: 1966 }, 'movie');
+  check('a year-mismatch retry recovers a real corroborating value instead of staying single-source forever',
+    got1.fields && got1.fields.runtime === 178 && calls.length === 2, JSON.stringify({ fields: got1.fields, calls }));
+
+  // Case 2: the SAME safety net that catches this at record time -- a retry that lands on a
+  // wrong-title collision (the live Star Wars case: dropping the year returns a 2025 stage-reading
+  // production) must still be rejected, not accepted just because it's the only thing that answered.
+  calls = [];
+  global.fetch = async (url) => { calls.push(String(url)); return String(url).includes('y=1977')
+    ? withYear({ Response: 'False', Error: 'Movie not found!' })
+    : withYear({ Response: 'True', Title: "Maclunkey Treasure Island: A Live Staged Reading of Star Wars - A New Hope", Year: '2025', Runtime: '123 min' }); };
+  const got2 = await callSource('omdb', { id: 'm122', title: 'Star Wars: A New Hope', year: 1977 }, 'movie');
+  check('a retry that lands on a title collision is rejected exactly like a primary one would be',
+    got2.fields === null && calls.length === 2, JSON.stringify({ fields: got2.fields, calls }));
+
+  // No retry fires when there's nothing to retry around.
+  calls = [];
+  global.fetch = async (url) => { calls.push(String(url)); return withYear({ Response: 'True', Title: 'Alien', Year: '1979', Runtime: '117 min' }); };
+  await callSource('omdb', { id: 'm40', title: 'Alien', year: 1979 }, 'movie');
+  check('no retry when the primary request already succeeds', calls.length === 1, JSON.stringify(calls));
+
+  calls = [];
+  global.fetch = async (url) => { calls.push(String(url)); return withYear({ Response: 'False', Error: 'Movie not found!' }); };
+  await callSource('omdb', { id: 'm999', title: 'Totally Fictional Title' }, 'movie');
+  check('no retry when there was no year to drop in the first place', calls.length === 1, JSON.stringify(calls));
+
+  global.fetch = realFetch;
+  process.env.OMDB_API_KEY = origKey;
+}
 
 console.log('\n=== fact harness: reconciliation ===');
 const movies = new Function(fs.readFileSync(path.join(ROOT, 'data/movies.js'), 'utf8') + '\nreturn movies;')();
@@ -111,6 +185,38 @@ check('no sources means no claim at all',
   JSON.stringify(got.m05.runtime));
 check('nothing in the fixture is ever graded C',
   !Object.values(got).some(w => Object.values(w).some(p => p.grade === 'C')));
+
+console.log('\n=== fact harness: the review queue collapses naming-only noise, keeps genuine conflicts ===');
+{
+  const namingTmp = fs.mkdtempSync(path.join(os.tmpdir(), 'omni-queue-'));
+  const qfile = path.join(namingTmp, 'queue.md');
+  const results = [
+    { id: 'm01', title: 'Naming Only Film', proposals: [
+      { field: 'studio', label: 'studio', soft: true, current: 'Warner Bros.', proposed: 'Warner Bros. Pictures', status: 'proposed-change', grade: 'B', sources: [{ src: 'TMDB', value: 'Warner Bros. Pictures' }] },
+    ] },
+    { id: 'm02', title: 'Genuine Conflict Film', proposals: [
+      { field: 'runtime', label: 'runtime (min)', soft: false, current: 146, status: 'sources-disagree', grade: 'B', sources: [{ src: 'OMDb', value: 146 }, { src: 'TMDB', value: 144 }] },
+    ] },
+    { id: 'm03', title: 'Mixed Film', proposals: [
+      { field: 'runtime', label: 'runtime (min)', soft: false, current: 100, status: 'sources-disagree', grade: 'B', sources: [{ src: 'OMDb', value: 100 }, { src: 'TMDB', value: 101 }] },
+      { field: 'studio', label: 'studio', soft: true, current: 'A24', proposed: 'RT Features', status: 'proposed-change', grade: 'B', sources: [{ src: 'TMDB', value: 'RT Features' }] },
+    ] },
+  ];
+  const n = writeReviewQueue(qfile, 'movie', results);
+  const content = fs.readFileSync(qfile, 'utf8');
+  check('the returned/reported count is genuine questions only, not naming variance',
+    n === 2, 'n=' + n);
+  check('a work with ONLY naming-only variance gets no heading at all',
+    !content.includes('Naming Only Film'), content);
+  check('a genuine sources-disagree conflict is still listed individually',
+    content.includes('Genuine Conflict Film') && content.includes('sources disagree'), content);
+  check('a work with both keeps the genuine conflict AND notes its omitted naming variant',
+    content.includes('Mixed Film') && /runtime.*sources disagree/.test(content) && /\+1 naming-only field/.test(content),
+    content);
+  check('the file-level summary states the total naming-only count omitted (1 + 1 = 2)',
+    /2 additional naming-only fields omitted/.test(content), content);
+  fs.rmSync(namingTmp, { recursive: true, force: true });
+}
 
 console.log('\n=== fact harness: apply is narrow, and refuses when it cannot be sure ===');
 const tmp = fs.mkdtempSync(path.join(os.tmpdir(), 'omni-facts-'));
@@ -151,5 +257,10 @@ check('stale evidence is refused rather than applied to whatever is on the line 
   /REFUSED/.test(refusal) && /m02\.runtime: expected/.test(refusal), refusal);
 
 fs.rmSync(tmp, { recursive: true, force: true });
-console.log(failures ? '\n' + failures + ' fact-harness check(s) failed.\n' : '\nFact harness passed all checks.\n');
-process.exit(failures ? 1 : 0);
+
+}
+
+main().then(() => {
+  console.log(failures ? '\n' + failures + ' fact-harness check(s) failed.\n' : '\nFact harness passed all checks.\n');
+  process.exit(failures ? 1 : 0);
+}).catch(e => { console.error(e); process.exit(1); });

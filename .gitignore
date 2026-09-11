@@ -26,3 +26,12 @@ evidence/*.prose.json
 # Recorded raw API responses. Committing these makes a fetch run replayable, which is often worth
 # it -- but they can carry synopsis prose too, so they are opt-in via `git add -f`.
 evidence/raw-*.json
+
+# score-snapshot.js output. Diagnostic, not evidence -- every value in it is DERIVED (gm, indices,
+# content rating) and fully regenerable on demand from any commit (`node scripts/score-snapshot.js`)
+# plus a browser, unlike the fact/substance evidence pairs above, which are the only record of what
+# an external source actually said on a given date. At ~1.6MB per snapshot and several per batch,
+# committing these across a 2,508-work run would balloon the repo for no lasting benefit -- the
+# batch commit message and its evidence files are the durable record; the snapshot diff shown while
+# working is the point, not the file itself.
+evidence/snapshots/
