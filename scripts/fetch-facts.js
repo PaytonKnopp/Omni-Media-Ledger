@@ -81,24 +81,24 @@ const FACT_FIELDS = {
   movie: [
     { key: 'year',    corpusPath: 'year',    label: 'release year' },
     { key: 'runtime', corpusPath: 'runtime', label: 'runtime (min)' },
-    { key: 'creator', corpusPath: 'creator', label: 'director', text: true },
+    { key: 'creator', corpusPath: 'creator', label: 'director', text: true, people: true },
     { key: 'studio',  corpusPath: 'studio',  label: 'studio', text: true, soft: true },
   ],
   tv: [
     { key: 'year',    corpusPath: 'year',            label: 'first air year' },
     { key: 'seasons', corpusPath: 'totalSeasons',    label: 'seasons' },
-    { key: 'creator', corpusPath: 'creator',         label: 'creator', text: true },
+    { key: 'creator', corpusPath: 'creator',         label: 'creator', text: true, people: true },
     { key: 'network', corpusPath: 'networkStreamer', label: 'network / streamer', text: true, soft: true },
   ],
   game: [
     { key: 'year',      corpusPath: 'year',                 label: 'release year' },
-    { key: 'creator',   corpusPath: 'creator',              label: 'developer', text: true },
+    { key: 'creator',   corpusPath: 'creator',              label: 'developer', text: true, people: true },
     { key: 'platforms', corpusPath: 'platformAvailability', label: 'platforms', list: true, soft: true },
   ],
   book: [
     { key: 'year',      corpusPath: 'year',      label: 'first publication year' },
     { key: 'pages',     corpusPath: 'pages',     label: 'page count', editionDependent: true },
-    { key: 'creator',   corpusPath: 'creator',   label: 'author', text: true },
+    { key: 'creator',   corpusPath: 'creator',   label: 'author', text: true, people: true },
     { key: 'publisher', corpusPath: 'publisher', label: 'publisher', text: true, soft: true, editionDependent: true },
   ],
 };
@@ -321,6 +321,40 @@ function reparseObservation(obs, medium, work) {
    matching is what put a genre boost on the wrong works twice in this repo's history.
    (normText itself is declared up with the source adapters -- they need it too.) */
 
+/* A multi-person credit has no stable word order -- found live re-verifying this session: OMDb and
+   TMDB corroborate the SAME two Coen brothers on the SAME film in opposite orders, and the same
+   duo's own two films disagree with EACH OTHER on order too (Avengers: Infinity War and Captain
+   America: The Winter Soldier, both "Anthony & Joe Russo", each source picks a different order on
+   each film). Comparing the raw joined string treats that as a factual disagreement it is not.
+   Mirrors validate-corpus.js's `people()` key: split on separators, expand a bare first name that
+   shares the group's surname ("Josh & Benny Safdie" -> "Josh Safdie" + "Benny Safdie"), then compare
+   as a set. That check is the reason this matters at all -- the corpus's own creator-identity
+   invariant requires every record for one person or duo to use the IDENTICAL string, because the
+   app's creator boost matches by literal substring, so an order difference silently splits one
+   person's filmography into two unconnected credits. */
+const splitNames = v => String(v == null ? '' : v)
+  .split(/\s*(?:&|,|\band\b)\s*/i).map(s => s.trim()).filter(Boolean);
+// Expands a bare first name that shares the group's surname ("Josh & Benny Safdie" -> "Josh Safdie",
+// "Benny Safdie"), keeping original casing -- shared by peopleKey (comparison) and
+// canonicalizePeople (the written form) so they can never disagree about who "Josh" is.
+function expandNames(v) {
+  const raw = splitNames(v);
+  const surname = (raw[raw.length - 1] || '').trim().split(/\s+/).pop();
+  return raw.map(p => {
+    const t = p.trim();
+    return (t.split(/\s+/).length === 1 && surname && normText(t) !== normText(surname)) ? t + ' ' + surname : t;
+  });
+}
+const peopleKey = v => expandNames(v).map(normText).sort().join('|');
+// The value actually WRITTEN when sources agree as a set but not on order: a single deterministic
+// (alphabetical) join, so the same duo converges on one string no matter which source or which of
+// their films supplied it, rather than each record freezing in whatever order its own source used.
+const canonicalizePeople = v => {
+  const names = expandNames(v);
+  if (names.length < 2) return v;
+  return names.slice().sort((a, b) => normText(a).localeCompare(normText(b))).join(', ');
+};
+
 function valuesAgree(field, a, b) {
   if (a == null || b == null) return false;
   if (field.list) {
@@ -328,6 +362,10 @@ function valuesAgree(field, a, b) {
     if (!A.size || !B.size) return false;
     let shared = 0; A.forEach(v => { if (B.has(v)) shared++; });
     return shared / Math.max(A.size, B.size) >= 0.5;   // catalogues disagree on port lists forever
+  }
+  if (field.people) {
+    const A = peopleKey(a), B = peopleKey(b);
+    return A !== '' && A === B;
   }
   if (field.text) {
     const A = normText(a), B = normText(b);
@@ -367,7 +405,16 @@ function reconcile(medium, work, observations) {
     const best = groups[0];
     const contested = groups.length > 1;
 
-    const matchesCorpus = valuesAgree(field, current, best.value);
+    // For a people field, "matches the corpus" means matches EXACTLY, not just the same set of
+    // names -- otherwise a record already correct in substance but formatted "Joel & Ethan Coen"
+    // would be marked merely `confirmed` and never rewritten to the one literal string the corpus's
+    // own creator-identity check (validate-corpus.js) requires every record for that duo to share.
+    // Convergence has to be an active rewrite, not something that only happens to records that
+    // already happened to be typed in the canonical order.
+    const proposed = field.people ? canonicalizePeople(best.value) : best.value;
+    const matchesCorpus = field.people
+      ? normText(current) === normText(proposed)
+      : valuesAgree(field, current, best.value);
     const corroborated = best.sources.length >= 2 && !contested;
 
     let status, grade;
@@ -389,7 +436,7 @@ function reconcile(medium, work, observations) {
 
     out.push({
       field: field.key, label: field.label, soft: !!field.soft, current,
-      proposed: best.value, status, grade,
+      proposed, status, grade,
       sources: seen.map(o => ({ src: o.src, value: o.value, url: o.url })),
       alternatives: contested ? groups.slice(1).map(g => g.value) : undefined,
     });
@@ -610,4 +657,4 @@ async function main() {
 }
 
 if (require.main === module) main().catch(e => { console.error(e); process.exit(1); });
-module.exports = { reconcile, valuesAgree, redactKeys, FACT_FIELDS, ADAPTERS, writeReviewQueue, pickTmdbHit, reparseObservation, callSource };
+module.exports = { reconcile, valuesAgree, redactKeys, FACT_FIELDS, ADAPTERS, writeReviewQueue, pickTmdbHit, reparseObservation, callSource, canonicalizePeople, peopleKey };

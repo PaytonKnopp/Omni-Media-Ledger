@@ -23,7 +23,7 @@ const path = require('path');
 const { execFileSync } = require('child_process');
 const os = require('os');
 const ROOT = path.resolve(__dirname, '..');
-const { reconcile, valuesAgree, redactKeys, ADAPTERS, pickTmdbHit, reparseObservation, writeReviewQueue, callSource } = require(path.join(ROOT, 'scripts/fetch-facts.js'));
+const { reconcile, valuesAgree, redactKeys, ADAPTERS, pickTmdbHit, reparseObservation, writeReviewQueue, callSource, canonicalizePeople, peopleKey } = require(path.join(ROOT, 'scripts/fetch-facts.js'));
 
 let failures = 0;
 function check(label, cond, detail) {
@@ -152,6 +152,39 @@ console.log('\n=== fact harness: OMDb retries without a year constraint, safely 
 
   global.fetch = realFetch;
   process.env.OMDB_API_KEY = origKey;
+}
+
+console.log('\n=== fact harness: multi-person credits compare and canonicalize by set, not word order ===');
+// Reproduces two real full-corpus-batch findings: OMDb and TMDB corroborate the Coen brothers on
+// the same film in opposite orders, and the Russo brothers' own two films disagree with EACH OTHER
+// on order between sources -- so comparing the raw string treats agreement as a conflict.
+check('order alone does not make two sources "disagree" on a duo',
+  valuesAgree({ people: true }, 'Ethan Coen, Joel Coen', 'Joel Coen, Ethan Coen'));
+check('the corpus shorthand ("X & Y Surname") is recognised as the same duo, not a third option',
+  peopleKey('Joel & Ethan Coen') === peopleKey('Ethan Coen, Joel Coen') &&
+  peopleKey('Joel & Ethan Coen') === peopleKey('Joel Coen, Ethan Coen'));
+check('a genuinely different set of people still disagrees -- this is not "anything with multiple names agrees"',
+  !valuesAgree({ people: true }, 'Anthony Russo, Joe Russo', 'Anthony Russo, Christopher Nolan'));
+check('canonicalization expands corpus shorthand to full names before sorting, not just re-sorting the pieces as typed',
+  canonicalizePeople('Joel & Ethan Coen') === 'Ethan Coen, Joel Coen');
+check('canonicalization is deterministic regardless of which order it was handed',
+  canonicalizePeople('Joel Coen, Ethan Coen') === canonicalizePeople('Ethan Coen, Joel Coen'));
+check('a solo credit is left alone', canonicalizePeople('Stanley Kubrick') === 'Stanley Kubrick');
+
+// The point of all this: reconcile() must propose the CANONICAL string and mark a merely-reordered
+// corpus value as needing the rewrite, not "confirmed" -- otherwise a record already correct in
+// substance but typed "Joel & Ethan Coen" would never converge to the one literal string
+// validate-corpus.js's creator-identity check requires every record for that duo to share.
+{
+  const russoWork = { id: 'm999', creator: 'Anthony & Joe Russo' };
+  const russoObs = [
+    { src: 'OMDb', fields: { creator: 'Anthony Russo, Joe Russo' } },
+    { src: 'TMDB', fields: { creator: 'Joe Russo, Anthony Russo' } },
+  ];
+  const p = reconcile('movie', russoWork, russoObs).find(x => x.field === 'creator');
+  check('two sources disagreeing only on order still corroborate at grade A',
+    p.status === 'proposed-change' && p.grade === 'A' && p.proposed === 'Anthony Russo, Joe Russo',
+    JSON.stringify(p));
 }
 
 console.log('\n=== fact harness: reconciliation ===');
