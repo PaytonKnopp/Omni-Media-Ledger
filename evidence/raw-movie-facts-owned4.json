@@ -1,0 +1,182 @@
+{
+ "m86": [
+  {
+   "src": "OMDb",
+   "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Apocalypse+Now&type=movie&y=1979",
+   "fields": {
+    "year": 1979,
+    "runtime": 147,
+    "creator": "Francis Ford Coppola"
+   }
+  },
+  {
+   "src": "TMDB",
+   "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Apocalypse+Now&year=1979",
+   "fields": {
+    "year": 1979,
+    "runtime": 147,
+    "creator": "Francis Ford Coppola",
+    "studio": "American Zoetrope"
+   }
+  }
+ ],
+ "m111": [
+  {
+   "src": "OMDb",
+   "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Django+Unchained&type=movie&y=2012",
+   "fields": {
+    "year": 2012,
+    "runtime": 165,
+    "creator": "Quentin Tarantino"
+   }
+  },
+  {
+   "src": "TMDB",
+   "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Django+Unchained&year=2012",
+   "fields": {
+    "year": 2012,
+    "runtime": 165,
+    "creator": "Quentin Tarantino",
+    "studio": "The Weinstein Company"
+   }
+  }
+ ],
+ "m112": [
+  {
+   "src": "OMDb",
+   "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Inglourious+Basterds&type=movie&y=2009",
+   "fields": {
+    "year": 2009,
+    "runtime": 153,
+    "creator": "Quentin Tarantino"
+   }
+  },
+  {
+   "src": "TMDB",
+   "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Inglourious+Basterds&year=2009",
+   "fields": {
+    "year": 2009,
+    "runtime": 153,
+    "creator": "Quentin Tarantino",
+    "studio": "Universal Pictures"
+   }
+  }
+ ],
+ "m152": [
+  {
+   "src": "OMDb",
+   "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Unforgiven&type=movie&y=1992",
+   "fields": {
+    "year": 1992,
+    "runtime": 130,
+    "creator": "Clint Eastwood"
+   }
+  },
+  {
+   "src": "TMDB",
+   "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Unforgiven&year=1992",
+   "fields": {
+    "year": 1992,
+    "runtime": 130,
+    "creator": "Clint Eastwood",
+    "studio": "Warner Bros. Pictures"
+   }
+  }
+ ],
+ "m154": [
+  {
+   "src": "OMDb",
+   "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Rush&type=movie&y=2013",
+   "fields": {
+    "year": 2013,
+    "runtime": 123,
+    "creator": "Ron Howard"
+   }
+  },
+  {
+   "src": "TMDB",
+   "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Rush&year=2013",
+   "fields": {
+    "year": 2013,
+    "runtime": 123,
+    "creator": "Ron Howard",
+    "studio": "Revolution Films"
+   }
+  }
+ ],
+ "m155": [
+  {
+   "src": "OMDb",
+   "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Rocky&type=movie&y=1976",
+   "fields": {
+    "year": 1976,
+    "runtime": 120,
+    "creator": "John G. Avildsen"
+   }
+  },
+  {
+   "src": "TMDB",
+   "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Rocky&year=1976",
+   "fields": {
+    "year": 1976,
+    "runtime": 120,
+    "creator": "John G. Avildsen",
+    "studio": "Winkler Films"
+   }
+  }
+ ],
+ "m156": [
+  {
+   "src": "OMDb",
+   "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Dunkirk&type=movie&y=2017",
+   "fields": {
+    "year": 2017,
+    "runtime": 106,
+    "creator": "Christopher Nolan"
+   }
+  },
+  {
+   "src": "TMDB",
+   "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Dunkirk&year=2017",
+   "fields": {
+    "year": 2017,
+    "runtime": 107,
+    "creator": "Christopher Nolan",
+    "studio": "Warner Bros. Pictures"
+   }
+  }
+ ],
+ "m157": [
+  {
+   "src": "OMDb",
+   "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Saving+Private+Ryan&type=movie&y=1998",
+   "fields": {
+    "year": 1998,
+    "runtime": 169,
+    "creator": "Steven Spielberg"
+   }
+  },
+  {
+   "src": "TMDB",
+   "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Saving+Private+Ryan&year=1998",
+   "fields": {
+    "year": 1998,
+    "runtime": 169,
+    "creator": "Steven Spielberg",
+    "studio": "DreamWorks Pictures"
+   }
+  }
+ ],
+ "m160": [
+  {
+   "src": "OMDb",
+   "url": "https://www.omdbapi.com/?apikey=REDACTED&t=The+Man+with+No+Name+Trilogy&type=movie&y=1966",
+   "fields": null
+  },
+  {
+   "src": "TMDB",
+   "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=The+Man+with+No+Name+Trilogy&year=1966",
+   "fields": null
+  }
+ ]
+}
