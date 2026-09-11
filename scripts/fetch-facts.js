@@ -596,6 +596,25 @@ function reconcile(medium, work, observations) {
       if (field.soft) grade = 'B';   // studio/publisher/network/platforms are naming conventions as
                                      // much as facts; two catalogues agreeing on "Warner Bros." vs
                                      // "Warner Bros. Pictures" is not licence to rewrite the field.
+      // An edition-dependent field (pages, publisher, runtime) has no single true value by
+      // definition -- that's WHY it's flagged editionDependent at all, same reasoning as the
+      // CONTESTED branch above. One source, or even two AGREEING sources, differing from the
+      // corpus doesn't mean they're right and the corpus is wrong; it just as easily means the
+      // source(s) indexed a different printing. Never auto-apply here regardless of corroboration
+      // -- checked live: this never actually fired as a grade-A write (0 grade-A pages/runtime
+      // corrections across every batch this session), but it was one coincidence away from
+      // silently overwriting a correct value with a different edition's number. Recorded with the
+      // SAME status the contested branch uses (not just a downgraded grade), so it earns the
+      // record its "edition-dependent" stamp instead of blocking the record with no stamp at all --
+      // found live: 394 movies and 70 TV shows were fully resolved except for exactly this shape
+      // and got NO stamp, because grade alone isn't what apply-facts.js's stamp logic checks.
+      if (field.editionDependent) {
+        status = 'edition-dependent';
+        grade = 'B';
+        note = (corroborated ? 'sources agree with each other but not the corpus' : 'one source differs from the corpus') +
+          ' (' + seen.map(o => o.src + ' ' + JSON.stringify(o.value)).join(', ') +
+          ') on a field with no single true value -- likely a different printing/edition, not an error.';
+      }
       // A classical/ancient text's "first publication year" predates formal publishing altogether --
       // OpenLibrary/Google Books/Wikidata catalogue EDITIONS, and for a 2,000-year-old work the only
       // edition they have any record of is whichever modern translation or reprint got scanned, not
@@ -617,7 +636,8 @@ function reconcile(medium, work, observations) {
     }
 
     out.push({
-      field: field.key, label: field.label, soft: !!field.soft, current,
+      field: field.key, label: field.label, soft: !!field.soft,
+      editionDependent: !!field.editionDependent, current,
       proposed: (status === 'corroborated-by-one') ? current : proposed, status, grade, note,
       sources: seen.map(o => ({ src: o.src, value: o.value, url: o.url })),
       alternatives: contested ? groups.slice(1).map(g => g.value) : undefined,
@@ -756,6 +776,16 @@ const isNamingOnly = p => !!p.soft && p.status === 'proposed-change';
 // (all 59 year disagreements, 211 of 228 runtimes). That is not a question either; the corpus
 // already picked correctly and the other source is simply wrong. See reconcile()'s comment.
 const isResolvedByOne = p => p.status === 'corroborated-by-one';
+// reconcile() gives BOTH shapes of edition-dependent evidence the same "edition-dependent" status
+// -- sources disagreeing WITH EACH OTHER (contested; carries `alternatives`) and one or more
+// sources agreeing with each other but not the corpus (uncontested; no `alternatives`, since there
+// was only ever one group). Only the contested shape is a genuine two-data-point question worth a
+// line of its own; the uncontested shape is not a decision at all, for the same reason contested
+// edition-dependent isn't: there is no single true value to converge on, just possibly a different
+// printing, and a human cannot meaningfully accept or reject a page count without knowing which
+// edition the corpus itself was counted from. Found live: 572 of 833 pending book fields were
+// exactly this uncontested shape (one source's page count differing from the corpus's).
+const isUncorroboratedEdition = p => p.editionDependent && p.status === 'edition-dependent' && p.alternatives === undefined;
 
 function writeReviewQueue(file, medium, results) {
   const lines = ['# Review queue -- ' + medium + ' -- ' + new Date().toISOString().slice(0, 10), '',
@@ -764,13 +794,16 @@ function writeReviewQueue(file, medium, results) {
   let n = 0;          // genuine questions -- what actually needs a decision
   let nameOnly = 0;   // soft-field naming variance, counted but not spelled out per field
   let resolvedByOne = 0;   // sources disagreed, corpus already matches one of them -- no action needed
+  let uncorrobEdition = 0;   // one source differs on an edition-variable field -- not a decision either
   for (const r of results) {
     const needs = r.proposals.filter(p => p.grade === 'B' && p.status !== 'confirmed');
     const named = needs.filter(isNamingOnly);
     const resolved = needs.filter(isResolvedByOne);
-    const keep = needs.filter(p => !isNamingOnly(p) && !isResolvedByOne(p));
+    const uncorrob = needs.filter(isUncorroboratedEdition);
+    const keep = needs.filter(p => !isNamingOnly(p) && !isResolvedByOne(p) && !isUncorroboratedEdition(p));
     nameOnly += named.length;
     resolvedByOne += resolved.length;
+    uncorrobEdition += uncorrob.length;
     if (!keep.length) continue;   // nothing genuine for this work -- rolled into the tallies above
     n += keep.length;
     lines.push('## ' + r.title + ' (' + r.id + ')');
@@ -786,6 +819,11 @@ function writeReviewQueue(file, medium, results) {
       lines.push('- _(+' + named.length + ' naming-only field' + (named.length === 1 ? '' : 's') +
         ' not shown -- sources agree with each other, differ from the corpus only in naming; see the evidence JSON.)_');
     }
+    if (uncorrob.length) {
+      lines.push('- _(+' + uncorrob.length + ' edition-variable field' + (uncorrob.length === 1 ? '' : 's') +
+        ' not shown -- a single source differs on a field with no one true value (pages, printing-specific ' +
+        'details); see the evidence JSON.)_');
+    }
     lines.push('');
   }
   const summary = [n === 0 ? '_Nothing genuinely in question._' : '**' + n + ' fields awaiting a decision.**'];
@@ -798,6 +836,12 @@ function writeReviewQueue(file, medium, results) {
     summary.push('**' + resolvedByOne + ' additional field' + (resolvedByOne === 1 ? '' : 's') +
       ' already resolved, no review needed** -- sources disagreed with each other, but the corpus ' +
       'value exactly matches one of them; kept as-is. Full detail is in the evidence JSON.');
+  }
+  if (uncorrobEdition) {
+    summary.push('**' + uncorrobEdition + ' additional edition-variable field' + (uncorrobEdition === 1 ? '' : 's') +
+      ' omitted** -- a single source differs on a field with no one true value to begin with ' +
+      '(page count, a specific printing detail); not a decision, just expected edition variance. ' +
+      'Full detail is in the evidence JSON.');
   }
   lines.splice(4, 0, ...summary, '');
   fs.writeFileSync(file, lines.join('\n'));

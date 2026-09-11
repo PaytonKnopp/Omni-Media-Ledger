@@ -388,8 +388,13 @@ for (const id of Object.keys(fixture)) {
 check('two sources agreeing with the corpus confirm it at grade A',
   got.m01.runtime.status === 'confirmed' && got.m01.runtime.grade === 'A',
   JSON.stringify(got.m01.runtime));
-check('two sources agreeing against the corpus propose a grade-A correction',
-  got.m02.runtime.status === 'proposed-change' && got.m02.runtime.grade === 'A' && got.m02.runtime.proposed === 144,
+// Runtime is editionDependent -- two sources agreeing on a different number than the corpus is
+// never grade A for it (see the dedicated edition-dependent tests below); a genuine, non-edition
+// grade-A correction is exercised separately (the b999 modern-book year case, and the synthetic
+// "corroborated" stamp test in the apply-facts section).
+check('two sources agreeing against the corpus on an EDITION-DEPENDENT field is never grade A, even corroborated',
+  got.m02.runtime.status === 'edition-dependent' && got.m02.runtime.grade === 'B' &&
+  got.m02.runtime.proposed === 144 && /sources agree with each other but not the corpus/.test(got.m02.runtime.note || ''),
   JSON.stringify(got.m02.runtime));
 check('a naming-convention field is never grade A, even fully corroborated',
   got.m02.studio.grade === 'B',
@@ -431,8 +436,13 @@ check('a non-edition-dependent field with a genuine 3-way mismatch is still a pl
   reconcile('movie', { id: 'm999', title: 'X', year: 1975 },
     [{ src: 'OMDb', fields: { year: 1980 } }, { src: 'TMDB', fields: { year: 1990 } }])
     .find(p => p.field === 'year').status === 'sources-disagree');
-check('a lone surviving source is grade B however confident it sounds',
-  got.m04.runtime.status === 'proposed-change' && got.m04.runtime.grade === 'B',
+// m04's runtime is a lone surviving source (OMDb errored) on an editionDependent field -- gets the
+// SAME "edition-dependent" status a corroborated or contested edition question gets (see reconcile's
+// comment: one source differing from the corpus is exactly as inconclusive as two sources differing
+// from each other on a field with no single true value), just worded as "one source differs".
+check('a lone surviving source on an edition-dependent field reads as an edition question, however confident it sounds',
+  got.m04.runtime.status === 'edition-dependent' && got.m04.runtime.grade === 'B' &&
+  /one source differs from the corpus/.test(got.m04.runtime.note || ''),
   JSON.stringify(got.m04.runtime));
 check('no sources means no claim at all',
   got.m05.runtime.status === 'no-source' && got.m05.runtime.grade === null,
@@ -516,16 +526,28 @@ check('a soft field resolved because the corpus matches one disagreeing source g
   !queue.includes('## The Shining'), queue);
 check('the file-level summary reports it as a resolved count instead of just hiding it silently',
   /already resolved, no review needed/.test(queue), queue);
+// The Shining (m02) and 2001 (m01, via m04's Kubrick-attributed runtime) both have an UNCONTESTED
+// edition-dependent field (one or more sources agree but not with the corpus) -- not a genuine
+// two-way question like Barry Lyndon's, so it must not get its own heading OR line, only roll into
+// the file-level tally, same treatment as naming-only variance.
+check('an uncontested edition-dependent field (one source, no real disagreement to weigh) rolls into the file-level tally, not its own line',
+  !queue.includes('## The Shining') &&
+  /\d+ additional edition-variable fields? omitted/.test(queue), queue);
 
 const dry = execFileSync(process.execPath, [path.join(ROOT, 'scripts/apply-facts.js'),
   path.join(tmp, outJson)], { cwd: ROOT, encoding: 'utf8' });
-check('a dry run applies exactly the one grade-A correction',
-  /1 grade-A corrections/.test(dry) && /m02\.runtime: 146 -> 144/.test(dry), dry);
-check('a dry run stamps the records whose hard facts are fully sourced, and only those',
-  /3 records stamped/.test(dry), dry);
-// Barry Lyndon (m03) is the third: its runtime is a genuine edition-dependent disagreement (see
-// above), but year and creator are both fully corroborated, so the record as a whole earns
-// "edition-dependent" rather than sitting unstamped just because ONE field has no single answer.
+// Runtime is editionDependent, so m02's OMDb+TMDB-agreeing 144 (corpus has 146) is correctly
+// never auto-applied -- see reconcile()'s comment: two sources agreeing on an edition-variable
+// field isn't proof the corpus is wrong, just that they may share a different printing/cut.
+check('a dry run applies zero corrections -- runtime is edition-dependent, never auto-applied even when two sources agree',
+  /0 grade-A corrections/.test(dry), dry);
+check('a dry run stamps every record whose hard facts fully resolved -- sourced OR edition-dependent',
+  /4 records stamped/.test(dry) && /m02 \(edition-dependent\)/.test(dry) &&
+  /m03 \(edition-dependent\)/.test(dry) && /m04 \(edition-dependent\)/.test(dry), dry);
+// Barry Lyndon (m03) is a genuinely CONTESTED edition question (OMDb and TMDB disagree with each
+// OTHER, and neither matches the corpus); m02 and m04 are the uncontested shape (one or more
+// sources agree but not with the corpus) -- both earn the same "edition-dependent" stamp, since
+// neither is a single-true-value question, but the review queue treats them differently below.
 check('the genuinely edition-dependent record is stamped as such, not silently folded into "sourced"',
   /m03 \(edition-dependent\)/.test(dry), dry);
 check('a dry run writes nothing',
@@ -568,13 +590,21 @@ check('a dry run writes nothing',
 
 // The refusal path: an evidence file whose "current" value is not what the corpus actually says
 // (a stale evidence file, or a corpus edited underneath it) must be refused, not force-fitted.
-const stale = JSON.parse(fs.readFileSync(path.join(tmp, outJson), 'utf8'));
-stale.works.find(w => w.id === 'm02').proposals.find(p => p.field === 'runtime').current = 999;
+// Built as its own synthetic grade-A proposed-change (year, not editionDependent) rather than
+// reusing m02's runtime, since runtime can no longer reach grade A at all after the fix above.
+const stale = {
+  medium: 'movie', generated: new Date().toISOString(), works: [{
+    id: 'm01', title: '2001: A Space Odyssey', sourcesReached: ['OMDb', 'TMDB'],
+    proposals: [
+      { field: 'year', label: 'release year', current: 999, proposed: 1968, status: 'proposed-change', grade: 'A', sources: [{ src: 'OMDb', value: 1968 }, { src: 'TMDB', value: 1968 }] },
+    ],
+  }],
+};
 fs.writeFileSync(path.join(tmp, 'stale.json'), JSON.stringify(stale));
 const refusal = execFileSync(process.execPath, [path.join(ROOT, 'scripts/apply-facts.js'),
   path.join(tmp, 'stale.json')], { cwd: ROOT, encoding: 'utf8' });
 check('stale evidence is refused rather than applied to whatever is on the line now',
-  /REFUSED/.test(refusal) && /m02\.runtime: expected/.test(refusal), refusal);
+  /REFUSED/.test(refusal) && /m01\.year: expected/.test(refusal), refusal);
 
 // A manually `_held` field (an operator deferring a genuinely grade-A proposal for a reason
 // reconcile() can't see, like a cross-record consistency conflict) must block the record from
