@@ -1,7 +1,7 @@
 {
  "medium": "movie",
- "generated": "2026-09-11T01:07:34.633Z",
- "offline": false,
+ "generated": "2026-09-11T03:55:12.223Z",
+ "offline": true,
  "sources": [
   "OMDb",
   "TMDB"
@@ -583,8 +583,9 @@
      "soft": false,
      "current": 106,
      "proposed": 106,
-     "status": "sources-disagree",
+     "status": "corroborated-by-one",
      "grade": "B",
+     "note": "matches OMDb; disagrees with TMDB (107)",
      "sources": [
       {
        "src": "OMDb",

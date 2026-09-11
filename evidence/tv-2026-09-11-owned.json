@@ -1,7 +1,7 @@
 {
  "medium": "tv",
- "generated": "2026-09-11T01:11:08.714Z",
- "offline": false,
+ "generated": "2026-09-11T03:59:11.191Z",
+ "offline": true,
  "sources": [
   "OMDb",
   "TMDB"
@@ -42,9 +42,10 @@
      "label": "seasons",
      "soft": false,
      "current": 4,
-     "proposed": 5,
-     "status": "sources-disagree",
+     "proposed": 4,
+     "status": "corroborated-by-one",
      "grade": "B",
+     "note": "matches TMDB; disagrees with OMDb (5)",
      "sources": [
       {
        "src": "OMDb",
@@ -65,9 +66,9 @@
      "field": "creator",
      "label": "creator",
      "soft": false,
-     "current": "Nic Pizzolatto",
-     "proposed": "Nic Pizzolatto, Issa López",
-     "status": "proposed-change",
+     "current": "Issa López, Nic Pizzolatto",
+     "proposed": "Issa López, Nic Pizzolatto",
+     "status": "confirmed",
      "grade": "A",
      "sources": [
       {

@@ -1,11 +1,59 @@
 # Review queue -- movie -- 2026-09-11
 
+_This is a consolidated rollup across every movie evidence file processed to date (all 1,000
+movies -- owned + full-corpus chunks 1-2 + the m960 fix), generated from the underlying evidence
+JSON files, not a fetch in its own right. Regenerate with the same script whenever new batches land._
+
 Everything here needs a human. Grade A proposals are not listed: `scripts/apply-facts.js`
 applies those and records them in the JSON beside this file.
-**179 fields awaiting a decision.**
-**553 additional naming-only fields omitted** -- soft field, sources agree with each other, differ from the corpus only in naming (e.g. "Warner Bros." vs "Warner Bros. Pictures"). Full detail is in the evidence JSON.
-**157 additional fields already resolved, no review needed** -- sources disagreed with each other, but the corpus value exactly matches one of them; kept as-is. Full detail is in the evidence JSON.
+**198 fields awaiting a decision.**
+**784 additional naming-only fields omitted** -- soft field, sources agree with each other, differ from the corpus only in naming (e.g. "Warner Bros." vs "Warner Bros. Pictures"). Full detail is in the evidence JSON.
+**285 additional fields already resolved, no review needed** -- sources disagreed with each other, but the corpus value exactly matches one of them; kept as-is. Full detail is in the evidence JSON.
 
+
+## No Country for Old Men (m56)
+- **director** -- corpus has `"Joel & Ethan Coen"`, one source says OMDb `"Ethan Coen, Joel Coen"`, TMDB `"Joel Coen, Ethan Coen"`
+
+## Iron Lung (m116)
+- **runtime (min)** -- corpus has `100`, sources disagree (edition-dependent): OMDb `125`, TMDB `13`  _(corpus value does not match either source (OMDb 125, TMDB 13) -- treated as a distinct edition; the specific cut is not identified from available evidence.)_
+
+## Lawrence of Arabia (m121)
+- **runtime (min)** -- corpus has `218`, sources disagree (edition-dependent): OMDb `227`, TMDB `228`  _(corpus value does not match either source (OMDb 227, TMDB 228) -- treated as a distinct edition; the specific cut is not identified from available evidence.)_
+- _(+1 naming-only field not shown -- sources agree with each other, differ from the corpus only in naming; see the evidence JSON.)_
+
+## Project Hail Mary (m159)
+- **runtime (min)** -- corpus has `140`, sources disagree (edition-dependent): OMDb `156`, TMDB `157`  _(corpus value does not match either source (OMDb 156, TMDB 157) -- treated as a distinct edition; the specific cut is not identified from available evidence.)_
+- **director** -- corpus has `"Phil Lord & Christopher Miller"`, one source says OMDb `"Phil Lord, Christopher Miller"`, TMDB `"Phil Lord, Christopher Miller"`
+- _(+1 naming-only field not shown -- sources agree with each other, differ from the corpus only in naming; see the evidence JSON.)_
+
+## Get Out (m94)
+- **studio** -- corpus has `"Universal"`, sources disagree (sources-disagree): OMDb `"Universal Pictures, QC Entertainment, Blumhouse Productions"`, TMDB `"Monkeypaw Productions"`
+
+## The Revenant (m99)
+- **runtime (min)** -- corpus has `156`, one source says TMDB `157`
+- _(+1 naming-only field not shown -- sources agree with each other, differ from the corpus only in naming; see the evidence JSON.)_
+
+## Once Upon a Time in Hollywood (m179)
+- **runtime (min)** -- corpus has `161`, one source says TMDB `162`
+- _(+1 naming-only field not shown -- sources agree with each other, differ from the corpus only in naming; see the evidence JSON.)_
+
+## Andrei Rublev (m210)
+- **runtime (min)** -- corpus has `205`, sources disagree (edition-dependent): OMDb `189`, TMDB `183`  _(corpus value does not match either source (OMDb 189, TMDB 183) -- treated as a distinct edition; the specific cut is not identified from available evidence.)_
+
+## Once Upon a Time in the West (m225)
+- **runtime (min)** -- corpus has `165`, sources disagree (edition-dependent): OMDb `145`, TMDB `166`  _(corpus value does not match either source (OMDb 145, TMDB 166) -- treated as a distinct edition; the specific cut is not identified from available evidence.)_
+- _(+1 naming-only field not shown -- sources agree with each other, differ from the corpus only in naming; see the evidence JSON.)_
+
+## Dr. Strangelove (m244)
+- **release year** -- corpus has `1964`, one source says OMDb `2012`
+- **director** -- corpus has `"Stanley Kubrick"`, one source says OMDb `"Keaton Gover, Jack Snelling"`
+
+## M (m277)
+- **runtime (min)** -- corpus has `117`, sources disagree (edition-dependent): OMDb `99`, TMDB `110`  _(corpus value does not match either source (OMDb 99, TMDB 110) -- treated as a distinct edition; the specific cut is not identified from available evidence.)_
+- _(+1 naming-only field not shown -- sources agree with each other, differ from the corpus only in naming; see the evidence JSON.)_
+
+## Mad Max 2: The Road Warrior (m284)
+- **runtime (min)** -- corpus has `96`, one source says OMDb `81`
 
 ## Three Colors: Blue (m294)
 - **studio** -- corpus has `"Miramax"`, sources disagree (sources-disagree): OMDb `"MK2 Productions, CAB Productions, Canal+, France 3 (FR 3)"`, TMDB `"CED Productions"`
@@ -28,6 +76,14 @@ applies those and records them in the JSON beside this file.
 
 ## Infernal Affairs (m360)
 - **director** -- corpus has `"Andrew Lau & Alan Mak"`, sources disagree (sources-disagree): OMDb `"Wai Keung Lau, Alan Mak"`, TMDB `"Alan Mak Siu-Fai, Andrew Lau Wai-Keung"`
+- _(+1 naming-only field not shown -- sources agree with each other, differ from the corpus only in naming; see the evidence JSON.)_
+
+## True Grit (m376)
+- **director** -- corpus has `"Joel & Ethan Coen"`, one source says OMDb `"Ethan Coen, Joel Coen"`, TMDB `"Ethan Coen, Joel Coen"`
+- _(+1 naming-only field not shown -- sources agree with each other, differ from the corpus only in naming; see the evidence JSON.)_
+
+## The Big Lebowski (m379)
+- **director** -- corpus has `"Joel & Ethan Coen"`, one source says OMDb `"Joel Coen, Ethan Coen"`, TMDB `"Joel Coen, Ethan Coen"`
 - _(+1 naming-only field not shown -- sources agree with each other, differ from the corpus only in naming; see the evidence JSON.)_
 
 ## Cinema Paradiso (m396)
@@ -55,8 +111,19 @@ applies those and records them in the JSON beside this file.
 - **runtime (min)** -- corpus has `100`, sources disagree (edition-dependent): OMDb `95`, TMDB `101`  _(corpus value does not match either source (OMDb 95, TMDB 101) -- treated as a distinct edition; the specific cut is not identified from available evidence.)_
 - _(+1 naming-only field not shown -- sources agree with each other, differ from the corpus only in naming; see the evidence JSON.)_
 
+## The Ballad of Buster Scruggs (m445)
+- **director** -- corpus has `"Joel & Ethan Coen"`, one source says OMDb `"Ethan Coen, Joel Coen"`, TMDB `"Joel Coen, Ethan Coen"`
+- _(+1 naming-only field not shown -- sources agree with each other, differ from the corpus only in naming; see the evidence JSON.)_
+
 ## Old School (m806)
 - **runtime (min)** -- corpus has `91`, sources disagree (edition-dependent): OMDb `88`, TMDB `92`  _(corpus value does not match either source (OMDb 88, TMDB 92) -- treated as a distinct edition; the specific cut is not identified from available evidence.)_
+- _(+1 naming-only field not shown -- sources agree with each other, differ from the corpus only in naming; see the evidence JSON.)_
+
+## A Serious Man (m839)
+- **director** -- corpus has `"Joel & Ethan Coen"`, one source says OMDb `"Ethan Coen, Joel Coen"`, TMDB `"Joel Coen, Ethan Coen"`
+
+## 21 Jump Street (m853)
+- **director** -- corpus has `"Phil Lord & Christopher Miller"`, one source says OMDb `"Phil Lord, Christopher Miller"`, TMDB `"Phil Lord, Christopher Miller"`
 - _(+1 naming-only field not shown -- sources agree with each other, differ from the corpus only in naming; see the evidence JSON.)_
 
 ## Birdman (m871)

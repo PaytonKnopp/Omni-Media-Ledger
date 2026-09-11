@@ -1,7 +1,7 @@
 {
  "medium": "movie",
- "generated": "2026-09-11T00:52:43.238Z",
- "offline": false,
+ "generated": "2026-09-11T03:55:11.646Z",
+ "offline": true,
  "sources": [
   "OMDb",
   "TMDB"
@@ -133,8 +133,9 @@
      "soft": false,
      "current": 146,
      "proposed": 146,
-     "status": "sources-disagree",
+     "status": "corroborated-by-one",
      "grade": "B",
+     "note": "matches OMDb; disagrees with TMDB (144)",
      "sources": [
       {
        "src": "OMDb",
@@ -385,8 +386,9 @@
      "soft": false,
      "current": 1994,
      "proposed": 1994,
-     "status": "sources-disagree",
+     "status": "corroborated-by-one",
      "grade": "B",
+     "note": "matches OMDb; disagrees with TMDB (1995)",
      "sources": [
       {
        "src": "OMDb",
@@ -679,8 +681,9 @@
      "soft": false,
      "current": 178,
      "proposed": 178,
-     "status": "sources-disagree",
+     "status": "corroborated-by-one",
      "grade": "B",
+     "note": "matches OMDb; disagrees with TMDB (179)",
      "sources": [
       {
        "src": "OMDb",
@@ -852,8 +855,9 @@
      "soft": false,
      "current": 113,
      "proposed": 113,
-     "status": "sources-disagree",
+     "status": "corroborated-by-one",
      "grade": "B",
+     "note": "matches OMDb; disagrees with TMDB (114)",
      "sources": [
       {
        "src": "OMDb",
@@ -1291,8 +1295,9 @@
      "soft": false,
      "current": 144,
      "proposed": 144,
-     "status": "sources-disagree",
+     "status": "corroborated-by-one",
      "grade": "B",
+     "note": "matches OMDb; disagrees with TMDB (141)",
      "sources": [
       {
        "src": "OMDb",
@@ -1770,8 +1775,9 @@
      "soft": false,
      "current": 218,
      "proposed": 227,
-     "status": "sources-disagree",
+     "status": "edition-dependent",
      "grade": "B",
+     "note": "corpus value does not match either source (OMDb 227, TMDB 228) -- treated as a distinct edition; the specific cut is not identified from available evidence.",
      "sources": [
       {
        "src": "OMDb",

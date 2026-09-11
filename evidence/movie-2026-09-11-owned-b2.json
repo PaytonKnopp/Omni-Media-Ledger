@@ -1,7 +1,7 @@
 {
  "medium": "movie",
- "generated": "2026-09-11T00:57:39.733Z",
- "offline": false,
+ "generated": "2026-09-11T03:55:11.841Z",
+ "offline": true,
  "sources": [
   "OMDb",
   "TMDB"
@@ -604,7 +604,7 @@
      "soft": false,
      "current": "Joel & Ethan Coen",
      "proposed": "Ethan Coen, Joel Coen",
-     "status": "sources-disagree",
+     "status": "proposed-change",
      "grade": "B",
      "sources": [
       {
@@ -618,9 +618,7 @@
        "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=No+Country+for+Old+Men&year=2007"
       }
      ],
-     "alternatives": [
-      "Joel Coen, Ethan Coen"
-     ]
+     "_held": "corroborated order/expansion conflicts with other not-yet-reprocessed films crediting the same duo; OMDb quota still exhausted"
     },
     {
      "field": "studio",
@@ -785,9 +783,9 @@
      "field": "creator",
      "label": "director",
      "soft": false,
-     "current": "The Wachowskis",
+     "current": "Lana Wachowski, Lilly Wachowski",
      "proposed": "Lana Wachowski, Lilly Wachowski",
-     "status": "proposed-change",
+     "status": "confirmed",
      "grade": "A",
      "sources": [
       {
@@ -856,8 +854,9 @@
      "soft": false,
      "current": 126,
      "proposed": 7,
-     "status": "sources-disagree",
+     "status": "edition-dependent",
      "grade": "B",
+     "note": "corpus value does not match either source (OMDb 7, TMDB 127) -- treated as a distinct edition; the specific cut is not identified from available evidence.",
      "sources": [
       {
        "src": "OMDb",
@@ -1214,8 +1213,9 @@
      "soft": false,
      "current": 107,
      "proposed": 107,
-     "status": "sources-disagree",
+     "status": "corroborated-by-one",
      "grade": "B",
+     "note": "matches OMDb; disagrees with TMDB (108)",
      "sources": [
       {
        "src": "OMDb",
@@ -1307,8 +1307,9 @@
      "soft": false,
      "current": 128,
      "proposed": 128,
-     "status": "sources-disagree",
+     "status": "corroborated-by-one",
      "grade": "B",
+     "note": "matches OMDb; disagrees with TMDB (129)",
      "sources": [
       {
        "src": "OMDb",
@@ -1580,8 +1581,9 @@
      "soft": false,
      "current": 106,
      "proposed": 106,
-     "status": "sources-disagree",
+     "status": "corroborated-by-one",
      "grade": "B",
+     "note": "matches OMDb; disagrees with TMDB (107)",
      "sources": [
       {
        "src": "OMDb",
@@ -1673,8 +1675,9 @@
      "soft": false,
      "current": 133,
      "proposed": 133,
-     "status": "sources-disagree",
+     "status": "corroborated-by-one",
      "grade": "B",
+     "note": "matches OMDb; disagrees with TMDB (135)",
      "sources": [
       {
        "src": "OMDb",
@@ -1766,8 +1769,9 @@
      "soft": false,
      "current": 96,
      "proposed": 96,
-     "status": "sources-disagree",
+     "status": "corroborated-by-one",
      "grade": "B",
+     "note": "matches OMDb; disagrees with TMDB (97)",
      "sources": [
       {
        "src": "OMDb",
@@ -1859,8 +1863,9 @@
      "soft": false,
      "current": 133,
      "proposed": 133,
-     "status": "sources-disagree",
+     "status": "corroborated-by-one",
      "grade": "B",
+     "note": "matches OMDb; disagrees with TMDB (134)",
      "sources": [
       {
        "src": "OMDb",
@@ -1952,8 +1957,9 @@
      "soft": false,
      "current": 137,
      "proposed": 137,
-     "status": "sources-disagree",
+     "status": "corroborated-by-one",
      "grade": "B",
+     "note": "matches OMDb; disagrees with TMDB (138)",
      "sources": [
       {
        "src": "OMDb",
@@ -2225,8 +2231,9 @@
      "soft": false,
      "current": 140,
      "proposed": 156,
-     "status": "sources-disagree",
+     "status": "edition-dependent",
      "grade": "B",
+     "note": "corpus value does not match either source (OMDb 156, TMDB 157) -- treated as a distinct edition; the specific cut is not identified from available evidence.",
      "sources": [
       {
        "src": "OMDb",
@@ -2248,9 +2255,9 @@
      "label": "director",
      "soft": false,
      "current": "Phil Lord & Christopher Miller",
-     "proposed": "Phil Lord, Christopher Miller",
-     "status": "confirmed",
-     "grade": "A",
+     "proposed": "Christopher Miller, Phil Lord",
+     "status": "proposed-change",
+     "grade": "B",
      "sources": [
       {
        "src": "OMDb",
@@ -2262,7 +2269,8 @@
        "value": "Phil Lord, Christopher Miller",
        "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Project+Hail+Mary&year=2026"
       }
-     ]
+     ],
+     "_held": "corroborated order/expansion conflicts with other not-yet-reprocessed films crediting the same duo; OMDb quota still exhausted"
     },
     {
      "field": "studio",

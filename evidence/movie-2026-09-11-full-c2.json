@@ -1,6 +1,6 @@
 {
  "medium": "movie",
- "generated": "2026-09-11T02:25:28.529Z",
+ "generated": "2026-09-11T03:50:27.293Z",
  "offline": true,
  "sources": [
   "OMDb",
@@ -43,8 +43,9 @@
      "soft": false,
      "current": 149,
      "proposed": 149,
-     "status": "sources-disagree",
+     "status": "corroborated-by-one",
      "grade": "B",
+     "note": "matches OMDb; disagrees with TMDB (150)",
      "sources": [
       {
        "src": "OMDb",
@@ -114,9 +115,10 @@
      "label": "release year",
      "soft": false,
      "current": 1955,
-     "proposed": 1956,
-     "status": "sources-disagree",
+     "proposed": 1955,
+     "status": "corroborated-by-one",
      "grade": "B",
+     "note": "matches TMDB; disagrees with OMDb (1956)",
      "sources": [
       {
        "src": "OMDb",
@@ -340,8 +342,8 @@
      "soft": false,
      "current": "Krzysztof Kieślowski",
      "proposed": "Krzysztof Kieslowski",
-     "status": "sources-disagree",
-     "grade": "B",
+     "status": "confirmed",
+     "grade": "A",
      "sources": [
       {
        "src": "OMDb",
@@ -353,9 +355,6 @@
        "value": "Krzysztof Kieślowski",
        "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Three+Colors%3A+Blue&year=1993"
       }
-     ],
-     "alternatives": [
-      "Krzysztof Kieślowski"
      ]
     },
     {
@@ -420,8 +419,9 @@
      "soft": false,
      "current": 113,
      "proposed": 113,
-     "status": "sources-disagree",
+     "status": "corroborated-by-one",
      "grade": "B",
+     "note": "matches OMDb; disagrees with TMDB (115)",
      "sources": [
       {
        "src": "OMDb",
@@ -650,8 +650,9 @@
      "soft": false,
      "current": 89,
      "proposed": 89,
-     "status": "sources-disagree",
+     "status": "corroborated-by-one",
      "grade": "B",
+     "note": "matches OMDb; disagrees with TMDB (88)",
      "sources": [
       {
        "src": "OMDb",
@@ -673,9 +674,10 @@
      "label": "director",
      "soft": false,
      "current": "Paweł Pawlikowski",
-     "proposed": "Pawel Pawlikowski",
-     "status": "sources-disagree",
+     "proposed": "Paweł Pawlikowski",
+     "status": "corroborated-by-one",
      "grade": "B",
+     "note": "matches TMDB; disagrees with OMDb (\"Pawel Pawlikowski\")",
      "sources": [
       {
        "src": "OMDb",
@@ -767,8 +769,8 @@
      "soft": false,
      "current": "Ryusuke Hamaguchi",
      "proposed": "Ryûsuke Hamaguchi",
-     "status": "sources-disagree",
-     "grade": "B",
+     "status": "confirmed",
+     "grade": "A",
      "sources": [
       {
        "src": "OMDb",
@@ -780,9 +782,6 @@
        "value": "Ryusuke Hamaguchi",
        "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Drive+My+Car&year=2021"
       }
-     ],
-     "alternatives": [
-      "Ryusuke Hamaguchi"
      ]
     },
     {
@@ -859,9 +858,10 @@
      "label": "director",
      "soft": false,
      "current": "Zhang Yimou",
-     "proposed": "Yimou Zhang",
-     "status": "sources-disagree",
+     "proposed": "Zhang Yimou",
+     "status": "corroborated-by-one",
      "grade": "B",
+     "note": "matches TMDB; disagrees with OMDb (\"Yimou Zhang\")",
      "sources": [
       {
        "src": "OMDb",
@@ -932,8 +932,9 @@
      "soft": false,
      "current": 126,
      "proposed": 126,
-     "status": "sources-disagree",
+     "status": "corroborated-by-one",
      "grade": "B",
+     "note": "matches OMDb; disagrees with TMDB (125)",
      "sources": [
       {
        "src": "OMDb",
@@ -1184,8 +1185,9 @@
      "soft": false,
      "current": 161,
      "proposed": 161,
-     "status": "sources-disagree",
+     "status": "corroborated-by-one",
      "grade": "B",
+     "note": "matches OMDb; disagrees with TMDB (162)",
      "sources": [
       {
        "src": "OMDb",
@@ -1277,8 +1279,9 @@
      "soft": false,
      "current": 122,
      "proposed": 122,
-     "status": "sources-disagree",
+     "status": "corroborated-by-one",
      "grade": "B",
+     "note": "matches OMDb; disagrees with TMDB (124)",
      "sources": [
       {
        "src": "OMDb",
@@ -1390,9 +1393,10 @@
      "label": "director",
      "soft": false,
      "current": "Chen Kaige",
-     "proposed": "Kaige Chen",
-     "status": "sources-disagree",
+     "proposed": "Chen Kaige",
+     "status": "corroborated-by-one",
      "grade": "B",
+     "note": "matches TMDB; disagrees with OMDb (\"Kaige Chen\")",
      "sources": [
       {
        "src": "OMDb",
@@ -1463,8 +1467,9 @@
      "soft": false,
      "current": 137,
      "proposed": 137,
-     "status": "sources-disagree",
+     "status": "corroborated-by-one",
      "grade": "B",
+     "note": "matches OMDb; disagrees with TMDB (138)",
      "sources": [
       {
        "src": "OMDb",
@@ -1556,8 +1561,9 @@
      "soft": false,
      "current": 121,
      "proposed": 121,
-     "status": "sources-disagree",
+     "status": "corroborated-by-one",
      "grade": "B",
+     "note": "matches OMDb; disagrees with TMDB (120)",
      "sources": [
       {
        "src": "OMDb",
@@ -1579,9 +1585,10 @@
      "label": "director",
      "soft": false,
      "current": "Hirokazu Kore-eda",
-     "proposed": "Hirokazu Koreeda",
-     "status": "sources-disagree",
+     "proposed": "Hirokazu Kore-eda",
+     "status": "corroborated-by-one",
      "grade": "B",
+     "note": "matches TMDB; disagrees with OMDb (\"Hirokazu Koreeda\")",
      "sources": [
       {
        "src": "OMDb",
@@ -1839,8 +1846,8 @@
      "soft": false,
      "current": "Krzysztof Kieślowski",
      "proposed": "Krzysztof Kieslowski",
-     "status": "sources-disagree",
-     "grade": "B",
+     "status": "confirmed",
+     "grade": "A",
      "sources": [
       {
        "src": "OMDb",
@@ -1852,9 +1859,6 @@
        "value": "Krzysztof Kieślowski",
        "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=The+Double+Life+of+V%C3%A9ronique&year=1991"
       }
-     ],
-     "alternatives": [
-      "Krzysztof Kieślowski"
      ]
     },
     {
@@ -2181,8 +2185,9 @@
      "soft": false,
      "current": 88,
      "proposed": 88,
-     "status": "sources-disagree",
+     "status": "corroborated-by-one",
      "grade": "B",
+     "note": "matches OMDb; disagrees with TMDB (89)",
      "sources": [
       {
        "src": "OMDb",
@@ -2274,8 +2279,9 @@
      "soft": false,
      "current": 121,
      "proposed": 121,
-     "status": "sources-disagree",
+     "status": "corroborated-by-one",
      "grade": "B",
+     "note": "matches OMDb; disagrees with TMDB (122)",
      "sources": [
       {
        "src": "OMDb",
@@ -2366,9 +2372,10 @@
      "label": "runtime (min)",
      "soft": false,
      "current": 115,
-     "proposed": 155,
-     "status": "sources-disagree",
+     "proposed": 115,
+     "status": "corroborated-by-one",
      "grade": "B",
+     "note": "matches TMDB; disagrees with OMDb (155)",
      "sources": [
       {
        "src": "OMDb",
@@ -2709,8 +2716,9 @@
      "soft": false,
      "current": 1964,
      "proposed": 1964,
-     "status": "sources-disagree",
+     "status": "corroborated-by-one",
      "grade": "B",
+     "note": "matches OMDb; disagrees with TMDB (1965)",
      "sources": [
       {
        "src": "OMDb",
@@ -2822,9 +2830,10 @@
      "label": "runtime (min)",
      "soft": false,
      "current": 145,
-     "proposed": 135,
-     "status": "sources-disagree",
+     "proposed": 145,
+     "status": "corroborated-by-one",
      "grade": "B",
+     "note": "matches TMDB; disagrees with OMDb (135)",
      "sources": [
       {
        "src": "OMDb",
@@ -2985,8 +2994,9 @@
      "soft": false,
      "current": 2019,
      "proposed": 2019,
-     "status": "sources-disagree",
+     "status": "corroborated-by-one",
      "grade": "B",
+     "note": "matches OMDb; disagrees with TMDB (2020)",
      "sources": [
       {
        "src": "OMDb",
@@ -3118,9 +3128,9 @@
      "field": "creator",
      "label": "director",
      "soft": false,
-     "current": "Anthony & Joe Russo",
+     "current": "Anthony Russo, Joe Russo",
      "proposed": "Anthony Russo, Joe Russo",
-     "status": "proposed-change",
+     "status": "confirmed",
      "grade": "A",
      "sources": [
       {
@@ -3269,8 +3279,9 @@
      "soft": false,
      "current": 118,
      "proposed": 121,
-     "status": "sources-disagree",
+     "status": "edition-dependent",
      "grade": "B",
+     "note": "corpus value does not match either source (OMDb 121, TMDB 120) -- treated as a distinct edition; the specific cut is not identified from available evidence.",
      "sources": [
       {
        "src": "OMDb",
@@ -3542,8 +3553,9 @@
      "soft": false,
      "current": 110,
      "proposed": 110,
-     "status": "sources-disagree",
+     "status": "corroborated-by-one",
      "grade": "B",
+     "note": "matches OMDb; disagrees with TMDB (108)",
      "sources": [
       {
        "src": "OMDb",
@@ -3635,8 +3647,9 @@
      "soft": false,
      "current": 110,
      "proposed": 110,
-     "status": "sources-disagree",
+     "status": "corroborated-by-one",
      "grade": "B",
+     "note": "matches OMDb; disagrees with TMDB (111)",
      "sources": [
       {
        "src": "OMDb",
@@ -3728,8 +3741,9 @@
      "soft": false,
      "current": 157,
      "proposed": 157,
-     "status": "sources-disagree",
+     "status": "corroborated-by-one",
      "grade": "B",
+     "note": "matches OMDb; disagrees with TMDB (158)",
      "sources": [
       {
        "src": "OMDb",
@@ -3911,8 +3925,9 @@
      "soft": false,
      "current": 156,
      "proposed": 156,
-     "status": "sources-disagree",
+     "status": "corroborated-by-one",
      "grade": "B",
+     "note": "matches OMDb; disagrees with TMDB (155)",
      "sources": [
       {
        "src": "OMDb",
@@ -4184,8 +4199,9 @@
      "soft": false,
      "current": 126,
      "proposed": 126,
-     "status": "sources-disagree",
+     "status": "corroborated-by-one",
      "grade": "B",
+     "note": "matches OMDb; disagrees with TMDB (127)",
      "sources": [
       {
        "src": "OMDb",
@@ -4727,8 +4743,9 @@
      "soft": false,
      "current": 120,
      "proposed": 94,
-     "status": "sources-disagree",
+     "status": "edition-dependent",
      "grade": "B",
+     "note": "corpus value does not match either source (OMDb 94, TMDB 99) -- treated as a distinct edition; the specific cut is not identified from available evidence.",
      "sources": [
       {
        "src": "OMDb",
@@ -4750,9 +4767,10 @@
      "label": "director",
      "soft": false,
      "current": "Zhang Yimou",
-     "proposed": "Yimou Zhang",
-     "status": "sources-disagree",
+     "proposed": "Zhang Yimou",
+     "status": "corroborated-by-one",
      "grade": "B",
+     "note": "matches TMDB; disagrees with OMDb (\"Yimou Zhang\")",
      "sources": [
       {
        "src": "OMDb",
@@ -4823,8 +4841,9 @@
      "soft": false,
      "current": 197,
      "proposed": 197,
-     "status": "sources-disagree",
+     "status": "corroborated-by-one",
      "grade": "B",
+     "note": "matches OMDb; disagrees with TMDB (200)",
      "sources": [
       {
        "src": "OMDb",
@@ -4991,9 +5010,10 @@
      "label": "runtime (min)",
      "soft": false,
      "current": 115,
-     "proposed": 114,
-     "status": "sources-disagree",
+     "proposed": 115,
+     "status": "corroborated-by-one",
      "grade": "B",
+     "note": "matches TMDB; disagrees with OMDb (114)",
      "sources": [
       {
        "src": "OMDb",
@@ -5105,9 +5125,10 @@
      "label": "director",
      "soft": false,
      "current": "Paweł Pawlikowski",
-     "proposed": "Pawel Pawlikowski",
-     "status": "sources-disagree",
+     "proposed": "Paweł Pawlikowski",
+     "status": "corroborated-by-one",
      "grade": "B",
+     "note": "matches TMDB; disagrees with OMDb (\"Pawel Pawlikowski\")",
      "sources": [
       {
        "src": "OMDb",
@@ -5156,9 +5177,10 @@
      "label": "release year",
      "soft": false,
      "current": 1990,
-     "proposed": 1991,
-     "status": "sources-disagree",
+     "proposed": 1990,
+     "status": "corroborated-by-one",
      "grade": "B",
+     "note": "matches TMDB; disagrees with OMDb (1991)",
      "sources": [
       {
        "src": "OMDb",
@@ -5631,8 +5653,9 @@
      "soft": false,
      "current": 86,
      "proposed": 5,
-     "status": "sources-disagree",
+     "status": "edition-dependent",
      "grade": "B",
+     "note": "corpus value does not match either source (OMDb 5, TMDB 85) -- treated as a distinct edition; the specific cut is not identified from available evidence.",
      "sources": [
       {
        "src": "OMDb",
@@ -5654,9 +5677,10 @@
      "label": "director",
      "soft": false,
      "current": "John Carney",
-     "proposed": "Barbara Sternberg",
-     "status": "sources-disagree",
+     "proposed": "John Carney",
+     "status": "corroborated-by-one",
      "grade": "B",
+     "note": "matches TMDB; disagrees with OMDb (\"Barbara Sternberg\")",
      "sources": [
       {
        "src": "OMDb",
@@ -5727,8 +5751,9 @@
      "soft": false,
      "current": 155,
      "proposed": 155,
-     "status": "sources-disagree",
+     "status": "corroborated-by-one",
      "grade": "B",
+     "note": "matches OMDb; disagrees with TMDB (156)",
      "sources": [
       {
        "src": "OMDb",
@@ -5910,8 +5935,9 @@
      "soft": false,
      "current": 78,
      "proposed": 78,
-     "status": "sources-disagree",
+     "status": "corroborated-by-one",
      "grade": "B",
+     "note": "matches OMDb; disagrees with TMDB (79)",
      "sources": [
       {
        "src": "OMDb",
@@ -5932,9 +5958,9 @@
      "field": "creator",
      "label": "director",
      "soft": false,
-     "current": "Clyde Bruckman, Buster Keaton",
+     "current": "Buster Keaton, Clyde Bruckman",
      "proposed": "Buster Keaton, Clyde Bruckman",
-     "status": "proposed-change",
+     "status": "confirmed",
      "grade": "A",
      "sources": [
       {
@@ -6546,8 +6572,9 @@
      "soft": false,
      "current": 84,
      "proposed": 84,
-     "status": "sources-disagree",
+     "status": "corroborated-by-one",
      "grade": "B",
+     "note": "matches OMDb; disagrees with TMDB (85)",
      "sources": [
       {
        "src": "OMDb",
@@ -6729,8 +6756,9 @@
      "soft": false,
      "current": 130,
      "proposed": 130,
-     "status": "sources-disagree",
+     "status": "corroborated-by-one",
      "grade": "B",
+     "note": "matches OMDb; disagrees with TMDB (129)",
      "sources": [
       {
        "src": "OMDb",
@@ -7092,8 +7120,9 @@
      "soft": false,
      "current": 111,
      "proposed": 111,
-     "status": "sources-disagree",
+     "status": "corroborated-by-one",
      "grade": "B",
+     "note": "matches OMDb; disagrees with TMDB (112)",
      "sources": [
       {
        "src": "OMDb",
@@ -7364,9 +7393,10 @@
      "label": "runtime (min)",
      "soft": false,
      "current": 139,
-     "proposed": 126,
-     "status": "sources-disagree",
+     "proposed": 139,
+     "status": "corroborated-by-one",
      "grade": "B",
+     "note": "matches TMDB; disagrees with OMDb (126)",
      "sources": [
       {
        "src": "OMDb",
@@ -7568,9 +7598,10 @@
      "label": "director",
      "soft": false,
      "current": "Hirokazu Kore-eda",
-     "proposed": "Hirokazu Koreeda",
-     "status": "sources-disagree",
+     "proposed": "Hirokazu Kore-eda",
+     "status": "corroborated-by-one",
      "grade": "B",
+     "note": "matches TMDB; disagrees with OMDb (\"Hirokazu Koreeda\")",
      "sources": [
       {
        "src": "OMDb",
@@ -7766,7 +7797,7 @@
        "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=True+Grit&year=2010"
       }
      ],
-     "_held": "corroborated order conflicts with other not-yet-reprocessed films crediting the same duo (Coen brothers / Lord & Miller); OMDb quota exhausted before the rest could be reconciled together -- see commit message"
+     "_held": "corroborated order conflicts with other not-yet-reprocessed films crediting the same duo; OMDb quota still exhausted"
     },
     {
      "field": "studio",
@@ -7801,8 +7832,9 @@
      "soft": false,
      "current": 2001,
      "proposed": 2001,
-     "status": "sources-disagree",
+     "status": "corroborated-by-one",
      "grade": "B",
+     "note": "matches OMDb; disagrees with TMDB (2002)",
      "sources": [
       {
        "src": "OMDb",
@@ -7894,8 +7926,9 @@
      "soft": false,
      "current": 2014,
      "proposed": 2014,
-     "status": "sources-disagree",
+     "status": "corroborated-by-one",
      "grade": "B",
+     "note": "matches OMDb; disagrees with TMDB (1989)",
      "sources": [
       {
        "src": "OMDb",
@@ -7918,8 +7951,9 @@
      "soft": false,
      "current": 140,
      "proposed": 140,
-     "status": "sources-disagree",
+     "status": "corroborated-by-one",
      "grade": "B",
+     "note": "matches OMDb; disagrees with TMDB (98)",
      "sources": [
       {
        "src": "OMDb",
@@ -7942,8 +7976,9 @@
      "soft": false,
      "current": "Andrey Zvyagintsev",
      "proposed": "Andrey Zvyagintsev",
-     "status": "sources-disagree",
+     "status": "corroborated-by-one",
      "grade": "B",
+     "note": "matches OMDb; disagrees with TMDB (\"George P. Cosmatos\")",
      "sources": [
       {
        "src": "OMDb",
@@ -8049,7 +8084,7 @@
        "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=The+Big+Lebowski&year=1998"
       }
      ],
-     "_held": "corroborated order conflicts with other not-yet-reprocessed films crediting the same duo (Coen brothers / Lord & Miller); OMDb quota exhausted before the rest could be reconciled together -- see commit message"
+     "_held": "corroborated order conflicts with other not-yet-reprocessed films crediting the same duo; OMDb quota still exhausted"
     },
     {
      "field": "studio",
@@ -8195,8 +8230,9 @@
      "soft": false,
      "current": 119,
      "proposed": 119,
-     "status": "sources-disagree",
+     "status": "corroborated-by-one",
      "grade": "B",
+     "note": "matches OMDb; disagrees with TMDB (120)",
      "sources": [
       {
        "src": "OMDb",
@@ -8288,8 +8324,9 @@
      "soft": false,
      "current": 141,
      "proposed": 141,
-     "status": "sources-disagree",
+     "status": "corroborated-by-one",
      "grade": "B",
+     "note": "matches OMDb; disagrees with TMDB (142)",
      "sources": [
       {
        "src": "OMDb",
@@ -8381,8 +8418,9 @@
      "soft": false,
      "current": 188,
      "proposed": 188,
-     "status": "sources-disagree",
+     "status": "corroborated-by-one",
      "grade": "B",
+     "note": "matches OMDb; disagrees with TMDB (189)",
      "sources": [
       {
        "src": "OMDb",
@@ -8654,8 +8692,9 @@
      "soft": false,
      "current": 91,
      "proposed": 91,
-     "status": "sources-disagree",
+     "status": "corroborated-by-one",
      "grade": "B",
+     "note": "matches OMDb; disagrees with TMDB (92)",
      "sources": [
       {
        "src": "OMDb",
@@ -9017,8 +9056,9 @@
      "soft": false,
      "current": 117,
      "proposed": 117,
-     "status": "sources-disagree",
+     "status": "corroborated-by-one",
      "grade": "B",
+     "note": "matches OMDb; disagrees with TMDB (159)",
      "sources": [
       {
        "src": "OMDb",
@@ -9040,9 +9080,10 @@
      "label": "director",
      "soft": false,
      "current": "Joshua Oppenheimer",
-     "proposed": "Anonymous Cynn, Christine Cynn, Joshua Oppenheimer",
-     "status": "sources-disagree",
+     "proposed": "Joshua Oppenheimer",
+     "status": "corroborated-by-one",
      "grade": "B",
+     "note": "matches TMDB; disagrees with OMDb (\"Joshua Oppenheimer, Anonymous, Christine Cynn\")",
      "sources": [
       {
        "src": "OMDb",
@@ -9271,9 +9312,10 @@
      "label": "release year",
      "soft": false,
      "current": 2001,
-     "proposed": 2002,
-     "status": "sources-disagree",
+     "proposed": 2001,
+     "status": "corroborated-by-one",
      "grade": "B",
+     "note": "matches TMDB; disagrees with OMDb (2002)",
      "sources": [
       {
        "src": "OMDb",
@@ -9454,9 +9496,10 @@
      "label": "release year",
      "soft": false,
      "current": 1988,
-     "proposed": 1990,
-     "status": "sources-disagree",
+     "proposed": 1988,
+     "status": "corroborated-by-one",
      "grade": "B",
+     "note": "matches TMDB; disagrees with OMDb (1990)",
      "sources": [
       {
        "src": "OMDb",
@@ -9479,8 +9522,9 @@
      "soft": false,
      "current": 155,
      "proposed": 174,
-     "status": "sources-disagree",
+     "status": "edition-dependent",
      "grade": "B",
+     "note": "corpus value does not match either source (OMDb 174, TMDB 124) -- treated as a distinct edition; the specific cut is not identified from available evidence.",
      "sources": [
       {
        "src": "OMDb",
@@ -9572,8 +9616,9 @@
      "soft": false,
      "current": 111,
      "proposed": 110,
-     "status": "sources-disagree",
+     "status": "edition-dependent",
      "grade": "B",
+     "note": "corpus value does not match either source (OMDb 110, TMDB 112) -- treated as a distinct edition; the specific cut is not identified from available evidence.",
      "sources": [
       {
        "src": "OMDb",
@@ -9665,8 +9710,9 @@
      "soft": false,
      "current": 139,
      "proposed": 139,
-     "status": "sources-disagree",
+     "status": "corroborated-by-one",
      "grade": "B",
+     "note": "matches OMDb; disagrees with TMDB (138)",
      "sources": [
       {
        "src": "OMDb",
@@ -9758,8 +9804,9 @@
      "soft": false,
      "current": 88,
      "proposed": 88,
-     "status": "sources-disagree",
+     "status": "corroborated-by-one",
      "grade": "B",
+     "note": "matches OMDb; disagrees with TMDB (93)",
      "sources": [
       {
        "src": "OMDb",
@@ -9851,8 +9898,9 @@
      "soft": false,
      "current": 106,
      "proposed": 106,
-     "status": "sources-disagree",
+     "status": "corroborated-by-one",
      "grade": "B",
+     "note": "matches OMDb; disagrees with TMDB (107)",
      "sources": [
       {
        "src": "OMDb",
@@ -10182,26 +10230,34 @@
    "id": "m404",
    "title": "Cache",
    "sourcesReached": [
-    "OMDb"
+    "OMDb",
+    "TMDB"
    ],
-   "sourcesMissed": [
-    "TMDB (no match)"
-   ],
+   "sourcesMissed": [],
    "proposals": [
     {
      "field": "year",
      "label": "release year",
      "soft": false,
      "current": 2005,
-     "proposed": 1998,
-     "status": "proposed-change",
+     "proposed": 2005,
+     "status": "corroborated-by-one",
      "grade": "B",
+     "note": "matches TMDB; disagrees with OMDb (1998)",
      "sources": [
       {
        "src": "OMDb",
        "value": 1998,
        "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Cache&type=movie"
+      },
+      {
+       "src": "TMDB",
+       "value": 2005,
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Cache&year=2005"
       }
+     ],
+     "alternatives": [
+      2005
      ]
     },
     {
@@ -10511,8 +10567,9 @@
      "soft": false,
      "current": 2009,
      "proposed": 2009,
-     "status": "sources-disagree",
+     "status": "corroborated-by-one",
      "grade": "B",
+     "note": "matches OMDb; disagrees with TMDB (2007)",
      "sources": [
       {
        "src": "OMDb",
@@ -10535,8 +10592,9 @@
      "soft": false,
      "current": 102,
      "proposed": 102,
-     "status": "sources-disagree",
+     "status": "corroborated-by-one",
      "grade": "B",
+     "note": "matches OMDb; disagrees with TMDB (95)",
      "sources": [
       {
        "src": "OMDb",
@@ -10559,8 +10617,9 @@
      "soft": false,
      "current": "Takeshi Koike",
      "proposed": "Takeshi Koike",
-     "status": "sources-disagree",
+     "status": "corroborated-by-one",
      "grade": "B",
+     "note": "matches OMDb; disagrees with TMDB (\"Andy Cheng\")",
      "sources": [
       {
        "src": "OMDb",
@@ -10631,8 +10690,9 @@
      "soft": false,
      "current": 107,
      "proposed": 107,
-     "status": "sources-disagree",
+     "status": "corroborated-by-one",
      "grade": "B",
+     "note": "matches OMDb; disagrees with TMDB (108)",
      "sources": [
       {
        "src": "OMDb",
@@ -10814,8 +10874,9 @@
      "soft": false,
      "current": 104,
      "proposed": 104,
-     "status": "sources-disagree",
+     "status": "corroborated-by-one",
      "grade": "B",
+     "note": "matches OMDb; disagrees with TMDB (101)",
      "sources": [
       {
        "src": "OMDb",
@@ -11253,8 +11314,9 @@
      "soft": false,
      "current": 80,
      "proposed": 80,
-     "status": "sources-disagree",
+     "status": "corroborated-by-one",
      "grade": "B",
+     "note": "matches OMDb; disagrees with TMDB (81)",
      "sources": [
       {
        "src": "OMDb",
@@ -11525,9 +11587,10 @@
      "label": "runtime (min)",
      "soft": false,
      "current": 159,
-     "proposed": 153,
-     "status": "sources-disagree",
+     "proposed": 159,
+     "status": "corroborated-by-one",
      "grade": "B",
+     "note": "matches TMDB; disagrees with OMDb (153)",
      "sources": [
       {
        "src": "OMDb",
@@ -11619,8 +11682,9 @@
      "soft": false,
      "current": 170,
      "proposed": 170,
-     "status": "sources-disagree",
+     "status": "corroborated-by-one",
      "grade": "B",
+     "note": "matches OMDb; disagrees with TMDB (171)",
      "sources": [
       {
        "src": "OMDb",
@@ -11982,8 +12046,9 @@
      "soft": false,
      "current": 110,
      "proposed": 110,
-     "status": "sources-disagree",
+     "status": "corroborated-by-one",
      "grade": "B",
+     "note": "matches OMDb; disagrees with TMDB (109)",
      "sources": [
       {
        "src": "OMDb",
@@ -12075,8 +12140,9 @@
      "soft": false,
      "current": 103,
      "proposed": 103,
-     "status": "sources-disagree",
+     "status": "corroborated-by-one",
      "grade": "B",
+     "note": "matches OMDb; disagrees with TMDB (105)",
      "sources": [
       {
        "src": "OMDb",
@@ -12168,8 +12234,9 @@
      "soft": false,
      "current": 100,
      "proposed": 95,
-     "status": "sources-disagree",
+     "status": "edition-dependent",
      "grade": "B",
+     "note": "corpus value does not match either source (OMDb 95, TMDB 101) -- treated as a distinct edition; the specific cut is not identified from available evidence.",
      "sources": [
       {
        "src": "OMDb",
@@ -12599,9 +12666,10 @@
      "label": "release year",
      "soft": false,
      "current": 2001,
-     "proposed": 2002,
-     "status": "sources-disagree",
+     "proposed": 2001,
+     "status": "corroborated-by-one",
      "grade": "B",
+     "note": "matches TMDB; disagrees with OMDb (2002)",
      "sources": [
       {
        "src": "OMDb",
@@ -12624,8 +12692,9 @@
      "soft": false,
      "current": 144,
      "proposed": 144,
-     "status": "sources-disagree",
+     "status": "corroborated-by-one",
      "grade": "B",
+     "note": "matches OMDb; disagrees with TMDB (145)",
      "sources": [
       {
        "src": "OMDb",
@@ -12717,8 +12786,9 @@
      "soft": false,
      "current": 158,
      "proposed": 158,
-     "status": "sources-disagree",
+     "status": "corroborated-by-one",
      "grade": "B",
+     "note": "matches OMDb; disagrees with TMDB (157)",
      "sources": [
       {
        "src": "OMDb",
@@ -12990,8 +13060,9 @@
      "soft": false,
      "current": 99,
      "proposed": 99,
-     "status": "sources-disagree",
+     "status": "corroborated-by-one",
      "grade": "B",
+     "note": "matches OMDb; disagrees with TMDB (97)",
      "sources": [
       {
        "src": "OMDb",
@@ -13013,9 +13084,10 @@
      "label": "director",
      "soft": false,
      "current": "Joel & Ethan Coen",
-     "proposed": "Ethan Coen, Joel Coen",
-     "status": "sources-disagree",
+     "proposed": "Joel & Ethan Coen",
+     "status": "corroborated-by-one",
      "grade": "B",
+     "note": "matches OMDb; disagrees with TMDB (\"Joel Coen\")",
      "sources": [
       {
        "src": "OMDb",
@@ -13154,9 +13226,10 @@
      "label": "release year",
      "soft": false,
      "current": 2005,
-     "proposed": 2006,
-     "status": "sources-disagree",
+     "proposed": 2005,
+     "status": "corroborated-by-one",
      "grade": "B",
+     "note": "matches TMDB; disagrees with OMDb (2006)",
      "sources": [
       {
        "src": "OMDb",
@@ -13359,8 +13432,9 @@
      "soft": false,
      "current": 95,
      "proposed": 95,
-     "status": "sources-disagree",
+     "status": "corroborated-by-one",
      "grade": "B",
+     "note": "matches OMDb; disagrees with TMDB (96)",
      "sources": [
       {
        "src": "OMDb",
@@ -13610,9 +13684,10 @@
      "label": "release year",
      "soft": false,
      "current": 2010,
-     "proposed": 2026,
-     "status": "sources-disagree",
+     "proposed": 2010,
+     "status": "corroborated-by-one",
      "grade": "B",
+     "note": "matches TMDB; disagrees with OMDb (2026)",
      "sources": [
       {
        "src": "OMDb",
@@ -13815,8 +13890,9 @@
      "soft": false,
      "current": 133,
      "proposed": 133,
-     "status": "sources-disagree",
+     "status": "corroborated-by-one",
      "grade": "B",
+     "note": "matches OMDb; disagrees with TMDB (132)",
      "sources": [
       {
        "src": "OMDb",
@@ -13853,7 +13929,7 @@
        "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=The+Ballad+of+Buster+Scruggs&year=2018"
       }
      ],
-     "_held": "corroborated order conflicts with other not-yet-reprocessed films crediting the same duo (Coen brothers / Lord & Miller); OMDb quota exhausted before the rest could be reconciled together -- see commit message"
+     "_held": "corroborated order conflicts with other not-yet-reprocessed films crediting the same duo; OMDb quota still exhausted"
     },
     {
      "field": "studio",
@@ -13999,8 +14075,9 @@
      "soft": false,
      "current": 99,
      "proposed": 99,
-     "status": "sources-disagree",
+     "status": "corroborated-by-one",
      "grade": "B",
+     "note": "matches OMDb; disagrees with TMDB (100)",
      "sources": [
       {
        "src": "OMDb",
@@ -14092,8 +14169,9 @@
      "soft": false,
      "current": 102,
      "proposed": 102,
-     "status": "sources-disagree",
+     "status": "corroborated-by-one",
      "grade": "B",
+     "note": "matches OMDb; disagrees with TMDB (101)",
      "sources": [
       {
        "src": "OMDb",
@@ -14275,8 +14353,9 @@
      "soft": false,
      "current": 135,
      "proposed": 135,
-     "status": "sources-disagree",
+     "status": "corroborated-by-one",
      "grade": "B",
+     "note": "matches OMDb; disagrees with TMDB (136)",
      "sources": [
       {
        "src": "OMDb",
@@ -14458,8 +14537,9 @@
      "soft": false,
      "current": 168,
      "proposed": 168,
-     "status": "sources-disagree",
+     "status": "corroborated-by-one",
      "grade": "B",
+     "note": "matches OMDb; disagrees with TMDB (188)",
      "sources": [
       {
        "src": "OMDb",
@@ -14641,8 +14721,9 @@
      "soft": false,
      "current": 89,
      "proposed": 89,
-     "status": "sources-disagree",
+     "status": "corroborated-by-one",
      "grade": "B",
+     "note": "matches OMDb; disagrees with TMDB (90)",
      "sources": [
       {
        "src": "OMDb",
@@ -14892,9 +14973,10 @@
      "label": "release year",
      "soft": false,
      "current": 1998,
-     "proposed": 1999,
-     "status": "sources-disagree",
+     "proposed": 1998,
+     "status": "corroborated-by-one",
      "grade": "B",
+     "note": "matches TMDB; disagrees with OMDb (1999)",
      "sources": [
       {
        "src": "OMDb",
@@ -15547,8 +15629,9 @@
      "soft": false,
      "current": 110,
      "proposed": 110,
-     "status": "sources-disagree",
+     "status": "corroborated-by-one",
      "grade": "B",
+     "note": "matches OMDb; disagrees with TMDB (116)",
      "sources": [
       {
        "src": "OMDb",
@@ -15889,8 +15972,9 @@
      "soft": false,
      "current": 92,
      "proposed": 92,
-     "status": "sources-disagree",
+     "status": "corroborated-by-one",
      "grade": "B",
+     "note": "matches OMDb; disagrees with TMDB (93)",
      "sources": [
       {
        "src": "OMDb",
@@ -15961,8 +16045,9 @@
      "soft": false,
      "current": 1999,
      "proposed": 1999,
-     "status": "sources-disagree",
+     "status": "corroborated-by-one",
      "grade": "B",
+     "note": "matches OMDb; disagrees with TMDB (2000)",
      "sources": [
       {
        "src": "OMDb",
@@ -16324,8 +16409,9 @@
      "soft": false,
      "current": 2010,
      "proposed": 2010,
-     "status": "sources-disagree",
+     "status": "corroborated-by-one",
      "grade": "B",
+     "note": "matches OMDb; disagrees with TMDB (2011)",
      "sources": [
       {
        "src": "OMDb",
@@ -16348,8 +16434,9 @@
      "soft": false,
      "current": 104,
      "proposed": 104,
-     "status": "sources-disagree",
+     "status": "corroborated-by-one",
      "grade": "B",
+     "note": "matches OMDb; disagrees with TMDB (103)",
      "sources": [
       {
        "src": "OMDb",
@@ -16531,8 +16618,9 @@
      "soft": false,
      "current": 95,
      "proposed": 95,
-     "status": "sources-disagree",
+     "status": "corroborated-by-one",
      "grade": "B",
+     "note": "matches OMDb; disagrees with TMDB (99)",
      "sources": [
       {
        "src": "OMDb",
@@ -16804,8 +16892,9 @@
      "soft": false,
      "current": 140,
      "proposed": 140,
-     "status": "sources-disagree",
+     "status": "corroborated-by-one",
      "grade": "B",
+     "note": "matches OMDb; disagrees with TMDB (141)",
      "sources": [
       {
        "src": "OMDb",
@@ -16916,9 +17005,9 @@
      "field": "creator",
      "label": "director",
      "soft": false,
-     "current": "Jim Henson & Frank Oz",
+     "current": "Frank Oz, Jim Henson",
      "proposed": "Frank Oz, Jim Henson",
-     "status": "proposed-change",
+     "status": "confirmed",
      "grade": "A",
      "sources": [
       {
@@ -16987,8 +17076,9 @@
      "soft": false,
      "current": 86,
      "proposed": 86,
-     "status": "sources-disagree",
+     "status": "corroborated-by-one",
      "grade": "B",
+     "note": "matches OMDb; disagrees with TMDB (87)",
      "sources": [
       {
        "src": "OMDb",
@@ -17080,8 +17170,9 @@
      "soft": false,
      "current": 88,
      "proposed": 88,
-     "status": "sources-disagree",
+     "status": "corroborated-by-one",
      "grade": "B",
+     "note": "matches OMDb; disagrees with TMDB (87)",
      "sources": [
       {
        "src": "OMDb",
@@ -17173,8 +17264,9 @@
      "soft": false,
      "current": 121,
      "proposed": 121,
-     "status": "sources-disagree",
+     "status": "corroborated-by-one",
      "grade": "B",
+     "note": "matches OMDb; disagrees with TMDB (122)",
      "sources": [
       {
        "src": "OMDb",
@@ -17695,8 +17787,9 @@
      "soft": false,
      "current": 2008,
      "proposed": 2008,
-     "status": "sources-disagree",
+     "status": "corroborated-by-one",
      "grade": "B",
+     "note": "matches OMDb; disagrees with TMDB (2009)",
      "sources": [
       {
        "src": "OMDb",
@@ -18098,9 +18191,9 @@
      "field": "creator",
      "label": "director",
      "soft": false,
-     "current": "The Wachowskis & Tom Tykwer",
+     "current": "Lana Wachowski, Lilly Wachowski, Tom Tykwer",
      "proposed": "Lana Wachowski, Lilly Wachowski, Tom Tykwer",
-     "status": "proposed-change",
+     "status": "confirmed",
      "grade": "A",
      "sources": [
       {
@@ -18259,8 +18352,9 @@
      "soft": false,
      "current": 91,
      "proposed": 91,
-     "status": "sources-disagree",
+     "status": "corroborated-by-one",
      "grade": "B",
+     "note": "matches OMDb; disagrees with TMDB (93)",
      "sources": [
       {
        "src": "OMDb",
@@ -18442,8 +18536,9 @@
      "soft": false,
      "current": 84,
      "proposed": 84,
-     "status": "sources-disagree",
+     "status": "corroborated-by-one",
      "grade": "B",
+     "note": "matches OMDb; disagrees with TMDB (85)",
      "sources": [
       {
        "src": "OMDb",
@@ -18535,8 +18630,9 @@
      "soft": false,
      "current": 94,
      "proposed": 94,
-     "status": "sources-disagree",
+     "status": "corroborated-by-one",
      "grade": "B",
+     "note": "matches OMDb; disagrees with TMDB (93)",
      "sources": [
       {
        "src": "OMDb",
@@ -18717,9 +18813,10 @@
      "label": "runtime (min)",
      "soft": false,
      "current": 140,
-     "proposed": 135,
-     "status": "sources-disagree",
+     "proposed": 140,
+     "status": "corroborated-by-one",
      "grade": "B",
+     "note": "matches TMDB; disagrees with OMDb (135)",
      "sources": [
       {
        "src": "OMDb",
@@ -18901,8 +18998,9 @@
      "soft": false,
      "current": 97,
      "proposed": 97,
-     "status": "sources-disagree",
+     "status": "corroborated-by-one",
      "grade": "B",
+     "note": "matches OMDb; disagrees with TMDB (98)",
      "sources": [
       {
        "src": "OMDb",
@@ -19084,8 +19182,9 @@
      "soft": false,
      "current": 108,
      "proposed": 108,
-     "status": "sources-disagree",
+     "status": "corroborated-by-one",
      "grade": "B",
+     "note": "matches OMDb; disagrees with TMDB (109)",
      "sources": [
       {
        "src": "OMDb",
@@ -19177,8 +19276,9 @@
      "soft": false,
      "current": 129,
      "proposed": 129,
-     "status": "sources-disagree",
+     "status": "corroborated-by-one",
      "grade": "B",
+     "note": "matches OMDb; disagrees with TMDB (130)",
      "sources": [
       {
        "src": "OMDb",
@@ -19269,9 +19369,10 @@
      "label": "runtime (min)",
      "soft": false,
      "current": 100,
-     "proposed": 97,
-     "status": "sources-disagree",
+     "proposed": 100,
+     "status": "corroborated-by-one",
      "grade": "B",
+     "note": "matches TMDB; disagrees with OMDb (97)",
      "sources": [
       {
        "src": "OMDb",
@@ -19543,8 +19644,9 @@
      "soft": false,
      "current": 109,
      "proposed": 109,
-     "status": "sources-disagree",
+     "status": "corroborated-by-one",
      "grade": "B",
+     "note": "matches OMDb; disagrees with TMDB (108)",
      "sources": [
       {
        "src": "OMDb",
@@ -19996,8 +20098,9 @@
      "soft": false,
      "current": 111,
      "proposed": 111,
-     "status": "sources-disagree",
+     "status": "corroborated-by-one",
      "grade": "B",
+     "note": "matches OMDb; disagrees with TMDB (112)",
      "sources": [
       {
        "src": "OMDb",
@@ -20089,8 +20192,9 @@
      "soft": false,
      "current": 93,
      "proposed": 93,
-     "status": "sources-disagree",
+     "status": "corroborated-by-one",
      "grade": "B",
+     "note": "matches OMDb; disagrees with TMDB (94)",
      "sources": [
       {
        "src": "OMDb",
@@ -20722,8 +20826,9 @@
      "soft": false,
      "current": 138,
      "proposed": 138,
-     "status": "sources-disagree",
+     "status": "corroborated-by-one",
      "grade": "B",
+     "note": "matches OMDb; disagrees with TMDB (139)",
      "sources": [
       {
        "src": "OMDb",
@@ -20995,8 +21100,9 @@
      "soft": false,
      "current": 119,
      "proposed": 119,
-     "status": "sources-disagree",
+     "status": "corroborated-by-one",
      "grade": "B",
+     "note": "matches OMDb; disagrees with TMDB (120)",
      "sources": [
       {
        "src": "OMDb",
@@ -21066,9 +21172,10 @@
      "label": "release year",
      "soft": false,
      "current": 1998,
-     "proposed": 1999,
-     "status": "sources-disagree",
+     "proposed": 1998,
+     "status": "corroborated-by-one",
      "grade": "B",
+     "note": "matches TMDB; disagrees with OMDb (1999)",
      "sources": [
       {
        "src": "OMDb",
@@ -21181,8 +21288,9 @@
      "soft": false,
      "current": 123,
      "proposed": 123,
-     "status": "sources-disagree",
+     "status": "corroborated-by-one",
      "grade": "B",
+     "note": "matches OMDb; disagrees with TMDB (124)",
      "sources": [
       {
        "src": "OMDb",
@@ -21924,9 +22032,10 @@
      "label": "director",
      "soft": false,
      "current": "John Lasseter",
-     "proposed": "Ash Brannon, John Lasseter, Lee Unkrich",
-     "status": "sources-disagree",
+     "proposed": "John Lasseter",
+     "status": "corroborated-by-one",
      "grade": "B",
+     "note": "matches TMDB; disagrees with OMDb (\"John Lasseter, Ash Brannon, Lee Unkrich\")",
      "sources": [
       {
        "src": "OMDb",
@@ -22065,9 +22174,10 @@
      "label": "release year",
      "soft": false,
      "current": 2000,
-     "proposed": 2001,
-     "status": "sources-disagree",
+     "proposed": 2000,
+     "status": "corroborated-by-one",
      "grade": "B",
+     "note": "matches TMDB; disagrees with OMDb (2001)",
      "sources": [
       {
        "src": "OMDb",
@@ -22090,8 +22200,9 @@
      "soft": false,
      "current": 102,
      "proposed": 102,
-     "status": "sources-disagree",
+     "status": "corroborated-by-one",
      "grade": "B",
+     "note": "matches OMDb; disagrees with TMDB (103)",
      "sources": [
       {
        "src": "OMDb",
@@ -23013,9 +23124,10 @@
      "label": "director",
      "soft": false,
      "current": "Pete Docter",
-     "proposed": "David Silverman, Lee Unkrich, Pete Docter",
-     "status": "sources-disagree",
+     "proposed": "Pete Docter",
+     "status": "corroborated-by-one",
      "grade": "B",
+     "note": "matches TMDB; disagrees with OMDb (\"Pete Docter, David Silverman, Lee Unkrich\")",
      "sources": [
       {
        "src": "OMDb",
@@ -23086,8 +23198,9 @@
      "soft": false,
      "current": 90,
      "proposed": 90,
-     "status": "sources-disagree",
+     "status": "corroborated-by-one",
      "grade": "B",
+     "note": "matches OMDb; disagrees with TMDB (89)",
      "sources": [
       {
        "src": "OMDb",
@@ -23738,9 +23851,9 @@
      "field": "creator",
      "label": "director",
      "soft": false,
-     "current": "Dean DeBlois, Chris Sanders",
+     "current": "Chris Sanders, Dean DeBlois",
      "proposed": "Chris Sanders, Dean DeBlois",
-     "status": "proposed-change",
+     "status": "confirmed",
      "grade": "A",
      "sources": [
       {
@@ -23899,8 +24012,9 @@
      "soft": false,
      "current": 91,
      "proposed": 88,
-     "status": "sources-disagree",
+     "status": "edition-dependent",
      "grade": "B",
+     "note": "corpus value does not match either source (OMDb 88, TMDB 92) -- treated as a distinct edition; the specific cut is not identified from available evidence.",
      "sources": [
       {
        "src": "OMDb",
@@ -24102,9 +24216,10 @@
      "label": "director",
      "soft": false,
      "current": "Andrew Stanton",
-     "proposed": "Andrew Stanton, Lee Unkrich",
-     "status": "sources-disagree",
+     "proposed": "Andrew Stanton",
+     "status": "corroborated-by-one",
      "grade": "B",
+     "note": "matches TMDB; disagrees with OMDb (\"Andrew Stanton, Lee Unkrich\")",
      "sources": [
       {
        "src": "OMDb",
@@ -24265,8 +24380,9 @@
      "soft": false,
      "current": 137,
      "proposed": 137,
-     "status": "sources-disagree",
+     "status": "corroborated-by-one",
      "grade": "B",
+     "note": "matches OMDb; disagrees with TMDB (136)",
      "sources": [
       {
        "src": "OMDb",
@@ -24538,8 +24654,9 @@
      "soft": false,
      "current": 94,
      "proposed": 94,
-     "status": "sources-disagree",
+     "status": "corroborated-by-one",
      "grade": "B",
+     "note": "matches OMDb; disagrees with TMDB (95)",
      "sources": [
       {
        "src": "OMDb",
@@ -24699,9 +24816,10 @@
      "label": "release year",
      "soft": false,
      "current": 2004,
-     "proposed": 2005,
-     "status": "sources-disagree",
+     "proposed": 2004,
+     "status": "corroborated-by-one",
      "grade": "B",
+     "note": "matches TMDB; disagrees with OMDb (2005)",
      "sources": [
       {
        "src": "OMDb",
@@ -24834,9 +24952,10 @@
      "label": "director",
      "soft": false,
      "current": "Robert Rodriguez, Frank Miller",
-     "proposed": "Frank Miller, Quentin Tarantino, Robert Rodriguez",
-     "status": "sources-disagree",
+     "proposed": "Robert Rodriguez, Frank Miller",
+     "status": "corroborated-by-one",
      "grade": "B",
+     "note": "matches TMDB; disagrees with OMDb (\"Frank Miller, Quentin Tarantino, Robert Rodriguez\")",
      "sources": [
       {
        "src": "OMDb",
@@ -25267,8 +25386,9 @@
      "soft": false,
      "current": 101,
      "proposed": 101,
-     "status": "sources-disagree",
+     "status": "corroborated-by-one",
      "grade": "B",
+     "note": "matches OMDb; disagrees with TMDB (102)",
      "sources": [
       {
        "src": "OMDb",
@@ -25969,8 +26089,9 @@
      "soft": false,
      "current": 120,
      "proposed": 120,
-     "status": "sources-disagree",
+     "status": "corroborated-by-one",
      "grade": "B",
+     "note": "matches OMDb; disagrees with TMDB (121)",
      "sources": [
       {
        "src": "OMDb",
@@ -25992,9 +26113,10 @@
      "label": "director",
      "soft": false,
      "current": "Danny Boyle",
-     "proposed": "Danny Boyle, Loveleen Tandan",
-     "status": "sources-disagree",
+     "proposed": "Danny Boyle",
+     "status": "corroborated-by-one",
      "grade": "B",
+     "note": "matches TMDB; disagrees with OMDb (\"Danny Boyle, Loveleen Tandan\")",
      "sources": [
       {
        "src": "OMDb",
@@ -26425,8 +26547,9 @@
      "soft": false,
      "current": 109,
      "proposed": 109,
-     "status": "sources-disagree",
+     "status": "corroborated-by-one",
      "grade": "B",
+     "note": "matches OMDb; disagrees with TMDB (110)",
      "sources": [
       {
        "src": "OMDb",
@@ -26497,8 +26620,9 @@
      "soft": false,
      "current": 2009,
      "proposed": 2009,
-     "status": "sources-disagree",
+     "status": "corroborated-by-one",
      "grade": "B",
+     "note": "matches OMDb; disagrees with TMDB (2008)",
      "sources": [
       {
        "src": "OMDb",
@@ -26902,7 +27026,7 @@
        "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=A+Serious+Man&year=2009"
       }
      ],
-     "_held": "corroborated order conflicts with other not-yet-reprocessed films crediting the same duo (Coen brothers / Lord & Miller); OMDb quota exhausted before the rest could be reconciled together -- see commit message"
+     "_held": "corroborated order conflicts with other not-yet-reprocessed films crediting the same duo; OMDb quota still exhausted"
     },
     {
      "field": "studio",
@@ -27117,8 +27241,9 @@
      "soft": false,
      "current": 100,
      "proposed": 100,
-     "status": "sources-disagree",
+     "status": "corroborated-by-one",
      "grade": "B",
+     "note": "matches OMDb; disagrees with TMDB (101)",
      "sources": [
       {
        "src": "OMDb",
@@ -27210,8 +27335,9 @@
      "soft": false,
      "current": 117,
      "proposed": 117,
-     "status": "sources-disagree",
+     "status": "corroborated-by-one",
      "grade": "B",
+     "note": "matches OMDb; disagrees with TMDB (118)",
      "sources": [
       {
        "src": "OMDb",
@@ -27303,8 +27429,9 @@
      "soft": false,
      "current": 112,
      "proposed": 112,
-     "status": "sources-disagree",
+     "status": "corroborated-by-one",
      "grade": "B",
+     "note": "matches OMDb; disagrees with TMDB (113)",
      "sources": [
       {
        "src": "OMDb",
@@ -27666,8 +27793,9 @@
      "soft": false,
      "current": 133,
      "proposed": 133,
-     "status": "sources-disagree",
+     "status": "corroborated-by-one",
      "grade": "B",
+     "note": "matches OMDb; disagrees with TMDB (134)",
      "sources": [
       {
        "src": "OMDb",
@@ -27849,8 +27977,9 @@
      "soft": false,
      "current": 101,
      "proposed": 101,
-     "status": "sources-disagree",
+     "status": "corroborated-by-one",
      "grade": "B",
+     "note": "matches OMDb; disagrees with TMDB (102)",
      "sources": [
       {
        "src": "OMDb",
@@ -28157,7 +28286,7 @@
        "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=21+Jump+Street&year=2012"
       }
      ],
-     "_held": "corroborated order conflicts with other not-yet-reprocessed films crediting the same duo (Coen brothers / Lord & Miller); OMDb quota exhausted before the rest could be reconciled together -- see commit message"
+     "_held": "corroborated order conflicts with other not-yet-reprocessed films crediting the same duo; OMDb quota still exhausted"
     },
     {
      "field": "studio",
@@ -28212,9 +28341,10 @@
      "label": "runtime (min)",
      "soft": false,
      "current": 118,
-     "proposed": 119,
-     "status": "sources-disagree",
+     "proposed": 118,
+     "status": "corroborated-by-one",
      "grade": "B",
+     "note": "matches TMDB; disagrees with OMDb (119)",
      "sources": [
       {
        "src": "OMDb",
@@ -28464,9 +28594,10 @@
      "label": "release year",
      "soft": false,
      "current": 2012,
-     "proposed": 2013,
-     "status": "sources-disagree",
+     "proposed": 2012,
+     "status": "corroborated-by-one",
      "grade": "B",
+     "note": "matches TMDB; disagrees with OMDb (2013)",
      "sources": [
       {
        "src": "OMDb",
@@ -29638,8 +29769,9 @@
      "soft": false,
      "current": 2011,
      "proposed": 2011,
-     "status": "sources-disagree",
+     "status": "corroborated-by-one",
      "grade": "B",
+     "note": "matches OMDb; disagrees with TMDB (2012)",
      "sources": [
       {
        "src": "OMDb",
@@ -29911,8 +30043,9 @@
      "soft": false,
      "current": 134,
      "proposed": 134,
-     "status": "sources-disagree",
+     "status": "corroborated-by-one",
      "grade": "B",
+     "note": "matches OMDb; disagrees with TMDB (135)",
      "sources": [
       {
        "src": "OMDb",
@@ -29982,9 +30115,10 @@
      "label": "release year",
      "soft": false,
      "current": 2014,
-     "proposed": 2015,
-     "status": "sources-disagree",
+     "proposed": 2014,
+     "status": "corroborated-by-one",
      "grade": "B",
+     "note": "matches TMDB; disagrees with OMDb (2015)",
      "sources": [
       {
        "src": "OMDb",
@@ -30206,9 +30340,9 @@
      "field": "creator",
      "label": "director",
      "soft": false,
-     "current": "Anthony & Joe Russo",
+     "current": "Anthony Russo, Joe Russo",
      "proposed": "Anthony Russo, Joe Russo",
-     "status": "proposed-change",
+     "status": "confirmed",
      "grade": "A",
      "sources": [
       {
@@ -30547,8 +30681,9 @@
      "soft": false,
      "current": 130,
      "proposed": 130,
-     "status": "sources-disagree",
+     "status": "corroborated-by-one",
      "grade": "B",
+     "note": "matches OMDb; disagrees with TMDB (131)",
      "sources": [
       {
        "src": "OMDb",
@@ -30730,8 +30865,9 @@
      "soft": false,
      "current": 142,
      "proposed": 142,
-     "status": "sources-disagree",
+     "status": "corroborated-by-one",
      "grade": "B",
+     "note": "matches OMDb; disagrees with TMDB (141)",
      "sources": [
       {
        "src": "OMDb",
@@ -31082,9 +31218,10 @@
      "label": "runtime (min)",
      "soft": false,
      "current": 111,
-     "proposed": 117,
-     "status": "sources-disagree",
+     "proposed": 111,
+     "status": "corroborated-by-one",
      "grade": "B",
+     "note": "matches TMDB; disagrees with OMDb (117)",
      "sources": [
       {
        "src": "OMDb",
@@ -31176,8 +31313,9 @@
      "soft": false,
      "current": 122,
      "proposed": 122,
-     "status": "sources-disagree",
+     "status": "corroborated-by-one",
      "grade": "B",
+     "note": "matches OMDb; disagrees with TMDB (123)",
      "sources": [
       {
        "src": "OMDb",
@@ -31449,8 +31587,9 @@
      "soft": false,
      "current": 108,
      "proposed": 108,
-     "status": "sources-disagree",
+     "status": "corroborated-by-one",
      "grade": "B",
+     "note": "matches OMDb; disagrees with TMDB (109)",
      "sources": [
       {
        "src": "OMDb",
@@ -31472,9 +31611,10 @@
      "label": "director",
      "soft": false,
      "current": "Byron Howard, Rich Moore",
-     "proposed": "Byron Howard, Jared Bush, Rich Moore",
-     "status": "sources-disagree",
+     "proposed": "Byron Howard, Rich Moore",
+     "status": "corroborated-by-one",
      "grade": "B",
+     "note": "matches TMDB; disagrees with OMDb (\"Jared Bush, Byron Howard, Rich Moore\")",
      "sources": [
       {
        "src": "OMDb",
@@ -31613,9 +31753,10 @@
      "label": "release year",
      "soft": false,
      "current": 2016,
-     "proposed": 2015,
-     "status": "sources-disagree",
+     "proposed": 2016,
+     "status": "corroborated-by-one",
      "grade": "B",
+     "note": "matches TMDB; disagrees with OMDb (2015)",
      "sources": [
       {
        "src": "OMDb",
@@ -32357,9 +32498,10 @@
      "label": "runtime (min)",
      "soft": false,
      "current": 119,
-     "proposed": 118,
-     "status": "sources-disagree",
+     "proposed": 119,
+     "status": "corroborated-by-one",
      "grade": "B",
+     "note": "matches TMDB; disagrees with OMDb (118)",
      "sources": [
       {
        "src": "OMDb",
@@ -32451,8 +32593,9 @@
      "soft": false,
      "current": 121,
      "proposed": 119,
-     "status": "sources-disagree",
+     "status": "edition-dependent",
      "grade": "B",
+     "note": "corpus value does not match either source (OMDb 119, TMDB 120) -- treated as a distinct edition; the specific cut is not identified from available evidence.",
      "sources": [
       {
        "src": "OMDb",
@@ -32544,8 +32687,9 @@
      "soft": false,
      "current": 130,
      "proposed": 130,
-     "status": "sources-disagree",
+     "status": "corroborated-by-one",
      "grade": "B",
+     "note": "matches OMDb; disagrees with TMDB (131)",
      "sources": [
       {
        "src": "OMDb",
@@ -32727,8 +32871,9 @@
      "soft": false,
      "current": 134,
      "proposed": 134,
-     "status": "sources-disagree",
+     "status": "corroborated-by-one",
      "grade": "B",
+     "note": "matches OMDb; disagrees with TMDB (135)",
      "sources": [
       {
        "src": "OMDb",
@@ -32820,8 +32965,9 @@
      "soft": false,
      "current": 90,
      "proposed": 90,
-     "status": "sources-disagree",
+     "status": "corroborated-by-one",
      "grade": "B",
+     "note": "matches OMDb; disagrees with TMDB (91)",
      "sources": [
       {
        "src": "OMDb",
@@ -32913,8 +33059,9 @@
      "soft": false,
      "current": 93,
      "proposed": 93,
-     "status": "sources-disagree",
+     "status": "corroborated-by-one",
      "grade": "B",
+     "note": "matches OMDb; disagrees with TMDB (94)",
      "sources": [
       {
        "src": "OMDb",
@@ -33096,8 +33243,9 @@
      "soft": false,
      "current": 134,
      "proposed": 134,
-     "status": "sources-disagree",
+     "status": "corroborated-by-one",
      "grade": "B",
+     "note": "matches OMDb; disagrees with TMDB (135)",
      "sources": [
       {
        "src": "OMDb",
@@ -33189,8 +33337,9 @@
      "soft": false,
      "current": 119,
      "proposed": 119,
-     "status": "sources-disagree",
+     "status": "corroborated-by-one",
      "grade": "B",
+     "note": "matches OMDb; disagrees with TMDB (120)",
      "sources": [
       {
        "src": "OMDb",
@@ -33642,8 +33791,9 @@
      "soft": false,
      "current": 119,
      "proposed": 119,
-     "status": "sources-disagree",
+     "status": "corroborated-by-one",
      "grade": "B",
+     "note": "matches OMDb; disagrees with TMDB (120)",
      "sources": [
       {
        "src": "OMDb",
@@ -33825,8 +33975,9 @@
      "soft": false,
      "current": 119,
      "proposed": 119,
-     "status": "sources-disagree",
+     "status": "corroborated-by-one",
      "grade": "B",
+     "note": "matches OMDb; disagrees with TMDB (120)",
      "sources": [
       {
        "src": "OMDb",
@@ -34008,8 +34159,9 @@
      "soft": false,
      "current": 130,
      "proposed": 130,
-     "status": "sources-disagree",
+     "status": "corroborated-by-one",
      "grade": "B",
+     "note": "matches OMDb; disagrees with TMDB (131)",
      "sources": [
       {
        "src": "OMDb",
@@ -34191,8 +34343,9 @@
      "soft": false,
      "current": 152,
      "proposed": 152,
-     "status": "sources-disagree",
+     "status": "corroborated-by-one",
      "grade": "B",
+     "note": "matches OMDb; disagrees with TMDB (153)",
      "sources": [
       {
        "src": "OMDb",
@@ -34464,8 +34617,9 @@
      "soft": false,
      "current": 135,
      "proposed": 135,
-     "status": "sources-disagree",
+     "status": "corroborated-by-one",
      "grade": "B",
+     "note": "matches OMDb; disagrees with TMDB (136)",
      "sources": [
       {
        "src": "OMDb",
@@ -35015,8 +35169,9 @@
      "soft": false,
      "current": 95,
      "proposed": 95,
-     "status": "sources-disagree",
+     "status": "corroborated-by-one",
      "grade": "B",
+     "note": "matches OMDb; disagrees with TMDB (96)",
      "sources": [
       {
        "src": "OMDb",
@@ -35108,8 +35263,9 @@
      "soft": false,
      "current": 100,
      "proposed": 100,
-     "status": "sources-disagree",
+     "status": "corroborated-by-one",
      "grade": "B",
+     "note": "matches OMDb; disagrees with TMDB (101)",
      "sources": [
       {
        "src": "OMDb",
@@ -35131,9 +35287,10 @@
      "label": "director",
      "soft": false,
      "current": "Pete Docter",
-     "proposed": "Kemp Powers, Pete Docter",
-     "status": "sources-disagree",
+     "proposed": "Pete Docter",
+     "status": "corroborated-by-one",
      "grade": "B",
+     "note": "matches TMDB; disagrees with OMDb (\"Pete Docter, Kemp Powers\")",
      "sources": [
       {
        "src": "OMDb",
@@ -35204,8 +35361,9 @@
      "soft": false,
      "current": 129,
      "proposed": 129,
-     "status": "sources-disagree",
+     "status": "corroborated-by-one",
      "grade": "B",
+     "note": "matches OMDb; disagrees with TMDB (130)",
      "sources": [
       {
        "src": "OMDb",
@@ -35275,9 +35433,10 @@
      "label": "release year",
      "soft": false,
      "current": 2020,
-     "proposed": 2019,
-     "status": "sources-disagree",
+     "proposed": 2020,
+     "status": "corroborated-by-one",
      "grade": "B",
+     "note": "matches TMDB; disagrees with OMDb (2019)",
      "sources": [
       {
        "src": "OMDb",
@@ -35300,8 +35459,9 @@
      "soft": false,
      "current": 120,
      "proposed": 120,
-     "status": "sources-disagree",
+     "status": "corroborated-by-one",
      "grade": "B",
+     "note": "matches OMDb; disagrees with TMDB (121)",
      "sources": [
       {
        "src": "OMDb",
@@ -35401,8 +35561,9 @@
      "soft": false,
      "current": 113,
      "proposed": 113,
-     "status": "sources-disagree",
+     "status": "corroborated-by-one",
      "grade": "B",
+     "note": "matches OMDb; disagrees with TMDB (114)",
      "sources": [
       {
        "src": "OMDb",
@@ -35473,8 +35634,9 @@
      "soft": false,
      "current": 2020,
      "proposed": 2020,
-     "status": "sources-disagree",
+     "status": "corroborated-by-one",
      "grade": "B",
+     "note": "matches OMDb; disagrees with TMDB (2021)",
      "sources": [
       {
        "src": "OMDb",
@@ -35857,8 +36019,9 @@
      "soft": false,
      "current": 126,
      "proposed": 126,
-     "status": "sources-disagree",
+     "status": "corroborated-by-one",
      "grade": "B",
+     "note": "matches OMDb; disagrees with TMDB (125)",
      "sources": [
       {
        "src": "OMDb",
@@ -47333,7 +47496,7 @@
      "soft": false,
      "current": "Marcel Carne",
      "proposed": "Marcel Carné",
-     "status": "proposed-change",
+     "status": "confirmed",
      "grade": "B",
      "sources": [
       {
@@ -47760,7 +47923,7 @@
      "soft": false,
      "current": "Luis Bunuel",
      "proposed": "Luis Buñuel",
-     "status": "proposed-change",
+     "status": "confirmed",
      "grade": "B",
      "sources": [
       {
@@ -47836,7 +47999,7 @@
      "soft": false,
      "current": "Luis Bunuel",
      "proposed": "Luis Buñuel",
-     "status": "proposed-change",
+     "status": "confirmed",
      "grade": "B",
      "sources": [
       {
@@ -48444,7 +48607,7 @@
      "soft": false,
      "current": "Volker Schlondorff",
      "proposed": "Volker Schlöndorff",
-     "status": "proposed-change",
+     "status": "confirmed",
      "grade": "B",
      "sources": [
       {
@@ -48824,7 +48987,7 @@
      "soft": false,
      "current": "Ruben Ostlund",
      "proposed": "Ruben Östlund",
-     "status": "proposed-change",
+     "status": "confirmed",
      "grade": "B",
      "sources": [
       {
@@ -49204,7 +49367,7 @@
      "soft": false,
      "current": "Juzo Itami",
      "proposed": "Jūzō Itami",
-     "status": "proposed-change",
+     "status": "confirmed",
      "grade": "B",
      "sources": [
       {
@@ -50771,7 +50934,7 @@
      "soft": false,
      "current": "Victor Erice",
      "proposed": "Víctor Erice",
-     "status": "proposed-change",
+     "status": "confirmed",
      "grade": "B",
      "sources": [
       {
@@ -56748,10 +56911,11 @@
   {
    "id": "m716",
    "title": "Salo, or the 120 Days of Sodom",
-   "sourcesReached": [],
+   "sourcesReached": [
+    "TMDB"
+   ],
    "sourcesMissed": [
-    "OMDb (HTTP 401 Unauthorized)",
-    "TMDB (no match)"
+    "OMDb (HTTP 401 Unauthorized)"
    ],
    "proposals": [
     {
@@ -56759,9 +56923,16 @@
      "label": "release year",
      "soft": false,
      "current": 1975,
-     "status": "no-source",
-     "grade": null,
-     "sources": []
+     "proposed": 1976,
+     "status": "proposed-change",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "TMDB",
+       "value": 1976,
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Salo%2C+or+the+120+Days+of+Sodom&year=1975"
+      }
+     ]
     },
     {
      "field": "runtime",

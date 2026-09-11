@@ -1,5 +1,10 @@
 # Review queue -- tv -- 2026-09-11
 
+_This is a consolidated rollup across every TV evidence file processed to date (the 9 owned
+series -- the 241 remaining are still blocked on OMDb quota), generated from the underlying
+evidence JSON, not a fetch in its own right. Regenerate with the same script once TV facts
+continue._
+
 Everything here needs a human. Grade A proposals are not listed: `scripts/apply-facts.js`
 applies those and records them in the JSON beside this file.
 _Nothing genuinely in question._
