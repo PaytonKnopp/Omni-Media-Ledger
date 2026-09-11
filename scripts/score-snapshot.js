@@ -37,7 +37,8 @@ const ROOT = path.resolve(__dirname, '..');
 // Keep in sync with IDX_KEYS in app/ledger-app.js -- a new index the app computes but this does
 // not capture is an index a data change can silently move.
 const INDEX_KEYS = ['snd', 'ref', 'ch', 'emo', 'awe', 'cozy', 'perf', 'icon', 'scary', 'real',
-  'reality', 'shock', 'sci', 'funny', 'hist', 'vibe2', 'crit', 'aud', 'tech', 'dread', 'myst'];
+  'reality', 'shock', 'sci', 'funny', 'hist', 'vibe2', 'crit', 'aud', 'tech', 'dread', 'myst',
+  'warmth', 'comedy', 'beauty'];
 
 // Captured per work alongside the indices above.
 const SCALAR_KEYS = ['gm', 'gmBase', 'gmBoostTotal', 'gmOverride', 'ovr', 'rating', 'prov',
