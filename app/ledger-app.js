@@ -61,22 +61,22 @@ const KM={movie:{label:'FILM',c:'#a78bfa'},tv:{label:'TV',c:'#22d3ee'},game:{lab
 const ALL=[
  ...movies.map(m=>({kind:'movie',id:m.id,title:m.title,year:m.year,creator:m.creator,org:m.studio,span:m.runtime+' min',mins:m.runtime,genres:m.genres,crit:m.metrics.criticalScore,aud:m.metrics.audienceScore,
   tech:Math.round((m.physicalMediaFidelity.transferFidelity+m.physicalMediaFidelity.audioSoundscape+m.physicalMediaFidelity.cinematographyScore)/3),
-  dread:m.atmosphericDreadIndex,myst:m.ontologicalComplexity,format:m.contextTags.formatType,vibe:m.contextTags.vibeTime,just:m.contextTags.justification,
+  dread:m.atmosphericDreadIndex,myst:m.ontologicalComplexity,warmth:m.emotionalWarmth,comedy:m.comicIntent,beauty:m.aestheticBeauty,format:m.contextTags.formatType,vibe:m.contextTags.vibeTime,just:m.contextTags.justification,
   fid:[['4K Transfer',m.physicalMediaFidelity.transferFidelity],['Audio Soundscape',m.physicalMediaFidelity.audioSoundscape],['Cinematography',m.physicalMediaFidelity.cinematographyScore]],
   plats:[m.studio],provRaw:m.prov,owned:!!m.owned,physFormat:m.physFormat||(m.owned?'4K':null)})),
  ...tvShows.map(t=>({kind:'tv',id:t.id,title:t.title,year:t.year,creator:t.creator,org:t.networkStreamer,span:t.totalSeasons+(t.totalSeasons===1?' season':' seasons'),genres:t.genres,crit:t.metrics.criticalScore,aud:t.metrics.audienceScore,
   tech:Math.round((t.physicalMediaFidelity.transferFidelity+t.physicalMediaFidelity.audioSoundscape+t.physicalMediaFidelity.cinematographyScore)/3),
-  dread:t.atmosphericDreadIndex,myst:t.ontologicalComplexity,format:t.formats.structuralType,vibe:t.contextTags.vibeTime,just:t.contextTags.justification,
+  dread:t.atmosphericDreadIndex,myst:t.ontologicalComplexity,warmth:t.emotionalWarmth,comedy:t.comicIntent,beauty:t.aestheticBeauty,format:t.formats.structuralType,vibe:t.contextTags.vibeTime,just:t.contextTags.justification,
   fid:[['Master Transfer',t.physicalMediaFidelity.transferFidelity],['Audio Soundscape',t.physicalMediaFidelity.audioSoundscape],['Cinematography',t.physicalMediaFidelity.cinematographyScore]],
   plats:[t.networkStreamer],provRaw:t.prov,owned:!!t.owned,physFormat:t.physFormat||(t.owned?'Box Set':null)})),
  ...videoGames.map(g=>({kind:'game',id:g.id,title:g.title,year:g.year,creator:g.creator,org:g.platformAvailability.join(' · '),span:'~'+g.averagePlaytime+' hrs',genres:g.genres,crit:g.metrics.criticalScore,aud:g.metrics.audienceScore,
   tech:Math.round((g.engineeringFidelity.engineGraphicsPerformance+g.engineeringFidelity.artDirection)/2),
-  dread:g.immersionTensionIndex,myst:g.systemsComplexity,format:'Interactive',vibe:g.contextTags.vibeTime,just:g.contextTags.justification,
+  dread:g.immersionTensionIndex,myst:g.systemsComplexity,warmth:g.emotionalWarmth,comedy:g.comicIntent,beauty:g.aestheticBeauty,format:'Interactive',vibe:g.contextTags.vibeTime,just:g.contextTags.justification,
   fid:[['Engine & Performance',g.engineeringFidelity.engineGraphicsPerformance],['Art Direction',g.engineeringFidelity.artDirection]],
   plats:g.platformAvailability.slice(),provRaw:g.prov,owned:PERSONAL_PROFILE.ownedGameIds&&PERSONAL_PROFILE.ownedGameIds.includes(g.id),physFormat:null})),
  ...books.map(bk=>({kind:'book',id:bk.id,title:bk.title,year:bk.year,creator:bk.creator,org:bk.publisher,span:bk.pages+' pages',genres:bk.genres,crit:bk.metrics.criticalScore,aud:bk.metrics.audienceScore,
   tech:Math.round((bk.craft.proseCraft+bk.craft.ideaDensity)/2),
-  dread:bk.atmosphericDreadIndex,myst:bk.ontologicalComplexity,format:bk.contextTags.formatType,vibe:bk.contextTags.vibeTime,just:bk.contextTags.justification,
+  dread:bk.atmosphericDreadIndex,myst:bk.ontologicalComplexity,warmth:bk.emotionalWarmth,comedy:bk.comicIntent,beauty:bk.aestheticBeauty,format:bk.contextTags.formatType,vibe:bk.contextTags.vibeTime,just:bk.contextTags.justification,
   fid:[['Prose Craft',bk.craft.proseCraft],['Idea Density',bk.craft.ideaDensity],['Edition Quality',bk.format==='Deluxe'?95:bk.format==='Hardcover'?85:75]],
   plats:[bk.publisher],bookFmt:bk.format,provRaw:bk.prov,owned:(parseInt(bk.id.slice(1))<=OWNED_BOOK_ID_CEILING||OB(bk.id)),physFormat:(parseInt(bk.id.slice(1))<=OWNED_BOOK_ID_CEILING?bk.format:(OB(bk.id)?OWNED_BOOKS_EXTRA[bk.id]:null))}))
 ];
@@ -167,7 +167,7 @@ function wlSetWatched(id,v){if(WL[id]){WL[id].watched=v;wlSave();}}
 function wlCount(){return Object.keys(WL).length;}
 
 /* ===================== STATE & HELPERS ===================== */
-const state={view:'controller',q:'',type:'all',struct:'all',plats:[],minGoat:0,genres:[],genresExclude:[],ownedOnly:false,notOwnedOnly:false,limit:100,idx:{snd:0,ref:0,ch:0,emo:0,awe:0,cozy:0,perf:0,icon:0,scary:0,real:0,reality:0,shock:0,sci:0,funny:0,hist:0,vibe2:0,crit:0,aud:0,tech:0,dread:0,myst:0,runtime:0},ratings:[],tierFilter:[],tierFilterExclude:[],yearMin:null,yearMax:null,combine:false,sort:'overall',w:{tech:0.85,dread:0.95,myst:0.90},creatorTab:'directors',creatorSearch:'',goatType:'all',goatTierFilter:'all',goatSort:'match',goatDeclaredQ:'',portraitScope:'all',collSearchQ:'',wlType:'all',wlSort:'added',wlSearchQ:'',creatorSearchScope:'all',creatorSort:'default'};
+const state={view:'controller',q:'',type:'all',struct:'all',plats:[],minGoat:0,genres:[],genresExclude:[],ownedOnly:false,notOwnedOnly:false,limit:100,idx:{snd:0,ref:0,ch:0,emo:0,awe:0,cozy:0,perf:0,icon:0,scary:0,real:0,reality:0,shock:0,sci:0,funny:0,hist:0,vibe2:0,crit:0,aud:0,tech:0,dread:0,myst:0,warmth:0,comedy:0,beauty:0,runtime:0},ratings:[],tierFilter:[],tierFilterExclude:[],yearMin:null,yearMax:null,combine:false,sort:'overall',w:{tech:0.85,dread:0.95,myst:0.90},creatorTab:'directors',creatorSearch:'',goatType:'all',goatTierFilter:'all',goatSort:'match',goatDeclaredQ:'',portraitScope:'all',collSearchQ:'',wlType:'all',wlSort:'added',wlSearchQ:'',creatorSearchScope:'all',creatorSort:'default'};
 const $=s=>document.querySelector(s),$$=s=>Array.from(document.querySelectorAll(s));
 const on=(sel,ev,fn)=>{const el=$(sel);if(el)el.addEventListener(ev,fn);else console.warn('missing element:',sel);};
 const esc=s=>String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
@@ -178,9 +178,9 @@ const esc=s=>String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'
 // so a row of themes reads as genuinely different colors, not one tint repeated.
 const THEME_PALETTE=['#a78bfa','#38bdf8','#fb7185','#4ade80','#fbbf24','#e879f9','#2dd4bf','#f97316','#818cf8','#facc15','#f472b6','#84cc16','#22d3ee','#ef4444'];
 function themeColor(s){let h=0;for(let i=0;i<s.length;i++)h=(h*31+s.charCodeAt(i))|0;return THEME_PALETTE[Math.abs(h)%THEME_PALETTE.length];}
-const SORTS={overall:(a,b)=>(b.ovr-a.ovr)||(b.crit-a.crit),cosmic:(a,b)=>(b.ch-a.ch)||(b.dread-a.dread),sound:(a,b)=>(b.snd-a.snd)||(b.crit-a.crit),ref4k:(a,b)=>(b.ref-a.ref)||(b.crit-a.crit),emotion:(a,b)=>(b.emo-a.emo)||(b.crit-a.crit),awe:(a,b)=>(b.awe-a.awe)||(b.crit-a.crit),comfort:(a,b)=>(b.cozy-a.cozy)||(b.aud-a.aud),perf:(a,b)=>(b.perf-a.perf)||(b.crit-a.crit),icon:(a,b)=>(b.icon-a.icon)||(b.crit-a.crit),scary:(a,b)=>(b.scary-a.scary)||(b.dread-a.dread),real:(a,b)=>(b.real-a.real)||(b.crit-a.crit),reality:(a,b)=>(b.reality-a.reality)||(b.myst-a.myst),shock:(a,b)=>(b.shock-a.shock)||(b.dread-a.dread),sci:(a,b)=>(b.sci-a.sci)||(b.myst-a.myst),funny:(a,b)=>(b.funny-a.funny)||(b.aud-a.aud),hist:(a,b)=>(b.hist-a.hist)||(b.crit-a.crit),vibe2:(a,b)=>(b.vibe2-a.vibe2)||(b.tech-a.tech),blend:(a,b)=>(bespokeScore(b)-bespokeScore(a))||(b.crit-a.crit),crit:(a,b)=>b.crit-a.crit,aud:(a,b)=>b.aud-a.aud,tech:(a,b)=>b.tech-a.tech,dread:(a,b)=>b.dread-a.dread,myst:(a,b)=>b.myst-a.myst,yearNew:(a,b)=>b.year-a.year,yearOld:(a,b)=>a.year-b.year,title:(a,b)=>a.title.localeCompare(b.title),tier:(a,b)=>(tierRank(b)-tierRank(a))||(b.gm-a.gm)};
+const SORTS={overall:(a,b)=>(b.ovr-a.ovr)||(b.crit-a.crit),cosmic:(a,b)=>(b.ch-a.ch)||(b.dread-a.dread),sound:(a,b)=>(b.snd-a.snd)||(b.crit-a.crit),ref4k:(a,b)=>(b.ref-a.ref)||(b.crit-a.crit),emotion:(a,b)=>(b.emo-a.emo)||(b.crit-a.crit),awe:(a,b)=>(b.awe-a.awe)||(b.crit-a.crit),comfort:(a,b)=>(b.cozy-a.cozy)||(b.aud-a.aud),perf:(a,b)=>(b.perf-a.perf)||(b.crit-a.crit),icon:(a,b)=>(b.icon-a.icon)||(b.crit-a.crit),scary:(a,b)=>(b.scary-a.scary)||(b.dread-a.dread),real:(a,b)=>(b.real-a.real)||(b.crit-a.crit),reality:(a,b)=>(b.reality-a.reality)||(b.myst-a.myst),shock:(a,b)=>(b.shock-a.shock)||(b.dread-a.dread),sci:(a,b)=>(b.sci-a.sci)||(b.myst-a.myst),funny:(a,b)=>(b.funny-a.funny)||(b.aud-a.aud),hist:(a,b)=>(b.hist-a.hist)||(b.crit-a.crit),vibe2:(a,b)=>(b.vibe2-a.vibe2)||(b.tech-a.tech),blend:(a,b)=>(bespokeScore(b)-bespokeScore(a))||(b.crit-a.crit),crit:(a,b)=>b.crit-a.crit,aud:(a,b)=>b.aud-a.aud,tech:(a,b)=>b.tech-a.tech,dread:(a,b)=>b.dread-a.dread,myst:(a,b)=>b.myst-a.myst,warmth:(a,b)=>(b.warmth||0)-(a.warmth||0)||(b.crit-a.crit),comedy:(a,b)=>(b.comedy||0)-(a.comedy||0)||(b.aud-a.aud),beauty:(a,b)=>(b.beauty||0)-(a.beauty||0)||(b.crit-a.crit),yearNew:(a,b)=>b.year-a.year,yearOld:(a,b)=>a.year-b.year,title:(a,b)=>a.title.localeCompare(b.title),tier:(a,b)=>(tierRank(b)-tierRank(a))||(b.gm-a.gm)};
 
-const IDX_KEYS=['snd','ref','ch','emo','awe','cozy','perf','icon','scary','real','reality','shock','sci','funny','hist','vibe2','crit','aud','tech','dread','myst'];
+const IDX_KEYS=['snd','ref','ch','emo','awe','cozy','perf','icon','scary','real','reality','shock','sci','funny','hist','vibe2','crit','aud','tech','dread','myst','warmth','comedy','beauty'];
 function filtered(){const q=state.q.trim().toLowerCase();
  return ALL.filter(it=>{
   if(state.type!=='all'&&it.kind!==state.type)return false;
@@ -198,7 +198,13 @@ function filtered(){const q=state.q.trim().toLowerCase();
   if(state.notOwnedOnly&&it.owned)return false;
   if(state.tierFilter.length&&!state.tierFilter.some(t=>(t==='gold'&&it.goat)||(t==='silver'&&it.silver)||(t==='bronze'&&it.bronze)))return false;
   if(state.tierFilterExclude.length&&state.tierFilterExclude.some(t=>(t==='gold'&&it.goat)||(t==='silver'&&it.silver)||(t==='bronze'&&it.bronze)))return false;
-  for(const k of IDX_KEYS){if(state.idx[k]>0&&it[k]<state.idx[k])return false;}
+  // it[k]===undefined (a construct genuinely unscored for this work -- flagged, not guessed at,
+  // per the rubric) must FAIL a minimum-threshold filter, not silently pass it: undefined<N is
+  // false in JS, so a naive threshold check would let an unscored work through every "≥ N" filter
+  // as if it had already cleared the bar. Every pre-existing IDX_KEYS entry always had a real
+  // value, so this never came up before emotionalWarmth/comicIntent/aestheticBeauty, which can be
+  // legitimately absent for a work RUBRIC.md's own evidence gate couldn't score.
+  for(const k of IDX_KEYS){if(state.idx[k]>0&&(it[k]===undefined||it[k]<state.idx[k]))return false;}
   if(state.yearMin!=null&&it.year<state.yearMin)return false;
   if(state.yearMax!=null&&it.year>state.yearMax)return false;
   if(q){const hay=(it.title+' '+it.creator+' '+it.org+' '+(it.plats||[]).join(' ')+' '+it.genres.join(' ')+' '+(it.fam||[]).join(' ')+' '+it.vibe+' '+(it.rating||'')+' '+it.year).toLowerCase();if(!hay.includes(q))return false;}
@@ -679,7 +685,7 @@ function renderActiveBar(){
  state.ratings.forEach(r=>chips.push(X(esc(r),'rating:'+r)));
  if(state.minGoat>0)chips.push(X('★ GOAT ≥'+state.minGoat,'minGoat'));
  if(state.idx.runtime>0)chips.push(X('Runtime ≤'+state.idx.runtime+'m','idx:runtime'));
- const IL={snd:'Soundtrack',ref:'4K Ref',ch:'◉ Cosmic',emo:'Emotional',awe:'Awe',cozy:'Comfort',perf:'Performances',icon:'Iconic',scary:'Scariest',real:'Realistic',reality:'Reality-Altering',dread:'Dread',myst:'Mind',shock:'Shocking',sci:'Scientific',funny:'Funniest',hist:'Historical',vibe2:'Vibe',crit:'Critical',aud:'Audience',tech:'Technical Craft'};
+ const IL={snd:'Soundtrack',ref:'4K Ref',ch:'◉ Cosmic',emo:'Emotional',awe:'Awe',cozy:'Comfort',perf:'Performances',icon:'Iconic',scary:'Scariest',real:'Realistic',reality:'Reality-Altering',dread:'Dread',myst:'Mind',shock:'Shocking',sci:'Scientific',funny:'Funniest',hist:'Historical',vibe2:'Vibe',crit:'Critical',aud:'Audience',tech:'Technical Craft',warmth:'Warmth',comedy:'Comic Intent',beauty:'Beauty'};
  Object.keys(IL).forEach(k=>{if(state.idx[k]>0)chips.push(X(IL[k]+' ≥'+state.idx[k],'idx:'+k));});
  if(state.yearMin!=null||state.yearMax!=null)chips.push(X('Year '+(state.yearMin||'←')+'–'+(state.yearMax||'→'),'year'));
  if(state.ownedOnly)chips.push(X('◆ Owned only','owned'));
@@ -1351,6 +1357,14 @@ function recomputeTasteScores(){
     every other boost here is monotonic, and a taste signal that reverses at the top of its own
     scale is a bug in any reading. */
  if(x.dread>80){var db=(x.dread-80)/10;a+=db;br.push(['dread','Atmospheric dread',Math.round(db*10)/10]);}
+ // Same footing as the complexity boost above (threshold 70, monotonic, no ceiling for the same
+ // reason dread's lost its cliff): emotionalWarmth/comicIntent/aestheticBeauty are core rubric
+ // constructs same as dread and complexity, not lesser ones, so a work strongly expressing any of
+ // them should pull gm the same way. `x.warmth>70` etc. is naturally false (not a crash) for a
+ // work RUBRIC.md's own evidence gate flagged rather than scored -- no bonus, not a guessed one.
+ if(x.warmth>70){var wb=(x.warmth-70)/6;a+=wb;br.push(['warmth','Emotional warmth',Math.round(wb*10)/10]);}
+ if(x.comedy>70){var cb=(x.comedy-70)/6;a+=cb;br.push(['comedy','Comic intent',Math.round(cb*10)/10]);}
+ if(x.beauty>70){var eb=(x.beauty-70)/6;a+=eb;br.push(['beauty','Aesthetic beauty',Math.round(eb*10)/10]);}
  x.gm=Math.max(40,Math.min(99,Math.round(base*0.5+a*1.2+14)));
  x.goat=false;x.silver=false;x.bronze=false;x.gmOverride=null;x.ownedBoost=false;
  x.gmBase=Math.round(base*0.5+14);x.gmBoosts=br;x.gmBoostTotal=Math.round(a*1.2*10)/10;
@@ -4319,7 +4333,7 @@ on('#creatorGrid','keydown',e=>{if(e.key!=='Enter'&&e.key!==' ')return;const f=e
 // Alphabetical by label -- both Advanced Filters' unpinned list and the pinned main row (which
 // filters this same array) start in a-z order, so a slider's position is predictable without
 // having to scan every entry first.
-const INDEX_DEFS=[['ref','4K Reference','#818cf8'],['dread','Atmospheric Dread / Immersion','#fb7185'],['aud','Audience Score','#4ade80'],['awe','Awe / Spectacle','#fbbf24'],['perf','Best Performances','#fda4af'],['cozy','Comfort / Cozy','#34d399'],['ch','Cosmic Horror','#c084fc'],['crit','Critical Score','#94a3b8'],['emo','Emotional / Sad','#f0abfc'],['funny','Funniest','#fde047'],['shock','Genuine Shock','#fb923c'],['hist','Historically Accurate','#a3e635'],['icon','Iconicness','#fcd34d'],['myst','Ontological / Systems Complexity','#2dd4bf'],['real','Realism','#86efac'],['reality','Reality-Altering','#c4b5fd'],['runtime','Runtime (movies)','#38bdf8',{max:240,step:5,cap:true,zeroLabel:'Any',unit:'m'}],['scary','Scariest','#f87171'],['sci','Scientific','#67e8f9'],['snd','Soundtrack / Audio','#7dd3fc'],['tech','Technical Craft','#a5b4fc'],['vibe2','Vibe / Atmosphere','#e879f9']];
+const INDEX_DEFS=[['ref','4K Reference','#818cf8'],['beauty','Aesthetic Beauty','#f472b6'],['dread','Atmospheric Dread / Immersion','#fb7185'],['aud','Audience Score','#4ade80'],['awe','Awe / Spectacle','#fbbf24'],['perf','Best Performances','#fda4af'],['comedy','Comic Intent / Wit','#facc15'],['cozy','Comfort / Cozy','#34d399'],['ch','Cosmic Horror','#c084fc'],['crit','Critical Score','#94a3b8'],['emo','Emotional / Sad','#f0abfc'],['funny','Funniest','#fde047'],['shock','Genuine Shock','#fb923c'],['hist','Historically Accurate','#a3e635'],['icon','Iconicness','#fcd34d'],['myst','Ontological / Systems Complexity','#2dd4bf'],['real','Realism','#86efac'],['reality','Reality-Altering','#c4b5fd'],['runtime','Runtime (movies)','#38bdf8',{max:240,step:5,cap:true,zeroLabel:'Any',unit:'m'}],['scary','Scariest','#f87171'],['sci','Scientific','#67e8f9'],['snd','Soundtrack / Audio','#7dd3fc'],['tech','Technical Craft','#a5b4fc'],['vibe2','Vibe / Atmosphere','#e879f9'],['warmth','Warmth / Care','#fdba74']];
 // Per-slider options, for the one slider that is not a plain 0-100 floor. Runtime is a CAP in
 // minutes whose 0 means "no limit", so it needs its own max/step and reads as "Any" or "120m"
 // rather than a bare number. Everything else falls through to the defaults.
@@ -4367,7 +4381,7 @@ function pinnedIdxSet(){return new Set(PERSONAL_PROFILE.pinnedIdx||DEFAULT_PINNE
 // Per-index tooltip text where the label alone doesn't make the metric's meaning obvious --
 // Technical Craft in particular blends different components per media type and otherwise looks
 // like an unexplained duplicate of 4K Reference / Soundtrack.
-const IDX_DESC={dread:'Atmospheric dread index for film & TV \u00b7 immersion / tension index for games.',myst:'Ontological complexity for film & TV \u00b7 systems complexity for games. Puzzle-boxes, recursive timelines, deep mechanics.',runtime:'Caps movie runtime -- TV, games and books are unaffected since there is no one comparable length metric across them. Slide to 240+ or leave at Any to turn it off.',tech:'A broad craft average, distinct from the more specific 4K Reference and Soundtrack sliders below. Movies & TV: mean of 4K transfer fidelity, audio soundscape and cinematography. Games: mean of engine/graphics performance and art direction. Books: mean of prose craft and idea density.'};
+const IDX_DESC={dread:'Atmospheric dread index for film & TV \u00b7 immersion / tension index for games.',myst:'Ontological complexity for film & TV \u00b7 systems complexity for games. Puzzle-boxes, recursive timelines, deep mechanics.',warmth:'How much the work extends care, toward its people and toward you. Independent of happiness, comedy and dread -- a devastating film can score high, a cheerful one can score low. Not yet scored for every work; an unscored work will not pass this filter at any threshold above 0.',comedy:'How much the work is trying to be funny, and how well it lands -- independent of genre and of warmth. A witty drama can outscore a leaden comedy. Not yet scored for every work; an unscored work will not pass this filter at any threshold above 0.',beauty:'How beautiful the work is as a made object -- composition, imagery, sound, language, design -- independent of subject matter, budget or how pleasant it is to sit with. Not yet scored for every work; an unscored work will not pass this filter at any threshold above 0.',runtime:'Caps movie runtime -- TV, games and books are unaffected since there is no one comparable length metric across them. Slide to 240+ or leave at Any to turn it off.',tech:'A broad craft average, distinct from the more specific 4K Reference and Soundtrack sliders below. Movies & TV: mean of 4K transfer fidelity, audio soundscape and cinematography. Games: mean of engine/graphics performance and art direction. Books: mean of prose craft and idea density.'};
 function sliderBlockHTML(d,pinned){
  var star='<button type="button" class="pinIdxBtn" data-k="'+d[0]+'" title="'+(pinned?'Unpin from the main filter row':'Pin to the main filter row, so it always shows without opening Advanced Filters')+'" style="cursor:pointer;background:none;border:none;padding:0;line-height:1;color:'+(pinned?d[2]:'#475569')+'">📌</button>';
  var desc=IDX_DESC[d[0]];
@@ -4461,7 +4475,7 @@ on('#activeBar','click',e=>{
 function clearAllFilters(){
  Object.assign(state,{q:'',type:'all',struct:'all',plats:[],minGoat:0,genres:[],genresExclude:[],ratings:[],ownedOnly:false,notOwnedOnly:false,tierFilter:[],tierFilterExclude:[],yearMin:null,yearMax:null,combine:false});
  buildTierFilterChips();
- state.idx={snd:0,ref:0,ch:0,emo:0,awe:0,cozy:0,perf:0,icon:0,scary:0,real:0,reality:0,shock:0,sci:0,funny:0,hist:0,vibe2:0,crit:0,aud:0,tech:0,dread:0,myst:0,runtime:0};state.ratings=[];
+ state.idx={snd:0,ref:0,ch:0,emo:0,awe:0,cozy:0,perf:0,icon:0,scary:0,real:0,reality:0,shock:0,sci:0,funny:0,hist:0,vibe2:0,crit:0,aud:0,tech:0,dread:0,myst:0,warmth:0,comedy:0,beauty:0,runtime:0};state.ratings=[];
  $('#q').value='';var ss=$('#structSel');if(ss)ss.value='all';updatePlatLabel();
  var mgs=$('#minGoat');if(mgs)mgs.value=0;var mgv2=$('#minGoatV');if(mgv2)mgv2.textContent='0';
  $$('#typeSeg button').forEach(x=>x.classList.toggle('on',x.dataset.type==='all'));

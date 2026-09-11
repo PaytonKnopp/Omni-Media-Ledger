@@ -251,17 +251,16 @@ function applyDecisions() {
     }
 
     // Stamp prov.indices:"rubric-v1" on every record this run gave a value for EVERY rubric field
-    // that applies to its medium -- deliberately excluding atmosphericDreadIndex, which is staged
-    // separately (RUBRIC.md's proposed mid-band anchor is not yet ratified) and out of scope for
-    // this pass. A record is "scored against the rubric" only once it has no gap; a record missing
-    // even one applicable field is still a partial pass, same reasoning apply-facts.js uses for
-    // "sourced" (all hard facts, not most of them). Preserves whatever `facts`/`checked`/`src` the
-    // record's prov already carries (Phase A/B verified this independently of index scoring, and
-    // this script has no business overwriting that); defaults `facts` to "estimated" -- explicit,
-    // not just absent -- when the record has no prov stamp at all yet.
-    const EXCLUDED_THIS_PASS = new Set(['atmosphericDreadIndex']);
+    // that applies to its medium. atmosphericDreadIndex's mid-band anchor (The Cove, m660, 35) was
+    // ratified by Payton on 2026-09-11, so it is back in scope as the eighth construct -- no field
+    // is excluded from the completeness check any more. A record is "scored against the rubric"
+    // only once it has no gap; a record missing even one applicable field is still a partial pass,
+    // same reasoning apply-facts.js uses for "sourced" (all hard facts, not most of them). Preserves
+    // whatever `facts`/`checked`/`src` the record's prov already carries (Phase A/B verified that
+    // independently of index scoring, and this script has no business overwriting it); defaults
+    // `facts` to "estimated" -- explicit, not just absent -- when the record has no prov stamp yet.
     const scopedFields = Object.entries(RUBRIC_FIELDS)
-      .filter(([f, d]) => d.media.includes(key) && !EXCLUDED_THIS_PASS.has(f))
+      .filter(([f, d]) => d.media.includes(key))
       .map(([f]) => f);
     const byId = {};
     list.forEach(d => (byId[d.id] = byId[d.id] || []).push(d));

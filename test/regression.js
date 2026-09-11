@@ -2331,13 +2331,18 @@ async function runTabFiltersFlow(browser, file) {
   // visible where works actually sit on the scale.
   const boostMonotonic = await page.evaluate(() => {
     const bad = [];
-    ['dread', 'myst', 'tech'].forEach(field => {
-      const label = { dread: 'Atmospheric dread', myst: 'Ontological depth', tech: 'Technical craft' }[field];
+    ['dread', 'myst', 'tech', 'warmth', 'comedy', 'beauty'].forEach(field => {
+      const label = { dread: 'Atmospheric dread', myst: 'Ontological depth', tech: 'Technical craft',
+        warmth: 'Emotional warmth', comedy: 'Comic intent', beauty: 'Aesthetic beauty' }[field];
       const got = x => {
         const b = (x.gmBoosts || []).find(e => e[1] === label);
         return b ? b[2] : 0;
       };
-      const pts = ALL.map(x => ({ v: x[field], b: got(x), t: x.title }))
+      // A work genuinely unscored for this construct (undefined, flagged rather than guessed at)
+      // is excluded from the monotonic check entirely, same reasoning as the filter fix in
+      // ledger-app.js: undefined has no defensible position on the scale, so sorting it in would
+      // just be comparing "we don't know" against real values as though 0 were a real answer.
+      const pts = ALL.filter(x => x[field] !== undefined).map(x => ({ v: x[field], b: got(x), t: x.title }))
         .sort((a, b) => a.v - b.v);
       for (let i = 1; i < pts.length; i++) {
         if (pts[i].b < pts[i - 1].b - 1e-9) {
