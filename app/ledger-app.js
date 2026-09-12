@@ -1366,29 +1366,44 @@ function recomputeTasteScores(){
  BOOK_CREATOR_BOOST=PERSONAL_PROFILE.bookCreatorBoost||[];
  BOOK_AFFINITY=PERSONAL_PROFILE.bookAffinity||{};
  ALL.forEach(x=>{
- let base=0.5*x.crit+0.2*x.aud+0.3*x.tech,a=0;const br=[];
- GOAT_CREATOR_BOOST.forEach(c=>{if(x.creator.includes(c[0])){a+=c[1];br.push(['creator',c[0],c[1]]);}});
- if(x.kind==='book'){BOOK_CREATOR_BOOST.forEach(c=>{if(x.creator.includes(c[0])){a+=c[1];br.push(['author',c[0],c[1]]);}});}
- const gs=x.genres.join(' ').toLowerCase();
- GOAT_GENRE_BOOST.forEach(g=>{if(genreMatches(x,g[0])){a+=g[1];br.push(['genre',g[0],g[1]]);}});
- const vb=GOAT_VIBE_BOOST[x.vibe]||0;if(vb){a+=vb;br.push(['vibe',x.vibe,vb]);}
- if(x.myst>70){var mb=(x.myst-70)/6;a+=mb;br.push(['complexity','Ontological depth',Math.round(mb*10)/10]);}
- if(x.tech>85){var tb=(x.tech-85)/5;a+=tb;br.push(['craft','Technical craft',Math.round(tb*10)/10]);}
+ let base=0.5*x.crit+0.2*x.aud+0.3*x.tech;const br=[];
+ // Taste-match signals (creator/author, genre, vibe) are the ones that STACK: a film matching
+ // three of a person's boosted genres plus their boosted vibe used to add all four boosts
+ // together with no limit, so a broad, well-covered taste profile routinely pushed hundreds of
+ // titles past the gm ceiling at once -- collapsing exactly the differentiation ("Dune at 96,
+ // Blade Runner at 95, a real taper") a match score exists to provide. tasteRaw accumulates the
+ // same way as before; it is the COMBINATION step below that changed, not any individual boost.
+ let tasteRaw=0,qualityRaw=0;
+ GOAT_CREATOR_BOOST.forEach(c=>{if(x.creator.includes(c[0])){tasteRaw+=c[1];br.push(['creator',c[0],c[1]]);}});
+ if(x.kind==='book'){BOOK_CREATOR_BOOST.forEach(c=>{if(x.creator.includes(c[0])){tasteRaw+=c[1];br.push(['author',c[0],c[1]]);}});}
+ GOAT_GENRE_BOOST.forEach(g=>{if(genreMatches(x,g[0])){tasteRaw+=g[1];br.push(['genre',g[0],g[1]]);}});
+ const vb=GOAT_VIBE_BOOST[x.vibe]||0;if(vb){tasteRaw+=vb;br.push(['vibe',x.vibe,vb]);}
+ if(x.myst>70){var mb=(x.myst-70)/6;qualityRaw+=mb;br.push(['complexity','Ontological depth',Math.round(mb*10)/10]);}
+ if(x.tech>85){var tb=(x.tech-85)/5;qualityRaw+=tb;br.push(['craft','Technical craft',Math.round(tb*10)/10]);}
  /* No upper bound. This used to read `x.dread>80&&x.dread<=95`, which meant the boost climbed to
     +1.5 at dread 95 and then fell off a cliff to zero at 96 -- so the sixteen most dread-soaked
     works in the corpus (The Shining 97, The Thing 98, Hereditary 99, Come and See 99) were the
     only ones that got nothing for it. A threshold with a ceiling reads like a range check, but
     every other boost here is monotonic, and a taste signal that reverses at the top of its own
     scale is a bug in any reading. */
- if(x.dread>80){var db=(x.dread-80)/10;a+=db;br.push(['dread','Atmospheric dread',Math.round(db*10)/10]);}
+ if(x.dread>80){var db=(x.dread-80)/10;qualityRaw+=db;br.push(['dread','Atmospheric dread',Math.round(db*10)/10]);}
  // Same footing as the complexity boost above (threshold 70, monotonic, no ceiling for the same
  // reason dread's lost its cliff): emotionalWarmth/comicIntent/aestheticBeauty are core rubric
  // constructs same as dread and complexity, not lesser ones, so a work strongly expressing any of
  // them should pull gm the same way. `x.warmth>70` etc. is naturally false (not a crash) for a
  // work RUBRIC.md's own evidence gate flagged rather than scored -- no bonus, not a guessed one.
- if(x.warmth>70){var wb=(x.warmth-70)/6;a+=wb;br.push(['warmth','Emotional warmth',Math.round(wb*10)/10]);}
- if(x.comedy>70){var cb=(x.comedy-70)/6;a+=cb;br.push(['comedy','Comic intent',Math.round(cb*10)/10]);}
- if(x.beauty>70){var eb=(x.beauty-70)/6;a+=eb;br.push(['beauty','Aesthetic beauty',Math.round(eb*10)/10]);}
+ if(x.warmth>70){var wb=(x.warmth-70)/6;qualityRaw+=wb;br.push(['warmth','Emotional warmth',Math.round(wb*10)/10]);}
+ if(x.comedy>70){var cb=(x.comedy-70)/6;qualityRaw+=cb;br.push(['comedy','Comic intent',Math.round(cb*10)/10]);}
+ if(x.beauty>70){var eb=(x.beauty-70)/6;qualityRaw+=eb;br.push(['beauty','Aesthetic beauty',Math.round(eb*10)/10]);}
+ // Taste-match signals saturate (diminishing returns, asymptotic to TASTE_CAP) instead of adding
+ // linearly without limit -- matching a second or third boosted genre still helps, meaningfully
+ // less each time, rather than stacking without bound. Per-work quality signals (complexity,
+ // craft, dread, warmth, comedy, beauty) stay linear and uncapped: those already only fire past a
+ // real rubric threshold and are naturally small and rare enough not to need saturation, and
+ // flattening a work's own measured qualities would blur real differences RUBRIC.md measured.
+ const TASTE_CAP=22,TASTE_SCALE=14;
+ const tasteEffective=TASTE_CAP*(1-Math.exp(-tasteRaw/TASTE_SCALE));
+ const a=tasteEffective+qualityRaw;
  x.gm=Math.max(40,Math.min(99,Math.round(base*0.5+a*1.2+14)));
  x.goat=false;x.silver=false;x.bronze=false;x.gmOverride=null;x.ownedBoost=false;
  x.gmBase=Math.round(base*0.5+14);x.gmBoosts=br;x.gmBoostTotal=Math.round(a*1.2*10)/10;
