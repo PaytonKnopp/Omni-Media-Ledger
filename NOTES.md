@@ -960,6 +960,20 @@ Both replacements kept their old `c25`/`c72`/`c75` id slots rather than renumber
 
 ---
 
+## Phase 44 — GOAT Profile recommendations: the six sample-only categories stop leaking onto every account
+
+Payton flagged it directly, looking at their own GOAT Profile tab: the recommendations panel shows ten categories (Movies, Books, TV Series, Video Games, Directors, Actors, Composers, Cinematographers, Music Artists, YouTube), but only the first four are things an account can actually declare a favorite in — there's no search-and-declare UI for the other six anywhere in the app. Those six were always Payton's own hand-picked names (Denis Villeneuve, Roger Deakins, Johnny Cash, and so on); only the score next to each name was ever recomputed per account (see item 9/10 below and Phases 4/5/7/8), never the list of names itself. Showing all ten on every account made the six non-core ones look like personalized picks when they were really just Payton's taste weights reapplied to Payton's own list.
+
+**Fix.** `isPaytonSampleProfile()` (`app/ledger-app.js`, next to `RECS_KIND_BY_CAT`) decides whether an account is Payton's own or a device-local copy that still mimics it: true if the profile carries a `pkSampleOrigin` flag, if nothing has ever been saved to this browser yet (still running the hardcoded defaults), or if the signed-in cloud handle is literally `payton`. `renderGoat()` now filters `goatProfile.recs` down to the four `RECS_KIND_BY_CAT` categories for everyone else. `pkSampleOrigin` is set once, at the moment "Start from the PK Sample" clones a profile (live or hardcoded) into `localStorage` — it's an ordinary field on the profile object, so it round-trips through Export/Import and cloud sync exactly like every other key, and "Reset to Blank" clears it along with everything else.
+
+**Deliberately left alone:** the `declared` section (your stated favorites) never needed this fix — since there's no UI to declare a Director/Actor/Composer/Cinematographer/Music Artist/YouTuber favorite for yourself, `declaredCategoriesToRender()` already only ever showed those six for Payton's own hardcoded canon. Only the separate `recs` (recommendations) panel was leaking them onto every other account.
+
+**Also:** Quick Tips' GOAT Profile section now explains the split, so someone with a fresh account isn't left wondering why they only see four categories where a screenshot or the sample might show ten.
+
+**Testing.** `node test/regression.js` run clean against the changed `index.html`/`app/ledger-app.js`.
+
+---
+
 ## Ideas / next steps
 
 Roughly in order of value:
@@ -972,7 +986,7 @@ Roughly in order of value:
 6. **Raise data provenance.** Replace estimated scores with sourced ones where possible; the provenance flag already tracks which are which. Still open — the `PROV_CEIL` mechanism correctly flags anything past the original hand-scored ledger as "curated estimate," which is honest, but doesn't replace any of those estimates with real sourced figures.
 7. ~~**Export/import of `localStorage`.**~~ Done, fully — see Phase 5 above. Export/Import now bundle `omniLedgerWatchlist`, `omniLedgerTheme`, and `omniLedgerDensity` alongside the profile; a single exported file is a complete snapshot of a person.
 8. ~~**A real "blank first run" for a friend's copy.**~~ Done — see Phase 3 above. First load in any browser now asks (quick-rate / search & pick / sample / blank / import) via a blocking gate rather than silently inheriting Payton's defaults.
-9. ~~**Genericize `goatProfile.recs`.**~~ Done for Movies/Books/TV Series/Video Games (Phase 4) and for Directors (Phase 5, genuinely computed from corpus filmography). Actors/Composers/Cinematographers are corpus-linked where possible (Phase 7); Music Artists/YouTube use genre+vibe overlap (Phase 5, refined Phase 8) since no corpus category exists to link them to.
+9. ~~**Genericize `goatProfile.recs`.**~~ Done for Movies/Books/TV Series/Video Games (Phase 4) and for Directors (Phase 5, genuinely computed from corpus filmography). Actors/Composers/Cinematographers are corpus-linked where possible (Phase 7); Music Artists/YouTube use genre+vibe overlap (Phase 5, refined Phase 8) since no corpus category exists to link them to. Since none of those six ever became a real per-account recommendation (only the score reapplies per account, never the list of names), Phase 44 stopped showing them to anyone but Payton's own account/PK Sample rather than continue presenting them as personalized.
 10. **Finish the creator/composer/cinematographer/artist dataset.** Actors are now 10/10 corpus-linked (Phase 9, most averaging multiple real films). Composers and Cinematographers are still at Phase 7's level (7/10 and 9/10, single work each) — the same multi-work deepening Phase 9 did for Actors hasn't been done for them yet, and would be similarly tractable. Music Artists and YouTube still can't be corpus-linked at all — the corpus has no music-album or video-essay category. A full fix for those two needs either a new corpus category (a real scope increase) or a structured per-person discography/filmography record in the shape of the existing 80-entry Creator Archives.
 11. ~~**Bundle the watchlist/theme/density keys into Export/Import too.**~~ Done — see item 7 above.
 12. ~~**In-app profile editor: reach parity with the full `PERSONAL_PROFILE` schema.**~~ Done — see Phase 7 above. Every field except `cosmicHorrorCanon` is now click-editable.
