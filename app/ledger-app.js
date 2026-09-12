@@ -3946,7 +3946,15 @@ const CHANGELOG=[
  var loaded=false;
  var allItems=[];
  var activeTab='open';
+ var activeCat='feedback';
+ var myVotes={};
  var RESOLVED_STATUSES=['shipped','declined'];
+ var CAT_LABEL={feedback:'Feature &amp; bug suggestions',media:'Media requests'};
+ var CAT_DESC={
+  feedback:'Bugs, ideas, missing features — anything. Visible to everyone using this app, not just the person who set it up.',
+  media:'Missing a movie, show, or book? Request it here so it can be added and factored into taste matching. Visible to everyone using this app.'
+ };
+ var CAT_PLACEHOLDER={feedback:'e.g. It would be great if…',media:'e.g. Dune (2021), or just the title'};
  function acct(){return (typeof window.__omniAcct==='function')?window.__omniAcct():null;}
  function showError(msg){var e=$('#suggestError');if(!e)return;e.textContent=msg;e.classList.toggle('hidden',!msg);}
  function open(){
@@ -3969,6 +3977,23 @@ const CHANGELOG=[
   document.querySelectorAll('#suggestTabs .suggestTab').forEach(function(b){b.classList.toggle('on',b.dataset.tab===tab);});
   renderList(allItems);
  }
+ function setCat(cat){
+  activeCat=cat;
+  document.querySelectorAll('#suggestCatTabs .suggestCatTab').forEach(function(b){b.classList.toggle('on',b.dataset.cat===cat);});
+  var mediaRow=$('#suggestMediaRow');if(mediaRow)mediaRow.classList.toggle('hidden',cat!=='media');
+  var desc=$('#suggestCatDesc');if(desc)desc.innerHTML=CAT_DESC[cat]||'';
+  var label=$('#suggestListLabel');if(label)label.innerHTML=CAT_LABEL[cat]||'';
+  var ta=$('#suggestText');if(ta)ta.placeholder=CAT_PLACEHOLDER[cat]||'';
+  renderList(allItems);
+ }
+ // Media requests are stored as plain suggestions text prefixed with "[Type] " (e.g. "[Movie] Dune
+ // (2021)") rather than a separate column -- one free-text field covers every media type without a
+ // schema change, and the prefix is only ever parsed back out for display, never relied on for logic.
+ function parseMediaText(text){
+  var m=/^\[([^\]]{1,20})\]\s*/.exec(text||'');
+  if(!m)return{type:null,body:text||''};
+  return{type:m[1],body:text.slice(m[0].length)};
+ }
  // Edit stays limited to your own suggestion (editing someone else's wording doesn't make sense),
  // same honor-system trust model as everywhere else in this app -- a handle is a name someone
  // typed, not a verified identity, so this is a UI convenience, not a real security boundary.
@@ -3979,28 +4004,35 @@ const CHANGELOG=[
  // restrictive than the backend for no real reason.
  function renderList(items){
   var list=$('#suggestList');if(!list)return;
-  var openCount=items.filter(function(it){return RESOLVED_STATUSES.indexOf(it.status)<0;}).length;
-  var resolvedCount=items.length-openCount;
+  var inCat=items.filter(function(it){return (it.kind||'feedback')===activeCat;});
+  var openCount=inCat.filter(function(it){return RESOLVED_STATUSES.indexOf(it.status)<0;}).length;
+  var resolvedCount=inCat.length-openCount;
   var oc=$('#suggestTabOpenCount'),rc=$('#suggestTabResolvedCount');
   if(oc)oc.textContent=openCount;
   if(rc)rc.textContent=resolvedCount;
-  var shown=items.filter(function(it){
+  var shown=inCat.filter(function(it){
    var isResolved=RESOLVED_STATUSES.indexOf(it.status)>=0;
    return activeTab==='resolved'?isResolved:!isResolved;
-  });
+  }).sort(function(x,y){return(y.votes||0)-(x.votes||0);});
   if(!shown.length){
-   list.innerHTML='<div class="text-[12px] text-slate-500">'+(activeTab==='resolved'?'Nothing resolved yet.':'Nothing outstanding — be the first to suggest something.')+'</div>';
+   var emptyMsg=activeTab==='resolved'?'Nothing resolved yet.':(activeCat==='media'?'No media requests yet — be the first to ask for a title.':'Nothing outstanding — be the first to suggest something.');
+   list.innerHTML='<div class="text-[12px] text-slate-500">'+emptyMsg+'</div>';
    return;
   }
   var a=acct();var myHandle=a&&a.handle;
   list.innerHTML=shown.map(function(it){
    var mine=!!(myHandle&&it.handle&&it.handle===myHandle);
    var isResolved=RESOLVED_STATUSES.indexOf(it.status)>=0;
+   var parsed=it.kind==='media'?parseMediaText(it.text):{type:null,body:it.text};
+   var voted=!!myVotes[it.id];
+   var votes=it.votes||0;
    return '<div class="text-[12px] bg-slate-900/50 suggestItem '+(isResolved?'isResolved':'isOpen')+' rounded-lg p-2" data-suggest-id="'+it.id+'">'
-    +'<div class="suggestTextView text-slate-200 leading-relaxed">'+esc2(it.text)+'</div>'
+    +(parsed.type?'<span class="suggestMediaBadge">'+esc2(parsed.type)+'</span> ':'')
+    +'<span class="suggestTextView text-slate-200 leading-relaxed">'+esc2(parsed.body)+'</span>'
     +'<div class="flex items-center justify-between gap-2 mt-1 flex-wrap">'
     +'<div class="text-[10px] text-slate-500">'+esc2(it.handle||'anonymous')+(it.createdAtMs?' · '+timeAgo(it.createdAtMs):'')+'</div>'
-    +'<div class="flex gap-2 shrink-0">'
+    +'<div class="flex items-center gap-2 shrink-0">'
+    +'<button type="button" class="suggestVoteBtn'+(voted?' voted':'')+'" data-id="'+it.id+'" data-voted="'+(voted?'1':'0')+'" title="'+(voted?'Remove your vote':'This matters to me too')+'">👍 '+votes+'</button>'
     +(mine?'<button type="button" class="suggestEditBtn text-[10px] text-slate-500 hover:text-slate-300 underline decoration-dotted underline-offset-2" data-id="'+it.id+'">Edit</button>':'')
     +'<button type="button" class="suggestResolveBtn text-[10px] underline decoration-dotted underline-offset-2" style="color:'+(isResolved?'#94a3b8':'#34d399')+'" data-id="'+it.id+'" data-next="'+(isResolved?'open':'shipped')+'">'+(isResolved?'↩ Reopen':'✅ Mark resolved')+'</button>'
     +'<button type="button" class="suggestDeleteBtn text-[10px] text-rose-400/80 hover:text-rose-300 underline decoration-dotted underline-offset-2" data-id="'+it.id+'">Delete</button>'
@@ -4014,14 +4046,32 @@ const CHANGELOG=[
    $('#suggestList').innerHTML='<div class="text-[12px] text-slate-500">Cloud accounts aren\'t set up on this copy of the app yet, so suggestions can\'t be shared or saved here. See NOTES.md → "Cloud accounts".</div>';
    return;
   }
-  a.client.from('suggestions').select('id,text,handle,created_at,status').order('created_at',{ascending:false}).limit(50).then(function(res){
+  var myHandle=a.handle||'anonymous';
+  Promise.all([
+   a.client.from('suggestions').select('id,text,handle,created_at,status,kind,votes').order('created_at',{ascending:false}).limit(100),
+   a.client.from('suggestion_votes').select('suggestion_id').eq('handle',myHandle)
+  ]).then(function(results){
+   var res=results[0],voteRes=results[1];
    if(res.error)throw res.error;
    allItems=(res.data||[]).map(function(row){
-    return {id:row.id,text:row.text,handle:row.handle,status:row.status||'open',createdAtMs:row.created_at?new Date(row.created_at).getTime():null};
+    return {id:row.id,text:row.text,handle:row.handle,status:row.status||'open',kind:row.kind||'feedback',votes:row.votes||0,createdAtMs:row.created_at?new Date(row.created_at).getTime():null};
    });
+   myVotes={};
+   if(!voteRes.error){(voteRes.data||[]).forEach(function(row){myVotes[row.suggestion_id]=true;});}
    renderList(allItems);
   }).catch(function(err){
    $('#suggestList').innerHTML='<div class="text-[12px] text-rose-400">Couldn\'t load suggestions ('+esc2(err&&err.message||err)+').</div>';
+  });
+ }
+ function toggleVote(id,voted){
+  var a=acct();if(!a||!a.configured)return;
+  var handle=a.handle||'anonymous';
+  var req=voted
+   ?a.client.from('suggestion_votes').delete().eq('suggestion_id',id).eq('handle',handle)
+   :a.client.from('suggestion_votes').insert({suggestion_id:id,handle:handle});
+  req.then(function(res){
+   if(res&&res.error){showError('Couldn\'t update your vote ('+(res.error.message||res.error)+').');return;}
+   loadSuggestions();
   });
  }
  function deleteSuggestion(id){
@@ -4040,9 +4090,9 @@ const CHANGELOG=[
   });
  }
  function startEdit(row){
-  var text=row.querySelector('.suggestTextView');if(!text)return;
   var id=row.dataset.suggestId;
-  var original=text.textContent;
+  var item=allItems.filter(function(it){return String(it.id)===String(id);})[0];
+  var original=item?item.text:(row.querySelector('.suggestTextView')||{}).textContent||'';
   row.innerHTML='<textarea class="inp suggestEditArea" rows="3" style="resize:vertical;font-size:12px">'+esc2(original)+'</textarea>'
    +'<div class="flex justify-end gap-2 mt-1.5">'
    +'<button type="button" class="suggestEditCancel text-[10px] text-slate-500 hover:text-slate-300">Cancel</button>'
@@ -4070,7 +4120,12 @@ const CHANGELOG=[
   var submitBtn=$('#suggestSubmit');
   if(submitBtn)submitBtn.disabled=true;
   var handle=a.handle||'anonymous';
-  a.client.from('suggestions').insert({text:text,handle:handle}).then(function(res){
+  var payload={text:text,handle:handle,kind:activeCat};
+  if(activeCat==='media'){
+   var typeSel=$('#suggestMediaType');
+   payload.text='['+((typeSel&&typeSel.value)||'Other')+'] '+text;
+  }
+  a.client.from('suggestions').insert(payload).then(function(res){
    if(res.error)throw res.error;
    if(ta)ta.value='';
    loaded=true;
@@ -4085,6 +4140,15 @@ const CHANGELOG=[
  on('#suggestBtn','click',function(e){e.stopPropagation();open();});
  on('#suggestClose','click',close);
  on('#suggestSubmit','click',submit);
+ on('#suggestCatTabs','click',function(e){
+  var b=e.target.closest('.suggestCatTab');if(!b)return;
+  setCat(b.dataset.cat);
+ });
+ on('#suggestExpandBtn','click',function(e){
+  var list=$('#suggestList');if(!list)return;
+  var expanded=list.classList.toggle('expanded');
+  e.target.textContent=expanded?'Show less ⌃':'Show more ⌄';
+ });
  on('#suggestTabs','click',function(e){
   var b=e.target.closest('.suggestTab');if(!b)return;
   setTab(b.dataset.tab);
@@ -4093,10 +4157,12 @@ const CHANGELOG=[
   var row=e.target.closest('[data-suggest-id]');if(!row)return;
   if(e.target.closest('.suggestDeleteBtn')){deleteSuggestion(e.target.closest('.suggestDeleteBtn').dataset.id);return;}
   if(e.target.closest('.suggestResolveBtn')){var rb=e.target.closest('.suggestResolveBtn');toggleResolved(rb.dataset.id,rb.dataset.next);return;}
+  if(e.target.closest('.suggestVoteBtn')){var vb=e.target.closest('.suggestVoteBtn');toggleVote(vb.dataset.id,vb.dataset.voted==='1');return;}
   if(e.target.closest('.suggestEditBtn')){startEdit(row);return;}
   if(e.target.closest('.suggestEditCancel')){renderList(allItems);return;}
   if(e.target.closest('.suggestEditSave')){saveEdit(e.target.closest('.suggestEditSave').dataset.id,row);return;}
  });
+ setCat('feedback');
  setTab('open');
 })();
 

@@ -902,11 +902,12 @@ const MOCK_SUPABASE_SDK = `
 // in-memory-only mock, making it impossible to assert on state that was written right before
 // the reload. A brand-new browser context (a real "second device" in these tests) still starts
 // with empty sessionStorage, so isolation between simulated devices is unaffected.
-function __mockDefaultDb(){ return { tables: { profiles: {}, suggestions: [], media_status: [] }, upsertCalls: 0, profileUpsertCalls: 0, insertCalls: 0, deleteCalls: 0 }; }
+function __mockDefaultDb(){ return { tables: { profiles: {}, suggestions: [], suggestion_votes: [], media_status: [] }, upsertCalls: 0, profileUpsertCalls: 0, insertCalls: 0, deleteCalls: 0 }; }
 function __mockLoad(){
   try {
     var db = JSON.parse(sessionStorage.getItem('__mockDb')) || __mockDefaultDb();
     if (!db.tables.media_status) db.tables.media_status = [];
+    if (!db.tables.suggestion_votes) db.tables.suggestion_votes = [];
     return db;
   } catch (e) { return __mockDefaultDb(); }
 }
@@ -1030,7 +1031,7 @@ function __mockBuilder(table){
       if (table === 'suggestions') {
         if (state.op === 'insert') {
           db.insertCalls++;
-          var newRow = Object.assign({}, state.payload, { id: db.tables.suggestions.length + 1, created_at: new Date().toISOString() });
+          var newRow = Object.assign({ kind: 'feedback', votes: 0 }, state.payload, { id: db.tables.suggestions.length + 1, created_at: new Date().toISOString() });
           db.tables.suggestions.push(newRow);
           __mockSave(db);
           res({ data: [newRow], error: null });
@@ -1059,6 +1060,41 @@ function __mockBuilder(table){
         });
         if (state.limitN != null) rows = rows.slice(0, state.limitN);
         res({ data: rows, error: null });
+        return;
+      }
+      if (table === 'suggestion_votes') {
+        if (state.op === 'insert') {
+          var vp = state.payload;
+          var already = db.tables.suggestion_votes.some(function(r){ return String(r.suggestion_id) === String(vp.suggestion_id) && r.handle === vp.handle; });
+          if (!already) {
+            db.tables.suggestion_votes.push({ suggestion_id: vp.suggestion_id, handle: vp.handle });
+            var votedRow = db.tables.suggestions.find(function(r){ return String(r.id) === String(vp.suggestion_id); });
+            if (votedRow) votedRow.votes = (votedRow.votes || 0) + 1;
+          }
+          __mockSave(db);
+          res({ data: already ? [] : [vp], error: null });
+          return;
+        }
+        if (state.op === 'delete') {
+          var vf = state.filters.find(function(f){ return f[0] === 'suggestion_id'; });
+          var hf3 = state.filters.find(function(f){ return f[0] === 'handle'; });
+          var removed = false;
+          db.tables.suggestion_votes = db.tables.suggestion_votes.filter(function(r){
+            var matches = (!vf || String(r.suggestion_id) === String(vf[1])) && (!hf3 || r.handle === hf3[1]);
+            if (matches) removed = true;
+            return !matches;
+          });
+          if (removed) {
+            var unvotedRow = db.tables.suggestions.find(function(r){ return vf && String(r.id) === String(vf[1]); });
+            if (unvotedRow) unvotedRow.votes = Math.max((unvotedRow.votes || 0) - 1, 0);
+          }
+          __mockSave(db);
+          res({ data: null, error: null });
+          return;
+        }
+        var vhf = state.filters.find(function(f){ return f[0] === 'handle'; });
+        var vrows = db.tables.suggestion_votes.filter(function(r){ return !vhf || r.handle === vhf[1]; });
+        res({ data: vrows, error: null });
         return;
       }
       if (table === 'media_status') {
@@ -1391,6 +1427,51 @@ async function runAccountFlow(browser, file) {
     check('the resolved status actually persisted to the shared table', resolvedInMockStore);
     await page2.click('#suggestTabs [data-tab="open"]');
     await page2.waitForTimeout(200);
+
+    // Media Request is a second, separately-tabbed list sharing the same suggestions table (split
+    // by a 'kind' column) -- switching to it should show its own empty state, not the feedback
+    // list's items, and submitting there should tag the row so it only ever shows up under Media
+    // Request afterward.
+    await page2.click('#suggestCatTabs [data-cat="media"]');
+    await page2.waitForTimeout(150);
+    const feedbackHiddenUnderMediaTab = await page2.evaluate(() =>
+      !Array.from(document.querySelectorAll('#suggestList [data-suggest-id]')).some(r => r.textContent.includes('kazoo')));
+    check('switching to the Media Request tab hides feedback suggestions', feedbackHiddenUnderMediaTab);
+    await page2.selectOption('#suggestMediaType', 'Book');
+    await page2.fill('#suggestText', 'Project Hail Mary');
+    await page2.click('#suggestSubmit');
+    const mediaRowVisible = await page2.waitForFunction(() =>
+      Array.from(document.querySelectorAll('#suggestList [data-suggest-id]')).some(r => r.textContent.includes('Project Hail Mary')),
+      { timeout: 10000 }).then(() => true).catch(() => false);
+    check('a submitted media request appears under the Media Request tab', mediaRowVisible);
+    const mediaBadgeShown = await page2.evaluate(() => {
+      const row = Array.from(document.querySelectorAll('#suggestList [data-suggest-id]')).find(r => r.textContent.includes('Project Hail Mary'));
+      return !!(row && row.querySelector('.suggestMediaBadge') && row.querySelector('.suggestMediaBadge').textContent.includes('Book'));
+    });
+    check('the media request shows its type as a badge rather than raw bracket text', mediaBadgeShown);
+    const mediaKindStored = await page2.evaluate(() => {
+      const row = (window.__mockTables.suggestions || []).find(s => (s.text || '').includes('Project Hail Mary'));
+      return !!(row && row.kind === 'media');
+    });
+    check('the media request is stored with kind=media', mediaKindStored);
+
+    const voteBtnClicked = await page2.evaluate(() => {
+      const row = Array.from(document.querySelectorAll('#suggestList [data-suggest-id]')).find(r => r.textContent.includes('Project Hail Mary'));
+      const btn = row && row.querySelector('.suggestVoteBtn');
+      if (!btn) return false;
+      btn.click();
+      return true;
+    });
+    check('a vote button is offered on a media request', voteBtnClicked);
+    await page2.waitForTimeout(300);
+    const voteRegistered = await page2.evaluate(() => {
+      const row = Array.from(document.querySelectorAll('#suggestList [data-suggest-id]')).find(r => r.textContent.includes('Project Hail Mary'));
+      const btn = row && row.querySelector('.suggestVoteBtn');
+      return !!(btn && btn.classList.contains('voted') && btn.textContent.includes('1'));
+    });
+    check('voting for a suggestion increments its count and marks it as voted', voteRegistered);
+    await page2.click('#suggestCatTabs [data-cat="feedback"]');
+    await page2.waitForTimeout(150);
 
     await page2.click('#suggestClose');
     await page2.waitForTimeout(150);

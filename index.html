@@ -125,6 +125,16 @@ body.compact #grid .cardHead{padding-top:.5rem;padding-bottom:.5rem}
 .suggestItem{border-left:3px solid #334155}
 .suggestItem.isResolved{opacity:.72;border-left-color:#34d399;background:rgba(52,211,153,.05)}
 .suggestItem.isOpen{border-left-color:#fbbf24}
+.suggestCatTab{flex:1;font-size:12.5px;font-weight:700;padding:8px 10px;border-radius:10px;border:1px solid #1e293b;color:#64748b;background:rgba(15,23,42,.5);transition:.15s;text-align:center}
+.suggestCatTab:hover{color:#94a3b8;border-color:#334155}
+.suggestCatTab.on[data-cat="feedback"]{color:#6ee7b7;border-color:#34d39966;background:rgba(52,211,153,.1)}
+.suggestCatTab.on[data-cat="media"]{color:#7dd3fc;border-color:#38bdf866;background:rgba(56,189,248,.1)}
+.suggestMediaBadge{font-size:9px;font-weight:700;padding:1px 6px;border-radius:9999px;color:#7dd3fc;border:1px solid #38bdf866;background:rgba(56,189,248,.1);white-space:nowrap}
+.suggestVoteBtn{font-size:10px;font-weight:700;padding:2px 7px;border-radius:9999px;border:1px solid #1e293b;color:#64748b;background:rgba(15,23,42,.5);transition:.15s;white-space:nowrap}
+.suggestVoteBtn:hover{color:#94a3b8;border-color:#334155}
+.suggestVoteBtn.voted{color:#c4b5fd;border-color:#a78bfa66;background:rgba(167,139,250,.12)}
+.suggestListBox{max-height:16rem}
+.suggestListBox.expanded{max-height:30rem}
 .acctPrimaryBtn{background:#6366f1}
 .acctPrimaryBtn:hover:not(:disabled){background:#818cf8}
 .acctPrimaryBtn:disabled{opacity:.6;cursor:default}
@@ -735,9 +745,21 @@ body[data-theme="outer-wilds"]{--bg:#0e0a09;--panel:#181010;--panel-2:#120c0b;--
       <div>
         <div class="text-[10px] tracking-[.35em] text-emerald-300/80 uppercase mb-1">Suggest a feature</div>
         <h2 class="text-lg font-bold text-slate-50">What would make this better?</h2>
-        <p class="text-[13px] text-slate-400 mt-1">Bug, idea, missing feature, missing media — anything. Want a specific movie, show, or book added? Request it here. Visible to everyone using this app, not just the person who set it up.</p>
+        <p id="suggestCatDesc" class="text-[13px] text-slate-400 mt-1">Bugs, ideas, missing features — anything. Visible to everyone using this app, not just the person who set it up.</p>
       </div>
       <button type="button" id="suggestClose" class="text-slate-500 hover:text-slate-300 text-lg leading-none" aria-label="Close">✕</button>
+    </div>
+    <div class="flex gap-1.5" id="suggestCatTabs">
+      <button type="button" class="suggestCatTab" data-cat="feedback">💡 Feature / Bug</button>
+      <button type="button" class="suggestCatTab" data-cat="media">🎬 Request Media</button>
+    </div>
+    <div id="suggestMediaRow" class="hidden">
+      <select id="suggestMediaType" class="inp text-[13px]">
+        <option value="Movie">🎬 Movie</option>
+        <option value="TV Show">📺 TV Show</option>
+        <option value="Book">📖 Book</option>
+        <option value="Other">✨ Other</option>
+      </select>
     </div>
     <textarea id="suggestText" class="inp" rows="4" placeholder="e.g. It would be great if…" style="resize:vertical"></textarea>
     <div id="suggestError" class="hidden text-[12px] text-rose-400"></div>
@@ -746,13 +768,14 @@ body[data-theme="outer-wilds"]{--bg:#0e0a09;--panel:#181010;--panel-2:#120c0b;--
     </div>
     <div class="pt-3 border-t border-slate-800/70">
       <div class="flex items-center justify-between mb-2">
-        <div class="lbl mb-0">Suggestions so far</div>
+        <div class="lbl mb-0" id="suggestListLabel">Feature &amp; bug suggestions</div>
         <div class="flex gap-1" id="suggestTabs">
           <button type="button" class="suggestTab" data-tab="open">📥 Not done <span id="suggestTabOpenCount"></span></button>
           <button type="button" class="suggestTab" data-tab="resolved">✅ Resolved <span id="suggestTabResolvedCount"></span></button>
         </div>
       </div>
-      <div id="suggestList" class="space-y-2 max-h-64 overflow-y-auto"></div>
+      <div id="suggestList" class="suggestListBox space-y-2 overflow-y-auto"></div>
+      <button type="button" id="suggestExpandBtn" class="text-[11px] text-slate-500 hover:text-slate-300 mt-1.5 underline decoration-dotted underline-offset-2">Show more ⌄</button>
     </div>
   </div>
 </div>

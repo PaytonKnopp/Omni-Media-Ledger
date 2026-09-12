@@ -159,6 +159,26 @@ begin
 end;
 $$;
 
+-- ── suggestion kind (feature/bug feedback vs. requests for a missing movie/show/book) ─────────
+-- The shared suggestion box is now two lists sharing one table: general feedback and media
+-- requests, split by this column so each gets its own tab and Not done/Resolved counts. Not
+-- part of the update grant above -- a suggestion's kind is set once at submission and never
+-- changed afterward, same as how a suggestion can't be moved between lists in the UI.
+alter table public.suggestions
+  add column if not exists kind text not null default 'feedback';
+
+do $$
+begin
+  if not exists (
+    select 1 from pg_constraint where conname = 'suggestions_kind_check'
+  ) then
+    alter table public.suggestions
+      add constraint suggestions_kind_check
+      check (kind in ('feedback','media'));
+  end if;
+end;
+$$;
+
 -- One row per (suggestion, handle) so a handle can only cast one vote per suggestion -- an honor
 -- system, same as every other handle-based check in this file (a handle is a name, not a verified
 -- identity), but enough to stop an accidental double-click from double-counting.
