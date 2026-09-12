@@ -176,7 +176,11 @@ check('the worksheet says out loud when a work has NO evidence, instead of leavi
 const leaked = ['m01', 'm02', 'm03', 'm04'].flatMap(id => {
   const r = byId[id];
   return [['atmosphericDreadIndex', r.atmosphericDreadIndex], ['ontologicalComplexity', r.ontologicalComplexity]]
-    .filter(([, v]) => v !== undefined && new RegExp('\\b' + v + '\\b').test(sheet))
+    // A single-digit value (0-9) is not reliable evidence of a leak -- it is common enough to
+    // collide with unrelated flavor text by chance (e.g. Barry Lyndon's justification mentions its
+    // famous "f/0.7" lens aperture, which reads as a bounded "0" token whether or not its dread
+    // score happens to also be 0). Two-plus-digit values are specific enough that a match is real.
+    .filter(([, v]) => v !== undefined && v >= 10 && new RegExp('\\b' + v + '\\b').test(sheet))
     .map(([f, v]) => id + '.' + f + ' (' + v + ') appears in the worksheet');
 });
 check('no index value reaches the worksheet, with or without a substance pack', leaked.length === 0,
