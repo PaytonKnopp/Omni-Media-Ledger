@@ -939,13 +939,34 @@ It also explains the pattern: new accounts were hit hardest (that empty-theme-on
 
 ---
 
+## Phase 43 — Contenders Ledger: all 50 spot-checked, the Verified/Unverified toggle retired, and real scheduled automation
+
+The explicit ask: get all 50 Contenders Ledger entries verified rather than 20/50, remove the now-pointless "Verified only"/"Unverified only" filter pair (Phase 9), keep the list free of duplicates and fabrications, and — if at all possible — make the quarterly refresh this file has called "impossible in a static file" (Phase 8's writeup, item 3 below) actually happen on its own.
+
+**All 30 remaining entries web-verified against live sources**, dated `2026-09-12`, matching Phase 9's methodology (real search results, not model recall — see DATA_RUNBOOK.md's four rules). Notable status changes caught in the process: *Control 2* is now officially *Control Resonant*, dated September 24, 2026; *The Batman Part II* slipped again to February 2028; *The Witcher IV* won't land before 2028; *Physint* lost PlayStation as publisher and picked up Xbox instead; *Avengers: Doomsday* and *Dune: Part Three* now share the same December 18, 2026 release day.
+
+**Three entries turned out to be wrong, not just stale, and were replaced rather than patched:**
+- *Untitled Paul Thomas Anderson* was describing what had already released as *One Battle After Another* (Sept 2025) and finished its awards run — no longer an upcoming contender by any definition. Replaced with *Star Wars: Starfighter* (Ryan Gosling, Shawn Levy, May 28, 2027 — real, filming wrapped).
+- *The Way of Kings (film)* credited to Peter Jackson could not be corroborated anywhere — no such project exists. What's real is *The Stormlight Archive* as a 10-episode Apple TV+ series with Sanderson himself as co-showrunner, which now fills that slot.
+- *The Drowned World* as an HBO series likewise doesn't check out; the only real Ballard adaptation on record is a dormant Warner Bros. feature option from 2013 with no recent movement, too thin to carry a slot. Replaced with *Mistborn*, the real Apple/Sanderson film (screenplay delivered mid-2026, no director yet) — a stronger, verifiable pick from the same publisher push that produced the Stormlight deal.
+
+Both replacements kept their old `c25`/`c72`/`c75` id slots rather than renumbering the array. `scripts/validate-corpus.js`'s duplicate-id/duplicate-title checks and a manual pass both confirm no collisions.
+
+**The Verified/Unverified filter pair is gone.** With 50/50 verified, "Unverified only" always empties the grid and "Verified only" is a no-op — dead controls, not options. Removed the `#contVerifyGroup` markup and its checkboxes, `contVerifiedOnly`/`contUnverifiedOnly` state and the pool filters, the "hide when nothing to isolate" logic (Phase 9), and the two change handlers. `#contVerifiedCount` (the "◉ 50/50 spot-checked" badge) stays — it's a status readout, not a filter — and the per-card "◉ Spot-checked \<date\>" badge is untouched.
+
+**Real scheduled automation, via the platform rather than the static file.** Phase 8's assessment that quarterly refresh was "impossible in a static file with no server or cron" was correct about the file — it's still just JSON-shaped JS with no way to run code on a timer by itself. But this Claude Code Remote environment can: a cron-scheduled Routine now fires on each equinox/solstice turn (Sept 21, Dec 21, Mar 21, Jun 21, 15:00 UTC) into a **fresh** session that clones the repo, re-verifies all 50 entries the same way this phase did, curates out anything resolved or fabricated, runs `validate-corpus.js` and the full Playwright suite, and opens a PR (never merges it — that stays a human call). The runbook this produces isn't hypothetical anymore; it's the literal prompt behind trigger `trig_016uNv9UKRqzsf57G6qkACz8` ("Quarterly Contenders Ledger refresh"). If this repo is ever cloned into an environment without that trigger, item 3 below still documents the manual runbook as a fallback.
+
+**Testing.** `scripts/validate-corpus.js` passes (no duplicate ids/titles, all required fields present across all 2,508 corpus works plus the 50 contenders). Full Playwright regression suite (`node test/regression.js`) run against the changed `index.html`/`app/ledger-app.js`/`data/contenders.js`.
+
+---
+
 ## Ideas / next steps
 
 Roughly in order of value:
 
 1. ~~**Make it genuinely offline.**~~ Done — see "Made genuinely offline: Tailwind compiled and committed" above.
 2. ~~**A "tonight" picker.**~~ Done — see Phase 5 above.
-3. ~~**Refresh the contenders ledger on an actual schedule.**~~ The tracking infrastructure (Phase 8) plus a real run of it (Phase 9: 20/50 now verified, up from 7) are both done. Still no true automation (impossible in a static file) and 30 entries remain unverified — always will be to some degree — but it's trackable and the runbook works, proven by actually using it.
+3. ~~**Refresh the contenders ledger on an actual schedule.**~~ Done — see Phase 43 above. All 50/50 now verified (up from 20/50 in Phase 9), and a cron-scheduled Claude Code Remote Routine fires on every equinox/solstice to redo the refresh from scratch and open a PR. Genuine automation was impossible from inside the static file itself, but not from the platform hosting the work.
 4. ~~**Cross-medium pairings.**~~ Done — see Phase 6 above.
 5. ~~**Split the dataset out of `index.html`.**~~ Done — see Phase 8 above and the decision note above for the `file://`/CORS reasoning.
 6. **Raise data provenance.** Replace estimated scores with sourced ones where possible; the provenance flag already tracks which are which. Still open — the `PROV_CEIL` mechanism correctly flags anything past the original hand-scored ledger as "curated estimate," which is honest, but doesn't replace any of those estimates with real sourced figures.

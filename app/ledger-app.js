@@ -1076,8 +1076,6 @@ function graphChips(){
  el.innerHTML=seeds.map(function(s){var lbl=s[0]==='creator'?s[1]:(byId.get(s[1])||{}).title||s[1];return '<button type="button" class="graphChip text-[10.5px] px-2 py-0.5 rounded-lg border border-slate-700 text-slate-300 hover:border-indigo-500 hover:text-indigo-300 transition-colors" data-gtype="'+s[0]+'" data-gkey="'+esc(s[0]==='creator'?s[1]:s[1])+'">'+esc(lbl)+'</button>';}).join('');
 }
 let contMedium='all';
-let contUnverifiedOnly=false;
-let contVerifiedOnly=false;
 function anticipationScore(c){
  // Personal 'For You' anticipation: how much this upcoming release matches YOUR taste,
  // blended with the editorial GOAT probability. Driven by the creative lead's pull in your engine.
@@ -1122,7 +1120,7 @@ function isPastWindow(c){
 }
 function renderContenders(){const MED={Film:'#a78bfa',TV:'#22d3ee',Game:'#fbbf24',Book:'#4ade80'};
  var cq=(contSearchQ||'').trim().toLowerCase();
- var pool=contenders.slice().filter(c=>contMedium==='all'||c.medium===contMedium).filter(c=>!contUnverifiedOnly||!c.verified).filter(c=>!contVerifiedOnly||c.verified)
+ var pool=contenders.slice().filter(c=>contMedium==='all'||c.medium===contMedium)
   .filter(c=>!cq||(c.title+' '+c.creativeLead+' '+c.platform).toLowerCase().indexOf(cq)>=0);
  pool.forEach(function(c){var a=anticipationScore(c);c._antScore=a.score;c._antReasons=a.reasons;});
  pool.sort(
@@ -1133,17 +1131,6 @@ function renderContenders(){const MED={Film:'#a78bfa',TV:'#22d3ee',Game:'#fbbf24
  $$('.contMedBtn').forEach(b=>{var on=b.dataset.med===contMedium;var mc=MED[b.dataset.med]||'#818cf8';b.style.color=on?mc:'#94a3b8';b.style.borderColor=on?mc+'88':'rgba(148,163,184,.25)';b.style.background=on?mc+'18':'transparent';b.style.fontWeight=on?'700':'400';});
  var cc=$('#contCount');if(cc)cc.textContent=pool.length+(contMedium==='all'?' contenders':' '+contMedium.toLowerCase()+' contenders');
  var vc=$('#contVerifiedCount');if(vc){var verifiedN=pool.filter(function(c){return c.verified;}).length;vc.textContent='◉ '+verifiedN+'/'+pool.length+' spot-checked';}
- // Each of "Verified only" / "Unverified only" is only useful -- and only shown -- when the
- // medium-scoped pool actually has something in that state to isolate, computed independent of
- // the checkboxes' own current state so toggling one on/off doesn't make its own control disappear
- // out from under the click.
- var mediumPool=contenders.filter(function(c){return contMedium==='all'||c.medium===contMedium;});
- var anyUnverified=mediumPool.some(function(c){return !c.verified;});
- var anyVerified=mediumPool.some(function(c){return c.verified;});
- var uw=$('#contUnverifiedOnlyWrap');
- if(uw){uw.classList.toggle('hidden',!anyUnverified);if(!anyUnverified&&contUnverifiedOnly){contUnverifiedOnly=false;var cb=$('#contUnverifiedOnly');if(cb)cb.checked=false;}}
- var vw=$('#contVerifiedOnlyWrap');
- if(vw){vw.classList.toggle('hidden',!anyVerified);if(!anyVerified&&contVerifiedOnly){contVerifiedOnly=false;var vcb=$('#contVerifiedOnly');if(vcb)vcb.checked=false;}}
  $('#contenderGrid').innerHTML=pool.map(c=>{const col=MED[c.medium]||'#94a3b8';
   var antCol=c._antScore>=88?'#fbbf24':c._antScore>=78?'#f0abfc':'#818cf8';
   var reasonLine=(c._antReasons&&c._antReasons.length)?'<div class="text-[10.5px] mt-1.5" style="color:'+antCol+'">\u2605 For you: '+esc(c._antReasons.join(' \u00b7 '))+'</div>':'';
@@ -4619,8 +4606,6 @@ renderMatrices();
 renderCreators();
 renderContenders();
 document.addEventListener('click',e=>{const b=e.target.closest('.contMedBtn');if(b){contMedium=b.dataset.med;renderContenders();scheduleURLSync();}});
-on('#contUnverifiedOnly','change',e=>{contUnverifiedOnly=e.target.checked;if(contUnverifiedOnly){contVerifiedOnly=false;var vcb=$('#contVerifiedOnly');if(vcb)vcb.checked=false;}renderContenders();});
-on('#contVerifiedOnly','change',e=>{contVerifiedOnly=e.target.checked;if(contVerifiedOnly){contUnverifiedOnly=false;var ucb=$('#contUnverifiedOnly');if(ucb)ucb.checked=false;}renderContenders();});
 document.addEventListener('click',e=>{const b=e.target.closest('.contSortBtn');if(b){contSort=b.dataset.sort;$$('.contSortBtn').forEach(function(x){x.classList.toggle('on',x===b);});renderContenders();scheduleURLSync();}});
 let contSearchT=null;
 on('#contSearch','input',e=>{clearTimeout(contSearchT);const v=e.target.value;contSearchT=setTimeout(()=>{contSearchQ=v;renderContenders();scheduleURLSync();},120);});
