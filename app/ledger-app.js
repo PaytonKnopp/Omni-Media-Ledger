@@ -1332,14 +1332,51 @@ if(!PROFILE_FROM_STORAGE)PERSONAL_PROFILE.bookAffinity={b19:96,b20:94,b21:95,b18
 /* Declared here, assigned inside recomputeTasteScores below (which runs immediately after) so
    every one of them is re-read from the profile on each recompute rather than frozen at boot. */
 let GOAT_SILVER,GOAT_BRONZE,BOOK_AFFINITY;
+// Declaring a Gold/Silver/Bronze favorite is the single most natural way someone expresses taste
+// in this app -- far more people will tier a handful of favorites than ever find the separate,
+// manual genre/vibe-boost toggles. But until this function, declaring favorites only pinned THOSE
+// specific works' own gm (and excluded them from recs, since a recommendation is never something
+// you already claimed) -- it never fed back into what gets recommended for everything else. Two
+// profiles that declared entirely different genres as Gold produced byte-identical "Movies"
+// recommendations, because genreBoost/vibeBoost stayed empty for both. This derives an automatic
+// genre/vibe affinity from whatever is already declared (Gold weighted above Silver above Bronze),
+// and adds it on top of -- never replacing -- any boost the person set by hand via the explicit
+// toggles, so a manual adjustment always still means something extra.
+function deriveAutoTasteBoosts(declaredIds,silverIds,bronzeIds){
+ const genreW={},vibeW={};
+ const add=(obj,k,w)=>{if(!k)return;obj[k]=(obj[k]||0)+w;};
+ const weightFor=id=>declaredIds.has(id)?3:silverIds.has(id)?2:bronzeIds.has(id)?1:0;
+ const favIds=new Set([...declaredIds,...silverIds,...bronzeIds]);
+ favIds.forEach(id=>{
+  const x=byId.get(id);if(!x)return;
+  const w=weightFor(id);if(!w)return;
+  (x.genres||[]).forEach(g=>add(genreW,g,w));
+  add(vibeW,x.vibe,w);
+ });
+ const CAP=15;
+ const genreArr=Object.keys(genreW).map(k=>[k.toLowerCase(),Math.min(CAP,genreW[k]*1.5)]);
+ const vibeObj={};Object.keys(vibeW).forEach(k=>{vibeObj[k]=Math.min(CAP,vibeW[k]*1.5);});
+ return {genreArr,vibeObj};
+}
 function recomputeTasteScores(){
  GOAT_DECLARED=new Set(PERSONAL_PROFILE.declaredGoatIds||[]);
  GOAT_CREATOR_BOOST=PERSONAL_PROFILE.creatorBoost||[];
- GOAT_GENRE_BOOST=PERSONAL_PROFILE.genreBoost||[];
- GOAT_VIBE_BOOST=PERSONAL_PROFILE.vibeBoost||{};
- BOOK_CREATOR_BOOST=PERSONAL_PROFILE.bookCreatorBoost||[];
  GOAT_SILVER=new Set(PERSONAL_PROFILE.silverTierIds||[]);
  GOAT_BRONZE=new Set(PERSONAL_PROFILE.bronzeTierIds||[]);
+ const auto=deriveAutoTasteBoosts(GOAT_DECLARED,GOAT_SILVER,GOAT_BRONZE);
+ // Merged by keyword into ONE entry per keyword, not concatenated -- the per-item loop below
+ // checks genreMatches(x,keyword) once per GOAT_GENRE_BOOST entry and adds its weight every time
+ // it matches, so two entries sharing a keyword (the common case: the sample profile's manual
+ // genreBoost already seeds 'sci-fi','epic','psychological', etc, the same keywords a declared
+ // favorite's own genres are likely to produce here) would double that work's boost rather than
+ // just summing it once, same bug class the genre-family/taxonomy work already fixed once before.
+ const genreMap={};
+ auto.genreArr.forEach(([k,w])=>{genreMap[k]=(genreMap[k]||0)+w;});
+ (PERSONAL_PROFILE.genreBoost||[]).forEach(([k,w])=>{genreMap[k]=(genreMap[k]||0)+w;});
+ GOAT_GENRE_BOOST=Object.keys(genreMap).map(k=>[k,genreMap[k]]);
+ GOAT_VIBE_BOOST=Object.assign({},auto.vibeObj);
+ Object.keys(PERSONAL_PROFILE.vibeBoost||{}).forEach(v=>{GOAT_VIBE_BOOST[v]=(GOAT_VIBE_BOOST[v]||0)+PERSONAL_PROFILE.vibeBoost[v];});
+ BOOK_CREATOR_BOOST=PERSONAL_PROFILE.bookCreatorBoost||[];
  BOOK_AFFINITY=PERSONAL_PROFILE.bookAffinity||{};
  ALL.forEach(x=>{
  let base=0.5*x.crit+0.2*x.aud+0.3*x.tech,a=0;const br=[];
@@ -1473,9 +1510,24 @@ function buildGeneratedRec(cat){
     to you as a discovery than an untiered work of the same quality. Payton's Silver list is almost
     entirely also-owned so this never showed locally, but the app has to work for someone who tiers
     without owning, which is most people. */
- const items=ALL.filter(x=>x.kind===kind&&!x.owned&&!x.goat&&!x.silver&&!x.bronze)
-  .sort((a,b)=>b.gm-a.gm)
-  .slice(0,10)
+ // A straight top-10-by-gm slice can collect almost entirely into one creator once the taste
+ // boost is strong enough (declaring several Kubrick films Gold, say, pulls every other Kubrick
+ // film's gm up via the shared-creator boost too) -- ten recommendations from one director is a
+ // working pipeline and a useless answer. Capped greedily: take the highest-gm picks up to 3 per
+ // creator first, then backfill any remaining slots from whoever's left, still gm-ordered, so a
+ // cap that can't be satisfied (fewer than 4 creators exist in the whole eligible pool) still
+ // returns the best 10 available rather than refusing to fill the list.
+ const ranked=ALL.filter(x=>x.kind===kind&&!x.owned&&!x.goat&&!x.silver&&!x.bronze)
+  .sort((a,b)=>b.gm-a.gm);
+ const PER_CREATOR_CAP=3;
+ const creatorCount={};
+ const picked=[],leftover=[];
+ ranked.forEach(x=>{
+  const c=x.creator||'';
+  if((creatorCount[c]||0)<PER_CREATOR_CAP){creatorCount[c]=(creatorCount[c]||0)+1;picked.push(x);}
+  else leftover.push(x);
+ });
+ const items=picked.concat(leftover).slice(0,10)
   .map(x=>({n:x.title,s:x.gm,k:x.kind,q:x.title,why:goatWhy(x)}));
  return {cat:cat,basis:computeBasisText(cat),items:items,generated:true};
 }

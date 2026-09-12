@@ -26,20 +26,40 @@ function loadMovies() {
   return new Function(fs.readFileSync(moviesPath, 'utf8') + '\nreturn movies;')();
 }
 
+// Strips a record's prov stamp and four rubric fields out of the raw FILE TEXT (not just the
+// parsed object), scoped to that record's own line the same way applyDecisions() itself scopes
+// its replacements, so score-batch.js sees a genuinely fresh, unscored record to apply to. This
+// replaces depending on a real gap existing somewhere in the live corpus: Phase C consumed the
+// corpus in ID order as it ran, so a fixed fixture ID eventually stopped being an unscored work
+// (caught once already, when the first real batch landed on m11) -- and now that scoring has
+// reached 100% coverage, there is no real gap left anywhere for a dynamic search to find either.
+// Synthesizing the gap on a throwaway copy of the text is future-proof against both failure modes.
+function stripFieldsForFixture(src, id, fields) {
+  const needle = '"id":"' + id + '"';
+  const recStart = src.indexOf(needle);
+  if (recStart < 0) throw new Error('fixture record ' + id + ' not found in file text');
+  const recEnd = src.indexOf('\n', recStart);
+  let before = src.slice(0, recStart), slice = src.slice(recStart, recEnd), after = src.slice(recEnd);
+  fields.forEach(f => { slice = slice.replace(new RegExp(',"' + f + '":-?\\d+(\\.\\d+)?'), ''); });
+  slice = slice.replace(/,"prov":\{[^}]*\}/, '');
+  return before + slice + after;
+}
+
 try {
   console.log('\n=== score-batch harness: rubric-v1 stamping ===');
   const before = loadMovies();
-  // Pick a real movie with NO prov stamp at all yet and no existing index values, so this
-  // exercises both the insert-new-field path (contextTags anchor) and the "no prior facts stamp"
-  // default in one record. Found dynamically rather than hardcoded to one ID (originally m11):
-  // Phase C consumes the corpus in ID order as it runs, so a fixed ID eventually stops being an
-  // unscored work and the whole test starts failing for a reason that has nothing to do with the
-  // script under test. This is exactly the drifting-fixture failure mode -- caught when Phase C's
-  // first real batch landed on m11 and broke this test for a reason unrelated to score-batch.js.
-  const target = before.find(m => !m.prov && m.emotionalWarmth === undefined);
-  check('setup: found a movie with no prov and no emotionalWarmth to start (test is meaningless otherwise)',
-    !!target, 'no unscored fixture movie left in the corpus -- Phase C has consumed all of them');
+  // Any real movie works as the base; its fields/prov are stripped from the file text below so
+  // the test always has a genuinely fresh record to apply to, regardless of real corpus coverage.
+  const target = before[0];
+  check('setup: found a movie to use as the unscored fixture base (test is meaningless otherwise)',
+    !!target, 'movies corpus is empty');
   const fixtureId = target && target.id;
+  let fixtureSrc = backup;
+  if (fixtureId) {
+    fixtureSrc = stripFieldsForFixture(backup, fixtureId,
+      ['ontologicalComplexity', 'emotionalWarmth', 'comicIntent', 'aestheticBeauty']);
+    fs.writeFileSync(moviesPath, fixtureSrc);
+  }
 
   const decisions = fixtureId ? [
     { id: fixtureId, field: 'ontologicalComplexity', value: 80, note: 'test: reverse-chronology memory structure' },
@@ -54,7 +74,7 @@ try {
       '--apply', path.join(tmp, 'decisions.json'), '--dry-run'], { cwd: ROOT, encoding: 'utf8' });
     check('a dry run reports the record would be stamped, without writing',
       /1 record\(s\) would be stamped rubric-v1/.test(dry) &&
-      fs.readFileSync(moviesPath, 'utf8') === backup, dry);
+      fs.readFileSync(moviesPath, 'utf8') === fixtureSrc, dry);
 
     execFileSync(process.execPath, [path.join(ROOT, 'scripts/score-batch.js'),
       '--apply', path.join(tmp, 'decisions.json')], { cwd: ROOT, encoding: 'utf8' });
@@ -76,19 +96,29 @@ try {
   }
 
   // Restore, then verify a record that ALREADY has a real facts stamp keeps it -- indices scoring
-  // must never clobber Phase A/B's hard-won provenance.
+  // must never clobber Phase A/B's hard-won provenance. Any sourced-facts record works as the
+  // base; comicIntent is stripped from its file text on the throwaway copy below so there is
+  // always a genuine field gap to fill, regardless of real corpus coverage (see
+  // stripFieldsForFixture's comment for why this can no longer rely on a real gap existing).
   fs.writeFileSync(moviesPath, backup);
-  const sourcedId = before.find(m => m.prov && m.prov.facts === 'sourced' &&
-    m.ontologicalComplexity !== undefined && m.emotionalWarmth === undefined)?.id
-    || before.find(m => m.prov && m.prov.facts === 'sourced')?.id;
+  const sourcedId = before.find(m => m.prov && m.prov.facts === 'sourced')?.id;
   if (sourcedId) {
     const rec = before.find(m => m.id === sourcedId);
     const originalFacts = rec.prov.facts;
     const originalChecked = rec.prov.checked;
     const originalSrc = rec.prov.src;
-    const needed = ['ontologicalComplexity', 'emotionalWarmth', 'comicIntent', 'aestheticBeauty']
-      .filter(f => rec[f] === undefined)
-      .map(f => ({ id: sourcedId, field: f, value: 50, note: 'test: placeholder mid-band value' }));
+    // stripFieldsForFixture also strips prov, but this sub-test needs prov KEPT (that's the whole
+    // point), so strip just the one field here directly rather than reusing that helper.
+    const srcWithGap = (function () {
+      const needle = '"id":"' + sourcedId + '"';
+      const recStart = backup.indexOf(needle);
+      const recEnd = backup.indexOf('\n', recStart);
+      const slice = backup.slice(recStart, recEnd)
+        .replace(new RegExp(',"comicIntent":-?\\d+(\\.\\d+)?'), '');
+      return backup.slice(0, recStart) + slice + backup.slice(recEnd);
+    })();
+    fs.writeFileSync(moviesPath, srcWithGap);
+    const needed = [{ id: sourcedId, field: 'comicIntent', value: 50, note: 'test: placeholder mid-band value' }];
     fs.writeFileSync(path.join(tmp, 'decisions2.json'), JSON.stringify(needed));
     if (needed.length) {
       execFileSync(process.execPath, [path.join(ROOT, 'scripts/score-batch.js'),
@@ -109,7 +139,13 @@ try {
   }
 
   // A record missing even ONE applicable field must not be stamped -- partial is not "scored".
-  fs.writeFileSync(moviesPath, backup);
+  // Re-strip the fixture (not a plain backup restore): the other three fields must still be
+  // genuinely undefined going in, or "complete" trivially reads true from their real pre-existing
+  // values regardless of what this decision set provides, defeating the point of the check.
+  if (fixtureId) {
+    fs.writeFileSync(moviesPath, stripFieldsForFixture(backup, fixtureId,
+      ['ontologicalComplexity', 'emotionalWarmth', 'comicIntent', 'aestheticBeauty']));
+  }
   if (fixtureId) {
     const partial = [{ id: fixtureId, field: 'ontologicalComplexity', value: 80, note: 'test: only one of four fields' }];
     fs.writeFileSync(path.join(tmp, 'decisions3.json'), JSON.stringify(partial));

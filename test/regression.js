@@ -2371,20 +2371,27 @@ async function runTabFiltersFlow(browser, file) {
   const recs = await page.evaluate(() => {
     if (typeof buildGeneratedRec !== 'function') return ['buildGeneratedRec is not exposed'];
     const bad = [];
+    // A title is not unique across media (e.g. the 2021 film "Dune" and Frank Herbert's novel
+    // "Dune" share a title) -- buildGeneratedRec itself already scopes by kind, so the victim
+    // lookup below must too, or it can resolve to the wrong medium's same-titled record and tier
+    // that one instead, leaving the actually-recommended work untouched and this check failing
+    // for a title-collision reason that has nothing to do with whether exclusion itself works.
+    const kindByCat = { Movies: 'movie', Books: 'book', 'TV Series': 'tv', 'Video Games': 'game' };
     const names = c => c.items.map(i => i.n);
     ['Movies', 'TV Series', 'Video Games', 'Books'].forEach(cat => {
       const cur = buildGeneratedRec(cat);
       if (cur.items.length < 5) { bad.push(cat + ': only ' + cur.items.length + ' recommendations'); return; }
       const listed = names(cur);
+      const kind = kindByCat[cat];
       const creators = new Set(cur.items.map(i => {
-        const w = ALL.find(x => x.title === i.n);
+        const w = ALL.find(x => x.kind === kind && x.title === i.n);
         return w ? w.creator : i.n;
       }));
       if (creators.size < 4) {
         bad.push(cat + ': ' + cur.items.length + ' recommendations from only ' + creators.size + ' creators');
       }
       // Pick a work that IS being recommended, then tier it and check it leaves.
-      const victim = ALL.find(x => x.title === listed[0]);
+      const victim = ALL.find(x => x.kind === kind && x.title === listed[0]);
       if (!victim) { bad.push(cat + ': cannot resolve its top recommendation "' + listed[0] + '"'); return; }
       ['silver', 'bronze'].forEach(rung => {
         victim[rung] = true;
