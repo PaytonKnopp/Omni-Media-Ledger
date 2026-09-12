@@ -29,7 +29,7 @@ That's genuinely most of it. Everything past this point is detail for people who
 | **Collection** | Your actual physical/digital library, organized by format, plus a "worth upgrading?" audit and gap-finder ("you love this director, here's what you don't own yet"). |
 | **Watchlist** | Things you've flagged to check out later. |
 | **Contenders Ledger** | 50 upcoming releases being tracked, each with a general hype score and a personal "for you" score. |
-| **Creator Archives** | 80 notable directors, authors, and game designers, searchable. |
+| **Creator Archives** | 125 notable directors, authors, and game designers, searchable. |
 | **Reference Matrices** | 19 curated top-lists — best soundtracks, scariest, funniest, biggest twists, and more. |
 | **Visualization Suite** | Charts and an interactive relationship map showing how works connect to each other and why. |
 | **Timeline** | Everything placed on a single timeline, 700 BC to 2027. |
