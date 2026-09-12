@@ -2244,7 +2244,7 @@ function renderPortraitGaps(){
 /* ===== Franchise / Series grouping ===== */
 const SERIES_DEFS=[
  {name:'The Lord of the Rings (film trilogy)',kind:'movie',members:['The Lord of the Rings: The Fellowship of the Ring','The Lord of the Rings: The Two Towers','The Lord of the Rings: The Return of the King'],total:3},
- {name:"The Man with No Name Trilogy",kind:'movie',members:['The Man with No Name Trilogy','The Good, the Bad and the Ugly'],total:3,boxSet:'The Man with No Name Trilogy'},
+ {name:"The Man with No Name Trilogy",kind:'movie',members:['A Fistful of Dollars','For a Few Dollars More','The Good, the Bad and the Ugly'],total:3},
  {name:'Alien (Ridley/Cameron)',kind:'movie',members:['Alien','Aliens'],total:2},
  {name:'Middle-earth (Tolkien books)',kind:'book',members:['The Hobbit','The Fellowship of the Ring','The Two Towers','The Return of the King','The Silmarillion','Unfinished Tales','The Adventures of Tom Bombadil','The Children of Húrin'],total:8},
  {name:'The Kingkiller Chronicle',kind:'book',members:['The Name of the Wind',"The Wise Man's Fear",'The Slow Regard of Silent Things','The Doors of Stone'],total:4},
