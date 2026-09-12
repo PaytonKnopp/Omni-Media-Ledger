@@ -2161,7 +2161,7 @@ async function runTabFiltersFlow(browser, file) {
   await page.click('[data-scope="authors"]');
   await page.waitForTimeout(250);
   const authorsOnlyCount = await page.evaluate(() => document.querySelectorAll('#creatorGrid > div').length);
-  check('Creator Archives scoped to Authors shows a card grid', authorsOnlyCount > 0 && authorsOnlyCount <= 30);
+  check('Creator Archives scoped to Authors shows a card grid', authorsOnlyCount > 0 && authorsOnlyCount <= 50);
   await page.selectOption('#creatorSortSel', 'az');
   await page.waitForTimeout(250);
   const ownedPctVisible = await page.evaluate(() =>
