@@ -1436,6 +1436,21 @@ recomputeTasteScores();
    fully computed. Building an actual creator dataset to close that last gap is still the honest
    next step (see NOTES.md Phase 4). */
 const RECS_KIND_BY_CAT={Movies:'movie',Books:'book','TV Series':'tv','Video Games':'game'};
+// Whether the current profile is Payton's own account, or a device-local copy that hasn't
+// diverged from a "Start from the PK Sample" clone -- the only two cases where the six sample-
+// only, hand-curated recommendation categories below (Directors, Actors, Composers,
+// Cinematographers, Music Artists, YouTube) still belong on screen. Every other account has no UI
+// to declare a favorite in those six categories at all (only Movies/Books/TV Series/Video Games
+// are pickable), so showing them there would just be reshowing Payton's own picks, rescored,
+// under someone else's name -- not a real recommendation. pkSampleOrigin is set once, at the
+// moment the PK Sample is cloned (see the onboarding gate below), and travels with the profile
+// through export/import and cloud sync same as any other field.
+function isPaytonSampleProfile(){
+ if(PERSONAL_PROFILE.pkSampleOrigin)return true;
+ if(!PROFILE_FROM_STORAGE)return true;
+ var a=(typeof window.__omniAcct==='function')?window.__omniAcct():null;
+ return !!(a&&a.handle==='payton');
+}
 const DECLARED_CAT_ALIASES={Movies:['Movies'],Books:['Books'],'TV Series':['TV Shows','TV Series'],'Video Games':['Video Game','Video Games'],Directors:['Director','Directors'],Actors:['Actors'],Composers:['Composers'],Cinematographers:['Cinematographer','Cinematographers'],'Music Artists':['Artist','Music Artists'],YouTube:['YouTube']};
 function computeBasisText(cat){
  const declaredGroup=(PERSONAL_PROFILE.declaredCanon||[]).find(d=>(DECLARED_CAT_ALIASES[cat]||[cat]).includes(d.cat));
@@ -1842,7 +1857,8 @@ function declaredCategoriesToRender(){
 function renderGoat(){renderTasteDNA();
  var declaredHTML=declaredCategoriesToRender().map(declaredCategoryHTML).join('');
  $('#goatDeclared').innerHTML=declaredHTML||((state.goatDeclaredQ||'').trim()?'<div class="col-span-full text-center text-slate-500 text-sm py-6">Nothing in your declared canon matches “'+esc(state.goatDeclaredQ.trim())+'”.</div>':'');
- $('#goatRecs').innerHTML=goatProfile.recs.map(cat=>{
+ var recCats=isPaytonSampleProfile()?goatProfile.recs:goatProfile.recs.filter(function(c){return RECS_KIND_BY_CAT.hasOwnProperty(c.cat);});
+ $('#goatRecs').innerHTML=recCats.map(cat=>{
   var hidden=PERSONAL_PROFILE.hiddenRecs||[];
   var visible=cat.items.filter(function(it){return hidden.indexOf(recKey(cat.cat,it))<0;});
   var hiddenN=cat.items.length-visible.length;
@@ -3648,8 +3664,14 @@ function handleProfileEditClick(btn){
    "here's what changed" readout, not a live version check against anything. Bump APP_VERSION and
    add a CHANGELOG entry whenever a change is worth a friend knowing about; cosmetic tweaks don't
    need a bump. */
-const APP_VERSION='1.45.0';
+const APP_VERSION='1.46.0';
 const CHANGELOG=[
+ {v:'1.46.0',date:'2026-09-12',summary:'The GOAT Profile tab’s recommendations now show only the four categories every account can actually build (Movies, Books, TV Series, Video Games) — the six sample-only categories (Directors, Actors, Composers, Cinematographers, Music Artists, YouTube) are back to being just PK’s own account and the PK Sample, not something every new account inherited.',notes:[
+  'Those six categories were always PK’s own hand-picked names — there’s no UI to declare a favorite Director/Actor/Composer/Cinematographer/Music Artist/YouTuber for yourself, only the score next to each name ever recomputed per account. Showing them on every account made it look like a personalized recommendation when it was really just PK’s picks under someone else’s taste weights',
+  'PK’s own account keeps all ten, and so does any copy started from "Start from the PK Sample" — that option now marks the cloned profile so it keeps behaving like PK’s own until reset to blank, matching what the onboarding screen already promises ("PK’s actual collection... real and lived-in")',
+  'Every other account (quick-rate, search-and-pick, blank, or imported) now only ever sees Movies/Books/TV Series/Video Games recommendations — the ones genuinely generated from its own declared favorites',
+  'GOAT Profile’s Quick Tips section now explains this split'
+ ]},
  {v:'1.45.0',date:'2026-09-06',summary:'Medal and Owned clicks are about five times quicker again, and a card you have opened stays open when you tier it.',notes:[
   'Clicking a medal redrew all 100 cards on screen when one work had changed. Only the cards an edit can actually alter are rebuilt now \u2014 measured at roughly 600ms of frozen screen per click when this began, and around 120ms now',
   'A card reads two things off the rest of your library \u2014 the \u201cbecause you liked\u2026\u201d line, which cites a tiered or owned work, and the cross-medium pairings, which are ordered by match score \u2014 so tiering one thing can legitimately change other cards. Both are accounted for, and the app now checks 40 times over, across every sort and every medal, that a partial redraw is indistinguishable from a full one',
@@ -4384,6 +4406,11 @@ function pickSeedCandidates(excludeIds){
   var btn=e.currentTarget;btn.disabled=true;
   fetchLiveSampleProfile().then(function(live){
    var seed=live||JSON.parse(JSON.stringify(PERSONAL_PROFILE));
+   // Marks this copy as still mimicking Payton's real taste, which is what keeps the GOAT Profile
+   // tab's six sample-only recommendation categories (Directors, Actors, Composers, etc. -- see
+   // isPaytonSampleProfile above) visible for it, same as Payton's own account, instead of
+   // collapsing to the 4 core categories every other profile gets.
+   seed.pkSampleOrigin=true;
    try{localStorage.setItem('omniLedgerOnboarded','1');localStorage.setItem('omniLedgerProfile',JSON.stringify(seed));}catch(err){alert('Could not save: '+err.message);btn.disabled=false;return;}
    reloadWithMediaSync({});
   });
