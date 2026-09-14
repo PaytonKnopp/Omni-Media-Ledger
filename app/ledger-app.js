@@ -3481,7 +3481,14 @@ function mutateProfile(mutatorFn){
  // this file, so the object identity has to survive the edit.
  Object.keys(PERSONAL_PROFILE).forEach(function(k){delete PERSONAL_PROFILE[k];});
  Object.assign(PERSONAL_PROFILE,snapshot);
- recomputeProfileDerived();
+ // Unlike every step above, a throw here used to propagate straight out of the click handler:
+ // the profile write had already landed, but the derived fields (x.owned, x.gm, ...) that cards
+ // actually read never got recomputed and no re-render ever ran, so the click looked like a
+ // total no-op -- correct underneath, frozen on screen -- with nothing but a console error to
+ // show for it. Caught here so a bad derived-state edge case degrades to a stale-but-recoverable
+ // screen (the next click re-enters this same function and gets another chance) instead of a
+ // silently dead one.
+ try{recomputeProfileDerived();}catch(e){console.error('recomputeProfileDerived failed after a profile change -- the edit was saved, but on-screen state may be stale until this is fixed:',e);}
  // null means "assume anything may have changed" -- the honest answer whenever a profile key the
  // cards read directly has moved.
  rerenderAfterProfileChange(cardKeysMoved?null:expandChangedIds(changedSince(beforeDerived)));
