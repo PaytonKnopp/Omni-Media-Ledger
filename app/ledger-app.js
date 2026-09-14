@@ -1810,7 +1810,9 @@ function tierChipGroupHTML(kind,items,tierKey,filterQ){
  var s=TIER_STYLE[tierKey];
  var shown=filterQ?items.filter(function(x){return x.title.toLowerCase().indexOf(filterQ)>=0;}):items;
  var body;
- if(shown.length)body=shown.map(function(x){return '<span class="chip goatJump tierDragChip" draggable="true" data-q="'+esc(x.title)+'" data-drag-id="'+x.id+'" data-drag-kind="'+kind+'" title="Click to open in Global Controller, or drag to Gold/Silver/Bronze below to re-tier" style="color:'+s[2]+';border-color:'+s[2]+'55;cursor:grab">'+esc(x.title)+'</span>';}).join('');
+ if(shown.length)body=shown.map(function(x){return '<span class="chip goatJump tierDragChip group" draggable="true" data-q="'+esc(x.title)+'" data-drag-id="'+x.id+'" data-drag-kind="'+kind+'" title="Click to open in Global Controller, or drag to Gold/Silver/Bronze below to re-tier" style="color:'+s[2]+';border-color:'+s[2]+'55;cursor:grab">'+esc(x.title)
+  +'<button type="button" class="profEditBtn removeTierBtn text-[11px] leading-none hover:text-rose-300" data-act="remove-tier" data-id="'+x.id+'" data-tier="'+tierKey+'" data-title="'+esc(x.title)+'" title="Remove from '+s[1]+'">✕</button>'
+  +'</span>';}).join('');
  else if(filterQ&&items.length)body='<span class="text-[10.5px] text-slate-600 italic">no matches for \u201c'+esc(filterQ)+'\u201d</span>';
  else body='<span class="text-[10.5px] text-slate-600 italic">drag a title here to make it '+s[1]+'</span>';
  return '<div class="mt-2 first:mt-0 tierDropZone rounded-lg -m-1 p-1" data-tier="'+tierKey+'" data-kind="'+kind+'"><div class="text-[9.5px] tracking-[.16em] uppercase mb-1 font-bold" style="color:'+s[2]+'">'+s[0]+' '+s[1]+' <span class="text-slate-600 font-normal">('+(filterQ?shown.length+'/'+items.length:items.length)+')</span></div>'
@@ -1975,7 +1977,7 @@ document.addEventListener('click',e=>{
  if(e.target.closest('.profEditBtn')||e.target.closest('button,a,input,select,textarea'))return;
  const j=e.target.closest('.goatJump');if(j&&j.dataset.q)goatJumpTo(j.dataset.q);
 });
-document.addEventListener('click',e=>{const pe=e.target.closest('.profEditBtn');if(pe&&pe.dataset.act==='setformat'){e.stopPropagation();handleProfileEditClick(pe);}});
+document.addEventListener('click',e=>{const pe=e.target.closest('.profEditBtn');if(pe&&(pe.dataset.act==='setformat'||pe.dataset.act==='remove-owned'||pe.dataset.act==='remove-tier')){e.stopPropagation();handleProfileEditClick(pe);}});
 
 /* ===================== ROUTING & BINDINGS ===================== */
 function updateWlNav(){const c=wlCount();const el=$('#wlNavCount');if(el)el.textContent=c?('('+c+')'):'';}
@@ -2541,12 +2543,14 @@ function collItemCardHTML(x,col){
  const k=KM[x.kind];
  // The whole card jumps to Global Controller (same as every other cross-linked row in the app);
  // the format buttons inside stop propagation, so picking an edition never navigates away.
- return '<div class="panel p-2.5 flex items-center gap-2.5 goatJump cursor-pointer hover:border-slate-600 transition-colors" data-q="'+esc(x.title)+'" title="Open '+esc(x.title)+' in the Global Controller">'
+ return '<div class="panel p-2.5 flex items-center gap-2.5 goatJump cursor-pointer hover:border-slate-600 transition-colors group" data-q="'+esc(x.title)+'" title="Open '+esc(x.title)+' in the Global Controller">'
   +'<div class="w-1 self-stretch rounded" style="background:'+col+'"></div>'
   +'<div class="flex-1 min-w-0"><div class="text-[12px] font-semibold text-slate-100 truncate">'+esc(x.title)+'</div>'
   +'<div class="text-[10px] text-slate-500 truncate">'+x.year+' · '+esc(x.creator)+' · <span style="color:'+k.c+'">'+k.label+'</span></div>'+formatPickerHTML(x)+'</div>'
   +'<div class="text-right shrink-0"><div class="text-[13px] font-bold tabular-nums" style="color:'+col+'">'+x.ovr+'</div>'
-  +(x.goat?'<div class="text-[9px]" style="color:#fbbf24">★ GOAT</div>':x.silver?'<div class="text-[9px] text-slate-400">☆</div>':'')+'</div></div>';
+  +(x.goat?'<div class="text-[9px]" style="color:#fbbf24">★ GOAT</div>':x.silver?'<div class="text-[9px] text-slate-400">☆</div>':'')+'</div>'
+  +'<button type="button" class="profEditBtn removeItemBtn shrink-0 text-slate-500 hover:text-rose-300 text-[13px] leading-none px-1" data-act="remove-owned" data-id="'+x.id+'" data-kind="'+x.kind+'" data-title="'+esc(x.title)+'" title="Remove from your collection">✕</button>'
+  +'</div>';
 }
 function collCaret(){return '<span class="collCaret text-slate-500 shrink-0">▸</span>';}
 function renderCollection(){
@@ -3648,6 +3652,16 @@ function handleProfileEditClick(btn){
  else if(act==='bronze')toggleBronzeTier(btn.dataset.id);
  else if(act==='bookaffinity')boostBookAffinity(btn.dataset.id);
  else if(act==='setformat')setPhysFormat(btn.dataset.id,btn.dataset.kind,btn.dataset.fmt);
+ else if(act==='remove-owned'){
+  if(typeof confirm!=='undefined'&&!confirm('Remove “'+btn.dataset.title+'” from your owned collection?'))return;
+  toggleOwned(btn.dataset.id,btn.dataset.kind);
+ }else if(act==='remove-tier'){
+  var tier=btn.dataset.tier,tierName=TIER_STYLE[tier]?TIER_STYLE[tier][1]:tier;
+  if(typeof confirm!=='undefined'&&!confirm('Remove “'+btn.dataset.title+'” from '+tierName+'?'))return;
+  if(tier==='gold')toggleDeclaredFavorite(btn.dataset.id);
+  else if(tier==='silver')toggleSilverTier(btn.dataset.id);
+  else if(tier==='bronze')toggleBronzeTier(btn.dataset.id);
+ }
 }
 
 /* ===== First-run onboarding gate (Phase 3 of the sharing roadmap) =====
