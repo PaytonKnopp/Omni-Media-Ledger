@@ -3463,7 +3463,7 @@ function rerenderAfterProfileChange(changedIds){
  // keeps a click on a card deep in a long list from jumping the viewport.
  window.scrollTo(0,y);
 }
-function mutateProfile(mutatorFn){
+function mutateProfile(mutatorFn,forceFullRender){
  let snapshot;
  try{snapshot=JSON.parse(JSON.stringify(PERSONAL_PROFILE));}catch(e){alert('Could not read current profile: '+e.message);return;}
  try{mutatorFn(snapshot);}catch(e){alert('Could not apply that change: '+e.message);return;}
@@ -3490,8 +3490,10 @@ function mutateProfile(mutatorFn){
  // silently dead one.
  try{recomputeProfileDerived();}catch(e){console.error('recomputeProfileDerived failed after a profile change -- the edit was saved, but on-screen state may be stale until this is fixed:',e);}
  // null means "assume anything may have changed" -- the honest answer whenever a profile key the
- // cards read directly has moved.
- rerenderAfterProfileChange(cardKeysMoved?null:expandChangedIds(changedSince(beforeDerived)));
+ // cards read directly has moved. Owned toggles force it too: the green "Owned" pill wasn't
+ // reliably repainting through the partial patch path, so own/unown always gets a full redraw
+ // of whatever's on screen instead of chasing that patch bug.
+ rerenderAfterProfileChange((cardKeysMoved||forceFullRender)?null:expandChangedIds(changedSince(beforeDerived)));
  // A monotonic "the profile changed and the app has caught up" counter. With no navigation to
  // watch for any more, this is what the regression suite waits on to know a tier click actually
  // landed, and it is a useful thing to watch from a console for the same reason.
@@ -3521,7 +3523,7 @@ function toggleOwned(id,kind){
    const i=p.ownedGameIds.indexOf(id);
    if(i>=0)p.ownedGameIds.splice(i,1);else p.ownedGameIds.push(id);
   }
- });
+ },true);
 }
 // Nudges a creator's weight up OR down (delta can be negative -- "the opposite of boosting"):
 // bounded to [-20,20], and an entry that lands back on exactly 0 is removed rather than kept
