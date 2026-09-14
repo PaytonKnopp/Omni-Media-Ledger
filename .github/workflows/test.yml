@@ -53,6 +53,13 @@ jobs:
       - name: Install dependencies
         run: npm install
 
+      # Informational for now: the existing app/ledger-app.js has ~30 pre-existing findings
+      # (mostly empty catch blocks) that haven't been triaged yet, so this doesn't fail the
+      # build. Once those are cleared, drop continue-on-error so lint actually gates merges.
+      - name: Lint
+        run: npm run lint
+        continue-on-error: true
+
       # test/regression.js loads playwright-core (already a devDependency) and looks for a
       # Chromium binary at a few well-known paths -- installing it via the full `playwright`
       # package's CLI (without adding it as a project dependency) is the standard way to get
