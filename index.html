@@ -56,6 +56,12 @@ details[open]>.collSum .collCaret{transform:rotate(90deg)}
 .collGroup{border-left:1px solid var(--border);padding-left:10px}
 .collGroup+.collGroup{margin-top:2px}
 .chip{display:inline-flex;align-items:center;gap:4px;font-size:10px;line-height:1.1;padding:3px 9px;border-radius:9999px;border:1px solid var(--border-2);color:var(--text-dim);background:rgba(30,41,59,.45);white-space:nowrap}
+/* Hover-reveal remove ("x") buttons on Collection cards and GOAT Profile tier chips: hand-written
+   rather than the precompiled Tailwind opacity-0/group-hover:opacity-100 utilities, since those
+   were never in this file's precompiled stylesheet (see the npx tailwindcss build note above) and
+   would silently no-op. Always-interactive via :focus-visible for keyboard users. */
+.removeItemBtn,.removeTierBtn{opacity:0;transition:opacity .15s ease;align-self:flex-start}
+.group:hover .removeItemBtn,.group:hover .removeTierBtn,.removeItemBtn:focus-visible,.removeTierBtn:focus-visible{opacity:1}
 .bar{height:5px;border-radius:3px;background:var(--panel-3);overflow:hidden}
 .bar>i{display:block;height:100%;border-radius:3px;transition:width .25s ease}
 .inp{width:100%;background:var(--panel-2);border:1px solid var(--border);border-radius:9px;padding:8px 10px;font-size:13px;color:var(--text);color-scheme:dark}
