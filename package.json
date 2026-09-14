@@ -8,9 +8,13 @@
     "test-schema": "node test/schema.js",
     "test-facts": "node test/fetch-facts.js && node test/fetch-substance.js",
     "fetch-facts": "node scripts/fetch-facts.js",
-    "fetch-substance": "node scripts/fetch-substance.js"
+    "fetch-substance": "node scripts/fetch-substance.js",
+    "lint": "eslint ."
   },
   "devDependencies": {
-    "playwright-core": "^1.62.1"
+    "playwright-core": "^1.62.1",
+    "eslint": "^10.10.0",
+    "@eslint/js": "^10.0.1",
+    "globals": "^17.12.0"
   }
 }
