@@ -143,7 +143,7 @@ function applyOwnershipFromProfile(){
   if(x.kind==='game')x.owned=ownedGames.indexOf(x.id)>=0;
   if(x.kind==='book'){
    if(parseInt(x.id.slice(1),10)<=OWNED_BOOK_ID_CEILING){x.owned=true;x.physFormat=x.bookFmt;}
-   else if(OB(x.id)){x.owned=true;x.physFormat=OWNED_BOOKS_EXTRA[x.id];}
+   if(OB(x.id)){x.owned=true;x.physFormat=OWNED_BOOKS_EXTRA[x.id];}
   }
   if(OWNED_MEDIA[x.id]){x.owned=true;x.physFormat=OWNED_MEDIA[x.id];}
   x.physFormat=normPhysFormat(x.kind,x.physFormat);
