@@ -1,0 +1,3420 @@
+{
+ "medium": "movie",
+ "generated": "2026-09-16T18:34:35.134Z",
+ "offline": false,
+ "includesProse": false,
+ "attribution": "This product uses the TMDB API but is not endorsed or certified by TMDB.",
+ "works": [
+  {
+   "id": "m1010",
+   "title": "Star Wars: The Empire Strikes Back",
+   "year": 1980,
+   "corpusGenres": [
+    "Sci-Fi",
+    "Adventure"
+   ],
+   "tags": [],
+   "sourceGenres": [],
+   "sources": [],
+   "missed": [
+    "TMDB (no match for \"Star Wars: The Empire Strikes Back\")"
+   ],
+   "coverage": 0
+  },
+  {
+   "id": "m1011",
+   "title": "Star Wars: Return of the Jedi",
+   "year": 1983,
+   "corpusGenres": [
+    "Sci-Fi",
+    "Adventure"
+   ],
+   "tags": [],
+   "sourceGenres": [],
+   "sources": [],
+   "missed": [
+    "TMDB (no match for \"Star Wars: Return of the Jedi\")"
+   ],
+   "coverage": 0
+  },
+  {
+   "id": "m1012",
+   "title": "Star Wars: Episode I - The Phantom Menace",
+   "year": 1999,
+   "corpusGenres": [
+    "Sci-Fi",
+    "Adventure"
+   ],
+   "tags": [
+    "galaxy",
+    "senate",
+    "taskmaster",
+    "prophecy",
+    "queen",
+    "apprentice",
+    "taxes",
+    "prequel",
+    "space opera",
+    "admiring",
+    "tuwaderalit"
+   ],
+   "sourceGenres": [
+    "adventure",
+    "action",
+    "science fiction"
+   ],
+   "sources": [
+    {
+     "src": "TMDB",
+     "matchedTitle": "Star Wars: Episode I - The Phantom Menace",
+     "url": "https://api.themoviedb.org/3/movie/1893"
+    }
+   ],
+   "missed": [],
+   "coverage": 11
+  },
+  {
+   "id": "m1013",
+   "title": "Star Wars: Episode II - Attack of the Clones",
+   "year": 2002,
+   "corpusGenres": [
+    "Sci-Fi",
+    "Adventure"
+   ],
+   "tags": [
+    "army",
+    "laser gun",
+    "senate",
+    "investigation",
+    "sequel",
+    "prequel",
+    "cult figure",
+    "wedding",
+    "kendo",
+    "space opera",
+    "spaceport",
+    "teenage rebellion",
+    "good becoming evil",
+    "alien race",
+    "mechanical hand",
+    "quest",
+    "amused",
+    "tuwaderalit"
+   ],
+   "sourceGenres": [
+    "adventure",
+    "action",
+    "science fiction"
+   ],
+   "sources": [
+    {
+     "src": "TMDB",
+     "matchedTitle": "Star Wars: Episode II - Attack of the Clones",
+     "url": "https://api.themoviedb.org/3/movie/1894"
+    }
+   ],
+   "missed": [],
+   "coverage": 18
+  },
+  {
+   "id": "m1014",
+   "title": "Star Wars: Episode III - Revenge of the Sith",
+   "year": 2005,
+   "corpusGenres": [
+    "Sci-Fi",
+    "Adventure"
+   ],
+   "tags": [
+    "showdown",
+    "lava",
+    "fight",
+    "politics",
+    "volcano",
+    "chosen one",
+    "sequel",
+    "romance",
+    "prequel",
+    "tragedy",
+    "cult figure",
+    "tragic hero",
+    "vision",
+    "planet",
+    "hatred",
+    "dream sequence",
+    "expectant mother",
+    "space opera",
+    "chancel",
+    "burn injury",
+    "allegorical",
+    "tragic romance",
+    "fall from grace",
+    "power",
+    "violence",
+    "tuwaderalit"
+   ],
+   "sourceGenres": [
+    "adventure",
+    "action",
+    "science fiction"
+   ],
+   "sources": [
+    {
+     "src": "TMDB",
+     "matchedTitle": "Star Wars: Episode III - Revenge of the Sith",
+     "url": "https://api.themoviedb.org/3/movie/1895"
+    }
+   ],
+   "missed": [],
+   "coverage": 26
+  },
+  {
+   "id": "m1015",
+   "title": "Star Wars: The Last Jedi",
+   "year": 2017,
+   "corpusGenres": [
+    "Sci-Fi",
+    "Adventure"
+   ],
+   "tags": [
+    "bunker",
+    "space battle",
+    "defeat",
+    "failure",
+    "sequel",
+    "space opera",
+    "military operation",
+    "quest",
+    "tuwaderalit"
+   ],
+   "sourceGenres": [
+    "adventure",
+    "action",
+    "science fiction"
+   ],
+   "sources": [
+    {
+     "src": "TMDB",
+     "matchedTitle": "Star Wars: The Last Jedi",
+     "url": "https://api.themoviedb.org/3/movie/181808"
+    }
+   ],
+   "missed": [],
+   "coverage": 9
+  },
+  {
+   "id": "m1016",
+   "title": "Star Wars: The Rise of Skywalker",
+   "year": 2019,
+   "corpusGenres": [
+    "Sci-Fi",
+    "Adventure"
+   ],
+   "tags": [
+    "space opera"
+   ],
+   "sourceGenres": [
+    "adventure",
+    "action",
+    "science fiction"
+   ],
+   "sources": [
+    {
+     "src": "TMDB",
+     "matchedTitle": "Star Wars: The Rise of Skywalker",
+     "url": "https://api.themoviedb.org/3/movie/181812"
+    }
+   ],
+   "missed": [],
+   "coverage": 1
+  },
+  {
+   "id": "m1017",
+   "title": "Rogue One: A Star Wars Story",
+   "year": 2016,
+   "corpusGenres": [
+    "Sci-Fi",
+    "War"
+   ],
+   "tags": [
+    "rebellion",
+    "spacecraft",
+    "rebel",
+    "space battle",
+    "space travel",
+    "prequel",
+    "female protagonist",
+    "space western",
+    "suicide mission",
+    "robot",
+    "spin off",
+    "space opera",
+    "alien language",
+    "against the odds",
+    "blind man"
+   ],
+   "sourceGenres": [
+    "action",
+    "adventure",
+    "science fiction"
+   ],
+   "sources": [
+    {
+     "src": "TMDB",
+     "matchedTitle": "Rogue One: A Star Wars Story",
+     "url": "https://api.themoviedb.org/3/movie/330459"
+    }
+   ],
+   "missed": [],
+   "coverage": 15
+  },
+  {
+   "id": "m1018",
+   "title": "Solo: A Star Wars Story",
+   "year": 2018,
+   "corpusGenres": [
+    "Sci-Fi",
+    "Adventure"
+   ],
+   "tags": [
+    "spacecraft",
+    "smuggling (contraband)",
+    "prequel",
+    "spin off",
+    "space opera"
+   ],
+   "sourceGenres": [
+    "science fiction",
+    "adventure",
+    "action"
+   ],
+   "sources": [
+    {
+     "src": "TMDB",
+     "matchedTitle": "Solo: A Star Wars Story",
+     "url": "https://api.themoviedb.org/3/movie/348350"
+    }
+   ],
+   "missed": [],
+   "coverage": 5
+  },
+  {
+   "id": "m1019",
+   "title": "Harry Potter and the Chamber of Secrets",
+   "year": 2002,
+   "corpusGenres": [
+    "Fantasy",
+    "Adventure"
+   ],
+   "tags": [
+    "witch",
+    "flying car",
+    "based on novel or book",
+    "elves",
+    "magic",
+    "sword",
+    "diary",
+    "child hero",
+    "school of witchcraft",
+    "giant spider",
+    "black magic",
+    "giant snake",
+    "sequel",
+    "ghost",
+    "nostalgic",
+    "child driving car",
+    "wizard",
+    "aftercreditsstinger",
+    "christmas",
+    "complex",
+    "based on young adult novel",
+    "admiring",
+    "amused",
+    "teen fantasy"
+   ],
+   "sourceGenres": [
+    "adventure",
+    "fantasy"
+   ],
+   "sources": [
+    {
+     "src": "TMDB",
+     "matchedTitle": "Harry Potter and the Chamber of Secrets",
+     "url": "https://api.themoviedb.org/3/movie/672"
+    }
+   ],
+   "missed": [],
+   "coverage": 24
+  },
+  {
+   "id": "m1020",
+   "title": "Harry Potter and the Prisoner of Azkaban",
+   "year": 2004,
+   "corpusGenres": [
+    "Fantasy",
+    "Adventure"
+   ],
+   "tags": [
+    "witch",
+    "school friend",
+    "friendship",
+    "based on novel or book",
+    "flying",
+    "magic",
+    "bus",
+    "traitor",
+    "child hero",
+    "school of witchcraft",
+    "black magic",
+    "time travel",
+    "sequel",
+    "school",
+    "best friend",
+    "werewolf",
+    "muggle",
+    "ghost",
+    "wizard",
+    "aftercreditsstinger",
+    "magical creature",
+    "night bus",
+    "teenage life",
+    "christmas",
+    "school class",
+    "based on young adult novel",
+    "magic spell",
+    "enchant",
+    "teen fantasy"
+   ],
+   "sourceGenres": [
+    "adventure",
+    "fantasy"
+   ],
+   "sources": [
+    {
+     "src": "TMDB",
+     "matchedTitle": "Harry Potter and the Prisoner of Azkaban",
+     "url": "https://api.themoviedb.org/3/movie/673"
+    }
+   ],
+   "missed": [],
+   "coverage": 29
+  },
+  {
+   "id": "m1021",
+   "title": "Harry Potter and the Goblet of Fire",
+   "year": 2005,
+   "corpusGenres": [
+    "Fantasy",
+    "Adventure"
+   ],
+   "tags": [
+    "witch",
+    "based on novel or book",
+    "magic",
+    "maze",
+    "school of witchcraft",
+    "black magic",
+    "sequel",
+    "tournament",
+    "dragon",
+    "wizard",
+    "teenage hero",
+    "based on young adult novel",
+    "teen adventure",
+    "teen fantasy"
+   ],
+   "sourceGenres": [
+    "adventure",
+    "fantasy"
+   ],
+   "sources": [
+    {
+     "src": "TMDB",
+     "matchedTitle": "Harry Potter and the Goblet of Fire",
+     "url": "https://api.themoviedb.org/3/movie/674"
+    }
+   ],
+   "missed": [],
+   "coverage": 14
+  },
+  {
+   "id": "m1022",
+   "title": "Harry Potter and the Order of the Phoenix",
+   "year": 2007,
+   "corpusGenres": [
+    "Fantasy",
+    "Drama"
+   ],
+   "tags": [
+    "witch",
+    "dying and death",
+    "based on novel or book",
+    "court",
+    "magic",
+    "prophecy",
+    "loss of loved one",
+    "professor",
+    "supernatural",
+    "child hero",
+    "school of witchcraft",
+    "black magic",
+    "sorcery",
+    "sequel",
+    "coming of age",
+    "occult",
+    "ghost",
+    "wizard",
+    "christmas",
+    "scholar",
+    "mystical land",
+    "ministry",
+    "based on young adult novel",
+    "depressing",
+    "tragic",
+    "teen fantasy"
+   ],
+   "sourceGenres": [
+    "adventure",
+    "fantasy"
+   ],
+   "sources": [
+    {
+     "src": "TMDB",
+     "matchedTitle": "Harry Potter and the Order of the Phoenix",
+     "url": "https://api.themoviedb.org/3/movie/675"
+    }
+   ],
+   "missed": [],
+   "coverage": 26
+  },
+  {
+   "id": "m1023",
+   "title": "Harry Potter and the Half-Blood Prince",
+   "year": 2009,
+   "corpusGenres": [
+    "Fantasy",
+    "Drama"
+   ],
+   "tags": [
+    "witch",
+    "dying and death",
+    "london, england",
+    "based on novel or book",
+    "magic",
+    "school of witchcraft",
+    "sequel",
+    "apparition",
+    "curse",
+    "teenage crush",
+    "school",
+    "werewolf",
+    "teenage love",
+    "luck",
+    "ghost",
+    "wizard",
+    "secret past",
+    "christmas",
+    "based on young adult novel",
+    "depressing",
+    "teen fantasy"
+   ],
+   "sourceGenres": [
+    "adventure",
+    "fantasy"
+   ],
+   "sources": [
+    {
+     "src": "TMDB",
+     "matchedTitle": "Harry Potter and the Half-Blood Prince",
+     "url": "https://api.themoviedb.org/3/movie/767"
+    }
+   ],
+   "missed": [],
+   "coverage": 21
+  },
+  {
+   "id": "m1024",
+   "title": "Harry Potter and the Deathly Hallows: Part 1",
+   "year": 2010,
+   "corpusGenres": [
+    "Fantasy",
+    "Drama"
+   ],
+   "tags": [
+    "witch",
+    "friendship",
+    "london, england",
+    "corruption",
+    "based on novel or book",
+    "escape",
+    "teleportation",
+    "isolation",
+    "magic",
+    "bravery",
+    "radio",
+    "road trip",
+    "sequel",
+    "shelter",
+    "tension",
+    "attack",
+    "werewolf",
+    "ghost",
+    "road movie",
+    "wizard",
+    "christmas",
+    "based on young adult novel",
+    "depressed",
+    "dramatic",
+    "teen fantasy"
+   ],
+   "sourceGenres": [
+    "adventure",
+    "fantasy"
+   ],
+   "sources": [
+    {
+     "src": "TMDB",
+     "matchedTitle": "Harry Potter and the Deathly Hallows: Part 1",
+     "url": "https://api.themoviedb.org/3/movie/12444"
+    }
+   ],
+   "missed": [],
+   "coverage": 25
+  },
+  {
+   "id": "m1025",
+   "title": "Harry Potter and the Deathly Hallows: Part 2",
+   "year": 2011,
+   "corpusGenres": [
+    "Fantasy",
+    "War"
+   ],
+   "tags": [
+    "witch",
+    "dying and death",
+    "saving the world",
+    "based on novel or book",
+    "self sacrifice",
+    "magic",
+    "school of witchcraft",
+    "sequel",
+    "sorcerer",
+    "school",
+    "battle",
+    "ghost",
+    "wizard",
+    "teenage hero",
+    "christmas",
+    "based on young adult novel",
+    "good versus evil",
+    "dramatic",
+    "appreciative",
+    "excited",
+    "teen fantasy"
+   ],
+   "sourceGenres": [
+    "adventure",
+    "fantasy"
+   ],
+   "sources": [
+    {
+     "src": "TMDB",
+     "matchedTitle": "Harry Potter and the Deathly Hallows: Part 2",
+     "url": "https://api.themoviedb.org/3/movie/12445"
+    }
+   ],
+   "missed": [],
+   "coverage": 21
+  },
+  {
+   "id": "m1026",
+   "title": "Pirates of the Caribbean: Dead Man's Chest",
+   "year": 2006,
+   "corpusGenres": [
+    "Adventure",
+    "Fantasy"
+   ],
+   "tags": [
+    "witch",
+    "daughter",
+    "ship",
+    "exotic island",
+    "monster",
+    "fortune teller",
+    "compass",
+    "sequel",
+    "sword fight",
+    "pirate",
+    "cannibal",
+    "swashbuckler",
+    "kraken",
+    "aftercreditsstinger",
+    "based on theme park ride",
+    "witty"
+   ],
+   "sourceGenres": [
+    "adventure",
+    "fantasy",
+    "action"
+   ],
+   "sources": [
+    {
+     "src": "TMDB",
+     "matchedTitle": "Pirates of the Caribbean: Dead Man's Chest",
+     "url": "https://api.themoviedb.org/3/movie/58"
+    }
+   ],
+   "missed": [],
+   "coverage": 16
+  },
+  {
+   "id": "m1027",
+   "title": "Pirates of the Caribbean: At World's End",
+   "year": 2007,
+   "corpusGenres": [
+    "Adventure",
+    "Fantasy"
+   ],
+   "tags": [
+    "exotic island",
+    "strong woman",
+    "love of one's life",
+    "afterlife",
+    "traitor",
+    "singapore",
+    "shipwreck",
+    "sequel",
+    "sword fight",
+    "pirate",
+    "monkey",
+    "swashbuckler",
+    "flying dutchman",
+    "rum",
+    "sailing ship",
+    "aftercreditsstinger",
+    "british navy",
+    "mass hanging",
+    "playful",
+    "based on theme park ride",
+    "whimsical",
+    "celebratory",
+    "excited",
+    "joyful"
+   ],
+   "sourceGenres": [
+    "adventure",
+    "fantasy",
+    "action"
+   ],
+   "sources": [
+    {
+     "src": "TMDB",
+     "matchedTitle": "Pirates of the Caribbean: At World's End",
+     "url": "https://api.themoviedb.org/3/movie/285"
+    }
+   ],
+   "missed": [],
+   "coverage": 24
+  },
+  {
+   "id": "m1028",
+   "title": "Pirates of the Caribbean: On Stranger Tides",
+   "year": 2011,
+   "corpusGenres": [
+    "Adventure",
+    "Fantasy"
+   ],
+   "tags": [
+    "sea",
+    "ship",
+    "mutiny",
+    "spain",
+    "england",
+    "sword",
+    "prime minister",
+    "sailing",
+    "mermaid",
+    "duke",
+    "sequel",
+    "silver",
+    "pirate",
+    "soldier",
+    "battle",
+    "swashbuckler",
+    "18th century",
+    "aftercreditsstinger",
+    "blackbeard",
+    "based on theme park ride",
+    "whimsical",
+    "excited"
+   ],
+   "sourceGenres": [
+    "adventure",
+    "action",
+    "fantasy"
+   ],
+   "sources": [
+    {
+     "src": "TMDB",
+     "matchedTitle": "Pirates of the Caribbean: On Stranger Tides",
+     "url": "https://api.themoviedb.org/3/movie/1865"
+    }
+   ],
+   "missed": [],
+   "coverage": 22
+  },
+  {
+   "id": "m1029",
+   "title": "Pirates of the Caribbean: Dead Men Tell No Tales",
+   "year": 2017,
+   "corpusGenres": [
+    "Adventure",
+    "Fantasy"
+   ],
+   "tags": [
+    "treasure map",
+    "sequel",
+    "royal navy",
+    "pirate",
+    "swashbuckler",
+    "caribbean sea",
+    "dark fantasy",
+    "trident",
+    "based on theme park ride",
+    "treasure hunting",
+    "caribbean island",
+    "ghost pirates",
+    "cursed crew",
+    "legendary artifact",
+    "oceanic curse",
+    "supernatural pursuit",
+    "naval confrontation",
+    "dangerous voyage",
+    "rival captains",
+    "epic chase"
+   ],
+   "sourceGenres": [
+    "adventure",
+    "action",
+    "fantasy"
+   ],
+   "sources": [
+    {
+     "src": "TMDB",
+     "matchedTitle": "Pirates of the Caribbean: Dead Men Tell No Tales",
+     "url": "https://api.themoviedb.org/3/movie/166426"
+    }
+   ],
+   "missed": [],
+   "coverage": 20
+  },
+  {
+   "id": "m1030",
+   "title": "Dr. No",
+   "year": 1962,
+   "corpusGenres": [
+    "Action",
+    "Spy"
+   ],
+   "tags": [
+    "exotic island",
+    "london, england",
+    "space marine",
+    "card game",
+    "assassination",
+    "casino",
+    "based on novel or book",
+    "england",
+    "secret mission",
+    "spy",
+    "secret intelligence service",
+    "jamaica",
+    "intelligence",
+    "secret base",
+    "baccarat",
+    "secret organization",
+    "nuclear radiation",
+    "villain",
+    "secret agent",
+    "atomic reactor",
+    "caribbean sea",
+    "james bond",
+    "witty",
+    "excited"
+   ],
+   "sourceGenres": [
+    "adventure",
+    "action",
+    "thriller"
+   ],
+   "sources": [
+    {
+     "src": "TMDB",
+     "matchedTitle": "Dr. No",
+     "url": "https://api.themoviedb.org/3/movie/646"
+    }
+   ],
+   "missed": [],
+   "coverage": 24
+  },
+  {
+   "id": "m1031",
+   "title": "From Russia with Love",
+   "year": 1963,
+   "corpusGenres": [
+    "Action",
+    "Spy"
+   ],
+   "tags": [
+    "assassin",
+    "london, england",
+    "assassination",
+    "based on novel or book",
+    "venice, italy",
+    "england",
+    "gypsy",
+    "secret mission",
+    "spy",
+    "secret intelligence service",
+    "secret organization",
+    "villain",
+    "kgb",
+    "orient express",
+    "zagreb",
+    "gondola",
+    "phantom",
+    "duringcreditsstinger",
+    "inspirational",
+    "james bond",
+    "whimsical",
+    "excited"
+   ],
+   "sourceGenres": [
+    "action",
+    "thriller",
+    "adventure"
+   ],
+   "sources": [
+    {
+     "src": "TMDB",
+     "matchedTitle": "From Russia with Love",
+     "url": "https://api.themoviedb.org/3/movie/657"
+    }
+   ],
+   "missed": [],
+   "coverage": 22
+  },
+  {
+   "id": "m1032",
+   "title": "Goldfinger",
+   "year": 1964,
+   "corpusGenres": [
+    "Action",
+    "Spy"
+   ],
+   "tags": [
+    "airplane",
+    "based on novel or book",
+    "england",
+    "secret intelligence service",
+    "golf",
+    "secret organization",
+    "nuclear radiation",
+    "fort knox",
+    "aston martin",
+    "secret lab",
+    "laser",
+    "kentucky",
+    "gas attack",
+    "mi6",
+    "british secret service",
+    "duringcreditsstinger",
+    "james bond",
+    "suspenseful",
+    "excited"
+   ],
+   "sourceGenres": [
+    "adventure",
+    "action",
+    "thriller"
+   ],
+   "sources": [
+    {
+     "src": "TMDB",
+     "matchedTitle": "Goldfinger",
+     "url": "https://api.themoviedb.org/3/movie/658"
+    }
+   ],
+   "missed": [],
+   "coverage": 19
+  },
+  {
+   "id": "m1033",
+   "title": "Thunderball",
+   "year": 1965,
+   "corpusGenres": [
+    "Action",
+    "Spy"
+   ],
+   "tags": [
+    "sea",
+    "florida",
+    "paris, france",
+    "spy",
+    "fighter pilot",
+    "bahamas",
+    "sanatorium",
+    "secret organization",
+    "nuclear missile",
+    "coral reef",
+    "secret agent",
+    "scuba diving",
+    "british spy",
+    "shark",
+    "scuba",
+    "british secret service",
+    "big ben",
+    "james bond"
+   ],
+   "sourceGenres": [
+    "adventure",
+    "action",
+    "thriller"
+   ],
+   "sources": [
+    {
+     "src": "TMDB",
+     "matchedTitle": "Thunderball",
+     "url": "https://api.themoviedb.org/3/movie/660"
+    }
+   ],
+   "missed": [],
+   "coverage": 18
+  },
+  {
+   "id": "m1034",
+   "title": "You Only Live Twice",
+   "year": 1967,
+   "corpusGenres": [
+    "Action",
+    "Spy"
+   ],
+   "tags": [
+    "island",
+    "japan",
+    "assassin",
+    "london, england",
+    "helicopter",
+    "assassination",
+    "based on novel or book",
+    "nasa",
+    "england",
+    "funeral",
+    "vulkan",
+    "war ship",
+    "secret mission",
+    "missile",
+    "secret intelligence service",
+    "secret identity",
+    "asia",
+    "ninja fighter",
+    "secret base",
+    "secret organization",
+    "villain",
+    "phantom",
+    "sumo ringer",
+    "volcano",
+    "space",
+    "soldier",
+    "killer",
+    "secret service",
+    "blast",
+    "james bond"
+   ],
+   "sourceGenres": [
+    "action",
+    "thriller",
+    "adventure"
+   ],
+   "sources": [
+    {
+     "src": "TMDB",
+     "matchedTitle": "You Only Live Twice",
+     "url": "https://api.themoviedb.org/3/movie/667"
+    }
+   ],
+   "missed": [],
+   "coverage": 30
+  },
+  {
+   "id": "m1035",
+   "title": "On Her Majesty's Secret Service",
+   "year": 1969,
+   "corpusGenres": [
+    "Action",
+    "Spy"
+   ],
+   "tags": [
+    "daughter",
+    "suicide",
+    "london, england",
+    "based on novel or book",
+    "england",
+    "espionage",
+    "secret mission",
+    "secret identity",
+    "switzerland",
+    "new identity",
+    "honeymoon",
+    "secret organization",
+    "villain",
+    "secret lab",
+    "family history",
+    "snowstorm",
+    "mi6",
+    "killer",
+    "british secret service",
+    "snow skiing",
+    "alps mountains",
+    "aftercreditsstinger",
+    "james bond",
+    "dramatic",
+    "appreciative",
+    "audacious",
+    "bold"
+   ],
+   "sourceGenres": [
+    "adventure",
+    "action",
+    "thriller"
+   ],
+   "sources": [
+    {
+     "src": "TMDB",
+     "matchedTitle": "On Her Majesty's Secret Service",
+     "url": "https://api.themoviedb.org/3/movie/668"
+    }
+   ],
+   "missed": [],
+   "coverage": 27
+  },
+  {
+   "id": "m1036",
+   "title": "Diamonds Are Forever",
+   "year": 1971,
+   "corpusGenres": [
+    "Action",
+    "Spy"
+   ],
+   "tags": [
+    "smuggling (contraband)",
+    "fight",
+    "amsterdam, netherlands",
+    "cat",
+    "spy",
+    "secret organization",
+    "moon buggy",
+    "satellite",
+    "secret agent",
+    "plastic surgery",
+    "murder",
+    "extortion",
+    "look-alike",
+    "las vegas",
+    "millionaire",
+    "fingerprint",
+    "dirt bike",
+    "casino owner",
+    "old woman murdered",
+    "high dive",
+    "gender disguise",
+    "aftercreditsstinger",
+    "master villain",
+    "james bond",
+    "witty"
+   ],
+   "sourceGenres": [
+    "action",
+    "thriller"
+   ],
+   "sources": [
+    {
+     "src": "TMDB",
+     "matchedTitle": "Diamonds Are Forever",
+     "url": "https://api.themoviedb.org/3/movie/681"
+    }
+   ],
+   "missed": [],
+   "coverage": 25
+  },
+  {
+   "id": "m1037",
+   "title": "Live and Let Die",
+   "year": 1973,
+   "corpusGenres": [
+    "Action",
+    "Spy"
+   ],
+   "tags": [
+    "new york city",
+    "london, england",
+    "sheriff",
+    "dual identity",
+    "based on novel or book",
+    "drug smuggling",
+    "bomb",
+    "england",
+    "secret mission",
+    "spy",
+    "boat",
+    "secret intelligence service",
+    "tarot cards",
+    "jamaica",
+    "drug trafficking",
+    "voodoo",
+    "tombstone",
+    "heroin",
+    "secret identity",
+    "crocodile",
+    "speedboat",
+    "aftercreditsstinger",
+    "james bond"
+   ],
+   "sourceGenres": [
+    "adventure",
+    "action",
+    "thriller"
+   ],
+   "sources": [
+    {
+     "src": "TMDB",
+     "matchedTitle": "Live and Let Die",
+     "url": "https://api.themoviedb.org/3/movie/253"
+    }
+   ],
+   "missed": [],
+   "coverage": 23
+  },
+  {
+   "id": "m1038",
+   "title": "The Man with the Golden Gun",
+   "year": 1974,
+   "corpusGenres": [
+    "Action",
+    "Spy"
+   ],
+   "tags": [
+    "gold",
+    "exotic island",
+    "martial arts",
+    "assassin",
+    "london, england",
+    "based on novel or book",
+    "england",
+    "hitman",
+    "secret mission",
+    "villain",
+    "bangkok, thailand",
+    "thailand",
+    "floatplane",
+    "karate",
+    "hong kong",
+    "duel",
+    "secret service",
+    "aftercreditsstinger",
+    "james bond",
+    "absurd",
+    "amused"
+   ],
+   "sourceGenres": [
+    "adventure",
+    "action",
+    "thriller"
+   ],
+   "sources": [
+    {
+     "src": "TMDB",
+     "matchedTitle": "The Man with the Golden Gun",
+     "url": "https://api.themoviedb.org/3/movie/682"
+    }
+   ],
+   "missed": [],
+   "coverage": 21
+  },
+  {
+   "id": "m1039",
+   "title": "The Spy Who Loved Me",
+   "year": 1977,
+   "corpusGenres": [
+    "Action",
+    "Spy"
+   ],
+   "tags": [
+    "sea",
+    "egypt",
+    "assassination",
+    "based on novel or book",
+    "cairo",
+    "submarine",
+    "england",
+    "tanker",
+    "spy",
+    "mass murder",
+    "secret intelligence service",
+    "pyramid",
+    "villain",
+    "kgb",
+    "nuclear missile",
+    "sphinx",
+    "sardinia, italy",
+    "warhead",
+    "jet ski",
+    "utopia",
+    "secret agent",
+    "murder",
+    "terrorism",
+    "shark",
+    "killer",
+    "british secret service",
+    "snow skiing",
+    "james bond",
+    "excited"
+   ],
+   "sourceGenres": [
+    "adventure",
+    "action",
+    "thriller"
+   ],
+   "sources": [
+    {
+     "src": "TMDB",
+     "matchedTitle": "The Spy Who Loved Me",
+     "url": "https://api.themoviedb.org/3/movie/691"
+    }
+   ],
+   "missed": [],
+   "coverage": 29
+  },
+  {
+   "id": "m1040",
+   "title": "Moonraker",
+   "year": 1979,
+   "corpusGenres": [
+    "Action",
+    "Spy"
+   ],
+   "tags": [
+    "space marine",
+    "based on novel or book",
+    "venice, italy",
+    "mass murder",
+    "rio de janeiro",
+    "space suit",
+    "marcus square",
+    "space battle",
+    "secret base",
+    "gondola",
+    "laser",
+    "space travel",
+    "utopia",
+    "boat chase",
+    "mi6",
+    "astronaut",
+    "british secret service",
+    "space shuttle",
+    "cable car",
+    "james bond"
+   ],
+   "sourceGenres": [
+    "action",
+    "adventure",
+    "thriller",
+    "science fiction"
+   ],
+   "sources": [
+    {
+     "src": "TMDB",
+     "matchedTitle": "Moonraker",
+     "url": "https://api.themoviedb.org/3/movie/698"
+    }
+   ],
+   "missed": [],
+   "coverage": 20
+  },
+  {
+   "id": "m1041",
+   "title": "For Your Eyes Only",
+   "year": 1981,
+   "corpusGenres": [
+    "Action",
+    "Spy"
+   ],
+   "tags": [
+    "sea",
+    "assassin",
+    "london, england",
+    "smuggling (contraband)",
+    "submarine",
+    "undercover",
+    "england",
+    "secret mission",
+    "olympic games",
+    "secret intelligence service",
+    "drug trafficking",
+    "mountain",
+    "kgb",
+    "coral reef",
+    "ski jump",
+    "parrot",
+    "cryptographic device",
+    "figure skating",
+    "motorcycle",
+    "monastery",
+    "british secret service",
+    "snow skiing",
+    "serious",
+    "james bond"
+   ],
+   "sourceGenres": [
+    "adventure",
+    "action",
+    "thriller"
+   ],
+   "sources": [
+    {
+     "src": "TMDB",
+     "matchedTitle": "For Your Eyes Only",
+     "url": "https://api.themoviedb.org/3/movie/699"
+    }
+   ],
+   "missed": [],
+   "coverage": 24
+  },
+  {
+   "id": "m1042",
+   "title": "Octopussy",
+   "year": 1983,
+   "corpusGenres": [
+    "Action",
+    "Spy"
+   ],
+   "tags": [
+    "circus",
+    "atomic bomb",
+    "secret intelligence service",
+    "crocodile",
+    "eastern block",
+    "kgb",
+    "snake charmer",
+    "hot air balloon",
+    "east berlin",
+    "british secret service",
+    "james bond",
+    "octopussy",
+    "octupussy"
+   ],
+   "sourceGenres": [
+    "adventure",
+    "action",
+    "thriller"
+   ],
+   "sources": [
+    {
+     "src": "TMDB",
+     "matchedTitle": "Octopussy",
+     "url": "https://api.themoviedb.org/3/movie/700"
+    }
+   ],
+   "missed": [],
+   "coverage": 13
+  },
+  {
+   "id": "m1043",
+   "title": "A View to a Kill",
+   "year": 1985,
+   "corpusGenres": [
+    "Action",
+    "Spy"
+   ],
+   "tags": [
+    "london, england",
+    "helicopter",
+    "fire",
+    "drug abuse",
+    "france",
+    "paris, france",
+    "england",
+    "san francisco, california",
+    "horse race",
+    "secret identity",
+    "fire engine",
+    "villain",
+    "earthquake",
+    "ascot",
+    "silicon valley",
+    "zeppelin",
+    "snowboarding",
+    "microchip",
+    "doping",
+    "racehorse",
+    "flooding",
+    "snow",
+    "golden gate bridge",
+    "terrorism",
+    "british secret service",
+    "snow skiing",
+    "eiffel tower, paris",
+    "firefighter",
+    "james bond"
+   ],
+   "sourceGenres": [
+    "adventure",
+    "action",
+    "thriller"
+   ],
+   "sources": [
+    {
+     "src": "TMDB",
+     "matchedTitle": "A View to a Kill",
+     "url": "https://api.themoviedb.org/3/movie/707"
+    }
+   ],
+   "missed": [],
+   "coverage": 29
+  },
+  {
+   "id": "m1044",
+   "title": "The Living Daylights",
+   "year": 1987,
+   "corpusGenres": [
+    "Action",
+    "Spy"
+   ],
+   "tags": [
+    "prison",
+    "london, england",
+    "assassination",
+    "airplane",
+    "escape",
+    "arms smuggling",
+    "england",
+    "secret mission",
+    "arms deal",
+    "spy",
+    "falsely accused",
+    "big wheel",
+    "secret intelligence service",
+    "drug trafficking",
+    "secret identity",
+    "cello",
+    "villain",
+    "kgb",
+    "renegade",
+    "special car",
+    "tangier morocco",
+    "country estate",
+    "orchestra",
+    "freedom fighter",
+    "czechoslovakia",
+    "bratislava, slovakia",
+    "afghanistan",
+    "schloss schönbrunn",
+    "vienna, austria",
+    "moscow, russia",
+    "james bond",
+    "appreciative"
+   ],
+   "sourceGenres": [
+    "action",
+    "adventure",
+    "thriller"
+   ],
+   "sources": [
+    {
+     "src": "TMDB",
+     "matchedTitle": "The Living Daylights",
+     "url": "https://api.themoviedb.org/3/movie/708"
+    }
+   ],
+   "missed": [],
+   "coverage": 32
+  },
+  {
+   "id": "m1045",
+   "title": "Licence to Kill",
+   "year": 1989,
+   "corpusGenres": [
+    "Action",
+    "Thriller"
+   ],
+   "tags": [
+    "florida",
+    "corruption",
+    "airplane",
+    "liberation of prisoners",
+    "drug trafficking",
+    "secret identity",
+    "floatplane",
+    "transport of prisoners",
+    "tank car",
+    "florida keys",
+    "coast guard",
+    "british secret service",
+    "james bond"
+   ],
+   "sourceGenres": [
+    "adventure",
+    "action",
+    "thriller"
+   ],
+   "sources": [
+    {
+     "src": "TMDB",
+     "matchedTitle": "Licence to Kill",
+     "url": "https://api.themoviedb.org/3/movie/709"
+    }
+   ],
+   "missed": [],
+   "coverage": 13
+  },
+  {
+   "id": "m1046",
+   "title": "GoldenEye",
+   "year": 1995,
+   "corpusGenres": [
+    "Action",
+    "Spy"
+   ],
+   "tags": [
+    "computer virus",
+    "cuba",
+    "falsely accused",
+    "secret intelligence service",
+    "secret identity",
+    "secret base",
+    "kgb",
+    "satellite",
+    "special car",
+    "cossack",
+    "electromagnetic pulse",
+    "time bomb",
+    "st. petersburg, russia",
+    "red army",
+    "james bond",
+    "scary lady"
+   ],
+   "sourceGenres": [
+    "adventure",
+    "action",
+    "thriller"
+   ],
+   "sources": [
+    {
+     "src": "TMDB",
+     "matchedTitle": "GoldenEye",
+     "url": "https://api.themoviedb.org/3/movie/710"
+    }
+   ],
+   "missed": [],
+   "coverage": 16
+  },
+  {
+   "id": "m1047",
+   "title": "Tomorrow Never Dies",
+   "year": 1997,
+   "corpusGenres": [
+    "Action",
+    "Spy"
+   ],
+   "tags": [
+    "media tycoon",
+    "navy",
+    "london, england",
+    "china",
+    "england",
+    "missile",
+    "spy",
+    "secret intelligence service",
+    "intelligence",
+    "manipulation of the media",
+    "special car",
+    "motorcycle",
+    "secret service",
+    "hamburg, germany",
+    "news broadcaster",
+    "stealth technology",
+    "james bond"
+   ],
+   "sourceGenres": [
+    "adventure",
+    "action",
+    "thriller"
+   ],
+   "sources": [
+    {
+     "src": "TMDB",
+     "matchedTitle": "Tomorrow Never Dies",
+     "url": "https://api.themoviedb.org/3/movie/714"
+    }
+   ],
+   "missed": [],
+   "coverage": 17
+  },
+  {
+   "id": "m1048",
+   "title": "The World Is Not Enough",
+   "year": 1999,
+   "corpusGenres": [
+    "Action",
+    "Spy"
+   ],
+   "tags": [
+    "mission",
+    "london, england",
+    "submarine",
+    "oil",
+    "boat chase",
+    "mi6",
+    "heiress",
+    "bilbao, spain",
+    "british secret service",
+    "snowmobile",
+    "azerbaijan",
+    "james bond"
+   ],
+   "sourceGenres": [
+    "adventure",
+    "action",
+    "thriller"
+   ],
+   "sources": [
+    {
+     "src": "TMDB",
+     "matchedTitle": "The World Is Not Enough",
+     "url": "https://api.themoviedb.org/3/movie/36643"
+    }
+   ],
+   "missed": [],
+   "coverage": 12
+  },
+  {
+   "id": "m1049",
+   "title": "Die Another Day",
+   "year": 2002,
+   "corpusGenres": [
+    "Action",
+    "Spy"
+   ],
+   "tags": [
+    "post-traumatic stress disorder (ptsd)",
+    "espionage",
+    "spy",
+    "demonstration",
+    "fencing",
+    "laser",
+    "satellite",
+    "iceland",
+    "sequel",
+    "hong kong",
+    "torture",
+    "mi6",
+    "british spy",
+    "british secret service",
+    "havana, cuba",
+    "captured",
+    "u.s. secret service agent",
+    "publicist",
+    "space based weapon",
+    "adrenaline junkie",
+    "dmz",
+    "north korea",
+    "spycraft",
+    "james bond",
+    "prisoner exchange",
+    "conflict diamonds"
+   ],
+   "sourceGenres": [
+    "adventure",
+    "action",
+    "thriller"
+   ],
+   "sources": [
+    {
+     "src": "TMDB",
+     "matchedTitle": "Die Another Day",
+     "url": "https://api.themoviedb.org/3/movie/36669"
+    }
+   ],
+   "missed": [],
+   "coverage": 26
+  },
+  {
+   "id": "m1050",
+   "title": "Casino Royale",
+   "year": 2006,
+   "corpusGenres": [
+    "Action",
+    "Spy"
+   ],
+   "tags": [
+    "banker",
+    "casino",
+    "based on novel or book",
+    "poker",
+    "italy",
+    "spy",
+    "money",
+    "torture",
+    "terrorism",
+    "mi6",
+    "british secret service",
+    "montenegro",
+    "james bond",
+    "dramatic",
+    "suspenseful",
+    "action",
+    "adventure",
+    "earnest"
+   ],
+   "sourceGenres": [
+    "adventure",
+    "action",
+    "thriller"
+   ],
+   "sources": [
+    {
+     "src": "TMDB",
+     "matchedTitle": "Casino Royale",
+     "url": "https://api.themoviedb.org/3/movie/36557"
+    }
+   ],
+   "missed": [],
+   "coverage": 18
+  },
+  {
+   "id": "m1051",
+   "title": "Quantum of Solace",
+   "year": 2008,
+   "corpusGenres": [
+    "Action",
+    "Thriller"
+   ],
+   "tags": [
+    "undercover",
+    "spy",
+    "killing",
+    "secret agent",
+    "austria",
+    "mi6",
+    "british secret service",
+    "james bond",
+    "intense",
+    "powerful",
+    "vibrant"
+   ],
+   "sourceGenres": [
+    "adventure",
+    "action",
+    "thriller"
+   ],
+   "sources": [
+    {
+     "src": "TMDB",
+     "matchedTitle": "Quantum of Solace",
+     "url": "https://api.themoviedb.org/3/movie/10764"
+    }
+   ],
+   "missed": [],
+   "coverage": 11
+  },
+  {
+   "id": "m1052",
+   "title": "Rocky II",
+   "year": 1979,
+   "corpusGenres": [
+    "Sports",
+    "Drama"
+   ],
+   "tags": [
+    "hero",
+    "husband wife relationship",
+    "coma",
+    "transporter",
+    "love of one's life",
+    "intensive care",
+    "sports",
+    "publicity",
+    "boxer",
+    "training",
+    "world champion",
+    "victory",
+    "sequel",
+    "hospital",
+    "boxing",
+    "candid",
+    "anxious",
+    "appreciative",
+    "powerful"
+   ],
+   "sourceGenres": [
+    "drama",
+    "action"
+   ],
+   "sources": [
+    {
+     "src": "TMDB",
+     "matchedTitle": "Rocky II",
+     "url": "https://api.themoviedb.org/3/movie/1367"
+    }
+   ],
+   "missed": [],
+   "coverage": 19
+  },
+  {
+   "id": "m1053",
+   "title": "Rocky III",
+   "year": 1982,
+   "corpusGenres": [
+    "Sports",
+    "Drama"
+   ],
+   "tags": [
+    "dying and death",
+    "transporter",
+    "sports",
+    "trainer",
+    "boxer",
+    "comeback",
+    "defeat",
+    "training",
+    "world champion",
+    "challenger",
+    "victory",
+    "rematch",
+    "sequel",
+    "revenge",
+    "wealth",
+    "fame",
+    "shocking",
+    "boxing",
+    "admiring",
+    "powerful"
+   ],
+   "sourceGenres": [
+    "drama",
+    "action"
+   ],
+   "sources": [
+    {
+     "src": "TMDB",
+     "matchedTitle": "Rocky III",
+     "url": "https://api.themoviedb.org/3/movie/1371"
+    }
+   ],
+   "missed": [],
+   "coverage": 20
+  },
+  {
+   "id": "m1054",
+   "title": "Rocky IV",
+   "year": 1985,
+   "corpusGenres": [
+    "Sports",
+    "Drama"
+   ],
+   "tags": [
+    "dying and death",
+    "friendship",
+    "transporter",
+    "sports",
+    "loss of loved one",
+    "cold war",
+    "soviet union",
+    "boxer",
+    "kgb",
+    "training",
+    "victory",
+    "matter of life and death",
+    "loss of powers",
+    "sequel",
+    "revenge",
+    "siberia",
+    "christmas",
+    "boxing",
+    "excited",
+    "powerful"
+   ],
+   "sourceGenres": [
+    "drama",
+    "action"
+   ],
+   "sources": [
+    {
+     "src": "TMDB",
+     "matchedTitle": "Rocky IV",
+     "url": "https://api.themoviedb.org/3/movie/1374"
+    }
+   ],
+   "missed": [],
+   "coverage": 20
+  },
+  {
+   "id": "m1055",
+   "title": "Rocky V",
+   "year": 1990,
+   "corpusGenres": [
+    "Sports",
+    "Drama"
+   ],
+   "tags": [
+    "career",
+    "friendship",
+    "philadelphia, pennsylvania",
+    "transporter",
+    "cataclysm",
+    "sports",
+    "restart",
+    "parent child relationship",
+    "praise",
+    "trainer",
+    "bankrupt",
+    "boxer",
+    "training",
+    "street riots",
+    "world champion",
+    "challenger",
+    "sponsorship",
+    "challenge",
+    "champion",
+    "tax consultant",
+    "boxing school",
+    "sequel",
+    "father figure",
+    "boxing",
+    "powerful"
+   ],
+   "sourceGenres": [
+    "drama",
+    "action"
+   ],
+   "sources": [
+    {
+     "src": "TMDB",
+     "matchedTitle": "Rocky V",
+     "url": "https://api.themoviedb.org/3/movie/1375"
+    }
+   ],
+   "missed": [],
+   "coverage": 25
+  },
+  {
+   "id": "m1056",
+   "title": "Rocky Balboa",
+   "year": 2006,
+   "corpusGenres": [
+    "Sports",
+    "Drama"
+   ],
+   "tags": [
+    "philadelphia, pennsylvania",
+    "transporter",
+    "love of one's life",
+    "fight",
+    "tombstone",
+    "publicity",
+    "boxer",
+    "comeback",
+    "defeat",
+    "training",
+    "restaurant owner",
+    "world champion",
+    "challenger",
+    "virtual fight",
+    "victory",
+    "sequel",
+    "cancer",
+    "over-the-hill fighter",
+    "inspiring",
+    "boxing",
+    "inspirational",
+    "powerful"
+   ],
+   "sourceGenres": [
+    "drama",
+    "action"
+   ],
+   "sources": [
+    {
+     "src": "TMDB",
+     "matchedTitle": "Rocky Balboa",
+     "url": "https://api.themoviedb.org/3/movie/1246"
+    }
+   ],
+   "missed": [],
+   "coverage": 22
+  },
+  {
+   "id": "m1057",
+   "title": "Creed",
+   "year": 2015,
+   "corpusGenres": [
+    "Sports",
+    "Drama"
+   ],
+   "tags": [
+    "underdog",
+    "mexico",
+    "philadelphia, pennsylvania",
+    "sports",
+    "mentor",
+    "trainer",
+    "cancer",
+    "spin off",
+    "underground fighting",
+    "boxing trainer",
+    "motivational speaker",
+    "boxing",
+    "legacy",
+    "boxing manager",
+    "boxing champion"
+   ],
+   "sourceGenres": [
+    "drama"
+   ],
+   "sources": [
+    {
+     "src": "TMDB",
+     "matchedTitle": "Creed",
+     "url": "https://api.themoviedb.org/3/movie/312221"
+    }
+   ],
+   "missed": [],
+   "coverage": 15
+  },
+  {
+   "id": "m1058",
+   "title": "Creed II",
+   "year": 2018,
+   "corpusGenres": [
+    "Sports",
+    "Drama"
+   ],
+   "tags": [
+    "sports",
+    "rivalry",
+    "sequel",
+    "los angeles, california",
+    "angry",
+    "boxing",
+    "thoughtful",
+    "reflective",
+    "dedicated",
+    "box ring",
+    "ukraine",
+    "amused",
+    "antagonistic",
+    "apologetic",
+    "awestruck",
+    "comforting",
+    "compassionate",
+    "excited",
+    "foreboding",
+    "sympathetic"
+   ],
+   "sourceGenres": [
+    "drama",
+    "action"
+   ],
+   "sources": [
+    {
+     "src": "TMDB",
+     "matchedTitle": "Creed II",
+     "url": "https://api.themoviedb.org/3/movie/480530"
+    }
+   ],
+   "missed": [],
+   "coverage": 20
+  },
+  {
+   "id": "m1059",
+   "title": "Creed III",
+   "year": 2023,
+   "corpusGenres": [
+    "Sports",
+    "Drama"
+   ],
+   "tags": [
+    "husband wife relationship",
+    "philadelphia, pennsylvania",
+    "sports",
+    "deaf",
+    "sequel",
+    "orphan",
+    "former best friend",
+    "ex-con",
+    "childhood friends",
+    "juvenile detention center",
+    "boxing",
+    "prodigy",
+    "intense",
+    "assertive",
+    "audacious"
+   ],
+   "sourceGenres": [
+    "drama",
+    "action"
+   ],
+   "sources": [
+    {
+     "src": "TMDB",
+     "matchedTitle": "Creed III",
+     "url": "https://api.themoviedb.org/3/movie/677179"
+    }
+   ],
+   "missed": [],
+   "coverage": 15
+  },
+  {
+   "id": "m1060",
+   "title": "Back to the Future Part II",
+   "year": 1989,
+   "corpusGenres": [
+    "Sci-Fi",
+    "Adventure"
+   ],
+   "tags": [
+    "flying car",
+    "skateboarding",
+    "car race",
+    "lightning",
+    "guitar",
+    "inventor",
+    "time travel",
+    "diner",
+    "car crash",
+    "sequel",
+    "alternate history",
+    "thunderstorm",
+    "tunnel",
+    "high school dance",
+    "angry",
+    "kids",
+    "hoverboard",
+    "2010s",
+    "lighthearted",
+    "enthusiastic"
+   ],
+   "sourceGenres": [
+    "adventure",
+    "comedy",
+    "science fiction"
+   ],
+   "sources": [
+    {
+     "src": "TMDB",
+     "matchedTitle": "Back to the Future Part II",
+     "url": "https://api.themoviedb.org/3/movie/165"
+    }
+   ],
+   "missed": [],
+   "coverage": 20
+  },
+  {
+   "id": "m1061",
+   "title": "Back to the Future Part III",
+   "year": 1990,
+   "corpusGenres": [
+    "Sci-Fi",
+    "Western"
+   ],
+   "tags": [
+    "california",
+    "saloon",
+    "sports car",
+    "inventor",
+    "horseback riding",
+    "indian territory",
+    "locomotive",
+    "time travel",
+    "native american",
+    "mad scientist",
+    "sequel",
+    "outlaw",
+    "shootout",
+    "steampunk",
+    "gunfight",
+    "train",
+    "wild west",
+    "cavalry",
+    "kids",
+    "1950s",
+    "candid",
+    "hoverboard",
+    "lighthearted",
+    "optimistic"
+   ],
+   "sourceGenres": [
+    "adventure",
+    "comedy",
+    "science fiction"
+   ],
+   "sources": [
+    {
+     "src": "TMDB",
+     "matchedTitle": "Back to the Future Part III",
+     "url": "https://api.themoviedb.org/3/movie/196"
+    }
+   ],
+   "missed": [],
+   "coverage": 24
+  },
+  {
+   "id": "m1062",
+   "title": "Raiders of the Lost Ark",
+   "year": 1981,
+   "corpusGenres": [
+    "Action",
+    "Adventure"
+   ],
+   "tags": [
+    "egypt",
+    "treasure",
+    "medallion",
+    "swastika",
+    "saving the world",
+    "nepal",
+    "himalaya mountain range",
+    "cairo",
+    "moses",
+    "hat",
+    "whip",
+    "leather jacket",
+    "mediterranean",
+    "ark of the covenant",
+    "ten commandments",
+    "nazi",
+    "excavation",
+    "riddle",
+    "treasure hunt",
+    "archaeologist",
+    "adventurer",
+    "archeology",
+    "globetrotting",
+    "religious history",
+    "1930s"
+   ],
+   "sourceGenres": [
+    "adventure",
+    "action"
+   ],
+   "sources": [
+    {
+     "src": "TMDB",
+     "matchedTitle": "Raiders of the Lost Ark",
+     "url": "https://api.themoviedb.org/3/movie/85"
+    }
+   ],
+   "missed": [],
+   "coverage": 25
+  },
+  {
+   "id": "m1063",
+   "title": "Indiana Jones and the Temple of Doom",
+   "year": 1984,
+   "corpusGenres": [
+    "Action",
+    "Adventure"
+   ],
+   "tags": [
+    "treasure",
+    "skeleton",
+    "wind",
+    "elephant",
+    "heart",
+    "riddle",
+    "crocodile",
+    "bridge",
+    "treasure hunt",
+    "sequel",
+    "prequel",
+    "torture",
+    "india",
+    "monkey",
+    "archaeologist",
+    "conveyor belt",
+    "child driving car",
+    "mine car",
+    "rope bridge",
+    "splits",
+    "adventurer",
+    "archeology",
+    "1930s",
+    "excited",
+    "exhilarated"
+   ],
+   "sourceGenres": [
+    "adventure",
+    "action"
+   ],
+   "sources": [
+    {
+     "src": "TMDB",
+     "matchedTitle": "Indiana Jones and the Temple of Doom",
+     "url": "https://api.themoviedb.org/3/movie/87"
+    }
+   ],
+   "missed": [],
+   "coverage": 25
+  },
+  {
+   "id": "m1064",
+   "title": "Indiana Jones and the Kingdom of the Crystal Skull",
+   "year": 2008,
+   "corpusGenres": [
+    "Action",
+    "Adventure"
+   ],
+   "tags": [
+    "treasure",
+    "mexico city, mexico",
+    "saving the world",
+    "whip",
+    "leather jacket",
+    "riddle",
+    "maya civilization",
+    "peru",
+    "machinegun",
+    "treasure hunt",
+    "sequel",
+    "alien",
+    "nuclear explosion",
+    "refrigerator",
+    "archaeologist",
+    "adventurer",
+    "area 51",
+    "archeology",
+    "1950s",
+    "father son relationship",
+    "absurd",
+    "excited",
+    "vibrant"
+   ],
+   "sourceGenres": [
+    "adventure",
+    "action"
+   ],
+   "sources": [
+    {
+     "src": "TMDB",
+     "matchedTitle": "Indiana Jones and the Kingdom of the Crystal Skull",
+     "url": "https://api.themoviedb.org/3/movie/217"
+    }
+   ],
+   "missed": [],
+   "coverage": 23
+  },
+  {
+   "id": "m1065",
+   "title": "Indiana Jones and the Dial of Destiny",
+   "year": 2023,
+   "corpusGenres": [
+    "Action",
+    "Adventure"
+   ],
+   "tags": [
+    "melancholy",
+    "treasure hunt",
+    "ancient rome",
+    "sequel",
+    "flashback",
+    "knife fight",
+    "archaeologist",
+    "adventurer",
+    "1960s",
+    "nazi germany",
+    "bold",
+    "excited"
+   ],
+   "sourceGenres": [
+    "adventure",
+    "action"
+   ],
+   "sources": [
+    {
+     "src": "TMDB",
+     "matchedTitle": "Indiana Jones and the Dial of Destiny",
+     "url": "https://api.themoviedb.org/3/movie/335977"
+    }
+   ],
+   "missed": [],
+   "coverage": 12
+  },
+  {
+   "id": "m1066",
+   "title": "Mission: Impossible",
+   "year": 1996,
+   "corpusGenres": [
+    "Action",
+    "Spy"
+   ],
+   "tags": [
+    "mask",
+    "mission",
+    "london, england",
+    "central intelligence agency (cia)",
+    "computer",
+    "paris, france",
+    "undercover",
+    "espionage",
+    "secret mission",
+    "arms deal",
+    "spy",
+    "secret identity",
+    "headquarter",
+    "embassy",
+    "secret base",
+    "fake identity",
+    "prague, czech republic",
+    "secret agent",
+    "secret government organization",
+    "infiltration",
+    "terrorism",
+    "agent",
+    "fictional government agency",
+    "government agency",
+    "based on tv series"
+   ],
+   "sourceGenres": [
+    "adventure",
+    "action",
+    "thriller"
+   ],
+   "sources": [
+    {
+     "src": "TMDB",
+     "matchedTitle": "Mission: Impossible",
+     "url": "https://api.themoviedb.org/3/movie/954"
+    }
+   ],
+   "missed": [],
+   "coverage": 25
+  },
+  {
+   "id": "m1067",
+   "title": "Mission: Impossible II",
+   "year": 2000,
+   "corpusGenres": [
+    "Action",
+    "Spy"
+   ],
+   "tags": [
+    "dying and death",
+    "mask",
+    "island",
+    "central intelligence agency (cia)",
+    "helicopter",
+    "computer",
+    "spain",
+    "undercover",
+    "skyscraper",
+    "secret mission",
+    "spy",
+    "secret identity",
+    "ex-lover",
+    "fake identity",
+    "secret agent",
+    "climbing",
+    "sequel",
+    "secret government organization",
+    "infiltration",
+    "duel",
+    "lethal virus",
+    "motorcycle",
+    "rescue team",
+    "slow motion",
+    "agent",
+    "fictional government agency",
+    "research laboratory",
+    "motorcycle chase",
+    "government agency",
+    "based on tv series"
+   ],
+   "sourceGenres": [
+    "adventure",
+    "action",
+    "thriller"
+   ],
+   "sources": [
+    {
+     "src": "TMDB",
+     "matchedTitle": "Mission: Impossible II",
+     "url": "https://api.themoviedb.org/3/movie/955"
+    }
+   ],
+   "missed": [],
+   "coverage": 30
+  },
+  {
+   "id": "m1068",
+   "title": "Mission: Impossible III",
+   "year": 2006,
+   "corpusGenres": [
+    "Action",
+    "Spy"
+   ],
+   "tags": [
+    "mask",
+    "mission",
+    "berlin, germany",
+    "central intelligence agency (cia)",
+    "computer",
+    "the white house",
+    "shanghai, china",
+    "funeral",
+    "explosive",
+    "secret mission",
+    "spy",
+    "vatican (holy see)",
+    "secret identity",
+    "traitor",
+    "map",
+    "honeymoon",
+    "pretended murder",
+    "letter",
+    "fake identity",
+    "covered investigation",
+    "secret agent",
+    "stamp",
+    "hard drive",
+    "e-mail",
+    "decipherment",
+    "suitcase",
+    "sequel",
+    "secret government organization",
+    "revenge",
+    "murder",
+    "hospital",
+    "infiltration",
+    "duel",
+    "disguise",
+    "celebration",
+    "fictional government agency",
+    "research laboratory",
+    "government agency",
+    "blast",
+    "desperate",
+    "anxious",
+    "based on tv series",
+    "suspenseful",
+    "amused"
+   ],
+   "sourceGenres": [
+    "adventure",
+    "action",
+    "thriller"
+   ],
+   "sources": [
+    {
+     "src": "TMDB",
+     "matchedTitle": "Mission: Impossible III",
+     "url": "https://api.themoviedb.org/3/movie/956"
+    }
+   ],
+   "missed": [],
+   "coverage": 44
+  },
+  {
+   "id": "m1069",
+   "title": "Mission: Impossible - Ghost Protocol",
+   "year": 2011,
+   "corpusGenres": [
+    "Action",
+    "Spy"
+   ],
+   "tags": [
+    "mask",
+    "assassin",
+    "budapest, hungary",
+    "skyscraper",
+    "secret intelligence service",
+    "sandstorm",
+    "seattle, washington",
+    "satellite",
+    "fake identity",
+    "mumbai (bombay), india",
+    "car crash",
+    "sequel",
+    "prison escape",
+    "dubai",
+    "secret government organization",
+    "infiltration",
+    "billionaire",
+    "terrorism",
+    "disguise",
+    "bombing",
+    "nuclear threat",
+    "undercover operation",
+    "fictional government agency",
+    "moscow, russia",
+    "clandestine",
+    "analyst",
+    "government agency",
+    "nuclear submarine",
+    "based on tv series"
+   ],
+   "sourceGenres": [
+    "action",
+    "thriller",
+    "adventure"
+   ],
+   "sources": [
+    {
+     "src": "TMDB",
+     "matchedTitle": "Mission: Impossible - Ghost Protocol",
+     "url": "https://api.themoviedb.org/3/movie/56292"
+    }
+   ],
+   "missed": [],
+   "coverage": 29
+  },
+  {
+   "id": "m1070",
+   "title": "Mission: Impossible - Rogue Nation",
+   "year": 2015,
+   "corpusGenres": [
+    "Action",
+    "Spy"
+   ],
+   "tags": [
+    "mask",
+    "mission",
+    "assassin",
+    "london, england",
+    "spy",
+    "morocco",
+    "villain",
+    "fake identity",
+    "austria",
+    "europe",
+    "double agent",
+    "sequel",
+    "secret government organization",
+    "conspiracy",
+    "infiltration",
+    "mi6",
+    "mole",
+    "vienna, austria",
+    "british prime minister",
+    "vienna opera",
+    "fictional government agency",
+    "british intelligence",
+    "government agency",
+    "based on tv series"
+   ],
+   "sourceGenres": [
+    "action",
+    "adventure"
+   ],
+   "sources": [
+    {
+     "src": "TMDB",
+     "matchedTitle": "Mission: Impossible - Rogue Nation",
+     "url": "https://api.themoviedb.org/3/movie/177677"
+    }
+   ],
+   "missed": [],
+   "coverage": 24
+  },
+  {
+   "id": "m1071",
+   "title": "Mission: Impossible - Dead Reckoning Part One",
+   "year": 2023,
+   "corpusGenres": [
+    "Action",
+    "Spy"
+   ],
+   "tags": [
+    "mask",
+    "race against time",
+    "mission",
+    "rome, italy",
+    "chase",
+    "secret mission",
+    "spy",
+    "fake identity",
+    "secret agent",
+    "sequel",
+    "intelligence agency",
+    "secret government organization",
+    "infiltration",
+    "fictional government agency",
+    "rogue agent",
+    "government agency",
+    "based on tv series",
+    "action"
+   ],
+   "sourceGenres": [
+    "action",
+    "adventure",
+    "thriller"
+   ],
+   "sources": [
+    {
+     "src": "TMDB",
+     "matchedTitle": "Mission: Impossible - Dead Reckoning Part One",
+     "url": "https://api.themoviedb.org/3/movie/575264"
+    }
+   ],
+   "missed": [],
+   "coverage": 18
+  },
+  {
+   "id": "m1072",
+   "title": "Mission: Impossible - The Final Reckoning",
+   "year": 2025,
+   "corpusGenres": [
+    "Action",
+    "Spy"
+   ],
+   "tags": [
+    "mask",
+    "artificial intelligence (a.i.)",
+    "diving",
+    "submarine",
+    "espionage",
+    "spy",
+    "nuclear missile",
+    "fake identity",
+    "secret agent",
+    "stunt",
+    "sequel",
+    "secret government organization",
+    "infiltration",
+    "terrorist plot",
+    "fictional government agency",
+    "misinformation",
+    "government agency",
+    "based on tv series"
+   ],
+   "sourceGenres": [
+    "action",
+    "thriller",
+    "adventure"
+   ],
+   "sources": [
+    {
+     "src": "TMDB",
+     "matchedTitle": "Mission: Impossible - The Final Reckoning",
+     "url": "https://api.themoviedb.org/3/movie/575265"
+    }
+   ],
+   "missed": [],
+   "coverage": 18
+  },
+  {
+   "id": "m1073",
+   "title": "The Lost World: Jurassic Park",
+   "year": 1997,
+   "corpusGenres": [
+    "Adventure",
+    "Sci-Fi"
+   ],
+   "tags": [
+    "exotic island",
+    "island",
+    "velociraptor",
+    "dna",
+    "tyrannosaurus rex",
+    "paleontology",
+    "san diego, california",
+    "sequel",
+    "dinosaur",
+    "creature",
+    "scientist",
+    "amusement park",
+    "theme park",
+    "costa rica",
+    "stegosaurus",
+    "animal horror",
+    "father daughter relationship",
+    "absurd",
+    "suspenseful",
+    "jungle adventure",
+    "cliché",
+    "excited"
+   ],
+   "sourceGenres": [
+    "adventure",
+    "action",
+    "science fiction"
+   ],
+   "sources": [
+    {
+     "src": "TMDB",
+     "matchedTitle": "The Lost World: Jurassic Park",
+     "url": "https://api.themoviedb.org/3/movie/330"
+    }
+   ],
+   "missed": [],
+   "coverage": 22
+  },
+  {
+   "id": "m1074",
+   "title": "Jurassic Park III",
+   "year": 2001,
+   "corpusGenres": [
+    "Adventure",
+    "Sci-Fi"
+   ],
+   "tags": [
+    "rescue",
+    "mission",
+    "exotic island",
+    "island",
+    "airplane",
+    "velociraptor",
+    "dna",
+    "tyrannosaurus rex",
+    "paleontology",
+    "spinosaurus",
+    "sequel",
+    "dinosaur",
+    "creature",
+    "scientist",
+    "amusement park",
+    "paragliding",
+    "pterodactyl",
+    "pterosaur",
+    "costa rica",
+    "animal horror",
+    "excited"
+   ],
+   "sourceGenres": [
+    "adventure",
+    "thriller",
+    "science fiction",
+    "action"
+   ],
+   "sources": [
+    {
+     "src": "TMDB",
+     "matchedTitle": "Jurassic Park III",
+     "url": "https://api.themoviedb.org/3/movie/331"
+    }
+   ],
+   "missed": [],
+   "coverage": 21
+  },
+  {
+   "id": "m1075",
+   "title": "Jurassic World",
+   "year": 2015,
+   "corpusGenres": [
+    "Adventure",
+    "Sci-Fi"
+   ],
+   "tags": [
+    "island",
+    "primal fear",
+    "escape",
+    "velociraptor",
+    "dna",
+    "tyrannosaurus rex",
+    "animal attack",
+    "sequel",
+    "dinosaur",
+    "creature",
+    "scientist",
+    "park",
+    "amusement park",
+    "theme park",
+    "genetic engineering",
+    "nostalgic",
+    "costa rica",
+    "raptor",
+    "animal horror",
+    "playful",
+    "jungle adventure",
+    "mosasaurus",
+    "excited",
+    "exhilarated"
+   ],
+   "sourceGenres": [
+    "adventure",
+    "science fiction",
+    "thriller",
+    "action"
+   ],
+   "sources": [
+    {
+     "src": "TMDB",
+     "matchedTitle": "Jurassic World",
+     "url": "https://api.themoviedb.org/3/movie/135397"
+    }
+   ],
+   "missed": [],
+   "coverage": 24
+  },
+  {
+   "id": "m1076",
+   "title": "Jurassic World: Fallen Kingdom",
+   "year": 2018,
+   "corpusGenres": [
+    "Adventure",
+    "Sci-Fi"
+   ],
+   "tags": [
+    "tyrannosaurus rex",
+    "volcano",
+    "rescue mission",
+    "sequel",
+    "wild animal",
+    "prehistoric creature",
+    "dinosaur",
+    "genetic engineering",
+    "aftercreditsstinger",
+    "monster island"
+   ],
+   "sourceGenres": [
+    "adventure",
+    "science fiction",
+    "thriller",
+    "action"
+   ],
+   "sources": [
+    {
+     "src": "TMDB",
+     "matchedTitle": "Jurassic World: Fallen Kingdom",
+     "url": "https://api.themoviedb.org/3/movie/351286"
+    }
+   ],
+   "missed": [],
+   "coverage": 10
+  },
+  {
+   "id": "m1077",
+   "title": "Jurassic World Dominion",
+   "year": 2022,
+   "corpusGenres": [
+    "Adventure",
+    "Sci-Fi"
+   ],
+   "tags": [
+    "paleontology",
+    "giant monster",
+    "sequel",
+    "survival",
+    "dinosaur",
+    "scientist",
+    "child kidnapping",
+    "aggressive",
+    "animal sanctuary",
+    "cautionary",
+    "cliché",
+    "complicated",
+    "science goes awry",
+    "therizinosaurus"
+   ],
+   "sourceGenres": [
+    "adventure",
+    "science fiction",
+    "thriller",
+    "action"
+   ],
+   "sources": [
+    {
+     "src": "TMDB",
+     "matchedTitle": "Jurassic World Dominion",
+     "url": "https://api.themoviedb.org/3/movie/507086"
+    }
+   ],
+   "missed": [],
+   "coverage": 14
+  },
+  {
+   "id": "m1078",
+   "title": "Jurassic World Rebirth",
+   "year": 2025,
+   "corpusGenres": [
+    "Adventure",
+    "Sci-Fi"
+   ],
+   "tags": [
+    "island",
+    "secret mission",
+    "tyrannosaurus rex",
+    "spinosaurus",
+    "sequel",
+    "stranded",
+    "dinosaur",
+    "family",
+    "genetic experiment",
+    "mosasaurus",
+    "indifferent"
+   ],
+   "sourceGenres": [
+    "science fiction",
+    "adventure",
+    "action"
+   ],
+   "sources": [
+    {
+     "src": "TMDB",
+     "matchedTitle": "Jurassic World Rebirth",
+     "url": "https://api.themoviedb.org/3/movie/1234821"
+    }
+   ],
+   "missed": [],
+   "coverage": 11
+  },
+  {
+   "id": "m1079",
+   "title": "The Hobbit: An Unexpected Journey",
+   "year": 2012,
+   "corpusGenres": [
+    "Fantasy",
+    "Adventure"
+   ],
+   "tags": [
+    "based on novel or book",
+    "elves",
+    "dwarf",
+    "magic",
+    "horseback riding",
+    "sword",
+    "burglar",
+    "legend",
+    "riddle",
+    "mountain",
+    "contract",
+    "travel",
+    "troll",
+    "creature",
+    "thunderstorm",
+    "fantasy world",
+    "wizard",
+    "epic battle",
+    "lost ring",
+    "journey",
+    "ring",
+    "tunnel",
+    "underground lake",
+    "buried treasure",
+    "invisibility",
+    "quest",
+    "live action and animation",
+    "high fantasy",
+    "sword and sorcery",
+    "trekking",
+    "goblins",
+    "good versus evil",
+    "fantasy creature",
+    "hobbit"
+   ],
+   "sourceGenres": [
+    "adventure",
+    "fantasy",
+    "action"
+   ],
+   "sources": [
+    {
+     "src": "TMDB",
+     "matchedTitle": "The Hobbit: An Unexpected Journey",
+     "url": "https://api.themoviedb.org/3/movie/49051"
+    }
+   ],
+   "missed": [],
+   "coverage": 34
+  },
+  {
+   "id": "m1080",
+   "title": "The Hobbit: The Desolation of Smaug",
+   "year": 2013,
+   "corpusGenres": [
+    "Fantasy",
+    "Adventure"
+   ],
+   "tags": [
+    "gold",
+    "lake",
+    "based on novel or book",
+    "elves",
+    "dwarf",
+    "shapeshifting",
+    "mountain",
+    "giant spider",
+    "melancholy",
+    "sequel",
+    "bear",
+    "troll",
+    "dragon",
+    "turns into animal",
+    "barrel",
+    "fantasy world",
+    "wizard",
+    "journey",
+    "ring",
+    "invisibility",
+    "captured",
+    "live action and animation",
+    "high fantasy",
+    "sword and sorcery",
+    "trekking",
+    "good versus evil",
+    "hobbit"
+   ],
+   "sourceGenres": [
+    "fantasy",
+    "adventure",
+    "action"
+   ],
+   "sources": [
+    {
+     "src": "TMDB",
+     "matchedTitle": "The Hobbit: The Desolation of Smaug",
+     "url": "https://api.themoviedb.org/3/movie/57158"
+    }
+   ],
+   "missed": [],
+   "coverage": 27
+  },
+  {
+   "id": "m1081",
+   "title": "The Hobbit: The Battle of the Five Armies",
+   "year": 2014,
+   "corpusGenres": [
+    "Fantasy",
+    "War"
+   ],
+   "tags": [
+    "gold",
+    "corruption",
+    "based on novel or book",
+    "elves",
+    "dwarf",
+    "mine",
+    "mountain",
+    "sequel",
+    "troll",
+    "dragon",
+    "battle",
+    "unlikely friendship",
+    "fantasy world",
+    "wizard",
+    "epic battle",
+    "ring",
+    "invisibility",
+    "live action and animation",
+    "high fantasy",
+    "sword and sorcery",
+    "dreary",
+    "good versus evil",
+    "armies",
+    "hobbit"
+   ],
+   "sourceGenres": [
+    "action",
+    "adventure",
+    "fantasy"
+   ],
+   "sources": [
+    {
+     "src": "TMDB",
+     "matchedTitle": "The Hobbit: The Battle of the Five Armies",
+     "url": "https://api.themoviedb.org/3/movie/122917"
+    }
+   ],
+   "missed": [],
+   "coverage": 24
+  },
+  {
+   "id": "m1082",
+   "title": "The Hunger Games",
+   "year": 2012,
+   "corpusGenres": [
+    "Sci-Fi",
+    "Dystopian"
+   ],
+   "tags": [
+    "based on novel or book",
+    "revolution",
+    "dystopia",
+    "monarchy",
+    "female protagonist",
+    "fashion",
+    "bow and arrow",
+    "game",
+    "cynical",
+    "hunting",
+    "archery",
+    "death match",
+    "questioning",
+    "speculative",
+    "futuristic city",
+    "reflective",
+    "survival competition",
+    "forced to kill",
+    "world hunger",
+    "based on young adult novel",
+    "futuristic architecture",
+    "cautionary",
+    "battle royale",
+    "provocative",
+    "dramatic",
+    "critical",
+    "tense",
+    "depressing",
+    "assertive",
+    "bold",
+    "defiant",
+    "hopeful",
+    "powerful",
+    "sardonic",
+    "sympathetic",
+    "tragic",
+    "futuristic world"
+   ],
+   "sourceGenres": [
+    "science fiction",
+    "adventure",
+    "action",
+    "thriller"
+   ],
+   "sources": [
+    {
+     "src": "TMDB",
+     "matchedTitle": "The Hunger Games",
+     "url": "https://api.themoviedb.org/3/movie/70160"
+    }
+   ],
+   "missed": [],
+   "coverage": 37
+  },
+  {
+   "id": "m1083",
+   "title": "The Hunger Games: Catching Fire",
+   "year": 2013,
+   "corpusGenres": [
+    "Sci-Fi",
+    "Dystopian"
+   ],
+   "tags": [
+    "rebellion",
+    "based on novel or book",
+    "propaganda",
+    "dystopia",
+    "uprising",
+    "sequel",
+    "president",
+    "survival",
+    "murder",
+    "conspiracy",
+    "female protagonist",
+    "tournament",
+    "game",
+    "survival competition",
+    "based on young adult novel",
+    "critical"
+   ],
+   "sourceGenres": [
+    "adventure",
+    "action",
+    "science fiction"
+   ],
+   "sources": [
+    {
+     "src": "TMDB",
+     "matchedTitle": "The Hunger Games: Catching Fire",
+     "url": "https://api.themoviedb.org/3/movie/101299"
+    }
+   ],
+   "missed": [],
+   "coverage": 16
+  },
+  {
+   "id": "m1084",
+   "title": "The Hunger Games: Mockingjay - Part 1",
+   "year": 2014,
+   "corpusGenres": [
+    "Sci-Fi",
+    "War"
+   ],
+   "tags": [
+    "based on novel or book",
+    "resistance",
+    "dystopia",
+    "post-apocalyptic future",
+    "sequel",
+    "female protagonist",
+    "bow and arrow",
+    "game",
+    "future war",
+    "revolt",
+    "class prejudice",
+    "human subjugation",
+    "based on young adult novel"
+   ],
+   "sourceGenres": [
+    "science fiction",
+    "adventure",
+    "thriller"
+   ],
+   "sources": [
+    {
+     "src": "TMDB",
+     "matchedTitle": "The Hunger Games: Mockingjay - Part 1",
+     "url": "https://api.themoviedb.org/3/movie/131631"
+    }
+   ],
+   "missed": [],
+   "coverage": 13
+  },
+  {
+   "id": "m1085",
+   "title": "The Hunger Games: Mockingjay - Part 2",
+   "year": 2015,
+   "corpusGenres": [
+    "Sci-Fi",
+    "War"
+   ],
+   "tags": [
+    "strong woman",
+    "based on novel or book",
+    "revolution",
+    "dystopia",
+    "sequel",
+    "death match",
+    "based on young adult novel"
+   ],
+   "sourceGenres": [
+    "action",
+    "adventure",
+    "science fiction"
+   ],
+   "sources": [
+    {
+     "src": "TMDB",
+     "matchedTitle": "The Hunger Games: Mockingjay - Part 2",
+     "url": "https://api.themoviedb.org/3/movie/131634"
+    }
+   ],
+   "missed": [],
+   "coverage": 7
+  },
+  {
+   "id": "m1086",
+   "title": "The Hunger Games: The Ballad of Songbirds and Snakes",
+   "year": 2023,
+   "corpusGenres": [
+    "Sci-Fi",
+    "Dystopian"
+   ],
+   "tags": [],
+   "sourceGenres": [],
+   "sources": [],
+   "missed": [
+    "TMDB (no match for \"The Hunger Games: The Ballad of Songbirds and Snakes\")"
+   ],
+   "coverage": 0
+  }
+ ]
+}
