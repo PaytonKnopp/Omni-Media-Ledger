@@ -2322,6 +2322,9 @@ const SERIES_DEFS=[
  {name:"Red Dead",kind:"game",members:["Red Dead Redemption 2","Red Dead Redemption"],total:2},
  {name:"Tomb Raider",kind:"game",members:["Tomb Raider (2013)","Rise of the Tomb Raider","Shadow of the Tomb Raider"],total:3},
  {name:"Far Cry",kind:"game",members:["Far Cry 3","Far Cry 4","Far Cry 5"],total:3},
+ {name:"A Nightmare on Elm Street",kind:"movie",members:["A Nightmare on Elm Street","A Nightmare on Elm Street 3: Dream Warriors","Wes Craven's New Nightmare"],total:3},
+ {name:"Friday the 13th",kind:"movie",members:["Friday the 13th","Friday the 13th Part 2"],total:2},
+ {name:"Candyman",kind:"movie",members:["Candyman","Candyman (2021)"],total:2},
 ];
 // Reverse lookup used by cardHTML's franchise badge: kind+'|'+title -> series name. Built once,
 // not per card -- the Global Controller can render hundreds of cards per interaction.
