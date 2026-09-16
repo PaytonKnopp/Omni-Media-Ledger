@@ -1653,7 +1653,7 @@ const GENRE_FAMILIES=[
  ['War',/\bwar\b|anti-war|military/i],
  ['Physics & Cosmology',/physics|cosmology|astro/i],
  ['Philosophy & Ideas',/philosophy|philosophical|futurism|stoic|metaphysical|religious|political|revolution/i],
- ['Science & Nature',/\bscience\b|mathematics|engineering|technology|anthropology|psychology|sociology|journalism|biology|economics|nature|linguistics|\bdesign\b|\bart\b|business|travel/i],
+ ['Science & Nature',/\bscience\b|mathematics|engineering|technology|anthropology|psychology|sociology|journalism|biology|economics|nature|linguistics|\bdesign\b|\bart\b|business|travel|cooking/i],
  ['Biography & History',/biography|biopic|history|memoir|historical/i],
  ['Literary & Poetry',/literary|poetry|graphic novel|fiction|essay|short stor|verse novel|narrative|\bsilent\b|nostalgia|\bindie\b|\bstrand\b/i],
  ['Platformer',/platformer|3d platformer|2d platformer/i],
