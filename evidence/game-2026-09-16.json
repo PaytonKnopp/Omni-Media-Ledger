@@ -1,0 +1,413 @@
+{
+ "medium": "game",
+ "generated": "2026-09-16T18:46:13.513Z",
+ "offline": false,
+ "sources": [
+  "IGDB",
+  "Wikidata"
+ ],
+ "works": [
+  {
+   "id": "g264",
+   "title": "Red Dead Redemption",
+   "sourcesReached": [
+    "Wikidata"
+   ],
+   "sourcesMissed": [
+    "IGDB (no key in environment)"
+   ],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "release year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 2010,
+     "proposed": 2010,
+     "status": "confirmed",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "Wikidata",
+       "value": 2010,
+       "url": "https://www.wikidata.org/wiki/Q548203"
+      }
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "developer",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Rockstar San Diego",
+     "proposed": "Rockstar San Diego",
+     "status": "confirmed",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "Wikidata",
+       "value": "Rockstar San Diego",
+       "url": "https://www.wikidata.org/wiki/Q548203"
+      }
+     ]
+    },
+    {
+     "field": "platforms",
+     "label": "platforms",
+     "soft": true,
+     "editionDependent": false,
+     "current": [
+      "PS3",
+      "Xbox 360"
+     ],
+     "proposed": [
+      "Xbox 360",
+      "PlayStation 3",
+      "PlayStation 4",
+      "Nintendo Switch",
+      "Microsoft Windows",
+      "iOS",
+      "Android",
+      "PlayStation 5",
+      "Xbox Series X and Series S",
+      "Nintendo Switch 2"
+     ],
+     "status": "proposed-change",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "Wikidata",
+       "value": [
+        "Xbox 360",
+        "PlayStation 3",
+        "PlayStation 4",
+        "Nintendo Switch",
+        "Microsoft Windows",
+        "iOS",
+        "Android",
+        "PlayStation 5",
+        "Xbox Series X and Series S",
+        "Nintendo Switch 2"
+       ],
+       "url": "https://www.wikidata.org/wiki/Q548203"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "g265",
+   "title": "Rise of the Tomb Raider",
+   "sourcesReached": [
+    "Wikidata"
+   ],
+   "sourcesMissed": [
+    "IGDB (no key in environment)"
+   ],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "release year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 2015,
+     "proposed": 2015,
+     "status": "confirmed",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "Wikidata",
+       "value": 2015,
+       "url": "https://www.wikidata.org/wiki/Q17154489"
+      }
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "developer",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Crystal Dynamics",
+     "proposed": "Crystal Dynamics",
+     "status": "confirmed",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "Wikidata",
+       "value": "Crystal Dynamics",
+       "url": "https://www.wikidata.org/wiki/Q17154489"
+      }
+     ]
+    },
+    {
+     "field": "platforms",
+     "label": "platforms",
+     "soft": true,
+     "editionDependent": false,
+     "current": [
+      "PC",
+      "PS4",
+      "Xbox One"
+     ],
+     "proposed": [
+      "Xbox One",
+      "Xbox 360",
+      "PlayStation 4",
+      "Microsoft Windows",
+      "macOS",
+      "Linux"
+     ],
+     "status": "proposed-change",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "Wikidata",
+       "value": [
+        "Xbox One",
+        "Xbox 360",
+        "PlayStation 4",
+        "Microsoft Windows",
+        "macOS",
+        "Linux"
+       ],
+       "url": "https://www.wikidata.org/wiki/Q17154489"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "g266",
+   "title": "Shadow of the Tomb Raider",
+   "sourcesReached": [
+    "Wikidata"
+   ],
+   "sourcesMissed": [
+    "IGDB (no key in environment)"
+   ],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "release year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 2018,
+     "proposed": 2018,
+     "status": "confirmed",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "Wikidata",
+       "value": 2018,
+       "url": "https://www.wikidata.org/wiki/Q50562677"
+      }
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "developer",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Eidos-Montréal",
+     "proposed": "Crystal Dynamics, Eidos Montreal, Nixxes Software",
+     "status": "proposed-change",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "Wikidata",
+       "value": "Eidos Montreal & Crystal Dynamics & Nixxes Software",
+       "url": "https://www.wikidata.org/wiki/Q50562677"
+      }
+     ]
+    },
+    {
+     "field": "platforms",
+     "label": "platforms",
+     "soft": true,
+     "editionDependent": false,
+     "current": [
+      "PC",
+      "PS4",
+      "Xbox One"
+     ],
+     "proposed": [
+      "Xbox One",
+      "PlayStation 4",
+      "Microsoft Windows",
+      "macOS",
+      "Linux"
+     ],
+     "status": "proposed-change",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "Wikidata",
+       "value": [
+        "Xbox One",
+        "PlayStation 4",
+        "Microsoft Windows",
+        "macOS",
+        "Linux"
+       ],
+       "url": "https://www.wikidata.org/wiki/Q50562677"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "g267",
+   "title": "Far Cry 4",
+   "sourcesReached": [
+    "Wikidata"
+   ],
+   "sourcesMissed": [
+    "IGDB (no key in environment)"
+   ],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "release year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 2014,
+     "proposed": 2014,
+     "status": "confirmed",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "Wikidata",
+       "value": 2014,
+       "url": "https://www.wikidata.org/wiki/Q15992359"
+      }
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "developer",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Ubisoft Montreal",
+     "proposed": "Red Storm Entertainment, Ubisoft Kyiv, Ubisoft Montreal, Ubisoft Shanghai, Ubisoft Toronto",
+     "status": "proposed-change",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "Wikidata",
+       "value": "Ubisoft Montreal & Ubisoft Kyiv & Red Storm Entertainment & Ubisoft Shanghai & Ubisoft Toronto",
+       "url": "https://www.wikidata.org/wiki/Q15992359"
+      }
+     ]
+    },
+    {
+     "field": "platforms",
+     "label": "platforms",
+     "soft": true,
+     "editionDependent": false,
+     "current": [
+      "PC",
+      "PS4",
+      "Xbox One"
+     ],
+     "proposed": [
+      "PlayStation 3",
+      "PlayStation 4",
+      "Microsoft Windows",
+      "Xbox 360",
+      "Xbox One"
+     ],
+     "status": "proposed-change",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "Wikidata",
+       "value": [
+        "PlayStation 3",
+        "PlayStation 4",
+        "Microsoft Windows",
+        "Xbox 360",
+        "Xbox One"
+       ],
+       "url": "https://www.wikidata.org/wiki/Q15992359"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "g268",
+   "title": "Far Cry 5",
+   "sourcesReached": [
+    "Wikidata"
+   ],
+   "sourcesMissed": [
+    "IGDB (no key in environment)"
+   ],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "release year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 2018,
+     "proposed": 2018,
+     "status": "confirmed",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "Wikidata",
+       "value": 2018,
+       "url": "https://www.wikidata.org/wiki/Q30015130"
+      }
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "developer",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Ubisoft Montreal",
+     "proposed": "Ubisoft Kyiv, Ubisoft Montreal, Ubisoft Reflections, Ubisoft Shanghai, Ubisoft Toronto",
+     "status": "proposed-change",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "Wikidata",
+       "value": "Ubisoft Montreal & Ubisoft Toronto & Ubisoft Kyiv & Ubisoft Shanghai & Ubisoft Reflections",
+       "url": "https://www.wikidata.org/wiki/Q30015130"
+      }
+     ]
+    },
+    {
+     "field": "platforms",
+     "label": "platforms",
+     "soft": true,
+     "editionDependent": false,
+     "current": [
+      "PC",
+      "PS4",
+      "Xbox One"
+     ],
+     "proposed": [
+      "Microsoft Windows",
+      "PlayStation 4",
+      "Xbox One"
+     ],
+     "status": "proposed-change",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "Wikidata",
+       "value": [
+        "Microsoft Windows",
+        "PlayStation 4",
+        "Xbox One"
+       ],
+       "url": "https://www.wikidata.org/wiki/Q30015130"
+      }
+     ]
+    }
+   ]
+  }
+ ]
+}
