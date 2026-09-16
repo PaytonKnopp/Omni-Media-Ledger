@@ -974,6 +974,101 @@ Payton flagged it directly, looking at their own GOAT Profile tab: the recommend
 
 ---
 
+## Phase 45 — Corpus expansion begins: 2,508 → 5,000 (movies 1,000→2,000, TV 250→500, games 258→500, books 1,000→2,000)
+
+**In progress, multi-session.** Owner's brief: franchise completion first, then filterable-category
+coverage, then general quality/fame — same evidence-and-rubric bar as the rest of the corpus, no
+shortcuts, real sourced facts before scoring.
+
+**The environment's network block QUALITY_PASS.md recorded is gone.** Re-probed at the start of this
+phase: OMDb, TMDB, OpenLibrary and IGDB's auth endpoint are all reachable. `fetch-facts.js` and
+`fetch-substance.js` ran live for the first time since QUALITY_PASS.md's "blocked" finding. IGDB
+still needs `IGDB_CLIENT_ID`/`IGDB_CLIENT_SECRET`, neither set in this environment — games facts still
+fall back to the keyless Wikidata adapter alone, which cannot reach grade A on its own (single
+source), so new games stay `prov.facts:"estimated"` same as the pre-existing 258.
+
+**Franchise audit findings.** Movies had the real "collapsed placeholder" problem the owner
+described — Star Wars, Harry Potter, Pirates of the Caribbean, Bond, Rocky, Back to the Future,
+Indiana Jones, Mission: Impossible, Jurassic Park all sat at 1 (or, for Bond, 3) of their real film
+count, and `m160` was a single "The Man with No Name Trilogy" record standing in for what should be
+(and, it turned out, already partly were — `m444`/`m384`/`m106`) three separate films. TV, games and
+books did **not** have this problem to the same degree — a corpus-wide audit (title-keyword scan
+across all four `data/*.js` files) found games and books already carry multiple real entries per
+major franchise (Zelda 6, Mario 6, Dune 3, Foundation 5, etc.), and TV's apparent franchises are
+naturally one record per distinct series already (Star Trek: TNG + DS9, Game of Thrones + House of
+the Dragon). So Priority 1 work landed almost entirely on movies this pass; TV/games/books' 2,000-work
+increase is mostly still ahead and will lean on Priorities 2-3.
+
+**Batches landed so far** (each its own commit, each independently fetch-facts → apply-facts →
+fetch-substance → rubric-scored via `score-batch.js` → validated → diff-scoped → `npm test` →
+pushed, per DATA_RUNBOOK.md exactly):
+
+1. **Named franchises** (77 movies, `m1010`-`m1086`): Star Wars (9, incl. Rogue One/Solo), Harry
+   Potter (7, core 8 only — no Fantastic Beasts, a deliberate scope call), Pirates of the Caribbean
+   (4), James Bond (22 — all 25 Eon films now present), Rocky/Creed (8 — Creed included as a
+   continuation of the same world), Back to the Future (2), Indiana Jones (4), Mission: Impossible
+   (7, incl. 2025's The Final Reckoning), Jurassic Park (6, incl. 2025's Rebirth), The Hobbit (3),
+   The Hunger Games (5, incl. the Songbirds & Snakes prequel, not the unreleased Sunrise on the
+   Reaping). `m160` removed. Two candidates (Casino Royale, Raiders of the Lost Ark) turned out to
+   already be in the corpus and were dropped rather than duplicated.
+2. **Broader franchise audit** (100 movies + 5 games, `m1087`-`m1186`, `g264`-`g268`): Mad Max, Alien,
+   Terminator, Predator, Batman, Joker, The Matrix, X-Men, a **curated** ~30-film Marvel Cinematic
+   Universe (not all ~35 — The Incredible Hulk and Thor: The Dark World deliberately excluded as the
+   two weakest-regarded, lowest-connective-tissue entries), Spider-Man, Star Trek (curated 6 films,
+   not all 13), Halloween (curated 5, not all 13), Saw (curated 3, not all 10), Fast & Furious
+   (curated 4, not all 11), Godzilla/King Kong, Godfather Part III, Ghostbusters, Ocean's, Die Hard
+   (all 5), Bourne, John Wick (all 4), Insidious, The Conjuring, Scream (all 6), plus Tomb
+   Raider/Far Cry/Red Dead completions for games. 4 titles collided **on name only** with an
+   unrelated existing film of the same title (Halloween, Godzilla, King Kong, Ghostbusters) and were
+   disambiguated with a `(YYYY)` suffix, the corpus's existing convention (see `Scream (2022)`).
+3. **Remaining gaps + Animation/Family category push** (25 movies, `m1187`-`m1211`): It, Planet of
+   the Apes (2011-2017 trilogy), Transformers (curated 2), and a deliberate Animation/Family pass
+   (Kung Fu Panda, How to Train Your Dragon, Despicable Me/Minions, Ice Age, Madagascar, Frozen,
+   Moana, Encanto) plus a small DC Extended Universe pass, since Superhero coverage was
+   Marvel-heavy. One structural bug caught by `validate-corpus.js`'s creator-identity check: two new
+   records credited a co-director pair in the opposite order from how the corpus already credits
+   them elsewhere (Moana's Musker/Clements, HTTYD's DeBlois/Sanders) — fixed to match the existing
+   spelling.
+
+**Scope judgment calls made without stopping to ask** (per the owner's explicit instruction to use
+judgment and record rather than interrupt for routine calls): every "curated N of the real count"
+above. The rule applied throughout: for a franchise with 2-9 real entries, add all of them; for
+franchises with 10+ (Bond aside, which the owner named explicitly), add the critically/culturally
+essential ones and skip the weakest/most redundant, to keep the movies budget from being consumed
+entirely by a handful of giant franchises at the expense of Priorities 2-3.
+
+**UI addition delivered this phase**, ahead of the full corpus expansion finishing: `SERIES_DEFS`
+(`app/ledger-app.js`, the mechanism Collection's "group by series" view already used) now carries 48
+real franchise definitions built from the exact new corpus titles, replacing the one pre-existing
+2-member "Alien (Ridley/Cameron)" stub. A new reverse lookup (`SERIES_BY_TITLE`, `franchiseOf()`)
+also drives a small "⚙ &lt;franchise&gt;" badge on every Global Controller card, owned or not — the
+part of the brief Collection's existing view never covered, since that view only ever showed
+franchises you'd started collecting. No schema change; the membership list is still hand-curated
+JS, same as it always was, just far more complete.
+
+**State at last commit:** movies 1,199/2,000, games 263/500, TV 250/500 (untouched), books
+1,000/2,000 (untouched). Both a blank-profile and full validator pass are still green
+(`node scripts/validate-corpus.js`, `npm test`).
+
+**Still to do, in priority order:**
+- A handful of remaining movie franchises not yet touched (Alien vs. Predator crossovers explicitly
+  skipped as lower-canon; It Chapter One already existed, so It is now complete at 2/2; Karate Kid,
+  Rambo, Twilight, Divergent, Maze Runner, Chronicles of Narnia, Percy Jackson not yet audited).
+- Priority 2 (filterable-category coverage) for movies: era distribution skews 2000s-2020s (642 of
+  1,199); pre-1990 total only 288. Documentary (34), Musical (32), Western (39), Slasher (11) all
+  thin relative to Drama/Comedy/Action/Sci-Fi.
+- TV, games and books essentially haven't started — all three need real evidence + rubric-scoring
+  batches the same way movies got them, following the exact same DATA_RUNBOOK.md pipeline. Books is
+  the largest remaining chunk (1,000 new) and has the clearest priority-1 gap of its own: several
+  major fantasy/sci-fi series are entirely absent (Wheel of Time, Stormlight Archive, Discworld, the
+  Witcher novels, His Dark Materials, Malazan) — not collapsed placeholders, just never added.
+  Books' genre distribution is also heavily skewed toward the owner's own literary-fiction/sci-fi/
+  philosophy taste (Literary Fiction 283, Sci-Fi 172, Philosophy 127 vs. Romance 18) — Priority 2/3
+  for books needs real breadth here for the "works for a different taste too" requirement.
+  Games' genre distribution is thin on Racing (3), Sports (2), Fighting (5), Party (1), MMORPG (1).
+
+---
+
 ## Ideas / next steps
 
 Roughly in order of value:
