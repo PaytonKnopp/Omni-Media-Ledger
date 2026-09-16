@@ -1,0 +1,940 @@
+{
+ "medium": "tv",
+ "generated": "2026-09-16T23:50:34.108Z",
+ "offline": false,
+ "sources": [
+  "OMDb",
+  "TMDB"
+ ],
+ "works": [
+  {
+   "id": "t293",
+   "title": "Vikings",
+   "sourcesReached": [
+    "OMDb",
+    "TMDB"
+   ],
+   "sourcesMissed": [],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "first air year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 2013,
+     "proposed": 2013,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 2013,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Vikings&type=series&y=2013"
+      },
+      {
+       "src": "TMDB",
+       "value": 2013,
+       "url": "https://api.themoviedb.org/3/search/tv?api_key=REDACTED&query=Vikings"
+      }
+     ]
+    },
+    {
+     "field": "seasons",
+     "label": "seasons",
+     "soft": false,
+     "editionDependent": false,
+     "current": 6,
+     "proposed": 6,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 6,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Vikings&type=series&y=2013"
+      },
+      {
+       "src": "TMDB",
+       "value": 6,
+       "url": "https://api.themoviedb.org/3/search/tv?api_key=REDACTED&query=Vikings"
+      }
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "creator",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Michael Hirst",
+     "proposed": "Michael Hirst",
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": "Michael Hirst",
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Vikings&type=series&y=2013"
+      },
+      {
+       "src": "TMDB",
+       "value": "Michael Hirst",
+       "url": "https://api.themoviedb.org/3/search/tv?api_key=REDACTED&query=Vikings"
+      }
+     ]
+    },
+    {
+     "field": "network",
+     "label": "network / streamer",
+     "soft": true,
+     "editionDependent": false,
+     "current": "History",
+     "proposed": "Prime Video",
+     "status": "proposed-change",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "TMDB",
+       "value": "Prime Video",
+       "url": "https://api.themoviedb.org/3/search/tv?api_key=REDACTED&query=Vikings"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "t294",
+   "title": "Rome",
+   "sourcesReached": [
+    "OMDb",
+    "TMDB"
+   ],
+   "sourcesMissed": [],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "first air year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 2005,
+     "proposed": 2005,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 2005,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Rome&type=series&y=2005"
+      },
+      {
+       "src": "TMDB",
+       "value": 2005,
+       "url": "https://api.themoviedb.org/3/search/tv?api_key=REDACTED&query=Rome"
+      }
+     ]
+    },
+    {
+     "field": "seasons",
+     "label": "seasons",
+     "soft": false,
+     "editionDependent": false,
+     "current": 2,
+     "proposed": 2,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 2,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Rome&type=series&y=2005"
+      },
+      {
+       "src": "TMDB",
+       "value": 2,
+       "url": "https://api.themoviedb.org/3/search/tv?api_key=REDACTED&query=Rome"
+      }
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "creator",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Bruno Heller, John Milius, William J. MacDonald",
+     "proposed": "Bruno Heller, John Milius, William J. MacDonald",
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": "Bruno Heller, William J. MacDonald, John Milius",
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Rome&type=series&y=2005"
+      },
+      {
+       "src": "TMDB",
+       "value": "Bruno Heller, John Milius, William J. MacDonald",
+       "url": "https://api.themoviedb.org/3/search/tv?api_key=REDACTED&query=Rome"
+      }
+     ]
+    },
+    {
+     "field": "network",
+     "label": "network / streamer",
+     "soft": true,
+     "editionDependent": false,
+     "current": "HBO",
+     "proposed": "HBO",
+     "status": "confirmed",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "TMDB",
+       "value": "HBO",
+       "url": "https://api.themoviedb.org/3/search/tv?api_key=REDACTED&query=Rome"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "t295",
+   "title": "Spartacus",
+   "sourcesReached": [
+    "OMDb",
+    "TMDB"
+   ],
+   "sourcesMissed": [],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "first air year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 2010,
+     "proposed": 2010,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 2010,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Spartacus&type=series&y=2010"
+      },
+      {
+       "src": "TMDB",
+       "value": 2010,
+       "url": "https://api.themoviedb.org/3/search/tv?api_key=REDACTED&query=Spartacus"
+      }
+     ]
+    },
+    {
+     "field": "seasons",
+     "label": "seasons",
+     "soft": false,
+     "editionDependent": false,
+     "current": 4,
+     "proposed": 3,
+     "status": "proposed-change",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 3,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Spartacus&type=series&y=2010"
+      },
+      {
+       "src": "TMDB",
+       "value": 3,
+       "url": "https://api.themoviedb.org/3/search/tv?api_key=REDACTED&query=Spartacus"
+      }
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "creator",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Steven S. DeKnight",
+     "proposed": "Steven S. DeKnight",
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": "Steven S. DeKnight",
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Spartacus&type=series&y=2010"
+      },
+      {
+       "src": "TMDB",
+       "value": "Steven S. DeKnight",
+       "url": "https://api.themoviedb.org/3/search/tv?api_key=REDACTED&query=Spartacus"
+      }
+     ]
+    },
+    {
+     "field": "network",
+     "label": "network / streamer",
+     "soft": true,
+     "editionDependent": false,
+     "current": "Starz",
+     "proposed": "STARZ",
+     "status": "confirmed",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "TMDB",
+       "value": "STARZ",
+       "url": "https://api.themoviedb.org/3/search/tv?api_key=REDACTED&query=Spartacus"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "t296",
+   "title": "The Pillars of the Earth",
+   "sourcesReached": [
+    "OMDb",
+    "TMDB"
+   ],
+   "sourcesMissed": [],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "first air year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 2010,
+     "proposed": 2010,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 2010,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=The+Pillars+of+the+Earth&type=series&y=2010"
+      },
+      {
+       "src": "TMDB",
+       "value": 2010,
+       "url": "https://api.themoviedb.org/3/search/tv?api_key=REDACTED&query=The+Pillars+of+the+Earth"
+      }
+     ]
+    },
+    {
+     "field": "seasons",
+     "label": "seasons",
+     "soft": false,
+     "editionDependent": false,
+     "current": 1,
+     "proposed": 1,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 1,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=The+Pillars+of+the+Earth&type=series&y=2010"
+      },
+      {
+       "src": "TMDB",
+       "value": 1,
+       "url": "https://api.themoviedb.org/3/search/tv?api_key=REDACTED&query=The+Pillars+of+the+Earth"
+      }
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "creator",
+     "soft": false,
+     "editionDependent": false,
+     "current": "John Pielmeier",
+     "proposed": "Sergio Mimica-Gezzan",
+     "status": "proposed-change",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "TMDB",
+       "value": "Sergio Mimica-Gezzan",
+       "url": "https://api.themoviedb.org/3/search/tv?api_key=REDACTED&query=The+Pillars+of+the+Earth"
+      }
+     ]
+    },
+    {
+     "field": "network",
+     "label": "network / streamer",
+     "soft": true,
+     "editionDependent": false,
+     "current": "Starz",
+     "proposed": "STARZ",
+     "status": "confirmed",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "TMDB",
+       "value": "STARZ",
+       "url": "https://api.themoviedb.org/3/search/tv?api_key=REDACTED&query=The+Pillars+of+the+Earth"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "t297",
+   "title": "Masters of the Air",
+   "sourcesReached": [
+    "OMDb",
+    "TMDB"
+   ],
+   "sourcesMissed": [],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "first air year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 2024,
+     "proposed": 2024,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 2024,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Masters+of+the+Air&type=series&y=2024"
+      },
+      {
+       "src": "TMDB",
+       "value": 2024,
+       "url": "https://api.themoviedb.org/3/search/tv?api_key=REDACTED&query=Masters+of+the+Air"
+      }
+     ]
+    },
+    {
+     "field": "seasons",
+     "label": "seasons",
+     "soft": false,
+     "editionDependent": false,
+     "current": 1,
+     "proposed": 1,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 1,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Masters+of+the+Air&type=series&y=2024"
+      },
+      {
+       "src": "TMDB",
+       "value": 1,
+       "url": "https://api.themoviedb.org/3/search/tv?api_key=REDACTED&query=Masters+of+the+Air"
+      }
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "creator",
+     "soft": false,
+     "editionDependent": false,
+     "current": "John Orloff",
+     "proposed": "John Orloff",
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": "John Orloff",
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Masters+of+the+Air&type=series&y=2024"
+      },
+      {
+       "src": "TMDB",
+       "value": "John Orloff",
+       "url": "https://api.themoviedb.org/3/search/tv?api_key=REDACTED&query=Masters+of+the+Air"
+      }
+     ]
+    },
+    {
+     "field": "network",
+     "label": "network / streamer",
+     "soft": true,
+     "editionDependent": false,
+     "current": "Apple TV+",
+     "proposed": "Apple TV",
+     "status": "confirmed",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "TMDB",
+       "value": "Apple TV",
+       "url": "https://api.themoviedb.org/3/search/tv?api_key=REDACTED&query=Masters+of+the+Air"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "t298",
+   "title": "The North Water",
+   "sourcesReached": [
+    "OMDb",
+    "TMDB"
+   ],
+   "sourcesMissed": [],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "first air year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 2021,
+     "proposed": 2021,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 2021,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=The+North+Water&type=series&y=2021"
+      },
+      {
+       "src": "TMDB",
+       "value": 2021,
+       "url": "https://api.themoviedb.org/3/search/tv?api_key=REDACTED&query=The+North+Water"
+      }
+     ]
+    },
+    {
+     "field": "seasons",
+     "label": "seasons",
+     "soft": false,
+     "editionDependent": false,
+     "current": 1,
+     "proposed": 1,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 1,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=The+North+Water&type=series&y=2021"
+      },
+      {
+       "src": "TMDB",
+       "value": 1,
+       "url": "https://api.themoviedb.org/3/search/tv?api_key=REDACTED&query=The+North+Water"
+      }
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "creator",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Andrew Haigh",
+     "proposed": "Andrew Haigh",
+     "status": "confirmed",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "TMDB",
+       "value": "Andrew Haigh",
+       "url": "https://api.themoviedb.org/3/search/tv?api_key=REDACTED&query=The+North+Water"
+      }
+     ]
+    },
+    {
+     "field": "network",
+     "label": "network / streamer",
+     "soft": true,
+     "editionDependent": false,
+     "current": "BBC Two",
+     "proposed": "AMC+",
+     "status": "proposed-change",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "TMDB",
+       "value": "AMC+",
+       "url": "https://api.themoviedb.org/3/search/tv?api_key=REDACTED&query=The+North+Water"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "t299",
+   "title": "Castlevania",
+   "sourcesReached": [
+    "OMDb",
+    "TMDB"
+   ],
+   "sourcesMissed": [],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "first air year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 2017,
+     "proposed": 2017,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 2017,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Castlevania&type=series&y=2017"
+      },
+      {
+       "src": "TMDB",
+       "value": 2017,
+       "url": "https://api.themoviedb.org/3/search/tv?api_key=REDACTED&query=Castlevania"
+      }
+     ]
+    },
+    {
+     "field": "seasons",
+     "label": "seasons",
+     "soft": false,
+     "editionDependent": false,
+     "current": 4,
+     "proposed": 4,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 4,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Castlevania&type=series&y=2017"
+      },
+      {
+       "src": "TMDB",
+       "value": 4,
+       "url": "https://api.themoviedb.org/3/search/tv?api_key=REDACTED&query=Castlevania"
+      }
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "creator",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Warren Ellis",
+     "proposed": "Warren Ellis",
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": "Warren Ellis",
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Castlevania&type=series&y=2017"
+      },
+      {
+       "src": "TMDB",
+       "value": "Warren Ellis",
+       "url": "https://api.themoviedb.org/3/search/tv?api_key=REDACTED&query=Castlevania"
+      }
+     ]
+    },
+    {
+     "field": "network",
+     "label": "network / streamer",
+     "soft": true,
+     "editionDependent": false,
+     "current": "Netflix",
+     "proposed": "Netflix",
+     "status": "confirmed",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "TMDB",
+       "value": "Netflix",
+       "url": "https://api.themoviedb.org/3/search/tv?api_key=REDACTED&query=Castlevania"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "t300",
+   "title": "Tuca & Bertie",
+   "sourcesReached": [
+    "OMDb",
+    "TMDB"
+   ],
+   "sourcesMissed": [],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "first air year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 2019,
+     "proposed": 2019,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 2019,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Tuca+%26+Bertie&type=series&y=2019"
+      },
+      {
+       "src": "TMDB",
+       "value": 2019,
+       "url": "https://api.themoviedb.org/3/search/tv?api_key=REDACTED&query=Tuca+%26+Bertie"
+      }
+     ]
+    },
+    {
+     "field": "seasons",
+     "label": "seasons",
+     "soft": false,
+     "editionDependent": false,
+     "current": 3,
+     "proposed": 3,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 3,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Tuca+%26+Bertie&type=series&y=2019"
+      },
+      {
+       "src": "TMDB",
+       "value": 3,
+       "url": "https://api.themoviedb.org/3/search/tv?api_key=REDACTED&query=Tuca+%26+Bertie"
+      }
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "creator",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Lisa Hanawalt",
+     "proposed": "Lisa Hanawalt",
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": "Lisa Hanawalt",
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Tuca+%26+Bertie&type=series&y=2019"
+      },
+      {
+       "src": "TMDB",
+       "value": "Lisa Hanawalt",
+       "url": "https://api.themoviedb.org/3/search/tv?api_key=REDACTED&query=Tuca+%26+Bertie"
+      }
+     ]
+    },
+    {
+     "field": "network",
+     "label": "network / streamer",
+     "soft": true,
+     "editionDependent": false,
+     "current": "Netflix",
+     "proposed": "Adult Swim",
+     "status": "proposed-change",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "TMDB",
+       "value": "Adult Swim",
+       "url": "https://api.themoviedb.org/3/search/tv?api_key=REDACTED&query=Tuca+%26+Bertie"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "t301",
+   "title": "Harley Quinn",
+   "sourcesReached": [
+    "OMDb",
+    "TMDB"
+   ],
+   "sourcesMissed": [],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "first air year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 2019,
+     "proposed": 2019,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 2019,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Harley+Quinn&type=series&y=2019"
+      },
+      {
+       "src": "TMDB",
+       "value": 2019,
+       "url": "https://api.themoviedb.org/3/search/tv?api_key=REDACTED&query=Harley+Quinn"
+      }
+     ]
+    },
+    {
+     "field": "seasons",
+     "label": "seasons",
+     "soft": false,
+     "editionDependent": false,
+     "current": 5,
+     "proposed": 5,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 5,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Harley+Quinn&type=series&y=2019"
+      },
+      {
+       "src": "TMDB",
+       "value": 5,
+       "url": "https://api.themoviedb.org/3/search/tv?api_key=REDACTED&query=Harley+Quinn"
+      }
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "creator",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Justin Halpern, Patrick Schumacker, Dean Lorey",
+     "proposed": "Dean Lorey, Justin Halpern, Patrick Schumacker",
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": "Justin Halpern, Dean Lorey, Patrick Schumacker",
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Harley+Quinn&type=series&y=2019"
+      },
+      {
+       "src": "TMDB",
+       "value": "Patrick Schumacker, Justin Halpern, Dean Lorey",
+       "url": "https://api.themoviedb.org/3/search/tv?api_key=REDACTED&query=Harley+Quinn"
+      }
+     ]
+    },
+    {
+     "field": "network",
+     "label": "network / streamer",
+     "soft": true,
+     "editionDependent": false,
+     "current": "DC Universe",
+     "proposed": "DC Universe",
+     "status": "confirmed",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "TMDB",
+       "value": "DC Universe",
+       "url": "https://api.themoviedb.org/3/search/tv?api_key=REDACTED&query=Harley+Quinn"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "t302",
+   "title": "X-Men '97",
+   "sourcesReached": [
+    "OMDb",
+    "TMDB"
+   ],
+   "sourcesMissed": [],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "first air year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 2024,
+     "proposed": 2024,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 2024,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=X-Men+%2797&type=series&y=2024"
+      },
+      {
+       "src": "TMDB",
+       "value": 2024,
+       "url": "https://api.themoviedb.org/3/search/tv?api_key=REDACTED&query=X-Men+%2797"
+      }
+     ]
+    },
+    {
+     "field": "seasons",
+     "label": "seasons",
+     "soft": false,
+     "editionDependent": false,
+     "current": 2,
+     "proposed": 2,
+     "status": "corroborated-by-one",
+     "grade": "B",
+     "note": "matches TMDB; disagrees with OMDb (3)",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 3,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=X-Men+%2797&type=series&y=2024"
+      },
+      {
+       "src": "TMDB",
+       "value": 2,
+       "url": "https://api.themoviedb.org/3/search/tv?api_key=REDACTED&query=X-Men+%2797"
+      }
+     ],
+     "alternatives": [
+      2
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "creator",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Beau DeMayo",
+     "proposed": "Beau DeMayo",
+     "status": "confirmed",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": "Beau DeMayo",
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=X-Men+%2797&type=series&y=2024"
+      }
+     ]
+    },
+    {
+     "field": "network",
+     "label": "network / streamer",
+     "soft": true,
+     "editionDependent": false,
+     "current": "Disney+",
+     "proposed": "Disney+",
+     "status": "confirmed",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "TMDB",
+       "value": "Disney+",
+       "url": "https://api.themoviedb.org/3/search/tv?api_key=REDACTED&query=X-Men+%2797"
+      }
+     ]
+    }
+   ]
+  }
+ ]
+}
