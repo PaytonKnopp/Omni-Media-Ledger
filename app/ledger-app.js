@@ -601,7 +601,7 @@ function cardHTML(it){const k=KM[it.kind];
  +'<button type="button" class="cardHead w-full text-left p-3.5 flex gap-3 items-start" data-id="'+it.id+'">'
  +ring(it.crit,k.c,42)
  +'<div class="flex-1 min-w-0">'
- +'<div class="flex items-center gap-x-2 gap-y-1.5 flex-wrap"><span class="cardTitle text-[13px] font-semibold text-slate-100 leading-tight hover:text-teal-300 cursor-pointer underline decoration-dotted decoration-slate-600 underline-offset-2" data-flip="'+it.id+'" title="Click for a summary and full breakdown">'+esc(it.title)+'</span><span class="chip" style="color:'+k.c+';border-color:'+k.c+'44">'+k.label+'</span><span class="chip" style="color:#5eead4;border-color:#5eead455">'+esc(it.rating)+'</span>'+'<span class="chip" style="color:#fbbf24;border-color:#fbbf2444" title="GOAT match /100">\u2605 '+it.gm+'</span>'+(window._blendActive?'<span class="chip" style="color:#0B0F19;background:#34d399;border-color:#34d399;font-weight:800" title="Weighted blend match">\u2696 '+bespokeScore(it).toFixed(0)+'%</span>':'')+(it.chFlag?'<span class="chip" style="color:#0B0F19;background:#c084fc;border-color:#c084fc;font-weight:700">\u25c9 CANON 100</span>':(it.ch>=70?'<span class="chip" style="color:#c084fc;border-color:#c084fc44">\u25c9 '+it.ch+'</span>':''))+'</div>'
+ +'<div class="flex items-center gap-x-2 gap-y-1.5 flex-wrap"><span class="cardTitle text-[13px] font-semibold text-slate-100 leading-tight hover:text-teal-300 cursor-pointer underline decoration-dotted decoration-slate-600 underline-offset-2" data-flip="'+it.id+'" title="Click for a summary and full breakdown">'+esc(it.title)+'</span><span class="chip" style="color:'+k.c+';border-color:'+k.c+'44">'+k.label+'</span><span class="chip" style="color:#5eead4;border-color:#5eead455">'+esc(it.rating)+'</span>'+'<span class="chip" style="color:#fbbf24;border-color:#fbbf2444" title="GOAT match /100">\u2605 '+it.gm+'</span>'+(window._blendActive?'<span class="chip" style="color:#0B0F19;background:#34d399;border-color:#34d399;font-weight:800" title="Weighted blend match">\u2696 '+bespokeScore(it).toFixed(0)+'%</span>':'')+(it.chFlag?'<span class="chip" style="color:#0B0F19;background:#c084fc;border-color:#c084fc;font-weight:700">\u25c9 CANON 100</span>':(it.ch>=70?'<span class="chip" style="color:#c084fc;border-color:#c084fc44">\u25c9 '+it.ch+'</span>':''))+(function(){const fr=franchiseOf(it);return fr?'<span class="chip" style="color:#5eead4;border-color:#5eead444" title="Part of the '+esc(fr)+' series">\u2699 '+esc(fr)+'</span>':'';})()+'</div>'
  +'<div class="text-[11px] text-slate-400 mt-1.5 truncate" title="'+esc(it.creator)+' · '+esc(it.org)+'">'+it.year+' · '+esc(it.creator)+' · '+esc(it.span)+'</div>'
  +'<div class="mt-2 space-y-1 cardMicro" title="This work\'s 3 strongest indices out of ~19 tracked -- click the card to see all of them">'+frontBars(it)+'</div>'
  +'</div><span class="text-slate-600 text-xs mt-1" aria-hidden="true">&#9662;</span></button>'+'<button type="button" class="wlBtn absolute top-2 right-2 text-base leading-none transition-transform hover:scale-125" data-wl="'+it.id+'" title="Toggle watchlist" aria-label="'+(wlHas(it.id)?'Remove from watchlist':'Add to watchlist')+'" style="color:'+(wlHas(it.id)?'#fb7185':'#475569')+'">'+(wlHas(it.id)?'\u2665':'\u2661')+'</button>'
@@ -2263,7 +2263,6 @@ function renderPortraitGaps(){
 const SERIES_DEFS=[
  {name:'The Lord of the Rings (film trilogy)',kind:'movie',members:['The Lord of the Rings: The Fellowship of the Ring','The Lord of the Rings: The Two Towers','The Lord of the Rings: The Return of the King'],total:3},
  {name:"The Man with No Name Trilogy",kind:'movie',members:['A Fistful of Dollars','For a Few Dollars More','The Good, the Bad and the Ugly'],total:3},
- {name:'Alien (Ridley/Cameron)',kind:'movie',members:['Alien','Aliens'],total:2},
  {name:'Middle-earth (Tolkien books)',kind:'book',members:['The Hobbit','The Fellowship of the Ring','The Two Towers','The Return of the King','The Silmarillion','Unfinished Tales','The Adventures of Tom Bombadil','The Children of Húrin'],total:8},
  {name:'The Kingkiller Chronicle',kind:'book',members:['The Name of the Wind',"The Wise Man's Fear",'The Slow Regard of Silent Things','The Doors of Stone'],total:4},
  {name:'The Dark Tower',kind:'book',members:['The Gunslinger','The Drawing of the Three','The Waste Lands','Wizard and Glass','Wolves of the Calla','Song of Susannah','The Dark Tower'],total:7},
@@ -2275,7 +2274,60 @@ const SERIES_DEFS=[
  {name:'Lovecraft / cosmic horror',kind:'book',members:['At the Mountains of Madness','The Necronomicon (Lovecraft)','The King in Yellow','Best Ghost Stories of Algernon Blackwood'],total:4},
  {name:'Sagan (popular science)',kind:'book',members:['Cosmos','The Demon-Haunted World','Starry Messenger'],total:3},
  {name:'Harari (Sapiens trilogy)',kind:'book',members:['Sapiens','Homo Deus','Nexus'],total:3},
+ {name:"Star Wars",kind:"movie",members:["Star Wars: A New Hope","Star Wars: The Force Awakens","Star Wars: The Empire Strikes Back","Star Wars: Return of the Jedi","Star Wars: Episode I - The Phantom Menace","Star Wars: Episode II - Attack of the Clones","Star Wars: Episode III - Revenge of the Sith","Star Wars: The Last Jedi","Star Wars: The Rise of Skywalker","Rogue One: A Star Wars Story","Solo: A Star Wars Story"],total:11},
+ {name:"Harry Potter",kind:"movie",members:["Harry Potter and the Sorcerer's Stone","Harry Potter and the Chamber of Secrets","Harry Potter and the Prisoner of Azkaban","Harry Potter and the Goblet of Fire","Harry Potter and the Order of the Phoenix","Harry Potter and the Half-Blood Prince","Harry Potter and the Deathly Hallows: Part 1","Harry Potter and the Deathly Hallows: Part 2"],total:8},
+ {name:"Pirates of the Caribbean",kind:"movie",members:["Pirates of the Caribbean: The Curse of the Black Pearl","Pirates of the Caribbean: Dead Man's Chest","Pirates of the Caribbean: At World's End","Pirates of the Caribbean: On Stranger Tides","Pirates of the Caribbean: Dead Men Tell No Tales"],total:5},
+ {name:"James Bond",kind:"movie",members:["Skyfall","Spectre","No Time to Die","Dr. No","From Russia with Love","Goldfinger","Thunderball","You Only Live Twice","On Her Majesty's Secret Service","Diamonds Are Forever","Live and Let Die","The Man with the Golden Gun","The Spy Who Loved Me","Moonraker","For Your Eyes Only","Octopussy","A View to a Kill","The Living Daylights","Licence to Kill","GoldenEye","Tomorrow Never Dies","The World Is Not Enough","Die Another Day","Casino Royale","Quantum of Solace"],total:25},
+ {name:"Rocky",kind:"movie",members:["Rocky","Rocky II","Rocky III","Rocky IV","Rocky V","Rocky Balboa","Creed","Creed II","Creed III"],total:9},
+ {name:"Back to the Future",kind:"movie",members:["Back to the Future","Back to the Future Part II","Back to the Future Part III"],total:3},
+ {name:"Indiana Jones",kind:"movie",members:["Indiana Jones and the Last Crusade","Raiders of the Lost Ark","Indiana Jones and the Temple of Doom","Indiana Jones and the Kingdom of the Crystal Skull","Indiana Jones and the Dial of Destiny"],total:5},
+ {name:"Mission: Impossible",kind:"movie",members:["Mission: Impossible - Fallout","Mission: Impossible","Mission: Impossible II","Mission: Impossible III","Mission: Impossible - Ghost Protocol","Mission: Impossible - Rogue Nation","Mission: Impossible - Dead Reckoning Part One","Mission: Impossible - The Final Reckoning"],total:8},
+ {name:"Jurassic Park",kind:"movie",members:["Jurassic Park","The Lost World: Jurassic Park","Jurassic Park III","Jurassic World","Jurassic World: Fallen Kingdom","Jurassic World Dominion","Jurassic World Rebirth"],total:7},
+ {name:"The Hobbit",kind:"movie",members:["The Hobbit: An Unexpected Journey","The Hobbit: The Desolation of Smaug","The Hobbit: The Battle of the Five Armies"],total:3},
+ {name:"The Hunger Games",kind:"movie",members:["The Hunger Games","The Hunger Games: Catching Fire","The Hunger Games: Mockingjay - Part 1","The Hunger Games: Mockingjay - Part 2","The Hunger Games: The Ballad of Songbirds and Snakes"],total:5},
+ {name:"Mad Max",kind:"movie",members:["Mad Max","Mad Max Beyond Thunderdome"],total:2},
+ {name:"Alien",kind:"movie",members:["Alien","Aliens","Alien 3","Alien Resurrection","Alien: Covenant","Alien: Romulus"],total:6},
+ {name:"Terminator",kind:"movie",members:["Terminator 2: Judgment Day","The Terminator","Terminator 3: Rise of the Machines","Terminator Salvation","Terminator Genisys","Terminator: Dark Fate"],total:6},
+ {name:"Predator",kind:"movie",members:["Predator","Predator 2","Predators","The Predator","Prey"],total:5},
+ {name:"Batman",kind:"movie",members:["The Batman","Batman Begins","The Dark Knight","The Dark Knight Rises","Batman","Batman Returns"],total:6},
+ {name:"The Matrix",kind:"movie",members:["The Matrix Reloaded","The Matrix Revolutions","The Matrix Resurrections"],total:3},
+ {name:"X-Men",kind:"movie",members:["X-Men","X-Men: Days of Future Past","X2: X-Men United","X-Men: The Last Stand","X-Men: First Class","X-Men: Apocalypse","X-Men: Dark Phoenix"],total:7},
+ {name:"Marvel Cinematic Universe",kind:"movie",members:["The Avengers","Avengers: Infinity War","Avengers: Endgame","Iron Man","Captain America: The Winter Soldier","Thor: Ragnarok","Guardians of the Galaxy","Black Panther","Ant-Man","Iron Man 2","Iron Man 3","Captain America: The First Avenger","Captain America: Civil War","Captain America: Brave New World","Thor","Thor: Love and Thunder","Avengers: Age of Ultron","Guardians of the Galaxy Vol. 2","Guardians of the Galaxy Vol. 3","Black Panther: Wakanda Forever","Ant-Man and the Wasp","Ant-Man and the Wasp: Quantumania","Doctor Strange","Doctor Strange in the Multiverse of Madness","Captain Marvel","Black Widow","Shang-Chi and the Legend of the Ten Rings","Eternals","The Marvels","Thunderbolts*"],total:30},
+ {name:"Spider-Man",kind:"movie",members:["Spider-Man: Into the Spider-Verse","Spider-Man 2","Spider-Man: No Way Home","Spider-Man","Spider-Man: Homecoming","Spider-Man: Far From Home","Spider-Man 3","The Amazing Spider-Man","The Amazing Spider-Man 2","Spider-Man: Across the Spider-Verse"],total:10},
+ {name:"Men in Black",kind:"movie",members:["Men in Black II","Men in Black 3"],total:2},
+ {name:"Star Trek",kind:"movie",members:["Star Trek","Star Trek II: The Wrath of Khan","Star Trek IV: The Voyage Home","Star Trek: First Contact","Star Trek Into Darkness","Star Trek Beyond"],total:6},
+ {name:"Halloween",kind:"movie",members:["Halloween","Halloween II","Halloween (2018)","Halloween Kills","Halloween Ends"],total:5},
+ {name:"Saw",kind:"movie",members:["Saw","Saw II","Saw X"],total:3},
+ {name:"Fast & Furious",kind:"movie",members:["The Fast and the Furious","Fast Five","Furious 7","F9"],total:4},
+ {name:"Godzilla",kind:"movie",members:["Godzilla (2014)","Godzilla","Godzilla vs. Kong","Godzilla Minus One"],total:4},
+ {name:"King Kong",kind:"movie",members:["King Kong","King Kong (2005)","Kong: Skull Island"],total:3},
+ {name:"Toy Story",kind:"movie",members:["Toy Story","Toy Story 2","Toy Story 3","Toy Story 4"],total:4},
+ {name:"The Godfather",kind:"movie",members:["The Godfather","The Godfather Part II","The Godfather Part III"],total:3},
+ {name:"Ghostbusters",kind:"movie",members:["Ghostbusters","Ghostbusters II","Ghostbusters (2016)","Ghostbusters: Afterlife"],total:4},
+ {name:"Ocean's",kind:"movie",members:["Ocean's Eleven","Ocean's Twelve","Ocean's Thirteen","Ocean's 8"],total:4},
+ {name:"Die Hard",kind:"movie",members:["Die Hard","Die Hard 2","Die Hard with a Vengeance","Live Free or Die Hard","A Good Day to Die Hard"],total:5},
+ {name:"Bourne",kind:"movie",members:["The Bourne Identity","The Bourne Ultimatum","The Bourne Supremacy","Jason Bourne"],total:4},
+ {name:"John Wick",kind:"movie",members:["John Wick","John Wick: Chapter 2","John Wick: Chapter 3 - Parabellum","John Wick: Chapter 4"],total:4},
+ {name:"Insidious",kind:"movie",members:["Insidious","Insidious: Chapter 2","Insidious: Chapter 3"],total:3},
+ {name:"The Conjuring",kind:"movie",members:["The Conjuring","The Conjuring 2","The Conjuring: The Devil Made Me Do It"],total:3},
+ {name:"Scream",kind:"movie",members:["Scream","Scream (2022)","Scream 2","Scream 3","Scream 4","Scream VI"],total:6},
+ {name:"Planet of the Apes",kind:"movie",members:["Rise of the Planet of the Apes","Dawn of the Planet of the Apes","War for the Planet of the Apes"],total:3},
+ {name:"Transformers",kind:"movie",members:["Transformers","Transformers: Revenge of the Fallen"],total:2},
+ {name:"Kung Fu Panda",kind:"movie",members:["Kung Fu Panda","Kung Fu Panda 2"],total:2},
+ {name:"How to Train Your Dragon",kind:"movie",members:["How to Train Your Dragon","How to Train Your Dragon 2"],total:2},
+ {name:"Despicable Me",kind:"movie",members:["Despicable Me","Minions"],total:2},
+ {name:"Frozen",kind:"movie",members:["Frozen","Frozen II"],total:2},
+ {name:"Superman",kind:"movie",members:["Superman","Man of Steel"],total:2},
+ {name:"DC Extended Universe",kind:"movie",members:["Batman v Superman: Dawn of Justice","Justice League","Aquaman","Shazam!"],total:4},
+ {name:"Red Dead",kind:"game",members:["Red Dead Redemption 2","Red Dead Redemption"],total:2},
+ {name:"Tomb Raider",kind:"game",members:["Tomb Raider (2013)","Rise of the Tomb Raider","Shadow of the Tomb Raider"],total:3},
+ {name:"Far Cry",kind:"game",members:["Far Cry 3","Far Cry 4","Far Cry 5"],total:3},
 ];
+// Reverse lookup used by cardHTML's franchise badge: kind+'|'+title -> series name. Built once,
+// not per card -- the Global Controller can render hundreds of cards per interaction.
+const SERIES_BY_TITLE=new Map();
+SERIES_DEFS.forEach(function(d){d.members.forEach(function(t){SERIES_BY_TITLE.set(d.kind+'|'+t,d.name);});});
+function franchiseOf(it){return SERIES_BY_TITLE.get(it.kind+'|'+it.title);}
 function formatRank(fmt){
  if(!fmt)return 0;var f=fmt.toLowerCase();
  if(f.indexOf('4k')>=0||f.indexOf('uhd')>=0)return 4;
