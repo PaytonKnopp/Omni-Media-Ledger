@@ -1,0 +1,762 @@
+{
+ "medium": "movie",
+ "generated": "2026-09-17T02:14:19.032Z",
+ "offline": false,
+ "sources": [
+  "OMDb",
+  "TMDB"
+ ],
+ "works": [
+  {
+   "id": "m1298",
+   "title": "Big",
+   "sourcesReached": [
+    "OMDb",
+    "TMDB"
+   ],
+   "sourcesMissed": [],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "release year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 1988,
+     "proposed": 1988,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 1988,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Big&type=movie&y=1988"
+      },
+      {
+       "src": "TMDB",
+       "value": 1988,
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Big&year=1988"
+      }
+     ]
+    },
+    {
+     "field": "runtime",
+     "label": "runtime (min)",
+     "soft": false,
+     "editionDependent": true,
+     "current": 104,
+     "proposed": 104,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 104,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Big&type=movie&y=1988"
+      },
+      {
+       "src": "TMDB",
+       "value": 104,
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Big&year=1988"
+      }
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "director",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Penny Marshall",
+     "proposed": "Penny Marshall",
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": "Penny Marshall",
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Big&type=movie&y=1988"
+      },
+      {
+       "src": "TMDB",
+       "value": "Penny Marshall",
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Big&year=1988"
+      }
+     ]
+    },
+    {
+     "field": "studio",
+     "label": "studio",
+     "soft": true,
+     "editionDependent": false,
+     "current": "20th Century Fox",
+     "proposed": "American Entertainment Partners II L.P.",
+     "status": "proposed-change",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "TMDB",
+       "value": "American Entertainment Partners II L.P.",
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Big&year=1988"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "m1299",
+   "title": "Inherent Vice",
+   "sourcesReached": [
+    "OMDb",
+    "TMDB"
+   ],
+   "sourcesMissed": [],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "release year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 2014,
+     "proposed": 2014,
+     "status": "corroborated-by-one",
+     "grade": "B",
+     "note": "matches TMDB; disagrees with OMDb (2015)",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 2015,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Inherent+Vice&type=movie"
+      },
+      {
+       "src": "TMDB",
+       "value": 2014,
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Inherent+Vice&year=2014"
+      }
+     ],
+     "alternatives": [
+      2014
+     ]
+    },
+    {
+     "field": "runtime",
+     "label": "runtime (min)",
+     "soft": false,
+     "editionDependent": true,
+     "current": 148,
+     "proposed": 148,
+     "status": "corroborated-by-one",
+     "grade": "B",
+     "note": "matches OMDb; disagrees with TMDB (149)",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 148,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Inherent+Vice&type=movie"
+      },
+      {
+       "src": "TMDB",
+       "value": 149,
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Inherent+Vice&year=2014"
+      }
+     ],
+     "alternatives": [
+      149
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "director",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Paul Thomas Anderson",
+     "proposed": "Paul Thomas Anderson",
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": "Paul Thomas Anderson",
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Inherent+Vice&type=movie"
+      },
+      {
+       "src": "TMDB",
+       "value": "Paul Thomas Anderson",
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Inherent+Vice&year=2014"
+      }
+     ]
+    },
+    {
+     "field": "studio",
+     "label": "studio",
+     "soft": true,
+     "editionDependent": false,
+     "current": "Warner Bros.",
+     "proposed": "Warner Bros. Pictures",
+     "status": "proposed-change",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "TMDB",
+       "value": "Warner Bros. Pictures",
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Inherent+Vice&year=2014"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "m1300",
+   "title": "Burn After Reading",
+   "sourcesReached": [
+    "OMDb",
+    "TMDB"
+   ],
+   "sourcesMissed": [],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "release year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 2008,
+     "proposed": 2008,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 2008,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Burn+After+Reading&type=movie&y=2008"
+      },
+      {
+       "src": "TMDB",
+       "value": 2008,
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Burn+After+Reading&year=2008"
+      }
+     ]
+    },
+    {
+     "field": "runtime",
+     "label": "runtime (min)",
+     "soft": false,
+     "editionDependent": true,
+     "current": 96,
+     "proposed": 96,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 96,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Burn+After+Reading&type=movie&y=2008"
+      },
+      {
+       "src": "TMDB",
+       "value": 96,
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Burn+After+Reading&year=2008"
+      }
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "director",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Joel Coen, Ethan Coen",
+     "proposed": "Ethan Coen, Joel Coen",
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": "Ethan Coen, Joel Coen",
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Burn+After+Reading&type=movie&y=2008"
+      },
+      {
+       "src": "TMDB",
+       "value": "Ethan Coen, Joel Coen",
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Burn+After+Reading&year=2008"
+      }
+     ]
+    },
+    {
+     "field": "studio",
+     "label": "studio",
+     "soft": true,
+     "editionDependent": false,
+     "current": "Focus Features",
+     "proposed": "Focus Features",
+     "status": "confirmed",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "TMDB",
+       "value": "Focus Features",
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Burn+After+Reading&year=2008"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "m1301",
+   "title": "O Brother, Where Art Thou?",
+   "sourcesReached": [
+    "OMDb",
+    "TMDB"
+   ],
+   "sourcesMissed": [],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "release year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 2000,
+     "proposed": 2000,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 2000,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=O+Brother%2C+Where+Art+Thou%3F&type=movie&y=2000"
+      },
+      {
+       "src": "TMDB",
+       "value": 2000,
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=O+Brother%2C+Where+Art+Thou%3F&year=2000"
+      }
+     ]
+    },
+    {
+     "field": "runtime",
+     "label": "runtime (min)",
+     "soft": false,
+     "editionDependent": true,
+     "current": 107,
+     "proposed": 107,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 107,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=O+Brother%2C+Where+Art+Thou%3F&type=movie&y=2000"
+      },
+      {
+       "src": "TMDB",
+       "value": 107,
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=O+Brother%2C+Where+Art+Thou%3F&year=2000"
+      }
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "director",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Joel Coen, Ethan Coen",
+     "proposed": "Joel Coen, Ethan Coen",
+     "status": "corroborated-by-one",
+     "grade": "B",
+     "note": "matches OMDb; disagrees with TMDB (\"Joel Coen\")",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": "Joel Coen, Ethan Coen",
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=O+Brother%2C+Where+Art+Thou%3F&type=movie&y=2000"
+      },
+      {
+       "src": "TMDB",
+       "value": "Joel Coen",
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=O+Brother%2C+Where+Art+Thou%3F&year=2000"
+      }
+     ],
+     "alternatives": [
+      "Joel Coen"
+     ]
+    },
+    {
+     "field": "studio",
+     "label": "studio",
+     "soft": true,
+     "editionDependent": false,
+     "current": "Buena Vista Pictures",
+     "proposed": "Touchstone Pictures",
+     "status": "proposed-change",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "TMDB",
+       "value": "Touchstone Pictures",
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=O+Brother%2C+Where+Art+Thou%3F&year=2000"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "m1302",
+   "title": "Flags of Our Fathers",
+   "sourcesReached": [
+    "OMDb",
+    "TMDB"
+   ],
+   "sourcesMissed": [],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "release year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 2006,
+     "proposed": 2006,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 2006,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Flags+of+Our+Fathers&type=movie&y=2006"
+      },
+      {
+       "src": "TMDB",
+       "value": 2006,
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Flags+of+Our+Fathers&year=2006"
+      }
+     ]
+    },
+    {
+     "field": "runtime",
+     "label": "runtime (min)",
+     "soft": false,
+     "editionDependent": true,
+     "current": 132,
+     "proposed": 135,
+     "status": "edition-dependent",
+     "grade": "B",
+     "note": "sources agree with each other but not the corpus (OMDb 135, TMDB 135) on a field with no single true value -- likely a different printing/edition, not an error.",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 135,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Flags+of+Our+Fathers&type=movie&y=2006"
+      },
+      {
+       "src": "TMDB",
+       "value": 135,
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Flags+of+Our+Fathers&year=2006"
+      }
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "director",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Clint Eastwood",
+     "proposed": "Clint Eastwood",
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": "Clint Eastwood",
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Flags+of+Our+Fathers&type=movie&y=2006"
+      },
+      {
+       "src": "TMDB",
+       "value": "Clint Eastwood",
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Flags+of+Our+Fathers&year=2006"
+      }
+     ]
+    },
+    {
+     "field": "studio",
+     "label": "studio",
+     "soft": true,
+     "editionDependent": false,
+     "current": "Paramount Pictures",
+     "proposed": "DreamWorks Pictures",
+     "status": "proposed-change",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "TMDB",
+       "value": "DreamWorks Pictures",
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Flags+of+Our+Fathers&year=2006"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "m1303",
+   "title": "The Pianist",
+   "sourcesReached": [
+    "OMDb",
+    "TMDB"
+   ],
+   "sourcesMissed": [],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "release year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 2002,
+     "proposed": 2002,
+     "status": "corroborated-by-one",
+     "grade": "B",
+     "note": "matches TMDB; disagrees with OMDb (2003)",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 2003,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=The+Pianist&type=movie"
+      },
+      {
+       "src": "TMDB",
+       "value": 2002,
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=The+Pianist&year=2002"
+      }
+     ],
+     "alternatives": [
+      2002
+     ]
+    },
+    {
+     "field": "runtime",
+     "label": "runtime (min)",
+     "soft": false,
+     "editionDependent": true,
+     "current": 150,
+     "proposed": 150,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 150,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=The+Pianist&type=movie"
+      },
+      {
+       "src": "TMDB",
+       "value": 150,
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=The+Pianist&year=2002"
+      }
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "director",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Roman Polanski",
+     "proposed": "Roman Polanski",
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": "Roman Polanski",
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=The+Pianist&type=movie"
+      },
+      {
+       "src": "TMDB",
+       "value": "Roman Polanski",
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=The+Pianist&year=2002"
+      }
+     ]
+    },
+    {
+     "field": "studio",
+     "label": "studio",
+     "soft": true,
+     "editionDependent": false,
+     "current": "Focus Features",
+     "proposed": "R.P. Productions",
+     "status": "proposed-change",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "TMDB",
+       "value": "R.P. Productions",
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=The+Pianist&year=2002"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "m1304",
+   "title": "Sophie's Choice",
+   "sourcesReached": [
+    "OMDb",
+    "TMDB"
+   ],
+   "sourcesMissed": [],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "release year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 1982,
+     "proposed": 1982,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 1982,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Sophie%27s+Choice&type=movie&y=1982"
+      },
+      {
+       "src": "TMDB",
+       "value": 1982,
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Sophie%27s+Choice&year=1982"
+      }
+     ]
+    },
+    {
+     "field": "runtime",
+     "label": "runtime (min)",
+     "soft": false,
+     "editionDependent": true,
+     "current": 150,
+     "proposed": 150,
+     "status": "corroborated-by-one",
+     "grade": "B",
+     "note": "matches OMDb; disagrees with TMDB (151)",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 150,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Sophie%27s+Choice&type=movie&y=1982"
+      },
+      {
+       "src": "TMDB",
+       "value": 151,
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Sophie%27s+Choice&year=1982"
+      }
+     ],
+     "alternatives": [
+      151
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "director",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Alan J. Pakula",
+     "proposed": "Alan J. Pakula",
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": "Alan J. Pakula",
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Sophie%27s+Choice&type=movie&y=1982"
+      },
+      {
+       "src": "TMDB",
+       "value": "Alan J. Pakula",
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Sophie%27s+Choice&year=1982"
+      }
+     ]
+    },
+    {
+     "field": "studio",
+     "label": "studio",
+     "soft": true,
+     "editionDependent": false,
+     "current": "Universal Pictures",
+     "proposed": "ITC Entertainment",
+     "status": "proposed-change",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "TMDB",
+       "value": "ITC Entertainment",
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Sophie%27s+Choice&year=1982"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "m1305",
+   "title": "The Boy in the Striped Pajamas",
+   "sourcesReached": [
+    "OMDb"
+   ],
+   "sourcesMissed": [
+    "TMDB (no match)"
+   ],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "release year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 2008,
+     "proposed": 2008,
+     "status": "confirmed",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 2008,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=The+Boy+in+the+Striped+Pajamas&type=movie&y=2008"
+      }
+     ]
+    },
+    {
+     "field": "runtime",
+     "label": "runtime (min)",
+     "soft": false,
+     "editionDependent": true,
+     "current": 94,
+     "proposed": 94,
+     "status": "confirmed",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 94,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=The+Boy+in+the+Striped+Pajamas&type=movie&y=2008"
+      }
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "director",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Mark Herman",
+     "proposed": "Mark Herman",
+     "status": "confirmed",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": "Mark Herman",
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=The+Boy+in+the+Striped+Pajamas&type=movie&y=2008"
+      }
+     ]
+    },
+    {
+     "field": "studio",
+     "label": "studio",
+     "soft": true,
+     "current": "Miramax",
+     "status": "no-source",
+     "grade": null,
+     "sources": []
+    }
+   ]
+  }
+ ]
+}
