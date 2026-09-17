@@ -1,0 +1,855 @@
+{
+ "medium": "book",
+ "generated": "2026-09-17T22:43:21.921Z",
+ "offline": false,
+ "sources": [
+  "OpenLibrary",
+  "Google Books",
+  "Wikidata"
+ ],
+ "works": [
+  {
+   "id": "b1641",
+   "title": "Origin",
+   "sourcesReached": [
+    "OpenLibrary",
+    "Wikidata"
+   ],
+   "sourcesMissed": [
+    "Google Books (no match)"
+   ],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "first publication year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 2017,
+     "proposed": 2017,
+     "status": "corroborated-by-one",
+     "grade": "B",
+     "note": "matches Wikidata; disagrees with OpenLibrary (2013)",
+     "sources": [
+      {
+       "src": "OpenLibrary",
+       "value": 2013,
+       "url": "https://openlibrary.org/search.json?title=Origin&limit=1"
+      },
+      {
+       "src": "Wikidata",
+       "value": 2017,
+       "url": "https://www.wikidata.org/wiki/Q30610044"
+      }
+     ],
+     "alternatives": [
+      2017
+     ]
+    },
+    {
+     "field": "pages",
+     "label": "page count",
+     "soft": false,
+     "current": 461,
+     "status": "no-source",
+     "grade": null,
+     "sources": []
+    },
+    {
+     "field": "creator",
+     "label": "author",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Dan Brown",
+     "proposed": "Dan Brown",
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OpenLibrary",
+       "value": "Dan Brown",
+       "url": "https://openlibrary.org/search.json?title=Origin&limit=1"
+      },
+      {
+       "src": "Wikidata",
+       "value": "Dan Brown",
+       "url": "https://www.wikidata.org/wiki/Q30610044"
+      }
+     ]
+    },
+    {
+     "field": "publisher",
+     "label": "publisher",
+     "soft": true,
+     "editionDependent": true,
+     "current": "Doubleday",
+     "proposed": "Doubleday",
+     "status": "confirmed",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "Wikidata",
+       "value": "Doubleday",
+       "url": "https://www.wikidata.org/wiki/Q30610044"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "b1642",
+   "title": "The Girl in the Spider's Web",
+   "sourcesReached": [
+    "OpenLibrary",
+    "Wikidata"
+   ],
+   "sourcesMissed": [
+    "Google Books (no match)"
+   ],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "first publication year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 2015,
+     "proposed": 2015,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OpenLibrary",
+       "value": 2015,
+       "url": "https://openlibrary.org/search.json?title=The+Girl+in+the+Spider%27s+Web&limit=1"
+      },
+      {
+       "src": "Wikidata",
+       "value": 2015,
+       "url": "https://www.wikidata.org/wiki/Q19803136"
+      }
+     ]
+    },
+    {
+     "field": "pages",
+     "label": "page count",
+     "soft": false,
+     "current": 389,
+     "status": "no-source",
+     "grade": null,
+     "sources": []
+    },
+    {
+     "field": "creator",
+     "label": "author",
+     "soft": false,
+     "editionDependent": false,
+     "current": "David Lagercrantz",
+     "proposed": "David Lagercrantz",
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OpenLibrary",
+       "value": "David Lagercrantz",
+       "url": "https://openlibrary.org/search.json?title=The+Girl+in+the+Spider%27s+Web&limit=1"
+      },
+      {
+       "src": "Wikidata",
+       "value": "David Lagercrantz",
+       "url": "https://www.wikidata.org/wiki/Q19803136"
+      }
+     ]
+    },
+    {
+     "field": "publisher",
+     "label": "publisher",
+     "soft": true,
+     "editionDependent": true,
+     "current": "Norstedts Förlag",
+     "proposed": "Norstedts Förlag",
+     "status": "confirmed",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "Wikidata",
+       "value": "Norstedts Förlag",
+       "url": "https://www.wikidata.org/wiki/Q19803136"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "b1643",
+   "title": "The Girl Who Takes an Eye for an Eye",
+   "sourcesReached": [
+    "OpenLibrary",
+    "Wikidata"
+   ],
+   "sourcesMissed": [
+    "Google Books (no match)"
+   ],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "first publication year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 2017,
+     "proposed": 2017,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OpenLibrary",
+       "value": 2017,
+       "url": "https://openlibrary.org/search.json?title=The+Girl+Who+Takes+an+Eye+for+an+Eye&limit=1"
+      },
+      {
+       "src": "Wikidata",
+       "value": 2017,
+       "url": "https://www.wikidata.org/wiki/Q41103935"
+      }
+     ]
+    },
+    {
+     "field": "pages",
+     "label": "page count",
+     "soft": false,
+     "current": 512,
+     "status": "no-source",
+     "grade": null,
+     "sources": []
+    },
+    {
+     "field": "creator",
+     "label": "author",
+     "soft": false,
+     "editionDependent": false,
+     "current": "David Lagercrantz",
+     "proposed": "David Lagercrantz",
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OpenLibrary",
+       "value": "David Lagercrantz",
+       "url": "https://openlibrary.org/search.json?title=The+Girl+Who+Takes+an+Eye+for+an+Eye&limit=1"
+      },
+      {
+       "src": "Wikidata",
+       "value": "David Lagercrantz",
+       "url": "https://www.wikidata.org/wiki/Q41103935"
+      }
+     ]
+    },
+    {
+     "field": "publisher",
+     "label": "publisher",
+     "soft": true,
+     "editionDependent": true,
+     "current": "Norstedts Förlag",
+     "proposed": "Norstedts Förlag",
+     "status": "confirmed",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "Wikidata",
+       "value": "Norstedts Förlag",
+       "url": "https://www.wikidata.org/wiki/Q41103935"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "b1644",
+   "title": "Malibu Rising",
+   "sourcesReached": [
+    "OpenLibrary",
+    "Google Books",
+    "Wikidata"
+   ],
+   "sourcesMissed": [],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "first publication year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 2021,
+     "proposed": 2021,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OpenLibrary",
+       "value": 2021,
+       "url": "https://openlibrary.org/search.json?title=Malibu+Rising&limit=1"
+      },
+      {
+       "src": "Google Books",
+       "value": 2021,
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3AMalibu+Rising&maxResults=1&key=REDACTED"
+      },
+      {
+       "src": "Wikidata",
+       "value": 2021,
+       "url": "https://www.wikidata.org/wiki/Q110223711"
+      }
+     ]
+    },
+    {
+     "field": "pages",
+     "label": "page count",
+     "soft": false,
+     "editionDependent": true,
+     "current": 384,
+     "proposed": 391,
+     "status": "edition-dependent",
+     "grade": "B",
+     "note": "one source differs from the corpus (Google Books 391) on a field with no single true value -- likely a different printing/edition, not an error.",
+     "sources": [
+      {
+       "src": "Google Books",
+       "value": 391,
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3AMalibu+Rising&maxResults=1&key=REDACTED"
+      }
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "author",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Taylor Jenkins Reid",
+     "proposed": "Taylor Jenkins Reid",
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OpenLibrary",
+       "value": "Taylor Jenkins Reid",
+       "url": "https://openlibrary.org/search.json?title=Malibu+Rising&limit=1"
+      },
+      {
+       "src": "Google Books",
+       "value": "Taylor Jenkins Reid",
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3AMalibu+Rising&maxResults=1&key=REDACTED"
+      },
+      {
+       "src": "Wikidata",
+       "value": "Taylor Jenkins Reid",
+       "url": "https://www.wikidata.org/wiki/Q110223711"
+      }
+     ]
+    },
+    {
+     "field": "publisher",
+     "label": "publisher",
+     "soft": true,
+     "editionDependent": true,
+     "current": "Ballantine Books",
+     "proposed": "Ballantine Books",
+     "status": "corroborated-by-one",
+     "grade": "B",
+     "note": "matches Wikidata; disagrees with Google Books (\"Doubleday Canada\")",
+     "sources": [
+      {
+       "src": "Google Books",
+       "value": "Doubleday Canada",
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3AMalibu+Rising&maxResults=1&key=REDACTED"
+      },
+      {
+       "src": "Wikidata",
+       "value": "Ballantine Books",
+       "url": "https://www.wikidata.org/wiki/Q110223711"
+      }
+     ],
+     "alternatives": [
+      "Ballantine Books"
+     ]
+    }
+   ]
+  },
+  {
+   "id": "b1645",
+   "title": "The Maidens",
+   "sourcesReached": [
+    "OpenLibrary",
+    "Google Books"
+   ],
+   "sourcesMissed": [
+    "Wikidata (no match)"
+   ],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "first publication year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 2021,
+     "proposed": 2021,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OpenLibrary",
+       "value": 2021,
+       "url": "https://openlibrary.org/search.json?title=The+Maidens&limit=1"
+      },
+      {
+       "src": "Google Books",
+       "value": 2021,
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3AThe+Maidens&maxResults=1&key=REDACTED"
+      }
+     ]
+    },
+    {
+     "field": "pages",
+     "label": "page count",
+     "soft": false,
+     "editionDependent": true,
+     "current": 337,
+     "proposed": 336,
+     "status": "edition-dependent",
+     "grade": "B",
+     "note": "one source differs from the corpus (Google Books 336) on a field with no single true value -- likely a different printing/edition, not an error.",
+     "sources": [
+      {
+       "src": "Google Books",
+       "value": 336,
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3AThe+Maidens&maxResults=1&key=REDACTED"
+      }
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "author",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Alex Michaelides",
+     "proposed": "Alex Michaelides",
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OpenLibrary",
+       "value": "Alex Michaelides",
+       "url": "https://openlibrary.org/search.json?title=The+Maidens&limit=1"
+      },
+      {
+       "src": "Google Books",
+       "value": "Alex Michaelides",
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3AThe+Maidens&maxResults=1&key=REDACTED"
+      }
+     ]
+    },
+    {
+     "field": "publisher",
+     "label": "publisher",
+     "soft": true,
+     "editionDependent": true,
+     "current": "Celadon Books",
+     "proposed": "Celadon Books",
+     "status": "confirmed",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "Google Books",
+       "value": "Celadon Books",
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3AThe+Maidens&maxResults=1&key=REDACTED"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "b1646",
+   "title": "An Abundance of Katherines",
+   "sourcesReached": [
+    "OpenLibrary",
+    "Wikidata"
+   ],
+   "sourcesMissed": [
+    "Google Books (no match)"
+   ],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "first publication year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 2006,
+     "proposed": 2006,
+     "status": "corroborated-by-one",
+     "grade": "B",
+     "note": "matches OpenLibrary; disagrees with Wikidata (2007)",
+     "sources": [
+      {
+       "src": "OpenLibrary",
+       "value": 2006,
+       "url": "https://openlibrary.org/search.json?title=An+Abundance+of+Katherines&limit=1"
+      },
+      {
+       "src": "Wikidata",
+       "value": 2007,
+       "url": "https://www.wikidata.org/wiki/Q1150341"
+      }
+     ],
+     "alternatives": [
+      2007
+     ]
+    },
+    {
+     "field": "pages",
+     "label": "page count",
+     "soft": false,
+     "current": 227,
+     "status": "no-source",
+     "grade": null,
+     "sources": []
+    },
+    {
+     "field": "creator",
+     "label": "author",
+     "soft": false,
+     "editionDependent": false,
+     "current": "John Green",
+     "proposed": "John Green",
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OpenLibrary",
+       "value": "John Green",
+       "url": "https://openlibrary.org/search.json?title=An+Abundance+of+Katherines&limit=1"
+      },
+      {
+       "src": "Wikidata",
+       "value": "John Green",
+       "url": "https://www.wikidata.org/wiki/Q1150341"
+      }
+     ]
+    },
+    {
+     "field": "publisher",
+     "label": "publisher",
+     "soft": true,
+     "current": "Dutton Books",
+     "status": "no-source",
+     "grade": null,
+     "sources": []
+    }
+   ]
+  },
+  {
+   "id": "b1647",
+   "title": "Turtles All the Way Down",
+   "sourcesReached": [
+    "OpenLibrary",
+    "Google Books",
+    "Wikidata"
+   ],
+   "sourcesMissed": [],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "first publication year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 2017,
+     "proposed": 2017,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OpenLibrary",
+       "value": 2017,
+       "url": "https://openlibrary.org/search.json?title=Turtles+All+the+Way+Down&limit=1"
+      },
+      {
+       "src": "Google Books",
+       "value": 2017,
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3ATurtles+All+the+Way+Down&maxResults=1&key=REDACTED"
+      },
+      {
+       "src": "Wikidata",
+       "value": 2017,
+       "url": "https://www.wikidata.org/wiki/Q30612665"
+      }
+     ]
+    },
+    {
+     "field": "pages",
+     "label": "page count",
+     "soft": false,
+     "editionDependent": true,
+     "current": 286,
+     "proposed": 306,
+     "status": "edition-dependent",
+     "grade": "B",
+     "note": "one source differs from the corpus (Google Books 306) on a field with no single true value -- likely a different printing/edition, not an error.",
+     "sources": [
+      {
+       "src": "Google Books",
+       "value": 306,
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3ATurtles+All+the+Way+Down&maxResults=1&key=REDACTED"
+      }
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "author",
+     "soft": false,
+     "editionDependent": false,
+     "current": "John Green",
+     "proposed": "John Green",
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OpenLibrary",
+       "value": "John Green",
+       "url": "https://openlibrary.org/search.json?title=Turtles+All+the+Way+Down&limit=1"
+      },
+      {
+       "src": "Google Books",
+       "value": "John Green",
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3ATurtles+All+the+Way+Down&maxResults=1&key=REDACTED"
+      },
+      {
+       "src": "Wikidata",
+       "value": "John Green",
+       "url": "https://www.wikidata.org/wiki/Q30612665"
+      }
+     ]
+    },
+    {
+     "field": "publisher",
+     "label": "publisher",
+     "soft": true,
+     "editionDependent": true,
+     "current": "Dutton Books",
+     "proposed": "Penguin",
+     "status": "edition-dependent",
+     "grade": "B",
+     "note": "corpus value does not match either source (Google Books \"Penguin\", Wikidata \"Dutton\") -- treated as a distinct edition; the specific cut is not identified from available evidence.",
+     "sources": [
+      {
+       "src": "Google Books",
+       "value": "Penguin",
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3ATurtles+All+the+Way+Down&maxResults=1&key=REDACTED"
+      },
+      {
+       "src": "Wikidata",
+       "value": "Dutton",
+       "url": "https://www.wikidata.org/wiki/Q30612665"
+      }
+     ],
+     "alternatives": [
+      "Dutton"
+     ]
+    }
+   ]
+  },
+  {
+   "id": "b1648",
+   "title": "Will Grayson, Will Grayson",
+   "sourcesReached": [
+    "OpenLibrary",
+    "Google Books",
+    "Wikidata"
+   ],
+   "sourcesMissed": [],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "first publication year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 2010,
+     "proposed": 2010,
+     "status": "corroborated-by-one",
+     "grade": "B",
+     "note": "matches Google Books; disagrees with OpenLibrary (2009), Wikidata (2015)",
+     "sources": [
+      {
+       "src": "OpenLibrary",
+       "value": 2009,
+       "url": "https://openlibrary.org/search.json?title=Will+Grayson%2C+Will+Grayson&limit=1"
+      },
+      {
+       "src": "Google Books",
+       "value": 2010,
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3AWill+Grayson%2C+Will+Grayson&maxResults=1&key=REDACTED"
+      },
+      {
+       "src": "Wikidata",
+       "value": 2015,
+       "url": "https://www.wikidata.org/wiki/Q1150160"
+      }
+     ],
+     "alternatives": [
+      2010,
+      2015
+     ]
+    },
+    {
+     "field": "pages",
+     "label": "page count",
+     "soft": false,
+     "editionDependent": true,
+     "current": 310,
+     "proposed": 322,
+     "status": "edition-dependent",
+     "grade": "B",
+     "note": "one source differs from the corpus (Google Books 322) on a field with no single true value -- likely a different printing/edition, not an error.",
+     "sources": [
+      {
+       "src": "Google Books",
+       "value": 322,
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3AWill+Grayson%2C+Will+Grayson&maxResults=1&key=REDACTED"
+      }
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "author",
+     "soft": false,
+     "editionDependent": false,
+     "current": "John Green, David Levithan",
+     "proposed": "David Levithan, John Green",
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OpenLibrary",
+       "value": "John Green & David Levithan",
+       "url": "https://openlibrary.org/search.json?title=Will+Grayson%2C+Will+Grayson&limit=1"
+      },
+      {
+       "src": "Google Books",
+       "value": "John Green & David Levithan",
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3AWill+Grayson%2C+Will+Grayson&maxResults=1&key=REDACTED"
+      },
+      {
+       "src": "Wikidata",
+       "value": "John Green & David Levithan",
+       "url": "https://www.wikidata.org/wiki/Q1150160"
+      }
+     ]
+    },
+    {
+     "field": "publisher",
+     "label": "publisher",
+     "soft": true,
+     "editionDependent": true,
+     "current": "Dutton Books",
+     "proposed": "Penguin",
+     "status": "edition-dependent",
+     "grade": "B",
+     "note": "corpus value does not match either source (Google Books \"Penguin\", Wikidata \"Penguin Group\") -- treated as a distinct edition; the specific cut is not identified from available evidence.",
+     "sources": [
+      {
+       "src": "Google Books",
+       "value": "Penguin",
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3AWill+Grayson%2C+Will+Grayson&maxResults=1&key=REDACTED"
+      },
+      {
+       "src": "Wikidata",
+       "value": "Penguin Group",
+       "url": "https://www.wikidata.org/wiki/Q1150160"
+      }
+     ],
+     "alternatives": [
+      "Penguin Group"
+     ]
+    }
+   ]
+  },
+  {
+   "id": "b1649",
+   "title": "If I Stay",
+   "sourcesReached": [
+    "OpenLibrary",
+    "Wikidata"
+   ],
+   "sourcesMissed": [
+    "Google Books (no match)"
+   ],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "first publication year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 2009,
+     "proposed": 2009,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OpenLibrary",
+       "value": 2009,
+       "url": "https://openlibrary.org/search.json?title=If+I+Stay&limit=1"
+      },
+      {
+       "src": "Wikidata",
+       "value": 2009,
+       "url": "https://www.wikidata.org/wiki/Q3482843"
+      }
+     ]
+    },
+    {
+     "field": "pages",
+     "label": "page count",
+     "soft": false,
+     "current": 234,
+     "status": "no-source",
+     "grade": null,
+     "sources": []
+    },
+    {
+     "field": "creator",
+     "label": "author",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Gayle Forman",
+     "proposed": "Gayle Forman",
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OpenLibrary",
+       "value": "Gayle Forman",
+       "url": "https://openlibrary.org/search.json?title=If+I+Stay&limit=1"
+      },
+      {
+       "src": "Wikidata",
+       "value": "Gayle Forman",
+       "url": "https://www.wikidata.org/wiki/Q3482843"
+      }
+     ]
+    },
+    {
+     "field": "publisher",
+     "label": "publisher",
+     "soft": true,
+     "editionDependent": true,
+     "current": "Dutton Books",
+     "proposed": "Dutton",
+     "status": "edition-dependent",
+     "grade": "B",
+     "note": "one source differs from the corpus (Wikidata \"Dutton\") on a field with no single true value -- likely a different printing/edition, not an error.",
+     "sources": [
+      {
+       "src": "Wikidata",
+       "value": "Dutton",
+       "url": "https://www.wikidata.org/wiki/Q3482843"
+      }
+     ]
+    }
+   ]
+  }
+ ]
+}
