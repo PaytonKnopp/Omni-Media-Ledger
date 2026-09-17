@@ -2325,6 +2325,13 @@ const SERIES_DEFS=[
  {name:"A Nightmare on Elm Street",kind:"movie",members:["A Nightmare on Elm Street","A Nightmare on Elm Street 3: Dream Warriors","Wes Craven's New Nightmare"],total:3},
  {name:"Friday the 13th",kind:"movie",members:["Friday the 13th","Friday the 13th Part 2"],total:2},
  {name:"Candyman",kind:"movie",members:["Candyman","Candyman (2021)"],total:2},
+ {name:"Rambo",kind:"movie",members:["First Blood","Rambo: First Blood Part II"],total:2},
+ {name:"Twilight",kind:"movie",members:["Twilight","The Twilight Saga: New Moon"],total:2},
+ {name:"The Maze Runner",kind:"movie",members:["The Maze Runner","Maze Runner: The Scorch Trials"],total:2},
+ {name:"The Chronicles of Narnia",kind:"movie",members:["The Chronicles of Narnia: The Lion, the Witch and the Wardrobe","The Chronicles of Narnia: Prince Caspian"],total:2},
+ {name:"Mortal Kombat",kind:"movie",members:["Mortal Kombat","Mortal Kombat (2021)"],total:2},
+ {name:"Pitch Perfect",kind:"movie",members:["Pitch Perfect","Pitch Perfect 2"],total:2},
+ {name:"Jumanji",kind:"movie",members:["Jumanji","Jumanji: Welcome to the Jungle"],total:2},
 ];
 // Reverse lookup used by cardHTML's franchise badge: kind+'|'+title -> series name. Built once,
 // not per card -- the Global Controller can render hundreds of cards per interaction.

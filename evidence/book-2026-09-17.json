@@ -1,0 +1,1629 @@
+{
+ "medium": "book",
+ "generated": "2026-09-17T00:05:57.129Z",
+ "offline": false,
+ "sources": [
+  "OpenLibrary",
+  "Google Books",
+  "Wikidata"
+ ],
+ "works": [
+  {
+   "id": "b1112",
+   "title": "Fool's Errand",
+   "sourcesReached": [
+    "OpenLibrary",
+    "Wikidata"
+   ],
+   "sourcesMissed": [
+    "Google Books (no match)"
+   ],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "first publication year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 2001,
+     "proposed": 2001,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OpenLibrary",
+       "value": 2001,
+       "url": "https://openlibrary.org/search.json?title=Fool%27s+Errand&limit=1"
+      },
+      {
+       "src": "Wikidata",
+       "value": 2001,
+       "url": "https://www.wikidata.org/wiki/Q2769345"
+      }
+     ]
+    },
+    {
+     "field": "pages",
+     "label": "page count",
+     "soft": false,
+     "current": 626,
+     "status": "no-source",
+     "grade": null,
+     "sources": []
+    },
+    {
+     "field": "creator",
+     "label": "author",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Robin Hobb",
+     "proposed": "Robin Hobb",
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OpenLibrary",
+       "value": "Robin Hobb",
+       "url": "https://openlibrary.org/search.json?title=Fool%27s+Errand&limit=1"
+      },
+      {
+       "src": "Wikidata",
+       "value": "Robin Hobb",
+       "url": "https://www.wikidata.org/wiki/Q2769345"
+      }
+     ]
+    },
+    {
+     "field": "publisher",
+     "label": "publisher",
+     "soft": true,
+     "current": "Bantam Spectra",
+     "status": "no-source",
+     "grade": null,
+     "sources": []
+    }
+   ]
+  },
+  {
+   "id": "b1113",
+   "title": "Golden Fool",
+   "sourcesReached": [
+    "OpenLibrary",
+    "Google Books",
+    "Wikidata"
+   ],
+   "sourcesMissed": [],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "first publication year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 2002,
+     "proposed": 2002,
+     "status": "corroborated-by-one",
+     "grade": "B",
+     "note": "matches OpenLibrary; disagrees with Google Books (2003)",
+     "sources": [
+      {
+       "src": "OpenLibrary",
+       "value": 2002,
+       "url": "https://openlibrary.org/search.json?title=Golden+Fool&limit=1"
+      },
+      {
+       "src": "Google Books",
+       "value": 2003,
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3AGolden+Fool&maxResults=1&key=REDACTED"
+      }
+     ],
+     "alternatives": [
+      2003
+     ]
+    },
+    {
+     "field": "pages",
+     "label": "page count",
+     "soft": false,
+     "editionDependent": true,
+     "current": 597,
+     "proposed": 738,
+     "status": "edition-dependent",
+     "grade": "B",
+     "note": "one source differs from the corpus (Google Books 738) on a field with no single true value -- likely a different printing/edition, not an error.",
+     "sources": [
+      {
+       "src": "Google Books",
+       "value": 738,
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3AGolden+Fool&maxResults=1&key=REDACTED"
+      }
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "author",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Robin Hobb",
+     "proposed": "Robin Hobb",
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OpenLibrary",
+       "value": "Robin Hobb",
+       "url": "https://openlibrary.org/search.json?title=Golden+Fool&limit=1"
+      },
+      {
+       "src": "Google Books",
+       "value": "Robin Hobb",
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3AGolden+Fool&maxResults=1&key=REDACTED"
+      },
+      {
+       "src": "Wikidata",
+       "value": "Robin Hobb",
+       "url": "https://www.wikidata.org/wiki/Q137916197"
+      }
+     ]
+    },
+    {
+     "field": "publisher",
+     "label": "publisher",
+     "soft": true,
+     "editionDependent": true,
+     "current": "Bantam Spectra",
+     "proposed": "Spectra",
+     "status": "edition-dependent",
+     "grade": "B",
+     "note": "one source differs from the corpus (Google Books \"Spectra\") on a field with no single true value -- likely a different printing/edition, not an error.",
+     "sources": [
+      {
+       "src": "Google Books",
+       "value": "Spectra",
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3AGolden+Fool&maxResults=1&key=REDACTED"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "b1114",
+   "title": "Fool's Fate",
+   "sourcesReached": [
+    "OpenLibrary",
+    "Google Books",
+    "Wikidata"
+   ],
+   "sourcesMissed": [],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "first publication year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 2003,
+     "proposed": 2003,
+     "status": "corroborated-by-one",
+     "grade": "B",
+     "note": "matches OpenLibrary/Wikidata; disagrees with Google Books (2004)",
+     "sources": [
+      {
+       "src": "OpenLibrary",
+       "value": 2003,
+       "url": "https://openlibrary.org/search.json?title=Fool%27s+Fate&limit=1"
+      },
+      {
+       "src": "Google Books",
+       "value": 2004,
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3AFool%27s+Fate&maxResults=1&key=REDACTED"
+      },
+      {
+       "src": "Wikidata",
+       "value": 2003,
+       "url": "https://www.wikidata.org/wiki/Q3203717"
+      }
+     ],
+     "alternatives": [
+      2004
+     ]
+    },
+    {
+     "field": "pages",
+     "label": "page count",
+     "soft": false,
+     "editionDependent": true,
+     "current": 757,
+     "proposed": 881,
+     "status": "edition-dependent",
+     "grade": "B",
+     "note": "one source differs from the corpus (Google Books 881) on a field with no single true value -- likely a different printing/edition, not an error.",
+     "sources": [
+      {
+       "src": "Google Books",
+       "value": 881,
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3AFool%27s+Fate&maxResults=1&key=REDACTED"
+      }
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "author",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Robin Hobb",
+     "proposed": "Robin Hobb",
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OpenLibrary",
+       "value": "Robin Hobb",
+       "url": "https://openlibrary.org/search.json?title=Fool%27s+Fate&limit=1"
+      },
+      {
+       "src": "Google Books",
+       "value": "Robin Hobb",
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3AFool%27s+Fate&maxResults=1&key=REDACTED"
+      },
+      {
+       "src": "Wikidata",
+       "value": "Robin Hobb",
+       "url": "https://www.wikidata.org/wiki/Q3203717"
+      }
+     ]
+    },
+    {
+     "field": "publisher",
+     "label": "publisher",
+     "soft": true,
+     "editionDependent": true,
+     "current": "Bantam Spectra",
+     "proposed": "Spectra",
+     "status": "edition-dependent",
+     "grade": "B",
+     "note": "one source differs from the corpus (Google Books \"Spectra\") on a field with no single true value -- likely a different printing/edition, not an error.",
+     "sources": [
+      {
+       "src": "Google Books",
+       "value": "Spectra",
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3AFool%27s+Fate&maxResults=1&key=REDACTED"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "b1115",
+   "title": "Men at Arms",
+   "sourcesReached": [
+    "OpenLibrary",
+    "Google Books"
+   ],
+   "sourcesMissed": [
+    "Wikidata (no match)"
+   ],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "first publication year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 1993,
+     "proposed": 1993,
+     "status": "corroborated-by-one",
+     "grade": "B",
+     "note": "matches OpenLibrary; disagrees with Google Books (2008)",
+     "sources": [
+      {
+       "src": "OpenLibrary",
+       "value": 1993,
+       "url": "https://openlibrary.org/search.json?title=Men+at+Arms&limit=1"
+      },
+      {
+       "src": "Google Books",
+       "value": 2008,
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3AMen+at+Arms&maxResults=1&key=REDACTED"
+      }
+     ],
+     "alternatives": [
+      2008
+     ]
+    },
+    {
+     "field": "pages",
+     "label": "page count",
+     "soft": false,
+     "editionDependent": true,
+     "current": 351,
+     "proposed": 319,
+     "status": "edition-dependent",
+     "grade": "B",
+     "note": "one source differs from the corpus (Google Books 319) on a field with no single true value -- likely a different printing/edition, not an error.",
+     "sources": [
+      {
+       "src": "Google Books",
+       "value": 319,
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3AMen+at+Arms&maxResults=1&key=REDACTED"
+      }
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "author",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Terry Pratchett",
+     "proposed": "Terry Pratchett",
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OpenLibrary",
+       "value": "Terry Pratchett",
+       "url": "https://openlibrary.org/search.json?title=Men+at+Arms&limit=1"
+      },
+      {
+       "src": "Google Books",
+       "value": "Terry Pratchett",
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3AMen+at+Arms&maxResults=1&key=REDACTED"
+      }
+     ]
+    },
+    {
+     "field": "publisher",
+     "label": "publisher",
+     "soft": true,
+     "editionDependent": true,
+     "current": "Gollancz",
+     "proposed": "Random House",
+     "status": "edition-dependent",
+     "grade": "B",
+     "note": "one source differs from the corpus (Google Books \"Random House\") on a field with no single true value -- likely a different printing/edition, not an error.",
+     "sources": [
+      {
+       "src": "Google Books",
+       "value": "Random House",
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3AMen+at+Arms&maxResults=1&key=REDACTED"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "b1116",
+   "title": "Feet of Clay",
+   "sourcesReached": [
+    "OpenLibrary",
+    "Wikidata"
+   ],
+   "sourcesMissed": [
+    "Google Books (no match)"
+   ],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "first publication year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 1996,
+     "proposed": 1996,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OpenLibrary",
+       "value": 1996,
+       "url": "https://openlibrary.org/search.json?title=Feet+of+Clay&limit=1"
+      },
+      {
+       "src": "Wikidata",
+       "value": 1996,
+       "url": "https://www.wikidata.org/wiki/Q2089569"
+      }
+     ]
+    },
+    {
+     "field": "pages",
+     "label": "page count",
+     "soft": false,
+     "current": 381,
+     "status": "no-source",
+     "grade": null,
+     "sources": []
+    },
+    {
+     "field": "creator",
+     "label": "author",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Terry Pratchett",
+     "proposed": "Terry Pratchett",
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OpenLibrary",
+       "value": "Terry Pratchett",
+       "url": "https://openlibrary.org/search.json?title=Feet+of+Clay&limit=1"
+      },
+      {
+       "src": "Wikidata",
+       "value": "Terry Pratchett",
+       "url": "https://www.wikidata.org/wiki/Q2089569"
+      }
+     ]
+    },
+    {
+     "field": "publisher",
+     "label": "publisher",
+     "soft": true,
+     "current": "Gollancz",
+     "status": "no-source",
+     "grade": null,
+     "sources": []
+    }
+   ]
+  },
+  {
+   "id": "b1117",
+   "title": "Jingo",
+   "sourcesReached": [
+    "OpenLibrary",
+    "Wikidata"
+   ],
+   "sourcesMissed": [
+    "Google Books (no match)"
+   ],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "first publication year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 1997,
+     "proposed": 1997,
+     "status": "corroborated-by-one",
+     "grade": "B",
+     "note": "matches Wikidata; disagrees with OpenLibrary (1996)",
+     "sources": [
+      {
+       "src": "OpenLibrary",
+       "value": 1996,
+       "url": "https://openlibrary.org/search.json?title=Jingo&limit=1"
+      },
+      {
+       "src": "Wikidata",
+       "value": 1997,
+       "url": "https://www.wikidata.org/wiki/Q2084358"
+      }
+     ],
+     "alternatives": [
+      1997
+     ]
+    },
+    {
+     "field": "pages",
+     "label": "page count",
+     "soft": false,
+     "current": 384,
+     "status": "no-source",
+     "grade": null,
+     "sources": []
+    },
+    {
+     "field": "creator",
+     "label": "author",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Terry Pratchett",
+     "proposed": "Terry Pratchett",
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OpenLibrary",
+       "value": "Terry Pratchett",
+       "url": "https://openlibrary.org/search.json?title=Jingo&limit=1"
+      },
+      {
+       "src": "Wikidata",
+       "value": "Terry Pratchett",
+       "url": "https://www.wikidata.org/wiki/Q2084358"
+      }
+     ]
+    },
+    {
+     "field": "publisher",
+     "label": "publisher",
+     "soft": true,
+     "editionDependent": true,
+     "current": "Gollancz",
+     "proposed": "Gollancz",
+     "status": "confirmed",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "Wikidata",
+       "value": "Gollancz",
+       "url": "https://www.wikidata.org/wiki/Q2084358"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "b1118",
+   "title": "The Fifth Elephant",
+   "sourcesReached": [
+    "OpenLibrary",
+    "Google Books",
+    "Wikidata"
+   ],
+   "sourcesMissed": [],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "first publication year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 1999,
+     "proposed": 1999,
+     "status": "corroborated-by-one",
+     "grade": "B",
+     "note": "matches OpenLibrary/Wikidata; disagrees with Google Books (1998)",
+     "sources": [
+      {
+       "src": "OpenLibrary",
+       "value": 1999,
+       "url": "https://openlibrary.org/search.json?title=The+Fifth+Elephant&limit=1"
+      },
+      {
+       "src": "Google Books",
+       "value": 1998,
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3AThe+Fifth+Elephant&maxResults=1&key=REDACTED"
+      },
+      {
+       "src": "Wikidata",
+       "value": 1999,
+       "url": "https://www.wikidata.org/wiki/Q1198641"
+      }
+     ],
+     "alternatives": [
+      1998
+     ]
+    },
+    {
+     "field": "pages",
+     "label": "page count",
+     "soft": false,
+     "editionDependent": true,
+     "current": 355,
+     "proposed": 802,
+     "status": "edition-dependent",
+     "grade": "B",
+     "note": "one source differs from the corpus (Google Books 802) on a field with no single true value -- likely a different printing/edition, not an error.",
+     "sources": [
+      {
+       "src": "Google Books",
+       "value": 802,
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3AThe+Fifth+Elephant&maxResults=1&key=REDACTED"
+      }
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "author",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Terry Pratchett",
+     "proposed": "Terry Pratchett",
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OpenLibrary",
+       "value": "Terry Pratchett",
+       "url": "https://openlibrary.org/search.json?title=The+Fifth+Elephant&limit=1"
+      },
+      {
+       "src": "Google Books",
+       "value": "Terry Pratchett",
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3AThe+Fifth+Elephant&maxResults=1&key=REDACTED"
+      },
+      {
+       "src": "Wikidata",
+       "value": "Terry Pratchett",
+       "url": "https://www.wikidata.org/wiki/Q1198641"
+      }
+     ]
+    },
+    {
+     "field": "publisher",
+     "label": "publisher",
+     "soft": true,
+     "current": "Doubleday",
+     "status": "no-source",
+     "grade": null,
+     "sources": []
+    }
+   ]
+  },
+  {
+   "id": "b1119",
+   "title": "The City We Became",
+   "sourcesReached": [
+    "OpenLibrary",
+    "Google Books",
+    "Wikidata"
+   ],
+   "sourcesMissed": [],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "first publication year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 2020,
+     "proposed": 2020,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OpenLibrary",
+       "value": 2020,
+       "url": "https://openlibrary.org/search.json?title=The+City+We+Became&limit=1"
+      },
+      {
+       "src": "Google Books",
+       "value": 2020,
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3AThe+City+We+Became&maxResults=1&key=REDACTED"
+      },
+      {
+       "src": "Wikidata",
+       "value": 2020,
+       "url": "https://www.wikidata.org/wiki/Q95075560"
+      }
+     ]
+    },
+    {
+     "field": "pages",
+     "label": "page count",
+     "soft": false,
+     "editionDependent": true,
+     "current": 448,
+     "proposed": 386,
+     "status": "edition-dependent",
+     "grade": "B",
+     "note": "one source differs from the corpus (Google Books 386) on a field with no single true value -- likely a different printing/edition, not an error.",
+     "sources": [
+      {
+       "src": "Google Books",
+       "value": 386,
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3AThe+City+We+Became&maxResults=1&key=REDACTED"
+      }
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "author",
+     "soft": false,
+     "editionDependent": false,
+     "current": "N.K. Jemisin",
+     "proposed": "N. K. Jemisin",
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OpenLibrary",
+       "value": "N. K. Jemisin",
+       "url": "https://openlibrary.org/search.json?title=The+City+We+Became&limit=1"
+      },
+      {
+       "src": "Google Books",
+       "value": "N. K. Jemisin",
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3AThe+City+We+Became&maxResults=1&key=REDACTED"
+      },
+      {
+       "src": "Wikidata",
+       "value": "N. K. Jemisin",
+       "url": "https://www.wikidata.org/wiki/Q95075560"
+      }
+     ]
+    },
+    {
+     "field": "publisher",
+     "label": "publisher",
+     "soft": true,
+     "editionDependent": true,
+     "current": "Orbit",
+     "proposed": "Orbit",
+     "status": "confirmed",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "Google Books",
+       "value": "Orbit",
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3AThe+City+We+Became&maxResults=1&key=REDACTED"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "b1120",
+   "title": "The Farthest Shore",
+   "sourcesReached": [
+    "OpenLibrary",
+    "Google Books",
+    "Wikidata"
+   ],
+   "sourcesMissed": [],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "first publication year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 1972,
+     "proposed": 1972,
+     "status": "corroborated-by-one",
+     "grade": "B",
+     "note": "matches OpenLibrary/Wikidata; disagrees with Google Books (2012)",
+     "sources": [
+      {
+       "src": "OpenLibrary",
+       "value": 1972,
+       "url": "https://openlibrary.org/search.json?title=The+Farthest+Shore&limit=1"
+      },
+      {
+       "src": "Google Books",
+       "value": 2012,
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3AThe+Farthest+Shore&maxResults=1&key=REDACTED"
+      },
+      {
+       "src": "Wikidata",
+       "value": 1972,
+       "url": "https://www.wikidata.org/wiki/Q2288175"
+      }
+     ],
+     "alternatives": [
+      2012
+     ]
+    },
+    {
+     "field": "pages",
+     "label": "page count",
+     "soft": false,
+     "editionDependent": true,
+     "current": 223,
+     "proposed": 288,
+     "status": "edition-dependent",
+     "grade": "B",
+     "note": "one source differs from the corpus (Google Books 288) on a field with no single true value -- likely a different printing/edition, not an error.",
+     "sources": [
+      {
+       "src": "Google Books",
+       "value": 288,
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3AThe+Farthest+Shore&maxResults=1&key=REDACTED"
+      }
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "author",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Ursula K. Le Guin",
+     "proposed": "Ursula K. Le Guin",
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OpenLibrary",
+       "value": "Ursula K. Le Guin",
+       "url": "https://openlibrary.org/search.json?title=The+Farthest+Shore&limit=1"
+      },
+      {
+       "src": "Google Books",
+       "value": "Ursula K. Le Guin",
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3AThe+Farthest+Shore&maxResults=1&key=REDACTED"
+      },
+      {
+       "src": "Wikidata",
+       "value": "Ursula K. Le Guin",
+       "url": "https://www.wikidata.org/wiki/Q2288175"
+      }
+     ]
+    },
+    {
+     "field": "publisher",
+     "label": "publisher",
+     "soft": true,
+     "editionDependent": true,
+     "current": "Atheneum",
+     "proposed": "Simon and Schuster",
+     "status": "edition-dependent",
+     "grade": "B",
+     "note": "one source differs from the corpus (Google Books \"Simon and Schuster\") on a field with no single true value -- likely a different printing/edition, not an error.",
+     "sources": [
+      {
+       "src": "Google Books",
+       "value": "Simon and Schuster",
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3AThe+Farthest+Shore&maxResults=1&key=REDACTED"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "b1121",
+   "title": "Tehanu",
+   "sourcesReached": [
+    "OpenLibrary",
+    "Google Books",
+    "Wikidata"
+   ],
+   "sourcesMissed": [],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "first publication year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 1990,
+     "proposed": 1990,
+     "status": "corroborated-by-one",
+     "grade": "B",
+     "note": "matches OpenLibrary/Wikidata; disagrees with Google Books (2012)",
+     "sources": [
+      {
+       "src": "OpenLibrary",
+       "value": 1990,
+       "url": "https://openlibrary.org/search.json?title=Tehanu&limit=1"
+      },
+      {
+       "src": "Google Books",
+       "value": 2012,
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3ATehanu&maxResults=1&key=REDACTED"
+      },
+      {
+       "src": "Wikidata",
+       "value": 1990,
+       "url": "https://www.wikidata.org/wiki/Q2261855"
+      }
+     ],
+     "alternatives": [
+      2012
+     ]
+    },
+    {
+     "field": "pages",
+     "label": "page count",
+     "soft": false,
+     "editionDependent": true,
+     "current": 226,
+     "proposed": 320,
+     "status": "edition-dependent",
+     "grade": "B",
+     "note": "one source differs from the corpus (Google Books 320) on a field with no single true value -- likely a different printing/edition, not an error.",
+     "sources": [
+      {
+       "src": "Google Books",
+       "value": 320,
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3ATehanu&maxResults=1&key=REDACTED"
+      }
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "author",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Ursula K. Le Guin",
+     "proposed": "Ursula K. Le Guin",
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OpenLibrary",
+       "value": "Ursula K. Le Guin",
+       "url": "https://openlibrary.org/search.json?title=Tehanu&limit=1"
+      },
+      {
+       "src": "Google Books",
+       "value": "Ursula K. Le Guin",
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3ATehanu&maxResults=1&key=REDACTED"
+      },
+      {
+       "src": "Wikidata",
+       "value": "Ursula K. Le Guin",
+       "url": "https://www.wikidata.org/wiki/Q2261855"
+      }
+     ]
+    },
+    {
+     "field": "publisher",
+     "label": "publisher",
+     "soft": true,
+     "editionDependent": true,
+     "current": "Atheneum",
+     "proposed": "Simon and Schuster",
+     "status": "edition-dependent",
+     "grade": "B",
+     "note": "corpus value does not match either source (Google Books \"Simon and Schuster\", Wikidata \"Atheneum Books\") -- treated as a distinct edition; the specific cut is not identified from available evidence.",
+     "sources": [
+      {
+       "src": "Google Books",
+       "value": "Simon and Schuster",
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3ATehanu&maxResults=1&key=REDACTED"
+      },
+      {
+       "src": "Wikidata",
+       "value": "Atheneum Books",
+       "url": "https://www.wikidata.org/wiki/Q2261855"
+      }
+     ],
+     "alternatives": [
+      "Atheneum Books"
+     ]
+    }
+   ]
+  },
+  {
+   "id": "b1122",
+   "title": "The Invisible Life of Addie LaRue",
+   "sourcesReached": [
+    "OpenLibrary",
+    "Google Books",
+    "Wikidata"
+   ],
+   "sourcesMissed": [],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "first publication year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 2020,
+     "proposed": 2020,
+     "status": "corroborated-by-one",
+     "grade": "B",
+     "note": "matches Google Books/Wikidata; disagrees with OpenLibrary (2015)",
+     "sources": [
+      {
+       "src": "OpenLibrary",
+       "value": 2015,
+       "url": "https://openlibrary.org/search.json?title=The+Invisible+Life+of+Addie+LaRue&limit=1"
+      },
+      {
+       "src": "Google Books",
+       "value": 2020,
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3AThe+Invisible+Life+of+Addie+LaRue&maxResults=1&key=REDACTED"
+      },
+      {
+       "src": "Wikidata",
+       "value": 2020,
+       "url": "https://www.wikidata.org/wiki/Q107404757"
+      }
+     ],
+     "alternatives": [
+      2015
+     ]
+    },
+    {
+     "field": "pages",
+     "label": "page count",
+     "soft": false,
+     "editionDependent": true,
+     "current": 448,
+     "proposed": 448,
+     "status": "corroborated-by-one",
+     "grade": "B",
+     "note": "matches Wikidata; disagrees with Google Books (489)",
+     "sources": [
+      {
+       "src": "Google Books",
+       "value": 489,
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3AThe+Invisible+Life+of+Addie+LaRue&maxResults=1&key=REDACTED"
+      },
+      {
+       "src": "Wikidata",
+       "value": 448,
+       "url": "https://www.wikidata.org/wiki/Q107404757"
+      }
+     ],
+     "alternatives": [
+      448
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "author",
+     "soft": false,
+     "editionDependent": false,
+     "current": "V.E. Schwab",
+     "proposed": "V. E. Schwab",
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OpenLibrary",
+       "value": "V. E. Schwab",
+       "url": "https://openlibrary.org/search.json?title=The+Invisible+Life+of+Addie+LaRue&limit=1"
+      },
+      {
+       "src": "Google Books",
+       "value": "V. E. Schwab",
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3AThe+Invisible+Life+of+Addie+LaRue&maxResults=1&key=REDACTED"
+      },
+      {
+       "src": "Wikidata",
+       "value": "V. E. Schwab",
+       "url": "https://www.wikidata.org/wiki/Q107404757"
+      }
+     ]
+    },
+    {
+     "field": "publisher",
+     "label": "publisher",
+     "soft": true,
+     "editionDependent": true,
+     "current": "Tor Books",
+     "proposed": "Tor Books",
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "Google Books",
+       "value": "Tor Books",
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3AThe+Invisible+Life+of+Addie+LaRue&maxResults=1&key=REDACTED"
+      },
+      {
+       "src": "Wikidata",
+       "value": "Tor Books",
+       "url": "https://www.wikidata.org/wiki/Q107404757"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "b1123",
+   "title": "The Seven Husbands of Evelyn Hugo",
+   "sourcesReached": [
+    "OpenLibrary",
+    "Wikidata"
+   ],
+   "sourcesMissed": [
+    "Google Books (no match)"
+   ],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "first publication year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 2017,
+     "proposed": 2017,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OpenLibrary",
+       "value": 2017,
+       "url": "https://openlibrary.org/search.json?title=The+Seven+Husbands+of+Evelyn+Hugo&limit=1"
+      },
+      {
+       "src": "Wikidata",
+       "value": 2017,
+       "url": "https://www.wikidata.org/wiki/Q54488337"
+      }
+     ]
+    },
+    {
+     "field": "pages",
+     "label": "page count",
+     "soft": false,
+     "current": 400,
+     "status": "no-source",
+     "grade": null,
+     "sources": []
+    },
+    {
+     "field": "creator",
+     "label": "author",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Taylor Jenkins Reid",
+     "proposed": "Taylor Jenkins Reid",
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OpenLibrary",
+       "value": "Taylor Jenkins Reid",
+       "url": "https://openlibrary.org/search.json?title=The+Seven+Husbands+of+Evelyn+Hugo&limit=1"
+      },
+      {
+       "src": "Wikidata",
+       "value": "Taylor Jenkins Reid",
+       "url": "https://www.wikidata.org/wiki/Q54488337"
+      }
+     ]
+    },
+    {
+     "field": "publisher",
+     "label": "publisher",
+     "soft": true,
+     "editionDependent": true,
+     "current": "Atria Books",
+     "proposed": "Atria Books",
+     "status": "confirmed",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "Wikidata",
+       "value": "Atria Books",
+       "url": "https://www.wikidata.org/wiki/Q54488337"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "b1124",
+   "title": "Daisy Jones & The Six",
+   "sourcesReached": [
+    "OpenLibrary",
+    "Google Books",
+    "Wikidata"
+   ],
+   "sourcesMissed": [],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "first publication year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 2019,
+     "proposed": 2019,
+     "status": "corroborated-by-one",
+     "grade": "B",
+     "note": "matches OpenLibrary/Wikidata; disagrees with Google Books (2020)",
+     "sources": [
+      {
+       "src": "OpenLibrary",
+       "value": 2019,
+       "url": "https://openlibrary.org/search.json?title=Daisy+Jones+%26+The+Six&limit=1"
+      },
+      {
+       "src": "Google Books",
+       "value": 2020,
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3ADaisy+Jones+%26+The+Six&maxResults=1&key=REDACTED"
+      },
+      {
+       "src": "Wikidata",
+       "value": 2019,
+       "url": "https://www.wikidata.org/wiki/Q115683368"
+      }
+     ],
+     "alternatives": [
+      2020
+     ]
+    },
+    {
+     "field": "pages",
+     "label": "page count",
+     "soft": false,
+     "editionDependent": true,
+     "current": 355,
+     "proposed": 352,
+     "status": "edition-dependent",
+     "grade": "B",
+     "note": "one source differs from the corpus (Google Books 352) on a field with no single true value -- likely a different printing/edition, not an error.",
+     "sources": [
+      {
+       "src": "Google Books",
+       "value": 352,
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3ADaisy+Jones+%26+The+Six&maxResults=1&key=REDACTED"
+      }
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "author",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Taylor Jenkins Reid",
+     "proposed": "Taylor Jenkins Reid",
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OpenLibrary",
+       "value": "Taylor Jenkins Reid",
+       "url": "https://openlibrary.org/search.json?title=Daisy+Jones+%26+The+Six&limit=1"
+      },
+      {
+       "src": "Google Books",
+       "value": "Taylor Jenkins Reid",
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3ADaisy+Jones+%26+The+Six&maxResults=1&key=REDACTED"
+      },
+      {
+       "src": "Wikidata",
+       "value": "Taylor Jenkins Reid",
+       "url": "https://www.wikidata.org/wiki/Q115683368"
+      }
+     ]
+    },
+    {
+     "field": "publisher",
+     "label": "publisher",
+     "soft": true,
+     "editionDependent": true,
+     "current": "Ballantine Books",
+     "proposed": "Ballantine Books",
+     "status": "confirmed",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "Wikidata",
+       "value": "Ballantine Books",
+       "url": "https://www.wikidata.org/wiki/Q115683368"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "b1125",
+   "title": "Tomorrow, and Tomorrow, and Tomorrow",
+   "sourcesReached": [
+    "OpenLibrary",
+    "Google Books",
+    "Wikidata"
+   ],
+   "sourcesMissed": [],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "first publication year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 2022,
+     "proposed": 2022,
+     "status": "corroborated-by-one",
+     "grade": "B",
+     "note": "matches OpenLibrary/Wikidata; disagrees with Google Books (2024)",
+     "sources": [
+      {
+       "src": "OpenLibrary",
+       "value": 2022,
+       "url": "https://openlibrary.org/search.json?title=Tomorrow%2C+and+Tomorrow%2C+and+Tomorrow&limit=1"
+      },
+      {
+       "src": "Google Books",
+       "value": 2024,
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3ATomorrow%2C+and+Tomorrow%2C+and+Tomorrow&maxResults=1&key=REDACTED"
+      },
+      {
+       "src": "Wikidata",
+       "value": 2022,
+       "url": "https://www.wikidata.org/wiki/Q115818209"
+      }
+     ],
+     "alternatives": [
+      2024
+     ]
+    },
+    {
+     "field": "pages",
+     "label": "page count",
+     "soft": false,
+     "editionDependent": true,
+     "current": 416,
+     "proposed": 417,
+     "status": "edition-dependent",
+     "grade": "B",
+     "note": "one source differs from the corpus (Google Books 417) on a field with no single true value -- likely a different printing/edition, not an error.",
+     "sources": [
+      {
+       "src": "Google Books",
+       "value": 417,
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3ATomorrow%2C+and+Tomorrow%2C+and+Tomorrow&maxResults=1&key=REDACTED"
+      }
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "author",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Gabrielle Zevin",
+     "proposed": "Gabrielle Zevin",
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OpenLibrary",
+       "value": "Gabrielle Zevin",
+       "url": "https://openlibrary.org/search.json?title=Tomorrow%2C+and+Tomorrow%2C+and+Tomorrow&limit=1"
+      },
+      {
+       "src": "Google Books",
+       "value": "Gabrielle Zevin",
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3ATomorrow%2C+and+Tomorrow%2C+and+Tomorrow&maxResults=1&key=REDACTED"
+      },
+      {
+       "src": "Wikidata",
+       "value": "Gabrielle Zevin",
+       "url": "https://www.wikidata.org/wiki/Q115818209"
+      }
+     ]
+    },
+    {
+     "field": "publisher",
+     "label": "publisher",
+     "soft": true,
+     "editionDependent": true,
+     "current": "Knopf",
+     "proposed": "Penguin Group",
+     "status": "edition-dependent",
+     "grade": "B",
+     "note": "one source differs from the corpus (Google Books \"Penguin Group\") on a field with no single true value -- likely a different printing/edition, not an error.",
+     "sources": [
+      {
+       "src": "Google Books",
+       "value": "Penguin Group",
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3ATomorrow%2C+and+Tomorrow%2C+and+Tomorrow&maxResults=1&key=REDACTED"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "b1126",
+   "title": "Lessons in Chemistry",
+   "sourcesReached": [
+    "OpenLibrary"
+   ],
+   "sourcesMissed": [
+    "Google Books (no match)",
+    "Wikidata (no match)"
+   ],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "first publication year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 2022,
+     "proposed": 2022,
+     "status": "confirmed",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "OpenLibrary",
+       "value": 2022,
+       "url": "https://openlibrary.org/search.json?title=Lessons+in+Chemistry&limit=1"
+      }
+     ]
+    },
+    {
+     "field": "pages",
+     "label": "page count",
+     "soft": false,
+     "current": 390,
+     "status": "no-source",
+     "grade": null,
+     "sources": []
+    },
+    {
+     "field": "creator",
+     "label": "author",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Bonnie Garmus",
+     "proposed": "Bonnie Garmus",
+     "status": "confirmed",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "OpenLibrary",
+       "value": "Bonnie Garmus",
+       "url": "https://openlibrary.org/search.json?title=Lessons+in+Chemistry&limit=1"
+      }
+     ]
+    },
+    {
+     "field": "publisher",
+     "label": "publisher",
+     "soft": true,
+     "current": "Doubleday",
+     "status": "no-source",
+     "grade": null,
+     "sources": []
+    }
+   ]
+  },
+  {
+   "id": "b1127",
+   "title": "The Midnight Library",
+   "sourcesReached": [
+    "OpenLibrary",
+    "Google Books",
+    "Wikidata"
+   ],
+   "sourcesMissed": [],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "first publication year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 2020,
+     "proposed": 2020,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OpenLibrary",
+       "value": 2020,
+       "url": "https://openlibrary.org/search.json?title=The+Midnight+Library&limit=1"
+      },
+      {
+       "src": "Google Books",
+       "value": 2020,
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3AThe+Midnight+Library&maxResults=1&key=REDACTED"
+      },
+      {
+       "src": "Wikidata",
+       "value": 2020,
+       "url": "https://www.wikidata.org/wiki/Q106814534"
+      }
+     ]
+    },
+    {
+     "field": "pages",
+     "label": "page count",
+     "soft": false,
+     "editionDependent": true,
+     "current": 304,
+     "proposed": 316,
+     "status": "edition-dependent",
+     "grade": "B",
+     "note": "one source differs from the corpus (Google Books 316) on a field with no single true value -- likely a different printing/edition, not an error.",
+     "sources": [
+      {
+       "src": "Google Books",
+       "value": 316,
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3AThe+Midnight+Library&maxResults=1&key=REDACTED"
+      }
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "author",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Matt Haig",
+     "proposed": "Matt Haig",
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OpenLibrary",
+       "value": "Matt Haig",
+       "url": "https://openlibrary.org/search.json?title=The+Midnight+Library&limit=1"
+      },
+      {
+       "src": "Google Books",
+       "value": "Matt Haig",
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3AThe+Midnight+Library&maxResults=1&key=REDACTED"
+      },
+      {
+       "src": "Wikidata",
+       "value": "Matt Haig",
+       "url": "https://www.wikidata.org/wiki/Q106814534"
+      }
+     ]
+    },
+    {
+     "field": "publisher",
+     "label": "publisher",
+     "soft": true,
+     "editionDependent": true,
+     "current": "Canongate Books",
+     "proposed": "HarperCollins",
+     "status": "edition-dependent",
+     "grade": "B",
+     "note": "one source differs from the corpus (Google Books \"HarperCollins\") on a field with no single true value -- likely a different printing/edition, not an error.",
+     "sources": [
+      {
+       "src": "Google Books",
+       "value": "HarperCollins",
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3AThe+Midnight+Library&maxResults=1&key=REDACTED"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "b1128",
+   "title": "Anxious People",
+   "sourcesReached": [
+    "OpenLibrary",
+    "Wikidata"
+   ],
+   "sourcesMissed": [
+    "Google Books (no match)"
+   ],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "first publication year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 2019,
+     "proposed": 2019,
+     "status": "corroborated-by-one",
+     "grade": "B",
+     "note": "matches Wikidata; disagrees with OpenLibrary (2020)",
+     "sources": [
+      {
+       "src": "OpenLibrary",
+       "value": 2020,
+       "url": "https://openlibrary.org/search.json?title=Anxious+People&limit=1"
+      },
+      {
+       "src": "Wikidata",
+       "value": 2019,
+       "url": "https://www.wikidata.org/wiki/Q97329243"
+      }
+     ],
+     "alternatives": [
+      2019
+     ]
+    },
+    {
+     "field": "pages",
+     "label": "page count",
+     "soft": false,
+     "current": 341,
+     "status": "no-source",
+     "grade": null,
+     "sources": []
+    },
+    {
+     "field": "creator",
+     "label": "author",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Fredrik Backman",
+     "proposed": "Fredrik Backman",
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OpenLibrary",
+       "value": "Fredrik Backman",
+       "url": "https://openlibrary.org/search.json?title=Anxious+People&limit=1"
+      },
+      {
+       "src": "Wikidata",
+       "value": "Fredrik Backman",
+       "url": "https://www.wikidata.org/wiki/Q97329243"
+      }
+     ]
+    },
+    {
+     "field": "publisher",
+     "label": "publisher",
+     "soft": true,
+     "current": "Simon & Schuster",
+     "status": "no-source",
+     "grade": null,
+     "sources": []
+    }
+   ]
+  }
+ ]
+}
