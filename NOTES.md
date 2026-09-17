@@ -1222,6 +1222,23 @@ batch touches a series already partially present. Remaining work is now almost e
 (need ~560 more) and books (need ~659 more); TV/games should only need small top-up batches from
 here if a genuine gap surfaces during future franchise audits.
 
+**Fifth round (movies batch 17, books batch 17), continuing the same movies+books focus.** Forty
+movies closed a war-classics/finance-thriller/dystopian-reboot gap that had never been audited (The
+Dirty Dozen, Wall Street duology, Total Recall 2012, RoboCop 2014, the Judge Dredd/Dredd pair,
+Danny Boyle's Shallow Grave/T2 Trainspotting/28 Years Later). Forty-seven books closed several
+partially-present thriller series and, in the largest single find, an entire unaudited category:
+classic children's literature -- six more Roald Dahl titles, the rest of the Anne of Green Gables
+sequence, Baum's Oz, Stevenson's Treasure Island/Kidnapped, and a dozen more. One grade-A creator
+correction ("L.M. Montgomery" -> "Lucy Maud Montgomery") had to be reverted back to the corpus's
+existing abbreviated spelling to avoid a two-spellings conflict -- the fact-harness sources have no
+visibility into the corpus's own established spelling choice for a given real person, so a "correct"
+grade-A proposal can still be wrong for internal consistency purposes; always re-check a creator
+correction against the corpus's own existing spelling for that person before trusting it blindly.
+
+**Status at this checkpoint:** movies 1,480/2,000, TV 502/500 (done), games 499/500 (needs 1 more),
+books 1,388/2,000 (3,869/5,000 total, 77.4%). Remaining work is now essentially all movies (~520
+more) and books (~612 more).
+
 **Fourth round, movies+books only (batch 15 each), deliberately skipping TV/games since they're
 close to target.** A quick spot-check audit of other top-tier bestsellers before this round paid
 off immediately: **Fifty Shades of Grey and a cluster of major memoirs (Becoming, A Promised Land,
