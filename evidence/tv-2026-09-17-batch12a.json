@@ -1,0 +1,1540 @@
+{
+ "medium": "tv",
+ "generated": "2026-09-17T12:15:25.007Z",
+ "offline": false,
+ "sources": [
+  "OMDb",
+  "TMDB"
+ ],
+ "works": [
+  {
+   "id": "t452",
+   "title": "Bewitched",
+   "sourcesReached": [
+    "OMDb",
+    "TMDB"
+   ],
+   "sourcesMissed": [],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "first air year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 1964,
+     "proposed": 1964,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 1964,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Bewitched&type=series&y=1964"
+      },
+      {
+       "src": "TMDB",
+       "value": 1964,
+       "url": "https://api.themoviedb.org/3/search/tv?api_key=REDACTED&query=Bewitched"
+      }
+     ]
+    },
+    {
+     "field": "seasons",
+     "label": "seasons",
+     "soft": false,
+     "editionDependent": false,
+     "current": 8,
+     "proposed": 8,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 8,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Bewitched&type=series&y=1964"
+      },
+      {
+       "src": "TMDB",
+       "value": 8,
+       "url": "https://api.themoviedb.org/3/search/tv?api_key=REDACTED&query=Bewitched"
+      }
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "creator",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Sol Saks",
+     "proposed": "Sol Saks",
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": "Sol Saks",
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Bewitched&type=series&y=1964"
+      },
+      {
+       "src": "TMDB",
+       "value": "Sol Saks",
+       "url": "https://api.themoviedb.org/3/search/tv?api_key=REDACTED&query=Bewitched"
+      }
+     ]
+    },
+    {
+     "field": "network",
+     "label": "network / streamer",
+     "soft": true,
+     "editionDependent": false,
+     "current": "ABC",
+     "proposed": "ABC",
+     "status": "confirmed",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "TMDB",
+       "value": "ABC",
+       "url": "https://api.themoviedb.org/3/search/tv?api_key=REDACTED&query=Bewitched"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "t453",
+   "title": "I Dream of Jeannie",
+   "sourcesReached": [
+    "OMDb",
+    "TMDB"
+   ],
+   "sourcesMissed": [],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "first air year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 1965,
+     "proposed": 1965,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 1965,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=I+Dream+of+Jeannie&type=series&y=1965"
+      },
+      {
+       "src": "TMDB",
+       "value": 1965,
+       "url": "https://api.themoviedb.org/3/search/tv?api_key=REDACTED&query=I+Dream+of+Jeannie"
+      }
+     ]
+    },
+    {
+     "field": "seasons",
+     "label": "seasons",
+     "soft": false,
+     "editionDependent": false,
+     "current": 5,
+     "proposed": 5,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 5,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=I+Dream+of+Jeannie&type=series&y=1965"
+      },
+      {
+       "src": "TMDB",
+       "value": 5,
+       "url": "https://api.themoviedb.org/3/search/tv?api_key=REDACTED&query=I+Dream+of+Jeannie"
+      }
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "creator",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Sidney Sheldon",
+     "proposed": "Sidney Sheldon",
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": "Sidney Sheldon",
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=I+Dream+of+Jeannie&type=series&y=1965"
+      },
+      {
+       "src": "TMDB",
+       "value": "Sidney Sheldon",
+       "url": "https://api.themoviedb.org/3/search/tv?api_key=REDACTED&query=I+Dream+of+Jeannie"
+      }
+     ]
+    },
+    {
+     "field": "network",
+     "label": "network / streamer",
+     "soft": true,
+     "editionDependent": false,
+     "current": "NBC",
+     "proposed": "NBC",
+     "status": "confirmed",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "TMDB",
+       "value": "NBC",
+       "url": "https://api.themoviedb.org/3/search/tv?api_key=REDACTED&query=I+Dream+of+Jeannie"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "t454",
+   "title": "The Munsters",
+   "sourcesReached": [
+    "OMDb",
+    "TMDB"
+   ],
+   "sourcesMissed": [],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "first air year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 1964,
+     "proposed": 1964,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 1964,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=The+Munsters&type=series&y=1964"
+      },
+      {
+       "src": "TMDB",
+       "value": 1964,
+       "url": "https://api.themoviedb.org/3/search/tv?api_key=REDACTED&query=The+Munsters"
+      }
+     ]
+    },
+    {
+     "field": "seasons",
+     "label": "seasons",
+     "soft": false,
+     "editionDependent": false,
+     "current": 2,
+     "proposed": 2,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 2,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=The+Munsters&type=series&y=1964"
+      },
+      {
+       "src": "TMDB",
+       "value": 2,
+       "url": "https://api.themoviedb.org/3/search/tv?api_key=REDACTED&query=The+Munsters"
+      }
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "creator",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Allan Burns, Chris Hayward",
+     "proposed": "Ed Haas, Norm Liebmann",
+     "status": "sources-disagree",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": "Ed Haas, Norm Liebmann",
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=The+Munsters&type=series&y=1964"
+      },
+      {
+       "src": "TMDB",
+       "value": "Chris Hayward, Bob Mosher, Allan Burns",
+       "url": "https://api.themoviedb.org/3/search/tv?api_key=REDACTED&query=The+Munsters"
+      }
+     ],
+     "alternatives": [
+      "Chris Hayward, Bob Mosher, Allan Burns"
+     ]
+    },
+    {
+     "field": "network",
+     "label": "network / streamer",
+     "soft": true,
+     "editionDependent": false,
+     "current": "CBS",
+     "proposed": "CBS",
+     "status": "confirmed",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "TMDB",
+       "value": "CBS",
+       "url": "https://api.themoviedb.org/3/search/tv?api_key=REDACTED&query=The+Munsters"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "t455",
+   "title": "The Addams Family",
+   "sourcesReached": [
+    "OMDb",
+    "TMDB"
+   ],
+   "sourcesMissed": [],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "first air year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 1964,
+     "proposed": 1964,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 1964,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=The+Addams+Family&type=series&y=1964"
+      },
+      {
+       "src": "TMDB",
+       "value": 1964,
+       "url": "https://api.themoviedb.org/3/search/tv?api_key=REDACTED&query=The+Addams+Family"
+      }
+     ]
+    },
+    {
+     "field": "seasons",
+     "label": "seasons",
+     "soft": false,
+     "editionDependent": false,
+     "current": 2,
+     "proposed": 2,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 2,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=The+Addams+Family&type=series&y=1964"
+      },
+      {
+       "src": "TMDB",
+       "value": 2,
+       "url": "https://api.themoviedb.org/3/search/tv?api_key=REDACTED&query=The+Addams+Family"
+      }
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "creator",
+     "soft": false,
+     "editionDependent": false,
+     "current": "David Levy",
+     "proposed": "David Levy",
+     "status": "corroborated-by-one",
+     "grade": "B",
+     "note": "matches OMDb; disagrees with TMDB (\"Charles Addams\")",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": "David Levy",
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=The+Addams+Family&type=series&y=1964"
+      },
+      {
+       "src": "TMDB",
+       "value": "Charles Addams",
+       "url": "https://api.themoviedb.org/3/search/tv?api_key=REDACTED&query=The+Addams+Family"
+      }
+     ],
+     "alternatives": [
+      "Charles Addams"
+     ]
+    },
+    {
+     "field": "network",
+     "label": "network / streamer",
+     "soft": true,
+     "editionDependent": false,
+     "current": "ABC",
+     "proposed": "ABC",
+     "status": "confirmed",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "TMDB",
+       "value": "ABC",
+       "url": "https://api.themoviedb.org/3/search/tv?api_key=REDACTED&query=The+Addams+Family"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "t456",
+   "title": "Gilligan's Island",
+   "sourcesReached": [
+    "OMDb",
+    "TMDB"
+   ],
+   "sourcesMissed": [],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "first air year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 1964,
+     "proposed": 1964,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 1964,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Gilligan%27s+Island&type=series&y=1964"
+      },
+      {
+       "src": "TMDB",
+       "value": 1964,
+       "url": "https://api.themoviedb.org/3/search/tv?api_key=REDACTED&query=Gilligan%27s+Island"
+      }
+     ]
+    },
+    {
+     "field": "seasons",
+     "label": "seasons",
+     "soft": false,
+     "editionDependent": false,
+     "current": 3,
+     "proposed": 3,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 3,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Gilligan%27s+Island&type=series&y=1964"
+      },
+      {
+       "src": "TMDB",
+       "value": 3,
+       "url": "https://api.themoviedb.org/3/search/tv?api_key=REDACTED&query=Gilligan%27s+Island"
+      }
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "creator",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Sherwood Schwartz",
+     "proposed": "Sherwood Schwartz",
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": "Sherwood Schwartz",
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Gilligan%27s+Island&type=series&y=1964"
+      },
+      {
+       "src": "TMDB",
+       "value": "Sherwood Schwartz",
+       "url": "https://api.themoviedb.org/3/search/tv?api_key=REDACTED&query=Gilligan%27s+Island"
+      }
+     ]
+    },
+    {
+     "field": "network",
+     "label": "network / streamer",
+     "soft": true,
+     "editionDependent": false,
+     "current": "CBS",
+     "proposed": "CBS",
+     "status": "confirmed",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "TMDB",
+       "value": "CBS",
+       "url": "https://api.themoviedb.org/3/search/tv?api_key=REDACTED&query=Gilligan%27s+Island"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "t457",
+   "title": "Get Smart",
+   "sourcesReached": [
+    "OMDb",
+    "TMDB"
+   ],
+   "sourcesMissed": [],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "first air year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 1965,
+     "proposed": 1965,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 1965,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Get+Smart&type=series&y=1965"
+      },
+      {
+       "src": "TMDB",
+       "value": 1965,
+       "url": "https://api.themoviedb.org/3/search/tv?api_key=REDACTED&query=Get+Smart"
+      }
+     ]
+    },
+    {
+     "field": "seasons",
+     "label": "seasons",
+     "soft": false,
+     "editionDependent": false,
+     "current": 5,
+     "proposed": 5,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 5,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Get+Smart&type=series&y=1965"
+      },
+      {
+       "src": "TMDB",
+       "value": 5,
+       "url": "https://api.themoviedb.org/3/search/tv?api_key=REDACTED&query=Get+Smart"
+      }
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "creator",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Mel Brooks, Buck Henry",
+     "proposed": "Buck Henry, Mel Brooks",
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": "Mel Brooks, Buck Henry",
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Get+Smart&type=series&y=1965"
+      },
+      {
+       "src": "TMDB",
+       "value": "Buck Henry, Mel Brooks",
+       "url": "https://api.themoviedb.org/3/search/tv?api_key=REDACTED&query=Get+Smart"
+      }
+     ]
+    },
+    {
+     "field": "network",
+     "label": "network / streamer",
+     "soft": true,
+     "editionDependent": false,
+     "current": "NBC / CBS",
+     "proposed": "NBC",
+     "status": "proposed-change",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "TMDB",
+       "value": "NBC",
+       "url": "https://api.themoviedb.org/3/search/tv?api_key=REDACTED&query=Get+Smart"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "t458",
+   "title": "Miami Vice",
+   "sourcesReached": [
+    "OMDb",
+    "TMDB"
+   ],
+   "sourcesMissed": [],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "first air year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 1984,
+     "proposed": 1984,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 1984,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Miami+Vice&type=series&y=1984"
+      },
+      {
+       "src": "TMDB",
+       "value": 1984,
+       "url": "https://api.themoviedb.org/3/search/tv?api_key=REDACTED&query=Miami+Vice"
+      }
+     ]
+    },
+    {
+     "field": "seasons",
+     "label": "seasons",
+     "soft": false,
+     "editionDependent": false,
+     "current": 5,
+     "proposed": 5,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 5,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Miami+Vice&type=series&y=1984"
+      },
+      {
+       "src": "TMDB",
+       "value": 5,
+       "url": "https://api.themoviedb.org/3/search/tv?api_key=REDACTED&query=Miami+Vice"
+      }
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "creator",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Anthony Yerkovich",
+     "proposed": "Anthony Yerkovich",
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": "Anthony Yerkovich",
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Miami+Vice&type=series&y=1984"
+      },
+      {
+       "src": "TMDB",
+       "value": "Anthony Yerkovich",
+       "url": "https://api.themoviedb.org/3/search/tv?api_key=REDACTED&query=Miami+Vice"
+      }
+     ]
+    },
+    {
+     "field": "network",
+     "label": "network / streamer",
+     "soft": true,
+     "editionDependent": false,
+     "current": "NBC",
+     "proposed": "NBC",
+     "status": "confirmed",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "TMDB",
+       "value": "NBC",
+       "url": "https://api.themoviedb.org/3/search/tv?api_key=REDACTED&query=Miami+Vice"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "t459",
+   "title": "Magnum, P.I.",
+   "sourcesReached": [
+    "OMDb",
+    "TMDB"
+   ],
+   "sourcesMissed": [],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "first air year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 1980,
+     "proposed": 1980,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 1980,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Magnum%2C+P.I.&type=series&y=1980"
+      },
+      {
+       "src": "TMDB",
+       "value": 1980,
+       "url": "https://api.themoviedb.org/3/search/tv?api_key=REDACTED&query=Magnum%2C+P.I."
+      }
+     ]
+    },
+    {
+     "field": "seasons",
+     "label": "seasons",
+     "soft": false,
+     "editionDependent": false,
+     "current": 8,
+     "proposed": 8,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 8,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Magnum%2C+P.I.&type=series&y=1980"
+      },
+      {
+       "src": "TMDB",
+       "value": 8,
+       "url": "https://api.themoviedb.org/3/search/tv?api_key=REDACTED&query=Magnum%2C+P.I."
+      }
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "creator",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Donald P. Bellisario, Glen A. Larson",
+     "proposed": "Donald P. Bellisario, Glen A. Larson",
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": "Donald P. Bellisario, Glen A. Larson",
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Magnum%2C+P.I.&type=series&y=1980"
+      },
+      {
+       "src": "TMDB",
+       "value": "Donald P. Bellisario, Glen A. Larson",
+       "url": "https://api.themoviedb.org/3/search/tv?api_key=REDACTED&query=Magnum%2C+P.I."
+      }
+     ]
+    },
+    {
+     "field": "network",
+     "label": "network / streamer",
+     "soft": true,
+     "editionDependent": false,
+     "current": "CBS",
+     "proposed": "CBS",
+     "status": "confirmed",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "TMDB",
+       "value": "CBS",
+       "url": "https://api.themoviedb.org/3/search/tv?api_key=REDACTED&query=Magnum%2C+P.I."
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "t460",
+   "title": "Hawaii Five-0",
+   "sourcesReached": [
+    "OMDb",
+    "TMDB"
+   ],
+   "sourcesMissed": [],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "first air year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 1968,
+     "proposed": 2010,
+     "status": "proposed-change",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 2010,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Hawaii+Five-0&type=series"
+      },
+      {
+       "src": "TMDB",
+       "value": 2010,
+       "url": "https://api.themoviedb.org/3/search/tv?api_key=REDACTED&query=Hawaii+Five-0"
+      }
+     ]
+    },
+    {
+     "field": "seasons",
+     "label": "seasons",
+     "soft": false,
+     "editionDependent": false,
+     "current": 12,
+     "proposed": 10,
+     "status": "proposed-change",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 10,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Hawaii+Five-0&type=series"
+      },
+      {
+       "src": "TMDB",
+       "value": 10,
+       "url": "https://api.themoviedb.org/3/search/tv?api_key=REDACTED&query=Hawaii+Five-0"
+      }
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "creator",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Leonard Freeman",
+     "proposed": "Alex Kurtzman, Leonard Freeman, Peter M. Lenkov",
+     "status": "sources-disagree",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": "Peter M. Lenkov, Alex Kurtzman, Leonard Freeman",
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Hawaii+Five-0&type=series"
+      },
+      {
+       "src": "TMDB",
+       "value": "Roberto Orci, Alex Kurtzman, Peter M. Lenkov",
+       "url": "https://api.themoviedb.org/3/search/tv?api_key=REDACTED&query=Hawaii+Five-0"
+      }
+     ],
+     "alternatives": [
+      "Roberto Orci, Alex Kurtzman, Peter M. Lenkov"
+     ]
+    },
+    {
+     "field": "network",
+     "label": "network / streamer",
+     "soft": true,
+     "editionDependent": false,
+     "current": "CBS",
+     "proposed": "CBS",
+     "status": "confirmed",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "TMDB",
+       "value": "CBS",
+       "url": "https://api.themoviedb.org/3/search/tv?api_key=REDACTED&query=Hawaii+Five-0"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "t461",
+   "title": "Knight Rider",
+   "sourcesReached": [
+    "OMDb",
+    "TMDB"
+   ],
+   "sourcesMissed": [],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "first air year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 1982,
+     "proposed": 1982,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 1982,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Knight+Rider&type=series&y=1982"
+      },
+      {
+       "src": "TMDB",
+       "value": 1982,
+       "url": "https://api.themoviedb.org/3/search/tv?api_key=REDACTED&query=Knight+Rider"
+      }
+     ]
+    },
+    {
+     "field": "seasons",
+     "label": "seasons",
+     "soft": false,
+     "editionDependent": false,
+     "current": 4,
+     "proposed": 4,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 4,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Knight+Rider&type=series&y=1982"
+      },
+      {
+       "src": "TMDB",
+       "value": 4,
+       "url": "https://api.themoviedb.org/3/search/tv?api_key=REDACTED&query=Knight+Rider"
+      }
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "creator",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Glen A. Larson",
+     "proposed": "Glen A. Larson",
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": "Glen A. Larson",
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Knight+Rider&type=series&y=1982"
+      },
+      {
+       "src": "TMDB",
+       "value": "Glen A. Larson",
+       "url": "https://api.themoviedb.org/3/search/tv?api_key=REDACTED&query=Knight+Rider"
+      }
+     ]
+    },
+    {
+     "field": "network",
+     "label": "network / streamer",
+     "soft": true,
+     "editionDependent": false,
+     "current": "NBC",
+     "proposed": "NBC",
+     "status": "confirmed",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "TMDB",
+       "value": "NBC",
+       "url": "https://api.themoviedb.org/3/search/tv?api_key=REDACTED&query=Knight+Rider"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "t462",
+   "title": "The A-Team",
+   "sourcesReached": [
+    "OMDb",
+    "TMDB"
+   ],
+   "sourcesMissed": [],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "first air year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 1983,
+     "proposed": 1983,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 1983,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=The+A-Team&type=series&y=1983"
+      },
+      {
+       "src": "TMDB",
+       "value": 1983,
+       "url": "https://api.themoviedb.org/3/search/tv?api_key=REDACTED&query=The+A-Team"
+      }
+     ]
+    },
+    {
+     "field": "seasons",
+     "label": "seasons",
+     "soft": false,
+     "editionDependent": false,
+     "current": 5,
+     "proposed": 5,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 5,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=The+A-Team&type=series&y=1983"
+      },
+      {
+       "src": "TMDB",
+       "value": 5,
+       "url": "https://api.themoviedb.org/3/search/tv?api_key=REDACTED&query=The+A-Team"
+      }
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "creator",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Frank Lupo, Stephen J. Cannell",
+     "proposed": "Frank Lupo, Stephen J. Cannell",
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": "Stephen J. Cannell, Frank Lupo",
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=The+A-Team&type=series&y=1983"
+      },
+      {
+       "src": "TMDB",
+       "value": "Frank Lupo, Stephen J. Cannell",
+       "url": "https://api.themoviedb.org/3/search/tv?api_key=REDACTED&query=The+A-Team"
+      }
+     ]
+    },
+    {
+     "field": "network",
+     "label": "network / streamer",
+     "soft": true,
+     "editionDependent": false,
+     "current": "NBC",
+     "proposed": "NBC",
+     "status": "confirmed",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "TMDB",
+       "value": "NBC",
+       "url": "https://api.themoviedb.org/3/search/tv?api_key=REDACTED&query=The+A-Team"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "t463",
+   "title": "MacGyver",
+   "sourcesReached": [
+    "OMDb",
+    "TMDB"
+   ],
+   "sourcesMissed": [],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "first air year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 1985,
+     "proposed": 1985,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 1985,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=MacGyver&type=series&y=1985"
+      },
+      {
+       "src": "TMDB",
+       "value": 1985,
+       "url": "https://api.themoviedb.org/3/search/tv?api_key=REDACTED&query=MacGyver"
+      }
+     ]
+    },
+    {
+     "field": "seasons",
+     "label": "seasons",
+     "soft": false,
+     "editionDependent": false,
+     "current": 7,
+     "proposed": 7,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 7,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=MacGyver&type=series&y=1985"
+      },
+      {
+       "src": "TMDB",
+       "value": 7,
+       "url": "https://api.themoviedb.org/3/search/tv?api_key=REDACTED&query=MacGyver"
+      }
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "creator",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Lee David Zlotoff",
+     "proposed": "Lee David Zlotoff",
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": "Lee David Zlotoff",
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=MacGyver&type=series&y=1985"
+      },
+      {
+       "src": "TMDB",
+       "value": "Lee David Zlotoff",
+       "url": "https://api.themoviedb.org/3/search/tv?api_key=REDACTED&query=MacGyver"
+      }
+     ]
+    },
+    {
+     "field": "network",
+     "label": "network / streamer",
+     "soft": true,
+     "editionDependent": false,
+     "current": "ABC",
+     "proposed": "ABC",
+     "status": "confirmed",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "TMDB",
+       "value": "ABC",
+       "url": "https://api.themoviedb.org/3/search/tv?api_key=REDACTED&query=MacGyver"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "t464",
+   "title": "Dallas",
+   "sourcesReached": [
+    "OMDb",
+    "TMDB"
+   ],
+   "sourcesMissed": [],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "first air year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 1978,
+     "proposed": 1978,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 1978,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Dallas&type=series&y=1978"
+      },
+      {
+       "src": "TMDB",
+       "value": 1978,
+       "url": "https://api.themoviedb.org/3/search/tv?api_key=REDACTED&query=Dallas"
+      }
+     ]
+    },
+    {
+     "field": "seasons",
+     "label": "seasons",
+     "soft": false,
+     "editionDependent": false,
+     "current": 14,
+     "proposed": 14,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 14,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Dallas&type=series&y=1978"
+      },
+      {
+       "src": "TMDB",
+       "value": 14,
+       "url": "https://api.themoviedb.org/3/search/tv?api_key=REDACTED&query=Dallas"
+      }
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "creator",
+     "soft": false,
+     "editionDependent": false,
+     "current": "David Jacobs",
+     "proposed": "David Jacobs",
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": "David Jacobs",
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Dallas&type=series&y=1978"
+      },
+      {
+       "src": "TMDB",
+       "value": "David Jacobs",
+       "url": "https://api.themoviedb.org/3/search/tv?api_key=REDACTED&query=Dallas"
+      }
+     ]
+    },
+    {
+     "field": "network",
+     "label": "network / streamer",
+     "soft": true,
+     "editionDependent": false,
+     "current": "CBS",
+     "proposed": "CBS",
+     "status": "confirmed",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "TMDB",
+       "value": "CBS",
+       "url": "https://api.themoviedb.org/3/search/tv?api_key=REDACTED&query=Dallas"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "t465",
+   "title": "Dynasty",
+   "sourcesReached": [
+    "OMDb",
+    "TMDB"
+   ],
+   "sourcesMissed": [],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "first air year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 1981,
+     "proposed": 1981,
+     "status": "corroborated-by-one",
+     "grade": "B",
+     "note": "matches OMDb; disagrees with TMDB (2017)",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 1981,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Dynasty&type=series&y=1981"
+      },
+      {
+       "src": "TMDB",
+       "value": 2017,
+       "url": "https://api.themoviedb.org/3/search/tv?api_key=REDACTED&query=Dynasty"
+      }
+     ],
+     "alternatives": [
+      2017
+     ]
+    },
+    {
+     "field": "seasons",
+     "label": "seasons",
+     "soft": false,
+     "editionDependent": false,
+     "current": 9,
+     "proposed": 9,
+     "status": "corroborated-by-one",
+     "grade": "B",
+     "note": "matches OMDb; disagrees with TMDB (5)",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 9,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Dynasty&type=series&y=1981"
+      },
+      {
+       "src": "TMDB",
+       "value": 5,
+       "url": "https://api.themoviedb.org/3/search/tv?api_key=REDACTED&query=Dynasty"
+      }
+     ],
+     "alternatives": [
+      5
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "creator",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Richard Shapiro, Esther Shapiro",
+     "proposed": "Esther Shapiro, Richard Alan Shapiro",
+     "status": "sources-disagree",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": "Esther Shapiro, Richard Alan Shapiro",
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Dynasty&type=series&y=1981"
+      },
+      {
+       "src": "TMDB",
+       "value": "Stephanie Savage, Josh Schwartz, Sallie Patrick",
+       "url": "https://api.themoviedb.org/3/search/tv?api_key=REDACTED&query=Dynasty"
+      }
+     ],
+     "alternatives": [
+      "Stephanie Savage, Josh Schwartz, Sallie Patrick"
+     ]
+    },
+    {
+     "field": "network",
+     "label": "network / streamer",
+     "soft": true,
+     "editionDependent": false,
+     "current": "ABC",
+     "proposed": "The CW",
+     "status": "proposed-change",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "TMDB",
+       "value": "The CW",
+       "url": "https://api.themoviedb.org/3/search/tv?api_key=REDACTED&query=Dynasty"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "t466",
+   "title": "Falcon Crest",
+   "sourcesReached": [
+    "OMDb",
+    "TMDB"
+   ],
+   "sourcesMissed": [],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "first air year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 1981,
+     "proposed": 1981,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 1981,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Falcon+Crest&type=series&y=1981"
+      },
+      {
+       "src": "TMDB",
+       "value": 1981,
+       "url": "https://api.themoviedb.org/3/search/tv?api_key=REDACTED&query=Falcon+Crest"
+      }
+     ]
+    },
+    {
+     "field": "seasons",
+     "label": "seasons",
+     "soft": false,
+     "editionDependent": false,
+     "current": 9,
+     "proposed": 9,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 9,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Falcon+Crest&type=series&y=1981"
+      },
+      {
+       "src": "TMDB",
+       "value": 9,
+       "url": "https://api.themoviedb.org/3/search/tv?api_key=REDACTED&query=Falcon+Crest"
+      }
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "creator",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Earl Hamner Jr.",
+     "proposed": "Earl Hamner Jr.",
+     "status": "corroborated-by-one",
+     "grade": "B",
+     "note": "matches OMDb; disagrees with TMDB (\"Earl Hamner, Jr.\")",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": "Earl Hamner Jr.",
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Falcon+Crest&type=series&y=1981"
+      },
+      {
+       "src": "TMDB",
+       "value": "Earl Hamner, Jr.",
+       "url": "https://api.themoviedb.org/3/search/tv?api_key=REDACTED&query=Falcon+Crest"
+      }
+     ],
+     "alternatives": [
+      "Earl Hamner, Jr."
+     ]
+    },
+    {
+     "field": "network",
+     "label": "network / streamer",
+     "soft": true,
+     "editionDependent": false,
+     "current": "CBS",
+     "proposed": "CBS",
+     "status": "confirmed",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "TMDB",
+       "value": "CBS",
+       "url": "https://api.themoviedb.org/3/search/tv?api_key=REDACTED&query=Falcon+Crest"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "t467",
+   "title": "Melrose Place",
+   "sourcesReached": [
+    "OMDb",
+    "TMDB"
+   ],
+   "sourcesMissed": [],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "first air year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 1992,
+     "proposed": 1992,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 1992,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Melrose+Place&type=series&y=1992"
+      },
+      {
+       "src": "TMDB",
+       "value": 1992,
+       "url": "https://api.themoviedb.org/3/search/tv?api_key=REDACTED&query=Melrose+Place"
+      }
+     ]
+    },
+    {
+     "field": "seasons",
+     "label": "seasons",
+     "soft": false,
+     "editionDependent": false,
+     "current": 7,
+     "proposed": 7,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 7,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Melrose+Place&type=series&y=1992"
+      },
+      {
+       "src": "TMDB",
+       "value": 7,
+       "url": "https://api.themoviedb.org/3/search/tv?api_key=REDACTED&query=Melrose+Place"
+      }
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "creator",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Darren Star",
+     "proposed": "Darren Star",
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": "Darren Star",
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Melrose+Place&type=series&y=1992"
+      },
+      {
+       "src": "TMDB",
+       "value": "Darren Star",
+       "url": "https://api.themoviedb.org/3/search/tv?api_key=REDACTED&query=Melrose+Place"
+      }
+     ]
+    },
+    {
+     "field": "network",
+     "label": "network / streamer",
+     "soft": true,
+     "editionDependent": false,
+     "current": "Fox",
+     "proposed": "FOX",
+     "status": "confirmed",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "TMDB",
+       "value": "FOX",
+       "url": "https://api.themoviedb.org/3/search/tv?api_key=REDACTED&query=Melrose+Place"
+      }
+     ]
+    }
+   ]
+  }
+ ]
+}

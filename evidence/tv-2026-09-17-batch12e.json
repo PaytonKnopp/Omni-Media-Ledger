@@ -1,0 +1,103 @@
+{
+ "medium": "tv",
+ "generated": "2026-09-17T12:16:03.798Z",
+ "offline": false,
+ "sources": [
+  "OMDb",
+  "TMDB"
+ ],
+ "works": [
+  {
+   "id": "t516",
+   "title": "Shark Tank",
+   "sourcesReached": [
+    "OMDb",
+    "TMDB"
+   ],
+   "sourcesMissed": [],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "first air year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 2009,
+     "proposed": 2009,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 2009,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Shark+Tank&type=series&y=2009"
+      },
+      {
+       "src": "TMDB",
+       "value": 2009,
+       "url": "https://api.themoviedb.org/3/search/tv?api_key=REDACTED&query=Shark+Tank"
+      }
+     ]
+    },
+    {
+     "field": "seasons",
+     "label": "seasons",
+     "soft": false,
+     "editionDependent": false,
+     "current": 16,
+     "proposed": 17,
+     "status": "sources-disagree",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 17,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Shark+Tank&type=series&y=2009"
+      },
+      {
+       "src": "TMDB",
+       "value": 18,
+       "url": "https://api.themoviedb.org/3/search/tv?api_key=REDACTED&query=Shark+Tank"
+      }
+     ],
+     "alternatives": [
+      18
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "creator",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Mark Burnett",
+     "proposed": "Mark Burnett",
+     "status": "confirmed",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "TMDB",
+       "value": "Mark Burnett",
+       "url": "https://api.themoviedb.org/3/search/tv?api_key=REDACTED&query=Shark+Tank"
+      }
+     ]
+    },
+    {
+     "field": "network",
+     "label": "network / streamer",
+     "soft": true,
+     "editionDependent": false,
+     "current": "ABC",
+     "proposed": "ABC",
+     "status": "confirmed",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "TMDB",
+       "value": "ABC",
+       "url": "https://api.themoviedb.org/3/search/tv?api_key=REDACTED&query=Shark+Tank"
+      }
+     ]
+    }
+   ]
+  }
+ ]
+}

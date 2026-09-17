@@ -1,0 +1,1472 @@
+{
+ "medium": "tv",
+ "generated": "2026-09-17T12:15:45.270Z",
+ "offline": false,
+ "sources": [
+  "OMDb",
+  "TMDB"
+ ],
+ "works": [
+  {
+   "id": "t484",
+   "title": "White Collar",
+   "sourcesReached": [
+    "OMDb",
+    "TMDB"
+   ],
+   "sourcesMissed": [],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "first air year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 2009,
+     "proposed": 2009,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 2009,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=White+Collar&type=series&y=2009"
+      },
+      {
+       "src": "TMDB",
+       "value": 2009,
+       "url": "https://api.themoviedb.org/3/search/tv?api_key=REDACTED&query=White+Collar"
+      }
+     ]
+    },
+    {
+     "field": "seasons",
+     "label": "seasons",
+     "soft": false,
+     "editionDependent": false,
+     "current": 6,
+     "proposed": 6,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 6,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=White+Collar&type=series&y=2009"
+      },
+      {
+       "src": "TMDB",
+       "value": 6,
+       "url": "https://api.themoviedb.org/3/search/tv?api_key=REDACTED&query=White+Collar"
+      }
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "creator",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Jeff Eastin",
+     "proposed": "Jeff Eastin",
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": "Jeff Eastin",
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=White+Collar&type=series&y=2009"
+      },
+      {
+       "src": "TMDB",
+       "value": "Jeff Eastin",
+       "url": "https://api.themoviedb.org/3/search/tv?api_key=REDACTED&query=White+Collar"
+      }
+     ]
+    },
+    {
+     "field": "network",
+     "label": "network / streamer",
+     "soft": true,
+     "editionDependent": false,
+     "current": "USA Network",
+     "proposed": "USA Network",
+     "status": "confirmed",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "TMDB",
+       "value": "USA Network",
+       "url": "https://api.themoviedb.org/3/search/tv?api_key=REDACTED&query=White+Collar"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "t485",
+   "title": "Leverage",
+   "sourcesReached": [
+    "OMDb",
+    "TMDB"
+   ],
+   "sourcesMissed": [],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "first air year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 2008,
+     "proposed": 2008,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 2008,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Leverage&type=series&y=2008"
+      },
+      {
+       "src": "TMDB",
+       "value": 2008,
+       "url": "https://api.themoviedb.org/3/search/tv?api_key=REDACTED&query=Leverage"
+      }
+     ]
+    },
+    {
+     "field": "seasons",
+     "label": "seasons",
+     "soft": false,
+     "editionDependent": false,
+     "current": 5,
+     "proposed": 5,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 5,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Leverage&type=series&y=2008"
+      },
+      {
+       "src": "TMDB",
+       "value": 5,
+       "url": "https://api.themoviedb.org/3/search/tv?api_key=REDACTED&query=Leverage"
+      }
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "creator",
+     "soft": false,
+     "editionDependent": false,
+     "current": "John Rogers, Chris Downey",
+     "proposed": "Chris Downey, John Rogers",
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": "Chris Downey, John Rogers",
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Leverage&type=series&y=2008"
+      },
+      {
+       "src": "TMDB",
+       "value": "John Rogers, Chris Downey",
+       "url": "https://api.themoviedb.org/3/search/tv?api_key=REDACTED&query=Leverage"
+      }
+     ]
+    },
+    {
+     "field": "network",
+     "label": "network / streamer",
+     "soft": true,
+     "editionDependent": false,
+     "current": "TNT",
+     "proposed": "TNT",
+     "status": "confirmed",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "TMDB",
+       "value": "TNT",
+       "url": "https://api.themoviedb.org/3/search/tv?api_key=REDACTED&query=Leverage"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "t486",
+   "title": "The Blacklist",
+   "sourcesReached": [
+    "OMDb",
+    "TMDB"
+   ],
+   "sourcesMissed": [],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "first air year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 2013,
+     "proposed": 2013,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 2013,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=The+Blacklist&type=series&y=2013"
+      },
+      {
+       "src": "TMDB",
+       "value": 2013,
+       "url": "https://api.themoviedb.org/3/search/tv?api_key=REDACTED&query=The+Blacklist"
+      }
+     ]
+    },
+    {
+     "field": "seasons",
+     "label": "seasons",
+     "soft": false,
+     "editionDependent": false,
+     "current": 10,
+     "proposed": 10,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 10,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=The+Blacklist&type=series&y=2013"
+      },
+      {
+       "src": "TMDB",
+       "value": 10,
+       "url": "https://api.themoviedb.org/3/search/tv?api_key=REDACTED&query=The+Blacklist"
+      }
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "creator",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Jon Bokenkamp",
+     "proposed": "Jon Bokenkamp",
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": "Jon Bokenkamp",
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=The+Blacklist&type=series&y=2013"
+      },
+      {
+       "src": "TMDB",
+       "value": "Jon Bokenkamp",
+       "url": "https://api.themoviedb.org/3/search/tv?api_key=REDACTED&query=The+Blacklist"
+      }
+     ]
+    },
+    {
+     "field": "network",
+     "label": "network / streamer",
+     "soft": true,
+     "editionDependent": false,
+     "current": "NBC",
+     "proposed": "NBC",
+     "status": "confirmed",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "TMDB",
+       "value": "NBC",
+       "url": "https://api.themoviedb.org/3/search/tv?api_key=REDACTED&query=The+Blacklist"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "t487",
+   "title": "Person of Interest",
+   "sourcesReached": [
+    "OMDb",
+    "TMDB"
+   ],
+   "sourcesMissed": [],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "first air year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 2011,
+     "proposed": 2011,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 2011,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Person+of+Interest&type=series&y=2011"
+      },
+      {
+       "src": "TMDB",
+       "value": 2011,
+       "url": "https://api.themoviedb.org/3/search/tv?api_key=REDACTED&query=Person+of+Interest"
+      }
+     ]
+    },
+    {
+     "field": "seasons",
+     "label": "seasons",
+     "soft": false,
+     "editionDependent": false,
+     "current": 5,
+     "proposed": 5,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 5,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Person+of+Interest&type=series&y=2011"
+      },
+      {
+       "src": "TMDB",
+       "value": 5,
+       "url": "https://api.themoviedb.org/3/search/tv?api_key=REDACTED&query=Person+of+Interest"
+      }
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "creator",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Jonathan Nolan",
+     "proposed": "Jonathan Nolan",
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": "Jonathan Nolan",
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Person+of+Interest&type=series&y=2011"
+      },
+      {
+       "src": "TMDB",
+       "value": "Jonathan Nolan",
+       "url": "https://api.themoviedb.org/3/search/tv?api_key=REDACTED&query=Person+of+Interest"
+      }
+     ]
+    },
+    {
+     "field": "network",
+     "label": "network / streamer",
+     "soft": true,
+     "editionDependent": false,
+     "current": "CBS",
+     "proposed": "CBS",
+     "status": "confirmed",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "TMDB",
+       "value": "CBS",
+       "url": "https://api.themoviedb.org/3/search/tv?api_key=REDACTED&query=Person+of+Interest"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "t488",
+   "title": "Warehouse 13",
+   "sourcesReached": [
+    "OMDb",
+    "TMDB"
+   ],
+   "sourcesMissed": [],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "first air year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 2009,
+     "proposed": 2009,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 2009,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Warehouse+13&type=series&y=2009"
+      },
+      {
+       "src": "TMDB",
+       "value": 2009,
+       "url": "https://api.themoviedb.org/3/search/tv?api_key=REDACTED&query=Warehouse+13"
+      }
+     ]
+    },
+    {
+     "field": "seasons",
+     "label": "seasons",
+     "soft": false,
+     "editionDependent": false,
+     "current": 5,
+     "proposed": 5,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 5,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Warehouse+13&type=series&y=2009"
+      },
+      {
+       "src": "TMDB",
+       "value": 5,
+       "url": "https://api.themoviedb.org/3/search/tv?api_key=REDACTED&query=Warehouse+13"
+      }
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "creator",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Jane Espenson, D. Brent Mote",
+     "proposed": "D. Brent Mote, Jane Espenson",
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": "Jane Espenson, D. Brent Mote",
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Warehouse+13&type=series&y=2009"
+      },
+      {
+       "src": "TMDB",
+       "value": "Jane Espenson, D. Brent Mote",
+       "url": "https://api.themoviedb.org/3/search/tv?api_key=REDACTED&query=Warehouse+13"
+      }
+     ]
+    },
+    {
+     "field": "network",
+     "label": "network / streamer",
+     "soft": true,
+     "editionDependent": false,
+     "current": "Syfy",
+     "proposed": "Syfy",
+     "status": "confirmed",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "TMDB",
+       "value": "Syfy",
+       "url": "https://api.themoviedb.org/3/search/tv?api_key=REDACTED&query=Warehouse+13"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "t489",
+   "title": "Eureka",
+   "sourcesReached": [
+    "OMDb",
+    "TMDB"
+   ],
+   "sourcesMissed": [],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "first air year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 2006,
+     "proposed": 2006,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 2006,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Eureka&type=series&y=2006"
+      },
+      {
+       "src": "TMDB",
+       "value": 2006,
+       "url": "https://api.themoviedb.org/3/search/tv?api_key=REDACTED&query=Eureka"
+      }
+     ]
+    },
+    {
+     "field": "seasons",
+     "label": "seasons",
+     "soft": false,
+     "editionDependent": false,
+     "current": 5,
+     "proposed": 5,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 5,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Eureka&type=series&y=2006"
+      },
+      {
+       "src": "TMDB",
+       "value": 5,
+       "url": "https://api.themoviedb.org/3/search/tv?api_key=REDACTED&query=Eureka"
+      }
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "creator",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Andrew Cosby, Jaime Paglia",
+     "proposed": "Andrew Cosby, Jaime Paglia",
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": "Andrew Cosby, Jaime Paglia",
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Eureka&type=series&y=2006"
+      },
+      {
+       "src": "TMDB",
+       "value": "Jaime Paglia, Andrew Cosby",
+       "url": "https://api.themoviedb.org/3/search/tv?api_key=REDACTED&query=Eureka"
+      }
+     ]
+    },
+    {
+     "field": "network",
+     "label": "network / streamer",
+     "soft": true,
+     "editionDependent": false,
+     "current": "Syfy",
+     "proposed": "Syfy",
+     "status": "confirmed",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "TMDB",
+       "value": "Syfy",
+       "url": "https://api.themoviedb.org/3/search/tv?api_key=REDACTED&query=Eureka"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "t490",
+   "title": "Smallville",
+   "sourcesReached": [
+    "OMDb",
+    "TMDB"
+   ],
+   "sourcesMissed": [],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "first air year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 2001,
+     "proposed": 2001,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 2001,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Smallville&type=series&y=2001"
+      },
+      {
+       "src": "TMDB",
+       "value": 2001,
+       "url": "https://api.themoviedb.org/3/search/tv?api_key=REDACTED&query=Smallville"
+      }
+     ]
+    },
+    {
+     "field": "seasons",
+     "label": "seasons",
+     "soft": false,
+     "editionDependent": false,
+     "current": 10,
+     "proposed": 10,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 10,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Smallville&type=series&y=2001"
+      },
+      {
+       "src": "TMDB",
+       "value": 10,
+       "url": "https://api.themoviedb.org/3/search/tv?api_key=REDACTED&query=Smallville"
+      }
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "creator",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Alfred Gough, Miles Millar",
+     "proposed": "Alfred Gough, Miles Millar",
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": "Alfred Gough, Miles Millar",
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Smallville&type=series&y=2001"
+      },
+      {
+       "src": "TMDB",
+       "value": "Alfred Gough, Miles Millar",
+       "url": "https://api.themoviedb.org/3/search/tv?api_key=REDACTED&query=Smallville"
+      }
+     ]
+    },
+    {
+     "field": "network",
+     "label": "network / streamer",
+     "soft": true,
+     "editionDependent": false,
+     "current": "The WB / The CW",
+     "proposed": "The WB",
+     "status": "proposed-change",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "TMDB",
+       "value": "The WB",
+       "url": "https://api.themoviedb.org/3/search/tv?api_key=REDACTED&query=Smallville"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "t491",
+   "title": "Arrow",
+   "sourcesReached": [
+    "OMDb",
+    "TMDB"
+   ],
+   "sourcesMissed": [],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "first air year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 2012,
+     "proposed": 2012,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 2012,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Arrow&type=series&y=2012"
+      },
+      {
+       "src": "TMDB",
+       "value": 2012,
+       "url": "https://api.themoviedb.org/3/search/tv?api_key=REDACTED&query=Arrow"
+      }
+     ]
+    },
+    {
+     "field": "seasons",
+     "label": "seasons",
+     "soft": false,
+     "editionDependent": false,
+     "current": 8,
+     "proposed": 8,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 8,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Arrow&type=series&y=2012"
+      },
+      {
+       "src": "TMDB",
+       "value": 8,
+       "url": "https://api.themoviedb.org/3/search/tv?api_key=REDACTED&query=Arrow"
+      }
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "creator",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Greg Berlanti, Marc Guggenheim, Andrew Kreisberg",
+     "proposed": "Andrew Kreisberg, Greg Berlanti, Marc Guggenheim",
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": "Greg Berlanti, Marc Guggenheim, Andrew Kreisberg",
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Arrow&type=series&y=2012"
+      },
+      {
+       "src": "TMDB",
+       "value": "Andrew Kreisberg, Greg Berlanti, Marc Guggenheim",
+       "url": "https://api.themoviedb.org/3/search/tv?api_key=REDACTED&query=Arrow"
+      }
+     ]
+    },
+    {
+     "field": "network",
+     "label": "network / streamer",
+     "soft": true,
+     "editionDependent": false,
+     "current": "The CW",
+     "proposed": "The CW",
+     "status": "confirmed",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "TMDB",
+       "value": "The CW",
+       "url": "https://api.themoviedb.org/3/search/tv?api_key=REDACTED&query=Arrow"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "t492",
+   "title": "The Flash",
+   "sourcesReached": [
+    "OMDb",
+    "TMDB"
+   ],
+   "sourcesMissed": [],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "first air year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 2014,
+     "proposed": 2014,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 2014,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=The+Flash&type=series&y=2014"
+      },
+      {
+       "src": "TMDB",
+       "value": 2014,
+       "url": "https://api.themoviedb.org/3/search/tv?api_key=REDACTED&query=The+Flash"
+      }
+     ]
+    },
+    {
+     "field": "seasons",
+     "label": "seasons",
+     "soft": false,
+     "editionDependent": false,
+     "current": 9,
+     "proposed": 9,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 9,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=The+Flash&type=series&y=2014"
+      },
+      {
+       "src": "TMDB",
+       "value": 9,
+       "url": "https://api.themoviedb.org/3/search/tv?api_key=REDACTED&query=The+Flash"
+      }
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "creator",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Greg Berlanti, Andrew Kreisberg, Geoff Johns",
+     "proposed": "Andrew Kreisberg, Geoff Johns, Greg Berlanti",
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": "Greg Berlanti, Geoff Johns, Andrew Kreisberg",
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=The+Flash&type=series&y=2014"
+      },
+      {
+       "src": "TMDB",
+       "value": "Geoff Johns, Greg Berlanti, Andrew Kreisberg",
+       "url": "https://api.themoviedb.org/3/search/tv?api_key=REDACTED&query=The+Flash"
+      }
+     ]
+    },
+    {
+     "field": "network",
+     "label": "network / streamer",
+     "soft": true,
+     "editionDependent": false,
+     "current": "The CW",
+     "proposed": "The CW",
+     "status": "confirmed",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "TMDB",
+       "value": "The CW",
+       "url": "https://api.themoviedb.org/3/search/tv?api_key=REDACTED&query=The+Flash"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "t493",
+   "title": "Supergirl",
+   "sourcesReached": [
+    "OMDb",
+    "TMDB"
+   ],
+   "sourcesMissed": [],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "first air year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 2015,
+     "proposed": 2015,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 2015,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Supergirl&type=series&y=2015"
+      },
+      {
+       "src": "TMDB",
+       "value": 2015,
+       "url": "https://api.themoviedb.org/3/search/tv?api_key=REDACTED&query=Supergirl"
+      }
+     ]
+    },
+    {
+     "field": "seasons",
+     "label": "seasons",
+     "soft": false,
+     "editionDependent": false,
+     "current": 6,
+     "proposed": 6,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 6,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Supergirl&type=series&y=2015"
+      },
+      {
+       "src": "TMDB",
+       "value": 6,
+       "url": "https://api.themoviedb.org/3/search/tv?api_key=REDACTED&query=Supergirl"
+      }
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "creator",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Greg Berlanti, Ali Adler, Andrew Kreisberg",
+     "proposed": "Ali Adler, Andrew Kreisberg, Greg Berlanti",
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": "Ali Adler, Greg Berlanti, Andrew Kreisberg",
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Supergirl&type=series&y=2015"
+      },
+      {
+       "src": "TMDB",
+       "value": "Greg Berlanti, Andrew Kreisberg, Ali Adler",
+       "url": "https://api.themoviedb.org/3/search/tv?api_key=REDACTED&query=Supergirl"
+      }
+     ]
+    },
+    {
+     "field": "network",
+     "label": "network / streamer",
+     "soft": true,
+     "editionDependent": false,
+     "current": "CBS / The CW",
+     "proposed": "CBS",
+     "status": "proposed-change",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "TMDB",
+       "value": "CBS",
+       "url": "https://api.themoviedb.org/3/search/tv?api_key=REDACTED&query=Supergirl"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "t494",
+   "title": "Legends of Tomorrow",
+   "sourcesReached": [],
+   "sourcesMissed": [
+    "OMDb (no match)",
+    "TMDB (no match)"
+   ],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "first air year",
+     "soft": false,
+     "current": 2016,
+     "status": "no-source",
+     "grade": null,
+     "sources": []
+    },
+    {
+     "field": "seasons",
+     "label": "seasons",
+     "soft": false,
+     "current": 7,
+     "status": "no-source",
+     "grade": null,
+     "sources": []
+    },
+    {
+     "field": "creator",
+     "label": "creator",
+     "soft": false,
+     "current": "Greg Berlanti, Marc Guggenheim, Phil Klemmer, Andrew Kreisberg",
+     "status": "no-source",
+     "grade": null,
+     "sources": []
+    },
+    {
+     "field": "network",
+     "label": "network / streamer",
+     "soft": true,
+     "current": "The CW",
+     "status": "no-source",
+     "grade": null,
+     "sources": []
+    }
+   ]
+  },
+  {
+   "id": "t495",
+   "title": "Gotham",
+   "sourcesReached": [
+    "OMDb",
+    "TMDB"
+   ],
+   "sourcesMissed": [],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "first air year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 2014,
+     "proposed": 2014,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 2014,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Gotham&type=series&y=2014"
+      },
+      {
+       "src": "TMDB",
+       "value": 2014,
+       "url": "https://api.themoviedb.org/3/search/tv?api_key=REDACTED&query=Gotham"
+      }
+     ]
+    },
+    {
+     "field": "seasons",
+     "label": "seasons",
+     "soft": false,
+     "editionDependent": false,
+     "current": 5,
+     "proposed": 5,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 5,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Gotham&type=series&y=2014"
+      },
+      {
+       "src": "TMDB",
+       "value": 5,
+       "url": "https://api.themoviedb.org/3/search/tv?api_key=REDACTED&query=Gotham"
+      }
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "creator",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Bruno Heller",
+     "proposed": "Bruno Heller",
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": "Bruno Heller",
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Gotham&type=series&y=2014"
+      },
+      {
+       "src": "TMDB",
+       "value": "Bruno Heller",
+       "url": "https://api.themoviedb.org/3/search/tv?api_key=REDACTED&query=Gotham"
+      }
+     ]
+    },
+    {
+     "field": "network",
+     "label": "network / streamer",
+     "soft": true,
+     "editionDependent": false,
+     "current": "Fox",
+     "proposed": "FOX",
+     "status": "confirmed",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "TMDB",
+       "value": "FOX",
+       "url": "https://api.themoviedb.org/3/search/tv?api_key=REDACTED&query=Gotham"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "t496",
+   "title": "Titans",
+   "sourcesReached": [
+    "OMDb",
+    "TMDB"
+   ],
+   "sourcesMissed": [],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "first air year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 2018,
+     "proposed": 2018,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 2018,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Titans&type=series&y=2018"
+      },
+      {
+       "src": "TMDB",
+       "value": 2018,
+       "url": "https://api.themoviedb.org/3/search/tv?api_key=REDACTED&query=Titans"
+      }
+     ]
+    },
+    {
+     "field": "seasons",
+     "label": "seasons",
+     "soft": false,
+     "editionDependent": false,
+     "current": 4,
+     "proposed": 4,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 4,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Titans&type=series&y=2018"
+      },
+      {
+       "src": "TMDB",
+       "value": 4,
+       "url": "https://api.themoviedb.org/3/search/tv?api_key=REDACTED&query=Titans"
+      }
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "creator",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Akiva Goldsman, Geoff Johns, Greg Berlanti",
+     "proposed": "Akiva Goldsman, Geoff Johns, Greg Berlanti",
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": "Greg Berlanti, Akiva Goldsman, Geoff Johns",
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Titans&type=series&y=2018"
+      },
+      {
+       "src": "TMDB",
+       "value": "Geoff Johns, Greg Berlanti, Akiva Goldsman",
+       "url": "https://api.themoviedb.org/3/search/tv?api_key=REDACTED&query=Titans"
+      }
+     ]
+    },
+    {
+     "field": "network",
+     "label": "network / streamer",
+     "soft": true,
+     "editionDependent": false,
+     "current": "DC Universe / HBO Max",
+     "proposed": "DC Universe",
+     "status": "proposed-change",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "TMDB",
+       "value": "DC Universe",
+       "url": "https://api.themoviedb.org/3/search/tv?api_key=REDACTED&query=Titans"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "t497",
+   "title": "Doom Patrol",
+   "sourcesReached": [
+    "OMDb",
+    "TMDB"
+   ],
+   "sourcesMissed": [],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "first air year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 2019,
+     "proposed": 2019,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 2019,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Doom+Patrol&type=series&y=2019"
+      },
+      {
+       "src": "TMDB",
+       "value": 2019,
+       "url": "https://api.themoviedb.org/3/search/tv?api_key=REDACTED&query=Doom+Patrol"
+      }
+     ]
+    },
+    {
+     "field": "seasons",
+     "label": "seasons",
+     "soft": false,
+     "editionDependent": false,
+     "current": 4,
+     "proposed": 4,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 4,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Doom+Patrol&type=series&y=2019"
+      },
+      {
+       "src": "TMDB",
+       "value": 4,
+       "url": "https://api.themoviedb.org/3/search/tv?api_key=REDACTED&query=Doom+Patrol"
+      }
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "creator",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Jeremy Carver",
+     "proposed": "Jeremy Carver",
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": "Jeremy Carver",
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Doom+Patrol&type=series&y=2019"
+      },
+      {
+       "src": "TMDB",
+       "value": "Jeremy Carver",
+       "url": "https://api.themoviedb.org/3/search/tv?api_key=REDACTED&query=Doom+Patrol"
+      }
+     ]
+    },
+    {
+     "field": "network",
+     "label": "network / streamer",
+     "soft": true,
+     "editionDependent": false,
+     "current": "DC Universe / HBO Max",
+     "proposed": "DC Universe",
+     "status": "proposed-change",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "TMDB",
+       "value": "DC Universe",
+       "url": "https://api.themoviedb.org/3/search/tv?api_key=REDACTED&query=Doom+Patrol"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "t498",
+   "title": "iZombie",
+   "sourcesReached": [
+    "OMDb",
+    "TMDB"
+   ],
+   "sourcesMissed": [],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "first air year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 2015,
+     "proposed": 2015,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 2015,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=iZombie&type=series&y=2015"
+      },
+      {
+       "src": "TMDB",
+       "value": 2015,
+       "url": "https://api.themoviedb.org/3/search/tv?api_key=REDACTED&query=iZombie"
+      }
+     ]
+    },
+    {
+     "field": "seasons",
+     "label": "seasons",
+     "soft": false,
+     "editionDependent": false,
+     "current": 5,
+     "proposed": 5,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 5,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=iZombie&type=series&y=2015"
+      },
+      {
+       "src": "TMDB",
+       "value": 5,
+       "url": "https://api.themoviedb.org/3/search/tv?api_key=REDACTED&query=iZombie"
+      }
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "creator",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Rob Thomas, Diane Ruggiero-Wright",
+     "proposed": "Diane Ruggiero-Wright, Rob Thomas",
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": "Diane Ruggiero-Wright, Rob Thomas",
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=iZombie&type=series&y=2015"
+      },
+      {
+       "src": "TMDB",
+       "value": "Diane Ruggiero-Wright, Rob Thomas",
+       "url": "https://api.themoviedb.org/3/search/tv?api_key=REDACTED&query=iZombie"
+      }
+     ]
+    },
+    {
+     "field": "network",
+     "label": "network / streamer",
+     "soft": true,
+     "editionDependent": false,
+     "current": "The CW",
+     "proposed": "The CW",
+     "status": "confirmed",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "TMDB",
+       "value": "The CW",
+       "url": "https://api.themoviedb.org/3/search/tv?api_key=REDACTED&query=iZombie"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "t499",
+   "title": "Sleepy Hollow",
+   "sourcesReached": [
+    "OMDb",
+    "TMDB"
+   ],
+   "sourcesMissed": [],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "first air year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 2013,
+     "proposed": 2013,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 2013,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Sleepy+Hollow&type=series&y=2013"
+      },
+      {
+       "src": "TMDB",
+       "value": 2013,
+       "url": "https://api.themoviedb.org/3/search/tv?api_key=REDACTED&query=Sleepy+Hollow"
+      }
+     ]
+    },
+    {
+     "field": "seasons",
+     "label": "seasons",
+     "soft": false,
+     "editionDependent": false,
+     "current": 4,
+     "proposed": 4,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 4,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Sleepy+Hollow&type=series&y=2013"
+      },
+      {
+       "src": "TMDB",
+       "value": 4,
+       "url": "https://api.themoviedb.org/3/search/tv?api_key=REDACTED&query=Sleepy+Hollow"
+      }
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "creator",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Alex Kurtzman, Roberto Orci, Phillip Iscove, Len Wiseman",
+     "proposed": "Alex Kurtzman, Roberto Orci, Phillip Iscove, Len Wiseman",
+     "status": "corroborated-by-one",
+     "grade": "B",
+     "note": "matches TMDB; disagrees with OMDb (\"Phillip Iscove, Alex Kurtzman, Roberto Orci\")",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": "Phillip Iscove, Alex Kurtzman, Roberto Orci",
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Sleepy+Hollow&type=series&y=2013"
+      },
+      {
+       "src": "TMDB",
+       "value": "Alex Kurtzman, Roberto Orci, Phillip Iscove, Len Wiseman",
+       "url": "https://api.themoviedb.org/3/search/tv?api_key=REDACTED&query=Sleepy+Hollow"
+      }
+     ],
+     "alternatives": [
+      "Alex Kurtzman, Roberto Orci, Phillip Iscove, Len Wiseman"
+     ]
+    },
+    {
+     "field": "network",
+     "label": "network / streamer",
+     "soft": true,
+     "editionDependent": false,
+     "current": "Fox",
+     "proposed": "FOX",
+     "status": "confirmed",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "TMDB",
+       "value": "FOX",
+       "url": "https://api.themoviedb.org/3/search/tv?api_key=REDACTED&query=Sleepy+Hollow"
+      }
+     ]
+    }
+   ]
+  }
+ ]
+}
