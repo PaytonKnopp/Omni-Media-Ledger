@@ -1267,6 +1267,58 @@ user's other applications (Discord/Steam/Firefox/WSL) that also show up in that 
 **Status at this checkpoint:** movies 1,393/2,000, TV 403/500, games 397/500, books 1,313/2,000
 (3,506/5,000 total, 70.1%).
 
+**Sixth round (movies batch 18, books batch 18, games batch 14) — not documented here at the time;
+recorded now for completeness.** Movies: thirty-eight titles closing prolific-director catalog gaps
+(six more Scorsese, three more Hitchcock, two Woody Allen, two Spielberg) plus a 2000s-2010s
+action-franchise dynasty sweep (xXx, The Transporter, Crank, Taken, The Equalizer, Sicario's sequel,
+three more Fast & Furious). Two near-misses caught before commit: a movie literally titled "Unknown"
+tripped the validator's placeholder regex (dropped, not fought — a correctly-behaving heuristic, not
+a bug); "Die Hard: With a Vengeance" collided with the already-present "Die Hard with a Vengeance"
+(the fifth documented near-miss of this shape, confirming the SERIES_DEFS cross-reference pass is a
+load-bearing second dedup check). Books: thirty-four titles, headlined by a surprisingly thin Stephen
+King catalog relative to his fame (twenty-one titles closed, including Black House as a sequel to the
+already-present The Talisman, the full Bill Hodges trilogy, and recent titles through 2023's Holly),
+plus a dark-academia/literary-mystery cluster and a handful of classic-literature gaps. Games: eight
+titles closed out the 500 target (original Fallout/Fallout 2, Splinter Cell x2, Max Payne 2/3, Cocoon,
+Alan Wake's American Nightmare) — **games and TV are both now done, at or past their 500 targets.**
+
+**Status at this checkpoint:** movies 1,518/2,000, TV 502/500 (done), games 507/500 (done), books
+1,422/2,000 (3,949/5,000 total, 79.0%). Remaining work is exclusively movies (~482 more) and books
+(~578 more).
+
+**Seventh round (movies batch 19, books batch 19), movies+books only.** Movies: thirty-six titles, an
+action/thriller catalog sweep spanning '80s-'90s Schwarzenegger/Stallone vehicles (Eraser, Commando,
+Rambo III, Rambo: Last Blood, Universal Soldier, Demolition Man), the full Expendables trilogy, and a
+run of late-'90s/2000s star-vehicle espionage-thrillers that had never been audited (Enemy of the
+State, Salt, Body of Lies, The International, Duplicity, Safe House, Jack Ryan: Shadow Recruit, and
+more). One title (Gone in 60 Seconds) reached only OMDb — TMDB had no match under that exact title —
+so it carries no `prov` stamp and its five rubric scores were general-knowledge estimates rather than
+substance-evidence-backed; flagged here per the disclosure standard since neither the evidence trail's
+own "NO tags at all" line nor an unstamped record is otherwise visible to a future reader of the
+corpus alone. SERIES_DEFS: Rambo extended to include Rambo III and Rambo: Last Blood (still missing
+the 2008 "Rambo," a real gap for a future round); new Expendables grouping added.
+
+Books: thirty-eight titles, a deliberate mainstream-bestseller-author sweep after a coverage audit
+found major commercial-fiction names sitting at zero or near-zero despite obvious fame: Tom Clancy
+(only The Hunt for Red October previously present — the other seven core Jack Ryan novels added),
+Dean Koontz, Clive Cussler, Janet Evanovich, Sue Grafton, David Baldacci, Harlan Coben, and Patricia
+Cornwell all had zero titles before this round; Nicholas Sparks had only The Notebook. Also closed
+four more James Patterson Alex Cross entries, two more Agatha Christie/Grisham/Connelly titles apiece.
+Five titles (Cat and Mouse, Pop Goes the Weasel, Violets Are Blue, Sahara, Absolute Power) reached zero
+fetch-substance tags — flagged the same way as Gone in 60 Seconds above, general-knowledge-estimate
+rubric scores rather than evidence-backed. One real correction from the fact-harness: The Cardinal of
+the Kremlin's page count (544 guessed → 562, matching Google Books, since neither source matched the
+guess and 562 is the more specific bibliographic figure). SERIES_DEFS: added Kinsey Millhone Alphabet
+Series (2 of the real 25-book bounded run). Deliberately did NOT add SERIES_DEFS entries for Jack Ryan,
+Alex Cross, Dirk Pitt, Kay Scarpetta, or Harry Bosch despite each having 2+ corpus members now — these
+are large, still-growing numbered series (20-30+ real entries each) where no clean "total" exists,
+matching the established precedent of leaving Discworld and Foundation ungrouped for the same reason;
+grouping them would either overclaim a total or need constant revision as more get added.
+
+**Status at this checkpoint:** movies 1,554/2,000, TV 502/500 (done), games 507/500 (done), books
+1,460/2,000 (4,023/5,000 total, 80.5%). Remaining work is exclusively movies (~446 more) and books
+(~540 more).
+
 ---
 
 ## Ideas / next steps
