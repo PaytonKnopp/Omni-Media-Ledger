@@ -1,0 +1,893 @@
+{
+ "medium": "book",
+ "generated": "2026-09-17T01:37:01.187Z",
+ "offline": false,
+ "sources": [
+  "OpenLibrary",
+  "Google Books",
+  "Wikidata"
+ ],
+ "works": [
+  {
+   "id": "b1180",
+   "title": "Death on the Nile",
+   "sourcesReached": [
+    "OpenLibrary",
+    "Google Books",
+    "Wikidata"
+   ],
+   "sourcesMissed": [],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "first publication year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 1937,
+     "proposed": 1937,
+     "status": "corroborated-by-one",
+     "grade": "B",
+     "note": "matches OpenLibrary/Wikidata; disagrees with Google Books (2022)",
+     "sources": [
+      {
+       "src": "OpenLibrary",
+       "value": 1937,
+       "url": "https://openlibrary.org/search.json?title=Death+on+the+Nile&limit=1"
+      },
+      {
+       "src": "Google Books",
+       "value": 2022,
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3ADeath+on+the+Nile&maxResults=1&key=REDACTED"
+      },
+      {
+       "src": "Wikidata",
+       "value": 1937,
+       "url": "https://www.wikidata.org/wiki/Q381756"
+      }
+     ],
+     "alternatives": [
+      2022
+     ]
+    },
+    {
+     "field": "pages",
+     "label": "page count",
+     "soft": false,
+     "editionDependent": true,
+     "current": 288,
+     "proposed": 384,
+     "status": "edition-dependent",
+     "grade": "B",
+     "note": "one source differs from the corpus (Google Books 384) on a field with no single true value -- likely a different printing/edition, not an error.",
+     "sources": [
+      {
+       "src": "Google Books",
+       "value": 384,
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3ADeath+on+the+Nile&maxResults=1&key=REDACTED"
+      }
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "author",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Agatha Christie",
+     "proposed": "Agatha Christie",
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OpenLibrary",
+       "value": "Agatha Christie",
+       "url": "https://openlibrary.org/search.json?title=Death+on+the+Nile&limit=1"
+      },
+      {
+       "src": "Google Books",
+       "value": "Agatha Christie",
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3ADeath+on+the+Nile&maxResults=1&key=REDACTED"
+      },
+      {
+       "src": "Wikidata",
+       "value": "Agatha Christie",
+       "url": "https://www.wikidata.org/wiki/Q381756"
+      }
+     ]
+    },
+    {
+     "field": "publisher",
+     "label": "publisher",
+     "soft": true,
+     "editionDependent": true,
+     "current": "Collins Crime Club",
+     "proposed": "Collins Crime Club",
+     "status": "corroborated-by-one",
+     "grade": "B",
+     "note": "matches Wikidata; disagrees with Google Books (\"HarperCollins\")",
+     "sources": [
+      {
+       "src": "Google Books",
+       "value": "HarperCollins",
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3ADeath+on+the+Nile&maxResults=1&key=REDACTED"
+      },
+      {
+       "src": "Wikidata",
+       "value": "Collins Crime Club",
+       "url": "https://www.wikidata.org/wiki/Q381756"
+      }
+     ],
+     "alternatives": [
+      "Collins Crime Club"
+     ]
+    }
+   ]
+  },
+  {
+   "id": "b1181",
+   "title": "The Murder of Roger Ackroyd",
+   "sourcesReached": [
+    "OpenLibrary",
+    "Google Books",
+    "Wikidata"
+   ],
+   "sourcesMissed": [],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "first publication year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 1926,
+     "proposed": 1926,
+     "status": "corroborated-by-one",
+     "grade": "B",
+     "note": "matches OpenLibrary/Wikidata; disagrees with Google Books (2000)",
+     "sources": [
+      {
+       "src": "OpenLibrary",
+       "value": 1926,
+       "url": "https://openlibrary.org/search.json?title=The+Murder+of+Roger+Ackroyd&limit=1"
+      },
+      {
+       "src": "Google Books",
+       "value": 2000,
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3AThe+Murder+of+Roger+Ackroyd&maxResults=1&key=REDACTED"
+      },
+      {
+       "src": "Wikidata",
+       "value": 1926,
+       "url": "https://www.wikidata.org/wiki/Q224078"
+      }
+     ],
+     "alternatives": [
+      2000
+     ]
+    },
+    {
+     "field": "pages",
+     "label": "page count",
+     "soft": false,
+     "editionDependent": true,
+     "current": 312,
+     "proposed": 260,
+     "status": "edition-dependent",
+     "grade": "B",
+     "note": "one source differs from the corpus (Google Books 260) on a field with no single true value -- likely a different printing/edition, not an error.",
+     "sources": [
+      {
+       "src": "Google Books",
+       "value": 260,
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3AThe+Murder+of+Roger+Ackroyd&maxResults=1&key=REDACTED"
+      }
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "author",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Agatha Christie",
+     "proposed": "Agatha Christie",
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OpenLibrary",
+       "value": "Agatha Christie",
+       "url": "https://openlibrary.org/search.json?title=The+Murder+of+Roger+Ackroyd&limit=1"
+      },
+      {
+       "src": "Google Books",
+       "value": "Agatha Christie",
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3AThe+Murder+of+Roger+Ackroyd&maxResults=1&key=REDACTED"
+      },
+      {
+       "src": "Wikidata",
+       "value": "Agatha Christie",
+       "url": "https://www.wikidata.org/wiki/Q224078"
+      }
+     ]
+    },
+    {
+     "field": "publisher",
+     "label": "publisher",
+     "soft": true,
+     "editionDependent": true,
+     "current": "Collins Crime Club",
+     "proposed": "Berkley",
+     "status": "edition-dependent",
+     "grade": "B",
+     "note": "corpus value does not match either source (Google Books \"Berkley\", Wikidata \"William Collins, Sons\") -- treated as a distinct edition; the specific cut is not identified from available evidence.",
+     "sources": [
+      {
+       "src": "Google Books",
+       "value": "Berkley",
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3AThe+Murder+of+Roger+Ackroyd&maxResults=1&key=REDACTED"
+      },
+      {
+       "src": "Wikidata",
+       "value": "William Collins, Sons",
+       "url": "https://www.wikidata.org/wiki/Q224078"
+      }
+     ],
+     "alternatives": [
+      "William Collins, Sons"
+     ]
+    }
+   ]
+  },
+  {
+   "id": "b1182",
+   "title": "A Study in Scarlet",
+   "sourcesReached": [
+    "OpenLibrary",
+    "Google Books",
+    "Wikidata"
+   ],
+   "sourcesMissed": [],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "first publication year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 1887,
+     "proposed": 1887,
+     "status": "corroborated-by-one",
+     "grade": "B",
+     "note": "matches OpenLibrary/Wikidata; disagrees with Google Books (2007)",
+     "sources": [
+      {
+       "src": "OpenLibrary",
+       "value": 1887,
+       "url": "https://openlibrary.org/search.json?title=A+Study+in+Scarlet&limit=1"
+      },
+      {
+       "src": "Google Books",
+       "value": 2007,
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3AA+Study+in+Scarlet&maxResults=1&key=REDACTED"
+      },
+      {
+       "src": "Wikidata",
+       "value": 1887,
+       "url": "https://www.wikidata.org/wiki/Q223131"
+      }
+     ],
+     "alternatives": [
+      2007
+     ]
+    },
+    {
+     "field": "pages",
+     "label": "page count",
+     "soft": false,
+     "editionDependent": true,
+     "current": 153,
+     "proposed": 162,
+     "status": "edition-dependent",
+     "grade": "B",
+     "note": "one source differs from the corpus (Google Books 162) on a field with no single true value -- likely a different printing/edition, not an error.",
+     "sources": [
+      {
+       "src": "Google Books",
+       "value": 162,
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3AA+Study+in+Scarlet&maxResults=1&key=REDACTED"
+      }
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "author",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Arthur Conan Doyle",
+     "proposed": "Arthur Conan Doyle",
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OpenLibrary",
+       "value": "Arthur Conan Doyle",
+       "url": "https://openlibrary.org/search.json?title=A+Study+in+Scarlet&limit=1"
+      },
+      {
+       "src": "Google Books",
+       "value": "Arthur Conan Doyle",
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3AA+Study+in+Scarlet&maxResults=1&key=REDACTED"
+      },
+      {
+       "src": "Wikidata",
+       "value": "Arthur Conan Doyle",
+       "url": "https://www.wikidata.org/wiki/Q223131"
+      }
+     ]
+    },
+    {
+     "field": "publisher",
+     "label": "publisher",
+     "soft": true,
+     "editionDependent": true,
+     "current": "Ward Lock & Co.",
+     "proposed": "Ward Lock & Co.",
+     "status": "corroborated-by-one",
+     "grade": "B",
+     "note": "matches Wikidata; disagrees with Google Books (\"Modern Library\")",
+     "sources": [
+      {
+       "src": "Google Books",
+       "value": "Modern Library",
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3AA+Study+in+Scarlet&maxResults=1&key=REDACTED"
+      },
+      {
+       "src": "Wikidata",
+       "value": "Ward, Lock & Co.",
+       "url": "https://www.wikidata.org/wiki/Q223131"
+      }
+     ],
+     "alternatives": [
+      "Ward, Lock & Co."
+     ]
+    }
+   ]
+  },
+  {
+   "id": "b1183",
+   "title": "Gone Girl",
+   "sourcesReached": [
+    "OpenLibrary",
+    "Wikidata"
+   ],
+   "sourcesMissed": [
+    "Google Books (no match)"
+   ],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "first publication year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 2012,
+     "proposed": 2012,
+     "status": "corroborated-by-one",
+     "grade": "B",
+     "note": "matches Wikidata; disagrees with OpenLibrary (2011)",
+     "sources": [
+      {
+       "src": "OpenLibrary",
+       "value": 2011,
+       "url": "https://openlibrary.org/search.json?title=Gone+Girl&limit=1"
+      },
+      {
+       "src": "Wikidata",
+       "value": 2012,
+       "url": "https://www.wikidata.org/wiki/Q5581570"
+      }
+     ],
+     "alternatives": [
+      2012
+     ]
+    },
+    {
+     "field": "pages",
+     "label": "page count",
+     "soft": false,
+     "current": 432,
+     "status": "no-source",
+     "grade": null,
+     "sources": []
+    },
+    {
+     "field": "creator",
+     "label": "author",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Gillian Flynn",
+     "proposed": "Gillian Flynn",
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OpenLibrary",
+       "value": "Gillian Flynn",
+       "url": "https://openlibrary.org/search.json?title=Gone+Girl&limit=1"
+      },
+      {
+       "src": "Wikidata",
+       "value": "Gillian Flynn",
+       "url": "https://www.wikidata.org/wiki/Q5581570"
+      }
+     ]
+    },
+    {
+     "field": "publisher",
+     "label": "publisher",
+     "soft": true,
+     "current": "Crown Publishing",
+     "status": "no-source",
+     "grade": null,
+     "sources": []
+    }
+   ]
+  },
+  {
+   "id": "b1184",
+   "title": "Jurassic Park",
+   "sourcesReached": [
+    "OpenLibrary",
+    "Google Books"
+   ],
+   "sourcesMissed": [
+    "Wikidata (no match)"
+   ],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "first publication year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 1990,
+     "proposed": 1990,
+     "status": "corroborated-by-one",
+     "grade": "B",
+     "note": "matches OpenLibrary; disagrees with Google Books (2007)",
+     "sources": [
+      {
+       "src": "OpenLibrary",
+       "value": 1990,
+       "url": "https://openlibrary.org/search.json?title=Jurassic+Park&limit=1"
+      },
+      {
+       "src": "Google Books",
+       "value": 2007,
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3AJurassic+Park&maxResults=1&key=REDACTED"
+      }
+     ],
+     "alternatives": [
+      2007
+     ]
+    },
+    {
+     "field": "pages",
+     "label": "page count",
+     "soft": false,
+     "editionDependent": true,
+     "current": 399,
+     "proposed": 571,
+     "status": "edition-dependent",
+     "grade": "B",
+     "note": "one source differs from the corpus (Google Books 571) on a field with no single true value -- likely a different printing/edition, not an error.",
+     "sources": [
+      {
+       "src": "Google Books",
+       "value": 571,
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3AJurassic+Park&maxResults=1&key=REDACTED"
+      }
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "author",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Michael Crichton",
+     "proposed": "Michael Crichton",
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OpenLibrary",
+       "value": "Michael Crichton",
+       "url": "https://openlibrary.org/search.json?title=Jurassic+Park&limit=1"
+      },
+      {
+       "src": "Google Books",
+       "value": "Michael Crichton",
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3AJurassic+Park&maxResults=1&key=REDACTED"
+      }
+     ]
+    },
+    {
+     "field": "publisher",
+     "label": "publisher",
+     "soft": true,
+     "current": "Alfred A. Knopf",
+     "status": "no-source",
+     "grade": null,
+     "sources": []
+    }
+   ]
+  },
+  {
+   "id": "b1185",
+   "title": "The Andromeda Strain",
+   "sourcesReached": [
+    "OpenLibrary",
+    "Google Books",
+    "Wikidata"
+   ],
+   "sourcesMissed": [],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "first publication year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 1969,
+     "proposed": 1969,
+     "status": "corroborated-by-one",
+     "grade": "B",
+     "note": "matches OpenLibrary/Wikidata; disagrees with Google Books (2012)",
+     "sources": [
+      {
+       "src": "OpenLibrary",
+       "value": 1969,
+       "url": "https://openlibrary.org/search.json?title=The+Andromeda+Strain&limit=1"
+      },
+      {
+       "src": "Google Books",
+       "value": 2012,
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3AThe+Andromeda+Strain&maxResults=1&key=REDACTED"
+      },
+      {
+       "src": "Wikidata",
+       "value": 1969,
+       "url": "https://www.wikidata.org/wiki/Q513036"
+      }
+     ],
+     "alternatives": [
+      2012
+     ]
+    },
+    {
+     "field": "pages",
+     "label": "page count",
+     "soft": false,
+     "editionDependent": true,
+     "current": 295,
+     "proposed": 276,
+     "status": "edition-dependent",
+     "grade": "B",
+     "note": "one source differs from the corpus (Google Books 276) on a field with no single true value -- likely a different printing/edition, not an error.",
+     "sources": [
+      {
+       "src": "Google Books",
+       "value": 276,
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3AThe+Andromeda+Strain&maxResults=1&key=REDACTED"
+      }
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "author",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Michael Crichton",
+     "proposed": "Michael Crichton",
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OpenLibrary",
+       "value": "Michael Crichton",
+       "url": "https://openlibrary.org/search.json?title=The+Andromeda+Strain&limit=1"
+      },
+      {
+       "src": "Google Books",
+       "value": "Michael Crichton",
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3AThe+Andromeda+Strain&maxResults=1&key=REDACTED"
+      },
+      {
+       "src": "Wikidata",
+       "value": "Michael Crichton",
+       "url": "https://www.wikidata.org/wiki/Q513036"
+      }
+     ]
+    },
+    {
+     "field": "publisher",
+     "label": "publisher",
+     "soft": true,
+     "editionDependent": true,
+     "current": "Alfred A. Knopf",
+     "proposed": "Vintage",
+     "status": "edition-dependent",
+     "grade": "B",
+     "note": "one source differs from the corpus (Google Books \"Vintage\") on a field with no single true value -- likely a different printing/edition, not an error.",
+     "sources": [
+      {
+       "src": "Google Books",
+       "value": "Vintage",
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3AThe+Andromeda+Strain&maxResults=1&key=REDACTED"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "b1186",
+   "title": "Sphere",
+   "sourcesReached": [
+    "OpenLibrary",
+    "Wikidata"
+   ],
+   "sourcesMissed": [
+    "Google Books (no match)"
+   ],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "first publication year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 1987,
+     "proposed": 1987,
+     "status": "corroborated-by-one",
+     "grade": "B",
+     "note": "matches Wikidata; disagrees with OpenLibrary (1980)",
+     "sources": [
+      {
+       "src": "OpenLibrary",
+       "value": 1980,
+       "url": "https://openlibrary.org/search.json?title=Sphere&limit=1"
+      },
+      {
+       "src": "Wikidata",
+       "value": 1987,
+       "url": "https://www.wikidata.org/wiki/Q1666691"
+      }
+     ],
+     "alternatives": [
+      1987
+     ]
+    },
+    {
+     "field": "pages",
+     "label": "page count",
+     "soft": false,
+     "current": 385,
+     "status": "no-source",
+     "grade": null,
+     "sources": []
+    },
+    {
+     "field": "creator",
+     "label": "author",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Michael Crichton",
+     "proposed": "Michael Crichton",
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OpenLibrary",
+       "value": "Michael Crichton",
+       "url": "https://openlibrary.org/search.json?title=Sphere&limit=1"
+      },
+      {
+       "src": "Wikidata",
+       "value": "Michael Crichton",
+       "url": "https://www.wikidata.org/wiki/Q1666691"
+      }
+     ]
+    },
+    {
+     "field": "publisher",
+     "label": "publisher",
+     "soft": true,
+     "editionDependent": true,
+     "current": "Alfred A. Knopf",
+     "proposed": "Alfred A. Knopf",
+     "status": "confirmed",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "Wikidata",
+       "value": "Alfred A. Knopf",
+       "url": "https://www.wikidata.org/wiki/Q1666691"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "b1187",
+   "title": "Congo",
+   "sourcesReached": [
+    "OpenLibrary"
+   ],
+   "sourcesMissed": [
+    "Google Books (no match)",
+    "Wikidata (no match)"
+   ],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "first publication year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 1980,
+     "proposed": 1980,
+     "status": "confirmed",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "OpenLibrary",
+       "value": 1980,
+       "url": "https://openlibrary.org/search.json?title=Congo&limit=1"
+      }
+     ]
+    },
+    {
+     "field": "pages",
+     "label": "page count",
+     "soft": false,
+     "current": 348,
+     "status": "no-source",
+     "grade": null,
+     "sources": []
+    },
+    {
+     "field": "creator",
+     "label": "author",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Michael Crichton",
+     "proposed": "Michael Crichton",
+     "status": "confirmed",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "OpenLibrary",
+       "value": "Michael Crichton",
+       "url": "https://openlibrary.org/search.json?title=Congo&limit=1"
+      }
+     ]
+    },
+    {
+     "field": "publisher",
+     "label": "publisher",
+     "soft": true,
+     "current": "Alfred A. Knopf",
+     "status": "no-source",
+     "grade": null,
+     "sources": []
+    }
+   ]
+  },
+  {
+   "id": "b1188",
+   "title": "Foundation and Earth",
+   "sourcesReached": [
+    "OpenLibrary",
+    "Google Books",
+    "Wikidata"
+   ],
+   "sourcesMissed": [],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "first publication year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 1986,
+     "proposed": 1986,
+     "status": "corroborated-by-one",
+     "grade": "B",
+     "note": "matches OpenLibrary/Wikidata; disagrees with Google Books (2012)",
+     "sources": [
+      {
+       "src": "OpenLibrary",
+       "value": 1986,
+       "url": "https://openlibrary.org/search.json?title=Foundation+and+Earth&limit=1"
+      },
+      {
+       "src": "Google Books",
+       "value": 2012,
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3AFoundation+and+Earth&maxResults=1&key=REDACTED"
+      },
+      {
+       "src": "Wikidata",
+       "value": 1986,
+       "url": "https://www.wikidata.org/wiki/Q1050014"
+      }
+     ],
+     "alternatives": [
+      2012
+     ]
+    },
+    {
+     "field": "pages",
+     "label": "page count",
+     "soft": false,
+     "editionDependent": true,
+     "current": 356,
+     "proposed": 502,
+     "status": "edition-dependent",
+     "grade": "B",
+     "note": "one source differs from the corpus (Google Books 502) on a field with no single true value -- likely a different printing/edition, not an error.",
+     "sources": [
+      {
+       "src": "Google Books",
+       "value": 502,
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3AFoundation+and+Earth&maxResults=1&key=REDACTED"
+      }
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "author",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Isaac Asimov",
+     "proposed": "Isaac Asimov",
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OpenLibrary",
+       "value": "Isaac Asimov",
+       "url": "https://openlibrary.org/search.json?title=Foundation+and+Earth&limit=1"
+      },
+      {
+       "src": "Google Books",
+       "value": "Isaac Asimov",
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3AFoundation+and+Earth&maxResults=1&key=REDACTED"
+      },
+      {
+       "src": "Wikidata",
+       "value": "Isaac Asimov",
+       "url": "https://www.wikidata.org/wiki/Q1050014"
+      }
+     ]
+    },
+    {
+     "field": "publisher",
+     "label": "publisher",
+     "soft": true,
+     "editionDependent": true,
+     "current": "Doubleday",
+     "proposed": "Doubleday",
+     "status": "corroborated-by-one",
+     "grade": "B",
+     "note": "matches Wikidata; disagrees with Google Books (\"Del Rey\")",
+     "sources": [
+      {
+       "src": "Google Books",
+       "value": "Del Rey",
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3AFoundation+and+Earth&maxResults=1&key=REDACTED"
+      },
+      {
+       "src": "Wikidata",
+       "value": "Doubleday",
+       "url": "https://www.wikidata.org/wiki/Q1050014"
+      }
+     ],
+     "alternatives": [
+      "Doubleday"
+     ]
+    }
+   ]
+  }
+ ]
+}
