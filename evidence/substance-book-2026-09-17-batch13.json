@@ -1,0 +1,943 @@
+{
+ "medium": "book",
+ "generated": "2026-09-17T07:50:00.520Z",
+ "offline": false,
+ "includesProse": false,
+ "works": [
+  {
+   "id": "b1252",
+   "title": "Harry Potter and the Sorcerer's Stone",
+   "year": 1997,
+   "corpusGenres": [
+    "Fantasy",
+    "Coming-of-Age"
+   ],
+   "tags": [
+    "juvenile fiction",
+    "young adult fiction",
+    "fantasy",
+    "adventure fiction",
+    "magician",
+    "philosopher's stone"
+   ],
+   "sourceGenres": [],
+   "sources": [
+    {
+     "src": "Google Books",
+     "matchedTitle": "Harry Potter and the Sorcerer's Stone",
+     "url": "https://www.googleapis.com/books/v1/volumes?q=intitle:Harry%20Potter%20and%20the%20Sorcerer's%20Stone"
+    },
+    {
+     "src": "Wikidata",
+     "matchedTitle": "Harry Potter and the Philosopher's Stone",
+     "url": "https://www.wikidata.org/wiki/Q43361"
+    }
+   ],
+   "missed": [
+    "OpenLibrary (title matched but author \"Drew Struzan\" does not -- likely a different book titled \"Harry Potter and the Sorcerer's Stone\")"
+   ],
+   "coverage": 6
+  },
+  {
+   "id": "b1253",
+   "title": "Harry Potter and the Chamber of Secrets",
+   "year": 1998,
+   "corpusGenres": [
+    "Fantasy",
+    "Coming-of-Age"
+   ],
+   "tags": [
+    "juvenile fiction",
+    "young adult fiction",
+    "fantasy",
+    "adventure fiction",
+    "magician"
+   ],
+   "sourceGenres": [],
+   "sources": [
+    {
+     "src": "OpenLibrary",
+     "matchedTitle": "Harry Potter and the Chamber of Secrets",
+     "url": "https://openlibrary.org/search.json?title=Harry%20Potter%20and%20the%20Chamber%20of%20Secrets"
+    },
+    {
+     "src": "Google Books",
+     "matchedTitle": "Harry Potter and the Chamber of Secrets",
+     "url": "https://www.googleapis.com/books/v1/volumes?q=intitle:Harry%20Potter%20and%20the%20Chamber%20of%20Secrets"
+    },
+    {
+     "src": "Wikidata",
+     "matchedTitle": "Harry Potter and the Chamber of Secrets",
+     "url": "https://www.wikidata.org/wiki/Q47209"
+    }
+   ],
+   "missed": [],
+   "coverage": 5
+  },
+  {
+   "id": "b1254",
+   "title": "Harry Potter and the Prisoner of Azkaban",
+   "year": 1999,
+   "corpusGenres": [
+    "Fantasy",
+    "Coming-of-Age"
+   ],
+   "tags": [
+    "juvenile fiction",
+    "young adult fiction",
+    "fantasy",
+    "adventure fiction",
+    "wizard in the harry potter universe",
+    "magic in harry potter"
+   ],
+   "sourceGenres": [],
+   "sources": [
+    {
+     "src": "OpenLibrary",
+     "matchedTitle": "Harry Potter and the Prisoner of Azkaban",
+     "url": "https://openlibrary.org/search.json?title=Harry%20Potter%20and%20the%20Prisoner%20of%20Azkaban"
+    },
+    {
+     "src": "Google Books",
+     "matchedTitle": "Harry Potter and the Prisoner of Azkaban",
+     "url": "https://www.googleapis.com/books/v1/volumes?q=intitle:Harry%20Potter%20and%20the%20Prisoner%20of%20Azkaban"
+    },
+    {
+     "src": "Wikidata",
+     "matchedTitle": "Harry Potter and the Prisoner of Azkaban",
+     "url": "https://www.wikidata.org/wiki/Q47598"
+    }
+   ],
+   "missed": [],
+   "coverage": 6
+  },
+  {
+   "id": "b1255",
+   "title": "Harry Potter and the Goblet of Fire",
+   "year": 2000,
+   "corpusGenres": [
+    "Fantasy",
+    "Coming-of-Age"
+   ],
+   "tags": [
+    "fantasy",
+    "adventure fiction",
+    "young adult fiction"
+   ],
+   "sourceGenres": [],
+   "sources": [
+    {
+     "src": "OpenLibrary",
+     "matchedTitle": "Harry Potter and the Goblet of Fire",
+     "url": "https://openlibrary.org/search.json?title=Harry%20Potter%20and%20the%20Goblet%20of%20Fire"
+    },
+    {
+     "src": "Google Books",
+     "matchedTitle": "Harry Potter and the Goblet of Fire",
+     "url": "https://www.googleapis.com/books/v1/volumes?q=intitle:Harry%20Potter%20and%20the%20Goblet%20of%20Fire"
+    },
+    {
+     "src": "Wikidata",
+     "matchedTitle": "Harry Potter and the Goblet of Fire",
+     "url": "https://www.wikidata.org/wiki/Q46751"
+    }
+   ],
+   "missed": [],
+   "coverage": 3
+  },
+  {
+   "id": "b1256",
+   "title": "Harry Potter and the Order of the Phoenix",
+   "year": 2003,
+   "corpusGenres": [
+    "Fantasy",
+    "Coming-of-Age"
+   ],
+   "tags": [
+    "juvenile fiction",
+    "fantasy",
+    "young adult fiction",
+    "adventure fiction"
+   ],
+   "sourceGenres": [],
+   "sources": [
+    {
+     "src": "OpenLibrary",
+     "matchedTitle": "Harry Potter and the Order of the Phoenix",
+     "url": "https://openlibrary.org/search.json?title=Harry%20Potter%20and%20the%20Order%20of%20the%20Phoenix"
+    },
+    {
+     "src": "Google Books",
+     "matchedTitle": "Harry Potter and the Order of the Phoenix",
+     "url": "https://www.googleapis.com/books/v1/volumes?q=intitle:Harry%20Potter%20and%20the%20Order%20of%20the%20Phoenix"
+    },
+    {
+     "src": "Wikidata",
+     "matchedTitle": "Harry Potter and the Order of the Phoenix",
+     "url": "https://www.wikidata.org/wiki/Q80817"
+    }
+   ],
+   "missed": [],
+   "coverage": 4
+  },
+  {
+   "id": "b1257",
+   "title": "Harry Potter and the Half-Blood Prince",
+   "year": 2005,
+   "corpusGenres": [
+    "Fantasy",
+    "Coming-of-Age"
+   ],
+   "tags": [
+    "juvenile fiction",
+    "young adult fiction",
+    "fantasy",
+    "adventure fiction"
+   ],
+   "sourceGenres": [],
+   "sources": [
+    {
+     "src": "OpenLibrary",
+     "matchedTitle": "Harry Potter and the Half-Blood Prince",
+     "url": "https://openlibrary.org/search.json?title=Harry%20Potter%20and%20the%20Half-Blood%20Prince"
+    },
+    {
+     "src": "Google Books",
+     "matchedTitle": "Harry Potter and the Half-Blood Prince",
+     "url": "https://www.googleapis.com/books/v1/volumes?q=intitle:Harry%20Potter%20and%20the%20Half-Blood%20Prince"
+    },
+    {
+     "src": "Wikidata",
+     "matchedTitle": "Harry Potter and the Half-Blood Prince",
+     "url": "https://www.wikidata.org/wiki/Q46887"
+    }
+   ],
+   "missed": [],
+   "coverage": 4
+  },
+  {
+   "id": "b1258",
+   "title": "Harry Potter and the Deathly Hallows",
+   "year": 2007,
+   "corpusGenres": [
+    "Fantasy",
+    "Coming-of-Age"
+   ],
+   "tags": [
+    "juvenile fiction",
+    "fantasy",
+    "adventure fiction",
+    "young adult fiction",
+    "magic in harry potter",
+    "harry potter"
+   ],
+   "sourceGenres": [],
+   "sources": [
+    {
+     "src": "OpenLibrary",
+     "matchedTitle": "Harry Potter and the Deathly Hallows",
+     "url": "https://openlibrary.org/search.json?title=Harry%20Potter%20and%20the%20Deathly%20Hallows"
+    },
+    {
+     "src": "Google Books",
+     "matchedTitle": "Harry Potter and the Deathly Hallows",
+     "url": "https://www.googleapis.com/books/v1/volumes?q=intitle:Harry%20Potter%20and%20the%20Deathly%20Hallows"
+    },
+    {
+     "src": "Wikidata",
+     "matchedTitle": "Harry Potter and the Deathly Hallows",
+     "url": "https://www.wikidata.org/wiki/Q46758"
+    }
+   ],
+   "missed": [],
+   "coverage": 6
+  },
+  {
+   "id": "b1259",
+   "title": "A Feast for Crows",
+   "year": 2005,
+   "corpusGenres": [
+    "Fantasy",
+    "Epic"
+   ],
+   "tags": [
+    "fiction",
+    "fantasy"
+   ],
+   "sourceGenres": [],
+   "sources": [
+    {
+     "src": "OpenLibrary",
+     "matchedTitle": "A Feast for Crows",
+     "url": "https://openlibrary.org/search.json?title=A%20Feast%20for%20Crows"
+    },
+    {
+     "src": "Google Books",
+     "matchedTitle": "A Feast for Crows",
+     "url": "https://www.googleapis.com/books/v1/volumes?q=intitle:A%20Feast%20for%20Crows"
+    },
+    {
+     "src": "Wikidata",
+     "matchedTitle": "A Feast for Crows",
+     "url": "https://www.wikidata.org/wiki/Q1764445"
+    }
+   ],
+   "missed": [],
+   "coverage": 2
+  },
+  {
+   "id": "b1260",
+   "title": "A Dance with Dragons",
+   "year": 2011,
+   "corpusGenres": [
+    "Fantasy",
+    "Epic"
+   ],
+   "tags": [
+    "fiction",
+    "high fantasy",
+    "fantasy"
+   ],
+   "sourceGenres": [],
+   "sources": [
+    {
+     "src": "OpenLibrary",
+     "matchedTitle": "A Dance With Dragons",
+     "url": "https://openlibrary.org/search.json?title=A%20Dance%20with%20Dragons"
+    },
+    {
+     "src": "Google Books",
+     "matchedTitle": "A Dance with Dragons",
+     "url": "https://www.googleapis.com/books/v1/volumes?q=intitle:A%20Dance%20with%20Dragons"
+    },
+    {
+     "src": "Wikidata",
+     "matchedTitle": "A Dance with Dragons",
+     "url": "https://www.wikidata.org/wiki/Q28306"
+    }
+   ],
+   "missed": [],
+   "coverage": 3
+  },
+  {
+   "id": "b1261",
+   "title": "Inferno",
+   "year": 2013,
+   "corpusGenres": [
+    "Thriller",
+    "Mystery"
+   ],
+   "tags": [],
+   "sourceGenres": [],
+   "sources": [],
+   "missed": [
+    "OpenLibrary (title matched but author \"Dante Alighieri\" does not -- likely a different book titled \"Inferno\")",
+    "Google Books (title matched but author \"Dante Alighieri & Ciaran Carson\" does not -- likely a different book titled \"Inferno\")",
+    "Wikidata (title matched but credited \"Judith Reeves-Stevens & Garfield Reeves-Stevens\" does not -- likely a different work titled \"Inferno\")"
+   ],
+   "coverage": 0
+  },
+  {
+   "id": "b1262",
+   "title": "Gone with the Wind",
+   "year": 1936,
+   "corpusGenres": [
+    "Historical",
+    "Romance"
+   ],
+   "tags": [
+    "epic",
+    "historical novel",
+    "romance novel",
+    "american civil war"
+   ],
+   "sourceGenres": [],
+   "sources": [
+    {
+     "src": "OpenLibrary",
+     "matchedTitle": "Gone With the Wind",
+     "url": "https://openlibrary.org/search.json?title=Gone%20with%20the%20Wind"
+    },
+    {
+     "src": "Wikidata",
+     "matchedTitle": "Gone with the Wind",
+     "url": "https://www.wikidata.org/wiki/Q2870"
+    }
+   ],
+   "missed": [
+    "Google Books (title matched but author \"Sidney Coe Howard\" does not -- likely a different book titled \"Gone with the Wind\")"
+   ],
+   "coverage": 4
+  },
+  {
+   "id": "b1263",
+   "title": "Prince Caspian",
+   "year": 1951,
+   "corpusGenres": [
+    "Fantasy"
+   ],
+   "tags": [
+    "fantasy",
+    "high fantasy",
+    "children's fiction",
+    "orphan",
+    "narnia"
+   ],
+   "sourceGenres": [],
+   "sources": [
+    {
+     "src": "OpenLibrary",
+     "matchedTitle": "Prince Caspian",
+     "url": "https://openlibrary.org/search.json?title=Prince%20Caspian"
+    },
+    {
+     "src": "Google Books",
+     "matchedTitle": "Prince Caspian",
+     "url": "https://www.googleapis.com/books/v1/volumes?q=intitle:Prince%20Caspian"
+    },
+    {
+     "src": "Wikidata",
+     "matchedTitle": "Prince Caspian",
+     "url": "https://www.wikidata.org/wiki/Q218950"
+    }
+   ],
+   "missed": [],
+   "coverage": 5
+  },
+  {
+   "id": "b1264",
+   "title": "Life of Pi",
+   "year": 2001,
+   "corpusGenres": [
+    "Literary Fiction",
+    "Adventure"
+   ],
+   "tags": [
+    "fiction",
+    "fantasy",
+    "adventure fiction",
+    "philosophical fiction",
+    "magic realist fiction"
+   ],
+   "sourceGenres": [],
+   "sources": [
+    {
+     "src": "OpenLibrary",
+     "matchedTitle": "Life of Pi",
+     "url": "https://openlibrary.org/search.json?title=Life%20of%20Pi"
+    },
+    {
+     "src": "Google Books",
+     "matchedTitle": "Life of Pi",
+     "url": "https://www.googleapis.com/books/v1/volumes?q=intitle:Life%20of%20Pi"
+    },
+    {
+     "src": "Wikidata",
+     "matchedTitle": "Life of Pi",
+     "url": "https://www.wikidata.org/wiki/Q374204"
+    }
+   ],
+   "missed": [],
+   "coverage": 5
+  },
+  {
+   "id": "b1265",
+   "title": "The Help",
+   "year": 2009,
+   "corpusGenres": [
+    "Historical Drama",
+    "Family Drama"
+   ],
+   "tags": [
+    "fiction",
+    "historical fiction",
+    "african americans",
+    "1960s",
+    "united states",
+    "domestic worker",
+    "racial segregation"
+   ],
+   "sourceGenres": [],
+   "sources": [
+    {
+     "src": "OpenLibrary",
+     "matchedTitle": "The Help",
+     "url": "https://openlibrary.org/search.json?title=The%20Help"
+    },
+    {
+     "src": "Google Books",
+     "matchedTitle": "help : il vento della libertà inizia a soffiare",
+     "url": "https://www.googleapis.com/books/v1/volumes?q=intitle:The%20Help"
+    },
+    {
+     "src": "Wikidata",
+     "matchedTitle": "The Help",
+     "url": "https://www.wikidata.org/wiki/Q461303"
+    }
+   ],
+   "missed": [],
+   "coverage": 7
+  },
+  {
+   "id": "b1266",
+   "title": "The Nightingale",
+   "year": 2015,
+   "corpusGenres": [
+    "Historical Drama",
+    "War"
+   ],
+   "tags": [],
+   "sourceGenres": [],
+   "sources": [
+    {
+     "src": "OpenLibrary",
+     "matchedTitle": "The Nightingale",
+     "url": "https://openlibrary.org/search.json?title=The%20Nightingale"
+    }
+   ],
+   "missed": [
+    "Google Books (title matched but author \"J. W. H. Atkins\" does not -- likely a different book titled \"The Nightingale\")",
+    "Wikidata (title matched but credited \"Hans Christian Andersen\" does not -- likely a different work titled \"The Nightingale\")"
+   ],
+   "coverage": 0
+  },
+  {
+   "id": "b1267",
+   "title": "Vampire Academy",
+   "year": 2007,
+   "corpusGenres": [
+    "Vampire",
+    "Romance"
+   ],
+   "tags": [
+    "young adult fiction",
+    "dark fantasy",
+    "paranormal romance",
+    "vampire fiction",
+    "romantic fiction",
+    "fantasy",
+    "urban fantasy"
+   ],
+   "sourceGenres": [],
+   "sources": [
+    {
+     "src": "OpenLibrary",
+     "matchedTitle": "Vampire Academy",
+     "url": "https://openlibrary.org/search.json?title=Vampire%20Academy"
+    },
+    {
+     "src": "Google Books",
+     "matchedTitle": "Vampire Academy (book 1)",
+     "url": "https://www.googleapis.com/books/v1/volumes?q=intitle:Vampire%20Academy"
+    },
+    {
+     "src": "Wikidata",
+     "matchedTitle": "Vampire Academy",
+     "url": "https://www.wikidata.org/wiki/Q886816"
+    }
+   ],
+   "missed": [],
+   "coverage": 7
+  },
+  {
+   "id": "b1268",
+   "title": "City of Bones",
+   "year": 2007,
+   "corpusGenres": [
+    "Fantasy",
+    "Romance"
+   ],
+   "tags": [
+    "juvenile fiction",
+    "young adult fiction",
+    "fantasy",
+    "thriller"
+   ],
+   "sourceGenres": [],
+   "sources": [
+    {
+     "src": "OpenLibrary",
+     "matchedTitle": "City of Bones",
+     "url": "https://openlibrary.org/search.json?title=City%20of%20Bones"
+    },
+    {
+     "src": "Google Books",
+     "matchedTitle": "City of Bones",
+     "url": "https://www.googleapis.com/books/v1/volumes?q=intitle:City%20of%20Bones"
+    },
+    {
+     "src": "Wikidata",
+     "matchedTitle": "City of Bones",
+     "url": "https://www.wikidata.org/wiki/Q589106"
+    }
+   ],
+   "missed": [],
+   "coverage": 4
+  },
+  {
+   "id": "b1269",
+   "title": "Ready Player One",
+   "year": 2011,
+   "corpusGenres": [
+    "Sci-Fi",
+    "Cyberpunk"
+   ],
+   "tags": [
+    "fiction",
+    "cyberpunk",
+    "litrpg",
+    "science fiction",
+    "adventure fiction",
+    "dystopian fiction",
+    "massively multiplayer online role-playing game",
+    "simulated reality",
+    "1980s in video gaming",
+    "metaverse"
+   ],
+   "sourceGenres": [],
+   "sources": [
+    {
+     "src": "OpenLibrary",
+     "matchedTitle": "Ready Player One",
+     "url": "https://openlibrary.org/search.json?title=Ready%20Player%20One"
+    },
+    {
+     "src": "Google Books",
+     "matchedTitle": "Ready Player One",
+     "url": "https://www.googleapis.com/books/v1/volumes?q=intitle:Ready%20Player%20One"
+    },
+    {
+     "src": "Wikidata",
+     "matchedTitle": "Ready Player One",
+     "url": "https://www.wikidata.org/wiki/Q3906523"
+    }
+   ],
+   "missed": [],
+   "coverage": 10
+  },
+  {
+   "id": "b1270",
+   "title": "The Martian",
+   "year": 2011,
+   "corpusGenres": [
+    "Sci-Fi"
+   ],
+   "tags": [
+    "fiction",
+    "hard science fiction",
+    "science fiction",
+    "colonization of mars",
+    "spaceflight",
+    "national aeronautics and space administration",
+    "chinese space program"
+   ],
+   "sourceGenres": [],
+   "sources": [
+    {
+     "src": "OpenLibrary",
+     "matchedTitle": "The Martian",
+     "url": "https://openlibrary.org/search.json?title=The%20Martian"
+    },
+    {
+     "src": "Google Books",
+     "matchedTitle": "The Martian",
+     "url": "https://www.googleapis.com/books/v1/volumes?q=intitle:The%20Martian"
+    },
+    {
+     "src": "Wikidata",
+     "matchedTitle": "The Martian",
+     "url": "https://www.wikidata.org/wiki/Q17111624"
+    }
+   ],
+   "missed": [],
+   "coverage": 7
+  },
+  {
+   "id": "b1271",
+   "title": "Project Hail Mary",
+   "year": 2021,
+   "corpusGenres": [
+    "Sci-Fi"
+   ],
+   "tags": [
+    "fiction",
+    "science fiction",
+    "global catastrophic risks",
+    "ice age",
+    "extraterrestrial life",
+    "cowardice",
+    "solar luminosity"
+   ],
+   "sourceGenres": [],
+   "sources": [
+    {
+     "src": "OpenLibrary",
+     "matchedTitle": "Project Hail Mary",
+     "url": "https://openlibrary.org/search.json?title=Project%20Hail%20Mary"
+    },
+    {
+     "src": "Google Books",
+     "matchedTitle": "Project Hail Mary (Movie Tie-In)",
+     "url": "https://www.googleapis.com/books/v1/volumes?q=intitle:Project%20Hail%20Mary"
+    },
+    {
+     "src": "Wikidata",
+     "matchedTitle": "Project Hail Mary",
+     "url": "https://www.wikidata.org/wiki/Q106852836"
+    }
+   ],
+   "missed": [],
+   "coverage": 7
+  },
+  {
+   "id": "b1272",
+   "title": "November 9",
+   "year": 2015,
+   "corpusGenres": [
+    "Romance"
+   ],
+   "tags": [],
+   "sourceGenres": [],
+   "sources": [
+    {
+     "src": "OpenLibrary",
+     "matchedTitle": "November 9",
+     "url": "https://openlibrary.org/search.json?title=November%209"
+    }
+   ],
+   "missed": [
+    "Google Books (title matched but author \"United States\" does not -- likely a different book titled \"November 9\")",
+    "Wikidata (no type-matching candidate for \"November 9\")"
+   ],
+   "coverage": 0
+  },
+  {
+   "id": "b1273",
+   "title": "The Very Hungry Caterpillar",
+   "year": 1969,
+   "corpusGenres": [
+    "Family"
+   ],
+   "tags": [
+    "juvenile fiction",
+    "caterpillar",
+    "eating",
+    "metamorphosis"
+   ],
+   "sourceGenres": [],
+   "sources": [
+    {
+     "src": "OpenLibrary",
+     "matchedTitle": "The Very Hungry Caterpillar",
+     "url": "https://openlibrary.org/search.json?title=The%20Very%20Hungry%20Caterpillar"
+    },
+    {
+     "src": "Google Books",
+     "matchedTitle": "The Very Hungry Caterpillar",
+     "url": "https://www.googleapis.com/books/v1/volumes?q=intitle:The%20Very%20Hungry%20Caterpillar"
+    },
+    {
+     "src": "Wikidata",
+     "matchedTitle": "The Very Hungry Caterpillar",
+     "url": "https://www.wikidata.org/wiki/Q491657"
+    }
+   ],
+   "missed": [],
+   "coverage": 4
+  },
+  {
+   "id": "b1274",
+   "title": "Goodnight Moon",
+   "year": 1947,
+   "corpusGenres": [
+    "Family"
+   ],
+   "tags": [
+    "juvenile fiction",
+    "children's literature"
+   ],
+   "sourceGenres": [],
+   "sources": [
+    {
+     "src": "OpenLibrary",
+     "matchedTitle": "Goodnight Moon",
+     "url": "https://openlibrary.org/search.json?title=Goodnight%20Moon"
+    },
+    {
+     "src": "Google Books",
+     "matchedTitle": "Goodnight Moon Board Book & Bunny",
+     "url": "https://www.googleapis.com/books/v1/volumes?q=intitle:Goodnight%20Moon"
+    },
+    {
+     "src": "Wikidata",
+     "matchedTitle": "Goodnight Moon",
+     "url": "https://www.wikidata.org/wiki/Q5583528"
+    }
+   ],
+   "missed": [],
+   "coverage": 2
+  },
+  {
+   "id": "b1275",
+   "title": "The Cat in the Hat",
+   "year": 1957,
+   "corpusGenres": [
+    "Family",
+    "Comedy"
+   ],
+   "tags": [
+    "juvenile fiction",
+    "children's literature"
+   ],
+   "sourceGenres": [],
+   "sources": [
+    {
+     "src": "OpenLibrary",
+     "matchedTitle": "The Cat in the Hat",
+     "url": "https://openlibrary.org/search.json?title=The%20Cat%20in%20the%20Hat"
+    },
+    {
+     "src": "Google Books",
+     "matchedTitle": "The Cat in the Hat.",
+     "url": "https://www.googleapis.com/books/v1/volumes?q=intitle:The%20Cat%20in%20the%20Hat"
+    },
+    {
+     "src": "Wikidata",
+     "matchedTitle": "The Cat in the Hat",
+     "url": "https://www.wikidata.org/wiki/Q973053"
+    }
+   ],
+   "missed": [],
+   "coverage": 2
+  },
+  {
+   "id": "b1276",
+   "title": "Green Eggs and Ham",
+   "year": 1960,
+   "corpusGenres": [
+    "Family",
+    "Comedy"
+   ],
+   "tags": [
+    "children's poetry, american",
+    "children's literature",
+    "literary nonsense"
+   ],
+   "sourceGenres": [],
+   "sources": [
+    {
+     "src": "OpenLibrary",
+     "matchedTitle": "Green Eggs and Ham",
+     "url": "https://openlibrary.org/search.json?title=Green%20Eggs%20and%20Ham"
+    },
+    {
+     "src": "Google Books",
+     "matchedTitle": "Green Eggs and Ham",
+     "url": "https://www.googleapis.com/books/v1/volumes?q=intitle:Green%20Eggs%20and%20Ham"
+    },
+    {
+     "src": "Wikidata",
+     "matchedTitle": "Green Eggs and Ham",
+     "url": "https://www.wikidata.org/wiki/Q2759523"
+    }
+   ],
+   "missed": [],
+   "coverage": 3
+  },
+  {
+   "id": "b1277",
+   "title": "Diary of a Wimpy Kid",
+   "year": 2007,
+   "corpusGenres": [
+    "Family",
+    "Comedy"
+   ],
+   "tags": [
+    "juvenile fiction",
+    "humorous fiction",
+    "children's fiction"
+   ],
+   "sourceGenres": [],
+   "sources": [
+    {
+     "src": "OpenLibrary",
+     "matchedTitle": "Diary of a Wimpy Kid",
+     "url": "https://openlibrary.org/search.json?title=Diary%20of%20a%20Wimpy%20Kid"
+    },
+    {
+     "src": "Google Books",
+     "matchedTitle": "Diary of a Wimpy Kid (Diary of a Wimpy Kid #1)",
+     "url": "https://www.googleapis.com/books/v1/volumes?q=intitle:Diary%20of%20a%20Wimpy%20Kid"
+    },
+    {
+     "src": "Wikidata",
+     "matchedTitle": "Diary of a Wimpy Kid",
+     "url": "https://www.wikidata.org/wiki/Q1339580"
+    }
+   ],
+   "missed": [],
+   "coverage": 3
+  },
+  {
+   "id": "b1278",
+   "title": "The Adventures of Captain Underpants",
+   "year": 1997,
+   "corpusGenres": [
+    "Family",
+    "Comedy"
+   ],
+   "tags": [
+    "juvenile fiction",
+    "science fiction",
+    "children's fiction"
+   ],
+   "sourceGenres": [],
+   "sources": [
+    {
+     "src": "OpenLibrary",
+     "matchedTitle": "The Adventures of Captain Underpants",
+     "url": "https://openlibrary.org/search.json?title=The%20Adventures%20of%20Captain%20Underpants"
+    },
+    {
+     "src": "Google Books",
+     "matchedTitle": "The Adventures of Captain Underpants",
+     "url": "https://www.googleapis.com/books/v1/volumes?q=intitle:The%20Adventures%20of%20Captain%20Underpants"
+    },
+    {
+     "src": "Wikidata",
+     "matchedTitle": "The Adventures of Captain Underpants",
+     "url": "https://www.wikidata.org/wiki/Q3283542"
+    }
+   ],
+   "missed": [],
+   "coverage": 3
+  },
+  {
+   "id": "b1279",
+   "title": "Junie B. Jones and the Stupid Smelly Bus",
+   "year": 1992,
+   "corpusGenres": [
+    "Family",
+    "Comedy"
+   ],
+   "tags": [],
+   "sourceGenres": [],
+   "sources": [
+    {
+     "src": "OpenLibrary",
+     "matchedTitle": "Junie B. Jones and the Stupid Smelly Bus",
+     "url": "https://openlibrary.org/search.json?title=Junie%20B.%20Jones%20and%20the%20Stupid%20Smelly%20Bus"
+    },
+    {
+     "src": "Google Books",
+     "matchedTitle": "Junie B. Jones and the Stupid Smelly Bus",
+     "url": "https://www.googleapis.com/books/v1/volumes?q=intitle:Junie%20B.%20Jones%20and%20the%20Stupid%20Smelly%20Bus"
+    }
+   ],
+   "missed": [
+    "Wikidata (no type-matching candidate for \"Junie B. Jones and the Stupid Smelly Bus\")"
+   ],
+   "coverage": 0
+  }
+ ]
+}
