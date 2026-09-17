@@ -1387,6 +1387,34 @@ Millhone extended with E/F/G Is for... (now 6 of the real 25-book run).
 1,516/2,000 (4,130/5,000 total, 82.6%). Remaining work is exclusively movies (~395 more) and books
 (~484 more).
 
+**Tenth round (movies batch 22, books batch 22), movies+books only.** Movies: twenty-five titles, a
+horror-franchise-completion sweep continuing directly off batch 21's work: The Ring (the original,
+its Ring Two sequel having been added last round), the rest of the Final Destination originals (The
+Final Destination, Final Destination 5), the rest of the core Child's Play/Chucky saga (Child's Play
+2/3, Seed of Chucky, Curse of Chucky, Cult of Chucky -- now 7 of 8 real entries, missing only the 2019
+reboot), Annabelle's first two spinoffs plus The Nun II, two more Paranormal Activity entries, and a
+Stephen King film-adaptation sweep (Doctor Sleep, Pet Sematary, Christine, Cujo, The Dead Zone, Carrie,
+Misery, 1408, Secret Window, The Mist, Gerald's Game, Firestarter) -- several of these (Christine,
+Cujo, Firestarter, The Dead Zone) already had their book editions in the corpus with no film
+counterpart, a gap type not previously noticed. SERIES_DEFS: six new movie groupings (The Ring,
+Annabelle, The Nun, Paranormal Activity, The Shining) plus Final Destination and Child's Play both
+extended to near-complete.
+
+Books: twelve titles, a further Stephen King sweep -- Cell, Duma Key, Lisey's Story, The Tommyknockers,
+Joyland, Later, and Elevation under his own name, plus the four core Richard Bachman pseudonym novels
+(Rage, The Long Walk, Roadwork, The Running Man) and their later companion The Regulators. Credited
+these five to "Richard Bachman" rather than "Stephen King" since that is the name they were actually
+published under -- confirmed this doesn't trip the creator-identity check (pseudonyms are a different
+case from spelling variants of the same credited name). Seven titles (Cell, The Long Walk, Rage,
+Roadwork, The Regulators, Later, Elevation) reached zero fetch-substance tags, flagged as general-
+knowledge estimates -- the highest proportion of any single-author batch so far, likely reflecting
+weaker web-evidence coverage for older paperback-era Bachman titles specifically. SERIES_DEFS: new
+The Bachman Books grouping added (5 of the real 7-book run, all under the pseudonym).
+
+**Status at this checkpoint:** movies 1,630/2,000, TV 502/500 (done), games 507/500 (done), books
+1,528/2,000 (4,167/5,000 total, 83.3%). Remaining work is exclusively movies (~370 more) and books
+(~472 more).
+
 ---
 
 ## Ideas / next steps
