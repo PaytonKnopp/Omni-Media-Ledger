@@ -1,0 +1,1062 @@
+{
+ "medium": "movie",
+ "generated": "2026-09-17T00:26:19.862Z",
+ "offline": false,
+ "sources": [
+  "OMDb",
+  "TMDB"
+ ],
+ "works": [
+  {
+   "id": "m1252",
+   "title": "Highlander",
+   "sourcesReached": [
+    "OMDb",
+    "TMDB"
+   ],
+   "sourcesMissed": [],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "release year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 1986,
+     "proposed": 1986,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 1986,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Highlander&type=movie&y=1986"
+      },
+      {
+       "src": "TMDB",
+       "value": 1986,
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Highlander&year=1986"
+      }
+     ]
+    },
+    {
+     "field": "runtime",
+     "label": "runtime (min)",
+     "soft": false,
+     "editionDependent": true,
+     "current": 116,
+     "proposed": 116,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 116,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Highlander&type=movie&y=1986"
+      },
+      {
+       "src": "TMDB",
+       "value": 116,
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Highlander&year=1986"
+      }
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "director",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Russell Mulcahy",
+     "proposed": "Russell Mulcahy",
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": "Russell Mulcahy",
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Highlander&type=movie&y=1986"
+      },
+      {
+       "src": "TMDB",
+       "value": "Russell Mulcahy",
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Highlander&year=1986"
+      }
+     ]
+    },
+    {
+     "field": "studio",
+     "label": "studio",
+     "soft": true,
+     "editionDependent": false,
+     "current": "20th Century Fox",
+     "proposed": "Davis-Panzer Productions",
+     "status": "proposed-change",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "TMDB",
+       "value": "Davis-Panzer Productions",
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Highlander&year=1986"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "m1253",
+   "title": "The Rock",
+   "sourcesReached": [
+    "OMDb",
+    "TMDB"
+   ],
+   "sourcesMissed": [],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "release year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 1996,
+     "proposed": 1996,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 1996,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=The+Rock&type=movie&y=1996"
+      },
+      {
+       "src": "TMDB",
+       "value": 1996,
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=The+Rock&year=1996"
+      }
+     ]
+    },
+    {
+     "field": "runtime",
+     "label": "runtime (min)",
+     "soft": false,
+     "editionDependent": true,
+     "current": 136,
+     "proposed": 136,
+     "status": "corroborated-by-one",
+     "grade": "B",
+     "note": "matches OMDb; disagrees with TMDB (137)",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 136,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=The+Rock&type=movie&y=1996"
+      },
+      {
+       "src": "TMDB",
+       "value": 137,
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=The+Rock&year=1996"
+      }
+     ],
+     "alternatives": [
+      137
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "director",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Michael Bay",
+     "proposed": "Michael Bay",
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": "Michael Bay",
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=The+Rock&type=movie&y=1996"
+      },
+      {
+       "src": "TMDB",
+       "value": "Michael Bay",
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=The+Rock&year=1996"
+      }
+     ]
+    },
+    {
+     "field": "studio",
+     "label": "studio",
+     "soft": true,
+     "editionDependent": false,
+     "current": "Buena Vista Pictures",
+     "proposed": "Don Simpson/Jerry Bruckheimer Films",
+     "status": "proposed-change",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "TMDB",
+       "value": "Don Simpson/Jerry Bruckheimer Films",
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=The+Rock&year=1996"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "m1254",
+   "title": "Con Air",
+   "sourcesReached": [
+    "OMDb",
+    "TMDB"
+   ],
+   "sourcesMissed": [],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "release year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 1997,
+     "proposed": 1997,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 1997,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Con+Air&type=movie&y=1997"
+      },
+      {
+       "src": "TMDB",
+       "value": 1997,
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Con+Air&year=1997"
+      }
+     ]
+    },
+    {
+     "field": "runtime",
+     "label": "runtime (min)",
+     "soft": false,
+     "editionDependent": true,
+     "current": 115,
+     "proposed": 115,
+     "status": "corroborated-by-one",
+     "grade": "B",
+     "note": "matches OMDb; disagrees with TMDB (116)",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 115,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Con+Air&type=movie&y=1997"
+      },
+      {
+       "src": "TMDB",
+       "value": 116,
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Con+Air&year=1997"
+      }
+     ],
+     "alternatives": [
+      116
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "director",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Simon West",
+     "proposed": "Simon West",
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": "Simon West",
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Con+Air&type=movie&y=1997"
+      },
+      {
+       "src": "TMDB",
+       "value": "Simon West",
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Con+Air&year=1997"
+      }
+     ]
+    },
+    {
+     "field": "studio",
+     "label": "studio",
+     "soft": true,
+     "editionDependent": false,
+     "current": "Buena Vista Pictures",
+     "proposed": "Touchstone Pictures",
+     "status": "proposed-change",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "TMDB",
+       "value": "Touchstone Pictures",
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Con+Air&year=1997"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "m1255",
+   "title": "Speed",
+   "sourcesReached": [
+    "OMDb",
+    "TMDB"
+   ],
+   "sourcesMissed": [],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "release year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 1994,
+     "proposed": 1994,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 1994,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Speed&type=movie&y=1994"
+      },
+      {
+       "src": "TMDB",
+       "value": 1994,
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Speed&year=1994"
+      }
+     ]
+    },
+    {
+     "field": "runtime",
+     "label": "runtime (min)",
+     "soft": false,
+     "editionDependent": true,
+     "current": 116,
+     "proposed": 116,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 116,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Speed&type=movie&y=1994"
+      },
+      {
+       "src": "TMDB",
+       "value": 116,
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Speed&year=1994"
+      }
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "director",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Jan de Bont",
+     "proposed": "Jan de Bont",
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": "Jan de Bont",
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Speed&type=movie&y=1994"
+      },
+      {
+       "src": "TMDB",
+       "value": "Jan de Bont",
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Speed&year=1994"
+      }
+     ]
+    },
+    {
+     "field": "studio",
+     "label": "studio",
+     "soft": true,
+     "editionDependent": false,
+     "current": "20th Century Fox",
+     "proposed": "20th Century Fox",
+     "status": "confirmed",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "TMDB",
+       "value": "20th Century Fox",
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Speed&year=1994"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "m1256",
+   "title": "Point Break",
+   "sourcesReached": [
+    "OMDb",
+    "TMDB"
+   ],
+   "sourcesMissed": [],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "release year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 1991,
+     "proposed": 1991,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 1991,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Point+Break&type=movie&y=1991"
+      },
+      {
+       "src": "TMDB",
+       "value": 1991,
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Point+Break&year=1991"
+      }
+     ]
+    },
+    {
+     "field": "runtime",
+     "label": "runtime (min)",
+     "soft": false,
+     "editionDependent": true,
+     "current": 122,
+     "proposed": 122,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 122,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Point+Break&type=movie&y=1991"
+      },
+      {
+       "src": "TMDB",
+       "value": 122,
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Point+Break&year=1991"
+      }
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "director",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Kathryn Bigelow",
+     "proposed": "Kathryn Bigelow",
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": "Kathryn Bigelow",
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Point+Break&type=movie&y=1991"
+      },
+      {
+       "src": "TMDB",
+       "value": "Kathryn Bigelow",
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Point+Break&year=1991"
+      }
+     ]
+    },
+    {
+     "field": "studio",
+     "label": "studio",
+     "soft": true,
+     "editionDependent": false,
+     "current": "20th Century Fox",
+     "proposed": "Largo Entertainment",
+     "status": "proposed-change",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "TMDB",
+       "value": "Largo Entertainment",
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Point+Break&year=1991"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "m1257",
+   "title": "Armageddon",
+   "sourcesReached": [
+    "OMDb",
+    "TMDB"
+   ],
+   "sourcesMissed": [],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "release year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 1998,
+     "proposed": 1998,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 1998,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Armageddon&type=movie&y=1998"
+      },
+      {
+       "src": "TMDB",
+       "value": 1998,
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Armageddon&year=1998"
+      }
+     ]
+    },
+    {
+     "field": "runtime",
+     "label": "runtime (min)",
+     "soft": false,
+     "editionDependent": true,
+     "current": 151,
+     "proposed": 151,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 151,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Armageddon&type=movie&y=1998"
+      },
+      {
+       "src": "TMDB",
+       "value": 151,
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Armageddon&year=1998"
+      }
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "director",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Michael Bay",
+     "proposed": "Michael Bay",
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": "Michael Bay",
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Armageddon&type=movie&y=1998"
+      },
+      {
+       "src": "TMDB",
+       "value": "Michael Bay",
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Armageddon&year=1998"
+      }
+     ]
+    },
+    {
+     "field": "studio",
+     "label": "studio",
+     "soft": true,
+     "editionDependent": false,
+     "current": "Buena Vista Pictures",
+     "proposed": "Touchstone Pictures",
+     "status": "proposed-change",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "TMDB",
+       "value": "Touchstone Pictures",
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Armageddon&year=1998"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "m1258",
+   "title": "The Day After Tomorrow",
+   "sourcesReached": [
+    "OMDb",
+    "TMDB"
+   ],
+   "sourcesMissed": [],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "release year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 2004,
+     "proposed": 2004,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 2004,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=The+Day+After+Tomorrow&type=movie&y=2004"
+      },
+      {
+       "src": "TMDB",
+       "value": 2004,
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=The+Day+After+Tomorrow&year=2004"
+      }
+     ]
+    },
+    {
+     "field": "runtime",
+     "label": "runtime (min)",
+     "soft": false,
+     "editionDependent": true,
+     "current": 124,
+     "proposed": 124,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 124,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=The+Day+After+Tomorrow&type=movie&y=2004"
+      },
+      {
+       "src": "TMDB",
+       "value": 124,
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=The+Day+After+Tomorrow&year=2004"
+      }
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "director",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Roland Emmerich",
+     "proposed": "Roland Emmerich",
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": "Roland Emmerich",
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=The+Day+After+Tomorrow&type=movie&y=2004"
+      },
+      {
+       "src": "TMDB",
+       "value": "Roland Emmerich",
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=The+Day+After+Tomorrow&year=2004"
+      }
+     ]
+    },
+    {
+     "field": "studio",
+     "label": "studio",
+     "soft": true,
+     "editionDependent": false,
+     "current": "20th Century Fox",
+     "proposed": "20th Century Fox",
+     "status": "confirmed",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "TMDB",
+       "value": "20th Century Fox",
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=The+Day+After+Tomorrow&year=2004"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "m1259",
+   "title": "Deep Impact",
+   "sourcesReached": [
+    "OMDb",
+    "TMDB"
+   ],
+   "sourcesMissed": [],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "release year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 1998,
+     "proposed": 1998,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 1998,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Deep+Impact&type=movie&y=1998"
+      },
+      {
+       "src": "TMDB",
+       "value": 1998,
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Deep+Impact&year=1998"
+      }
+     ]
+    },
+    {
+     "field": "runtime",
+     "label": "runtime (min)",
+     "soft": false,
+     "editionDependent": true,
+     "current": 121,
+     "proposed": 120,
+     "status": "edition-dependent",
+     "grade": "B",
+     "note": "corpus value does not match either source (OMDb 120, TMDB 122) -- treated as a distinct edition; the specific cut is not identified from available evidence.",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 120,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Deep+Impact&type=movie&y=1998"
+      },
+      {
+       "src": "TMDB",
+       "value": 122,
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Deep+Impact&year=1998"
+      }
+     ],
+     "alternatives": [
+      122
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "director",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Mimi Leder",
+     "proposed": "Mimi Leder",
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": "Mimi Leder",
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Deep+Impact&type=movie&y=1998"
+      },
+      {
+       "src": "TMDB",
+       "value": "Mimi Leder",
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Deep+Impact&year=1998"
+      }
+     ]
+    },
+    {
+     "field": "studio",
+     "label": "studio",
+     "soft": true,
+     "editionDependent": false,
+     "current": "Paramount Pictures",
+     "proposed": "Paramount Pictures",
+     "status": "confirmed",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "TMDB",
+       "value": "Paramount Pictures",
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Deep+Impact&year=1998"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "m1260",
+   "title": "War of the Worlds",
+   "sourcesReached": [
+    "OMDb",
+    "TMDB"
+   ],
+   "sourcesMissed": [],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "release year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 2005,
+     "proposed": 2005,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 2005,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=War+of+the+Worlds&type=movie&y=2005"
+      },
+      {
+       "src": "TMDB",
+       "value": 2005,
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=War+of+the+Worlds&year=2005"
+      }
+     ]
+    },
+    {
+     "field": "runtime",
+     "label": "runtime (min)",
+     "soft": false,
+     "editionDependent": true,
+     "current": 116,
+     "proposed": 117,
+     "status": "edition-dependent",
+     "grade": "B",
+     "note": "sources agree with each other but not the corpus (OMDb 117, TMDB 117) on a field with no single true value -- likely a different printing/edition, not an error.",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 117,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=War+of+the+Worlds&type=movie&y=2005"
+      },
+      {
+       "src": "TMDB",
+       "value": 117,
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=War+of+the+Worlds&year=2005"
+      }
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "director",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Steven Spielberg",
+     "proposed": "Steven Spielberg",
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": "Steven Spielberg",
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=War+of+the+Worlds&type=movie&y=2005"
+      },
+      {
+       "src": "TMDB",
+       "value": "Steven Spielberg",
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=War+of+the+Worlds&year=2005"
+      }
+     ]
+    },
+    {
+     "field": "studio",
+     "label": "studio",
+     "soft": true,
+     "editionDependent": false,
+     "current": "Paramount Pictures",
+     "proposed": "Paramount Pictures",
+     "status": "confirmed",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "TMDB",
+       "value": "Paramount Pictures",
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=War+of+the+Worlds&year=2005"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "m1261",
+   "title": "The Fugitive",
+   "sourcesReached": [
+    "OMDb",
+    "TMDB"
+   ],
+   "sourcesMissed": [],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "release year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 1993,
+     "proposed": 1993,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 1993,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=The+Fugitive&type=movie&y=1993"
+      },
+      {
+       "src": "TMDB",
+       "value": 1993,
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=The+Fugitive&year=1993"
+      }
+     ]
+    },
+    {
+     "field": "runtime",
+     "label": "runtime (min)",
+     "soft": false,
+     "editionDependent": true,
+     "current": 130,
+     "proposed": 130,
+     "status": "corroborated-by-one",
+     "grade": "B",
+     "note": "matches OMDb; disagrees with TMDB (131)",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 130,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=The+Fugitive&type=movie&y=1993"
+      },
+      {
+       "src": "TMDB",
+       "value": 131,
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=The+Fugitive&year=1993"
+      }
+     ],
+     "alternatives": [
+      131
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "director",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Andrew Davis",
+     "proposed": "Andrew Davis",
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": "Andrew Davis",
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=The+Fugitive&type=movie&y=1993"
+      },
+      {
+       "src": "TMDB",
+       "value": "Andrew Davis",
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=The+Fugitive&year=1993"
+      }
+     ]
+    },
+    {
+     "field": "studio",
+     "label": "studio",
+     "soft": true,
+     "editionDependent": false,
+     "current": "Warner Bros.",
+     "proposed": "Warner Bros. Pictures",
+     "status": "proposed-change",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "TMDB",
+       "value": "Warner Bros. Pictures",
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=The+Fugitive&year=1993"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "m1262",
+   "title": "True Lies",
+   "sourcesReached": [
+    "OMDb",
+    "TMDB"
+   ],
+   "sourcesMissed": [],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "release year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 1994,
+     "proposed": 1994,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 1994,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=True+Lies&type=movie&y=1994"
+      },
+      {
+       "src": "TMDB",
+       "value": 1994,
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=True+Lies&year=1994"
+      }
+     ]
+    },
+    {
+     "field": "runtime",
+     "label": "runtime (min)",
+     "soft": false,
+     "editionDependent": true,
+     "current": 141,
+     "proposed": 141,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 141,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=True+Lies&type=movie&y=1994"
+      },
+      {
+       "src": "TMDB",
+       "value": 141,
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=True+Lies&year=1994"
+      }
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "director",
+     "soft": false,
+     "editionDependent": false,
+     "current": "James Cameron",
+     "proposed": "James Cameron",
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": "James Cameron",
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=True+Lies&type=movie&y=1994"
+      },
+      {
+       "src": "TMDB",
+       "value": "James Cameron",
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=True+Lies&year=1994"
+      }
+     ]
+    },
+    {
+     "field": "studio",
+     "label": "studio",
+     "soft": true,
+     "editionDependent": false,
+     "current": "20th Century Fox",
+     "proposed": "Lightstorm Entertainment",
+     "status": "proposed-change",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "TMDB",
+       "value": "Lightstorm Entertainment",
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=True+Lies&year=1994"
+      }
+     ]
+    }
+   ]
+  }
+ ]
+}
