@@ -1208,6 +1208,20 @@ rather than assuming presence.
 **Status at this checkpoint:** movies 1,363/2,000, TV 403/500, games 397/500, books 1,299/2,000
 (3,462/5,000 total).
 
+**TV and games closed out.** Batch 11 (34 titles) plus batch 12 (65 titles) brought TV to 502/500;
+batch 12 (29 titles) plus batch 13 (75 titles) brought games to 499/500. Two genuine near-miss
+duplicates were caught and removed before commit in the games batch 13 pass: a new "Civilization VI"
+insert collided with the already-present "Sid Meier's Civilization VI", and a new "Divinity: Original
+Sin II" (roman numeral) collided with the already-present "Divinity: Original Sin 2" (arabic numeral)
+-- neither caught by the exact-string dedup check since the literal title strings differ; both were
+only found once the SERIES_DEFS franchise cross-reference pass ran after insertion. This is now the
+fourth documented near-miss of this exact shape across the whole expansion (numeral/subtitle/article
+variance defeating exact-match dedup) -- worth treating the SERIES_DEFS cross-reference step as a
+second, load-bearing dedup pass, not just bookkeeping, especially whenever a franchise-completion
+batch touches a series already partially present. Remaining work is now almost entirely movies
+(need ~560 more) and books (need ~659 more); TV/games should only need small top-up batches from
+here if a genuine gap surfaces during future franchise audits.
+
 **Fourth round, movies+books only (batch 15 each), deliberately skipping TV/games since they're
 close to target.** A quick spot-check audit of other top-tier bestsellers before this round paid
 off immediately: **Fifty Shades of Grey and a cluster of major memoirs (Becoming, A Promised Land,
