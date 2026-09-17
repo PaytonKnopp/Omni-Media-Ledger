@@ -1,0 +1,971 @@
+{
+ "medium": "movie",
+ "generated": "2026-09-17T12:41:46.566Z",
+ "offline": false,
+ "sources": [
+  "OMDb",
+  "TMDB"
+ ],
+ "works": [
+  {
+   "id": "m1483",
+   "title": "EDtv",
+   "sourcesReached": [
+    "OMDb",
+    "TMDB"
+   ],
+   "sourcesMissed": [],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "release year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 1999,
+     "proposed": 1999,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 1999,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=EDtv&type=movie&y=1999"
+      },
+      {
+       "src": "TMDB",
+       "value": 1999,
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=EDtv&year=1999"
+      }
+     ]
+    },
+    {
+     "field": "runtime",
+     "label": "runtime (min)",
+     "soft": false,
+     "editionDependent": true,
+     "current": 122,
+     "proposed": 122,
+     "status": "corroborated-by-one",
+     "grade": "B",
+     "note": "matches OMDb; disagrees with TMDB (123)",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 122,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=EDtv&type=movie&y=1999"
+      },
+      {
+       "src": "TMDB",
+       "value": 123,
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=EDtv&year=1999"
+      }
+     ],
+     "alternatives": [
+      123
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "director",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Ron Howard",
+     "proposed": "Ron Howard",
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": "Ron Howard",
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=EDtv&type=movie&y=1999"
+      },
+      {
+       "src": "TMDB",
+       "value": "Ron Howard",
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=EDtv&year=1999"
+      }
+     ]
+    },
+    {
+     "field": "studio",
+     "label": "studio",
+     "soft": true,
+     "editionDependent": false,
+     "current": "Universal Pictures",
+     "proposed": "Imagine Entertainment",
+     "status": "proposed-change",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "TMDB",
+       "value": "Imagine Entertainment",
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=EDtv&year=1999"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "m1484",
+   "title": "Timecrimes",
+   "sourcesReached": [
+    "OMDb",
+    "TMDB"
+   ],
+   "sourcesMissed": [],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "release year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 2007,
+     "proposed": 2007,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 2007,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Timecrimes&type=movie&y=2007"
+      },
+      {
+       "src": "TMDB",
+       "value": 2007,
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Timecrimes&year=2007"
+      }
+     ]
+    },
+    {
+     "field": "runtime",
+     "label": "runtime (min)",
+     "soft": false,
+     "editionDependent": true,
+     "current": 92,
+     "proposed": 92,
+     "status": "corroborated-by-one",
+     "grade": "B",
+     "note": "matches OMDb; disagrees with TMDB (93)",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 92,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Timecrimes&type=movie&y=2007"
+      },
+      {
+       "src": "TMDB",
+       "value": 93,
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Timecrimes&year=2007"
+      }
+     ],
+     "alternatives": [
+      93
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "director",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Nacho Vigalondo",
+     "proposed": "Nacho Vigalondo",
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": "Nacho Vigalondo",
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Timecrimes&type=movie&y=2007"
+      },
+      {
+       "src": "TMDB",
+       "value": "Nacho Vigalondo",
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Timecrimes&year=2007"
+      }
+     ]
+    },
+    {
+     "field": "studio",
+     "label": "studio",
+     "soft": true,
+     "editionDependent": false,
+     "current": "Karbo Vantas Entertainment",
+     "proposed": "Arsénico Producciones",
+     "status": "proposed-change",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "TMDB",
+       "value": "Arsénico Producciones",
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Timecrimes&year=2007"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "m1485",
+   "title": "The Butterfly Effect",
+   "sourcesReached": [
+    "OMDb",
+    "TMDB"
+   ],
+   "sourcesMissed": [],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "release year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 2004,
+     "proposed": 2004,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 2004,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=The+Butterfly+Effect&type=movie&y=2004"
+      },
+      {
+       "src": "TMDB",
+       "value": 2004,
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=The+Butterfly+Effect&year=2004"
+      }
+     ]
+    },
+    {
+     "field": "runtime",
+     "label": "runtime (min)",
+     "soft": false,
+     "editionDependent": true,
+     "current": 113,
+     "proposed": 113,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 113,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=The+Butterfly+Effect&type=movie&y=2004"
+      },
+      {
+       "src": "TMDB",
+       "value": 113,
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=The+Butterfly+Effect&year=2004"
+      }
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "director",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Eric Bress, J. Mackye Gruber",
+     "proposed": "Eric Bress, J. Mackye Gruber",
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": "Eric Bress, J. Mackye Gruber",
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=The+Butterfly+Effect&type=movie&y=2004"
+      },
+      {
+       "src": "TMDB",
+       "value": "Eric Bress, J. Mackye Gruber",
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=The+Butterfly+Effect&year=2004"
+      }
+     ]
+    },
+    {
+     "field": "studio",
+     "label": "studio",
+     "soft": true,
+     "editionDependent": false,
+     "current": "New Line Cinema",
+     "proposed": "FilmEngine",
+     "status": "proposed-change",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "TMDB",
+       "value": "FilmEngine",
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=The+Butterfly+Effect&year=2004"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "m1486",
+   "title": "Cube",
+   "sourcesReached": [
+    "OMDb",
+    "TMDB"
+   ],
+   "sourcesMissed": [],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "release year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 1997,
+     "proposed": 1997,
+     "status": "corroborated-by-one",
+     "grade": "B",
+     "note": "matches OMDb; disagrees with TMDB (1998)",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 1997,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Cube&type=movie&y=1997"
+      },
+      {
+       "src": "TMDB",
+       "value": 1998,
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Cube&year=1997"
+      }
+     ],
+     "alternatives": [
+      1998
+     ]
+    },
+    {
+     "field": "runtime",
+     "label": "runtime (min)",
+     "soft": false,
+     "editionDependent": true,
+     "current": 90,
+     "proposed": 90,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 90,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Cube&type=movie&y=1997"
+      },
+      {
+       "src": "TMDB",
+       "value": 90,
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Cube&year=1997"
+      }
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "director",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Vincenzo Natali",
+     "proposed": "Vincenzo Natali",
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": "Vincenzo Natali",
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Cube&type=movie&y=1997"
+      },
+      {
+       "src": "TMDB",
+       "value": "Vincenzo Natali",
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Cube&year=1997"
+      }
+     ]
+    },
+    {
+     "field": "studio",
+     "label": "studio",
+     "soft": true,
+     "editionDependent": false,
+     "current": "Trimark Pictures",
+     "proposed": "Cube Libre",
+     "status": "proposed-change",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "TMDB",
+       "value": "Cube Libre",
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Cube&year=1997"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "m1487",
+   "title": "Escape Room",
+   "sourcesReached": [
+    "OMDb",
+    "TMDB"
+   ],
+   "sourcesMissed": [],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "release year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 2019,
+     "proposed": 2019,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 2019,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Escape+Room&type=movie&y=2019"
+      },
+      {
+       "src": "TMDB",
+       "value": 2019,
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Escape+Room&year=2019"
+      }
+     ]
+    },
+    {
+     "field": "runtime",
+     "label": "runtime (min)",
+     "soft": false,
+     "editionDependent": true,
+     "current": 99,
+     "proposed": 99,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 99,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Escape+Room&type=movie&y=2019"
+      },
+      {
+       "src": "TMDB",
+       "value": 99,
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Escape+Room&year=2019"
+      }
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "director",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Adam Robitel",
+     "proposed": "Adam Robitel",
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": "Adam Robitel",
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Escape+Room&type=movie&y=2019"
+      },
+      {
+       "src": "TMDB",
+       "value": "Adam Robitel",
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Escape+Room&year=2019"
+      }
+     ]
+    },
+    {
+     "field": "studio",
+     "label": "studio",
+     "soft": true,
+     "editionDependent": false,
+     "current": "Columbia Pictures",
+     "proposed": "Columbia Pictures",
+     "status": "confirmed",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "TMDB",
+       "value": "Columbia Pictures",
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Escape+Room&year=2019"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "m1488",
+   "title": "Circle",
+   "sourcesReached": [
+    "OMDb",
+    "TMDB"
+   ],
+   "sourcesMissed": [],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "release year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 2015,
+     "proposed": 2015,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 2015,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Circle&type=movie&y=2015"
+      },
+      {
+       "src": "TMDB",
+       "value": 2015,
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Circle&year=2015"
+      }
+     ]
+    },
+    {
+     "field": "runtime",
+     "label": "runtime (min)",
+     "soft": false,
+     "editionDependent": true,
+     "current": 87,
+     "proposed": 87,
+     "status": "corroborated-by-one",
+     "grade": "B",
+     "note": "matches OMDb; disagrees with TMDB (86)",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 87,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Circle&type=movie&y=2015"
+      },
+      {
+       "src": "TMDB",
+       "value": 86,
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Circle&year=2015"
+      }
+     ],
+     "alternatives": [
+      86
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "director",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Aaron Hann, Mario Miscione",
+     "proposed": "Aaron Hann, Mario Miscione",
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": "Aaron Hann, Mario Miscione",
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Circle&type=movie&y=2015"
+      },
+      {
+       "src": "TMDB",
+       "value": "Aaron Hann, Mario Miscione",
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Circle&year=2015"
+      }
+     ]
+    },
+    {
+     "field": "studio",
+     "label": "studio",
+     "soft": true,
+     "editionDependent": false,
+     "current": "Self-distributed",
+     "proposed": "Votiv Films",
+     "status": "proposed-change",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "TMDB",
+       "value": "Votiv Films",
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Circle&year=2015"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "m1489",
+   "title": "The Platform",
+   "sourcesReached": [
+    "OMDb",
+    "TMDB"
+   ],
+   "sourcesMissed": [],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "release year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 2019,
+     "proposed": 2019,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 2019,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=The+Platform&type=movie&y=2019"
+      },
+      {
+       "src": "TMDB",
+       "value": 2019,
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=The+Platform&year=2019"
+      }
+     ]
+    },
+    {
+     "field": "runtime",
+     "label": "runtime (min)",
+     "soft": false,
+     "editionDependent": true,
+     "current": 94,
+     "proposed": 94,
+     "status": "corroborated-by-one",
+     "grade": "B",
+     "note": "matches OMDb; disagrees with TMDB (95)",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 94,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=The+Platform&type=movie&y=2019"
+      },
+      {
+       "src": "TMDB",
+       "value": 95,
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=The+Platform&year=2019"
+      }
+     ],
+     "alternatives": [
+      95
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "director",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Galder Gaztelu-Urrutia",
+     "proposed": "Galder Gaztelu-Urrutia",
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": "Galder Gaztelu-Urrutia",
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=The+Platform&type=movie&y=2019"
+      },
+      {
+       "src": "TMDB",
+       "value": "Galder Gaztelu-Urrutia",
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=The+Platform&year=2019"
+      }
+     ]
+    },
+    {
+     "field": "studio",
+     "label": "studio",
+     "soft": true,
+     "editionDependent": false,
+     "current": "Netflix",
+     "proposed": "Basque Films",
+     "status": "proposed-change",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "TMDB",
+       "value": "Basque Films",
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=The+Platform&year=2019"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "m1490",
+   "title": "High-Rise",
+   "sourcesReached": [
+    "OMDb",
+    "TMDB"
+   ],
+   "sourcesMissed": [],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "release year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 2015,
+     "proposed": 2015,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 2015,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=High-Rise&type=movie&y=2015"
+      },
+      {
+       "src": "TMDB",
+       "value": 2015,
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=High-Rise&year=2015"
+      }
+     ]
+    },
+    {
+     "field": "runtime",
+     "label": "runtime (min)",
+     "soft": false,
+     "editionDependent": true,
+     "current": 119,
+     "proposed": 119,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 119,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=High-Rise&type=movie&y=2015"
+      },
+      {
+       "src": "TMDB",
+       "value": 119,
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=High-Rise&year=2015"
+      }
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "director",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Ben Wheatley",
+     "proposed": "Ben Wheatley",
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": "Ben Wheatley",
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=High-Rise&type=movie&y=2015"
+      },
+      {
+       "src": "TMDB",
+       "value": "Ben Wheatley",
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=High-Rise&year=2015"
+      }
+     ]
+    },
+    {
+     "field": "studio",
+     "label": "studio",
+     "soft": true,
+     "editionDependent": false,
+     "current": "StudioCanal",
+     "proposed": "Recorded Picture Company",
+     "status": "proposed-change",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "TMDB",
+       "value": "Recorded Picture Company",
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=High-Rise&year=2015"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "m1491",
+   "title": "Dawn of the Dead (2004)",
+   "sourcesReached": [
+    "OMDb",
+    "TMDB"
+   ],
+   "sourcesMissed": [],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "release year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 2004,
+     "proposed": 2004,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 2004,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Dawn+of+the+Dead&type=movie&y=2004"
+      },
+      {
+       "src": "TMDB",
+       "value": 2004,
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Dawn+of+the+Dead&year=2004"
+      }
+     ]
+    },
+    {
+     "field": "runtime",
+     "label": "runtime (min)",
+     "soft": false,
+     "editionDependent": true,
+     "current": 101,
+     "proposed": 101,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 101,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Dawn+of+the+Dead&type=movie&y=2004"
+      },
+      {
+       "src": "TMDB",
+       "value": 101,
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Dawn+of+the+Dead&year=2004"
+      }
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "director",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Zack Snyder",
+     "proposed": "Zack Snyder",
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": "Zack Snyder",
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Dawn+of+the+Dead&type=movie&y=2004"
+      },
+      {
+       "src": "TMDB",
+       "value": "Zack Snyder",
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Dawn+of+the+Dead&year=2004"
+      }
+     ]
+    },
+    {
+     "field": "studio",
+     "label": "studio",
+     "soft": true,
+     "editionDependent": false,
+     "current": "Universal Pictures",
+     "proposed": "New Amsterdam Entertainment",
+     "status": "proposed-change",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "TMDB",
+       "value": "New Amsterdam Entertainment",
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Dawn+of+the+Dead&year=2004"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "m1492",
+   "title": "Zombieland: Double Tap",
+   "sourcesReached": [
+    "OMDb",
+    "TMDB"
+   ],
+   "sourcesMissed": [],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "release year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 2019,
+     "proposed": 2019,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 2019,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Zombieland%3A+Double+Tap&type=movie&y=2019"
+      },
+      {
+       "src": "TMDB",
+       "value": 2019,
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Zombieland%3A+Double+Tap&year=2019"
+      }
+     ]
+    },
+    {
+     "field": "runtime",
+     "label": "runtime (min)",
+     "soft": false,
+     "editionDependent": true,
+     "current": 99,
+     "proposed": 99,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 99,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Zombieland%3A+Double+Tap&type=movie&y=2019"
+      },
+      {
+       "src": "TMDB",
+       "value": 99,
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Zombieland%3A+Double+Tap&year=2019"
+      }
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "director",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Ruben Fleischer",
+     "proposed": "Ruben Fleischer",
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": "Ruben Fleischer",
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Zombieland%3A+Double+Tap&type=movie&y=2019"
+      },
+      {
+       "src": "TMDB",
+       "value": "Ruben Fleischer",
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Zombieland%3A+Double+Tap&year=2019"
+      }
+     ]
+    },
+    {
+     "field": "studio",
+     "label": "studio",
+     "soft": true,
+     "editionDependent": false,
+     "current": "Sony Pictures",
+     "proposed": "Columbia Pictures",
+     "status": "proposed-change",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "TMDB",
+       "value": "Columbia Pictures",
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Zombieland%3A+Double+Tap&year=2019"
+      }
+     ]
+    }
+   ]
+  }
+ ]
+}
