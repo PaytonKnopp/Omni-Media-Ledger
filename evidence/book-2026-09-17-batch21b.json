@@ -1,0 +1,1057 @@
+{
+ "medium": "book",
+ "generated": "2026-09-17T17:37:18.714Z",
+ "offline": false,
+ "sources": [
+  "OpenLibrary",
+  "Google Books",
+  "Wikidata"
+ ],
+ "works": [
+  {
+   "id": "b1516",
+   "title": "Atlantis Found",
+   "sourcesReached": [
+    "OpenLibrary",
+    "Wikidata"
+   ],
+   "sourcesMissed": [
+    "Google Books (no match)"
+   ],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "first publication year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 2001,
+     "proposed": 1999,
+     "status": "proposed-change",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OpenLibrary",
+       "value": 1999,
+       "url": "https://openlibrary.org/search.json?title=Atlantis+Found&limit=1"
+      },
+      {
+       "src": "Wikidata",
+       "value": 1999,
+       "url": "https://www.wikidata.org/wiki/Q862948"
+      }
+     ]
+    },
+    {
+     "field": "pages",
+     "label": "page count",
+     "soft": false,
+     "current": 420,
+     "status": "no-source",
+     "grade": null,
+     "sources": []
+    },
+    {
+     "field": "creator",
+     "label": "author",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Clive Cussler",
+     "proposed": "Clive Cussler",
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OpenLibrary",
+       "value": "Clive Cussler",
+       "url": "https://openlibrary.org/search.json?title=Atlantis+Found&limit=1"
+      },
+      {
+       "src": "Wikidata",
+       "value": "Clive Cussler",
+       "url": "https://www.wikidata.org/wiki/Q862948"
+      }
+     ]
+    },
+    {
+     "field": "publisher",
+     "label": "publisher",
+     "soft": true,
+     "editionDependent": true,
+     "current": "G. P. Putnam's Sons",
+     "proposed": "G. P. Putnam's Sons",
+     "status": "confirmed",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "Wikidata",
+       "value": "G. P. Putnam's Sons",
+       "url": "https://www.wikidata.org/wiki/Q862948"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "b1517",
+   "title": "Silent Prey",
+   "sourcesReached": [
+    "OpenLibrary",
+    "Google Books"
+   ],
+   "sourcesMissed": [
+    "Wikidata (no match)"
+   ],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "first publication year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 1992,
+     "proposed": 1992,
+     "status": "corroborated-by-one",
+     "grade": "B",
+     "note": "matches OpenLibrary; disagrees with Google Books (1993)",
+     "sources": [
+      {
+       "src": "OpenLibrary",
+       "value": 1992,
+       "url": "https://openlibrary.org/search.json?title=Silent+Prey&limit=1"
+      },
+      {
+       "src": "Google Books",
+       "value": 1993,
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3ASilent+Prey&maxResults=1&key=REDACTED"
+      }
+     ],
+     "alternatives": [
+      1993
+     ]
+    },
+    {
+     "field": "pages",
+     "label": "page count",
+     "soft": false,
+     "editionDependent": true,
+     "current": 352,
+     "proposed": 388,
+     "status": "edition-dependent",
+     "grade": "B",
+     "note": "one source differs from the corpus (Google Books 388) on a field with no single true value -- likely a different printing/edition, not an error.",
+     "sources": [
+      {
+       "src": "Google Books",
+       "value": 388,
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3ASilent+Prey&maxResults=1&key=REDACTED"
+      }
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "author",
+     "soft": false,
+     "editionDependent": false,
+     "current": "John Sandford",
+     "proposed": "John Sandford",
+     "status": "corroborated-by-one",
+     "grade": "B",
+     "note": "matches Google Books; disagrees with OpenLibrary (\"John Sandford & Richard Ferrone\")",
+     "sources": [
+      {
+       "src": "OpenLibrary",
+       "value": "John Sandford & Richard Ferrone",
+       "url": "https://openlibrary.org/search.json?title=Silent+Prey&limit=1"
+      },
+      {
+       "src": "Google Books",
+       "value": "John Sandford",
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3ASilent+Prey&maxResults=1&key=REDACTED"
+      }
+     ],
+     "alternatives": [
+      "John Sandford"
+     ]
+    },
+    {
+     "field": "publisher",
+     "label": "publisher",
+     "soft": true,
+     "editionDependent": true,
+     "current": "G. P. Putnam's Sons",
+     "proposed": "Penguin",
+     "status": "edition-dependent",
+     "grade": "B",
+     "note": "one source differs from the corpus (Google Books \"Penguin\") on a field with no single true value -- likely a different printing/edition, not an error.",
+     "sources": [
+      {
+       "src": "Google Books",
+       "value": "Penguin",
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3ASilent+Prey&maxResults=1&key=REDACTED"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "b1518",
+   "title": "Winter Prey",
+   "sourcesReached": [
+    "OpenLibrary",
+    "Google Books"
+   ],
+   "sourcesMissed": [
+    "Wikidata (no match)"
+   ],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "first publication year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 1993,
+     "proposed": 1993,
+     "status": "corroborated-by-one",
+     "grade": "B",
+     "note": "matches OpenLibrary; disagrees with Google Books (2009)",
+     "sources": [
+      {
+       "src": "OpenLibrary",
+       "value": 1993,
+       "url": "https://openlibrary.org/search.json?title=Winter+Prey&limit=1"
+      },
+      {
+       "src": "Google Books",
+       "value": 2009,
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3AWinter+Prey&maxResults=1&key=REDACTED"
+      }
+     ],
+     "alternatives": [
+      2009
+     ]
+    },
+    {
+     "field": "pages",
+     "label": "page count",
+     "soft": false,
+     "editionDependent": true,
+     "current": 333,
+     "proposed": 417,
+     "status": "edition-dependent",
+     "grade": "B",
+     "note": "one source differs from the corpus (Google Books 417) on a field with no single true value -- likely a different printing/edition, not an error.",
+     "sources": [
+      {
+       "src": "Google Books",
+       "value": 417,
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3AWinter+Prey&maxResults=1&key=REDACTED"
+      }
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "author",
+     "soft": false,
+     "editionDependent": false,
+     "current": "John Sandford",
+     "proposed": "John Sandford",
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OpenLibrary",
+       "value": "John Sandford",
+       "url": "https://openlibrary.org/search.json?title=Winter+Prey&limit=1"
+      },
+      {
+       "src": "Google Books",
+       "value": "John Sandford",
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3AWinter+Prey&maxResults=1&key=REDACTED"
+      }
+     ]
+    },
+    {
+     "field": "publisher",
+     "label": "publisher",
+     "soft": true,
+     "editionDependent": true,
+     "current": "G. P. Putnam's Sons",
+     "proposed": "Penguin",
+     "status": "edition-dependent",
+     "grade": "B",
+     "note": "one source differs from the corpus (Google Books \"Penguin\") on a field with no single true value -- likely a different printing/edition, not an error.",
+     "sources": [
+      {
+       "src": "Google Books",
+       "value": "Penguin",
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3AWinter+Prey&maxResults=1&key=REDACTED"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "b1519",
+   "title": "Night Prey",
+   "sourcesReached": [
+    "OpenLibrary",
+    "Google Books"
+   ],
+   "sourcesMissed": [
+    "Wikidata (no match)"
+   ],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "first publication year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 1994,
+     "proposed": 1994,
+     "status": "corroborated-by-one",
+     "grade": "B",
+     "note": "matches OpenLibrary; disagrees with Google Books (1995)",
+     "sources": [
+      {
+       "src": "OpenLibrary",
+       "value": 1994,
+       "url": "https://openlibrary.org/search.json?title=Night+Prey&limit=1"
+      },
+      {
+       "src": "Google Books",
+       "value": 1995,
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3ANight+Prey&maxResults=1&key=REDACTED"
+      }
+     ],
+     "alternatives": [
+      1995
+     ]
+    },
+    {
+     "field": "pages",
+     "label": "page count",
+     "soft": false,
+     "editionDependent": true,
+     "current": 337,
+     "proposed": 420,
+     "status": "edition-dependent",
+     "grade": "B",
+     "note": "one source differs from the corpus (Google Books 420) on a field with no single true value -- likely a different printing/edition, not an error.",
+     "sources": [
+      {
+       "src": "Google Books",
+       "value": 420,
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3ANight+Prey&maxResults=1&key=REDACTED"
+      }
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "author",
+     "soft": false,
+     "editionDependent": false,
+     "current": "John Sandford",
+     "proposed": "John Sandford",
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OpenLibrary",
+       "value": "John Sandford",
+       "url": "https://openlibrary.org/search.json?title=Night+Prey&limit=1"
+      },
+      {
+       "src": "Google Books",
+       "value": "John Sandford",
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3ANight+Prey&maxResults=1&key=REDACTED"
+      }
+     ]
+    },
+    {
+     "field": "publisher",
+     "label": "publisher",
+     "soft": true,
+     "editionDependent": true,
+     "current": "G. P. Putnam's Sons",
+     "proposed": "Penguin",
+     "status": "edition-dependent",
+     "grade": "B",
+     "note": "one source differs from the corpus (Google Books \"Penguin\") on a field with no single true value -- likely a different printing/edition, not an error.",
+     "sources": [
+      {
+       "src": "Google Books",
+       "value": "Penguin",
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3ANight+Prey&maxResults=1&key=REDACTED"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "b1520",
+   "title": "Mind Prey",
+   "sourcesReached": [
+    "OpenLibrary",
+    "Google Books"
+   ],
+   "sourcesMissed": [
+    "Wikidata (no match)"
+   ],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "first publication year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 1995,
+     "proposed": 1995,
+     "status": "corroborated-by-one",
+     "grade": "B",
+     "note": "matches OpenLibrary; disagrees with Google Books (1996)",
+     "sources": [
+      {
+       "src": "OpenLibrary",
+       "value": 1995,
+       "url": "https://openlibrary.org/search.json?title=Mind+Prey&limit=1"
+      },
+      {
+       "src": "Google Books",
+       "value": 1996,
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3AMind+Prey&maxResults=1&key=REDACTED"
+      }
+     ],
+     "alternatives": [
+      1996
+     ]
+    },
+    {
+     "field": "pages",
+     "label": "page count",
+     "soft": false,
+     "editionDependent": true,
+     "current": 339,
+     "proposed": 372,
+     "status": "edition-dependent",
+     "grade": "B",
+     "note": "one source differs from the corpus (Google Books 372) on a field with no single true value -- likely a different printing/edition, not an error.",
+     "sources": [
+      {
+       "src": "Google Books",
+       "value": 372,
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3AMind+Prey&maxResults=1&key=REDACTED"
+      }
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "author",
+     "soft": false,
+     "editionDependent": false,
+     "current": "John Sandford",
+     "proposed": "John Sandford",
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OpenLibrary",
+       "value": "John Sandford",
+       "url": "https://openlibrary.org/search.json?title=Mind+Prey&limit=1"
+      },
+      {
+       "src": "Google Books",
+       "value": "John Sandford",
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3AMind+Prey&maxResults=1&key=REDACTED"
+      }
+     ]
+    },
+    {
+     "field": "publisher",
+     "label": "publisher",
+     "soft": true,
+     "editionDependent": true,
+     "current": "G. P. Putnam's Sons",
+     "proposed": "Penguin",
+     "status": "edition-dependent",
+     "grade": "B",
+     "note": "one source differs from the corpus (Google Books \"Penguin\") on a field with no single true value -- likely a different printing/edition, not an error.",
+     "sources": [
+      {
+       "src": "Google Books",
+       "value": "Penguin",
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3AMind+Prey&maxResults=1&key=REDACTED"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "b1521",
+   "title": "The Innocent Man",
+   "sourcesReached": [
+    "OpenLibrary",
+    "Google Books",
+    "Wikidata"
+   ],
+   "sourcesMissed": [],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "first publication year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 2006,
+     "proposed": 2006,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OpenLibrary",
+       "value": 2006,
+       "url": "https://openlibrary.org/search.json?title=The+Innocent+Man&limit=1"
+      },
+      {
+       "src": "Google Books",
+       "value": 2006,
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3AThe+Innocent+Man&maxResults=1&key=REDACTED"
+      },
+      {
+       "src": "Wikidata",
+       "value": 2006,
+       "url": "https://www.wikidata.org/wiki/Q1193756"
+      }
+     ]
+    },
+    {
+     "field": "pages",
+     "label": "page count",
+     "soft": false,
+     "editionDependent": true,
+     "current": 368,
+     "proposed": 580,
+     "status": "edition-dependent",
+     "grade": "B",
+     "note": "one source differs from the corpus (Google Books 580) on a field with no single true value -- likely a different printing/edition, not an error.",
+     "sources": [
+      {
+       "src": "Google Books",
+       "value": 580,
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3AThe+Innocent+Man&maxResults=1&key=REDACTED"
+      }
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "author",
+     "soft": false,
+     "editionDependent": false,
+     "current": "John Grisham",
+     "proposed": "John Grisham",
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OpenLibrary",
+       "value": "John Grisham",
+       "url": "https://openlibrary.org/search.json?title=The+Innocent+Man&limit=1"
+      },
+      {
+       "src": "Google Books",
+       "value": "John Grisham",
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3AThe+Innocent+Man&maxResults=1&key=REDACTED"
+      },
+      {
+       "src": "Wikidata",
+       "value": "John Grisham",
+       "url": "https://www.wikidata.org/wiki/Q1193756"
+      }
+     ]
+    },
+    {
+     "field": "publisher",
+     "label": "publisher",
+     "soft": true,
+     "editionDependent": true,
+     "current": "Doubleday",
+     "proposed": "Doubleday",
+     "status": "corroborated-by-one",
+     "grade": "B",
+     "note": "matches Wikidata; disagrees with Google Books (\"Random House Large Print Publishing\")",
+     "sources": [
+      {
+       "src": "Google Books",
+       "value": "Random House Large Print Publishing",
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3AThe+Innocent+Man&maxResults=1&key=REDACTED"
+      },
+      {
+       "src": "Wikidata",
+       "value": "Doubleday",
+       "url": "https://www.wikidata.org/wiki/Q1193756"
+      }
+     ],
+     "alternatives": [
+      "Doubleday"
+     ]
+    }
+   ]
+  },
+  {
+   "id": "b1522",
+   "title": "Playing for Pizza",
+   "sourcesReached": [
+    "OpenLibrary",
+    "Google Books",
+    "Wikidata"
+   ],
+   "sourcesMissed": [],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "first publication year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 2007,
+     "proposed": 2007,
+     "status": "corroborated-by-one",
+     "grade": "B",
+     "note": "matches OpenLibrary/Wikidata; disagrees with Google Books (2010)",
+     "sources": [
+      {
+       "src": "OpenLibrary",
+       "value": 2007,
+       "url": "https://openlibrary.org/search.json?title=Playing+for+Pizza&limit=1"
+      },
+      {
+       "src": "Google Books",
+       "value": 2010,
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3APlaying+for+Pizza&maxResults=1&key=REDACTED"
+      },
+      {
+       "src": "Wikidata",
+       "value": 2007,
+       "url": "https://www.wikidata.org/wiki/Q1577004"
+      }
+     ],
+     "alternatives": [
+      2010
+     ]
+    },
+    {
+     "field": "pages",
+     "label": "page count",
+     "soft": false,
+     "editionDependent": true,
+     "current": 259,
+     "proposed": 250,
+     "status": "edition-dependent",
+     "grade": "B",
+     "note": "one source differs from the corpus (Google Books 250) on a field with no single true value -- likely a different printing/edition, not an error.",
+     "sources": [
+      {
+       "src": "Google Books",
+       "value": 250,
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3APlaying+for+Pizza&maxResults=1&key=REDACTED"
+      }
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "author",
+     "soft": false,
+     "editionDependent": false,
+     "current": "John Grisham",
+     "proposed": "John Grisham",
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OpenLibrary",
+       "value": "John Grisham",
+       "url": "https://openlibrary.org/search.json?title=Playing+for+Pizza&limit=1"
+      },
+      {
+       "src": "Google Books",
+       "value": "John Grisham",
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3APlaying+for+Pizza&maxResults=1&key=REDACTED"
+      },
+      {
+       "src": "Wikidata",
+       "value": "John Grisham",
+       "url": "https://www.wikidata.org/wiki/Q1577004"
+      }
+     ]
+    },
+    {
+     "field": "publisher",
+     "label": "publisher",
+     "soft": true,
+     "editionDependent": true,
+     "current": "Doubleday",
+     "proposed": "Doubleday",
+     "status": "corroborated-by-one",
+     "grade": "B",
+     "note": "matches Wikidata; disagrees with Google Books (\"Vintage\")",
+     "sources": [
+      {
+       "src": "Google Books",
+       "value": "Vintage",
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3APlaying+for+Pizza&maxResults=1&key=REDACTED"
+      },
+      {
+       "src": "Wikidata",
+       "value": "Doubleday",
+       "url": "https://www.wikidata.org/wiki/Q1577004"
+      }
+     ],
+     "alternatives": [
+      "Doubleday"
+     ]
+    }
+   ]
+  },
+  {
+   "id": "b1523",
+   "title": "Skipping Christmas",
+   "sourcesReached": [
+    "OpenLibrary",
+    "Google Books",
+    "Wikidata"
+   ],
+   "sourcesMissed": [],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "first publication year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 2001,
+     "proposed": 2001,
+     "status": "corroborated-by-one",
+     "grade": "B",
+     "note": "matches Wikidata; disagrees with OpenLibrary (1998), Google Books (2010)",
+     "sources": [
+      {
+       "src": "OpenLibrary",
+       "value": 1998,
+       "url": "https://openlibrary.org/search.json?title=Skipping+Christmas&limit=1"
+      },
+      {
+       "src": "Google Books",
+       "value": 2010,
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3ASkipping+Christmas&maxResults=1&key=REDACTED"
+      },
+      {
+       "src": "Wikidata",
+       "value": 2001,
+       "url": "https://www.wikidata.org/wiki/Q1153598"
+      }
+     ],
+     "alternatives": [
+      2010,
+      2001
+     ]
+    },
+    {
+     "field": "pages",
+     "label": "page count",
+     "soft": false,
+     "editionDependent": true,
+     "current": 178,
+     "proposed": 210,
+     "status": "edition-dependent",
+     "grade": "B",
+     "note": "one source differs from the corpus (Google Books 210) on a field with no single true value -- likely a different printing/edition, not an error.",
+     "sources": [
+      {
+       "src": "Google Books",
+       "value": 210,
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3ASkipping+Christmas&maxResults=1&key=REDACTED"
+      }
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "author",
+     "soft": false,
+     "editionDependent": false,
+     "current": "John Grisham",
+     "proposed": "John Grisham",
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OpenLibrary",
+       "value": "John Grisham",
+       "url": "https://openlibrary.org/search.json?title=Skipping+Christmas&limit=1"
+      },
+      {
+       "src": "Google Books",
+       "value": "John Grisham",
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3ASkipping+Christmas&maxResults=1&key=REDACTED"
+      },
+      {
+       "src": "Wikidata",
+       "value": "John Grisham",
+       "url": "https://www.wikidata.org/wiki/Q1153598"
+      }
+     ]
+    },
+    {
+     "field": "publisher",
+     "label": "publisher",
+     "soft": true,
+     "editionDependent": true,
+     "current": "Doubleday",
+     "proposed": "Doubleday",
+     "status": "corroborated-by-one",
+     "grade": "B",
+     "note": "matches Wikidata; disagrees with Google Books (\"Anchor\")",
+     "sources": [
+      {
+       "src": "Google Books",
+       "value": "Anchor",
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3ASkipping+Christmas&maxResults=1&key=REDACTED"
+      },
+      {
+       "src": "Wikidata",
+       "value": "Doubleday",
+       "url": "https://www.wikidata.org/wiki/Q1153598"
+      }
+     ],
+     "alternatives": [
+      "Doubleday"
+     ]
+    }
+   ]
+  },
+  {
+   "id": "b1524",
+   "title": "All That Remains",
+   "sourcesReached": [
+    "OpenLibrary"
+   ],
+   "sourcesMissed": [
+    "Google Books (no match)",
+    "Wikidata (no match)"
+   ],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "first publication year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 1992,
+     "proposed": 1992,
+     "status": "confirmed",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "OpenLibrary",
+       "value": 1992,
+       "url": "https://openlibrary.org/search.json?title=All+That+Remains&limit=1"
+      }
+     ]
+    },
+    {
+     "field": "pages",
+     "label": "page count",
+     "soft": false,
+     "current": 337,
+     "status": "no-source",
+     "grade": null,
+     "sources": []
+    },
+    {
+     "field": "creator",
+     "label": "author",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Patricia Cornwell",
+     "proposed": "Patricia Cornwell",
+     "status": "confirmed",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "OpenLibrary",
+       "value": "Patricia Cornwell",
+       "url": "https://openlibrary.org/search.json?title=All+That+Remains&limit=1"
+      }
+     ]
+    },
+    {
+     "field": "publisher",
+     "label": "publisher",
+     "soft": true,
+     "current": "Charles Scribner's Sons",
+     "status": "no-source",
+     "grade": null,
+     "sources": []
+    }
+   ]
+  },
+  {
+   "id": "b1525",
+   "title": "Zero Day",
+   "sourcesReached": [
+    "OpenLibrary",
+    "Wikidata"
+   ],
+   "sourcesMissed": [
+    "Google Books (no match)"
+   ],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "first publication year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 2011,
+     "proposed": 2011,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OpenLibrary",
+       "value": 2011,
+       "url": "https://openlibrary.org/search.json?title=Zero+Day&limit=1"
+      },
+      {
+       "src": "Wikidata",
+       "value": 2011,
+       "url": "https://www.wikidata.org/wiki/Q18791571"
+      }
+     ]
+    },
+    {
+     "field": "pages",
+     "label": "page count",
+     "soft": false,
+     "current": 417,
+     "status": "no-source",
+     "grade": null,
+     "sources": []
+    },
+    {
+     "field": "creator",
+     "label": "author",
+     "soft": false,
+     "editionDependent": false,
+     "current": "David Baldacci",
+     "proposed": "David Baldacci",
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OpenLibrary",
+       "value": "David Baldacci",
+       "url": "https://openlibrary.org/search.json?title=Zero+Day&limit=1"
+      },
+      {
+       "src": "Wikidata",
+       "value": "David Baldacci",
+       "url": "https://www.wikidata.org/wiki/Q18791571"
+      }
+     ]
+    },
+    {
+     "field": "publisher",
+     "label": "publisher",
+     "soft": true,
+     "editionDependent": true,
+     "current": "Grand Central Publishing",
+     "proposed": "Grand Central Publishing",
+     "status": "confirmed",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "Wikidata",
+       "value": "Grand Central Publishing",
+       "url": "https://www.wikidata.org/wiki/Q18791571"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "b1526",
+   "title": "Deliver Us from Evil",
+   "sourcesReached": [
+    "OpenLibrary",
+    "Wikidata"
+   ],
+   "sourcesMissed": [
+    "Google Books (no match)"
+   ],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "first publication year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 2010,
+     "proposed": 2010,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OpenLibrary",
+       "value": 2010,
+       "url": "https://openlibrary.org/search.json?title=Deliver+Us+from+Evil&limit=1"
+      },
+      {
+       "src": "Wikidata",
+       "value": 2010,
+       "url": "https://www.wikidata.org/wiki/Q18794219"
+      }
+     ]
+    },
+    {
+     "field": "pages",
+     "label": "page count",
+     "soft": false,
+     "current": 436,
+     "status": "no-source",
+     "grade": null,
+     "sources": []
+    },
+    {
+     "field": "creator",
+     "label": "author",
+     "soft": false,
+     "editionDependent": false,
+     "current": "David Baldacci",
+     "proposed": "David Baldacci",
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OpenLibrary",
+       "value": "David Baldacci",
+       "url": "https://openlibrary.org/search.json?title=Deliver+Us+from+Evil&limit=1"
+      },
+      {
+       "src": "Wikidata",
+       "value": "David Baldacci",
+       "url": "https://www.wikidata.org/wiki/Q18794219"
+      }
+     ]
+    },
+    {
+     "field": "publisher",
+     "label": "publisher",
+     "soft": true,
+     "editionDependent": true,
+     "current": "Grand Central Publishing",
+     "proposed": "Grand Central Publishing",
+     "status": "confirmed",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "Wikidata",
+       "value": "Grand Central Publishing",
+       "url": "https://www.wikidata.org/wiki/Q18794219"
+      }
+     ]
+    }
+   ]
+  }
+ ]
+}

@@ -1,0 +1,1109 @@
+{
+ "medium": "book",
+ "generated": "2026-09-17T17:36:51.585Z",
+ "offline": false,
+ "sources": [
+  "OpenLibrary",
+  "Google Books",
+  "Wikidata"
+ ],
+ "works": [
+  {
+   "id": "b1505",
+   "title": "Phantoms",
+   "sourcesReached": [
+    "OpenLibrary",
+    "Google Books",
+    "Wikidata"
+   ],
+   "sourcesMissed": [],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "first publication year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 1983,
+     "proposed": 1983,
+     "status": "corroborated-by-one",
+     "grade": "B",
+     "note": "matches OpenLibrary/Wikidata; disagrees with Google Books (2002)",
+     "sources": [
+      {
+       "src": "OpenLibrary",
+       "value": 1983,
+       "url": "https://openlibrary.org/search.json?title=Phantoms&limit=1"
+      },
+      {
+       "src": "Google Books",
+       "value": 2002,
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3APhantoms&maxResults=1&key=REDACTED"
+      },
+      {
+       "src": "Wikidata",
+       "value": 1983,
+       "url": "https://www.wikidata.org/wiki/Q15391883"
+      }
+     ],
+     "alternatives": [
+      2002
+     ]
+    },
+    {
+     "field": "pages",
+     "label": "page count",
+     "soft": false,
+     "editionDependent": true,
+     "current": 390,
+     "proposed": 450,
+     "status": "edition-dependent",
+     "grade": "B",
+     "note": "one source differs from the corpus (Google Books 450) on a field with no single true value -- likely a different printing/edition, not an error.",
+     "sources": [
+      {
+       "src": "Google Books",
+       "value": 450,
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3APhantoms&maxResults=1&key=REDACTED"
+      }
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "author",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Dean Koontz",
+     "proposed": "Dean Koontz",
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OpenLibrary",
+       "value": "Dean Koontz",
+       "url": "https://openlibrary.org/search.json?title=Phantoms&limit=1"
+      },
+      {
+       "src": "Google Books",
+       "value": "Dean Koontz",
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3APhantoms&maxResults=1&key=REDACTED"
+      },
+      {
+       "src": "Wikidata",
+       "value": "Dean Koontz",
+       "url": "https://www.wikidata.org/wiki/Q15391883"
+      }
+     ]
+    },
+    {
+     "field": "publisher",
+     "label": "publisher",
+     "soft": true,
+     "editionDependent": true,
+     "current": "G. P. Putnam's Sons",
+     "proposed": "Penguin",
+     "status": "edition-dependent",
+     "grade": "B",
+     "note": "one source differs from the corpus (Google Books \"Penguin\") on a field with no single true value -- likely a different printing/edition, not an error.",
+     "sources": [
+      {
+       "src": "Google Books",
+       "value": "Penguin",
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3APhantoms&maxResults=1&key=REDACTED"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "b1506",
+   "title": "Sole Survivor",
+   "sourcesReached": [
+    "OpenLibrary",
+    "Wikidata"
+   ],
+   "sourcesMissed": [
+    "Google Books (no match)"
+   ],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "first publication year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 1997,
+     "proposed": 1997,
+     "status": "corroborated-by-one",
+     "grade": "B",
+     "note": "matches Wikidata; disagrees with OpenLibrary (1977)",
+     "sources": [
+      {
+       "src": "OpenLibrary",
+       "value": 1977,
+       "url": "https://openlibrary.org/search.json?title=Sole+Survivor&limit=1"
+      },
+      {
+       "src": "Wikidata",
+       "value": 1997,
+       "url": "https://www.wikidata.org/wiki/Q7557471"
+      }
+     ],
+     "alternatives": [
+      1997
+     ]
+    },
+    {
+     "field": "pages",
+     "label": "page count",
+     "soft": false,
+     "editionDependent": true,
+     "current": 384,
+     "proposed": 321,
+     "status": "edition-dependent",
+     "grade": "B",
+     "note": "one source differs from the corpus (Wikidata 321) on a field with no single true value -- likely a different printing/edition, not an error.",
+     "sources": [
+      {
+       "src": "Wikidata",
+       "value": 321,
+       "url": "https://www.wikidata.org/wiki/Q7557471"
+      }
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "author",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Dean Koontz",
+     "proposed": "Dean Koontz",
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OpenLibrary",
+       "value": "Dean Koontz",
+       "url": "https://openlibrary.org/search.json?title=Sole+Survivor&limit=1"
+      },
+      {
+       "src": "Wikidata",
+       "value": "Dean Koontz",
+       "url": "https://www.wikidata.org/wiki/Q7557471"
+      }
+     ]
+    },
+    {
+     "field": "publisher",
+     "label": "publisher",
+     "soft": true,
+     "editionDependent": true,
+     "current": "Alfred A. Knopf",
+     "proposed": "Bantam Books",
+     "status": "edition-dependent",
+     "grade": "B",
+     "note": "one source differs from the corpus (Wikidata \"Bantam Books\") on a field with no single true value -- likely a different printing/edition, not an error.",
+     "sources": [
+      {
+       "src": "Wikidata",
+       "value": "Bantam Books",
+       "url": "https://www.wikidata.org/wiki/Q7557471"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "b1507",
+   "title": "False Memory",
+   "sourcesReached": [
+    "OpenLibrary",
+    "Google Books",
+    "Wikidata"
+   ],
+   "sourcesMissed": [],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "first publication year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 1999,
+     "proposed": 1999,
+     "status": "corroborated-by-one",
+     "grade": "B",
+     "note": "matches OpenLibrary/Wikidata; disagrees with Google Books (2000)",
+     "sources": [
+      {
+       "src": "OpenLibrary",
+       "value": 1999,
+       "url": "https://openlibrary.org/search.json?title=False+Memory&limit=1"
+      },
+      {
+       "src": "Google Books",
+       "value": 2000,
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3AFalse+Memory&maxResults=1&key=REDACTED"
+      },
+      {
+       "src": "Wikidata",
+       "value": 1999,
+       "url": "https://www.wikidata.org/wiki/Q5432653"
+      }
+     ],
+     "alternatives": [
+      2000
+     ]
+    },
+    {
+     "field": "pages",
+     "label": "page count",
+     "soft": false,
+     "editionDependent": true,
+     "current": 624,
+     "proposed": 770,
+     "status": "edition-dependent",
+     "grade": "B",
+     "note": "one source differs from the corpus (Google Books 770) on a field with no single true value -- likely a different printing/edition, not an error.",
+     "sources": [
+      {
+       "src": "Google Books",
+       "value": 770,
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3AFalse+Memory&maxResults=1&key=REDACTED"
+      }
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "author",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Dean Koontz",
+     "proposed": "Dean Koontz",
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OpenLibrary",
+       "value": "Dean Koontz",
+       "url": "https://openlibrary.org/search.json?title=False+Memory&limit=1"
+      },
+      {
+       "src": "Google Books",
+       "value": "Dean Koontz",
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3AFalse+Memory&maxResults=1&key=REDACTED"
+      },
+      {
+       "src": "Wikidata",
+       "value": "Dean Koontz",
+       "url": "https://www.wikidata.org/wiki/Q5432653"
+      }
+     ]
+    },
+    {
+     "field": "publisher",
+     "label": "publisher",
+     "soft": true,
+     "editionDependent": true,
+     "current": "Bantam Books",
+     "proposed": "Random House Digital, Inc.",
+     "status": "edition-dependent",
+     "grade": "B",
+     "note": "corpus value does not match either source (Google Books \"Random House Digital, Inc.\", Wikidata \"Cemetery Dance Publications\") -- treated as a distinct edition; the specific cut is not identified from available evidence.",
+     "sources": [
+      {
+       "src": "Google Books",
+       "value": "Random House Digital, Inc.",
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3AFalse+Memory&maxResults=1&key=REDACTED"
+      },
+      {
+       "src": "Wikidata",
+       "value": "Cemetery Dance Publications",
+       "url": "https://www.wikidata.org/wiki/Q5432653"
+      }
+     ],
+     "alternatives": [
+      "Cemetery Dance Publications"
+     ]
+    }
+   ]
+  },
+  {
+   "id": "b1508",
+   "title": "Seize the Night",
+   "sourcesReached": [
+    "OpenLibrary",
+    "Google Books",
+    "Wikidata"
+   ],
+   "sourcesMissed": [],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "first publication year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 1998,
+     "proposed": 1998,
+     "status": "corroborated-by-one",
+     "grade": "B",
+     "note": "matches OpenLibrary/Wikidata; disagrees with Google Books (2012)",
+     "sources": [
+      {
+       "src": "OpenLibrary",
+       "value": 1998,
+       "url": "https://openlibrary.org/search.json?title=Seize+the+Night&limit=1"
+      },
+      {
+       "src": "Google Books",
+       "value": 2012,
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3ASeize+the+Night&maxResults=1&key=REDACTED"
+      },
+      {
+       "src": "Wikidata",
+       "value": 1998,
+       "url": "https://www.wikidata.org/wiki/Q7447044"
+      }
+     ],
+     "alternatives": [
+      2012
+     ]
+    },
+    {
+     "field": "pages",
+     "label": "page count",
+     "soft": false,
+     "editionDependent": true,
+     "current": 352,
+     "proposed": 412,
+     "status": "edition-dependent",
+     "grade": "B",
+     "note": "one source differs from the corpus (Google Books 412) on a field with no single true value -- likely a different printing/edition, not an error.",
+     "sources": [
+      {
+       "src": "Google Books",
+       "value": 412,
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3ASeize+the+Night&maxResults=1&key=REDACTED"
+      }
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "author",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Dean Koontz",
+     "proposed": "Dean Koontz",
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OpenLibrary",
+       "value": "Dean Koontz",
+       "url": "https://openlibrary.org/search.json?title=Seize+the+Night&limit=1"
+      },
+      {
+       "src": "Google Books",
+       "value": "Dean Koontz",
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3ASeize+the+Night&maxResults=1&key=REDACTED"
+      },
+      {
+       "src": "Wikidata",
+       "value": "Dean Koontz",
+       "url": "https://www.wikidata.org/wiki/Q7447044"
+      }
+     ]
+    },
+    {
+     "field": "publisher",
+     "label": "publisher",
+     "soft": true,
+     "editionDependent": true,
+     "current": "Alfred A. Knopf",
+     "proposed": "Hachette UK",
+     "status": "edition-dependent",
+     "grade": "B",
+     "note": "corpus value does not match either source (Google Books \"Hachette UK\", Wikidata \"Cemetery Dance Publications\") -- treated as a distinct edition; the specific cut is not identified from available evidence.",
+     "sources": [
+      {
+       "src": "Google Books",
+       "value": "Hachette UK",
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3ASeize+the+Night&maxResults=1&key=REDACTED"
+      },
+      {
+       "src": "Wikidata",
+       "value": "Cemetery Dance Publications",
+       "url": "https://www.wikidata.org/wiki/Q7447044"
+      }
+     ],
+     "alternatives": [
+      "Cemetery Dance Publications"
+     ]
+    }
+   ]
+  },
+  {
+   "id": "b1509",
+   "title": "From the Corner of His Eye",
+   "sourcesReached": [
+    "OpenLibrary",
+    "Google Books",
+    "Wikidata"
+   ],
+   "sourcesMissed": [],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "first publication year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 2000,
+     "proposed": 2000,
+     "status": "corroborated-by-one",
+     "grade": "B",
+     "note": "matches OpenLibrary/Wikidata; disagrees with Google Books (2012)",
+     "sources": [
+      {
+       "src": "OpenLibrary",
+       "value": 2000,
+       "url": "https://openlibrary.org/search.json?title=From+the+Corner+of+His+Eye&limit=1"
+      },
+      {
+       "src": "Google Books",
+       "value": 2012,
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3AFrom+the+Corner+of+His+Eye&maxResults=1&key=REDACTED"
+      },
+      {
+       "src": "Wikidata",
+       "value": 2000,
+       "url": "https://www.wikidata.org/wiki/Q5505624"
+      }
+     ],
+     "alternatives": [
+      2012
+     ]
+    },
+    {
+     "field": "pages",
+     "label": "page count",
+     "soft": false,
+     "editionDependent": true,
+     "current": 631,
+     "proposed": 754,
+     "status": "edition-dependent",
+     "grade": "B",
+     "note": "one source differs from the corpus (Google Books 754) on a field with no single true value -- likely a different printing/edition, not an error.",
+     "sources": [
+      {
+       "src": "Google Books",
+       "value": 754,
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3AFrom+the+Corner+of+His+Eye&maxResults=1&key=REDACTED"
+      }
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "author",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Dean Koontz",
+     "proposed": "Dean Koontz",
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OpenLibrary",
+       "value": "Dean Koontz",
+       "url": "https://openlibrary.org/search.json?title=From+the+Corner+of+His+Eye&limit=1"
+      },
+      {
+       "src": "Google Books",
+       "value": "Dean Koontz",
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3AFrom+the+Corner+of+His+Eye&maxResults=1&key=REDACTED"
+      },
+      {
+       "src": "Wikidata",
+       "value": "Dean Koontz",
+       "url": "https://www.wikidata.org/wiki/Q5505624"
+      }
+     ]
+    },
+    {
+     "field": "publisher",
+     "label": "publisher",
+     "soft": true,
+     "editionDependent": true,
+     "current": "Bantam Books",
+     "proposed": "Bantam Books",
+     "status": "corroborated-by-one",
+     "grade": "B",
+     "note": "matches Wikidata; disagrees with Google Books (\"Bantam\")",
+     "sources": [
+      {
+       "src": "Google Books",
+       "value": "Bantam",
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3AFrom+the+Corner+of+His+Eye&maxResults=1&key=REDACTED"
+      },
+      {
+       "src": "Wikidata",
+       "value": "Bantam Books",
+       "url": "https://www.wikidata.org/wiki/Q5505624"
+      }
+     ],
+     "alternatives": [
+      "Bantam Books"
+     ]
+    }
+   ]
+  },
+  {
+   "id": "b1510",
+   "title": "Life Expectancy",
+   "sourcesReached": [
+    "OpenLibrary",
+    "Wikidata"
+   ],
+   "sourcesMissed": [
+    "Google Books (no match)"
+   ],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "first publication year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 2004,
+     "proposed": 2004,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OpenLibrary",
+       "value": 2004,
+       "url": "https://openlibrary.org/search.json?title=Life+Expectancy&limit=1"
+      },
+      {
+       "src": "Wikidata",
+       "value": 2004,
+       "url": "https://www.wikidata.org/wiki/Q6544773"
+      }
+     ]
+    },
+    {
+     "field": "pages",
+     "label": "page count",
+     "soft": false,
+     "current": 403,
+     "status": "no-source",
+     "grade": null,
+     "sources": []
+    },
+    {
+     "field": "creator",
+     "label": "author",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Dean Koontz",
+     "proposed": "Dean Koontz",
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OpenLibrary",
+       "value": "Dean Koontz",
+       "url": "https://openlibrary.org/search.json?title=Life+Expectancy&limit=1"
+      },
+      {
+       "src": "Wikidata",
+       "value": "Dean Koontz",
+       "url": "https://www.wikidata.org/wiki/Q6544773"
+      }
+     ]
+    },
+    {
+     "field": "publisher",
+     "label": "publisher",
+     "soft": true,
+     "editionDependent": true,
+     "current": "Bantam Books",
+     "proposed": "Bantam Books",
+     "status": "confirmed",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "Wikidata",
+       "value": "Bantam Books",
+       "url": "https://www.wikidata.org/wiki/Q6544773"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "b1511",
+   "title": "Velocity",
+   "sourcesReached": [
+    "OpenLibrary"
+   ],
+   "sourcesMissed": [
+    "Google Books (no match)",
+    "Wikidata (no match)"
+   ],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "first publication year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 2005,
+     "proposed": 2005,
+     "status": "confirmed",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "OpenLibrary",
+       "value": 2005,
+       "url": "https://openlibrary.org/search.json?title=Velocity&limit=1"
+      }
+     ]
+    },
+    {
+     "field": "pages",
+     "label": "page count",
+     "soft": false,
+     "current": 387,
+     "status": "no-source",
+     "grade": null,
+     "sources": []
+    },
+    {
+     "field": "creator",
+     "label": "author",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Dean Koontz",
+     "proposed": "Dean Koontz",
+     "status": "confirmed",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "OpenLibrary",
+       "value": "Dean Koontz",
+       "url": "https://openlibrary.org/search.json?title=Velocity&limit=1"
+      }
+     ]
+    },
+    {
+     "field": "publisher",
+     "label": "publisher",
+     "soft": true,
+     "current": "Bantam Books",
+     "status": "no-source",
+     "grade": null,
+     "sources": []
+    }
+   ]
+  },
+  {
+   "id": "b1512",
+   "title": "E Is for Evidence",
+   "sourcesReached": [
+    "OpenLibrary",
+    "Google Books",
+    "Wikidata"
+   ],
+   "sourcesMissed": [],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "first publication year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 1988,
+     "proposed": 1988,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OpenLibrary",
+       "value": 1988,
+       "url": "https://openlibrary.org/search.json?title=E+Is+for+Evidence&limit=1"
+      },
+      {
+       "src": "Google Books",
+       "value": 1988,
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3AE+Is+for+Evidence&maxResults=1&key=REDACTED"
+      },
+      {
+       "src": "Wikidata",
+       "value": 1988,
+       "url": "https://www.wikidata.org/wiki/Q4540279"
+      }
+     ]
+    },
+    {
+     "field": "pages",
+     "label": "page count",
+     "soft": false,
+     "editionDependent": true,
+     "current": 247,
+     "proposed": 321,
+     "status": "edition-dependent",
+     "grade": "B",
+     "note": "one source differs from the corpus (Google Books 321) on a field with no single true value -- likely a different printing/edition, not an error.",
+     "sources": [
+      {
+       "src": "Google Books",
+       "value": 321,
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3AE+Is+for+Evidence&maxResults=1&key=REDACTED"
+      }
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "author",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Sue Grafton",
+     "proposed": "Sue Grafton",
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OpenLibrary",
+       "value": "Sue Grafton",
+       "url": "https://openlibrary.org/search.json?title=E+Is+for+Evidence&limit=1"
+      },
+      {
+       "src": "Google Books",
+       "value": "Sue Grafton",
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3AE+Is+for+Evidence&maxResults=1&key=REDACTED"
+      },
+      {
+       "src": "Wikidata",
+       "value": "Sue Grafton",
+       "url": "https://www.wikidata.org/wiki/Q4540279"
+      }
+     ]
+    },
+    {
+     "field": "publisher",
+     "label": "publisher",
+     "soft": true,
+     "editionDependent": true,
+     "current": "Henry Holt and Co.",
+     "proposed": "Holt Paperbacks",
+     "status": "edition-dependent",
+     "grade": "B",
+     "note": "corpus value does not match either source (Google Books \"Holt Paperbacks\", Wikidata \"Henry Holt and Company\") -- treated as a distinct edition; the specific cut is not identified from available evidence.",
+     "sources": [
+      {
+       "src": "Google Books",
+       "value": "Holt Paperbacks",
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3AE+Is+for+Evidence&maxResults=1&key=REDACTED"
+      },
+      {
+       "src": "Wikidata",
+       "value": "Henry Holt and Company",
+       "url": "https://www.wikidata.org/wiki/Q4540279"
+      }
+     ],
+     "alternatives": [
+      "Henry Holt and Company"
+     ]
+    }
+   ]
+  },
+  {
+   "id": "b1513",
+   "title": "F Is for Fugitive",
+   "sourcesReached": [
+    "OpenLibrary",
+    "Google Books",
+    "Wikidata"
+   ],
+   "sourcesMissed": [],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "first publication year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 1989,
+     "proposed": 1989,
+     "status": "corroborated-by-one",
+     "grade": "B",
+     "note": "matches OpenLibrary/Wikidata; disagrees with Google Books (2009)",
+     "sources": [
+      {
+       "src": "OpenLibrary",
+       "value": 1989,
+       "url": "https://openlibrary.org/search.json?title=F+Is+for+Fugitive&limit=1"
+      },
+      {
+       "src": "Google Books",
+       "value": 2009,
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3AF+Is+for+Fugitive&maxResults=1&key=REDACTED"
+      },
+      {
+       "src": "Wikidata",
+       "value": 1989,
+       "url": "https://www.wikidata.org/wiki/Q8170842"
+      }
+     ],
+     "alternatives": [
+      2009
+     ]
+    },
+    {
+     "field": "pages",
+     "label": "page count",
+     "soft": false,
+     "editionDependent": true,
+     "current": 243,
+     "proposed": 373,
+     "status": "edition-dependent",
+     "grade": "B",
+     "note": "one source differs from the corpus (Google Books 373) on a field with no single true value -- likely a different printing/edition, not an error.",
+     "sources": [
+      {
+       "src": "Google Books",
+       "value": 373,
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3AF+Is+for+Fugitive&maxResults=1&key=REDACTED"
+      }
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "author",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Sue Grafton",
+     "proposed": "Sue Grafton",
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OpenLibrary",
+       "value": "Sue Grafton",
+       "url": "https://openlibrary.org/search.json?title=F+Is+for+Fugitive&limit=1"
+      },
+      {
+       "src": "Google Books",
+       "value": "Sue Grafton",
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3AF+Is+for+Fugitive&maxResults=1&key=REDACTED"
+      },
+      {
+       "src": "Wikidata",
+       "value": "Sue Grafton",
+       "url": "https://www.wikidata.org/wiki/Q8170842"
+      }
+     ]
+    },
+    {
+     "field": "publisher",
+     "label": "publisher",
+     "soft": true,
+     "current": "Henry Holt and Co.",
+     "status": "no-source",
+     "grade": null,
+     "sources": []
+    }
+   ]
+  },
+  {
+   "id": "b1514",
+   "title": "G Is for Gumshoe",
+   "sourcesReached": [
+    "OpenLibrary",
+    "Google Books",
+    "Wikidata"
+   ],
+   "sourcesMissed": [],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "first publication year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 1990,
+     "proposed": 1990,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OpenLibrary",
+       "value": 1990,
+       "url": "https://openlibrary.org/search.json?title=G+Is+for+Gumshoe&limit=1"
+      },
+      {
+       "src": "Google Books",
+       "value": 1990,
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3AG+Is+for+Gumshoe&maxResults=1&key=REDACTED"
+      },
+      {
+       "src": "Wikidata",
+       "value": 1990,
+       "url": "https://www.wikidata.org/wiki/Q4540284"
+      }
+     ]
+    },
+    {
+     "field": "pages",
+     "label": "page count",
+     "soft": false,
+     "editionDependent": true,
+     "current": 261,
+     "proposed": 336,
+     "status": "edition-dependent",
+     "grade": "B",
+     "note": "one source differs from the corpus (Google Books 336) on a field with no single true value -- likely a different printing/edition, not an error.",
+     "sources": [
+      {
+       "src": "Google Books",
+       "value": 336,
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3AG+Is+for+Gumshoe&maxResults=1&key=REDACTED"
+      }
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "author",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Sue Grafton",
+     "proposed": "Sue Grafton",
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OpenLibrary",
+       "value": "Sue Grafton",
+       "url": "https://openlibrary.org/search.json?title=G+Is+for+Gumshoe&limit=1"
+      },
+      {
+       "src": "Google Books",
+       "value": "Sue Grafton",
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3AG+Is+for+Gumshoe&maxResults=1&key=REDACTED"
+      },
+      {
+       "src": "Wikidata",
+       "value": "Sue Grafton",
+       "url": "https://www.wikidata.org/wiki/Q4540284"
+      }
+     ]
+    },
+    {
+     "field": "publisher",
+     "label": "publisher",
+     "soft": true,
+     "editionDependent": true,
+     "current": "Henry Holt and Co.",
+     "proposed": "Holt Paperbacks",
+     "status": "edition-dependent",
+     "grade": "B",
+     "note": "corpus value does not match either source (Google Books \"Holt Paperbacks\", Wikidata \"Henry Holt and Company\") -- treated as a distinct edition; the specific cut is not identified from available evidence.",
+     "sources": [
+      {
+       "src": "Google Books",
+       "value": "Holt Paperbacks",
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3AG+Is+for+Gumshoe&maxResults=1&key=REDACTED"
+      },
+      {
+       "src": "Wikidata",
+       "value": "Henry Holt and Company",
+       "url": "https://www.wikidata.org/wiki/Q4540284"
+      }
+     ],
+     "alternatives": [
+      "Henry Holt and Company"
+     ]
+    }
+   ]
+  },
+  {
+   "id": "b1515",
+   "title": "Flood Tide",
+   "sourcesReached": [
+    "OpenLibrary",
+    "Wikidata"
+   ],
+   "sourcesMissed": [
+    "Google Books (no match)"
+   ],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "first publication year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 1997,
+     "proposed": 1997,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OpenLibrary",
+       "value": 1997,
+       "url": "https://openlibrary.org/search.json?title=Flood+Tide&limit=1"
+      },
+      {
+       "src": "Wikidata",
+       "value": 1997,
+       "url": "https://www.wikidata.org/wiki/Q3180988"
+      }
+     ]
+    },
+    {
+     "field": "pages",
+     "label": "page count",
+     "soft": false,
+     "current": 528,
+     "status": "no-source",
+     "grade": null,
+     "sources": []
+    },
+    {
+     "field": "creator",
+     "label": "author",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Clive Cussler",
+     "proposed": "Clive Cussler",
+     "status": "corroborated-by-one",
+     "grade": "B",
+     "note": "matches Wikidata; disagrees with OpenLibrary (\"Clive Cussler & J. Charles\")",
+     "sources": [
+      {
+       "src": "OpenLibrary",
+       "value": "Clive Cussler & J. Charles",
+       "url": "https://openlibrary.org/search.json?title=Flood+Tide&limit=1"
+      },
+      {
+       "src": "Wikidata",
+       "value": "Clive Cussler",
+       "url": "https://www.wikidata.org/wiki/Q3180988"
+      }
+     ],
+     "alternatives": [
+      "Clive Cussler"
+     ]
+    },
+    {
+     "field": "publisher",
+     "label": "publisher",
+     "soft": true,
+     "editionDependent": true,
+     "current": "Simon & Schuster",
+     "proposed": "Simon & Schuster",
+     "status": "confirmed",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "Wikidata",
+       "value": "Simon & Schuster",
+       "url": "https://www.wikidata.org/wiki/Q3180988"
+      }
+     ]
+    }
+   ]
+  }
+ ]
+}
