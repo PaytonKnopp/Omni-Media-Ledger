@@ -1,0 +1,1425 @@
+{
+ "medium": "tv",
+ "generated": "2026-09-17T08:09:46.738Z",
+ "offline": false,
+ "sources": [
+  "OMDb",
+  "TMDB"
+ ],
+ "works": [
+  {
+   "id": "t403",
+   "title": "Two and a Half Men",
+   "sourcesReached": [
+    "OMDb",
+    "TMDB"
+   ],
+   "sourcesMissed": [],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "first air year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 2003,
+     "proposed": 2003,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 2003,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Two+and+a+Half+Men&type=series&y=2003"
+      },
+      {
+       "src": "TMDB",
+       "value": 2003,
+       "url": "https://api.themoviedb.org/3/search/tv?api_key=REDACTED&query=Two+and+a+Half+Men"
+      }
+     ]
+    },
+    {
+     "field": "seasons",
+     "label": "seasons",
+     "soft": false,
+     "editionDependent": false,
+     "current": 12,
+     "proposed": 12,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 12,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Two+and+a+Half+Men&type=series&y=2003"
+      },
+      {
+       "src": "TMDB",
+       "value": 12,
+       "url": "https://api.themoviedb.org/3/search/tv?api_key=REDACTED&query=Two+and+a+Half+Men"
+      }
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "creator",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Chuck Lorre, Lee Aronsohn",
+     "proposed": "Chuck Lorre, Lee Aronsohn",
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": "Lee Aronsohn, Chuck Lorre",
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Two+and+a+Half+Men&type=series&y=2003"
+      },
+      {
+       "src": "TMDB",
+       "value": "Lee Aronsohn, Chuck Lorre",
+       "url": "https://api.themoviedb.org/3/search/tv?api_key=REDACTED&query=Two+and+a+Half+Men"
+      }
+     ]
+    },
+    {
+     "field": "network",
+     "label": "network / streamer",
+     "soft": true,
+     "editionDependent": false,
+     "current": "CBS",
+     "proposed": "CBS",
+     "status": "confirmed",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "TMDB",
+       "value": "CBS",
+       "url": "https://api.themoviedb.org/3/search/tv?api_key=REDACTED&query=Two+and+a+Half+Men"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "t404",
+   "title": "Young Sheldon",
+   "sourcesReached": [
+    "OMDb",
+    "TMDB"
+   ],
+   "sourcesMissed": [],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "first air year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 2017,
+     "proposed": 2017,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 2017,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Young+Sheldon&type=series&y=2017"
+      },
+      {
+       "src": "TMDB",
+       "value": 2017,
+       "url": "https://api.themoviedb.org/3/search/tv?api_key=REDACTED&query=Young+Sheldon"
+      }
+     ]
+    },
+    {
+     "field": "seasons",
+     "label": "seasons",
+     "soft": false,
+     "editionDependent": false,
+     "current": 7,
+     "proposed": 7,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 7,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Young+Sheldon&type=series&y=2017"
+      },
+      {
+       "src": "TMDB",
+       "value": 7,
+       "url": "https://api.themoviedb.org/3/search/tv?api_key=REDACTED&query=Young+Sheldon"
+      }
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "creator",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Chuck Lorre, Steven Molaro",
+     "proposed": "Chuck Lorre, Steven Molaro",
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": "Chuck Lorre, Steven Molaro",
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Young+Sheldon&type=series&y=2017"
+      },
+      {
+       "src": "TMDB",
+       "value": "Steven Molaro, Chuck Lorre",
+       "url": "https://api.themoviedb.org/3/search/tv?api_key=REDACTED&query=Young+Sheldon"
+      }
+     ]
+    },
+    {
+     "field": "network",
+     "label": "network / streamer",
+     "soft": true,
+     "editionDependent": false,
+     "current": "CBS",
+     "proposed": "CBS",
+     "status": "confirmed",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "TMDB",
+       "value": "CBS",
+       "url": "https://api.themoviedb.org/3/search/tv?api_key=REDACTED&query=Young+Sheldon"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "t405",
+   "title": "Suits",
+   "sourcesReached": [
+    "OMDb",
+    "TMDB"
+   ],
+   "sourcesMissed": [],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "first air year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 2011,
+     "proposed": 2011,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 2011,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Suits&type=series&y=2011"
+      },
+      {
+       "src": "TMDB",
+       "value": 2011,
+       "url": "https://api.themoviedb.org/3/search/tv?api_key=REDACTED&query=Suits"
+      }
+     ]
+    },
+    {
+     "field": "seasons",
+     "label": "seasons",
+     "soft": false,
+     "editionDependent": false,
+     "current": 9,
+     "proposed": 9,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 9,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Suits&type=series&y=2011"
+      },
+      {
+       "src": "TMDB",
+       "value": 9,
+       "url": "https://api.themoviedb.org/3/search/tv?api_key=REDACTED&query=Suits"
+      }
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "creator",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Aaron Korsh",
+     "proposed": "Aaron Korsh",
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": "Aaron Korsh",
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Suits&type=series&y=2011"
+      },
+      {
+       "src": "TMDB",
+       "value": "Aaron Korsh",
+       "url": "https://api.themoviedb.org/3/search/tv?api_key=REDACTED&query=Suits"
+      }
+     ]
+    },
+    {
+     "field": "network",
+     "label": "network / streamer",
+     "soft": true,
+     "editionDependent": false,
+     "current": "USA Network",
+     "proposed": "USA Network",
+     "status": "confirmed",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "TMDB",
+       "value": "USA Network",
+       "url": "https://api.themoviedb.org/3/search/tv?api_key=REDACTED&query=Suits"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "t406",
+   "title": "Star Trek: Voyager",
+   "sourcesReached": [
+    "OMDb",
+    "TMDB"
+   ],
+   "sourcesMissed": [],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "first air year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 1995,
+     "proposed": 1995,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 1995,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Star+Trek%3A+Voyager&type=series&y=1995"
+      },
+      {
+       "src": "TMDB",
+       "value": 1995,
+       "url": "https://api.themoviedb.org/3/search/tv?api_key=REDACTED&query=Star+Trek%3A+Voyager"
+      }
+     ]
+    },
+    {
+     "field": "seasons",
+     "label": "seasons",
+     "soft": false,
+     "editionDependent": false,
+     "current": 7,
+     "proposed": 7,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 7,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Star+Trek%3A+Voyager&type=series&y=1995"
+      },
+      {
+       "src": "TMDB",
+       "value": 7,
+       "url": "https://api.themoviedb.org/3/search/tv?api_key=REDACTED&query=Star+Trek%3A+Voyager"
+      }
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "creator",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Rick Berman, Michael Piller, Jeri Taylor",
+     "proposed": "Rick Berman, Michael Piller, Jeri Taylor",
+     "status": "corroborated-by-one",
+     "grade": "B",
+     "note": "matches OMDb; disagrees with TMDB (\"Jeri Taylor, Rick Berman, Gene Roddenberry, Michael Piller\")",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": "Rick Berman, Michael Piller, Jeri Taylor",
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Star+Trek%3A+Voyager&type=series&y=1995"
+      },
+      {
+       "src": "TMDB",
+       "value": "Jeri Taylor, Rick Berman, Gene Roddenberry, Michael Piller",
+       "url": "https://api.themoviedb.org/3/search/tv?api_key=REDACTED&query=Star+Trek%3A+Voyager"
+      }
+     ],
+     "alternatives": [
+      "Jeri Taylor, Rick Berman, Gene Roddenberry, Michael Piller"
+     ]
+    },
+    {
+     "field": "network",
+     "label": "network / streamer",
+     "soft": true,
+     "editionDependent": false,
+     "current": "UPN",
+     "proposed": "UPN",
+     "status": "confirmed",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "TMDB",
+       "value": "UPN",
+       "url": "https://api.themoviedb.org/3/search/tv?api_key=REDACTED&query=Star+Trek%3A+Voyager"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "t407",
+   "title": "Star Trek: Discovery",
+   "sourcesReached": [
+    "OMDb",
+    "TMDB"
+   ],
+   "sourcesMissed": [],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "first air year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 2017,
+     "proposed": 2017,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 2017,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Star+Trek%3A+Discovery&type=series&y=2017"
+      },
+      {
+       "src": "TMDB",
+       "value": 2017,
+       "url": "https://api.themoviedb.org/3/search/tv?api_key=REDACTED&query=Star+Trek%3A+Discovery"
+      }
+     ]
+    },
+    {
+     "field": "seasons",
+     "label": "seasons",
+     "soft": false,
+     "editionDependent": false,
+     "current": 5,
+     "proposed": 5,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 5,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Star+Trek%3A+Discovery&type=series&y=2017"
+      },
+      {
+       "src": "TMDB",
+       "value": 5,
+       "url": "https://api.themoviedb.org/3/search/tv?api_key=REDACTED&query=Star+Trek%3A+Discovery"
+      }
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "creator",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Bryan Fuller, Alex Kurtzman",
+     "proposed": "Alex Kurtzman, Bryan Fuller",
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": "Bryan Fuller, Alex Kurtzman",
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Star+Trek%3A+Discovery&type=series&y=2017"
+      },
+      {
+       "src": "TMDB",
+       "value": "Bryan Fuller, Alex Kurtzman",
+       "url": "https://api.themoviedb.org/3/search/tv?api_key=REDACTED&query=Star+Trek%3A+Discovery"
+      }
+     ]
+    },
+    {
+     "field": "network",
+     "label": "network / streamer",
+     "soft": true,
+     "editionDependent": false,
+     "current": "CBS All Access / Paramount+",
+     "proposed": "CBS All Access",
+     "status": "proposed-change",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "TMDB",
+       "value": "CBS All Access",
+       "url": "https://api.themoviedb.org/3/search/tv?api_key=REDACTED&query=Star+Trek%3A+Discovery"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "t408",
+   "title": "Star Trek: Strange New Worlds",
+   "sourcesReached": [
+    "OMDb",
+    "TMDB"
+   ],
+   "sourcesMissed": [],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "first air year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 2022,
+     "proposed": 2022,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 2022,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Star+Trek%3A+Strange+New+Worlds&type=series&y=2022"
+      },
+      {
+       "src": "TMDB",
+       "value": 2022,
+       "url": "https://api.themoviedb.org/3/search/tv?api_key=REDACTED&query=Star+Trek%3A+Strange+New+Worlds"
+      }
+     ]
+    },
+    {
+     "field": "seasons",
+     "label": "seasons",
+     "soft": false,
+     "editionDependent": false,
+     "current": 3,
+     "proposed": 4,
+     "status": "proposed-change",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 4,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Star+Trek%3A+Strange+New+Worlds&type=series&y=2022"
+      },
+      {
+       "src": "TMDB",
+       "value": 4,
+       "url": "https://api.themoviedb.org/3/search/tv?api_key=REDACTED&query=Star+Trek%3A+Strange+New+Worlds"
+      }
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "creator",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Akiva Goldsman, Alex Kurtzman, Jenny Lumet",
+     "proposed": "Akiva Goldsman, Alex Kurtzman, Jenny Lumet",
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": "Akiva Goldsman, Alex Kurtzman, Jenny Lumet",
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Star+Trek%3A+Strange+New+Worlds&type=series&y=2022"
+      },
+      {
+       "src": "TMDB",
+       "value": "Jenny Lumet, Alex Kurtzman, Akiva Goldsman",
+       "url": "https://api.themoviedb.org/3/search/tv?api_key=REDACTED&query=Star+Trek%3A+Strange+New+Worlds"
+      }
+     ]
+    },
+    {
+     "field": "network",
+     "label": "network / streamer",
+     "soft": true,
+     "editionDependent": false,
+     "current": "Paramount+",
+     "proposed": "Paramount+",
+     "status": "confirmed",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "TMDB",
+       "value": "Paramount+",
+       "url": "https://api.themoviedb.org/3/search/tv?api_key=REDACTED&query=Star+Trek%3A+Strange+New+Worlds"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "t409",
+   "title": "Stargate SG-1",
+   "sourcesReached": [
+    "OMDb",
+    "TMDB"
+   ],
+   "sourcesMissed": [],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "first air year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 1997,
+     "proposed": 1997,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 1997,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Stargate+SG-1&type=series&y=1997"
+      },
+      {
+       "src": "TMDB",
+       "value": 1997,
+       "url": "https://api.themoviedb.org/3/search/tv?api_key=REDACTED&query=Stargate+SG-1"
+      }
+     ]
+    },
+    {
+     "field": "seasons",
+     "label": "seasons",
+     "soft": false,
+     "editionDependent": false,
+     "current": 10,
+     "proposed": 10,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 10,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Stargate+SG-1&type=series&y=1997"
+      },
+      {
+       "src": "TMDB",
+       "value": 10,
+       "url": "https://api.themoviedb.org/3/search/tv?api_key=REDACTED&query=Stargate+SG-1"
+      }
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "creator",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Brad Wright, Jonathan Glassner",
+     "proposed": "Brad Wright, Jonathan Glassner",
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": "Jonathan Glassner, Brad Wright",
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Stargate+SG-1&type=series&y=1997"
+      },
+      {
+       "src": "TMDB",
+       "value": "Brad Wright, Jonathan Glassner",
+       "url": "https://api.themoviedb.org/3/search/tv?api_key=REDACTED&query=Stargate+SG-1"
+      }
+     ]
+    },
+    {
+     "field": "network",
+     "label": "network / streamer",
+     "soft": true,
+     "editionDependent": false,
+     "current": "Showtime / Sci-Fi Channel",
+     "proposed": "Showtime",
+     "status": "proposed-change",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "TMDB",
+       "value": "Showtime",
+       "url": "https://api.themoviedb.org/3/search/tv?api_key=REDACTED&query=Stargate+SG-1"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "t410",
+   "title": "Angel",
+   "sourcesReached": [
+    "OMDb",
+    "TMDB"
+   ],
+   "sourcesMissed": [],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "first air year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 1999,
+     "proposed": 1999,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 1999,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Angel&type=series&y=1999"
+      },
+      {
+       "src": "TMDB",
+       "value": 1999,
+       "url": "https://api.themoviedb.org/3/search/tv?api_key=REDACTED&query=Angel"
+      }
+     ]
+    },
+    {
+     "field": "seasons",
+     "label": "seasons",
+     "soft": false,
+     "editionDependent": false,
+     "current": 5,
+     "proposed": 5,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 5,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Angel&type=series&y=1999"
+      },
+      {
+       "src": "TMDB",
+       "value": 5,
+       "url": "https://api.themoviedb.org/3/search/tv?api_key=REDACTED&query=Angel"
+      }
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "creator",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Joss Whedon, David Greenwalt",
+     "proposed": "David Greenwalt, Joss Whedon",
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": "David Greenwalt, Joss Whedon",
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Angel&type=series&y=1999"
+      },
+      {
+       "src": "TMDB",
+       "value": "Joss Whedon, David Greenwalt",
+       "url": "https://api.themoviedb.org/3/search/tv?api_key=REDACTED&query=Angel"
+      }
+     ]
+    },
+    {
+     "field": "network",
+     "label": "network / streamer",
+     "soft": true,
+     "editionDependent": false,
+     "current": "The WB",
+     "proposed": "The WB",
+     "status": "confirmed",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "TMDB",
+       "value": "The WB",
+       "url": "https://api.themoviedb.org/3/search/tv?api_key=REDACTED&query=Angel"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "t411",
+   "title": "Charmed",
+   "sourcesReached": [
+    "OMDb",
+    "TMDB"
+   ],
+   "sourcesMissed": [],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "first air year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 1998,
+     "proposed": 1998,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 1998,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Charmed&type=series&y=1998"
+      },
+      {
+       "src": "TMDB",
+       "value": 1998,
+       "url": "https://api.themoviedb.org/3/search/tv?api_key=REDACTED&query=Charmed"
+      }
+     ]
+    },
+    {
+     "field": "seasons",
+     "label": "seasons",
+     "soft": false,
+     "editionDependent": false,
+     "current": 8,
+     "proposed": 8,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 8,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Charmed&type=series&y=1998"
+      },
+      {
+       "src": "TMDB",
+       "value": 8,
+       "url": "https://api.themoviedb.org/3/search/tv?api_key=REDACTED&query=Charmed"
+      }
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "creator",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Constance M. Burge",
+     "proposed": "Constance M. Burge",
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": "Constance M. Burge",
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Charmed&type=series&y=1998"
+      },
+      {
+       "src": "TMDB",
+       "value": "Constance M. Burge",
+       "url": "https://api.themoviedb.org/3/search/tv?api_key=REDACTED&query=Charmed"
+      }
+     ]
+    },
+    {
+     "field": "network",
+     "label": "network / streamer",
+     "soft": true,
+     "editionDependent": false,
+     "current": "The WB",
+     "proposed": "The WB",
+     "status": "confirmed",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "TMDB",
+       "value": "The WB",
+       "url": "https://api.themoviedb.org/3/search/tv?api_key=REDACTED&query=Charmed"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "t412",
+   "title": "Supernatural",
+   "sourcesReached": [
+    "OMDb",
+    "TMDB"
+   ],
+   "sourcesMissed": [],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "first air year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 2005,
+     "proposed": 2005,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 2005,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Supernatural&type=series&y=2005"
+      },
+      {
+       "src": "TMDB",
+       "value": 2005,
+       "url": "https://api.themoviedb.org/3/search/tv?api_key=REDACTED&query=Supernatural"
+      }
+     ]
+    },
+    {
+     "field": "seasons",
+     "label": "seasons",
+     "soft": false,
+     "editionDependent": false,
+     "current": 15,
+     "proposed": 15,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 15,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Supernatural&type=series&y=2005"
+      },
+      {
+       "src": "TMDB",
+       "value": 15,
+       "url": "https://api.themoviedb.org/3/search/tv?api_key=REDACTED&query=Supernatural"
+      }
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "creator",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Eric Kripke",
+     "proposed": "Eric Kripke",
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": "Eric Kripke",
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Supernatural&type=series&y=2005"
+      },
+      {
+       "src": "TMDB",
+       "value": "Eric Kripke",
+       "url": "https://api.themoviedb.org/3/search/tv?api_key=REDACTED&query=Supernatural"
+      }
+     ]
+    },
+    {
+     "field": "network",
+     "label": "network / streamer",
+     "soft": true,
+     "editionDependent": false,
+     "current": "The WB / The CW",
+     "proposed": "The WB",
+     "status": "proposed-change",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "TMDB",
+       "value": "The WB",
+       "url": "https://api.themoviedb.org/3/search/tv?api_key=REDACTED&query=Supernatural"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "t413",
+   "title": "Gilmore Girls",
+   "sourcesReached": [
+    "OMDb",
+    "TMDB"
+   ],
+   "sourcesMissed": [],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "first air year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 2000,
+     "proposed": 2000,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 2000,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Gilmore+Girls&type=series&y=2000"
+      },
+      {
+       "src": "TMDB",
+       "value": 2000,
+       "url": "https://api.themoviedb.org/3/search/tv?api_key=REDACTED&query=Gilmore+Girls"
+      }
+     ]
+    },
+    {
+     "field": "seasons",
+     "label": "seasons",
+     "soft": false,
+     "editionDependent": false,
+     "current": 7,
+     "proposed": 7,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 7,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Gilmore+Girls&type=series&y=2000"
+      },
+      {
+       "src": "TMDB",
+       "value": 7,
+       "url": "https://api.themoviedb.org/3/search/tv?api_key=REDACTED&query=Gilmore+Girls"
+      }
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "creator",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Amy Sherman-Palladino",
+     "proposed": "Amy Sherman-Palladino",
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": "Amy Sherman-Palladino",
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Gilmore+Girls&type=series&y=2000"
+      },
+      {
+       "src": "TMDB",
+       "value": "Amy Sherman-Palladino",
+       "url": "https://api.themoviedb.org/3/search/tv?api_key=REDACTED&query=Gilmore+Girls"
+      }
+     ]
+    },
+    {
+     "field": "network",
+     "label": "network / streamer",
+     "soft": true,
+     "editionDependent": false,
+     "current": "The WB",
+     "proposed": "The WB",
+     "status": "confirmed",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "TMDB",
+       "value": "The WB",
+       "url": "https://api.themoviedb.org/3/search/tv?api_key=REDACTED&query=Gilmore+Girls"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "t414",
+   "title": "Dawson's Creek",
+   "sourcesReached": [
+    "OMDb",
+    "TMDB"
+   ],
+   "sourcesMissed": [],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "first air year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 1998,
+     "proposed": 1998,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 1998,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Dawson%27s+Creek&type=series&y=1998"
+      },
+      {
+       "src": "TMDB",
+       "value": 1998,
+       "url": "https://api.themoviedb.org/3/search/tv?api_key=REDACTED&query=Dawson%27s+Creek"
+      }
+     ]
+    },
+    {
+     "field": "seasons",
+     "label": "seasons",
+     "soft": false,
+     "editionDependent": false,
+     "current": 6,
+     "proposed": 6,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 6,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Dawson%27s+Creek&type=series&y=1998"
+      },
+      {
+       "src": "TMDB",
+       "value": 6,
+       "url": "https://api.themoviedb.org/3/search/tv?api_key=REDACTED&query=Dawson%27s+Creek"
+      }
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "creator",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Kevin Williamson",
+     "proposed": "Kevin Williamson",
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": "Kevin Williamson",
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Dawson%27s+Creek&type=series&y=1998"
+      },
+      {
+       "src": "TMDB",
+       "value": "Kevin Williamson",
+       "url": "https://api.themoviedb.org/3/search/tv?api_key=REDACTED&query=Dawson%27s+Creek"
+      }
+     ]
+    },
+    {
+     "field": "network",
+     "label": "network / streamer",
+     "soft": true,
+     "editionDependent": false,
+     "current": "The WB",
+     "proposed": "The WB",
+     "status": "confirmed",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "TMDB",
+       "value": "The WB",
+       "url": "https://api.themoviedb.org/3/search/tv?api_key=REDACTED&query=Dawson%27s+Creek"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "t415",
+   "title": "One Tree Hill",
+   "sourcesReached": [
+    "OMDb",
+    "TMDB"
+   ],
+   "sourcesMissed": [],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "first air year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 2003,
+     "proposed": 2003,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 2003,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=One+Tree+Hill&type=series&y=2003"
+      },
+      {
+       "src": "TMDB",
+       "value": 2003,
+       "url": "https://api.themoviedb.org/3/search/tv?api_key=REDACTED&query=One+Tree+Hill"
+      }
+     ]
+    },
+    {
+     "field": "seasons",
+     "label": "seasons",
+     "soft": false,
+     "editionDependent": false,
+     "current": 9,
+     "proposed": 9,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 9,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=One+Tree+Hill&type=series&y=2003"
+      },
+      {
+       "src": "TMDB",
+       "value": 9,
+       "url": "https://api.themoviedb.org/3/search/tv?api_key=REDACTED&query=One+Tree+Hill"
+      }
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "creator",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Mark Schwahn",
+     "proposed": "Mark Schwahn",
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": "Mark Schwahn",
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=One+Tree+Hill&type=series&y=2003"
+      },
+      {
+       "src": "TMDB",
+       "value": "Mark Schwahn",
+       "url": "https://api.themoviedb.org/3/search/tv?api_key=REDACTED&query=One+Tree+Hill"
+      }
+     ]
+    },
+    {
+     "field": "network",
+     "label": "network / streamer",
+     "soft": true,
+     "editionDependent": false,
+     "current": "The WB / The CW",
+     "proposed": "The WB",
+     "status": "proposed-change",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "TMDB",
+       "value": "The WB",
+       "url": "https://api.themoviedb.org/3/search/tv?api_key=REDACTED&query=One+Tree+Hill"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "t416",
+   "title": "The O.C.",
+   "sourcesReached": [
+    "OMDb",
+    "TMDB"
+   ],
+   "sourcesMissed": [],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "first air year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 2003,
+     "proposed": 2003,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 2003,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=The+O.C.&type=series&y=2003"
+      },
+      {
+       "src": "TMDB",
+       "value": 2003,
+       "url": "https://api.themoviedb.org/3/search/tv?api_key=REDACTED&query=The+O.C."
+      }
+     ]
+    },
+    {
+     "field": "seasons",
+     "label": "seasons",
+     "soft": false,
+     "editionDependent": false,
+     "current": 4,
+     "proposed": 4,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 4,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=The+O.C.&type=series&y=2003"
+      },
+      {
+       "src": "TMDB",
+       "value": 4,
+       "url": "https://api.themoviedb.org/3/search/tv?api_key=REDACTED&query=The+O.C."
+      }
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "creator",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Josh Schwartz",
+     "proposed": "Josh Schwartz",
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": "Josh Schwartz",
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=The+O.C.&type=series&y=2003"
+      },
+      {
+       "src": "TMDB",
+       "value": "Josh Schwartz",
+       "url": "https://api.themoviedb.org/3/search/tv?api_key=REDACTED&query=The+O.C."
+      }
+     ]
+    },
+    {
+     "field": "network",
+     "label": "network / streamer",
+     "soft": true,
+     "editionDependent": false,
+     "current": "Fox",
+     "proposed": "FOX",
+     "status": "confirmed",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "TMDB",
+       "value": "FOX",
+       "url": "https://api.themoviedb.org/3/search/tv?api_key=REDACTED&query=The+O.C."
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "t417",
+   "title": "Gossip Girl",
+   "sourcesReached": [
+    "OMDb",
+    "TMDB"
+   ],
+   "sourcesMissed": [],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "first air year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 2007,
+     "proposed": 2007,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 2007,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Gossip+Girl&type=series&y=2007"
+      },
+      {
+       "src": "TMDB",
+       "value": 2007,
+       "url": "https://api.themoviedb.org/3/search/tv?api_key=REDACTED&query=Gossip+Girl"
+      }
+     ]
+    },
+    {
+     "field": "seasons",
+     "label": "seasons",
+     "soft": false,
+     "editionDependent": false,
+     "current": 6,
+     "proposed": 6,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 6,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Gossip+Girl&type=series&y=2007"
+      },
+      {
+       "src": "TMDB",
+       "value": 6,
+       "url": "https://api.themoviedb.org/3/search/tv?api_key=REDACTED&query=Gossip+Girl"
+      }
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "creator",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Josh Schwartz, Stephanie Savage",
+     "proposed": "Josh Schwartz, Stephanie Savage",
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": "Stephanie Savage, Josh Schwartz",
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Gossip+Girl&type=series&y=2007"
+      },
+      {
+       "src": "TMDB",
+       "value": "Stephanie Savage, Josh Schwartz",
+       "url": "https://api.themoviedb.org/3/search/tv?api_key=REDACTED&query=Gossip+Girl"
+      }
+     ]
+    },
+    {
+     "field": "network",
+     "label": "network / streamer",
+     "soft": true,
+     "editionDependent": false,
+     "current": "The CW",
+     "proposed": "The CW",
+     "status": "confirmed",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "TMDB",
+       "value": "The CW",
+       "url": "https://api.themoviedb.org/3/search/tv?api_key=REDACTED&query=Gossip+Girl"
+      }
+     ]
+    }
+   ]
+  }
+ ]
+}
