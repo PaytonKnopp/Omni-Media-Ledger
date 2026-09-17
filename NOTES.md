@@ -1319,6 +1319,43 @@ grouping them would either overclaim a total or need constant revision as more g
 1,460/2,000 (4,023/5,000 total, 80.5%). Remaining work is exclusively movies (~446 more) and books
 (~540 more).
 
+**Eighth round (movies batch 20, books batch 20), movies+books only.** Movies: twenty-eight titles
+(three candidates caught by the dedup script and dropped before insertion — All the President's Men,
+Legally Blonde 2, and The 40-Year-Old Virgin were all already present under the exact same title,
+the sixth+ documented instance of this near-miss shape) covering a Beverly Hills Cop/48 Hrs./RoboCop
+'80s buddy-action-comedy sweep, a courtroom/political-thriller cluster (A Few Good Men, The Verdict,
+Anatomy of a Murder, Twelve Angry Men, Philadelphia, JFK, Nixon, All the President's Men, Frost/Nixon
+were all separately missing despite universal fame), and a 2000s studio-comedy sweep (Happy Gilmore,
+Billy Madison, The Wedding Singer, Talladega Nights, and more). Two new genre tags needed: "Erotic
+Thriller" (Basic Instinct) and realized my own candidate JSON had used "Legal Drama" where the corpus's
+established convention is bare "Legal" (paired with "Drama" separately) -- caught by validate-corpus.js,
+fixed by a global find/replace across the 6 affected records rather than adding a redundant taxonomy
+entry, since "Legal" already existed. Twelve Angry Men (1957) reached no substance-evidence tags,
+flagged as a general-knowledge estimate. SERIES_DEFS: RoboCop extended with RoboCop 3; new Beverly
+Hills Cop and 48 Hrs. groupings added.
+
+Books: thirty-four titles, closing five more Grisham legal thrillers, a five-book Danielle Steel
+introduction (previously absent entirely), three more Bosch novels, three more Crichton novels, three
+more Baldacci novels, two more Cornwell novels, two more Coben novels, the Alienist's direct sequel,
+the Sandford Prey series' opening novel, and a handful of other literary bestsellers (And the Mountains
+Echoed, Water for Elephants, Small Great Things, two Coelho novels). One real fact-harness catch: 2nd
+Chance's creator was corrected from solo "James Patterson" to "Andrew Gross, James Patterson" for
+consistency with 3rd Degree's harness-flagged grade-A correction -- OpenLibrary named Gross as co-author
+on both, but only 3rd Degree happened to disagree with the corpus's stored value, so 2nd Chance's
+matching (but equally wrong) "James Patterson"-only value would have sailed through unflagged were the
+two records not checked together. A genuine argument for spot-checking a whole small series at once
+rather than trusting a clean per-record harness report in isolation. Six titles reached zero
+fetch-substance tags (Kaleidoscope, Zoya, Star, Wings, Prey, The Simple Truth) -- flagged as general-
+knowledge estimates. Zoya's year corrected 1988 guess -> 1989 (matching Google Books; neither source
+matched the original guess, and 1980 from OpenLibrary was implausibly early for a book with this
+setting). SERIES_DEFS: Kinsey Millhone extended with C Is for Corpse; new The Alienist grouping added
+(a clean 2-book bounded duology, unlike Bosch/Scarpetta/Women's Murder Club which stay ungrouped as
+large still-growing series per the batch-19 precedent).
+
+**Status at this checkpoint:** movies 1,582/2,000, TV 502/500 (done), games 507/500 (done), books
+1,494/2,000 (4,085/5,000 total, 81.7%). Remaining work is exclusively movies (~418 more) and books
+(~506 more).
+
 ---
 
 ## Ideas / next steps
