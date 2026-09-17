@@ -1,0 +1,1365 @@
+{
+ "medium": "book",
+ "generated": "2026-09-17T08:22:51.464Z",
+ "offline": false,
+ "sources": [
+  "OpenLibrary",
+  "Google Books",
+  "Wikidata"
+ ],
+ "works": [
+  {
+   "id": "b1310",
+   "title": "Fifty Shades of Grey",
+   "sourcesReached": [
+    "OpenLibrary",
+    "Google Books",
+    "Wikidata"
+   ],
+   "sourcesMissed": [],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "first publication year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 2011,
+     "proposed": 2011,
+     "status": "corroborated-by-one",
+     "grade": "B",
+     "note": "matches Wikidata; disagrees with OpenLibrary (2000), Google Books (2015)",
+     "sources": [
+      {
+       "src": "OpenLibrary",
+       "value": 2000,
+       "url": "https://openlibrary.org/search.json?title=Fifty+Shades+of+Grey&limit=1"
+      },
+      {
+       "src": "Google Books",
+       "value": 2015,
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3AFifty+Shades+of+Grey&maxResults=1&key=REDACTED"
+      },
+      {
+       "src": "Wikidata",
+       "value": 2011,
+       "url": "https://www.wikidata.org/wiki/Q557867"
+      }
+     ],
+     "alternatives": [
+      2015,
+      2011
+     ]
+    },
+    {
+     "field": "pages",
+     "label": "page count",
+     "soft": false,
+     "editionDependent": true,
+     "current": 514,
+     "proposed": 0,
+     "status": "edition-dependent",
+     "grade": "B",
+     "note": "one source differs from the corpus (Google Books 0) on a field with no single true value -- likely a different printing/edition, not an error.",
+     "sources": [
+      {
+       "src": "Google Books",
+       "value": 0,
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3AFifty+Shades+of+Grey&maxResults=1&key=REDACTED"
+      }
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "author",
+     "soft": false,
+     "editionDependent": false,
+     "current": "E L James",
+     "proposed": "E. L. James",
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OpenLibrary",
+       "value": "E. L. James",
+       "url": "https://openlibrary.org/search.json?title=Fifty+Shades+of+Grey&limit=1"
+      },
+      {
+       "src": "Google Books",
+       "value": "E L James",
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3AFifty+Shades+of+Grey&maxResults=1&key=REDACTED"
+      },
+      {
+       "src": "Wikidata",
+       "value": "E. L. James",
+       "url": "https://www.wikidata.org/wiki/Q557867"
+      }
+     ]
+    },
+    {
+     "field": "publisher",
+     "label": "publisher",
+     "soft": true,
+     "editionDependent": true,
+     "current": "Vintage Books",
+     "proposed": "Vintage Books",
+     "status": "corroborated-by-one",
+     "grade": "B",
+     "note": "matches Wikidata; disagrees with Google Books (\"National Geographic Books\")",
+     "sources": [
+      {
+       "src": "Google Books",
+       "value": "National Geographic Books",
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3AFifty+Shades+of+Grey&maxResults=1&key=REDACTED"
+      },
+      {
+       "src": "Wikidata",
+       "value": "Vintage Books",
+       "url": "https://www.wikidata.org/wiki/Q557867"
+      }
+     ],
+     "alternatives": [
+      "Vintage Books"
+     ]
+    }
+   ]
+  },
+  {
+   "id": "b1311",
+   "title": "Fifty Shades Darker",
+   "sourcesReached": [
+    "OpenLibrary",
+    "Google Books",
+    "Wikidata"
+   ],
+   "sourcesMissed": [],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "first publication year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 2012,
+     "proposed": 2012,
+     "status": "corroborated-by-one",
+     "grade": "B",
+     "note": "matches Wikidata; disagrees with OpenLibrary (2011), Google Books (2011)",
+     "sources": [
+      {
+       "src": "OpenLibrary",
+       "value": 2011,
+       "url": "https://openlibrary.org/search.json?title=Fifty+Shades+Darker&limit=1"
+      },
+      {
+       "src": "Google Books",
+       "value": 2011,
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3AFifty+Shades+Darker&maxResults=1&key=REDACTED"
+      },
+      {
+       "src": "Wikidata",
+       "value": 2012,
+       "url": "https://www.wikidata.org/wiki/Q2195511"
+      }
+     ],
+     "alternatives": [
+      2012
+     ]
+    },
+    {
+     "field": "pages",
+     "label": "page count",
+     "soft": false,
+     "editionDependent": true,
+     "current": 532,
+     "proposed": 383,
+     "status": "edition-dependent",
+     "grade": "B",
+     "note": "corpus value does not match either source (Google Books 383, Wikidata 544) -- treated as a distinct edition; the specific cut is not identified from available evidence.",
+     "sources": [
+      {
+       "src": "Google Books",
+       "value": 383,
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3AFifty+Shades+Darker&maxResults=1&key=REDACTED"
+      },
+      {
+       "src": "Wikidata",
+       "value": 544,
+       "url": "https://www.wikidata.org/wiki/Q2195511"
+      }
+     ],
+     "alternatives": [
+      544
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "author",
+     "soft": false,
+     "editionDependent": false,
+     "current": "E L James",
+     "proposed": "E. L. James",
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OpenLibrary",
+       "value": "E. L. James",
+       "url": "https://openlibrary.org/search.json?title=Fifty+Shades+Darker&limit=1"
+      },
+      {
+       "src": "Google Books",
+       "value": "E. L. James",
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3AFifty+Shades+Darker&maxResults=1&key=REDACTED"
+      },
+      {
+       "src": "Wikidata",
+       "value": "E. L. James",
+       "url": "https://www.wikidata.org/wiki/Q2195511"
+      }
+     ]
+    },
+    {
+     "field": "publisher",
+     "label": "publisher",
+     "soft": true,
+     "editionDependent": true,
+     "current": "Vintage Books",
+     "proposed": "Vintage Books",
+     "status": "corroborated-by-one",
+     "grade": "B",
+     "note": "matches Wikidata; disagrees with Google Books (\"Lulu.com\")",
+     "sources": [
+      {
+       "src": "Google Books",
+       "value": "Lulu.com",
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3AFifty+Shades+Darker&maxResults=1&key=REDACTED"
+      },
+      {
+       "src": "Wikidata",
+       "value": "Vintage Books",
+       "url": "https://www.wikidata.org/wiki/Q2195511"
+      }
+     ],
+     "alternatives": [
+      "Vintage Books"
+     ]
+    }
+   ]
+  },
+  {
+   "id": "b1312",
+   "title": "Fifty Shades Freed",
+   "sourcesReached": [
+    "OpenLibrary",
+    "Google Books",
+    "Wikidata"
+   ],
+   "sourcesMissed": [],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "first publication year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 2012,
+     "proposed": 2012,
+     "status": "corroborated-by-one",
+     "grade": "B",
+     "note": "matches Google Books/Wikidata; disagrees with OpenLibrary (2011)",
+     "sources": [
+      {
+       "src": "OpenLibrary",
+       "value": 2011,
+       "url": "https://openlibrary.org/search.json?title=Fifty+Shades+Freed&limit=1"
+      },
+      {
+       "src": "Google Books",
+       "value": 2012,
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3AFifty+Shades+Freed&maxResults=1&key=REDACTED"
+      },
+      {
+       "src": "Wikidata",
+       "value": 2012,
+       "url": "https://www.wikidata.org/wiki/Q2183834"
+      }
+     ],
+     "alternatives": [
+      2011
+     ]
+    },
+    {
+     "field": "pages",
+     "label": "page count",
+     "soft": false,
+     "editionDependent": true,
+     "current": 579,
+     "proposed": 681,
+     "status": "edition-dependent",
+     "grade": "B",
+     "note": "one source differs from the corpus (Google Books 681) on a field with no single true value -- likely a different printing/edition, not an error.",
+     "sources": [
+      {
+       "src": "Google Books",
+       "value": 681,
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3AFifty+Shades+Freed&maxResults=1&key=REDACTED"
+      }
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "author",
+     "soft": false,
+     "editionDependent": false,
+     "current": "E L James",
+     "proposed": "E. L. James",
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OpenLibrary",
+       "value": "E. L. James",
+       "url": "https://openlibrary.org/search.json?title=Fifty+Shades+Freed&limit=1"
+      },
+      {
+       "src": "Google Books",
+       "value": "E L James",
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3AFifty+Shades+Freed&maxResults=1&key=REDACTED"
+      },
+      {
+       "src": "Wikidata",
+       "value": "E. L. James",
+       "url": "https://www.wikidata.org/wiki/Q2183834"
+      }
+     ]
+    },
+    {
+     "field": "publisher",
+     "label": "publisher",
+     "soft": true,
+     "editionDependent": true,
+     "current": "Vintage Books",
+     "proposed": "Vintage Books",
+     "status": "corroborated-by-one",
+     "grade": "B",
+     "note": "matches Wikidata; disagrees with Google Books (\"Sourcebooks, Inc.\")",
+     "sources": [
+      {
+       "src": "Google Books",
+       "value": "Sourcebooks, Inc.",
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3AFifty+Shades+Freed&maxResults=1&key=REDACTED"
+      },
+      {
+       "src": "Wikidata",
+       "value": "Vintage Books",
+       "url": "https://www.wikidata.org/wiki/Q2183834"
+      }
+     ],
+     "alternatives": [
+      "Vintage Books"
+     ]
+    }
+   ]
+  },
+  {
+   "id": "b1313",
+   "title": "Becoming",
+   "sourcesReached": [
+    "Wikidata"
+   ],
+   "sourcesMissed": [
+    "OpenLibrary (no match)",
+    "Google Books (no match)"
+   ],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "first publication year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 2018,
+     "proposed": 2018,
+     "status": "confirmed",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "Wikidata",
+       "value": 2018,
+       "url": "https://www.wikidata.org/wiki/Q50282028"
+      }
+     ]
+    },
+    {
+     "field": "pages",
+     "label": "page count",
+     "soft": false,
+     "current": 448,
+     "status": "no-source",
+     "grade": null,
+     "sources": []
+    },
+    {
+     "field": "creator",
+     "label": "author",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Michelle Obama",
+     "proposed": "Michelle Obama",
+     "status": "confirmed",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "Wikidata",
+       "value": "Michelle Obama",
+       "url": "https://www.wikidata.org/wiki/Q50282028"
+      }
+     ]
+    },
+    {
+     "field": "publisher",
+     "label": "publisher",
+     "soft": true,
+     "current": "Crown Publishing",
+     "status": "no-source",
+     "grade": null,
+     "sources": []
+    }
+   ]
+  },
+  {
+   "id": "b1314",
+   "title": "A Promised Land",
+   "sourcesReached": [
+    "OpenLibrary",
+    "Google Books",
+    "Wikidata"
+   ],
+   "sourcesMissed": [],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "first publication year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 2020,
+     "proposed": 2020,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OpenLibrary",
+       "value": 2020,
+       "url": "https://openlibrary.org/search.json?title=A+Promised+Land&limit=1"
+      },
+      {
+       "src": "Google Books",
+       "value": 2020,
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3AA+Promised+Land&maxResults=1&key=REDACTED"
+      },
+      {
+       "src": "Wikidata",
+       "value": 2020,
+       "url": "https://www.wikidata.org/wiki/Q101438737"
+      }
+     ]
+    },
+    {
+     "field": "pages",
+     "label": "page count",
+     "soft": false,
+     "editionDependent": true,
+     "current": 768,
+     "proposed": 801,
+     "status": "edition-dependent",
+     "grade": "B",
+     "note": "one source differs from the corpus (Google Books 801) on a field with no single true value -- likely a different printing/edition, not an error.",
+     "sources": [
+      {
+       "src": "Google Books",
+       "value": 801,
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3AA+Promised+Land&maxResults=1&key=REDACTED"
+      }
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "author",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Barack Obama",
+     "proposed": "Barack Obama",
+     "status": "corroborated-by-one",
+     "grade": "B",
+     "note": "matches Google Books/Wikidata; disagrees with OpenLibrary (\"Barack Obama & Francisco José Ramos Mena & Efrén del Valle Peñamil & Marcos Pérez Sánchez & Carmen Mercedes Cáceres & Andrés Barba Muñiz\")",
+     "sources": [
+      {
+       "src": "OpenLibrary",
+       "value": "Barack Obama & Francisco José Ramos Mena & Efrén del Valle Peñamil & Marcos Pérez Sánchez & Carmen Mercedes Cáceres & Andrés Barba Muñiz",
+       "url": "https://openlibrary.org/search.json?title=A+Promised+Land&limit=1"
+      },
+      {
+       "src": "Google Books",
+       "value": "Barack Obama",
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3AA+Promised+Land&maxResults=1&key=REDACTED"
+      },
+      {
+       "src": "Wikidata",
+       "value": "Barack Obama",
+       "url": "https://www.wikidata.org/wiki/Q101438737"
+      }
+     ],
+     "alternatives": [
+      "Barack Obama & Francisco José Ramos Mena & Efrén del Valle Peñamil & Marcos Pérez Sánchez & Carmen Mercedes Cáceres & Andrés Barba Muñiz"
+     ]
+    },
+    {
+     "field": "publisher",
+     "label": "publisher",
+     "soft": true,
+     "editionDependent": true,
+     "current": "Crown Publishing",
+     "proposed": "Crown",
+     "status": "edition-dependent",
+     "grade": "B",
+     "note": "one source differs from the corpus (Google Books \"Crown\") on a field with no single true value -- likely a different printing/edition, not an error.",
+     "sources": [
+      {
+       "src": "Google Books",
+       "value": "Crown",
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3AA+Promised+Land&maxResults=1&key=REDACTED"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "b1315",
+   "title": "Spare",
+   "sourcesReached": [
+    "OpenLibrary",
+    "Wikidata"
+   ],
+   "sourcesMissed": [
+    "Google Books (no match)"
+   ],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "first publication year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 2023,
+     "proposed": 2023,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OpenLibrary",
+       "value": 2023,
+       "url": "https://openlibrary.org/search.json?title=Spare&limit=1"
+      },
+      {
+       "src": "Wikidata",
+       "value": 2023,
+       "url": "https://www.wikidata.org/wiki/Q114892138"
+      }
+     ]
+    },
+    {
+     "field": "pages",
+     "label": "page count",
+     "soft": false,
+     "current": 416,
+     "status": "no-source",
+     "grade": null,
+     "sources": []
+    },
+    {
+     "field": "creator",
+     "label": "author",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Prince Harry, Duke of Sussex",
+     "proposed": "Prince Harry, Duke of Sussex",
+     "status": "corroborated-by-one",
+     "grade": "B",
+     "note": "matches OpenLibrary; disagrees with Wikidata (\"Prince Harry, Duke of Sussex & J. R. Moehringer\")",
+     "sources": [
+      {
+       "src": "OpenLibrary",
+       "value": "Prince Harry, Duke of Sussex",
+       "url": "https://openlibrary.org/search.json?title=Spare&limit=1"
+      },
+      {
+       "src": "Wikidata",
+       "value": "Prince Harry, Duke of Sussex & J. R. Moehringer",
+       "url": "https://www.wikidata.org/wiki/Q114892138"
+      }
+     ],
+     "alternatives": [
+      "Prince Harry, Duke of Sussex & J. R. Moehringer"
+     ]
+    },
+    {
+     "field": "publisher",
+     "label": "publisher",
+     "soft": true,
+     "editionDependent": true,
+     "current": "Random House",
+     "proposed": "Penguin Random House",
+     "status": "edition-dependent",
+     "grade": "B",
+     "note": "one source differs from the corpus (Wikidata \"Penguin Random House\") on a field with no single true value -- likely a different printing/edition, not an error.",
+     "sources": [
+      {
+       "src": "Wikidata",
+       "value": "Penguin Random House",
+       "url": "https://www.wikidata.org/wiki/Q114892138"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "b1316",
+   "title": "The Subtle Art of Not Giving a F*ck",
+   "sourcesReached": [
+    "OpenLibrary",
+    "Google Books",
+    "Wikidata"
+   ],
+   "sourcesMissed": [],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "first publication year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 2016,
+     "proposed": 2016,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OpenLibrary",
+       "value": 2016,
+       "url": "https://openlibrary.org/search.json?title=The+Subtle+Art+of+Not+Giving+a+F*ck&limit=1"
+      },
+      {
+       "src": "Google Books",
+       "value": 2016,
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3AThe+Subtle+Art+of+Not+Giving+a+F*ck&maxResults=1&key=REDACTED"
+      },
+      {
+       "src": "Wikidata",
+       "value": 2016,
+       "url": "https://www.wikidata.org/wiki/Q54488972"
+      }
+     ]
+    },
+    {
+     "field": "pages",
+     "label": "page count",
+     "soft": false,
+     "editionDependent": true,
+     "current": 224,
+     "proposed": 123,
+     "status": "edition-dependent",
+     "grade": "B",
+     "note": "one source differs from the corpus (Google Books 123) on a field with no single true value -- likely a different printing/edition, not an error.",
+     "sources": [
+      {
+       "src": "Google Books",
+       "value": 123,
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3AThe+Subtle+Art+of+Not+Giving+a+F*ck&maxResults=1&key=REDACTED"
+      }
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "author",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Mark Manson",
+     "proposed": "Mark Manson",
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OpenLibrary",
+       "value": "Mark Manson",
+       "url": "https://openlibrary.org/search.json?title=The+Subtle+Art+of+Not+Giving+a+F*ck&limit=1"
+      },
+      {
+       "src": "Google Books",
+       "value": "Mark Manson",
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3AThe+Subtle+Art+of+Not+Giving+a+F*ck&maxResults=1&key=REDACTED"
+      },
+      {
+       "src": "Wikidata",
+       "value": "Mark Manson",
+       "url": "https://www.wikidata.org/wiki/Q54488972"
+      }
+     ]
+    },
+    {
+     "field": "publisher",
+     "label": "publisher",
+     "soft": true,
+     "editionDependent": true,
+     "current": "HarperOne",
+     "proposed": "HarperOne",
+     "status": "corroborated-by-one",
+     "grade": "B",
+     "note": "matches Wikidata; disagrees with Google Books (\"Macmillan Publishers Aus.\")",
+     "sources": [
+      {
+       "src": "Google Books",
+       "value": "Macmillan Publishers Aus.",
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3AThe+Subtle+Art+of+Not+Giving+a+F*ck&maxResults=1&key=REDACTED"
+      },
+      {
+       "src": "Wikidata",
+       "value": "HarperOne",
+       "url": "https://www.wikidata.org/wiki/Q54488972"
+      }
+     ],
+     "alternatives": [
+      "HarperOne"
+     ]
+    }
+   ]
+  },
+  {
+   "id": "b1317",
+   "title": "The Power of Now",
+   "sourcesReached": [
+    "OpenLibrary",
+    "Google Books",
+    "Wikidata"
+   ],
+   "sourcesMissed": [],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "first publication year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 1997,
+     "proposed": 1997,
+     "status": "corroborated-by-one",
+     "grade": "B",
+     "note": "matches OpenLibrary/Wikidata; disagrees with Google Books (2004)",
+     "sources": [
+      {
+       "src": "OpenLibrary",
+       "value": 1997,
+       "url": "https://openlibrary.org/search.json?title=The+Power+of+Now&limit=1"
+      },
+      {
+       "src": "Google Books",
+       "value": 2004,
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3AThe+Power+of+Now&maxResults=1&key=REDACTED"
+      },
+      {
+       "src": "Wikidata",
+       "value": 1997,
+       "url": "https://www.wikidata.org/wiki/Q3225854"
+      }
+     ],
+     "alternatives": [
+      2004
+     ]
+    },
+    {
+     "field": "pages",
+     "label": "page count",
+     "soft": false,
+     "editionDependent": true,
+     "current": 236,
+     "proposed": 258,
+     "status": "edition-dependent",
+     "grade": "B",
+     "note": "one source differs from the corpus (Google Books 258) on a field with no single true value -- likely a different printing/edition, not an error.",
+     "sources": [
+      {
+       "src": "Google Books",
+       "value": 258,
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3AThe+Power+of+Now&maxResults=1&key=REDACTED"
+      }
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "author",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Eckhart Tolle",
+     "proposed": "Eckhart Tolle",
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OpenLibrary",
+       "value": "Eckhart Tolle",
+       "url": "https://openlibrary.org/search.json?title=The+Power+of+Now&limit=1"
+      },
+      {
+       "src": "Google Books",
+       "value": "Eckhart Tolle",
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3AThe+Power+of+Now&maxResults=1&key=REDACTED"
+      },
+      {
+       "src": "Wikidata",
+       "value": "Eckhart Tolle",
+       "url": "https://www.wikidata.org/wiki/Q3225854"
+      }
+     ]
+    },
+    {
+     "field": "publisher",
+     "label": "publisher",
+     "soft": true,
+     "editionDependent": true,
+     "current": "New World Library",
+     "proposed": "New World Library",
+     "status": "confirmed",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "Google Books",
+       "value": "New World Library",
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3AThe+Power+of+Now&maxResults=1&key=REDACTED"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "b1318",
+   "title": "Quiet",
+   "sourcesReached": [
+    "OpenLibrary"
+   ],
+   "sourcesMissed": [
+    "Google Books (no match)",
+    "Wikidata (no match)"
+   ],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "first publication year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 2012,
+     "proposed": 2012,
+     "status": "confirmed",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "OpenLibrary",
+       "value": 2012,
+       "url": "https://openlibrary.org/search.json?title=Quiet&limit=1"
+      }
+     ]
+    },
+    {
+     "field": "pages",
+     "label": "page count",
+     "soft": false,
+     "current": 333,
+     "status": "no-source",
+     "grade": null,
+     "sources": []
+    },
+    {
+     "field": "creator",
+     "label": "author",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Susan Cain",
+     "proposed": "Susan Cain",
+     "status": "confirmed",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "OpenLibrary",
+       "value": "Susan Cain",
+       "url": "https://openlibrary.org/search.json?title=Quiet&limit=1"
+      }
+     ]
+    },
+    {
+     "field": "publisher",
+     "label": "publisher",
+     "soft": true,
+     "current": "Crown Publishing",
+     "status": "no-source",
+     "grade": null,
+     "sources": []
+    }
+   ]
+  },
+  {
+   "id": "b1319",
+   "title": "Elon Musk",
+   "sourcesReached": [],
+   "sourcesMissed": [
+    "OpenLibrary (no match)",
+    "Google Books (no match)",
+    "Wikidata (no match)"
+   ],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "first publication year",
+     "soft": false,
+     "current": 2023,
+     "status": "no-source",
+     "grade": null,
+     "sources": []
+    },
+    {
+     "field": "pages",
+     "label": "page count",
+     "soft": false,
+     "current": 688,
+     "status": "no-source",
+     "grade": null,
+     "sources": []
+    },
+    {
+     "field": "creator",
+     "label": "author",
+     "soft": false,
+     "current": "Walter Isaacson",
+     "status": "no-source",
+     "grade": null,
+     "sources": []
+    },
+    {
+     "field": "publisher",
+     "label": "publisher",
+     "soft": true,
+     "current": "Simon & Schuster",
+     "status": "no-source",
+     "grade": null,
+     "sources": []
+    }
+   ]
+  },
+  {
+   "id": "b1320",
+   "title": "Shoe Dog",
+   "sourcesReached": [
+    "OpenLibrary",
+    "Google Books",
+    "Wikidata"
+   ],
+   "sourcesMissed": [],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "first publication year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 2016,
+     "proposed": 2016,
+     "status": "corroborated-by-one",
+     "grade": "B",
+     "note": "matches Wikidata; disagrees with OpenLibrary (2014), Google Books (2017)",
+     "sources": [
+      {
+       "src": "OpenLibrary",
+       "value": 2014,
+       "url": "https://openlibrary.org/search.json?title=Shoe+Dog&limit=1"
+      },
+      {
+       "src": "Google Books",
+       "value": 2017,
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3AShoe+Dog&maxResults=1&key=REDACTED"
+      },
+      {
+       "src": "Wikidata",
+       "value": 2016,
+       "url": "https://www.wikidata.org/wiki/Q60748857"
+      }
+     ],
+     "alternatives": [
+      2017,
+      2016
+     ]
+    },
+    {
+     "field": "pages",
+     "label": "page count",
+     "soft": false,
+     "editionDependent": true,
+     "current": 400,
+     "proposed": 288,
+     "status": "edition-dependent",
+     "grade": "B",
+     "note": "one source differs from the corpus (Google Books 288) on a field with no single true value -- likely a different printing/edition, not an error.",
+     "sources": [
+      {
+       "src": "Google Books",
+       "value": 288,
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3AShoe+Dog&maxResults=1&key=REDACTED"
+      }
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "author",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Phil Knight",
+     "proposed": "Phil Knight",
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OpenLibrary",
+       "value": "Phil Knight",
+       "url": "https://openlibrary.org/search.json?title=Shoe+Dog&limit=1"
+      },
+      {
+       "src": "Google Books",
+       "value": "Phil Knight",
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3AShoe+Dog&maxResults=1&key=REDACTED"
+      },
+      {
+       "src": "Wikidata",
+       "value": "Phil Knight",
+       "url": "https://www.wikidata.org/wiki/Q60748857"
+      }
+     ]
+    },
+    {
+     "field": "publisher",
+     "label": "publisher",
+     "soft": true,
+     "editionDependent": true,
+     "current": "Scribner",
+     "proposed": "Simon and Schuster",
+     "status": "edition-dependent",
+     "grade": "B",
+     "note": "one source differs from the corpus (Google Books \"Simon and Schuster\") on a field with no single true value -- likely a different printing/edition, not an error.",
+     "sources": [
+      {
+       "src": "Google Books",
+       "value": "Simon and Schuster",
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3AShoe+Dog&maxResults=1&key=REDACTED"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "b1321",
+   "title": "Oh, the Places You'll Go!",
+   "sourcesReached": [
+    "OpenLibrary",
+    "Wikidata"
+   ],
+   "sourcesMissed": [
+    "Google Books (no match)"
+   ],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "first publication year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 1990,
+     "proposed": 1990,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OpenLibrary",
+       "value": 1990,
+       "url": "https://openlibrary.org/search.json?title=Oh%2C+the+Places+You%27ll+Go%21&limit=1"
+      },
+      {
+       "src": "Wikidata",
+       "value": 1990,
+       "url": "https://www.wikidata.org/wiki/Q7080395"
+      }
+     ]
+    },
+    {
+     "field": "pages",
+     "label": "page count",
+     "soft": false,
+     "current": 42,
+     "status": "no-source",
+     "grade": null,
+     "sources": []
+    },
+    {
+     "field": "creator",
+     "label": "author",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Dr. Seuss",
+     "proposed": "Dr. Seuss",
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OpenLibrary",
+       "value": "Dr. Seuss",
+       "url": "https://openlibrary.org/search.json?title=Oh%2C+the+Places+You%27ll+Go%21&limit=1"
+      },
+      {
+       "src": "Wikidata",
+       "value": "Dr. Seuss",
+       "url": "https://www.wikidata.org/wiki/Q7080395"
+      }
+     ]
+    },
+    {
+     "field": "publisher",
+     "label": "publisher",
+     "soft": true,
+     "editionDependent": true,
+     "current": "Random House",
+     "proposed": "Random House",
+     "status": "confirmed",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "Wikidata",
+       "value": "Random House",
+       "url": "https://www.wikidata.org/wiki/Q7080395"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "b1322",
+   "title": "The Lorax",
+   "sourcesReached": [
+    "OpenLibrary",
+    "Google Books",
+    "Wikidata"
+   ],
+   "sourcesMissed": [],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "first publication year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 1971,
+     "proposed": 1971,
+     "status": "corroborated-by-one",
+     "grade": "B",
+     "note": "matches Wikidata; disagrees with OpenLibrary (1911), Google Books (1998)",
+     "sources": [
+      {
+       "src": "OpenLibrary",
+       "value": 1911,
+       "url": "https://openlibrary.org/search.json?title=The+Lorax&limit=1"
+      },
+      {
+       "src": "Google Books",
+       "value": 1998,
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3AThe+Lorax&maxResults=1&key=REDACTED"
+      },
+      {
+       "src": "Wikidata",
+       "value": 1971,
+       "url": "https://www.wikidata.org/wiki/Q772236"
+      }
+     ],
+     "alternatives": [
+      1998,
+      1971
+     ]
+    },
+    {
+     "field": "pages",
+     "label": "page count",
+     "soft": false,
+     "editionDependent": true,
+     "current": 72,
+     "proposed": 63,
+     "status": "edition-dependent",
+     "grade": "B",
+     "note": "one source differs from the corpus (Google Books 63) on a field with no single true value -- likely a different printing/edition, not an error.",
+     "sources": [
+      {
+       "src": "Google Books",
+       "value": 63,
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3AThe+Lorax&maxResults=1&key=REDACTED"
+      }
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "author",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Dr. Seuss",
+     "proposed": "Dr. Seuss",
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OpenLibrary",
+       "value": "Dr. Seuss",
+       "url": "https://openlibrary.org/search.json?title=The+Lorax&limit=1"
+      },
+      {
+       "src": "Google Books",
+       "value": "Dr. Seuss",
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3AThe+Lorax&maxResults=1&key=REDACTED"
+      },
+      {
+       "src": "Wikidata",
+       "value": "Dr. Seuss",
+       "url": "https://www.wikidata.org/wiki/Q772236"
+      }
+     ]
+    },
+    {
+     "field": "publisher",
+     "label": "publisher",
+     "soft": true,
+     "editionDependent": true,
+     "current": "Random House",
+     "proposed": "Random House",
+     "status": "corroborated-by-one",
+     "grade": "B",
+     "note": "matches Wikidata; disagrees with Google Books (\"Random House Books for Young Readers\")",
+     "sources": [
+      {
+       "src": "Google Books",
+       "value": "Random House Books for Young Readers",
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3AThe+Lorax&maxResults=1&key=REDACTED"
+      },
+      {
+       "src": "Wikidata",
+       "value": "Random House",
+       "url": "https://www.wikidata.org/wiki/Q772236"
+      }
+     ],
+     "alternatives": [
+      "Random House"
+     ]
+    }
+   ]
+  },
+  {
+   "id": "b1323",
+   "title": "Horton Hears a Who!",
+   "sourcesReached": [
+    "OpenLibrary",
+    "Google Books",
+    "Wikidata"
+   ],
+   "sourcesMissed": [],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "first publication year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 1954,
+     "proposed": 1954,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OpenLibrary",
+       "value": 1954,
+       "url": "https://openlibrary.org/search.json?title=Horton+Hears+a+Who%21&limit=1"
+      },
+      {
+       "src": "Google Books",
+       "value": 1954,
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3AHorton+Hears+a+Who%21&maxResults=1&key=REDACTED"
+      },
+      {
+       "src": "Wikidata",
+       "value": 1954,
+       "url": "https://www.wikidata.org/wiki/Q622916"
+      }
+     ]
+    },
+    {
+     "field": "pages",
+     "label": "page count",
+     "soft": false,
+     "editionDependent": true,
+     "current": 72,
+     "proposed": 73,
+     "status": "edition-dependent",
+     "grade": "B",
+     "note": "one source differs from the corpus (Google Books 73) on a field with no single true value -- likely a different printing/edition, not an error.",
+     "sources": [
+      {
+       "src": "Google Books",
+       "value": 73,
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3AHorton+Hears+a+Who%21&maxResults=1&key=REDACTED"
+      }
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "author",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Dr. Seuss",
+     "proposed": "Dr. Seuss",
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OpenLibrary",
+       "value": "Dr. Seuss",
+       "url": "https://openlibrary.org/search.json?title=Horton+Hears+a+Who%21&limit=1"
+      },
+      {
+       "src": "Google Books",
+       "value": "Dr. Seuss",
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3AHorton+Hears+a+Who%21&maxResults=1&key=REDACTED"
+      },
+      {
+       "src": "Wikidata",
+       "value": "Dr. Seuss",
+       "url": "https://www.wikidata.org/wiki/Q622916"
+      }
+     ]
+    },
+    {
+     "field": "publisher",
+     "label": "publisher",
+     "soft": true,
+     "editionDependent": true,
+     "current": "Random House",
+     "proposed": "Random House",
+     "status": "corroborated-by-one",
+     "grade": "B",
+     "note": "matches Wikidata; disagrees with Google Books (\"Random House Books for Young Readers\")",
+     "sources": [
+      {
+       "src": "Google Books",
+       "value": "Random House Books for Young Readers",
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3AHorton+Hears+a+Who%21&maxResults=1&key=REDACTED"
+      },
+      {
+       "src": "Wikidata",
+       "value": "Random House",
+       "url": "https://www.wikidata.org/wiki/Q622916"
+      }
+     ],
+     "alternatives": [
+      "Random House"
+     ]
+    }
+   ]
+  }
+ ]
+}

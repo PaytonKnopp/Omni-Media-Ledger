@@ -1,0 +1,428 @@
+{
+ "medium": "book",
+ "generated": "2026-09-17T08:23:27.671Z",
+ "offline": false,
+ "includesProse": false,
+ "works": [
+  {
+   "id": "b1310",
+   "title": "Fifty Shades of Grey",
+   "year": 2011,
+   "corpusGenres": [
+    "Romance"
+   ],
+   "tags": [
+    "fiction",
+    "erotic romance novel",
+    "bdsm-themed literature",
+    "dark romance"
+   ],
+   "sourceGenres": [],
+   "sources": [
+    {
+     "src": "OpenLibrary",
+     "matchedTitle": "Fifty Shades of Grey",
+     "url": "https://openlibrary.org/search.json?title=Fifty%20Shades%20of%20Grey"
+    },
+    {
+     "src": "Google Books",
+     "matchedTitle": "Grey",
+     "url": "https://www.googleapis.com/books/v1/volumes?q=intitle:Fifty%20Shades%20of%20Grey"
+    },
+    {
+     "src": "Wikidata",
+     "matchedTitle": "Fifty Shades of Grey",
+     "url": "https://www.wikidata.org/wiki/Q557867"
+    }
+   ],
+   "missed": [],
+   "coverage": 4
+  },
+  {
+   "id": "b1311",
+   "title": "Fifty Shades Darker",
+   "year": 2012,
+   "corpusGenres": [
+    "Romance"
+   ],
+   "tags": [
+    "fiction",
+    "bdsm-themed literature",
+    "erotic literature",
+    "romance"
+   ],
+   "sourceGenres": [],
+   "sources": [
+    {
+     "src": "OpenLibrary",
+     "matchedTitle": "Fifty Shades Darker",
+     "url": "https://openlibrary.org/search.json?title=Fifty%20Shades%20Darker"
+    },
+    {
+     "src": "Google Books",
+     "matchedTitle": "Fifty Shades Darker",
+     "url": "https://www.googleapis.com/books/v1/volumes?q=intitle:Fifty%20Shades%20Darker"
+    },
+    {
+     "src": "Wikidata",
+     "matchedTitle": "Fifty Shades Darker",
+     "url": "https://www.wikidata.org/wiki/Q2195511"
+    }
+   ],
+   "missed": [],
+   "coverage": 4
+  },
+  {
+   "id": "b1312",
+   "title": "Fifty Shades Freed",
+   "year": 2012,
+   "corpusGenres": [
+    "Romance"
+   ],
+   "tags": [
+    "fiction",
+    "erotic romance novel",
+    "bdsm-themed literature",
+    "erotic literature"
+   ],
+   "sourceGenres": [],
+   "sources": [
+    {
+     "src": "OpenLibrary",
+     "matchedTitle": "Fifty Shades Freed",
+     "url": "https://openlibrary.org/search.json?title=Fifty%20Shades%20Freed"
+    },
+    {
+     "src": "Google Books",
+     "matchedTitle": "Fifty Shades Freed",
+     "url": "https://www.googleapis.com/books/v1/volumes?q=intitle:Fifty%20Shades%20Freed"
+    },
+    {
+     "src": "Wikidata",
+     "matchedTitle": "Fifty Shades Freed",
+     "url": "https://www.wikidata.org/wiki/Q2183834"
+    }
+   ],
+   "missed": [],
+   "coverage": 4
+  },
+  {
+   "id": "b1313",
+   "title": "Becoming",
+   "year": 2018,
+   "corpusGenres": [
+    "Memoir",
+    "History"
+   ],
+   "tags": [
+    "memoir"
+   ],
+   "sourceGenres": [],
+   "sources": [
+    {
+     "src": "Wikidata",
+     "matchedTitle": "Becoming",
+     "url": "https://www.wikidata.org/wiki/Q50282028"
+    }
+   ],
+   "missed": [
+    "OpenLibrary (title matched but author \"Paul Kalanithi\" does not -- likely a different book titled \"Becoming\")",
+    "Google Books (title matched but author \"Catherine Keller\" does not -- likely a different book titled \"Becoming\")"
+   ],
+   "coverage": 1
+  },
+  {
+   "id": "b1314",
+   "title": "A Promised Land",
+   "year": 2020,
+   "corpusGenres": [
+    "Memoir",
+    "History"
+   ],
+   "tags": [
+    "biography & autobiography",
+    "memoir",
+    "autobiography"
+   ],
+   "sourceGenres": [],
+   "sources": [
+    {
+     "src": "OpenLibrary",
+     "matchedTitle": "A Promised Land",
+     "url": "https://openlibrary.org/search.json?title=A%20Promised%20Land"
+    },
+    {
+     "src": "Google Books",
+     "matchedTitle": "A Promised Land",
+     "url": "https://www.googleapis.com/books/v1/volumes?q=intitle:A%20Promised%20Land"
+    },
+    {
+     "src": "Wikidata",
+     "matchedTitle": "A Promised Land",
+     "url": "https://www.wikidata.org/wiki/Q101438737"
+    }
+   ],
+   "missed": [],
+   "coverage": 3
+  },
+  {
+   "id": "b1315",
+   "title": "Spare",
+   "year": 2023,
+   "corpusGenres": [
+    "Memoir"
+   ],
+   "tags": [
+    "memoir"
+   ],
+   "sourceGenres": [],
+   "sources": [
+    {
+     "src": "OpenLibrary",
+     "matchedTitle": "Spare",
+     "url": "https://openlibrary.org/search.json?title=Spare"
+    },
+    {
+     "src": "Wikidata",
+     "matchedTitle": "Spare",
+     "url": "https://www.wikidata.org/wiki/Q114892138"
+    }
+   ],
+   "missed": [
+    "Google Books (title matched but author \"Gail Scott\" does not -- likely a different book titled \"Spare\")"
+   ],
+   "coverage": 1
+  },
+  {
+   "id": "b1316",
+   "title": "The Subtle Art of Not Giving a F*ck",
+   "year": 2016,
+   "corpusGenres": [
+    "Psychology"
+   ],
+   "tags": [
+    "self-help"
+   ],
+   "sourceGenres": [],
+   "sources": [
+    {
+     "src": "OpenLibrary",
+     "matchedTitle": "The Subtle Art of Not Giving a F*ck",
+     "url": "https://openlibrary.org/search.json?title=The%20Subtle%20Art%20of%20Not%20Giving%20a%20F*ck"
+    },
+    {
+     "src": "Google Books",
+     "matchedTitle": "The Subtle Art of Not Giving a F*ck",
+     "url": "https://www.googleapis.com/books/v1/volumes?q=intitle:The%20Subtle%20Art%20of%20Not%20Giving%20a%20F*ck"
+    },
+    {
+     "src": "Wikidata",
+     "matchedTitle": "The Subtle Art of Not Giving a Fuck",
+     "url": "https://www.wikidata.org/wiki/Q54488972"
+    }
+   ],
+   "missed": [],
+   "coverage": 1
+  },
+  {
+   "id": "b1317",
+   "title": "The Power of Now",
+   "year": 1997,
+   "corpusGenres": [
+    "Philosophy",
+    "Psychology"
+   ],
+   "tags": [
+    "body, mind & spirit",
+    "spirituality",
+    "psychology"
+   ],
+   "sourceGenres": [],
+   "sources": [
+    {
+     "src": "OpenLibrary",
+     "matchedTitle": "The Power of Now",
+     "url": "https://openlibrary.org/search.json?title=The%20Power%20of%20Now"
+    },
+    {
+     "src": "Google Books",
+     "matchedTitle": "The Power of Now",
+     "url": "https://www.googleapis.com/books/v1/volumes?q=intitle:The%20Power%20of%20Now"
+    },
+    {
+     "src": "Wikidata",
+     "matchedTitle": "The Power of Now",
+     "url": "https://www.wikidata.org/wiki/Q3225854"
+    }
+   ],
+   "missed": [],
+   "coverage": 3
+  },
+  {
+   "id": "b1318",
+   "title": "Quiet",
+   "year": 2012,
+   "corpusGenres": [
+    "Psychology"
+   ],
+   "tags": [],
+   "sourceGenres": [],
+   "sources": [
+    {
+     "src": "OpenLibrary",
+     "matchedTitle": "Quiet",
+     "url": "https://openlibrary.org/search.json?title=Quiet"
+    }
+   ],
+   "missed": [
+    "Google Books (title matched but author \"Magnus Mills\" does not -- likely a different book titled \"Quiet\")",
+    "Wikidata (title matched but credited \"Meneses Monroy\" does not -- likely a different work titled \"Quiet\")"
+   ],
+   "coverage": 0
+  },
+  {
+   "id": "b1319",
+   "title": "Elon Musk",
+   "year": 2023,
+   "corpusGenres": [
+    "History",
+    "Technology"
+   ],
+   "tags": [],
+   "sourceGenres": [],
+   "sources": [],
+   "missed": [
+    "OpenLibrary (title matched but author \"Ashlee Vance\" does not -- likely a different book titled \"Elon Musk\")",
+    "Google Books (title matched but author \"Influential Individuals\" does not -- likely a different book titled \"Elon Musk\")",
+    "Wikidata (title matched but credited \"Ashlee Vance\" does not -- likely a different work titled \"Elon Musk\")"
+   ],
+   "coverage": 0
+  },
+  {
+   "id": "b1320",
+   "title": "Shoe Dog",
+   "year": 2016,
+   "corpusGenres": [
+    "Business",
+    "Memoir"
+   ],
+   "tags": [
+    "juvenile nonfiction",
+    "nike"
+   ],
+   "sourceGenres": [],
+   "sources": [
+    {
+     "src": "OpenLibrary",
+     "matchedTitle": "Shoe Dog",
+     "url": "https://openlibrary.org/search.json?title=Shoe%20Dog"
+    },
+    {
+     "src": "Google Books",
+     "matchedTitle": "Shoe Dog",
+     "url": "https://www.googleapis.com/books/v1/volumes?q=intitle:Shoe%20Dog"
+    },
+    {
+     "src": "Wikidata",
+     "matchedTitle": "Shoe Dog",
+     "url": "https://www.wikidata.org/wiki/Q60748857"
+    }
+   ],
+   "missed": [],
+   "coverage": 2
+  },
+  {
+   "id": "b1321",
+   "title": "Oh, the Places You'll Go!",
+   "year": 1990,
+   "corpusGenres": [
+    "Family"
+   ],
+   "tags": [
+    "children's literature"
+   ],
+   "sourceGenres": [],
+   "sources": [
+    {
+     "src": "OpenLibrary",
+     "matchedTitle": "Oh, the Places You'll Go!",
+     "url": "https://openlibrary.org/search.json?title=Oh%2C%20the%20Places%20You'll%20Go!"
+    },
+    {
+     "src": "Wikidata",
+     "matchedTitle": "Oh, the Places You'll Go!",
+     "url": "https://www.wikidata.org/wiki/Q7080395"
+    }
+   ],
+   "missed": [
+    "Google Books (title matched but author \"NARAYAN CHANGDER\" does not -- likely a different book titled \"Oh, the Places You'll Go!\")"
+   ],
+   "coverage": 1
+  },
+  {
+   "id": "b1322",
+   "title": "The Lorax",
+   "year": 1971,
+   "corpusGenres": [
+    "Family",
+    "Nature"
+   ],
+   "tags": [
+    "juvenile fiction",
+    "children's literature"
+   ],
+   "sourceGenres": [],
+   "sources": [
+    {
+     "src": "OpenLibrary",
+     "matchedTitle": "The Lorax",
+     "url": "https://openlibrary.org/search.json?title=The%20Lorax"
+    },
+    {
+     "src": "Google Books",
+     "matchedTitle": "The Lorax",
+     "url": "https://www.googleapis.com/books/v1/volumes?q=intitle:The%20Lorax"
+    },
+    {
+     "src": "Wikidata",
+     "matchedTitle": "The Lorax",
+     "url": "https://www.wikidata.org/wiki/Q772236"
+    }
+   ],
+   "missed": [],
+   "coverage": 2
+  },
+  {
+   "id": "b1323",
+   "title": "Horton Hears a Who!",
+   "year": 1954,
+   "corpusGenres": [
+    "Family"
+   ],
+   "tags": [
+    "juvenile fiction",
+    "children's literature"
+   ],
+   "sourceGenres": [],
+   "sources": [
+    {
+     "src": "OpenLibrary",
+     "matchedTitle": "Horton Hears a Who!",
+     "url": "https://openlibrary.org/search.json?title=Horton%20Hears%20a%20Who!"
+    },
+    {
+     "src": "Google Books",
+     "matchedTitle": "Horton Hears a Who!",
+     "url": "https://www.googleapis.com/books/v1/volumes?q=intitle:Horton%20Hears%20a%20Who!"
+    },
+    {
+     "src": "Wikidata",
+     "matchedTitle": "Horton Hears a Who!",
+     "url": "https://www.wikidata.org/wiki/Q622916"
+    }
+   ],
+   "missed": [],
+   "coverage": 2
+  }
+ ]
+}
