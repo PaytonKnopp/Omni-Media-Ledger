@@ -1547,6 +1547,29 @@ added, cleanly complete at 3 books.
 1,587/2,000 (4,322/5,000 total, 86.4%). Remaining work is exclusively movies (~274 more) and books
 (~413 more).
 
+**Sixteenth round (movies batch 28, books batch 28), movies+books only.** Movies: fourteen titles, a
+comedy-legend sweep spanning Bill Murray (What About Bob? was already present, but Stripes, Caddyshack,
+Scrooged, Kingpin, The Darjeeling Limited, and Broken Flowers were not), Jack Nicholson (Something's
+Gotta Give, The Bucket List), and a handful of other '90s-2000s comedy staples (Multiplicity, Michael,
+the Analyze This duology, What Women Want). SERIES_DEFS: new Analyze This grouping added.
+
+Books: fourteen titles, closing two more literary-giant gaps: five more Toni Morrison novels (Tar Baby,
+Jazz, Paradise, A Mercy, God Help the Child) and a Philip Roth/John Updike sweep -- six more Roth
+novels and three more Updike Rabbit Angstrom novels, completing that tetralogy alongside the already-
+present Rabbit at Rest (a classic "only had the last book of the series" gap, the same shape as
+several franchise-completion finds earlier in the project). Four titles (Tar Baby, Jazz, Paradise,
+Everyman) reached zero fetch-substance tags, flagged as general-knowledge estimates. Caught and fixed
+a real validate-corpus.js failure before commit: Goodbye, Columbus was missing contextTags.vibeTime
+entirely -- the third time this specific oversight (short-story-collection-formatted records skipping
+vibe) has slipped through in recent rounds, worth deliberately double-checking vibeTime on any
+non-Novel formatType record before insertion in future batches rather than relying on validate-corpus.js
+to catch it after the fact. SERIES_DEFS: new Rabbit Angstrom grouping added, cleanly complete at 4
+books.
+
+**Status at this checkpoint:** movies 1,740/2,000, TV 502/500 (done), games 507/500 (done), books
+1,601/2,000 (4,350/5,000 total, 87.0%). Remaining work is exclusively movies (~260 more) and books
+(~399 more).
+
 ---
 
 ## Ideas / next steps
