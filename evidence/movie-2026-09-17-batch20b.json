@@ -1,0 +1,1343 @@
+{
+ "medium": "movie",
+ "generated": "2026-09-17T17:23:08.202Z",
+ "offline": false,
+ "sources": [
+  "OMDb",
+  "TMDB"
+ ],
+ "works": [
+  {
+   "id": "m1583",
+   "title": "Philadelphia",
+   "sourcesReached": [
+    "OMDb",
+    "TMDB"
+   ],
+   "sourcesMissed": [],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "release year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 1993,
+     "proposed": 1993,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 1993,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Philadelphia&type=movie&y=1993"
+      },
+      {
+       "src": "TMDB",
+       "value": 1993,
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Philadelphia&year=1993"
+      }
+     ]
+    },
+    {
+     "field": "runtime",
+     "label": "runtime (min)",
+     "soft": false,
+     "editionDependent": true,
+     "current": 125,
+     "proposed": 125,
+     "status": "corroborated-by-one",
+     "grade": "B",
+     "note": "matches OMDb; disagrees with TMDB (126)",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 125,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Philadelphia&type=movie&y=1993"
+      },
+      {
+       "src": "TMDB",
+       "value": 126,
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Philadelphia&year=1993"
+      }
+     ],
+     "alternatives": [
+      126
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "director",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Jonathan Demme",
+     "proposed": "Jonathan Demme",
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": "Jonathan Demme",
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Philadelphia&type=movie&y=1993"
+      },
+      {
+       "src": "TMDB",
+       "value": "Jonathan Demme",
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Philadelphia&year=1993"
+      }
+     ]
+    },
+    {
+     "field": "studio",
+     "label": "studio",
+     "soft": true,
+     "editionDependent": false,
+     "current": "TriStar Pictures",
+     "proposed": "TriStar Pictures",
+     "status": "confirmed",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "TMDB",
+       "value": "TriStar Pictures",
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Philadelphia&year=1993"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "m1584",
+   "title": "JFK",
+   "sourcesReached": [
+    "OMDb",
+    "TMDB"
+   ],
+   "sourcesMissed": [],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "release year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 1991,
+     "proposed": 1991,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 1991,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=JFK&type=movie&y=1991"
+      },
+      {
+       "src": "TMDB",
+       "value": 1991,
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=JFK&year=1991"
+      }
+     ]
+    },
+    {
+     "field": "runtime",
+     "label": "runtime (min)",
+     "soft": false,
+     "editionDependent": true,
+     "current": 189,
+     "proposed": 189,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 189,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=JFK&type=movie&y=1991"
+      },
+      {
+       "src": "TMDB",
+       "value": 189,
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=JFK&year=1991"
+      }
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "director",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Oliver Stone",
+     "proposed": "Oliver Stone",
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": "Oliver Stone",
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=JFK&type=movie&y=1991"
+      },
+      {
+       "src": "TMDB",
+       "value": "Oliver Stone",
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=JFK&year=1991"
+      }
+     ]
+    },
+    {
+     "field": "studio",
+     "label": "studio",
+     "soft": true,
+     "editionDependent": false,
+     "current": "Warner Bros.",
+     "proposed": "Warner Bros. Pictures",
+     "status": "proposed-change",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "TMDB",
+       "value": "Warner Bros. Pictures",
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=JFK&year=1991"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "m1585",
+   "title": "Nixon",
+   "sourcesReached": [
+    "OMDb",
+    "TMDB"
+   ],
+   "sourcesMissed": [],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "release year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 1995,
+     "proposed": 1995,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 1995,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Nixon&type=movie&y=1995"
+      },
+      {
+       "src": "TMDB",
+       "value": 1995,
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Nixon&year=1995"
+      }
+     ]
+    },
+    {
+     "field": "runtime",
+     "label": "runtime (min)",
+     "soft": false,
+     "editionDependent": true,
+     "current": 192,
+     "proposed": 192,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 192,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Nixon&type=movie&y=1995"
+      },
+      {
+       "src": "TMDB",
+       "value": 192,
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Nixon&year=1995"
+      }
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "director",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Oliver Stone",
+     "proposed": "Oliver Stone",
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": "Oliver Stone",
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Nixon&type=movie&y=1995"
+      },
+      {
+       "src": "TMDB",
+       "value": "Oliver Stone",
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Nixon&year=1995"
+      }
+     ]
+    },
+    {
+     "field": "studio",
+     "label": "studio",
+     "soft": true,
+     "editionDependent": false,
+     "current": "Buena Vista Pictures",
+     "proposed": "Cinergi Pictures",
+     "status": "proposed-change",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "TMDB",
+       "value": "Cinergi Pictures",
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Nixon&year=1995"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "m1586",
+   "title": "Frost/Nixon",
+   "sourcesReached": [
+    "OMDb",
+    "TMDB"
+   ],
+   "sourcesMissed": [],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "release year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 2008,
+     "proposed": 2008,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 2008,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Frost%2FNixon&type=movie&y=2008"
+      },
+      {
+       "src": "TMDB",
+       "value": 2008,
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Frost%2FNixon&year=2008"
+      }
+     ]
+    },
+    {
+     "field": "runtime",
+     "label": "runtime (min)",
+     "soft": false,
+     "editionDependent": true,
+     "current": 122,
+     "proposed": 122,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 122,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Frost%2FNixon&type=movie&y=2008"
+      },
+      {
+       "src": "TMDB",
+       "value": 122,
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Frost%2FNixon&year=2008"
+      }
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "director",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Ron Howard",
+     "proposed": "Ron Howard",
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": "Ron Howard",
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Frost%2FNixon&type=movie&y=2008"
+      },
+      {
+       "src": "TMDB",
+       "value": "Ron Howard",
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Frost%2FNixon&year=2008"
+      }
+     ]
+    },
+    {
+     "field": "studio",
+     "label": "studio",
+     "soft": true,
+     "editionDependent": false,
+     "current": "Universal Pictures",
+     "proposed": "Universal Pictures",
+     "status": "confirmed",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "TMDB",
+       "value": "Universal Pictures",
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Frost%2FNixon&year=2008"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "m1587",
+   "title": "My Cousin Vinny",
+   "sourcesReached": [
+    "OMDb",
+    "TMDB"
+   ],
+   "sourcesMissed": [],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "release year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 1992,
+     "proposed": 1992,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 1992,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=My+Cousin+Vinny&type=movie&y=1992"
+      },
+      {
+       "src": "TMDB",
+       "value": 1992,
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=My+Cousin+Vinny&year=1992"
+      }
+     ]
+    },
+    {
+     "field": "runtime",
+     "label": "runtime (min)",
+     "soft": false,
+     "editionDependent": true,
+     "current": 120,
+     "proposed": 120,
+     "status": "corroborated-by-one",
+     "grade": "B",
+     "note": "matches OMDb; disagrees with TMDB (119)",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 120,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=My+Cousin+Vinny&type=movie&y=1992"
+      },
+      {
+       "src": "TMDB",
+       "value": 119,
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=My+Cousin+Vinny&year=1992"
+      }
+     ],
+     "alternatives": [
+      119
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "director",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Jonathan Lynn",
+     "proposed": "Jonathan Lynn",
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": "Jonathan Lynn",
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=My+Cousin+Vinny&type=movie&y=1992"
+      },
+      {
+       "src": "TMDB",
+       "value": "Jonathan Lynn",
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=My+Cousin+Vinny&year=1992"
+      }
+     ]
+    },
+    {
+     "field": "studio",
+     "label": "studio",
+     "soft": true,
+     "editionDependent": false,
+     "current": "20th Century Fox",
+     "proposed": "Palo Vista Productions",
+     "status": "proposed-change",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "TMDB",
+       "value": "Palo Vista Productions",
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=My+Cousin+Vinny&year=1992"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "m1588",
+   "title": "The Wedding Singer",
+   "sourcesReached": [
+    "OMDb",
+    "TMDB"
+   ],
+   "sourcesMissed": [],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "release year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 1998,
+     "proposed": 1998,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 1998,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=The+Wedding+Singer&type=movie&y=1998"
+      },
+      {
+       "src": "TMDB",
+       "value": 1998,
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=The+Wedding+Singer&year=1998"
+      }
+     ]
+    },
+    {
+     "field": "runtime",
+     "label": "runtime (min)",
+     "soft": false,
+     "editionDependent": true,
+     "current": 97,
+     "proposed": 97,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 97,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=The+Wedding+Singer&type=movie&y=1998"
+      },
+      {
+       "src": "TMDB",
+       "value": 97,
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=The+Wedding+Singer&year=1998"
+      }
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "director",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Frank Coraci",
+     "proposed": "Frank Coraci",
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": "Frank Coraci",
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=The+Wedding+Singer&type=movie&y=1998"
+      },
+      {
+       "src": "TMDB",
+       "value": "Frank Coraci",
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=The+Wedding+Singer&year=1998"
+      }
+     ]
+    },
+    {
+     "field": "studio",
+     "label": "studio",
+     "soft": true,
+     "editionDependent": false,
+     "current": "New Line Cinema",
+     "proposed": "Robert Simonds Productions",
+     "status": "proposed-change",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "TMDB",
+       "value": "Robert Simonds Productions",
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=The+Wedding+Singer&year=1998"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "m1589",
+   "title": "50 First Dates",
+   "sourcesReached": [
+    "OMDb",
+    "TMDB"
+   ],
+   "sourcesMissed": [],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "release year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 2004,
+     "proposed": 2004,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 2004,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=50+First+Dates&type=movie&y=2004"
+      },
+      {
+       "src": "TMDB",
+       "value": 2004,
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=50+First+Dates&year=2004"
+      }
+     ]
+    },
+    {
+     "field": "runtime",
+     "label": "runtime (min)",
+     "soft": false,
+     "editionDependent": true,
+     "current": 99,
+     "proposed": 99,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 99,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=50+First+Dates&type=movie&y=2004"
+      },
+      {
+       "src": "TMDB",
+       "value": 99,
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=50+First+Dates&year=2004"
+      }
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "director",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Peter Segal",
+     "proposed": "Peter Segal",
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": "Peter Segal",
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=50+First+Dates&type=movie&y=2004"
+      },
+      {
+       "src": "TMDB",
+       "value": "Peter Segal",
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=50+First+Dates&year=2004"
+      }
+     ]
+    },
+    {
+     "field": "studio",
+     "label": "studio",
+     "soft": true,
+     "editionDependent": false,
+     "current": "Columbia Pictures",
+     "proposed": "Columbia Pictures",
+     "status": "confirmed",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "TMDB",
+       "value": "Columbia Pictures",
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=50+First+Dates&year=2004"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "m1590",
+   "title": "Big Daddy",
+   "sourcesReached": [
+    "OMDb",
+    "TMDB"
+   ],
+   "sourcesMissed": [],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "release year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 1999,
+     "proposed": 1999,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 1999,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Big+Daddy&type=movie&y=1999"
+      },
+      {
+       "src": "TMDB",
+       "value": 1999,
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Big+Daddy&year=1999"
+      }
+     ]
+    },
+    {
+     "field": "runtime",
+     "label": "runtime (min)",
+     "soft": false,
+     "editionDependent": true,
+     "current": 93,
+     "proposed": 93,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 93,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Big+Daddy&type=movie&y=1999"
+      },
+      {
+       "src": "TMDB",
+       "value": 93,
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Big+Daddy&year=1999"
+      }
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "director",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Dennis Dugan",
+     "proposed": "Dennis Dugan",
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": "Dennis Dugan",
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Big+Daddy&type=movie&y=1999"
+      },
+      {
+       "src": "TMDB",
+       "value": "Dennis Dugan",
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Big+Daddy&year=1999"
+      }
+     ]
+    },
+    {
+     "field": "studio",
+     "label": "studio",
+     "soft": true,
+     "editionDependent": false,
+     "current": "Columbia Pictures",
+     "proposed": "Columbia Pictures",
+     "status": "confirmed",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "TMDB",
+       "value": "Columbia Pictures",
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Big+Daddy&year=1999"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "m1591",
+   "title": "Happy Gilmore",
+   "sourcesReached": [
+    "OMDb",
+    "TMDB"
+   ],
+   "sourcesMissed": [],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "release year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 1996,
+     "proposed": 1996,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 1996,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Happy+Gilmore&type=movie&y=1996"
+      },
+      {
+       "src": "TMDB",
+       "value": 1996,
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Happy+Gilmore&year=1996"
+      }
+     ]
+    },
+    {
+     "field": "runtime",
+     "label": "runtime (min)",
+     "soft": false,
+     "editionDependent": true,
+     "current": 92,
+     "proposed": 92,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 92,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Happy+Gilmore&type=movie&y=1996"
+      },
+      {
+       "src": "TMDB",
+       "value": 92,
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Happy+Gilmore&year=1996"
+      }
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "director",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Dennis Dugan",
+     "proposed": "Dennis Dugan",
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": "Dennis Dugan",
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Happy+Gilmore&type=movie&y=1996"
+      },
+      {
+       "src": "TMDB",
+       "value": "Dennis Dugan",
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Happy+Gilmore&year=1996"
+      }
+     ]
+    },
+    {
+     "field": "studio",
+     "label": "studio",
+     "soft": true,
+     "editionDependent": false,
+     "current": "Universal Pictures",
+     "proposed": "Universal Pictures",
+     "status": "confirmed",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "TMDB",
+       "value": "Universal Pictures",
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Happy+Gilmore&year=1996"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "m1592",
+   "title": "Billy Madison",
+   "sourcesReached": [
+    "OMDb",
+    "TMDB"
+   ],
+   "sourcesMissed": [],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "release year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 1995,
+     "proposed": 1995,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 1995,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Billy+Madison&type=movie&y=1995"
+      },
+      {
+       "src": "TMDB",
+       "value": 1995,
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Billy+Madison&year=1995"
+      }
+     ]
+    },
+    {
+     "field": "runtime",
+     "label": "runtime (min)",
+     "soft": false,
+     "editionDependent": true,
+     "current": 89,
+     "proposed": 89,
+     "status": "corroborated-by-one",
+     "grade": "B",
+     "note": "matches OMDb; disagrees with TMDB (90)",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 89,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Billy+Madison&type=movie&y=1995"
+      },
+      {
+       "src": "TMDB",
+       "value": 90,
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Billy+Madison&year=1995"
+      }
+     ],
+     "alternatives": [
+      90
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "director",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Tamra Davis",
+     "proposed": "Tamra Davis",
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": "Tamra Davis",
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Billy+Madison&type=movie&y=1995"
+      },
+      {
+       "src": "TMDB",
+       "value": "Tamra Davis",
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Billy+Madison&year=1995"
+      }
+     ]
+    },
+    {
+     "field": "studio",
+     "label": "studio",
+     "soft": true,
+     "editionDependent": false,
+     "current": "Universal Pictures",
+     "proposed": "Jack Giarraputo Productions",
+     "status": "proposed-change",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "TMDB",
+       "value": "Jack Giarraputo Productions",
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Billy+Madison&year=1995"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "m1593",
+   "title": "Grown Ups",
+   "sourcesReached": [
+    "OMDb",
+    "TMDB"
+   ],
+   "sourcesMissed": [],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "release year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 2010,
+     "proposed": 2010,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 2010,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Grown+Ups&type=movie&y=2010"
+      },
+      {
+       "src": "TMDB",
+       "value": 2010,
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Grown+Ups&year=2010"
+      }
+     ]
+    },
+    {
+     "field": "runtime",
+     "label": "runtime (min)",
+     "soft": false,
+     "editionDependent": true,
+     "current": 102,
+     "proposed": 102,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 102,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Grown+Ups&type=movie&y=2010"
+      },
+      {
+       "src": "TMDB",
+       "value": 102,
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Grown+Ups&year=2010"
+      }
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "director",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Dennis Dugan",
+     "proposed": "Dennis Dugan",
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": "Dennis Dugan",
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Grown+Ups&type=movie&y=2010"
+      },
+      {
+       "src": "TMDB",
+       "value": "Dennis Dugan",
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Grown+Ups&year=2010"
+      }
+     ]
+    },
+    {
+     "field": "studio",
+     "label": "studio",
+     "soft": true,
+     "editionDependent": false,
+     "current": "Columbia Pictures",
+     "proposed": "Columbia Pictures",
+     "status": "confirmed",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "TMDB",
+       "value": "Columbia Pictures",
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Grown+Ups&year=2010"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "m1594",
+   "title": "Talladega Nights: The Ballad of Ricky Bobby",
+   "sourcesReached": [
+    "OMDb",
+    "TMDB"
+   ],
+   "sourcesMissed": [],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "release year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 2006,
+     "proposed": 2006,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 2006,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Talladega+Nights%3A+The+Ballad+of+Ricky+Bobby&type=movie&y=2006"
+      },
+      {
+       "src": "TMDB",
+       "value": 2006,
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Talladega+Nights%3A+The+Ballad+of+Ricky+Bobby&year=2006"
+      }
+     ]
+    },
+    {
+     "field": "runtime",
+     "label": "runtime (min)",
+     "soft": false,
+     "editionDependent": true,
+     "current": 108,
+     "proposed": 108,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 108,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Talladega+Nights%3A+The+Ballad+of+Ricky+Bobby&type=movie&y=2006"
+      },
+      {
+       "src": "TMDB",
+       "value": 108,
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Talladega+Nights%3A+The+Ballad+of+Ricky+Bobby&year=2006"
+      }
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "director",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Adam McKay",
+     "proposed": "Adam McKay",
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": "Adam McKay",
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Talladega+Nights%3A+The+Ballad+of+Ricky+Bobby&type=movie&y=2006"
+      },
+      {
+       "src": "TMDB",
+       "value": "Adam McKay",
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Talladega+Nights%3A+The+Ballad+of+Ricky+Bobby&year=2006"
+      }
+     ]
+    },
+    {
+     "field": "studio",
+     "label": "studio",
+     "soft": true,
+     "editionDependent": false,
+     "current": "Columbia Pictures",
+     "proposed": "Apatow Productions",
+     "status": "proposed-change",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "TMDB",
+       "value": "Apatow Productions",
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Talladega+Nights%3A+The+Ballad+of+Ricky+Bobby&year=2006"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "m1595",
+   "title": "Blades of Glory",
+   "sourcesReached": [
+    "OMDb",
+    "TMDB"
+   ],
+   "sourcesMissed": [],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "release year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 2007,
+     "proposed": 2007,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 2007,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Blades+of+Glory&type=movie&y=2007"
+      },
+      {
+       "src": "TMDB",
+       "value": 2007,
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Blades+of+Glory&year=2007"
+      }
+     ]
+    },
+    {
+     "field": "runtime",
+     "label": "runtime (min)",
+     "soft": false,
+     "editionDependent": true,
+     "current": 93,
+     "proposed": 93,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 93,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Blades+of+Glory&type=movie&y=2007"
+      },
+      {
+       "src": "TMDB",
+       "value": 93,
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Blades+of+Glory&year=2007"
+      }
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "director",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Josh Gordon & Will Speck",
+     "proposed": "Josh Gordon, Will Speck",
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": "Josh Gordon, Will Speck",
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Blades+of+Glory&type=movie&y=2007"
+      },
+      {
+       "src": "TMDB",
+       "value": "Will Speck, Josh Gordon",
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Blades+of+Glory&year=2007"
+      }
+     ]
+    },
+    {
+     "field": "studio",
+     "label": "studio",
+     "soft": true,
+     "editionDependent": false,
+     "current": "Paramount Pictures",
+     "proposed": "DreamWorks Pictures",
+     "status": "proposed-change",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "TMDB",
+       "value": "DreamWorks Pictures",
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Blades+of+Glory&year=2007"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "m1596",
+   "title": "This Is the End",
+   "sourcesReached": [
+    "OMDb",
+    "TMDB"
+   ],
+   "sourcesMissed": [],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "release year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 2013,
+     "proposed": 2013,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 2013,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=This+Is+the+End&type=movie&y=2013"
+      },
+      {
+       "src": "TMDB",
+       "value": 2013,
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=This+Is+the+End&year=2013"
+      }
+     ]
+    },
+    {
+     "field": "runtime",
+     "label": "runtime (min)",
+     "soft": false,
+     "editionDependent": true,
+     "current": 107,
+     "proposed": 107,
+     "status": "corroborated-by-one",
+     "grade": "B",
+     "note": "matches OMDb; disagrees with TMDB (106)",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 107,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=This+Is+the+End&type=movie&y=2013"
+      },
+      {
+       "src": "TMDB",
+       "value": 106,
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=This+Is+the+End&year=2013"
+      }
+     ],
+     "alternatives": [
+      106
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "director",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Evan Goldberg & Seth Rogen",
+     "proposed": "Evan Goldberg, Seth Rogen",
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": "Evan Goldberg, Seth Rogen",
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=This+Is+the+End&type=movie&y=2013"
+      },
+      {
+       "src": "TMDB",
+       "value": "Seth Rogen, Evan Goldberg",
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=This+Is+the+End&year=2013"
+      }
+     ]
+    },
+    {
+     "field": "studio",
+     "label": "studio",
+     "soft": true,
+     "editionDependent": false,
+     "current": "Columbia Pictures",
+     "proposed": "Columbia Pictures",
+     "status": "confirmed",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "TMDB",
+       "value": "Columbia Pictures",
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=This+Is+the+End&year=2013"
+      }
+     ]
+    }
+   ]
+  }
+ ]
+}

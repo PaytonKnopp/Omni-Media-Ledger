@@ -1,0 +1,1296 @@
+{
+ "medium": "movie",
+ "generated": "2026-09-17T17:23:00.544Z",
+ "offline": false,
+ "sources": [
+  "OMDb",
+  "TMDB"
+ ],
+ "works": [
+  {
+   "id": "m1569",
+   "title": "Beverly Hills Cop",
+   "sourcesReached": [
+    "OMDb",
+    "TMDB"
+   ],
+   "sourcesMissed": [],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "release year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 1984,
+     "proposed": 1984,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 1984,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Beverly+Hills+Cop&type=movie&y=1984"
+      },
+      {
+       "src": "TMDB",
+       "value": 1984,
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Beverly+Hills+Cop&year=1984"
+      }
+     ]
+    },
+    {
+     "field": "runtime",
+     "label": "runtime (min)",
+     "soft": false,
+     "editionDependent": true,
+     "current": 105,
+     "proposed": 105,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 105,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Beverly+Hills+Cop&type=movie&y=1984"
+      },
+      {
+       "src": "TMDB",
+       "value": 105,
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Beverly+Hills+Cop&year=1984"
+      }
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "director",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Martin Brest",
+     "proposed": "Martin Brest",
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": "Martin Brest",
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Beverly+Hills+Cop&type=movie&y=1984"
+      },
+      {
+       "src": "TMDB",
+       "value": "Martin Brest",
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Beverly+Hills+Cop&year=1984"
+      }
+     ]
+    },
+    {
+     "field": "studio",
+     "label": "studio",
+     "soft": true,
+     "editionDependent": false,
+     "current": "Paramount Pictures",
+     "proposed": "Paramount Pictures",
+     "status": "confirmed",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "TMDB",
+       "value": "Paramount Pictures",
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Beverly+Hills+Cop&year=1984"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "m1570",
+   "title": "Beverly Hills Cop II",
+   "sourcesReached": [
+    "OMDb",
+    "TMDB"
+   ],
+   "sourcesMissed": [],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "release year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 1987,
+     "proposed": 1987,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 1987,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Beverly+Hills+Cop+II&type=movie&y=1987"
+      },
+      {
+       "src": "TMDB",
+       "value": 1987,
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Beverly+Hills+Cop+II&year=1987"
+      }
+     ]
+    },
+    {
+     "field": "runtime",
+     "label": "runtime (min)",
+     "soft": false,
+     "editionDependent": true,
+     "current": 103,
+     "proposed": 103,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 103,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Beverly+Hills+Cop+II&type=movie&y=1987"
+      },
+      {
+       "src": "TMDB",
+       "value": 103,
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Beverly+Hills+Cop+II&year=1987"
+      }
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "director",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Tony Scott",
+     "proposed": "Tony Scott",
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": "Tony Scott",
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Beverly+Hills+Cop+II&type=movie&y=1987"
+      },
+      {
+       "src": "TMDB",
+       "value": "Tony Scott",
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Beverly+Hills+Cop+II&year=1987"
+      }
+     ]
+    },
+    {
+     "field": "studio",
+     "label": "studio",
+     "soft": true,
+     "editionDependent": false,
+     "current": "Paramount Pictures",
+     "proposed": "Eddie Murphy Productions",
+     "status": "proposed-change",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "TMDB",
+       "value": "Eddie Murphy Productions",
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Beverly+Hills+Cop+II&year=1987"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "m1571",
+   "title": "Beverly Hills Cop III",
+   "sourcesReached": [
+    "OMDb",
+    "TMDB"
+   ],
+   "sourcesMissed": [],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "release year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 1994,
+     "proposed": 1994,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 1994,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Beverly+Hills+Cop+III&type=movie&y=1994"
+      },
+      {
+       "src": "TMDB",
+       "value": 1994,
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Beverly+Hills+Cop+III&year=1994"
+      }
+     ]
+    },
+    {
+     "field": "runtime",
+     "label": "runtime (min)",
+     "soft": false,
+     "editionDependent": true,
+     "current": 104,
+     "proposed": 104,
+     "status": "corroborated-by-one",
+     "grade": "B",
+     "note": "matches OMDb; disagrees with TMDB (105)",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 104,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Beverly+Hills+Cop+III&type=movie&y=1994"
+      },
+      {
+       "src": "TMDB",
+       "value": 105,
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Beverly+Hills+Cop+III&year=1994"
+      }
+     ],
+     "alternatives": [
+      105
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "director",
+     "soft": false,
+     "editionDependent": false,
+     "current": "John Landis",
+     "proposed": "John Landis",
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": "John Landis",
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Beverly+Hills+Cop+III&type=movie&y=1994"
+      },
+      {
+       "src": "TMDB",
+       "value": "John Landis",
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Beverly+Hills+Cop+III&year=1994"
+      }
+     ]
+    },
+    {
+     "field": "studio",
+     "label": "studio",
+     "soft": true,
+     "editionDependent": false,
+     "current": "Paramount Pictures",
+     "proposed": "Eddie Murphy Productions",
+     "status": "proposed-change",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "TMDB",
+       "value": "Eddie Murphy Productions",
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Beverly+Hills+Cop+III&year=1994"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "m1572",
+   "title": "48 Hrs.",
+   "sourcesReached": [
+    "OMDb",
+    "TMDB"
+   ],
+   "sourcesMissed": [],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "release year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 1982,
+     "proposed": 1982,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 1982,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=48+Hrs.&type=movie&y=1982"
+      },
+      {
+       "src": "TMDB",
+       "value": 1982,
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=48+Hrs.&year=1982"
+      }
+     ]
+    },
+    {
+     "field": "runtime",
+     "label": "runtime (min)",
+     "soft": false,
+     "editionDependent": true,
+     "current": 96,
+     "proposed": 96,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 96,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=48+Hrs.&type=movie&y=1982"
+      },
+      {
+       "src": "TMDB",
+       "value": 96,
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=48+Hrs.&year=1982"
+      }
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "director",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Walter Hill",
+     "proposed": "Walter Hill",
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": "Walter Hill",
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=48+Hrs.&type=movie&y=1982"
+      },
+      {
+       "src": "TMDB",
+       "value": "Walter Hill",
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=48+Hrs.&year=1982"
+      }
+     ]
+    },
+    {
+     "field": "studio",
+     "label": "studio",
+     "soft": true,
+     "editionDependent": false,
+     "current": "Paramount Pictures",
+     "proposed": "Paramount Pictures",
+     "status": "confirmed",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "TMDB",
+       "value": "Paramount Pictures",
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=48+Hrs.&year=1982"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "m1573",
+   "title": "Another 48 Hrs.",
+   "sourcesReached": [
+    "OMDb",
+    "TMDB"
+   ],
+   "sourcesMissed": [],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "release year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 1990,
+     "proposed": 1990,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 1990,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Another+48+Hrs.&type=movie&y=1990"
+      },
+      {
+       "src": "TMDB",
+       "value": 1990,
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Another+48+Hrs.&year=1990"
+      }
+     ]
+    },
+    {
+     "field": "runtime",
+     "label": "runtime (min)",
+     "soft": false,
+     "editionDependent": true,
+     "current": 95,
+     "proposed": 95,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 95,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Another+48+Hrs.&type=movie&y=1990"
+      },
+      {
+       "src": "TMDB",
+       "value": 95,
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Another+48+Hrs.&year=1990"
+      }
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "director",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Walter Hill",
+     "proposed": "Walter Hill",
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": "Walter Hill",
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Another+48+Hrs.&type=movie&y=1990"
+      },
+      {
+       "src": "TMDB",
+       "value": "Walter Hill",
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Another+48+Hrs.&year=1990"
+      }
+     ]
+    },
+    {
+     "field": "studio",
+     "label": "studio",
+     "soft": true,
+     "editionDependent": false,
+     "current": "Paramount Pictures",
+     "proposed": "Paramount Pictures",
+     "status": "confirmed",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "TMDB",
+       "value": "Paramount Pictures",
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Another+48+Hrs.&year=1990"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "m1574",
+   "title": "RoboCop 3",
+   "sourcesReached": [
+    "OMDb",
+    "TMDB"
+   ],
+   "sourcesMissed": [],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "release year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 1993,
+     "proposed": 1993,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 1993,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=RoboCop+3&type=movie&y=1993"
+      },
+      {
+       "src": "TMDB",
+       "value": 1993,
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=RoboCop+3&year=1993"
+      }
+     ]
+    },
+    {
+     "field": "runtime",
+     "label": "runtime (min)",
+     "soft": false,
+     "editionDependent": true,
+     "current": 104,
+     "proposed": 104,
+     "status": "corroborated-by-one",
+     "grade": "B",
+     "note": "matches OMDb; disagrees with TMDB (105)",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 104,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=RoboCop+3&type=movie&y=1993"
+      },
+      {
+       "src": "TMDB",
+       "value": 105,
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=RoboCop+3&year=1993"
+      }
+     ],
+     "alternatives": [
+      105
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "director",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Fred Dekker",
+     "proposed": "Fred Dekker",
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": "Fred Dekker",
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=RoboCop+3&type=movie&y=1993"
+      },
+      {
+       "src": "TMDB",
+       "value": "Fred Dekker",
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=RoboCop+3&year=1993"
+      }
+     ]
+    },
+    {
+     "field": "studio",
+     "label": "studio",
+     "soft": true,
+     "editionDependent": false,
+     "current": "Orion Pictures",
+     "proposed": "Orion Pictures",
+     "status": "confirmed",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "TMDB",
+       "value": "Orion Pictures",
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=RoboCop+3&year=1993"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "m1575",
+   "title": "Basic Instinct",
+   "sourcesReached": [
+    "OMDb",
+    "TMDB"
+   ],
+   "sourcesMissed": [],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "release year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 1992,
+     "proposed": 1992,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 1992,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Basic+Instinct&type=movie&y=1992"
+      },
+      {
+       "src": "TMDB",
+       "value": 1992,
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Basic+Instinct&year=1992"
+      }
+     ]
+    },
+    {
+     "field": "runtime",
+     "label": "runtime (min)",
+     "soft": false,
+     "editionDependent": true,
+     "current": 127,
+     "proposed": 127,
+     "status": "corroborated-by-one",
+     "grade": "B",
+     "note": "matches OMDb; disagrees with TMDB (128)",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 127,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Basic+Instinct&type=movie&y=1992"
+      },
+      {
+       "src": "TMDB",
+       "value": 128,
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Basic+Instinct&year=1992"
+      }
+     ],
+     "alternatives": [
+      128
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "director",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Paul Verhoeven",
+     "proposed": "Paul Verhoeven",
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": "Paul Verhoeven",
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Basic+Instinct&type=movie&y=1992"
+      },
+      {
+       "src": "TMDB",
+       "value": "Paul Verhoeven",
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Basic+Instinct&year=1992"
+      }
+     ]
+    },
+    {
+     "field": "studio",
+     "label": "studio",
+     "soft": true,
+     "editionDependent": false,
+     "current": "TriStar Pictures",
+     "proposed": "Carolco Pictures",
+     "status": "proposed-change",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "TMDB",
+       "value": "Carolco Pictures",
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Basic+Instinct&year=1992"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "m1576",
+   "title": "Cliffhanger",
+   "sourcesReached": [
+    "OMDb",
+    "TMDB"
+   ],
+   "sourcesMissed": [],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "release year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 1993,
+     "proposed": 1993,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 1993,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Cliffhanger&type=movie&y=1993"
+      },
+      {
+       "src": "TMDB",
+       "value": 1993,
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Cliffhanger&year=1993"
+      }
+     ]
+    },
+    {
+     "field": "runtime",
+     "label": "runtime (min)",
+     "soft": false,
+     "editionDependent": true,
+     "current": 113,
+     "proposed": 113,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 113,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Cliffhanger&type=movie&y=1993"
+      },
+      {
+       "src": "TMDB",
+       "value": 113,
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Cliffhanger&year=1993"
+      }
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "director",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Renny Harlin",
+     "proposed": "Renny Harlin",
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": "Renny Harlin",
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Cliffhanger&type=movie&y=1993"
+      },
+      {
+       "src": "TMDB",
+       "value": "Renny Harlin",
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Cliffhanger&year=1993"
+      }
+     ]
+    },
+    {
+     "field": "studio",
+     "label": "studio",
+     "soft": true,
+     "editionDependent": false,
+     "current": "TriStar Pictures",
+     "proposed": "Carolco Pictures",
+     "status": "proposed-change",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "TMDB",
+       "value": "Carolco Pictures",
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Cliffhanger&year=1993"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "m1577",
+   "title": "Executive Decision",
+   "sourcesReached": [
+    "OMDb",
+    "TMDB"
+   ],
+   "sourcesMissed": [],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "release year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 1996,
+     "proposed": 1996,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 1996,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Executive+Decision&type=movie&y=1996"
+      },
+      {
+       "src": "TMDB",
+       "value": 1996,
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Executive+Decision&year=1996"
+      }
+     ]
+    },
+    {
+     "field": "runtime",
+     "label": "runtime (min)",
+     "soft": false,
+     "editionDependent": true,
+     "current": 133,
+     "proposed": 133,
+     "status": "corroborated-by-one",
+     "grade": "B",
+     "note": "matches OMDb; disagrees with TMDB (132)",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 133,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Executive+Decision&type=movie&y=1996"
+      },
+      {
+       "src": "TMDB",
+       "value": 132,
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Executive+Decision&year=1996"
+      }
+     ],
+     "alternatives": [
+      132
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "director",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Stuart Baird",
+     "proposed": "Stuart Baird",
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": "Stuart Baird",
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Executive+Decision&type=movie&y=1996"
+      },
+      {
+       "src": "TMDB",
+       "value": "Stuart Baird",
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Executive+Decision&year=1996"
+      }
+     ]
+    },
+    {
+     "field": "studio",
+     "label": "studio",
+     "soft": true,
+     "editionDependent": false,
+     "current": "Warner Bros.",
+     "proposed": "Silver Pictures",
+     "status": "proposed-change",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "TMDB",
+       "value": "Silver Pictures",
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Executive+Decision&year=1996"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "m1578",
+   "title": "Broken Arrow",
+   "sourcesReached": [
+    "OMDb",
+    "TMDB"
+   ],
+   "sourcesMissed": [],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "release year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 1996,
+     "proposed": 1996,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 1996,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Broken+Arrow&type=movie&y=1996"
+      },
+      {
+       "src": "TMDB",
+       "value": 1996,
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Broken+Arrow&year=1996"
+      }
+     ]
+    },
+    {
+     "field": "runtime",
+     "label": "runtime (min)",
+     "soft": false,
+     "editionDependent": true,
+     "current": 108,
+     "proposed": 108,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 108,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Broken+Arrow&type=movie&y=1996"
+      },
+      {
+       "src": "TMDB",
+       "value": 108,
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Broken+Arrow&year=1996"
+      }
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "director",
+     "soft": false,
+     "editionDependent": false,
+     "current": "John Woo",
+     "proposed": "John Woo",
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": "John Woo",
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Broken+Arrow&type=movie&y=1996"
+      },
+      {
+       "src": "TMDB",
+       "value": "John Woo",
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Broken+Arrow&year=1996"
+      }
+     ]
+    },
+    {
+     "field": "studio",
+     "label": "studio",
+     "soft": true,
+     "editionDependent": false,
+     "current": "20th Century Fox",
+     "proposed": "The Mark Gordon Company",
+     "status": "proposed-change",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "TMDB",
+       "value": "The Mark Gordon Company",
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Broken+Arrow&year=1996"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "m1579",
+   "title": "A Few Good Men",
+   "sourcesReached": [
+    "OMDb",
+    "TMDB"
+   ],
+   "sourcesMissed": [],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "release year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 1992,
+     "proposed": 1992,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 1992,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=A+Few+Good+Men&type=movie&y=1992"
+      },
+      {
+       "src": "TMDB",
+       "value": 1992,
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=A+Few+Good+Men&year=1992"
+      }
+     ]
+    },
+    {
+     "field": "runtime",
+     "label": "runtime (min)",
+     "soft": false,
+     "editionDependent": true,
+     "current": 138,
+     "proposed": 138,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 138,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=A+Few+Good+Men&type=movie&y=1992"
+      },
+      {
+       "src": "TMDB",
+       "value": 138,
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=A+Few+Good+Men&year=1992"
+      }
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "director",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Rob Reiner",
+     "proposed": "Rob Reiner",
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": "Rob Reiner",
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=A+Few+Good+Men&type=movie&y=1992"
+      },
+      {
+       "src": "TMDB",
+       "value": "Rob Reiner",
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=A+Few+Good+Men&year=1992"
+      }
+     ]
+    },
+    {
+     "field": "studio",
+     "label": "studio",
+     "soft": true,
+     "editionDependent": false,
+     "current": "Columbia Pictures",
+     "proposed": "David Brown Productions",
+     "status": "proposed-change",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "TMDB",
+       "value": "David Brown Productions",
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=A+Few+Good+Men&year=1992"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "m1580",
+   "title": "The Verdict",
+   "sourcesReached": [
+    "OMDb",
+    "TMDB"
+   ],
+   "sourcesMissed": [],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "release year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 1982,
+     "proposed": 1982,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 1982,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=The+Verdict&type=movie&y=1982"
+      },
+      {
+       "src": "TMDB",
+       "value": 1982,
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=The+Verdict&year=1982"
+      }
+     ]
+    },
+    {
+     "field": "runtime",
+     "label": "runtime (min)",
+     "soft": false,
+     "editionDependent": true,
+     "current": 129,
+     "proposed": 129,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 129,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=The+Verdict&type=movie&y=1982"
+      },
+      {
+       "src": "TMDB",
+       "value": 129,
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=The+Verdict&year=1982"
+      }
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "director",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Sidney Lumet",
+     "proposed": "Sidney Lumet",
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": "Sidney Lumet",
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=The+Verdict&type=movie&y=1982"
+      },
+      {
+       "src": "TMDB",
+       "value": "Sidney Lumet",
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=The+Verdict&year=1982"
+      }
+     ]
+    },
+    {
+     "field": "studio",
+     "label": "studio",
+     "soft": true,
+     "editionDependent": false,
+     "current": "20th Century Fox",
+     "proposed": "20th Century Fox",
+     "status": "confirmed",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "TMDB",
+       "value": "20th Century Fox",
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=The+Verdict&year=1982"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "m1581",
+   "title": "Anatomy of a Murder",
+   "sourcesReached": [
+    "OMDb",
+    "TMDB"
+   ],
+   "sourcesMissed": [],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "release year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 1959,
+     "proposed": 1959,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 1959,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Anatomy+of+a+Murder&type=movie&y=1959"
+      },
+      {
+       "src": "TMDB",
+       "value": 1959,
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Anatomy+of+a+Murder&year=1959"
+      }
+     ]
+    },
+    {
+     "field": "runtime",
+     "label": "runtime (min)",
+     "soft": false,
+     "editionDependent": true,
+     "current": 161,
+     "proposed": 161,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 161,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Anatomy+of+a+Murder&type=movie&y=1959"
+      },
+      {
+       "src": "TMDB",
+       "value": 161,
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Anatomy+of+a+Murder&year=1959"
+      }
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "director",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Otto Preminger",
+     "proposed": "Otto Preminger",
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": "Otto Preminger",
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Anatomy+of+a+Murder&type=movie&y=1959"
+      },
+      {
+       "src": "TMDB",
+       "value": "Otto Preminger",
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Anatomy+of+a+Murder&year=1959"
+      }
+     ]
+    },
+    {
+     "field": "studio",
+     "label": "studio",
+     "soft": true,
+     "editionDependent": false,
+     "current": "Columbia Pictures",
+     "proposed": "Carlyle Productions",
+     "status": "proposed-change",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "TMDB",
+       "value": "Carlyle Productions",
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Anatomy+of+a+Murder&year=1959"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "m1582",
+   "title": "Twelve Angry Men",
+   "sourcesReached": [],
+   "sourcesMissed": [
+    "OMDb (no match)",
+    "TMDB (no match)"
+   ],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "release year",
+     "soft": false,
+     "current": 1957,
+     "status": "no-source",
+     "grade": null,
+     "sources": []
+    },
+    {
+     "field": "runtime",
+     "label": "runtime (min)",
+     "soft": false,
+     "current": 96,
+     "status": "no-source",
+     "grade": null,
+     "sources": []
+    },
+    {
+     "field": "creator",
+     "label": "director",
+     "soft": false,
+     "current": "Sidney Lumet",
+     "status": "no-source",
+     "grade": null,
+     "sources": []
+    },
+    {
+     "field": "studio",
+     "label": "studio",
+     "soft": true,
+     "current": "United Artists",
+     "status": "no-source",
+     "grade": null,
+     "sources": []
+    }
+   ]
+  }
+ ]
+}
