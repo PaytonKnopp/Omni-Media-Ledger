@@ -1,0 +1,767 @@
+{
+ "medium": "book",
+ "generated": "2026-09-17T22:32:30.568Z",
+ "offline": false,
+ "sources": [
+  "OpenLibrary",
+  "Google Books",
+  "Wikidata"
+ ],
+ "works": [
+  {
+   "id": "b1628",
+   "title": "The Sign of Four",
+   "sourcesReached": [
+    "OpenLibrary",
+    "Google Books",
+    "Wikidata"
+   ],
+   "sourcesMissed": [],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "first publication year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 1890,
+     "proposed": 1890,
+     "status": "corroborated-by-one",
+     "grade": "B",
+     "note": "matches Wikidata; disagrees with OpenLibrary (1889), Google Books (2008)",
+     "sources": [
+      {
+       "src": "OpenLibrary",
+       "value": 1889,
+       "url": "https://openlibrary.org/search.json?title=The+Sign+of+Four&limit=1"
+      },
+      {
+       "src": "Google Books",
+       "value": 2008,
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3AThe+Sign+of+Four&maxResults=1&key=REDACTED"
+      },
+      {
+       "src": "Wikidata",
+       "value": 1890,
+       "url": "https://www.wikidata.org/wiki/Q500688"
+      }
+     ],
+     "alternatives": [
+      2008,
+      1890
+     ]
+    },
+    {
+     "field": "pages",
+     "label": "page count",
+     "soft": false,
+     "editionDependent": true,
+     "current": 224,
+     "proposed": 138,
+     "status": "edition-dependent",
+     "grade": "B",
+     "note": "one source differs from the corpus (Google Books 138) on a field with no single true value -- likely a different printing/edition, not an error.",
+     "sources": [
+      {
+       "src": "Google Books",
+       "value": 138,
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3AThe+Sign+of+Four&maxResults=1&key=REDACTED"
+      }
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "author",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Arthur Conan Doyle",
+     "proposed": "Arthur Conan Doyle",
+     "status": "corroborated-by-one",
+     "grade": "B",
+     "note": "matches OpenLibrary/Wikidata; disagrees with Google Books (\"Conan Sir Arthur Doyle & Arthur Conan Doyle, Sir\")",
+     "sources": [
+      {
+       "src": "OpenLibrary",
+       "value": "Arthur Conan Doyle",
+       "url": "https://openlibrary.org/search.json?title=The+Sign+of+Four&limit=1"
+      },
+      {
+       "src": "Google Books",
+       "value": "Conan Sir Arthur Doyle & Arthur Conan Doyle, Sir",
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3AThe+Sign+of+Four&maxResults=1&key=REDACTED"
+      },
+      {
+       "src": "Wikidata",
+       "value": "Arthur Conan Doyle",
+       "url": "https://www.wikidata.org/wiki/Q500688"
+      }
+     ],
+     "alternatives": [
+      "Conan Sir Arthur Doyle & Arthur Conan Doyle, Sir"
+     ]
+    },
+    {
+     "field": "publisher",
+     "label": "publisher",
+     "soft": true,
+     "editionDependent": true,
+     "current": "Spencer Blackett",
+     "proposed": "Cosimo, Inc.",
+     "status": "edition-dependent",
+     "grade": "B",
+     "note": "corpus value does not match either source (Google Books \"Cosimo, Inc.\", Wikidata \"Lippincott's Monthly Magazine\") -- treated as a distinct edition; the specific cut is not identified from available evidence.",
+     "sources": [
+      {
+       "src": "Google Books",
+       "value": "Cosimo, Inc.",
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3AThe+Sign+of+Four&maxResults=1&key=REDACTED"
+      },
+      {
+       "src": "Wikidata",
+       "value": "Lippincott's Monthly Magazine",
+       "url": "https://www.wikidata.org/wiki/Q500688"
+      }
+     ],
+     "alternatives": [
+      "Lippincott's Monthly Magazine"
+     ]
+    }
+   ]
+  },
+  {
+   "id": "b1629",
+   "title": "The Memoirs of Sherlock Holmes",
+   "sourcesReached": [
+    "OpenLibrary",
+    "Google Books",
+    "Wikidata"
+   ],
+   "sourcesMissed": [],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "first publication year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 1894,
+     "proposed": 1993,
+     "status": "sources-disagree",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "OpenLibrary",
+       "value": 1993,
+       "url": "https://openlibrary.org/search.json?title=The+Memoirs+of+Sherlock+Holmes&limit=1"
+      },
+      {
+       "src": "Google Books",
+       "value": 2011,
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3AThe+Memoirs+of+Sherlock+Holmes&maxResults=1&key=REDACTED"
+      },
+      {
+       "src": "Wikidata",
+       "value": 1997,
+       "url": "https://www.wikidata.org/wiki/Q106687420"
+      }
+     ],
+     "alternatives": [
+      2011,
+      1997
+     ]
+    },
+    {
+     "field": "pages",
+     "label": "page count",
+     "soft": false,
+     "editionDependent": true,
+     "current": 320,
+     "proposed": 240,
+     "status": "edition-dependent",
+     "grade": "B",
+     "note": "one source differs from the corpus (Google Books 240) on a field with no single true value -- likely a different printing/edition, not an error.",
+     "sources": [
+      {
+       "src": "Google Books",
+       "value": 240,
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3AThe+Memoirs+of+Sherlock+Holmes&maxResults=1&key=REDACTED"
+      }
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "author",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Arthur Conan Doyle",
+     "proposed": "Arthur Conan Doyle",
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OpenLibrary",
+       "value": "Arthur Conan Doyle",
+       "url": "https://openlibrary.org/search.json?title=The+Memoirs+of+Sherlock+Holmes&limit=1"
+      },
+      {
+       "src": "Google Books",
+       "value": "Arthur Conan Doyle",
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3AThe+Memoirs+of+Sherlock+Holmes&maxResults=1&key=REDACTED"
+      },
+      {
+       "src": "Wikidata",
+       "value": "Arthur Conan Doyle",
+       "url": "https://www.wikidata.org/wiki/Q106687420"
+      }
+     ]
+    },
+    {
+     "field": "publisher",
+     "label": "publisher",
+     "soft": true,
+     "editionDependent": true,
+     "current": "George Newnes",
+     "proposed": "Penguin UK",
+     "status": "edition-dependent",
+     "grade": "B",
+     "note": "corpus value does not match either source (Google Books \"Penguin UK\", Wikidata \"Project Gutenberg\") -- treated as a distinct edition; the specific cut is not identified from available evidence.",
+     "sources": [
+      {
+       "src": "Google Books",
+       "value": "Penguin UK",
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3AThe+Memoirs+of+Sherlock+Holmes&maxResults=1&key=REDACTED"
+      },
+      {
+       "src": "Wikidata",
+       "value": "Project Gutenberg",
+       "url": "https://www.wikidata.org/wiki/Q106687420"
+      }
+     ],
+     "alternatives": [
+      "Project Gutenberg"
+     ]
+    }
+   ]
+  },
+  {
+   "id": "b1630",
+   "title": "The Return of Sherlock Holmes",
+   "sourcesReached": [
+    "OpenLibrary",
+    "Google Books"
+   ],
+   "sourcesMissed": [
+    "Wikidata (no match)"
+   ],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "first publication year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 1905,
+     "proposed": 1903,
+     "status": "sources-disagree",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "OpenLibrary",
+       "value": 1903,
+       "url": "https://openlibrary.org/search.json?title=The+Return+of+Sherlock+Holmes&limit=1"
+      },
+      {
+       "src": "Google Books",
+       "value": 2022,
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3AThe+Return+of+Sherlock+Holmes&maxResults=1&key=REDACTED"
+      }
+     ],
+     "alternatives": [
+      2022
+     ]
+    },
+    {
+     "field": "pages",
+     "label": "page count",
+     "soft": false,
+     "editionDependent": true,
+     "current": 344,
+     "proposed": 252,
+     "status": "edition-dependent",
+     "grade": "B",
+     "note": "one source differs from the corpus (Google Books 252) on a field with no single true value -- likely a different printing/edition, not an error.",
+     "sources": [
+      {
+       "src": "Google Books",
+       "value": 252,
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3AThe+Return+of+Sherlock+Holmes&maxResults=1&key=REDACTED"
+      }
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "author",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Arthur Conan Doyle",
+     "proposed": "Arthur Conan Doyle",
+     "status": "corroborated-by-one",
+     "grade": "B",
+     "note": "matches OpenLibrary; disagrees with Google Books (\"A. C Doyle\")",
+     "sources": [
+      {
+       "src": "OpenLibrary",
+       "value": "Arthur Conan Doyle",
+       "url": "https://openlibrary.org/search.json?title=The+Return+of+Sherlock+Holmes&limit=1"
+      },
+      {
+       "src": "Google Books",
+       "value": "A. C Doyle",
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3AThe+Return+of+Sherlock+Holmes&maxResults=1&key=REDACTED"
+      }
+     ],
+     "alternatives": [
+      "A. C Doyle"
+     ]
+    },
+    {
+     "field": "publisher",
+     "label": "publisher",
+     "soft": true,
+     "current": "George Newnes",
+     "status": "no-source",
+     "grade": null,
+     "sources": []
+    }
+   ]
+  },
+  {
+   "id": "b1631",
+   "title": "His Last Bow",
+   "sourcesReached": [
+    "OpenLibrary",
+    "Google Books",
+    "Wikidata"
+   ],
+   "sourcesMissed": [],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "first publication year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 1917,
+     "proposed": 1917,
+     "status": "corroborated-by-one",
+     "grade": "B",
+     "note": "matches OpenLibrary/Wikidata; disagrees with Google Books (2020)",
+     "sources": [
+      {
+       "src": "OpenLibrary",
+       "value": 1917,
+       "url": "https://openlibrary.org/search.json?title=His+Last+Bow&limit=1"
+      },
+      {
+       "src": "Google Books",
+       "value": 2020,
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3AHis+Last+Bow&maxResults=1&key=REDACTED"
+      },
+      {
+       "src": "Wikidata",
+       "value": 1917,
+       "url": "https://www.wikidata.org/wiki/Q2573817"
+      }
+     ],
+     "alternatives": [
+      2020
+     ]
+    },
+    {
+     "field": "pages",
+     "label": "page count",
+     "soft": false,
+     "editionDependent": true,
+     "current": 307,
+     "proposed": 208,
+     "status": "edition-dependent",
+     "grade": "B",
+     "note": "one source differs from the corpus (Google Books 208) on a field with no single true value -- likely a different printing/edition, not an error.",
+     "sources": [
+      {
+       "src": "Google Books",
+       "value": 208,
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3AHis+Last+Bow&maxResults=1&key=REDACTED"
+      }
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "author",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Arthur Conan Doyle",
+     "proposed": "Arthur Conan Doyle",
+     "status": "corroborated-by-one",
+     "grade": "B",
+     "note": "matches OpenLibrary/Wikidata; disagrees with Google Books (\"Sir Arthur Conan Doyle\")",
+     "sources": [
+      {
+       "src": "OpenLibrary",
+       "value": "Arthur Conan Doyle",
+       "url": "https://openlibrary.org/search.json?title=His+Last+Bow&limit=1"
+      },
+      {
+       "src": "Google Books",
+       "value": "Sir Arthur Conan Doyle",
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3AHis+Last+Bow&maxResults=1&key=REDACTED"
+      },
+      {
+       "src": "Wikidata",
+       "value": "Arthur Conan Doyle",
+       "url": "https://www.wikidata.org/wiki/Q2573817"
+      }
+     ],
+     "alternatives": [
+      "Sir Arthur Conan Doyle"
+     ]
+    },
+    {
+     "field": "publisher",
+     "label": "publisher",
+     "soft": true,
+     "current": "John Murray",
+     "status": "no-source",
+     "grade": null,
+     "sources": []
+    }
+   ]
+  },
+  {
+   "id": "b1632",
+   "title": "The Valley of Fear",
+   "sourcesReached": [
+    "OpenLibrary",
+    "Google Books",
+    "Wikidata"
+   ],
+   "sourcesMissed": [],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "first publication year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 1915,
+     "proposed": 1915,
+     "status": "corroborated-by-one",
+     "grade": "B",
+     "note": "matches Wikidata; disagrees with OpenLibrary (1914), Google Books (1994)",
+     "sources": [
+      {
+       "src": "OpenLibrary",
+       "value": 1914,
+       "url": "https://openlibrary.org/search.json?title=The+Valley+of+Fear&limit=1"
+      },
+      {
+       "src": "Google Books",
+       "value": 1994,
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3AThe+Valley+of+Fear&maxResults=1&key=REDACTED"
+      },
+      {
+       "src": "Wikidata",
+       "value": 1915,
+       "url": "https://www.wikidata.org/wiki/Q863438"
+      }
+     ],
+     "alternatives": [
+      1994,
+      1915
+     ]
+    },
+    {
+     "field": "pages",
+     "label": "page count",
+     "soft": false,
+     "editionDependent": true,
+     "current": 278,
+     "proposed": 294,
+     "status": "edition-dependent",
+     "grade": "B",
+     "note": "one source differs from the corpus (Google Books 294) on a field with no single true value -- likely a different printing/edition, not an error.",
+     "sources": [
+      {
+       "src": "Google Books",
+       "value": 294,
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3AThe+Valley+of+Fear&maxResults=1&key=REDACTED"
+      }
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "author",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Arthur Conan Doyle",
+     "proposed": "Arthur Conan Doyle",
+     "status": "corroborated-by-one",
+     "grade": "B",
+     "note": "matches OpenLibrary/Wikidata; disagrees with Google Books (\"Sir Arthur Conan Doyle\")",
+     "sources": [
+      {
+       "src": "OpenLibrary",
+       "value": "Arthur Conan Doyle",
+       "url": "https://openlibrary.org/search.json?title=The+Valley+of+Fear&limit=1"
+      },
+      {
+       "src": "Google Books",
+       "value": "Sir Arthur Conan Doyle",
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3AThe+Valley+of+Fear&maxResults=1&key=REDACTED"
+      },
+      {
+       "src": "Wikidata",
+       "value": "Arthur Conan Doyle",
+       "url": "https://www.wikidata.org/wiki/Q863438"
+      }
+     ],
+     "alternatives": [
+      "Sir Arthur Conan Doyle"
+     ]
+    },
+    {
+     "field": "publisher",
+     "label": "publisher",
+     "soft": true,
+     "editionDependent": true,
+     "current": "George H. Doran Company",
+     "proposed": "George H. Doran Company",
+     "status": "corroborated-by-one",
+     "grade": "B",
+     "note": "matches Wikidata; disagrees with Google Books (\"Oxford Paperbacks\")",
+     "sources": [
+      {
+       "src": "Google Books",
+       "value": "Oxford Paperbacks",
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3AThe+Valley+of+Fear&maxResults=1&key=REDACTED"
+      },
+      {
+       "src": "Wikidata",
+       "value": "George H. Doran Company",
+       "url": "https://www.wikidata.org/wiki/Q863438"
+      }
+     ],
+     "alternatives": [
+      "George H. Doran Company"
+     ]
+    }
+   ]
+  },
+  {
+   "id": "b1633",
+   "title": "The Casebook of Sherlock Holmes",
+   "sourcesReached": [
+    "OpenLibrary",
+    "Google Books"
+   ],
+   "sourcesMissed": [
+    "Wikidata (no match)"
+   ],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "first publication year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 1927,
+     "proposed": 1927,
+     "status": "corroborated-by-one",
+     "grade": "B",
+     "note": "matches OpenLibrary; disagrees with Google Books (2016)",
+     "sources": [
+      {
+       "src": "OpenLibrary",
+       "value": 1927,
+       "url": "https://openlibrary.org/search.json?title=The+Casebook+of+Sherlock+Holmes&limit=1"
+      },
+      {
+       "src": "Google Books",
+       "value": 2016,
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3AThe+Casebook+of+Sherlock+Holmes&maxResults=1&key=REDACTED"
+      }
+     ],
+     "alternatives": [
+      2016
+     ]
+    },
+    {
+     "field": "pages",
+     "label": "page count",
+     "soft": false,
+     "editionDependent": true,
+     "current": 320,
+     "proposed": 225,
+     "status": "edition-dependent",
+     "grade": "B",
+     "note": "one source differs from the corpus (Google Books 225) on a field with no single true value -- likely a different printing/edition, not an error.",
+     "sources": [
+      {
+       "src": "Google Books",
+       "value": 225,
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3AThe+Casebook+of+Sherlock+Holmes&maxResults=1&key=REDACTED"
+      }
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "author",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Arthur Conan Doyle",
+     "proposed": "Arthur Conan Doyle",
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OpenLibrary",
+       "value": "Arthur Conan Doyle",
+       "url": "https://openlibrary.org/search.json?title=The+Casebook+of+Sherlock+Holmes&limit=1"
+      },
+      {
+       "src": "Google Books",
+       "value": "Arthur Conan Doyle",
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3AThe+Casebook+of+Sherlock+Holmes&maxResults=1&key=REDACTED"
+      }
+     ]
+    },
+    {
+     "field": "publisher",
+     "label": "publisher",
+     "soft": true,
+     "editionDependent": true,
+     "current": "John Murray",
+     "proposed": "Courier Dover Publications",
+     "status": "edition-dependent",
+     "grade": "B",
+     "note": "one source differs from the corpus (Google Books \"Courier Dover Publications\") on a field with no single true value -- likely a different printing/edition, not an error.",
+     "sources": [
+      {
+       "src": "Google Books",
+       "value": "Courier Dover Publications",
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3AThe+Casebook+of+Sherlock+Holmes&maxResults=1&key=REDACTED"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "b1634",
+   "title": "Mansfield Park",
+   "sourcesReached": [
+    "OpenLibrary",
+    "Google Books",
+    "Wikidata"
+   ],
+   "sourcesMissed": [],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "first publication year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 1814,
+     "proposed": 1814,
+     "status": "corroborated-by-one",
+     "grade": "B",
+     "note": "matches OpenLibrary/Wikidata; disagrees with Google Books (2001)",
+     "sources": [
+      {
+       "src": "OpenLibrary",
+       "value": 1814,
+       "url": "https://openlibrary.org/search.json?title=Mansfield+Park&limit=1"
+      },
+      {
+       "src": "Google Books",
+       "value": 2001,
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3AMansfield+Park&maxResults=1&key=REDACTED"
+      },
+      {
+       "src": "Wikidata",
+       "value": 1814,
+       "url": "https://www.wikidata.org/wiki/Q469690"
+      }
+     ],
+     "alternatives": [
+      2001
+     ]
+    },
+    {
+     "field": "pages",
+     "label": "page count",
+     "soft": false,
+     "editionDependent": true,
+     "current": 480,
+     "proposed": 532,
+     "status": "edition-dependent",
+     "grade": "B",
+     "note": "one source differs from the corpus (Google Books 532) on a field with no single true value -- likely a different printing/edition, not an error.",
+     "sources": [
+      {
+       "src": "Google Books",
+       "value": 532,
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3AMansfield+Park&maxResults=1&key=REDACTED"
+      }
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "author",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Jane Austen",
+     "proposed": "Jane Austen",
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OpenLibrary",
+       "value": "Jane Austen",
+       "url": "https://openlibrary.org/search.json?title=Mansfield+Park&limit=1"
+      },
+      {
+       "src": "Google Books",
+       "value": "Jane Austen",
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3AMansfield+Park&maxResults=1&key=REDACTED"
+      },
+      {
+       "src": "Wikidata",
+       "value": "Jane Austen",
+       "url": "https://www.wikidata.org/wiki/Q469690"
+      }
+     ]
+    },
+    {
+     "field": "publisher",
+     "label": "publisher",
+     "soft": true,
+     "editionDependent": true,
+     "current": "T. Egerton",
+     "proposed": "Broadview Press",
+     "status": "edition-dependent",
+     "grade": "B",
+     "note": "corpus value does not match either source (Google Books \"Broadview Press\", Wikidata \"Thomas Egerton\") -- treated as a distinct edition; the specific cut is not identified from available evidence.",
+     "sources": [
+      {
+       "src": "Google Books",
+       "value": "Broadview Press",
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3AMansfield+Park&maxResults=1&key=REDACTED"
+      },
+      {
+       "src": "Wikidata",
+       "value": "Thomas Egerton",
+       "url": "https://www.wikidata.org/wiki/Q469690"
+      }
+     ],
+     "alternatives": [
+      "Thomas Egerton"
+     ]
+    }
+   ]
+  }
+ ]
+}

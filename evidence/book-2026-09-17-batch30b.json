@@ -1,0 +1,629 @@
+{
+ "medium": "book",
+ "generated": "2026-09-17T22:32:59.646Z",
+ "offline": false,
+ "sources": [
+  "OpenLibrary",
+  "Google Books",
+  "Wikidata"
+ ],
+ "works": [
+  {
+   "id": "b1635",
+   "title": "Northanger Abbey",
+   "sourcesReached": [
+    "OpenLibrary",
+    "Google Books",
+    "Wikidata"
+   ],
+   "sourcesMissed": [],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "first publication year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 1817,
+     "proposed": 1818,
+     "status": "sources-disagree",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "OpenLibrary",
+       "value": 1818,
+       "url": "https://openlibrary.org/search.json?title=Northanger+Abbey&limit=1"
+      },
+      {
+       "src": "Google Books",
+       "value": 2000,
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3ANorthanger+Abbey&maxResults=1&key=REDACTED"
+      },
+      {
+       "src": "Wikidata",
+       "value": 1818,
+       "url": "https://www.wikidata.org/wiki/Q477508"
+      }
+     ],
+     "alternatives": [
+      2000
+     ]
+    },
+    {
+     "field": "pages",
+     "label": "page count",
+     "soft": false,
+     "editionDependent": true,
+     "current": 260,
+     "proposed": 267,
+     "status": "edition-dependent",
+     "grade": "B",
+     "note": "one source differs from the corpus (Google Books 267) on a field with no single true value -- likely a different printing/edition, not an error.",
+     "sources": [
+      {
+       "src": "Google Books",
+       "value": 267,
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3ANorthanger+Abbey&maxResults=1&key=REDACTED"
+      }
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "author",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Jane Austen",
+     "proposed": "Jane Austen",
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OpenLibrary",
+       "value": "Jane Austen",
+       "url": "https://openlibrary.org/search.json?title=Northanger+Abbey&limit=1"
+      },
+      {
+       "src": "Google Books",
+       "value": "Jane Austen",
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3ANorthanger+Abbey&maxResults=1&key=REDACTED"
+      },
+      {
+       "src": "Wikidata",
+       "value": "Jane Austen",
+       "url": "https://www.wikidata.org/wiki/Q477508"
+      }
+     ]
+    },
+    {
+     "field": "publisher",
+     "label": "publisher",
+     "soft": true,
+     "editionDependent": true,
+     "current": "John Murray",
+     "proposed": "John Murray",
+     "status": "corroborated-by-one",
+     "grade": "B",
+     "note": "matches Wikidata; disagrees with Google Books (\"Modern Library\")",
+     "sources": [
+      {
+       "src": "Google Books",
+       "value": "Modern Library",
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3ANorthanger+Abbey&maxResults=1&key=REDACTED"
+      },
+      {
+       "src": "Wikidata",
+       "value": "John Murray",
+       "url": "https://www.wikidata.org/wiki/Q477508"
+      }
+     ],
+     "alternatives": [
+      "John Murray"
+     ]
+    }
+   ]
+  },
+  {
+   "id": "b1636",
+   "title": "Lady Susan",
+   "sourcesReached": [
+    "OpenLibrary",
+    "Google Books",
+    "Wikidata"
+   ],
+   "sourcesMissed": [],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "first publication year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 1871,
+     "proposed": 1871,
+     "status": "corroborated-by-one",
+     "grade": "B",
+     "note": "matches Wikidata; disagrees with OpenLibrary (1925), Google Books (2017)",
+     "sources": [
+      {
+       "src": "OpenLibrary",
+       "value": 1925,
+       "url": "https://openlibrary.org/search.json?title=Lady+Susan&limit=1"
+      },
+      {
+       "src": "Google Books",
+       "value": 2017,
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3ALady+Susan&maxResults=1&key=REDACTED"
+      },
+      {
+       "src": "Wikidata",
+       "value": 1871,
+       "url": "https://www.wikidata.org/wiki/Q581180"
+      }
+     ],
+     "alternatives": [
+      2017,
+      1871
+     ]
+    },
+    {
+     "field": "pages",
+     "label": "page count",
+     "soft": false,
+     "editionDependent": true,
+     "current": 98,
+     "proposed": 114,
+     "status": "edition-dependent",
+     "grade": "B",
+     "note": "one source differs from the corpus (Google Books 114) on a field with no single true value -- likely a different printing/edition, not an error.",
+     "sources": [
+      {
+       "src": "Google Books",
+       "value": 114,
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3ALady+Susan&maxResults=1&key=REDACTED"
+      }
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "author",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Jane Austen",
+     "proposed": "Jane Austen",
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OpenLibrary",
+       "value": "Jane Austen",
+       "url": "https://openlibrary.org/search.json?title=Lady+Susan&limit=1"
+      },
+      {
+       "src": "Google Books",
+       "value": "Jane Austen",
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3ALady+Susan&maxResults=1&key=REDACTED"
+      },
+      {
+       "src": "Wikidata",
+       "value": "Jane Austen",
+       "url": "https://www.wikidata.org/wiki/Q581180"
+      }
+     ]
+    },
+    {
+     "field": "publisher",
+     "label": "publisher",
+     "soft": true,
+     "editionDependent": true,
+     "current": "Richard Bentley and Son",
+     "proposed": "Clube de Autores",
+     "status": "edition-dependent",
+     "grade": "B",
+     "note": "one source differs from the corpus (Google Books \"Clube de Autores\") on a field with no single true value -- likely a different printing/edition, not an error.",
+     "sources": [
+      {
+       "src": "Google Books",
+       "value": "Clube de Autores",
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3ALady+Susan&maxResults=1&key=REDACTED"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "b1637",
+   "title": "Adam Bede",
+   "sourcesReached": [
+    "OpenLibrary",
+    "Wikidata"
+   ],
+   "sourcesMissed": [
+    "Google Books (no match)"
+   ],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "first publication year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 1859,
+     "proposed": 1859,
+     "status": "corroborated-by-one",
+     "grade": "B",
+     "note": "matches Wikidata; disagrees with OpenLibrary (1800)",
+     "sources": [
+      {
+       "src": "OpenLibrary",
+       "value": 1800,
+       "url": "https://openlibrary.org/search.json?title=Adam+Bede&limit=1"
+      },
+      {
+       "src": "Wikidata",
+       "value": 1859,
+       "url": "https://www.wikidata.org/wiki/Q2611046"
+      }
+     ],
+     "alternatives": [
+      1859
+     ]
+    },
+    {
+     "field": "pages",
+     "label": "page count",
+     "soft": false,
+     "current": 512,
+     "status": "no-source",
+     "grade": null,
+     "sources": []
+    },
+    {
+     "field": "creator",
+     "label": "author",
+     "soft": false,
+     "editionDependent": false,
+     "current": "George Eliot",
+     "proposed": "George Eliot",
+     "status": "corroborated-by-one",
+     "grade": "B",
+     "note": "matches Wikidata; disagrees with OpenLibrary (\"George Eliot & Robert Lewis Weed & Najam Saqib & Gordon Frederick Browne & David Case\")",
+     "sources": [
+      {
+       "src": "OpenLibrary",
+       "value": "George Eliot & Robert Lewis Weed & Najam Saqib & Gordon Frederick Browne & David Case",
+       "url": "https://openlibrary.org/search.json?title=Adam+Bede&limit=1"
+      },
+      {
+       "src": "Wikidata",
+       "value": "George Eliot",
+       "url": "https://www.wikidata.org/wiki/Q2611046"
+      }
+     ],
+     "alternatives": [
+      "George Eliot"
+     ]
+    },
+    {
+     "field": "publisher",
+     "label": "publisher",
+     "soft": true,
+     "editionDependent": true,
+     "current": "William Blackwood and Sons",
+     "proposed": "John Blackwood",
+     "status": "edition-dependent",
+     "grade": "B",
+     "note": "one source differs from the corpus (Wikidata \"John Blackwood\") on a field with no single true value -- likely a different printing/edition, not an error.",
+     "sources": [
+      {
+       "src": "Wikidata",
+       "value": "John Blackwood",
+       "url": "https://www.wikidata.org/wiki/Q2611046"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "b1638",
+   "title": "The Mayor of Casterbridge",
+   "sourcesReached": [
+    "OpenLibrary",
+    "Google Books",
+    "Wikidata"
+   ],
+   "sourcesMissed": [],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "first publication year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 1886,
+     "proposed": 1886,
+     "status": "corroborated-by-one",
+     "grade": "B",
+     "note": "matches Wikidata; disagrees with OpenLibrary (1800), Google Books (2012)",
+     "sources": [
+      {
+       "src": "OpenLibrary",
+       "value": 1800,
+       "url": "https://openlibrary.org/search.json?title=The+Mayor+of+Casterbridge&limit=1"
+      },
+      {
+       "src": "Google Books",
+       "value": 2012,
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3AThe+Mayor+of+Casterbridge&maxResults=1&key=REDACTED"
+      },
+      {
+       "src": "Wikidata",
+       "value": 1886,
+       "url": "https://www.wikidata.org/wiki/Q2343169"
+      }
+     ],
+     "alternatives": [
+      2012,
+      1886
+     ]
+    },
+    {
+     "field": "pages",
+     "label": "page count",
+     "soft": false,
+     "editionDependent": true,
+     "current": 384,
+     "proposed": 365,
+     "status": "edition-dependent",
+     "grade": "B",
+     "note": "one source differs from the corpus (Google Books 365) on a field with no single true value -- likely a different printing/edition, not an error.",
+     "sources": [
+      {
+       "src": "Google Books",
+       "value": 365,
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3AThe+Mayor+of+Casterbridge&maxResults=1&key=REDACTED"
+      }
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "author",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Thomas Hardy",
+     "proposed": "Thomas Hardy",
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OpenLibrary",
+       "value": "Thomas Hardy",
+       "url": "https://openlibrary.org/search.json?title=The+Mayor+of+Casterbridge&limit=1"
+      },
+      {
+       "src": "Google Books",
+       "value": "Thomas Hardy",
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3AThe+Mayor+of+Casterbridge&maxResults=1&key=REDACTED"
+      },
+      {
+       "src": "Wikidata",
+       "value": "Thomas Hardy",
+       "url": "https://www.wikidata.org/wiki/Q2343169"
+      }
+     ]
+    },
+    {
+     "field": "publisher",
+     "label": "publisher",
+     "soft": true,
+     "editionDependent": true,
+     "current": "Smith, Elder & Co.",
+     "proposed": "Smith, Elder & Co.",
+     "status": "corroborated-by-one",
+     "grade": "B",
+     "note": "matches Wikidata; disagrees with Google Books (\"Penguin UK\")",
+     "sources": [
+      {
+       "src": "Google Books",
+       "value": "Penguin UK",
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3AThe+Mayor+of+Casterbridge&maxResults=1&key=REDACTED"
+      },
+      {
+       "src": "Wikidata",
+       "value": "Smith, Elder & Co.",
+       "url": "https://www.wikidata.org/wiki/Q2343169"
+      }
+     ],
+     "alternatives": [
+      "Smith, Elder & Co."
+     ]
+    }
+   ]
+  },
+  {
+   "id": "b1639",
+   "title": "North and South",
+   "sourcesReached": [
+    "OpenLibrary",
+    "Wikidata"
+   ],
+   "sourcesMissed": [
+    "Google Books (no match)"
+   ],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "first publication year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 1855,
+     "proposed": 1855,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OpenLibrary",
+       "value": 1855,
+       "url": "https://openlibrary.org/search.json?title=North+and+South&limit=1"
+      },
+      {
+       "src": "Wikidata",
+       "value": 1855,
+       "url": "https://www.wikidata.org/wiki/Q1853142"
+      }
+     ]
+    },
+    {
+     "field": "pages",
+     "label": "page count",
+     "soft": false,
+     "current": 452,
+     "status": "no-source",
+     "grade": null,
+     "sources": []
+    },
+    {
+     "field": "creator",
+     "label": "author",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Elizabeth Gaskell",
+     "proposed": "Elizabeth Gaskell",
+     "status": "corroborated-by-one",
+     "grade": "B",
+     "note": "matches Wikidata; disagrees with OpenLibrary (\"Elizabeth Cleghorn Gaskell\")",
+     "sources": [
+      {
+       "src": "OpenLibrary",
+       "value": "Elizabeth Cleghorn Gaskell",
+       "url": "https://openlibrary.org/search.json?title=North+and+South&limit=1"
+      },
+      {
+       "src": "Wikidata",
+       "value": "Elizabeth Gaskell",
+       "url": "https://www.wikidata.org/wiki/Q1853142"
+      }
+     ],
+     "alternatives": [
+      "Elizabeth Gaskell"
+     ]
+    },
+    {
+     "field": "publisher",
+     "label": "publisher",
+     "soft": true,
+     "editionDependent": true,
+     "current": "Chapman and Hall",
+     "proposed": "Chapman and Hall",
+     "status": "confirmed",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "Wikidata",
+       "value": "Chapman and Hall",
+       "url": "https://www.wikidata.org/wiki/Q1853142"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "b1640",
+   "title": "Wives and Daughters",
+   "sourcesReached": [
+    "OpenLibrary",
+    "Google Books",
+    "Wikidata"
+   ],
+   "sourcesMissed": [],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "first publication year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 1866,
+     "proposed": 1866,
+     "status": "corroborated-by-one",
+     "grade": "B",
+     "note": "matches OpenLibrary; disagrees with Google Books (2017), Wikidata (1864)",
+     "sources": [
+      {
+       "src": "OpenLibrary",
+       "value": 1866,
+       "url": "https://openlibrary.org/search.json?title=Wives+and+Daughters&limit=1"
+      },
+      {
+       "src": "Google Books",
+       "value": 2017,
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3AWives+and+Daughters&maxResults=1&key=REDACTED"
+      },
+      {
+       "src": "Wikidata",
+       "value": 1864,
+       "url": "https://www.wikidata.org/wiki/Q2453239"
+      }
+     ],
+     "alternatives": [
+      2017,
+      1864
+     ]
+    },
+    {
+     "field": "pages",
+     "label": "page count",
+     "soft": false,
+     "editionDependent": true,
+     "current": 646,
+     "proposed": 706,
+     "status": "edition-dependent",
+     "grade": "B",
+     "note": "one source differs from the corpus (Google Books 706) on a field with no single true value -- likely a different printing/edition, not an error.",
+     "sources": [
+      {
+       "src": "Google Books",
+       "value": 706,
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3AWives+and+Daughters&maxResults=1&key=REDACTED"
+      }
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "author",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Elizabeth Gaskell",
+     "proposed": "Elizabeth Gaskell",
+     "status": "corroborated-by-one",
+     "grade": "B",
+     "note": "matches Wikidata; disagrees with OpenLibrary (\"Elizabeth Cleghorn Gaskell & Gaskell, Mrs., Ward, A. W. & Gaskell\"), Google Books (\"Elizabeth Elizabeth Gaskell\")",
+     "sources": [
+      {
+       "src": "OpenLibrary",
+       "value": "Elizabeth Cleghorn Gaskell & Gaskell, Mrs., Ward, A. W. & Gaskell",
+       "url": "https://openlibrary.org/search.json?title=Wives+and+Daughters&limit=1"
+      },
+      {
+       "src": "Google Books",
+       "value": "Elizabeth Elizabeth Gaskell",
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3AWives+and+Daughters&maxResults=1&key=REDACTED"
+      },
+      {
+       "src": "Wikidata",
+       "value": "Elizabeth Gaskell",
+       "url": "https://www.wikidata.org/wiki/Q2453239"
+      }
+     ],
+     "alternatives": [
+      "Elizabeth Elizabeth Gaskell",
+      "Elizabeth Gaskell"
+     ]
+    },
+    {
+     "field": "publisher",
+     "label": "publisher",
+     "soft": true,
+     "current": "Smith, Elder & Co.",
+     "status": "no-source",
+     "grade": null,
+     "sources": []
+    }
+   ]
+  }
+ ]
+}
