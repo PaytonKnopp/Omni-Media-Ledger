@@ -1050,21 +1050,45 @@ JS, same as it always was, just far more complete.
 1,000/2,000 (untouched). Both a blank-profile and full validator pass are still green
 (`node scripts/validate-corpus.js`, `npm test`).
 
-**Still to do, in priority order:**
-- A handful of remaining movie franchises not yet touched (Alien vs. Predator crossovers explicitly
-  skipped as lower-canon; It Chapter One already existed, so It is now complete at 2/2; Karate Kid,
-  Rambo, Twilight, Divergent, Maze Runner, Chronicles of Narnia, Percy Jackson not yet audited).
-- Priority 2 (filterable-category coverage) for movies: era distribution skews 2000s-2020s (642 of
-  1,199); pre-1990 total only 288. Documentary (34), Musical (32), Western (39), Slasher (11) all
-  thin relative to Drama/Comedy/Action/Sci-Fi.
-- TV, games and books essentially haven't started — all three need real evidence + rubric-scoring
-  batches the same way movies got them, following the exact same DATA_RUNBOOK.md pipeline. Books is
-  the largest remaining chunk (1,000 new) and has the clearest priority-1 gap of its own: several
-  major fantasy/sci-fi series are entirely absent (Wheel of Time, Stormlight Archive, Discworld, the
-  Witcher novels, His Dark Materials, Malazan) — not collapsed placeholders, just never added.
-  Books' genre distribution is also heavily skewed toward the owner's own literary-fiction/sci-fi/
-  philosophy taste (Literary Fiction 283, Sci-Fi 172, Philosophy 127 vs. Romance 18) — Priority 2/3
-  for books needs real breadth here for the "works for a different taste too" requirement.
+**Pacing change, partway through the pass.** Owner asked whether this could go faster without
+lowering the bar. The bottleneck was never fact-fetching or rubric-scoring — it was running the
+full Playwright suite (~150 browser-driven checks, several minutes) after every single small,
+single-medium batch. Since `data/movies.js`, `data/tv.js`, `data/games.js` and `data/books.js` are
+independent files, the fix is to prep and pipeline a batch for all four media in one round (each
+still gets its own `fetch-facts.js` → `apply-facts.js` → `fetch-substance.js` → `score-batch.js` →
+`validate-corpus.js`, exactly as before) and run **one** `npm test` gating all four before
+committing each medium separately. Nothing about what a record has to pass changed — this just
+stopped paying the expensive step four times, and made each per-medium batch itself somewhat
+larger where a category still had good "genuinely missing" yield. Adopted starting with the round
+that added named-franchise gaps like Rambo/Twilight/Karate Kid to movies alongside the first
+combined TV/games/books batches.
+
+**Recurring lesson worth recording:** several dedup near-misses this pass came from the audit
+script's own keyword search having false negatives — a query like `"arrival ("` (expecting a
+disambiguating year suffix) does not match a plain exact title like `"Arrival"`. Several "confirmed
+missing" candidates turned out to already exist once checked by exact title match instead. The
+insert scripts' own pre-insertion dedup check (exact title, or title+year for movies) is what
+actually catches these before they reach the corpus — the keyword scan is only ever a first pass to
+generate candidates, never the source of truth on whether something is missing.
+
+**Status at the last checkpoint before this note:** movies 1,293/2,000, TV 341/500, games 338/500,
+books 1,210/2,000 (3,182/5,000 total). Genuinely-missing "whole category" findings worth remembering
+for future sessions: children's/family literature (books) and classic/90s kids' TV were both almost
+entirely absent before this pass despite everything else being well-curated; romantic comedy films
+and contemporary romance/romantasy books were similarly thin. Three new genre tags were added where
+a real gap had no existing tag to hold it: "Cooking" (books), "MOBA" and "Hack and Slash" (games) —
+each added properly to both `data/genre-taxonomy.js` maps and, where needed, the family-regex list
+in `app/ledger-app.js`, never force-fit into an adjacent tag.
+
+**Still open:**
+- A handful of remaining movie franchises not yet audited (Alien vs. Predator crossovers explicitly
+  skipped as lower-canon; Divergent/Maze Runner films now done; Percy Jackson TV not yet checked).
+- Movies era distribution still skews recent; pre-1990 share has grown some batch over batch but is
+  worth re-measuring at the next checkpoint.
+- TV, games and books are all now well past their first batches and following the same pipeline as
+  movies; games in particular still has 0/338 records with a `prov.facts:"sourced"` stamp because
+  IGDB has no configured key in this environment — Wikidata alone can reach only single-source
+  (non-grade-A) results, same limitation the pre-existing 258 games already had.
   Games' genre distribution is thin on Racing (3), Sports (2), Fighting (5), Party (1), MMORPG (1).
 
 ---
