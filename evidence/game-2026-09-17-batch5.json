@@ -1,0 +1,791 @@
+{
+ "medium": "game",
+ "generated": "2026-09-17T00:53:16.849Z",
+ "offline": false,
+ "sources": [
+  "IGDB",
+  "Wikidata"
+ ],
+ "works": [
+  {
+   "id": "g305",
+   "title": "The King of Fighters XIV",
+   "sourcesReached": [],
+   "sourcesMissed": [
+    "IGDB (no key in environment)",
+    "Wikidata (no match)"
+   ],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "release year",
+     "soft": false,
+     "current": 2016,
+     "status": "no-source",
+     "grade": null,
+     "sources": []
+    },
+    {
+     "field": "creator",
+     "label": "developer",
+     "soft": false,
+     "current": "SNK",
+     "status": "no-source",
+     "grade": null,
+     "sources": []
+    },
+    {
+     "field": "platforms",
+     "label": "platforms",
+     "soft": true,
+     "current": [
+      "PS4",
+      "PC"
+     ],
+     "status": "no-source",
+     "grade": null,
+     "sources": []
+    }
+   ]
+  },
+  {
+   "id": "g306",
+   "title": "The Last Guardian",
+   "sourcesReached": [
+    "Wikidata"
+   ],
+   "sourcesMissed": [
+    "IGDB (no key in environment)"
+   ],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "release year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 2016,
+     "proposed": 2016,
+     "status": "confirmed",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "Wikidata",
+       "value": 2016,
+       "url": "https://www.wikidata.org/wiki/Q2701341"
+      }
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "developer",
+     "soft": false,
+     "editionDependent": false,
+     "current": "genDESIGN, Team Ico",
+     "proposed": "genDESIGN, Japan Studio",
+     "status": "proposed-change",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "Wikidata",
+       "value": "Japan Studio & genDESIGN",
+       "url": "https://www.wikidata.org/wiki/Q2701341"
+      }
+     ]
+    },
+    {
+     "field": "platforms",
+     "label": "platforms",
+     "soft": true,
+     "editionDependent": false,
+     "current": [
+      "PS4"
+     ],
+     "proposed": [
+      "PlayStation 4"
+     ],
+     "status": "proposed-change",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "Wikidata",
+       "value": [
+        "PlayStation 4"
+       ],
+       "url": "https://www.wikidata.org/wiki/Q2701341"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "g307",
+   "title": "Dragon's Dogma 2",
+   "sourcesReached": [
+    "Wikidata"
+   ],
+   "sourcesMissed": [
+    "IGDB (no key in environment)"
+   ],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "release year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 2024,
+     "proposed": 2024,
+     "status": "confirmed",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "Wikidata",
+       "value": 2024,
+       "url": "https://www.wikidata.org/wiki/Q112609559"
+      }
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "developer",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Capcom",
+     "proposed": "Capcom",
+     "status": "confirmed",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "Wikidata",
+       "value": "Capcom",
+       "url": "https://www.wikidata.org/wiki/Q112609559"
+      }
+     ]
+    },
+    {
+     "field": "platforms",
+     "label": "platforms",
+     "soft": true,
+     "editionDependent": false,
+     "current": [
+      "PC",
+      "PS5",
+      "Xbox Series X"
+     ],
+     "proposed": [
+      "PlayStation 5",
+      "Xbox Series X and Series S",
+      "Microsoft Windows"
+     ],
+     "status": "proposed-change",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "Wikidata",
+       "value": [
+        "PlayStation 5",
+        "Xbox Series X and Series S",
+        "Microsoft Windows"
+       ],
+       "url": "https://www.wikidata.org/wiki/Q112609559"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "g308",
+   "title": "Kingdom Hearts",
+   "sourcesReached": [
+    "Wikidata"
+   ],
+   "sourcesMissed": [
+    "IGDB (no key in environment)"
+   ],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "release year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 2002,
+     "proposed": 2002,
+     "status": "confirmed",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "Wikidata",
+       "value": 2002,
+       "url": "https://www.wikidata.org/wiki/Q225912"
+      }
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "developer",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Square, Disney Interactive Studios",
+     "proposed": "Square",
+     "status": "proposed-change",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "Wikidata",
+       "value": "Square",
+       "url": "https://www.wikidata.org/wiki/Q225912"
+      }
+     ]
+    },
+    {
+     "field": "platforms",
+     "label": "platforms",
+     "soft": true,
+     "editionDependent": false,
+     "current": [
+      "PS2"
+     ],
+     "proposed": [
+      "PlayStation 2"
+     ],
+     "status": "proposed-change",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "Wikidata",
+       "value": [
+        "PlayStation 2"
+       ],
+       "url": "https://www.wikidata.org/wiki/Q225912"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "g309",
+   "title": "Left 4 Dead 2",
+   "sourcesReached": [
+    "Wikidata"
+   ],
+   "sourcesMissed": [
+    "IGDB (no key in environment)"
+   ],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "release year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 2009,
+     "proposed": 2009,
+     "status": "confirmed",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "Wikidata",
+       "value": 2009,
+       "url": "https://www.wikidata.org/wiki/Q472909"
+      }
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "developer",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Valve, Turtle Rock Studios",
+     "proposed": "Valve Corporation",
+     "status": "proposed-change",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "Wikidata",
+       "value": "Valve Corporation",
+       "url": "https://www.wikidata.org/wiki/Q472909"
+      }
+     ]
+    },
+    {
+     "field": "platforms",
+     "label": "platforms",
+     "soft": true,
+     "editionDependent": false,
+     "current": [
+      "PC",
+      "Xbox 360"
+     ],
+     "proposed": [
+      "Linux",
+      "Xbox 360",
+      "Microsoft Windows",
+      "macOS"
+     ],
+     "status": "proposed-change",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "Wikidata",
+       "value": [
+        "Linux",
+        "Xbox 360",
+        "Microsoft Windows",
+        "macOS"
+       ],
+       "url": "https://www.wikidata.org/wiki/Q472909"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "g310",
+   "title": "Star Wars Jedi: Fallen Order",
+   "sourcesReached": [
+    "Wikidata"
+   ],
+   "sourcesMissed": [
+    "IGDB (no key in environment)"
+   ],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "release year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 2019,
+     "proposed": 2019,
+     "status": "confirmed",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "Wikidata",
+       "value": 2019,
+       "url": "https://www.wikidata.org/wiki/Q55449345"
+      }
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "developer",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Respawn Entertainment",
+     "proposed": "Criterion Games, Panic Button, Respawn Entertainment",
+     "status": "proposed-change",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "Wikidata",
+       "value": "Respawn Entertainment & Criterion Games & Panic Button",
+       "url": "https://www.wikidata.org/wiki/Q55449345"
+      }
+     ]
+    },
+    {
+     "field": "platforms",
+     "label": "platforms",
+     "soft": true,
+     "editionDependent": false,
+     "current": [
+      "PC",
+      "PS4",
+      "Xbox One"
+     ],
+     "proposed": [
+      "PlayStation 4",
+      "Xbox One",
+      "Microsoft Windows",
+      "PlayStation 5",
+      "Xbox Series X and Series S"
+     ],
+     "status": "proposed-change",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "Wikidata",
+       "value": [
+        "PlayStation 4",
+        "Xbox One",
+        "Microsoft Windows",
+        "PlayStation 5",
+        "Xbox Series X and Series S"
+       ],
+       "url": "https://www.wikidata.org/wiki/Q55449345"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "g311",
+   "title": "Marvel's Spider-Man 2",
+   "sourcesReached": [
+    "Wikidata"
+   ],
+   "sourcesMissed": [
+    "IGDB (no key in environment)"
+   ],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "release year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 2023,
+     "proposed": 2023,
+     "status": "confirmed",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "Wikidata",
+       "value": 2023,
+       "url": "https://www.wikidata.org/wiki/Q108479502"
+      }
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "developer",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Insomniac Games",
+     "proposed": "Insomniac Games, Nixxes Software",
+     "status": "proposed-change",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "Wikidata",
+       "value": "Insomniac Games & Nixxes Software",
+       "url": "https://www.wikidata.org/wiki/Q108479502"
+      }
+     ]
+    },
+    {
+     "field": "platforms",
+     "label": "platforms",
+     "soft": true,
+     "editionDependent": false,
+     "current": [
+      "PS5"
+     ],
+     "proposed": [
+      "PlayStation 5",
+      "Microsoft Windows"
+     ],
+     "status": "proposed-change",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "Wikidata",
+       "value": [
+        "PlayStation 5",
+        "Microsoft Windows"
+       ],
+       "url": "https://www.wikidata.org/wiki/Q108479502"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "g312",
+   "title": "Ratchet & Clank",
+   "sourcesReached": [
+    "Wikidata"
+   ],
+   "sourcesMissed": [
+    "IGDB (no key in environment)"
+   ],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "release year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 2002,
+     "proposed": 2002,
+     "status": "confirmed",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "Wikidata",
+       "value": 2002,
+       "url": "https://www.wikidata.org/wiki/Q170003"
+      }
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "developer",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Insomniac Games",
+     "proposed": "Insomniac Games",
+     "status": "confirmed",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "Wikidata",
+       "value": "Insomniac Games",
+       "url": "https://www.wikidata.org/wiki/Q170003"
+      }
+     ]
+    },
+    {
+     "field": "platforms",
+     "label": "platforms",
+     "soft": true,
+     "editionDependent": false,
+     "current": [
+      "PS2"
+     ],
+     "proposed": [
+      "PlayStation 2",
+      "PlayStation 3",
+      "PlayStation Vita"
+     ],
+     "status": "proposed-change",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "Wikidata",
+       "value": [
+        "PlayStation 2",
+        "PlayStation 3",
+        "PlayStation Vita"
+       ],
+       "url": "https://www.wikidata.org/wiki/Q170003"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "g313",
+   "title": "Sly Cooper and the Thievius Raccoonus",
+   "sourcesReached": [
+    "Wikidata"
+   ],
+   "sourcesMissed": [
+    "IGDB (no key in environment)"
+   ],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "release year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 2002,
+     "proposed": 2002,
+     "status": "confirmed",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "Wikidata",
+       "value": 2002,
+       "url": "https://www.wikidata.org/wiki/Q40627"
+      }
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "developer",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Sucker Punch Productions",
+     "proposed": "Sanzaru Games, Sucker Punch Productions",
+     "status": "proposed-change",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "Wikidata",
+       "value": "Sucker Punch Productions & Sanzaru Games",
+       "url": "https://www.wikidata.org/wiki/Q40627"
+      }
+     ]
+    },
+    {
+     "field": "platforms",
+     "label": "platforms",
+     "soft": true,
+     "editionDependent": false,
+     "current": [
+      "PS2"
+     ],
+     "proposed": [
+      "PlayStation 2",
+      "PlayStation Vita",
+      "PlayStation 3",
+      "PlayStation 4",
+      "PlayStation 5"
+     ],
+     "status": "proposed-change",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "Wikidata",
+       "value": [
+        "PlayStation 2",
+        "PlayStation Vita",
+        "PlayStation 3",
+        "PlayStation 4",
+        "PlayStation 5"
+       ],
+       "url": "https://www.wikidata.org/wiki/Q40627"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "g314",
+   "title": "League of Legends",
+   "sourcesReached": [
+    "Wikidata"
+   ],
+   "sourcesMissed": [
+    "IGDB (no key in environment)"
+   ],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "release year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 2009,
+     "proposed": 2009,
+     "status": "confirmed",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "Wikidata",
+       "value": 2009,
+       "url": "https://www.wikidata.org/wiki/Q223341"
+      }
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "developer",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Riot Games",
+     "proposed": "Riot Games",
+     "status": "confirmed",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "Wikidata",
+       "value": "Riot Games",
+       "url": "https://www.wikidata.org/wiki/Q223341"
+      }
+     ]
+    },
+    {
+     "field": "platforms",
+     "label": "platforms",
+     "soft": true,
+     "editionDependent": false,
+     "current": [
+      "PC"
+     ],
+     "proposed": [
+      "macOS",
+      "Microsoft Windows",
+      "Android",
+      "iOS",
+      "TGP Box"
+     ],
+     "status": "proposed-change",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "Wikidata",
+       "value": [
+        "macOS",
+        "Microsoft Windows",
+        "Android",
+        "iOS",
+        "TGP Box"
+       ],
+       "url": "https://www.wikidata.org/wiki/Q223341"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "g315",
+   "title": "Dota 2",
+   "sourcesReached": [
+    "Wikidata"
+   ],
+   "sourcesMissed": [
+    "IGDB (no key in environment)"
+   ],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "release year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 2013,
+     "proposed": 2013,
+     "status": "confirmed",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "Wikidata",
+       "value": 2013,
+       "url": "https://www.wikidata.org/wiki/Q771541"
+      }
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "developer",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Valve",
+     "proposed": "Valve Corporation",
+     "status": "proposed-change",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "Wikidata",
+       "value": "Valve Corporation",
+       "url": "https://www.wikidata.org/wiki/Q771541"
+      }
+     ]
+    },
+    {
+     "field": "platforms",
+     "label": "platforms",
+     "soft": true,
+     "editionDependent": false,
+     "current": [
+      "PC"
+     ],
+     "proposed": [
+      "Microsoft Windows",
+      "macOS",
+      "Linux"
+     ],
+     "status": "proposed-change",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "Wikidata",
+       "value": [
+        "Microsoft Windows",
+        "macOS",
+        "Linux"
+       ],
+       "url": "https://www.wikidata.org/wiki/Q771541"
+      }
+     ]
+    }
+   ]
+  }
+ ]
+}

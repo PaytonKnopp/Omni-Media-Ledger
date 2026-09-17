@@ -1657,7 +1657,7 @@ const GENRE_FAMILIES=[
  ['Biography & History',/biography|biopic|history|memoir|historical/i],
  ['Literary & Poetry',/literary|poetry|graphic novel|fiction|essay|short stor|verse novel|narrative|\bsilent\b|nostalgia|\bindie\b|\bstrand\b/i],
  ['Platformer',/platformer|3d platformer|2d platformer/i],
- ['Strategy & Tactics',/strategy|4x|rts|turn-based|grand strategy|tactical/i],
+ ['Strategy & Tactics',/strategy|4x|rts|turn-based|grand strategy|tactical|\bmoba\b/i],
  ['Sports & Music',/sport|racing|music|rhythm|\bband\b/i]
 ];
 /* Family membership by lookup, not by running 28 regexes over a joined genre string.
