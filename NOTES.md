@@ -1570,6 +1570,28 @@ books.
 1,601/2,000 (4,350/5,000 total, 87.0%). Remaining work is exclusively movies (~260 more) and books
 (~399 more).
 
+**Seventeenth round (movies batch 29, books batch 29), movies+books only.** Movies: thirteen titles,
+closing a Clint Eastwood directorial-catalog gap plus two other standalone finds (White Men Can't
+Jump, Rat Race): Gran Torino, Sully, Changeling, Invictus, J. Edgar, The Mule, Richard Jewell, Cry
+Macho, Space Cowboys, Blood Work, and True Crime. Eastwood's directing filmography turned out to be
+as thin in the corpus as several actor catalogs found in earlier rounds, despite his films being both
+critically respected and commercially successful across five decades.
+
+Books: sixteen titles (one caught by the dedup script and dropped -- The Children of Húrin was already
+present). Two Tolkien posthumous Middle-earth compilations (Beren and Lúthien, The Fall of Gondolin),
+plus a large Brandon Sanderson completion sweep: the full Mistborn Era Two quartet, the full Skyward
+quartet, the full Reckoners trilogy, and three standalone/collection works (The Rithmatist, The
+Emperor's Soul, Legion, Arcanum Unbounded). Four titles (Defiant, Firefight, Calamity, Legion) reached
+zero fetch-substance tags, flagged as general-knowledge estimates. One real validate-corpus.js catch:
+Legion's formatType was set to "Novella," not a valid closed-vocabulary value -- fixed to "Novel" since
+that's the closest existing category for a short novel-length work (this corpus's schema has no
+distinct novella tier). SERIES_DEFS: three new groupings added, all cleanly complete -- Mistborn Era
+Two (4/4), Skyward (4/4), and The Reckoners (3/3).
+
+**Status at this checkpoint:** movies 1,753/2,000, TV 502/500 (done), games 507/500 (done), books
+1,617/2,000 (4,379/5,000 total, 87.6%). Remaining work is exclusively movies (~247 more) and books
+(~383 more).
+
 ---
 
 ## Ideas / next steps
