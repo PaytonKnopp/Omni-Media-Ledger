@@ -1208,6 +1208,34 @@ rather than assuming presence.
 **Status at this checkpoint:** movies 1,363/2,000, TV 403/500, games 397/500, books 1,299/2,000
 (3,462/5,000 total).
 
+**Fourth round, movies+books only (batch 15 each), deliberately skipping TV/games since they're
+close to target.** A quick spot-check audit of other top-tier bestsellers before this round paid
+off immediately: **Fifty Shades of Grey and a cluster of major memoirs (Becoming, A Promised Land,
+Spare, Shoe Dog) were also entirely absent from books** -- the third consecutive round to turn up a
+famous, unmistakably-should-be-there title missing from books specifically. Movies' equivalent find
+this round: M. Night Shyamalan's Unbreakable trilogy (Unbreakable, Split, Glass) was entirely absent
+despite being a well-known modern superhero deconstruction. Also closed Now You See Me, The Purge,
+A Quiet Place, and a rom-com/studio-comedy sweep that had apparently never been audited (The Devil
+Wears Prada, Love Actually, Four Weddings and a Funeral, Bridget Jones's Diary, Meet the Parents, The
+40-Year-Old Virgin, etc.) -- another sign that "famous but not obviously franchise-shaped" categories
+are where the remaining gaps concentrate, more than sequels of things already partially present.
+
+**Recurring environment friction this session, both now resolved but worth flagging for next
+time:** (1) `node scripts/fetch-facts.js`/`fetch-substance.js` intermittently failed with
+`Permission denied` when given a long `--ids` list (~30 comma-separated ids) but succeeded
+immediately on a shorter list (~25 or fewer) or after a retry -- most likely Windows Defender
+real-time protection momentarily locking `node.exe` under repeated invocation. Splitting a stuck
+call into two smaller `--ids` batches (and merging the resulting evidence/decisions before scoring)
+worked every time it was tried. (2) This machine's free memory hovers around 4-5GB with the user's
+other applications open, and `npm test`'s Playwright run needs enough headroom that it got killed by
+the harness's own memory-pressure guard several times per round -- always recoverable by checking
+`Get-Process -Name "chrome-headless-shell"` for an orphaned instance left behind by the previous
+kill (they were seen holding as much as 4GB) and force-stopping it before retrying. Never touch the
+user's other applications (Discord/Steam/Firefox/WSL) that also show up in that process list.
+
+**Status at this checkpoint:** movies 1,393/2,000, TV 403/500, games 397/500, books 1,313/2,000
+(3,506/5,000 total, 70.1%).
+
 ---
 
 ## Ideas / next steps
