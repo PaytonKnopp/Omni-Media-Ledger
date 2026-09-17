@@ -1470,6 +1470,30 @@ and an unconfident "total" is worse than no grouping at all.
 1,548/2,000 (4,224/5,000 total, 84.5%). Remaining work is exclusively movies (~337 more) and books
 (~452 more).
 
+**Thirteenth round (movies batch 25, books batch 25), movies+books only.** Movies: twenty titles, a
+'90s family-comedy and kids-sports-movie sweep -- Weekend at Bernie's duology, The Money Pit, Honey I
+Shrunk the Kids, Flubber, George of the Jungle, Inspector Gadget, The Pacifier, Cool Runnings, Angels
+in the Outfield, Rookie of the Year, Little Giants, the full Mighty Ducks trilogy, both Space Jam
+films, Air Bud, Free Willy, and Homeward Bound. This entire category (kid-facing '90s studio comedies
+and underdog sports films, some critically dismissed but hugely rewatched) had been almost completely
+unaudited despite being a natural fit for the "very different tastes" coverage priority. SERIES_DEFS:
+new Weekend at Bernie's, The Mighty Ducks, and Space Jam groupings added.
+
+Books: twelve titles (one caught by the dedup script and dropped -- Rosemary's Baby was already
+present). Closed out Anne Rice's Vampire Chronicles further (Tale of the Body Thief, Memnoch the
+Devil, Blood and Gold) and her complete Mayfair Witches trilogy (The Witching Hour, Lasher, Taltos --
+new SERIES_DEFS grouping, cleanly bounded at exactly 3 books), plus three more Ray Bradbury titles,
+a Shirley Jackson short-story collection, and two more Peter Straub novels. "Julia" reached zero
+sources at all during fetch-facts (not just zero fetch-substance tags) -- confirmed via the raw
+evidence JSON that this reflects a genuinely obscure title with no online bibliographic match, not a
+mismatch to a different, more common book of the same generic name, before accepting the general-
+knowledge-estimate disclosure for it. SERIES_DEFS: The Vampire Chronicles extended to 6 of the real
+13-book run (a bounded, completed series, unlike the large-still-growing precedent cases).
+
+**Status at this checkpoint:** movies 1,684/2,000, TV 502/500 (done), games 507/500 (done), books
+1,563/2,000 (4,256/5,000 total, 85.1%). Remaining work is exclusively movies (~316 more) and books
+(~437 more).
+
 ---
 
 ## Ideas / next steps
