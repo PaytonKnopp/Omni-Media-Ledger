@@ -1,0 +1,1604 @@
+{
+ "medium": "tv",
+ "generated": "2026-09-17T10:52:36.023Z",
+ "offline": false,
+ "sources": [
+  "OMDb",
+  "TMDB"
+ ],
+ "works": [
+  {
+   "id": "t435",
+   "title": "Home Improvement",
+   "sourcesReached": [
+    "OMDb",
+    "TMDB"
+   ],
+   "sourcesMissed": [],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "first air year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 1991,
+     "proposed": 1991,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 1991,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Home+Improvement&type=series&y=1991"
+      },
+      {
+       "src": "TMDB",
+       "value": 1991,
+       "url": "https://api.themoviedb.org/3/search/tv?api_key=REDACTED&query=Home+Improvement"
+      }
+     ]
+    },
+    {
+     "field": "seasons",
+     "label": "seasons",
+     "soft": false,
+     "editionDependent": false,
+     "current": 8,
+     "proposed": 8,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 8,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Home+Improvement&type=series&y=1991"
+      },
+      {
+       "src": "TMDB",
+       "value": 8,
+       "url": "https://api.themoviedb.org/3/search/tv?api_key=REDACTED&query=Home+Improvement"
+      }
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "creator",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Carmen Finestra, David McFadzean, Matt Williams",
+     "proposed": "Carmen Finestra, David McFadzean, Matt Williams",
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": "Carmen Finestra, David McFadzean, Matt Williams",
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Home+Improvement&type=series&y=1991"
+      },
+      {
+       "src": "TMDB",
+       "value": "Carmen Finestra, Matt Williams, David McFadzean",
+       "url": "https://api.themoviedb.org/3/search/tv?api_key=REDACTED&query=Home+Improvement"
+      }
+     ]
+    },
+    {
+     "field": "network",
+     "label": "network / streamer",
+     "soft": true,
+     "editionDependent": false,
+     "current": "ABC",
+     "proposed": "ABC",
+     "status": "confirmed",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "TMDB",
+       "value": "ABC",
+       "url": "https://api.themoviedb.org/3/search/tv?api_key=REDACTED&query=Home+Improvement"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "t436",
+   "title": "Scandal",
+   "sourcesReached": [
+    "OMDb",
+    "TMDB"
+   ],
+   "sourcesMissed": [],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "first air year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 2012,
+     "proposed": 2012,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 2012,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Scandal&type=series&y=2012"
+      },
+      {
+       "src": "TMDB",
+       "value": 2012,
+       "url": "https://api.themoviedb.org/3/search/tv?api_key=REDACTED&query=Scandal"
+      }
+     ]
+    },
+    {
+     "field": "seasons",
+     "label": "seasons",
+     "soft": false,
+     "editionDependent": false,
+     "current": 7,
+     "proposed": 7,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 7,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Scandal&type=series&y=2012"
+      },
+      {
+       "src": "TMDB",
+       "value": 7,
+       "url": "https://api.themoviedb.org/3/search/tv?api_key=REDACTED&query=Scandal"
+      }
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "creator",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Shonda Rhimes",
+     "proposed": "Shonda Rhimes",
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": "Shonda Rhimes",
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Scandal&type=series&y=2012"
+      },
+      {
+       "src": "TMDB",
+       "value": "Shonda Rhimes",
+       "url": "https://api.themoviedb.org/3/search/tv?api_key=REDACTED&query=Scandal"
+      }
+     ]
+    },
+    {
+     "field": "network",
+     "label": "network / streamer",
+     "soft": true,
+     "editionDependent": false,
+     "current": "ABC",
+     "proposed": "ABC",
+     "status": "confirmed",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "TMDB",
+       "value": "ABC",
+       "url": "https://api.themoviedb.org/3/search/tv?api_key=REDACTED&query=Scandal"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "t437",
+   "title": "How to Get Away with Murder",
+   "sourcesReached": [
+    "OMDb",
+    "TMDB"
+   ],
+   "sourcesMissed": [],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "first air year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 2014,
+     "proposed": 2014,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 2014,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=How+to+Get+Away+with+Murder&type=series&y=2014"
+      },
+      {
+       "src": "TMDB",
+       "value": 2014,
+       "url": "https://api.themoviedb.org/3/search/tv?api_key=REDACTED&query=How+to+Get+Away+with+Murder"
+      }
+     ]
+    },
+    {
+     "field": "seasons",
+     "label": "seasons",
+     "soft": false,
+     "editionDependent": false,
+     "current": 6,
+     "proposed": 6,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 6,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=How+to+Get+Away+with+Murder&type=series&y=2014"
+      },
+      {
+       "src": "TMDB",
+       "value": 6,
+       "url": "https://api.themoviedb.org/3/search/tv?api_key=REDACTED&query=How+to+Get+Away+with+Murder"
+      }
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "creator",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Peter Nowalk",
+     "proposed": "Peter Nowalk",
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": "Peter Nowalk",
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=How+to+Get+Away+with+Murder&type=series&y=2014"
+      },
+      {
+       "src": "TMDB",
+       "value": "Peter Nowalk",
+       "url": "https://api.themoviedb.org/3/search/tv?api_key=REDACTED&query=How+to+Get+Away+with+Murder"
+      }
+     ]
+    },
+    {
+     "field": "network",
+     "label": "network / streamer",
+     "soft": true,
+     "editionDependent": false,
+     "current": "ABC",
+     "proposed": "ABC",
+     "status": "confirmed",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "TMDB",
+       "value": "ABC",
+       "url": "https://api.themoviedb.org/3/search/tv?api_key=REDACTED&query=How+to+Get+Away+with+Murder"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "t438",
+   "title": "Revenge",
+   "sourcesReached": [
+    "OMDb",
+    "TMDB"
+   ],
+   "sourcesMissed": [],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "first air year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 2011,
+     "proposed": 2011,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 2011,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Revenge&type=series&y=2011"
+      },
+      {
+       "src": "TMDB",
+       "value": 2011,
+       "url": "https://api.themoviedb.org/3/search/tv?api_key=REDACTED&query=Revenge"
+      }
+     ]
+    },
+    {
+     "field": "seasons",
+     "label": "seasons",
+     "soft": false,
+     "editionDependent": false,
+     "current": 4,
+     "proposed": 4,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 4,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Revenge&type=series&y=2011"
+      },
+      {
+       "src": "TMDB",
+       "value": 4,
+       "url": "https://api.themoviedb.org/3/search/tv?api_key=REDACTED&query=Revenge"
+      }
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "creator",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Mike Kelley",
+     "proposed": "Mike Kelley",
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": "Mike Kelley",
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Revenge&type=series&y=2011"
+      },
+      {
+       "src": "TMDB",
+       "value": "Mike Kelley",
+       "url": "https://api.themoviedb.org/3/search/tv?api_key=REDACTED&query=Revenge"
+      }
+     ]
+    },
+    {
+     "field": "network",
+     "label": "network / streamer",
+     "soft": true,
+     "editionDependent": false,
+     "current": "ABC",
+     "proposed": "ABC",
+     "status": "confirmed",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "TMDB",
+       "value": "ABC",
+       "url": "https://api.themoviedb.org/3/search/tv?api_key=REDACTED&query=Revenge"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "t439",
+   "title": "Pretty Little Liars",
+   "sourcesReached": [
+    "OMDb",
+    "TMDB"
+   ],
+   "sourcesMissed": [],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "first air year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 2010,
+     "proposed": 2010,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 2010,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Pretty+Little+Liars&type=series&y=2010"
+      },
+      {
+       "src": "TMDB",
+       "value": 2010,
+       "url": "https://api.themoviedb.org/3/search/tv?api_key=REDACTED&query=Pretty+Little+Liars"
+      }
+     ]
+    },
+    {
+     "field": "seasons",
+     "label": "seasons",
+     "soft": false,
+     "editionDependent": false,
+     "current": 7,
+     "proposed": 7,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 7,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Pretty+Little+Liars&type=series&y=2010"
+      },
+      {
+       "src": "TMDB",
+       "value": 7,
+       "url": "https://api.themoviedb.org/3/search/tv?api_key=REDACTED&query=Pretty+Little+Liars"
+      }
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "creator",
+     "soft": false,
+     "editionDependent": false,
+     "current": "I. Marlene King",
+     "proposed": "I. Marlene King",
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": "I. Marlene King",
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Pretty+Little+Liars&type=series&y=2010"
+      },
+      {
+       "src": "TMDB",
+       "value": "I. Marlene King",
+       "url": "https://api.themoviedb.org/3/search/tv?api_key=REDACTED&query=Pretty+Little+Liars"
+      }
+     ]
+    },
+    {
+     "field": "network",
+     "label": "network / streamer",
+     "soft": true,
+     "editionDependent": false,
+     "current": "Freeform / ABC Family",
+     "proposed": "ABC Family",
+     "status": "proposed-change",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "TMDB",
+       "value": "ABC Family",
+       "url": "https://api.themoviedb.org/3/search/tv?api_key=REDACTED&query=Pretty+Little+Liars"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "t440",
+   "title": "iCarly",
+   "sourcesReached": [
+    "OMDb",
+    "TMDB"
+   ],
+   "sourcesMissed": [],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "first air year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 2007,
+     "proposed": 2007,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 2007,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=iCarly&type=series&y=2007"
+      },
+      {
+       "src": "TMDB",
+       "value": 2007,
+       "url": "https://api.themoviedb.org/3/search/tv?api_key=REDACTED&query=iCarly"
+      }
+     ]
+    },
+    {
+     "field": "seasons",
+     "label": "seasons",
+     "soft": false,
+     "editionDependent": false,
+     "current": 6,
+     "proposed": 6,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 6,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=iCarly&type=series&y=2007"
+      },
+      {
+       "src": "TMDB",
+       "value": 6,
+       "url": "https://api.themoviedb.org/3/search/tv?api_key=REDACTED&query=iCarly"
+      }
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "creator",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Dan Schneider",
+     "proposed": "Dan Schneider",
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": "Dan Schneider",
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=iCarly&type=series&y=2007"
+      },
+      {
+       "src": "TMDB",
+       "value": "Dan Schneider",
+       "url": "https://api.themoviedb.org/3/search/tv?api_key=REDACTED&query=iCarly"
+      }
+     ]
+    },
+    {
+     "field": "network",
+     "label": "network / streamer",
+     "soft": true,
+     "editionDependent": false,
+     "current": "Nickelodeon",
+     "proposed": "Nickelodeon",
+     "status": "confirmed",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "TMDB",
+       "value": "Nickelodeon",
+       "url": "https://api.themoviedb.org/3/search/tv?api_key=REDACTED&query=iCarly"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "t441",
+   "title": "Victorious",
+   "sourcesReached": [
+    "OMDb",
+    "TMDB"
+   ],
+   "sourcesMissed": [],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "first air year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 2010,
+     "proposed": 2010,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 2010,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Victorious&type=series&y=2010"
+      },
+      {
+       "src": "TMDB",
+       "value": 2010,
+       "url": "https://api.themoviedb.org/3/search/tv?api_key=REDACTED&query=Victorious"
+      }
+     ]
+    },
+    {
+     "field": "seasons",
+     "label": "seasons",
+     "soft": false,
+     "editionDependent": false,
+     "current": 4,
+     "proposed": 4,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 4,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Victorious&type=series&y=2010"
+      },
+      {
+       "src": "TMDB",
+       "value": 4,
+       "url": "https://api.themoviedb.org/3/search/tv?api_key=REDACTED&query=Victorious"
+      }
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "creator",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Dan Schneider",
+     "proposed": "Dan Schneider",
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": "Dan Schneider",
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Victorious&type=series&y=2010"
+      },
+      {
+       "src": "TMDB",
+       "value": "Dan Schneider",
+       "url": "https://api.themoviedb.org/3/search/tv?api_key=REDACTED&query=Victorious"
+      }
+     ]
+    },
+    {
+     "field": "network",
+     "label": "network / streamer",
+     "soft": true,
+     "editionDependent": false,
+     "current": "Nickelodeon",
+     "proposed": "Nickelodeon",
+     "status": "confirmed",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "TMDB",
+       "value": "Nickelodeon",
+       "url": "https://api.themoviedb.org/3/search/tv?api_key=REDACTED&query=Victorious"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "t442",
+   "title": "Hannah Montana",
+   "sourcesReached": [
+    "OMDb",
+    "TMDB"
+   ],
+   "sourcesMissed": [],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "first air year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 2006,
+     "proposed": 2006,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 2006,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Hannah+Montana&type=series&y=2006"
+      },
+      {
+       "src": "TMDB",
+       "value": 2006,
+       "url": "https://api.themoviedb.org/3/search/tv?api_key=REDACTED&query=Hannah+Montana"
+      }
+     ]
+    },
+    {
+     "field": "seasons",
+     "label": "seasons",
+     "soft": false,
+     "editionDependent": false,
+     "current": 4,
+     "proposed": 4,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 4,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Hannah+Montana&type=series&y=2006"
+      },
+      {
+       "src": "TMDB",
+       "value": 4,
+       "url": "https://api.themoviedb.org/3/search/tv?api_key=REDACTED&query=Hannah+Montana"
+      }
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "creator",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Michael Poryes, Rich Correll, Barry O'Brien",
+     "proposed": "Michael Poryes, Rich Correll, Barry O'Brien",
+     "status": "corroborated-by-one",
+     "grade": "B",
+     "note": "matches TMDB; disagrees with OMDb (\"Richard Correll, Barry O'Brien, Michael Poryes\")",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": "Richard Correll, Barry O'Brien, Michael Poryes",
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Hannah+Montana&type=series&y=2006"
+      },
+      {
+       "src": "TMDB",
+       "value": "Barry O'Brien, Rich Correll, Michael Poryes",
+       "url": "https://api.themoviedb.org/3/search/tv?api_key=REDACTED&query=Hannah+Montana"
+      }
+     ],
+     "alternatives": [
+      "Barry O'Brien, Rich Correll, Michael Poryes"
+     ]
+    },
+    {
+     "field": "network",
+     "label": "network / streamer",
+     "soft": true,
+     "editionDependent": false,
+     "current": "Disney Channel",
+     "proposed": "Disney Channel",
+     "status": "confirmed",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "TMDB",
+       "value": "Disney Channel",
+       "url": "https://api.themoviedb.org/3/search/tv?api_key=REDACTED&query=Hannah+Montana"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "t443",
+   "title": "Wizards of Waverly Place",
+   "sourcesReached": [
+    "OMDb",
+    "TMDB"
+   ],
+   "sourcesMissed": [],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "first air year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 2007,
+     "proposed": 2007,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 2007,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Wizards+of+Waverly+Place&type=series&y=2007"
+      },
+      {
+       "src": "TMDB",
+       "value": 2007,
+       "url": "https://api.themoviedb.org/3/search/tv?api_key=REDACTED&query=Wizards+of+Waverly+Place"
+      }
+     ]
+    },
+    {
+     "field": "seasons",
+     "label": "seasons",
+     "soft": false,
+     "editionDependent": false,
+     "current": 4,
+     "proposed": 4,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 4,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Wizards+of+Waverly+Place&type=series&y=2007"
+      },
+      {
+       "src": "TMDB",
+       "value": 4,
+       "url": "https://api.themoviedb.org/3/search/tv?api_key=REDACTED&query=Wizards+of+Waverly+Place"
+      }
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "creator",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Todd J. Greenwald",
+     "proposed": "Todd J. Greenwald",
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": "Todd J. Greenwald",
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Wizards+of+Waverly+Place&type=series&y=2007"
+      },
+      {
+       "src": "TMDB",
+       "value": "Todd J. Greenwald",
+       "url": "https://api.themoviedb.org/3/search/tv?api_key=REDACTED&query=Wizards+of+Waverly+Place"
+      }
+     ]
+    },
+    {
+     "field": "network",
+     "label": "network / streamer",
+     "soft": true,
+     "editionDependent": false,
+     "current": "Disney Channel",
+     "proposed": "Disney Channel",
+     "status": "confirmed",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "TMDB",
+       "value": "Disney Channel",
+       "url": "https://api.themoviedb.org/3/search/tv?api_key=REDACTED&query=Wizards+of+Waverly+Place"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "t444",
+   "title": "That's So Raven",
+   "sourcesReached": [
+    "OMDb",
+    "TMDB"
+   ],
+   "sourcesMissed": [],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "first air year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 2003,
+     "proposed": 2003,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 2003,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=That%27s+So+Raven&type=series&y=2003"
+      },
+      {
+       "src": "TMDB",
+       "value": 2003,
+       "url": "https://api.themoviedb.org/3/search/tv?api_key=REDACTED&query=That%27s+So+Raven"
+      }
+     ]
+    },
+    {
+     "field": "seasons",
+     "label": "seasons",
+     "soft": false,
+     "editionDependent": false,
+     "current": 4,
+     "proposed": 4,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 4,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=That%27s+So+Raven&type=series&y=2003"
+      },
+      {
+       "src": "TMDB",
+       "value": 4,
+       "url": "https://api.themoviedb.org/3/search/tv?api_key=REDACTED&query=That%27s+So+Raven"
+      }
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "creator",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Michael Poryes, Susan Sherman",
+     "proposed": "Michael Poryes, Susan Sherman",
+     "status": "corroborated-by-one",
+     "grade": "B",
+     "note": "matches OMDb; disagrees with TMDB (\"Michael Poryes\")",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": "Michael Poryes, Susan Sherman",
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=That%27s+So+Raven&type=series&y=2003"
+      },
+      {
+       "src": "TMDB",
+       "value": "Michael Poryes",
+       "url": "https://api.themoviedb.org/3/search/tv?api_key=REDACTED&query=That%27s+So+Raven"
+      }
+     ],
+     "alternatives": [
+      "Michael Poryes"
+     ]
+    },
+    {
+     "field": "network",
+     "label": "network / streamer",
+     "soft": true,
+     "editionDependent": false,
+     "current": "Disney Channel",
+     "proposed": "Disney Channel",
+     "status": "confirmed",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "TMDB",
+       "value": "Disney Channel",
+       "url": "https://api.themoviedb.org/3/search/tv?api_key=REDACTED&query=That%27s+So+Raven"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "t445",
+   "title": "Regular Show",
+   "sourcesReached": [
+    "OMDb",
+    "TMDB"
+   ],
+   "sourcesMissed": [],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "first air year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 2010,
+     "proposed": 2010,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 2010,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Regular+Show&type=series&y=2010"
+      },
+      {
+       "src": "TMDB",
+       "value": 2010,
+       "url": "https://api.themoviedb.org/3/search/tv?api_key=REDACTED&query=Regular+Show"
+      }
+     ]
+    },
+    {
+     "field": "seasons",
+     "label": "seasons",
+     "soft": false,
+     "editionDependent": false,
+     "current": 8,
+     "proposed": 8,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 8,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Regular+Show&type=series&y=2010"
+      },
+      {
+       "src": "TMDB",
+       "value": 8,
+       "url": "https://api.themoviedb.org/3/search/tv?api_key=REDACTED&query=Regular+Show"
+      }
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "creator",
+     "soft": false,
+     "editionDependent": false,
+     "current": "J. G. Quintel",
+     "proposed": "J.G. Quintel",
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": "J.G. Quintel",
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Regular+Show&type=series&y=2010"
+      },
+      {
+       "src": "TMDB",
+       "value": "J.G. Quintel",
+       "url": "https://api.themoviedb.org/3/search/tv?api_key=REDACTED&query=Regular+Show"
+      }
+     ]
+    },
+    {
+     "field": "network",
+     "label": "network / streamer",
+     "soft": true,
+     "editionDependent": false,
+     "current": "Cartoon Network",
+     "proposed": "Cartoon Network",
+     "status": "confirmed",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "TMDB",
+       "value": "Cartoon Network",
+       "url": "https://api.themoviedb.org/3/search/tv?api_key=REDACTED&query=Regular+Show"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "t446",
+   "title": "The Amazing World of Gumball",
+   "sourcesReached": [
+    "OMDb",
+    "TMDB"
+   ],
+   "sourcesMissed": [],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "first air year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 2011,
+     "proposed": 2011,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 2011,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=The+Amazing+World+of+Gumball&type=series&y=2011"
+      },
+      {
+       "src": "TMDB",
+       "value": 2011,
+       "url": "https://api.themoviedb.org/3/search/tv?api_key=REDACTED&query=The+Amazing+World+of+Gumball"
+      }
+     ]
+    },
+    {
+     "field": "seasons",
+     "label": "seasons",
+     "soft": false,
+     "editionDependent": false,
+     "current": 6,
+     "proposed": 6,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 6,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=The+Amazing+World+of+Gumball&type=series&y=2011"
+      },
+      {
+       "src": "TMDB",
+       "value": 6,
+       "url": "https://api.themoviedb.org/3/search/tv?api_key=REDACTED&query=The+Amazing+World+of+Gumball"
+      }
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "creator",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Ben Bocquelet",
+     "proposed": "Ben Bocquelet",
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": "Ben Bocquelet",
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=The+Amazing+World+of+Gumball&type=series&y=2011"
+      },
+      {
+       "src": "TMDB",
+       "value": "Ben Bocquelet",
+       "url": "https://api.themoviedb.org/3/search/tv?api_key=REDACTED&query=The+Amazing+World+of+Gumball"
+      }
+     ]
+    },
+    {
+     "field": "network",
+     "label": "network / streamer",
+     "soft": true,
+     "editionDependent": false,
+     "current": "Cartoon Network",
+     "proposed": "Cartoon Network",
+     "status": "confirmed",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "TMDB",
+       "value": "Cartoon Network",
+       "url": "https://api.themoviedb.org/3/search/tv?api_key=REDACTED&query=The+Amazing+World+of+Gumball"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "t447",
+   "title": "Teen Titans",
+   "sourcesReached": [
+    "OMDb",
+    "TMDB"
+   ],
+   "sourcesMissed": [],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "first air year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 2003,
+     "proposed": 2003,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 2003,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Teen+Titans&type=series&y=2003"
+      },
+      {
+       "src": "TMDB",
+       "value": 2003,
+       "url": "https://api.themoviedb.org/3/search/tv?api_key=REDACTED&query=Teen+Titans"
+      }
+     ]
+    },
+    {
+     "field": "seasons",
+     "label": "seasons",
+     "soft": false,
+     "editionDependent": false,
+     "current": 5,
+     "proposed": 5,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 5,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Teen+Titans&type=series&y=2003"
+      },
+      {
+       "src": "TMDB",
+       "value": 5,
+       "url": "https://api.themoviedb.org/3/search/tv?api_key=REDACTED&query=Teen+Titans"
+      }
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "creator",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Glen Murakami",
+     "proposed": "Bob Haney, Bruno Premiani, David Slack",
+     "status": "proposed-change",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": "David Slack, Bob Haney, Bruno Premiani",
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Teen+Titans&type=series&y=2003"
+      }
+     ]
+    },
+    {
+     "field": "network",
+     "label": "network / streamer",
+     "soft": true,
+     "editionDependent": false,
+     "current": "Cartoon Network",
+     "proposed": "The WB",
+     "status": "proposed-change",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "TMDB",
+       "value": "The WB",
+       "url": "https://api.themoviedb.org/3/search/tv?api_key=REDACTED&query=Teen+Titans"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "t448",
+   "title": "Teen Titans Go!",
+   "sourcesReached": [
+    "OMDb",
+    "TMDB"
+   ],
+   "sourcesMissed": [],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "first air year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 2013,
+     "proposed": 2013,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 2013,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Teen+Titans+Go%21&type=series&y=2013"
+      },
+      {
+       "src": "TMDB",
+       "value": 2013,
+       "url": "https://api.themoviedb.org/3/search/tv?api_key=REDACTED&query=Teen+Titans+Go%21"
+      }
+     ]
+    },
+    {
+     "field": "seasons",
+     "label": "seasons",
+     "soft": false,
+     "editionDependent": false,
+     "current": 8,
+     "proposed": 9,
+     "status": "proposed-change",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 9,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Teen+Titans+Go%21&type=series&y=2013"
+      },
+      {
+       "src": "TMDB",
+       "value": 9,
+       "url": "https://api.themoviedb.org/3/search/tv?api_key=REDACTED&query=Teen+Titans+Go%21"
+      }
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "creator",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Aaron Horvath, Michael Jelenic",
+     "proposed": "Aaron Horvath, Michael Jelenic",
+     "status": "confirmed",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": "Michael Jelenic, Aaron Horvath",
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Teen+Titans+Go%21&type=series&y=2013"
+      }
+     ]
+    },
+    {
+     "field": "network",
+     "label": "network / streamer",
+     "soft": true,
+     "editionDependent": false,
+     "current": "Cartoon Network",
+     "proposed": "Cartoon Network",
+     "status": "confirmed",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "TMDB",
+       "value": "Cartoon Network",
+       "url": "https://api.themoviedb.org/3/search/tv?api_key=REDACTED&query=Teen+Titans+Go%21"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "t449",
+   "title": "Ben 10",
+   "sourcesReached": [
+    "OMDb",
+    "TMDB"
+   ],
+   "sourcesMissed": [],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "first air year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 2005,
+     "proposed": 2005,
+     "status": "corroborated-by-one",
+     "grade": "B",
+     "note": "matches OMDb; disagrees with TMDB (2016)",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 2005,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Ben+10&type=series&y=2005"
+      },
+      {
+       "src": "TMDB",
+       "value": 2016,
+       "url": "https://api.themoviedb.org/3/search/tv?api_key=REDACTED&query=Ben+10"
+      }
+     ],
+     "alternatives": [
+      2016
+     ]
+    },
+    {
+     "field": "seasons",
+     "label": "seasons",
+     "soft": false,
+     "editionDependent": false,
+     "current": 4,
+     "proposed": 4,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 4,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Ben+10&type=series&y=2005"
+      },
+      {
+       "src": "TMDB",
+       "value": 4,
+       "url": "https://api.themoviedb.org/3/search/tv?api_key=REDACTED&query=Ben+10"
+      }
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "creator",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Man of Action",
+     "proposed": "Joe Casey, Joe Kelly, Man of Action",
+     "status": "sources-disagree",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": "Man of Action, Joe Casey, Joe Kelly",
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Ben+10&type=series&y=2005"
+      },
+      {
+       "src": "TMDB",
+       "value": "Duncan Rouleau",
+       "url": "https://api.themoviedb.org/3/search/tv?api_key=REDACTED&query=Ben+10"
+      }
+     ],
+     "alternatives": [
+      "Duncan Rouleau"
+     ]
+    },
+    {
+     "field": "network",
+     "label": "network / streamer",
+     "soft": true,
+     "editionDependent": false,
+     "current": "Cartoon Network",
+     "proposed": "Cartoon Network",
+     "status": "confirmed",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "TMDB",
+       "value": "Cartoon Network",
+       "url": "https://api.themoviedb.org/3/search/tv?api_key=REDACTED&query=Ben+10"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "t450",
+   "title": "Danny Phantom",
+   "sourcesReached": [
+    "OMDb",
+    "TMDB"
+   ],
+   "sourcesMissed": [],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "first air year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 2004,
+     "proposed": 2004,
+     "status": "corroborated-by-one",
+     "grade": "B",
+     "note": "matches TMDB; disagrees with OMDb (2003)",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 2003,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Danny+Phantom&type=series"
+      },
+      {
+       "src": "TMDB",
+       "value": 2004,
+       "url": "https://api.themoviedb.org/3/search/tv?api_key=REDACTED&query=Danny+Phantom"
+      }
+     ],
+     "alternatives": [
+      2004
+     ]
+    },
+    {
+     "field": "seasons",
+     "label": "seasons",
+     "soft": false,
+     "editionDependent": false,
+     "current": 3,
+     "proposed": 3,
+     "status": "corroborated-by-one",
+     "grade": "B",
+     "note": "matches TMDB; disagrees with OMDb (4)",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 4,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Danny+Phantom&type=series"
+      },
+      {
+       "src": "TMDB",
+       "value": 3,
+       "url": "https://api.themoviedb.org/3/search/tv?api_key=REDACTED&query=Danny+Phantom"
+      }
+     ],
+     "alternatives": [
+      3
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "creator",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Butch Hartman",
+     "proposed": "Butch Hartman",
+     "status": "corroborated-by-one",
+     "grade": "B",
+     "note": "matches TMDB; disagrees with OMDb (\"Butch Hartman, Steve Marmel, Bob Boyle\")",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": "Butch Hartman, Steve Marmel, Bob Boyle",
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Danny+Phantom&type=series"
+      },
+      {
+       "src": "TMDB",
+       "value": "Butch Hartman",
+       "url": "https://api.themoviedb.org/3/search/tv?api_key=REDACTED&query=Danny+Phantom"
+      }
+     ],
+     "alternatives": [
+      "Butch Hartman"
+     ]
+    },
+    {
+     "field": "network",
+     "label": "network / streamer",
+     "soft": true,
+     "editionDependent": false,
+     "current": "Nickelodeon",
+     "proposed": "Nickelodeon",
+     "status": "confirmed",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "TMDB",
+       "value": "Nickelodeon",
+       "url": "https://api.themoviedb.org/3/search/tv?api_key=REDACTED&query=Danny+Phantom"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "t451",
+   "title": "Degrassi: The Next Generation",
+   "sourcesReached": [
+    "OMDb"
+   ],
+   "sourcesMissed": [
+    "TMDB (no match)"
+   ],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "first air year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 2001,
+     "proposed": 2001,
+     "status": "confirmed",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 2001,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Degrassi%3A+The+Next+Generation&type=series&y=2001"
+      }
+     ]
+    },
+    {
+     "field": "seasons",
+     "label": "seasons",
+     "soft": false,
+     "editionDependent": false,
+     "current": 14,
+     "proposed": 15,
+     "status": "proposed-change",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 15,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Degrassi%3A+The+Next+Generation&type=series&y=2001"
+      }
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "creator",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Yan Moore, Linda Schuyler",
+     "proposed": "Kit Hood, Linda Schuyler, Yan Moore",
+     "status": "proposed-change",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": "Kit Hood, Yan Moore, Linda Schuyler",
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Degrassi%3A+The+Next+Generation&type=series&y=2001"
+      }
+     ]
+    },
+    {
+     "field": "network",
+     "label": "network / streamer",
+     "soft": true,
+     "current": "CTV / The N",
+     "status": "no-source",
+     "grade": null,
+     "sources": []
+    }
+   ]
+  }
+ ]
+}
