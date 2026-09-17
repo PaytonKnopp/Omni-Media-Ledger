@@ -1,0 +1,2980 @@
+{
+ "medium": "book",
+ "generated": "2026-09-17T08:06:23.921Z",
+ "offline": false,
+ "sources": [
+  "OpenLibrary",
+  "Google Books",
+  "Wikidata"
+ ],
+ "works": [
+  {
+   "id": "b1280",
+   "title": "The Hunger Games",
+   "sourcesReached": [
+    "OpenLibrary",
+    "Wikidata"
+   ],
+   "sourcesMissed": [
+    "Google Books (no match)"
+   ],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "first publication year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 2008,
+     "proposed": 2008,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OpenLibrary",
+       "value": 2008,
+       "url": "https://openlibrary.org/search.json?title=The+Hunger+Games&limit=1"
+      },
+      {
+       "src": "Wikidata",
+       "value": 2008,
+       "url": "https://www.wikidata.org/wiki/Q11678"
+      }
+     ]
+    },
+    {
+     "field": "pages",
+     "label": "page count",
+     "soft": false,
+     "editionDependent": true,
+     "current": 374,
+     "proposed": 374,
+     "status": "confirmed",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "Wikidata",
+       "value": 374,
+       "url": "https://www.wikidata.org/wiki/Q11678"
+      }
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "author",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Suzanne Collins",
+     "proposed": "Suzanne Collins",
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OpenLibrary",
+       "value": "Suzanne Collins",
+       "url": "https://openlibrary.org/search.json?title=The+Hunger+Games&limit=1"
+      },
+      {
+       "src": "Wikidata",
+       "value": "Suzanne Collins",
+       "url": "https://www.wikidata.org/wiki/Q11678"
+      }
+     ]
+    },
+    {
+     "field": "publisher",
+     "label": "publisher",
+     "soft": true,
+     "editionDependent": true,
+     "current": "Scholastic Press",
+     "proposed": "Scholastic Corporation",
+     "status": "edition-dependent",
+     "grade": "B",
+     "note": "one source differs from the corpus (Wikidata \"Scholastic Corporation\") on a field with no single true value -- likely a different printing/edition, not an error.",
+     "sources": [
+      {
+       "src": "Wikidata",
+       "value": "Scholastic Corporation",
+       "url": "https://www.wikidata.org/wiki/Q11678"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "b1281",
+   "title": "Catching Fire",
+   "sourcesReached": [
+    "OpenLibrary",
+    "Google Books",
+    "Wikidata"
+   ],
+   "sourcesMissed": [],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "first publication year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 2009,
+     "proposed": 2009,
+     "status": "corroborated-by-one",
+     "grade": "B",
+     "note": "matches OpenLibrary/Wikidata; disagrees with Google Books (2011)",
+     "sources": [
+      {
+       "src": "OpenLibrary",
+       "value": 2009,
+       "url": "https://openlibrary.org/search.json?title=Catching+Fire&limit=1"
+      },
+      {
+       "src": "Google Books",
+       "value": 2011,
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3ACatching+Fire&maxResults=1&key=REDACTED"
+      },
+      {
+       "src": "Wikidata",
+       "value": 2009,
+       "url": "https://www.wikidata.org/wiki/Q837140"
+      }
+     ],
+     "alternatives": [
+      2011
+     ]
+    },
+    {
+     "field": "pages",
+     "label": "page count",
+     "soft": false,
+     "editionDependent": true,
+     "current": 391,
+     "proposed": 311,
+     "status": "edition-dependent",
+     "grade": "B",
+     "note": "corpus value does not match either source (Google Books 311, Wikidata 578) -- treated as a distinct edition; the specific cut is not identified from available evidence.",
+     "sources": [
+      {
+       "src": "Google Books",
+       "value": 311,
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3ACatching+Fire&maxResults=1&key=REDACTED"
+      },
+      {
+       "src": "Wikidata",
+       "value": 578,
+       "url": "https://www.wikidata.org/wiki/Q837140"
+      }
+     ],
+     "alternatives": [
+      578
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "author",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Suzanne Collins",
+     "proposed": "Suzanne Collins",
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OpenLibrary",
+       "value": "Suzanne Collins",
+       "url": "https://openlibrary.org/search.json?title=Catching+Fire&limit=1"
+      },
+      {
+       "src": "Google Books",
+       "value": "Suzanne Collins",
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3ACatching+Fire&maxResults=1&key=REDACTED"
+      },
+      {
+       "src": "Wikidata",
+       "value": "Suzanne Collins",
+       "url": "https://www.wikidata.org/wiki/Q837140"
+      }
+     ]
+    },
+    {
+     "field": "publisher",
+     "label": "publisher",
+     "soft": true,
+     "editionDependent": true,
+     "current": "Scholastic Press",
+     "proposed": "Scholastic",
+     "status": "edition-dependent",
+     "grade": "B",
+     "note": "corpus value does not match either source (Google Books \"Scholastic\", Wikidata \"Scholastic Corporation\") -- treated as a distinct edition; the specific cut is not identified from available evidence.",
+     "sources": [
+      {
+       "src": "Google Books",
+       "value": "Scholastic",
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3ACatching+Fire&maxResults=1&key=REDACTED"
+      },
+      {
+       "src": "Wikidata",
+       "value": "Scholastic Corporation",
+       "url": "https://www.wikidata.org/wiki/Q837140"
+      }
+     ],
+     "alternatives": [
+      "Scholastic Corporation"
+     ]
+    }
+   ]
+  },
+  {
+   "id": "b1282",
+   "title": "Mockingjay",
+   "sourcesReached": [
+    "OpenLibrary",
+    "Google Books",
+    "Wikidata"
+   ],
+   "sourcesMissed": [],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "first publication year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 2010,
+     "proposed": 2010,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OpenLibrary",
+       "value": 2010,
+       "url": "https://openlibrary.org/search.json?title=Mockingjay&limit=1"
+      },
+      {
+       "src": "Google Books",
+       "value": 2010,
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3AMockingjay&maxResults=1&key=REDACTED"
+      },
+      {
+       "src": "Wikidata",
+       "value": 2010,
+       "url": "https://www.wikidata.org/wiki/Q40354"
+      }
+     ]
+    },
+    {
+     "field": "pages",
+     "label": "page count",
+     "soft": false,
+     "editionDependent": true,
+     "current": 390,
+     "proposed": 402,
+     "status": "edition-dependent",
+     "grade": "B",
+     "note": "corpus value does not match either source (Google Books 402, Wikidata 416) -- treated as a distinct edition; the specific cut is not identified from available evidence.",
+     "sources": [
+      {
+       "src": "Google Books",
+       "value": 402,
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3AMockingjay&maxResults=1&key=REDACTED"
+      },
+      {
+       "src": "Wikidata",
+       "value": 416,
+       "url": "https://www.wikidata.org/wiki/Q40354"
+      }
+     ],
+     "alternatives": [
+      416
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "author",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Suzanne Collins",
+     "proposed": "Suzanne Collins",
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OpenLibrary",
+       "value": "Suzanne Collins",
+       "url": "https://openlibrary.org/search.json?title=Mockingjay&limit=1"
+      },
+      {
+       "src": "Google Books",
+       "value": "Suzanne Collins",
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3AMockingjay&maxResults=1&key=REDACTED"
+      },
+      {
+       "src": "Wikidata",
+       "value": "Suzanne Collins",
+       "url": "https://www.wikidata.org/wiki/Q40354"
+      }
+     ]
+    },
+    {
+     "field": "publisher",
+     "label": "publisher",
+     "soft": true,
+     "editionDependent": true,
+     "current": "Scholastic Press",
+     "proposed": "Scholastic Inc.",
+     "status": "edition-dependent",
+     "grade": "B",
+     "note": "corpus value does not match either source (Google Books \"Scholastic Inc.\", Wikidata \"Scholastic Corporation\") -- treated as a distinct edition; the specific cut is not identified from available evidence.",
+     "sources": [
+      {
+       "src": "Google Books",
+       "value": "Scholastic Inc.",
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3AMockingjay&maxResults=1&key=REDACTED"
+      },
+      {
+       "src": "Wikidata",
+       "value": "Scholastic Corporation",
+       "url": "https://www.wikidata.org/wiki/Q40354"
+      }
+     ],
+     "alternatives": [
+      "Scholastic Corporation"
+     ]
+    }
+   ]
+  },
+  {
+   "id": "b1283",
+   "title": "The Ballad of Songbirds and Snakes",
+   "sourcesReached": [
+    "OpenLibrary",
+    "Google Books",
+    "Wikidata"
+   ],
+   "sourcesMissed": [],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "first publication year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 2020,
+     "proposed": 2020,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OpenLibrary",
+       "value": 2020,
+       "url": "https://openlibrary.org/search.json?title=The+Ballad+of+Songbirds+and+Snakes&limit=1"
+      },
+      {
+       "src": "Google Books",
+       "value": 2020,
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3AThe+Ballad+of+Songbirds+and+Snakes&maxResults=1&key=REDACTED"
+      },
+      {
+       "src": "Wikidata",
+       "value": 2020,
+       "url": "https://www.wikidata.org/wiki/Q81925268"
+      }
+     ]
+    },
+    {
+     "field": "pages",
+     "label": "page count",
+     "soft": false,
+     "editionDependent": true,
+     "current": 528,
+     "proposed": 743,
+     "status": "edition-dependent",
+     "grade": "B",
+     "note": "corpus value does not match either source (Google Books 743, Wikidata 624) -- treated as a distinct edition; the specific cut is not identified from available evidence.",
+     "sources": [
+      {
+       "src": "Google Books",
+       "value": 743,
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3AThe+Ballad+of+Songbirds+and+Snakes&maxResults=1&key=REDACTED"
+      },
+      {
+       "src": "Wikidata",
+       "value": 624,
+       "url": "https://www.wikidata.org/wiki/Q81925268"
+      }
+     ],
+     "alternatives": [
+      624
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "author",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Suzanne Collins",
+     "proposed": "Suzanne Collins",
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OpenLibrary",
+       "value": "Suzanne Collins",
+       "url": "https://openlibrary.org/search.json?title=The+Ballad+of+Songbirds+and+Snakes&limit=1"
+      },
+      {
+       "src": "Google Books",
+       "value": "Suzanne Collins",
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3AThe+Ballad+of+Songbirds+and+Snakes&maxResults=1&key=REDACTED"
+      },
+      {
+       "src": "Wikidata",
+       "value": "Suzanne Collins",
+       "url": "https://www.wikidata.org/wiki/Q81925268"
+      }
+     ]
+    },
+    {
+     "field": "publisher",
+     "label": "publisher",
+     "soft": true,
+     "editionDependent": true,
+     "current": "Scholastic Press",
+     "proposed": "Scholastic Inc.",
+     "status": "edition-dependent",
+     "grade": "B",
+     "note": "corpus value does not match either source (Google Books \"Scholastic Inc.\", Wikidata \"Scholastic Corporation\") -- treated as a distinct edition; the specific cut is not identified from available evidence.",
+     "sources": [
+      {
+       "src": "Google Books",
+       "value": "Scholastic Inc.",
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3AThe+Ballad+of+Songbirds+and+Snakes&maxResults=1&key=REDACTED"
+      },
+      {
+       "src": "Wikidata",
+       "value": "Scholastic Corporation",
+       "url": "https://www.wikidata.org/wiki/Q81925268"
+      }
+     ],
+     "alternatives": [
+      "Scholastic Corporation"
+     ]
+    }
+   ]
+  },
+  {
+   "id": "b1284",
+   "title": "Little House on the Prairie",
+   "sourcesReached": [
+    "OpenLibrary",
+    "Google Books",
+    "Wikidata"
+   ],
+   "sourcesMissed": [],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "first publication year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 1935,
+     "proposed": 1935,
+     "status": "corroborated-by-one",
+     "grade": "B",
+     "note": "matches OpenLibrary/Wikidata; disagrees with Google Books (2019)",
+     "sources": [
+      {
+       "src": "OpenLibrary",
+       "value": 1935,
+       "url": "https://openlibrary.org/search.json?title=Little+House+on+the+Prairie&limit=1"
+      },
+      {
+       "src": "Google Books",
+       "value": 2019,
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3ALittle+House+on+the+Prairie&maxResults=1&key=REDACTED"
+      },
+      {
+       "src": "Wikidata",
+       "value": 1935,
+       "url": "https://www.wikidata.org/wiki/Q687432"
+      }
+     ],
+     "alternatives": [
+      2019
+     ]
+    },
+    {
+     "field": "pages",
+     "label": "page count",
+     "soft": false,
+     "editionDependent": true,
+     "current": 335,
+     "proposed": 168,
+     "status": "edition-dependent",
+     "grade": "B",
+     "note": "one source differs from the corpus (Google Books 168) on a field with no single true value -- likely a different printing/edition, not an error.",
+     "sources": [
+      {
+       "src": "Google Books",
+       "value": 168,
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3ALittle+House+on+the+Prairie&maxResults=1&key=REDACTED"
+      }
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "author",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Laura Ingalls Wilder",
+     "proposed": "Laura Ingalls Wilder",
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OpenLibrary",
+       "value": "Laura Ingalls Wilder",
+       "url": "https://openlibrary.org/search.json?title=Little+House+on+the+Prairie&limit=1"
+      },
+      {
+       "src": "Google Books",
+       "value": "Laura Ingalls Wilder",
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3ALittle+House+on+the+Prairie&maxResults=1&key=REDACTED"
+      },
+      {
+       "src": "Wikidata",
+       "value": "Laura Ingalls Wilder",
+       "url": "https://www.wikidata.org/wiki/Q687432"
+      }
+     ]
+    },
+    {
+     "field": "publisher",
+     "label": "publisher",
+     "soft": true,
+     "editionDependent": true,
+     "current": "Harper & Brothers",
+     "proposed": "McClelland & Stewart",
+     "status": "edition-dependent",
+     "grade": "B",
+     "note": "corpus value does not match either source (Google Books \"McClelland & Stewart\", Wikidata \"Harper\") -- treated as a distinct edition; the specific cut is not identified from available evidence.",
+     "sources": [
+      {
+       "src": "Google Books",
+       "value": "McClelland & Stewart",
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3ALittle+House+on+the+Prairie&maxResults=1&key=REDACTED"
+      },
+      {
+       "src": "Wikidata",
+       "value": "Harper",
+       "url": "https://www.wikidata.org/wiki/Q687432"
+      }
+     ],
+     "alternatives": [
+      "Harper"
+     ]
+    }
+   ]
+  },
+  {
+   "id": "b1285",
+   "title": "Anne of Avonlea",
+   "sourcesReached": [
+    "OpenLibrary",
+    "Google Books",
+    "Wikidata"
+   ],
+   "sourcesMissed": [],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "first publication year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 1909,
+     "proposed": 1909,
+     "status": "corroborated-by-one",
+     "grade": "B",
+     "note": "matches OpenLibrary/Wikidata; disagrees with Google Books (2017)",
+     "sources": [
+      {
+       "src": "OpenLibrary",
+       "value": 1909,
+       "url": "https://openlibrary.org/search.json?title=Anne+of+Avonlea&limit=1"
+      },
+      {
+       "src": "Google Books",
+       "value": 2017,
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3AAnne+of+Avonlea&maxResults=1&key=REDACTED"
+      },
+      {
+       "src": "Wikidata",
+       "value": 1909,
+       "url": "https://www.wikidata.org/wiki/Q1331757"
+      }
+     ],
+     "alternatives": [
+      2017
+     ]
+    },
+    {
+     "field": "pages",
+     "label": "page count",
+     "soft": false,
+     "editionDependent": true,
+     "current": 342,
+     "proposed": 140,
+     "status": "edition-dependent",
+     "grade": "B",
+     "note": "one source differs from the corpus (Google Books 140) on a field with no single true value -- likely a different printing/edition, not an error.",
+     "sources": [
+      {
+       "src": "Google Books",
+       "value": 140,
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3AAnne+of+Avonlea&maxResults=1&key=REDACTED"
+      }
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "author",
+     "soft": false,
+     "editionDependent": false,
+     "current": "L.M. Montgomery",
+     "proposed": "L.M. Montgomery",
+     "status": "corroborated-by-one",
+     "grade": "B",
+     "note": "matches Google Books; disagrees with OpenLibrary (\"Lucy Maud Montgomery\"), Wikidata (\"Lucy Maud Montgomery\")",
+     "sources": [
+      {
+       "src": "OpenLibrary",
+       "value": "Lucy Maud Montgomery",
+       "url": "https://openlibrary.org/search.json?title=Anne+of+Avonlea&limit=1"
+      },
+      {
+       "src": "Google Books",
+       "value": "L. M. Montgomery",
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3AAnne+of+Avonlea&maxResults=1&key=REDACTED"
+      },
+      {
+       "src": "Wikidata",
+       "value": "Lucy Maud Montgomery",
+       "url": "https://www.wikidata.org/wiki/Q1331757"
+      }
+     ],
+     "alternatives": [
+      "L. M. Montgomery"
+     ]
+    },
+    {
+     "field": "publisher",
+     "label": "publisher",
+     "soft": true,
+     "editionDependent": true,
+     "current": "L.C. Page & Co.",
+     "proposed": "Createspace Independent Publishing Platform",
+     "status": "edition-dependent",
+     "grade": "B",
+     "note": "corpus value does not match either source (Google Books \"Createspace Independent Publishing Platform\", Wikidata \"Louis Coues Page\") -- treated as a distinct edition; the specific cut is not identified from available evidence.",
+     "sources": [
+      {
+       "src": "Google Books",
+       "value": "Createspace Independent Publishing Platform",
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3AAnne+of+Avonlea&maxResults=1&key=REDACTED"
+      },
+      {
+       "src": "Wikidata",
+       "value": "Louis Coues Page",
+       "url": "https://www.wikidata.org/wiki/Q1331757"
+      }
+     ],
+     "alternatives": [
+      "Louis Coues Page"
+     ]
+    }
+   ]
+  },
+  {
+   "id": "b1286",
+   "title": "Ramona the Pest",
+   "sourcesReached": [
+    "OpenLibrary",
+    "Google Books",
+    "Wikidata"
+   ],
+   "sourcesMissed": [],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "first publication year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 1968,
+     "proposed": 1968,
+     "status": "corroborated-by-one",
+     "grade": "B",
+     "note": "matches OpenLibrary/Wikidata; disagrees with Google Books (2000)",
+     "sources": [
+      {
+       "src": "OpenLibrary",
+       "value": 1968,
+       "url": "https://openlibrary.org/search.json?title=Ramona+the+Pest&limit=1"
+      },
+      {
+       "src": "Google Books",
+       "value": 2000,
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3ARamona+the+Pest&maxResults=1&key=REDACTED"
+      },
+      {
+       "src": "Wikidata",
+       "value": 1968,
+       "url": "https://www.wikidata.org/wiki/Q7289943"
+      }
+     ],
+     "alternatives": [
+      2000
+     ]
+    },
+    {
+     "field": "pages",
+     "label": "page count",
+     "soft": false,
+     "editionDependent": true,
+     "current": 192,
+     "proposed": 196,
+     "status": "edition-dependent",
+     "grade": "B",
+     "note": "one source differs from the corpus (Google Books 196) on a field with no single true value -- likely a different printing/edition, not an error.",
+     "sources": [
+      {
+       "src": "Google Books",
+       "value": 196,
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3ARamona+the+Pest&maxResults=1&key=REDACTED"
+      }
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "author",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Beverly Cleary",
+     "proposed": "Beverly Cleary",
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OpenLibrary",
+       "value": "Beverly Cleary",
+       "url": "https://openlibrary.org/search.json?title=Ramona+the+Pest&limit=1"
+      },
+      {
+       "src": "Google Books",
+       "value": "Beverly Cleary",
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3ARamona+the+Pest&maxResults=1&key=REDACTED"
+      },
+      {
+       "src": "Wikidata",
+       "value": "Beverly Cleary",
+       "url": "https://www.wikidata.org/wiki/Q7289943"
+      }
+     ]
+    },
+    {
+     "field": "publisher",
+     "label": "publisher",
+     "soft": true,
+     "editionDependent": true,
+     "current": "William Morrow",
+     "proposed": "William Morrow",
+     "status": "corroborated-by-one",
+     "grade": "B",
+     "note": "matches Wikidata; disagrees with Google Books (\"Oxford University Press, USA\")",
+     "sources": [
+      {
+       "src": "Google Books",
+       "value": "Oxford University Press, USA",
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3ARamona+the+Pest&maxResults=1&key=REDACTED"
+      },
+      {
+       "src": "Wikidata",
+       "value": "William Morrow",
+       "url": "https://www.wikidata.org/wiki/Q7289943"
+      }
+     ],
+     "alternatives": [
+      "William Morrow"
+     ]
+    }
+   ]
+  },
+  {
+   "id": "b1287",
+   "title": "Pippi Longstocking",
+   "sourcesReached": [
+    "Google Books",
+    "Wikidata"
+   ],
+   "sourcesMissed": [
+    "OpenLibrary (no match)"
+   ],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "first publication year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 1945,
+     "proposed": 1945,
+     "status": "corroborated-by-one",
+     "grade": "B",
+     "note": "matches Wikidata; disagrees with Google Books (2002)",
+     "sources": [
+      {
+       "src": "Google Books",
+       "value": 2002,
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3APippi+Longstocking&maxResults=1&key=REDACTED"
+      },
+      {
+       "src": "Wikidata",
+       "value": 1945,
+       "url": "https://www.wikidata.org/wiki/Q2446285"
+      }
+     ],
+     "alternatives": [
+      1945
+     ]
+    },
+    {
+     "field": "pages",
+     "label": "page count",
+     "soft": false,
+     "editionDependent": true,
+     "current": 160,
+     "proposed": 148,
+     "status": "edition-dependent",
+     "grade": "B",
+     "note": "one source differs from the corpus (Google Books 148) on a field with no single true value -- likely a different printing/edition, not an error.",
+     "sources": [
+      {
+       "src": "Google Books",
+       "value": 148,
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3APippi+Longstocking&maxResults=1&key=REDACTED"
+      }
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "author",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Astrid Lindgren",
+     "proposed": "Astrid Lindgren",
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "Google Books",
+       "value": "Astrid Lindgren",
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3APippi+Longstocking&maxResults=1&key=REDACTED"
+      },
+      {
+       "src": "Wikidata",
+       "value": "Astrid Lindgren",
+       "url": "https://www.wikidata.org/wiki/Q2446285"
+      }
+     ]
+    },
+    {
+     "field": "publisher",
+     "label": "publisher",
+     "soft": true,
+     "editionDependent": true,
+     "current": "Rabén & Sjögren",
+     "proposed": "Rabén & Sjögren",
+     "status": "corroborated-by-one",
+     "grade": "B",
+     "note": "matches Wikidata; disagrees with Google Books (\"Oxford University Press, USA\")",
+     "sources": [
+      {
+       "src": "Google Books",
+       "value": "Oxford University Press, USA",
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3APippi+Longstocking&maxResults=1&key=REDACTED"
+      },
+      {
+       "src": "Wikidata",
+       "value": "Rabén & Sjögren",
+       "url": "https://www.wikidata.org/wiki/Q2446285"
+      }
+     ],
+     "alternatives": [
+      "Rabén & Sjögren"
+     ]
+    }
+   ]
+  },
+  {
+   "id": "b1288",
+   "title": "The Boxcar Children",
+   "sourcesReached": [
+    "OpenLibrary",
+    "Google Books"
+   ],
+   "sourcesMissed": [
+    "Wikidata (no match)"
+   ],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "first publication year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 1942,
+     "proposed": 1924,
+     "status": "sources-disagree",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "OpenLibrary",
+       "value": 1924,
+       "url": "https://openlibrary.org/search.json?title=The+Boxcar+Children&limit=1"
+      },
+      {
+       "src": "Google Books",
+       "value": 1989,
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3AThe+Boxcar+Children&maxResults=1&key=REDACTED"
+      }
+     ],
+     "alternatives": [
+      1989
+     ]
+    },
+    {
+     "field": "pages",
+     "label": "page count",
+     "soft": false,
+     "editionDependent": true,
+     "current": 154,
+     "proposed": 177,
+     "status": "edition-dependent",
+     "grade": "B",
+     "note": "one source differs from the corpus (Google Books 177) on a field with no single true value -- likely a different printing/edition, not an error.",
+     "sources": [
+      {
+       "src": "Google Books",
+       "value": 177,
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3AThe+Boxcar+Children&maxResults=1&key=REDACTED"
+      }
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "author",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Gertrude Chandler Warner",
+     "proposed": "Gertrude Chandler Warner",
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OpenLibrary",
+       "value": "Gertrude Chandler Warner",
+       "url": "https://openlibrary.org/search.json?title=The+Boxcar+Children&limit=1"
+      },
+      {
+       "src": "Google Books",
+       "value": "Gertrude Chandler Warner",
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3AThe+Boxcar+Children&maxResults=1&key=REDACTED"
+      }
+     ]
+    },
+    {
+     "field": "publisher",
+     "label": "publisher",
+     "soft": true,
+     "editionDependent": true,
+     "current": "Albert Whitman & Company",
+     "proposed": "Random House Books for Young Readers",
+     "status": "edition-dependent",
+     "grade": "B",
+     "note": "one source differs from the corpus (Google Books \"Random House Books for Young Readers\") on a field with no single true value -- likely a different printing/edition, not an error.",
+     "sources": [
+      {
+       "src": "Google Books",
+       "value": "Random House Books for Young Readers",
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3AThe+Boxcar+Children&maxResults=1&key=REDACTED"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "b1289",
+   "title": "Nancy Drew: The Secret of the Old Clock",
+   "sourcesReached": [
+    "OpenLibrary",
+    "Google Books"
+   ],
+   "sourcesMissed": [
+    "Wikidata (no match)"
+   ],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "first publication year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 1930,
+     "proposed": 1930,
+     "status": "corroborated-by-one",
+     "grade": "B",
+     "note": "matches Google Books; disagrees with OpenLibrary (1993)",
+     "sources": [
+      {
+       "src": "OpenLibrary",
+       "value": 1993,
+       "url": "https://openlibrary.org/search.json?title=Nancy+Drew%3A+The+Secret+of+the+Old+Clock&limit=1"
+      },
+      {
+       "src": "Google Books",
+       "value": 1930,
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3ANancy+Drew%3A+The+Secret+of+the+Old+Clock&maxResults=1&key=REDACTED"
+      }
+     ],
+     "alternatives": [
+      1930
+     ]
+    },
+    {
+     "field": "pages",
+     "label": "page count",
+     "soft": false,
+     "editionDependent": true,
+     "current": 210,
+     "proposed": 193,
+     "status": "edition-dependent",
+     "grade": "B",
+     "note": "one source differs from the corpus (Google Books 193) on a field with no single true value -- likely a different printing/edition, not an error.",
+     "sources": [
+      {
+       "src": "Google Books",
+       "value": 193,
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3ANancy+Drew%3A+The+Secret+of+the+Old+Clock&maxResults=1&key=REDACTED"
+      }
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "author",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Carolyn Keene",
+     "proposed": "Carolyn Keene",
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OpenLibrary",
+       "value": "Carolyn Keene",
+       "url": "https://openlibrary.org/search.json?title=Nancy+Drew%3A+The+Secret+of+the+Old+Clock&limit=1"
+      },
+      {
+       "src": "Google Books",
+       "value": "Carolyn Keene",
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3ANancy+Drew%3A+The+Secret+of+the+Old+Clock&maxResults=1&key=REDACTED"
+      }
+     ]
+    },
+    {
+     "field": "publisher",
+     "label": "publisher",
+     "soft": true,
+     "editionDependent": true,
+     "current": "Grosset & Dunlap",
+     "proposed": "Penguin",
+     "status": "edition-dependent",
+     "grade": "B",
+     "note": "one source differs from the corpus (Google Books \"Penguin\") on a field with no single true value -- likely a different printing/edition, not an error.",
+     "sources": [
+      {
+       "src": "Google Books",
+       "value": "Penguin",
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3ANancy+Drew%3A+The+Secret+of+the+Old+Clock&maxResults=1&key=REDACTED"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "b1290",
+   "title": "The Hardy Boys: The Tower Treasure",
+   "sourcesReached": [
+    "Google Books"
+   ],
+   "sourcesMissed": [
+    "OpenLibrary (no match)",
+    "Wikidata (no match)"
+   ],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "first publication year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 1927,
+     "proposed": 2023,
+     "status": "proposed-change",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "Google Books",
+       "value": 2023,
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3AThe+Hardy+Boys%3A+The+Tower+Treasure&maxResults=1&key=REDACTED"
+      }
+     ]
+    },
+    {
+     "field": "pages",
+     "label": "page count",
+     "soft": false,
+     "editionDependent": true,
+     "current": 214,
+     "proposed": 152,
+     "status": "edition-dependent",
+     "grade": "B",
+     "note": "one source differs from the corpus (Google Books 152) on a field with no single true value -- likely a different printing/edition, not an error.",
+     "sources": [
+      {
+       "src": "Google Books",
+       "value": 152,
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3AThe+Hardy+Boys%3A+The+Tower+Treasure&maxResults=1&key=REDACTED"
+      }
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "author",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Franklin W. Dixon",
+     "proposed": "Franklin W. Dixon",
+     "status": "confirmed",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "Google Books",
+       "value": "Franklin W. Dixon",
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3AThe+Hardy+Boys%3A+The+Tower+Treasure&maxResults=1&key=REDACTED"
+      }
+     ]
+    },
+    {
+     "field": "publisher",
+     "label": "publisher",
+     "soft": true,
+     "editionDependent": true,
+     "current": "Grosset & Dunlap",
+     "proposed": "Simon and Schuster",
+     "status": "edition-dependent",
+     "grade": "B",
+     "note": "one source differs from the corpus (Google Books \"Simon and Schuster\") on a field with no single true value -- likely a different printing/edition, not an error.",
+     "sources": [
+      {
+       "src": "Google Books",
+       "value": "Simon and Schuster",
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3AThe+Hardy+Boys%3A+The+Tower+Treasure&maxResults=1&key=REDACTED"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "b1291",
+   "title": "Goosebumps: Welcome to Dead House",
+   "sourcesReached": [
+    "OpenLibrary",
+    "Google Books"
+   ],
+   "sourcesMissed": [
+    "Wikidata (no match)"
+   ],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "first publication year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 1992,
+     "proposed": 1995,
+     "status": "sources-disagree",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "OpenLibrary",
+       "value": 1995,
+       "url": "https://openlibrary.org/search.json?title=Goosebumps%3A+Welcome+to+Dead+House&limit=1"
+      },
+      {
+       "src": "Google Books",
+       "value": 2016,
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3AGoosebumps%3A+Welcome+to+Dead+House&maxResults=1&key=REDACTED"
+      }
+     ],
+     "alternatives": [
+      2016
+     ]
+    },
+    {
+     "field": "pages",
+     "label": "page count",
+     "soft": false,
+     "editionDependent": true,
+     "current": 128,
+     "proposed": 130,
+     "status": "edition-dependent",
+     "grade": "B",
+     "note": "one source differs from the corpus (Google Books 130) on a field with no single true value -- likely a different printing/edition, not an error.",
+     "sources": [
+      {
+       "src": "Google Books",
+       "value": 130,
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3AGoosebumps%3A+Welcome+to+Dead+House&maxResults=1&key=REDACTED"
+      }
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "author",
+     "soft": false,
+     "editionDependent": false,
+     "current": "R.L. Stine",
+     "proposed": "R.L. Stine",
+     "status": "corroborated-by-one",
+     "grade": "B",
+     "note": "matches Google Books; disagrees with OpenLibrary (\"Robert Lawrence Stine\")",
+     "sources": [
+      {
+       "src": "OpenLibrary",
+       "value": "Robert Lawrence Stine",
+       "url": "https://openlibrary.org/search.json?title=Goosebumps%3A+Welcome+to+Dead+House&limit=1"
+      },
+      {
+       "src": "Google Books",
+       "value": "R.L. Stine",
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3AGoosebumps%3A+Welcome+to+Dead+House&maxResults=1&key=REDACTED"
+      }
+     ],
+     "alternatives": [
+      "R.L. Stine"
+     ]
+    },
+    {
+     "field": "publisher",
+     "label": "publisher",
+     "soft": true,
+     "editionDependent": true,
+     "current": "Scholastic",
+     "proposed": "Scholastic UK",
+     "status": "edition-dependent",
+     "grade": "B",
+     "note": "one source differs from the corpus (Google Books \"Scholastic UK\") on a field with no single true value -- likely a different printing/edition, not an error.",
+     "sources": [
+      {
+       "src": "Google Books",
+       "value": "Scholastic UK",
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3AGoosebumps%3A+Welcome+to+Dead+House&maxResults=1&key=REDACTED"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "b1292",
+   "title": "The Baby-Sitters Club: Kristy's Great Idea",
+   "sourcesReached": [
+    "OpenLibrary",
+    "Google Books"
+   ],
+   "sourcesMissed": [
+    "Wikidata (no match)"
+   ],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "first publication year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 1986,
+     "proposed": 1986,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OpenLibrary",
+       "value": 1986,
+       "url": "https://openlibrary.org/search.json?title=The+Baby-Sitters+Club%3A+Kristy%27s+Great+Idea&limit=1"
+      },
+      {
+       "src": "Google Books",
+       "value": 1986,
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3AThe+Baby-Sitters+Club%3A+Kristy%27s+Great+Idea&maxResults=1&key=REDACTED"
+      }
+     ]
+    },
+    {
+     "field": "pages",
+     "label": "page count",
+     "soft": false,
+     "editionDependent": true,
+     "current": 144,
+     "proposed": 0,
+     "status": "edition-dependent",
+     "grade": "B",
+     "note": "one source differs from the corpus (Google Books 0) on a field with no single true value -- likely a different printing/edition, not an error.",
+     "sources": [
+      {
+       "src": "Google Books",
+       "value": 0,
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3AThe+Baby-Sitters+Club%3A+Kristy%27s+Great+Idea&maxResults=1&key=REDACTED"
+      }
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "author",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Ann M. Martin",
+     "proposed": "Ann M. Martin",
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OpenLibrary",
+       "value": "Ann M. Martin",
+       "url": "https://openlibrary.org/search.json?title=The+Baby-Sitters+Club%3A+Kristy%27s+Great+Idea&limit=1"
+      },
+      {
+       "src": "Google Books",
+       "value": "Ann M. Martin",
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3AThe+Baby-Sitters+Club%3A+Kristy%27s+Great+Idea&maxResults=1&key=REDACTED"
+      }
+     ]
+    },
+    {
+     "field": "publisher",
+     "label": "publisher",
+     "soft": true,
+     "current": "Scholastic",
+     "status": "no-source",
+     "grade": null,
+     "sources": []
+    }
+   ]
+  },
+  {
+   "id": "b1293",
+   "title": "Warriors: Into the Wild",
+   "sourcesReached": [
+    "OpenLibrary",
+    "Google Books"
+   ],
+   "sourcesMissed": [
+    "Wikidata (no match)"
+   ],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "first publication year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 2003,
+     "proposed": 2011,
+     "status": "sources-disagree",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "OpenLibrary",
+       "value": 2011,
+       "url": "https://openlibrary.org/search.json?title=Warriors%3A+Into+the+Wild&limit=1"
+      },
+      {
+       "src": "Google Books",
+       "value": 2009,
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3AWarriors%3A+Into+the+Wild&maxResults=1&key=REDACTED"
+      }
+     ],
+     "alternatives": [
+      2009
+     ]
+    },
+    {
+     "field": "pages",
+     "label": "page count",
+     "soft": false,
+     "editionDependent": true,
+     "current": 272,
+     "proposed": 147,
+     "status": "edition-dependent",
+     "grade": "B",
+     "note": "one source differs from the corpus (Google Books 147) on a field with no single true value -- likely a different printing/edition, not an error.",
+     "sources": [
+      {
+       "src": "Google Books",
+       "value": 147,
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3AWarriors%3A+Into+the+Wild&maxResults=1&key=REDACTED"
+      }
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "author",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Erin Hunter",
+     "proposed": "Erin Hunter",
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OpenLibrary",
+       "value": "Erin Hunter",
+       "url": "https://openlibrary.org/search.json?title=Warriors%3A+Into+the+Wild&limit=1"
+      },
+      {
+       "src": "Google Books",
+       "value": "Erin Hunter",
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3AWarriors%3A+Into+the+Wild&maxResults=1&key=REDACTED"
+      }
+     ]
+    },
+    {
+     "field": "publisher",
+     "label": "publisher",
+     "soft": true,
+     "editionDependent": true,
+     "current": "HarperCollins",
+     "proposed": "Harper Collins",
+     "status": "edition-dependent",
+     "grade": "B",
+     "note": "one source differs from the corpus (Google Books \"Harper Collins\") on a field with no single true value -- likely a different printing/edition, not an error.",
+     "sources": [
+      {
+       "src": "Google Books",
+       "value": "Harper Collins",
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3AWarriors%3A+Into+the+Wild&maxResults=1&key=REDACTED"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "b1294",
+   "title": "Inkheart",
+   "sourcesReached": [
+    "Google Books",
+    "Wikidata"
+   ],
+   "sourcesMissed": [
+    "OpenLibrary (no match)"
+   ],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "first publication year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 2003,
+     "proposed": 2003,
+     "status": "corroborated-by-one",
+     "grade": "B",
+     "note": "matches Wikidata; disagrees with Google Books (2011)",
+     "sources": [
+      {
+       "src": "Google Books",
+       "value": 2011,
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3AInkheart&maxResults=1&key=REDACTED"
+      },
+      {
+       "src": "Wikidata",
+       "value": 2003,
+       "url": "https://www.wikidata.org/wiki/Q632554"
+      }
+     ],
+     "alternatives": [
+      2003
+     ]
+    },
+    {
+     "field": "pages",
+     "label": "page count",
+     "soft": false,
+     "editionDependent": true,
+     "current": 534,
+     "proposed": 555,
+     "status": "edition-dependent",
+     "grade": "B",
+     "note": "one source differs from the corpus (Google Books 555) on a field with no single true value -- likely a different printing/edition, not an error.",
+     "sources": [
+      {
+       "src": "Google Books",
+       "value": 555,
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3AInkheart&maxResults=1&key=REDACTED"
+      }
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "author",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Cornelia Funke",
+     "proposed": "Cornelia Funke",
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "Google Books",
+       "value": "Cornelia Funke",
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3AInkheart&maxResults=1&key=REDACTED"
+      },
+      {
+       "src": "Wikidata",
+       "value": "Cornelia Funke",
+       "url": "https://www.wikidata.org/wiki/Q632554"
+      }
+     ]
+    },
+    {
+     "field": "publisher",
+     "label": "publisher",
+     "soft": true,
+     "editionDependent": true,
+     "current": "Dressler",
+     "proposed": "Scholastic Inc.",
+     "status": "edition-dependent",
+     "grade": "B",
+     "note": "one source differs from the corpus (Google Books \"Scholastic Inc.\") on a field with no single true value -- likely a different printing/edition, not an error.",
+     "sources": [
+      {
+       "src": "Google Books",
+       "value": "Scholastic Inc.",
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3AInkheart&maxResults=1&key=REDACTED"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "b1295",
+   "title": "A Series of Unfortunate Events: The Bad Beginning",
+   "sourcesReached": [
+    "Google Books"
+   ],
+   "sourcesMissed": [
+    "OpenLibrary (no match)",
+    "Wikidata (no match)"
+   ],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "first publication year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 1999,
+     "proposed": 2009,
+     "status": "proposed-change",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "Google Books",
+       "value": 2009,
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3AA+Series+of+Unfortunate+Events%3A+The+Bad+Beginning&maxResults=1&key=REDACTED"
+      }
+     ]
+    },
+    {
+     "field": "pages",
+     "label": "page count",
+     "soft": false,
+     "editionDependent": true,
+     "current": 162,
+     "proposed": 179,
+     "status": "edition-dependent",
+     "grade": "B",
+     "note": "one source differs from the corpus (Google Books 179) on a field with no single true value -- likely a different printing/edition, not an error.",
+     "sources": [
+      {
+       "src": "Google Books",
+       "value": 179,
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3AA+Series+of+Unfortunate+Events%3A+The+Bad+Beginning&maxResults=1&key=REDACTED"
+      }
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "author",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Lemony Snicket",
+     "proposed": "Lemony Snicket",
+     "status": "confirmed",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "Google Books",
+       "value": "Lemony Snicket",
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3AA+Series+of+Unfortunate+Events%3A+The+Bad+Beginning&maxResults=1&key=REDACTED"
+      }
+     ]
+    },
+    {
+     "field": "publisher",
+     "label": "publisher",
+     "soft": true,
+     "editionDependent": true,
+     "current": "HarperCollins",
+     "proposed": "Harper Collins",
+     "status": "edition-dependent",
+     "grade": "B",
+     "note": "one source differs from the corpus (Google Books \"Harper Collins\") on a field with no single true value -- likely a different printing/edition, not an error.",
+     "sources": [
+      {
+       "src": "Google Books",
+       "value": "Harper Collins",
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3AA+Series+of+Unfortunate+Events%3A+The+Bad+Beginning&maxResults=1&key=REDACTED"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "b1296",
+   "title": "Strange Case of Dr Jekyll and Mr Hyde",
+   "sourcesReached": [
+    "OpenLibrary",
+    "Google Books",
+    "Wikidata"
+   ],
+   "sourcesMissed": [],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "first publication year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 1886,
+     "proposed": 1886,
+     "status": "corroborated-by-one",
+     "grade": "B",
+     "note": "matches Google Books/Wikidata; disagrees with OpenLibrary (1875)",
+     "sources": [
+      {
+       "src": "OpenLibrary",
+       "value": 1875,
+       "url": "https://openlibrary.org/search.json?title=Strange+Case+of+Dr+Jekyll+and+Mr+Hyde&limit=1"
+      },
+      {
+       "src": "Google Books",
+       "value": 1886,
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3AStrange+Case+of+Dr+Jekyll+and+Mr+Hyde&maxResults=1&key=REDACTED"
+      },
+      {
+       "src": "Wikidata",
+       "value": 1886,
+       "url": "https://www.wikidata.org/wiki/Q217352"
+      }
+     ],
+     "alternatives": [
+      1875
+     ]
+    },
+    {
+     "field": "pages",
+     "label": "page count",
+     "soft": false,
+     "editionDependent": true,
+     "current": 141,
+     "proposed": 170,
+     "status": "edition-dependent",
+     "grade": "B",
+     "note": "one source differs from the corpus (Google Books 170) on a field with no single true value -- likely a different printing/edition, not an error.",
+     "sources": [
+      {
+       "src": "Google Books",
+       "value": 170,
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3AStrange+Case+of+Dr+Jekyll+and+Mr+Hyde&maxResults=1&key=REDACTED"
+      }
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "author",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Robert Louis Stevenson",
+     "proposed": "Robert Louis Stevenson",
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OpenLibrary",
+       "value": "Robert Louis Stevenson",
+       "url": "https://openlibrary.org/search.json?title=Strange+Case+of+Dr+Jekyll+and+Mr+Hyde&limit=1"
+      },
+      {
+       "src": "Google Books",
+       "value": "Robert Louis Stevenson",
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3AStrange+Case+of+Dr+Jekyll+and+Mr+Hyde&maxResults=1&key=REDACTED"
+      },
+      {
+       "src": "Wikidata",
+       "value": "Robert Louis Stevenson",
+       "url": "https://www.wikidata.org/wiki/Q217352"
+      }
+     ]
+    },
+    {
+     "field": "publisher",
+     "label": "publisher",
+     "soft": true,
+     "current": "Longmans, Green & Co.",
+     "status": "no-source",
+     "grade": null,
+     "sources": []
+    }
+   ]
+  },
+  {
+   "id": "b1297",
+   "title": "The Bell Jar",
+   "sourcesReached": [
+    "OpenLibrary",
+    "Wikidata"
+   ],
+   "sourcesMissed": [
+    "Google Books (no match)"
+   ],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "first publication year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 1963,
+     "proposed": 1963,
+     "status": "corroborated-by-one",
+     "grade": "B",
+     "note": "matches Wikidata; disagrees with OpenLibrary (1948)",
+     "sources": [
+      {
+       "src": "OpenLibrary",
+       "value": 1948,
+       "url": "https://openlibrary.org/search.json?title=The+Bell+Jar&limit=1"
+      },
+      {
+       "src": "Wikidata",
+       "value": 1963,
+       "url": "https://www.wikidata.org/wiki/Q1213085"
+      }
+     ],
+     "alternatives": [
+      1963
+     ]
+    },
+    {
+     "field": "pages",
+     "label": "page count",
+     "soft": false,
+     "current": 244,
+     "status": "no-source",
+     "grade": null,
+     "sources": []
+    },
+    {
+     "field": "creator",
+     "label": "author",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Sylvia Plath",
+     "proposed": "Sylvia Plath",
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OpenLibrary",
+       "value": "Sylvia Plath",
+       "url": "https://openlibrary.org/search.json?title=The+Bell+Jar&limit=1"
+      },
+      {
+       "src": "Wikidata",
+       "value": "Sylvia Plath",
+       "url": "https://www.wikidata.org/wiki/Q1213085"
+      }
+     ]
+    },
+    {
+     "field": "publisher",
+     "label": "publisher",
+     "soft": true,
+     "current": "William Heinemann",
+     "status": "no-source",
+     "grade": null,
+     "sources": []
+    }
+   ]
+  },
+  {
+   "id": "b1298",
+   "title": "The Aeneid",
+   "sourcesReached": [
+    "Google Books",
+    "Wikidata"
+   ],
+   "sourcesMissed": [
+    "OpenLibrary (no match)"
+   ],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "first publication year",
+     "soft": false,
+     "editionDependent": false,
+     "current": -19,
+     "proposed": 1953,
+     "status": "proposed-change",
+     "grade": "B",
+     "note": "corpus year (-19) predates the print era; Google Books 1953 likely describe a modern edition, not the original composition date -- not auto-applied.",
+     "sources": [
+      {
+       "src": "Google Books",
+       "value": 1953,
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3AThe+Aeneid&maxResults=1&key=REDACTED"
+      }
+     ]
+    },
+    {
+     "field": "pages",
+     "label": "page count",
+     "soft": false,
+     "editionDependent": true,
+     "current": 442,
+     "proposed": 328,
+     "status": "edition-dependent",
+     "grade": "B",
+     "note": "one source differs from the corpus (Google Books 328) on a field with no single true value -- likely a different printing/edition, not an error.",
+     "sources": [
+      {
+       "src": "Google Books",
+       "value": 328,
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3AThe+Aeneid&maxResults=1&key=REDACTED"
+      }
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "author",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Virgil",
+     "proposed": "Virgil",
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "Google Books",
+       "value": "Virgil",
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3AThe+Aeneid&maxResults=1&key=REDACTED"
+      },
+      {
+       "src": "Wikidata",
+       "value": "Virgil",
+       "url": "https://www.wikidata.org/wiki/Q138515883"
+      }
+     ]
+    },
+    {
+     "field": "publisher",
+     "label": "publisher",
+     "soft": true,
+     "editionDependent": true,
+     "current": "Ancient Rome",
+     "proposed": "Holt Rinehart and Winston",
+     "status": "edition-dependent",
+     "grade": "B",
+     "note": "one source differs from the corpus (Google Books \"Holt Rinehart and Winston\") on a field with no single true value -- likely a different printing/edition, not an error.",
+     "sources": [
+      {
+       "src": "Google Books",
+       "value": "Holt Rinehart and Winston",
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3AThe+Aeneid&maxResults=1&key=REDACTED"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "b1299",
+   "title": "Waiting for Godot",
+   "sourcesReached": [
+    "Google Books",
+    "Wikidata"
+   ],
+   "sourcesMissed": [
+    "OpenLibrary (no match)"
+   ],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "first publication year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 1953,
+     "proposed": 2011,
+     "status": "sources-disagree",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "Google Books",
+       "value": 2011,
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3AWaiting+for+Godot&maxResults=1&key=REDACTED"
+      },
+      {
+       "src": "Wikidata",
+       "value": 1952,
+       "url": "https://www.wikidata.org/wiki/Q19871"
+      }
+     ],
+     "alternatives": [
+      1952
+     ]
+    },
+    {
+     "field": "pages",
+     "label": "page count",
+     "soft": false,
+     "editionDependent": true,
+     "current": 109,
+     "proposed": 122,
+     "status": "edition-dependent",
+     "grade": "B",
+     "note": "one source differs from the corpus (Google Books 122) on a field with no single true value -- likely a different printing/edition, not an error.",
+     "sources": [
+      {
+       "src": "Google Books",
+       "value": 122,
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3AWaiting+for+Godot&maxResults=1&key=REDACTED"
+      }
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "author",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Samuel Beckett",
+     "proposed": "Samuel Beckett",
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "Google Books",
+       "value": "Samuel Beckett",
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3AWaiting+for+Godot&maxResults=1&key=REDACTED"
+      },
+      {
+       "src": "Wikidata",
+       "value": "Samuel Beckett",
+       "url": "https://www.wikidata.org/wiki/Q19871"
+      }
+     ]
+    },
+    {
+     "field": "publisher",
+     "label": "publisher",
+     "soft": true,
+     "editionDependent": true,
+     "current": "Les Éditions de Minuit",
+     "proposed": "Grove/Atlantic, Inc.",
+     "status": "edition-dependent",
+     "grade": "B",
+     "note": "one source differs from the corpus (Google Books \"Grove/Atlantic, Inc.\") on a field with no single true value -- likely a different printing/edition, not an error.",
+     "sources": [
+      {
+       "src": "Google Books",
+       "value": "Grove/Atlantic, Inc.",
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3AWaiting+for+Godot&maxResults=1&key=REDACTED"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "b1300",
+   "title": "Speak",
+   "sourcesReached": [
+    "OpenLibrary"
+   ],
+   "sourcesMissed": [
+    "Google Books (no match)",
+    "Wikidata (no match)"
+   ],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "first publication year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 1999,
+     "proposed": 1999,
+     "status": "confirmed",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "OpenLibrary",
+       "value": 1999,
+       "url": "https://openlibrary.org/search.json?title=Speak&limit=1"
+      }
+     ]
+    },
+    {
+     "field": "pages",
+     "label": "page count",
+     "soft": false,
+     "current": 198,
+     "status": "no-source",
+     "grade": null,
+     "sources": []
+    },
+    {
+     "field": "creator",
+     "label": "author",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Laurie Halse Anderson",
+     "proposed": "Laurie Halse Anderson",
+     "status": "confirmed",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "OpenLibrary",
+       "value": "Laurie Halse Anderson",
+       "url": "https://openlibrary.org/search.json?title=Speak&limit=1"
+      }
+     ]
+    },
+    {
+     "field": "publisher",
+     "label": "publisher",
+     "soft": true,
+     "current": "Farrar, Straus and Giroux",
+     "status": "no-source",
+     "grade": null,
+     "sources": []
+    }
+   ]
+  },
+  {
+   "id": "b1301",
+   "title": "Thirteen Reasons Why",
+   "sourcesReached": [
+    "OpenLibrary",
+    "Google Books",
+    "Wikidata"
+   ],
+   "sourcesMissed": [],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "first publication year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 2007,
+     "proposed": 2007,
+     "status": "corroborated-by-one",
+     "grade": "B",
+     "note": "matches OpenLibrary/Wikidata; disagrees with Google Books (2011)",
+     "sources": [
+      {
+       "src": "OpenLibrary",
+       "value": 2007,
+       "url": "https://openlibrary.org/search.json?title=Thirteen+Reasons+Why&limit=1"
+      },
+      {
+       "src": "Google Books",
+       "value": 2011,
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3AThirteen+Reasons+Why&maxResults=1&key=REDACTED"
+      },
+      {
+       "src": "Wikidata",
+       "value": 2007,
+       "url": "https://www.wikidata.org/wiki/Q852066"
+      }
+     ],
+     "alternatives": [
+      2011
+     ]
+    },
+    {
+     "field": "pages",
+     "label": "page count",
+     "soft": false,
+     "editionDependent": true,
+     "current": 288,
+     "proposed": 337,
+     "status": "edition-dependent",
+     "grade": "B",
+     "note": "one source differs from the corpus (Google Books 337) on a field with no single true value -- likely a different printing/edition, not an error.",
+     "sources": [
+      {
+       "src": "Google Books",
+       "value": 337,
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3AThirteen+Reasons+Why&maxResults=1&key=REDACTED"
+      }
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "author",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Jay Asher",
+     "proposed": "Jay Asher",
+     "status": "corroborated-by-one",
+     "grade": "B",
+     "note": "matches Google Books/Wikidata; disagrees with OpenLibrary (\"Jay Asher & Jay Asher\")",
+     "sources": [
+      {
+       "src": "OpenLibrary",
+       "value": "Jay Asher & Jay Asher",
+       "url": "https://openlibrary.org/search.json?title=Thirteen+Reasons+Why&limit=1"
+      },
+      {
+       "src": "Google Books",
+       "value": "Jay Asher",
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3AThirteen+Reasons+Why&maxResults=1&key=REDACTED"
+      },
+      {
+       "src": "Wikidata",
+       "value": "Jay Asher",
+       "url": "https://www.wikidata.org/wiki/Q852066"
+      }
+     ],
+     "alternatives": [
+      "Jay Asher & Jay Asher"
+     ]
+    },
+    {
+     "field": "publisher",
+     "label": "publisher",
+     "soft": true,
+     "editionDependent": true,
+     "current": "Razorbill",
+     "proposed": "Penguin",
+     "status": "edition-dependent",
+     "grade": "B",
+     "note": "corpus value does not match either source (Google Books \"Penguin\", Wikidata \"Penguin Random House\") -- treated as a distinct edition; the specific cut is not identified from available evidence.",
+     "sources": [
+      {
+       "src": "Google Books",
+       "value": "Penguin",
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3AThirteen+Reasons+Why&maxResults=1&key=REDACTED"
+      },
+      {
+       "src": "Wikidata",
+       "value": "Penguin Random House",
+       "url": "https://www.wikidata.org/wiki/Q852066"
+      }
+     ],
+     "alternatives": [
+      "Penguin Random House"
+     ]
+    }
+   ]
+  },
+  {
+   "id": "b1302",
+   "title": "Looking for Alaska",
+   "sourcesReached": [
+    "OpenLibrary",
+    "Google Books",
+    "Wikidata"
+   ],
+   "sourcesMissed": [],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "first publication year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 2005,
+     "proposed": 2005,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OpenLibrary",
+       "value": 2005,
+       "url": "https://openlibrary.org/search.json?title=Looking+for+Alaska&limit=1"
+      },
+      {
+       "src": "Google Books",
+       "value": 2005,
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3ALooking+for+Alaska&maxResults=1&key=REDACTED"
+      },
+      {
+       "src": "Wikidata",
+       "value": 2005,
+       "url": "https://www.wikidata.org/wiki/Q1150792"
+      }
+     ]
+    },
+    {
+     "field": "pages",
+     "label": "page count",
+     "soft": false,
+     "editionDependent": true,
+     "current": 221,
+     "proposed": 221,
+     "status": "corroborated-by-one",
+     "grade": "B",
+     "note": "matches Google Books; disagrees with Wikidata (250)",
+     "sources": [
+      {
+       "src": "Google Books",
+       "value": 221,
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3ALooking+for+Alaska&maxResults=1&key=REDACTED"
+      },
+      {
+       "src": "Wikidata",
+       "value": 250,
+       "url": "https://www.wikidata.org/wiki/Q1150792"
+      }
+     ],
+     "alternatives": [
+      250
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "author",
+     "soft": false,
+     "editionDependent": false,
+     "current": "John Green",
+     "proposed": "John Green",
+     "status": "corroborated-by-one",
+     "grade": "B",
+     "note": "matches Google Books/Wikidata; disagrees with OpenLibrary (\"John Green & John Green\")",
+     "sources": [
+      {
+       "src": "OpenLibrary",
+       "value": "John Green & John Green",
+       "url": "https://openlibrary.org/search.json?title=Looking+for+Alaska&limit=1"
+      },
+      {
+       "src": "Google Books",
+       "value": "John Green",
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3ALooking+for+Alaska&maxResults=1&key=REDACTED"
+      },
+      {
+       "src": "Wikidata",
+       "value": "John Green",
+       "url": "https://www.wikidata.org/wiki/Q1150792"
+      }
+     ],
+     "alternatives": [
+      "John Green & John Green"
+     ]
+    },
+    {
+     "field": "publisher",
+     "label": "publisher",
+     "soft": true,
+     "current": "Dutton Books",
+     "status": "no-source",
+     "grade": null,
+     "sources": []
+    }
+   ]
+  },
+  {
+   "id": "b1303",
+   "title": "Paper Towns",
+   "sourcesReached": [
+    "OpenLibrary",
+    "Wikidata"
+   ],
+   "sourcesMissed": [
+    "Google Books (no match)"
+   ],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "first publication year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 2008,
+     "proposed": 2008,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OpenLibrary",
+       "value": 2008,
+       "url": "https://openlibrary.org/search.json?title=Paper+Towns&limit=1"
+      },
+      {
+       "src": "Wikidata",
+       "value": 2008,
+       "url": "https://www.wikidata.org/wiki/Q1138063"
+      }
+     ]
+    },
+    {
+     "field": "pages",
+     "label": "page count",
+     "soft": false,
+     "current": 305,
+     "status": "no-source",
+     "grade": null,
+     "sources": []
+    },
+    {
+     "field": "creator",
+     "label": "author",
+     "soft": false,
+     "editionDependent": false,
+     "current": "John Green",
+     "proposed": "John Green",
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OpenLibrary",
+       "value": "John Green",
+       "url": "https://openlibrary.org/search.json?title=Paper+Towns&limit=1"
+      },
+      {
+       "src": "Wikidata",
+       "value": "John Green",
+       "url": "https://www.wikidata.org/wiki/Q1138063"
+      }
+     ]
+    },
+    {
+     "field": "publisher",
+     "label": "publisher",
+     "soft": true,
+     "editionDependent": true,
+     "current": "Dutton Books",
+     "proposed": "Dutton",
+     "status": "edition-dependent",
+     "grade": "B",
+     "note": "one source differs from the corpus (Wikidata \"Dutton\") on a field with no single true value -- likely a different printing/edition, not an error.",
+     "sources": [
+      {
+       "src": "Wikidata",
+       "value": "Dutton",
+       "url": "https://www.wikidata.org/wiki/Q1138063"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "b1304",
+   "title": "The Selection",
+   "sourcesReached": [
+    "OpenLibrary",
+    "Wikidata"
+   ],
+   "sourcesMissed": [
+    "Google Books (no match)"
+   ],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "first publication year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 2012,
+     "proposed": 2012,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OpenLibrary",
+       "value": 2012,
+       "url": "https://openlibrary.org/search.json?title=The+Selection&limit=1"
+      },
+      {
+       "src": "Wikidata",
+       "value": 2012,
+       "url": "https://www.wikidata.org/wiki/Q3662846"
+      }
+     ]
+    },
+    {
+     "field": "pages",
+     "label": "page count",
+     "soft": false,
+     "current": 327,
+     "status": "no-source",
+     "grade": null,
+     "sources": []
+    },
+    {
+     "field": "creator",
+     "label": "author",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Kiera Cass",
+     "proposed": "Kiera Cass",
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OpenLibrary",
+       "value": "Kiera Cass",
+       "url": "https://openlibrary.org/search.json?title=The+Selection&limit=1"
+      },
+      {
+       "src": "Wikidata",
+       "value": "Kiera Cass",
+       "url": "https://www.wikidata.org/wiki/Q3662846"
+      }
+     ]
+    },
+    {
+     "field": "publisher",
+     "label": "publisher",
+     "soft": true,
+     "editionDependent": true,
+     "current": "HarperTeen",
+     "proposed": "Yedioth Books",
+     "status": "edition-dependent",
+     "grade": "B",
+     "note": "one source differs from the corpus (Wikidata \"Yedioth Books\") on a field with no single true value -- likely a different printing/edition, not an error.",
+     "sources": [
+      {
+       "src": "Wikidata",
+       "value": "Yedioth Books",
+       "url": "https://www.wikidata.org/wiki/Q3662846"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "b1305",
+   "title": "Shatter Me",
+   "sourcesReached": [
+    "OpenLibrary",
+    "Google Books",
+    "Wikidata"
+   ],
+   "sourcesMissed": [],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "first publication year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 2011,
+     "proposed": 2011,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OpenLibrary",
+       "value": 2011,
+       "url": "https://openlibrary.org/search.json?title=Shatter+Me&limit=1"
+      },
+      {
+       "src": "Google Books",
+       "value": 2011,
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3AShatter+Me&maxResults=1&key=REDACTED"
+      },
+      {
+       "src": "Wikidata",
+       "value": 2011,
+       "url": "https://www.wikidata.org/wiki/Q7490684"
+      }
+     ]
+    },
+    {
+     "field": "pages",
+     "label": "page count",
+     "soft": false,
+     "editionDependent": true,
+     "current": 338,
+     "proposed": 274,
+     "status": "edition-dependent",
+     "grade": "B",
+     "note": "one source differs from the corpus (Google Books 274) on a field with no single true value -- likely a different printing/edition, not an error.",
+     "sources": [
+      {
+       "src": "Google Books",
+       "value": 274,
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3AShatter+Me&maxResults=1&key=REDACTED"
+      }
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "author",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Tahereh Mafi",
+     "proposed": "Tahereh Mafi",
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OpenLibrary",
+       "value": "Tahereh Mafi",
+       "url": "https://openlibrary.org/search.json?title=Shatter+Me&limit=1"
+      },
+      {
+       "src": "Google Books",
+       "value": "Tahereh Mafi",
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3AShatter+Me&maxResults=1&key=REDACTED"
+      },
+      {
+       "src": "Wikidata",
+       "value": "Tahereh Mafi",
+       "url": "https://www.wikidata.org/wiki/Q7490684"
+      }
+     ]
+    },
+    {
+     "field": "publisher",
+     "label": "publisher",
+     "soft": true,
+     "editionDependent": true,
+     "current": "HarperCollins",
+     "proposed": "Harper Collins",
+     "status": "edition-dependent",
+     "grade": "B",
+     "note": "one source differs from the corpus (Google Books \"Harper Collins\") on a field with no single true value -- likely a different printing/edition, not an error.",
+     "sources": [
+      {
+       "src": "Google Books",
+       "value": "Harper Collins",
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3AShatter+Me&maxResults=1&key=REDACTED"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "b1306",
+   "title": "Matched",
+   "sourcesReached": [
+    "OpenLibrary",
+    "Wikidata"
+   ],
+   "sourcesMissed": [
+    "Google Books (no match)"
+   ],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "first publication year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 2010,
+     "proposed": 2010,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OpenLibrary",
+       "value": 2010,
+       "url": "https://openlibrary.org/search.json?title=Matched&limit=1"
+      },
+      {
+       "src": "Wikidata",
+       "value": 2010,
+       "url": "https://www.wikidata.org/wiki/Q1211172"
+      }
+     ]
+    },
+    {
+     "field": "pages",
+     "label": "page count",
+     "soft": false,
+     "current": 366,
+     "status": "no-source",
+     "grade": null,
+     "sources": []
+    },
+    {
+     "field": "creator",
+     "label": "author",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Ally Condie",
+     "proposed": "Ally Condie",
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OpenLibrary",
+       "value": "Ally Condie",
+       "url": "https://openlibrary.org/search.json?title=Matched&limit=1"
+      },
+      {
+       "src": "Wikidata",
+       "value": "Ally Condie",
+       "url": "https://www.wikidata.org/wiki/Q1211172"
+      }
+     ]
+    },
+    {
+     "field": "publisher",
+     "label": "publisher",
+     "soft": true,
+     "editionDependent": true,
+     "current": "Dutton Books",
+     "proposed": "Dutton",
+     "status": "edition-dependent",
+     "grade": "B",
+     "note": "one source differs from the corpus (Wikidata \"Dutton\") on a field with no single true value -- likely a different printing/edition, not an error.",
+     "sources": [
+      {
+       "src": "Wikidata",
+       "value": "Dutton",
+       "url": "https://www.wikidata.org/wiki/Q1211172"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "b1307",
+   "title": "Crown of Midnight",
+   "sourcesReached": [
+    "OpenLibrary",
+    "Google Books",
+    "Wikidata"
+   ],
+   "sourcesMissed": [],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "first publication year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 2013,
+     "proposed": 2013,
+     "status": "corroborated-by-one",
+     "grade": "B",
+     "note": "matches OpenLibrary; disagrees with Google Books (2020)",
+     "sources": [
+      {
+       "src": "OpenLibrary",
+       "value": 2013,
+       "url": "https://openlibrary.org/search.json?title=Crown+of+Midnight&limit=1"
+      },
+      {
+       "src": "Google Books",
+       "value": 2020,
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3ACrown+of+Midnight&maxResults=1&key=REDACTED"
+      }
+     ],
+     "alternatives": [
+      2020
+     ]
+    },
+    {
+     "field": "pages",
+     "label": "page count",
+     "soft": false,
+     "editionDependent": true,
+     "current": 432,
+     "proposed": 452,
+     "status": "edition-dependent",
+     "grade": "B",
+     "note": "one source differs from the corpus (Google Books 452) on a field with no single true value -- likely a different printing/edition, not an error.",
+     "sources": [
+      {
+       "src": "Google Books",
+       "value": 452,
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3ACrown+of+Midnight&maxResults=1&key=REDACTED"
+      }
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "author",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Sarah J. Maas",
+     "proposed": "Sarah J. Maas",
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OpenLibrary",
+       "value": "Sarah J. Maas",
+       "url": "https://openlibrary.org/search.json?title=Crown+of+Midnight&limit=1"
+      },
+      {
+       "src": "Google Books",
+       "value": "Sarah J. Maas",
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3ACrown+of+Midnight&maxResults=1&key=REDACTED"
+      },
+      {
+       "src": "Wikidata",
+       "value": "Sarah J. Maas",
+       "url": "https://www.wikidata.org/wiki/Q134480815"
+      }
+     ]
+    },
+    {
+     "field": "publisher",
+     "label": "publisher",
+     "soft": true,
+     "editionDependent": true,
+     "current": "Bloomsbury",
+     "proposed": "Bloomsbury Publishing",
+     "status": "edition-dependent",
+     "grade": "B",
+     "note": "one source differs from the corpus (Google Books \"Bloomsbury Publishing\") on a field with no single true value -- likely a different printing/edition, not an error.",
+     "sources": [
+      {
+       "src": "Google Books",
+       "value": "Bloomsbury Publishing",
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3ACrown+of+Midnight&maxResults=1&key=REDACTED"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "b1308",
+   "title": "Digital Fortress",
+   "sourcesReached": [
+    "OpenLibrary",
+    "Google Books",
+    "Wikidata"
+   ],
+   "sourcesMissed": [],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "first publication year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 1998,
+     "proposed": 1998,
+     "status": "corroborated-by-one",
+     "grade": "B",
+     "note": "matches OpenLibrary/Wikidata; disagrees with Google Books (2011)",
+     "sources": [
+      {
+       "src": "OpenLibrary",
+       "value": 1998,
+       "url": "https://openlibrary.org/search.json?title=Digital+Fortress&limit=1"
+      },
+      {
+       "src": "Google Books",
+       "value": 2011,
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3ADigital+Fortress&maxResults=1&key=REDACTED"
+      },
+      {
+       "src": "Wikidata",
+       "value": 1998,
+       "url": "https://www.wikidata.org/wiki/Q207964"
+      }
+     ],
+     "alternatives": [
+      2011
+     ]
+    },
+    {
+     "field": "pages",
+     "label": "page count",
+     "soft": false,
+     "editionDependent": true,
+     "current": 384,
+     "proposed": 516,
+     "status": "edition-dependent",
+     "grade": "B",
+     "note": "corpus value does not match either source (Google Books 516, Wikidata 544) -- treated as a distinct edition; the specific cut is not identified from available evidence.",
+     "sources": [
+      {
+       "src": "Google Books",
+       "value": 516,
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3ADigital+Fortress&maxResults=1&key=REDACTED"
+      },
+      {
+       "src": "Wikidata",
+       "value": 544,
+       "url": "https://www.wikidata.org/wiki/Q207964"
+      }
+     ],
+     "alternatives": [
+      544
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "author",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Dan Brown",
+     "proposed": "Dan Brown",
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OpenLibrary",
+       "value": "Dan Brown",
+       "url": "https://openlibrary.org/search.json?title=Digital+Fortress&limit=1"
+      },
+      {
+       "src": "Google Books",
+       "value": "Dan Brown",
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3ADigital+Fortress&maxResults=1&key=REDACTED"
+      },
+      {
+       "src": "Wikidata",
+       "value": "Dan Brown",
+       "url": "https://www.wikidata.org/wiki/Q207964"
+      }
+     ]
+    },
+    {
+     "field": "publisher",
+     "label": "publisher",
+     "soft": true,
+     "editionDependent": true,
+     "current": "St. Martin's Press",
+     "proposed": "St. Martin's Press",
+     "status": "corroborated-by-one",
+     "grade": "B",
+     "note": "matches Wikidata; disagrees with Google Books (\"Random House\")",
+     "sources": [
+      {
+       "src": "Google Books",
+       "value": "Random House",
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3ADigital+Fortress&maxResults=1&key=REDACTED"
+      },
+      {
+       "src": "Wikidata",
+       "value": "St. Martin's Press",
+       "url": "https://www.wikidata.org/wiki/Q207964"
+      }
+     ],
+     "alternatives": [
+      "St. Martin's Press"
+     ]
+    }
+   ]
+  },
+  {
+   "id": "b1309",
+   "title": "Deception Point",
+   "sourcesReached": [
+    "OpenLibrary",
+    "Google Books",
+    "Wikidata"
+   ],
+   "sourcesMissed": [],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "first publication year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 2001,
+     "proposed": 2001,
+     "status": "corroborated-by-one",
+     "grade": "B",
+     "note": "matches OpenLibrary/Wikidata; disagrees with Google Books (2019)",
+     "sources": [
+      {
+       "src": "OpenLibrary",
+       "value": 2001,
+       "url": "https://openlibrary.org/search.json?title=Deception+Point&limit=1"
+      },
+      {
+       "src": "Google Books",
+       "value": 2019,
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3ADeception+Point&maxResults=1&key=REDACTED"
+      },
+      {
+       "src": "Wikidata",
+       "value": 2001,
+       "url": "https://www.wikidata.org/wiki/Q202531"
+      }
+     ],
+     "alternatives": [
+      2019
+     ]
+    },
+    {
+     "field": "pages",
+     "label": "page count",
+     "soft": false,
+     "editionDependent": true,
+     "current": 496,
+     "proposed": 752,
+     "status": "edition-dependent",
+     "grade": "B",
+     "note": "one source differs from the corpus (Google Books 752) on a field with no single true value -- likely a different printing/edition, not an error.",
+     "sources": [
+      {
+       "src": "Google Books",
+       "value": 752,
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3ADeception+Point&maxResults=1&key=REDACTED"
+      }
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "author",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Dan Brown",
+     "proposed": "Dan Brown",
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OpenLibrary",
+       "value": "Dan Brown",
+       "url": "https://openlibrary.org/search.json?title=Deception+Point&limit=1"
+      },
+      {
+       "src": "Google Books",
+       "value": "Dan Brown",
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3ADeception+Point&maxResults=1&key=REDACTED"
+      },
+      {
+       "src": "Wikidata",
+       "value": "Dan Brown",
+       "url": "https://www.wikidata.org/wiki/Q202531"
+      }
+     ]
+    },
+    {
+     "field": "publisher",
+     "label": "publisher",
+     "soft": true,
+     "editionDependent": true,
+     "current": "Pocket Books",
+     "proposed": "Pocket Books",
+     "status": "confirmed",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "Google Books",
+       "value": "Pocket Books",
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3ADeception+Point&maxResults=1&key=REDACTED"
+      }
+     ]
+    }
+   ]
+  }
+ ]
+}
