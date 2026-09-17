@@ -1,0 +1,1853 @@
+{
+ "medium": "book",
+ "generated": "2026-09-17T17:13:14.490Z",
+ "offline": false,
+ "sources": [
+  "OpenLibrary",
+  "Google Books",
+  "Wikidata"
+ ],
+ "works": [
+  {
+   "id": "b1433",
+   "title": "Patriot Games",
+   "sourcesReached": [
+    "OpenLibrary",
+    "Google Books",
+    "Wikidata"
+   ],
+   "sourcesMissed": [],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "first publication year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 1987,
+     "proposed": 1987,
+     "status": "corroborated-by-one",
+     "grade": "B",
+     "note": "matches Wikidata; disagrees with OpenLibrary (1975), Google Books (1988)",
+     "sources": [
+      {
+       "src": "OpenLibrary",
+       "value": 1975,
+       "url": "https://openlibrary.org/search.json?title=Patriot+Games&limit=1"
+      },
+      {
+       "src": "Google Books",
+       "value": 1988,
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3APatriot+Games&maxResults=1&key=REDACTED"
+      },
+      {
+       "src": "Wikidata",
+       "value": 1987,
+       "url": "https://www.wikidata.org/wiki/Q396204"
+      }
+     ],
+     "alternatives": [
+      1988,
+      1987
+     ]
+    },
+    {
+     "field": "pages",
+     "label": "page count",
+     "soft": false,
+     "editionDependent": true,
+     "current": 560,
+     "proposed": 0,
+     "status": "edition-dependent",
+     "grade": "B",
+     "note": "one source differs from the corpus (Google Books 0) on a field with no single true value -- likely a different printing/edition, not an error.",
+     "sources": [
+      {
+       "src": "Google Books",
+       "value": 0,
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3APatriot+Games&maxResults=1&key=REDACTED"
+      }
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "author",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Tom Clancy",
+     "proposed": "Tom Clancy",
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OpenLibrary",
+       "value": "Tom Clancy",
+       "url": "https://openlibrary.org/search.json?title=Patriot+Games&limit=1"
+      },
+      {
+       "src": "Google Books",
+       "value": "Tom Clancy",
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3APatriot+Games&maxResults=1&key=REDACTED"
+      },
+      {
+       "src": "Wikidata",
+       "value": "Tom Clancy",
+       "url": "https://www.wikidata.org/wiki/Q396204"
+      }
+     ]
+    },
+    {
+     "field": "publisher",
+     "label": "publisher",
+     "soft": true,
+     "editionDependent": true,
+     "current": "G. P. Putnam's Sons",
+     "proposed": "G. P. Putnam's Sons",
+     "status": "corroborated-by-one",
+     "grade": "B",
+     "note": "matches Wikidata; disagrees with Google Books (\"Perfection Learning\")",
+     "sources": [
+      {
+       "src": "Google Books",
+       "value": "Perfection Learning",
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3APatriot+Games&maxResults=1&key=REDACTED"
+      },
+      {
+       "src": "Wikidata",
+       "value": "G. P. Putnam's Sons",
+       "url": "https://www.wikidata.org/wiki/Q396204"
+      }
+     ],
+     "alternatives": [
+      "G. P. Putnam's Sons"
+     ]
+    }
+   ]
+  },
+  {
+   "id": "b1434",
+   "title": "Clear and Present Danger",
+   "sourcesReached": [
+    "OpenLibrary",
+    "Wikidata"
+   ],
+   "sourcesMissed": [
+    "Google Books (no match)"
+   ],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "first publication year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 1989,
+     "proposed": 1989,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OpenLibrary",
+       "value": 1989,
+       "url": "https://openlibrary.org/search.json?title=Clear+and+Present+Danger&limit=1"
+      },
+      {
+       "src": "Wikidata",
+       "value": 1989,
+       "url": "https://www.wikidata.org/wiki/Q1196642"
+      }
+     ]
+    },
+    {
+     "field": "pages",
+     "label": "page count",
+     "soft": false,
+     "current": 688,
+     "status": "no-source",
+     "grade": null,
+     "sources": []
+    },
+    {
+     "field": "creator",
+     "label": "author",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Tom Clancy",
+     "proposed": "Tom Clancy",
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OpenLibrary",
+       "value": "Tom Clancy",
+       "url": "https://openlibrary.org/search.json?title=Clear+and+Present+Danger&limit=1"
+      },
+      {
+       "src": "Wikidata",
+       "value": "Tom Clancy",
+       "url": "https://www.wikidata.org/wiki/Q1196642"
+      }
+     ]
+    },
+    {
+     "field": "publisher",
+     "label": "publisher",
+     "soft": true,
+     "editionDependent": true,
+     "current": "G. P. Putnam's Sons",
+     "proposed": "G. P. Putnam's Sons",
+     "status": "confirmed",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "Wikidata",
+       "value": "G. P. Putnam's Sons",
+       "url": "https://www.wikidata.org/wiki/Q1196642"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "b1435",
+   "title": "The Sum of All Fears",
+   "sourcesReached": [
+    "OpenLibrary",
+    "Google Books",
+    "Wikidata"
+   ],
+   "sourcesMissed": [],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "first publication year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 1991,
+     "proposed": 1991,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OpenLibrary",
+       "value": 1991,
+       "url": "https://openlibrary.org/search.json?title=The+Sum+of+All+Fears&limit=1"
+      },
+      {
+       "src": "Google Books",
+       "value": 1991,
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3AThe+Sum+of+All+Fears&maxResults=1&key=REDACTED"
+      },
+      {
+       "src": "Wikidata",
+       "value": 1991,
+       "url": "https://www.wikidata.org/wiki/Q259168"
+      }
+     ]
+    },
+    {
+     "field": "pages",
+     "label": "page count",
+     "soft": false,
+     "editionDependent": true,
+     "current": 928,
+     "proposed": 1296,
+     "status": "edition-dependent",
+     "grade": "B",
+     "note": "one source differs from the corpus (Google Books 1296) on a field with no single true value -- likely a different printing/edition, not an error.",
+     "sources": [
+      {
+       "src": "Google Books",
+       "value": 1296,
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3AThe+Sum+of+All+Fears&maxResults=1&key=REDACTED"
+      }
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "author",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Tom Clancy",
+     "proposed": "Tom Clancy",
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OpenLibrary",
+       "value": "Tom Clancy",
+       "url": "https://openlibrary.org/search.json?title=The+Sum+of+All+Fears&limit=1"
+      },
+      {
+       "src": "Google Books",
+       "value": "Tom Clancy",
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3AThe+Sum+of+All+Fears&maxResults=1&key=REDACTED"
+      },
+      {
+       "src": "Wikidata",
+       "value": "Tom Clancy",
+       "url": "https://www.wikidata.org/wiki/Q259168"
+      }
+     ]
+    },
+    {
+     "field": "publisher",
+     "label": "publisher",
+     "soft": true,
+     "current": "G. P. Putnam's Sons",
+     "status": "no-source",
+     "grade": null,
+     "sources": []
+    }
+   ]
+  },
+  {
+   "id": "b1436",
+   "title": "The Cardinal of the Kremlin",
+   "sourcesReached": [
+    "OpenLibrary",
+    "Google Books",
+    "Wikidata"
+   ],
+   "sourcesMissed": [],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "first publication year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 1988,
+     "proposed": 1988,
+     "status": "corroborated-by-one",
+     "grade": "B",
+     "note": "matches OpenLibrary/Wikidata; disagrees with Google Books (1989)",
+     "sources": [
+      {
+       "src": "OpenLibrary",
+       "value": 1988,
+       "url": "https://openlibrary.org/search.json?title=The+Cardinal+of+the+Kremlin&limit=1"
+      },
+      {
+       "src": "Google Books",
+       "value": 1989,
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3AThe+Cardinal+of+the+Kremlin&maxResults=1&key=REDACTED"
+      },
+      {
+       "src": "Wikidata",
+       "value": 1988,
+       "url": "https://www.wikidata.org/wiki/Q732842"
+      }
+     ],
+     "alternatives": [
+      1989
+     ]
+    },
+    {
+     "field": "pages",
+     "label": "page count",
+     "soft": false,
+     "editionDependent": true,
+     "current": 544,
+     "proposed": 562,
+     "status": "edition-dependent",
+     "grade": "B",
+     "note": "corpus value does not match either source (Google Books 562, Wikidata 798) -- treated as a distinct edition; the specific cut is not identified from available evidence.",
+     "sources": [
+      {
+       "src": "Google Books",
+       "value": 562,
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3AThe+Cardinal+of+the+Kremlin&maxResults=1&key=REDACTED"
+      },
+      {
+       "src": "Wikidata",
+       "value": 798,
+       "url": "https://www.wikidata.org/wiki/Q732842"
+      }
+     ],
+     "alternatives": [
+      798
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "author",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Tom Clancy",
+     "proposed": "Tom Clancy",
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OpenLibrary",
+       "value": "Tom Clancy",
+       "url": "https://openlibrary.org/search.json?title=The+Cardinal+of+the+Kremlin&limit=1"
+      },
+      {
+       "src": "Google Books",
+       "value": "Tom Clancy",
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3AThe+Cardinal+of+the+Kremlin&maxResults=1&key=REDACTED"
+      },
+      {
+       "src": "Wikidata",
+       "value": "Tom Clancy",
+       "url": "https://www.wikidata.org/wiki/Q732842"
+      }
+     ]
+    },
+    {
+     "field": "publisher",
+     "label": "publisher",
+     "soft": true,
+     "editionDependent": true,
+     "current": "G. P. Putnam's Sons",
+     "proposed": "G. P. Putnam's Sons",
+     "status": "corroborated-by-one",
+     "grade": "B",
+     "note": "matches Wikidata; disagrees with Google Books (\"Penguin\")",
+     "sources": [
+      {
+       "src": "Google Books",
+       "value": "Penguin",
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3AThe+Cardinal+of+the+Kremlin&maxResults=1&key=REDACTED"
+      },
+      {
+       "src": "Wikidata",
+       "value": "G. P. Putnam's Sons",
+       "url": "https://www.wikidata.org/wiki/Q732842"
+      }
+     ],
+     "alternatives": [
+      "G. P. Putnam's Sons"
+     ]
+    }
+   ]
+  },
+  {
+   "id": "b1437",
+   "title": "Debt of Honor",
+   "sourcesReached": [
+    "OpenLibrary",
+    "Wikidata"
+   ],
+   "sourcesMissed": [
+    "Google Books (no match)"
+   ],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "first publication year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 1994,
+     "proposed": 1994,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OpenLibrary",
+       "value": 1994,
+       "url": "https://openlibrary.org/search.json?title=Debt+of+Honor&limit=1"
+      },
+      {
+       "src": "Wikidata",
+       "value": 1994,
+       "url": "https://www.wikidata.org/wiki/Q1300587"
+      }
+     ]
+    },
+    {
+     "field": "pages",
+     "label": "page count",
+     "soft": false,
+     "editionDependent": true,
+     "current": 819,
+     "proposed": 766,
+     "status": "edition-dependent",
+     "grade": "B",
+     "note": "one source differs from the corpus (Wikidata 766) on a field with no single true value -- likely a different printing/edition, not an error.",
+     "sources": [
+      {
+       "src": "Wikidata",
+       "value": 766,
+       "url": "https://www.wikidata.org/wiki/Q1300587"
+      }
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "author",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Tom Clancy",
+     "proposed": "Tom Clancy",
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OpenLibrary",
+       "value": "Tom Clancy",
+       "url": "https://openlibrary.org/search.json?title=Debt+of+Honor&limit=1"
+      },
+      {
+       "src": "Wikidata",
+       "value": "Tom Clancy",
+       "url": "https://www.wikidata.org/wiki/Q1300587"
+      }
+     ]
+    },
+    {
+     "field": "publisher",
+     "label": "publisher",
+     "soft": true,
+     "editionDependent": true,
+     "current": "G. P. Putnam's Sons",
+     "proposed": "G. P. Putnam's Sons",
+     "status": "confirmed",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "Wikidata",
+       "value": "G. P. Putnam's Sons",
+       "url": "https://www.wikidata.org/wiki/Q1300587"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "b1438",
+   "title": "Executive Orders",
+   "sourcesReached": [
+    "OpenLibrary",
+    "Wikidata"
+   ],
+   "sourcesMissed": [
+    "Google Books (no match)"
+   ],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "first publication year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 1996,
+     "proposed": 1996,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OpenLibrary",
+       "value": 1996,
+       "url": "https://openlibrary.org/search.json?title=Executive+Orders&limit=1"
+      },
+      {
+       "src": "Wikidata",
+       "value": 1996,
+       "url": "https://www.wikidata.org/wiki/Q814169"
+      }
+     ]
+    },
+    {
+     "field": "pages",
+     "label": "page count",
+     "soft": false,
+     "current": 1360,
+     "status": "no-source",
+     "grade": null,
+     "sources": []
+    },
+    {
+     "field": "creator",
+     "label": "author",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Tom Clancy",
+     "proposed": "Tom Clancy",
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OpenLibrary",
+       "value": "Tom Clancy",
+       "url": "https://openlibrary.org/search.json?title=Executive+Orders&limit=1"
+      },
+      {
+       "src": "Wikidata",
+       "value": "Tom Clancy",
+       "url": "https://www.wikidata.org/wiki/Q814169"
+      }
+     ]
+    },
+    {
+     "field": "publisher",
+     "label": "publisher",
+     "soft": true,
+     "editionDependent": true,
+     "current": "G. P. Putnam's Sons",
+     "proposed": "G. P. Putnam's Sons",
+     "status": "confirmed",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "Wikidata",
+       "value": "G. P. Putnam's Sons",
+       "url": "https://www.wikidata.org/wiki/Q814169"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "b1439",
+   "title": "Rainbow Six",
+   "sourcesReached": [
+    "OpenLibrary",
+    "Google Books",
+    "Wikidata"
+   ],
+   "sourcesMissed": [],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "first publication year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 1998,
+     "proposed": 1998,
+     "status": "corroborated-by-one",
+     "grade": "B",
+     "note": "matches OpenLibrary/Wikidata; disagrees with Google Books (1999)",
+     "sources": [
+      {
+       "src": "OpenLibrary",
+       "value": 1998,
+       "url": "https://openlibrary.org/search.json?title=Rainbow+Six&limit=1"
+      },
+      {
+       "src": "Google Books",
+       "value": 1999,
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3ARainbow+Six&maxResults=1&key=REDACTED"
+      },
+      {
+       "src": "Wikidata",
+       "value": 1998,
+       "url": "https://www.wikidata.org/wiki/Q248745"
+      }
+     ],
+     "alternatives": [
+      1999
+     ]
+    },
+    {
+     "field": "pages",
+     "label": "page count",
+     "soft": false,
+     "editionDependent": true,
+     "current": 740,
+     "proposed": 790,
+     "status": "edition-dependent",
+     "grade": "B",
+     "note": "one source differs from the corpus (Google Books 790) on a field with no single true value -- likely a different printing/edition, not an error.",
+     "sources": [
+      {
+       "src": "Google Books",
+       "value": 790,
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3ARainbow+Six&maxResults=1&key=REDACTED"
+      }
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "author",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Tom Clancy",
+     "proposed": "Tom Clancy",
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OpenLibrary",
+       "value": "Tom Clancy",
+       "url": "https://openlibrary.org/search.json?title=Rainbow+Six&limit=1"
+      },
+      {
+       "src": "Google Books",
+       "value": "Tom Clancy",
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3ARainbow+Six&maxResults=1&key=REDACTED"
+      },
+      {
+       "src": "Wikidata",
+       "value": "Tom Clancy",
+       "url": "https://www.wikidata.org/wiki/Q248745"
+      }
+     ]
+    },
+    {
+     "field": "publisher",
+     "label": "publisher",
+     "soft": true,
+     "current": "G. P. Putnam's Sons",
+     "status": "no-source",
+     "grade": null,
+     "sources": []
+    }
+   ]
+  },
+  {
+   "id": "b1440",
+   "title": "Cat and Mouse",
+   "sourcesReached": [
+    "OpenLibrary"
+   ],
+   "sourcesMissed": [
+    "Google Books (no match)",
+    "Wikidata (no match)"
+   ],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "first publication year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 1997,
+     "proposed": 2004,
+     "status": "proposed-change",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "OpenLibrary",
+       "value": 2004,
+       "url": "https://openlibrary.org/search.json?title=Cat+and+Mouse&limit=1"
+      }
+     ]
+    },
+    {
+     "field": "pages",
+     "label": "page count",
+     "soft": false,
+     "current": 432,
+     "status": "no-source",
+     "grade": null,
+     "sources": []
+    },
+    {
+     "field": "creator",
+     "label": "author",
+     "soft": false,
+     "editionDependent": false,
+     "current": "James Patterson",
+     "proposed": "James Patterson",
+     "status": "confirmed",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "OpenLibrary",
+       "value": "James Patterson",
+       "url": "https://openlibrary.org/search.json?title=Cat+and+Mouse&limit=1"
+      }
+     ]
+    },
+    {
+     "field": "publisher",
+     "label": "publisher",
+     "soft": true,
+     "current": "Little, Brown",
+     "status": "no-source",
+     "grade": null,
+     "sources": []
+    }
+   ]
+  },
+  {
+   "id": "b1441",
+   "title": "Pop Goes the Weasel",
+   "sourcesReached": [
+    "OpenLibrary",
+    "Wikidata"
+   ],
+   "sourcesMissed": [
+    "Google Books (no match)"
+   ],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "first publication year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 1999,
+     "proposed": 1999,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OpenLibrary",
+       "value": 1999,
+       "url": "https://openlibrary.org/search.json?title=Pop+Goes+the+Weasel&limit=1"
+      },
+      {
+       "src": "Wikidata",
+       "value": 1999,
+       "url": "https://www.wikidata.org/wiki/Q3794173"
+      }
+     ]
+    },
+    {
+     "field": "pages",
+     "label": "page count",
+     "soft": false,
+     "current": 436,
+     "status": "no-source",
+     "grade": null,
+     "sources": []
+    },
+    {
+     "field": "creator",
+     "label": "author",
+     "soft": false,
+     "editionDependent": false,
+     "current": "James Patterson",
+     "proposed": "James Patterson",
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OpenLibrary",
+       "value": "James Patterson",
+       "url": "https://openlibrary.org/search.json?title=Pop+Goes+the+Weasel&limit=1"
+      },
+      {
+       "src": "Wikidata",
+       "value": "James Patterson",
+       "url": "https://www.wikidata.org/wiki/Q3794173"
+      }
+     ]
+    },
+    {
+     "field": "publisher",
+     "label": "publisher",
+     "soft": true,
+     "current": "Little, Brown",
+     "status": "no-source",
+     "grade": null,
+     "sources": []
+    }
+   ]
+  },
+  {
+   "id": "b1442",
+   "title": "Roses Are Red",
+   "sourcesReached": [
+    "OpenLibrary",
+    "Wikidata"
+   ],
+   "sourcesMissed": [
+    "Google Books (no match)"
+   ],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "first publication year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 2000,
+     "proposed": 2000,
+     "status": "corroborated-by-one",
+     "grade": "B",
+     "note": "matches Wikidata; disagrees with OpenLibrary (1752)",
+     "sources": [
+      {
+       "src": "OpenLibrary",
+       "value": 1752,
+       "url": "https://openlibrary.org/search.json?title=Roses+Are+Red&limit=1"
+      },
+      {
+       "src": "Wikidata",
+       "value": 2000,
+       "url": "https://www.wikidata.org/wiki/Q3851596"
+      }
+     ],
+     "alternatives": [
+      2000
+     ]
+    },
+    {
+     "field": "pages",
+     "label": "page count",
+     "soft": false,
+     "current": 403,
+     "status": "no-source",
+     "grade": null,
+     "sources": []
+    },
+    {
+     "field": "creator",
+     "label": "author",
+     "soft": false,
+     "editionDependent": false,
+     "current": "James Patterson",
+     "proposed": "James Patterson",
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OpenLibrary",
+       "value": "James Patterson",
+       "url": "https://openlibrary.org/search.json?title=Roses+Are+Red&limit=1"
+      },
+      {
+       "src": "Wikidata",
+       "value": "James Patterson",
+       "url": "https://www.wikidata.org/wiki/Q3851596"
+      }
+     ]
+    },
+    {
+     "field": "publisher",
+     "label": "publisher",
+     "soft": true,
+     "editionDependent": true,
+     "current": "Little, Brown",
+     "proposed": "Hachette Book Group",
+     "status": "edition-dependent",
+     "grade": "B",
+     "note": "one source differs from the corpus (Wikidata \"Hachette Book Group\") on a field with no single true value -- likely a different printing/edition, not an error.",
+     "sources": [
+      {
+       "src": "Wikidata",
+       "value": "Hachette Book Group",
+       "url": "https://www.wikidata.org/wiki/Q3851596"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "b1443",
+   "title": "Violets Are Blue",
+   "sourcesReached": [
+    "OpenLibrary",
+    "Wikidata"
+   ],
+   "sourcesMissed": [
+    "Google Books (no match)"
+   ],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "first publication year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 2001,
+     "proposed": 2001,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OpenLibrary",
+       "value": 2001,
+       "url": "https://openlibrary.org/search.json?title=Violets+Are+Blue&limit=1"
+      },
+      {
+       "src": "Wikidata",
+       "value": 2001,
+       "url": "https://www.wikidata.org/wiki/Q4003139"
+      }
+     ]
+    },
+    {
+     "field": "pages",
+     "label": "page count",
+     "soft": false,
+     "current": 384,
+     "status": "no-source",
+     "grade": null,
+     "sources": []
+    },
+    {
+     "field": "creator",
+     "label": "author",
+     "soft": false,
+     "editionDependent": false,
+     "current": "James Patterson",
+     "proposed": "James Patterson",
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OpenLibrary",
+       "value": "James Patterson",
+       "url": "https://openlibrary.org/search.json?title=Violets+Are+Blue&limit=1"
+      },
+      {
+       "src": "Wikidata",
+       "value": "James Patterson",
+       "url": "https://www.wikidata.org/wiki/Q4003139"
+      }
+     ]
+    },
+    {
+     "field": "publisher",
+     "label": "publisher",
+     "soft": true,
+     "editionDependent": true,
+     "current": "Little, Brown",
+     "proposed": "Hachette Book Group",
+     "status": "edition-dependent",
+     "grade": "B",
+     "note": "one source differs from the corpus (Wikidata \"Hachette Book Group\") on a field with no single true value -- likely a different printing/edition, not an error.",
+     "sources": [
+      {
+       "src": "Wikidata",
+       "value": "Hachette Book Group",
+       "url": "https://www.wikidata.org/wiki/Q4003139"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "b1444",
+   "title": "1st to Die",
+   "sourcesReached": [
+    "OpenLibrary",
+    "Google Books",
+    "Wikidata"
+   ],
+   "sourcesMissed": [],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "first publication year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 2001,
+     "proposed": 2001,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OpenLibrary",
+       "value": 2001,
+       "url": "https://openlibrary.org/search.json?title=1st+to+Die&limit=1"
+      },
+      {
+       "src": "Google Books",
+       "value": 2001,
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3A1st+to+Die&maxResults=1&key=REDACTED"
+      },
+      {
+       "src": "Wikidata",
+       "value": 2001,
+       "url": "https://www.wikidata.org/wiki/Q3921864"
+      }
+     ]
+    },
+    {
+     "field": "pages",
+     "label": "page count",
+     "soft": false,
+     "editionDependent": true,
+     "current": 424,
+     "proposed": 254,
+     "status": "edition-dependent",
+     "grade": "B",
+     "note": "one source differs from the corpus (Google Books 254) on a field with no single true value -- likely a different printing/edition, not an error.",
+     "sources": [
+      {
+       "src": "Google Books",
+       "value": 254,
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3A1st+to+Die&maxResults=1&key=REDACTED"
+      }
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "author",
+     "soft": false,
+     "editionDependent": false,
+     "current": "James Patterson",
+     "proposed": "James Patterson",
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OpenLibrary",
+       "value": "James Patterson",
+       "url": "https://openlibrary.org/search.json?title=1st+to+Die&limit=1"
+      },
+      {
+       "src": "Google Books",
+       "value": "James Patterson",
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3A1st+to+Die&maxResults=1&key=REDACTED"
+      },
+      {
+       "src": "Wikidata",
+       "value": "James Patterson",
+       "url": "https://www.wikidata.org/wiki/Q3921864"
+      }
+     ]
+    },
+    {
+     "field": "publisher",
+     "label": "publisher",
+     "soft": true,
+     "editionDependent": true,
+     "current": "Little, Brown",
+     "proposed": "Little, Brown",
+     "status": "corroborated-by-one",
+     "grade": "B",
+     "note": "matches Google Books; disagrees with Wikidata (\"Little, Brown and Company\")",
+     "sources": [
+      {
+       "src": "Google Books",
+       "value": "Little, Brown",
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3A1st+to+Die&maxResults=1&key=REDACTED"
+      },
+      {
+       "src": "Wikidata",
+       "value": "Little, Brown and Company",
+       "url": "https://www.wikidata.org/wiki/Q3921864"
+      }
+     ],
+     "alternatives": [
+      "Little, Brown and Company"
+     ]
+    }
+   ]
+  },
+  {
+   "id": "b1445",
+   "title": "Watchers",
+   "sourcesReached": [
+    "OpenLibrary",
+    "Google Books",
+    "Wikidata"
+   ],
+   "sourcesMissed": [],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "first publication year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 1987,
+     "proposed": 1987,
+     "status": "corroborated-by-one",
+     "grade": "B",
+     "note": "matches OpenLibrary/Wikidata; disagrees with Google Books (2008)",
+     "sources": [
+      {
+       "src": "OpenLibrary",
+       "value": 1987,
+       "url": "https://openlibrary.org/search.json?title=Watchers&limit=1"
+      },
+      {
+       "src": "Google Books",
+       "value": 2008,
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3AWatchers&maxResults=1&key=REDACTED"
+      },
+      {
+       "src": "Wikidata",
+       "value": 1987,
+       "url": "https://www.wikidata.org/wiki/Q898433"
+      }
+     ],
+     "alternatives": [
+      2008
+     ]
+    },
+    {
+     "field": "pages",
+     "label": "page count",
+     "soft": false,
+     "editionDependent": true,
+     "current": 352,
+     "proposed": 401,
+     "status": "edition-dependent",
+     "grade": "B",
+     "note": "one source differs from the corpus (Google Books 401) on a field with no single true value -- likely a different printing/edition, not an error.",
+     "sources": [
+      {
+       "src": "Google Books",
+       "value": 401,
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3AWatchers&maxResults=1&key=REDACTED"
+      }
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "author",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Dean Koontz",
+     "proposed": "Dean Koontz",
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OpenLibrary",
+       "value": "Dean Koontz",
+       "url": "https://openlibrary.org/search.json?title=Watchers&limit=1"
+      },
+      {
+       "src": "Google Books",
+       "value": "Dean Koontz",
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3AWatchers&maxResults=1&key=REDACTED"
+      },
+      {
+       "src": "Wikidata",
+       "value": "Dean Koontz",
+       "url": "https://www.wikidata.org/wiki/Q898433"
+      }
+     ]
+    },
+    {
+     "field": "publisher",
+     "label": "publisher",
+     "soft": true,
+     "editionDependent": true,
+     "current": "G. P. Putnam's Sons",
+     "proposed": "Penguin",
+     "status": "edition-dependent",
+     "grade": "B",
+     "note": "corpus value does not match either source (Google Books \"Penguin\", Wikidata \"Berkley Books\") -- treated as a distinct edition; the specific cut is not identified from available evidence.",
+     "sources": [
+      {
+       "src": "Google Books",
+       "value": "Penguin",
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3AWatchers&maxResults=1&key=REDACTED"
+      },
+      {
+       "src": "Wikidata",
+       "value": "Berkley Books",
+       "url": "https://www.wikidata.org/wiki/Q898433"
+      }
+     ],
+     "alternatives": [
+      "Berkley Books"
+     ]
+    }
+   ]
+  },
+  {
+   "id": "b1446",
+   "title": "Odd Thomas",
+   "sourcesReached": [
+    "OpenLibrary",
+    "Google Books",
+    "Wikidata"
+   ],
+   "sourcesMissed": [],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "first publication year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 2003,
+     "proposed": 2003,
+     "status": "corroborated-by-one",
+     "grade": "B",
+     "note": "matches OpenLibrary; disagrees with Google Books (2007)",
+     "sources": [
+      {
+       "src": "OpenLibrary",
+       "value": 2003,
+       "url": "https://openlibrary.org/search.json?title=Odd+Thomas&limit=1"
+      },
+      {
+       "src": "Google Books",
+       "value": 2007,
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3AOdd+Thomas&maxResults=1&key=REDACTED"
+      }
+     ],
+     "alternatives": [
+      2007
+     ]
+    },
+    {
+     "field": "pages",
+     "label": "page count",
+     "soft": false,
+     "editionDependent": true,
+     "current": 401,
+     "proposed": 498,
+     "status": "edition-dependent",
+     "grade": "B",
+     "note": "one source differs from the corpus (Google Books 498) on a field with no single true value -- likely a different printing/edition, not an error.",
+     "sources": [
+      {
+       "src": "Google Books",
+       "value": 498,
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3AOdd+Thomas&maxResults=1&key=REDACTED"
+      }
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "author",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Dean Koontz",
+     "proposed": "Dean Koontz",
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OpenLibrary",
+       "value": "Dean Koontz",
+       "url": "https://openlibrary.org/search.json?title=Odd+Thomas&limit=1"
+      },
+      {
+       "src": "Google Books",
+       "value": "Dean Koontz",
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3AOdd+Thomas&maxResults=1&key=REDACTED"
+      },
+      {
+       "src": "Wikidata",
+       "value": "Dean Koontz",
+       "url": "https://www.wikidata.org/wiki/Q57831862"
+      }
+     ]
+    },
+    {
+     "field": "publisher",
+     "label": "publisher",
+     "soft": true,
+     "editionDependent": true,
+     "current": "Bantam Books",
+     "proposed": "Bantam",
+     "status": "edition-dependent",
+     "grade": "B",
+     "note": "one source differs from the corpus (Google Books \"Bantam\") on a field with no single true value -- likely a different printing/edition, not an error.",
+     "sources": [
+      {
+       "src": "Google Books",
+       "value": "Bantam",
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3AOdd+Thomas&maxResults=1&key=REDACTED"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "b1447",
+   "title": "The Bad Place",
+   "sourcesReached": [
+    "OpenLibrary",
+    "Google Books",
+    "Wikidata"
+   ],
+   "sourcesMissed": [],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "first publication year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 1990,
+     "proposed": 1990,
+     "status": "corroborated-by-one",
+     "grade": "B",
+     "note": "matches Wikidata; disagrees with OpenLibrary (1901), Google Books (2004)",
+     "sources": [
+      {
+       "src": "OpenLibrary",
+       "value": 1901,
+       "url": "https://openlibrary.org/search.json?title=The+Bad+Place&limit=1"
+      },
+      {
+       "src": "Google Books",
+       "value": 2004,
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3AThe+Bad+Place&maxResults=1&key=REDACTED"
+      },
+      {
+       "src": "Wikidata",
+       "value": 1990,
+       "url": "https://www.wikidata.org/wiki/Q980827"
+      }
+     ],
+     "alternatives": [
+      2004,
+      1990
+     ]
+    },
+    {
+     "field": "pages",
+     "label": "page count",
+     "soft": false,
+     "editionDependent": true,
+     "current": 399,
+     "proposed": 452,
+     "status": "edition-dependent",
+     "grade": "B",
+     "note": "one source differs from the corpus (Google Books 452) on a field with no single true value -- likely a different printing/edition, not an error.",
+     "sources": [
+      {
+       "src": "Google Books",
+       "value": 452,
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3AThe+Bad+Place&maxResults=1&key=REDACTED"
+      }
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "author",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Dean Koontz",
+     "proposed": "Dean Koontz",
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OpenLibrary",
+       "value": "Dean Koontz",
+       "url": "https://openlibrary.org/search.json?title=The+Bad+Place&limit=1"
+      },
+      {
+       "src": "Google Books",
+       "value": "Dean Koontz",
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3AThe+Bad+Place&maxResults=1&key=REDACTED"
+      },
+      {
+       "src": "Wikidata",
+       "value": "Dean Koontz",
+       "url": "https://www.wikidata.org/wiki/Q980827"
+      }
+     ]
+    },
+    {
+     "field": "publisher",
+     "label": "publisher",
+     "soft": true,
+     "editionDependent": true,
+     "current": "G. P. Putnam's Sons",
+     "proposed": "Penguin",
+     "status": "edition-dependent",
+     "grade": "B",
+     "note": "corpus value does not match either source (Google Books \"Penguin\", Wikidata \"Berkley Books\") -- treated as a distinct edition; the specific cut is not identified from available evidence.",
+     "sources": [
+      {
+       "src": "Google Books",
+       "value": "Penguin",
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3AThe+Bad+Place&maxResults=1&key=REDACTED"
+      },
+      {
+       "src": "Wikidata",
+       "value": "Berkley Books",
+       "url": "https://www.wikidata.org/wiki/Q980827"
+      }
+     ],
+     "alternatives": [
+      "Berkley Books"
+     ]
+    }
+   ]
+  },
+  {
+   "id": "b1448",
+   "title": "Intensity",
+   "sourcesReached": [
+    "OpenLibrary",
+    "Google Books",
+    "Wikidata"
+   ],
+   "sourcesMissed": [],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "first publication year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 1995,
+     "proposed": 1995,
+     "status": "corroborated-by-one",
+     "grade": "B",
+     "note": "matches Wikidata; disagrees with OpenLibrary (1985), Google Books (1999)",
+     "sources": [
+      {
+       "src": "OpenLibrary",
+       "value": 1985,
+       "url": "https://openlibrary.org/search.json?title=Intensity&limit=1"
+      },
+      {
+       "src": "Google Books",
+       "value": 1999,
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3AIntensity&maxResults=1&key=REDACTED"
+      },
+      {
+       "src": "Wikidata",
+       "value": 1995,
+       "url": "https://www.wikidata.org/wiki/Q3799357"
+      }
+     ],
+     "alternatives": [
+      1999,
+      1995
+     ]
+    },
+    {
+     "field": "pages",
+     "label": "page count",
+     "soft": false,
+     "editionDependent": true,
+     "current": 331,
+     "proposed": 377,
+     "status": "edition-dependent",
+     "grade": "B",
+     "note": "one source differs from the corpus (Google Books 377) on a field with no single true value -- likely a different printing/edition, not an error.",
+     "sources": [
+      {
+       "src": "Google Books",
+       "value": 377,
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3AIntensity&maxResults=1&key=REDACTED"
+      }
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "author",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Dean Koontz",
+     "proposed": "Dean Koontz",
+     "status": "corroborated-by-one",
+     "grade": "B",
+     "note": "matches OpenLibrary/Wikidata; disagrees with Google Books (\"Dean Ray Koontz\")",
+     "sources": [
+      {
+       "src": "OpenLibrary",
+       "value": "Dean Koontz",
+       "url": "https://openlibrary.org/search.json?title=Intensity&limit=1"
+      },
+      {
+       "src": "Google Books",
+       "value": "Dean Ray Koontz",
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3AIntensity&maxResults=1&key=REDACTED"
+      },
+      {
+       "src": "Wikidata",
+       "value": "Dean Koontz",
+       "url": "https://www.wikidata.org/wiki/Q3799357"
+      }
+     ],
+     "alternatives": [
+      "Dean Ray Koontz"
+     ]
+    },
+    {
+     "field": "publisher",
+     "label": "publisher",
+     "soft": true,
+     "editionDependent": true,
+     "current": "Alfred A. Knopf",
+     "proposed": "Bantam Books",
+     "status": "edition-dependent",
+     "grade": "B",
+     "note": "one source differs from the corpus (Wikidata \"Bantam Books\") on a field with no single true value -- likely a different printing/edition, not an error.",
+     "sources": [
+      {
+       "src": "Wikidata",
+       "value": "Bantam Books",
+       "url": "https://www.wikidata.org/wiki/Q3799357"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "b1449",
+   "title": "Raise the Titanic!",
+   "sourcesReached": [
+    "OpenLibrary",
+    "Google Books",
+    "Wikidata"
+   ],
+   "sourcesMissed": [],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "first publication year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 1976,
+     "proposed": 1976,
+     "status": "corroborated-by-one",
+     "grade": "B",
+     "note": "matches OpenLibrary/Wikidata; disagrees with Google Books (2004)",
+     "sources": [
+      {
+       "src": "OpenLibrary",
+       "value": 1976,
+       "url": "https://openlibrary.org/search.json?title=Raise+the+Titanic%21&limit=1"
+      },
+      {
+       "src": "Google Books",
+       "value": 2004,
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3ARaise+the+Titanic%21&maxResults=1&key=REDACTED"
+      },
+      {
+       "src": "Wikidata",
+       "value": 1976,
+       "url": "https://www.wikidata.org/wiki/Q287838"
+      }
+     ],
+     "alternatives": [
+      2004
+     ]
+    },
+    {
+     "field": "pages",
+     "label": "page count",
+     "soft": false,
+     "editionDependent": true,
+     "current": 384,
+     "proposed": 428,
+     "status": "edition-dependent",
+     "grade": "B",
+     "note": "one source differs from the corpus (Google Books 428) on a field with no single true value -- likely a different printing/edition, not an error.",
+     "sources": [
+      {
+       "src": "Google Books",
+       "value": 428,
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3ARaise+the+Titanic%21&maxResults=1&key=REDACTED"
+      }
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "author",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Clive Cussler",
+     "proposed": "Clive Cussler",
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OpenLibrary",
+       "value": "Clive Cussler",
+       "url": "https://openlibrary.org/search.json?title=Raise+the+Titanic%21&limit=1"
+      },
+      {
+       "src": "Google Books",
+       "value": "Clive Cussler",
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3ARaise+the+Titanic%21&maxResults=1&key=REDACTED"
+      },
+      {
+       "src": "Wikidata",
+       "value": "Clive Cussler",
+       "url": "https://www.wikidata.org/wiki/Q287838"
+      }
+     ]
+    },
+    {
+     "field": "publisher",
+     "label": "publisher",
+     "soft": true,
+     "editionDependent": true,
+     "current": "Viking Press",
+     "proposed": "Viking Press",
+     "status": "corroborated-by-one",
+     "grade": "B",
+     "note": "matches Wikidata; disagrees with Google Books (\"Penguin\")",
+     "sources": [
+      {
+       "src": "Google Books",
+       "value": "Penguin",
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3ARaise+the+Titanic%21&maxResults=1&key=REDACTED"
+      },
+      {
+       "src": "Wikidata",
+       "value": "Viking Press",
+       "url": "https://www.wikidata.org/wiki/Q287838"
+      }
+     ],
+     "alternatives": [
+      "Viking Press"
+     ]
+    }
+   ]
+  },
+  {
+   "id": "b1450",
+   "title": "Sahara",
+   "sourcesReached": [
+    "OpenLibrary"
+   ],
+   "sourcesMissed": [
+    "Google Books (no match)",
+    "Wikidata (no match)"
+   ],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "first publication year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 1992,
+     "proposed": 1982,
+     "status": "proposed-change",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "OpenLibrary",
+       "value": 1982,
+       "url": "https://openlibrary.org/search.json?title=Sahara&limit=1"
+      }
+     ]
+    },
+    {
+     "field": "pages",
+     "label": "page count",
+     "soft": false,
+     "current": 560,
+     "status": "no-source",
+     "grade": null,
+     "sources": []
+    },
+    {
+     "field": "creator",
+     "label": "author",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Clive Cussler",
+     "proposed": "Clive Cussler",
+     "status": "confirmed",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "OpenLibrary",
+       "value": "Clive Cussler",
+       "url": "https://openlibrary.org/search.json?title=Sahara&limit=1"
+      }
+     ]
+    },
+    {
+     "field": "publisher",
+     "label": "publisher",
+     "soft": true,
+     "current": "Simon & Schuster",
+     "status": "no-source",
+     "grade": null,
+     "sources": []
+    }
+   ]
+  },
+  {
+   "id": "b1451",
+   "title": "One for the Money",
+   "sourcesReached": [
+    "OpenLibrary",
+    "Google Books",
+    "Wikidata"
+   ],
+   "sourcesMissed": [],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "first publication year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 1994,
+     "proposed": 1994,
+     "status": "corroborated-by-one",
+     "grade": "B",
+     "note": "matches OpenLibrary/Wikidata; disagrees with Google Books (1999)",
+     "sources": [
+      {
+       "src": "OpenLibrary",
+       "value": 1994,
+       "url": "https://openlibrary.org/search.json?title=One+for+the+Money&limit=1"
+      },
+      {
+       "src": "Google Books",
+       "value": 1999,
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3AOne+for+the+Money&maxResults=1&key=REDACTED"
+      },
+      {
+       "src": "Wikidata",
+       "value": 1994,
+       "url": "https://www.wikidata.org/wiki/Q3211930"
+      }
+     ],
+     "alternatives": [
+      1999
+     ]
+    },
+    {
+     "field": "pages",
+     "label": "page count",
+     "soft": false,
+     "editionDependent": true,
+     "current": 290,
+     "proposed": 305,
+     "status": "edition-dependent",
+     "grade": "B",
+     "note": "one source differs from the corpus (Google Books 305) on a field with no single true value -- likely a different printing/edition, not an error.",
+     "sources": [
+      {
+       "src": "Google Books",
+       "value": 305,
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3AOne+for+the+Money&maxResults=1&key=REDACTED"
+      }
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "author",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Janet Evanovich",
+     "proposed": "Janet Evanovich",
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OpenLibrary",
+       "value": "Janet Evanovich",
+       "url": "https://openlibrary.org/search.json?title=One+for+the+Money&limit=1"
+      },
+      {
+       "src": "Google Books",
+       "value": "Janet Evanovich",
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3AOne+for+the+Money&maxResults=1&key=REDACTED"
+      },
+      {
+       "src": "Wikidata",
+       "value": "Janet Evanovich",
+       "url": "https://www.wikidata.org/wiki/Q3211930"
+      }
+     ]
+    },
+    {
+     "field": "publisher",
+     "label": "publisher",
+     "soft": true,
+     "editionDependent": true,
+     "current": "Scribner",
+     "proposed": "Simon and Schuster",
+     "status": "edition-dependent",
+     "grade": "B",
+     "note": "corpus value does not match either source (Google Books \"Simon and Schuster\", Wikidata \"St. Martin's Press\") -- treated as a distinct edition; the specific cut is not identified from available evidence.",
+     "sources": [
+      {
+       "src": "Google Books",
+       "value": "Simon and Schuster",
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3AOne+for+the+Money&maxResults=1&key=REDACTED"
+      },
+      {
+       "src": "Wikidata",
+       "value": "St. Martin's Press",
+       "url": "https://www.wikidata.org/wiki/Q3211930"
+      }
+     ],
+     "alternatives": [
+      "St. Martin's Press"
+     ]
+    }
+   ]
+  }
+ ]
+}

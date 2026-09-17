@@ -1,0 +1,1777 @@
+{
+ "medium": "book",
+ "generated": "2026-09-17T17:14:22.418Z",
+ "offline": false,
+ "sources": [
+  "OpenLibrary",
+  "Google Books",
+  "Wikidata"
+ ],
+ "works": [
+  {
+   "id": "b1452",
+   "title": "Two for the Dough",
+   "sourcesReached": [
+    "OpenLibrary",
+    "Google Books",
+    "Wikidata"
+   ],
+   "sourcesMissed": [],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "first publication year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 1996,
+     "proposed": 1996,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OpenLibrary",
+       "value": 1996,
+       "url": "https://openlibrary.org/search.json?title=Two+for+the+Dough&limit=1"
+      },
+      {
+       "src": "Google Books",
+       "value": 1996,
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3ATwo+for+the+Dough&maxResults=1&key=REDACTED"
+      },
+      {
+       "src": "Wikidata",
+       "value": 1996,
+       "url": "https://www.wikidata.org/wiki/Q3024953"
+      }
+     ]
+    },
+    {
+     "field": "pages",
+     "label": "page count",
+     "soft": false,
+     "editionDependent": true,
+     "current": 312,
+     "proposed": 304,
+     "status": "edition-dependent",
+     "grade": "B",
+     "note": "one source differs from the corpus (Google Books 304) on a field with no single true value -- likely a different printing/edition, not an error.",
+     "sources": [
+      {
+       "src": "Google Books",
+       "value": 304,
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3ATwo+for+the+Dough&maxResults=1&key=REDACTED"
+      }
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "author",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Janet Evanovich",
+     "proposed": "Janet Evanovich",
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OpenLibrary",
+       "value": "Janet Evanovich",
+       "url": "https://openlibrary.org/search.json?title=Two+for+the+Dough&limit=1"
+      },
+      {
+       "src": "Google Books",
+       "value": "Janet Evanovich",
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3ATwo+for+the+Dough&maxResults=1&key=REDACTED"
+      },
+      {
+       "src": "Wikidata",
+       "value": "Janet Evanovich",
+       "url": "https://www.wikidata.org/wiki/Q3024953"
+      }
+     ]
+    },
+    {
+     "field": "publisher",
+     "label": "publisher",
+     "soft": true,
+     "editionDependent": true,
+     "current": "Scribner",
+     "proposed": "Simon and Schuster",
+     "status": "edition-dependent",
+     "grade": "B",
+     "note": "corpus value does not match either source (Google Books \"Simon and Schuster\", Wikidata \"St. Martin's Press\") -- treated as a distinct edition; the specific cut is not identified from available evidence.",
+     "sources": [
+      {
+       "src": "Google Books",
+       "value": "Simon and Schuster",
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3ATwo+for+the+Dough&maxResults=1&key=REDACTED"
+      },
+      {
+       "src": "Wikidata",
+       "value": "St. Martin's Press",
+       "url": "https://www.wikidata.org/wiki/Q3024953"
+      }
+     ],
+     "alternatives": [
+      "St. Martin's Press"
+     ]
+    }
+   ]
+  },
+  {
+   "id": "b1453",
+   "title": "A Is for Alibi",
+   "sourcesReached": [
+    "OpenLibrary",
+    "Google Books",
+    "Wikidata"
+   ],
+   "sourcesMissed": [],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "first publication year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 1982,
+     "proposed": 1982,
+     "status": "corroborated-by-one",
+     "grade": "B",
+     "note": "matches OpenLibrary/Wikidata; disagrees with Google Books (2010)",
+     "sources": [
+      {
+       "src": "OpenLibrary",
+       "value": 1982,
+       "url": "https://openlibrary.org/search.json?title=A+Is+for+Alibi&limit=1"
+      },
+      {
+       "src": "Google Books",
+       "value": 2010,
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3AA+Is+for+Alibi&maxResults=1&key=REDACTED"
+      },
+      {
+       "src": "Wikidata",
+       "value": 1982,
+       "url": "https://www.wikidata.org/wiki/Q3602899"
+      }
+     ],
+     "alternatives": [
+      2010
+     ]
+    },
+    {
+     "field": "pages",
+     "label": "page count",
+     "soft": false,
+     "editionDependent": true,
+     "current": 231,
+     "proposed": 320,
+     "status": "edition-dependent",
+     "grade": "B",
+     "note": "one source differs from the corpus (Google Books 320) on a field with no single true value -- likely a different printing/edition, not an error.",
+     "sources": [
+      {
+       "src": "Google Books",
+       "value": 320,
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3AA+Is+for+Alibi&maxResults=1&key=REDACTED"
+      }
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "author",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Sue Grafton",
+     "proposed": "Sue Grafton",
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OpenLibrary",
+       "value": "Sue Grafton",
+       "url": "https://openlibrary.org/search.json?title=A+Is+for+Alibi&limit=1"
+      },
+      {
+       "src": "Google Books",
+       "value": "Sue Grafton",
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3AA+Is+for+Alibi&maxResults=1&key=REDACTED"
+      },
+      {
+       "src": "Wikidata",
+       "value": "Sue Grafton",
+       "url": "https://www.wikidata.org/wiki/Q3602899"
+      }
+     ]
+    },
+    {
+     "field": "publisher",
+     "label": "publisher",
+     "soft": true,
+     "editionDependent": true,
+     "current": "Henry Holt and Co.",
+     "proposed": "Holt Paperbacks",
+     "status": "edition-dependent",
+     "grade": "B",
+     "note": "corpus value does not match either source (Google Books \"Holt Paperbacks\", Wikidata \"Henry Holt and Company\") -- treated as a distinct edition; the specific cut is not identified from available evidence.",
+     "sources": [
+      {
+       "src": "Google Books",
+       "value": "Holt Paperbacks",
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3AA+Is+for+Alibi&maxResults=1&key=REDACTED"
+      },
+      {
+       "src": "Wikidata",
+       "value": "Henry Holt and Company",
+       "url": "https://www.wikidata.org/wiki/Q3602899"
+      }
+     ],
+     "alternatives": [
+      "Henry Holt and Company"
+     ]
+    }
+   ]
+  },
+  {
+   "id": "b1454",
+   "title": "B Is for Burglar",
+   "sourcesReached": [
+    "OpenLibrary",
+    "Google Books",
+    "Wikidata"
+   ],
+   "sourcesMissed": [],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "first publication year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 1985,
+     "proposed": 1985,
+     "status": "corroborated-by-one",
+     "grade": "B",
+     "note": "matches Wikidata; disagrees with OpenLibrary (1982), Google Books (1986)",
+     "sources": [
+      {
+       "src": "OpenLibrary",
+       "value": 1982,
+       "url": "https://openlibrary.org/search.json?title=B+Is+for+Burglar&limit=1"
+      },
+      {
+       "src": "Google Books",
+       "value": 1986,
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3AB+Is+for+Burglar&maxResults=1&key=REDACTED"
+      },
+      {
+       "src": "Wikidata",
+       "value": 1985,
+       "url": "https://www.wikidata.org/wiki/Q4540273"
+      }
+     ],
+     "alternatives": [
+      1986,
+      1985
+     ]
+    },
+    {
+     "field": "pages",
+     "label": "page count",
+     "soft": false,
+     "editionDependent": true,
+     "current": 250,
+     "proposed": 211,
+     "status": "edition-dependent",
+     "grade": "B",
+     "note": "one source differs from the corpus (Google Books 211) on a field with no single true value -- likely a different printing/edition, not an error.",
+     "sources": [
+      {
+       "src": "Google Books",
+       "value": 211,
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3AB+Is+for+Burglar&maxResults=1&key=REDACTED"
+      }
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "author",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Sue Grafton",
+     "proposed": "Sue Grafton",
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OpenLibrary",
+       "value": "Sue Grafton",
+       "url": "https://openlibrary.org/search.json?title=B+Is+for+Burglar&limit=1"
+      },
+      {
+       "src": "Google Books",
+       "value": "Sue Grafton",
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3AB+Is+for+Burglar&maxResults=1&key=REDACTED"
+      },
+      {
+       "src": "Wikidata",
+       "value": "Sue Grafton",
+       "url": "https://www.wikidata.org/wiki/Q4540273"
+      }
+     ]
+    },
+    {
+     "field": "publisher",
+     "label": "publisher",
+     "soft": true,
+     "editionDependent": true,
+     "current": "Henry Holt and Co.",
+     "proposed": "Turtleback Books",
+     "status": "edition-dependent",
+     "grade": "B",
+     "note": "one source differs from the corpus (Google Books \"Turtleback Books\") on a field with no single true value -- likely a different printing/edition, not an error.",
+     "sources": [
+      {
+       "src": "Google Books",
+       "value": "Turtleback Books",
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3AB+Is+for+Burglar&maxResults=1&key=REDACTED"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "b1455",
+   "title": "Absolute Power",
+   "sourcesReached": [
+    "OpenLibrary",
+    "Wikidata"
+   ],
+   "sourcesMissed": [
+    "Google Books (no match)"
+   ],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "first publication year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 1996,
+     "proposed": 1996,
+     "status": "corroborated-by-one",
+     "grade": "B",
+     "note": "matches Wikidata; disagrees with OpenLibrary (1995)",
+     "sources": [
+      {
+       "src": "OpenLibrary",
+       "value": 1995,
+       "url": "https://openlibrary.org/search.json?title=Absolute+Power&limit=1"
+      },
+      {
+       "src": "Wikidata",
+       "value": 1996,
+       "url": "https://www.wikidata.org/wiki/Q4669785"
+      }
+     ],
+     "alternatives": [
+      1996
+     ]
+    },
+    {
+     "field": "pages",
+     "label": "page count",
+     "soft": false,
+     "current": 464,
+     "status": "no-source",
+     "grade": null,
+     "sources": []
+    },
+    {
+     "field": "creator",
+     "label": "author",
+     "soft": false,
+     "editionDependent": false,
+     "current": "David Baldacci",
+     "proposed": "David Baldacci",
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OpenLibrary",
+       "value": "David Baldacci",
+       "url": "https://openlibrary.org/search.json?title=Absolute+Power&limit=1"
+      },
+      {
+       "src": "Wikidata",
+       "value": "David Baldacci",
+       "url": "https://www.wikidata.org/wiki/Q4669785"
+      }
+     ]
+    },
+    {
+     "field": "publisher",
+     "label": "publisher",
+     "soft": true,
+     "editionDependent": true,
+     "current": "Warner Books",
+     "proposed": "Hachette Book Group",
+     "status": "edition-dependent",
+     "grade": "B",
+     "note": "one source differs from the corpus (Wikidata \"Hachette Book Group\") on a field with no single true value -- likely a different printing/edition, not an error.",
+     "sources": [
+      {
+       "src": "Wikidata",
+       "value": "Hachette Book Group",
+       "url": "https://www.wikidata.org/wiki/Q4669785"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "b1456",
+   "title": "The Camel Club",
+   "sourcesReached": [
+    "OpenLibrary",
+    "Google Books",
+    "Wikidata"
+   ],
+   "sourcesMissed": [],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "first publication year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 2005,
+     "proposed": 2005,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OpenLibrary",
+       "value": 2005,
+       "url": "https://openlibrary.org/search.json?title=The+Camel+Club&limit=1"
+      },
+      {
+       "src": "Google Books",
+       "value": 2005,
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3AThe+Camel+Club&maxResults=1&key=REDACTED"
+      }
+     ]
+    },
+    {
+     "field": "pages",
+     "label": "page count",
+     "soft": false,
+     "editionDependent": true,
+     "current": 432,
+     "proposed": 438,
+     "status": "edition-dependent",
+     "grade": "B",
+     "note": "one source differs from the corpus (Google Books 438) on a field with no single true value -- likely a different printing/edition, not an error.",
+     "sources": [
+      {
+       "src": "Google Books",
+       "value": 438,
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3AThe+Camel+Club&maxResults=1&key=REDACTED"
+      }
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "author",
+     "soft": false,
+     "editionDependent": false,
+     "current": "David Baldacci",
+     "proposed": "David Baldacci",
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OpenLibrary",
+       "value": "David Baldacci",
+       "url": "https://openlibrary.org/search.json?title=The+Camel+Club&limit=1"
+      },
+      {
+       "src": "Google Books",
+       "value": "David Baldacci",
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3AThe+Camel+Club&maxResults=1&key=REDACTED"
+      },
+      {
+       "src": "Wikidata",
+       "value": "David Baldacci",
+       "url": "https://www.wikidata.org/wiki/Q96279770"
+      }
+     ]
+    },
+    {
+     "field": "publisher",
+     "label": "publisher",
+     "soft": true,
+     "current": "Warner Books",
+     "status": "no-source",
+     "grade": null,
+     "sources": []
+    }
+   ]
+  },
+  {
+   "id": "b1457",
+   "title": "Tell No One",
+   "sourcesReached": [
+    "OpenLibrary",
+    "Google Books",
+    "Wikidata"
+   ],
+   "sourcesMissed": [],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "first publication year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 2001,
+     "proposed": 2001,
+     "status": "corroborated-by-one",
+     "grade": "B",
+     "note": "matches Wikidata; disagrees with OpenLibrary (2000), Google Books (2009)",
+     "sources": [
+      {
+       "src": "OpenLibrary",
+       "value": 2000,
+       "url": "https://openlibrary.org/search.json?title=Tell+No+One&limit=1"
+      },
+      {
+       "src": "Google Books",
+       "value": 2009,
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3ATell+No+One&maxResults=1&key=REDACTED"
+      },
+      {
+       "src": "Wikidata",
+       "value": 2001,
+       "url": "https://www.wikidata.org/wiki/Q152629"
+      }
+     ],
+     "alternatives": [
+      2009,
+      2001
+     ]
+    },
+    {
+     "field": "pages",
+     "label": "page count",
+     "soft": false,
+     "editionDependent": true,
+     "current": 368,
+     "proposed": 396,
+     "status": "edition-dependent",
+     "grade": "B",
+     "note": "one source differs from the corpus (Google Books 396) on a field with no single true value -- likely a different printing/edition, not an error.",
+     "sources": [
+      {
+       "src": "Google Books",
+       "value": 396,
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3ATell+No+One&maxResults=1&key=REDACTED"
+      }
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "author",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Harlan Coben",
+     "proposed": "Harlan Coben",
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OpenLibrary",
+       "value": "Harlan Coben",
+       "url": "https://openlibrary.org/search.json?title=Tell+No+One&limit=1"
+      },
+      {
+       "src": "Google Books",
+       "value": "Harlan Coben",
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3ATell+No+One&maxResults=1&key=REDACTED"
+      },
+      {
+       "src": "Wikidata",
+       "value": "Harlan Coben",
+       "url": "https://www.wikidata.org/wiki/Q152629"
+      }
+     ]
+    },
+    {
+     "field": "publisher",
+     "label": "publisher",
+     "soft": true,
+     "editionDependent": true,
+     "current": "Delacorte Press",
+     "proposed": "Dell",
+     "status": "edition-dependent",
+     "grade": "B",
+     "note": "corpus value does not match either source (Google Books \"Dell\", Wikidata \"Orion Publishing Group\") -- treated as a distinct edition; the specific cut is not identified from available evidence.",
+     "sources": [
+      {
+       "src": "Google Books",
+       "value": "Dell",
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3ATell+No+One&maxResults=1&key=REDACTED"
+      },
+      {
+       "src": "Wikidata",
+       "value": "Orion Publishing Group",
+       "url": "https://www.wikidata.org/wiki/Q152629"
+      }
+     ],
+     "alternatives": [
+      "Orion Publishing Group"
+     ]
+    }
+   ]
+  },
+  {
+   "id": "b1458",
+   "title": "Gone for Good",
+   "sourcesReached": [
+    "OpenLibrary",
+    "Wikidata"
+   ],
+   "sourcesMissed": [
+    "Google Books (no match)"
+   ],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "first publication year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 2002,
+     "proposed": 2002,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OpenLibrary",
+       "value": 2002,
+       "url": "https://openlibrary.org/search.json?title=Gone+for+Good&limit=1"
+      },
+      {
+       "src": "Wikidata",
+       "value": 2002,
+       "url": "https://www.wikidata.org/wiki/Q152818"
+      }
+     ]
+    },
+    {
+     "field": "pages",
+     "label": "page count",
+     "soft": false,
+     "current": 390,
+     "status": "no-source",
+     "grade": null,
+     "sources": []
+    },
+    {
+     "field": "creator",
+     "label": "author",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Harlan Coben",
+     "proposed": "Harlan Coben",
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OpenLibrary",
+       "value": "Harlan Coben",
+       "url": "https://openlibrary.org/search.json?title=Gone+for+Good&limit=1"
+      },
+      {
+       "src": "Wikidata",
+       "value": "Harlan Coben",
+       "url": "https://www.wikidata.org/wiki/Q152818"
+      }
+     ]
+    },
+    {
+     "field": "publisher",
+     "label": "publisher",
+     "soft": true,
+     "editionDependent": true,
+     "current": "Delacorte Press",
+     "proposed": "Orion Publishing Group",
+     "status": "edition-dependent",
+     "grade": "B",
+     "note": "one source differs from the corpus (Wikidata \"Orion Publishing Group\") on a field with no single true value -- likely a different printing/edition, not an error.",
+     "sources": [
+      {
+       "src": "Wikidata",
+       "value": "Orion Publishing Group",
+       "url": "https://www.wikidata.org/wiki/Q152818"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "b1459",
+   "title": "Postmortem",
+   "sourcesReached": [
+    "OpenLibrary",
+    "Google Books",
+    "Wikidata"
+   ],
+   "sourcesMissed": [],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "first publication year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 1990,
+     "proposed": 1990,
+     "status": "corroborated-by-one",
+     "grade": "B",
+     "note": "matches OpenLibrary/Wikidata; disagrees with Google Books (2001)",
+     "sources": [
+      {
+       "src": "OpenLibrary",
+       "value": 1990,
+       "url": "https://openlibrary.org/search.json?title=Postmortem&limit=1"
+      },
+      {
+       "src": "Google Books",
+       "value": 2001,
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3APostmortem&maxResults=1&key=REDACTED"
+      },
+      {
+       "src": "Wikidata",
+       "value": 1990,
+       "url": "https://www.wikidata.org/wiki/Q1756000"
+      }
+     ],
+     "alternatives": [
+      2001
+     ]
+    },
+    {
+     "field": "pages",
+     "label": "page count",
+     "soft": false,
+     "editionDependent": true,
+     "current": 339,
+     "proposed": 335,
+     "status": "edition-dependent",
+     "grade": "B",
+     "note": "one source differs from the corpus (Google Books 335) on a field with no single true value -- likely a different printing/edition, not an error.",
+     "sources": [
+      {
+       "src": "Google Books",
+       "value": 335,
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3APostmortem&maxResults=1&key=REDACTED"
+      }
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "author",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Patricia Cornwell",
+     "proposed": "Patricia Cornwell",
+     "status": "corroborated-by-one",
+     "grade": "B",
+     "note": "matches OpenLibrary/Wikidata; disagrees with Google Books (\"Patricia Daniels Cornwell\")",
+     "sources": [
+      {
+       "src": "OpenLibrary",
+       "value": "Patricia Cornwell",
+       "url": "https://openlibrary.org/search.json?title=Postmortem&limit=1"
+      },
+      {
+       "src": "Google Books",
+       "value": "Patricia Daniels Cornwell",
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3APostmortem&maxResults=1&key=REDACTED"
+      },
+      {
+       "src": "Wikidata",
+       "value": "Patricia Cornwell",
+       "url": "https://www.wikidata.org/wiki/Q1756000"
+      }
+     ],
+     "alternatives": [
+      "Patricia Daniels Cornwell"
+     ]
+    },
+    {
+     "field": "publisher",
+     "label": "publisher",
+     "soft": true,
+     "current": "Charles Scribner's Sons",
+     "status": "no-source",
+     "grade": null,
+     "sources": []
+    }
+   ]
+  },
+  {
+   "id": "b1460",
+   "title": "Body of Evidence",
+   "sourcesReached": [
+    "OpenLibrary",
+    "Wikidata"
+   ],
+   "sourcesMissed": [
+    "Google Books (no match)"
+   ],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "first publication year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 1991,
+     "proposed": 1991,
+     "status": "corroborated-by-one",
+     "grade": "B",
+     "note": "matches Wikidata; disagrees with OpenLibrary (1990)",
+     "sources": [
+      {
+       "src": "OpenLibrary",
+       "value": 1990,
+       "url": "https://openlibrary.org/search.json?title=Body+of+Evidence&limit=1"
+      },
+      {
+       "src": "Wikidata",
+       "value": 1991,
+       "url": "https://www.wikidata.org/wiki/Q2266006"
+      }
+     ],
+     "alternatives": [
+      1991
+     ]
+    },
+    {
+     "field": "pages",
+     "label": "page count",
+     "soft": false,
+     "current": 416,
+     "status": "no-source",
+     "grade": null,
+     "sources": []
+    },
+    {
+     "field": "creator",
+     "label": "author",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Patricia Cornwell",
+     "proposed": "Patricia Cornwell",
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OpenLibrary",
+       "value": "Patricia Cornwell",
+       "url": "https://openlibrary.org/search.json?title=Body+of+Evidence&limit=1"
+      },
+      {
+       "src": "Wikidata",
+       "value": "Patricia Cornwell",
+       "url": "https://www.wikidata.org/wiki/Q2266006"
+      }
+     ]
+    },
+    {
+     "field": "publisher",
+     "label": "publisher",
+     "soft": true,
+     "current": "Charles Scribner's Sons",
+     "status": "no-source",
+     "grade": null,
+     "sources": []
+    }
+   ]
+  },
+  {
+   "id": "b1461",
+   "title": "A Walk to Remember",
+   "sourcesReached": [
+    "OpenLibrary",
+    "Wikidata"
+   ],
+   "sourcesMissed": [
+    "Google Books (no match)"
+   ],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "first publication year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 1999,
+     "proposed": 1999,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OpenLibrary",
+       "value": 1999,
+       "url": "https://openlibrary.org/search.json?title=A+Walk+to+Remember&limit=1"
+      },
+      {
+       "src": "Wikidata",
+       "value": 1999,
+       "url": "https://www.wikidata.org/wiki/Q3394368"
+      }
+     ]
+    },
+    {
+     "field": "pages",
+     "label": "page count",
+     "soft": false,
+     "current": 240,
+     "status": "no-source",
+     "grade": null,
+     "sources": []
+    },
+    {
+     "field": "creator",
+     "label": "author",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Nicholas Sparks",
+     "proposed": "Nicholas Sparks",
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OpenLibrary",
+       "value": "Nicholas Sparks",
+       "url": "https://openlibrary.org/search.json?title=A+Walk+to+Remember&limit=1"
+      },
+      {
+       "src": "Wikidata",
+       "value": "Nicholas Sparks",
+       "url": "https://www.wikidata.org/wiki/Q3394368"
+      }
+     ]
+    },
+    {
+     "field": "publisher",
+     "label": "publisher",
+     "soft": true,
+     "editionDependent": true,
+     "current": "Warner Books",
+     "proposed": "Hachette Book Group",
+     "status": "edition-dependent",
+     "grade": "B",
+     "note": "one source differs from the corpus (Wikidata \"Hachette Book Group\") on a field with no single true value -- likely a different printing/edition, not an error.",
+     "sources": [
+      {
+       "src": "Wikidata",
+       "value": "Hachette Book Group",
+       "url": "https://www.wikidata.org/wiki/Q3394368"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "b1462",
+   "title": "Dear John",
+   "sourcesReached": [
+    "OpenLibrary",
+    "Wikidata"
+   ],
+   "sourcesMissed": [
+    "Google Books (no match)"
+   ],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "first publication year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 2006,
+     "proposed": 2006,
+     "status": "corroborated-by-one",
+     "grade": "B",
+     "note": "matches OpenLibrary; disagrees with Wikidata (2007)",
+     "sources": [
+      {
+       "src": "OpenLibrary",
+       "value": 2006,
+       "url": "https://openlibrary.org/search.json?title=Dear+John&limit=1"
+      },
+      {
+       "src": "Wikidata",
+       "value": 2007,
+       "url": "https://www.wikidata.org/wiki/Q1169623"
+      }
+     ],
+     "alternatives": [
+      2007
+     ]
+    },
+    {
+     "field": "pages",
+     "label": "page count",
+     "soft": false,
+     "current": 320,
+     "status": "no-source",
+     "grade": null,
+     "sources": []
+    },
+    {
+     "field": "creator",
+     "label": "author",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Nicholas Sparks",
+     "proposed": "Nicholas Sparks",
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OpenLibrary",
+       "value": "Nicholas Sparks",
+       "url": "https://openlibrary.org/search.json?title=Dear+John&limit=1"
+      },
+      {
+       "src": "Wikidata",
+       "value": "Nicholas Sparks",
+       "url": "https://www.wikidata.org/wiki/Q1169623"
+      }
+     ]
+    },
+    {
+     "field": "publisher",
+     "label": "publisher",
+     "soft": true,
+     "editionDependent": true,
+     "current": "Grand Central Publishing",
+     "proposed": "Grand Central Publishing",
+     "status": "confirmed",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "Wikidata",
+       "value": "Grand Central Publishing",
+       "url": "https://www.wikidata.org/wiki/Q1169623"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "b1463",
+   "title": "The Last Song",
+   "sourcesReached": [
+    "OpenLibrary",
+    "Wikidata"
+   ],
+   "sourcesMissed": [
+    "Google Books (no match)"
+   ],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "first publication year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 2009,
+     "proposed": 2009,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OpenLibrary",
+       "value": 2009,
+       "url": "https://openlibrary.org/search.json?title=The+Last+Song&limit=1"
+      },
+      {
+       "src": "Wikidata",
+       "value": 2009,
+       "url": "https://www.wikidata.org/wiki/Q2034039"
+      }
+     ]
+    },
+    {
+     "field": "pages",
+     "label": "page count",
+     "soft": false,
+     "current": 390,
+     "status": "no-source",
+     "grade": null,
+     "sources": []
+    },
+    {
+     "field": "creator",
+     "label": "author",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Nicholas Sparks",
+     "proposed": "Nicholas Sparks",
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OpenLibrary",
+       "value": "Nicholas Sparks",
+       "url": "https://openlibrary.org/search.json?title=The+Last+Song&limit=1"
+      },
+      {
+       "src": "Wikidata",
+       "value": "Nicholas Sparks",
+       "url": "https://www.wikidata.org/wiki/Q2034039"
+      }
+     ]
+    },
+    {
+     "field": "publisher",
+     "label": "publisher",
+     "soft": true,
+     "editionDependent": true,
+     "current": "Grand Central Publishing",
+     "proposed": "Grand Central Publishing",
+     "status": "confirmed",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "Wikidata",
+       "value": "Grand Central Publishing",
+       "url": "https://www.wikidata.org/wiki/Q2034039"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "b1464",
+   "title": "Message in a Bottle",
+   "sourcesReached": [
+    "OpenLibrary",
+    "Wikidata"
+   ],
+   "sourcesMissed": [
+    "Google Books (no match)"
+   ],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "first publication year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 1998,
+     "proposed": 1998,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OpenLibrary",
+       "value": 1998,
+       "url": "https://openlibrary.org/search.json?title=Message+in+a+Bottle&limit=1"
+      },
+      {
+       "src": "Wikidata",
+       "value": 1998,
+       "url": "https://www.wikidata.org/wiki/Q2531327"
+      }
+     ]
+    },
+    {
+     "field": "pages",
+     "label": "page count",
+     "soft": false,
+     "current": 304,
+     "status": "no-source",
+     "grade": null,
+     "sources": []
+    },
+    {
+     "field": "creator",
+     "label": "author",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Nicholas Sparks",
+     "proposed": "Nicholas Sparks",
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OpenLibrary",
+       "value": "Nicholas Sparks",
+       "url": "https://openlibrary.org/search.json?title=Message+in+a+Bottle&limit=1"
+      },
+      {
+       "src": "Wikidata",
+       "value": "Nicholas Sparks",
+       "url": "https://www.wikidata.org/wiki/Q2531327"
+      }
+     ]
+    },
+    {
+     "field": "publisher",
+     "label": "publisher",
+     "soft": true,
+     "editionDependent": true,
+     "current": "Warner Books",
+     "proposed": "Hachette Book Group",
+     "status": "edition-dependent",
+     "grade": "B",
+     "note": "one source differs from the corpus (Wikidata \"Hachette Book Group\") on a field with no single true value -- likely a different printing/edition, not an error.",
+     "sources": [
+      {
+       "src": "Wikidata",
+       "value": "Hachette Book Group",
+       "url": "https://www.wikidata.org/wiki/Q2531327"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "b1465",
+   "title": "The Choice",
+   "sourcesReached": [
+    "Wikidata"
+   ],
+   "sourcesMissed": [
+    "OpenLibrary (no match)",
+    "Google Books (no match)"
+   ],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "first publication year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 2007,
+     "proposed": 2007,
+     "status": "confirmed",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "Wikidata",
+       "value": 2007,
+       "url": "https://www.wikidata.org/wiki/Q1996654"
+      }
+     ]
+    },
+    {
+     "field": "pages",
+     "label": "page count",
+     "soft": false,
+     "current": 320,
+     "status": "no-source",
+     "grade": null,
+     "sources": []
+    },
+    {
+     "field": "creator",
+     "label": "author",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Nicholas Sparks",
+     "proposed": "Nicholas Sparks",
+     "status": "confirmed",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "Wikidata",
+       "value": "Nicholas Sparks",
+       "url": "https://www.wikidata.org/wiki/Q1996654"
+      }
+     ]
+    },
+    {
+     "field": "publisher",
+     "label": "publisher",
+     "soft": true,
+     "editionDependent": true,
+     "current": "Grand Central Publishing",
+     "proposed": "Grand Central Publishing",
+     "status": "confirmed",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "Wikidata",
+       "value": "Grand Central Publishing",
+       "url": "https://www.wikidata.org/wiki/Q1996654"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "b1466",
+   "title": "Safe Haven",
+   "sourcesReached": [
+    "OpenLibrary",
+    "Wikidata"
+   ],
+   "sourcesMissed": [
+    "Google Books (no match)"
+   ],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "first publication year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 2010,
+     "proposed": 2010,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OpenLibrary",
+       "value": 2010,
+       "url": "https://openlibrary.org/search.json?title=Safe+Haven&limit=1"
+      },
+      {
+       "src": "Wikidata",
+       "value": 2010,
+       "url": "https://www.wikidata.org/wiki/Q4011187"
+      }
+     ]
+    },
+    {
+     "field": "pages",
+     "label": "page count",
+     "soft": false,
+     "current": 338,
+     "status": "no-source",
+     "grade": null,
+     "sources": []
+    },
+    {
+     "field": "creator",
+     "label": "author",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Nicholas Sparks",
+     "proposed": "Nicholas Sparks",
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OpenLibrary",
+       "value": "Nicholas Sparks",
+       "url": "https://openlibrary.org/search.json?title=Safe+Haven&limit=1"
+      },
+      {
+       "src": "Wikidata",
+       "value": "Nicholas Sparks",
+       "url": "https://www.wikidata.org/wiki/Q4011187"
+      }
+     ]
+    },
+    {
+     "field": "publisher",
+     "label": "publisher",
+     "soft": true,
+     "editionDependent": true,
+     "current": "Grand Central Publishing",
+     "proposed": "Grand Central Publishing",
+     "status": "confirmed",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "Wikidata",
+       "value": "Grand Central Publishing",
+       "url": "https://www.wikidata.org/wiki/Q4011187"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "b1467",
+   "title": "Evil Under the Sun",
+   "sourcesReached": [
+    "OpenLibrary",
+    "Wikidata"
+   ],
+   "sourcesMissed": [
+    "Google Books (no match)"
+   ],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "first publication year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 1941,
+     "proposed": 1941,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OpenLibrary",
+       "value": 1941,
+       "url": "https://openlibrary.org/search.json?title=Evil+Under+the+Sun&limit=1"
+      },
+      {
+       "src": "Wikidata",
+       "value": 1941,
+       "url": "https://www.wikidata.org/wiki/Q741033"
+      }
+     ]
+    },
+    {
+     "field": "pages",
+     "label": "page count",
+     "soft": false,
+     "current": 232,
+     "status": "no-source",
+     "grade": null,
+     "sources": []
+    },
+    {
+     "field": "creator",
+     "label": "author",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Agatha Christie",
+     "proposed": "Agatha Christie",
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OpenLibrary",
+       "value": "Agatha Christie",
+       "url": "https://openlibrary.org/search.json?title=Evil+Under+the+Sun&limit=1"
+      },
+      {
+       "src": "Wikidata",
+       "value": "Agatha Christie",
+       "url": "https://www.wikidata.org/wiki/Q741033"
+      }
+     ]
+    },
+    {
+     "field": "publisher",
+     "label": "publisher",
+     "soft": true,
+     "editionDependent": true,
+     "current": "Collins Crime Club",
+     "proposed": "Collins Crime Club",
+     "status": "confirmed",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "Wikidata",
+       "value": "Collins Crime Club",
+       "url": "https://www.wikidata.org/wiki/Q741033"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "b1468",
+   "title": "The Rainmaker",
+   "sourcesReached": [
+    "OpenLibrary",
+    "Wikidata"
+   ],
+   "sourcesMissed": [
+    "Google Books (no match)"
+   ],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "first publication year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 1995,
+     "proposed": 1995,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OpenLibrary",
+       "value": 1995,
+       "url": "https://openlibrary.org/search.json?title=The+Rainmaker&limit=1"
+      },
+      {
+       "src": "Wikidata",
+       "value": 1995,
+       "url": "https://www.wikidata.org/wiki/Q1196440"
+      }
+     ]
+    },
+    {
+     "field": "pages",
+     "label": "page count",
+     "soft": false,
+     "current": 434,
+     "status": "no-source",
+     "grade": null,
+     "sources": []
+    },
+    {
+     "field": "creator",
+     "label": "author",
+     "soft": false,
+     "editionDependent": false,
+     "current": "John Grisham",
+     "proposed": "John Grisham",
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OpenLibrary",
+       "value": "John Grisham",
+       "url": "https://openlibrary.org/search.json?title=The+Rainmaker&limit=1"
+      },
+      {
+       "src": "Wikidata",
+       "value": "John Grisham",
+       "url": "https://www.wikidata.org/wiki/Q1196440"
+      }
+     ]
+    },
+    {
+     "field": "publisher",
+     "label": "publisher",
+     "soft": true,
+     "editionDependent": true,
+     "current": "Doubleday",
+     "proposed": "Doubleday",
+     "status": "confirmed",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "Wikidata",
+       "value": "Doubleday",
+       "url": "https://www.wikidata.org/wiki/Q1196440"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "b1469",
+   "title": "The Concrete Blonde",
+   "sourcesReached": [
+    "OpenLibrary",
+    "Google Books",
+    "Wikidata"
+   ],
+   "sourcesMissed": [],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "first publication year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 1994,
+     "proposed": 1994,
+     "status": "corroborated-by-one",
+     "grade": "B",
+     "note": "matches OpenLibrary/Wikidata; disagrees with Google Books (2002)",
+     "sources": [
+      {
+       "src": "OpenLibrary",
+       "value": 1994,
+       "url": "https://openlibrary.org/search.json?title=The+Concrete+Blonde&limit=1"
+      },
+      {
+       "src": "Google Books",
+       "value": 2002,
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3AThe+Concrete+Blonde&maxResults=1&key=REDACTED"
+      },
+      {
+       "src": "Wikidata",
+       "value": 1994,
+       "url": "https://www.wikidata.org/wiki/Q1639810"
+      }
+     ],
+     "alternatives": [
+      2002
+     ]
+    },
+    {
+     "field": "pages",
+     "label": "page count",
+     "soft": false,
+     "editionDependent": true,
+     "current": 400,
+     "proposed": 231,
+     "status": "edition-dependent",
+     "grade": "B",
+     "note": "one source differs from the corpus (Google Books 231) on a field with no single true value -- likely a different printing/edition, not an error.",
+     "sources": [
+      {
+       "src": "Google Books",
+       "value": 231,
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3AThe+Concrete+Blonde&maxResults=1&key=REDACTED"
+      }
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "author",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Michael Connelly",
+     "proposed": "Michael Connelly",
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OpenLibrary",
+       "value": "Michael Connelly",
+       "url": "https://openlibrary.org/search.json?title=The+Concrete+Blonde&limit=1"
+      },
+      {
+       "src": "Google Books",
+       "value": "Michael Connelly",
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3AThe+Concrete+Blonde&maxResults=1&key=REDACTED"
+      },
+      {
+       "src": "Wikidata",
+       "value": "Michael Connelly",
+       "url": "https://www.wikidata.org/wiki/Q1639810"
+      }
+     ]
+    },
+    {
+     "field": "publisher",
+     "label": "publisher",
+     "soft": true,
+     "editionDependent": true,
+     "current": "Little, Brown",
+     "proposed": "Little, Brown",
+     "status": "confirmed",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "Google Books",
+       "value": "Little, Brown",
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3AThe+Concrete+Blonde&maxResults=1&key=REDACTED"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "b1470",
+   "title": "The Last Coyote",
+   "sourcesReached": [
+    "OpenLibrary",
+    "Google Books",
+    "Wikidata"
+   ],
+   "sourcesMissed": [],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "first publication year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 1995,
+     "proposed": 1995,
+     "status": "corroborated-by-one",
+     "grade": "B",
+     "note": "matches OpenLibrary/Wikidata; disagrees with Google Books (2003)",
+     "sources": [
+      {
+       "src": "OpenLibrary",
+       "value": 1995,
+       "url": "https://openlibrary.org/search.json?title=The+Last+Coyote&limit=1"
+      },
+      {
+       "src": "Google Books",
+       "value": 2003,
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3AThe+Last+Coyote&maxResults=1&key=REDACTED"
+      },
+      {
+       "src": "Wikidata",
+       "value": 1995,
+       "url": "https://www.wikidata.org/wiki/Q599495"
+      }
+     ],
+     "alternatives": [
+      2003
+     ]
+    },
+    {
+     "field": "pages",
+     "label": "page count",
+     "soft": false,
+     "editionDependent": true,
+     "current": 392,
+     "proposed": 342,
+     "status": "edition-dependent",
+     "grade": "B",
+     "note": "one source differs from the corpus (Google Books 342) on a field with no single true value -- likely a different printing/edition, not an error.",
+     "sources": [
+      {
+       "src": "Google Books",
+       "value": 342,
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3AThe+Last+Coyote&maxResults=1&key=REDACTED"
+      }
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "author",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Michael Connelly",
+     "proposed": "Michael Connelly",
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OpenLibrary",
+       "value": "Michael Connelly",
+       "url": "https://openlibrary.org/search.json?title=The+Last+Coyote&limit=1"
+      },
+      {
+       "src": "Google Books",
+       "value": "Michael Connelly",
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3AThe+Last+Coyote&maxResults=1&key=REDACTED"
+      },
+      {
+       "src": "Wikidata",
+       "value": "Michael Connelly",
+       "url": "https://www.wikidata.org/wiki/Q599495"
+      }
+     ]
+    },
+    {
+     "field": "publisher",
+     "label": "publisher",
+     "soft": true,
+     "editionDependent": true,
+     "current": "Little, Brown",
+     "proposed": "Little, Brown",
+     "status": "corroborated-by-one",
+     "grade": "B",
+     "note": "matches Google Books; disagrees with Wikidata (\"Little, Brown and Company\")",
+     "sources": [
+      {
+       "src": "Google Books",
+       "value": "Little, Brown",
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3AThe+Last+Coyote&maxResults=1&key=REDACTED"
+      },
+      {
+       "src": "Wikidata",
+       "value": "Little, Brown and Company",
+       "url": "https://www.wikidata.org/wiki/Q599495"
+      }
+     ],
+     "alternatives": [
+      "Little, Brown and Company"
+     ]
+    }
+   ]
+  }
+ ]
+}
