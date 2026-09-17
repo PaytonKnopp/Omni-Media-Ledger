@@ -1,0 +1,1477 @@
+{
+ "medium": "book",
+ "generated": "2026-09-17T17:27:36.564Z",
+ "offline": false,
+ "sources": [
+  "OpenLibrary",
+  "Google Books",
+  "Wikidata"
+ ],
+ "works": [
+  {
+   "id": "b1471",
+   "title": "The Chamber",
+   "sourcesReached": [
+    "Wikidata"
+   ],
+   "sourcesMissed": [
+    "OpenLibrary (no match)",
+    "Google Books (no match)"
+   ],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "first publication year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 1994,
+     "proposed": 1994,
+     "status": "confirmed",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "Wikidata",
+       "value": 1994,
+       "url": "https://www.wikidata.org/wiki/Q357606"
+      }
+     ]
+    },
+    {
+     "field": "pages",
+     "label": "page count",
+     "soft": false,
+     "current": 486,
+     "status": "no-source",
+     "grade": null,
+     "sources": []
+    },
+    {
+     "field": "creator",
+     "label": "author",
+     "soft": false,
+     "editionDependent": false,
+     "current": "John Grisham",
+     "proposed": "John Grisham",
+     "status": "confirmed",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "Wikidata",
+       "value": "John Grisham",
+       "url": "https://www.wikidata.org/wiki/Q357606"
+      }
+     ]
+    },
+    {
+     "field": "publisher",
+     "label": "publisher",
+     "soft": true,
+     "editionDependent": true,
+     "current": "Doubleday",
+     "proposed": "Doubleday",
+     "status": "confirmed",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "Wikidata",
+       "value": "Doubleday",
+       "url": "https://www.wikidata.org/wiki/Q357606"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "b1472",
+   "title": "The Runaway Jury",
+   "sourcesReached": [
+    "OpenLibrary",
+    "Google Books",
+    "Wikidata"
+   ],
+   "sourcesMissed": [],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "first publication year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 1996,
+     "proposed": 1996,
+     "status": "corroborated-by-one",
+     "grade": "B",
+     "note": "matches OpenLibrary/Wikidata; disagrees with Google Books (1997)",
+     "sources": [
+      {
+       "src": "OpenLibrary",
+       "value": 1996,
+       "url": "https://openlibrary.org/search.json?title=The+Runaway+Jury&limit=1"
+      },
+      {
+       "src": "Google Books",
+       "value": 1997,
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3AThe+Runaway+Jury&maxResults=1&key=REDACTED"
+      },
+      {
+       "src": "Wikidata",
+       "value": 1996,
+       "url": "https://www.wikidata.org/wiki/Q268078"
+      }
+     ],
+     "alternatives": [
+      1997
+     ]
+    },
+    {
+     "field": "pages",
+     "label": "page count",
+     "soft": false,
+     "editionDependent": true,
+     "current": 414,
+     "proposed": 561,
+     "status": "edition-dependent",
+     "grade": "B",
+     "note": "one source differs from the corpus (Google Books 561) on a field with no single true value -- likely a different printing/edition, not an error.",
+     "sources": [
+      {
+       "src": "Google Books",
+       "value": 561,
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3AThe+Runaway+Jury&maxResults=1&key=REDACTED"
+      }
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "author",
+     "soft": false,
+     "editionDependent": false,
+     "current": "John Grisham",
+     "proposed": "John Grisham",
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OpenLibrary",
+       "value": "John Grisham",
+       "url": "https://openlibrary.org/search.json?title=The+Runaway+Jury&limit=1"
+      },
+      {
+       "src": "Google Books",
+       "value": "John Grisham",
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3AThe+Runaway+Jury&maxResults=1&key=REDACTED"
+      },
+      {
+       "src": "Wikidata",
+       "value": "John Grisham",
+       "url": "https://www.wikidata.org/wiki/Q268078"
+      }
+     ]
+    },
+    {
+     "field": "publisher",
+     "label": "publisher",
+     "soft": true,
+     "editionDependent": true,
+     "current": "Doubleday",
+     "proposed": "Doubleday",
+     "status": "corroborated-by-one",
+     "grade": "B",
+     "note": "matches Wikidata; disagrees with Google Books (\"Dell\")",
+     "sources": [
+      {
+       "src": "Google Books",
+       "value": "Dell",
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3AThe+Runaway+Jury&maxResults=1&key=REDACTED"
+      },
+      {
+       "src": "Wikidata",
+       "value": "Doubleday",
+       "url": "https://www.wikidata.org/wiki/Q268078"
+      }
+     ],
+     "alternatives": [
+      "Doubleday"
+     ]
+    }
+   ]
+  },
+  {
+   "id": "b1473",
+   "title": "A Painted House",
+   "sourcesReached": [
+    "OpenLibrary",
+    "Google Books",
+    "Wikidata"
+   ],
+   "sourcesMissed": [],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "first publication year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 2001,
+     "proposed": 2001,
+     "status": "corroborated-by-one",
+     "grade": "B",
+     "note": "matches Wikidata; disagrees with OpenLibrary (2000), Google Books (2004)",
+     "sources": [
+      {
+       "src": "OpenLibrary",
+       "value": 2000,
+       "url": "https://openlibrary.org/search.json?title=A+Painted+House&limit=1"
+      },
+      {
+       "src": "Google Books",
+       "value": 2004,
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3AA+Painted+House&maxResults=1&key=REDACTED"
+      },
+      {
+       "src": "Wikidata",
+       "value": 2001,
+       "url": "https://www.wikidata.org/wiki/Q1212385"
+      }
+     ],
+     "alternatives": [
+      2004,
+      2001
+     ]
+    },
+    {
+     "field": "pages",
+     "label": "page count",
+     "soft": false,
+     "editionDependent": true,
+     "current": 388,
+     "proposed": 385,
+     "status": "edition-dependent",
+     "grade": "B",
+     "note": "one source differs from the corpus (Google Books 385) on a field with no single true value -- likely a different printing/edition, not an error.",
+     "sources": [
+      {
+       "src": "Google Books",
+       "value": 385,
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3AA+Painted+House&maxResults=1&key=REDACTED"
+      }
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "author",
+     "soft": false,
+     "editionDependent": false,
+     "current": "John Grisham",
+     "proposed": "John Grisham",
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OpenLibrary",
+       "value": "John Grisham",
+       "url": "https://openlibrary.org/search.json?title=A+Painted+House&limit=1"
+      },
+      {
+       "src": "Google Books",
+       "value": "John Grisham",
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3AA+Painted+House&maxResults=1&key=REDACTED"
+      },
+      {
+       "src": "Wikidata",
+       "value": "John Grisham",
+       "url": "https://www.wikidata.org/wiki/Q1212385"
+      }
+     ]
+    },
+    {
+     "field": "publisher",
+     "label": "publisher",
+     "soft": true,
+     "editionDependent": true,
+     "current": "Doubleday",
+     "proposed": "Doubleday",
+     "status": "corroborated-by-one",
+     "grade": "B",
+     "note": "matches Wikidata; disagrees with Google Books (\"Vintage\")",
+     "sources": [
+      {
+       "src": "Google Books",
+       "value": "Vintage",
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3AA+Painted+House&maxResults=1&key=REDACTED"
+      },
+      {
+       "src": "Wikidata",
+       "value": "Doubleday",
+       "url": "https://www.wikidata.org/wiki/Q1212385"
+      }
+     ],
+     "alternatives": [
+      "Doubleday"
+     ]
+    }
+   ]
+  },
+  {
+   "id": "b1474",
+   "title": "The Testament",
+   "sourcesReached": [
+    "OpenLibrary",
+    "Google Books",
+    "Wikidata"
+   ],
+   "sourcesMissed": [],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "first publication year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 1999,
+     "proposed": 1999,
+     "status": "corroborated-by-one",
+     "grade": "B",
+     "note": "matches OpenLibrary/Wikidata; disagrees with Google Books (2011)",
+     "sources": [
+      {
+       "src": "OpenLibrary",
+       "value": 1999,
+       "url": "https://openlibrary.org/search.json?title=The+Testament&limit=1"
+      },
+      {
+       "src": "Google Books",
+       "value": 2011,
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3AThe+Testament&maxResults=1&key=REDACTED"
+      },
+      {
+       "src": "Wikidata",
+       "value": 1999,
+       "url": "https://www.wikidata.org/wiki/Q1170533"
+      }
+     ],
+     "alternatives": [
+      2011
+     ]
+    },
+    {
+     "field": "pages",
+     "label": "page count",
+     "soft": false,
+     "editionDependent": true,
+     "current": 535,
+     "proposed": 0,
+     "status": "edition-dependent",
+     "grade": "B",
+     "note": "one source differs from the corpus (Google Books 0) on a field with no single true value -- likely a different printing/edition, not an error.",
+     "sources": [
+      {
+       "src": "Google Books",
+       "value": 0,
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3AThe+Testament&maxResults=1&key=REDACTED"
+      }
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "author",
+     "soft": false,
+     "editionDependent": false,
+     "current": "John Grisham",
+     "proposed": "John Grisham",
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OpenLibrary",
+       "value": "John Grisham",
+       "url": "https://openlibrary.org/search.json?title=The+Testament&limit=1"
+      },
+      {
+       "src": "Google Books",
+       "value": "John Grisham",
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3AThe+Testament&maxResults=1&key=REDACTED"
+      },
+      {
+       "src": "Wikidata",
+       "value": "John Grisham",
+       "url": "https://www.wikidata.org/wiki/Q1170533"
+      }
+     ]
+    },
+    {
+     "field": "publisher",
+     "label": "publisher",
+     "soft": true,
+     "editionDependent": true,
+     "current": "Doubleday",
+     "proposed": "Doubleday",
+     "status": "corroborated-by-one",
+     "grade": "B",
+     "note": "matches Wikidata; disagrees with Google Books (\"Turtleback Books\")",
+     "sources": [
+      {
+       "src": "Google Books",
+       "value": "Turtleback Books",
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3AThe+Testament&maxResults=1&key=REDACTED"
+      },
+      {
+       "src": "Wikidata",
+       "value": "Doubleday",
+       "url": "https://www.wikidata.org/wiki/Q1170533"
+      }
+     ],
+     "alternatives": [
+      "Doubleday"
+     ]
+    }
+   ]
+  },
+  {
+   "id": "b1475",
+   "title": "The Brethren",
+   "sourcesReached": [
+    "OpenLibrary",
+    "Wikidata"
+   ],
+   "sourcesMissed": [
+    "Google Books (no match)"
+   ],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "first publication year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 2000,
+     "proposed": 2000,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OpenLibrary",
+       "value": 2000,
+       "url": "https://openlibrary.org/search.json?title=The+Brethren&limit=1"
+      },
+      {
+       "src": "Wikidata",
+       "value": 2000,
+       "url": "https://www.wikidata.org/wiki/Q1211760"
+      }
+     ]
+    },
+    {
+     "field": "pages",
+     "label": "page count",
+     "soft": false,
+     "current": 374,
+     "status": "no-source",
+     "grade": null,
+     "sources": []
+    },
+    {
+     "field": "creator",
+     "label": "author",
+     "soft": false,
+     "editionDependent": false,
+     "current": "John Grisham",
+     "proposed": "John Grisham",
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OpenLibrary",
+       "value": "John Grisham",
+       "url": "https://openlibrary.org/search.json?title=The+Brethren&limit=1"
+      },
+      {
+       "src": "Wikidata",
+       "value": "John Grisham",
+       "url": "https://www.wikidata.org/wiki/Q1211760"
+      }
+     ]
+    },
+    {
+     "field": "publisher",
+     "label": "publisher",
+     "soft": true,
+     "editionDependent": true,
+     "current": "Doubleday",
+     "proposed": "Doubleday",
+     "status": "confirmed",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "Wikidata",
+       "value": "Doubleday",
+       "url": "https://www.wikidata.org/wiki/Q1211760"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "b1476",
+   "title": "Kaleidoscope",
+   "sourcesReached": [
+    "OpenLibrary"
+   ],
+   "sourcesMissed": [
+    "Google Books (no match)",
+    "Wikidata (no match)"
+   ],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "first publication year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 1987,
+     "proposed": 2011,
+     "status": "proposed-change",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "OpenLibrary",
+       "value": 2011,
+       "url": "https://openlibrary.org/search.json?title=Kaleidoscope&limit=1"
+      }
+     ]
+    },
+    {
+     "field": "pages",
+     "label": "page count",
+     "soft": false,
+     "current": 405,
+     "status": "no-source",
+     "grade": null,
+     "sources": []
+    },
+    {
+     "field": "creator",
+     "label": "author",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Danielle Steel",
+     "proposed": "Danielle Steel",
+     "status": "confirmed",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "OpenLibrary",
+       "value": "Danielle Steel",
+       "url": "https://openlibrary.org/search.json?title=Kaleidoscope&limit=1"
+      }
+     ]
+    },
+    {
+     "field": "publisher",
+     "label": "publisher",
+     "soft": true,
+     "current": "Delacorte Press",
+     "status": "no-source",
+     "grade": null,
+     "sources": []
+    }
+   ]
+  },
+  {
+   "id": "b1477",
+   "title": "Zoya",
+   "sourcesReached": [
+    "OpenLibrary",
+    "Google Books"
+   ],
+   "sourcesMissed": [
+    "Wikidata (no match)"
+   ],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "first publication year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 1988,
+     "proposed": 1980,
+     "status": "sources-disagree",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "OpenLibrary",
+       "value": 1980,
+       "url": "https://openlibrary.org/search.json?title=Zoya&limit=1"
+      },
+      {
+       "src": "Google Books",
+       "value": 1989,
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3AZoya&maxResults=1&key=REDACTED"
+      }
+     ],
+     "alternatives": [
+      1989
+     ]
+    },
+    {
+     "field": "pages",
+     "label": "page count",
+     "soft": false,
+     "current": 417,
+     "status": "no-source",
+     "grade": null,
+     "sources": []
+    },
+    {
+     "field": "creator",
+     "label": "author",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Danielle Steel",
+     "proposed": "Danielle Steel",
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OpenLibrary",
+       "value": "Danielle Steel",
+       "url": "https://openlibrary.org/search.json?title=Zoya&limit=1"
+      },
+      {
+       "src": "Google Books",
+       "value": "Danielle Steel",
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3AZoya&maxResults=1&key=REDACTED"
+      }
+     ]
+    },
+    {
+     "field": "publisher",
+     "label": "publisher",
+     "soft": true,
+     "current": "Delacorte Press",
+     "status": "no-source",
+     "grade": null,
+     "sources": []
+    }
+   ]
+  },
+  {
+   "id": "b1478",
+   "title": "Jewels",
+   "sourcesReached": [
+    "Wikidata"
+   ],
+   "sourcesMissed": [
+    "OpenLibrary (no match)",
+    "Google Books (no match)"
+   ],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "first publication year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 1992,
+     "proposed": 1992,
+     "status": "confirmed",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "Wikidata",
+       "value": 1992,
+       "url": "https://www.wikidata.org/wiki/Q10306884"
+      }
+     ]
+    },
+    {
+     "field": "pages",
+     "label": "page count",
+     "soft": false,
+     "current": 392,
+     "status": "no-source",
+     "grade": null,
+     "sources": []
+    },
+    {
+     "field": "creator",
+     "label": "author",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Danielle Steel",
+     "proposed": "Danielle Steel",
+     "status": "confirmed",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "Wikidata",
+       "value": "Danielle Steel",
+       "url": "https://www.wikidata.org/wiki/Q10306884"
+      }
+     ]
+    },
+    {
+     "field": "publisher",
+     "label": "publisher",
+     "soft": true,
+     "editionDependent": true,
+     "current": "Delacorte Press",
+     "proposed": "Dell Publishing",
+     "status": "edition-dependent",
+     "grade": "B",
+     "note": "one source differs from the corpus (Wikidata \"Dell Publishing\") on a field with no single true value -- likely a different printing/edition, not an error.",
+     "sources": [
+      {
+       "src": "Wikidata",
+       "value": "Dell Publishing",
+       "url": "https://www.wikidata.org/wiki/Q10306884"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "b1479",
+   "title": "Star",
+   "sourcesReached": [],
+   "sourcesMissed": [
+    "OpenLibrary (no match)",
+    "Google Books (no match)",
+    "Wikidata (no match)"
+   ],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "first publication year",
+     "soft": false,
+     "current": 1989,
+     "status": "no-source",
+     "grade": null,
+     "sources": []
+    },
+    {
+     "field": "pages",
+     "label": "page count",
+     "soft": false,
+     "current": 400,
+     "status": "no-source",
+     "grade": null,
+     "sources": []
+    },
+    {
+     "field": "creator",
+     "label": "author",
+     "soft": false,
+     "current": "Danielle Steel",
+     "status": "no-source",
+     "grade": null,
+     "sources": []
+    },
+    {
+     "field": "publisher",
+     "label": "publisher",
+     "soft": true,
+     "current": "Delacorte Press",
+     "status": "no-source",
+     "grade": null,
+     "sources": []
+    }
+   ]
+  },
+  {
+   "id": "b1480",
+   "title": "Wings",
+   "sourcesReached": [],
+   "sourcesMissed": [
+    "OpenLibrary (no match)",
+    "Google Books (no match)",
+    "Wikidata (no match)"
+   ],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "first publication year",
+     "soft": false,
+     "current": 1994,
+     "status": "no-source",
+     "grade": null,
+     "sources": []
+    },
+    {
+     "field": "pages",
+     "label": "page count",
+     "soft": false,
+     "current": 404,
+     "status": "no-source",
+     "grade": null,
+     "sources": []
+    },
+    {
+     "field": "creator",
+     "label": "author",
+     "soft": false,
+     "current": "Danielle Steel",
+     "status": "no-source",
+     "grade": null,
+     "sources": []
+    },
+    {
+     "field": "publisher",
+     "label": "publisher",
+     "soft": true,
+     "current": "Delacorte Press",
+     "status": "no-source",
+     "grade": null,
+     "sources": []
+    }
+   ]
+  },
+  {
+   "id": "b1481",
+   "title": "Angels Flight",
+   "sourcesReached": [
+    "OpenLibrary",
+    "Wikidata"
+   ],
+   "sourcesMissed": [
+    "Google Books (no match)"
+   ],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "first publication year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 1999,
+     "proposed": 1999,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OpenLibrary",
+       "value": 1999,
+       "url": "https://openlibrary.org/search.json?title=Angels+Flight&limit=1"
+      },
+      {
+       "src": "Wikidata",
+       "value": 1999,
+       "url": "https://www.wikidata.org/wiki/Q1770625"
+      }
+     ]
+    },
+    {
+     "field": "pages",
+     "label": "page count",
+     "soft": false,
+     "current": 384,
+     "status": "no-source",
+     "grade": null,
+     "sources": []
+    },
+    {
+     "field": "creator",
+     "label": "author",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Michael Connelly",
+     "proposed": "Michael Connelly",
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OpenLibrary",
+       "value": "Michael Connelly",
+       "url": "https://openlibrary.org/search.json?title=Angels+Flight&limit=1"
+      },
+      {
+       "src": "Wikidata",
+       "value": "Michael Connelly",
+       "url": "https://www.wikidata.org/wiki/Q1770625"
+      }
+     ]
+    },
+    {
+     "field": "publisher",
+     "label": "publisher",
+     "soft": true,
+     "current": "Little, Brown",
+     "status": "no-source",
+     "grade": null,
+     "sources": []
+    }
+   ]
+  },
+  {
+   "id": "b1482",
+   "title": "Trunk Music",
+   "sourcesReached": [
+    "OpenLibrary",
+    "Google Books",
+    "Wikidata"
+   ],
+   "sourcesMissed": [],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "first publication year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 1997,
+     "proposed": 1997,
+     "status": "corroborated-by-one",
+     "grade": "B",
+     "note": "matches OpenLibrary/Wikidata; disagrees with Google Books (2002)",
+     "sources": [
+      {
+       "src": "OpenLibrary",
+       "value": 1997,
+       "url": "https://openlibrary.org/search.json?title=Trunk+Music&limit=1"
+      },
+      {
+       "src": "Google Books",
+       "value": 2002,
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3ATrunk+Music&maxResults=1&key=REDACTED"
+      },
+      {
+       "src": "Wikidata",
+       "value": 1997,
+       "url": "https://www.wikidata.org/wiki/Q687220"
+      }
+     ],
+     "alternatives": [
+      2002
+     ]
+    },
+    {
+     "field": "pages",
+     "label": "page count",
+     "soft": false,
+     "editionDependent": true,
+     "current": 359,
+     "proposed": 329,
+     "status": "edition-dependent",
+     "grade": "B",
+     "note": "one source differs from the corpus (Google Books 329) on a field with no single true value -- likely a different printing/edition, not an error.",
+     "sources": [
+      {
+       "src": "Google Books",
+       "value": 329,
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3ATrunk+Music&maxResults=1&key=REDACTED"
+      }
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "author",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Michael Connelly",
+     "proposed": "Michael Connelly",
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OpenLibrary",
+       "value": "Michael Connelly",
+       "url": "https://openlibrary.org/search.json?title=Trunk+Music&limit=1"
+      },
+      {
+       "src": "Google Books",
+       "value": "Michael Connelly",
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3ATrunk+Music&maxResults=1&key=REDACTED"
+      },
+      {
+       "src": "Wikidata",
+       "value": "Michael Connelly",
+       "url": "https://www.wikidata.org/wiki/Q687220"
+      }
+     ]
+    },
+    {
+     "field": "publisher",
+     "label": "publisher",
+     "soft": true,
+     "editionDependent": true,
+     "current": "Little, Brown",
+     "proposed": "Little, Brown",
+     "status": "corroborated-by-one",
+     "grade": "B",
+     "note": "matches Google Books; disagrees with Wikidata (\"Little, Brown and Company\")",
+     "sources": [
+      {
+       "src": "Google Books",
+       "value": "Little, Brown",
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3ATrunk+Music&maxResults=1&key=REDACTED"
+      },
+      {
+       "src": "Wikidata",
+       "value": "Little, Brown and Company",
+       "url": "https://www.wikidata.org/wiki/Q687220"
+      }
+     ],
+     "alternatives": [
+      "Little, Brown and Company"
+     ]
+    }
+   ]
+  },
+  {
+   "id": "b1483",
+   "title": "A Darkness More Than Night",
+   "sourcesReached": [
+    "OpenLibrary",
+    "Google Books",
+    "Wikidata"
+   ],
+   "sourcesMissed": [],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "first publication year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 2001,
+     "proposed": 2001,
+     "status": "corroborated-by-one",
+     "grade": "B",
+     "note": "matches Google Books/Wikidata; disagrees with OpenLibrary (2000)",
+     "sources": [
+      {
+       "src": "OpenLibrary",
+       "value": 2000,
+       "url": "https://openlibrary.org/search.json?title=A+Darkness+More+Than+Night&limit=1"
+      },
+      {
+       "src": "Google Books",
+       "value": 2001,
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3AA+Darkness+More+Than+Night&maxResults=1&key=REDACTED"
+      },
+      {
+       "src": "Wikidata",
+       "value": 2001,
+       "url": "https://www.wikidata.org/wiki/Q1630977"
+      }
+     ],
+     "alternatives": [
+      2000
+     ]
+    },
+    {
+     "field": "pages",
+     "label": "page count",
+     "soft": false,
+     "editionDependent": true,
+     "current": 464,
+     "proposed": 228,
+     "status": "edition-dependent",
+     "grade": "B",
+     "note": "one source differs from the corpus (Google Books 228) on a field with no single true value -- likely a different printing/edition, not an error.",
+     "sources": [
+      {
+       "src": "Google Books",
+       "value": 228,
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3AA+Darkness+More+Than+Night&maxResults=1&key=REDACTED"
+      }
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "author",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Michael Connelly",
+     "proposed": "Michael Connelly",
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OpenLibrary",
+       "value": "Michael Connelly",
+       "url": "https://openlibrary.org/search.json?title=A+Darkness+More+Than+Night&limit=1"
+      },
+      {
+       "src": "Google Books",
+       "value": "Michael Connelly",
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3AA+Darkness+More+Than+Night&maxResults=1&key=REDACTED"
+      },
+      {
+       "src": "Wikidata",
+       "value": "Michael Connelly",
+       "url": "https://www.wikidata.org/wiki/Q1630977"
+      }
+     ]
+    },
+    {
+     "field": "publisher",
+     "label": "publisher",
+     "soft": true,
+     "editionDependent": true,
+     "current": "Little, Brown",
+     "proposed": "Little, Brown",
+     "status": "confirmed",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "Google Books",
+       "value": "Little, Brown",
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3AA+Darkness+More+Than+Night&maxResults=1&key=REDACTED"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "b1484",
+   "title": "The Angel of Darkness",
+   "sourcesReached": [
+    "OpenLibrary",
+    "Google Books",
+    "Wikidata"
+   ],
+   "sourcesMissed": [],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "first publication year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 1997,
+     "proposed": 1997,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OpenLibrary",
+       "value": 1997,
+       "url": "https://openlibrary.org/search.json?title=The+Angel+of+Darkness&limit=1"
+      },
+      {
+       "src": "Google Books",
+       "value": 1997,
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3AThe+Angel+of+Darkness&maxResults=1&key=REDACTED"
+      },
+      {
+       "src": "Wikidata",
+       "value": 1997,
+       "url": "https://www.wikidata.org/wiki/Q16385052"
+      }
+     ]
+    },
+    {
+     "field": "pages",
+     "label": "page count",
+     "soft": false,
+     "editionDependent": true,
+     "current": 629,
+     "proposed": 962,
+     "status": "edition-dependent",
+     "grade": "B",
+     "note": "one source differs from the corpus (Google Books 962) on a field with no single true value -- likely a different printing/edition, not an error.",
+     "sources": [
+      {
+       "src": "Google Books",
+       "value": 962,
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3AThe+Angel+of+Darkness&maxResults=1&key=REDACTED"
+      }
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "author",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Caleb Carr",
+     "proposed": "Caleb Carr",
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OpenLibrary",
+       "value": "Caleb Carr",
+       "url": "https://openlibrary.org/search.json?title=The+Angel+of+Darkness&limit=1"
+      },
+      {
+       "src": "Google Books",
+       "value": "Caleb Carr",
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3AThe+Angel+of+Darkness&maxResults=1&key=REDACTED"
+      },
+      {
+       "src": "Wikidata",
+       "value": "Caleb Carr",
+       "url": "https://www.wikidata.org/wiki/Q16385052"
+      }
+     ]
+    },
+    {
+     "field": "publisher",
+     "label": "publisher",
+     "soft": true,
+     "editionDependent": true,
+     "current": "Random House",
+     "proposed": "Random House",
+     "status": "corroborated-by-one",
+     "grade": "B",
+     "note": "matches Wikidata; disagrees with Google Books (\"Random House Large Print Publishing\")",
+     "sources": [
+      {
+       "src": "Google Books",
+       "value": "Random House Large Print Publishing",
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3AThe+Angel+of+Darkness&maxResults=1&key=REDACTED"
+      },
+      {
+       "src": "Wikidata",
+       "value": "Random House",
+       "url": "https://www.wikidata.org/wiki/Q16385052"
+      }
+     ],
+     "alternatives": [
+      "Random House"
+     ]
+    }
+   ]
+  },
+  {
+   "id": "b1485",
+   "title": "Rules of Prey",
+   "sourcesReached": [
+    "OpenLibrary",
+    "Google Books"
+   ],
+   "sourcesMissed": [
+    "Wikidata (no match)"
+   ],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "first publication year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 1989,
+     "proposed": 1989,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OpenLibrary",
+       "value": 1989,
+       "url": "https://openlibrary.org/search.json?title=Rules+of+Prey&limit=1"
+      },
+      {
+       "src": "Google Books",
+       "value": 1989,
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3ARules+of+Prey&maxResults=1&key=REDACTED"
+      }
+     ]
+    },
+    {
+     "field": "pages",
+     "label": "page count",
+     "soft": false,
+     "editionDependent": true,
+     "current": 344,
+     "proposed": 317,
+     "status": "edition-dependent",
+     "grade": "B",
+     "note": "one source differs from the corpus (Google Books 317) on a field with no single true value -- likely a different printing/edition, not an error.",
+     "sources": [
+      {
+       "src": "Google Books",
+       "value": 317,
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3ARules+of+Prey&maxResults=1&key=REDACTED"
+      }
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "author",
+     "soft": false,
+     "editionDependent": false,
+     "current": "John Sandford",
+     "proposed": "John Sandford",
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OpenLibrary",
+       "value": "John Sandford",
+       "url": "https://openlibrary.org/search.json?title=Rules+of+Prey&limit=1"
+      },
+      {
+       "src": "Google Books",
+       "value": "John Sandford",
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3ARules+of+Prey&maxResults=1&key=REDACTED"
+      }
+     ]
+    },
+    {
+     "field": "publisher",
+     "label": "publisher",
+     "soft": true,
+     "current": "G. P. Putnam's Sons",
+     "status": "no-source",
+     "grade": null,
+     "sources": []
+    }
+   ]
+  },
+  {
+   "id": "b1486",
+   "title": "Prey",
+   "sourcesReached": [
+    "OpenLibrary"
+   ],
+   "sourcesMissed": [
+    "Google Books (no match)",
+    "Wikidata (no match)"
+   ],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "first publication year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 2002,
+     "proposed": 2002,
+     "status": "confirmed",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "OpenLibrary",
+       "value": 2002,
+       "url": "https://openlibrary.org/search.json?title=Prey&limit=1"
+      }
+     ]
+    },
+    {
+     "field": "pages",
+     "label": "page count",
+     "soft": false,
+     "current": 367,
+     "status": "no-source",
+     "grade": null,
+     "sources": []
+    },
+    {
+     "field": "creator",
+     "label": "author",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Michael Crichton",
+     "proposed": "Michael Crichton",
+     "status": "confirmed",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "OpenLibrary",
+       "value": "Michael Crichton",
+       "url": "https://openlibrary.org/search.json?title=Prey&limit=1"
+      }
+     ]
+    },
+    {
+     "field": "publisher",
+     "label": "publisher",
+     "soft": true,
+     "current": "HarperCollins",
+     "status": "no-source",
+     "grade": null,
+     "sources": []
+    }
+   ]
+  },
+  {
+   "id": "b1487",
+   "title": "Rising Sun",
+   "sourcesReached": [
+    "Google Books",
+    "Wikidata"
+   ],
+   "sourcesMissed": [
+    "OpenLibrary (no match)"
+   ],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "first publication year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 1992,
+     "proposed": 1992,
+     "status": "corroborated-by-one",
+     "grade": "B",
+     "note": "matches Wikidata; disagrees with Google Books (2019)",
+     "sources": [
+      {
+       "src": "Google Books",
+       "value": 2019,
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3ARising+Sun&maxResults=1&key=REDACTED"
+      },
+      {
+       "src": "Wikidata",
+       "value": 1992,
+       "url": "https://www.wikidata.org/wiki/Q1973240"
+      }
+     ],
+     "alternatives": [
+      1992
+     ]
+    },
+    {
+     "field": "pages",
+     "label": "page count",
+     "soft": false,
+     "editionDependent": true,
+     "current": 389,
+     "proposed": 318,
+     "status": "edition-dependent",
+     "grade": "B",
+     "note": "one source differs from the corpus (Google Books 318) on a field with no single true value -- likely a different printing/edition, not an error.",
+     "sources": [
+      {
+       "src": "Google Books",
+       "value": 318,
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3ARising+Sun&maxResults=1&key=REDACTED"
+      }
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "author",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Michael Crichton",
+     "proposed": "Michael Crichton",
+     "status": "corroborated-by-one",
+     "grade": "B",
+     "note": "matches Wikidata; disagrees with Google Books (\"Michael Lee\")",
+     "sources": [
+      {
+       "src": "Google Books",
+       "value": "Michael Lee",
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3ARising+Sun&maxResults=1&key=REDACTED"
+      },
+      {
+       "src": "Wikidata",
+       "value": "Michael Crichton",
+       "url": "https://www.wikidata.org/wiki/Q1973240"
+      }
+     ],
+     "alternatives": [
+      "Michael Crichton"
+     ]
+    },
+    {
+     "field": "publisher",
+     "label": "publisher",
+     "soft": true,
+     "editionDependent": true,
+     "current": "Alfred A. Knopf",
+     "proposed": "Alfred A. Knopf",
+     "status": "confirmed",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "Wikidata",
+       "value": "Alfred A. Knopf",
+       "url": "https://www.wikidata.org/wiki/Q1973240"
+      }
+     ]
+    }
+   ]
+  }
+ ]
+}

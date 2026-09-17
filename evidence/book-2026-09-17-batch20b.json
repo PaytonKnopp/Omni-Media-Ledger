@@ -1,0 +1,1665 @@
+{
+ "medium": "book",
+ "generated": "2026-09-17T17:28:23.805Z",
+ "offline": false,
+ "sources": [
+  "OpenLibrary",
+  "Google Books",
+  "Wikidata"
+ ],
+ "works": [
+  {
+   "id": "b1488",
+   "title": "Disclosure",
+   "sourcesReached": [
+    "OpenLibrary",
+    "Google Books",
+    "Wikidata"
+   ],
+   "sourcesMissed": [],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "first publication year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 1994,
+     "proposed": 1994,
+     "status": "corroborated-by-one",
+     "grade": "B",
+     "note": "matches Wikidata; disagrees with OpenLibrary (1993), Google Books (2001)",
+     "sources": [
+      {
+       "src": "OpenLibrary",
+       "value": 1993,
+       "url": "https://openlibrary.org/search.json?title=Disclosure&limit=1"
+      },
+      {
+       "src": "Google Books",
+       "value": 2001,
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3ADisclosure&maxResults=1&key=REDACTED"
+      },
+      {
+       "src": "Wikidata",
+       "value": 1994,
+       "url": "https://www.wikidata.org/wiki/Q11026841"
+      }
+     ],
+     "alternatives": [
+      2001,
+      1994
+     ]
+    },
+    {
+     "field": "pages",
+     "label": "page count",
+     "soft": false,
+     "editionDependent": true,
+     "current": 416,
+     "proposed": 507,
+     "status": "edition-dependent",
+     "grade": "B",
+     "note": "one source differs from the corpus (Google Books 507) on a field with no single true value -- likely a different printing/edition, not an error.",
+     "sources": [
+      {
+       "src": "Google Books",
+       "value": 507,
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3ADisclosure&maxResults=1&key=REDACTED"
+      }
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "author",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Michael Crichton",
+     "proposed": "Michael Crichton",
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OpenLibrary",
+       "value": "Michael Crichton",
+       "url": "https://openlibrary.org/search.json?title=Disclosure&limit=1"
+      },
+      {
+       "src": "Google Books",
+       "value": "Michael Crichton",
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3ADisclosure&maxResults=1&key=REDACTED"
+      },
+      {
+       "src": "Wikidata",
+       "value": "Michael Crichton",
+       "url": "https://www.wikidata.org/wiki/Q11026841"
+      }
+     ]
+    },
+    {
+     "field": "publisher",
+     "label": "publisher",
+     "soft": true,
+     "editionDependent": true,
+     "current": "Alfred A. Knopf",
+     "proposed": "Alfred A. Knopf",
+     "status": "corroborated-by-one",
+     "grade": "B",
+     "note": "matches Wikidata; disagrees with Google Books (\"Ballantine Books\")",
+     "sources": [
+      {
+       "src": "Google Books",
+       "value": "Ballantine Books",
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3ADisclosure&maxResults=1&key=REDACTED"
+      },
+      {
+       "src": "Wikidata",
+       "value": "Alfred A. Knopf",
+       "url": "https://www.wikidata.org/wiki/Q11026841"
+      }
+     ],
+     "alternatives": [
+      "Alfred A. Knopf"
+     ]
+    }
+   ]
+  },
+  {
+   "id": "b1489",
+   "title": "And the Mountains Echoed",
+   "sourcesReached": [
+    "OpenLibrary",
+    "Google Books",
+    "Wikidata"
+   ],
+   "sourcesMissed": [],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "first publication year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 2013,
+     "proposed": 2013,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OpenLibrary",
+       "value": 2013,
+       "url": "https://openlibrary.org/search.json?title=And+the+Mountains+Echoed&limit=1"
+      },
+      {
+       "src": "Google Books",
+       "value": 2013,
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3AAnd+the+Mountains+Echoed&maxResults=1&key=REDACTED"
+      },
+      {
+       "src": "Wikidata",
+       "value": 2013,
+       "url": "https://www.wikidata.org/wiki/Q14981299"
+      }
+     ]
+    },
+    {
+     "field": "pages",
+     "label": "page count",
+     "soft": false,
+     "editionDependent": true,
+     "current": 404,
+     "proposed": 0,
+     "status": "edition-dependent",
+     "grade": "B",
+     "note": "one source differs from the corpus (Google Books 0) on a field with no single true value -- likely a different printing/edition, not an error.",
+     "sources": [
+      {
+       "src": "Google Books",
+       "value": 0,
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3AAnd+the+Mountains+Echoed&maxResults=1&key=REDACTED"
+      }
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "author",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Khaled Hosseini",
+     "proposed": "Khaled Hosseini",
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OpenLibrary",
+       "value": "Khaled Hosseini",
+       "url": "https://openlibrary.org/search.json?title=And+the+Mountains+Echoed&limit=1"
+      },
+      {
+       "src": "Google Books",
+       "value": "Khaled Hosseini",
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3AAnd+the+Mountains+Echoed&maxResults=1&key=REDACTED"
+      },
+      {
+       "src": "Wikidata",
+       "value": "Khaled Hosseini",
+       "url": "https://www.wikidata.org/wiki/Q14981299"
+      }
+     ]
+    },
+    {
+     "field": "publisher",
+     "label": "publisher",
+     "soft": true,
+     "editionDependent": true,
+     "current": "Riverhead Books",
+     "proposed": "Riverhead Books",
+     "status": "confirmed",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "Wikidata",
+       "value": "Riverhead Books",
+       "url": "https://www.wikidata.org/wiki/Q14981299"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "b1490",
+   "title": "Water for Elephants",
+   "sourcesReached": [
+    "OpenLibrary",
+    "Google Books"
+   ],
+   "sourcesMissed": [
+    "Wikidata (no match)"
+   ],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "first publication year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 2006,
+     "proposed": 2006,
+     "status": "corroborated-by-one",
+     "grade": "B",
+     "note": "matches OpenLibrary; disagrees with Google Books (2007)",
+     "sources": [
+      {
+       "src": "OpenLibrary",
+       "value": 2006,
+       "url": "https://openlibrary.org/search.json?title=Water+for+Elephants&limit=1"
+      },
+      {
+       "src": "Google Books",
+       "value": 2007,
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3AWater+for+Elephants&maxResults=1&key=REDACTED"
+      }
+     ],
+     "alternatives": [
+      2007
+     ]
+    },
+    {
+     "field": "pages",
+     "label": "page count",
+     "soft": false,
+     "editionDependent": true,
+     "current": 335,
+     "proposed": 370,
+     "status": "edition-dependent",
+     "grade": "B",
+     "note": "one source differs from the corpus (Google Books 370) on a field with no single true value -- likely a different printing/edition, not an error.",
+     "sources": [
+      {
+       "src": "Google Books",
+       "value": 370,
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3AWater+for+Elephants&maxResults=1&key=REDACTED"
+      }
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "author",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Sara Gruen",
+     "proposed": "Sara Gruen",
+     "status": "corroborated-by-one",
+     "grade": "B",
+     "note": "matches Google Books; disagrees with OpenLibrary (\"Sara Gruen & David LeDoux & John Randolph Jones\")",
+     "sources": [
+      {
+       "src": "OpenLibrary",
+       "value": "Sara Gruen & David LeDoux & John Randolph Jones",
+       "url": "https://openlibrary.org/search.json?title=Water+for+Elephants&limit=1"
+      },
+      {
+       "src": "Google Books",
+       "value": "Sara Gruen",
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3AWater+for+Elephants&maxResults=1&key=REDACTED"
+      }
+     ],
+     "alternatives": [
+      "Sara Gruen"
+     ]
+    },
+    {
+     "field": "publisher",
+     "label": "publisher",
+     "soft": true,
+     "editionDependent": true,
+     "current": "Algonquin Books",
+     "proposed": "Algonquin Books",
+     "status": "confirmed",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "Google Books",
+       "value": "Algonquin Books",
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3AWater+for+Elephants&maxResults=1&key=REDACTED"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "b1491",
+   "title": "Cruel and Unusual",
+   "sourcesReached": [
+    "Wikidata"
+   ],
+   "sourcesMissed": [
+    "OpenLibrary (no match)",
+    "Google Books (no match)"
+   ],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "first publication year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 1993,
+     "proposed": 1993,
+     "status": "confirmed",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "Wikidata",
+       "value": 1993,
+       "url": "https://www.wikidata.org/wiki/Q3549696"
+      }
+     ]
+    },
+    {
+     "field": "pages",
+     "label": "page count",
+     "soft": false,
+     "current": 388,
+     "status": "no-source",
+     "grade": null,
+     "sources": []
+    },
+    {
+     "field": "creator",
+     "label": "author",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Patricia Cornwell",
+     "proposed": "Patricia Cornwell",
+     "status": "confirmed",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "Wikidata",
+       "value": "Patricia Cornwell",
+       "url": "https://www.wikidata.org/wiki/Q3549696"
+      }
+     ]
+    },
+    {
+     "field": "publisher",
+     "label": "publisher",
+     "soft": true,
+     "editionDependent": true,
+     "current": "Charles Scribner's Sons",
+     "proposed": "Charles Scribner's Sons",
+     "status": "confirmed",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "Wikidata",
+       "value": "Charles Scribner's Sons",
+       "url": "https://www.wikidata.org/wiki/Q3549696"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "b1492",
+   "title": "The Body Farm",
+   "sourcesReached": [
+    "OpenLibrary",
+    "Wikidata"
+   ],
+   "sourcesMissed": [
+    "Google Books (no match)"
+   ],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "first publication year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 1994,
+     "proposed": 1994,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OpenLibrary",
+       "value": 1994,
+       "url": "https://openlibrary.org/search.json?title=The+Body+Farm&limit=1"
+      },
+      {
+       "src": "Wikidata",
+       "value": 1994,
+       "url": "https://www.wikidata.org/wiki/Q3213023"
+      }
+     ]
+    },
+    {
+     "field": "pages",
+     "label": "page count",
+     "soft": false,
+     "current": 343,
+     "status": "no-source",
+     "grade": null,
+     "sources": []
+    },
+    {
+     "field": "creator",
+     "label": "author",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Patricia Cornwell",
+     "proposed": "Patricia Cornwell",
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OpenLibrary",
+       "value": "Patricia Cornwell",
+       "url": "https://openlibrary.org/search.json?title=The+Body+Farm&limit=1"
+      },
+      {
+       "src": "Wikidata",
+       "value": "Patricia Cornwell",
+       "url": "https://www.wikidata.org/wiki/Q3213023"
+      }
+     ]
+    },
+    {
+     "field": "publisher",
+     "label": "publisher",
+     "soft": true,
+     "current": "Charles Scribner's Sons",
+     "status": "no-source",
+     "grade": null,
+     "sources": []
+    }
+   ]
+  },
+  {
+   "id": "b1493",
+   "title": "Point of Origin",
+   "sourcesReached": [
+    "OpenLibrary",
+    "Wikidata"
+   ],
+   "sourcesMissed": [
+    "Google Books (no match)"
+   ],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "first publication year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 1998,
+     "proposed": 1998,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OpenLibrary",
+       "value": 1998,
+       "url": "https://openlibrary.org/search.json?title=Point+of+Origin&limit=1"
+      },
+      {
+       "src": "Wikidata",
+       "value": 1998,
+       "url": "https://www.wikidata.org/wiki/Q2985105"
+      }
+     ]
+    },
+    {
+     "field": "pages",
+     "label": "page count",
+     "soft": false,
+     "current": 387,
+     "status": "no-source",
+     "grade": null,
+     "sources": []
+    },
+    {
+     "field": "creator",
+     "label": "author",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Patricia Cornwell",
+     "proposed": "Patricia Cornwell",
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OpenLibrary",
+       "value": "Patricia Cornwell",
+       "url": "https://openlibrary.org/search.json?title=Point+of+Origin&limit=1"
+      },
+      {
+       "src": "Wikidata",
+       "value": "Patricia Cornwell",
+       "url": "https://www.wikidata.org/wiki/Q2985105"
+      }
+     ]
+    },
+    {
+     "field": "publisher",
+     "label": "publisher",
+     "soft": true,
+     "editionDependent": true,
+     "current": "G. P. Putnam's Sons",
+     "proposed": "G. P. Putnam's Sons",
+     "status": "confirmed",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "Wikidata",
+       "value": "G. P. Putnam's Sons",
+       "url": "https://www.wikidata.org/wiki/Q2985105"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "b1494",
+   "title": "No Second Chance",
+   "sourcesReached": [
+    "OpenLibrary",
+    "Google Books",
+    "Wikidata"
+   ],
+   "sourcesMissed": [],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "first publication year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 2003,
+     "proposed": 2003,
+     "status": "corroborated-by-one",
+     "grade": "B",
+     "note": "matches OpenLibrary; disagrees with Google Books (2004), Wikidata (2004)",
+     "sources": [
+      {
+       "src": "OpenLibrary",
+       "value": 2003,
+       "url": "https://openlibrary.org/search.json?title=No+Second+Chance&limit=1"
+      },
+      {
+       "src": "Google Books",
+       "value": 2004,
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3ANo+Second+Chance&maxResults=1&key=REDACTED"
+      },
+      {
+       "src": "Wikidata",
+       "value": 2004,
+       "url": "https://www.wikidata.org/wiki/Q636385"
+      }
+     ],
+     "alternatives": [
+      2003
+     ]
+    },
+    {
+     "field": "pages",
+     "label": "page count",
+     "soft": false,
+     "editionDependent": true,
+     "current": 390,
+     "proposed": 465,
+     "status": "edition-dependent",
+     "grade": "B",
+     "note": "one source differs from the corpus (Google Books 465) on a field with no single true value -- likely a different printing/edition, not an error.",
+     "sources": [
+      {
+       "src": "Google Books",
+       "value": 465,
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3ANo+Second+Chance&maxResults=1&key=REDACTED"
+      }
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "author",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Harlan Coben",
+     "proposed": "Harlan Coben",
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OpenLibrary",
+       "value": "Harlan Coben",
+       "url": "https://openlibrary.org/search.json?title=No+Second+Chance&limit=1"
+      },
+      {
+       "src": "Google Books",
+       "value": "Harlan Coben",
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3ANo+Second+Chance&maxResults=1&key=REDACTED"
+      },
+      {
+       "src": "Wikidata",
+       "value": "Harlan Coben",
+       "url": "https://www.wikidata.org/wiki/Q636385"
+      }
+     ]
+    },
+    {
+     "field": "publisher",
+     "label": "publisher",
+     "soft": true,
+     "editionDependent": true,
+     "current": "Dutton",
+     "proposed": "Dutton",
+     "status": "corroborated-by-one",
+     "grade": "B",
+     "note": "matches Wikidata; disagrees with Google Books (\"Penguin\")",
+     "sources": [
+      {
+       "src": "Google Books",
+       "value": "Penguin",
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3ANo+Second+Chance&maxResults=1&key=REDACTED"
+      },
+      {
+       "src": "Wikidata",
+       "value": "Dutton",
+       "url": "https://www.wikidata.org/wiki/Q636385"
+      }
+     ],
+     "alternatives": [
+      "Dutton"
+     ]
+    }
+   ]
+  },
+  {
+   "id": "b1495",
+   "title": "Just One Look",
+   "sourcesReached": [
+    "OpenLibrary",
+    "Wikidata"
+   ],
+   "sourcesMissed": [
+    "Google Books (no match)"
+   ],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "first publication year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 2004,
+     "proposed": 2004,
+     "status": "corroborated-by-one",
+     "grade": "B",
+     "note": "matches Wikidata; disagrees with OpenLibrary (2001)",
+     "sources": [
+      {
+       "src": "OpenLibrary",
+       "value": 2001,
+       "url": "https://openlibrary.org/search.json?title=Just+One+Look&limit=1"
+      },
+      {
+       "src": "Wikidata",
+       "value": 2004,
+       "url": "https://www.wikidata.org/wiki/Q1113736"
+      }
+     ],
+     "alternatives": [
+      2004
+     ]
+    },
+    {
+     "field": "pages",
+     "label": "page count",
+     "soft": false,
+     "current": 388,
+     "status": "no-source",
+     "grade": null,
+     "sources": []
+    },
+    {
+     "field": "creator",
+     "label": "author",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Harlan Coben",
+     "proposed": "Harlan Coben",
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OpenLibrary",
+       "value": "Harlan Coben",
+       "url": "https://openlibrary.org/search.json?title=Just+One+Look&limit=1"
+      },
+      {
+       "src": "Wikidata",
+       "value": "Harlan Coben",
+       "url": "https://www.wikidata.org/wiki/Q1113736"
+      }
+     ]
+    },
+    {
+     "field": "publisher",
+     "label": "publisher",
+     "soft": true,
+     "editionDependent": true,
+     "current": "Dutton",
+     "proposed": "Dutton",
+     "status": "confirmed",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "Wikidata",
+       "value": "Dutton",
+       "url": "https://www.wikidata.org/wiki/Q1113736"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "b1496",
+   "title": "Total Control",
+   "sourcesReached": [
+    "OpenLibrary",
+    "Google Books",
+    "Wikidata"
+   ],
+   "sourcesMissed": [],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "first publication year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 1997,
+     "proposed": 1997,
+     "status": "corroborated-by-one",
+     "grade": "B",
+     "note": "matches Wikidata; disagrees with OpenLibrary (1996), Google Books (2002)",
+     "sources": [
+      {
+       "src": "OpenLibrary",
+       "value": 1996,
+       "url": "https://openlibrary.org/search.json?title=Total+Control&limit=1"
+      },
+      {
+       "src": "Google Books",
+       "value": 2002,
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3ATotal+Control&maxResults=1&key=REDACTED"
+      },
+      {
+       "src": "Wikidata",
+       "value": 1997,
+       "url": "https://www.wikidata.org/wiki/Q3793620"
+      }
+     ],
+     "alternatives": [
+      2002,
+      1997
+     ]
+    },
+    {
+     "field": "pages",
+     "label": "page count",
+     "soft": false,
+     "editionDependent": true,
+     "current": 436,
+     "proposed": 486,
+     "status": "edition-dependent",
+     "grade": "B",
+     "note": "one source differs from the corpus (Google Books 486) on a field with no single true value -- likely a different printing/edition, not an error.",
+     "sources": [
+      {
+       "src": "Google Books",
+       "value": 486,
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3ATotal+Control&maxResults=1&key=REDACTED"
+      }
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "author",
+     "soft": false,
+     "editionDependent": false,
+     "current": "David Baldacci",
+     "proposed": "David Baldacci",
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OpenLibrary",
+       "value": "David Baldacci",
+       "url": "https://openlibrary.org/search.json?title=Total+Control&limit=1"
+      },
+      {
+       "src": "Google Books",
+       "value": "David Baldacci",
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3ATotal+Control&maxResults=1&key=REDACTED"
+      },
+      {
+       "src": "Wikidata",
+       "value": "David Baldacci",
+       "url": "https://www.wikidata.org/wiki/Q3793620"
+      }
+     ]
+    },
+    {
+     "field": "publisher",
+     "label": "publisher",
+     "soft": true,
+     "editionDependent": true,
+     "current": "Warner Books",
+     "proposed": "Grand Central Publishing",
+     "status": "edition-dependent",
+     "grade": "B",
+     "note": "sources agree with each other but not the corpus (Google Books \"Grand Central Publishing\", Wikidata \"Grand Central Publishing\") on a field with no single true value -- likely a different printing/edition, not an error.",
+     "sources": [
+      {
+       "src": "Google Books",
+       "value": "Grand Central Publishing",
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3ATotal+Control&maxResults=1&key=REDACTED"
+      },
+      {
+       "src": "Wikidata",
+       "value": "Grand Central Publishing",
+       "url": "https://www.wikidata.org/wiki/Q3793620"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "b1497",
+   "title": "The Winner",
+   "sourcesReached": [
+    "OpenLibrary",
+    "Wikidata"
+   ],
+   "sourcesMissed": [
+    "Google Books (no match)"
+   ],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "first publication year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 1997,
+     "proposed": 1997,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OpenLibrary",
+       "value": 1997,
+       "url": "https://openlibrary.org/search.json?title=The+Winner&limit=1"
+      },
+      {
+       "src": "Wikidata",
+       "value": 1997,
+       "url": "https://www.wikidata.org/wiki/Q511384"
+      }
+     ]
+    },
+    {
+     "field": "pages",
+     "label": "page count",
+     "soft": false,
+     "current": 548,
+     "status": "no-source",
+     "grade": null,
+     "sources": []
+    },
+    {
+     "field": "creator",
+     "label": "author",
+     "soft": false,
+     "editionDependent": false,
+     "current": "David Baldacci",
+     "proposed": "David Baldacci",
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OpenLibrary",
+       "value": "David Baldacci",
+       "url": "https://openlibrary.org/search.json?title=The+Winner&limit=1"
+      },
+      {
+       "src": "Wikidata",
+       "value": "David Baldacci",
+       "url": "https://www.wikidata.org/wiki/Q511384"
+      }
+     ]
+    },
+    {
+     "field": "publisher",
+     "label": "publisher",
+     "soft": true,
+     "editionDependent": true,
+     "current": "Warner Books",
+     "proposed": "Grand Central Publishing",
+     "status": "edition-dependent",
+     "grade": "B",
+     "note": "one source differs from the corpus (Wikidata \"Grand Central Publishing\") on a field with no single true value -- likely a different printing/edition, not an error.",
+     "sources": [
+      {
+       "src": "Wikidata",
+       "value": "Grand Central Publishing",
+       "url": "https://www.wikidata.org/wiki/Q511384"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "b1498",
+   "title": "The Simple Truth",
+   "sourcesReached": [
+    "OpenLibrary",
+    "Wikidata"
+   ],
+   "sourcesMissed": [
+    "Google Books (no match)"
+   ],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "first publication year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 1998,
+     "proposed": 1998,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OpenLibrary",
+       "value": 1998,
+       "url": "https://openlibrary.org/search.json?title=The+Simple+Truth&limit=1"
+      },
+      {
+       "src": "Wikidata",
+       "value": 1998,
+       "url": "https://www.wikidata.org/wiki/Q19364546"
+      }
+     ]
+    },
+    {
+     "field": "pages",
+     "label": "page count",
+     "soft": false,
+     "current": 432,
+     "status": "no-source",
+     "grade": null,
+     "sources": []
+    },
+    {
+     "field": "creator",
+     "label": "author",
+     "soft": false,
+     "editionDependent": false,
+     "current": "David Baldacci",
+     "proposed": "David Baldacci",
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OpenLibrary",
+       "value": "David Baldacci",
+       "url": "https://openlibrary.org/search.json?title=The+Simple+Truth&limit=1"
+      },
+      {
+       "src": "Wikidata",
+       "value": "David Baldacci",
+       "url": "https://www.wikidata.org/wiki/Q19364546"
+      }
+     ]
+    },
+    {
+     "field": "publisher",
+     "label": "publisher",
+     "soft": true,
+     "editionDependent": true,
+     "current": "Warner Books",
+     "proposed": "Grand Central Publishing",
+     "status": "edition-dependent",
+     "grade": "B",
+     "note": "one source differs from the corpus (Wikidata \"Grand Central Publishing\") on a field with no single true value -- likely a different printing/edition, not an error.",
+     "sources": [
+      {
+       "src": "Wikidata",
+       "value": "Grand Central Publishing",
+       "url": "https://www.wikidata.org/wiki/Q19364546"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "b1499",
+   "title": "Small Great Things",
+   "sourcesReached": [
+    "OpenLibrary",
+    "Google Books",
+    "Wikidata"
+   ],
+   "sourcesMissed": [],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "first publication year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 2016,
+     "proposed": 2016,
+     "status": "corroborated-by-one",
+     "grade": "B",
+     "note": "matches Google Books/Wikidata; disagrees with OpenLibrary (2017)",
+     "sources": [
+      {
+       "src": "OpenLibrary",
+       "value": 2017,
+       "url": "https://openlibrary.org/search.json?title=Small+Great+Things&limit=1"
+      },
+      {
+       "src": "Google Books",
+       "value": 2016,
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3ASmall+Great+Things&maxResults=1&key=REDACTED"
+      },
+      {
+       "src": "Wikidata",
+       "value": 2016,
+       "url": "https://www.wikidata.org/wiki/Q55633347"
+      }
+     ],
+     "alternatives": [
+      2017
+     ]
+    },
+    {
+     "field": "pages",
+     "label": "page count",
+     "soft": false,
+     "editionDependent": true,
+     "current": 470,
+     "proposed": 495,
+     "status": "edition-dependent",
+     "grade": "B",
+     "note": "one source differs from the corpus (Google Books 495) on a field with no single true value -- likely a different printing/edition, not an error.",
+     "sources": [
+      {
+       "src": "Google Books",
+       "value": 495,
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3ASmall+Great+Things&maxResults=1&key=REDACTED"
+      }
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "author",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Jodi Picoult",
+     "proposed": "Jodi Picoult",
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OpenLibrary",
+       "value": "Jodi Picoult",
+       "url": "https://openlibrary.org/search.json?title=Small+Great+Things&limit=1"
+      },
+      {
+       "src": "Google Books",
+       "value": "Jodi Picoult",
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3ASmall+Great+Things&maxResults=1&key=REDACTED"
+      },
+      {
+       "src": "Wikidata",
+       "value": "Jodi Picoult",
+       "url": "https://www.wikidata.org/wiki/Q55633347"
+      }
+     ]
+    },
+    {
+     "field": "publisher",
+     "label": "publisher",
+     "soft": true,
+     "editionDependent": true,
+     "current": "Ballantine Books",
+     "proposed": "Ballantine Books",
+     "status": "corroborated-by-one",
+     "grade": "B",
+     "note": "matches Wikidata; disagrees with Google Books (\"Random House Canada\")",
+     "sources": [
+      {
+       "src": "Google Books",
+       "value": "Random House Canada",
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3ASmall+Great+Things&maxResults=1&key=REDACTED"
+      },
+      {
+       "src": "Wikidata",
+       "value": "Ballantine Books",
+       "url": "https://www.wikidata.org/wiki/Q55633347"
+      }
+     ],
+     "alternatives": [
+      "Ballantine Books"
+     ]
+    }
+   ]
+  },
+  {
+   "id": "b1500",
+   "title": "Eleven Minutes",
+   "sourcesReached": [
+    "OpenLibrary",
+    "Google Books",
+    "Wikidata"
+   ],
+   "sourcesMissed": [],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "first publication year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 2003,
+     "proposed": 2003,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OpenLibrary",
+       "value": 2003,
+       "url": "https://openlibrary.org/search.json?title=Eleven+Minutes&limit=1"
+      },
+      {
+       "src": "Google Books",
+       "value": 2003,
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3AEleven+Minutes&maxResults=1&key=REDACTED"
+      },
+      {
+       "src": "Wikidata",
+       "value": 2003,
+       "url": "https://www.wikidata.org/wiki/Q247379"
+      }
+     ]
+    },
+    {
+     "field": "pages",
+     "label": "page count",
+     "soft": false,
+     "editionDependent": true,
+     "current": 273,
+     "proposed": 275,
+     "status": "edition-dependent",
+     "grade": "B",
+     "note": "one source differs from the corpus (Google Books 275) on a field with no single true value -- likely a different printing/edition, not an error.",
+     "sources": [
+      {
+       "src": "Google Books",
+       "value": 275,
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3AEleven+Minutes&maxResults=1&key=REDACTED"
+      }
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "author",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Paulo Coelho",
+     "proposed": "Paulo Coelho",
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OpenLibrary",
+       "value": "Paulo Coelho",
+       "url": "https://openlibrary.org/search.json?title=Eleven+Minutes&limit=1"
+      },
+      {
+       "src": "Google Books",
+       "value": "Paulo Coelho",
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3AEleven+Minutes&maxResults=1&key=REDACTED"
+      },
+      {
+       "src": "Wikidata",
+       "value": "Paulo Coelho",
+       "url": "https://www.wikidata.org/wiki/Q247379"
+      }
+     ]
+    },
+    {
+     "field": "publisher",
+     "label": "publisher",
+     "soft": true,
+     "editionDependent": true,
+     "current": "HarperCollins",
+     "proposed": "HarperThorsons",
+     "status": "edition-dependent",
+     "grade": "B",
+     "note": "one source differs from the corpus (Google Books \"HarperThorsons\") on a field with no single true value -- likely a different printing/edition, not an error.",
+     "sources": [
+      {
+       "src": "Google Books",
+       "value": "HarperThorsons",
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3AEleven+Minutes&maxResults=1&key=REDACTED"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "b1501",
+   "title": "Brida",
+   "sourcesReached": [
+    "OpenLibrary",
+    "Google Books",
+    "Wikidata"
+   ],
+   "sourcesMissed": [],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "first publication year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 1990,
+     "proposed": 1990,
+     "status": "corroborated-by-one",
+     "grade": "B",
+     "note": "matches OpenLibrary/Wikidata; disagrees with Google Books (2008)",
+     "sources": [
+      {
+       "src": "OpenLibrary",
+       "value": 1990,
+       "url": "https://openlibrary.org/search.json?title=Brida&limit=1"
+      },
+      {
+       "src": "Google Books",
+       "value": 2008,
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3ABrida&maxResults=1&key=REDACTED"
+      },
+      {
+       "src": "Wikidata",
+       "value": 1990,
+       "url": "https://www.wikidata.org/wiki/Q1341424"
+      }
+     ],
+     "alternatives": [
+      2008
+     ]
+    },
+    {
+     "field": "pages",
+     "label": "page count",
+     "soft": false,
+     "editionDependent": true,
+     "current": 260,
+     "proposed": 307,
+     "status": "edition-dependent",
+     "grade": "B",
+     "note": "one source differs from the corpus (Google Books 307) on a field with no single true value -- likely a different printing/edition, not an error.",
+     "sources": [
+      {
+       "src": "Google Books",
+       "value": 307,
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3ABrida&maxResults=1&key=REDACTED"
+      }
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "author",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Paulo Coelho",
+     "proposed": "Paulo Coelho",
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OpenLibrary",
+       "value": "Paulo Coelho",
+       "url": "https://openlibrary.org/search.json?title=Brida&limit=1"
+      },
+      {
+       "src": "Google Books",
+       "value": "Paulo Coelho",
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3ABrida&maxResults=1&key=REDACTED"
+      },
+      {
+       "src": "Wikidata",
+       "value": "Paulo Coelho",
+       "url": "https://www.wikidata.org/wiki/Q1341424"
+      }
+     ]
+    },
+    {
+     "field": "publisher",
+     "label": "publisher",
+     "soft": true,
+     "editionDependent": true,
+     "current": "Rocco",
+     "proposed": "Qanun",
+     "status": "edition-dependent",
+     "grade": "B",
+     "note": "one source differs from the corpus (Wikidata \"Qanun\") on a field with no single true value -- likely a different printing/edition, not an error.",
+     "sources": [
+      {
+       "src": "Wikidata",
+       "value": "Qanun",
+       "url": "https://www.wikidata.org/wiki/Q1341424"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "b1502",
+   "title": "C Is for Corpse",
+   "sourcesReached": [
+    "OpenLibrary",
+    "Google Books",
+    "Wikidata"
+   ],
+   "sourcesMissed": [],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "first publication year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 1986,
+     "proposed": 1986,
+     "status": "corroborated-by-one",
+     "grade": "B",
+     "note": "matches OpenLibrary/Wikidata; disagrees with Google Books (2012)",
+     "sources": [
+      {
+       "src": "OpenLibrary",
+       "value": 1986,
+       "url": "https://openlibrary.org/search.json?title=C+Is+for+Corpse&limit=1"
+      },
+      {
+       "src": "Google Books",
+       "value": 2012,
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3AC+Is+for+Corpse&maxResults=1&key=REDACTED"
+      },
+      {
+       "src": "Wikidata",
+       "value": 1986,
+       "url": "https://www.wikidata.org/wiki/Q2142181"
+      }
+     ],
+     "alternatives": [
+      2012
+     ]
+    },
+    {
+     "field": "pages",
+     "label": "page count",
+     "soft": false,
+     "editionDependent": true,
+     "current": 259,
+     "proposed": 352,
+     "status": "edition-dependent",
+     "grade": "B",
+     "note": "one source differs from the corpus (Google Books 352) on a field with no single true value -- likely a different printing/edition, not an error.",
+     "sources": [
+      {
+       "src": "Google Books",
+       "value": 352,
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3AC+Is+for+Corpse&maxResults=1&key=REDACTED"
+      }
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "author",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Sue Grafton",
+     "proposed": "Sue Grafton",
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OpenLibrary",
+       "value": "Sue Grafton",
+       "url": "https://openlibrary.org/search.json?title=C+Is+for+Corpse&limit=1"
+      },
+      {
+       "src": "Google Books",
+       "value": "Sue Grafton",
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3AC+Is+for+Corpse&maxResults=1&key=REDACTED"
+      },
+      {
+       "src": "Wikidata",
+       "value": "Sue Grafton",
+       "url": "https://www.wikidata.org/wiki/Q2142181"
+      }
+     ]
+    },
+    {
+     "field": "publisher",
+     "label": "publisher",
+     "soft": true,
+     "editionDependent": true,
+     "current": "Henry Holt and Co.",
+     "proposed": "Pan Publishing",
+     "status": "edition-dependent",
+     "grade": "B",
+     "note": "corpus value does not match either source (Google Books \"Pan Publishing\", Wikidata \"Henry Holt and Company\") -- treated as a distinct edition; the specific cut is not identified from available evidence.",
+     "sources": [
+      {
+       "src": "Google Books",
+       "value": "Pan Publishing",
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3AC+Is+for+Corpse&maxResults=1&key=REDACTED"
+      },
+      {
+       "src": "Wikidata",
+       "value": "Henry Holt and Company",
+       "url": "https://www.wikidata.org/wiki/Q2142181"
+      }
+     ],
+     "alternatives": [
+      "Henry Holt and Company"
+     ]
+    }
+   ]
+  },
+  {
+   "id": "b1503",
+   "title": "2nd Chance",
+   "sourcesReached": [
+    "OpenLibrary",
+    "Wikidata"
+   ],
+   "sourcesMissed": [
+    "Google Books (no match)"
+   ],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "first publication year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 2002,
+     "proposed": 2002,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OpenLibrary",
+       "value": 2002,
+       "url": "https://openlibrary.org/search.json?title=2nd+Chance&limit=1"
+      },
+      {
+       "src": "Wikidata",
+       "value": 2002,
+       "url": "https://www.wikidata.org/wiki/Q3953979"
+      }
+     ]
+    },
+    {
+     "field": "pages",
+     "label": "page count",
+     "soft": false,
+     "current": 416,
+     "status": "no-source",
+     "grade": null,
+     "sources": []
+    },
+    {
+     "field": "creator",
+     "label": "author",
+     "soft": false,
+     "editionDependent": false,
+     "current": "James Patterson",
+     "proposed": "James Patterson",
+     "status": "corroborated-by-one",
+     "grade": "B",
+     "note": "matches Wikidata; disagrees with OpenLibrary (\"James Patterson & Andrew Gross\")",
+     "sources": [
+      {
+       "src": "OpenLibrary",
+       "value": "James Patterson & Andrew Gross",
+       "url": "https://openlibrary.org/search.json?title=2nd+Chance&limit=1"
+      },
+      {
+       "src": "Wikidata",
+       "value": "James Patterson",
+       "url": "https://www.wikidata.org/wiki/Q3953979"
+      }
+     ],
+     "alternatives": [
+      "James Patterson"
+     ]
+    },
+    {
+     "field": "publisher",
+     "label": "publisher",
+     "soft": true,
+     "editionDependent": true,
+     "current": "Little, Brown",
+     "proposed": "Hachette Book Group",
+     "status": "edition-dependent",
+     "grade": "B",
+     "note": "one source differs from the corpus (Wikidata \"Hachette Book Group\") on a field with no single true value -- likely a different printing/edition, not an error.",
+     "sources": [
+      {
+       "src": "Wikidata",
+       "value": "Hachette Book Group",
+       "url": "https://www.wikidata.org/wiki/Q3953979"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "b1504",
+   "title": "3rd Degree",
+   "sourcesReached": [
+    "OpenLibrary",
+    "Google Books",
+    "Wikidata"
+   ],
+   "sourcesMissed": [],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "first publication year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 2004,
+     "proposed": 2004,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OpenLibrary",
+       "value": 2004,
+       "url": "https://openlibrary.org/search.json?title=3rd+Degree&limit=1"
+      },
+      {
+       "src": "Google Books",
+       "value": 2004,
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3A3rd+Degree&maxResults=1&key=REDACTED"
+      },
+      {
+       "src": "Wikidata",
+       "value": 2004,
+       "url": "https://www.wikidata.org/wiki/Q938667"
+      }
+     ]
+    },
+    {
+     "field": "pages",
+     "label": "page count",
+     "soft": false,
+     "editionDependent": true,
+     "current": 416,
+     "proposed": 273,
+     "status": "edition-dependent",
+     "grade": "B",
+     "note": "one source differs from the corpus (Google Books 273) on a field with no single true value -- likely a different printing/edition, not an error.",
+     "sources": [
+      {
+       "src": "Google Books",
+       "value": 273,
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3A3rd+Degree&maxResults=1&key=REDACTED"
+      }
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "author",
+     "soft": false,
+     "editionDependent": false,
+     "current": "James Patterson",
+     "proposed": "Andrew Gross, James Patterson",
+     "status": "proposed-change",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OpenLibrary",
+       "value": "James Patterson & Andrew Gross",
+       "url": "https://openlibrary.org/search.json?title=3rd+Degree&limit=1"
+      },
+      {
+       "src": "Google Books",
+       "value": "James Patterson & Andrew Gross",
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3A3rd+Degree&maxResults=1&key=REDACTED"
+      },
+      {
+       "src": "Wikidata",
+       "value": "James Patterson & Andrew Gross",
+       "url": "https://www.wikidata.org/wiki/Q938667"
+      }
+     ]
+    },
+    {
+     "field": "publisher",
+     "label": "publisher",
+     "soft": true,
+     "editionDependent": true,
+     "current": "Little, Brown",
+     "proposed": "Little, Brown",
+     "status": "confirmed",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "Google Books",
+       "value": "Little, Brown",
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3A3rd+Degree&maxResults=1&key=REDACTED"
+      }
+     ]
+    }
+   ]
+  }
+ ]
+}
