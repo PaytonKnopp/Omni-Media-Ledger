@@ -1,0 +1,1209 @@
+{
+ "medium": "book",
+ "generated": "2026-09-17T18:09:19.079Z",
+ "offline": false,
+ "sources": [
+  "OpenLibrary",
+  "Google Books",
+  "Wikidata"
+ ],
+ "works": [
+  {
+   "id": "b1562",
+   "title": "The Tale of the Body Thief",
+   "sourcesReached": [
+    "OpenLibrary",
+    "Google Books",
+    "Wikidata"
+   ],
+   "sourcesMissed": [],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "first publication year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 1992,
+     "proposed": 1992,
+     "status": "corroborated-by-one",
+     "grade": "B",
+     "note": "matches OpenLibrary/Wikidata; disagrees with Google Books (1993)",
+     "sources": [
+      {
+       "src": "OpenLibrary",
+       "value": 1992,
+       "url": "https://openlibrary.org/search.json?title=The+Tale+of+the+Body+Thief&limit=1"
+      },
+      {
+       "src": "Google Books",
+       "value": 1993,
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3AThe+Tale+of+the+Body+Thief&maxResults=1&key=REDACTED"
+      },
+      {
+       "src": "Wikidata",
+       "value": 1992,
+       "url": "https://www.wikidata.org/wiki/Q649015"
+      }
+     ],
+     "alternatives": [
+      1993
+     ]
+    },
+    {
+     "field": "pages",
+     "label": "page count",
+     "soft": false,
+     "editionDependent": true,
+     "current": 434,
+     "proposed": 449,
+     "status": "edition-dependent",
+     "grade": "B",
+     "note": "one source differs from the corpus (Google Books 449) on a field with no single true value -- likely a different printing/edition, not an error.",
+     "sources": [
+      {
+       "src": "Google Books",
+       "value": 449,
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3AThe+Tale+of+the+Body+Thief&maxResults=1&key=REDACTED"
+      }
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "author",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Anne Rice",
+     "proposed": "Anne Rice",
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OpenLibrary",
+       "value": "Anne Rice",
+       "url": "https://openlibrary.org/search.json?title=The+Tale+of+the+Body+Thief&limit=1"
+      },
+      {
+       "src": "Google Books",
+       "value": "Anne Rice",
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3AThe+Tale+of+the+Body+Thief&maxResults=1&key=REDACTED"
+      },
+      {
+       "src": "Wikidata",
+       "value": "Anne Rice",
+       "url": "https://www.wikidata.org/wiki/Q649015"
+      }
+     ]
+    },
+    {
+     "field": "publisher",
+     "label": "publisher",
+     "soft": true,
+     "editionDependent": true,
+     "current": "Alfred A. Knopf",
+     "proposed": "Alfred A. Knopf",
+     "status": "corroborated-by-one",
+     "grade": "B",
+     "note": "matches Wikidata; disagrees with Google Books (\"Ballantine Books\")",
+     "sources": [
+      {
+       "src": "Google Books",
+       "value": "Ballantine Books",
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3AThe+Tale+of+the+Body+Thief&maxResults=1&key=REDACTED"
+      },
+      {
+       "src": "Wikidata",
+       "value": "Alfred A. Knopf",
+       "url": "https://www.wikidata.org/wiki/Q649015"
+      }
+     ],
+     "alternatives": [
+      "Alfred A. Knopf"
+     ]
+    }
+   ]
+  },
+  {
+   "id": "b1563",
+   "title": "Memnoch the Devil",
+   "sourcesReached": [
+    "OpenLibrary",
+    "Google Books",
+    "Wikidata"
+   ],
+   "sourcesMissed": [],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "first publication year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 1995,
+     "proposed": 1995,
+     "status": "corroborated-by-one",
+     "grade": "B",
+     "note": "matches OpenLibrary/Wikidata; disagrees with Google Books (2010)",
+     "sources": [
+      {
+       "src": "OpenLibrary",
+       "value": 1995,
+       "url": "https://openlibrary.org/search.json?title=Memnoch+the+Devil&limit=1"
+      },
+      {
+       "src": "Google Books",
+       "value": 2010,
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3AMemnoch+the+Devil&maxResults=1&key=REDACTED"
+      },
+      {
+       "src": "Wikidata",
+       "value": 1995,
+       "url": "https://www.wikidata.org/wiki/Q1365004"
+      }
+     ],
+     "alternatives": [
+      2010
+     ]
+    },
+    {
+     "field": "pages",
+     "label": "page count",
+     "soft": false,
+     "editionDependent": true,
+     "current": 353,
+     "proposed": 449,
+     "status": "edition-dependent",
+     "grade": "B",
+     "note": "one source differs from the corpus (Google Books 449) on a field with no single true value -- likely a different printing/edition, not an error.",
+     "sources": [
+      {
+       "src": "Google Books",
+       "value": 449,
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3AMemnoch+the+Devil&maxResults=1&key=REDACTED"
+      }
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "author",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Anne Rice",
+     "proposed": "Anne Rice",
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OpenLibrary",
+       "value": "Anne Rice",
+       "url": "https://openlibrary.org/search.json?title=Memnoch+the+Devil&limit=1"
+      },
+      {
+       "src": "Google Books",
+       "value": "Anne Rice",
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3AMemnoch+the+Devil&maxResults=1&key=REDACTED"
+      },
+      {
+       "src": "Wikidata",
+       "value": "Anne Rice",
+       "url": "https://www.wikidata.org/wiki/Q1365004"
+      }
+     ]
+    },
+    {
+     "field": "publisher",
+     "label": "publisher",
+     "soft": true,
+     "editionDependent": true,
+     "current": "Alfred A. Knopf",
+     "proposed": "Alfred A. Knopf",
+     "status": "corroborated-by-one",
+     "grade": "B",
+     "note": "matches Wikidata; disagrees with Google Books (\"Ballantine Books\")",
+     "sources": [
+      {
+       "src": "Google Books",
+       "value": "Ballantine Books",
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3AMemnoch+the+Devil&maxResults=1&key=REDACTED"
+      },
+      {
+       "src": "Wikidata",
+       "value": "Alfred A. Knopf",
+       "url": "https://www.wikidata.org/wiki/Q1365004"
+      }
+     ],
+     "alternatives": [
+      "Alfred A. Knopf"
+     ]
+    }
+   ]
+  },
+  {
+   "id": "b1564",
+   "title": "Blood and Gold",
+   "sourcesReached": [
+    "OpenLibrary",
+    "Google Books",
+    "Wikidata"
+   ],
+   "sourcesMissed": [],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "first publication year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 2001,
+     "proposed": 2001,
+     "status": "corroborated-by-one",
+     "grade": "B",
+     "note": "matches Google Books/Wikidata; disagrees with OpenLibrary (1998)",
+     "sources": [
+      {
+       "src": "OpenLibrary",
+       "value": 1998,
+       "url": "https://openlibrary.org/search.json?title=Blood+and+Gold&limit=1"
+      },
+      {
+       "src": "Google Books",
+       "value": 2001,
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3ABlood+and+Gold&maxResults=1&key=REDACTED"
+      },
+      {
+       "src": "Wikidata",
+       "value": 2001,
+       "url": "https://www.wikidata.org/wiki/Q886450"
+      }
+     ],
+     "alternatives": [
+      1998
+     ]
+    },
+    {
+     "field": "pages",
+     "label": "page count",
+     "soft": false,
+     "editionDependent": true,
+     "current": 407,
+     "proposed": 480,
+     "status": "edition-dependent",
+     "grade": "B",
+     "note": "one source differs from the corpus (Google Books 480) on a field with no single true value -- likely a different printing/edition, not an error.",
+     "sources": [
+      {
+       "src": "Google Books",
+       "value": 480,
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3ABlood+and+Gold&maxResults=1&key=REDACTED"
+      }
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "author",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Anne Rice",
+     "proposed": "Anne Rice",
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OpenLibrary",
+       "value": "Anne Rice",
+       "url": "https://openlibrary.org/search.json?title=Blood+and+Gold&limit=1"
+      },
+      {
+       "src": "Google Books",
+       "value": "Anne Rice",
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3ABlood+and+Gold&maxResults=1&key=REDACTED"
+      },
+      {
+       "src": "Wikidata",
+       "value": "Anne Rice",
+       "url": "https://www.wikidata.org/wiki/Q886450"
+      }
+     ]
+    },
+    {
+     "field": "publisher",
+     "label": "publisher",
+     "soft": true,
+     "editionDependent": true,
+     "current": "Alfred A. Knopf",
+     "proposed": "Alfred A. Knopf",
+     "status": "corroborated-by-one",
+     "grade": "B",
+     "note": "matches Wikidata; disagrees with Google Books (\"Ballantine Books\")",
+     "sources": [
+      {
+       "src": "Google Books",
+       "value": "Ballantine Books",
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3ABlood+and+Gold&maxResults=1&key=REDACTED"
+      },
+      {
+       "src": "Wikidata",
+       "value": "Alfred A. Knopf",
+       "url": "https://www.wikidata.org/wiki/Q886450"
+      }
+     ],
+     "alternatives": [
+      "Alfred A. Knopf"
+     ]
+    }
+   ]
+  },
+  {
+   "id": "b1565",
+   "title": "The Witching Hour",
+   "sourcesReached": [
+    "OpenLibrary",
+    "Wikidata"
+   ],
+   "sourcesMissed": [
+    "Google Books (no match)"
+   ],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "first publication year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 1990,
+     "proposed": 1990,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OpenLibrary",
+       "value": 1990,
+       "url": "https://openlibrary.org/search.json?title=The+Witching+Hour&limit=1"
+      },
+      {
+       "src": "Wikidata",
+       "value": 1990,
+       "url": "https://www.wikidata.org/wiki/Q2258329"
+      }
+     ]
+    },
+    {
+     "field": "pages",
+     "label": "page count",
+     "soft": false,
+     "current": 965,
+     "status": "no-source",
+     "grade": null,
+     "sources": []
+    },
+    {
+     "field": "creator",
+     "label": "author",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Anne Rice",
+     "proposed": "Anne Rice",
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OpenLibrary",
+       "value": "Anne Rice",
+       "url": "https://openlibrary.org/search.json?title=The+Witching+Hour&limit=1"
+      },
+      {
+       "src": "Wikidata",
+       "value": "Anne Rice",
+       "url": "https://www.wikidata.org/wiki/Q2258329"
+      }
+     ]
+    },
+    {
+     "field": "publisher",
+     "label": "publisher",
+     "soft": true,
+     "editionDependent": true,
+     "current": "Alfred A. Knopf",
+     "proposed": "Alfred A. Knopf",
+     "status": "confirmed",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "Wikidata",
+       "value": "Alfred A. Knopf",
+       "url": "https://www.wikidata.org/wiki/Q2258329"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "b1566",
+   "title": "Lasher",
+   "sourcesReached": [
+    "OpenLibrary",
+    "Google Books",
+    "Wikidata"
+   ],
+   "sourcesMissed": [],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "first publication year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 1993,
+     "proposed": 1993,
+     "status": "corroborated-by-one",
+     "grade": "B",
+     "note": "matches OpenLibrary/Wikidata; disagrees with Google Books (2010)",
+     "sources": [
+      {
+       "src": "OpenLibrary",
+       "value": 1993,
+       "url": "https://openlibrary.org/search.json?title=Lasher&limit=1"
+      },
+      {
+       "src": "Google Books",
+       "value": 2010,
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3ALasher&maxResults=1&key=REDACTED"
+      },
+      {
+       "src": "Wikidata",
+       "value": 1993,
+       "url": "https://www.wikidata.org/wiki/Q2109932"
+      }
+     ],
+     "alternatives": [
+      2010
+     ]
+    },
+    {
+     "field": "pages",
+     "label": "page count",
+     "soft": false,
+     "editionDependent": true,
+     "current": 576,
+     "proposed": 642,
+     "status": "edition-dependent",
+     "grade": "B",
+     "note": "one source differs from the corpus (Google Books 642) on a field with no single true value -- likely a different printing/edition, not an error.",
+     "sources": [
+      {
+       "src": "Google Books",
+       "value": 642,
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3ALasher&maxResults=1&key=REDACTED"
+      }
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "author",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Anne Rice",
+     "proposed": "Anne Rice",
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OpenLibrary",
+       "value": "Anne Rice",
+       "url": "https://openlibrary.org/search.json?title=Lasher&limit=1"
+      },
+      {
+       "src": "Google Books",
+       "value": "Anne Rice",
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3ALasher&maxResults=1&key=REDACTED"
+      },
+      {
+       "src": "Wikidata",
+       "value": "Anne Rice",
+       "url": "https://www.wikidata.org/wiki/Q2109932"
+      }
+     ]
+    },
+    {
+     "field": "publisher",
+     "label": "publisher",
+     "soft": true,
+     "editionDependent": true,
+     "current": "Alfred A. Knopf",
+     "proposed": "Alfred A. Knopf",
+     "status": "corroborated-by-one",
+     "grade": "B",
+     "note": "matches Wikidata; disagrees with Google Books (\"Ballantine Books\")",
+     "sources": [
+      {
+       "src": "Google Books",
+       "value": "Ballantine Books",
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3ALasher&maxResults=1&key=REDACTED"
+      },
+      {
+       "src": "Wikidata",
+       "value": "Alfred A. Knopf",
+       "url": "https://www.wikidata.org/wiki/Q2109932"
+      }
+     ],
+     "alternatives": [
+      "Alfred A. Knopf"
+     ]
+    }
+   ]
+  },
+  {
+   "id": "b1567",
+   "title": "Taltos",
+   "sourcesReached": [
+    "OpenLibrary",
+    "Google Books",
+    "Wikidata"
+   ],
+   "sourcesMissed": [],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "first publication year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 1994,
+     "proposed": 1994,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OpenLibrary",
+       "value": 1994,
+       "url": "https://openlibrary.org/search.json?title=Taltos&limit=1"
+      },
+      {
+       "src": "Google Books",
+       "value": 1994,
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3ATaltos&maxResults=1&key=REDACTED"
+      },
+      {
+       "src": "Wikidata",
+       "value": 1994,
+       "url": "https://www.wikidata.org/wiki/Q1816933"
+      }
+     ]
+    },
+    {
+     "field": "pages",
+     "label": "page count",
+     "soft": false,
+     "editionDependent": true,
+     "current": 381,
+     "proposed": 0,
+     "status": "edition-dependent",
+     "grade": "B",
+     "note": "one source differs from the corpus (Google Books 0) on a field with no single true value -- likely a different printing/edition, not an error.",
+     "sources": [
+      {
+       "src": "Google Books",
+       "value": 0,
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3ATaltos&maxResults=1&key=REDACTED"
+      }
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "author",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Anne Rice",
+     "proposed": "Anne Rice",
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OpenLibrary",
+       "value": "Anne Rice",
+       "url": "https://openlibrary.org/search.json?title=Taltos&limit=1"
+      },
+      {
+       "src": "Google Books",
+       "value": "Anne Rice",
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3ATaltos&maxResults=1&key=REDACTED"
+      },
+      {
+       "src": "Wikidata",
+       "value": "Anne Rice",
+       "url": "https://www.wikidata.org/wiki/Q1816933"
+      }
+     ]
+    },
+    {
+     "field": "publisher",
+     "label": "publisher",
+     "soft": true,
+     "editionDependent": true,
+     "current": "Alfred A. Knopf",
+     "proposed": "Alfred A. Knopf",
+     "status": "confirmed",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "Wikidata",
+       "value": "Alfred A. Knopf",
+       "url": "https://www.wikidata.org/wiki/Q1816933"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "b1568",
+   "title": "The Illustrated Man",
+   "sourcesReached": [
+    "OpenLibrary",
+    "Google Books",
+    "Wikidata"
+   ],
+   "sourcesMissed": [],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "first publication year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 1951,
+     "proposed": 1951,
+     "status": "corroborated-by-one",
+     "grade": "B",
+     "note": "matches OpenLibrary/Wikidata; disagrees with Google Books (1967)",
+     "sources": [
+      {
+       "src": "OpenLibrary",
+       "value": 1951,
+       "url": "https://openlibrary.org/search.json?title=The+Illustrated+Man&limit=1"
+      },
+      {
+       "src": "Google Books",
+       "value": 1967,
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3AThe+Illustrated+Man&maxResults=1&key=REDACTED"
+      },
+      {
+       "src": "Wikidata",
+       "value": 1951,
+       "url": "https://www.wikidata.org/wiki/Q1756055"
+      }
+     ],
+     "alternatives": [
+      1967
+     ]
+    },
+    {
+     "field": "pages",
+     "label": "page count",
+     "soft": false,
+     "editionDependent": true,
+     "current": 253,
+     "proposed": 198,
+     "status": "edition-dependent",
+     "grade": "B",
+     "note": "corpus value does not match either source (Google Books 198, Wikidata 318) -- treated as a distinct edition; the specific cut is not identified from available evidence.",
+     "sources": [
+      {
+       "src": "Google Books",
+       "value": 198,
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3AThe+Illustrated+Man&maxResults=1&key=REDACTED"
+      },
+      {
+       "src": "Wikidata",
+       "value": 318,
+       "url": "https://www.wikidata.org/wiki/Q1756055"
+      }
+     ],
+     "alternatives": [
+      318
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "author",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Ray Bradbury",
+     "proposed": "Ray Bradbury",
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OpenLibrary",
+       "value": "Ray Bradbury",
+       "url": "https://openlibrary.org/search.json?title=The+Illustrated+Man&limit=1"
+      },
+      {
+       "src": "Google Books",
+       "value": "Ray Bradbury",
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3AThe+Illustrated+Man&maxResults=1&key=REDACTED"
+      },
+      {
+       "src": "Wikidata",
+       "value": "Ray Bradbury",
+       "url": "https://www.wikidata.org/wiki/Q1756055"
+      }
+     ]
+    },
+    {
+     "field": "publisher",
+     "label": "publisher",
+     "soft": true,
+     "editionDependent": true,
+     "current": "Doubleday",
+     "proposed": "Doubleday",
+     "status": "confirmed",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "Wikidata",
+       "value": "Doubleday",
+       "url": "https://www.wikidata.org/wiki/Q1756055"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "b1569",
+   "title": "Dandelion Wine",
+   "sourcesReached": [
+    "OpenLibrary",
+    "Wikidata"
+   ],
+   "sourcesMissed": [
+    "Google Books (no match)"
+   ],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "first publication year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 1957,
+     "proposed": 1957,
+     "status": "corroborated-by-one",
+     "grade": "B",
+     "note": "matches Wikidata; disagrees with OpenLibrary (1946)",
+     "sources": [
+      {
+       "src": "OpenLibrary",
+       "value": 1946,
+       "url": "https://openlibrary.org/search.json?title=Dandelion+Wine&limit=1"
+      },
+      {
+       "src": "Wikidata",
+       "value": 1957,
+       "url": "https://www.wikidata.org/wiki/Q1810196"
+      }
+     ],
+     "alternatives": [
+      1957
+     ]
+    },
+    {
+     "field": "pages",
+     "label": "page count",
+     "soft": false,
+     "current": 239,
+     "status": "no-source",
+     "grade": null,
+     "sources": []
+    },
+    {
+     "field": "creator",
+     "label": "author",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Ray Bradbury",
+     "proposed": "Ray Bradbury",
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OpenLibrary",
+       "value": "Ray Bradbury",
+       "url": "https://openlibrary.org/search.json?title=Dandelion+Wine&limit=1"
+      },
+      {
+       "src": "Wikidata",
+       "value": "Ray Bradbury",
+       "url": "https://www.wikidata.org/wiki/Q1810196"
+      }
+     ]
+    },
+    {
+     "field": "publisher",
+     "label": "publisher",
+     "soft": true,
+     "editionDependent": true,
+     "current": "Doubleday",
+     "proposed": "Doubleday",
+     "status": "confirmed",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "Wikidata",
+       "value": "Doubleday",
+       "url": "https://www.wikidata.org/wiki/Q1810196"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "b1570",
+   "title": "I Sing the Body Electric",
+   "sourcesReached": [
+    "OpenLibrary",
+    "Google Books",
+    "Wikidata"
+   ],
+   "sourcesMissed": [],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "first publication year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 1969,
+     "proposed": 1969,
+     "status": "corroborated-by-one",
+     "grade": "B",
+     "note": "matches OpenLibrary/Wikidata; disagrees with Google Books (1967)",
+     "sources": [
+      {
+       "src": "OpenLibrary",
+       "value": 1969,
+       "url": "https://openlibrary.org/search.json?title=I+Sing+the+Body+Electric&limit=1"
+      },
+      {
+       "src": "Google Books",
+       "value": 1967,
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3AI+Sing+the+Body+Electric&maxResults=1&key=REDACTED"
+      },
+      {
+       "src": "Wikidata",
+       "value": 1969,
+       "url": "https://www.wikidata.org/wiki/Q3163406"
+      }
+     ],
+     "alternatives": [
+      1967
+     ]
+    },
+    {
+     "field": "pages",
+     "label": "page count",
+     "soft": false,
+     "editionDependent": true,
+     "current": 277,
+     "proposed": 274,
+     "status": "edition-dependent",
+     "grade": "B",
+     "note": "one source differs from the corpus (Google Books 274) on a field with no single true value -- likely a different printing/edition, not an error.",
+     "sources": [
+      {
+       "src": "Google Books",
+       "value": 274,
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3AI+Sing+the+Body+Electric&maxResults=1&key=REDACTED"
+      }
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "author",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Ray Bradbury",
+     "proposed": "Ray Bradbury",
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OpenLibrary",
+       "value": "Ray Bradbury",
+       "url": "https://openlibrary.org/search.json?title=I+Sing+the+Body+Electric&limit=1"
+      },
+      {
+       "src": "Google Books",
+       "value": "Ray Bradbury",
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3AI+Sing+the+Body+Electric&maxResults=1&key=REDACTED"
+      },
+      {
+       "src": "Wikidata",
+       "value": "Ray Bradbury",
+       "url": "https://www.wikidata.org/wiki/Q3163406"
+      }
+     ]
+    },
+    {
+     "field": "publisher",
+     "label": "publisher",
+     "soft": true,
+     "editionDependent": true,
+     "current": "Alfred A. Knopf",
+     "proposed": "Alfred A. Knopf",
+     "status": "confirmed",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "Wikidata",
+       "value": "Alfred A. Knopf",
+       "url": "https://www.wikidata.org/wiki/Q3163406"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "b1571",
+   "title": "The Lottery and Other Stories",
+   "sourcesReached": [
+    "OpenLibrary",
+    "Google Books",
+    "Wikidata"
+   ],
+   "sourcesMissed": [],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "first publication year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 1949,
+     "proposed": 1949,
+     "status": "corroborated-by-one",
+     "grade": "B",
+     "note": "matches OpenLibrary/Wikidata; disagrees with Google Books (2005)",
+     "sources": [
+      {
+       "src": "OpenLibrary",
+       "value": 1949,
+       "url": "https://openlibrary.org/search.json?title=The+Lottery+and+Other+Stories&limit=1"
+      },
+      {
+       "src": "Google Books",
+       "value": 2005,
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3AThe+Lottery+and+Other+Stories&maxResults=1&key=REDACTED"
+      },
+      {
+       "src": "Wikidata",
+       "value": 1949,
+       "url": "https://www.wikidata.org/wiki/Q16386772"
+      }
+     ],
+     "alternatives": [
+      2005
+     ]
+    },
+    {
+     "field": "pages",
+     "label": "page count",
+     "soft": false,
+     "editionDependent": true,
+     "current": 306,
+     "proposed": 322,
+     "status": "edition-dependent",
+     "grade": "B",
+     "note": "one source differs from the corpus (Google Books 322) on a field with no single true value -- likely a different printing/edition, not an error.",
+     "sources": [
+      {
+       "src": "Google Books",
+       "value": 322,
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3AThe+Lottery+and+Other+Stories&maxResults=1&key=REDACTED"
+      }
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "author",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Shirley Jackson",
+     "proposed": "Shirley Jackson",
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OpenLibrary",
+       "value": "Shirley Jackson",
+       "url": "https://openlibrary.org/search.json?title=The+Lottery+and+Other+Stories&limit=1"
+      },
+      {
+       "src": "Google Books",
+       "value": "Shirley Jackson",
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3AThe+Lottery+and+Other+Stories&maxResults=1&key=REDACTED"
+      },
+      {
+       "src": "Wikidata",
+       "value": "Shirley Jackson",
+       "url": "https://www.wikidata.org/wiki/Q16386772"
+      }
+     ]
+    },
+    {
+     "field": "publisher",
+     "label": "publisher",
+     "soft": true,
+     "editionDependent": true,
+     "current": "Farrar, Straus and Young",
+     "proposed": "Farrar, Straus and Giroux",
+     "status": "edition-dependent",
+     "grade": "B",
+     "note": "one source differs from the corpus (Google Books \"Farrar, Straus and Giroux\") on a field with no single true value -- likely a different printing/edition, not an error.",
+     "sources": [
+      {
+       "src": "Google Books",
+       "value": "Farrar, Straus and Giroux",
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3AThe+Lottery+and+Other+Stories&maxResults=1&key=REDACTED"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "b1572",
+   "title": "Floating Dragon",
+   "sourcesReached": [
+    "OpenLibrary",
+    "Google Books",
+    "Wikidata"
+   ],
+   "sourcesMissed": [],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "first publication year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 1983,
+     "proposed": 1983,
+     "status": "corroborated-by-one",
+     "grade": "B",
+     "note": "matches Wikidata; disagrees with OpenLibrary (1982), Google Books (1994)",
+     "sources": [
+      {
+       "src": "OpenLibrary",
+       "value": 1982,
+       "url": "https://openlibrary.org/search.json?title=Floating+Dragon&limit=1"
+      },
+      {
+       "src": "Google Books",
+       "value": 1994,
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3AFloating+Dragon&maxResults=1&key=REDACTED"
+      },
+      {
+       "src": "Wikidata",
+       "value": 1983,
+       "url": "https://www.wikidata.org/wiki/Q5459873"
+      }
+     ],
+     "alternatives": [
+      1994,
+      1983
+     ]
+    },
+    {
+     "field": "pages",
+     "label": "page count",
+     "soft": false,
+     "editionDependent": true,
+     "current": 563,
+     "proposed": 655,
+     "status": "edition-dependent",
+     "grade": "B",
+     "note": "one source differs from the corpus (Google Books 655) on a field with no single true value -- likely a different printing/edition, not an error.",
+     "sources": [
+      {
+       "src": "Google Books",
+       "value": 655,
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3AFloating+Dragon&maxResults=1&key=REDACTED"
+      }
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "author",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Peter Straub",
+     "proposed": "Peter Straub",
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OpenLibrary",
+       "value": "Peter Straub",
+       "url": "https://openlibrary.org/search.json?title=Floating+Dragon&limit=1"
+      },
+      {
+       "src": "Google Books",
+       "value": "Peter Straub",
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3AFloating+Dragon&maxResults=1&key=REDACTED"
+      },
+      {
+       "src": "Wikidata",
+       "value": "Peter Straub",
+       "url": "https://www.wikidata.org/wiki/Q5459873"
+      }
+     ]
+    },
+    {
+     "field": "publisher",
+     "label": "publisher",
+     "soft": true,
+     "current": "G. P. Putnam's Sons",
+     "status": "no-source",
+     "grade": null,
+     "sources": []
+    }
+   ]
+  },
+  {
+   "id": "b1573",
+   "title": "Julia",
+   "sourcesReached": [],
+   "sourcesMissed": [
+    "OpenLibrary (no match)",
+    "Google Books (no match)",
+    "Wikidata (no match)"
+   ],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "first publication year",
+     "soft": false,
+     "current": 1975,
+     "status": "no-source",
+     "grade": null,
+     "sources": []
+    },
+    {
+     "field": "pages",
+     "label": "page count",
+     "soft": false,
+     "current": 244,
+     "status": "no-source",
+     "grade": null,
+     "sources": []
+    },
+    {
+     "field": "creator",
+     "label": "author",
+     "soft": false,
+     "current": "Peter Straub",
+     "status": "no-source",
+     "grade": null,
+     "sources": []
+    },
+    {
+     "field": "publisher",
+     "label": "publisher",
+     "soft": true,
+     "current": "Coward, McCann & Geoghegan",
+     "status": "no-source",
+     "grade": null,
+     "sources": []
+    }
+   ]
+  }
+ ]
+}
