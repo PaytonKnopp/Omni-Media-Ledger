@@ -1,0 +1,1321 @@
+{
+ "medium": "game",
+ "generated": "2026-09-17T12:23:31.652Z",
+ "offline": false,
+ "sources": [
+  "IGDB",
+  "Wikidata"
+ ],
+ "works": [
+  {
+   "id": "g432",
+   "title": "Doom",
+   "sourcesReached": [
+    "Wikidata"
+   ],
+   "sourcesMissed": [
+    "IGDB (no key in environment)"
+   ],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "release year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 1993,
+     "proposed": 1993,
+     "status": "confirmed",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "Wikidata",
+       "value": 1993,
+       "url": "https://www.wikidata.org/wiki/Q189784"
+      }
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "developer",
+     "soft": false,
+     "editionDependent": false,
+     "current": "id Software",
+     "proposed": "id Software, Nerve Software",
+     "status": "proposed-change",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "Wikidata",
+       "value": "id Software & Nerve Software",
+       "url": "https://www.wikidata.org/wiki/Q189784"
+      }
+     ]
+    },
+    {
+     "field": "platforms",
+     "label": "platforms",
+     "soft": true,
+     "editionDependent": false,
+     "current": [
+      "PC"
+     ],
+     "proposed": [
+      "Game Boy Advance",
+      "RiscPC",
+      "3DO",
+      "Linux",
+      "Xbox",
+      "Microsoft Windows",
+      "Super Nintendo Entertainment System",
+      "Sega Genesis",
+      "PlayStation",
+      "Amiga 1200",
+      "DOS",
+      "Xbox 360",
+      "PlayStation 3",
+      "Sega Saturn",
+      "iOS",
+      "Atari Jaguar",
+      "macOS",
+      "IRIX",
+      "Solaris",
+      "Sega 32X",
+      "Nintendo Switch",
+      "Classic Mac OS",
+      "Android",
+      "MS-DOS",
+      "PlayStation 4",
+      "Xbox One",
+      "NEC PC-9800 series",
+      "Acorn Archimedes",
+      "Flipper Zero",
+      "NeXTSTEP",
+      "OS/2"
+     ],
+     "status": "proposed-change",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "Wikidata",
+       "value": [
+        "Game Boy Advance",
+        "RiscPC",
+        "3DO",
+        "Linux",
+        "Xbox",
+        "Microsoft Windows",
+        "Super Nintendo Entertainment System",
+        "Sega Genesis",
+        "PlayStation",
+        "Amiga 1200",
+        "DOS",
+        "Xbox 360",
+        "PlayStation 3",
+        "Sega Saturn",
+        "iOS",
+        "Atari Jaguar",
+        "macOS",
+        "IRIX",
+        "Solaris",
+        "Sega 32X",
+        "Nintendo Switch",
+        "Classic Mac OS",
+        "Android",
+        "MS-DOS",
+        "PlayStation 4",
+        "Xbox One",
+        "NEC PC-9800 series",
+        "Acorn Archimedes",
+        "Flipper Zero",
+        "NeXTSTEP",
+        "OS/2"
+       ],
+       "url": "https://www.wikidata.org/wiki/Q189784"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "g433",
+   "title": "Doom II",
+   "sourcesReached": [
+    "Wikidata"
+   ],
+   "sourcesMissed": [
+    "IGDB (no key in environment)"
+   ],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "release year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 1994,
+     "proposed": 1994,
+     "status": "confirmed",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "Wikidata",
+       "value": 1994,
+       "url": "https://www.wikidata.org/wiki/Q755186"
+      }
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "developer",
+     "soft": false,
+     "editionDependent": false,
+     "current": "id Software",
+     "proposed": "id Software",
+     "status": "confirmed",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "Wikidata",
+       "value": "id Software",
+       "url": "https://www.wikidata.org/wiki/Q755186"
+      }
+     ]
+    },
+    {
+     "field": "platforms",
+     "label": "platforms",
+     "soft": true,
+     "editionDependent": false,
+     "current": [
+      "PC"
+     ],
+     "proposed": [
+      "Game Boy Advance",
+      "NeXT",
+      "DOS",
+      "Microsoft Windows",
+      "PlayStation 3",
+      "Linux",
+      "OS/2",
+      "Xbox 360",
+      "Nintendo Switch",
+      "Classic Mac OS",
+      "Android",
+      "iOS",
+      "MS-DOS"
+     ],
+     "status": "proposed-change",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "Wikidata",
+       "value": [
+        "Game Boy Advance",
+        "NeXT",
+        "DOS",
+        "Microsoft Windows",
+        "PlayStation 3",
+        "Linux",
+        "OS/2",
+        "Xbox 360",
+        "Nintendo Switch",
+        "Classic Mac OS",
+        "Android",
+        "iOS",
+        "MS-DOS"
+       ],
+       "url": "https://www.wikidata.org/wiki/Q755186"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "g434",
+   "title": "Wolfenstein 3D",
+   "sourcesReached": [
+    "Wikidata"
+   ],
+   "sourcesMissed": [
+    "IGDB (no key in environment)"
+   ],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "release year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 1992,
+     "proposed": 1992,
+     "status": "confirmed",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "Wikidata",
+       "value": 1992,
+       "url": "https://www.wikidata.org/wiki/Q18940"
+      }
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "developer",
+     "soft": false,
+     "editionDependent": false,
+     "current": "id Software",
+     "proposed": "id Software, Interplay Entertainment, Nerve Software, Raven Software",
+     "status": "proposed-change",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "Wikidata",
+       "value": "id Software & Raven Software & Nerve Software & Interplay Entertainment",
+       "url": "https://www.wikidata.org/wiki/Q18940"
+      }
+     ]
+    },
+    {
+     "field": "platforms",
+     "label": "platforms",
+     "soft": true,
+     "editionDependent": false,
+     "current": [
+      "PC"
+     ],
+     "proposed": [
+      "Game Boy Advance",
+      "Super Nintendo Entertainment System",
+      "Atari Jaguar",
+      "Atari ST",
+      "AmigaOS",
+      "3DO",
+      "Pocket PC",
+      "Xbox 360",
+      "PlayStation 3",
+      "Microsoft Windows",
+      "Acorn Archimedes",
+      "MS-DOS",
+      "Apple IIGS",
+      "Amiga 1200",
+      "iOS",
+      "IBM Personal Computer",
+      "Apple II series",
+      "Atari TOS",
+      "MorphOS",
+      "Classic Mac OS",
+      "NEC PC-9800 series",
+      "RISC OS",
+      "Xbox",
+      "Linux",
+      "Android"
+     ],
+     "status": "proposed-change",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "Wikidata",
+       "value": [
+        "Game Boy Advance",
+        "Super Nintendo Entertainment System",
+        "Atari Jaguar",
+        "Atari ST",
+        "AmigaOS",
+        "3DO",
+        "Pocket PC",
+        "Xbox 360",
+        "PlayStation 3",
+        "Microsoft Windows",
+        "Acorn Archimedes",
+        "MS-DOS",
+        "Apple IIGS",
+        "Amiga 1200",
+        "iOS",
+        "IBM Personal Computer",
+        "Apple II series",
+        "Atari TOS",
+        "MorphOS",
+        "Classic Mac OS",
+        "NEC PC-9800 series",
+        "RISC OS",
+        "Xbox",
+        "Linux",
+        "Android"
+       ],
+       "url": "https://www.wikidata.org/wiki/Q18940"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "g435",
+   "title": "Quake II",
+   "sourcesReached": [
+    "Wikidata"
+   ],
+   "sourcesMissed": [
+    "IGDB (no key in environment)"
+   ],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "release year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 1997,
+     "proposed": 1997,
+     "status": "confirmed",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "Wikidata",
+       "value": 1997,
+       "url": "https://www.wikidata.org/wiki/Q737103"
+      }
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "developer",
+     "soft": false,
+     "editionDependent": false,
+     "current": "id Software",
+     "proposed": "id Software",
+     "status": "confirmed",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "Wikidata",
+       "value": "id Software",
+       "url": "https://www.wikidata.org/wiki/Q737103"
+      }
+     ]
+    },
+    {
+     "field": "platforms",
+     "label": "platforms",
+     "soft": true,
+     "editionDependent": false,
+     "current": [
+      "PC"
+     ],
+     "proposed": [
+      "Nintendo 64",
+      "Microsoft Windows",
+      "PlayStation",
+      "Linux",
+      "Xbox 360",
+      "Commodore Amiga",
+      "Dreamcast",
+      "Classic Mac OS",
+      "Nintendo Switch"
+     ],
+     "status": "proposed-change",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "Wikidata",
+       "value": [
+        "Nintendo 64",
+        "Microsoft Windows",
+        "PlayStation",
+        "Linux",
+        "Xbox 360",
+        "Commodore Amiga",
+        "Dreamcast",
+        "Classic Mac OS",
+        "Nintendo Switch"
+       ],
+       "url": "https://www.wikidata.org/wiki/Q737103"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "g436",
+   "title": "System Shock",
+   "sourcesReached": [
+    "Wikidata"
+   ],
+   "sourcesMissed": [
+    "IGDB (no key in environment)"
+   ],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "release year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 1994,
+     "proposed": 1994,
+     "status": "confirmed",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "Wikidata",
+       "value": 1994,
+       "url": "https://www.wikidata.org/wiki/Q1151634"
+      }
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "developer",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Looking Glass Technologies",
+     "proposed": "Looking Glass Studios",
+     "status": "proposed-change",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "Wikidata",
+       "value": "Looking Glass Studios",
+       "url": "https://www.wikidata.org/wiki/Q1151634"
+      }
+     ]
+    },
+    {
+     "field": "platforms",
+     "label": "platforms",
+     "soft": true,
+     "editionDependent": false,
+     "current": [
+      "PC"
+     ],
+     "proposed": [
+      "DOS",
+      "Classic Mac OS"
+     ],
+     "status": "proposed-change",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "Wikidata",
+       "value": [
+        "DOS",
+        "Classic Mac OS"
+       ],
+       "url": "https://www.wikidata.org/wiki/Q1151634"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "g437",
+   "title": "Deus Ex: Human Revolution",
+   "sourcesReached": [
+    "Wikidata"
+   ],
+   "sourcesMissed": [
+    "IGDB (no key in environment)"
+   ],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "release year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 2011,
+     "proposed": 2011,
+     "status": "confirmed",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "Wikidata",
+       "value": 2011,
+       "url": "https://www.wikidata.org/wiki/Q642107"
+      }
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "developer",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Eidos Montreal",
+     "proposed": "Eidos Montreal",
+     "status": "confirmed",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "Wikidata",
+       "value": "Eidos Montreal",
+       "url": "https://www.wikidata.org/wiki/Q642107"
+      }
+     ]
+    },
+    {
+     "field": "platforms",
+     "label": "platforms",
+     "soft": true,
+     "editionDependent": false,
+     "current": [
+      "PC",
+      "PS3",
+      "Xbox 360"
+     ],
+     "proposed": [
+      "Xbox 360",
+      "PlayStation 3",
+      "Microsoft Windows",
+      "Wii U",
+      "macOS"
+     ],
+     "status": "proposed-change",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "Wikidata",
+       "value": [
+        "Xbox 360",
+        "PlayStation 3",
+        "Microsoft Windows",
+        "Wii U",
+        "macOS"
+       ],
+       "url": "https://www.wikidata.org/wiki/Q642107"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "g438",
+   "title": "Metroid",
+   "sourcesReached": [
+    "Wikidata"
+   ],
+   "sourcesMissed": [
+    "IGDB (no key in environment)"
+   ],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "release year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 1986,
+     "proposed": 1986,
+     "status": "confirmed",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "Wikidata",
+       "value": 1986,
+       "url": "https://www.wikidata.org/wiki/Q2530723"
+      }
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "developer",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Nintendo R&D1",
+     "proposed": "Development 1, Nintendo Research",
+     "status": "proposed-change",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "Wikidata",
+       "value": "Nintendo Research & Development 1",
+       "url": "https://www.wikidata.org/wiki/Q2530723"
+      }
+     ]
+    },
+    {
+     "field": "platforms",
+     "label": "platforms",
+     "soft": true,
+     "editionDependent": false,
+     "current": [
+      "NES"
+     ],
+     "proposed": [
+      "Game Boy Advance",
+      "Nintendo Entertainment System",
+      "Famicom Disk System"
+     ],
+     "status": "proposed-change",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "Wikidata",
+       "value": [
+        "Game Boy Advance",
+        "Nintendo Entertainment System",
+        "Famicom Disk System"
+       ],
+       "url": "https://www.wikidata.org/wiki/Q2530723"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "g439",
+   "title": "Metroid Prime 2: Echoes",
+   "sourcesReached": [
+    "Wikidata"
+   ],
+   "sourcesMissed": [
+    "IGDB (no key in environment)"
+   ],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "release year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 2004,
+     "proposed": 2004,
+     "status": "confirmed",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "Wikidata",
+       "value": 2004,
+       "url": "https://www.wikidata.org/wiki/Q2089035"
+      }
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "developer",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Retro Studios",
+     "proposed": "Retro Studios",
+     "status": "confirmed",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "Wikidata",
+       "value": "Retro Studios",
+       "url": "https://www.wikidata.org/wiki/Q2089035"
+      }
+     ]
+    },
+    {
+     "field": "platforms",
+     "label": "platforms",
+     "soft": true,
+     "editionDependent": false,
+     "current": [
+      "GameCube"
+     ],
+     "proposed": [
+      "Wii",
+      "Nintendo GameCube"
+     ],
+     "status": "proposed-change",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "Wikidata",
+       "value": [
+        "Wii",
+        "Nintendo GameCube"
+       ],
+       "url": "https://www.wikidata.org/wiki/Q2089035"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "g440",
+   "title": "Metroid Fusion",
+   "sourcesReached": [
+    "Wikidata"
+   ],
+   "sourcesMissed": [
+    "IGDB (no key in environment)"
+   ],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "release year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 2002,
+     "proposed": 2002,
+     "status": "confirmed",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "Wikidata",
+       "value": 2002,
+       "url": "https://www.wikidata.org/wiki/Q2478949"
+      }
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "developer",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Nintendo R&D1",
+     "proposed": "Development 1, Nintendo Research",
+     "status": "proposed-change",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "Wikidata",
+       "value": "Nintendo Research & Development 1",
+       "url": "https://www.wikidata.org/wiki/Q2478949"
+      }
+     ]
+    },
+    {
+     "field": "platforms",
+     "label": "platforms",
+     "soft": true,
+     "editionDependent": false,
+     "current": [
+      "Game Boy Advance"
+     ],
+     "proposed": [
+      "Game Boy Advance",
+      "Wii U",
+      "Nintendo Switch"
+     ],
+     "status": "proposed-change",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "Wikidata",
+       "value": [
+        "Game Boy Advance",
+        "Wii U",
+        "Nintendo Switch"
+       ],
+       "url": "https://www.wikidata.org/wiki/Q2478949"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "g441",
+   "title": "Kirby's Dream Land",
+   "sourcesReached": [
+    "Wikidata"
+   ],
+   "sourcesMissed": [
+    "IGDB (no key in environment)"
+   ],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "release year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 1992,
+     "proposed": 1992,
+     "status": "confirmed",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "Wikidata",
+       "value": 1992,
+       "url": "https://www.wikidata.org/wiki/Q1154044"
+      }
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "developer",
+     "soft": false,
+     "editionDependent": false,
+     "current": "HAL Laboratory",
+     "proposed": "HAL Laboratory",
+     "status": "confirmed",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "Wikidata",
+       "value": "HAL Laboratory",
+       "url": "https://www.wikidata.org/wiki/Q1154044"
+      }
+     ]
+    },
+    {
+     "field": "platforms",
+     "label": "platforms",
+     "soft": true,
+     "editionDependent": false,
+     "current": [
+      "Game Boy"
+     ],
+     "proposed": [
+      "Game Boy"
+     ],
+     "status": "confirmed",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "Wikidata",
+       "value": [
+        "Game Boy"
+       ],
+       "url": "https://www.wikidata.org/wiki/Q1154044"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "g442",
+   "title": "Sonic the Hedgehog",
+   "sourcesReached": [
+    "Wikidata"
+   ],
+   "sourcesMissed": [
+    "IGDB (no key in environment)"
+   ],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "release year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 1991,
+     "proposed": 1991,
+     "status": "confirmed",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "Wikidata",
+       "value": 1991,
+       "url": "https://www.wikidata.org/wiki/Q37123"
+      }
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "developer",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Sonic Team",
+     "proposed": "Konami, Sonic Team",
+     "status": "proposed-change",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "Wikidata",
+       "value": "Sonic Team & Konami",
+       "url": "https://www.wikidata.org/wiki/Q37123"
+      }
+     ]
+    },
+    {
+     "field": "platforms",
+     "label": "platforms",
+     "soft": true,
+     "editionDependent": false,
+     "current": [
+      "Genesis"
+     ],
+     "proposed": [
+      "Sega Genesis",
+      "Wii",
+      "Nintendo GameCube",
+      "Android",
+      "Microsoft Windows",
+      "PlayStation 3",
+      "Xbox 360",
+      "iOS",
+      "arcade video game",
+      "mobile phone",
+      "Game Boy Advance",
+      "Java Platform, Micro Edition",
+      "BlackBerry",
+      "Nintendo 3DS",
+      "Nintendo Switch",
+      "Sega Saturn",
+      "Dreamcast",
+      "PlayStation 2",
+      "Xbox",
+      "PlayStation Portable",
+      "Nintendo DS",
+      "PlayStation 4",
+      "Xbox One",
+      "Amazon Fire TV",
+      "Apple TV",
+      "macOS",
+      "Linux"
+     ],
+     "status": "proposed-change",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "Wikidata",
+       "value": [
+        "Sega Genesis",
+        "Wii",
+        "Nintendo GameCube",
+        "Android",
+        "Microsoft Windows",
+        "PlayStation 3",
+        "Xbox 360",
+        "iOS",
+        "arcade video game",
+        "mobile phone",
+        "Game Boy Advance",
+        "Java Platform, Micro Edition",
+        "BlackBerry",
+        "Nintendo 3DS",
+        "Nintendo Switch",
+        "Sega Saturn",
+        "Dreamcast",
+        "PlayStation 2",
+        "Xbox",
+        "PlayStation Portable",
+        "Nintendo DS",
+        "PlayStation 4",
+        "Xbox One",
+        "Amazon Fire TV",
+        "Apple TV",
+        "macOS",
+        "Linux"
+       ],
+       "url": "https://www.wikidata.org/wiki/Q37123"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "g443",
+   "title": "Sonic Adventure",
+   "sourcesReached": [
+    "Wikidata"
+   ],
+   "sourcesMissed": [
+    "IGDB (no key in environment)"
+   ],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "release year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 1998,
+     "proposed": 1998,
+     "status": "confirmed",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "Wikidata",
+       "value": 1998,
+       "url": "https://www.wikidata.org/wiki/Q1069059"
+      }
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "developer",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Sonic Team",
+     "proposed": "Now Production, Sonic Team",
+     "status": "proposed-change",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "Wikidata",
+       "value": "Sonic Team & Now Production",
+       "url": "https://www.wikidata.org/wiki/Q1069059"
+      }
+     ]
+    },
+    {
+     "field": "platforms",
+     "label": "platforms",
+     "soft": true,
+     "editionDependent": false,
+     "current": [
+      "Dreamcast"
+     ],
+     "proposed": [
+      "Dreamcast",
+      "Nintendo GameCube",
+      "Microsoft Windows",
+      "Xbox 360",
+      "PlayStation 3"
+     ],
+     "status": "proposed-change",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "Wikidata",
+       "value": [
+        "Dreamcast",
+        "Nintendo GameCube",
+        "Microsoft Windows",
+        "Xbox 360",
+        "PlayStation 3"
+       ],
+       "url": "https://www.wikidata.org/wiki/Q1069059"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "g444",
+   "title": "Sonic Mania",
+   "sourcesReached": [
+    "Wikidata"
+   ],
+   "sourcesMissed": [
+    "IGDB (no key in environment)"
+   ],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "release year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 2017,
+     "proposed": 2017,
+     "status": "confirmed",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "Wikidata",
+       "value": 2017,
+       "url": "https://www.wikidata.org/wiki/Q25991770"
+      }
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "developer",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Christian Whitehead, Headcannon, PagodaWest Games",
+     "proposed": "Christian Whitehead, Headcannon, PagodaWest Games",
+     "status": "proposed-change",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "Wikidata",
+       "value": "Christian Whitehead & PagodaWest Games & Headcannon",
+       "url": "https://www.wikidata.org/wiki/Q25991770"
+      }
+     ]
+    },
+    {
+     "field": "platforms",
+     "label": "platforms",
+     "soft": true,
+     "editionDependent": false,
+     "current": [
+      "PC",
+      "PS4",
+      "Xbox One",
+      "Switch"
+     ],
+     "proposed": [
+      "Nintendo Switch",
+      "Microsoft Windows",
+      "Xbox One",
+      "PlayStation 4",
+      "Android",
+      "iOS"
+     ],
+     "status": "proposed-change",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "Wikidata",
+       "value": [
+        "Nintendo Switch",
+        "Microsoft Windows",
+        "Xbox One",
+        "PlayStation 4",
+        "Android",
+        "iOS"
+       ],
+       "url": "https://www.wikidata.org/wiki/Q25991770"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "g445",
+   "title": "Sonic Frontiers",
+   "sourcesReached": [
+    "Wikidata"
+   ],
+   "sourcesMissed": [
+    "IGDB (no key in environment)"
+   ],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "release year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 2022,
+     "proposed": 2022,
+     "status": "confirmed",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "Wikidata",
+       "value": 2022,
+       "url": "https://www.wikidata.org/wiki/Q109502429"
+      }
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "developer",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Sonic Team",
+     "proposed": "Sonic Team",
+     "status": "confirmed",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "Wikidata",
+       "value": "Sonic Team",
+       "url": "https://www.wikidata.org/wiki/Q109502429"
+      }
+     ]
+    },
+    {
+     "field": "platforms",
+     "label": "platforms",
+     "soft": true,
+     "editionDependent": false,
+     "current": [
+      "PC",
+      "PS4",
+      "PS5",
+      "Xbox One",
+      "Xbox Series",
+      "Switch"
+     ],
+     "proposed": [
+      "PlayStation 5",
+      "PlayStation 4",
+      "Xbox Series X and Series S",
+      "Xbox One",
+      "Microsoft Windows",
+      "Nintendo Switch",
+      "Nintendo Switch 2"
+     ],
+     "status": "proposed-change",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "Wikidata",
+       "value": [
+        "PlayStation 5",
+        "PlayStation 4",
+        "Xbox Series X and Series S",
+        "Xbox One",
+        "Microsoft Windows",
+        "Nintendo Switch",
+        "Nintendo Switch 2"
+       ],
+       "url": "https://www.wikidata.org/wiki/Q109502429"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "g446",
+   "title": "Street Fighter IV",
+   "sourcesReached": [
+    "Wikidata"
+   ],
+   "sourcesMissed": [
+    "IGDB (no key in environment)"
+   ],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "release year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 2008,
+     "proposed": 2008,
+     "status": "confirmed",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "Wikidata",
+       "value": 2008,
+       "url": "https://www.wikidata.org/wiki/Q914286"
+      }
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "developer",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Capcom",
+     "proposed": "Capcom, Dimps Capcom",
+     "status": "proposed-change",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "Wikidata",
+       "value": "Dimps & Capcom",
+       "url": "https://www.wikidata.org/wiki/Q914286"
+      }
+     ]
+    },
+    {
+     "field": "platforms",
+     "label": "platforms",
+     "soft": true,
+     "editionDependent": false,
+     "current": [
+      "Arcade",
+      "PC",
+      "PS3",
+      "Xbox 360"
+     ],
+     "proposed": [
+      "Xbox 360",
+      "PlayStation 3",
+      "Microsoft Windows",
+      "iOS",
+      "arcade video game",
+      "Commodore Amiga",
+      "PlayStation 4"
+     ],
+     "status": "proposed-change",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "Wikidata",
+       "value": [
+        "Xbox 360",
+        "PlayStation 3",
+        "Microsoft Windows",
+        "iOS",
+        "arcade video game",
+        "Commodore Amiga",
+        "PlayStation 4"
+       ],
+       "url": "https://www.wikidata.org/wiki/Q914286"
+      }
+     ]
+    }
+   ]
+  }
+ ]
+}

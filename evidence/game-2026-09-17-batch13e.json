@@ -1,0 +1,954 @@
+{
+ "medium": "game",
+ "generated": "2026-09-17T12:25:41.331Z",
+ "offline": false,
+ "sources": [
+  "IGDB",
+  "Wikidata"
+ ],
+ "works": [
+  {
+   "id": "g492",
+   "title": "osu!",
+   "sourcesReached": [
+    "Wikidata"
+   ],
+   "sourcesMissed": [
+    "IGDB (no key in environment)"
+   ],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "release year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 2007,
+     "proposed": 2007,
+     "status": "confirmed",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "Wikidata",
+       "value": 2007,
+       "url": "https://www.wikidata.org/wiki/Q307441"
+      }
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "developer",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Dean Herbert",
+     "proposed": "Dan Balasescu, Dean Lewis Herbert, Thomas Müller",
+     "status": "proposed-change",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "Wikidata",
+       "value": "Dean Lewis Herbert & Thomas Müller & Dan Balasescu",
+       "url": "https://www.wikidata.org/wiki/Q307441"
+      }
+     ]
+    },
+    {
+     "field": "platforms",
+     "label": "platforms",
+     "soft": true,
+     "editionDependent": false,
+     "current": [
+      "PC"
+     ],
+     "proposed": [
+      "Microsoft Windows",
+      "Linux",
+      "macOS",
+      "Android",
+      "iOS"
+     ],
+     "status": "proposed-change",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "Wikidata",
+       "value": [
+        "Microsoft Windows",
+        "Linux",
+        "macOS",
+        "Android",
+        "iOS"
+       ],
+       "url": "https://www.wikidata.org/wiki/Q307441"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "g493",
+   "title": "Geometry Dash",
+   "sourcesReached": [
+    "Wikidata"
+   ],
+   "sourcesMissed": [
+    "IGDB (no key in environment)"
+   ],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "release year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 2013,
+     "proposed": 2013,
+     "status": "confirmed",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "Wikidata",
+       "value": 2013,
+       "url": "https://www.wikidata.org/wiki/Q16190030"
+      }
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "developer",
+     "soft": false,
+     "editionDependent": false,
+     "current": "RobTop Games",
+     "proposed": "RobTop Games",
+     "status": "confirmed",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "Wikidata",
+       "value": "RobTop Games",
+       "url": "https://www.wikidata.org/wiki/Q16190030"
+      }
+     ]
+    },
+    {
+     "field": "platforms",
+     "label": "platforms",
+     "soft": true,
+     "editionDependent": false,
+     "current": [
+      "PC",
+      "iOS",
+      "Android"
+     ],
+     "proposed": [
+      "Microsoft Windows",
+      "macOS",
+      "Android",
+      "iOS",
+      "Windows Phone"
+     ],
+     "status": "proposed-change",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "Wikidata",
+       "value": [
+        "Microsoft Windows",
+        "macOS",
+        "Android",
+        "iOS",
+        "Windows Phone"
+       ],
+       "url": "https://www.wikidata.org/wiki/Q16190030"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "g494",
+   "title": "Crazy Taxi",
+   "sourcesReached": [],
+   "sourcesMissed": [
+    "IGDB (no key in environment)",
+    "Wikidata (no match)"
+   ],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "release year",
+     "soft": false,
+     "current": 1999,
+     "status": "no-source",
+     "grade": null,
+     "sources": []
+    },
+    {
+     "field": "creator",
+     "label": "developer",
+     "soft": false,
+     "current": "Hitmaker",
+     "status": "no-source",
+     "grade": null,
+     "sources": []
+    },
+    {
+     "field": "platforms",
+     "label": "platforms",
+     "soft": true,
+     "current": [
+      "Arcade",
+      "Dreamcast"
+     ],
+     "status": "no-source",
+     "grade": null,
+     "sources": []
+    }
+   ]
+  },
+  {
+   "id": "g495",
+   "title": "Kingdom Come: Deliverance",
+   "sourcesReached": [
+    "Wikidata"
+   ],
+   "sourcesMissed": [
+    "IGDB (no key in environment)"
+   ],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "release year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 2018,
+     "proposed": 2015,
+     "status": "proposed-change",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "Wikidata",
+       "value": 2015,
+       "url": "https://www.wikidata.org/wiki/Q15408545"
+      }
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "developer",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Warhorse Studios",
+     "proposed": "Warhorse Studios",
+     "status": "confirmed",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "Wikidata",
+       "value": "Warhorse Studios",
+       "url": "https://www.wikidata.org/wiki/Q15408545"
+      }
+     ]
+    },
+    {
+     "field": "platforms",
+     "label": "platforms",
+     "soft": true,
+     "editionDependent": false,
+     "current": [
+      "PC",
+      "PS4",
+      "Xbox One"
+     ],
+     "proposed": [
+      "Microsoft Windows",
+      "Xbox One",
+      "PlayStation 4",
+      "Nintendo Switch",
+      "PlayStation 5",
+      "Xbox Series X and Series S"
+     ],
+     "status": "proposed-change",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "Wikidata",
+       "value": [
+        "Microsoft Windows",
+        "Xbox One",
+        "PlayStation 4",
+        "Nintendo Switch",
+        "PlayStation 5",
+        "Xbox Series X and Series S"
+       ],
+       "url": "https://www.wikidata.org/wiki/Q15408545"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "g496",
+   "title": "Kenshi",
+   "sourcesReached": [
+    "Wikidata"
+   ],
+   "sourcesMissed": [
+    "IGDB (no key in environment)"
+   ],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "release year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 2018,
+     "proposed": 2018,
+     "status": "confirmed",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "Wikidata",
+       "value": 2018,
+       "url": "https://www.wikidata.org/wiki/Q60770258"
+      }
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "developer",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Lo-Fi Games",
+     "proposed": "Lo-Fi Games",
+     "status": "confirmed",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "Wikidata",
+       "value": "Lo-Fi Games",
+       "url": "https://www.wikidata.org/wiki/Q60770258"
+      }
+     ]
+    },
+    {
+     "field": "platforms",
+     "label": "platforms",
+     "soft": true,
+     "editionDependent": false,
+     "current": [
+      "PC"
+     ],
+     "proposed": [
+      "Microsoft Windows"
+     ],
+     "status": "proposed-change",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "Wikidata",
+       "value": [
+        "Microsoft Windows"
+       ],
+       "url": "https://www.wikidata.org/wiki/Q60770258"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "g497",
+   "title": "RimWorld",
+   "sourcesReached": [
+    "Wikidata"
+   ],
+   "sourcesMissed": [
+    "IGDB (no key in environment)"
+   ],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "release year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 2018,
+     "proposed": 2013,
+     "status": "proposed-change",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "Wikidata",
+       "value": 2013,
+       "url": "https://www.wikidata.org/wiki/Q19581568"
+      }
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "developer",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Ludeon Studios",
+     "proposed": "Ludeon Studios",
+     "status": "confirmed",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "Wikidata",
+       "value": "Ludeon Studios",
+       "url": "https://www.wikidata.org/wiki/Q19581568"
+      }
+     ]
+    },
+    {
+     "field": "platforms",
+     "label": "platforms",
+     "soft": true,
+     "editionDependent": false,
+     "current": [
+      "PC"
+     ],
+     "proposed": [
+      "Microsoft Windows",
+      "Linux",
+      "macOS"
+     ],
+     "status": "proposed-change",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "Wikidata",
+       "value": [
+        "Microsoft Windows",
+        "Linux",
+        "macOS"
+       ],
+       "url": "https://www.wikidata.org/wiki/Q19581568"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "g498",
+   "title": "Prison Architect",
+   "sourcesReached": [],
+   "sourcesMissed": [
+    "IGDB (no key in environment)",
+    "Wikidata (no match)"
+   ],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "release year",
+     "soft": false,
+     "current": 2015,
+     "status": "no-source",
+     "grade": null,
+     "sources": []
+    },
+    {
+     "field": "creator",
+     "label": "developer",
+     "soft": false,
+     "current": "Introversion Software",
+     "status": "no-source",
+     "grade": null,
+     "sources": []
+    },
+    {
+     "field": "platforms",
+     "label": "platforms",
+     "soft": true,
+     "current": [
+      "PC"
+     ],
+     "status": "no-source",
+     "grade": null,
+     "sources": []
+    }
+   ]
+  },
+  {
+   "id": "g499",
+   "title": "Grand Theft Auto: Vice City",
+   "sourcesReached": [
+    "Wikidata"
+   ],
+   "sourcesMissed": [
+    "IGDB (no key in environment)"
+   ],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "release year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 2002,
+     "proposed": 2002,
+     "status": "confirmed",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "Wikidata",
+       "value": 2002,
+       "url": "https://www.wikidata.org/wiki/Q94671"
+      }
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "developer",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Rockstar North",
+     "proposed": "Rockstar North",
+     "status": "confirmed",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "Wikidata",
+       "value": "Rockstar North",
+       "url": "https://www.wikidata.org/wiki/Q94671"
+      }
+     ]
+    },
+    {
+     "field": "platforms",
+     "label": "platforms",
+     "soft": true,
+     "editionDependent": false,
+     "current": [
+      "PS2",
+      "PC",
+      "Xbox"
+     ],
+     "proposed": [
+      "Android",
+      "Xbox",
+      "PlayStation 2",
+      "Microsoft Windows",
+      "macOS",
+      "iOS",
+      "PlayStation 3",
+      "PlayStation 4",
+      "PlayStation 5"
+     ],
+     "status": "proposed-change",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "Wikidata",
+       "value": [
+        "Android",
+        "Xbox",
+        "PlayStation 2",
+        "Microsoft Windows",
+        "macOS",
+        "iOS",
+        "PlayStation 3",
+        "PlayStation 4",
+        "PlayStation 5"
+       ],
+       "url": "https://www.wikidata.org/wiki/Q94671"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "g500",
+   "title": "Mafia",
+   "sourcesReached": [],
+   "sourcesMissed": [
+    "IGDB (no key in environment)",
+    "Wikidata (no match)"
+   ],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "release year",
+     "soft": false,
+     "current": 2002,
+     "status": "no-source",
+     "grade": null,
+     "sources": []
+    },
+    {
+     "field": "creator",
+     "label": "developer",
+     "soft": false,
+     "current": "Illusion Softworks",
+     "status": "no-source",
+     "grade": null,
+     "sources": []
+    },
+    {
+     "field": "platforms",
+     "label": "platforms",
+     "soft": true,
+     "current": [
+      "PC"
+     ],
+     "status": "no-source",
+     "grade": null,
+     "sources": []
+    }
+   ]
+  },
+  {
+   "id": "g501",
+   "title": "Mafia II",
+   "sourcesReached": [],
+   "sourcesMissed": [
+    "IGDB (no key in environment)",
+    "Wikidata (no match)"
+   ],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "release year",
+     "soft": false,
+     "current": 2010,
+     "status": "no-source",
+     "grade": null,
+     "sources": []
+    },
+    {
+     "field": "creator",
+     "label": "developer",
+     "soft": false,
+     "current": "2K Czech",
+     "status": "no-source",
+     "grade": null,
+     "sources": []
+    },
+    {
+     "field": "platforms",
+     "label": "platforms",
+     "soft": true,
+     "current": [
+      "PC",
+      "PS3",
+      "Xbox 360"
+     ],
+     "status": "no-source",
+     "grade": null,
+     "sources": []
+    }
+   ]
+  },
+  {
+   "id": "g502",
+   "title": "L.A. Noire",
+   "sourcesReached": [
+    "Wikidata"
+   ],
+   "sourcesMissed": [
+    "IGDB (no key in environment)"
+   ],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "release year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 2011,
+     "proposed": 2011,
+     "status": "confirmed",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "Wikidata",
+       "value": 2011,
+       "url": "https://www.wikidata.org/wiki/Q1129094"
+      }
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "developer",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Team Bondi",
+     "proposed": "Team Bondi",
+     "status": "confirmed",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "Wikidata",
+       "value": "Team Bondi",
+       "url": "https://www.wikidata.org/wiki/Q1129094"
+      }
+     ]
+    },
+    {
+     "field": "platforms",
+     "label": "platforms",
+     "soft": true,
+     "editionDependent": false,
+     "current": [
+      "PC",
+      "PS3",
+      "Xbox 360"
+     ],
+     "proposed": [
+      "Xbox 360",
+      "PlayStation 3",
+      "Microsoft Windows",
+      "Nintendo Switch",
+      "Xbox One",
+      "PlayStation 4"
+     ],
+     "status": "proposed-change",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "Wikidata",
+       "value": [
+        "Xbox 360",
+        "PlayStation 3",
+        "Microsoft Windows",
+        "Nintendo Switch",
+        "Xbox One",
+        "PlayStation 4"
+       ],
+       "url": "https://www.wikidata.org/wiki/Q1129094"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "g503",
+   "title": "Saints Row",
+   "sourcesReached": [
+    "Wikidata"
+   ],
+   "sourcesMissed": [
+    "IGDB (no key in environment)"
+   ],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "release year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 2006,
+     "proposed": 2006,
+     "status": "confirmed",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "Wikidata",
+       "value": 2006,
+       "url": "https://www.wikidata.org/wiki/Q2020055"
+      }
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "developer",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Volition",
+     "proposed": "Volition",
+     "status": "confirmed",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "Wikidata",
+       "value": "Volition",
+       "url": "https://www.wikidata.org/wiki/Q2020055"
+      }
+     ]
+    },
+    {
+     "field": "platforms",
+     "label": "platforms",
+     "soft": true,
+     "editionDependent": false,
+     "current": [
+      "Xbox 360"
+     ],
+     "proposed": [
+      "Xbox 360"
+     ],
+     "status": "confirmed",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "Wikidata",
+       "value": [
+        "Xbox 360"
+       ],
+       "url": "https://www.wikidata.org/wiki/Q2020055"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "g504",
+   "title": "Saints Row IV",
+   "sourcesReached": [
+    "Wikidata"
+   ],
+   "sourcesMissed": [
+    "IGDB (no key in environment)"
+   ],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "release year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 2013,
+     "proposed": 2013,
+     "status": "confirmed",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "Wikidata",
+       "value": 2013,
+       "url": "https://www.wikidata.org/wiki/Q13060351"
+      }
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "developer",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Volition",
+     "proposed": "Volition",
+     "status": "confirmed",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "Wikidata",
+       "value": "Volition",
+       "url": "https://www.wikidata.org/wiki/Q13060351"
+      }
+     ]
+    },
+    {
+     "field": "platforms",
+     "label": "platforms",
+     "soft": true,
+     "editionDependent": false,
+     "current": [
+      "PC",
+      "PS3",
+      "Xbox 360"
+     ],
+     "proposed": [
+      "Xbox 360",
+      "PlayStation 3",
+      "Microsoft Windows",
+      "Xbox One",
+      "PlayStation 4",
+      "Nintendo Switch",
+      "Linux"
+     ],
+     "status": "proposed-change",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "Wikidata",
+       "value": [
+        "Xbox 360",
+        "PlayStation 3",
+        "Microsoft Windows",
+        "Xbox One",
+        "PlayStation 4",
+        "Nintendo Switch",
+        "Linux"
+       ],
+       "url": "https://www.wikidata.org/wiki/Q13060351"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "g505",
+   "title": "Yakuza Kiwami",
+   "sourcesReached": [],
+   "sourcesMissed": [
+    "IGDB (no key in environment)",
+    "Wikidata (no match)"
+   ],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "release year",
+     "soft": false,
+     "current": 2016,
+     "status": "no-source",
+     "grade": null,
+     "sources": []
+    },
+    {
+     "field": "creator",
+     "label": "developer",
+     "soft": false,
+     "current": "Ryu Ga Gotoku Studio",
+     "status": "no-source",
+     "grade": null,
+     "sources": []
+    },
+    {
+     "field": "platforms",
+     "label": "platforms",
+     "soft": true,
+     "current": [
+      "PS4",
+      "PC"
+     ],
+     "status": "no-source",
+     "grade": null,
+     "sources": []
+    }
+   ]
+  },
+  {
+   "id": "g506",
+   "title": "Yakuza 6: The Song of Life",
+   "sourcesReached": [],
+   "sourcesMissed": [
+    "IGDB (no key in environment)",
+    "Wikidata (no match)"
+   ],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "release year",
+     "soft": false,
+     "current": 2016,
+     "status": "no-source",
+     "grade": null,
+     "sources": []
+    },
+    {
+     "field": "creator",
+     "label": "developer",
+     "soft": false,
+     "current": "Ryu Ga Gotoku Studio",
+     "status": "no-source",
+     "grade": null,
+     "sources": []
+    },
+    {
+     "field": "platforms",
+     "label": "platforms",
+     "soft": true,
+     "current": [
+      "PS4"
+     ],
+     "status": "no-source",
+     "grade": null,
+     "sources": []
+    }
+   ]
+  }
+ ]
+}

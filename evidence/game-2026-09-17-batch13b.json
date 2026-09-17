@@ -1,0 +1,1052 @@
+{
+ "medium": "game",
+ "generated": "2026-09-17T12:24:04.800Z",
+ "offline": false,
+ "sources": [
+  "IGDB",
+  "Wikidata"
+ ],
+ "works": [
+  {
+   "id": "g447",
+   "title": "Street Fighter V",
+   "sourcesReached": [],
+   "sourcesMissed": [
+    "IGDB (no key in environment)",
+    "Wikidata (no match)"
+   ],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "release year",
+     "soft": false,
+     "current": 2016,
+     "status": "no-source",
+     "grade": null,
+     "sources": []
+    },
+    {
+     "field": "creator",
+     "label": "developer",
+     "soft": false,
+     "current": "Capcom",
+     "status": "no-source",
+     "grade": null,
+     "sources": []
+    },
+    {
+     "field": "platforms",
+     "label": "platforms",
+     "soft": true,
+     "current": [
+      "PC",
+      "PS4"
+     ],
+     "status": "no-source",
+     "grade": null,
+     "sources": []
+    }
+   ]
+  },
+  {
+   "id": "g448",
+   "title": "Marvel vs. Capcom 2",
+   "sourcesReached": [
+    "Wikidata"
+   ],
+   "sourcesMissed": [
+    "IGDB (no key in environment)"
+   ],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "release year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 2000,
+     "proposed": 2000,
+     "status": "confirmed",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "Wikidata",
+       "value": 2000,
+       "url": "https://www.wikidata.org/wiki/Q383700"
+      }
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "developer",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Capcom",
+     "proposed": "Capcom",
+     "status": "confirmed",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "Wikidata",
+       "value": "Capcom",
+       "url": "https://www.wikidata.org/wiki/Q383700"
+      }
+     ]
+    },
+    {
+     "field": "platforms",
+     "label": "platforms",
+     "soft": true,
+     "editionDependent": false,
+     "current": [
+      "Arcade",
+      "Dreamcast"
+     ],
+     "proposed": [
+      "Xbox 360",
+      "Xbox",
+      "PlayStation 2",
+      "PlayStation 3",
+      "PlayStation Portable",
+      "iOS",
+      "Dreamcast",
+      "arcade video game"
+     ],
+     "status": "proposed-change",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "Wikidata",
+       "value": [
+        "Xbox 360",
+        "Xbox",
+        "PlayStation 2",
+        "PlayStation 3",
+        "PlayStation Portable",
+        "iOS",
+        "Dreamcast",
+        "arcade video game"
+       ],
+       "url": "https://www.wikidata.org/wiki/Q383700"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "g449",
+   "title": "Tekken 7",
+   "sourcesReached": [
+    "Wikidata"
+   ],
+   "sourcesMissed": [
+    "IGDB (no key in environment)"
+   ],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "release year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 2017,
+     "proposed": 2015,
+     "status": "proposed-change",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "Wikidata",
+       "value": 2015,
+       "url": "https://www.wikidata.org/wiki/Q17378799"
+      }
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "developer",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Bandai Namco",
+     "proposed": "Bandai Namco Entertainment, Bandai Namco Studios",
+     "status": "proposed-change",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "Wikidata",
+       "value": "Bandai Namco Studios & Bandai Namco Entertainment",
+       "url": "https://www.wikidata.org/wiki/Q17378799"
+      }
+     ]
+    },
+    {
+     "field": "platforms",
+     "label": "platforms",
+     "soft": true,
+     "editionDependent": false,
+     "current": [
+      "Arcade",
+      "PC",
+      "PS4",
+      "Xbox One"
+     ],
+     "proposed": [
+      "PlayStation 4",
+      "Xbox One",
+      "Microsoft Windows",
+      "arcade video game"
+     ],
+     "status": "proposed-change",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "Wikidata",
+       "value": [
+        "PlayStation 4",
+        "Xbox One",
+        "Microsoft Windows",
+        "arcade video game"
+       ],
+       "url": "https://www.wikidata.org/wiki/Q17378799"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "g450",
+   "title": "Tekken 8",
+   "sourcesReached": [],
+   "sourcesMissed": [
+    "IGDB (no key in environment)",
+    "Wikidata (no match)"
+   ],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "release year",
+     "soft": false,
+     "current": 2024,
+     "status": "no-source",
+     "grade": null,
+     "sources": []
+    },
+    {
+     "field": "creator",
+     "label": "developer",
+     "soft": false,
+     "current": "Bandai Namco",
+     "status": "no-source",
+     "grade": null,
+     "sources": []
+    },
+    {
+     "field": "platforms",
+     "label": "platforms",
+     "soft": true,
+     "current": [
+      "PC",
+      "PS5",
+      "Xbox Series"
+     ],
+     "status": "no-source",
+     "grade": null,
+     "sources": []
+    }
+   ]
+  },
+  {
+   "id": "g451",
+   "title": "Mortal Kombat 11",
+   "sourcesReached": [
+    "Wikidata"
+   ],
+   "sourcesMissed": [
+    "IGDB (no key in environment)"
+   ],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "release year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 2019,
+     "proposed": 2019,
+     "status": "confirmed",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "Wikidata",
+       "value": 2019,
+       "url": "https://www.wikidata.org/wiki/Q59511757"
+      }
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "developer",
+     "soft": false,
+     "editionDependent": false,
+     "current": "NetherRealm Studios",
+     "proposed": "NetherRealm Studios",
+     "status": "confirmed",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "Wikidata",
+       "value": "NetherRealm Studios",
+       "url": "https://www.wikidata.org/wiki/Q59511757"
+      }
+     ]
+    },
+    {
+     "field": "platforms",
+     "label": "platforms",
+     "soft": true,
+     "editionDependent": false,
+     "current": [
+      "PC",
+      "PS4",
+      "Xbox One",
+      "Switch"
+     ],
+     "proposed": [
+      "Xbox One",
+      "PlayStation 4",
+      "Nintendo Switch",
+      "Microsoft Windows",
+      "PlayStation 5",
+      "Xbox Series X and Series S"
+     ],
+     "status": "proposed-change",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "Wikidata",
+       "value": [
+        "Xbox One",
+        "PlayStation 4",
+        "Nintendo Switch",
+        "Microsoft Windows",
+        "PlayStation 5",
+        "Xbox Series X and Series S"
+       ],
+       "url": "https://www.wikidata.org/wiki/Q59511757"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "g452",
+   "title": "Mortal Kombat X",
+   "sourcesReached": [
+    "Wikidata"
+   ],
+   "sourcesMissed": [
+    "IGDB (no key in environment)"
+   ],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "release year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 2015,
+     "proposed": 2015,
+     "status": "confirmed",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "Wikidata",
+       "value": 2015,
+       "url": "https://www.wikidata.org/wiki/Q17118361"
+      }
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "developer",
+     "soft": false,
+     "editionDependent": false,
+     "current": "NetherRealm Studios",
+     "proposed": "NetherRealm Studios",
+     "status": "confirmed",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "Wikidata",
+       "value": "NetherRealm Studios",
+       "url": "https://www.wikidata.org/wiki/Q17118361"
+      }
+     ]
+    },
+    {
+     "field": "platforms",
+     "label": "platforms",
+     "soft": true,
+     "editionDependent": false,
+     "current": [
+      "PC",
+      "PS4",
+      "Xbox One"
+     ],
+     "proposed": [
+      "PlayStation 4",
+      "Microsoft Windows",
+      "Xbox One"
+     ],
+     "status": "proposed-change",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "Wikidata",
+       "value": [
+        "PlayStation 4",
+        "Microsoft Windows",
+        "Xbox One"
+       ],
+       "url": "https://www.wikidata.org/wiki/Q17118361"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "g453",
+   "title": "NBA Jam",
+   "sourcesReached": [
+    "Wikidata"
+   ],
+   "sourcesMissed": [
+    "IGDB (no key in environment)"
+   ],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "release year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 1993,
+     "proposed": 1994,
+     "status": "proposed-change",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "Wikidata",
+       "value": 1994,
+       "url": "https://www.wikidata.org/wiki/Q1959943"
+      }
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "developer",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Midway",
+     "proposed": "Midway Games",
+     "status": "proposed-change",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "Wikidata",
+       "value": "Midway Games",
+       "url": "https://www.wikidata.org/wiki/Q1959943"
+      }
+     ]
+    },
+    {
+     "field": "platforms",
+     "label": "platforms",
+     "soft": true,
+     "editionDependent": false,
+     "current": [
+      "Arcade",
+      "Genesis",
+      "SNES"
+     ],
+     "proposed": [
+      "arcade video game",
+      "Super Nintendo Entertainment System",
+      "Sega Genesis",
+      "Game Gear",
+      "Sega CD/Mega CD"
+     ],
+     "status": "proposed-change",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "Wikidata",
+       "value": [
+        "arcade video game",
+        "Super Nintendo Entertainment System",
+        "Sega Genesis",
+        "Game Gear",
+        "Sega CD/Mega CD"
+       ],
+       "url": "https://www.wikidata.org/wiki/Q1959943"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "g454",
+   "title": "FIFA 14",
+   "sourcesReached": [],
+   "sourcesMissed": [
+    "IGDB (no key in environment)",
+    "Wikidata (no match)"
+   ],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "release year",
+     "soft": false,
+     "current": 2013,
+     "status": "no-source",
+     "grade": null,
+     "sources": []
+    },
+    {
+     "field": "creator",
+     "label": "developer",
+     "soft": false,
+     "current": "EA Canada",
+     "status": "no-source",
+     "grade": null,
+     "sources": []
+    },
+    {
+     "field": "platforms",
+     "label": "platforms",
+     "soft": true,
+     "current": [
+      "PC",
+      "PS3",
+      "Xbox 360"
+     ],
+     "status": "no-source",
+     "grade": null,
+     "sources": []
+    }
+   ]
+  },
+  {
+   "id": "g455",
+   "title": "Madden NFL 06",
+   "sourcesReached": [],
+   "sourcesMissed": [
+    "IGDB (no key in environment)",
+    "Wikidata (no match)"
+   ],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "release year",
+     "soft": false,
+     "current": 2005,
+     "status": "no-source",
+     "grade": null,
+     "sources": []
+    },
+    {
+     "field": "creator",
+     "label": "developer",
+     "soft": false,
+     "current": "EA Tiburon",
+     "status": "no-source",
+     "grade": null,
+     "sources": []
+    },
+    {
+     "field": "platforms",
+     "label": "platforms",
+     "soft": true,
+     "current": [
+      "PS2",
+      "Xbox"
+     ],
+     "status": "no-source",
+     "grade": null,
+     "sources": []
+    }
+   ]
+  },
+  {
+   "id": "g456",
+   "title": "MLB The Show 23",
+   "sourcesReached": [
+    "Wikidata"
+   ],
+   "sourcesMissed": [
+    "IGDB (no key in environment)"
+   ],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "release year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 2023,
+     "proposed": 2023,
+     "status": "confirmed",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "Wikidata",
+       "value": 2023,
+       "url": "https://www.wikidata.org/wiki/Q116564061"
+      }
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "developer",
+     "soft": false,
+     "editionDependent": false,
+     "current": "San Diego Studio",
+     "proposed": "San Diego Studio",
+     "status": "confirmed",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "Wikidata",
+       "value": "San Diego Studio",
+       "url": "https://www.wikidata.org/wiki/Q116564061"
+      }
+     ]
+    },
+    {
+     "field": "platforms",
+     "label": "platforms",
+     "soft": true,
+     "editionDependent": false,
+     "current": [
+      "PS5",
+      "Xbox Series",
+      "Switch"
+     ],
+     "proposed": [
+      "PlayStation 4",
+      "PlayStation 5",
+      "Xbox One",
+      "Xbox Series X and Series S",
+      "Nintendo Switch"
+     ],
+     "status": "proposed-change",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "Wikidata",
+       "value": [
+        "PlayStation 4",
+        "PlayStation 5",
+        "Xbox One",
+        "Xbox Series X and Series S",
+        "Nintendo Switch"
+       ],
+       "url": "https://www.wikidata.org/wiki/Q116564061"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "g457",
+   "title": "Civilization V",
+   "sourcesReached": [
+    "Wikidata"
+   ],
+   "sourcesMissed": [
+    "IGDB (no key in environment)"
+   ],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "release year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 2010,
+     "proposed": 2010,
+     "status": "confirmed",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "Wikidata",
+       "value": 2010,
+       "url": "https://www.wikidata.org/wiki/Q2385"
+      }
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "developer",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Firaxis Games",
+     "proposed": "Firaxis Games",
+     "status": "confirmed",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "Wikidata",
+       "value": "Firaxis Games",
+       "url": "https://www.wikidata.org/wiki/Q2385"
+      }
+     ]
+    },
+    {
+     "field": "platforms",
+     "label": "platforms",
+     "soft": true,
+     "editionDependent": false,
+     "current": [
+      "PC"
+     ],
+     "proposed": [
+      "Microsoft Windows",
+      "macOS",
+      "Linux"
+     ],
+     "status": "proposed-change",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "Wikidata",
+       "value": [
+        "Microsoft Windows",
+        "macOS",
+        "Linux"
+       ],
+       "url": "https://www.wikidata.org/wiki/Q2385"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "g458",
+   "title": "Civilization VI",
+   "sourcesReached": [
+    "Wikidata"
+   ],
+   "sourcesMissed": [
+    "IGDB (no key in environment)"
+   ],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "release year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 2016,
+     "proposed": 2016,
+     "status": "confirmed",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "Wikidata",
+       "value": 2016,
+       "url": "https://www.wikidata.org/wiki/Q24050047"
+      }
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "developer",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Firaxis Games",
+     "proposed": "Firaxis Games",
+     "status": "confirmed",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "Wikidata",
+       "value": "Firaxis Games",
+       "url": "https://www.wikidata.org/wiki/Q24050047"
+      }
+     ]
+    },
+    {
+     "field": "platforms",
+     "label": "platforms",
+     "soft": true,
+     "editionDependent": false,
+     "current": [
+      "PC",
+      "PS4",
+      "Xbox One",
+      "Switch"
+     ],
+     "proposed": [
+      "Microsoft Windows",
+      "macOS",
+      "Linux",
+      "iOS",
+      "Nintendo Switch",
+      "PlayStation 4",
+      "Xbox One",
+      "Android"
+     ],
+     "status": "proposed-change",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "Wikidata",
+       "value": [
+        "Microsoft Windows",
+        "macOS",
+        "Linux",
+        "iOS",
+        "Nintendo Switch",
+        "PlayStation 4",
+        "Xbox One",
+        "Android"
+       ],
+       "url": "https://www.wikidata.org/wiki/Q24050047"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "g459",
+   "title": "Age of Empires",
+   "sourcesReached": [
+    "Wikidata"
+   ],
+   "sourcesMissed": [
+    "IGDB (no key in environment)"
+   ],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "release year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 1997,
+     "proposed": 1997,
+     "status": "confirmed",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "Wikidata",
+       "value": 1997,
+       "url": "https://www.wikidata.org/wiki/Q220767"
+      }
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "developer",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Ensemble Studios",
+     "proposed": "Ensemble Studios",
+     "status": "confirmed",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "Wikidata",
+       "value": "Ensemble Studios",
+       "url": "https://www.wikidata.org/wiki/Q220767"
+      }
+     ]
+    },
+    {
+     "field": "platforms",
+     "label": "platforms",
+     "soft": true,
+     "editionDependent": false,
+     "current": [
+      "PC"
+     ],
+     "proposed": [
+      "Microsoft Windows",
+      "macOS",
+      "Classic Mac OS"
+     ],
+     "status": "proposed-change",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "Wikidata",
+       "value": [
+        "Microsoft Windows",
+        "macOS",
+        "Classic Mac OS"
+       ],
+       "url": "https://www.wikidata.org/wiki/Q220767"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "g460",
+   "title": "Command & Conquer: Red Alert",
+   "sourcesReached": [
+    "Wikidata"
+   ],
+   "sourcesMissed": [
+    "IGDB (no key in environment)"
+   ],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "release year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 1996,
+     "proposed": 1996,
+     "status": "confirmed",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "Wikidata",
+       "value": 1996,
+       "url": "https://www.wikidata.org/wiki/Q388225"
+      }
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "developer",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Westwood Studios",
+     "proposed": "Westwood Studios",
+     "status": "confirmed",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "Wikidata",
+       "value": "Westwood Studios",
+       "url": "https://www.wikidata.org/wiki/Q388225"
+      }
+     ]
+    },
+    {
+     "field": "platforms",
+     "label": "platforms",
+     "soft": true,
+     "editionDependent": false,
+     "current": [
+      "PC"
+     ],
+     "proposed": [
+      "Microsoft Windows",
+      "DOS",
+      "PlayStation Portable",
+      "PlayStation"
+     ],
+     "status": "proposed-change",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "Wikidata",
+       "value": [
+        "Microsoft Windows",
+        "DOS",
+        "PlayStation Portable",
+        "PlayStation"
+       ],
+       "url": "https://www.wikidata.org/wiki/Q388225"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "g461",
+   "title": "The Sims 3",
+   "sourcesReached": [
+    "Wikidata"
+   ],
+   "sourcesMissed": [
+    "IGDB (no key in environment)"
+   ],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "release year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 2009,
+     "proposed": 2009,
+     "status": "confirmed",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "Wikidata",
+       "value": 2009,
+       "url": "https://www.wikidata.org/wiki/Q185482"
+      }
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "developer",
+     "soft": false,
+     "editionDependent": false,
+     "current": "The Sims Studio",
+     "proposed": "EA Mobile, Edge of Reality, Maxis, The Sims Studio",
+     "status": "proposed-change",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "Wikidata",
+       "value": "The Sims Studio & Edge of Reality & EA Mobile & Maxis",
+       "url": "https://www.wikidata.org/wiki/Q185482"
+      }
+     ]
+    },
+    {
+     "field": "platforms",
+     "label": "platforms",
+     "soft": true,
+     "editionDependent": false,
+     "current": [
+      "PC"
+     ],
+     "proposed": [
+      "macOS",
+      "Microsoft Windows",
+      "Nintendo DS",
+      "Nintendo 3DS",
+      "PlayStation 3",
+      "Xbox 360",
+      "Wii",
+      "Android",
+      "iOS",
+      "Windows Phone",
+      "BlackBerry OS",
+      "N-Gage"
+     ],
+     "status": "proposed-change",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "Wikidata",
+       "value": [
+        "macOS",
+        "Microsoft Windows",
+        "Nintendo DS",
+        "Nintendo 3DS",
+        "PlayStation 3",
+        "Xbox 360",
+        "Wii",
+        "Android",
+        "iOS",
+        "Windows Phone",
+        "BlackBerry OS",
+        "N-Gage"
+       ],
+       "url": "https://www.wikidata.org/wiki/Q185482"
+      }
+     ]
+    }
+   ]
+  }
+ ]
+}

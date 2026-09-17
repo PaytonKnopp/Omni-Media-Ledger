@@ -1,0 +1,1117 @@
+{
+ "medium": "game",
+ "generated": "2026-09-17T12:24:36.747Z",
+ "offline": false,
+ "sources": [
+  "IGDB",
+  "Wikidata"
+ ],
+ "works": [
+  {
+   "id": "g462",
+   "title": "SimCity 4",
+   "sourcesReached": [
+    "Wikidata"
+   ],
+   "sourcesMissed": [
+    "IGDB (no key in environment)"
+   ],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "release year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 2003,
+     "proposed": 2003,
+     "status": "confirmed",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "Wikidata",
+       "value": 2003,
+       "url": "https://www.wikidata.org/wiki/Q719670"
+      }
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "developer",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Maxis",
+     "proposed": "Maxis",
+     "status": "confirmed",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "Wikidata",
+       "value": "Maxis",
+       "url": "https://www.wikidata.org/wiki/Q719670"
+      }
+     ]
+    },
+    {
+     "field": "platforms",
+     "label": "platforms",
+     "soft": true,
+     "editionDependent": false,
+     "current": [
+      "PC"
+     ],
+     "proposed": [
+      "Microsoft Windows",
+      "macOS"
+     ],
+     "status": "proposed-change",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "Wikidata",
+       "value": [
+        "Microsoft Windows",
+        "macOS"
+       ],
+       "url": "https://www.wikidata.org/wiki/Q719670"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "g463",
+   "title": "Cities: Skylines II",
+   "sourcesReached": [],
+   "sourcesMissed": [
+    "IGDB (no key in environment)",
+    "Wikidata (no match)"
+   ],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "release year",
+     "soft": false,
+     "current": 2023,
+     "status": "no-source",
+     "grade": null,
+     "sources": []
+    },
+    {
+     "field": "creator",
+     "label": "developer",
+     "soft": false,
+     "current": "Colossal Order",
+     "status": "no-source",
+     "grade": null,
+     "sources": []
+    },
+    {
+     "field": "platforms",
+     "label": "platforms",
+     "soft": true,
+     "current": [
+      "PC",
+      "PS5",
+      "Xbox Series"
+     ],
+     "status": "no-source",
+     "grade": null,
+     "sources": []
+    }
+   ]
+  },
+  {
+   "id": "g464",
+   "title": "Baldur's Gate",
+   "sourcesReached": [
+    "Wikidata"
+   ],
+   "sourcesMissed": [
+    "IGDB (no key in environment)"
+   ],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "release year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 1998,
+     "proposed": 1998,
+     "status": "confirmed",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "Wikidata",
+       "value": 1998,
+       "url": "https://www.wikidata.org/wiki/Q663583"
+      }
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "developer",
+     "soft": false,
+     "editionDependent": false,
+     "current": "BioWare",
+     "proposed": "BioWare",
+     "status": "confirmed",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "Wikidata",
+       "value": "BioWare",
+       "url": "https://www.wikidata.org/wiki/Q663583"
+      }
+     ]
+    },
+    {
+     "field": "platforms",
+     "label": "platforms",
+     "soft": true,
+     "editionDependent": false,
+     "current": [
+      "PC"
+     ],
+     "proposed": [
+      "Microsoft Windows",
+      "Classic Mac OS"
+     ],
+     "status": "proposed-change",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "Wikidata",
+       "value": [
+        "Microsoft Windows",
+        "Classic Mac OS"
+       ],
+       "url": "https://www.wikidata.org/wiki/Q663583"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "g465",
+   "title": "Baldur's Gate II: Shadows of Amn",
+   "sourcesReached": [
+    "Wikidata"
+   ],
+   "sourcesMissed": [
+    "IGDB (no key in environment)"
+   ],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "release year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 2000,
+     "proposed": 2000,
+     "status": "confirmed",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "Wikidata",
+       "value": 2000,
+       "url": "https://www.wikidata.org/wiki/Q804859"
+      }
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "developer",
+     "soft": false,
+     "editionDependent": false,
+     "current": "BioWare",
+     "proposed": "BioWare",
+     "status": "confirmed",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "Wikidata",
+       "value": "BioWare",
+       "url": "https://www.wikidata.org/wiki/Q804859"
+      }
+     ]
+    },
+    {
+     "field": "platforms",
+     "label": "platforms",
+     "soft": true,
+     "editionDependent": false,
+     "current": [
+      "PC"
+     ],
+     "proposed": [
+      "Microsoft Windows",
+      "macOS",
+      "Linux",
+      "Classic Mac OS"
+     ],
+     "status": "proposed-change",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "Wikidata",
+       "value": [
+        "Microsoft Windows",
+        "macOS",
+        "Linux",
+        "Classic Mac OS"
+       ],
+       "url": "https://www.wikidata.org/wiki/Q804859"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "g466",
+   "title": "Neverwinter Nights",
+   "sourcesReached": [
+    "Wikidata"
+   ],
+   "sourcesMissed": [
+    "IGDB (no key in environment)"
+   ],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "release year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 2002,
+     "proposed": 2002,
+     "status": "confirmed",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "Wikidata",
+       "value": 2002,
+       "url": "https://www.wikidata.org/wiki/Q549217"
+      }
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "developer",
+     "soft": false,
+     "editionDependent": false,
+     "current": "BioWare",
+     "proposed": "BioWare",
+     "status": "confirmed",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "Wikidata",
+       "value": "BioWare",
+       "url": "https://www.wikidata.org/wiki/Q549217"
+      }
+     ]
+    },
+    {
+     "field": "platforms",
+     "label": "platforms",
+     "soft": true,
+     "editionDependent": false,
+     "current": [
+      "PC"
+     ],
+     "proposed": [
+      "Linux",
+      "Microsoft Windows",
+      "macOS"
+     ],
+     "status": "proposed-change",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "Wikidata",
+       "value": [
+        "Linux",
+        "Microsoft Windows",
+        "macOS"
+       ],
+       "url": "https://www.wikidata.org/wiki/Q549217"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "g467",
+   "title": "Icewind Dale",
+   "sourcesReached": [
+    "Wikidata"
+   ],
+   "sourcesMissed": [
+    "IGDB (no key in environment)"
+   ],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "release year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 2000,
+     "proposed": 2000,
+     "status": "confirmed",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "Wikidata",
+       "value": 2000,
+       "url": "https://www.wikidata.org/wiki/Q1137949"
+      }
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "developer",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Black Isle Studios",
+     "proposed": "Black Isle Studios",
+     "status": "confirmed",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "Wikidata",
+       "value": "Black Isle Studios",
+       "url": "https://www.wikidata.org/wiki/Q1137949"
+      }
+     ]
+    },
+    {
+     "field": "platforms",
+     "label": "platforms",
+     "soft": true,
+     "editionDependent": false,
+     "current": [
+      "PC"
+     ],
+     "proposed": [
+      "Microsoft Windows",
+      "macOS",
+      "Android",
+      "iOS",
+      "Classic Mac OS"
+     ],
+     "status": "proposed-change",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "Wikidata",
+       "value": [
+        "Microsoft Windows",
+        "macOS",
+        "Android",
+        "iOS",
+        "Classic Mac OS"
+       ],
+       "url": "https://www.wikidata.org/wiki/Q1137949"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "g468",
+   "title": "Divinity: Original Sin II",
+   "sourcesReached": [
+    "Wikidata"
+   ],
+   "sourcesMissed": [
+    "IGDB (no key in environment)"
+   ],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "release year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 2017,
+     "proposed": 2017,
+     "status": "confirmed",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "Wikidata",
+       "value": 2017,
+       "url": "https://www.wikidata.org/wiki/Q20899735"
+      }
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "developer",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Larian Studios",
+     "proposed": "Larian Studios",
+     "status": "confirmed",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "Wikidata",
+       "value": "Larian Studios",
+       "url": "https://www.wikidata.org/wiki/Q20899735"
+      }
+     ]
+    },
+    {
+     "field": "platforms",
+     "label": "platforms",
+     "soft": true,
+     "editionDependent": false,
+     "current": [
+      "PC",
+      "PS4",
+      "Xbox One",
+      "Switch"
+     ],
+     "proposed": [
+      "Microsoft Windows",
+      "PlayStation 4",
+      "Xbox One",
+      "macOS",
+      "Nintendo Switch"
+     ],
+     "status": "proposed-change",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "Wikidata",
+       "value": [
+        "Microsoft Windows",
+        "PlayStation 4",
+        "Xbox One",
+        "macOS",
+        "Nintendo Switch"
+       ],
+       "url": "https://www.wikidata.org/wiki/Q20899735"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "g469",
+   "title": "Xenogears",
+   "sourcesReached": [
+    "Wikidata"
+   ],
+   "sourcesMissed": [
+    "IGDB (no key in environment)"
+   ],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "release year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 1998,
+     "proposed": 1998,
+     "status": "confirmed",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "Wikidata",
+       "value": 1998,
+       "url": "https://www.wikidata.org/wiki/Q583360"
+      }
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "developer",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Square",
+     "proposed": "Square",
+     "status": "confirmed",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "Wikidata",
+       "value": "Square",
+       "url": "https://www.wikidata.org/wiki/Q583360"
+      }
+     ]
+    },
+    {
+     "field": "platforms",
+     "label": "platforms",
+     "soft": true,
+     "editionDependent": false,
+     "current": [
+      "PlayStation"
+     ],
+     "proposed": [
+      "PlayStation"
+     ],
+     "status": "confirmed",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "Wikidata",
+       "value": [
+        "PlayStation"
+       ],
+       "url": "https://www.wikidata.org/wiki/Q583360"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "g470",
+   "title": "Shin Megami Tensei",
+   "sourcesReached": [
+    "Wikidata"
+   ],
+   "sourcesMissed": [
+    "IGDB (no key in environment)"
+   ],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "release year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 1992,
+     "proposed": 1992,
+     "status": "confirmed",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "Wikidata",
+       "value": 1992,
+       "url": "https://www.wikidata.org/wiki/Q1061937"
+      }
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "developer",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Atlus",
+     "proposed": "Atlus",
+     "status": "confirmed",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "Wikidata",
+       "value": "Atlus",
+       "url": "https://www.wikidata.org/wiki/Q1061937"
+      }
+     ]
+    },
+    {
+     "field": "platforms",
+     "label": "platforms",
+     "soft": true,
+     "editionDependent": false,
+     "current": [
+      "Super Famicom"
+     ],
+     "proposed": [
+      "Game Boy Advance",
+      "Android",
+      "TurboGrafx-16",
+      "Super Nintendo Entertainment System",
+      "Sega Genesis",
+      "PlayStation",
+      "iOS",
+      "Sega CD/Mega CD"
+     ],
+     "status": "proposed-change",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "Wikidata",
+       "value": [
+        "Game Boy Advance",
+        "Android",
+        "TurboGrafx-16",
+        "Super Nintendo Entertainment System",
+        "Sega Genesis",
+        "PlayStation",
+        "iOS",
+        "Sega CD/Mega CD"
+       ],
+       "url": "https://www.wikidata.org/wiki/Q1061937"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "g471",
+   "title": "Shin Megami Tensei V",
+   "sourcesReached": [
+    "Wikidata"
+   ],
+   "sourcesMissed": [
+    "IGDB (no key in environment)"
+   ],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "release year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 2021,
+     "proposed": 2021,
+     "status": "confirmed",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "Wikidata",
+       "value": 2021,
+       "url": "https://www.wikidata.org/wiki/Q44379841"
+      }
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "developer",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Atlus",
+     "proposed": "Atlus",
+     "status": "confirmed",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "Wikidata",
+       "value": "Atlus",
+       "url": "https://www.wikidata.org/wiki/Q44379841"
+      }
+     ]
+    },
+    {
+     "field": "platforms",
+     "label": "platforms",
+     "soft": true,
+     "editionDependent": false,
+     "current": [
+      "Switch",
+      "PS4",
+      "PS5",
+      "Xbox One",
+      "Xbox Series",
+      "PC"
+     ],
+     "proposed": [
+      "Nintendo Switch"
+     ],
+     "status": "proposed-change",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "Wikidata",
+       "value": [
+        "Nintendo Switch"
+       ],
+       "url": "https://www.wikidata.org/wiki/Q44379841"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "g472",
+   "title": "Bravely Default",
+   "sourcesReached": [
+    "Wikidata"
+   ],
+   "sourcesMissed": [
+    "IGDB (no key in environment)"
+   ],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "release year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 2012,
+     "proposed": 2012,
+     "status": "confirmed",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "Wikidata",
+       "value": 2012,
+       "url": "https://www.wikidata.org/wiki/Q2083917"
+      }
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "developer",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Silicon Studio",
+     "proposed": "Silicon Studio, Square Enix",
+     "status": "proposed-change",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "Wikidata",
+       "value": "Silicon Studio & Square Enix",
+       "url": "https://www.wikidata.org/wiki/Q2083917"
+      }
+     ]
+    },
+    {
+     "field": "platforms",
+     "label": "platforms",
+     "soft": true,
+     "editionDependent": false,
+     "current": [
+      "Nintendo 3DS"
+     ],
+     "proposed": [
+      "Nintendo 3DS"
+     ],
+     "status": "confirmed",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "Wikidata",
+       "value": [
+        "Nintendo 3DS"
+       ],
+       "url": "https://www.wikidata.org/wiki/Q2083917"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "g473",
+   "title": "Abzu",
+   "sourcesReached": [
+    "Wikidata"
+   ],
+   "sourcesMissed": [
+    "IGDB (no key in environment)"
+   ],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "release year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 2016,
+     "proposed": 2016,
+     "status": "confirmed",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "Wikidata",
+       "value": 2016,
+       "url": "https://www.wikidata.org/wiki/Q20899382"
+      }
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "developer",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Giant Squid",
+     "proposed": "Giant Squid",
+     "status": "confirmed",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "Wikidata",
+       "value": "Giant Squid",
+       "url": "https://www.wikidata.org/wiki/Q20899382"
+      }
+     ]
+    },
+    {
+     "field": "platforms",
+     "label": "platforms",
+     "soft": true,
+     "editionDependent": false,
+     "current": [
+      "PC",
+      "PS4",
+      "Xbox One",
+      "Switch"
+     ],
+     "proposed": [
+      "Microsoft Windows",
+      "PlayStation 4",
+      "Xbox One",
+      "Nintendo Switch"
+     ],
+     "status": "proposed-change",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "Wikidata",
+       "value": [
+        "Microsoft Windows",
+        "PlayStation 4",
+        "Xbox One",
+        "Nintendo Switch"
+       ],
+       "url": "https://www.wikidata.org/wiki/Q20899382"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "g474",
+   "title": "Flower",
+   "sourcesReached": [
+    "Wikidata"
+   ],
+   "sourcesMissed": [
+    "IGDB (no key in environment)"
+   ],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "release year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 2009,
+     "proposed": 2009,
+     "status": "confirmed",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "Wikidata",
+       "value": 2009,
+       "url": "https://www.wikidata.org/wiki/Q1825218"
+      }
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "developer",
+     "soft": false,
+     "editionDependent": false,
+     "current": "thatgamecompany",
+     "proposed": "Bluepoint Games, thatgamecompany Games",
+     "status": "proposed-change",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "Wikidata",
+       "value": "thatgamecompany & Bluepoint Games",
+       "url": "https://www.wikidata.org/wiki/Q1825218"
+      }
+     ]
+    },
+    {
+     "field": "platforms",
+     "label": "platforms",
+     "soft": true,
+     "editionDependent": false,
+     "current": [
+      "PS3",
+      "PS4"
+     ],
+     "proposed": [
+      "PlayStation 4",
+      "PlayStation Vita",
+      "PlayStation 3",
+      "iOS",
+      "Microsoft Windows"
+     ],
+     "status": "proposed-change",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "Wikidata",
+       "value": [
+        "PlayStation 4",
+        "PlayStation Vita",
+        "PlayStation 3",
+        "iOS",
+        "Microsoft Windows"
+       ],
+       "url": "https://www.wikidata.org/wiki/Q1825218"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "g475",
+   "title": "Little Nightmares",
+   "sourcesReached": [
+    "Wikidata"
+   ],
+   "sourcesMissed": [
+    "IGDB (no key in environment)"
+   ],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "release year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 2017,
+     "proposed": 2017,
+     "status": "confirmed",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "Wikidata",
+       "value": 2017,
+       "url": "https://www.wikidata.org/wiki/Q28861509"
+      }
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "developer",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Tarsier Studios",
+     "proposed": "Tarsier Studios",
+     "status": "confirmed",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "Wikidata",
+       "value": "Tarsier Studios",
+       "url": "https://www.wikidata.org/wiki/Q28861509"
+      }
+     ]
+    },
+    {
+     "field": "platforms",
+     "label": "platforms",
+     "soft": true,
+     "editionDependent": false,
+     "current": [
+      "PC",
+      "PS4",
+      "Xbox One",
+      "Switch"
+     ],
+     "proposed": [
+      "Microsoft Windows",
+      "PlayStation 4",
+      "Xbox One",
+      "Nintendo Switch",
+      "iOS",
+      "iPadOS"
+     ],
+     "status": "proposed-change",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "Wikidata",
+       "value": [
+        "Microsoft Windows",
+        "PlayStation 4",
+        "Xbox One",
+        "Nintendo Switch",
+        "iOS",
+        "iPadOS"
+       ],
+       "url": "https://www.wikidata.org/wiki/Q28861509"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "g476",
+   "title": "Little Nightmares II",
+   "sourcesReached": [
+    "Wikidata"
+   ],
+   "sourcesMissed": [
+    "IGDB (no key in environment)"
+   ],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "release year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 2021,
+     "proposed": 2021,
+     "status": "confirmed",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "Wikidata",
+       "value": 2021,
+       "url": "https://www.wikidata.org/wiki/Q67714211"
+      }
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "developer",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Tarsier Studios",
+     "proposed": "Tarsier Studios",
+     "status": "confirmed",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "Wikidata",
+       "value": "Tarsier Studios",
+       "url": "https://www.wikidata.org/wiki/Q67714211"
+      }
+     ]
+    },
+    {
+     "field": "platforms",
+     "label": "platforms",
+     "soft": true,
+     "editionDependent": false,
+     "current": [
+      "PC",
+      "PS4",
+      "PS5",
+      "Xbox One",
+      "Xbox Series",
+      "Switch"
+     ],
+     "proposed": [
+      "Microsoft Windows",
+      "PlayStation 4",
+      "Xbox One",
+      "Nintendo Switch",
+      "PlayStation 5",
+      "Xbox Series X and Series S"
+     ],
+     "status": "proposed-change",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "Wikidata",
+       "value": [
+        "Microsoft Windows",
+        "PlayStation 4",
+        "Xbox One",
+        "Nintendo Switch",
+        "PlayStation 5",
+        "Xbox Series X and Series S"
+       ],
+       "url": "https://www.wikidata.org/wiki/Q67714211"
+      }
+     ]
+    }
+   ]
+  }
+ ]
+}
