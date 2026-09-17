@@ -1,0 +1,741 @@
+{
+ "medium": "game",
+ "generated": "2026-09-17T00:21:27.475Z",
+ "offline": false,
+ "sources": [
+  "IGDB",
+  "Wikidata"
+ ],
+ "works": [
+  {
+   "id": "g295",
+   "title": "EarthBound",
+   "sourcesReached": [
+    "Wikidata"
+   ],
+   "sourcesMissed": [
+    "IGDB (no key in environment)"
+   ],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "release year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 1994,
+     "proposed": 1989,
+     "status": "proposed-change",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "Wikidata",
+       "value": 1989,
+       "url": "https://www.wikidata.org/wiki/Q1780267"
+      }
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "developer",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Ape Inc., HAL Laboratory",
+     "proposed": "1-Up Studio, Creatures Softnica, HAL Laboratory, Nintendo Softnica, Pax Softnica",
+     "status": "proposed-change",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "Wikidata",
+       "value": "Creatures & HAL Laboratory & Nintendo & 1-Up Studio & Pax Softnica",
+       "url": "https://www.wikidata.org/wiki/Q1780267"
+      }
+     ]
+    },
+    {
+     "field": "platforms",
+     "label": "platforms",
+     "soft": true,
+     "editionDependent": false,
+     "current": [
+      "SNES"
+     ],
+     "proposed": [
+      "Nintendo Entertainment System",
+      "Super Nintendo Entertainment System",
+      "Game Boy Advance",
+      "Wii U",
+      "New Nintendo 3DS",
+      "Nintendo Switch"
+     ],
+     "status": "proposed-change",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "Wikidata",
+       "value": [
+        "Nintendo Entertainment System",
+        "Super Nintendo Entertainment System",
+        "Game Boy Advance",
+        "Wii U",
+        "New Nintendo 3DS",
+        "Nintendo Switch"
+       ],
+       "url": "https://www.wikidata.org/wiki/Q1780267"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "g296",
+   "title": "Super Mario RPG",
+   "sourcesReached": [],
+   "sourcesMissed": [
+    "IGDB (no key in environment)",
+    "Wikidata (no match)"
+   ],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "release year",
+     "soft": false,
+     "current": 1996,
+     "status": "no-source",
+     "grade": null,
+     "sources": []
+    },
+    {
+     "field": "creator",
+     "label": "developer",
+     "soft": false,
+     "current": "Square, Nintendo",
+     "status": "no-source",
+     "grade": null,
+     "sources": []
+    },
+    {
+     "field": "platforms",
+     "label": "platforms",
+     "soft": true,
+     "current": [
+      "SNES",
+      "Switch"
+     ],
+     "status": "no-source",
+     "grade": null,
+     "sources": []
+    }
+   ]
+  },
+  {
+   "id": "g297",
+   "title": "Pokémon Red and Blue",
+   "sourcesReached": [
+    "Wikidata"
+   ],
+   "sourcesMissed": [
+    "IGDB (no key in environment)"
+   ],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "release year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 1996,
+     "proposed": 1998,
+     "status": "proposed-change",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "Wikidata",
+       "value": 1998,
+       "url": "https://www.wikidata.org/wiki/Q637137"
+      }
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "developer",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Game Freak",
+     "proposed": "Game Freak",
+     "status": "confirmed",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "Wikidata",
+       "value": "Game Freak",
+       "url": "https://www.wikidata.org/wiki/Q637137"
+      }
+     ]
+    },
+    {
+     "field": "platforms",
+     "label": "platforms",
+     "soft": true,
+     "editionDependent": false,
+     "current": [
+      "Game Boy"
+     ],
+     "proposed": [
+      "Game Boy"
+     ],
+     "status": "confirmed",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "Wikidata",
+       "value": [
+        "Game Boy"
+       ],
+       "url": "https://www.wikidata.org/wiki/Q637137"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "g298",
+   "title": "Persona 3 Reload",
+   "sourcesReached": [
+    "Wikidata"
+   ],
+   "sourcesMissed": [
+    "IGDB (no key in environment)"
+   ],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "release year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 2024,
+     "proposed": 2024,
+     "status": "confirmed",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "Wikidata",
+       "value": 2024,
+       "url": "https://www.wikidata.org/wiki/Q119294958"
+      }
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "developer",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Atlus",
+     "proposed": "Atlus P-Studio, P-Studio",
+     "status": "proposed-change",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "Wikidata",
+       "value": "Atlus & P-Studio",
+       "url": "https://www.wikidata.org/wiki/Q119294958"
+      }
+     ]
+    },
+    {
+     "field": "platforms",
+     "label": "platforms",
+     "soft": true,
+     "editionDependent": false,
+     "current": [
+      "PC",
+      "PS5",
+      "Xbox Series X"
+     ],
+     "proposed": [
+      "Microsoft Windows",
+      "PlayStation 5",
+      "PlayStation 4",
+      "Xbox One",
+      "Xbox Series X and Series S",
+      "Nintendo Switch 2"
+     ],
+     "status": "proposed-change",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "Wikidata",
+       "value": [
+        "Microsoft Windows",
+        "PlayStation 5",
+        "PlayStation 4",
+        "Xbox One",
+        "Xbox Series X and Series S",
+        "Nintendo Switch 2"
+       ],
+       "url": "https://www.wikidata.org/wiki/Q119294958"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "g299",
+   "title": "Octopath Traveler",
+   "sourcesReached": [
+    "Wikidata"
+   ],
+   "sourcesMissed": [
+    "IGDB (no key in environment)"
+   ],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "release year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 2018,
+     "proposed": 2018,
+     "status": "confirmed",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "Wikidata",
+       "value": 2018,
+       "url": "https://www.wikidata.org/wiki/Q40887608"
+      }
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "developer",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Square Enix, Acquire",
+     "proposed": "Acquire, Square Enix",
+     "status": "confirmed",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "Wikidata",
+       "value": "Square Enix & Acquire",
+       "url": "https://www.wikidata.org/wiki/Q40887608"
+      }
+     ]
+    },
+    {
+     "field": "platforms",
+     "label": "platforms",
+     "soft": true,
+     "editionDependent": false,
+     "current": [
+      "Switch",
+      "PC",
+      "PS4"
+     ],
+     "proposed": [
+      "Nintendo Switch",
+      "Microsoft Windows",
+      "Xbox One",
+      "PlayStation 5",
+      "PlayStation 4",
+      "Nintendo Switch 2"
+     ],
+     "status": "proposed-change",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "Wikidata",
+       "value": [
+        "Nintendo Switch",
+        "Microsoft Windows",
+        "Xbox One",
+        "PlayStation 5",
+        "PlayStation 4",
+        "Nintendo Switch 2"
+       ],
+       "url": "https://www.wikidata.org/wiki/Q40887608"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "g300",
+   "title": "Triangle Strategy",
+   "sourcesReached": [
+    "Wikidata"
+   ],
+   "sourcesMissed": [
+    "IGDB (no key in environment)"
+   ],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "release year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 2022,
+     "proposed": 2022,
+     "status": "confirmed",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "Wikidata",
+       "value": 2022,
+       "url": "https://www.wikidata.org/wiki/Q105561171"
+      }
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "developer",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Square Enix, Artdink",
+     "proposed": "Artdink",
+     "status": "proposed-change",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "Wikidata",
+       "value": "Artdink",
+       "url": "https://www.wikidata.org/wiki/Q105561171"
+      }
+     ]
+    },
+    {
+     "field": "platforms",
+     "label": "platforms",
+     "soft": true,
+     "editionDependent": false,
+     "current": [
+      "Switch",
+      "PC"
+     ],
+     "proposed": [
+      "Nintendo Switch",
+      "Microsoft Windows"
+     ],
+     "status": "proposed-change",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "Wikidata",
+       "value": [
+        "Nintendo Switch",
+        "Microsoft Windows"
+       ],
+       "url": "https://www.wikidata.org/wiki/Q105561171"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "g301",
+   "title": "Xenoblade Chronicles 3",
+   "sourcesReached": [
+    "Wikidata"
+   ],
+   "sourcesMissed": [
+    "IGDB (no key in environment)"
+   ],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "release year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 2022,
+     "proposed": 2022,
+     "status": "confirmed",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "Wikidata",
+       "value": 2022,
+       "url": "https://www.wikidata.org/wiki/Q110875814"
+      }
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "developer",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Monolith Soft",
+     "proposed": "Monolith Soft Inc.",
+     "status": "proposed-change",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "Wikidata",
+       "value": "Monolith Soft Inc.",
+       "url": "https://www.wikidata.org/wiki/Q110875814"
+      }
+     ]
+    },
+    {
+     "field": "platforms",
+     "label": "platforms",
+     "soft": true,
+     "editionDependent": false,
+     "current": [
+      "Switch"
+     ],
+     "proposed": [
+      "Nintendo Switch"
+     ],
+     "status": "proposed-change",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "Wikidata",
+       "value": [
+        "Nintendo Switch"
+       ],
+       "url": "https://www.wikidata.org/wiki/Q110875814"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "g302",
+   "title": "Helldivers 2",
+   "sourcesReached": [
+    "Wikidata"
+   ],
+   "sourcesMissed": [
+    "IGDB (no key in environment)"
+   ],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "release year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 2024,
+     "proposed": 2024,
+     "status": "confirmed",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "Wikidata",
+       "value": 2024,
+       "url": "https://www.wikidata.org/wiki/Q118645527"
+      }
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "developer",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Arrowhead Game Studios",
+     "proposed": "Arrowhead Game Studios",
+     "status": "confirmed",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "Wikidata",
+       "value": "Arrowhead Game Studios",
+       "url": "https://www.wikidata.org/wiki/Q118645527"
+      }
+     ]
+    },
+    {
+     "field": "platforms",
+     "label": "platforms",
+     "soft": true,
+     "editionDependent": false,
+     "current": [
+      "PC",
+      "PS5"
+     ],
+     "proposed": [
+      "PlayStation 5",
+      "Microsoft Windows",
+      "Linux",
+      "Xbox Series X and Series S"
+     ],
+     "status": "proposed-change",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "Wikidata",
+       "value": [
+        "PlayStation 5",
+        "Microsoft Windows",
+        "Linux",
+        "Xbox Series X and Series S"
+       ],
+       "url": "https://www.wikidata.org/wiki/Q118645527"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "g303",
+   "title": "Indiana Jones and the Great Circle",
+   "sourcesReached": [
+    "Wikidata"
+   ],
+   "sourcesMissed": [
+    "IGDB (no key in environment)"
+   ],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "release year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 2024,
+     "proposed": 2024,
+     "status": "confirmed",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "Wikidata",
+       "value": 2024,
+       "url": "https://www.wikidata.org/wiki/Q124312399"
+      }
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "developer",
+     "soft": false,
+     "editionDependent": false,
+     "current": "MachineGames",
+     "proposed": "MachineGames",
+     "status": "confirmed",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "Wikidata",
+       "value": "MachineGames",
+       "url": "https://www.wikidata.org/wiki/Q124312399"
+      }
+     ]
+    },
+    {
+     "field": "platforms",
+     "label": "platforms",
+     "soft": true,
+     "editionDependent": false,
+     "current": [
+      "PC",
+      "PS5",
+      "Xbox Series X"
+     ],
+     "proposed": [
+      "Xbox Series X and Series S",
+      "Microsoft Windows",
+      "PlayStation 5",
+      "Nintendo Switch 2"
+     ],
+     "status": "proposed-change",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "Wikidata",
+       "value": [
+        "Xbox Series X and Series S",
+        "Microsoft Windows",
+        "PlayStation 5",
+        "Nintendo Switch 2"
+       ],
+       "url": "https://www.wikidata.org/wiki/Q124312399"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "g304",
+   "title": "Max Payne",
+   "sourcesReached": [
+    "Wikidata"
+   ],
+   "sourcesMissed": [
+    "IGDB (no key in environment)"
+   ],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "release year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 2001,
+     "proposed": 2001,
+     "status": "confirmed",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "Wikidata",
+       "value": 2001,
+       "url": "https://www.wikidata.org/wiki/Q1175156"
+      }
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "developer",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Remedy Entertainment",
+     "proposed": "Grove Street Games, MacSoft Games, Remedy Entertainment, Rockstar Toronto, Rockstar Vienna",
+     "status": "proposed-change",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "Wikidata",
+       "value": "Remedy Entertainment & Rockstar Toronto & Rockstar Vienna & MacSoft Games & Grove Street Games",
+       "url": "https://www.wikidata.org/wiki/Q1175156"
+      }
+     ]
+    },
+    {
+     "field": "platforms",
+     "label": "platforms",
+     "soft": true,
+     "editionDependent": false,
+     "current": [
+      "PC",
+      "PS2",
+      "Xbox"
+     ],
+     "proposed": [
+      "PlayStation 2",
+      "Xbox",
+      "Android",
+      "macOS",
+      "iOS",
+      "Microsoft Windows",
+      "Dreamcast",
+      "Game Boy Advance"
+     ],
+     "status": "proposed-change",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "Wikidata",
+       "value": [
+        "PlayStation 2",
+        "Xbox",
+        "Android",
+        "macOS",
+        "iOS",
+        "Microsoft Windows",
+        "Dreamcast",
+        "Game Boy Advance"
+       ],
+       "url": "https://www.wikidata.org/wiki/Q1175156"
+      }
+     ]
+    }
+   ]
+  }
+ ]
+}
