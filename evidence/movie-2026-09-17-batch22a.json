@@ -1,0 +1,1153 @@
+{
+ "medium": "movie",
+ "generated": "2026-09-17T17:45:10.414Z",
+ "offline": false,
+ "sources": [
+  "OMDb",
+  "TMDB"
+ ],
+ "works": [
+  {
+   "id": "m1620",
+   "title": "The Ring",
+   "sourcesReached": [
+    "OMDb",
+    "TMDB"
+   ],
+   "sourcesMissed": [],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "release year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 2002,
+     "proposed": 2002,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 2002,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=The+Ring&type=movie&y=2002"
+      },
+      {
+       "src": "TMDB",
+       "value": 2002,
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=The+Ring&year=2002"
+      }
+     ]
+    },
+    {
+     "field": "runtime",
+     "label": "runtime (min)",
+     "soft": false,
+     "editionDependent": true,
+     "current": 115,
+     "proposed": 115,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 115,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=The+Ring&type=movie&y=2002"
+      },
+      {
+       "src": "TMDB",
+       "value": 115,
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=The+Ring&year=2002"
+      }
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "director",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Gore Verbinski",
+     "proposed": "Gore Verbinski",
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": "Gore Verbinski",
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=The+Ring&type=movie&y=2002"
+      },
+      {
+       "src": "TMDB",
+       "value": "Gore Verbinski",
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=The+Ring&year=2002"
+      }
+     ]
+    },
+    {
+     "field": "studio",
+     "label": "studio",
+     "soft": true,
+     "editionDependent": false,
+     "current": "DreamWorks Pictures",
+     "proposed": "DreamWorks Pictures",
+     "status": "confirmed",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "TMDB",
+       "value": "DreamWorks Pictures",
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=The+Ring&year=2002"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "m1621",
+   "title": "The Final Destination",
+   "sourcesReached": [
+    "OMDb",
+    "TMDB"
+   ],
+   "sourcesMissed": [],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "release year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 2009,
+     "proposed": 2009,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 2009,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=The+Final+Destination&type=movie&y=2009"
+      },
+      {
+       "src": "TMDB",
+       "value": 2009,
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=The+Final+Destination&year=2009"
+      }
+     ]
+    },
+    {
+     "field": "runtime",
+     "label": "runtime (min)",
+     "soft": false,
+     "editionDependent": true,
+     "current": 82,
+     "proposed": 82,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 82,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=The+Final+Destination&type=movie&y=2009"
+      },
+      {
+       "src": "TMDB",
+       "value": 82,
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=The+Final+Destination&year=2009"
+      }
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "director",
+     "soft": false,
+     "editionDependent": false,
+     "current": "David R. Ellis",
+     "proposed": "David R. Ellis",
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": "David R. Ellis",
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=The+Final+Destination&type=movie&y=2009"
+      },
+      {
+       "src": "TMDB",
+       "value": "David R. Ellis",
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=The+Final+Destination&year=2009"
+      }
+     ]
+    },
+    {
+     "field": "studio",
+     "label": "studio",
+     "soft": true,
+     "editionDependent": false,
+     "current": "New Line Cinema",
+     "proposed": "Parallel Zide",
+     "status": "proposed-change",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "TMDB",
+       "value": "Parallel Zide",
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=The+Final+Destination&year=2009"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "m1622",
+   "title": "Final Destination 5",
+   "sourcesReached": [
+    "OMDb",
+    "TMDB"
+   ],
+   "sourcesMissed": [],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "release year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 2011,
+     "proposed": 2011,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 2011,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Final+Destination+5&type=movie&y=2011"
+      },
+      {
+       "src": "TMDB",
+       "value": 2011,
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Final+Destination+5&year=2011"
+      }
+     ]
+    },
+    {
+     "field": "runtime",
+     "label": "runtime (min)",
+     "soft": false,
+     "editionDependent": true,
+     "current": 92,
+     "proposed": 92,
+     "status": "corroborated-by-one",
+     "grade": "B",
+     "note": "matches OMDb; disagrees with TMDB (91)",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 92,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Final+Destination+5&type=movie&y=2011"
+      },
+      {
+       "src": "TMDB",
+       "value": 91,
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Final+Destination+5&year=2011"
+      }
+     ],
+     "alternatives": [
+      91
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "director",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Steven Quale",
+     "proposed": "Steven Quale",
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": "Steven Quale",
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Final+Destination+5&type=movie&y=2011"
+      },
+      {
+       "src": "TMDB",
+       "value": "Steven Quale",
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Final+Destination+5&year=2011"
+      }
+     ]
+    },
+    {
+     "field": "studio",
+     "label": "studio",
+     "soft": true,
+     "editionDependent": false,
+     "current": "New Line Cinema",
+     "proposed": "Parallel Zide",
+     "status": "proposed-change",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "TMDB",
+       "value": "Parallel Zide",
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Final+Destination+5&year=2011"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "m1623",
+   "title": "Child's Play 2",
+   "sourcesReached": [
+    "OMDb",
+    "TMDB"
+   ],
+   "sourcesMissed": [],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "release year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 1990,
+     "proposed": 1990,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 1990,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Child%27s+Play+2&type=movie&y=1990"
+      },
+      {
+       "src": "TMDB",
+       "value": 1990,
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Child%27s+Play+2&year=1990"
+      }
+     ]
+    },
+    {
+     "field": "runtime",
+     "label": "runtime (min)",
+     "soft": false,
+     "editionDependent": true,
+     "current": 84,
+     "proposed": 84,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 84,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Child%27s+Play+2&type=movie&y=1990"
+      },
+      {
+       "src": "TMDB",
+       "value": 84,
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Child%27s+Play+2&year=1990"
+      }
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "director",
+     "soft": false,
+     "editionDependent": false,
+     "current": "John Lafia",
+     "proposed": "John Lafia",
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": "John Lafia",
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Child%27s+Play+2&type=movie&y=1990"
+      },
+      {
+       "src": "TMDB",
+       "value": "John Lafia",
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Child%27s+Play+2&year=1990"
+      }
+     ]
+    },
+    {
+     "field": "studio",
+     "label": "studio",
+     "soft": true,
+     "editionDependent": false,
+     "current": "Universal Pictures",
+     "proposed": "Universal Pictures",
+     "status": "confirmed",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "TMDB",
+       "value": "Universal Pictures",
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Child%27s+Play+2&year=1990"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "m1624",
+   "title": "Child's Play 3",
+   "sourcesReached": [
+    "OMDb",
+    "TMDB"
+   ],
+   "sourcesMissed": [],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "release year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 1991,
+     "proposed": 1991,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 1991,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Child%27s+Play+3&type=movie&y=1991"
+      },
+      {
+       "src": "TMDB",
+       "value": 1991,
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Child%27s+Play+3&year=1991"
+      }
+     ]
+    },
+    {
+     "field": "runtime",
+     "label": "runtime (min)",
+     "soft": false,
+     "editionDependent": true,
+     "current": 89,
+     "proposed": 90,
+     "status": "edition-dependent",
+     "grade": "B",
+     "note": "sources agree with each other but not the corpus (OMDb 90, TMDB 90) on a field with no single true value -- likely a different printing/edition, not an error.",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 90,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Child%27s+Play+3&type=movie&y=1991"
+      },
+      {
+       "src": "TMDB",
+       "value": 90,
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Child%27s+Play+3&year=1991"
+      }
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "director",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Jack Bender",
+     "proposed": "Jack Bender",
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": "Jack Bender",
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Child%27s+Play+3&type=movie&y=1991"
+      },
+      {
+       "src": "TMDB",
+       "value": "Jack Bender",
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Child%27s+Play+3&year=1991"
+      }
+     ]
+    },
+    {
+     "field": "studio",
+     "label": "studio",
+     "soft": true,
+     "editionDependent": false,
+     "current": "Universal Pictures",
+     "proposed": "Universal Pictures",
+     "status": "confirmed",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "TMDB",
+       "value": "Universal Pictures",
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Child%27s+Play+3&year=1991"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "m1625",
+   "title": "Seed of Chucky",
+   "sourcesReached": [
+    "OMDb",
+    "TMDB"
+   ],
+   "sourcesMissed": [],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "release year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 2004,
+     "proposed": 2004,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 2004,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Seed+of+Chucky&type=movie&y=2004"
+      },
+      {
+       "src": "TMDB",
+       "value": 2004,
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Seed+of+Chucky&year=2004"
+      }
+     ]
+    },
+    {
+     "field": "runtime",
+     "label": "runtime (min)",
+     "soft": false,
+     "editionDependent": true,
+     "current": 87,
+     "proposed": 87,
+     "status": "corroborated-by-one",
+     "grade": "B",
+     "note": "matches OMDb; disagrees with TMDB (86)",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 87,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Seed+of+Chucky&type=movie&y=2004"
+      },
+      {
+       "src": "TMDB",
+       "value": 86,
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Seed+of+Chucky&year=2004"
+      }
+     ],
+     "alternatives": [
+      86
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "director",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Don Mancini",
+     "proposed": "Don Mancini",
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": "Don Mancini",
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Seed+of+Chucky&type=movie&y=2004"
+      },
+      {
+       "src": "TMDB",
+       "value": "Don Mancini",
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Seed+of+Chucky&year=2004"
+      }
+     ]
+    },
+    {
+     "field": "studio",
+     "label": "studio",
+     "soft": true,
+     "editionDependent": false,
+     "current": "Rogue Pictures",
+     "proposed": "David Kirschner Productions",
+     "status": "proposed-change",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "TMDB",
+       "value": "David Kirschner Productions",
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Seed+of+Chucky&year=2004"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "m1626",
+   "title": "Curse of Chucky",
+   "sourcesReached": [
+    "OMDb",
+    "TMDB"
+   ],
+   "sourcesMissed": [],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "release year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 2013,
+     "proposed": 2013,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 2013,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Curse+of+Chucky&type=movie&y=2013"
+      },
+      {
+       "src": "TMDB",
+       "value": 2013,
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Curse+of+Chucky&year=2013"
+      }
+     ]
+    },
+    {
+     "field": "runtime",
+     "label": "runtime (min)",
+     "soft": false,
+     "editionDependent": true,
+     "current": 97,
+     "proposed": 97,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 97,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Curse+of+Chucky&type=movie&y=2013"
+      },
+      {
+       "src": "TMDB",
+       "value": 97,
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Curse+of+Chucky&year=2013"
+      }
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "director",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Don Mancini",
+     "proposed": "Don Mancini",
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": "Don Mancini",
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Curse+of+Chucky&type=movie&y=2013"
+      },
+      {
+       "src": "TMDB",
+       "value": "Don Mancini",
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Curse+of+Chucky&year=2013"
+      }
+     ]
+    },
+    {
+     "field": "studio",
+     "label": "studio",
+     "soft": true,
+     "editionDependent": false,
+     "current": "Universal Pictures",
+     "proposed": "Universal 1440 Entertainment",
+     "status": "proposed-change",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "TMDB",
+       "value": "Universal 1440 Entertainment",
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Curse+of+Chucky&year=2013"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "m1627",
+   "title": "Cult of Chucky",
+   "sourcesReached": [
+    "OMDb",
+    "TMDB"
+   ],
+   "sourcesMissed": [],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "release year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 2017,
+     "proposed": 2017,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 2017,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Cult+of+Chucky&type=movie&y=2017"
+      },
+      {
+       "src": "TMDB",
+       "value": 2017,
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Cult+of+Chucky&year=2017"
+      }
+     ]
+    },
+    {
+     "field": "runtime",
+     "label": "runtime (min)",
+     "soft": false,
+     "editionDependent": true,
+     "current": 91,
+     "proposed": 91,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 91,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Cult+of+Chucky&type=movie&y=2017"
+      },
+      {
+       "src": "TMDB",
+       "value": 91,
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Cult+of+Chucky&year=2017"
+      }
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "director",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Don Mancini",
+     "proposed": "Don Mancini",
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": "Don Mancini",
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Cult+of+Chucky&type=movie&y=2017"
+      },
+      {
+       "src": "TMDB",
+       "value": "Don Mancini",
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Cult+of+Chucky&year=2017"
+      }
+     ]
+    },
+    {
+     "field": "studio",
+     "label": "studio",
+     "soft": true,
+     "editionDependent": false,
+     "current": "Universal Pictures",
+     "proposed": "Universal 1440 Entertainment",
+     "status": "proposed-change",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "TMDB",
+       "value": "Universal 1440 Entertainment",
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Cult+of+Chucky&year=2017"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "m1628",
+   "title": "Annabelle: Creation",
+   "sourcesReached": [
+    "OMDb",
+    "TMDB"
+   ],
+   "sourcesMissed": [],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "release year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 2017,
+     "proposed": 2017,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 2017,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Annabelle%3A+Creation&type=movie&y=2017"
+      },
+      {
+       "src": "TMDB",
+       "value": 2017,
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Annabelle%3A+Creation&year=2017"
+      }
+     ]
+    },
+    {
+     "field": "runtime",
+     "label": "runtime (min)",
+     "soft": false,
+     "editionDependent": true,
+     "current": 109,
+     "proposed": 109,
+     "status": "corroborated-by-one",
+     "grade": "B",
+     "note": "matches OMDb; disagrees with TMDB (110)",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 109,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Annabelle%3A+Creation&type=movie&y=2017"
+      },
+      {
+       "src": "TMDB",
+       "value": 110,
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Annabelle%3A+Creation&year=2017"
+      }
+     ],
+     "alternatives": [
+      110
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "director",
+     "soft": false,
+     "editionDependent": false,
+     "current": "David F. Sandberg",
+     "proposed": "David F. Sandberg",
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": "David F. Sandberg",
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Annabelle%3A+Creation&type=movie&y=2017"
+      },
+      {
+       "src": "TMDB",
+       "value": "David F. Sandberg",
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Annabelle%3A+Creation&year=2017"
+      }
+     ]
+    },
+    {
+     "field": "studio",
+     "label": "studio",
+     "soft": true,
+     "editionDependent": false,
+     "current": "Warner Bros.",
+     "proposed": "Atomic Monster",
+     "status": "proposed-change",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "TMDB",
+       "value": "Atomic Monster",
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Annabelle%3A+Creation&year=2017"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "m1629",
+   "title": "Annabelle Comes Home",
+   "sourcesReached": [
+    "OMDb",
+    "TMDB"
+   ],
+   "sourcesMissed": [],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "release year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 2019,
+     "proposed": 2019,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 2019,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Annabelle+Comes+Home&type=movie&y=2019"
+      },
+      {
+       "src": "TMDB",
+       "value": 2019,
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Annabelle+Comes+Home&year=2019"
+      }
+     ]
+    },
+    {
+     "field": "runtime",
+     "label": "runtime (min)",
+     "soft": false,
+     "editionDependent": true,
+     "current": 106,
+     "proposed": 106,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 106,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Annabelle+Comes+Home&type=movie&y=2019"
+      },
+      {
+       "src": "TMDB",
+       "value": 106,
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Annabelle+Comes+Home&year=2019"
+      }
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "director",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Gary Dauberman",
+     "proposed": "Gary Dauberman",
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": "Gary Dauberman",
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Annabelle+Comes+Home&type=movie&y=2019"
+      },
+      {
+       "src": "TMDB",
+       "value": "Gary Dauberman",
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Annabelle+Comes+Home&year=2019"
+      }
+     ]
+    },
+    {
+     "field": "studio",
+     "label": "studio",
+     "soft": true,
+     "editionDependent": false,
+     "current": "Warner Bros.",
+     "proposed": "Atomic Monster",
+     "status": "proposed-change",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "TMDB",
+       "value": "Atomic Monster",
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Annabelle+Comes+Home&year=2019"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "m1631",
+   "title": "Paranormal Activity 2",
+   "sourcesReached": [
+    "OMDb",
+    "TMDB"
+   ],
+   "sourcesMissed": [],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "release year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 2010,
+     "proposed": 2010,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 2010,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Paranormal+Activity+2&type=movie&y=2010"
+      },
+      {
+       "src": "TMDB",
+       "value": 2010,
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Paranormal+Activity+2&year=2010"
+      }
+     ]
+    },
+    {
+     "field": "runtime",
+     "label": "runtime (min)",
+     "soft": false,
+     "editionDependent": true,
+     "current": 91,
+     "proposed": 91,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 91,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Paranormal+Activity+2&type=movie&y=2010"
+      },
+      {
+       "src": "TMDB",
+       "value": 91,
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Paranormal+Activity+2&year=2010"
+      }
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "director",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Tod Williams",
+     "proposed": "Tod Williams",
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": "Tod Williams",
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Paranormal+Activity+2&type=movie&y=2010"
+      },
+      {
+       "src": "TMDB",
+       "value": "Tod Williams",
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Paranormal+Activity+2&year=2010"
+      }
+     ]
+    },
+    {
+     "field": "studio",
+     "label": "studio",
+     "soft": true,
+     "editionDependent": false,
+     "current": "Paramount Pictures",
+     "proposed": "Paramount Pictures",
+     "status": "confirmed",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "TMDB",
+       "value": "Paramount Pictures",
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Paranormal+Activity+2&year=2010"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "m1632",
+   "title": "Paranormal Activity 3",
+   "sourcesReached": [
+    "OMDb",
+    "TMDB"
+   ],
+   "sourcesMissed": [],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "release year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 2011,
+     "proposed": 2011,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 2011,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Paranormal+Activity+3&type=movie&y=2011"
+      },
+      {
+       "src": "TMDB",
+       "value": 2011,
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Paranormal+Activity+3&year=2011"
+      }
+     ]
+    },
+    {
+     "field": "runtime",
+     "label": "runtime (min)",
+     "soft": false,
+     "editionDependent": true,
+     "current": 84,
+     "proposed": 83,
+     "status": "edition-dependent",
+     "grade": "B",
+     "note": "sources agree with each other but not the corpus (OMDb 83, TMDB 83) on a field with no single true value -- likely a different printing/edition, not an error.",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 83,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Paranormal+Activity+3&type=movie&y=2011"
+      },
+      {
+       "src": "TMDB",
+       "value": 83,
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Paranormal+Activity+3&year=2011"
+      }
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "director",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Henry Joost & Ariel Schulman",
+     "proposed": "Ariel Schulman, Henry Joost",
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": "Henry Joost, Ariel Schulman",
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Paranormal+Activity+3&type=movie&y=2011"
+      },
+      {
+       "src": "TMDB",
+       "value": "Henry Joost, Ariel Schulman",
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Paranormal+Activity+3&year=2011"
+      }
+     ]
+    },
+    {
+     "field": "studio",
+     "label": "studio",
+     "soft": true,
+     "editionDependent": false,
+     "current": "Paramount Pictures",
+     "proposed": "Paramount Pictures",
+     "status": "confirmed",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "TMDB",
+       "value": "Paramount Pictures",
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Paranormal+Activity+3&year=2011"
+      }
+     ]
+    }
+   ]
+  }
+ ]
+}
