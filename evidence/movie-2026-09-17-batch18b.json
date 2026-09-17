@@ -1,0 +1,1394 @@
+{
+ "medium": "movie",
+ "generated": "2026-09-17T13:01:33.817Z",
+ "offline": false,
+ "sources": [
+  "OMDb",
+  "TMDB"
+ ],
+ "works": [
+  {
+   "id": "m1508",
+   "title": "Speed Racer",
+   "sourcesReached": [
+    "OMDb",
+    "TMDB"
+   ],
+   "sourcesMissed": [],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "release year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 2008,
+     "proposed": 2008,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 2008,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Speed+Racer&type=movie&y=2008"
+      },
+      {
+       "src": "TMDB",
+       "value": 2008,
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Speed+Racer&year=2008"
+      }
+     ]
+    },
+    {
+     "field": "runtime",
+     "label": "runtime (min)",
+     "soft": false,
+     "editionDependent": true,
+     "current": 135,
+     "proposed": 135,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 135,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Speed+Racer&type=movie&y=2008"
+      },
+      {
+       "src": "TMDB",
+       "value": 135,
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Speed+Racer&year=2008"
+      }
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "director",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Lana Wachowski, Lilly Wachowski",
+     "proposed": "Lana Wachowski, Lilly Wachowski",
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": "Lana Wachowski, Lilly Wachowski",
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Speed+Racer&type=movie&y=2008"
+      },
+      {
+       "src": "TMDB",
+       "value": "Lana Wachowski, Lilly Wachowski",
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Speed+Racer&year=2008"
+      }
+     ]
+    },
+    {
+     "field": "studio",
+     "label": "studio",
+     "soft": true,
+     "editionDependent": false,
+     "current": "Warner Bros.",
+     "proposed": "Warner Bros. Pictures",
+     "status": "proposed-change",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "TMDB",
+       "value": "Warner Bros. Pictures",
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Speed+Racer&year=2008"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "m1509",
+   "title": "The Fast and the Furious: Tokyo Drift",
+   "sourcesReached": [
+    "OMDb",
+    "TMDB"
+   ],
+   "sourcesMissed": [],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "release year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 2006,
+     "proposed": 2006,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 2006,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=The+Fast+and+the+Furious%3A+Tokyo+Drift&type=movie&y=2006"
+      },
+      {
+       "src": "TMDB",
+       "value": 2006,
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=The+Fast+and+the+Furious%3A+Tokyo+Drift&year=2006"
+      }
+     ]
+    },
+    {
+     "field": "runtime",
+     "label": "runtime (min)",
+     "soft": false,
+     "editionDependent": true,
+     "current": 104,
+     "proposed": 104,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 104,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=The+Fast+and+the+Furious%3A+Tokyo+Drift&type=movie&y=2006"
+      },
+      {
+       "src": "TMDB",
+       "value": 104,
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=The+Fast+and+the+Furious%3A+Tokyo+Drift&year=2006"
+      }
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "director",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Justin Lin",
+     "proposed": "Justin Lin",
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": "Justin Lin",
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=The+Fast+and+the+Furious%3A+Tokyo+Drift&type=movie&y=2006"
+      },
+      {
+       "src": "TMDB",
+       "value": "Justin Lin",
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=The+Fast+and+the+Furious%3A+Tokyo+Drift&year=2006"
+      }
+     ]
+    },
+    {
+     "field": "studio",
+     "label": "studio",
+     "soft": true,
+     "editionDependent": false,
+     "current": "Universal Pictures",
+     "proposed": "MP Munich Pape Filmproductions",
+     "status": "proposed-change",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "TMDB",
+       "value": "MP Munich Pape Filmproductions",
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=The+Fast+and+the+Furious%3A+Tokyo+Drift&year=2006"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "m1510",
+   "title": "Fast & Furious",
+   "sourcesReached": [
+    "OMDb",
+    "TMDB"
+   ],
+   "sourcesMissed": [],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "release year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 2009,
+     "proposed": 2009,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 2009,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Fast+%26+Furious&type=movie&y=2009"
+      },
+      {
+       "src": "TMDB",
+       "value": 2009,
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Fast+%26+Furious&year=2009"
+      }
+     ]
+    },
+    {
+     "field": "runtime",
+     "label": "runtime (min)",
+     "soft": false,
+     "editionDependent": true,
+     "current": 107,
+     "proposed": 107,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 107,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Fast+%26+Furious&type=movie&y=2009"
+      },
+      {
+       "src": "TMDB",
+       "value": 107,
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Fast+%26+Furious&year=2009"
+      }
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "director",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Justin Lin",
+     "proposed": "Justin Lin",
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": "Justin Lin",
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Fast+%26+Furious&type=movie&y=2009"
+      },
+      {
+       "src": "TMDB",
+       "value": "Justin Lin",
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Fast+%26+Furious&year=2009"
+      }
+     ]
+    },
+    {
+     "field": "studio",
+     "label": "studio",
+     "soft": true,
+     "editionDependent": false,
+     "current": "Universal Pictures",
+     "proposed": "Universal Pictures",
+     "status": "confirmed",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "TMDB",
+       "value": "Universal Pictures",
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Fast+%26+Furious&year=2009"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "m1511",
+   "title": "Fast X",
+   "sourcesReached": [
+    "OMDb",
+    "TMDB"
+   ],
+   "sourcesMissed": [],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "release year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 2023,
+     "proposed": 2023,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 2023,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Fast+X&type=movie&y=2023"
+      },
+      {
+       "src": "TMDB",
+       "value": 2023,
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Fast+X&year=2023"
+      }
+     ]
+    },
+    {
+     "field": "runtime",
+     "label": "runtime (min)",
+     "soft": false,
+     "editionDependent": true,
+     "current": 141,
+     "proposed": 141,
+     "status": "corroborated-by-one",
+     "grade": "B",
+     "note": "matches OMDb; disagrees with TMDB (142)",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 141,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Fast+X&type=movie&y=2023"
+      },
+      {
+       "src": "TMDB",
+       "value": 142,
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Fast+X&year=2023"
+      }
+     ],
+     "alternatives": [
+      142
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "director",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Louis Leterrier",
+     "proposed": "Louis Leterrier",
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": "Louis Leterrier",
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Fast+X&type=movie&y=2023"
+      },
+      {
+       "src": "TMDB",
+       "value": "Louis Leterrier",
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Fast+X&year=2023"
+      }
+     ]
+    },
+    {
+     "field": "studio",
+     "label": "studio",
+     "soft": true,
+     "editionDependent": false,
+     "current": "Universal Pictures",
+     "proposed": "Universal Pictures",
+     "status": "confirmed",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "TMDB",
+       "value": "Universal Pictures",
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Fast+X&year=2023"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "m1512",
+   "title": "xXx",
+   "sourcesReached": [
+    "OMDb",
+    "TMDB"
+   ],
+   "sourcesMissed": [],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "release year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 2002,
+     "proposed": 2002,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 2002,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=xXx&type=movie&y=2002"
+      },
+      {
+       "src": "TMDB",
+       "value": 2002,
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=xXx&year=2002"
+      }
+     ]
+    },
+    {
+     "field": "runtime",
+     "label": "runtime (min)",
+     "soft": false,
+     "editionDependent": true,
+     "current": 124,
+     "proposed": 124,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 124,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=xXx&type=movie&y=2002"
+      },
+      {
+       "src": "TMDB",
+       "value": 124,
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=xXx&year=2002"
+      }
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "director",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Rob Cohen",
+     "proposed": "Rob Cohen",
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": "Rob Cohen",
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=xXx&type=movie&y=2002"
+      },
+      {
+       "src": "TMDB",
+       "value": "Rob Cohen",
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=xXx&year=2002"
+      }
+     ]
+    },
+    {
+     "field": "studio",
+     "label": "studio",
+     "soft": true,
+     "editionDependent": false,
+     "current": "Columbia Pictures",
+     "proposed": "Revolution Studios",
+     "status": "proposed-change",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "TMDB",
+       "value": "Revolution Studios",
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=xXx&year=2002"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "m1513",
+   "title": "xXx: State of the Union",
+   "sourcesReached": [
+    "OMDb",
+    "TMDB"
+   ],
+   "sourcesMissed": [],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "release year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 2005,
+     "proposed": 2005,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 2005,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=xXx%3A+State+of+the+Union&type=movie&y=2005"
+      },
+      {
+       "src": "TMDB",
+       "value": 2005,
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=xXx%3A+State+of+the+Union&year=2005"
+      }
+     ]
+    },
+    {
+     "field": "runtime",
+     "label": "runtime (min)",
+     "soft": false,
+     "editionDependent": true,
+     "current": 101,
+     "proposed": 101,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 101,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=xXx%3A+State+of+the+Union&type=movie&y=2005"
+      },
+      {
+       "src": "TMDB",
+       "value": 101,
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=xXx%3A+State+of+the+Union&year=2005"
+      }
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "director",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Lee Tamahori",
+     "proposed": "Lee Tamahori",
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": "Lee Tamahori",
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=xXx%3A+State+of+the+Union&type=movie&y=2005"
+      },
+      {
+       "src": "TMDB",
+       "value": "Lee Tamahori",
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=xXx%3A+State+of+the+Union&year=2005"
+      }
+     ]
+    },
+    {
+     "field": "studio",
+     "label": "studio",
+     "soft": true,
+     "editionDependent": false,
+     "current": "Columbia Pictures",
+     "proposed": "Revolution Studios",
+     "status": "proposed-change",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "TMDB",
+       "value": "Revolution Studios",
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=xXx%3A+State+of+the+Union&year=2005"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "m1514",
+   "title": "The Transporter",
+   "sourcesReached": [
+    "OMDb",
+    "TMDB"
+   ],
+   "sourcesMissed": [],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "release year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 2002,
+     "proposed": 2002,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 2002,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=The+Transporter&type=movie&y=2002"
+      },
+      {
+       "src": "TMDB",
+       "value": 2002,
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=The+Transporter&year=2002"
+      }
+     ]
+    },
+    {
+     "field": "runtime",
+     "label": "runtime (min)",
+     "soft": false,
+     "editionDependent": true,
+     "current": 92,
+     "proposed": 92,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 92,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=The+Transporter&type=movie&y=2002"
+      },
+      {
+       "src": "TMDB",
+       "value": 92,
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=The+Transporter&year=2002"
+      }
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "director",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Louis Leterrier, Corey Yuen",
+     "proposed": "Corey Yuen, Louis Leterrier",
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": "Louis Leterrier, Corey Yuen",
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=The+Transporter&type=movie&y=2002"
+      },
+      {
+       "src": "TMDB",
+       "value": "Corey Yuen, Louis Leterrier",
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=The+Transporter&year=2002"
+      }
+     ]
+    },
+    {
+     "field": "studio",
+     "label": "studio",
+     "soft": true,
+     "editionDependent": false,
+     "current": "20th Century Fox",
+     "proposed": "TF1 Films Production",
+     "status": "proposed-change",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "TMDB",
+       "value": "TF1 Films Production",
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=The+Transporter&year=2002"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "m1515",
+   "title": "The Transporter 2",
+   "sourcesReached": [],
+   "sourcesMissed": [
+    "OMDb (no match)",
+    "TMDB (no match)"
+   ],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "release year",
+     "soft": false,
+     "current": 2005,
+     "status": "no-source",
+     "grade": null,
+     "sources": []
+    },
+    {
+     "field": "runtime",
+     "label": "runtime (min)",
+     "soft": false,
+     "current": 87,
+     "status": "no-source",
+     "grade": null,
+     "sources": []
+    },
+    {
+     "field": "creator",
+     "label": "director",
+     "soft": false,
+     "current": "Louis Leterrier",
+     "status": "no-source",
+     "grade": null,
+     "sources": []
+    },
+    {
+     "field": "studio",
+     "label": "studio",
+     "soft": true,
+     "current": "20th Century Fox",
+     "status": "no-source",
+     "grade": null,
+     "sources": []
+    }
+   ]
+  },
+  {
+   "id": "m1516",
+   "title": "Crank",
+   "sourcesReached": [
+    "OMDb",
+    "TMDB"
+   ],
+   "sourcesMissed": [],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "release year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 2006,
+     "proposed": 2006,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 2006,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Crank&type=movie&y=2006"
+      },
+      {
+       "src": "TMDB",
+       "value": 2006,
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Crank&year=2006"
+      }
+     ]
+    },
+    {
+     "field": "runtime",
+     "label": "runtime (min)",
+     "soft": false,
+     "editionDependent": true,
+     "current": 88,
+     "proposed": 88,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 88,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Crank&type=movie&y=2006"
+      },
+      {
+       "src": "TMDB",
+       "value": 88,
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Crank&year=2006"
+      }
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "director",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Mark Neveldine, Brian Taylor",
+     "proposed": "Brian Taylor, Mark Neveldine",
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": "Mark Neveldine, Brian Taylor",
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Crank&type=movie&y=2006"
+      },
+      {
+       "src": "TMDB",
+       "value": "Brian Taylor, Mark Neveldine",
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Crank&year=2006"
+      }
+     ]
+    },
+    {
+     "field": "studio",
+     "label": "studio",
+     "soft": true,
+     "editionDependent": false,
+     "current": "Lionsgate",
+     "proposed": "Lakeshore Entertainment",
+     "status": "proposed-change",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "TMDB",
+       "value": "Lakeshore Entertainment",
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Crank&year=2006"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "m1517",
+   "title": "Crank: High Voltage",
+   "sourcesReached": [
+    "OMDb",
+    "TMDB"
+   ],
+   "sourcesMissed": [],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "release year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 2009,
+     "proposed": 2009,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 2009,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Crank%3A+High+Voltage&type=movie&y=2009"
+      },
+      {
+       "src": "TMDB",
+       "value": 2009,
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Crank%3A+High+Voltage&year=2009"
+      }
+     ]
+    },
+    {
+     "field": "runtime",
+     "label": "runtime (min)",
+     "soft": false,
+     "editionDependent": true,
+     "current": 96,
+     "proposed": 96,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 96,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Crank%3A+High+Voltage&type=movie&y=2009"
+      },
+      {
+       "src": "TMDB",
+       "value": 96,
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Crank%3A+High+Voltage&year=2009"
+      }
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "director",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Mark Neveldine, Brian Taylor",
+     "proposed": "Brian Taylor, Mark Neveldine",
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": "Mark Neveldine, Brian Taylor",
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Crank%3A+High+Voltage&type=movie&y=2009"
+      },
+      {
+       "src": "TMDB",
+       "value": "Mark Neveldine, Brian Taylor",
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Crank%3A+High+Voltage&year=2009"
+      }
+     ]
+    },
+    {
+     "field": "studio",
+     "label": "studio",
+     "soft": true,
+     "editionDependent": false,
+     "current": "Lionsgate",
+     "proposed": "Lionsgate",
+     "status": "confirmed",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "TMDB",
+       "value": "Lionsgate",
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Crank%3A+High+Voltage&year=2009"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "m1518",
+   "title": "Taken",
+   "sourcesReached": [
+    "OMDb",
+    "TMDB"
+   ],
+   "sourcesMissed": [],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "release year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 2008,
+     "proposed": 2008,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 2008,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Taken&type=movie&y=2008"
+      },
+      {
+       "src": "TMDB",
+       "value": 2008,
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Taken&year=2008"
+      }
+     ]
+    },
+    {
+     "field": "runtime",
+     "label": "runtime (min)",
+     "soft": false,
+     "editionDependent": true,
+     "current": 90,
+     "proposed": 90,
+     "status": "corroborated-by-one",
+     "grade": "B",
+     "note": "matches OMDb; disagrees with TMDB (94)",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 90,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Taken&type=movie&y=2008"
+      },
+      {
+       "src": "TMDB",
+       "value": 94,
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Taken&year=2008"
+      }
+     ],
+     "alternatives": [
+      94
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "director",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Pierre Morel",
+     "proposed": "Pierre Morel",
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": "Pierre Morel",
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Taken&type=movie&y=2008"
+      },
+      {
+       "src": "TMDB",
+       "value": "Pierre Morel",
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Taken&year=2008"
+      }
+     ]
+    },
+    {
+     "field": "studio",
+     "label": "studio",
+     "soft": true,
+     "editionDependent": false,
+     "current": "20th Century Fox",
+     "proposed": "EuropaCorp",
+     "status": "proposed-change",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "TMDB",
+       "value": "EuropaCorp",
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Taken&year=2008"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "m1519",
+   "title": "Taken 2",
+   "sourcesReached": [
+    "OMDb",
+    "TMDB"
+   ],
+   "sourcesMissed": [],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "release year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 2012,
+     "proposed": 2012,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 2012,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Taken+2&type=movie&y=2012"
+      },
+      {
+       "src": "TMDB",
+       "value": 2012,
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Taken+2&year=2012"
+      }
+     ]
+    },
+    {
+     "field": "runtime",
+     "label": "runtime (min)",
+     "soft": false,
+     "editionDependent": true,
+     "current": 92,
+     "proposed": 92,
+     "status": "corroborated-by-one",
+     "grade": "B",
+     "note": "matches OMDb; disagrees with TMDB (91)",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 92,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Taken+2&type=movie&y=2012"
+      },
+      {
+       "src": "TMDB",
+       "value": 91,
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Taken+2&year=2012"
+      }
+     ],
+     "alternatives": [
+      91
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "director",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Olivier Megaton",
+     "proposed": "Olivier Megaton",
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": "Olivier Megaton",
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Taken+2&type=movie&y=2012"
+      },
+      {
+       "src": "TMDB",
+       "value": "Olivier Megaton",
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Taken+2&year=2012"
+      }
+     ]
+    },
+    {
+     "field": "studio",
+     "label": "studio",
+     "soft": true,
+     "editionDependent": false,
+     "current": "20th Century Fox",
+     "proposed": "EuropaCorp",
+     "status": "proposed-change",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "TMDB",
+       "value": "EuropaCorp",
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Taken+2&year=2012"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "m1520",
+   "title": "Taken 3",
+   "sourcesReached": [
+    "OMDb",
+    "TMDB"
+   ],
+   "sourcesMissed": [],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "release year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 2014,
+     "proposed": 2014,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 2014,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Taken+3&type=movie&y=2014"
+      },
+      {
+       "src": "TMDB",
+       "value": 2014,
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Taken+3&year=2014"
+      }
+     ]
+    },
+    {
+     "field": "runtime",
+     "label": "runtime (min)",
+     "soft": false,
+     "editionDependent": true,
+     "current": 109,
+     "proposed": 109,
+     "status": "corroborated-by-one",
+     "grade": "B",
+     "note": "matches TMDB; disagrees with OMDb (108)",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 108,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Taken+3&type=movie&y=2014"
+      },
+      {
+       "src": "TMDB",
+       "value": 109,
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Taken+3&year=2014"
+      }
+     ],
+     "alternatives": [
+      109
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "director",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Olivier Megaton",
+     "proposed": "Olivier Megaton",
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": "Olivier Megaton",
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Taken+3&type=movie&y=2014"
+      },
+      {
+       "src": "TMDB",
+       "value": "Olivier Megaton",
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Taken+3&year=2014"
+      }
+     ]
+    },
+    {
+     "field": "studio",
+     "label": "studio",
+     "soft": true,
+     "editionDependent": false,
+     "current": "20th Century Fox",
+     "proposed": "EuropaCorp",
+     "status": "proposed-change",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "TMDB",
+       "value": "EuropaCorp",
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Taken+3&year=2014"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "m1521",
+   "title": "Non-Stop",
+   "sourcesReached": [
+    "OMDb",
+    "TMDB"
+   ],
+   "sourcesMissed": [],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "release year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 2014,
+     "proposed": 2014,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 2014,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Non-Stop&type=movie&y=2014"
+      },
+      {
+       "src": "TMDB",
+       "value": 2014,
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Non-Stop&year=2014"
+      }
+     ]
+    },
+    {
+     "field": "runtime",
+     "label": "runtime (min)",
+     "soft": false,
+     "editionDependent": true,
+     "current": 106,
+     "proposed": 106,
+     "status": "corroborated-by-one",
+     "grade": "B",
+     "note": "matches OMDb; disagrees with TMDB (107)",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 106,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Non-Stop&type=movie&y=2014"
+      },
+      {
+       "src": "TMDB",
+       "value": 107,
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Non-Stop&year=2014"
+      }
+     ],
+     "alternatives": [
+      107
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "director",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Jaume Collet-Serra",
+     "proposed": "Jaume Collet-Serra",
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": "Jaume Collet-Serra",
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Non-Stop&type=movie&y=2014"
+      },
+      {
+       "src": "TMDB",
+       "value": "Jaume Collet-Serra",
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Non-Stop&year=2014"
+      }
+     ]
+    },
+    {
+     "field": "studio",
+     "label": "studio",
+     "soft": true,
+     "editionDependent": false,
+     "current": "Universal Pictures",
+     "proposed": "Silver Pictures",
+     "status": "proposed-change",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "TMDB",
+       "value": "Silver Pictures",
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Non-Stop&year=2014"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "m1522",
+   "title": "Unknown",
+   "sourcesReached": [
+    "OMDb",
+    "TMDB"
+   ],
+   "sourcesMissed": [],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "release year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 2011,
+     "proposed": 2011,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 2011,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Unknown&type=movie&y=2011"
+      },
+      {
+       "src": "TMDB",
+       "value": 2011,
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Unknown&year=2011"
+      }
+     ]
+    },
+    {
+     "field": "runtime",
+     "label": "runtime (min)",
+     "soft": false,
+     "editionDependent": true,
+     "current": 113,
+     "proposed": 113,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 113,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Unknown&type=movie&y=2011"
+      },
+      {
+       "src": "TMDB",
+       "value": 113,
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Unknown&year=2011"
+      }
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "director",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Jaume Collet-Serra",
+     "proposed": "Jaume Collet-Serra",
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": "Jaume Collet-Serra",
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Unknown&type=movie&y=2011"
+      },
+      {
+       "src": "TMDB",
+       "value": "Jaume Collet-Serra",
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Unknown&year=2011"
+      }
+     ]
+    },
+    {
+     "field": "studio",
+     "label": "studio",
+     "soft": true,
+     "editionDependent": false,
+     "current": "Warner Bros.",
+     "proposed": "Panda Productions",
+     "status": "proposed-change",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "TMDB",
+       "value": "Panda Productions",
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Unknown&year=2011"
+      }
+     ]
+    }
+   ]
+  }
+ ]
+}

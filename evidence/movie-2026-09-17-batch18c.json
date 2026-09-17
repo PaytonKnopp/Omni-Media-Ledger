@@ -1,0 +1,960 @@
+{
+ "medium": "movie",
+ "generated": "2026-09-17T13:01:43.379Z",
+ "offline": false,
+ "sources": [
+  "OMDb",
+  "TMDB"
+ ],
+ "works": [
+  {
+   "id": "m1523",
+   "title": "Nobody",
+   "sourcesReached": [
+    "OMDb",
+    "TMDB"
+   ],
+   "sourcesMissed": [],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "release year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 2021,
+     "proposed": 2021,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 2021,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Nobody&type=movie&y=2021"
+      },
+      {
+       "src": "TMDB",
+       "value": 2021,
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Nobody&year=2021"
+      }
+     ]
+    },
+    {
+     "field": "runtime",
+     "label": "runtime (min)",
+     "soft": false,
+     "editionDependent": true,
+     "current": 92,
+     "proposed": 92,
+     "status": "corroborated-by-one",
+     "grade": "B",
+     "note": "matches OMDb; disagrees with TMDB (91)",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 92,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Nobody&type=movie&y=2021"
+      },
+      {
+       "src": "TMDB",
+       "value": 91,
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Nobody&year=2021"
+      }
+     ],
+     "alternatives": [
+      91
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "director",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Ilya Naishuller",
+     "proposed": "Ilya Naishuller",
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": "Ilya Naishuller",
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Nobody&type=movie&y=2021"
+      },
+      {
+       "src": "TMDB",
+       "value": "Ilya Naishuller",
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Nobody&year=2021"
+      }
+     ]
+    },
+    {
+     "field": "studio",
+     "label": "studio",
+     "soft": true,
+     "editionDependent": false,
+     "current": "Universal Pictures",
+     "proposed": "87North Productions",
+     "status": "proposed-change",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "TMDB",
+       "value": "87North Productions",
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Nobody&year=2021"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "m1524",
+   "title": "Atomic Blonde",
+   "sourcesReached": [
+    "OMDb",
+    "TMDB"
+   ],
+   "sourcesMissed": [],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "release year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 2017,
+     "proposed": 2017,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 2017,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Atomic+Blonde&type=movie&y=2017"
+      },
+      {
+       "src": "TMDB",
+       "value": 2017,
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Atomic+Blonde&year=2017"
+      }
+     ]
+    },
+    {
+     "field": "runtime",
+     "label": "runtime (min)",
+     "soft": false,
+     "editionDependent": true,
+     "current": 115,
+     "proposed": 115,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 115,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Atomic+Blonde&type=movie&y=2017"
+      },
+      {
+       "src": "TMDB",
+       "value": 115,
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Atomic+Blonde&year=2017"
+      }
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "director",
+     "soft": false,
+     "editionDependent": false,
+     "current": "David Leitch",
+     "proposed": "David Leitch",
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": "David Leitch",
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Atomic+Blonde&type=movie&y=2017"
+      },
+      {
+       "src": "TMDB",
+       "value": "David Leitch",
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Atomic+Blonde&year=2017"
+      }
+     ]
+    },
+    {
+     "field": "studio",
+     "label": "studio",
+     "soft": true,
+     "editionDependent": false,
+     "current": "Focus Features",
+     "proposed": "Focus Features",
+     "status": "confirmed",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "TMDB",
+       "value": "Focus Features",
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Atomic+Blonde&year=2017"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "m1525",
+   "title": "The Equalizer",
+   "sourcesReached": [
+    "OMDb",
+    "TMDB"
+   ],
+   "sourcesMissed": [],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "release year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 2014,
+     "proposed": 2014,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 2014,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=The+Equalizer&type=movie&y=2014"
+      },
+      {
+       "src": "TMDB",
+       "value": 2014,
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=The+Equalizer&year=2014"
+      }
+     ]
+    },
+    {
+     "field": "runtime",
+     "label": "runtime (min)",
+     "soft": false,
+     "editionDependent": true,
+     "current": 132,
+     "proposed": 132,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 132,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=The+Equalizer&type=movie&y=2014"
+      },
+      {
+       "src": "TMDB",
+       "value": 132,
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=The+Equalizer&year=2014"
+      }
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "director",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Antoine Fuqua",
+     "proposed": "Antoine Fuqua",
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": "Antoine Fuqua",
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=The+Equalizer&type=movie&y=2014"
+      },
+      {
+       "src": "TMDB",
+       "value": "Antoine Fuqua",
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=The+Equalizer&year=2014"
+      }
+     ]
+    },
+    {
+     "field": "studio",
+     "label": "studio",
+     "soft": true,
+     "editionDependent": false,
+     "current": "Columbia Pictures",
+     "proposed": "Lonetree Entertainment",
+     "status": "proposed-change",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "TMDB",
+       "value": "Lonetree Entertainment",
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=The+Equalizer&year=2014"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "m1526",
+   "title": "The Equalizer 2",
+   "sourcesReached": [
+    "OMDb",
+    "TMDB"
+   ],
+   "sourcesMissed": [],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "release year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 2018,
+     "proposed": 2018,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 2018,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=The+Equalizer+2&type=movie&y=2018"
+      },
+      {
+       "src": "TMDB",
+       "value": 2018,
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=The+Equalizer+2&year=2018"
+      }
+     ]
+    },
+    {
+     "field": "runtime",
+     "label": "runtime (min)",
+     "soft": false,
+     "editionDependent": true,
+     "current": 121,
+     "proposed": 121,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 121,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=The+Equalizer+2&type=movie&y=2018"
+      },
+      {
+       "src": "TMDB",
+       "value": 121,
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=The+Equalizer+2&year=2018"
+      }
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "director",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Antoine Fuqua",
+     "proposed": "Antoine Fuqua",
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": "Antoine Fuqua",
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=The+Equalizer+2&type=movie&y=2018"
+      },
+      {
+       "src": "TMDB",
+       "value": "Antoine Fuqua",
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=The+Equalizer+2&year=2018"
+      }
+     ]
+    },
+    {
+     "field": "studio",
+     "label": "studio",
+     "soft": true,
+     "editionDependent": false,
+     "current": "Columbia Pictures",
+     "proposed": "Lonetree Entertainment",
+     "status": "proposed-change",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "TMDB",
+       "value": "Lonetree Entertainment",
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=The+Equalizer+2&year=2018"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "m1527",
+   "title": "Sicario: Day of the Soldado",
+   "sourcesReached": [
+    "OMDb",
+    "TMDB"
+   ],
+   "sourcesMissed": [],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "release year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 2018,
+     "proposed": 2018,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 2018,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Sicario%3A+Day+of+the+Soldado&type=movie&y=2018"
+      },
+      {
+       "src": "TMDB",
+       "value": 2018,
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Sicario%3A+Day+of+the+Soldado&year=2018"
+      }
+     ]
+    },
+    {
+     "field": "runtime",
+     "label": "runtime (min)",
+     "soft": false,
+     "editionDependent": true,
+     "current": 122,
+     "proposed": 122,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 122,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Sicario%3A+Day+of+the+Soldado&type=movie&y=2018"
+      },
+      {
+       "src": "TMDB",
+       "value": 122,
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Sicario%3A+Day+of+the+Soldado&year=2018"
+      }
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "director",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Stefano Sollima",
+     "proposed": "Stefano Sollima",
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": "Stefano Sollima",
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Sicario%3A+Day+of+the+Soldado&type=movie&y=2018"
+      },
+      {
+       "src": "TMDB",
+       "value": "Stefano Sollima",
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Sicario%3A+Day+of+the+Soldado&year=2018"
+      }
+     ]
+    },
+    {
+     "field": "studio",
+     "label": "studio",
+     "soft": true,
+     "editionDependent": false,
+     "current": "Columbia Pictures",
+     "proposed": "Thunder Road",
+     "status": "proposed-change",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "TMDB",
+       "value": "Thunder Road",
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Sicario%3A+Day+of+the+Soldado&year=2018"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "m1528",
+   "title": "The Bling Ring",
+   "sourcesReached": [
+    "OMDb",
+    "TMDB"
+   ],
+   "sourcesMissed": [],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "release year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 2013,
+     "proposed": 2013,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 2013,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=The+Bling+Ring&type=movie&y=2013"
+      },
+      {
+       "src": "TMDB",
+       "value": 2013,
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=The+Bling+Ring&year=2013"
+      }
+     ]
+    },
+    {
+     "field": "runtime",
+     "label": "runtime (min)",
+     "soft": false,
+     "editionDependent": true,
+     "current": 90,
+     "proposed": 90,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 90,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=The+Bling+Ring&type=movie&y=2013"
+      },
+      {
+       "src": "TMDB",
+       "value": 90,
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=The+Bling+Ring&year=2013"
+      }
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "director",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Sofia Coppola",
+     "proposed": "Sofia Coppola",
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": "Sofia Coppola",
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=The+Bling+Ring&type=movie&y=2013"
+      },
+      {
+       "src": "TMDB",
+       "value": "Sofia Coppola",
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=The+Bling+Ring&year=2013"
+      }
+     ]
+    },
+    {
+     "field": "studio",
+     "label": "studio",
+     "soft": true,
+     "editionDependent": false,
+     "current": "A24",
+     "proposed": "American Zoetrope",
+     "status": "proposed-change",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "TMDB",
+       "value": "American Zoetrope",
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=The+Bling+Ring&year=2013"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "m1529",
+   "title": "The Life Aquatic with Steve Zissou",
+   "sourcesReached": [
+    "OMDb",
+    "TMDB"
+   ],
+   "sourcesMissed": [],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "release year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 2004,
+     "proposed": 2004,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 2004,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=The+Life+Aquatic+with+Steve+Zissou&type=movie&y=2004"
+      },
+      {
+       "src": "TMDB",
+       "value": 2004,
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=The+Life+Aquatic+with+Steve+Zissou&year=2004"
+      }
+     ]
+    },
+    {
+     "field": "runtime",
+     "label": "runtime (min)",
+     "soft": false,
+     "editionDependent": true,
+     "current": 118,
+     "proposed": 119,
+     "status": "edition-dependent",
+     "grade": "B",
+     "note": "sources agree with each other but not the corpus (OMDb 119, TMDB 119) on a field with no single true value -- likely a different printing/edition, not an error.",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 119,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=The+Life+Aquatic+with+Steve+Zissou&type=movie&y=2004"
+      },
+      {
+       "src": "TMDB",
+       "value": 119,
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=The+Life+Aquatic+with+Steve+Zissou&year=2004"
+      }
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "director",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Wes Anderson",
+     "proposed": "Wes Anderson",
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": "Wes Anderson",
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=The+Life+Aquatic+with+Steve+Zissou&type=movie&y=2004"
+      },
+      {
+       "src": "TMDB",
+       "value": "Wes Anderson",
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=The+Life+Aquatic+with+Steve+Zissou&year=2004"
+      }
+     ]
+    },
+    {
+     "field": "studio",
+     "label": "studio",
+     "soft": true,
+     "editionDependent": false,
+     "current": "Buena Vista Pictures",
+     "proposed": "American Empirical Pictures",
+     "status": "proposed-change",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "TMDB",
+       "value": "American Empirical Pictures",
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=The+Life+Aquatic+with+Steve+Zissou&year=2004"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "m1530",
+   "title": "Bottle Rocket",
+   "sourcesReached": [
+    "OMDb",
+    "TMDB"
+   ],
+   "sourcesMissed": [],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "release year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 1996,
+     "proposed": 1996,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 1996,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Bottle+Rocket&type=movie&y=1996"
+      },
+      {
+       "src": "TMDB",
+       "value": 1996,
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Bottle+Rocket&year=1996"
+      }
+     ]
+    },
+    {
+     "field": "runtime",
+     "label": "runtime (min)",
+     "soft": false,
+     "editionDependent": true,
+     "current": 91,
+     "proposed": 91,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 91,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Bottle+Rocket&type=movie&y=1996"
+      },
+      {
+       "src": "TMDB",
+       "value": 91,
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Bottle+Rocket&year=1996"
+      }
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "director",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Wes Anderson",
+     "proposed": "Wes Anderson",
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": "Wes Anderson",
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Bottle+Rocket&type=movie&y=1996"
+      },
+      {
+       "src": "TMDB",
+       "value": "Wes Anderson",
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Bottle+Rocket&year=1996"
+      }
+     ]
+    },
+    {
+     "field": "studio",
+     "label": "studio",
+     "soft": true,
+     "editionDependent": false,
+     "current": "Columbia Pictures",
+     "proposed": "Gracie Films",
+     "status": "proposed-change",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "TMDB",
+       "value": "Gracie Films",
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Bottle+Rocket&year=1996"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "m1531",
+   "title": "Inside Llewyn Davis",
+   "sourcesReached": [
+    "OMDb",
+    "TMDB"
+   ],
+   "sourcesMissed": [],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "release year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 2013,
+     "proposed": 2013,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 2013,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Inside+Llewyn+Davis&type=movie&y=2013"
+      },
+      {
+       "src": "TMDB",
+       "value": 2013,
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Inside+Llewyn+Davis&year=2013"
+      }
+     ]
+    },
+    {
+     "field": "runtime",
+     "label": "runtime (min)",
+     "soft": false,
+     "editionDependent": true,
+     "current": 105,
+     "proposed": 105,
+     "status": "corroborated-by-one",
+     "grade": "B",
+     "note": "matches TMDB; disagrees with OMDb (104)",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 104,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Inside+Llewyn+Davis&type=movie&y=2013"
+      },
+      {
+       "src": "TMDB",
+       "value": 105,
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Inside+Llewyn+Davis&year=2013"
+      }
+     ],
+     "alternatives": [
+      105
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "director",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Joel & Ethan Coen",
+     "proposed": "Ethan Coen, Joel Coen",
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": "Ethan Coen, Joel Coen",
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Inside+Llewyn+Davis&type=movie&y=2013"
+      },
+      {
+       "src": "TMDB",
+       "value": "Ethan Coen, Joel Coen",
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Inside+Llewyn+Davis&year=2013"
+      }
+     ]
+    },
+    {
+     "field": "studio",
+     "label": "studio",
+     "soft": true,
+     "editionDependent": false,
+     "current": "CBS Films",
+     "proposed": "StudioCanal",
+     "status": "proposed-change",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "TMDB",
+       "value": "StudioCanal",
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Inside+Llewyn+Davis&year=2013"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "m1532",
+   "title": "Hail, Caesar!",
+   "sourcesReached": [
+    "OMDb",
+    "TMDB"
+   ],
+   "sourcesMissed": [],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "release year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 2016,
+     "proposed": 2016,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 2016,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Hail%2C+Caesar%21&type=movie&y=2016"
+      },
+      {
+       "src": "TMDB",
+       "value": 2016,
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Hail%2C+Caesar%21&year=2016"
+      }
+     ]
+    },
+    {
+     "field": "runtime",
+     "label": "runtime (min)",
+     "soft": false,
+     "editionDependent": true,
+     "current": 106,
+     "proposed": 106,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 106,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Hail%2C+Caesar%21&type=movie&y=2016"
+      },
+      {
+       "src": "TMDB",
+       "value": 106,
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Hail%2C+Caesar%21&year=2016"
+      }
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "director",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Joel & Ethan Coen",
+     "proposed": "Ethan Coen, Joel Coen",
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": "Ethan Coen, Joel Coen",
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Hail%2C+Caesar%21&type=movie&y=2016"
+      },
+      {
+       "src": "TMDB",
+       "value": "Joel Coen, Ethan Coen",
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Hail%2C+Caesar%21&year=2016"
+      }
+     ]
+    },
+    {
+     "field": "studio",
+     "label": "studio",
+     "soft": true,
+     "editionDependent": false,
+     "current": "Universal Pictures",
+     "proposed": "Working Title",
+     "status": "proposed-change",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "TMDB",
+       "value": "Working Title",
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Hail%2C+Caesar%21&year=2016"
+      }
+     ]
+    }
+   ]
+  }
+ ]
+}
