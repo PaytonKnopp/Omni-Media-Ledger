@@ -1592,6 +1592,34 @@ Two (4/4), Skyward (4/4), and The Reckoners (3/3).
 1,617/2,000 (4,379/5,000 total, 87.6%). Remaining work is exclusively movies (~247 more) and books
 (~383 more).
 
+**Eighteenth round (movies batch 30, books batch 30), movies+books only.** Movies: twenty titles, a
+rom-com sweep spanning three eras: Look Who's Talking duology and Sister Act duology ('80s-'90s),
+Hitch/Two Weeks Notice/Maid in Manhattan/The Wedding Planner/How to Lose a Guy in 10 Days/Failure to
+Launch/Just Married/Sweet Home Alabama/The Proposal/27 Dresses/Bride Wars/Confessions of a Shopaholic
+(2000s), and Garry Marshall's full ensemble-holiday-anthology trilogy (New Year's Eve, Valentine's Day,
+Mother's Day). SERIES_DEFS: new Look Who's Talking, Sister Act, and Miss Congeniality groupings added.
+
+Books: thirteen titles, closing the entire Sherlock Holmes canon (six titles: The Sign of Four, The
+Memoirs/Return/Casebook of Sherlock Holmes, His Last Bow, The Valley of Fear -- combined with the
+already-present Study in Scarlet, Hound of the Baskervilles, and Adventures of Sherlock Holmes, this
+completes all 9 canonical Doyle Holmes books) plus three more Jane Austen novels and four Victorian-
+era novels (Eliot's Adam Bede, Hardy's The Mayor of Casterbridge, Gaskell's North and South and Wives
+and Daughters). Deliberately verified North and South's fetch-facts evidence matched Gaskell's 1855
+novel and not the unrelated, same-titled 1980s John Jakes Civil War saga, given how generic the title
+is -- confirmed via the raw evidence JSON before proceeding. One fact-harness correction: Northanger
+Abbey's year (guessed 1817 -> confirmed 1818, the actual title-page date despite Austen's death in
+1817, a genuine period publishing quirk). Three titles (The Return of Sherlock Holmes, North and South,
+Wives and Daughters) reached zero fetch-substance tags, flagged as general-knowledge estimates. Caught
+and fixed the now-familiar vibeTime-omission pattern before commit: four Sherlock Holmes short-story
+collections were all missing contextTags.vibeTime -- confirming this is a real recurring blind spot
+specifically for non-Novel formatType records, not a one-off; worth building a habit of setting vibe
+explicitly for every Short Stories/Non-Fiction/Memoir/Essays record at candidate-JSON-authoring time.
+SERIES_DEFS: new Sherlock Holmes grouping added, complete at all 9 canonical books.
+
+**Status at this checkpoint:** movies 1,773/2,000, TV 502/500 (done), games 507/500 (done), books
+1,630/2,000 (4,412/5,000 total, 88.2%). Remaining work is exclusively movies (~227 more) and books
+(~370 more).
+
 ---
 
 ## Ideas / next steps
