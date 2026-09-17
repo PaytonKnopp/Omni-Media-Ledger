@@ -1,0 +1,963 @@
+{
+ "medium": "tv",
+ "generated": "2026-09-17T02:16:04.371Z",
+ "offline": false,
+ "sources": [
+  "OMDb",
+  "TMDB"
+ ],
+ "works": [
+  {
+   "id": "t346",
+   "title": "New Girl",
+   "sourcesReached": [
+    "OMDb",
+    "TMDB"
+   ],
+   "sourcesMissed": [],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "first air year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 2011,
+     "proposed": 2011,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 2011,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=New+Girl&type=series&y=2011"
+      },
+      {
+       "src": "TMDB",
+       "value": 2011,
+       "url": "https://api.themoviedb.org/3/search/tv?api_key=REDACTED&query=New+Girl"
+      }
+     ]
+    },
+    {
+     "field": "seasons",
+     "label": "seasons",
+     "soft": false,
+     "editionDependent": false,
+     "current": 7,
+     "proposed": 7,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 7,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=New+Girl&type=series&y=2011"
+      },
+      {
+       "src": "TMDB",
+       "value": 7,
+       "url": "https://api.themoviedb.org/3/search/tv?api_key=REDACTED&query=New+Girl"
+      }
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "creator",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Elizabeth Meriwether",
+     "proposed": "Elizabeth Meriwether",
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": "Elizabeth Meriwether",
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=New+Girl&type=series&y=2011"
+      },
+      {
+       "src": "TMDB",
+       "value": "Elizabeth Meriwether",
+       "url": "https://api.themoviedb.org/3/search/tv?api_key=REDACTED&query=New+Girl"
+      }
+     ]
+    },
+    {
+     "field": "network",
+     "label": "network / streamer",
+     "soft": true,
+     "editionDependent": false,
+     "current": "Fox",
+     "proposed": "FOX",
+     "status": "confirmed",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "TMDB",
+       "value": "FOX",
+       "url": "https://api.themoviedb.org/3/search/tv?api_key=REDACTED&query=New+Girl"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "t347",
+   "title": "Brooklyn Nine-Nine",
+   "sourcesReached": [
+    "OMDb",
+    "TMDB"
+   ],
+   "sourcesMissed": [],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "first air year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 2013,
+     "proposed": 2013,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 2013,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Brooklyn+Nine-Nine&type=series&y=2013"
+      },
+      {
+       "src": "TMDB",
+       "value": 2013,
+       "url": "https://api.themoviedb.org/3/search/tv?api_key=REDACTED&query=Brooklyn+Nine-Nine"
+      }
+     ]
+    },
+    {
+     "field": "seasons",
+     "label": "seasons",
+     "soft": false,
+     "editionDependent": false,
+     "current": 8,
+     "proposed": 8,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 8,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Brooklyn+Nine-Nine&type=series&y=2013"
+      },
+      {
+       "src": "TMDB",
+       "value": 8,
+       "url": "https://api.themoviedb.org/3/search/tv?api_key=REDACTED&query=Brooklyn+Nine-Nine"
+      }
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "creator",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Dan Goor, Michael Schur",
+     "proposed": "Dan Goor, Michael Schur",
+     "status": "corroborated-by-one",
+     "grade": "B",
+     "note": "matches OMDb; disagrees with TMDB (\"Daniel J. Goor, Michael Schur\")",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": "Dan Goor, Michael Schur",
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Brooklyn+Nine-Nine&type=series&y=2013"
+      },
+      {
+       "src": "TMDB",
+       "value": "Daniel J. Goor, Michael Schur",
+       "url": "https://api.themoviedb.org/3/search/tv?api_key=REDACTED&query=Brooklyn+Nine-Nine"
+      }
+     ],
+     "alternatives": [
+      "Daniel J. Goor, Michael Schur"
+     ]
+    },
+    {
+     "field": "network",
+     "label": "network / streamer",
+     "soft": true,
+     "editionDependent": false,
+     "current": "Fox",
+     "proposed": "NBC",
+     "status": "proposed-change",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "TMDB",
+       "value": "NBC",
+       "url": "https://api.themoviedb.org/3/search/tv?api_key=REDACTED&query=Brooklyn+Nine-Nine"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "t348",
+   "title": "Chuck",
+   "sourcesReached": [
+    "OMDb",
+    "TMDB"
+   ],
+   "sourcesMissed": [],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "first air year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 2007,
+     "proposed": 2007,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 2007,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Chuck&type=series&y=2007"
+      },
+      {
+       "src": "TMDB",
+       "value": 2007,
+       "url": "https://api.themoviedb.org/3/search/tv?api_key=REDACTED&query=Chuck"
+      }
+     ]
+    },
+    {
+     "field": "seasons",
+     "label": "seasons",
+     "soft": false,
+     "editionDependent": false,
+     "current": 5,
+     "proposed": 5,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 5,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Chuck&type=series&y=2007"
+      },
+      {
+       "src": "TMDB",
+       "value": 5,
+       "url": "https://api.themoviedb.org/3/search/tv?api_key=REDACTED&query=Chuck"
+      }
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "creator",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Josh Schwartz, Chris Fedak",
+     "proposed": "Josh Schwartz, Chris Fedak",
+     "status": "corroborated-by-one",
+     "grade": "B",
+     "note": "matches OMDb; disagrees with TMDB (\"Josh Schwartz\")",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": "Chris Fedak, Josh Schwartz",
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Chuck&type=series&y=2007"
+      },
+      {
+       "src": "TMDB",
+       "value": "Josh Schwartz",
+       "url": "https://api.themoviedb.org/3/search/tv?api_key=REDACTED&query=Chuck"
+      }
+     ],
+     "alternatives": [
+      "Josh Schwartz"
+     ]
+    },
+    {
+     "field": "network",
+     "label": "network / streamer",
+     "soft": true,
+     "editionDependent": false,
+     "current": "NBC",
+     "proposed": "NBC",
+     "status": "confirmed",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "TMDB",
+       "value": "NBC",
+       "url": "https://api.themoviedb.org/3/search/tv?api_key=REDACTED&query=Chuck"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "t349",
+   "title": "The Big Bang Theory",
+   "sourcesReached": [
+    "OMDb",
+    "TMDB"
+   ],
+   "sourcesMissed": [],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "first air year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 2007,
+     "proposed": 2007,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 2007,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=The+Big+Bang+Theory&type=series&y=2007"
+      },
+      {
+       "src": "TMDB",
+       "value": 2007,
+       "url": "https://api.themoviedb.org/3/search/tv?api_key=REDACTED&query=The+Big+Bang+Theory"
+      }
+     ]
+    },
+    {
+     "field": "seasons",
+     "label": "seasons",
+     "soft": false,
+     "editionDependent": false,
+     "current": 12,
+     "proposed": 12,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 12,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=The+Big+Bang+Theory&type=series&y=2007"
+      },
+      {
+       "src": "TMDB",
+       "value": 12,
+       "url": "https://api.themoviedb.org/3/search/tv?api_key=REDACTED&query=The+Big+Bang+Theory"
+      }
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "creator",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Chuck Lorre, Bill Prady",
+     "proposed": "Bill Prady, Chuck Lorre",
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": "Chuck Lorre, Bill Prady",
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=The+Big+Bang+Theory&type=series&y=2007"
+      },
+      {
+       "src": "TMDB",
+       "value": "Chuck Lorre, Bill Prady",
+       "url": "https://api.themoviedb.org/3/search/tv?api_key=REDACTED&query=The+Big+Bang+Theory"
+      }
+     ]
+    },
+    {
+     "field": "network",
+     "label": "network / streamer",
+     "soft": true,
+     "editionDependent": false,
+     "current": "CBS",
+     "proposed": "CBS",
+     "status": "confirmed",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "TMDB",
+       "value": "CBS",
+       "url": "https://api.themoviedb.org/3/search/tv?api_key=REDACTED&query=The+Big+Bang+Theory"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "t350",
+   "title": "Everybody Loves Raymond",
+   "sourcesReached": [
+    "OMDb",
+    "TMDB"
+   ],
+   "sourcesMissed": [],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "first air year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 1996,
+     "proposed": 1996,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 1996,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Everybody+Loves+Raymond&type=series&y=1996"
+      },
+      {
+       "src": "TMDB",
+       "value": 1996,
+       "url": "https://api.themoviedb.org/3/search/tv?api_key=REDACTED&query=Everybody+Loves+Raymond"
+      }
+     ]
+    },
+    {
+     "field": "seasons",
+     "label": "seasons",
+     "soft": false,
+     "editionDependent": false,
+     "current": 9,
+     "proposed": 9,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 9,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Everybody+Loves+Raymond&type=series&y=1996"
+      },
+      {
+       "src": "TMDB",
+       "value": 9,
+       "url": "https://api.themoviedb.org/3/search/tv?api_key=REDACTED&query=Everybody+Loves+Raymond"
+      }
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "creator",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Philip Rosenthal",
+     "proposed": "Phil Rosenthal",
+     "status": "proposed-change",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": "Phil Rosenthal",
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Everybody+Loves+Raymond&type=series&y=1996"
+      },
+      {
+       "src": "TMDB",
+       "value": "Phil Rosenthal",
+       "url": "https://api.themoviedb.org/3/search/tv?api_key=REDACTED&query=Everybody+Loves+Raymond"
+      }
+     ]
+    },
+    {
+     "field": "network",
+     "label": "network / streamer",
+     "soft": true,
+     "editionDependent": false,
+     "current": "CBS",
+     "proposed": "CBS",
+     "status": "confirmed",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "TMDB",
+       "value": "CBS",
+       "url": "https://api.themoviedb.org/3/search/tv?api_key=REDACTED&query=Everybody+Loves+Raymond"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "t351",
+   "title": "Will & Grace",
+   "sourcesReached": [
+    "OMDb",
+    "TMDB"
+   ],
+   "sourcesMissed": [],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "first air year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 1998,
+     "proposed": 1998,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 1998,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Will+%26+Grace&type=series&y=1998"
+      },
+      {
+       "src": "TMDB",
+       "value": 1998,
+       "url": "https://api.themoviedb.org/3/search/tv?api_key=REDACTED&query=Will+%26+Grace"
+      }
+     ]
+    },
+    {
+     "field": "seasons",
+     "label": "seasons",
+     "soft": false,
+     "editionDependent": false,
+     "current": 11,
+     "proposed": 11,
+     "status": "corroborated-by-one",
+     "grade": "B",
+     "note": "matches OMDb; disagrees with TMDB (8)",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 11,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Will+%26+Grace&type=series&y=1998"
+      },
+      {
+       "src": "TMDB",
+       "value": 8,
+       "url": "https://api.themoviedb.org/3/search/tv?api_key=REDACTED&query=Will+%26+Grace"
+      }
+     ],
+     "alternatives": [
+      8
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "creator",
+     "soft": false,
+     "editionDependent": false,
+     "current": "David Kohan, Max Mutchnick",
+     "proposed": "David Kohan, Max Mutchnick",
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": "David Kohan, Max Mutchnick",
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Will+%26+Grace&type=series&y=1998"
+      },
+      {
+       "src": "TMDB",
+       "value": "Max Mutchnick, David Kohan",
+       "url": "https://api.themoviedb.org/3/search/tv?api_key=REDACTED&query=Will+%26+Grace"
+      }
+     ]
+    },
+    {
+     "field": "network",
+     "label": "network / streamer",
+     "soft": true,
+     "editionDependent": false,
+     "current": "NBC",
+     "proposed": "NBC",
+     "status": "confirmed",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "TMDB",
+       "value": "NBC",
+       "url": "https://api.themoviedb.org/3/search/tv?api_key=REDACTED&query=Will+%26+Grace"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "t352",
+   "title": "Sex and the City",
+   "sourcesReached": [
+    "OMDb",
+    "TMDB"
+   ],
+   "sourcesMissed": [],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "first air year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 1998,
+     "proposed": 1998,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 1998,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Sex+and+the+City&type=series&y=1998"
+      },
+      {
+       "src": "TMDB",
+       "value": 1998,
+       "url": "https://api.themoviedb.org/3/search/tv?api_key=REDACTED&query=Sex+and+the+City"
+      }
+     ]
+    },
+    {
+     "field": "seasons",
+     "label": "seasons",
+     "soft": false,
+     "editionDependent": false,
+     "current": 6,
+     "proposed": 6,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 6,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Sex+and+the+City&type=series&y=1998"
+      },
+      {
+       "src": "TMDB",
+       "value": 6,
+       "url": "https://api.themoviedb.org/3/search/tv?api_key=REDACTED&query=Sex+and+the+City"
+      }
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "creator",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Darren Star",
+     "proposed": "Darren Star",
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": "Darren Star",
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Sex+and+the+City&type=series&y=1998"
+      },
+      {
+       "src": "TMDB",
+       "value": "Darren Star",
+       "url": "https://api.themoviedb.org/3/search/tv?api_key=REDACTED&query=Sex+and+the+City"
+      }
+     ]
+    },
+    {
+     "field": "network",
+     "label": "network / streamer",
+     "soft": true,
+     "editionDependent": false,
+     "current": "HBO",
+     "proposed": "HBO",
+     "status": "confirmed",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "TMDB",
+       "value": "HBO",
+       "url": "https://api.themoviedb.org/3/search/tv?api_key=REDACTED&query=Sex+and+the+City"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "t353",
+   "title": "Girls",
+   "sourcesReached": [
+    "OMDb",
+    "TMDB"
+   ],
+   "sourcesMissed": [],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "first air year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 2012,
+     "proposed": 2012,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 2012,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Girls&type=series&y=2012"
+      },
+      {
+       "src": "TMDB",
+       "value": 2012,
+       "url": "https://api.themoviedb.org/3/search/tv?api_key=REDACTED&query=Girls"
+      }
+     ]
+    },
+    {
+     "field": "seasons",
+     "label": "seasons",
+     "soft": false,
+     "editionDependent": false,
+     "current": 6,
+     "proposed": 6,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 6,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Girls&type=series&y=2012"
+      },
+      {
+       "src": "TMDB",
+       "value": 6,
+       "url": "https://api.themoviedb.org/3/search/tv?api_key=REDACTED&query=Girls"
+      }
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "creator",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Lena Dunham",
+     "proposed": "Lena Dunham",
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": "Lena Dunham",
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Girls&type=series&y=2012"
+      },
+      {
+       "src": "TMDB",
+       "value": "Lena Dunham",
+       "url": "https://api.themoviedb.org/3/search/tv?api_key=REDACTED&query=Girls"
+      }
+     ]
+    },
+    {
+     "field": "network",
+     "label": "network / streamer",
+     "soft": true,
+     "editionDependent": false,
+     "current": "HBO",
+     "proposed": "HBO",
+     "status": "confirmed",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "TMDB",
+       "value": "HBO",
+       "url": "https://api.themoviedb.org/3/search/tv?api_key=REDACTED&query=Girls"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "t354",
+   "title": "Insecure",
+   "sourcesReached": [
+    "OMDb",
+    "TMDB"
+   ],
+   "sourcesMissed": [],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "first air year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 2016,
+     "proposed": 2016,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 2016,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Insecure&type=series&y=2016"
+      },
+      {
+       "src": "TMDB",
+       "value": 2016,
+       "url": "https://api.themoviedb.org/3/search/tv?api_key=REDACTED&query=Insecure"
+      }
+     ]
+    },
+    {
+     "field": "seasons",
+     "label": "seasons",
+     "soft": false,
+     "editionDependent": false,
+     "current": 5,
+     "proposed": 5,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 5,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Insecure&type=series&y=2016"
+      },
+      {
+       "src": "TMDB",
+       "value": 5,
+       "url": "https://api.themoviedb.org/3/search/tv?api_key=REDACTED&query=Insecure"
+      }
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "creator",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Issa Rae, Larry Wilmore",
+     "proposed": "Issa Rae, Larry Wilmore",
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": "Issa Rae, Larry Wilmore",
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Insecure&type=series&y=2016"
+      },
+      {
+       "src": "TMDB",
+       "value": "Issa Rae, Larry Wilmore",
+       "url": "https://api.themoviedb.org/3/search/tv?api_key=REDACTED&query=Insecure"
+      }
+     ]
+    },
+    {
+     "field": "network",
+     "label": "network / streamer",
+     "soft": true,
+     "editionDependent": false,
+     "current": "HBO",
+     "proposed": "HBO",
+     "status": "confirmed",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "TMDB",
+       "value": "HBO",
+       "url": "https://api.themoviedb.org/3/search/tv?api_key=REDACTED&query=Insecure"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "t355",
+   "title": "Master of None",
+   "sourcesReached": [
+    "OMDb",
+    "TMDB"
+   ],
+   "sourcesMissed": [],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "first air year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 2015,
+     "proposed": 2015,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 2015,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Master+of+None&type=series&y=2015"
+      },
+      {
+       "src": "TMDB",
+       "value": 2015,
+       "url": "https://api.themoviedb.org/3/search/tv?api_key=REDACTED&query=Master+of+None"
+      }
+     ]
+    },
+    {
+     "field": "seasons",
+     "label": "seasons",
+     "soft": false,
+     "editionDependent": false,
+     "current": 3,
+     "proposed": 3,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 3,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Master+of+None&type=series&y=2015"
+      },
+      {
+       "src": "TMDB",
+       "value": 3,
+       "url": "https://api.themoviedb.org/3/search/tv?api_key=REDACTED&query=Master+of+None"
+      }
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "creator",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Aziz Ansari, Alan Yang",
+     "proposed": "Alan Yang, Aziz Ansari",
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": "Aziz Ansari, Alan Yang",
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Master+of+None&type=series&y=2015"
+      },
+      {
+       "src": "TMDB",
+       "value": "Alan Yang, Aziz Ansari",
+       "url": "https://api.themoviedb.org/3/search/tv?api_key=REDACTED&query=Master+of+None"
+      }
+     ]
+    },
+    {
+     "field": "network",
+     "label": "network / streamer",
+     "soft": true,
+     "editionDependent": false,
+     "current": "Netflix",
+     "proposed": "Netflix",
+     "status": "confirmed",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "TMDB",
+       "value": "Netflix",
+       "url": "https://api.themoviedb.org/3/search/tv?api_key=REDACTED&query=Master+of+None"
+      }
+     ]
+    }
+   ]
+  }
+ ]
+}
