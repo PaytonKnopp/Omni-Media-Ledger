@@ -1,0 +1,587 @@
+{
+ "medium": "movie",
+ "generated": "2026-09-17T02:02:31.205Z",
+ "offline": false,
+ "sources": [
+  "OMDb",
+  "TMDB"
+ ],
+ "works": [
+  {
+   "id": "m1292",
+   "title": "The Untouchables",
+   "sourcesReached": [
+    "OMDb",
+    "TMDB"
+   ],
+   "sourcesMissed": [],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "release year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 1987,
+     "proposed": 1987,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 1987,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=The+Untouchables&type=movie&y=1987"
+      },
+      {
+       "src": "TMDB",
+       "value": 1987,
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=The+Untouchables&year=1987"
+      }
+     ]
+    },
+    {
+     "field": "runtime",
+     "label": "runtime (min)",
+     "soft": false,
+     "editionDependent": true,
+     "current": 119,
+     "proposed": 119,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 119,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=The+Untouchables&type=movie&y=1987"
+      },
+      {
+       "src": "TMDB",
+       "value": 119,
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=The+Untouchables&year=1987"
+      }
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "director",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Brian De Palma",
+     "proposed": "Brian De Palma",
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": "Brian De Palma",
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=The+Untouchables&type=movie&y=1987"
+      },
+      {
+       "src": "TMDB",
+       "value": "Brian De Palma",
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=The+Untouchables&year=1987"
+      }
+     ]
+    },
+    {
+     "field": "studio",
+     "label": "studio",
+     "soft": true,
+     "editionDependent": false,
+     "current": "Paramount Pictures",
+     "proposed": "Paramount Pictures",
+     "status": "confirmed",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "TMDB",
+       "value": "Paramount Pictures",
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=The+Untouchables&year=1987"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "m1293",
+   "title": "Gone Baby Gone",
+   "sourcesReached": [
+    "OMDb",
+    "TMDB"
+   ],
+   "sourcesMissed": [],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "release year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 2007,
+     "proposed": 2007,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 2007,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Gone+Baby+Gone&type=movie&y=2007"
+      },
+      {
+       "src": "TMDB",
+       "value": 2007,
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Gone+Baby+Gone&year=2007"
+      }
+     ]
+    },
+    {
+     "field": "runtime",
+     "label": "runtime (min)",
+     "soft": false,
+     "editionDependent": true,
+     "current": 114,
+     "proposed": 114,
+     "status": "corroborated-by-one",
+     "grade": "B",
+     "note": "matches OMDb; disagrees with TMDB (113)",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 114,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Gone+Baby+Gone&type=movie&y=2007"
+      },
+      {
+       "src": "TMDB",
+       "value": 113,
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Gone+Baby+Gone&year=2007"
+      }
+     ],
+     "alternatives": [
+      113
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "director",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Ben Affleck",
+     "proposed": "Ben Affleck",
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": "Ben Affleck",
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Gone+Baby+Gone&type=movie&y=2007"
+      },
+      {
+       "src": "TMDB",
+       "value": "Ben Affleck",
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Gone+Baby+Gone&year=2007"
+      }
+     ]
+    },
+    {
+     "field": "studio",
+     "label": "studio",
+     "soft": true,
+     "editionDependent": false,
+     "current": "Miramax",
+     "proposed": "Miramax",
+     "status": "confirmed",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "TMDB",
+       "value": "Miramax",
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Gone+Baby+Gone&year=2007"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "m1294",
+   "title": "Spartacus",
+   "sourcesReached": [
+    "OMDb",
+    "TMDB"
+   ],
+   "sourcesMissed": [],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "release year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 1960,
+     "proposed": 1960,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 1960,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Spartacus&type=movie&y=1960"
+      },
+      {
+       "src": "TMDB",
+       "value": 1960,
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Spartacus&year=1960"
+      }
+     ]
+    },
+    {
+     "field": "runtime",
+     "label": "runtime (min)",
+     "soft": false,
+     "editionDependent": true,
+     "current": 197,
+     "proposed": 197,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 197,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Spartacus&type=movie&y=1960"
+      },
+      {
+       "src": "TMDB",
+       "value": 197,
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Spartacus&year=1960"
+      }
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "director",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Stanley Kubrick",
+     "proposed": "Stanley Kubrick",
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": "Stanley Kubrick",
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Spartacus&type=movie&y=1960"
+      },
+      {
+       "src": "TMDB",
+       "value": "Stanley Kubrick",
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Spartacus&year=1960"
+      }
+     ]
+    },
+    {
+     "field": "studio",
+     "label": "studio",
+     "soft": true,
+     "editionDependent": false,
+     "current": "Universal Pictures",
+     "proposed": "Bryna Productions",
+     "status": "proposed-change",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "TMDB",
+       "value": "Bryna Productions",
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Spartacus&year=1960"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "m1295",
+   "title": "The Ten Commandments",
+   "sourcesReached": [
+    "OMDb",
+    "TMDB"
+   ],
+   "sourcesMissed": [],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "release year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 1956,
+     "proposed": 1956,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 1956,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=The+Ten+Commandments&type=movie&y=1956"
+      },
+      {
+       "src": "TMDB",
+       "value": 1956,
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=The+Ten+Commandments&year=1956"
+      }
+     ]
+    },
+    {
+     "field": "runtime",
+     "label": "runtime (min)",
+     "soft": false,
+     "editionDependent": true,
+     "current": 220,
+     "proposed": 220,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 220,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=The+Ten+Commandments&type=movie&y=1956"
+      },
+      {
+       "src": "TMDB",
+       "value": 220,
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=The+Ten+Commandments&year=1956"
+      }
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "director",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Cecil B. DeMille",
+     "proposed": "Cecil B. DeMille",
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": "Cecil B. DeMille",
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=The+Ten+Commandments&type=movie&y=1956"
+      },
+      {
+       "src": "TMDB",
+       "value": "Cecil B. DeMille",
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=The+Ten+Commandments&year=1956"
+      }
+     ]
+    },
+    {
+     "field": "studio",
+     "label": "studio",
+     "soft": true,
+     "editionDependent": false,
+     "current": "Paramount Pictures",
+     "proposed": "Paramount Pictures",
+     "status": "confirmed",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "TMDB",
+       "value": "Paramount Pictures",
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=The+Ten+Commandments&year=1956"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "m1296",
+   "title": "Gandhi",
+   "sourcesReached": [
+    "OMDb",
+    "TMDB"
+   ],
+   "sourcesMissed": [],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "release year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 1982,
+     "proposed": 1982,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 1982,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Gandhi&type=movie&y=1982"
+      },
+      {
+       "src": "TMDB",
+       "value": 1982,
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Gandhi&year=1982"
+      }
+     ]
+    },
+    {
+     "field": "runtime",
+     "label": "runtime (min)",
+     "soft": false,
+     "editionDependent": true,
+     "current": 191,
+     "proposed": 191,
+     "status": "corroborated-by-one",
+     "grade": "B",
+     "note": "matches OMDb; disagrees with TMDB (192)",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 191,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Gandhi&type=movie&y=1982"
+      },
+      {
+       "src": "TMDB",
+       "value": 192,
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Gandhi&year=1982"
+      }
+     ],
+     "alternatives": [
+      192
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "director",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Richard Attenborough",
+     "proposed": "Richard Attenborough",
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": "Richard Attenborough",
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Gandhi&type=movie&y=1982"
+      },
+      {
+       "src": "TMDB",
+       "value": "Richard Attenborough",
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Gandhi&year=1982"
+      }
+     ]
+    },
+    {
+     "field": "studio",
+     "label": "studio",
+     "soft": true,
+     "editionDependent": false,
+     "current": "Columbia Pictures",
+     "proposed": "Goldcrest Films International",
+     "status": "proposed-change",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "TMDB",
+       "value": "Goldcrest Films International",
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Gandhi&year=1982"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "m1297",
+   "title": "Crash",
+   "sourcesReached": [
+    "OMDb",
+    "TMDB"
+   ],
+   "sourcesMissed": [],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "release year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 2004,
+     "proposed": 2004,
+     "status": "corroborated-by-one",
+     "grade": "B",
+     "note": "matches OMDb; disagrees with TMDB (2005)",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 2004,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Crash&type=movie&y=2004"
+      },
+      {
+       "src": "TMDB",
+       "value": 2005,
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Crash&year=2004"
+      }
+     ],
+     "alternatives": [
+      2005
+     ]
+    },
+    {
+     "field": "runtime",
+     "label": "runtime (min)",
+     "soft": false,
+     "editionDependent": true,
+     "current": 112,
+     "proposed": 112,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 112,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Crash&type=movie&y=2004"
+      },
+      {
+       "src": "TMDB",
+       "value": 112,
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Crash&year=2004"
+      }
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "director",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Paul Haggis",
+     "proposed": "Paul Haggis",
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": "Paul Haggis",
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Crash&type=movie&y=2004"
+      },
+      {
+       "src": "TMDB",
+       "value": "Paul Haggis",
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Crash&year=2004"
+      }
+     ]
+    },
+    {
+     "field": "studio",
+     "label": "studio",
+     "soft": true,
+     "editionDependent": false,
+     "current": "Lionsgate",
+     "proposed": "Blackfriars Bridge Films",
+     "status": "proposed-change",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "TMDB",
+       "value": "Blackfriars Bridge Films",
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Crash&year=2004"
+      }
+     ]
+    }
+   ]
+  }
+ ]
+}
