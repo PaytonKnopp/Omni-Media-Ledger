@@ -1,0 +1,650 @@
+{
+ "medium": "book",
+ "generated": "2026-09-17T18:01:35.689Z",
+ "offline": false,
+ "sources": [
+  "OpenLibrary",
+  "Google Books",
+  "Wikidata"
+ ],
+ "works": [
+  {
+   "id": "b1556",
+   "title": "Ripley's Game",
+   "sourcesReached": [
+    "OpenLibrary",
+    "Wikidata"
+   ],
+   "sourcesMissed": [
+    "Google Books (no match)"
+   ],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "first publication year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 1974,
+     "proposed": 1974,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OpenLibrary",
+       "value": 1974,
+       "url": "https://openlibrary.org/search.json?title=Ripley%27s+Game&limit=1"
+      },
+      {
+       "src": "Wikidata",
+       "value": 1974,
+       "url": "https://www.wikidata.org/wiki/Q1535032"
+      }
+     ]
+    },
+    {
+     "field": "pages",
+     "label": "page count",
+     "soft": false,
+     "current": 278,
+     "status": "no-source",
+     "grade": null,
+     "sources": []
+    },
+    {
+     "field": "creator",
+     "label": "author",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Patricia Highsmith",
+     "proposed": "Patricia Highsmith",
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OpenLibrary",
+       "value": "Patricia Highsmith",
+       "url": "https://openlibrary.org/search.json?title=Ripley%27s+Game&limit=1"
+      },
+      {
+       "src": "Wikidata",
+       "value": "Patricia Highsmith",
+       "url": "https://www.wikidata.org/wiki/Q1535032"
+      }
+     ]
+    },
+    {
+     "field": "publisher",
+     "label": "publisher",
+     "soft": true,
+     "editionDependent": true,
+     "current": "Alfred A. Knopf",
+     "proposed": "Heinemann",
+     "status": "edition-dependent",
+     "grade": "B",
+     "note": "one source differs from the corpus (Wikidata \"Heinemann\") on a field with no single true value -- likely a different printing/edition, not an error.",
+     "sources": [
+      {
+       "src": "Wikidata",
+       "value": "Heinemann",
+       "url": "https://www.wikidata.org/wiki/Q1535032"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "b1557",
+   "title": "Strangers on a Train",
+   "sourcesReached": [
+    "OpenLibrary",
+    "Google Books",
+    "Wikidata"
+   ],
+   "sourcesMissed": [],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "first publication year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 1950,
+     "proposed": 1950,
+     "status": "corroborated-by-one",
+     "grade": "B",
+     "note": "matches OpenLibrary/Wikidata; disagrees with Google Books (2004)",
+     "sources": [
+      {
+       "src": "OpenLibrary",
+       "value": 1950,
+       "url": "https://openlibrary.org/search.json?title=Strangers+on+a+Train&limit=1"
+      },
+      {
+       "src": "Google Books",
+       "value": 2004,
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3AStrangers+on+a+Train&maxResults=1&key=REDACTED"
+      },
+      {
+       "src": "Wikidata",
+       "value": 1950,
+       "url": "https://www.wikidata.org/wiki/Q3204109"
+      }
+     ],
+     "alternatives": [
+      2004
+     ]
+    },
+    {
+     "field": "pages",
+     "label": "page count",
+     "soft": false,
+     "editionDependent": true,
+     "current": 277,
+     "proposed": 0,
+     "status": "edition-dependent",
+     "grade": "B",
+     "note": "one source differs from the corpus (Google Books 0) on a field with no single true value -- likely a different printing/edition, not an error.",
+     "sources": [
+      {
+       "src": "Google Books",
+       "value": 0,
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3AStrangers+on+a+Train&maxResults=1&key=REDACTED"
+      }
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "author",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Patricia Highsmith",
+     "proposed": "Patricia Highsmith",
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OpenLibrary",
+       "value": "Patricia Highsmith",
+       "url": "https://openlibrary.org/search.json?title=Strangers+on+a+Train&limit=1"
+      },
+      {
+       "src": "Google Books",
+       "value": "Patricia Highsmith",
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3AStrangers+on+a+Train&maxResults=1&key=REDACTED"
+      },
+      {
+       "src": "Wikidata",
+       "value": "Patricia Highsmith",
+       "url": "https://www.wikidata.org/wiki/Q3204109"
+      }
+     ]
+    },
+    {
+     "field": "publisher",
+     "label": "publisher",
+     "soft": true,
+     "current": "Harper & Brothers",
+     "status": "no-source",
+     "grade": null,
+     "sources": []
+    }
+   ]
+  },
+  {
+   "id": "b1558",
+   "title": "Smiley's People",
+   "sourcesReached": [
+    "OpenLibrary",
+    "Google Books",
+    "Wikidata"
+   ],
+   "sourcesMissed": [],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "first publication year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 1979,
+     "proposed": 1979,
+     "status": "corroborated-by-one",
+     "grade": "B",
+     "note": "matches OpenLibrary/Wikidata; disagrees with Google Books (2002)",
+     "sources": [
+      {
+       "src": "OpenLibrary",
+       "value": 1979,
+       "url": "https://openlibrary.org/search.json?title=Smiley%27s+People&limit=1"
+      },
+      {
+       "src": "Google Books",
+       "value": 2002,
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3ASmiley%27s+People&maxResults=1&key=REDACTED"
+      },
+      {
+       "src": "Wikidata",
+       "value": 1979,
+       "url": "https://www.wikidata.org/wiki/Q1231505"
+      }
+     ],
+     "alternatives": [
+      2002
+     ]
+    },
+    {
+     "field": "pages",
+     "label": "page count",
+     "soft": false,
+     "editionDependent": true,
+     "current": 382,
+     "proposed": 418,
+     "status": "edition-dependent",
+     "grade": "B",
+     "note": "one source differs from the corpus (Google Books 418) on a field with no single true value -- likely a different printing/edition, not an error.",
+     "sources": [
+      {
+       "src": "Google Books",
+       "value": 418,
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3ASmiley%27s+People&maxResults=1&key=REDACTED"
+      }
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "author",
+     "soft": false,
+     "editionDependent": false,
+     "current": "John le Carré",
+     "proposed": "John le Carré",
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OpenLibrary",
+       "value": "John le Carré",
+       "url": "https://openlibrary.org/search.json?title=Smiley%27s+People&limit=1"
+      },
+      {
+       "src": "Google Books",
+       "value": "John le Carre",
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3ASmiley%27s+People&maxResults=1&key=REDACTED"
+      },
+      {
+       "src": "Wikidata",
+       "value": "John le Carré",
+       "url": "https://www.wikidata.org/wiki/Q1231505"
+      }
+     ]
+    },
+    {
+     "field": "publisher",
+     "label": "publisher",
+     "soft": true,
+     "editionDependent": true,
+     "current": "Hodder & Stoughton",
+     "proposed": "Hodder & Stoughton",
+     "status": "corroborated-by-one",
+     "grade": "B",
+     "note": "matches Wikidata; disagrees with Google Books (\"Simon and Schuster\")",
+     "sources": [
+      {
+       "src": "Google Books",
+       "value": "Simon and Schuster",
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3ASmiley%27s+People&maxResults=1&key=REDACTED"
+      },
+      {
+       "src": "Wikidata",
+       "value": "Hodder & Stoughton",
+       "url": "https://www.wikidata.org/wiki/Q1231505"
+      }
+     ],
+     "alternatives": [
+      "Hodder & Stoughton"
+     ]
+    }
+   ]
+  },
+  {
+   "id": "b1559",
+   "title": "The Honourable Schoolboy",
+   "sourcesReached": [
+    "OpenLibrary",
+    "Google Books",
+    "Wikidata"
+   ],
+   "sourcesMissed": [],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "first publication year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 1977,
+     "proposed": 1977,
+     "status": "corroborated-by-one",
+     "grade": "B",
+     "note": "matches OpenLibrary/Wikidata; disagrees with Google Books (2020)",
+     "sources": [
+      {
+       "src": "OpenLibrary",
+       "value": 1977,
+       "url": "https://openlibrary.org/search.json?title=The+Honourable+Schoolboy&limit=1"
+      },
+      {
+       "src": "Google Books",
+       "value": 2020,
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3AThe+Honourable+Schoolboy&maxResults=1&key=REDACTED"
+      },
+      {
+       "src": "Wikidata",
+       "value": 1977,
+       "url": "https://www.wikidata.org/wiki/Q1239133"
+      }
+     ],
+     "alternatives": [
+      2020
+     ]
+    },
+    {
+     "field": "pages",
+     "label": "page count",
+     "soft": false,
+     "editionDependent": true,
+     "current": 533,
+     "proposed": 0,
+     "status": "edition-dependent",
+     "grade": "B",
+     "note": "one source differs from the corpus (Google Books 0) on a field with no single true value -- likely a different printing/edition, not an error.",
+     "sources": [
+      {
+       "src": "Google Books",
+       "value": 0,
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3AThe+Honourable+Schoolboy&maxResults=1&key=REDACTED"
+      }
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "author",
+     "soft": false,
+     "editionDependent": false,
+     "current": "John le Carré",
+     "proposed": "John le Carré",
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OpenLibrary",
+       "value": "John le Carré",
+       "url": "https://openlibrary.org/search.json?title=The+Honourable+Schoolboy&limit=1"
+      },
+      {
+       "src": "Google Books",
+       "value": "John Le Carré",
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3AThe+Honourable+Schoolboy&maxResults=1&key=REDACTED"
+      },
+      {
+       "src": "Wikidata",
+       "value": "John le Carré",
+       "url": "https://www.wikidata.org/wiki/Q1239133"
+      }
+     ]
+    },
+    {
+     "field": "publisher",
+     "label": "publisher",
+     "soft": true,
+     "editionDependent": true,
+     "current": "Hodder & Stoughton",
+     "proposed": "Hodder & Stoughton",
+     "status": "corroborated-by-one",
+     "grade": "B",
+     "note": "matches Wikidata; disagrees with Google Books (\"Penguin Classics\")",
+     "sources": [
+      {
+       "src": "Google Books",
+       "value": "Penguin Classics",
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3AThe+Honourable+Schoolboy&maxResults=1&key=REDACTED"
+      },
+      {
+       "src": "Wikidata",
+       "value": "Hodder & Stoughton",
+       "url": "https://www.wikidata.org/wiki/Q1239133"
+      }
+     ],
+     "alternatives": [
+      "Hodder & Stoughton"
+     ]
+    }
+   ]
+  },
+  {
+   "id": "b1560",
+   "title": "A Perfect Spy",
+   "sourcesReached": [
+    "OpenLibrary",
+    "Google Books",
+    "Wikidata"
+   ],
+   "sourcesMissed": [],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "first publication year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 1986,
+     "proposed": 1986,
+     "status": "corroborated-by-one",
+     "grade": "B",
+     "note": "matches OpenLibrary/Wikidata; disagrees with Google Books (2008)",
+     "sources": [
+      {
+       "src": "OpenLibrary",
+       "value": 1986,
+       "url": "https://openlibrary.org/search.json?title=A+Perfect+Spy&limit=1"
+      },
+      {
+       "src": "Google Books",
+       "value": 2008,
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3AA+Perfect+Spy&maxResults=1&key=REDACTED"
+      },
+      {
+       "src": "Wikidata",
+       "value": 1986,
+       "url": "https://www.wikidata.org/wiki/Q688963"
+      }
+     ],
+     "alternatives": [
+      2008
+     ]
+    },
+    {
+     "field": "pages",
+     "label": "page count",
+     "soft": false,
+     "editionDependent": true,
+     "current": 474,
+     "proposed": 622,
+     "status": "edition-dependent",
+     "grade": "B",
+     "note": "one source differs from the corpus (Google Books 622) on a field with no single true value -- likely a different printing/edition, not an error.",
+     "sources": [
+      {
+       "src": "Google Books",
+       "value": 622,
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3AA+Perfect+Spy&maxResults=1&key=REDACTED"
+      }
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "author",
+     "soft": false,
+     "editionDependent": false,
+     "current": "John le Carré",
+     "proposed": "John le Carré",
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OpenLibrary",
+       "value": "John le Carré",
+       "url": "https://openlibrary.org/search.json?title=A+Perfect+Spy&limit=1"
+      },
+      {
+       "src": "Google Books",
+       "value": "John le Carré",
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3AA+Perfect+Spy&maxResults=1&key=REDACTED"
+      },
+      {
+       "src": "Wikidata",
+       "value": "John le Carré",
+       "url": "https://www.wikidata.org/wiki/Q688963"
+      }
+     ]
+    },
+    {
+     "field": "publisher",
+     "label": "publisher",
+     "soft": true,
+     "editionDependent": true,
+     "current": "Hodder & Stoughton",
+     "proposed": "Hodder & Stoughton",
+     "status": "corroborated-by-one",
+     "grade": "B",
+     "note": "matches Wikidata; disagrees with Google Books (\"Penguin Canada\")",
+     "sources": [
+      {
+       "src": "Google Books",
+       "value": "Penguin Canada",
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3AA+Perfect+Spy&maxResults=1&key=REDACTED"
+      },
+      {
+       "src": "Wikidata",
+       "value": "Hodder & Stoughton",
+       "url": "https://www.wikidata.org/wiki/Q688963"
+      }
+     ],
+     "alternatives": [
+      "Hodder & Stoughton"
+     ]
+    }
+   ]
+  },
+  {
+   "id": "b1561",
+   "title": "The Constant Gardener",
+   "sourcesReached": [
+    "OpenLibrary",
+    "Google Books",
+    "Wikidata"
+   ],
+   "sourcesMissed": [],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "first publication year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 2001,
+     "proposed": 2001,
+     "status": "corroborated-by-one",
+     "grade": "B",
+     "note": "matches Wikidata; disagrees with OpenLibrary (2000), Google Books (2007)",
+     "sources": [
+      {
+       "src": "OpenLibrary",
+       "value": 2000,
+       "url": "https://openlibrary.org/search.json?title=The+Constant+Gardener&limit=1"
+      },
+      {
+       "src": "Google Books",
+       "value": 2007,
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3AThe+Constant+Gardener&maxResults=1&key=REDACTED"
+      },
+      {
+       "src": "Wikidata",
+       "value": 2001,
+       "url": "https://www.wikidata.org/wiki/Q1249425"
+      }
+     ],
+     "alternatives": [
+      2007,
+      2001
+     ]
+    },
+    {
+     "field": "pages",
+     "label": "page count",
+     "soft": false,
+     "editionDependent": true,
+     "current": 508,
+     "proposed": 674,
+     "status": "edition-dependent",
+     "grade": "B",
+     "note": "one source differs from the corpus (Google Books 674) on a field with no single true value -- likely a different printing/edition, not an error.",
+     "sources": [
+      {
+       "src": "Google Books",
+       "value": 674,
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3AThe+Constant+Gardener&maxResults=1&key=REDACTED"
+      }
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "author",
+     "soft": false,
+     "editionDependent": false,
+     "current": "John le Carré",
+     "proposed": "John le Carré",
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OpenLibrary",
+       "value": "John le Carré",
+       "url": "https://openlibrary.org/search.json?title=The+Constant+Gardener&limit=1"
+      },
+      {
+       "src": "Google Books",
+       "value": "John Le Carré",
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3AThe+Constant+Gardener&maxResults=1&key=REDACTED"
+      },
+      {
+       "src": "Wikidata",
+       "value": "John le Carré",
+       "url": "https://www.wikidata.org/wiki/Q1249425"
+      }
+     ]
+    },
+    {
+     "field": "publisher",
+     "label": "publisher",
+     "soft": true,
+     "editionDependent": true,
+     "current": "Hodder & Stoughton",
+     "proposed": "Hodder & Stoughton",
+     "status": "corroborated-by-one",
+     "grade": "B",
+     "note": "matches Wikidata; disagrees with Google Books (\"Penerbit Serambi\")",
+     "sources": [
+      {
+       "src": "Google Books",
+       "value": "Penerbit Serambi",
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3AThe+Constant+Gardener&maxResults=1&key=REDACTED"
+      },
+      {
+       "src": "Wikidata",
+       "value": "Hodder & Stoughton",
+       "url": "https://www.wikidata.org/wiki/Q1249425"
+      }
+     ],
+     "alternatives": [
+      "Hodder & Stoughton"
+     ]
+    }
+   ]
+  }
+ ]
+}

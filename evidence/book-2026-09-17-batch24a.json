@@ -1,0 +1,695 @@
+{
+ "medium": "book",
+ "generated": "2026-09-17T18:01:16.755Z",
+ "offline": false,
+ "sources": [
+  "OpenLibrary",
+  "Google Books",
+  "Wikidata"
+ ],
+ "works": [
+  {
+   "id": "b1549",
+   "title": "A Red Death",
+   "sourcesReached": [
+    "OpenLibrary",
+    "Wikidata"
+   ],
+   "sourcesMissed": [
+    "Google Books (no match)"
+   ],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "first publication year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 1991,
+     "proposed": 1991,
+     "status": "confirmed",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "OpenLibrary",
+       "value": 1991,
+       "url": "https://openlibrary.org/search.json?title=A+Red+Death&limit=1"
+      }
+     ]
+    },
+    {
+     "field": "pages",
+     "label": "page count",
+     "soft": false,
+     "current": 304,
+     "status": "no-source",
+     "grade": null,
+     "sources": []
+    },
+    {
+     "field": "creator",
+     "label": "author",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Walter Mosley",
+     "proposed": "Walter Mosley",
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OpenLibrary",
+       "value": "Walter Mosley",
+       "url": "https://openlibrary.org/search.json?title=A+Red+Death&limit=1"
+      },
+      {
+       "src": "Wikidata",
+       "value": "Walter Mosley",
+       "url": "https://www.wikidata.org/wiki/Q42186284"
+      }
+     ]
+    },
+    {
+     "field": "publisher",
+     "label": "publisher",
+     "soft": true,
+     "current": "W. W. Norton",
+     "status": "no-source",
+     "grade": null,
+     "sources": []
+    }
+   ]
+  },
+  {
+   "id": "b1550",
+   "title": "White Butterfly",
+   "sourcesReached": [
+    "OpenLibrary",
+    "Wikidata"
+   ],
+   "sourcesMissed": [
+    "Google Books (no match)"
+   ],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "first publication year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 1992,
+     "proposed": 1992,
+     "status": "confirmed",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "OpenLibrary",
+       "value": 1992,
+       "url": "https://openlibrary.org/search.json?title=White+Butterfly&limit=1"
+      }
+     ]
+    },
+    {
+     "field": "pages",
+     "label": "page count",
+     "soft": false,
+     "current": 272,
+     "status": "no-source",
+     "grade": null,
+     "sources": []
+    },
+    {
+     "field": "creator",
+     "label": "author",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Walter Mosley",
+     "proposed": "Walter Mosley",
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OpenLibrary",
+       "value": "Walter Mosley",
+       "url": "https://openlibrary.org/search.json?title=White+Butterfly&limit=1"
+      },
+      {
+       "src": "Wikidata",
+       "value": "Walter Mosley",
+       "url": "https://www.wikidata.org/wiki/Q42186837"
+      }
+     ]
+    },
+    {
+     "field": "publisher",
+     "label": "publisher",
+     "soft": true,
+     "current": "W. W. Norton",
+     "status": "no-source",
+     "grade": null,
+     "sources": []
+    }
+   ]
+  },
+  {
+   "id": "b1551",
+   "title": "Black Betty",
+   "sourcesReached": [
+    "OpenLibrary",
+    "Google Books"
+   ],
+   "sourcesMissed": [
+    "Wikidata (no match)"
+   ],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "first publication year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 1994,
+     "proposed": 1994,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OpenLibrary",
+       "value": 1994,
+       "url": "https://openlibrary.org/search.json?title=Black+Betty&limit=1"
+      },
+      {
+       "src": "Google Books",
+       "value": 1994,
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3ABlack+Betty&maxResults=1&key=REDACTED"
+      }
+     ]
+    },
+    {
+     "field": "pages",
+     "label": "page count",
+     "soft": false,
+     "editionDependent": true,
+     "current": 270,
+     "proposed": 425,
+     "status": "edition-dependent",
+     "grade": "B",
+     "note": "one source differs from the corpus (Google Books 425) on a field with no single true value -- likely a different printing/edition, not an error.",
+     "sources": [
+      {
+       "src": "Google Books",
+       "value": 425,
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3ABlack+Betty&maxResults=1&key=REDACTED"
+      }
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "author",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Walter Mosley",
+     "proposed": "Walter Mosley",
+     "status": "corroborated-by-one",
+     "grade": "B",
+     "note": "matches OpenLibrary; disagrees with Google Books (\"Sarah Dunant & Walter Mosley\")",
+     "sources": [
+      {
+       "src": "OpenLibrary",
+       "value": "Walter Mosley",
+       "url": "https://openlibrary.org/search.json?title=Black+Betty&limit=1"
+      },
+      {
+       "src": "Google Books",
+       "value": "Sarah Dunant & Walter Mosley",
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3ABlack+Betty&maxResults=1&key=REDACTED"
+      }
+     ],
+     "alternatives": [
+      "Sarah Dunant & Walter Mosley"
+     ]
+    },
+    {
+     "field": "publisher",
+     "label": "publisher",
+     "soft": true,
+     "current": "W. W. Norton",
+     "status": "no-source",
+     "grade": null,
+     "sources": []
+    }
+   ]
+  },
+  {
+   "id": "b1552",
+   "title": "Farewell, My Lovely",
+   "sourcesReached": [
+    "OpenLibrary",
+    "Google Books",
+    "Wikidata"
+   ],
+   "sourcesMissed": [],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "first publication year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 1940,
+     "proposed": 1940,
+     "status": "corroborated-by-one",
+     "grade": "B",
+     "note": "matches OpenLibrary/Wikidata; disagrees with Google Books (2019)",
+     "sources": [
+      {
+       "src": "OpenLibrary",
+       "value": 1940,
+       "url": "https://openlibrary.org/search.json?title=Farewell%2C+My+Lovely&limit=1"
+      },
+      {
+       "src": "Google Books",
+       "value": 2019,
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3AFarewell%2C+My+Lovely&maxResults=1&key=REDACTED"
+      },
+      {
+       "src": "Wikidata",
+       "value": 1940,
+       "url": "https://www.wikidata.org/wiki/Q4459778"
+      }
+     ],
+     "alternatives": [
+      2019
+     ]
+    },
+    {
+     "field": "pages",
+     "label": "page count",
+     "soft": false,
+     "editionDependent": true,
+     "current": 292,
+     "proposed": 208,
+     "status": "edition-dependent",
+     "grade": "B",
+     "note": "one source differs from the corpus (Google Books 208) on a field with no single true value -- likely a different printing/edition, not an error.",
+     "sources": [
+      {
+       "src": "Google Books",
+       "value": 208,
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3AFarewell%2C+My+Lovely&maxResults=1&key=REDACTED"
+      }
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "author",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Raymond Chandler",
+     "proposed": "Raymond Chandler",
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OpenLibrary",
+       "value": "Raymond Chandler",
+       "url": "https://openlibrary.org/search.json?title=Farewell%2C+My+Lovely&limit=1"
+      },
+      {
+       "src": "Google Books",
+       "value": "Raymond Chandler",
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3AFarewell%2C+My+Lovely&maxResults=1&key=REDACTED"
+      },
+      {
+       "src": "Wikidata",
+       "value": "Raymond Chandler",
+       "url": "https://www.wikidata.org/wiki/Q4459778"
+      }
+     ]
+    },
+    {
+     "field": "publisher",
+     "label": "publisher",
+     "soft": true,
+     "editionDependent": true,
+     "current": "Knopf",
+     "proposed": "Wildside Press LLC",
+     "status": "edition-dependent",
+     "grade": "B",
+     "note": "corpus value does not match either source (Google Books \"Wildside Press LLC\", Wikidata \"Alfred A. Knopf\") -- treated as a distinct edition; the specific cut is not identified from available evidence.",
+     "sources": [
+      {
+       "src": "Google Books",
+       "value": "Wildside Press LLC",
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3AFarewell%2C+My+Lovely&maxResults=1&key=REDACTED"
+      },
+      {
+       "src": "Wikidata",
+       "value": "Alfred A. Knopf",
+       "url": "https://www.wikidata.org/wiki/Q4459778"
+      }
+     ],
+     "alternatives": [
+      "Alfred A. Knopf"
+     ]
+    }
+   ]
+  },
+  {
+   "id": "b1553",
+   "title": "The Long Goodbye",
+   "sourcesReached": [
+    "OpenLibrary",
+    "Google Books",
+    "Wikidata"
+   ],
+   "sourcesMissed": [],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "first publication year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 1953,
+     "proposed": 1953,
+     "status": "corroborated-by-one",
+     "grade": "B",
+     "note": "matches OpenLibrary/Wikidata; disagrees with Google Books (2017)",
+     "sources": [
+      {
+       "src": "OpenLibrary",
+       "value": 1953,
+       "url": "https://openlibrary.org/search.json?title=The+Long+Goodbye&limit=1"
+      },
+      {
+       "src": "Google Books",
+       "value": 2017,
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3AThe+Long+Goodbye&maxResults=1&key=REDACTED"
+      },
+      {
+       "src": "Wikidata",
+       "value": 1953,
+       "url": "https://www.wikidata.org/wiki/Q2464542"
+      }
+     ],
+     "alternatives": [
+      2017
+     ]
+    },
+    {
+     "field": "pages",
+     "label": "page count",
+     "soft": false,
+     "editionDependent": true,
+     "current": 379,
+     "proposed": 624,
+     "status": "edition-dependent",
+     "grade": "B",
+     "note": "corpus value does not match either source (Google Books 624, Wikidata 320) -- treated as a distinct edition; the specific cut is not identified from available evidence.",
+     "sources": [
+      {
+       "src": "Google Books",
+       "value": 624,
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3AThe+Long+Goodbye&maxResults=1&key=REDACTED"
+      },
+      {
+       "src": "Wikidata",
+       "value": 320,
+       "url": "https://www.wikidata.org/wiki/Q2464542"
+      }
+     ],
+     "alternatives": [
+      320
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "author",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Raymond Chandler",
+     "proposed": "Raymond Chandler",
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OpenLibrary",
+       "value": "Raymond Chandler",
+       "url": "https://openlibrary.org/search.json?title=The+Long+Goodbye&limit=1"
+      },
+      {
+       "src": "Google Books",
+       "value": "Raymond Chandler",
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3AThe+Long+Goodbye&maxResults=1&key=REDACTED"
+      },
+      {
+       "src": "Wikidata",
+       "value": "Raymond Chandler",
+       "url": "https://www.wikidata.org/wiki/Q2464542"
+      }
+     ]
+    },
+    {
+     "field": "publisher",
+     "label": "publisher",
+     "soft": true,
+     "editionDependent": true,
+     "current": "Hamish Hamilton",
+     "proposed": "Hamish Hamilton",
+     "status": "corroborated-by-one",
+     "grade": "B",
+     "note": "matches Wikidata; disagrees with Google Books (\"Createspace Independent Publishing Platform\")",
+     "sources": [
+      {
+       "src": "Google Books",
+       "value": "Createspace Independent Publishing Platform",
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3AThe+Long+Goodbye&maxResults=1&key=REDACTED"
+      },
+      {
+       "src": "Wikidata",
+       "value": "Hamish Hamilton",
+       "url": "https://www.wikidata.org/wiki/Q2464542"
+      }
+     ],
+     "alternatives": [
+      "Hamish Hamilton"
+     ]
+    }
+   ]
+  },
+  {
+   "id": "b1554",
+   "title": "The Thin Man",
+   "sourcesReached": [
+    "OpenLibrary",
+    "Google Books",
+    "Wikidata"
+   ],
+   "sourcesMissed": [],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "first publication year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 1934,
+     "proposed": 1934,
+     "status": "corroborated-by-one",
+     "grade": "B",
+     "note": "matches OpenLibrary/Wikidata; disagrees with Google Books (1999)",
+     "sources": [
+      {
+       "src": "OpenLibrary",
+       "value": 1934,
+       "url": "https://openlibrary.org/search.json?title=The+Thin+Man&limit=1"
+      },
+      {
+       "src": "Google Books",
+       "value": 1999,
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3AThe+Thin+Man&maxResults=1&key=REDACTED"
+      },
+      {
+       "src": "Wikidata",
+       "value": 1934,
+       "url": "https://www.wikidata.org/wiki/Q1198493"
+      }
+     ],
+     "alternatives": [
+      1999
+     ]
+    },
+    {
+     "field": "pages",
+     "label": "page count",
+     "soft": false,
+     "editionDependent": true,
+     "current": 201,
+     "proposed": 189,
+     "status": "edition-dependent",
+     "grade": "B",
+     "note": "one source differs from the corpus (Google Books 189) on a field with no single true value -- likely a different printing/edition, not an error.",
+     "sources": [
+      {
+       "src": "Google Books",
+       "value": 189,
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3AThe+Thin+Man&maxResults=1&key=REDACTED"
+      }
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "author",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Dashiell Hammett",
+     "proposed": "Dashiell Hammett",
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OpenLibrary",
+       "value": "Dashiell Hammett",
+       "url": "https://openlibrary.org/search.json?title=The+Thin+Man&limit=1"
+      },
+      {
+       "src": "Google Books",
+       "value": "Dashiell Hammett",
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3AThe+Thin+Man&maxResults=1&key=REDACTED"
+      },
+      {
+       "src": "Wikidata",
+       "value": "Dashiell Hammett",
+       "url": "https://www.wikidata.org/wiki/Q1198493"
+      }
+     ]
+    },
+    {
+     "field": "publisher",
+     "label": "publisher",
+     "soft": true,
+     "editionDependent": true,
+     "current": "Alfred A. Knopf",
+     "proposed": "Alfred A. Knopf",
+     "status": "confirmed",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "Wikidata",
+       "value": "Alfred A. Knopf",
+       "url": "https://www.wikidata.org/wiki/Q1198493"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "b1555",
+   "title": "Ripley Under Ground",
+   "sourcesReached": [
+    "OpenLibrary",
+    "Google Books",
+    "Wikidata"
+   ],
+   "sourcesMissed": [],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "first publication year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 1970,
+     "proposed": 1970,
+     "status": "corroborated-by-one",
+     "grade": "B",
+     "note": "matches OpenLibrary/Wikidata; disagrees with Google Books (2012)",
+     "sources": [
+      {
+       "src": "OpenLibrary",
+       "value": 1970,
+       "url": "https://openlibrary.org/search.json?title=Ripley+Under+Ground&limit=1"
+      },
+      {
+       "src": "Google Books",
+       "value": 2012,
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3ARipley+Under+Ground&maxResults=1&key=REDACTED"
+      },
+      {
+       "src": "Wikidata",
+       "value": 1970,
+       "url": "https://www.wikidata.org/wiki/Q384033"
+      }
+     ],
+     "alternatives": [
+      2012
+     ]
+    },
+    {
+     "field": "pages",
+     "label": "page count",
+     "soft": false,
+     "editionDependent": true,
+     "current": 278,
+     "proposed": 287,
+     "status": "edition-dependent",
+     "grade": "B",
+     "note": "one source differs from the corpus (Google Books 287) on a field with no single true value -- likely a different printing/edition, not an error.",
+     "sources": [
+      {
+       "src": "Google Books",
+       "value": 287,
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3ARipley+Under+Ground&maxResults=1&key=REDACTED"
+      }
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "author",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Patricia Highsmith",
+     "proposed": "Patricia Highsmith",
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OpenLibrary",
+       "value": "Patricia Highsmith",
+       "url": "https://openlibrary.org/search.json?title=Ripley+Under+Ground&limit=1"
+      },
+      {
+       "src": "Google Books",
+       "value": "Patricia Highsmith",
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3ARipley+Under+Ground&maxResults=1&key=REDACTED"
+      },
+      {
+       "src": "Wikidata",
+       "value": "Patricia Highsmith",
+       "url": "https://www.wikidata.org/wiki/Q384033"
+      }
+     ]
+    },
+    {
+     "field": "publisher",
+     "label": "publisher",
+     "soft": true,
+     "editionDependent": true,
+     "current": "Doubleday",
+     "proposed": "W. W. Norton & Company",
+     "status": "edition-dependent",
+     "grade": "B",
+     "note": "corpus value does not match either source (Google Books \"W. W. Norton & Company\", Wikidata \"Heinemann\") -- treated as a distinct edition; the specific cut is not identified from available evidence.",
+     "sources": [
+      {
+       "src": "Google Books",
+       "value": "W. W. Norton & Company",
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3ARipley+Under+Ground&maxResults=1&key=REDACTED"
+      },
+      {
+       "src": "Wikidata",
+       "value": "Heinemann",
+       "url": "https://www.wikidata.org/wiki/Q384033"
+      }
+     ],
+     "alternatives": [
+      "Heinemann"
+     ]
+    }
+   ]
+  }
+ ]
+}
