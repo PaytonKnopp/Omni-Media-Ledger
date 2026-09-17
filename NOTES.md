@@ -1620,6 +1620,34 @@ SERIES_DEFS: new Sherlock Holmes grouping added, complete at all 9 canonical boo
 1,630/2,000 (4,412/5,000 total, 88.2%). Remaining work is exclusively movies (~227 more) and books
 (~370 more).
 
+**Nineteenth round (movies batch 31, books batch 31), movies+books only.** Movies: a Christmas/holiday
+sweep. Caught a real near-miss duplicate AFTER insertion, not before: "National Lampoon's Christmas
+Vacation" (my new candidate) turned out to be the exact same 1989 film as the already-present
+"Christmas Vacation" (m1420, added in an earlier round without the studio-prefix words) -- the dedup
+script's exact-string check didn't catch it since the titles genuinely differ as strings, and this
+one wasn't surfaced by a SERIES_DEFS cross-reference either, since it slipped in as a standalone (non-
+franchise) title. Found only because extending the pre-existing National Lampoon's Vacation
+SERIES_DEFS entry required checking its member list, which already listed "Christmas Vacation" as a
+member -- removed the duplicate record (m1789) directly rather than leave it in. This is a genuinely
+new variant of the recurring near-miss-duplicate problem: previous instances were sequel-numbering or
+punctuation differences on titles I was deliberately treating as a franchise; this one was a prefix
+drop on a title I treated as a standalone, so the franchise cross-reference step doesn't universally
+catch this shape and it's worth staying alert to "the [Studio/Distributor Name] + baseline title" games
+these kinds of near-misses can take. Twelve titles net landed: The Santa Clause 2, The Holiday, While
+You Were Sleeping, Four Christmases, The Family Stone, Christmas with the Kranks, Fred Claus, Arthur
+Christmas, Klaus, The Polar Express, A Christmas Carol (2009), and Krampus. SERIES_DEFS: new The
+Santa Clause grouping added.
+
+Books: nine titles, a lighter round after two consecutive very-well-covered author sweeps (Dan Brown,
+the Millennium series, and John Green all turned out to be nearly complete already) -- Origin, two
+David Lagercrantz Millennium continuation novels, Malibu Rising, The Maidens, three more John Green
+novels, and If I Stay. Two titles (Origin, If I Stay) reached zero fetch-substance tags, flagged as
+general-knowledge estimates. SERIES_DEFS: Millennium extended to 5 of the real 6-book run.
+
+**Status at this checkpoint:** movies 1,785/2,000, TV 502/500 (done), games 507/500 (done), books
+1,639/2,000 (4,433/5,000 total, 88.7%). Remaining work is exclusively movies (~215 more) and books
+(~361 more).
+
 ---
 
 ## Ideas / next steps
