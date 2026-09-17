@@ -1,0 +1,1589 @@
+{
+ "medium": "book",
+ "generated": "2026-09-17T12:47:13.969Z",
+ "offline": false,
+ "sources": [
+  "OpenLibrary",
+  "Google Books",
+  "Wikidata"
+ ],
+ "works": [
+  {
+   "id": "b1352",
+   "title": "The Lost Symbol",
+   "sourcesReached": [
+    "OpenLibrary",
+    "Google Books",
+    "Wikidata"
+   ],
+   "sourcesMissed": [],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "first publication year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 2009,
+     "proposed": 2009,
+     "status": "corroborated-by-one",
+     "grade": "B",
+     "note": "matches OpenLibrary/Wikidata; disagrees with Google Books (2010)",
+     "sources": [
+      {
+       "src": "OpenLibrary",
+       "value": 2009,
+       "url": "https://openlibrary.org/search.json?title=The+Lost+Symbol&limit=1"
+      },
+      {
+       "src": "Google Books",
+       "value": 2010,
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3AThe+Lost+Symbol&maxResults=1&key=REDACTED"
+      },
+      {
+       "src": "Wikidata",
+       "value": 2009,
+       "url": "https://www.wikidata.org/wiki/Q211006"
+      }
+     ],
+     "alternatives": [
+      2010
+     ]
+    },
+    {
+     "field": "pages",
+     "label": "page count",
+     "soft": false,
+     "editionDependent": true,
+     "current": 528,
+     "proposed": 975,
+     "status": "edition-dependent",
+     "grade": "B",
+     "note": "one source differs from the corpus (Google Books 975) on a field with no single true value -- likely a different printing/edition, not an error.",
+     "sources": [
+      {
+       "src": "Google Books",
+       "value": 975,
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3AThe+Lost+Symbol&maxResults=1&key=REDACTED"
+      }
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "author",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Dan Brown",
+     "proposed": "Dan Brown",
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OpenLibrary",
+       "value": "Dan Brown",
+       "url": "https://openlibrary.org/search.json?title=The+Lost+Symbol&limit=1"
+      },
+      {
+       "src": "Google Books",
+       "value": "Dan Brown",
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3AThe+Lost+Symbol&maxResults=1&key=REDACTED"
+      },
+      {
+       "src": "Wikidata",
+       "value": "Dan Brown",
+       "url": "https://www.wikidata.org/wiki/Q211006"
+      }
+     ]
+    },
+    {
+     "field": "publisher",
+     "label": "publisher",
+     "soft": true,
+     "editionDependent": true,
+     "current": "Doubleday",
+     "proposed": "Doubleday",
+     "status": "corroborated-by-one",
+     "grade": "B",
+     "note": "matches Wikidata; disagrees with Google Books (\"Random House\")",
+     "sources": [
+      {
+       "src": "Google Books",
+       "value": "Random House",
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3AThe+Lost+Symbol&maxResults=1&key=REDACTED"
+      },
+      {
+       "src": "Wikidata",
+       "value": "Doubleday",
+       "url": "https://www.wikidata.org/wiki/Q211006"
+      }
+     ],
+     "alternatives": [
+      "Doubleday"
+     ]
+    }
+   ]
+  },
+  {
+   "id": "b1353",
+   "title": "One Shot",
+   "sourcesReached": [
+    "OpenLibrary",
+    "Google Books"
+   ],
+   "sourcesMissed": [
+    "Wikidata (no match)"
+   ],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "first publication year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 2005,
+     "proposed": 2005,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OpenLibrary",
+       "value": 2005,
+       "url": "https://openlibrary.org/search.json?title=One+Shot&limit=1"
+      },
+      {
+       "src": "Google Books",
+       "value": 2005,
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3AOne+Shot&maxResults=1&key=REDACTED"
+      }
+     ]
+    },
+    {
+     "field": "pages",
+     "label": "page count",
+     "soft": false,
+     "editionDependent": true,
+     "current": 375,
+     "proposed": 401,
+     "status": "edition-dependent",
+     "grade": "B",
+     "note": "one source differs from the corpus (Google Books 401) on a field with no single true value -- likely a different printing/edition, not an error.",
+     "sources": [
+      {
+       "src": "Google Books",
+       "value": 401,
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3AOne+Shot&maxResults=1&key=REDACTED"
+      }
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "author",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Lee Child",
+     "proposed": "Lee Child",
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OpenLibrary",
+       "value": "Lee Child",
+       "url": "https://openlibrary.org/search.json?title=One+Shot&limit=1"
+      },
+      {
+       "src": "Google Books",
+       "value": "Lee Child",
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3AOne+Shot&maxResults=1&key=REDACTED"
+      }
+     ]
+    },
+    {
+     "field": "publisher",
+     "label": "publisher",
+     "soft": true,
+     "editionDependent": true,
+     "current": "Delacorte Press",
+     "proposed": "Bantam",
+     "status": "edition-dependent",
+     "grade": "B",
+     "note": "one source differs from the corpus (Google Books \"Bantam\") on a field with no single true value -- likely a different printing/edition, not an error.",
+     "sources": [
+      {
+       "src": "Google Books",
+       "value": "Bantam",
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3AOne+Shot&maxResults=1&key=REDACTED"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "b1354",
+   "title": "The Bourne Supremacy",
+   "sourcesReached": [
+    "OpenLibrary",
+    "Google Books",
+    "Wikidata"
+   ],
+   "sourcesMissed": [],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "first publication year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 1986,
+     "proposed": 1986,
+     "status": "corroborated-by-one",
+     "grade": "B",
+     "note": "matches OpenLibrary/Wikidata; disagrees with Google Books (2012)",
+     "sources": [
+      {
+       "src": "OpenLibrary",
+       "value": 1986,
+       "url": "https://openlibrary.org/search.json?title=The+Bourne+Supremacy&limit=1"
+      },
+      {
+       "src": "Google Books",
+       "value": 2012,
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3AThe+Bourne+Supremacy&maxResults=1&key=REDACTED"
+      },
+      {
+       "src": "Wikidata",
+       "value": 1986,
+       "url": "https://www.wikidata.org/wiki/Q1190864"
+      }
+     ],
+     "alternatives": [
+      2012
+     ]
+    },
+    {
+     "field": "pages",
+     "label": "page count",
+     "soft": false,
+     "editionDependent": true,
+     "current": 587,
+     "proposed": 690,
+     "status": "edition-dependent",
+     "grade": "B",
+     "note": "one source differs from the corpus (Google Books 690) on a field with no single true value -- likely a different printing/edition, not an error.",
+     "sources": [
+      {
+       "src": "Google Books",
+       "value": 690,
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3AThe+Bourne+Supremacy&maxResults=1&key=REDACTED"
+      }
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "author",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Robert Ludlum",
+     "proposed": "Robert Ludlum",
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OpenLibrary",
+       "value": "Robert Ludlum",
+       "url": "https://openlibrary.org/search.json?title=The+Bourne+Supremacy&limit=1"
+      },
+      {
+       "src": "Google Books",
+       "value": "Robert Ludlum",
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3AThe+Bourne+Supremacy&maxResults=1&key=REDACTED"
+      },
+      {
+       "src": "Wikidata",
+       "value": "Robert Ludlum",
+       "url": "https://www.wikidata.org/wiki/Q1190864"
+      }
+     ]
+    },
+    {
+     "field": "publisher",
+     "label": "publisher",
+     "soft": true,
+     "editionDependent": true,
+     "current": "Random House",
+     "proposed": "Random House",
+     "status": "corroborated-by-one",
+     "grade": "B",
+     "note": "matches Wikidata; disagrees with Google Books (\"Bantam\")",
+     "sources": [
+      {
+       "src": "Google Books",
+       "value": "Bantam",
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3AThe+Bourne+Supremacy&maxResults=1&key=REDACTED"
+      },
+      {
+       "src": "Wikidata",
+       "value": "Random House",
+       "url": "https://www.wikidata.org/wiki/Q1190864"
+      }
+     ],
+     "alternatives": [
+      "Random House"
+     ]
+    }
+   ]
+  },
+  {
+   "id": "b1355",
+   "title": "The Bourne Ultimatum",
+   "sourcesReached": [
+    "OpenLibrary",
+    "Google Books",
+    "Wikidata"
+   ],
+   "sourcesMissed": [],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "first publication year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 1990,
+     "proposed": 1990,
+     "status": "corroborated-by-one",
+     "grade": "B",
+     "note": "matches OpenLibrary; disagrees with Google Books (2012)",
+     "sources": [
+      {
+       "src": "OpenLibrary",
+       "value": 1990,
+       "url": "https://openlibrary.org/search.json?title=The+Bourne+Ultimatum&limit=1"
+      },
+      {
+       "src": "Google Books",
+       "value": 2012,
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3AThe+Bourne+Ultimatum&maxResults=1&key=REDACTED"
+      }
+     ],
+     "alternatives": [
+      2012
+     ]
+    },
+    {
+     "field": "pages",
+     "label": "page count",
+     "soft": false,
+     "editionDependent": true,
+     "current": 671,
+     "proposed": 754,
+     "status": "edition-dependent",
+     "grade": "B",
+     "note": "corpus value does not match either source (Google Books 754, Wikidata 611) -- treated as a distinct edition; the specific cut is not identified from available evidence.",
+     "sources": [
+      {
+       "src": "Google Books",
+       "value": 754,
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3AThe+Bourne+Ultimatum&maxResults=1&key=REDACTED"
+      },
+      {
+       "src": "Wikidata",
+       "value": 611,
+       "url": "https://www.wikidata.org/wiki/Q126652701"
+      }
+     ],
+     "alternatives": [
+      611
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "author",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Robert Ludlum",
+     "proposed": "Robert Ludlum",
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OpenLibrary",
+       "value": "Robert Ludlum",
+       "url": "https://openlibrary.org/search.json?title=The+Bourne+Ultimatum&limit=1"
+      },
+      {
+       "src": "Google Books",
+       "value": "Robert Ludlum",
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3AThe+Bourne+Ultimatum&maxResults=1&key=REDACTED"
+      },
+      {
+       "src": "Wikidata",
+       "value": "Robert Ludlum",
+       "url": "https://www.wikidata.org/wiki/Q126652701"
+      }
+     ]
+    },
+    {
+     "field": "publisher",
+     "label": "publisher",
+     "soft": true,
+     "editionDependent": true,
+     "current": "Random House",
+     "proposed": "Bantam",
+     "status": "edition-dependent",
+     "grade": "B",
+     "note": "one source differs from the corpus (Google Books \"Bantam\") on a field with no single true value -- likely a different printing/edition, not an error.",
+     "sources": [
+      {
+       "src": "Google Books",
+       "value": "Bantam",
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3AThe+Bourne+Ultimatum&maxResults=1&key=REDACTED"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "b1356",
+   "title": "The Dark Tower: The Gunslinger",
+   "sourcesReached": [
+    "Google Books",
+    "Wikidata"
+   ],
+   "sourcesMissed": [
+    "OpenLibrary (no match)"
+   ],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "first publication year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 1982,
+     "proposed": 1982,
+     "status": "corroborated-by-one",
+     "grade": "B",
+     "note": "matches Wikidata; disagrees with Google Books (2016)",
+     "sources": [
+      {
+       "src": "Google Books",
+       "value": 2016,
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3AThe+Dark+Tower%3A+The+Gunslinger&maxResults=1&key=REDACTED"
+      },
+      {
+       "src": "Wikidata",
+       "value": 1982,
+       "url": "https://www.wikidata.org/wiki/Q1422318"
+      }
+     ],
+     "alternatives": [
+      1982
+     ]
+    },
+    {
+     "field": "pages",
+     "label": "page count",
+     "soft": false,
+     "editionDependent": true,
+     "current": 224,
+     "proposed": 304,
+     "status": "edition-dependent",
+     "grade": "B",
+     "note": "one source differs from the corpus (Google Books 304) on a field with no single true value -- likely a different printing/edition, not an error.",
+     "sources": [
+      {
+       "src": "Google Books",
+       "value": 304,
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3AThe+Dark+Tower%3A+The+Gunslinger&maxResults=1&key=REDACTED"
+      }
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "author",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Stephen King",
+     "proposed": "Stephen King",
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "Google Books",
+       "value": "Stephen King",
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3AThe+Dark+Tower%3A+The+Gunslinger&maxResults=1&key=REDACTED"
+      },
+      {
+       "src": "Wikidata",
+       "value": "Stephen King",
+       "url": "https://www.wikidata.org/wiki/Q1422318"
+      }
+     ]
+    },
+    {
+     "field": "publisher",
+     "label": "publisher",
+     "soft": true,
+     "editionDependent": true,
+     "current": "Donald M. Grant",
+     "proposed": "Simon and Schuster",
+     "status": "edition-dependent",
+     "grade": "B",
+     "note": "corpus value does not match either source (Google Books \"Simon and Schuster\", Wikidata \"Donald M. Grant, Publisher\") -- treated as a distinct edition; the specific cut is not identified from available evidence.",
+     "sources": [
+      {
+       "src": "Google Books",
+       "value": "Simon and Schuster",
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3AThe+Dark+Tower%3A+The+Gunslinger&maxResults=1&key=REDACTED"
+      },
+      {
+       "src": "Wikidata",
+       "value": "Donald M. Grant, Publisher",
+       "url": "https://www.wikidata.org/wiki/Q1422318"
+      }
+     ],
+     "alternatives": [
+      "Donald M. Grant, Publisher"
+     ]
+    }
+   ]
+  },
+  {
+   "id": "b1357",
+   "title": "The Dark Tower II: The Drawing of the Three",
+   "sourcesReached": [
+    "Google Books",
+    "Wikidata"
+   ],
+   "sourcesMissed": [
+    "OpenLibrary (no match)"
+   ],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "first publication year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 1987,
+     "proposed": 1987,
+     "status": "corroborated-by-one",
+     "grade": "B",
+     "note": "matches Wikidata; disagrees with Google Books (1990)",
+     "sources": [
+      {
+       "src": "Google Books",
+       "value": 1990,
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3AThe+Dark+Tower+II%3A+The+Drawing+of+the+Three&maxResults=1&key=REDACTED"
+      },
+      {
+       "src": "Wikidata",
+       "value": 1987,
+       "url": "https://www.wikidata.org/wiki/Q1256948"
+      }
+     ],
+     "alternatives": [
+      1987
+     ]
+    },
+    {
+     "field": "pages",
+     "label": "page count",
+     "soft": false,
+     "editionDependent": true,
+     "current": 400,
+     "proposed": 0,
+     "status": "edition-dependent",
+     "grade": "B",
+     "note": "one source differs from the corpus (Google Books 0) on a field with no single true value -- likely a different printing/edition, not an error.",
+     "sources": [
+      {
+       "src": "Google Books",
+       "value": 0,
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3AThe+Dark+Tower+II%3A+The+Drawing+of+the+Three&maxResults=1&key=REDACTED"
+      }
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "author",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Stephen King",
+     "proposed": "Stephen King",
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "Google Books",
+       "value": "Stephen King",
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3AThe+Dark+Tower+II%3A+The+Drawing+of+the+Three&maxResults=1&key=REDACTED"
+      },
+      {
+       "src": "Wikidata",
+       "value": "Stephen King",
+       "url": "https://www.wikidata.org/wiki/Q1256948"
+      }
+     ]
+    },
+    {
+     "field": "publisher",
+     "label": "publisher",
+     "soft": true,
+     "editionDependent": true,
+     "current": "Donald M. Grant",
+     "proposed": "Donald M. Grant, Publisher",
+     "status": "edition-dependent",
+     "grade": "B",
+     "note": "one source differs from the corpus (Wikidata \"Donald M. Grant, Publisher\") on a field with no single true value -- likely a different printing/edition, not an error.",
+     "sources": [
+      {
+       "src": "Wikidata",
+       "value": "Donald M. Grant, Publisher",
+       "url": "https://www.wikidata.org/wiki/Q1256948"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "b1358",
+   "title": "Queen of the Damned",
+   "sourcesReached": [
+    "OpenLibrary",
+    "Google Books",
+    "Wikidata"
+   ],
+   "sourcesMissed": [],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "first publication year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 1988,
+     "proposed": 1988,
+     "status": "corroborated-by-one",
+     "grade": "B",
+     "note": "matches OpenLibrary/Wikidata; disagrees with Google Books (2010)",
+     "sources": [
+      {
+       "src": "OpenLibrary",
+       "value": 1988,
+       "url": "https://openlibrary.org/search.json?title=Queen+of+the+Damned&limit=1"
+      },
+      {
+       "src": "Google Books",
+       "value": 2010,
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3AQueen+of+the+Damned&maxResults=1&key=REDACTED"
+      },
+      {
+       "src": "Wikidata",
+       "value": 1988,
+       "url": "https://www.wikidata.org/wiki/Q1214221"
+      }
+     ],
+     "alternatives": [
+      2010
+     ]
+    },
+    {
+     "field": "pages",
+     "label": "page count",
+     "soft": false,
+     "editionDependent": true,
+     "current": 448,
+     "proposed": 448,
+     "status": "corroborated-by-one",
+     "grade": "B",
+     "note": "matches Wikidata; disagrees with Google Books (465)",
+     "sources": [
+      {
+       "src": "Google Books",
+       "value": 465,
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3AQueen+of+the+Damned&maxResults=1&key=REDACTED"
+      },
+      {
+       "src": "Wikidata",
+       "value": 448,
+       "url": "https://www.wikidata.org/wiki/Q1214221"
+      }
+     ],
+     "alternatives": [
+      448
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "author",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Anne Rice",
+     "proposed": "Anne Rice",
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OpenLibrary",
+       "value": "Anne Rice",
+       "url": "https://openlibrary.org/search.json?title=Queen+of+the+Damned&limit=1"
+      },
+      {
+       "src": "Google Books",
+       "value": "Anne Rice",
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3AQueen+of+the+Damned&maxResults=1&key=REDACTED"
+      },
+      {
+       "src": "Wikidata",
+       "value": "Anne Rice",
+       "url": "https://www.wikidata.org/wiki/Q1214221"
+      }
+     ]
+    },
+    {
+     "field": "publisher",
+     "label": "publisher",
+     "soft": true,
+     "editionDependent": true,
+     "current": "Alfred A. Knopf",
+     "proposed": "Alfred A. Knopf",
+     "status": "corroborated-by-one",
+     "grade": "B",
+     "note": "matches Wikidata; disagrees with Google Books (\"Ballantine Books\")",
+     "sources": [
+      {
+       "src": "Google Books",
+       "value": "Ballantine Books",
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3AQueen+of+the+Damned&maxResults=1&key=REDACTED"
+      },
+      {
+       "src": "Wikidata",
+       "value": "Alfred A. Knopf",
+       "url": "https://www.wikidata.org/wiki/Q1214221"
+      }
+     ],
+     "alternatives": [
+      "Alfred A. Knopf"
+     ]
+    }
+   ]
+  },
+  {
+   "id": "b1359",
+   "title": "The Heroes of Olympus: The Lost Hero",
+   "sourcesReached": [
+    "OpenLibrary",
+    "Google Books"
+   ],
+   "sourcesMissed": [
+    "Wikidata (no match)"
+   ],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "first publication year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 2010,
+     "proposed": 2010,
+     "status": "corroborated-by-one",
+     "grade": "B",
+     "note": "matches Google Books; disagrees with OpenLibrary (1809)",
+     "sources": [
+      {
+       "src": "OpenLibrary",
+       "value": 1809,
+       "url": "https://openlibrary.org/search.json?title=The+Heroes+of+Olympus%3A+The+Lost+Hero&limit=1"
+      },
+      {
+       "src": "Google Books",
+       "value": 2010,
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3AThe+Heroes+of+Olympus%3A+The+Lost+Hero&maxResults=1&key=REDACTED"
+      }
+     ],
+     "alternatives": [
+      2010
+     ]
+    },
+    {
+     "field": "pages",
+     "label": "page count",
+     "soft": false,
+     "editionDependent": true,
+     "current": 553,
+     "proposed": 495,
+     "status": "edition-dependent",
+     "grade": "B",
+     "note": "one source differs from the corpus (Google Books 495) on a field with no single true value -- likely a different printing/edition, not an error.",
+     "sources": [
+      {
+       "src": "Google Books",
+       "value": 495,
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3AThe+Heroes+of+Olympus%3A+The+Lost+Hero&maxResults=1&key=REDACTED"
+      }
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "author",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Rick Riordan",
+     "proposed": "Rick Riordan",
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OpenLibrary",
+       "value": "Rick Riordan",
+       "url": "https://openlibrary.org/search.json?title=The+Heroes+of+Olympus%3A+The+Lost+Hero&limit=1"
+      },
+      {
+       "src": "Google Books",
+       "value": "Rick Riordan",
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3AThe+Heroes+of+Olympus%3A+The+Lost+Hero&maxResults=1&key=REDACTED"
+      }
+     ]
+    },
+    {
+     "field": "publisher",
+     "label": "publisher",
+     "soft": true,
+     "editionDependent": true,
+     "current": "Disney Hyperion",
+     "proposed": "Penguin UK",
+     "status": "edition-dependent",
+     "grade": "B",
+     "note": "one source differs from the corpus (Google Books \"Penguin UK\") on a field with no single true value -- likely a different printing/edition, not an error.",
+     "sources": [
+      {
+       "src": "Google Books",
+       "value": "Penguin UK",
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3AThe+Heroes+of+Olympus%3A+The+Lost+Hero&maxResults=1&key=REDACTED"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "b1360",
+   "title": "The Maze Runner: The Scorch Trials",
+   "sourcesReached": [
+    "Google Books"
+   ],
+   "sourcesMissed": [
+    "OpenLibrary (no match)",
+    "Wikidata (no match)"
+   ],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "first publication year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 2010,
+     "proposed": 2015,
+     "status": "proposed-change",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "Google Books",
+       "value": 2015,
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3AThe+Maze+Runner%3A+The+Scorch+Trials&maxResults=1&key=REDACTED"
+      }
+     ]
+    },
+    {
+     "field": "pages",
+     "label": "page count",
+     "soft": false,
+     "editionDependent": true,
+     "current": 361,
+     "proposed": 818,
+     "status": "edition-dependent",
+     "grade": "B",
+     "note": "one source differs from the corpus (Google Books 818) on a field with no single true value -- likely a different printing/edition, not an error.",
+     "sources": [
+      {
+       "src": "Google Books",
+       "value": 818,
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3AThe+Maze+Runner%3A+The+Scorch+Trials&maxResults=1&key=REDACTED"
+      }
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "author",
+     "soft": false,
+     "editionDependent": false,
+     "current": "James Dashner",
+     "proposed": "James Dashner",
+     "status": "confirmed",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "Google Books",
+       "value": "James Dashner",
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3AThe+Maze+Runner%3A+The+Scorch+Trials&maxResults=1&key=REDACTED"
+      }
+     ]
+    },
+    {
+     "field": "publisher",
+     "label": "publisher",
+     "soft": true,
+     "current": "Delacorte Press",
+     "status": "no-source",
+     "grade": null,
+     "sources": []
+    }
+   ]
+  },
+  {
+   "id": "b1361",
+   "title": "The Death Cure",
+   "sourcesReached": [
+    "OpenLibrary",
+    "Google Books",
+    "Wikidata"
+   ],
+   "sourcesMissed": [],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "first publication year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 2011,
+     "proposed": 2011,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OpenLibrary",
+       "value": 2011,
+       "url": "https://openlibrary.org/search.json?title=The+Death+Cure&limit=1"
+      },
+      {
+       "src": "Google Books",
+       "value": 2011,
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3AThe+Death+Cure&maxResults=1&key=REDACTED"
+      },
+      {
+       "src": "Wikidata",
+       "value": 2011,
+       "url": "https://www.wikidata.org/wiki/Q7729402"
+      }
+     ]
+    },
+    {
+     "field": "pages",
+     "label": "page count",
+     "soft": false,
+     "editionDependent": true,
+     "current": 325,
+     "proposed": 353,
+     "status": "edition-dependent",
+     "grade": "B",
+     "note": "one source differs from the corpus (Google Books 353) on a field with no single true value -- likely a different printing/edition, not an error.",
+     "sources": [
+      {
+       "src": "Google Books",
+       "value": 353,
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3AThe+Death+Cure&maxResults=1&key=REDACTED"
+      }
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "author",
+     "soft": false,
+     "editionDependent": false,
+     "current": "James Dashner",
+     "proposed": "James Dashner",
+     "status": "corroborated-by-one",
+     "grade": "B",
+     "note": "matches Google Books/Wikidata; disagrees with OpenLibrary (\"James Dashner & James Dashner\")",
+     "sources": [
+      {
+       "src": "OpenLibrary",
+       "value": "James Dashner & James Dashner",
+       "url": "https://openlibrary.org/search.json?title=The+Death+Cure&limit=1"
+      },
+      {
+       "src": "Google Books",
+       "value": "James Dashner",
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3AThe+Death+Cure&maxResults=1&key=REDACTED"
+      },
+      {
+       "src": "Wikidata",
+       "value": "James Dashner",
+       "url": "https://www.wikidata.org/wiki/Q7729402"
+      }
+     ],
+     "alternatives": [
+      "James Dashner & James Dashner"
+     ]
+    },
+    {
+     "field": "publisher",
+     "label": "publisher",
+     "soft": true,
+     "editionDependent": true,
+     "current": "Delacorte Press",
+     "proposed": "Delacorte Press",
+     "status": "corroborated-by-one",
+     "grade": "B",
+     "note": "matches Google Books; disagrees with Wikidata (\"Dell Publishing\")",
+     "sources": [
+      {
+       "src": "Google Books",
+       "value": "Delacorte Press",
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3AThe+Death+Cure&maxResults=1&key=REDACTED"
+      },
+      {
+       "src": "Wikidata",
+       "value": "Dell Publishing",
+       "url": "https://www.wikidata.org/wiki/Q7729402"
+      }
+     ],
+     "alternatives": [
+      "Dell Publishing"
+     ]
+    }
+   ]
+  },
+  {
+   "id": "b1362",
+   "title": "Harry Potter and the Cursed Child",
+   "sourcesReached": [
+    "OpenLibrary",
+    "Google Books",
+    "Wikidata"
+   ],
+   "sourcesMissed": [],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "first publication year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 2016,
+     "proposed": 2016,
+     "status": "corroborated-by-one",
+     "grade": "B",
+     "note": "matches Google Books/Wikidata; disagrees with OpenLibrary (2001)",
+     "sources": [
+      {
+       "src": "OpenLibrary",
+       "value": 2001,
+       "url": "https://openlibrary.org/search.json?title=Harry+Potter+and+the+Cursed+Child&limit=1"
+      },
+      {
+       "src": "Google Books",
+       "value": 2016,
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3AHarry+Potter+and+the+Cursed+Child&maxResults=1&key=REDACTED"
+      },
+      {
+       "src": "Wikidata",
+       "value": 2016,
+       "url": "https://www.wikidata.org/wiki/Q20711488"
+      }
+     ],
+     "alternatives": [
+      2001
+     ]
+    },
+    {
+     "field": "pages",
+     "label": "page count",
+     "soft": false,
+     "editionDependent": true,
+     "current": 343,
+     "proposed": 0,
+     "status": "edition-dependent",
+     "grade": "B",
+     "note": "corpus value does not match either source (Google Books 0, Wikidata 352) -- treated as a distinct edition; the specific cut is not identified from available evidence.",
+     "sources": [
+      {
+       "src": "Google Books",
+       "value": 0,
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3AHarry+Potter+and+the+Cursed+Child&maxResults=1&key=REDACTED"
+      },
+      {
+       "src": "Wikidata",
+       "value": 352,
+       "url": "https://www.wikidata.org/wiki/Q20711488"
+      }
+     ],
+     "alternatives": [
+      352
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "author",
+     "soft": false,
+     "editionDependent": false,
+     "current": "J.K. Rowling, John Tiffany, Jack Thorne",
+     "proposed": "J.K. Rowling, John Tiffany, Jack Thorne",
+     "status": "corroborated-by-one",
+     "grade": "B",
+     "note": "matches OpenLibrary/Wikidata; disagrees with Google Books (\"J. K. Rowling\")",
+     "sources": [
+      {
+       "src": "OpenLibrary",
+       "value": "Jack Thorne & John Tiffany & J. K. Rowling",
+       "url": "https://openlibrary.org/search.json?title=Harry+Potter+and+the+Cursed+Child&limit=1"
+      },
+      {
+       "src": "Google Books",
+       "value": "J. K. Rowling",
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3AHarry+Potter+and+the+Cursed+Child&maxResults=1&key=REDACTED"
+      },
+      {
+       "src": "Wikidata",
+       "value": "Jack Thorne & J. K. Rowling & John Tiffany",
+       "url": "https://www.wikidata.org/wiki/Q20711488"
+      }
+     ],
+     "alternatives": [
+      "J. K. Rowling"
+     ]
+    },
+    {
+     "field": "publisher",
+     "label": "publisher",
+     "soft": true,
+     "current": "Little, Brown",
+     "status": "no-source",
+     "grade": null,
+     "sources": []
+    }
+   ]
+  },
+  {
+   "id": "b1363",
+   "title": "A Wind in the Door",
+   "sourcesReached": [
+    "OpenLibrary",
+    "Google Books",
+    "Wikidata"
+   ],
+   "sourcesMissed": [],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "first publication year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 1973,
+     "proposed": 1973,
+     "status": "corroborated-by-one",
+     "grade": "B",
+     "note": "matches OpenLibrary/Wikidata; disagrees with Google Books (2010)",
+     "sources": [
+      {
+       "src": "OpenLibrary",
+       "value": 1973,
+       "url": "https://openlibrary.org/search.json?title=A+Wind+in+the+Door&limit=1"
+      },
+      {
+       "src": "Google Books",
+       "value": 2010,
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3AA+Wind+in+the+Door&maxResults=1&key=REDACTED"
+      },
+      {
+       "src": "Wikidata",
+       "value": 1973,
+       "url": "https://www.wikidata.org/wiki/Q4660663"
+      }
+     ],
+     "alternatives": [
+      2010
+     ]
+    },
+    {
+     "field": "pages",
+     "label": "page count",
+     "soft": false,
+     "editionDependent": true,
+     "current": 211,
+     "proposed": 257,
+     "status": "edition-dependent",
+     "grade": "B",
+     "note": "one source differs from the corpus (Google Books 257) on a field with no single true value -- likely a different printing/edition, not an error.",
+     "sources": [
+      {
+       "src": "Google Books",
+       "value": 257,
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3AA+Wind+in+the+Door&maxResults=1&key=REDACTED"
+      }
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "author",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Madeleine L'Engle",
+     "proposed": "Madeleine L'Engle",
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OpenLibrary",
+       "value": "Madeleine L'Engle",
+       "url": "https://openlibrary.org/search.json?title=A+Wind+in+the+Door&limit=1"
+      },
+      {
+       "src": "Google Books",
+       "value": "Madeleine L'Engle",
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3AA+Wind+in+the+Door&maxResults=1&key=REDACTED"
+      },
+      {
+       "src": "Wikidata",
+       "value": "Madeleine L'Engle",
+       "url": "https://www.wikidata.org/wiki/Q4660663"
+      }
+     ]
+    },
+    {
+     "field": "publisher",
+     "label": "publisher",
+     "soft": true,
+     "editionDependent": true,
+     "current": "Farrar, Straus and Giroux",
+     "proposed": "Farrar, Straus and Giroux (BYR)",
+     "status": "edition-dependent",
+     "grade": "B",
+     "note": "one source differs from the corpus (Google Books \"Farrar, Straus and Giroux (BYR)\") on a field with no single true value -- likely a different printing/edition, not an error.",
+     "sources": [
+      {
+       "src": "Google Books",
+       "value": "Farrar, Straus and Giroux (BYR)",
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3AA+Wind+in+the+Door&maxResults=1&key=REDACTED"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "b1364",
+   "title": "A Swiftly Tilting Planet",
+   "sourcesReached": [
+    "OpenLibrary",
+    "Google Books",
+    "Wikidata"
+   ],
+   "sourcesMissed": [],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "first publication year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 1978,
+     "proposed": 1978,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OpenLibrary",
+       "value": 1978,
+       "url": "https://openlibrary.org/search.json?title=A+Swiftly+Tilting+Planet&limit=1"
+      },
+      {
+       "src": "Google Books",
+       "value": 1978,
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3AA+Swiftly+Tilting+Planet&maxResults=1&key=REDACTED"
+      },
+      {
+       "src": "Wikidata",
+       "value": 1978,
+       "url": "https://www.wikidata.org/wiki/Q4659923"
+      }
+     ]
+    },
+    {
+     "field": "pages",
+     "label": "page count",
+     "soft": false,
+     "editionDependent": true,
+     "current": 288,
+     "proposed": 306,
+     "status": "edition-dependent",
+     "grade": "B",
+     "note": "one source differs from the corpus (Google Books 306) on a field with no single true value -- likely a different printing/edition, not an error.",
+     "sources": [
+      {
+       "src": "Google Books",
+       "value": 306,
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3AA+Swiftly+Tilting+Planet&maxResults=1&key=REDACTED"
+      }
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "author",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Madeleine L'Engle",
+     "proposed": "Madeleine L'Engle",
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OpenLibrary",
+       "value": "Madeleine L'Engle",
+       "url": "https://openlibrary.org/search.json?title=A+Swiftly+Tilting+Planet&limit=1"
+      },
+      {
+       "src": "Google Books",
+       "value": "Madeleine L'Engle",
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3AA+Swiftly+Tilting+Planet&maxResults=1&key=REDACTED"
+      },
+      {
+       "src": "Wikidata",
+       "value": "Madeleine L'Engle",
+       "url": "https://www.wikidata.org/wiki/Q4659923"
+      }
+     ]
+    },
+    {
+     "field": "publisher",
+     "label": "publisher",
+     "soft": true,
+     "editionDependent": true,
+     "current": "Farrar, Straus and Giroux",
+     "proposed": "Yearling",
+     "status": "edition-dependent",
+     "grade": "B",
+     "note": "one source differs from the corpus (Google Books \"Yearling\") on a field with no single true value -- likely a different printing/edition, not an error.",
+     "sources": [
+      {
+       "src": "Google Books",
+       "value": "Yearling",
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3AA+Swiftly+Tilting+Planet&maxResults=1&key=REDACTED"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "b1365",
+   "title": "The Wonderful Wizard of Oz",
+   "sourcesReached": [
+    "OpenLibrary",
+    "Google Books",
+    "Wikidata"
+   ],
+   "sourcesMissed": [],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "first publication year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 1900,
+     "proposed": 1900,
+     "status": "corroborated-by-one",
+     "grade": "B",
+     "note": "matches Wikidata; disagrees with OpenLibrary (1899), Google Books (2012)",
+     "sources": [
+      {
+       "src": "OpenLibrary",
+       "value": 1899,
+       "url": "https://openlibrary.org/search.json?title=The+Wonderful+Wizard+of+Oz&limit=1"
+      },
+      {
+       "src": "Google Books",
+       "value": 2012,
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3AThe+Wonderful+Wizard+of+Oz&maxResults=1&key=REDACTED"
+      },
+      {
+       "src": "Wikidata",
+       "value": 1900,
+       "url": "https://www.wikidata.org/wiki/Q130295"
+      }
+     ],
+     "alternatives": [
+      2012,
+      1900
+     ]
+    },
+    {
+     "field": "pages",
+     "label": "page count",
+     "soft": false,
+     "editionDependent": true,
+     "current": 259,
+     "proposed": 146,
+     "status": "edition-dependent",
+     "grade": "B",
+     "note": "one source differs from the corpus (Google Books 146) on a field with no single true value -- likely a different printing/edition, not an error.",
+     "sources": [
+      {
+       "src": "Google Books",
+       "value": 146,
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3AThe+Wonderful+Wizard+of+Oz&maxResults=1&key=REDACTED"
+      }
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "author",
+     "soft": false,
+     "editionDependent": false,
+     "current": "L. Frank Baum",
+     "proposed": "L. Frank Baum",
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OpenLibrary",
+       "value": "L. Frank Baum",
+       "url": "https://openlibrary.org/search.json?title=The+Wonderful+Wizard+of+Oz&limit=1"
+      },
+      {
+       "src": "Google Books",
+       "value": "L. Frank Baum",
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3AThe+Wonderful+Wizard+of+Oz&maxResults=1&key=REDACTED"
+      },
+      {
+       "src": "Wikidata",
+       "value": "L. Frank Baum",
+       "url": "https://www.wikidata.org/wiki/Q130295"
+      }
+     ]
+    },
+    {
+     "field": "publisher",
+     "label": "publisher",
+     "soft": true,
+     "editionDependent": true,
+     "current": "George M. Hill Company",
+     "proposed": "Courier Corporation",
+     "status": "edition-dependent",
+     "grade": "B",
+     "note": "one source differs from the corpus (Google Books \"Courier Corporation\") on a field with no single true value -- likely a different printing/edition, not an error.",
+     "sources": [
+      {
+       "src": "Google Books",
+       "value": "Courier Corporation",
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3AThe+Wonderful+Wizard+of+Oz&maxResults=1&key=REDACTED"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "b1366",
+   "title": "The Marvelous Land of Oz",
+   "sourcesReached": [
+    "OpenLibrary",
+    "Google Books",
+    "Wikidata"
+   ],
+   "sourcesMissed": [],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "first publication year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 1904,
+     "proposed": 1904,
+     "status": "corroborated-by-one",
+     "grade": "B",
+     "note": "matches OpenLibrary/Wikidata; disagrees with Google Books (2012)",
+     "sources": [
+      {
+       "src": "OpenLibrary",
+       "value": 1904,
+       "url": "https://openlibrary.org/search.json?title=The+Marvelous+Land+of+Oz&limit=1"
+      },
+      {
+       "src": "Google Books",
+       "value": 2012,
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3AThe+Marvelous+Land+of+Oz&maxResults=1&key=REDACTED"
+      },
+      {
+       "src": "Wikidata",
+       "value": 1904,
+       "url": "https://www.wikidata.org/wiki/Q1659447"
+      }
+     ],
+     "alternatives": [
+      2012
+     ]
+    },
+    {
+     "field": "pages",
+     "label": "page count",
+     "soft": false,
+     "editionDependent": true,
+     "current": 287,
+     "proposed": 352,
+     "status": "edition-dependent",
+     "grade": "B",
+     "note": "one source differs from the corpus (Google Books 352) on a field with no single true value -- likely a different printing/edition, not an error.",
+     "sources": [
+      {
+       "src": "Google Books",
+       "value": 352,
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3AThe+Marvelous+Land+of+Oz&maxResults=1&key=REDACTED"
+      }
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "author",
+     "soft": false,
+     "editionDependent": false,
+     "current": "L. Frank Baum",
+     "proposed": "L. Frank Baum",
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OpenLibrary",
+       "value": "L. Frank Baum",
+       "url": "https://openlibrary.org/search.json?title=The+Marvelous+Land+of+Oz&limit=1"
+      },
+      {
+       "src": "Google Books",
+       "value": "L. Frank Baum",
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3AThe+Marvelous+Land+of+Oz&maxResults=1&key=REDACTED"
+      },
+      {
+       "src": "Wikidata",
+       "value": "L. Frank Baum",
+       "url": "https://www.wikidata.org/wiki/Q1659447"
+      }
+     ]
+    },
+    {
+     "field": "publisher",
+     "label": "publisher",
+     "soft": true,
+     "editionDependent": true,
+     "current": "Reilly & Britton",
+     "proposed": "Courier Corporation",
+     "status": "edition-dependent",
+     "grade": "B",
+     "note": "corpus value does not match either source (Google Books \"Courier Corporation\", Wikidata \"The Reilly & Britton Co.\") -- treated as a distinct edition; the specific cut is not identified from available evidence.",
+     "sources": [
+      {
+       "src": "Google Books",
+       "value": "Courier Corporation",
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3AThe+Marvelous+Land+of+Oz&maxResults=1&key=REDACTED"
+      },
+      {
+       "src": "Wikidata",
+       "value": "The Reilly & Britton Co.",
+       "url": "https://www.wikidata.org/wiki/Q1659447"
+      }
+     ],
+     "alternatives": [
+      "The Reilly & Britton Co."
+     ]
+    }
+   ]
+  }
+ ]
+}

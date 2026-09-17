@@ -1,0 +1,60 @@
+{
+ "medium": "book",
+ "generated": "2026-09-17T12:50:44.166Z",
+ "offline": false,
+ "includesProse": false,
+ "works": [
+  {
+   "id": "b1397",
+   "title": "Wonder",
+   "year": 2012,
+   "corpusGenres": [
+    "Family",
+    "Coming-of-Age"
+   ],
+   "tags": [
+    "juvenile fiction"
+   ],
+   "sourceGenres": [],
+   "sources": [
+    {
+     "src": "OpenLibrary",
+     "matchedTitle": "Wonder",
+     "url": "https://openlibrary.org/search.json?title=Wonder"
+    },
+    {
+     "src": "Google Books",
+     "matchedTitle": "Wonder",
+     "url": "https://www.googleapis.com/books/v1/volumes?q=intitle:Wonder"
+    }
+   ],
+   "missed": [
+    "Wikidata (no type-matching candidate for \"Wonder\")"
+   ],
+   "coverage": 1
+  },
+  {
+   "id": "b1398",
+   "title": "Out of My Mind",
+   "year": 2010,
+   "corpusGenres": [
+    "Family",
+    "Coming-of-Age"
+   ],
+   "tags": [],
+   "sourceGenres": [],
+   "sources": [
+    {
+     "src": "OpenLibrary",
+     "matchedTitle": "Out of my mind",
+     "url": "https://openlibrary.org/search.json?title=Out%20of%20My%20Mind"
+    }
+   ],
+   "missed": [
+    "Google Books (title matched but author \"WJ de Kock\" does not -- likely a different book titled \"Out of My Mind\")",
+    "Wikidata (no type-matching candidate for \"Out of My Mind\")"
+   ],
+   "coverage": 0
+  }
+ ]
+}
