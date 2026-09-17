@@ -1,0 +1,964 @@
+{
+ "medium": "movie",
+ "generated": "2026-09-17T18:08:45.788Z",
+ "offline": false,
+ "sources": [
+  "OMDb",
+  "TMDB"
+ ],
+ "works": [
+  {
+   "id": "m1689",
+   "title": "Rookie of the Year",
+   "sourcesReached": [
+    "OMDb",
+    "TMDB"
+   ],
+   "sourcesMissed": [],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "release year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 1993,
+     "proposed": 1993,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 1993,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Rookie+of+the+Year&type=movie&y=1993"
+      },
+      {
+       "src": "TMDB",
+       "value": 1993,
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Rookie+of+the+Year&year=1993"
+      }
+     ]
+    },
+    {
+     "field": "runtime",
+     "label": "runtime (min)",
+     "soft": false,
+     "editionDependent": true,
+     "current": 103,
+     "proposed": 103,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 103,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Rookie+of+the+Year&type=movie&y=1993"
+      },
+      {
+       "src": "TMDB",
+       "value": 103,
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Rookie+of+the+Year&year=1993"
+      }
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "director",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Daniel Stern",
+     "proposed": "Daniel Stern",
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": "Daniel Stern",
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Rookie+of+the+Year&type=movie&y=1993"
+      },
+      {
+       "src": "TMDB",
+       "value": "Daniel Stern",
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Rookie+of+the+Year&year=1993"
+      }
+     ]
+    },
+    {
+     "field": "studio",
+     "label": "studio",
+     "soft": true,
+     "editionDependent": false,
+     "current": "20th Century Fox",
+     "proposed": "20th Century Fox",
+     "status": "confirmed",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "TMDB",
+       "value": "20th Century Fox",
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Rookie+of+the+Year&year=1993"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "m1690",
+   "title": "Little Giants",
+   "sourcesReached": [
+    "OMDb",
+    "TMDB"
+   ],
+   "sourcesMissed": [],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "release year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 1994,
+     "proposed": 1994,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 1994,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Little+Giants&type=movie&y=1994"
+      },
+      {
+       "src": "TMDB",
+       "value": 1994,
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Little+Giants&year=1994"
+      }
+     ]
+    },
+    {
+     "field": "runtime",
+     "label": "runtime (min)",
+     "soft": false,
+     "editionDependent": true,
+     "current": 106,
+     "proposed": 107,
+     "status": "edition-dependent",
+     "grade": "B",
+     "note": "sources agree with each other but not the corpus (OMDb 107, TMDB 107) on a field with no single true value -- likely a different printing/edition, not an error.",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 107,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Little+Giants&type=movie&y=1994"
+      },
+      {
+       "src": "TMDB",
+       "value": 107,
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Little+Giants&year=1994"
+      }
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "director",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Duwayne Dunham",
+     "proposed": "Duwayne Dunham",
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": "Duwayne Dunham",
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Little+Giants&type=movie&y=1994"
+      },
+      {
+       "src": "TMDB",
+       "value": "Duwayne Dunham",
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Little+Giants&year=1994"
+      }
+     ]
+    },
+    {
+     "field": "studio",
+     "label": "studio",
+     "soft": true,
+     "editionDependent": false,
+     "current": "Warner Bros.",
+     "proposed": "Amblin Entertainment",
+     "status": "proposed-change",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "TMDB",
+       "value": "Amblin Entertainment",
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Little+Giants&year=1994"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "m1691",
+   "title": "The Mighty Ducks",
+   "sourcesReached": [
+    "OMDb",
+    "TMDB"
+   ],
+   "sourcesMissed": [],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "release year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 1992,
+     "proposed": 1992,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 1992,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=The+Mighty+Ducks&type=movie&y=1992"
+      },
+      {
+       "src": "TMDB",
+       "value": 1992,
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=The+Mighty+Ducks&year=1992"
+      }
+     ]
+    },
+    {
+     "field": "runtime",
+     "label": "runtime (min)",
+     "soft": false,
+     "editionDependent": true,
+     "current": 100,
+     "proposed": 104,
+     "status": "edition-dependent",
+     "grade": "B",
+     "note": "corpus value does not match either source (OMDb 104, TMDB 101) -- treated as a distinct edition; the specific cut is not identified from available evidence.",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 104,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=The+Mighty+Ducks&type=movie&y=1992"
+      },
+      {
+       "src": "TMDB",
+       "value": 101,
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=The+Mighty+Ducks&year=1992"
+      }
+     ],
+     "alternatives": [
+      101
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "director",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Stephen Herek",
+     "proposed": "Stephen Herek",
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": "Stephen Herek",
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=The+Mighty+Ducks&type=movie&y=1992"
+      },
+      {
+       "src": "TMDB",
+       "value": "Stephen Herek",
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=The+Mighty+Ducks&year=1992"
+      }
+     ]
+    },
+    {
+     "field": "studio",
+     "label": "studio",
+     "soft": true,
+     "editionDependent": false,
+     "current": "Buena Vista Pictures",
+     "proposed": "Touchwood Pacific Partners 1",
+     "status": "proposed-change",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "TMDB",
+       "value": "Touchwood Pacific Partners 1",
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=The+Mighty+Ducks&year=1992"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "m1692",
+   "title": "D2: The Mighty Ducks",
+   "sourcesReached": [
+    "OMDb",
+    "TMDB"
+   ],
+   "sourcesMissed": [],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "release year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 1994,
+     "proposed": 1994,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 1994,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=D2%3A+The+Mighty+Ducks&type=movie&y=1994"
+      },
+      {
+       "src": "TMDB",
+       "value": 1994,
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=D2%3A+The+Mighty+Ducks&year=1994"
+      }
+     ]
+    },
+    {
+     "field": "runtime",
+     "label": "runtime (min)",
+     "soft": false,
+     "editionDependent": true,
+     "current": 106,
+     "proposed": 106,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 106,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=D2%3A+The+Mighty+Ducks&type=movie&y=1994"
+      },
+      {
+       "src": "TMDB",
+       "value": 106,
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=D2%3A+The+Mighty+Ducks&year=1994"
+      }
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "director",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Sam Weisman",
+     "proposed": "Sam Weisman",
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": "Sam Weisman",
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=D2%3A+The+Mighty+Ducks&type=movie&y=1994"
+      },
+      {
+       "src": "TMDB",
+       "value": "Sam Weisman",
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=D2%3A+The+Mighty+Ducks&year=1994"
+      }
+     ]
+    },
+    {
+     "field": "studio",
+     "label": "studio",
+     "soft": true,
+     "editionDependent": false,
+     "current": "Buena Vista Pictures",
+     "proposed": "Walt Disney Pictures",
+     "status": "proposed-change",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "TMDB",
+       "value": "Walt Disney Pictures",
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=D2%3A+The+Mighty+Ducks&year=1994"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "m1693",
+   "title": "D3: The Mighty Ducks",
+   "sourcesReached": [
+    "OMDb",
+    "TMDB"
+   ],
+   "sourcesMissed": [],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "release year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 1996,
+     "proposed": 1996,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 1996,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=D3%3A+The+Mighty+Ducks&type=movie&y=1996"
+      },
+      {
+       "src": "TMDB",
+       "value": 1996,
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=D3%3A+The+Mighty+Ducks&year=1996"
+      }
+     ]
+    },
+    {
+     "field": "runtime",
+     "label": "runtime (min)",
+     "soft": false,
+     "editionDependent": true,
+     "current": 104,
+     "proposed": 104,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 104,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=D3%3A+The+Mighty+Ducks&type=movie&y=1996"
+      },
+      {
+       "src": "TMDB",
+       "value": 104,
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=D3%3A+The+Mighty+Ducks&year=1996"
+      }
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "director",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Robert Lieberman",
+     "proposed": "Robert Lieberman",
+     "status": "corroborated-by-one",
+     "grade": "B",
+     "note": "matches OMDb; disagrees with TMDB (\"Rob Lieberman\")",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": "Robert Lieberman",
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=D3%3A+The+Mighty+Ducks&type=movie&y=1996"
+      },
+      {
+       "src": "TMDB",
+       "value": "Rob Lieberman",
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=D3%3A+The+Mighty+Ducks&year=1996"
+      }
+     ],
+     "alternatives": [
+      "Rob Lieberman"
+     ]
+    },
+    {
+     "field": "studio",
+     "label": "studio",
+     "soft": true,
+     "editionDependent": false,
+     "current": "Buena Vista Pictures",
+     "proposed": "Walt Disney Pictures",
+     "status": "proposed-change",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "TMDB",
+       "value": "Walt Disney Pictures",
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=D3%3A+The+Mighty+Ducks&year=1996"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "m1694",
+   "title": "Space Jam",
+   "sourcesReached": [
+    "OMDb",
+    "TMDB"
+   ],
+   "sourcesMissed": [],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "release year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 1996,
+     "proposed": 1996,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 1996,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Space+Jam&type=movie&y=1996"
+      },
+      {
+       "src": "TMDB",
+       "value": 1996,
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Space+Jam&year=1996"
+      }
+     ]
+    },
+    {
+     "field": "runtime",
+     "label": "runtime (min)",
+     "soft": false,
+     "editionDependent": true,
+     "current": 88,
+     "proposed": 88,
+     "status": "corroborated-by-one",
+     "grade": "B",
+     "note": "matches OMDb; disagrees with TMDB (87)",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 88,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Space+Jam&type=movie&y=1996"
+      },
+      {
+       "src": "TMDB",
+       "value": 87,
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Space+Jam&year=1996"
+      }
+     ],
+     "alternatives": [
+      87
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "director",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Joe Pytka",
+     "proposed": "Joe Pytka",
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": "Joe Pytka",
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Space+Jam&type=movie&y=1996"
+      },
+      {
+       "src": "TMDB",
+       "value": "Joe Pytka",
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Space+Jam&year=1996"
+      }
+     ]
+    },
+    {
+     "field": "studio",
+     "label": "studio",
+     "soft": true,
+     "editionDependent": false,
+     "current": "Warner Bros.",
+     "proposed": "Warner Bros. Family Entertainment",
+     "status": "proposed-change",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "TMDB",
+       "value": "Warner Bros. Family Entertainment",
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Space+Jam&year=1996"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "m1695",
+   "title": "Space Jam: A New Legacy",
+   "sourcesReached": [
+    "OMDb",
+    "TMDB"
+   ],
+   "sourcesMissed": [],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "release year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 2021,
+     "proposed": 2021,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 2021,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Space+Jam%3A+A+New+Legacy&type=movie&y=2021"
+      },
+      {
+       "src": "TMDB",
+       "value": 2021,
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Space+Jam%3A+A+New+Legacy&year=2021"
+      }
+     ]
+    },
+    {
+     "field": "runtime",
+     "label": "runtime (min)",
+     "soft": false,
+     "editionDependent": true,
+     "current": 115,
+     "proposed": 115,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 115,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Space+Jam%3A+A+New+Legacy&type=movie&y=2021"
+      },
+      {
+       "src": "TMDB",
+       "value": 115,
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Space+Jam%3A+A+New+Legacy&year=2021"
+      }
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "director",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Malcolm D. Lee",
+     "proposed": "Malcolm D. Lee",
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": "Malcolm D. Lee",
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Space+Jam%3A+A+New+Legacy&type=movie&y=2021"
+      },
+      {
+       "src": "TMDB",
+       "value": "Malcolm D. Lee",
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Space+Jam%3A+A+New+Legacy&year=2021"
+      }
+     ]
+    },
+    {
+     "field": "studio",
+     "label": "studio",
+     "soft": true,
+     "editionDependent": false,
+     "current": "Warner Bros.",
+     "proposed": "Warner Animation Group",
+     "status": "proposed-change",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "TMDB",
+       "value": "Warner Animation Group",
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Space+Jam%3A+A+New+Legacy&year=2021"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "m1696",
+   "title": "Air Bud",
+   "sourcesReached": [
+    "OMDb",
+    "TMDB"
+   ],
+   "sourcesMissed": [],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "release year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 1997,
+     "proposed": 1997,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 1997,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Air+Bud&type=movie&y=1997"
+      },
+      {
+       "src": "TMDB",
+       "value": 1997,
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Air+Bud&year=1997"
+      }
+     ]
+    },
+    {
+     "field": "runtime",
+     "label": "runtime (min)",
+     "soft": false,
+     "editionDependent": true,
+     "current": 98,
+     "proposed": 98,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 98,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Air+Bud&type=movie&y=1997"
+      },
+      {
+       "src": "TMDB",
+       "value": 98,
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Air+Bud&year=1997"
+      }
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "director",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Charles Martin Smith",
+     "proposed": "Charles Martin Smith",
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": "Charles Martin Smith",
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Air+Bud&type=movie&y=1997"
+      },
+      {
+       "src": "TMDB",
+       "value": "Charles Martin Smith",
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Air+Bud&year=1997"
+      }
+     ]
+    },
+    {
+     "field": "studio",
+     "label": "studio",
+     "soft": true,
+     "editionDependent": false,
+     "current": "Buena Vista Pictures",
+     "proposed": "Keystone Pictures",
+     "status": "proposed-change",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "TMDB",
+       "value": "Keystone Pictures",
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Air+Bud&year=1997"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "m1697",
+   "title": "Free Willy",
+   "sourcesReached": [
+    "OMDb",
+    "TMDB"
+   ],
+   "sourcesMissed": [],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "release year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 1993,
+     "proposed": 1993,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 1993,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Free+Willy&type=movie&y=1993"
+      },
+      {
+       "src": "TMDB",
+       "value": 1993,
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Free+Willy&year=1993"
+      }
+     ]
+    },
+    {
+     "field": "runtime",
+     "label": "runtime (min)",
+     "soft": false,
+     "editionDependent": true,
+     "current": 112,
+     "proposed": 112,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 112,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Free+Willy&type=movie&y=1993"
+      },
+      {
+       "src": "TMDB",
+       "value": 112,
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Free+Willy&year=1993"
+      }
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "director",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Simon Wincer",
+     "proposed": "Simon Wincer",
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": "Simon Wincer",
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Free+Willy&type=movie&y=1993"
+      },
+      {
+       "src": "TMDB",
+       "value": "Simon Wincer",
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Free+Willy&year=1993"
+      }
+     ]
+    },
+    {
+     "field": "studio",
+     "label": "studio",
+     "soft": true,
+     "editionDependent": false,
+     "current": "Warner Bros.",
+     "proposed": "Warner Bros. Pictures",
+     "status": "proposed-change",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "TMDB",
+       "value": "Warner Bros. Pictures",
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Free+Willy&year=1993"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "m1698",
+   "title": "Homeward Bound: The Incredible Journey",
+   "sourcesReached": [
+    "OMDb",
+    "TMDB"
+   ],
+   "sourcesMissed": [],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "release year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 1993,
+     "proposed": 1993,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 1993,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Homeward+Bound%3A+The+Incredible+Journey&type=movie&y=1993"
+      },
+      {
+       "src": "TMDB",
+       "value": 1993,
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Homeward+Bound%3A+The+Incredible+Journey&year=1993"
+      }
+     ]
+    },
+    {
+     "field": "runtime",
+     "label": "runtime (min)",
+     "soft": false,
+     "editionDependent": true,
+     "current": 84,
+     "proposed": 84,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 84,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Homeward+Bound%3A+The+Incredible+Journey&type=movie&y=1993"
+      },
+      {
+       "src": "TMDB",
+       "value": 84,
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Homeward+Bound%3A+The+Incredible+Journey&year=1993"
+      }
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "director",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Duwayne Dunham",
+     "proposed": "Duwayne Dunham",
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": "Duwayne Dunham",
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Homeward+Bound%3A+The+Incredible+Journey&type=movie&y=1993"
+      },
+      {
+       "src": "TMDB",
+       "value": "Duwayne Dunham",
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Homeward+Bound%3A+The+Incredible+Journey&year=1993"
+      }
+     ]
+    },
+    {
+     "field": "studio",
+     "label": "studio",
+     "soft": true,
+     "editionDependent": false,
+     "current": "Buena Vista Pictures",
+     "proposed": "Touchwood Pacific Partners 1",
+     "status": "proposed-change",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "TMDB",
+       "value": "Touchwood Pacific Partners 1",
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Homeward+Bound%3A+The+Incredible+Journey&year=1993"
+      }
+     ]
+    }
+   ]
+  }
+ ]
+}

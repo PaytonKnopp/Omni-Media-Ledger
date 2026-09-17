@@ -1,0 +1,961 @@
+{
+ "medium": "movie",
+ "generated": "2026-09-17T18:08:38.885Z",
+ "offline": false,
+ "sources": [
+  "OMDb",
+  "TMDB"
+ ],
+ "works": [
+  {
+   "id": "m1679",
+   "title": "Weekend at Bernie's",
+   "sourcesReached": [
+    "OMDb",
+    "TMDB"
+   ],
+   "sourcesMissed": [],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "release year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 1989,
+     "proposed": 1989,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 1989,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Weekend+at+Bernie%27s&type=movie&y=1989"
+      },
+      {
+       "src": "TMDB",
+       "value": 1989,
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Weekend+at+Bernie%27s&year=1989"
+      }
+     ]
+    },
+    {
+     "field": "runtime",
+     "label": "runtime (min)",
+     "soft": false,
+     "editionDependent": true,
+     "current": 97,
+     "proposed": 97,
+     "status": "corroborated-by-one",
+     "grade": "B",
+     "note": "matches OMDb; disagrees with TMDB (98)",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 97,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Weekend+at+Bernie%27s&type=movie&y=1989"
+      },
+      {
+       "src": "TMDB",
+       "value": 98,
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Weekend+at+Bernie%27s&year=1989"
+      }
+     ],
+     "alternatives": [
+      98
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "director",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Ted Kotcheff",
+     "proposed": "Ted Kotcheff",
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": "Ted Kotcheff",
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Weekend+at+Bernie%27s&type=movie&y=1989"
+      },
+      {
+       "src": "TMDB",
+       "value": "Ted Kotcheff",
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Weekend+at+Bernie%27s&year=1989"
+      }
+     ]
+    },
+    {
+     "field": "studio",
+     "label": "studio",
+     "soft": true,
+     "editionDependent": false,
+     "current": "20th Century Fox",
+     "proposed": "Gladden Entertainment",
+     "status": "proposed-change",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "TMDB",
+       "value": "Gladden Entertainment",
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Weekend+at+Bernie%27s&year=1989"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "m1680",
+   "title": "Weekend at Bernie's II",
+   "sourcesReached": [
+    "OMDb",
+    "TMDB"
+   ],
+   "sourcesMissed": [],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "release year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 1993,
+     "proposed": 1993,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 1993,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Weekend+at+Bernie%27s+II&type=movie&y=1993"
+      },
+      {
+       "src": "TMDB",
+       "value": 1993,
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Weekend+at+Bernie%27s+II&year=1993"
+      }
+     ]
+    },
+    {
+     "field": "runtime",
+     "label": "runtime (min)",
+     "soft": false,
+     "editionDependent": true,
+     "current": 89,
+     "proposed": 97,
+     "status": "edition-dependent",
+     "grade": "B",
+     "note": "sources agree with each other but not the corpus (OMDb 97, TMDB 97) on a field with no single true value -- likely a different printing/edition, not an error.",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 97,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Weekend+at+Bernie%27s+II&type=movie&y=1993"
+      },
+      {
+       "src": "TMDB",
+       "value": 97,
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Weekend+at+Bernie%27s+II&year=1993"
+      }
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "director",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Robert Klane",
+     "proposed": "Robert Klane",
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": "Robert Klane",
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Weekend+at+Bernie%27s+II&type=movie&y=1993"
+      },
+      {
+       "src": "TMDB",
+       "value": "Robert Klane",
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Weekend+at+Bernie%27s+II&year=1993"
+      }
+     ]
+    },
+    {
+     "field": "studio",
+     "label": "studio",
+     "soft": true,
+     "editionDependent": false,
+     "current": "TriStar Pictures",
+     "proposed": "Artimm",
+     "status": "proposed-change",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "TMDB",
+       "value": "Artimm",
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Weekend+at+Bernie%27s+II&year=1993"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "m1681",
+   "title": "The Money Pit",
+   "sourcesReached": [
+    "OMDb",
+    "TMDB"
+   ],
+   "sourcesMissed": [],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "release year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 1986,
+     "proposed": 1986,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 1986,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=The+Money+Pit&type=movie&y=1986"
+      },
+      {
+       "src": "TMDB",
+       "value": 1986,
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=The+Money+Pit&year=1986"
+      }
+     ]
+    },
+    {
+     "field": "runtime",
+     "label": "runtime (min)",
+     "soft": false,
+     "editionDependent": true,
+     "current": 91,
+     "proposed": 91,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 91,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=The+Money+Pit&type=movie&y=1986"
+      },
+      {
+       "src": "TMDB",
+       "value": 91,
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=The+Money+Pit&year=1986"
+      }
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "director",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Richard Benjamin",
+     "proposed": "Richard Benjamin",
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": "Richard Benjamin",
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=The+Money+Pit&type=movie&y=1986"
+      },
+      {
+       "src": "TMDB",
+       "value": "Richard Benjamin",
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=The+Money+Pit&year=1986"
+      }
+     ]
+    },
+    {
+     "field": "studio",
+     "label": "studio",
+     "soft": true,
+     "editionDependent": false,
+     "current": "Universal Pictures",
+     "proposed": "Amblin Entertainment",
+     "status": "proposed-change",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "TMDB",
+       "value": "Amblin Entertainment",
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=The+Money+Pit&year=1986"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "m1682",
+   "title": "Honey, I Shrunk the Kids",
+   "sourcesReached": [
+    "OMDb",
+    "TMDB"
+   ],
+   "sourcesMissed": [],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "release year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 1989,
+     "proposed": 1989,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 1989,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Honey%2C+I+Shrunk+the+Kids&type=movie&y=1989"
+      },
+      {
+       "src": "TMDB",
+       "value": 1989,
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Honey%2C+I+Shrunk+the+Kids&year=1989"
+      }
+     ]
+    },
+    {
+     "field": "runtime",
+     "label": "runtime (min)",
+     "soft": false,
+     "editionDependent": true,
+     "current": 93,
+     "proposed": 93,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 93,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Honey%2C+I+Shrunk+the+Kids&type=movie&y=1989"
+      },
+      {
+       "src": "TMDB",
+       "value": 93,
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Honey%2C+I+Shrunk+the+Kids&year=1989"
+      }
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "director",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Joe Johnston",
+     "proposed": "Joe Johnston",
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": "Joe Johnston",
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Honey%2C+I+Shrunk+the+Kids&type=movie&y=1989"
+      },
+      {
+       "src": "TMDB",
+       "value": "Joe Johnston",
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Honey%2C+I+Shrunk+the+Kids&year=1989"
+      }
+     ]
+    },
+    {
+     "field": "studio",
+     "label": "studio",
+     "soft": true,
+     "editionDependent": false,
+     "current": "Buena Vista Pictures",
+     "proposed": "Walt Disney Pictures",
+     "status": "proposed-change",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "TMDB",
+       "value": "Walt Disney Pictures",
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Honey%2C+I+Shrunk+the+Kids&year=1989"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "m1683",
+   "title": "Flubber",
+   "sourcesReached": [
+    "OMDb",
+    "TMDB"
+   ],
+   "sourcesMissed": [],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "release year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 1997,
+     "proposed": 1997,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 1997,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Flubber&type=movie&y=1997"
+      },
+      {
+       "src": "TMDB",
+       "value": 1997,
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Flubber&year=1997"
+      }
+     ]
+    },
+    {
+     "field": "runtime",
+     "label": "runtime (min)",
+     "soft": false,
+     "editionDependent": true,
+     "current": 93,
+     "proposed": 93,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 93,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Flubber&type=movie&y=1997"
+      },
+      {
+       "src": "TMDB",
+       "value": 93,
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Flubber&year=1997"
+      }
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "director",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Les Mayfield",
+     "proposed": "Les Mayfield",
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": "Les Mayfield",
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Flubber&type=movie&y=1997"
+      },
+      {
+       "src": "TMDB",
+       "value": "Les Mayfield",
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Flubber&year=1997"
+      }
+     ]
+    },
+    {
+     "field": "studio",
+     "label": "studio",
+     "soft": true,
+     "editionDependent": false,
+     "current": "Buena Vista Pictures",
+     "proposed": "Walt Disney Pictures",
+     "status": "proposed-change",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "TMDB",
+       "value": "Walt Disney Pictures",
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Flubber&year=1997"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "m1684",
+   "title": "George of the Jungle",
+   "sourcesReached": [
+    "OMDb",
+    "TMDB"
+   ],
+   "sourcesMissed": [],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "release year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 1997,
+     "proposed": 1997,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 1997,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=George+of+the+Jungle&type=movie&y=1997"
+      },
+      {
+       "src": "TMDB",
+       "value": 1997,
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=George+of+the+Jungle&year=1997"
+      }
+     ]
+    },
+    {
+     "field": "runtime",
+     "label": "runtime (min)",
+     "soft": false,
+     "editionDependent": true,
+     "current": 92,
+     "proposed": 92,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 92,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=George+of+the+Jungle&type=movie&y=1997"
+      },
+      {
+       "src": "TMDB",
+       "value": 92,
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=George+of+the+Jungle&year=1997"
+      }
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "director",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Sam Weisman",
+     "proposed": "Sam Weisman",
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": "Sam Weisman",
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=George+of+the+Jungle&type=movie&y=1997"
+      },
+      {
+       "src": "TMDB",
+       "value": "Sam Weisman",
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=George+of+the+Jungle&year=1997"
+      }
+     ]
+    },
+    {
+     "field": "studio",
+     "label": "studio",
+     "soft": true,
+     "editionDependent": false,
+     "current": "Buena Vista Pictures",
+     "proposed": "Walt Disney Pictures",
+     "status": "proposed-change",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "TMDB",
+       "value": "Walt Disney Pictures",
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=George+of+the+Jungle&year=1997"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "m1685",
+   "title": "Inspector Gadget",
+   "sourcesReached": [
+    "OMDb",
+    "TMDB"
+   ],
+   "sourcesMissed": [],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "release year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 1999,
+     "proposed": 1999,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 1999,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Inspector+Gadget&type=movie&y=1999"
+      },
+      {
+       "src": "TMDB",
+       "value": 1999,
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Inspector+Gadget&year=1999"
+      }
+     ]
+    },
+    {
+     "field": "runtime",
+     "label": "runtime (min)",
+     "soft": false,
+     "editionDependent": true,
+     "current": 78,
+     "proposed": 78,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 78,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Inspector+Gadget&type=movie&y=1999"
+      },
+      {
+       "src": "TMDB",
+       "value": 78,
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Inspector+Gadget&year=1999"
+      }
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "director",
+     "soft": false,
+     "editionDependent": false,
+     "current": "David Kellogg",
+     "proposed": "David Kellogg",
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": "David Kellogg",
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Inspector+Gadget&type=movie&y=1999"
+      },
+      {
+       "src": "TMDB",
+       "value": "David Kellogg",
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Inspector+Gadget&year=1999"
+      }
+     ]
+    },
+    {
+     "field": "studio",
+     "label": "studio",
+     "soft": true,
+     "editionDependent": false,
+     "current": "Buena Vista Pictures",
+     "proposed": "Caravan Pictures",
+     "status": "proposed-change",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "TMDB",
+       "value": "Caravan Pictures",
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Inspector+Gadget&year=1999"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "m1686",
+   "title": "The Pacifier",
+   "sourcesReached": [
+    "OMDb",
+    "TMDB"
+   ],
+   "sourcesMissed": [],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "release year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 2005,
+     "proposed": 2005,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 2005,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=The+Pacifier&type=movie&y=2005"
+      },
+      {
+       "src": "TMDB",
+       "value": 2005,
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=The+Pacifier&year=2005"
+      }
+     ]
+    },
+    {
+     "field": "runtime",
+     "label": "runtime (min)",
+     "soft": false,
+     "editionDependent": true,
+     "current": 94,
+     "proposed": 95,
+     "status": "edition-dependent",
+     "grade": "B",
+     "note": "sources agree with each other but not the corpus (OMDb 95, TMDB 95) on a field with no single true value -- likely a different printing/edition, not an error.",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 95,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=The+Pacifier&type=movie&y=2005"
+      },
+      {
+       "src": "TMDB",
+       "value": 95,
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=The+Pacifier&year=2005"
+      }
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "director",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Adam Shankman",
+     "proposed": "Adam Shankman",
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": "Adam Shankman",
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=The+Pacifier&type=movie&y=2005"
+      },
+      {
+       "src": "TMDB",
+       "value": "Adam Shankman",
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=The+Pacifier&year=2005"
+      }
+     ]
+    },
+    {
+     "field": "studio",
+     "label": "studio",
+     "soft": true,
+     "editionDependent": false,
+     "current": "Buena Vista Pictures",
+     "proposed": "Walt Disney Pictures",
+     "status": "proposed-change",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "TMDB",
+       "value": "Walt Disney Pictures",
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=The+Pacifier&year=2005"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "m1687",
+   "title": "Cool Runnings",
+   "sourcesReached": [
+    "OMDb",
+    "TMDB"
+   ],
+   "sourcesMissed": [],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "release year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 1993,
+     "proposed": 1993,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 1993,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Cool+Runnings&type=movie&y=1993"
+      },
+      {
+       "src": "TMDB",
+       "value": 1993,
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Cool+Runnings&year=1993"
+      }
+     ]
+    },
+    {
+     "field": "runtime",
+     "label": "runtime (min)",
+     "soft": false,
+     "editionDependent": true,
+     "current": 98,
+     "proposed": 98,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 98,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Cool+Runnings&type=movie&y=1993"
+      },
+      {
+       "src": "TMDB",
+       "value": 98,
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Cool+Runnings&year=1993"
+      }
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "director",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Jon Turteltaub",
+     "proposed": "Jon Turteltaub",
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": "Jon Turteltaub",
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Cool+Runnings&type=movie&y=1993"
+      },
+      {
+       "src": "TMDB",
+       "value": "Jon Turteltaub",
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Cool+Runnings&year=1993"
+      }
+     ]
+    },
+    {
+     "field": "studio",
+     "label": "studio",
+     "soft": true,
+     "editionDependent": false,
+     "current": "Buena Vista Pictures",
+     "proposed": "Walt Disney Pictures",
+     "status": "proposed-change",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "TMDB",
+       "value": "Walt Disney Pictures",
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Cool+Runnings&year=1993"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "m1688",
+   "title": "Angels in the Outfield",
+   "sourcesReached": [
+    "OMDb",
+    "TMDB"
+   ],
+   "sourcesMissed": [],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "release year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 1994,
+     "proposed": 1994,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 1994,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Angels+in+the+Outfield&type=movie&y=1994"
+      },
+      {
+       "src": "TMDB",
+       "value": 1994,
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Angels+in+the+Outfield&year=1994"
+      }
+     ]
+    },
+    {
+     "field": "runtime",
+     "label": "runtime (min)",
+     "soft": false,
+     "editionDependent": true,
+     "current": 102,
+     "proposed": 102,
+     "status": "corroborated-by-one",
+     "grade": "B",
+     "note": "matches OMDb; disagrees with TMDB (103)",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 102,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Angels+in+the+Outfield&type=movie&y=1994"
+      },
+      {
+       "src": "TMDB",
+       "value": 103,
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Angels+in+the+Outfield&year=1994"
+      }
+     ],
+     "alternatives": [
+      103
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "director",
+     "soft": false,
+     "editionDependent": false,
+     "current": "William Dear",
+     "proposed": "William Dear",
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": "William Dear",
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Angels+in+the+Outfield&type=movie&y=1994"
+      },
+      {
+       "src": "TMDB",
+       "value": "William Dear",
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Angels+in+the+Outfield&year=1994"
+      }
+     ]
+    },
+    {
+     "field": "studio",
+     "label": "studio",
+     "soft": true,
+     "editionDependent": false,
+     "current": "Buena Vista Pictures",
+     "proposed": "Caravan Pictures",
+     "status": "proposed-change",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "TMDB",
+       "value": "Caravan Pictures",
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Angels+in+the+Outfield&year=1994"
+      }
+     ]
+    }
+   ]
+  }
+ ]
+}
