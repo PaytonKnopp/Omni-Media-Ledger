@@ -1,0 +1,1238 @@
+{
+ "medium": "tv",
+ "generated": "2026-09-17T02:04:20.447Z",
+ "offline": false,
+ "sources": [
+  "OMDb",
+  "TMDB"
+ ],
+ "works": [
+  {
+   "id": "t333",
+   "title": "Black Sails",
+   "sourcesReached": [
+    "OMDb",
+    "TMDB"
+   ],
+   "sourcesMissed": [],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "first air year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 2014,
+     "proposed": 2014,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 2014,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Black+Sails&type=series&y=2014"
+      },
+      {
+       "src": "TMDB",
+       "value": 2014,
+       "url": "https://api.themoviedb.org/3/search/tv?api_key=REDACTED&query=Black+Sails"
+      }
+     ]
+    },
+    {
+     "field": "seasons",
+     "label": "seasons",
+     "soft": false,
+     "editionDependent": false,
+     "current": 4,
+     "proposed": 4,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 4,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Black+Sails&type=series&y=2014"
+      },
+      {
+       "src": "TMDB",
+       "value": 4,
+       "url": "https://api.themoviedb.org/3/search/tv?api_key=REDACTED&query=Black+Sails"
+      }
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "creator",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Jonathan E. Steinberg, Robert Levine",
+     "proposed": "Jonathan E. Steinberg, Robert Levine",
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": "Robert Levine, Jonathan E. Steinberg",
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Black+Sails&type=series&y=2014"
+      },
+      {
+       "src": "TMDB",
+       "value": "Robert Levine, Jonathan E. Steinberg",
+       "url": "https://api.themoviedb.org/3/search/tv?api_key=REDACTED&query=Black+Sails"
+      }
+     ]
+    },
+    {
+     "field": "network",
+     "label": "network / streamer",
+     "soft": true,
+     "editionDependent": false,
+     "current": "Starz",
+     "proposed": "STARZ",
+     "status": "confirmed",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "TMDB",
+       "value": "STARZ",
+       "url": "https://api.themoviedb.org/3/search/tv?api_key=REDACTED&query=Black+Sails"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "t334",
+   "title": "The Last Kingdom",
+   "sourcesReached": [
+    "OMDb",
+    "TMDB"
+   ],
+   "sourcesMissed": [],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "first air year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 2015,
+     "proposed": 2015,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 2015,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=The+Last+Kingdom&type=series&y=2015"
+      },
+      {
+       "src": "TMDB",
+       "value": 2015,
+       "url": "https://api.themoviedb.org/3/search/tv?api_key=REDACTED&query=The+Last+Kingdom"
+      }
+     ]
+    },
+    {
+     "field": "seasons",
+     "label": "seasons",
+     "soft": false,
+     "editionDependent": false,
+     "current": 5,
+     "proposed": 5,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 5,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=The+Last+Kingdom&type=series&y=2015"
+      },
+      {
+       "src": "TMDB",
+       "value": 5,
+       "url": "https://api.themoviedb.org/3/search/tv?api_key=REDACTED&query=The+Last+Kingdom"
+      }
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "creator",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Stephen Butchard",
+     "proposed": "Stephen Butchard",
+     "status": "confirmed",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "TMDB",
+       "value": "Stephen Butchard",
+       "url": "https://api.themoviedb.org/3/search/tv?api_key=REDACTED&query=The+Last+Kingdom"
+      }
+     ]
+    },
+    {
+     "field": "network",
+     "label": "network / streamer",
+     "soft": true,
+     "editionDependent": false,
+     "current": "BBC America",
+     "proposed": "Netflix",
+     "status": "proposed-change",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "TMDB",
+       "value": "Netflix",
+       "url": "https://api.themoviedb.org/3/search/tv?api_key=REDACTED&query=The+Last+Kingdom"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "t335",
+   "title": "Vikings: Valhalla",
+   "sourcesReached": [
+    "OMDb",
+    "TMDB"
+   ],
+   "sourcesMissed": [],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "first air year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 2022,
+     "proposed": 2022,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 2022,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Vikings%3A+Valhalla&type=series&y=2022"
+      },
+      {
+       "src": "TMDB",
+       "value": 2022,
+       "url": "https://api.themoviedb.org/3/search/tv?api_key=REDACTED&query=Vikings%3A+Valhalla"
+      }
+     ]
+    },
+    {
+     "field": "seasons",
+     "label": "seasons",
+     "soft": false,
+     "editionDependent": false,
+     "current": 3,
+     "proposed": 3,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 3,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Vikings%3A+Valhalla&type=series&y=2022"
+      },
+      {
+       "src": "TMDB",
+       "value": 3,
+       "url": "https://api.themoviedb.org/3/search/tv?api_key=REDACTED&query=Vikings%3A+Valhalla"
+      }
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "creator",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Jeb Stuart",
+     "proposed": "Jeb Stuart",
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": "Jeb Stuart",
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Vikings%3A+Valhalla&type=series&y=2022"
+      },
+      {
+       "src": "TMDB",
+       "value": "Jeb Stuart",
+       "url": "https://api.themoviedb.org/3/search/tv?api_key=REDACTED&query=Vikings%3A+Valhalla"
+      }
+     ]
+    },
+    {
+     "field": "network",
+     "label": "network / streamer",
+     "soft": true,
+     "editionDependent": false,
+     "current": "Netflix",
+     "proposed": "Netflix",
+     "status": "confirmed",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "TMDB",
+       "value": "Netflix",
+       "url": "https://api.themoviedb.org/3/search/tv?api_key=REDACTED&query=Vikings%3A+Valhalla"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "t336",
+   "title": "Marco Polo",
+   "sourcesReached": [
+    "OMDb",
+    "TMDB"
+   ],
+   "sourcesMissed": [],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "first air year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 2014,
+     "proposed": 2014,
+     "status": "corroborated-by-one",
+     "grade": "B",
+     "note": "matches OMDb; disagrees with TMDB (1982)",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 2014,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Marco+Polo&type=series&y=2014"
+      },
+      {
+       "src": "TMDB",
+       "value": 1982,
+       "url": "https://api.themoviedb.org/3/search/tv?api_key=REDACTED&query=Marco+Polo"
+      }
+     ],
+     "alternatives": [
+      1982
+     ]
+    },
+    {
+     "field": "seasons",
+     "label": "seasons",
+     "soft": false,
+     "editionDependent": false,
+     "current": 2,
+     "proposed": 2,
+     "status": "corroborated-by-one",
+     "grade": "B",
+     "note": "matches OMDb; disagrees with TMDB (1)",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 2,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Marco+Polo&type=series&y=2014"
+      },
+      {
+       "src": "TMDB",
+       "value": 1,
+       "url": "https://api.themoviedb.org/3/search/tv?api_key=REDACTED&query=Marco+Polo"
+      }
+     ],
+     "alternatives": [
+      1
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "creator",
+     "soft": false,
+     "editionDependent": false,
+     "current": "John Fusco",
+     "proposed": "John Fusco",
+     "status": "confirmed",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": "John Fusco",
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Marco+Polo&type=series&y=2014"
+      }
+     ]
+    },
+    {
+     "field": "network",
+     "label": "network / streamer",
+     "soft": true,
+     "editionDependent": false,
+     "current": "Netflix",
+     "proposed": "Rai 1",
+     "status": "proposed-change",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "TMDB",
+       "value": "Rai 1",
+       "url": "https://api.themoviedb.org/3/search/tv?api_key=REDACTED&query=Marco+Polo"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "t337",
+   "title": "Longmire",
+   "sourcesReached": [
+    "OMDb",
+    "TMDB"
+   ],
+   "sourcesMissed": [],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "first air year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 2012,
+     "proposed": 2012,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 2012,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Longmire&type=series&y=2012"
+      },
+      {
+       "src": "TMDB",
+       "value": 2012,
+       "url": "https://api.themoviedb.org/3/search/tv?api_key=REDACTED&query=Longmire"
+      }
+     ]
+    },
+    {
+     "field": "seasons",
+     "label": "seasons",
+     "soft": false,
+     "editionDependent": false,
+     "current": 6,
+     "proposed": 6,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 6,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Longmire&type=series&y=2012"
+      },
+      {
+       "src": "TMDB",
+       "value": 6,
+       "url": "https://api.themoviedb.org/3/search/tv?api_key=REDACTED&query=Longmire"
+      }
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "creator",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Hunt Baldwin, John Coveny",
+     "proposed": "Hunt Baldwin, John Coveny",
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": "Hunt Baldwin, John Coveny",
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Longmire&type=series&y=2012"
+      },
+      {
+       "src": "TMDB",
+       "value": "John Coveny, Hunt Baldwin",
+       "url": "https://api.themoviedb.org/3/search/tv?api_key=REDACTED&query=Longmire"
+      }
+     ]
+    },
+    {
+     "field": "network",
+     "label": "network / streamer",
+     "soft": true,
+     "editionDependent": false,
+     "current": "A&E",
+     "proposed": "A&E",
+     "status": "confirmed",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "TMDB",
+       "value": "A&E",
+       "url": "https://api.themoviedb.org/3/search/tv?api_key=REDACTED&query=Longmire"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "t338",
+   "title": "Bosch",
+   "sourcesReached": [
+    "OMDb",
+    "TMDB"
+   ],
+   "sourcesMissed": [],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "first air year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 2014,
+     "proposed": 2014,
+     "status": "corroborated-by-one",
+     "grade": "B",
+     "note": "matches OMDb; disagrees with TMDB (2015)",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 2014,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Bosch&type=series&y=2014"
+      },
+      {
+       "src": "TMDB",
+       "value": 2015,
+       "url": "https://api.themoviedb.org/3/search/tv?api_key=REDACTED&query=Bosch"
+      }
+     ],
+     "alternatives": [
+      2015
+     ]
+    },
+    {
+     "field": "seasons",
+     "label": "seasons",
+     "soft": false,
+     "editionDependent": false,
+     "current": 7,
+     "proposed": 7,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 7,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Bosch&type=series&y=2014"
+      },
+      {
+       "src": "TMDB",
+       "value": 7,
+       "url": "https://api.themoviedb.org/3/search/tv?api_key=REDACTED&query=Bosch"
+      }
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "creator",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Eric Overmyer",
+     "proposed": "Eric Overmyer",
+     "status": "corroborated-by-one",
+     "grade": "B",
+     "note": "matches TMDB; disagrees with OMDb (\"Eric Ellis Overmyer\")",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": "Eric Ellis Overmyer",
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Bosch&type=series&y=2014"
+      },
+      {
+       "src": "TMDB",
+       "value": "Eric Overmyer",
+       "url": "https://api.themoviedb.org/3/search/tv?api_key=REDACTED&query=Bosch"
+      }
+     ],
+     "alternatives": [
+      "Eric Overmyer"
+     ]
+    },
+    {
+     "field": "network",
+     "label": "network / streamer",
+     "soft": true,
+     "editionDependent": false,
+     "current": "Amazon Prime Video",
+     "proposed": "Prime Video",
+     "status": "proposed-change",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "TMDB",
+       "value": "Prime Video",
+       "url": "https://api.themoviedb.org/3/search/tv?api_key=REDACTED&query=Bosch"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "t339",
+   "title": "Unbelievable",
+   "sourcesReached": [
+    "OMDb",
+    "TMDB"
+   ],
+   "sourcesMissed": [],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "first air year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 2019,
+     "proposed": 2019,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 2019,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Unbelievable&type=series&y=2019"
+      },
+      {
+       "src": "TMDB",
+       "value": 2019,
+       "url": "https://api.themoviedb.org/3/search/tv?api_key=REDACTED&query=Unbelievable"
+      }
+     ]
+    },
+    {
+     "field": "seasons",
+     "label": "seasons",
+     "soft": false,
+     "editionDependent": false,
+     "current": 1,
+     "proposed": 1,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 1,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Unbelievable&type=series&y=2019"
+      },
+      {
+       "src": "TMDB",
+       "value": 1,
+       "url": "https://api.themoviedb.org/3/search/tv?api_key=REDACTED&query=Unbelievable"
+      }
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "creator",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Susannah Grant",
+     "proposed": "Susannah Grant",
+     "status": "corroborated-by-one",
+     "grade": "B",
+     "note": "matches TMDB; disagrees with OMDb (\"Susannah Grant, Michael Chabon, Ayelet Waldman\")",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": "Susannah Grant, Michael Chabon, Ayelet Waldman",
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Unbelievable&type=series&y=2019"
+      },
+      {
+       "src": "TMDB",
+       "value": "Susannah Grant",
+       "url": "https://api.themoviedb.org/3/search/tv?api_key=REDACTED&query=Unbelievable"
+      }
+     ],
+     "alternatives": [
+      "Susannah Grant"
+     ]
+    },
+    {
+     "field": "network",
+     "label": "network / streamer",
+     "soft": true,
+     "editionDependent": false,
+     "current": "Netflix",
+     "proposed": "Netflix",
+     "status": "confirmed",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "TMDB",
+       "value": "Netflix",
+       "url": "https://api.themoviedb.org/3/search/tv?api_key=REDACTED&query=Unbelievable"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "t340",
+   "title": "When They See Us",
+   "sourcesReached": [
+    "OMDb",
+    "TMDB"
+   ],
+   "sourcesMissed": [],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "first air year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 2019,
+     "proposed": 2019,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 2019,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=When+They+See+Us&type=series&y=2019"
+      },
+      {
+       "src": "TMDB",
+       "value": 2019,
+       "url": "https://api.themoviedb.org/3/search/tv?api_key=REDACTED&query=When+They+See+Us"
+      }
+     ]
+    },
+    {
+     "field": "seasons",
+     "label": "seasons",
+     "soft": false,
+     "editionDependent": false,
+     "current": 1,
+     "proposed": 1,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 1,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=When+They+See+Us&type=series&y=2019"
+      },
+      {
+       "src": "TMDB",
+       "value": 1,
+       "url": "https://api.themoviedb.org/3/search/tv?api_key=REDACTED&query=When+They+See+Us"
+      }
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "creator",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Ava DuVernay",
+     "proposed": "Ava DuVernay",
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": "Ava DuVernay",
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=When+They+See+Us&type=series&y=2019"
+      },
+      {
+       "src": "TMDB",
+       "value": "Ava DuVernay",
+       "url": "https://api.themoviedb.org/3/search/tv?api_key=REDACTED&query=When+They+See+Us"
+      }
+     ]
+    },
+    {
+     "field": "network",
+     "label": "network / streamer",
+     "soft": true,
+     "editionDependent": false,
+     "current": "Netflix",
+     "proposed": "Netflix",
+     "status": "confirmed",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "TMDB",
+       "value": "Netflix",
+       "url": "https://api.themoviedb.org/3/search/tv?api_key=REDACTED&query=When+They+See+Us"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "t341",
+   "title": "Dopesick",
+   "sourcesReached": [
+    "OMDb",
+    "TMDB"
+   ],
+   "sourcesMissed": [],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "first air year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 2021,
+     "proposed": 2021,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 2021,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Dopesick&type=series&y=2021"
+      },
+      {
+       "src": "TMDB",
+       "value": 2021,
+       "url": "https://api.themoviedb.org/3/search/tv?api_key=REDACTED&query=Dopesick"
+      }
+     ]
+    },
+    {
+     "field": "seasons",
+     "label": "seasons",
+     "soft": false,
+     "editionDependent": false,
+     "current": 1,
+     "proposed": 1,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 1,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Dopesick&type=series&y=2021"
+      },
+      {
+       "src": "TMDB",
+       "value": 1,
+       "url": "https://api.themoviedb.org/3/search/tv?api_key=REDACTED&query=Dopesick"
+      }
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "creator",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Danny Strong",
+     "proposed": "Danny Strong",
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": "Danny Strong",
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Dopesick&type=series&y=2021"
+      },
+      {
+       "src": "TMDB",
+       "value": "Danny Strong",
+       "url": "https://api.themoviedb.org/3/search/tv?api_key=REDACTED&query=Dopesick"
+      }
+     ]
+    },
+    {
+     "field": "network",
+     "label": "network / streamer",
+     "soft": true,
+     "editionDependent": false,
+     "current": "Hulu",
+     "proposed": "Hulu",
+     "status": "confirmed",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "TMDB",
+       "value": "Hulu",
+       "url": "https://api.themoviedb.org/3/search/tv?api_key=REDACTED&query=Dopesick"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "t342",
+   "title": "Painkiller",
+   "sourcesReached": [
+    "OMDb",
+    "TMDB"
+   ],
+   "sourcesMissed": [],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "first air year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 2023,
+     "proposed": 2023,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 2023,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Painkiller&type=series&y=2023"
+      },
+      {
+       "src": "TMDB",
+       "value": 2023,
+       "url": "https://api.themoviedb.org/3/search/tv?api_key=REDACTED&query=Painkiller"
+      }
+     ]
+    },
+    {
+     "field": "seasons",
+     "label": "seasons",
+     "soft": false,
+     "editionDependent": false,
+     "current": 1,
+     "proposed": 1,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 1,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Painkiller&type=series&y=2023"
+      },
+      {
+       "src": "TMDB",
+       "value": 1,
+       "url": "https://api.themoviedb.org/3/search/tv?api_key=REDACTED&query=Painkiller"
+      }
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "creator",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Micah Fitzerman-Blue, Noah Harpster",
+     "proposed": "Micah Fitzerman-Blue, Noah Harpster",
+     "status": "confirmed",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": "Micah Fitzerman-Blue, Noah Harpster",
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Painkiller&type=series&y=2023"
+      }
+     ]
+    },
+    {
+     "field": "network",
+     "label": "network / streamer",
+     "soft": true,
+     "editionDependent": false,
+     "current": "Netflix",
+     "proposed": "Netflix",
+     "status": "confirmed",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "TMDB",
+       "value": "Netflix",
+       "url": "https://api.themoviedb.org/3/search/tv?api_key=REDACTED&query=Painkiller"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "t343",
+   "title": "The Dropout",
+   "sourcesReached": [
+    "OMDb",
+    "TMDB"
+   ],
+   "sourcesMissed": [],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "first air year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 2022,
+     "proposed": 2022,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 2022,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=The+Dropout&type=series&y=2022"
+      },
+      {
+       "src": "TMDB",
+       "value": 2022,
+       "url": "https://api.themoviedb.org/3/search/tv?api_key=REDACTED&query=The+Dropout"
+      }
+     ]
+    },
+    {
+     "field": "seasons",
+     "label": "seasons",
+     "soft": false,
+     "editionDependent": false,
+     "current": 1,
+     "proposed": 1,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 1,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=The+Dropout&type=series&y=2022"
+      },
+      {
+       "src": "TMDB",
+       "value": 1,
+       "url": "https://api.themoviedb.org/3/search/tv?api_key=REDACTED&query=The+Dropout"
+      }
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "creator",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Elizabeth Meriwether",
+     "proposed": "Elizabeth Meriwether",
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": "Elizabeth Meriwether",
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=The+Dropout&type=series&y=2022"
+      },
+      {
+       "src": "TMDB",
+       "value": "Elizabeth Meriwether",
+       "url": "https://api.themoviedb.org/3/search/tv?api_key=REDACTED&query=The+Dropout"
+      }
+     ]
+    },
+    {
+     "field": "network",
+     "label": "network / streamer",
+     "soft": true,
+     "editionDependent": false,
+     "current": "Hulu",
+     "proposed": "Hulu",
+     "status": "confirmed",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "TMDB",
+       "value": "Hulu",
+       "url": "https://api.themoviedb.org/3/search/tv?api_key=REDACTED&query=The+Dropout"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "t344",
+   "title": "Inventing Anna",
+   "sourcesReached": [
+    "OMDb",
+    "TMDB"
+   ],
+   "sourcesMissed": [],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "first air year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 2022,
+     "proposed": 2022,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 2022,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Inventing+Anna&type=series&y=2022"
+      },
+      {
+       "src": "TMDB",
+       "value": 2022,
+       "url": "https://api.themoviedb.org/3/search/tv?api_key=REDACTED&query=Inventing+Anna"
+      }
+     ]
+    },
+    {
+     "field": "seasons",
+     "label": "seasons",
+     "soft": false,
+     "editionDependent": false,
+     "current": 1,
+     "proposed": 1,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 1,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Inventing+Anna&type=series&y=2022"
+      },
+      {
+       "src": "TMDB",
+       "value": 1,
+       "url": "https://api.themoviedb.org/3/search/tv?api_key=REDACTED&query=Inventing+Anna"
+      }
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "creator",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Shonda Rhimes",
+     "proposed": "Shonda Rhimes",
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": "Shonda Rhimes",
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Inventing+Anna&type=series&y=2022"
+      },
+      {
+       "src": "TMDB",
+       "value": "Shonda Rhimes",
+       "url": "https://api.themoviedb.org/3/search/tv?api_key=REDACTED&query=Inventing+Anna"
+      }
+     ]
+    },
+    {
+     "field": "network",
+     "label": "network / streamer",
+     "soft": true,
+     "editionDependent": false,
+     "current": "Netflix",
+     "proposed": "Netflix",
+     "status": "confirmed",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "TMDB",
+       "value": "Netflix",
+       "url": "https://api.themoviedb.org/3/search/tv?api_key=REDACTED&query=Inventing+Anna"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "t345",
+   "title": "WeCrashed",
+   "sourcesReached": [
+    "OMDb",
+    "TMDB"
+   ],
+   "sourcesMissed": [],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "first air year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 2022,
+     "proposed": 2022,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 2022,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=WeCrashed&type=series&y=2022"
+      },
+      {
+       "src": "TMDB",
+       "value": 2022,
+       "url": "https://api.themoviedb.org/3/search/tv?api_key=REDACTED&query=WeCrashed"
+      }
+     ]
+    },
+    {
+     "field": "seasons",
+     "label": "seasons",
+     "soft": false,
+     "editionDependent": false,
+     "current": 1,
+     "proposed": 1,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 1,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=WeCrashed&type=series&y=2022"
+      },
+      {
+       "src": "TMDB",
+       "value": 1,
+       "url": "https://api.themoviedb.org/3/search/tv?api_key=REDACTED&query=WeCrashed"
+      }
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "creator",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Lee Eisenberg, Drew Crevello",
+     "proposed": "Drew Crevello, Lee Eisenberg",
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": "Drew Crevello, Lee Eisenberg",
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=WeCrashed&type=series&y=2022"
+      },
+      {
+       "src": "TMDB",
+       "value": "Drew Crevello, Lee Eisenberg",
+       "url": "https://api.themoviedb.org/3/search/tv?api_key=REDACTED&query=WeCrashed"
+      }
+     ]
+    },
+    {
+     "field": "network",
+     "label": "network / streamer",
+     "soft": true,
+     "editionDependent": false,
+     "current": "Apple TV+",
+     "proposed": "Apple TV",
+     "status": "confirmed",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "TMDB",
+       "value": "Apple TV",
+       "url": "https://api.themoviedb.org/3/search/tv?api_key=REDACTED&query=WeCrashed"
+      }
+     ]
+    }
+   ]
+  }
+ ]
+}
