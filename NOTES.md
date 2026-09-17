@@ -1494,6 +1494,33 @@ knowledge-estimate disclosure for it. SERIES_DEFS: The Vampire Chronicles extend
 1,563/2,000 (4,256/5,000 total, 85.1%). Remaining work is exclusively movies (~316 more) and books
 (~437 more).
 
+**Fourteenth round (movies batch 26, books batch 26), movies+books only.** Movies: twenty-three
+titles, closing two more almost-entirely-missing comedy-legend catalogs: Eddie Murphy (Coming to
+America duology, Boomerang, the Nutty Professor duology, Dr. Dolittle, Life, Bowfinger, The
+Distinguished Gentleman, Harlem Nights, Norbit, Meet Dave, A Thousand Words) and Jim Carrey (Evan
+Almighty, Liar Liar, The Cable Guy, the Ace Ventura duology, the Dumb and Dumber duology, Me, Myself &
+Irene, The Mask, Batman Forever). Dr. Dolittle (1998) reached zero fetch-substance tags, flagged as a
+general-knowledge estimate. Two real corpus-consistency catches before commit: my own new "Me, Myself
+& Irene" record used "Bobby Farrelly & Peter Farrelly" (ampersand) for the creator field, while the
+corpus's pre-existing "There's Something About Mary" record already used "Bobby Farrelly, Peter
+Farrelly" (comma) for the same two people -- fixed by matching my new record to the pre-existing
+spelling, never the reverse, per the established rule. SERIES_DEFS: new Coming to America, The Nutty
+Professor, Ace Ventura, and Dumb and Dumber groupings added; Batman extended with Batman Forever (7 of
+a corrected real total of 8, now also implying the still-missing Batman & Robin).
+
+Books: ten titles, a cyberpunk/hard-SF completion sweep: Mona Lisa Overdrive (completing Gibson's
+Sprawl trilogy), three more Neal Stephenson novels, both remaining Richard Morgan Takeshi Kovacs
+novels (completing that trilogy), the Ilium/Olympos duology, and two more Dan Simmons standalones.
+One real genre-taxonomy gap caught by validate-corpus.js: "Hard SF" (Seveneves) had no taxonomy entry
+in either map, and also didn't match the GENRE_FAMILIES regex's Sci-Fi pattern even after being added
+to the authoritative GENRE_FAMILY_OF map -- both were fixed, the second by extending the existing
+Sci-Fi regex rather than adding a redundant special case. SERIES_DEFS: new Sprawl Trilogy, Takeshi
+Kovacs, and Ilium/Olympos groupings added, all cleanly bounded/complete.
+
+**Status at this checkpoint:** movies 1,707/2,000, TV 502/500 (done), games 507/500 (done), books
+1,573/2,000 (4,289/5,000 total, 85.8%). Remaining work is exclusively movies (~293 more) and books
+(~427 more).
+
 ---
 
 ## Ideas / next steps
