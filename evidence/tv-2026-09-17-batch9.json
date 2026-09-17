@@ -1,0 +1,2499 @@
+{
+ "medium": "tv",
+ "generated": "2026-09-17T07:39:25.306Z",
+ "offline": false,
+ "sources": [
+  "OMDb",
+  "TMDB"
+ ],
+ "works": [
+  {
+   "id": "t376",
+   "title": "Prison Break",
+   "sourcesReached": [
+    "OMDb",
+    "TMDB"
+   ],
+   "sourcesMissed": [],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "first air year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 2005,
+     "proposed": 2005,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 2005,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Prison+Break&type=series&y=2005"
+      },
+      {
+       "src": "TMDB",
+       "value": 2005,
+       "url": "https://api.themoviedb.org/3/search/tv?api_key=REDACTED&query=Prison+Break"
+      }
+     ]
+    },
+    {
+     "field": "seasons",
+     "label": "seasons",
+     "soft": false,
+     "editionDependent": false,
+     "current": 5,
+     "proposed": 5,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 5,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Prison+Break&type=series&y=2005"
+      },
+      {
+       "src": "TMDB",
+       "value": 5,
+       "url": "https://api.themoviedb.org/3/search/tv?api_key=REDACTED&query=Prison+Break"
+      }
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "creator",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Paul Scheuring",
+     "proposed": "Paul T. Scheuring",
+     "status": "proposed-change",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": "Paul T. Scheuring",
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Prison+Break&type=series&y=2005"
+      },
+      {
+       "src": "TMDB",
+       "value": "Paul T. Scheuring",
+       "url": "https://api.themoviedb.org/3/search/tv?api_key=REDACTED&query=Prison+Break"
+      }
+     ]
+    },
+    {
+     "field": "network",
+     "label": "network / streamer",
+     "soft": true,
+     "editionDependent": false,
+     "current": "Fox",
+     "proposed": "FOX",
+     "status": "confirmed",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "TMDB",
+       "value": "FOX",
+       "url": "https://api.themoviedb.org/3/search/tv?api_key=REDACTED&query=Prison+Break"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "t377",
+   "title": "Alias",
+   "sourcesReached": [
+    "OMDb",
+    "TMDB"
+   ],
+   "sourcesMissed": [],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "first air year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 2001,
+     "proposed": 2001,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 2001,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Alias&type=series&y=2001"
+      },
+      {
+       "src": "TMDB",
+       "value": 2001,
+       "url": "https://api.themoviedb.org/3/search/tv?api_key=REDACTED&query=Alias"
+      }
+     ]
+    },
+    {
+     "field": "seasons",
+     "label": "seasons",
+     "soft": false,
+     "editionDependent": false,
+     "current": 5,
+     "proposed": 5,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 5,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Alias&type=series&y=2001"
+      },
+      {
+       "src": "TMDB",
+       "value": 5,
+       "url": "https://api.themoviedb.org/3/search/tv?api_key=REDACTED&query=Alias"
+      }
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "creator",
+     "soft": false,
+     "editionDependent": false,
+     "current": "J.J. Abrams",
+     "proposed": "J.J. Abrams",
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": "J.J. Abrams",
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Alias&type=series&y=2001"
+      },
+      {
+       "src": "TMDB",
+       "value": "J.J. Abrams",
+       "url": "https://api.themoviedb.org/3/search/tv?api_key=REDACTED&query=Alias"
+      }
+     ]
+    },
+    {
+     "field": "network",
+     "label": "network / streamer",
+     "soft": true,
+     "editionDependent": false,
+     "current": "ABC",
+     "proposed": "ABC",
+     "status": "confirmed",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "TMDB",
+       "value": "ABC",
+       "url": "https://api.themoviedb.org/3/search/tv?api_key=REDACTED&query=Alias"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "t378",
+   "title": "Law & Order: Special Victims Unit",
+   "sourcesReached": [
+    "OMDb",
+    "TMDB"
+   ],
+   "sourcesMissed": [],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "first air year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 1999,
+     "proposed": 1999,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 1999,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Law+%26+Order%3A+Special+Victims+Unit&type=series&y=1999"
+      },
+      {
+       "src": "TMDB",
+       "value": 1999,
+       "url": "https://api.themoviedb.org/3/search/tv?api_key=REDACTED&query=Law+%26+Order%3A+Special+Victims+Unit"
+      }
+     ]
+    },
+    {
+     "field": "seasons",
+     "label": "seasons",
+     "soft": false,
+     "editionDependent": false,
+     "current": 26,
+     "proposed": 27,
+     "status": "sources-disagree",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 27,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Law+%26+Order%3A+Special+Victims+Unit&type=series&y=1999"
+      },
+      {
+       "src": "TMDB",
+       "value": 28,
+       "url": "https://api.themoviedb.org/3/search/tv?api_key=REDACTED&query=Law+%26+Order%3A+Special+Victims+Unit"
+      }
+     ],
+     "alternatives": [
+      28
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "creator",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Dick Wolf",
+     "proposed": "Dick Wolf",
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": "Dick Wolf",
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Law+%26+Order%3A+Special+Victims+Unit&type=series&y=1999"
+      },
+      {
+       "src": "TMDB",
+       "value": "Dick Wolf",
+       "url": "https://api.themoviedb.org/3/search/tv?api_key=REDACTED&query=Law+%26+Order%3A+Special+Victims+Unit"
+      }
+     ]
+    },
+    {
+     "field": "network",
+     "label": "network / streamer",
+     "soft": true,
+     "editionDependent": false,
+     "current": "NBC",
+     "proposed": "NBC",
+     "status": "confirmed",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "TMDB",
+       "value": "NBC",
+       "url": "https://api.themoviedb.org/3/search/tv?api_key=REDACTED&query=Law+%26+Order%3A+Special+Victims+Unit"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "t379",
+   "title": "CSI: Crime Scene Investigation",
+   "sourcesReached": [
+    "OMDb",
+    "TMDB"
+   ],
+   "sourcesMissed": [],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "first air year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 2000,
+     "proposed": 2000,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 2000,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=CSI%3A+Crime+Scene+Investigation&type=series&y=2000"
+      },
+      {
+       "src": "TMDB",
+       "value": 2000,
+       "url": "https://api.themoviedb.org/3/search/tv?api_key=REDACTED&query=CSI%3A+Crime+Scene+Investigation"
+      }
+     ]
+    },
+    {
+     "field": "seasons",
+     "label": "seasons",
+     "soft": false,
+     "editionDependent": false,
+     "current": 15,
+     "proposed": 15,
+     "status": "corroborated-by-one",
+     "grade": "B",
+     "note": "matches TMDB; disagrees with OMDb (16)",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 16,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=CSI%3A+Crime+Scene+Investigation&type=series&y=2000"
+      },
+      {
+       "src": "TMDB",
+       "value": 15,
+       "url": "https://api.themoviedb.org/3/search/tv?api_key=REDACTED&query=CSI%3A+Crime+Scene+Investigation"
+      }
+     ],
+     "alternatives": [
+      15
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "creator",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Anthony E. Zuiker",
+     "proposed": "Anthony E. Zuiker",
+     "status": "corroborated-by-one",
+     "grade": "B",
+     "note": "matches OMDb; disagrees with TMDB (\"Ann Donahue, Anthony E. Zuiker\")",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": "Anthony E. Zuiker",
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=CSI%3A+Crime+Scene+Investigation&type=series&y=2000"
+      },
+      {
+       "src": "TMDB",
+       "value": "Ann Donahue, Anthony E. Zuiker",
+       "url": "https://api.themoviedb.org/3/search/tv?api_key=REDACTED&query=CSI%3A+Crime+Scene+Investigation"
+      }
+     ],
+     "alternatives": [
+      "Ann Donahue, Anthony E. Zuiker"
+     ]
+    },
+    {
+     "field": "network",
+     "label": "network / streamer",
+     "soft": true,
+     "editionDependent": false,
+     "current": "CBS",
+     "proposed": "CBS",
+     "status": "confirmed",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "TMDB",
+       "value": "CBS",
+       "url": "https://api.themoviedb.org/3/search/tv?api_key=REDACTED&query=CSI%3A+Crime+Scene+Investigation"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "t380",
+   "title": "NCIS",
+   "sourcesReached": [
+    "OMDb",
+    "TMDB"
+   ],
+   "sourcesMissed": [],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "first air year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 2003,
+     "proposed": 2003,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 2003,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=NCIS&type=series&y=2003"
+      },
+      {
+       "src": "TMDB",
+       "value": 2003,
+       "url": "https://api.themoviedb.org/3/search/tv?api_key=REDACTED&query=NCIS"
+      }
+     ]
+    },
+    {
+     "field": "seasons",
+     "label": "seasons",
+     "soft": false,
+     "editionDependent": false,
+     "current": 21,
+     "proposed": 23,
+     "status": "sources-disagree",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 23,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=NCIS&type=series&y=2003"
+      },
+      {
+       "src": "TMDB",
+       "value": 24,
+       "url": "https://api.themoviedb.org/3/search/tv?api_key=REDACTED&query=NCIS"
+      }
+     ],
+     "alternatives": [
+      24
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "creator",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Donald P. Bellisario, Don McGill",
+     "proposed": "Don McGill, Donald P. Bellisario",
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": "Donald P. Bellisario, Don McGill",
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=NCIS&type=series&y=2003"
+      },
+      {
+       "src": "TMDB",
+       "value": "Don McGill, Donald P. Bellisario",
+       "url": "https://api.themoviedb.org/3/search/tv?api_key=REDACTED&query=NCIS"
+      }
+     ]
+    },
+    {
+     "field": "network",
+     "label": "network / streamer",
+     "soft": true,
+     "editionDependent": false,
+     "current": "CBS",
+     "proposed": "CBS",
+     "status": "confirmed",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "TMDB",
+       "value": "CBS",
+       "url": "https://api.themoviedb.org/3/search/tv?api_key=REDACTED&query=NCIS"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "t381",
+   "title": "Criminal Minds",
+   "sourcesReached": [
+    "OMDb",
+    "TMDB"
+   ],
+   "sourcesMissed": [],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "first air year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 2005,
+     "proposed": 2005,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 2005,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Criminal+Minds&type=series&y=2005"
+      },
+      {
+       "src": "TMDB",
+       "value": 2005,
+       "url": "https://api.themoviedb.org/3/search/tv?api_key=REDACTED&query=Criminal+Minds"
+      }
+     ]
+    },
+    {
+     "field": "seasons",
+     "label": "seasons",
+     "soft": false,
+     "editionDependent": false,
+     "current": 17,
+     "proposed": 19,
+     "status": "proposed-change",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 19,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Criminal+Minds&type=series&y=2005"
+      },
+      {
+       "src": "TMDB",
+       "value": 19,
+       "url": "https://api.themoviedb.org/3/search/tv?api_key=REDACTED&query=Criminal+Minds"
+      }
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "creator",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Jeff Davis",
+     "proposed": "Jeff Davis",
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": "Jeff Davis",
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Criminal+Minds&type=series&y=2005"
+      },
+      {
+       "src": "TMDB",
+       "value": "Jeff Davis",
+       "url": "https://api.themoviedb.org/3/search/tv?api_key=REDACTED&query=Criminal+Minds"
+      }
+     ]
+    },
+    {
+     "field": "network",
+     "label": "network / streamer",
+     "soft": true,
+     "editionDependent": false,
+     "current": "CBS",
+     "proposed": "CBS",
+     "status": "confirmed",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "TMDB",
+       "value": "CBS",
+       "url": "https://api.themoviedb.org/3/search/tv?api_key=REDACTED&query=Criminal+Minds"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "t382",
+   "title": "The Legend of Korra",
+   "sourcesReached": [
+    "OMDb",
+    "TMDB"
+   ],
+   "sourcesMissed": [],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "first air year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 2012,
+     "proposed": 2012,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 2012,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=The+Legend+of+Korra&type=series&y=2012"
+      },
+      {
+       "src": "TMDB",
+       "value": 2012,
+       "url": "https://api.themoviedb.org/3/search/tv?api_key=REDACTED&query=The+Legend+of+Korra"
+      }
+     ]
+    },
+    {
+     "field": "seasons",
+     "label": "seasons",
+     "soft": false,
+     "editionDependent": false,
+     "current": 4,
+     "proposed": 4,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 4,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=The+Legend+of+Korra&type=series&y=2012"
+      },
+      {
+       "src": "TMDB",
+       "value": 4,
+       "url": "https://api.themoviedb.org/3/search/tv?api_key=REDACTED&query=The+Legend+of+Korra"
+      }
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "creator",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Michael Dante DiMartino, Bryan Konietzko",
+     "proposed": "Bryan Konietzko, Michael Dante DiMartino",
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": "Michael Dante DiMartino, Bryan Konietzko",
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=The+Legend+of+Korra&type=series&y=2012"
+      },
+      {
+       "src": "TMDB",
+       "value": "Bryan Konietzko, Michael Dante DiMartino",
+       "url": "https://api.themoviedb.org/3/search/tv?api_key=REDACTED&query=The+Legend+of+Korra"
+      }
+     ]
+    },
+    {
+     "field": "network",
+     "label": "network / streamer",
+     "soft": true,
+     "editionDependent": false,
+     "current": "Nickelodeon",
+     "proposed": "Nickelodeon",
+     "status": "confirmed",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "TMDB",
+       "value": "Nickelodeon",
+       "url": "https://api.themoviedb.org/3/search/tv?api_key=REDACTED&query=The+Legend+of+Korra"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "t383",
+   "title": "American Dad!",
+   "sourcesReached": [
+    "OMDb",
+    "TMDB"
+   ],
+   "sourcesMissed": [],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "first air year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 2005,
+     "proposed": 2005,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 2005,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=American+Dad%21&type=series&y=2005"
+      },
+      {
+       "src": "TMDB",
+       "value": 2005,
+       "url": "https://api.themoviedb.org/3/search/tv?api_key=REDACTED&query=American+Dad%21"
+      }
+     ]
+    },
+    {
+     "field": "seasons",
+     "label": "seasons",
+     "soft": false,
+     "editionDependent": false,
+     "current": 21,
+     "proposed": 21,
+     "status": "corroborated-by-one",
+     "grade": "B",
+     "note": "matches OMDb; disagrees with TMDB (22)",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 21,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=American+Dad%21&type=series&y=2005"
+      },
+      {
+       "src": "TMDB",
+       "value": 22,
+       "url": "https://api.themoviedb.org/3/search/tv?api_key=REDACTED&query=American+Dad%21"
+      }
+     ],
+     "alternatives": [
+      22
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "creator",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Seth MacFarlane, Mike Barker, Matt Weitzman",
+     "proposed": "Matt Weitzman, Mike Barker, Seth MacFarlane",
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": "Mike Barker, Seth MacFarlane, Matt Weitzman",
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=American+Dad%21&type=series&y=2005"
+      },
+      {
+       "src": "TMDB",
+       "value": "Matt Weitzman, Seth MacFarlane, Mike Barker",
+       "url": "https://api.themoviedb.org/3/search/tv?api_key=REDACTED&query=American+Dad%21"
+      }
+     ]
+    },
+    {
+     "field": "network",
+     "label": "network / streamer",
+     "soft": true,
+     "editionDependent": false,
+     "current": "Fox",
+     "proposed": "FOX",
+     "status": "confirmed",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "TMDB",
+       "value": "FOX",
+       "url": "https://api.themoviedb.org/3/search/tv?api_key=REDACTED&query=American+Dad%21"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "t384",
+   "title": "American Horror Story",
+   "sourcesReached": [
+    "OMDb",
+    "TMDB"
+   ],
+   "sourcesMissed": [],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "first air year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 2011,
+     "proposed": 2011,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 2011,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=American+Horror+Story&type=series&y=2011"
+      },
+      {
+       "src": "TMDB",
+       "value": 2011,
+       "url": "https://api.themoviedb.org/3/search/tv?api_key=REDACTED&query=American+Horror+Story"
+      }
+     ]
+    },
+    {
+     "field": "seasons",
+     "label": "seasons",
+     "soft": false,
+     "editionDependent": false,
+     "current": 12,
+     "proposed": 13,
+     "status": "proposed-change",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 13,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=American+Horror+Story&type=series&y=2011"
+      },
+      {
+       "src": "TMDB",
+       "value": 13,
+       "url": "https://api.themoviedb.org/3/search/tv?api_key=REDACTED&query=American+Horror+Story"
+      }
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "creator",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Ryan Murphy, Brad Falchuk",
+     "proposed": "Ryan Murphy, Brad Falchuk",
+     "status": "corroborated-by-one",
+     "grade": "B",
+     "note": "matches TMDB; disagrees with OMDb (\"Brad Falchuk, Ryan Murphy, Halley Feiffer\")",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": "Brad Falchuk, Ryan Murphy, Halley Feiffer",
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=American+Horror+Story&type=series&y=2011"
+      },
+      {
+       "src": "TMDB",
+       "value": "Ryan Murphy, Brad Falchuk",
+       "url": "https://api.themoviedb.org/3/search/tv?api_key=REDACTED&query=American+Horror+Story"
+      }
+     ],
+     "alternatives": [
+      "Ryan Murphy, Brad Falchuk"
+     ]
+    },
+    {
+     "field": "network",
+     "label": "network / streamer",
+     "soft": true,
+     "editionDependent": false,
+     "current": "FX",
+     "proposed": "FX",
+     "status": "confirmed",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "TMDB",
+       "value": "FX",
+       "url": "https://api.themoviedb.org/3/search/tv?api_key=REDACTED&query=American+Horror+Story"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "t385",
+   "title": "WandaVision",
+   "sourcesReached": [
+    "OMDb",
+    "TMDB"
+   ],
+   "sourcesMissed": [],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "first air year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 2021,
+     "proposed": 2021,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 2021,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=WandaVision&type=series&y=2021"
+      },
+      {
+       "src": "TMDB",
+       "value": 2021,
+       "url": "https://api.themoviedb.org/3/search/tv?api_key=REDACTED&query=WandaVision"
+      }
+     ]
+    },
+    {
+     "field": "seasons",
+     "label": "seasons",
+     "soft": false,
+     "editionDependent": false,
+     "current": 1,
+     "proposed": 1,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 1,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=WandaVision&type=series&y=2021"
+      },
+      {
+       "src": "TMDB",
+       "value": 1,
+       "url": "https://api.themoviedb.org/3/search/tv?api_key=REDACTED&query=WandaVision"
+      }
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "creator",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Jac Schaeffer",
+     "proposed": "Jac Schaeffer",
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": "Jac Schaeffer",
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=WandaVision&type=series&y=2021"
+      },
+      {
+       "src": "TMDB",
+       "value": "Jac Schaeffer",
+       "url": "https://api.themoviedb.org/3/search/tv?api_key=REDACTED&query=WandaVision"
+      }
+     ]
+    },
+    {
+     "field": "network",
+     "label": "network / streamer",
+     "soft": true,
+     "editionDependent": false,
+     "current": "Disney+",
+     "proposed": "Disney+",
+     "status": "confirmed",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "TMDB",
+       "value": "Disney+",
+       "url": "https://api.themoviedb.org/3/search/tv?api_key=REDACTED&query=WandaVision"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "t386",
+   "title": "The Falcon and the Winter Soldier",
+   "sourcesReached": [
+    "OMDb",
+    "TMDB"
+   ],
+   "sourcesMissed": [],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "first air year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 2021,
+     "proposed": 2021,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 2021,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=The+Falcon+and+the+Winter+Soldier&type=series&y=2021"
+      },
+      {
+       "src": "TMDB",
+       "value": 2021,
+       "url": "https://api.themoviedb.org/3/search/tv?api_key=REDACTED&query=The+Falcon+and+the+Winter+Soldier"
+      }
+     ]
+    },
+    {
+     "field": "seasons",
+     "label": "seasons",
+     "soft": false,
+     "editionDependent": false,
+     "current": 1,
+     "proposed": 1,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 1,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=The+Falcon+and+the+Winter+Soldier&type=series&y=2021"
+      },
+      {
+       "src": "TMDB",
+       "value": 1,
+       "url": "https://api.themoviedb.org/3/search/tv?api_key=REDACTED&query=The+Falcon+and+the+Winter+Soldier"
+      }
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "creator",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Malcolm Spellman",
+     "proposed": "Malcolm Spellman",
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": "Malcolm Spellman",
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=The+Falcon+and+the+Winter+Soldier&type=series&y=2021"
+      },
+      {
+       "src": "TMDB",
+       "value": "Malcolm Spellman",
+       "url": "https://api.themoviedb.org/3/search/tv?api_key=REDACTED&query=The+Falcon+and+the+Winter+Soldier"
+      }
+     ]
+    },
+    {
+     "field": "network",
+     "label": "network / streamer",
+     "soft": true,
+     "editionDependent": false,
+     "current": "Disney+",
+     "proposed": "Disney+",
+     "status": "confirmed",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "TMDB",
+       "value": "Disney+",
+       "url": "https://api.themoviedb.org/3/search/tv?api_key=REDACTED&query=The+Falcon+and+the+Winter+Soldier"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "t387",
+   "title": "Ahsoka",
+   "sourcesReached": [
+    "OMDb",
+    "TMDB"
+   ],
+   "sourcesMissed": [],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "first air year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 2023,
+     "proposed": 2023,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 2023,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Ahsoka&type=series&y=2023"
+      },
+      {
+       "src": "TMDB",
+       "value": 2023,
+       "url": "https://api.themoviedb.org/3/search/tv?api_key=REDACTED&query=Ahsoka"
+      }
+     ]
+    },
+    {
+     "field": "seasons",
+     "label": "seasons",
+     "soft": false,
+     "editionDependent": false,
+     "current": 1,
+     "proposed": 2,
+     "status": "proposed-change",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 2,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Ahsoka&type=series&y=2023"
+      },
+      {
+       "src": "TMDB",
+       "value": 2,
+       "url": "https://api.themoviedb.org/3/search/tv?api_key=REDACTED&query=Ahsoka"
+      }
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "creator",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Dave Filoni",
+     "proposed": "Dave Filoni",
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": "Dave Filoni",
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Ahsoka&type=series&y=2023"
+      },
+      {
+       "src": "TMDB",
+       "value": "Dave Filoni",
+       "url": "https://api.themoviedb.org/3/search/tv?api_key=REDACTED&query=Ahsoka"
+      }
+     ]
+    },
+    {
+     "field": "network",
+     "label": "network / streamer",
+     "soft": true,
+     "editionDependent": false,
+     "current": "Disney+",
+     "proposed": "Disney+",
+     "status": "confirmed",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "TMDB",
+       "value": "Disney+",
+       "url": "https://api.themoviedb.org/3/search/tv?api_key=REDACTED&query=Ahsoka"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "t388",
+   "title": "The Great British Bake Off",
+   "sourcesReached": [
+    "TMDB"
+   ],
+   "sourcesMissed": [
+    "OMDb (no match)"
+   ],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "first air year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 2010,
+     "proposed": 2017,
+     "status": "proposed-change",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "TMDB",
+       "value": 2017,
+       "url": "https://api.themoviedb.org/3/search/tv?api_key=REDACTED&query=The+Great+British+Bake+Off"
+      }
+     ]
+    },
+    {
+     "field": "seasons",
+     "label": "seasons",
+     "soft": false,
+     "editionDependent": false,
+     "current": 14,
+     "proposed": 10,
+     "status": "proposed-change",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "TMDB",
+       "value": 10,
+       "url": "https://api.themoviedb.org/3/search/tv?api_key=REDACTED&query=The+Great+British+Bake+Off"
+      }
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "creator",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Love Productions",
+     "proposed": "Anna Beattie",
+     "status": "proposed-change",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "TMDB",
+       "value": "Anna Beattie",
+       "url": "https://api.themoviedb.org/3/search/tv?api_key=REDACTED&query=The+Great+British+Bake+Off"
+      }
+     ]
+    },
+    {
+     "field": "network",
+     "label": "network / streamer",
+     "soft": true,
+     "editionDependent": false,
+     "current": "BBC/Channel 4",
+     "proposed": "Channel 4",
+     "status": "proposed-change",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "TMDB",
+       "value": "Channel 4",
+       "url": "https://api.themoviedb.org/3/search/tv?api_key=REDACTED&query=The+Great+British+Bake+Off"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "t389",
+   "title": "Chef's Table",
+   "sourcesReached": [
+    "OMDb",
+    "TMDB"
+   ],
+   "sourcesMissed": [],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "first air year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 2015,
+     "proposed": 2015,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 2015,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Chef%27s+Table&type=series&y=2015"
+      },
+      {
+       "src": "TMDB",
+       "value": 2015,
+       "url": "https://api.themoviedb.org/3/search/tv?api_key=REDACTED&query=Chef%27s+Table"
+      }
+     ]
+    },
+    {
+     "field": "seasons",
+     "label": "seasons",
+     "soft": false,
+     "editionDependent": false,
+     "current": 6,
+     "proposed": 7,
+     "status": "proposed-change",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 7,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Chef%27s+Table&type=series&y=2015"
+      },
+      {
+       "src": "TMDB",
+       "value": 7,
+       "url": "https://api.themoviedb.org/3/search/tv?api_key=REDACTED&query=Chef%27s+Table"
+      }
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "creator",
+     "soft": false,
+     "editionDependent": false,
+     "current": "David Gelb",
+     "proposed": "David Gelb",
+     "status": "confirmed",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "TMDB",
+       "value": "David Gelb",
+       "url": "https://api.themoviedb.org/3/search/tv?api_key=REDACTED&query=Chef%27s+Table"
+      }
+     ]
+    },
+    {
+     "field": "network",
+     "label": "network / streamer",
+     "soft": true,
+     "editionDependent": false,
+     "current": "Netflix",
+     "proposed": "Netflix",
+     "status": "confirmed",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "TMDB",
+       "value": "Netflix",
+       "url": "https://api.themoviedb.org/3/search/tv?api_key=REDACTED&query=Chef%27s+Table"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "t390",
+   "title": "MasterChef",
+   "sourcesReached": [
+    "OMDb",
+    "TMDB"
+   ],
+   "sourcesMissed": [],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "first air year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 2010,
+     "proposed": 2010,
+     "status": "corroborated-by-one",
+     "grade": "B",
+     "note": "matches OMDb; disagrees with TMDB (2012)",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 2010,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=MasterChef&type=series&y=2010"
+      },
+      {
+       "src": "TMDB",
+       "value": 2012,
+       "url": "https://api.themoviedb.org/3/search/tv?api_key=REDACTED&query=MasterChef"
+      }
+     ],
+     "alternatives": [
+      2012
+     ]
+    },
+    {
+     "field": "seasons",
+     "label": "seasons",
+     "soft": false,
+     "editionDependent": false,
+     "current": 14,
+     "proposed": 7,
+     "status": "sources-disagree",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 7,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=MasterChef&type=series&y=2010"
+      },
+      {
+       "src": "TMDB",
+       "value": 15,
+       "url": "https://api.themoviedb.org/3/search/tv?api_key=REDACTED&query=MasterChef"
+      }
+     ],
+     "alternatives": [
+      15
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "creator",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Franc Roddam",
+     "proposed": "Franc Roddam",
+     "status": "confirmed",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "TMDB",
+       "value": "Franc Roddam",
+       "url": "https://api.themoviedb.org/3/search/tv?api_key=REDACTED&query=MasterChef"
+      }
+     ]
+    },
+    {
+     "field": "network",
+     "label": "network / streamer",
+     "soft": true,
+     "editionDependent": false,
+     "current": "Fox",
+     "proposed": "TVN",
+     "status": "proposed-change",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "TMDB",
+       "value": "TVN",
+       "url": "https://api.themoviedb.org/3/search/tv?api_key=REDACTED&query=MasterChef"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "t391",
+   "title": "Survivor",
+   "sourcesReached": [
+    "OMDb",
+    "TMDB"
+   ],
+   "sourcesMissed": [],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "first air year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 2000,
+     "proposed": 2000,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 2000,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Survivor&type=series&y=2000"
+      },
+      {
+       "src": "TMDB",
+       "value": 2000,
+       "url": "https://api.themoviedb.org/3/search/tv?api_key=REDACTED&query=Survivor"
+      }
+     ]
+    },
+    {
+     "field": "seasons",
+     "label": "seasons",
+     "soft": false,
+     "editionDependent": false,
+     "current": 47,
+     "proposed": 52,
+     "status": "sources-disagree",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 52,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Survivor&type=series&y=2000"
+      },
+      {
+       "src": "TMDB",
+       "value": 51,
+       "url": "https://api.themoviedb.org/3/search/tv?api_key=REDACTED&query=Survivor"
+      }
+     ],
+     "alternatives": [
+      51
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "creator",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Charlie Parsons",
+     "proposed": "Charlie Parsons",
+     "status": "corroborated-by-one",
+     "grade": "B",
+     "note": "matches OMDb; disagrees with TMDB (\"Charlie Parsons, Mark Burnett\")",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": "Charlie Parsons",
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Survivor&type=series&y=2000"
+      },
+      {
+       "src": "TMDB",
+       "value": "Charlie Parsons, Mark Burnett",
+       "url": "https://api.themoviedb.org/3/search/tv?api_key=REDACTED&query=Survivor"
+      }
+     ],
+     "alternatives": [
+      "Charlie Parsons, Mark Burnett"
+     ]
+    },
+    {
+     "field": "network",
+     "label": "network / streamer",
+     "soft": true,
+     "editionDependent": false,
+     "current": "CBS",
+     "proposed": "CBS",
+     "status": "confirmed",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "TMDB",
+       "value": "CBS",
+       "url": "https://api.themoviedb.org/3/search/tv?api_key=REDACTED&query=Survivor"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "t392",
+   "title": "The Amazing Race",
+   "sourcesReached": [
+    "OMDb",
+    "TMDB"
+   ],
+   "sourcesMissed": [],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "first air year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 2001,
+     "proposed": 2001,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 2001,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=The+Amazing+Race&type=series&y=2001"
+      },
+      {
+       "src": "TMDB",
+       "value": 2001,
+       "url": "https://api.themoviedb.org/3/search/tv?api_key=REDACTED&query=The+Amazing+Race"
+      }
+     ]
+    },
+    {
+     "field": "seasons",
+     "label": "seasons",
+     "soft": false,
+     "editionDependent": false,
+     "current": 36,
+     "proposed": 39,
+     "status": "proposed-change",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 39,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=The+Amazing+Race&type=series&y=2001"
+      },
+      {
+       "src": "TMDB",
+       "value": 39,
+       "url": "https://api.themoviedb.org/3/search/tv?api_key=REDACTED&query=The+Amazing+Race"
+      }
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "creator",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Elise Doganieri, Bertram van Munster",
+     "proposed": "Bertram van Munster, Elise Doganieri",
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": "Elise Doganieri, Bertram van Munster",
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=The+Amazing+Race&type=series&y=2001"
+      },
+      {
+       "src": "TMDB",
+       "value": "Bertram van Munster, Elise Doganieri",
+       "url": "https://api.themoviedb.org/3/search/tv?api_key=REDACTED&query=The+Amazing+Race"
+      }
+     ]
+    },
+    {
+     "field": "network",
+     "label": "network / streamer",
+     "soft": true,
+     "editionDependent": false,
+     "current": "CBS",
+     "proposed": "CBS",
+     "status": "confirmed",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "TMDB",
+       "value": "CBS",
+       "url": "https://api.themoviedb.org/3/search/tv?api_key=REDACTED&query=The+Amazing+Race"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "t393",
+   "title": "RuPaul's Drag Race",
+   "sourcesReached": [
+    "OMDb",
+    "TMDB"
+   ],
+   "sourcesMissed": [],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "first air year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 2009,
+     "proposed": 2009,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 2009,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=RuPaul%27s+Drag+Race&type=series&y=2009"
+      },
+      {
+       "src": "TMDB",
+       "value": 2009,
+       "url": "https://api.themoviedb.org/3/search/tv?api_key=REDACTED&query=RuPaul%27s+Drag+Race"
+      }
+     ]
+    },
+    {
+     "field": "seasons",
+     "label": "seasons",
+     "soft": false,
+     "editionDependent": false,
+     "current": 16,
+     "proposed": 18,
+     "status": "proposed-change",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 18,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=RuPaul%27s+Drag+Race&type=series&y=2009"
+      },
+      {
+       "src": "TMDB",
+       "value": 18,
+       "url": "https://api.themoviedb.org/3/search/tv?api_key=REDACTED&query=RuPaul%27s+Drag+Race"
+      }
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "creator",
+     "soft": false,
+     "editionDependent": false,
+     "current": "RuPaul, Fenton Bailey, Randy Barbato, Tom Campbell",
+     "proposed": "Merle Ginsberg, Michelle Visage, RuPaul Ginsberg",
+     "status": "sources-disagree",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": "RuPaul, Michelle Visage, Merle Ginsberg",
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=RuPaul%27s+Drag+Race&type=series&y=2009"
+      },
+      {
+       "src": "TMDB",
+       "value": "RuPaul, Fenton Bailey, Randy Barbato",
+       "url": "https://api.themoviedb.org/3/search/tv?api_key=REDACTED&query=RuPaul%27s+Drag+Race"
+      }
+     ],
+     "alternatives": [
+      "RuPaul, Fenton Bailey, Randy Barbato"
+     ]
+    },
+    {
+     "field": "network",
+     "label": "network / streamer",
+     "soft": true,
+     "editionDependent": false,
+     "current": "Logo/VH1/MTV",
+     "proposed": "MTV",
+     "status": "proposed-change",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "TMDB",
+       "value": "MTV",
+       "url": "https://api.themoviedb.org/3/search/tv?api_key=REDACTED&query=RuPaul%27s+Drag+Race"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "t394",
+   "title": "Planet Earth",
+   "sourcesReached": [
+    "OMDb",
+    "TMDB"
+   ],
+   "sourcesMissed": [],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "first air year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 2006,
+     "proposed": 2006,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 2006,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Planet+Earth&type=series&y=2006"
+      },
+      {
+       "src": "TMDB",
+       "value": 2006,
+       "url": "https://api.themoviedb.org/3/search/tv?api_key=REDACTED&query=Planet+Earth"
+      }
+     ]
+    },
+    {
+     "field": "seasons",
+     "label": "seasons",
+     "soft": false,
+     "editionDependent": false,
+     "current": 1,
+     "proposed": 1,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 1,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Planet+Earth&type=series&y=2006"
+      },
+      {
+       "src": "TMDB",
+       "value": 1,
+       "url": "https://api.themoviedb.org/3/search/tv?api_key=REDACTED&query=Planet+Earth"
+      }
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "creator",
+     "soft": false,
+     "current": "Alastair Fothergill",
+     "status": "no-source",
+     "grade": null,
+     "sources": []
+    },
+    {
+     "field": "network",
+     "label": "network / streamer",
+     "soft": true,
+     "editionDependent": false,
+     "current": "BBC",
+     "proposed": "BBC One",
+     "status": "proposed-change",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "TMDB",
+       "value": "BBC One",
+       "url": "https://api.themoviedb.org/3/search/tv?api_key=REDACTED&query=Planet+Earth"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "t395",
+   "title": "Blue Planet II",
+   "sourcesReached": [
+    "OMDb",
+    "TMDB"
+   ],
+   "sourcesMissed": [],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "first air year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 2017,
+     "proposed": 2017,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 2017,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Blue+Planet+II&type=series&y=2017"
+      },
+      {
+       "src": "TMDB",
+       "value": 2017,
+       "url": "https://api.themoviedb.org/3/search/tv?api_key=REDACTED&query=Blue+Planet+II"
+      }
+     ]
+    },
+    {
+     "field": "seasons",
+     "label": "seasons",
+     "soft": false,
+     "editionDependent": false,
+     "current": 1,
+     "proposed": 1,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 1,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Blue+Planet+II&type=series&y=2017"
+      },
+      {
+       "src": "TMDB",
+       "value": 1,
+       "url": "https://api.themoviedb.org/3/search/tv?api_key=REDACTED&query=Blue+Planet+II"
+      }
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "creator",
+     "soft": false,
+     "current": "James Honeyborne",
+     "status": "no-source",
+     "grade": null,
+     "sources": []
+    },
+    {
+     "field": "network",
+     "label": "network / streamer",
+     "soft": true,
+     "editionDependent": false,
+     "current": "BBC",
+     "proposed": "BBC One",
+     "status": "proposed-change",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "TMDB",
+       "value": "BBC One",
+       "url": "https://api.themoviedb.org/3/search/tv?api_key=REDACTED&query=Blue+Planet+II"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "t396",
+   "title": "Cosmos: A Spacetime Odyssey",
+   "sourcesReached": [
+    "OMDb"
+   ],
+   "sourcesMissed": [
+    "TMDB (no match)"
+   ],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "first air year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 2014,
+     "proposed": 2014,
+     "status": "confirmed",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 2014,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Cosmos%3A+A+Spacetime+Odyssey&type=series&y=2014"
+      }
+     ]
+    },
+    {
+     "field": "seasons",
+     "label": "seasons",
+     "soft": false,
+     "editionDependent": false,
+     "current": 1,
+     "proposed": 1,
+     "status": "confirmed",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 1,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Cosmos%3A+A+Spacetime+Odyssey&type=series&y=2014"
+      }
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "creator",
+     "soft": false,
+     "current": "Ann Druyan, Seth MacFarlane, Steven Soter",
+     "status": "no-source",
+     "grade": null,
+     "sources": []
+    },
+    {
+     "field": "network",
+     "label": "network / streamer",
+     "soft": true,
+     "current": "Fox/National Geographic",
+     "status": "no-source",
+     "grade": null,
+     "sources": []
+    }
+   ]
+  },
+  {
+   "id": "t397",
+   "title": "Our Planet",
+   "sourcesReached": [
+    "OMDb",
+    "TMDB"
+   ],
+   "sourcesMissed": [],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "first air year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 2019,
+     "proposed": 2019,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 2019,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Our+Planet&type=series&y=2019"
+      },
+      {
+       "src": "TMDB",
+       "value": 2019,
+       "url": "https://api.themoviedb.org/3/search/tv?api_key=REDACTED&query=Our+Planet"
+      }
+     ]
+    },
+    {
+     "field": "seasons",
+     "label": "seasons",
+     "soft": false,
+     "editionDependent": false,
+     "current": 1,
+     "proposed": 2,
+     "status": "proposed-change",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 2,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Our+Planet&type=series&y=2019"
+      },
+      {
+       "src": "TMDB",
+       "value": 2,
+       "url": "https://api.themoviedb.org/3/search/tv?api_key=REDACTED&query=Our+Planet"
+      }
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "creator",
+     "soft": false,
+     "current": "Alastair Fothergill",
+     "status": "no-source",
+     "grade": null,
+     "sources": []
+    },
+    {
+     "field": "network",
+     "label": "network / streamer",
+     "soft": true,
+     "editionDependent": false,
+     "current": "Netflix",
+     "proposed": "Netflix",
+     "status": "confirmed",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "TMDB",
+       "value": "Netflix",
+       "url": "https://api.themoviedb.org/3/search/tv?api_key=REDACTED&query=Our+Planet"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "t398",
+   "title": "Are You Afraid of the Dark?",
+   "sourcesReached": [
+    "OMDb",
+    "TMDB"
+   ],
+   "sourcesMissed": [],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "first air year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 1990,
+     "proposed": 1990,
+     "status": "corroborated-by-one",
+     "grade": "B",
+     "note": "matches OMDb; disagrees with TMDB (1992)",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 1990,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Are+You+Afraid+of+the+Dark%3F&type=series&y=1990"
+      },
+      {
+       "src": "TMDB",
+       "value": 1992,
+       "url": "https://api.themoviedb.org/3/search/tv?api_key=REDACTED&query=Are+You+Afraid+of+the+Dark%3F"
+      }
+     ],
+     "alternatives": [
+      1992
+     ]
+    },
+    {
+     "field": "seasons",
+     "label": "seasons",
+     "soft": false,
+     "editionDependent": false,
+     "current": 7,
+     "proposed": 7,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 7,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Are+You+Afraid+of+the+Dark%3F&type=series&y=1990"
+      },
+      {
+       "src": "TMDB",
+       "value": 7,
+       "url": "https://api.themoviedb.org/3/search/tv?api_key=REDACTED&query=Are+You+Afraid+of+the+Dark%3F"
+      }
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "creator",
+     "soft": false,
+     "editionDependent": false,
+     "current": "D.J. MacHale, Ned Kandel",
+     "proposed": "D.J. MacHale, Ned Kandel",
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": "D.J. MacHale, Ned Kandel",
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Are+You+Afraid+of+the+Dark%3F&type=series&y=1990"
+      },
+      {
+       "src": "TMDB",
+       "value": "D.J. MacHale, Ned Kandel",
+       "url": "https://api.themoviedb.org/3/search/tv?api_key=REDACTED&query=Are+You+Afraid+of+the+Dark%3F"
+      }
+     ]
+    },
+    {
+     "field": "network",
+     "label": "network / streamer",
+     "soft": true,
+     "editionDependent": false,
+     "current": "Nickelodeon",
+     "proposed": "Nickelodeon",
+     "status": "confirmed",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "TMDB",
+       "value": "Nickelodeon",
+       "url": "https://api.themoviedb.org/3/search/tv?api_key=REDACTED&query=Are+You+Afraid+of+the+Dark%3F"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "t399",
+   "title": "Weeds",
+   "sourcesReached": [
+    "OMDb",
+    "TMDB"
+   ],
+   "sourcesMissed": [],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "first air year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 2005,
+     "proposed": 2005,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 2005,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Weeds&type=series&y=2005"
+      },
+      {
+       "src": "TMDB",
+       "value": 2005,
+       "url": "https://api.themoviedb.org/3/search/tv?api_key=REDACTED&query=Weeds"
+      }
+     ]
+    },
+    {
+     "field": "seasons",
+     "label": "seasons",
+     "soft": false,
+     "editionDependent": false,
+     "current": 8,
+     "proposed": 8,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 8,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Weeds&type=series&y=2005"
+      },
+      {
+       "src": "TMDB",
+       "value": 8,
+       "url": "https://api.themoviedb.org/3/search/tv?api_key=REDACTED&query=Weeds"
+      }
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "creator",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Jenji Kohan",
+     "proposed": "Jenji Kohan",
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": "Jenji Kohan",
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Weeds&type=series&y=2005"
+      },
+      {
+       "src": "TMDB",
+       "value": "Jenji Kohan",
+       "url": "https://api.themoviedb.org/3/search/tv?api_key=REDACTED&query=Weeds"
+      }
+     ]
+    },
+    {
+     "field": "network",
+     "label": "network / streamer",
+     "soft": true,
+     "editionDependent": false,
+     "current": "Showtime",
+     "proposed": "Showtime",
+     "status": "confirmed",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "TMDB",
+       "value": "Showtime",
+       "url": "https://api.themoviedb.org/3/search/tv?api_key=REDACTED&query=Weeds"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "t400",
+   "title": "House of Cards",
+   "sourcesReached": [
+    "OMDb",
+    "TMDB"
+   ],
+   "sourcesMissed": [],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "first air year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 2013,
+     "proposed": 2013,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 2013,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=House+of+Cards&type=series&y=2013"
+      },
+      {
+       "src": "TMDB",
+       "value": 2013,
+       "url": "https://api.themoviedb.org/3/search/tv?api_key=REDACTED&query=House+of+Cards"
+      }
+     ]
+    },
+    {
+     "field": "seasons",
+     "label": "seasons",
+     "soft": false,
+     "editionDependent": false,
+     "current": 6,
+     "proposed": 6,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 6,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=House+of+Cards&type=series&y=2013"
+      },
+      {
+       "src": "TMDB",
+       "value": 6,
+       "url": "https://api.themoviedb.org/3/search/tv?api_key=REDACTED&query=House+of+Cards"
+      }
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "creator",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Beau Willimon",
+     "proposed": "Beau Willimon",
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": "Beau Willimon",
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=House+of+Cards&type=series&y=2013"
+      },
+      {
+       "src": "TMDB",
+       "value": "Beau Willimon",
+       "url": "https://api.themoviedb.org/3/search/tv?api_key=REDACTED&query=House+of+Cards"
+      }
+     ]
+    },
+    {
+     "field": "network",
+     "label": "network / streamer",
+     "soft": true,
+     "editionDependent": false,
+     "current": "Netflix",
+     "proposed": "Netflix",
+     "status": "confirmed",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "TMDB",
+       "value": "Netflix",
+       "url": "https://api.themoviedb.org/3/search/tv?api_key=REDACTED&query=House+of+Cards"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "t401",
+   "title": "The Handmaid's Tale",
+   "sourcesReached": [
+    "OMDb",
+    "TMDB"
+   ],
+   "sourcesMissed": [],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "first air year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 2017,
+     "proposed": 2017,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 2017,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=The+Handmaid%27s+Tale&type=series&y=2017"
+      },
+      {
+       "src": "TMDB",
+       "value": 2017,
+       "url": "https://api.themoviedb.org/3/search/tv?api_key=REDACTED&query=The+Handmaid%27s+Tale"
+      }
+     ]
+    },
+    {
+     "field": "seasons",
+     "label": "seasons",
+     "soft": false,
+     "editionDependent": false,
+     "current": 6,
+     "proposed": 6,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 6,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=The+Handmaid%27s+Tale&type=series&y=2017"
+      },
+      {
+       "src": "TMDB",
+       "value": 6,
+       "url": "https://api.themoviedb.org/3/search/tv?api_key=REDACTED&query=The+Handmaid%27s+Tale"
+      }
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "creator",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Bruce Miller",
+     "proposed": "Bruce Miller",
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": "Bruce Miller",
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=The+Handmaid%27s+Tale&type=series&y=2017"
+      },
+      {
+       "src": "TMDB",
+       "value": "Bruce Miller",
+       "url": "https://api.themoviedb.org/3/search/tv?api_key=REDACTED&query=The+Handmaid%27s+Tale"
+      }
+     ]
+    },
+    {
+     "field": "network",
+     "label": "network / streamer",
+     "soft": true,
+     "editionDependent": false,
+     "current": "Hulu",
+     "proposed": "Hulu",
+     "status": "confirmed",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "TMDB",
+       "value": "Hulu",
+       "url": "https://api.themoviedb.org/3/search/tv?api_key=REDACTED&query=The+Handmaid%27s+Tale"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "t402",
+   "title": "Cobra Kai",
+   "sourcesReached": [
+    "OMDb",
+    "TMDB"
+   ],
+   "sourcesMissed": [],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "first air year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 2018,
+     "proposed": 2018,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 2018,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Cobra+Kai&type=series&y=2018"
+      },
+      {
+       "src": "TMDB",
+       "value": 2018,
+       "url": "https://api.themoviedb.org/3/search/tv?api_key=REDACTED&query=Cobra+Kai"
+      }
+     ]
+    },
+    {
+     "field": "seasons",
+     "label": "seasons",
+     "soft": false,
+     "editionDependent": false,
+     "current": 6,
+     "proposed": 6,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 6,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Cobra+Kai&type=series&y=2018"
+      },
+      {
+       "src": "TMDB",
+       "value": 6,
+       "url": "https://api.themoviedb.org/3/search/tv?api_key=REDACTED&query=Cobra+Kai"
+      }
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "creator",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Josh Heald, Jon Hurwitz, Hayden Schlossberg",
+     "proposed": "Hayden Schlossberg, Jon Hurwitz, Josh Heald",
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": "Josh Heald, Jon Hurwitz, Hayden Schlossberg",
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Cobra+Kai&type=series&y=2018"
+      },
+      {
+       "src": "TMDB",
+       "value": "Josh Heald, Hayden Schlossberg, Jon Hurwitz",
+       "url": "https://api.themoviedb.org/3/search/tv?api_key=REDACTED&query=Cobra+Kai"
+      }
+     ]
+    },
+    {
+     "field": "network",
+     "label": "network / streamer",
+     "soft": true,
+     "editionDependent": false,
+     "current": "Netflix",
+     "proposed": "Netflix",
+     "status": "confirmed",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "TMDB",
+       "value": "Netflix",
+       "url": "https://api.themoviedb.org/3/search/tv?api_key=REDACTED&query=Cobra+Kai"
+      }
+     ]
+    }
+   ]
+  }
+ ]
+}
