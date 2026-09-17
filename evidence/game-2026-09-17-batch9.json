@@ -1,0 +1,754 @@
+{
+ "medium": "game",
+ "generated": "2026-09-17T07:04:40.563Z",
+ "offline": false,
+ "sources": [
+  "IGDB",
+  "Wikidata"
+ ],
+ "works": [
+  {
+   "id": "g344",
+   "title": "Metal Gear Solid",
+   "sourcesReached": [],
+   "sourcesMissed": [
+    "IGDB (no key in environment)",
+    "Wikidata (no match)"
+   ],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "release year",
+     "soft": false,
+     "current": 1998,
+     "status": "no-source",
+     "grade": null,
+     "sources": []
+    },
+    {
+     "field": "creator",
+     "label": "developer",
+     "soft": false,
+     "current": "Hideo Kojima",
+     "status": "no-source",
+     "grade": null,
+     "sources": []
+    },
+    {
+     "field": "platforms",
+     "label": "platforms",
+     "soft": true,
+     "current": [
+      "PS1",
+      "PC"
+     ],
+     "status": "no-source",
+     "grade": null,
+     "sources": []
+    }
+   ]
+  },
+  {
+   "id": "g345",
+   "title": "Silent Hill",
+   "sourcesReached": [],
+   "sourcesMissed": [
+    "IGDB (no key in environment)",
+    "Wikidata (no match)"
+   ],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "release year",
+     "soft": false,
+     "current": 1999,
+     "status": "no-source",
+     "grade": null,
+     "sources": []
+    },
+    {
+     "field": "creator",
+     "label": "developer",
+     "soft": false,
+     "current": "Keiichiro Toyama",
+     "status": "no-source",
+     "grade": null,
+     "sources": []
+    },
+    {
+     "field": "platforms",
+     "label": "platforms",
+     "soft": true,
+     "current": [
+      "PS1"
+     ],
+     "status": "no-source",
+     "grade": null,
+     "sources": []
+    }
+   ]
+  },
+  {
+   "id": "g346",
+   "title": "Resident Evil",
+   "sourcesReached": [],
+   "sourcesMissed": [
+    "IGDB (no key in environment)",
+    "Wikidata (no match)"
+   ],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "release year",
+     "soft": false,
+     "current": 1996,
+     "status": "no-source",
+     "grade": null,
+     "sources": []
+    },
+    {
+     "field": "creator",
+     "label": "developer",
+     "soft": false,
+     "current": "Shinji Mikami",
+     "status": "no-source",
+     "grade": null,
+     "sources": []
+    },
+    {
+     "field": "platforms",
+     "label": "platforms",
+     "soft": true,
+     "current": [
+      "PS1",
+      "GameCube",
+      "PC"
+     ],
+     "status": "no-source",
+     "grade": null,
+     "sources": []
+    }
+   ]
+  },
+  {
+   "id": "g347",
+   "title": "Kingdom Hearts II",
+   "sourcesReached": [],
+   "sourcesMissed": [
+    "IGDB (no key in environment)",
+    "Wikidata (no match)"
+   ],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "release year",
+     "soft": false,
+     "current": 2005,
+     "status": "no-source",
+     "grade": null,
+     "sources": []
+    },
+    {
+     "field": "creator",
+     "label": "developer",
+     "soft": false,
+     "current": "Tetsuya Nomura",
+     "status": "no-source",
+     "grade": null,
+     "sources": []
+    },
+    {
+     "field": "platforms",
+     "label": "platforms",
+     "soft": true,
+     "current": [
+      "PS2",
+      "PS3",
+      "PS4"
+     ],
+     "status": "no-source",
+     "grade": null,
+     "sources": []
+    }
+   ]
+  },
+  {
+   "id": "g348",
+   "title": "Halo: Combat Evolved",
+   "sourcesReached": [
+    "Wikidata"
+   ],
+   "sourcesMissed": [
+    "IGDB (no key in environment)"
+   ],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "release year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 2001,
+     "proposed": 2001,
+     "status": "confirmed",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "Wikidata",
+       "value": 2001,
+       "url": "https://www.wikidata.org/wiki/Q276217"
+      }
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "developer",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Bungie",
+     "proposed": "Bungie Software, Gearbox Software",
+     "status": "proposed-change",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "Wikidata",
+       "value": "Bungie & Gearbox Software",
+       "url": "https://www.wikidata.org/wiki/Q276217"
+      }
+     ]
+    },
+    {
+     "field": "platforms",
+     "label": "platforms",
+     "soft": true,
+     "editionDependent": false,
+     "current": [
+      "Xbox",
+      "PC"
+     ],
+     "proposed": [
+      "Xbox 360",
+      "Xbox",
+      "Microsoft Windows",
+      "Xbox One",
+      "macOS",
+      "Xbox Series X and Series S"
+     ],
+     "status": "proposed-change",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "Wikidata",
+       "value": [
+        "Xbox 360",
+        "Xbox",
+        "Microsoft Windows",
+        "Xbox One",
+        "macOS",
+        "Xbox Series X and Series S"
+       ],
+       "url": "https://www.wikidata.org/wiki/Q276217"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "g349",
+   "title": "Halo 2",
+   "sourcesReached": [
+    "Wikidata"
+   ],
+   "sourcesMissed": [
+    "IGDB (no key in environment)"
+   ],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "release year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 2004,
+     "proposed": 2004,
+     "status": "confirmed",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "Wikidata",
+       "value": 2004,
+       "url": "https://www.wikidata.org/wiki/Q252804"
+      }
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "developer",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Bungie",
+     "proposed": "Bungie",
+     "status": "confirmed",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "Wikidata",
+       "value": "Bungie",
+       "url": "https://www.wikidata.org/wiki/Q252804"
+      }
+     ]
+    },
+    {
+     "field": "platforms",
+     "label": "platforms",
+     "soft": true,
+     "editionDependent": false,
+     "current": [
+      "Xbox",
+      "PC"
+     ],
+     "proposed": [
+      "Xbox",
+      "Microsoft Windows",
+      "Xbox One",
+      "Xbox Series X and Series S"
+     ],
+     "status": "proposed-change",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "Wikidata",
+       "value": [
+        "Xbox",
+        "Microsoft Windows",
+        "Xbox One",
+        "Xbox Series X and Series S"
+       ],
+       "url": "https://www.wikidata.org/wiki/Q252804"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "g350",
+   "title": "StarCraft",
+   "sourcesReached": [
+    "Wikidata"
+   ],
+   "sourcesMissed": [
+    "IGDB (no key in environment)"
+   ],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "release year",
+     "soft": false,
+     "current": 1998,
+     "status": "no-source",
+     "grade": null,
+     "sources": []
+    },
+    {
+     "field": "creator",
+     "label": "developer",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Blizzard Entertainment",
+     "proposed": "Blizzard Entertainment",
+     "status": "confirmed",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "Wikidata",
+       "value": "Blizzard Entertainment",
+       "url": "https://www.wikidata.org/wiki/Q290106"
+      }
+     ]
+    },
+    {
+     "field": "platforms",
+     "label": "platforms",
+     "soft": true,
+     "editionDependent": false,
+     "current": [
+      "PC"
+     ],
+     "proposed": [
+      "Microsoft Windows"
+     ],
+     "status": "proposed-change",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "Wikidata",
+       "value": [
+        "Microsoft Windows"
+       ],
+       "url": "https://www.wikidata.org/wiki/Q290106"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "g351",
+   "title": "Overwatch 2",
+   "sourcesReached": [
+    "Wikidata"
+   ],
+   "sourcesMissed": [
+    "IGDB (no key in environment)"
+   ],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "release year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 2022,
+     "proposed": 2022,
+     "status": "confirmed",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "Wikidata",
+       "value": 2022,
+       "url": "https://www.wikidata.org/wiki/Q73163646"
+      }
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "developer",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Blizzard Entertainment",
+     "proposed": "Blizzard Entertainment",
+     "status": "confirmed",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "Wikidata",
+       "value": "Blizzard Entertainment",
+       "url": "https://www.wikidata.org/wiki/Q73163646"
+      }
+     ]
+    },
+    {
+     "field": "platforms",
+     "label": "platforms",
+     "soft": true,
+     "editionDependent": false,
+     "current": [
+      "PC",
+      "PS5",
+      "Xbox Series",
+      "Switch"
+     ],
+     "proposed": [
+      "Microsoft Windows",
+      "PlayStation 4",
+      "Xbox One",
+      "Nintendo Switch",
+      "PlayStation 5",
+      "Xbox Series X and Series S",
+      "Nintendo Switch 2"
+     ],
+     "status": "proposed-change",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "Wikidata",
+       "value": [
+        "Microsoft Windows",
+        "PlayStation 4",
+        "Xbox One",
+        "Nintendo Switch",
+        "PlayStation 5",
+        "Xbox Series X and Series S",
+        "Nintendo Switch 2"
+       ],
+       "url": "https://www.wikidata.org/wiki/Q73163646"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "g352",
+   "title": "Street Fighter 6",
+   "sourcesReached": [],
+   "sourcesMissed": [
+    "IGDB (no key in environment)",
+    "Wikidata (no match)"
+   ],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "release year",
+     "soft": false,
+     "current": 2023,
+     "status": "no-source",
+     "grade": null,
+     "sources": []
+    },
+    {
+     "field": "creator",
+     "label": "developer",
+     "soft": false,
+     "current": "Takayuki Nakayama",
+     "status": "no-source",
+     "grade": null,
+     "sources": []
+    },
+    {
+     "field": "platforms",
+     "label": "platforms",
+     "soft": true,
+     "current": [
+      "PC",
+      "PS5",
+      "PS4",
+      "Xbox Series"
+     ],
+     "status": "no-source",
+     "grade": null,
+     "sources": []
+    }
+   ]
+  },
+  {
+   "id": "g353",
+   "title": "Super Smash Bros. Ultimate",
+   "sourcesReached": [],
+   "sourcesMissed": [
+    "IGDB (no key in environment)",
+    "Wikidata (no match)"
+   ],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "release year",
+     "soft": false,
+     "current": 2018,
+     "status": "no-source",
+     "grade": null,
+     "sources": []
+    },
+    {
+     "field": "creator",
+     "label": "developer",
+     "soft": false,
+     "current": "Masahiro Sakurai",
+     "status": "no-source",
+     "grade": null,
+     "sources": []
+    },
+    {
+     "field": "platforms",
+     "label": "platforms",
+     "soft": true,
+     "current": [
+      "Switch"
+     ],
+     "status": "no-source",
+     "grade": null,
+     "sources": []
+    }
+   ]
+  },
+  {
+   "id": "g354",
+   "title": "Final Fantasy VII Remake",
+   "sourcesReached": [],
+   "sourcesMissed": [
+    "IGDB (no key in environment)",
+    "Wikidata (no match)"
+   ],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "release year",
+     "soft": false,
+     "current": 2020,
+     "status": "no-source",
+     "grade": null,
+     "sources": []
+    },
+    {
+     "field": "creator",
+     "label": "developer",
+     "soft": false,
+     "current": "Tetsuya Nomura",
+     "status": "no-source",
+     "grade": null,
+     "sources": []
+    },
+    {
+     "field": "platforms",
+     "label": "platforms",
+     "soft": true,
+     "current": [
+      "PS4",
+      "PS5",
+      "PC"
+     ],
+     "status": "no-source",
+     "grade": null,
+     "sources": []
+    }
+   ]
+  },
+  {
+   "id": "g355",
+   "title": "Monster Hunter Rise",
+   "sourcesReached": [
+    "Wikidata"
+   ],
+   "sourcesMissed": [
+    "IGDB (no key in environment)"
+   ],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "release year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 2021,
+     "proposed": 2021,
+     "status": "confirmed",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "Wikidata",
+       "value": 2021,
+       "url": "https://www.wikidata.org/wiki/Q99441852"
+      }
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "developer",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Capcom",
+     "proposed": "Capcom",
+     "status": "confirmed",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "Wikidata",
+       "value": "Capcom",
+       "url": "https://www.wikidata.org/wiki/Q99441852"
+      }
+     ]
+    },
+    {
+     "field": "platforms",
+     "label": "platforms",
+     "soft": true,
+     "editionDependent": false,
+     "current": [
+      "Switch",
+      "PC",
+      "PS4",
+      "PS5",
+      "Xbox Series"
+     ],
+     "proposed": [
+      "Nintendo Switch",
+      "Microsoft Windows",
+      "Xbox One",
+      "Xbox Series X and Series S",
+      "PlayStation 5",
+      "PlayStation 4"
+     ],
+     "status": "proposed-change",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "Wikidata",
+       "value": [
+        "Nintendo Switch",
+        "Microsoft Windows",
+        "Xbox One",
+        "Xbox Series X and Series S",
+        "PlayStation 5",
+        "PlayStation 4"
+       ],
+       "url": "https://www.wikidata.org/wiki/Q99441852"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "g356",
+   "title": "Splatoon",
+   "sourcesReached": [
+    "Wikidata"
+   ],
+   "sourcesMissed": [
+    "IGDB (no key in environment)"
+   ],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "release year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 2015,
+     "proposed": 2015,
+     "status": "confirmed",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "Wikidata",
+       "value": 2015,
+       "url": "https://www.wikidata.org/wiki/Q17490239"
+      }
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "developer",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Nintendo EPD",
+     "proposed": "Development, Nintendo Entertainment Analysis",
+     "status": "proposed-change",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "Wikidata",
+       "value": "Nintendo Entertainment Analysis & Development",
+       "url": "https://www.wikidata.org/wiki/Q17490239"
+      }
+     ]
+    },
+    {
+     "field": "platforms",
+     "label": "platforms",
+     "soft": true,
+     "editionDependent": false,
+     "current": [
+      "Wii U"
+     ],
+     "proposed": [
+      "Wii U"
+     ],
+     "status": "confirmed",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "Wikidata",
+       "value": [
+        "Wii U"
+       ],
+       "url": "https://www.wikidata.org/wiki/Q17490239"
+      }
+     ]
+    }
+   ]
+  }
+ ]
+}
