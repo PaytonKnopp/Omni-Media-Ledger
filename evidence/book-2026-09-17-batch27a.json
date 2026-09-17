@@ -1,0 +1,685 @@
+{
+ "medium": "book",
+ "generated": "2026-09-17T22:03:36.816Z",
+ "offline": false,
+ "sources": [
+  "OpenLibrary",
+  "Google Books",
+  "Wikidata"
+ ],
+ "works": [
+  {
+   "id": "b1584",
+   "title": "Player Piano",
+   "sourcesReached": [
+    "OpenLibrary",
+    "Wikidata"
+   ],
+   "sourcesMissed": [
+    "Google Books (no match)"
+   ],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "first publication year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 1952,
+     "proposed": 1952,
+     "status": "corroborated-by-one",
+     "grade": "B",
+     "note": "matches OpenLibrary; disagrees with Wikidata (1999)",
+     "sources": [
+      {
+       "src": "OpenLibrary",
+       "value": 1952,
+       "url": "https://openlibrary.org/search.json?title=Player+Piano&limit=1"
+      },
+      {
+       "src": "Wikidata",
+       "value": 1999,
+       "url": "https://www.wikidata.org/wiki/Q126500822"
+      }
+     ],
+     "alternatives": [
+      1999
+     ]
+    },
+    {
+     "field": "pages",
+     "label": "page count",
+     "soft": false,
+     "editionDependent": true,
+     "current": 295,
+     "proposed": 341,
+     "status": "edition-dependent",
+     "grade": "B",
+     "note": "one source differs from the corpus (Wikidata 341) on a field with no single true value -- likely a different printing/edition, not an error.",
+     "sources": [
+      {
+       "src": "Wikidata",
+       "value": 341,
+       "url": "https://www.wikidata.org/wiki/Q126500822"
+      }
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "author",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Kurt Vonnegut",
+     "proposed": "Kurt Vonnegut",
+     "status": "corroborated-by-one",
+     "grade": "B",
+     "note": "matches Wikidata; disagrees with OpenLibrary (\"Kurt Vonnegut & Christian Rummel\")",
+     "sources": [
+      {
+       "src": "OpenLibrary",
+       "value": "Kurt Vonnegut & Christian Rummel",
+       "url": "https://openlibrary.org/search.json?title=Player+Piano&limit=1"
+      },
+      {
+       "src": "Wikidata",
+       "value": "Kurt Vonnegut",
+       "url": "https://www.wikidata.org/wiki/Q126500822"
+      }
+     ],
+     "alternatives": [
+      "Kurt Vonnegut"
+     ]
+    },
+    {
+     "field": "publisher",
+     "label": "publisher",
+     "soft": true,
+     "current": "Charles Scribner's Sons",
+     "status": "no-source",
+     "grade": null,
+     "sources": []
+    }
+   ]
+  },
+  {
+   "id": "b1585",
+   "title": "The Sirens of Titan",
+   "sourcesReached": [
+    "OpenLibrary",
+    "Google Books",
+    "Wikidata"
+   ],
+   "sourcesMissed": [],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "first publication year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 1959,
+     "proposed": 1959,
+     "status": "corroborated-by-one",
+     "grade": "B",
+     "note": "matches OpenLibrary/Wikidata; disagrees with Google Books (2006)",
+     "sources": [
+      {
+       "src": "OpenLibrary",
+       "value": 1959,
+       "url": "https://openlibrary.org/search.json?title=The+Sirens+of+Titan&limit=1"
+      },
+      {
+       "src": "Google Books",
+       "value": 2006,
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3AThe+Sirens+of+Titan&maxResults=1&key=REDACTED"
+      },
+      {
+       "src": "Wikidata",
+       "value": 1959,
+       "url": "https://www.wikidata.org/wiki/Q2294155"
+      }
+     ],
+     "alternatives": [
+      2006
+     ]
+    },
+    {
+     "field": "pages",
+     "label": "page count",
+     "soft": false,
+     "editionDependent": true,
+     "current": 319,
+     "proposed": 249,
+     "status": "edition-dependent",
+     "grade": "B",
+     "note": "one source differs from the corpus (Google Books 249) on a field with no single true value -- likely a different printing/edition, not an error.",
+     "sources": [
+      {
+       "src": "Google Books",
+       "value": 249,
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3AThe+Sirens+of+Titan&maxResults=1&key=REDACTED"
+      }
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "author",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Kurt Vonnegut",
+     "proposed": "Kurt Vonnegut",
+     "status": "corroborated-by-one",
+     "grade": "B",
+     "note": "matches Google Books/Wikidata; disagrees with OpenLibrary (\"Kurt Vonnegut & William Teason & Richard M. Powers\")",
+     "sources": [
+      {
+       "src": "OpenLibrary",
+       "value": "Kurt Vonnegut & William Teason & Richard M. Powers",
+       "url": "https://openlibrary.org/search.json?title=The+Sirens+of+Titan&limit=1"
+      },
+      {
+       "src": "Google Books",
+       "value": "Kurt Vonnegut",
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3AThe+Sirens+of+Titan&maxResults=1&key=REDACTED"
+      },
+      {
+       "src": "Wikidata",
+       "value": "Kurt Vonnegut",
+       "url": "https://www.wikidata.org/wiki/Q2294155"
+      }
+     ],
+     "alternatives": [
+      "Kurt Vonnegut & William Teason & Richard M. Powers"
+     ]
+    },
+    {
+     "field": "publisher",
+     "label": "publisher",
+     "soft": true,
+     "editionDependent": true,
+     "current": "Dell",
+     "proposed": "Dell Publishing",
+     "status": "edition-dependent",
+     "grade": "B",
+     "note": "one source differs from the corpus (Wikidata \"Dell Publishing\") on a field with no single true value -- likely a different printing/edition, not an error.",
+     "sources": [
+      {
+       "src": "Wikidata",
+       "value": "Dell Publishing",
+       "url": "https://www.wikidata.org/wiki/Q2294155"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "b1586",
+   "title": "Galápagos",
+   "sourcesReached": [
+    "OpenLibrary",
+    "Wikidata"
+   ],
+   "sourcesMissed": [
+    "Google Books (no match)"
+   ],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "first publication year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 1985,
+     "proposed": 1985,
+     "status": "corroborated-by-one",
+     "grade": "B",
+     "note": "matches Wikidata; disagrees with OpenLibrary (1820)",
+     "sources": [
+      {
+       "src": "OpenLibrary",
+       "value": 1820,
+       "url": "https://openlibrary.org/search.json?title=Gal%C3%A1pagos&limit=1"
+      },
+      {
+       "src": "Wikidata",
+       "value": 1985,
+       "url": "https://www.wikidata.org/wiki/Q2527126"
+      }
+     ],
+     "alternatives": [
+      1985
+     ]
+    },
+    {
+     "field": "pages",
+     "label": "page count",
+     "soft": false,
+     "current": 324,
+     "status": "no-source",
+     "grade": null,
+     "sources": []
+    },
+    {
+     "field": "creator",
+     "label": "author",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Kurt Vonnegut",
+     "proposed": "Kurt Vonnegut",
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OpenLibrary",
+       "value": "Kurt Vonnegut",
+       "url": "https://openlibrary.org/search.json?title=Gal%C3%A1pagos&limit=1"
+      },
+      {
+       "src": "Wikidata",
+       "value": "Kurt Vonnegut",
+       "url": "https://www.wikidata.org/wiki/Q2527126"
+      }
+     ]
+    },
+    {
+     "field": "publisher",
+     "label": "publisher",
+     "soft": true,
+     "editionDependent": true,
+     "current": "Delacorte",
+     "proposed": "Dell Publishing",
+     "status": "edition-dependent",
+     "grade": "B",
+     "note": "one source differs from the corpus (Wikidata \"Dell Publishing\") on a field with no single true value -- likely a different printing/edition, not an error.",
+     "sources": [
+      {
+       "src": "Wikidata",
+       "value": "Dell Publishing",
+       "url": "https://www.wikidata.org/wiki/Q2527126"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "b1587",
+   "title": "Bluebeard",
+   "sourcesReached": [
+    "OpenLibrary",
+    "Wikidata"
+   ],
+   "sourcesMissed": [
+    "Google Books (no match)"
+   ],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "first publication year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 1987,
+     "proposed": 1987,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OpenLibrary",
+       "value": 1987,
+       "url": "https://openlibrary.org/search.json?title=Bluebeard&limit=1"
+      },
+      {
+       "src": "Wikidata",
+       "value": 1987,
+       "url": "https://www.wikidata.org/wiki/Q2443804"
+      }
+     ]
+    },
+    {
+     "field": "pages",
+     "label": "page count",
+     "soft": false,
+     "current": 300,
+     "status": "no-source",
+     "grade": null,
+     "sources": []
+    },
+    {
+     "field": "creator",
+     "label": "author",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Kurt Vonnegut",
+     "proposed": "Kurt Vonnegut",
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OpenLibrary",
+       "value": "Kurt Vonnegut",
+       "url": "https://openlibrary.org/search.json?title=Bluebeard&limit=1"
+      },
+      {
+       "src": "Wikidata",
+       "value": "Kurt Vonnegut",
+       "url": "https://www.wikidata.org/wiki/Q2443804"
+      }
+     ]
+    },
+    {
+     "field": "publisher",
+     "label": "publisher",
+     "soft": true,
+     "editionDependent": true,
+     "current": "Delacorte",
+     "proposed": "Dell Publishing",
+     "status": "edition-dependent",
+     "grade": "B",
+     "note": "one source differs from the corpus (Wikidata \"Dell Publishing\") on a field with no single true value -- likely a different printing/edition, not an error.",
+     "sources": [
+      {
+       "src": "Wikidata",
+       "value": "Dell Publishing",
+       "url": "https://www.wikidata.org/wiki/Q2443804"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "b1588",
+   "title": "Hocus Pocus",
+   "sourcesReached": [
+    "OpenLibrary",
+    "Wikidata"
+   ],
+   "sourcesMissed": [
+    "Google Books (no match)"
+   ],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "first publication year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 1990,
+     "proposed": 1990,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OpenLibrary",
+       "value": 1990,
+       "url": "https://openlibrary.org/search.json?title=Hocus+Pocus&limit=1"
+      },
+      {
+       "src": "Wikidata",
+       "value": 1990,
+       "url": "https://www.wikidata.org/wiki/Q2085170"
+      }
+     ]
+    },
+    {
+     "field": "pages",
+     "label": "page count",
+     "soft": false,
+     "current": 302,
+     "status": "no-source",
+     "grade": null,
+     "sources": []
+    },
+    {
+     "field": "creator",
+     "label": "author",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Kurt Vonnegut",
+     "proposed": "Kurt Vonnegut",
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OpenLibrary",
+       "value": "Kurt Vonnegut",
+       "url": "https://openlibrary.org/search.json?title=Hocus+Pocus&limit=1"
+      },
+      {
+       "src": "Wikidata",
+       "value": "Kurt Vonnegut",
+       "url": "https://www.wikidata.org/wiki/Q2085170"
+      }
+     ]
+    },
+    {
+     "field": "publisher",
+     "label": "publisher",
+     "soft": true,
+     "editionDependent": true,
+     "current": "G. P. Putnam's Sons",
+     "proposed": "G. P. Putnam's Sons",
+     "status": "confirmed",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "Wikidata",
+       "value": "G. P. Putnam's Sons",
+       "url": "https://www.wikidata.org/wiki/Q2085170"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "b1589",
+   "title": "Timequake",
+   "sourcesReached": [
+    "OpenLibrary",
+    "Google Books",
+    "Wikidata"
+   ],
+   "sourcesMissed": [],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "first publication year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 1997,
+     "proposed": 1997,
+     "status": "corroborated-by-one",
+     "grade": "B",
+     "note": "matches OpenLibrary/Wikidata; disagrees with Google Books (1998)",
+     "sources": [
+      {
+       "src": "OpenLibrary",
+       "value": 1997,
+       "url": "https://openlibrary.org/search.json?title=Timequake&limit=1"
+      },
+      {
+       "src": "Google Books",
+       "value": 1998,
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3ATimequake&maxResults=1&key=REDACTED"
+      },
+      {
+       "src": "Wikidata",
+       "value": 1997,
+       "url": "https://www.wikidata.org/wiki/Q2627355"
+      }
+     ],
+     "alternatives": [
+      1998
+     ]
+    },
+    {
+     "field": "pages",
+     "label": "page count",
+     "soft": false,
+     "editionDependent": true,
+     "current": 219,
+     "proposed": 276,
+     "status": "edition-dependent",
+     "grade": "B",
+     "note": "one source differs from the corpus (Google Books 276) on a field with no single true value -- likely a different printing/edition, not an error.",
+     "sources": [
+      {
+       "src": "Google Books",
+       "value": 276,
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3ATimequake&maxResults=1&key=REDACTED"
+      }
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "author",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Kurt Vonnegut",
+     "proposed": "Kurt Vonnegut",
+     "status": "corroborated-by-one",
+     "grade": "B",
+     "note": "matches Google Books/Wikidata; disagrees with OpenLibrary (\"Kurt Vonnegut & Lawrence Pressman & Eli Schreiber\")",
+     "sources": [
+      {
+       "src": "OpenLibrary",
+       "value": "Kurt Vonnegut & Lawrence Pressman & Eli Schreiber",
+       "url": "https://openlibrary.org/search.json?title=Timequake&limit=1"
+      },
+      {
+       "src": "Google Books",
+       "value": "Kurt Vonnegut",
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3ATimequake&maxResults=1&key=REDACTED"
+      },
+      {
+       "src": "Wikidata",
+       "value": "Kurt Vonnegut",
+       "url": "https://www.wikidata.org/wiki/Q2627355"
+      }
+     ],
+     "alternatives": [
+      "Kurt Vonnegut & Lawrence Pressman & Eli Schreiber"
+     ]
+    },
+    {
+     "field": "publisher",
+     "label": "publisher",
+     "soft": true,
+     "editionDependent": true,
+     "current": "G. P. Putnam's Sons",
+     "proposed": "G. P. Putnam's Sons",
+     "status": "corroborated-by-one",
+     "grade": "B",
+     "note": "matches Wikidata; disagrees with Google Books (\"Penguin\")",
+     "sources": [
+      {
+       "src": "Google Books",
+       "value": "Penguin",
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3ATimequake&maxResults=1&key=REDACTED"
+      },
+      {
+       "src": "Wikidata",
+       "value": "G. P. Putnam's Sons",
+       "url": "https://www.wikidata.org/wiki/Q2627355"
+      }
+     ],
+     "alternatives": [
+      "G. P. Putnam's Sons"
+     ]
+    }
+   ]
+  },
+  {
+   "id": "b1590",
+   "title": "Deadeye Dick",
+   "sourcesReached": [
+    "OpenLibrary",
+    "Google Books",
+    "Wikidata"
+   ],
+   "sourcesMissed": [],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "first publication year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 1982,
+     "proposed": 1982,
+     "status": "corroborated-by-one",
+     "grade": "B",
+     "note": "matches Wikidata; disagrees with OpenLibrary (1981), Google Books (1979)",
+     "sources": [
+      {
+       "src": "OpenLibrary",
+       "value": 1981,
+       "url": "https://openlibrary.org/search.json?title=Deadeye+Dick&limit=1"
+      },
+      {
+       "src": "Google Books",
+       "value": 1979,
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3ADeadeye+Dick&maxResults=1&key=REDACTED"
+      },
+      {
+       "src": "Wikidata",
+       "value": 1982,
+       "url": "https://www.wikidata.org/wiki/Q2568569"
+      }
+     ],
+     "alternatives": [
+      1979,
+      1982
+     ]
+    },
+    {
+     "field": "pages",
+     "label": "page count",
+     "soft": false,
+     "current": 240,
+     "status": "no-source",
+     "grade": null,
+     "sources": []
+    },
+    {
+     "field": "creator",
+     "label": "author",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Kurt Vonnegut",
+     "proposed": "Kurt Vonnegut",
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OpenLibrary",
+       "value": "Kurt Vonnegut",
+       "url": "https://openlibrary.org/search.json?title=Deadeye+Dick&limit=1"
+      },
+      {
+       "src": "Google Books",
+       "value": "Kurt Vonnegut",
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3ADeadeye+Dick&maxResults=1&key=REDACTED"
+      },
+      {
+       "src": "Wikidata",
+       "value": "Kurt Vonnegut",
+       "url": "https://www.wikidata.org/wiki/Q2568569"
+      }
+     ]
+    },
+    {
+     "field": "publisher",
+     "label": "publisher",
+     "soft": true,
+     "editionDependent": true,
+     "current": "Delacorte",
+     "proposed": "Dell Publishing",
+     "status": "edition-dependent",
+     "grade": "B",
+     "note": "one source differs from the corpus (Wikidata \"Dell Publishing\") on a field with no single true value -- likely a different printing/edition, not an error.",
+     "sources": [
+      {
+       "src": "Wikidata",
+       "value": "Dell Publishing",
+       "url": "https://www.wikidata.org/wiki/Q2568569"
+      }
+     ]
+    }
+   ]
+  }
+ ]
+}

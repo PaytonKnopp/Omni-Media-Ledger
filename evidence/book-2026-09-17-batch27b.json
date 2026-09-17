@@ -1,0 +1,724 @@
+{
+ "medium": "book",
+ "generated": "2026-09-17T22:03:55.433Z",
+ "offline": false,
+ "sources": [
+  "OpenLibrary",
+  "Google Books",
+  "Wikidata"
+ ],
+ "works": [
+  {
+   "id": "b1591",
+   "title": "The Year of the Flood",
+   "sourcesReached": [
+    "OpenLibrary",
+    "Google Books",
+    "Wikidata"
+   ],
+   "sourcesMissed": [],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "first publication year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 2009,
+     "proposed": 2009,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OpenLibrary",
+       "value": 2009,
+       "url": "https://openlibrary.org/search.json?title=The+Year+of+the+Flood&limit=1"
+      },
+      {
+       "src": "Google Books",
+       "value": 2009,
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3AThe+Year+of+the+Flood&maxResults=1&key=REDACTED"
+      },
+      {
+       "src": "Wikidata",
+       "value": 2009,
+       "url": "https://www.wikidata.org/wiki/Q4352956"
+      }
+     ]
+    },
+    {
+     "field": "pages",
+     "label": "page count",
+     "soft": false,
+     "editionDependent": true,
+     "current": 434,
+     "proposed": 456,
+     "status": "edition-dependent",
+     "grade": "B",
+     "note": "one source differs from the corpus (Google Books 456) on a field with no single true value -- likely a different printing/edition, not an error.",
+     "sources": [
+      {
+       "src": "Google Books",
+       "value": 456,
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3AThe+Year+of+the+Flood&maxResults=1&key=REDACTED"
+      }
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "author",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Margaret Atwood",
+     "proposed": "Margaret Atwood",
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OpenLibrary",
+       "value": "Margaret Atwood",
+       "url": "https://openlibrary.org/search.json?title=The+Year+of+the+Flood&limit=1"
+      },
+      {
+       "src": "Google Books",
+       "value": "Margaret Atwood",
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3AThe+Year+of+the+Flood&maxResults=1&key=REDACTED"
+      },
+      {
+       "src": "Wikidata",
+       "value": "Margaret Atwood",
+       "url": "https://www.wikidata.org/wiki/Q4352956"
+      }
+     ]
+    },
+    {
+     "field": "publisher",
+     "label": "publisher",
+     "soft": true,
+     "editionDependent": true,
+     "current": "McClelland & Stewart",
+     "proposed": "Vintage",
+     "status": "edition-dependent",
+     "grade": "B",
+     "note": "one source differs from the corpus (Google Books \"Vintage\") on a field with no single true value -- likely a different printing/edition, not an error.",
+     "sources": [
+      {
+       "src": "Google Books",
+       "value": "Vintage",
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3AThe+Year+of+the+Flood&maxResults=1&key=REDACTED"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "b1592",
+   "title": "MaddAddam",
+   "sourcesReached": [
+    "Google Books",
+    "Wikidata"
+   ],
+   "sourcesMissed": [
+    "OpenLibrary (no match)"
+   ],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "first publication year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 2013,
+     "proposed": 2013,
+     "status": "corroborated-by-one",
+     "grade": "B",
+     "note": "matches Wikidata; disagrees with Google Books (2014)",
+     "sources": [
+      {
+       "src": "Google Books",
+       "value": 2014,
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3AMaddAddam&maxResults=1&key=REDACTED"
+      },
+      {
+       "src": "Wikidata",
+       "value": 2013,
+       "url": "https://www.wikidata.org/wiki/Q16204596"
+      }
+     ],
+     "alternatives": [
+      2013
+     ]
+    },
+    {
+     "field": "pages",
+     "label": "page count",
+     "soft": false,
+     "editionDependent": true,
+     "current": 390,
+     "proposed": 0,
+     "status": "edition-dependent",
+     "grade": "B",
+     "note": "one source differs from the corpus (Google Books 0) on a field with no single true value -- likely a different printing/edition, not an error.",
+     "sources": [
+      {
+       "src": "Google Books",
+       "value": 0,
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3AMaddAddam&maxResults=1&key=REDACTED"
+      }
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "author",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Margaret Atwood",
+     "proposed": "Margaret Atwood",
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "Google Books",
+       "value": "Margaret Atwood",
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3AMaddAddam&maxResults=1&key=REDACTED"
+      },
+      {
+       "src": "Wikidata",
+       "value": "Margaret Atwood",
+       "url": "https://www.wikidata.org/wiki/Q16204596"
+      }
+     ]
+    },
+    {
+     "field": "publisher",
+     "label": "publisher",
+     "soft": true,
+     "editionDependent": true,
+     "current": "McClelland & Stewart",
+     "proposed": "Anchor Books",
+     "status": "edition-dependent",
+     "grade": "B",
+     "note": "one source differs from the corpus (Google Books \"Anchor Books\") on a field with no single true value -- likely a different printing/edition, not an error.",
+     "sources": [
+      {
+       "src": "Google Books",
+       "value": "Anchor Books",
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3AMaddAddam&maxResults=1&key=REDACTED"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "b1593",
+   "title": "Alias Grace",
+   "sourcesReached": [
+    "OpenLibrary",
+    "Google Books",
+    "Wikidata"
+   ],
+   "sourcesMissed": [],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "first publication year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 1996,
+     "proposed": 1996,
+     "status": "corroborated-by-one",
+     "grade": "B",
+     "note": "matches OpenLibrary/Wikidata; disagrees with Google Books (2011)",
+     "sources": [
+      {
+       "src": "OpenLibrary",
+       "value": 1996,
+       "url": "https://openlibrary.org/search.json?title=Alias+Grace&limit=1"
+      },
+      {
+       "src": "Google Books",
+       "value": 2011,
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3AAlias+Grace&maxResults=1&key=REDACTED"
+      },
+      {
+       "src": "Wikidata",
+       "value": 1996,
+       "url": "https://www.wikidata.org/wiki/Q3818322"
+      }
+     ],
+     "alternatives": [
+      2011
+     ]
+    },
+    {
+     "field": "pages",
+     "label": "page count",
+     "soft": false,
+     "editionDependent": true,
+     "current": 468,
+     "proposed": 482,
+     "status": "edition-dependent",
+     "grade": "B",
+     "note": "one source differs from the corpus (Google Books 482) on a field with no single true value -- likely a different printing/edition, not an error.",
+     "sources": [
+      {
+       "src": "Google Books",
+       "value": 482,
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3AAlias+Grace&maxResults=1&key=REDACTED"
+      }
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "author",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Margaret Atwood",
+     "proposed": "Margaret Atwood",
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OpenLibrary",
+       "value": "Margaret Atwood",
+       "url": "https://openlibrary.org/search.json?title=Alias+Grace&limit=1"
+      },
+      {
+       "src": "Google Books",
+       "value": "Margaret Atwood",
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3AAlias+Grace&maxResults=1&key=REDACTED"
+      },
+      {
+       "src": "Wikidata",
+       "value": "Margaret Atwood",
+       "url": "https://www.wikidata.org/wiki/Q3818322"
+      }
+     ]
+    },
+    {
+     "field": "publisher",
+     "label": "publisher",
+     "soft": true,
+     "editionDependent": true,
+     "current": "McClelland & Stewart",
+     "proposed": "McClelland & Stewart",
+     "status": "corroborated-by-one",
+     "grade": "B",
+     "note": "matches Wikidata; disagrees with Google Books (\"Vintage\")",
+     "sources": [
+      {
+       "src": "Google Books",
+       "value": "Vintage",
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3AAlias+Grace&maxResults=1&key=REDACTED"
+      },
+      {
+       "src": "Wikidata",
+       "value": "McClelland & Stewart",
+       "url": "https://www.wikidata.org/wiki/Q3818322"
+      }
+     ],
+     "alternatives": [
+      "McClelland & Stewart"
+     ]
+    }
+   ]
+  },
+  {
+   "id": "b1594",
+   "title": "The Robber Bride",
+   "sourcesReached": [
+    "OpenLibrary",
+    "Google Books",
+    "Wikidata"
+   ],
+   "sourcesMissed": [],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "first publication year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 1993,
+     "proposed": 1993,
+     "status": "corroborated-by-one",
+     "grade": "B",
+     "note": "matches OpenLibrary/Wikidata; disagrees with Google Books (2011)",
+     "sources": [
+      {
+       "src": "OpenLibrary",
+       "value": 1993,
+       "url": "https://openlibrary.org/search.json?title=The+Robber+Bride&limit=1"
+      },
+      {
+       "src": "Google Books",
+       "value": 2011,
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3AThe+Robber+Bride&maxResults=1&key=REDACTED"
+      },
+      {
+       "src": "Wikidata",
+       "value": 1993,
+       "url": "https://www.wikidata.org/wiki/Q264182"
+      }
+     ],
+     "alternatives": [
+      2011
+     ]
+    },
+    {
+     "field": "pages",
+     "label": "page count",
+     "soft": false,
+     "editionDependent": true,
+     "current": 466,
+     "proposed": 529,
+     "status": "edition-dependent",
+     "grade": "B",
+     "note": "one source differs from the corpus (Google Books 529) on a field with no single true value -- likely a different printing/edition, not an error.",
+     "sources": [
+      {
+       "src": "Google Books",
+       "value": 529,
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3AThe+Robber+Bride&maxResults=1&key=REDACTED"
+      }
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "author",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Margaret Atwood",
+     "proposed": "Margaret Atwood",
+     "status": "corroborated-by-one",
+     "grade": "B",
+     "note": "matches Google Books/Wikidata; disagrees with OpenLibrary (\"Margaret Atwood & Deborah Simmons\")",
+     "sources": [
+      {
+       "src": "OpenLibrary",
+       "value": "Margaret Atwood & Deborah Simmons",
+       "url": "https://openlibrary.org/search.json?title=The+Robber+Bride&limit=1"
+      },
+      {
+       "src": "Google Books",
+       "value": "Margaret Atwood",
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3AThe+Robber+Bride&maxResults=1&key=REDACTED"
+      },
+      {
+       "src": "Wikidata",
+       "value": "Margaret Atwood",
+       "url": "https://www.wikidata.org/wiki/Q264182"
+      }
+     ],
+     "alternatives": [
+      "Margaret Atwood & Deborah Simmons"
+     ]
+    },
+    {
+     "field": "publisher",
+     "label": "publisher",
+     "soft": true,
+     "editionDependent": true,
+     "current": "McClelland & Stewart",
+     "proposed": "McClelland & Stewart",
+     "status": "corroborated-by-one",
+     "grade": "B",
+     "note": "matches Wikidata; disagrees with Google Books (\"Anchor\")",
+     "sources": [
+      {
+       "src": "Google Books",
+       "value": "Anchor",
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3AThe+Robber+Bride&maxResults=1&key=REDACTED"
+      },
+      {
+       "src": "Wikidata",
+       "value": "McClelland & Stewart",
+       "url": "https://www.wikidata.org/wiki/Q264182"
+      }
+     ],
+     "alternatives": [
+      "McClelland & Stewart"
+     ]
+    }
+   ]
+  },
+  {
+   "id": "b1595",
+   "title": "The Edible Woman",
+   "sourcesReached": [
+    "OpenLibrary",
+    "Google Books",
+    "Wikidata"
+   ],
+   "sourcesMissed": [],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "first publication year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 1969,
+     "proposed": 1969,
+     "status": "corroborated-by-one",
+     "grade": "B",
+     "note": "matches OpenLibrary/Wikidata; disagrees with Google Books (1991)",
+     "sources": [
+      {
+       "src": "OpenLibrary",
+       "value": 1969,
+       "url": "https://openlibrary.org/search.json?title=The+Edible+Woman&limit=1"
+      },
+      {
+       "src": "Google Books",
+       "value": 1991,
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3AThe+Edible+Woman&maxResults=1&key=REDACTED"
+      },
+      {
+       "src": "Wikidata",
+       "value": 1969,
+       "url": "https://www.wikidata.org/wiki/Q7731579"
+      }
+     ],
+     "alternatives": [
+      1991
+     ]
+    },
+    {
+     "field": "pages",
+     "label": "page count",
+     "soft": false,
+     "editionDependent": true,
+     "current": 281,
+     "proposed": 308,
+     "status": "edition-dependent",
+     "grade": "B",
+     "note": "one source differs from the corpus (Google Books 308) on a field with no single true value -- likely a different printing/edition, not an error.",
+     "sources": [
+      {
+       "src": "Google Books",
+       "value": 308,
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3AThe+Edible+Woman&maxResults=1&key=REDACTED"
+      }
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "author",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Margaret Atwood",
+     "proposed": "Margaret Atwood",
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OpenLibrary",
+       "value": "Margaret Atwood",
+       "url": "https://openlibrary.org/search.json?title=The+Edible+Woman&limit=1"
+      },
+      {
+       "src": "Google Books",
+       "value": "Margaret Atwood",
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3AThe+Edible+Woman&maxResults=1&key=REDACTED"
+      },
+      {
+       "src": "Wikidata",
+       "value": "Margaret Atwood",
+       "url": "https://www.wikidata.org/wiki/Q7731579"
+      }
+     ]
+    },
+    {
+     "field": "publisher",
+     "label": "publisher",
+     "soft": true,
+     "editionDependent": true,
+     "current": "McClelland & Stewart",
+     "proposed": "McClelland & Stewart",
+     "status": "corroborated-by-one",
+     "grade": "B",
+     "note": "matches Wikidata; disagrees with Google Books (\"Bantam\")",
+     "sources": [
+      {
+       "src": "Google Books",
+       "value": "Bantam",
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3AThe+Edible+Woman&maxResults=1&key=REDACTED"
+      },
+      {
+       "src": "Wikidata",
+       "value": "McClelland & Stewart",
+       "url": "https://www.wikidata.org/wiki/Q7731579"
+      }
+     ],
+     "alternatives": [
+      "McClelland & Stewart"
+     ]
+    }
+   ]
+  },
+  {
+   "id": "b1596",
+   "title": "Surfacing",
+   "sourcesReached": [
+    "Google Books",
+    "Wikidata"
+   ],
+   "sourcesMissed": [
+    "OpenLibrary (no match)"
+   ],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "first publication year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 1972,
+     "proposed": 1972,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "Google Books",
+       "value": 1972,
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3ASurfacing&maxResults=1&key=REDACTED"
+      },
+      {
+       "src": "Wikidata",
+       "value": 1972,
+       "url": "https://www.wikidata.org/wiki/Q7646051"
+      }
+     ]
+    },
+    {
+     "field": "pages",
+     "label": "page count",
+     "soft": false,
+     "editionDependent": true,
+     "current": 224,
+     "proposed": 208,
+     "status": "edition-dependent",
+     "grade": "B",
+     "note": "one source differs from the corpus (Google Books 208) on a field with no single true value -- likely a different printing/edition, not an error.",
+     "sources": [
+      {
+       "src": "Google Books",
+       "value": 208,
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3ASurfacing&maxResults=1&key=REDACTED"
+      }
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "author",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Margaret Atwood",
+     "proposed": "Margaret Atwood",
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "Google Books",
+       "value": "Margaret Atwood",
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3ASurfacing&maxResults=1&key=REDACTED"
+      },
+      {
+       "src": "Wikidata",
+       "value": "Margaret Atwood",
+       "url": "https://www.wikidata.org/wiki/Q7646051"
+      }
+     ]
+    },
+    {
+     "field": "publisher",
+     "label": "publisher",
+     "soft": true,
+     "current": "McClelland & Stewart",
+     "status": "no-source",
+     "grade": null,
+     "sources": []
+    }
+   ]
+  },
+  {
+   "id": "b1597",
+   "title": "Bodily Harm",
+   "sourcesReached": [
+    "OpenLibrary",
+    "Wikidata"
+   ],
+   "sourcesMissed": [
+    "Google Books (no match)"
+   ],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "first publication year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 1981,
+     "proposed": 1981,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OpenLibrary",
+       "value": 1981,
+       "url": "https://openlibrary.org/search.json?title=Bodily+Harm&limit=1"
+      },
+      {
+       "src": "Wikidata",
+       "value": 1981,
+       "url": "https://www.wikidata.org/wiki/Q4936612"
+      }
+     ]
+    },
+    {
+     "field": "pages",
+     "label": "page count",
+     "soft": false,
+     "current": 301,
+     "status": "no-source",
+     "grade": null,
+     "sources": []
+    },
+    {
+     "field": "creator",
+     "label": "author",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Margaret Atwood",
+     "proposed": "Margaret Atwood",
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OpenLibrary",
+       "value": "Margaret Atwood",
+       "url": "https://openlibrary.org/search.json?title=Bodily+Harm&limit=1"
+      },
+      {
+       "src": "Wikidata",
+       "value": "Margaret Atwood",
+       "url": "https://www.wikidata.org/wiki/Q4936612"
+      }
+     ]
+    },
+    {
+     "field": "publisher",
+     "label": "publisher",
+     "soft": true,
+     "editionDependent": true,
+     "current": "McClelland & Stewart",
+     "proposed": "McClelland & Stewart",
+     "status": "confirmed",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "Wikidata",
+       "value": "McClelland & Stewart",
+       "url": "https://www.wikidata.org/wiki/Q4936612"
+      }
+     ]
+    }
+   ]
+  }
+ ]
+}
