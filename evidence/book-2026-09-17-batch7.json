@@ -1,0 +1,1526 @@
+{
+ "medium": "book",
+ "generated": "2026-09-17T00:47:37.963Z",
+ "offline": false,
+ "sources": [
+  "OpenLibrary",
+  "Google Books",
+  "Wikidata"
+ ],
+ "works": [
+  {
+   "id": "b1164",
+   "title": "Things Fall Apart",
+   "sourcesReached": [
+    "OpenLibrary",
+    "Google Books",
+    "Wikidata"
+   ],
+   "sourcesMissed": [],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "first publication year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 1958,
+     "proposed": 1958,
+     "status": "corroborated-by-one",
+     "grade": "B",
+     "note": "matches OpenLibrary/Wikidata; disagrees with Google Books (2013)",
+     "sources": [
+      {
+       "src": "OpenLibrary",
+       "value": 1958,
+       "url": "https://openlibrary.org/search.json?title=Things+Fall+Apart&limit=1"
+      },
+      {
+       "src": "Google Books",
+       "value": 2013,
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3AThings+Fall+Apart&maxResults=1&key=REDACTED"
+      },
+      {
+       "src": "Wikidata",
+       "value": 1958,
+       "url": "https://www.wikidata.org/wiki/Q622400"
+      }
+     ],
+     "alternatives": [
+      2013
+     ]
+    },
+    {
+     "field": "pages",
+     "label": "page count",
+     "soft": false,
+     "editionDependent": true,
+     "current": 209,
+     "proposed": 204,
+     "status": "edition-dependent",
+     "grade": "B",
+     "note": "one source differs from the corpus (Google Books 204) on a field with no single true value -- likely a different printing/edition, not an error.",
+     "sources": [
+      {
+       "src": "Google Books",
+       "value": 204,
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3AThings+Fall+Apart&maxResults=1&key=REDACTED"
+      }
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "author",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Chinua Achebe",
+     "proposed": "Chinua Achebe",
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OpenLibrary",
+       "value": "Chinua Achebe",
+       "url": "https://openlibrary.org/search.json?title=Things+Fall+Apart&limit=1"
+      },
+      {
+       "src": "Google Books",
+       "value": "Chinua Achebe",
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3AThings+Fall+Apart&maxResults=1&key=REDACTED"
+      },
+      {
+       "src": "Wikidata",
+       "value": "Chinua Achebe",
+       "url": "https://www.wikidata.org/wiki/Q622400"
+      }
+     ]
+    },
+    {
+     "field": "publisher",
+     "label": "publisher",
+     "soft": true,
+     "editionDependent": true,
+     "current": "William Heinemann",
+     "proposed": "Penguin UK",
+     "status": "edition-dependent",
+     "grade": "B",
+     "note": "corpus value does not match either source (Google Books \"Penguin UK\", Wikidata \"Heinemann\") -- treated as a distinct edition; the specific cut is not identified from available evidence.",
+     "sources": [
+      {
+       "src": "Google Books",
+       "value": "Penguin UK",
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3AThings+Fall+Apart&maxResults=1&key=REDACTED"
+      },
+      {
+       "src": "Wikidata",
+       "value": "Heinemann",
+       "url": "https://www.wikidata.org/wiki/Q622400"
+      }
+     ],
+     "alternatives": [
+      "Heinemann"
+     ]
+    }
+   ]
+  },
+  {
+   "id": "b1165",
+   "title": "Half of a Yellow Sun",
+   "sourcesReached": [
+    "OpenLibrary",
+    "Google Books",
+    "Wikidata"
+   ],
+   "sourcesMissed": [],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "first publication year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 2006,
+     "proposed": 2006,
+     "status": "corroborated-by-one",
+     "grade": "B",
+     "note": "matches OpenLibrary/Wikidata; disagrees with Google Books (2010)",
+     "sources": [
+      {
+       "src": "OpenLibrary",
+       "value": 2006,
+       "url": "https://openlibrary.org/search.json?title=Half+of+a+Yellow+Sun&limit=1"
+      },
+      {
+       "src": "Google Books",
+       "value": 2010,
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3AHalf+of+a+Yellow+Sun&maxResults=1&key=REDACTED"
+      },
+      {
+       "src": "Wikidata",
+       "value": 2006,
+       "url": "https://www.wikidata.org/wiki/Q3235393"
+      }
+     ],
+     "alternatives": [
+      2010
+     ]
+    },
+    {
+     "field": "pages",
+     "label": "page count",
+     "soft": false,
+     "editionDependent": true,
+     "current": 433,
+     "proposed": 562,
+     "status": "edition-dependent",
+     "grade": "B",
+     "note": "one source differs from the corpus (Google Books 562) on a field with no single true value -- likely a different printing/edition, not an error.",
+     "sources": [
+      {
+       "src": "Google Books",
+       "value": 562,
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3AHalf+of+a+Yellow+Sun&maxResults=1&key=REDACTED"
+      }
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "author",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Chimamanda Ngozi Adichie",
+     "proposed": "Chimamanda Ngozi Adichie",
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OpenLibrary",
+       "value": "Chimamanda Ngozi Adichie",
+       "url": "https://openlibrary.org/search.json?title=Half+of+a+Yellow+Sun&limit=1"
+      },
+      {
+       "src": "Google Books",
+       "value": "Chimamanda Ngozi Adichie",
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3AHalf+of+a+Yellow+Sun&maxResults=1&key=REDACTED"
+      },
+      {
+       "src": "Wikidata",
+       "value": "Chimamanda Ngozi Adichie",
+       "url": "https://www.wikidata.org/wiki/Q3235393"
+      }
+     ]
+    },
+    {
+     "field": "publisher",
+     "label": "publisher",
+     "soft": true,
+     "editionDependent": true,
+     "current": "Farafina",
+     "proposed": "Vintage Canada",
+     "status": "edition-dependent",
+     "grade": "B",
+     "note": "one source differs from the corpus (Google Books \"Vintage Canada\") on a field with no single true value -- likely a different printing/edition, not an error.",
+     "sources": [
+      {
+       "src": "Google Books",
+       "value": "Vintage Canada",
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3AHalf+of+a+Yellow+Sun&maxResults=1&key=REDACTED"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "b1166",
+   "title": "Americanah",
+   "sourcesReached": [
+    "OpenLibrary",
+    "Google Books",
+    "Wikidata"
+   ],
+   "sourcesMissed": [],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "first publication year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 2013,
+     "proposed": 2013,
+     "status": "corroborated-by-one",
+     "grade": "B",
+     "note": "matches Google Books/Wikidata; disagrees with OpenLibrary (1969)",
+     "sources": [
+      {
+       "src": "OpenLibrary",
+       "value": 1969,
+       "url": "https://openlibrary.org/search.json?title=Americanah&limit=1"
+      },
+      {
+       "src": "Google Books",
+       "value": 2013,
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3AAmericanah&maxResults=1&key=REDACTED"
+      },
+      {
+       "src": "Wikidata",
+       "value": 2013,
+       "url": "https://www.wikidata.org/wiki/Q16154159"
+      }
+     ],
+     "alternatives": [
+      1969
+     ]
+    },
+    {
+     "field": "pages",
+     "label": "page count",
+     "soft": false,
+     "editionDependent": true,
+     "current": 477,
+     "proposed": 526,
+     "status": "edition-dependent",
+     "grade": "B",
+     "note": "one source differs from the corpus (Google Books 526) on a field with no single true value -- likely a different printing/edition, not an error.",
+     "sources": [
+      {
+       "src": "Google Books",
+       "value": 526,
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3AAmericanah&maxResults=1&key=REDACTED"
+      }
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "author",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Chimamanda Ngozi Adichie",
+     "proposed": "Chimamanda Ngozi Adichie",
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OpenLibrary",
+       "value": "Chimamanda Ngozi Adichie",
+       "url": "https://openlibrary.org/search.json?title=Americanah&limit=1"
+      },
+      {
+       "src": "Google Books",
+       "value": "Chimamanda Ngozi Adichie",
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3AAmericanah&maxResults=1&key=REDACTED"
+      },
+      {
+       "src": "Wikidata",
+       "value": "Chimamanda Ngozi Adichie",
+       "url": "https://www.wikidata.org/wiki/Q16154159"
+      }
+     ]
+    },
+    {
+     "field": "publisher",
+     "label": "publisher",
+     "soft": true,
+     "editionDependent": true,
+     "current": "Alfred A. Knopf",
+     "proposed": "Knopf Canada",
+     "status": "edition-dependent",
+     "grade": "B",
+     "note": "one source differs from the corpus (Google Books \"Knopf Canada\") on a field with no single true value -- likely a different printing/edition, not an error.",
+     "sources": [
+      {
+       "src": "Google Books",
+       "value": "Knopf Canada",
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3AAmericanah&maxResults=1&key=REDACTED"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "b1167",
+   "title": "The White Tiger",
+   "sourcesReached": [
+    "OpenLibrary",
+    "Google Books",
+    "Wikidata"
+   ],
+   "sourcesMissed": [],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "first publication year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 2008,
+     "proposed": 2008,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OpenLibrary",
+       "value": 2008,
+       "url": "https://openlibrary.org/search.json?title=The+White+Tiger&limit=1"
+      },
+      {
+       "src": "Google Books",
+       "value": 2008,
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3AThe+White+Tiger&maxResults=1&key=REDACTED"
+      },
+      {
+       "src": "Wikidata",
+       "value": 2008,
+       "url": "https://www.wikidata.org/wiki/Q2301826"
+      }
+     ]
+    },
+    {
+     "field": "pages",
+     "label": "page count",
+     "soft": false,
+     "editionDependent": true,
+     "current": 321,
+     "proposed": 16,
+     "status": "edition-dependent",
+     "grade": "B",
+     "note": "one source differs from the corpus (Google Books 16) on a field with no single true value -- likely a different printing/edition, not an error.",
+     "sources": [
+      {
+       "src": "Google Books",
+       "value": 16,
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3AThe+White+Tiger&maxResults=1&key=REDACTED"
+      }
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "author",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Aravind Adiga",
+     "proposed": "Aravind Adiga",
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OpenLibrary",
+       "value": "Aravind Adiga",
+       "url": "https://openlibrary.org/search.json?title=The+White+Tiger&limit=1"
+      },
+      {
+       "src": "Google Books",
+       "value": "Aravind Adiga",
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3AThe+White+Tiger&maxResults=1&key=REDACTED"
+      },
+      {
+       "src": "Wikidata",
+       "value": "Aravind Adiga",
+       "url": "https://www.wikidata.org/wiki/Q2301826"
+      }
+     ]
+    },
+    {
+     "field": "publisher",
+     "label": "publisher",
+     "soft": true,
+     "editionDependent": true,
+     "current": "Free Press",
+     "proposed": "Simon and Schuster",
+     "status": "edition-dependent",
+     "grade": "B",
+     "note": "corpus value does not match either source (Google Books \"Simon and Schuster\", Wikidata \"Atlantic Books\") -- treated as a distinct edition; the specific cut is not identified from available evidence.",
+     "sources": [
+      {
+       "src": "Google Books",
+       "value": "Simon and Schuster",
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3AThe+White+Tiger&maxResults=1&key=REDACTED"
+      },
+      {
+       "src": "Wikidata",
+       "value": "Atlantic Books",
+       "url": "https://www.wikidata.org/wiki/Q2301826"
+      }
+     ],
+     "alternatives": [
+      "Atlantic Books"
+     ]
+    }
+   ]
+  },
+  {
+   "id": "b1168",
+   "title": "One Thousand and One Nights",
+   "sourcesReached": [],
+   "sourcesMissed": [
+    "OpenLibrary (no match)",
+    "Google Books (no match)",
+    "Wikidata (no match)"
+   ],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "first publication year",
+     "soft": false,
+     "current": 800,
+     "status": "no-source",
+     "grade": null,
+     "sources": []
+    },
+    {
+     "field": "pages",
+     "label": "page count",
+     "soft": false,
+     "current": 468,
+     "status": "no-source",
+     "grade": null,
+     "sources": []
+    },
+    {
+     "field": "creator",
+     "label": "author",
+     "soft": false,
+     "current": "Anonymous",
+     "status": "no-source",
+     "grade": null,
+     "sources": []
+    },
+    {
+     "field": "publisher",
+     "label": "publisher",
+     "soft": true,
+     "current": "Traditional",
+     "status": "no-source",
+     "grade": null,
+     "sources": []
+    }
+   ]
+  },
+  {
+   "id": "b1169",
+   "title": "Like Water for Chocolate",
+   "sourcesReached": [
+    "Google Books",
+    "Wikidata"
+   ],
+   "sourcesMissed": [
+    "OpenLibrary (no match)"
+   ],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "first publication year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 1989,
+     "proposed": 1989,
+     "status": "corroborated-by-one",
+     "grade": "B",
+     "note": "matches Wikidata; disagrees with Google Books (1995)",
+     "sources": [
+      {
+       "src": "Google Books",
+       "value": 1995,
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3ALike+Water+for+Chocolate&maxResults=1&key=REDACTED"
+      },
+      {
+       "src": "Wikidata",
+       "value": 1989,
+       "url": "https://www.wikidata.org/wiki/Q1777072"
+      }
+     ],
+     "alternatives": [
+      1989
+     ]
+    },
+    {
+     "field": "pages",
+     "label": "page count",
+     "soft": false,
+     "editionDependent": true,
+     "current": 246,
+     "proposed": 0,
+     "status": "edition-dependent",
+     "grade": "B",
+     "note": "one source differs from the corpus (Google Books 0) on a field with no single true value -- likely a different printing/edition, not an error.",
+     "sources": [
+      {
+       "src": "Google Books",
+       "value": 0,
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3ALike+Water+for+Chocolate&maxResults=1&key=REDACTED"
+      }
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "author",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Laura Esquivel",
+     "proposed": "Laura Esquivel",
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "Google Books",
+       "value": "Laura Esquivel",
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3ALike+Water+for+Chocolate&maxResults=1&key=REDACTED"
+      },
+      {
+       "src": "Wikidata",
+       "value": "Laura Esquivel",
+       "url": "https://www.wikidata.org/wiki/Q1777072"
+      }
+     ]
+    },
+    {
+     "field": "publisher",
+     "label": "publisher",
+     "soft": true,
+     "editionDependent": true,
+     "current": "Doubleday",
+     "proposed": "Turtleback Books",
+     "status": "edition-dependent",
+     "grade": "B",
+     "note": "one source differs from the corpus (Google Books \"Turtleback Books\") on a field with no single true value -- likely a different printing/edition, not an error.",
+     "sources": [
+      {
+       "src": "Google Books",
+       "value": "Turtleback Books",
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3ALike+Water+for+Chocolate&maxResults=1&key=REDACTED"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "b1170",
+   "title": "The Joy Luck Club",
+   "sourcesReached": [
+    "OpenLibrary",
+    "Google Books",
+    "Wikidata"
+   ],
+   "sourcesMissed": [],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "first publication year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 1989,
+     "proposed": 1989,
+     "status": "corroborated-by-one",
+     "grade": "B",
+     "note": "matches OpenLibrary/Wikidata; disagrees with Google Books (2006)",
+     "sources": [
+      {
+       "src": "OpenLibrary",
+       "value": 1989,
+       "url": "https://openlibrary.org/search.json?title=The+Joy+Luck+Club&limit=1"
+      },
+      {
+       "src": "Google Books",
+       "value": 2006,
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3AThe+Joy+Luck+Club&maxResults=1&key=REDACTED"
+      },
+      {
+       "src": "Wikidata",
+       "value": 1989,
+       "url": "https://www.wikidata.org/wiki/Q1857708"
+      }
+     ],
+     "alternatives": [
+      2006
+     ]
+    },
+    {
+     "field": "pages",
+     "label": "page count",
+     "soft": false,
+     "editionDependent": true,
+     "current": 288,
+     "proposed": 353,
+     "status": "edition-dependent",
+     "grade": "B",
+     "note": "one source differs from the corpus (Google Books 353) on a field with no single true value -- likely a different printing/edition, not an error.",
+     "sources": [
+      {
+       "src": "Google Books",
+       "value": 353,
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3AThe+Joy+Luck+Club&maxResults=1&key=REDACTED"
+      }
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "author",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Amy Tan",
+     "proposed": "Amy Tan",
+     "status": "corroborated-by-one",
+     "grade": "B",
+     "note": "matches Google Books/Wikidata; disagrees with OpenLibrary (\"Amy Tan & Gwendoline Yeo & Tsai Chin & Ronald Bass & Wayne Wang & Jordi Fibla\")",
+     "sources": [
+      {
+       "src": "OpenLibrary",
+       "value": "Amy Tan & Gwendoline Yeo & Tsai Chin & Ronald Bass & Wayne Wang & Jordi Fibla",
+       "url": "https://openlibrary.org/search.json?title=The+Joy+Luck+Club&limit=1"
+      },
+      {
+       "src": "Google Books",
+       "value": "Amy Tan",
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3AThe+Joy+Luck+Club&maxResults=1&key=REDACTED"
+      },
+      {
+       "src": "Wikidata",
+       "value": "Amy Tan",
+       "url": "https://www.wikidata.org/wiki/Q1857708"
+      }
+     ],
+     "alternatives": [
+      "Amy Tan & Gwendoline Yeo & Tsai Chin & Ronald Bass & Wayne Wang & Jordi Fibla"
+     ]
+    },
+    {
+     "field": "publisher",
+     "label": "publisher",
+     "soft": true,
+     "editionDependent": true,
+     "current": "G.P. Putnam's Sons",
+     "proposed": "G.P. Putnam's Sons",
+     "status": "corroborated-by-one",
+     "grade": "B",
+     "note": "matches Wikidata; disagrees with Google Books (\"Penguin\")",
+     "sources": [
+      {
+       "src": "Google Books",
+       "value": "Penguin",
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3AThe+Joy+Luck+Club&maxResults=1&key=REDACTED"
+      },
+      {
+       "src": "Wikidata",
+       "value": "G. P. Putnam's Sons",
+       "url": "https://www.wikidata.org/wiki/Q1857708"
+      }
+     ],
+     "alternatives": [
+      "G. P. Putnam's Sons"
+     ]
+    }
+   ]
+  },
+  {
+   "id": "b1171",
+   "title": "Snow Falling on Cedars",
+   "sourcesReached": [
+    "OpenLibrary",
+    "Google Books",
+    "Wikidata"
+   ],
+   "sourcesMissed": [],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "first publication year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 1994,
+     "proposed": 1994,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OpenLibrary",
+       "value": 1994,
+       "url": "https://openlibrary.org/search.json?title=Snow+Falling+on+Cedars&limit=1"
+      },
+      {
+       "src": "Google Books",
+       "value": 1994,
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3ASnow+Falling+on+Cedars&maxResults=1&key=REDACTED"
+      },
+      {
+       "src": "Wikidata",
+       "value": 1994,
+       "url": "https://www.wikidata.org/wiki/Q1411186"
+      }
+     ]
+    },
+    {
+     "field": "pages",
+     "label": "page count",
+     "soft": false,
+     "editionDependent": true,
+     "current": 345,
+     "proposed": 445,
+     "status": "edition-dependent",
+     "grade": "B",
+     "note": "one source differs from the corpus (Google Books 445) on a field with no single true value -- likely a different printing/edition, not an error.",
+     "sources": [
+      {
+       "src": "Google Books",
+       "value": 445,
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3ASnow+Falling+on+Cedars&maxResults=1&key=REDACTED"
+      }
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "author",
+     "soft": false,
+     "editionDependent": false,
+     "current": "David Guterson",
+     "proposed": "David Guterson",
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OpenLibrary",
+       "value": "David Guterson",
+       "url": "https://openlibrary.org/search.json?title=Snow+Falling+on+Cedars&limit=1"
+      },
+      {
+       "src": "Google Books",
+       "value": "David Guterson",
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3ASnow+Falling+on+Cedars&maxResults=1&key=REDACTED"
+      },
+      {
+       "src": "Wikidata",
+       "value": "David Guterson",
+       "url": "https://www.wikidata.org/wiki/Q1411186"
+      }
+     ]
+    },
+    {
+     "field": "publisher",
+     "label": "publisher",
+     "soft": true,
+     "editionDependent": true,
+     "current": "Harcourt Brace",
+     "proposed": "HarperCollins",
+     "status": "edition-dependent",
+     "grade": "B",
+     "note": "corpus value does not match either source (Google Books \"HarperCollins\", Wikidata \"Harcourt\") -- treated as a distinct edition; the specific cut is not identified from available evidence.",
+     "sources": [
+      {
+       "src": "Google Books",
+       "value": "HarperCollins",
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3ASnow+Falling+on+Cedars&maxResults=1&key=REDACTED"
+      },
+      {
+       "src": "Wikidata",
+       "value": "Harcourt",
+       "url": "https://www.wikidata.org/wiki/Q1411186"
+      }
+     ],
+     "alternatives": [
+      "Harcourt"
+     ]
+    }
+   ]
+  },
+  {
+   "id": "b1172",
+   "title": "The Joy of Cooking",
+   "sourcesReached": [
+    "OpenLibrary",
+    "Google Books",
+    "Wikidata"
+   ],
+   "sourcesMissed": [],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "first publication year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 1931,
+     "proposed": 1931,
+     "status": "corroborated-by-one",
+     "grade": "B",
+     "note": "matches Wikidata; disagrees with OpenLibrary (1997), Google Books (1962)",
+     "sources": [
+      {
+       "src": "OpenLibrary",
+       "value": 1997,
+       "url": "https://openlibrary.org/search.json?title=The+Joy+of+Cooking&limit=1"
+      },
+      {
+       "src": "Google Books",
+       "value": 1962,
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3AThe+Joy+of+Cooking&maxResults=1&key=REDACTED"
+      },
+      {
+       "src": "Wikidata",
+       "value": 1931,
+       "url": "https://www.wikidata.org/wiki/Q2917079"
+      }
+     ],
+     "alternatives": [
+      1962,
+      1931
+     ]
+    },
+    {
+     "field": "pages",
+     "label": "page count",
+     "soft": false,
+     "editionDependent": true,
+     "current": 1152,
+     "proposed": 878,
+     "status": "edition-dependent",
+     "grade": "B",
+     "note": "one source differs from the corpus (Google Books 878) on a field with no single true value -- likely a different printing/edition, not an error.",
+     "sources": [
+      {
+       "src": "Google Books",
+       "value": 878,
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3AThe+Joy+of+Cooking&maxResults=1&key=REDACTED"
+      }
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "author",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Irma S. Rombauer",
+     "proposed": "Irma S. Rombauer",
+     "status": "corroborated-by-one",
+     "grade": "B",
+     "note": "matches OpenLibrary/Wikidata; disagrees with Google Books (\"Irma S. Rombauer & Marion Rombauer Becker\")",
+     "sources": [
+      {
+       "src": "OpenLibrary",
+       "value": "Irma S. Rombauer",
+       "url": "https://openlibrary.org/search.json?title=The+Joy+of+Cooking&limit=1"
+      },
+      {
+       "src": "Google Books",
+       "value": "Irma S. Rombauer & Marion Rombauer Becker",
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3AThe+Joy+of+Cooking&maxResults=1&key=REDACTED"
+      },
+      {
+       "src": "Wikidata",
+       "value": "Irma S. Rombauer",
+       "url": "https://www.wikidata.org/wiki/Q2917079"
+      }
+     ],
+     "alternatives": [
+      "Irma S. Rombauer & Marion Rombauer Becker"
+     ]
+    },
+    {
+     "field": "publisher",
+     "label": "publisher",
+     "soft": true,
+     "editionDependent": true,
+     "current": "Bobbs-Merrill",
+     "proposed": "Plume Books",
+     "status": "edition-dependent",
+     "grade": "B",
+     "note": "corpus value does not match either source (Google Books \"Plume Books\", Wikidata \"Bobbs-Merrill Company\") -- treated as a distinct edition; the specific cut is not identified from available evidence.",
+     "sources": [
+      {
+       "src": "Google Books",
+       "value": "Plume Books",
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3AThe+Joy+of+Cooking&maxResults=1&key=REDACTED"
+      },
+      {
+       "src": "Wikidata",
+       "value": "Bobbs-Merrill Company",
+       "url": "https://www.wikidata.org/wiki/Q2917079"
+      }
+     ],
+     "alternatives": [
+      "Bobbs-Merrill Company"
+     ]
+    }
+   ]
+  },
+  {
+   "id": "b1173",
+   "title": "Mastering the Art of French Cooking",
+   "sourcesReached": [
+    "OpenLibrary",
+    "Google Books",
+    "Wikidata"
+   ],
+   "sourcesMissed": [],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "first publication year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 1961,
+     "proposed": 1961,
+     "status": "corroborated-by-one",
+     "grade": "B",
+     "note": "matches Wikidata; disagrees with OpenLibrary (1967), Google Books (1983)",
+     "sources": [
+      {
+       "src": "OpenLibrary",
+       "value": 1967,
+       "url": "https://openlibrary.org/search.json?title=Mastering+the+Art+of+French+Cooking&limit=1"
+      },
+      {
+       "src": "Google Books",
+       "value": 1983,
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3AMastering+the+Art+of+French+Cooking&maxResults=1&key=REDACTED"
+      },
+      {
+       "src": "Wikidata",
+       "value": 1961,
+       "url": "https://www.wikidata.org/wiki/Q1808021"
+      }
+     ],
+     "alternatives": [
+      1983,
+      1961
+     ]
+    },
+    {
+     "field": "pages",
+     "label": "page count",
+     "soft": false,
+     "editionDependent": true,
+     "current": 684,
+     "proposed": 753,
+     "status": "edition-dependent",
+     "grade": "B",
+     "note": "one source differs from the corpus (Google Books 753) on a field with no single true value -- likely a different printing/edition, not an error.",
+     "sources": [
+      {
+       "src": "Google Books",
+       "value": 753,
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3AMastering+the+Art+of+French+Cooking&maxResults=1&key=REDACTED"
+      }
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "author",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Julia Child, Louisette Bertholle, Simone Beck",
+     "proposed": "Julia Child, Louisette Bertholle, Simone Beck",
+     "status": "corroborated-by-one",
+     "grade": "B",
+     "note": "matches Google Books/Wikidata; disagrees with OpenLibrary (\"Julia Child\")",
+     "sources": [
+      {
+       "src": "OpenLibrary",
+       "value": "Julia Child",
+       "url": "https://openlibrary.org/search.json?title=Mastering+the+Art+of+French+Cooking&limit=1"
+      },
+      {
+       "src": "Google Books",
+       "value": "Julia Child & Louisette Bertholle & Simone Beck",
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3AMastering+the+Art+of+French+Cooking&maxResults=1&key=REDACTED"
+      },
+      {
+       "src": "Wikidata",
+       "value": "Simone Beck & Louisette Bertholle & Julia Child",
+       "url": "https://www.wikidata.org/wiki/Q1808021"
+      }
+     ],
+     "alternatives": [
+      "Julia Child"
+     ]
+    },
+    {
+     "field": "publisher",
+     "label": "publisher",
+     "soft": true,
+     "editionDependent": true,
+     "current": "Alfred A. Knopf",
+     "proposed": "Alfred A. Knopf",
+     "status": "corroborated-by-one",
+     "grade": "B",
+     "note": "matches Wikidata; disagrees with Google Books (\"Knopf\")",
+     "sources": [
+      {
+       "src": "Google Books",
+       "value": "Knopf",
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3AMastering+the+Art+of+French+Cooking&maxResults=1&key=REDACTED"
+      },
+      {
+       "src": "Wikidata",
+       "value": "Alfred A. Knopf",
+       "url": "https://www.wikidata.org/wiki/Q1808021"
+      }
+     ],
+     "alternatives": [
+      "Alfred A. Knopf"
+     ]
+    }
+   ]
+  },
+  {
+   "id": "b1174",
+   "title": "Kitchen Confidential",
+   "sourcesReached": [
+    "OpenLibrary",
+    "Google Books",
+    "Wikidata"
+   ],
+   "sourcesMissed": [],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "first publication year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 2000,
+     "proposed": 2000,
+     "status": "corroborated-by-one",
+     "grade": "B",
+     "note": "matches OpenLibrary/Wikidata; disagrees with Google Books (2013)",
+     "sources": [
+      {
+       "src": "OpenLibrary",
+       "value": 2000,
+       "url": "https://openlibrary.org/search.json?title=Kitchen+Confidential&limit=1"
+      },
+      {
+       "src": "Google Books",
+       "value": 2013,
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3AKitchen+Confidential&maxResults=1&key=REDACTED"
+      },
+      {
+       "src": "Wikidata",
+       "value": 2000,
+       "url": "https://www.wikidata.org/wiki/Q6417969"
+      }
+     ],
+     "alternatives": [
+      2013
+     ]
+    },
+    {
+     "field": "pages",
+     "label": "page count",
+     "soft": false,
+     "editionDependent": true,
+     "current": 312,
+     "proposed": 386,
+     "status": "edition-dependent",
+     "grade": "B",
+     "note": "one source differs from the corpus (Google Books 386) on a field with no single true value -- likely a different printing/edition, not an error.",
+     "sources": [
+      {
+       "src": "Google Books",
+       "value": 386,
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3AKitchen+Confidential&maxResults=1&key=REDACTED"
+      }
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "author",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Anthony Bourdain",
+     "proposed": "Anthony Bourdain",
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OpenLibrary",
+       "value": "Anthony Bourdain",
+       "url": "https://openlibrary.org/search.json?title=Kitchen+Confidential&limit=1"
+      },
+      {
+       "src": "Google Books",
+       "value": "Anthony Bourdain",
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3AKitchen+Confidential&maxResults=1&key=REDACTED"
+      },
+      {
+       "src": "Wikidata",
+       "value": "Anthony Bourdain",
+       "url": "https://www.wikidata.org/wiki/Q6417969"
+      }
+     ]
+    },
+    {
+     "field": "publisher",
+     "label": "publisher",
+     "soft": true,
+     "editionDependent": true,
+     "current": "Bloomsbury",
+     "proposed": "A&C Black",
+     "status": "edition-dependent",
+     "grade": "B",
+     "note": "corpus value does not match either source (Google Books \"A&C Black\", Wikidata \"Bloomsbury Publishing\") -- treated as a distinct edition; the specific cut is not identified from available evidence.",
+     "sources": [
+      {
+       "src": "Google Books",
+       "value": "A&C Black",
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3AKitchen+Confidential&maxResults=1&key=REDACTED"
+      },
+      {
+       "src": "Wikidata",
+       "value": "Bloomsbury Publishing",
+       "url": "https://www.wikidata.org/wiki/Q6417969"
+      }
+     ],
+     "alternatives": [
+      "Bloomsbury Publishing"
+     ]
+    }
+   ]
+  },
+  {
+   "id": "b1175",
+   "title": "The Waste Land",
+   "sourcesReached": [
+    "OpenLibrary",
+    "Wikidata"
+   ],
+   "sourcesMissed": [
+    "Google Books (no match)"
+   ],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "first publication year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 1922,
+     "proposed": 1922,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OpenLibrary",
+       "value": 1922,
+       "url": "https://openlibrary.org/search.json?title=The+Waste+Land&limit=1"
+      },
+      {
+       "src": "Wikidata",
+       "value": 1922,
+       "url": "https://www.wikidata.org/wiki/Q581458"
+      }
+     ]
+    },
+    {
+     "field": "pages",
+     "label": "page count",
+     "soft": false,
+     "current": 64,
+     "status": "no-source",
+     "grade": null,
+     "sources": []
+    },
+    {
+     "field": "creator",
+     "label": "author",
+     "soft": false,
+     "editionDependent": false,
+     "current": "T.S. Eliot",
+     "proposed": "T. S. Eliot",
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OpenLibrary",
+       "value": "T. S. Eliot",
+       "url": "https://openlibrary.org/search.json?title=The+Waste+Land&limit=1"
+      },
+      {
+       "src": "Wikidata",
+       "value": "T. S. Eliot",
+       "url": "https://www.wikidata.org/wiki/Q581458"
+      }
+     ]
+    },
+    {
+     "field": "publisher",
+     "label": "publisher",
+     "soft": true,
+     "editionDependent": true,
+     "current": "Boni and Liveright",
+     "proposed": "Horace Liveright",
+     "status": "edition-dependent",
+     "grade": "B",
+     "note": "one source differs from the corpus (Wikidata \"Horace Liveright\") on a field with no single true value -- likely a different printing/edition, not an error.",
+     "sources": [
+      {
+       "src": "Wikidata",
+       "value": "Horace Liveright",
+       "url": "https://www.wikidata.org/wiki/Q581458"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "b1176",
+   "title": "Howl",
+   "sourcesReached": [],
+   "sourcesMissed": [
+    "OpenLibrary (no match)",
+    "Google Books (no match)",
+    "Wikidata (no match)"
+   ],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "first publication year",
+     "soft": false,
+     "current": 1956,
+     "status": "no-source",
+     "grade": null,
+     "sources": []
+    },
+    {
+     "field": "pages",
+     "label": "page count",
+     "soft": false,
+     "current": 48,
+     "status": "no-source",
+     "grade": null,
+     "sources": []
+    },
+    {
+     "field": "creator",
+     "label": "author",
+     "soft": false,
+     "current": "Allen Ginsberg",
+     "status": "no-source",
+     "grade": null,
+     "sources": []
+    },
+    {
+     "field": "publisher",
+     "label": "publisher",
+     "soft": true,
+     "current": "City Lights Books",
+     "status": "no-source",
+     "grade": null,
+     "sources": []
+    }
+   ]
+  },
+  {
+   "id": "b1177",
+   "title": "Where the Sidewalk Ends",
+   "sourcesReached": [
+    "OpenLibrary",
+    "Wikidata"
+   ],
+   "sourcesMissed": [
+    "Google Books (no match)"
+   ],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "first publication year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 1974,
+     "proposed": 1974,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OpenLibrary",
+       "value": 1974,
+       "url": "https://openlibrary.org/search.json?title=Where+the+Sidewalk+Ends&limit=1"
+      },
+      {
+       "src": "Wikidata",
+       "value": 1974,
+       "url": "https://www.wikidata.org/wiki/Q7993468"
+      }
+     ]
+    },
+    {
+     "field": "pages",
+     "label": "page count",
+     "soft": false,
+     "current": 176,
+     "status": "no-source",
+     "grade": null,
+     "sources": []
+    },
+    {
+     "field": "creator",
+     "label": "author",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Shel Silverstein",
+     "proposed": "Shel Silverstein",
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OpenLibrary",
+       "value": "Shel Silverstein",
+       "url": "https://openlibrary.org/search.json?title=Where+the+Sidewalk+Ends&limit=1"
+      },
+      {
+       "src": "Wikidata",
+       "value": "Shel Silverstein",
+       "url": "https://www.wikidata.org/wiki/Q7993468"
+      }
+     ]
+    },
+    {
+     "field": "publisher",
+     "label": "publisher",
+     "soft": true,
+     "editionDependent": true,
+     "current": "Harper & Row",
+     "proposed": "HarperCollins",
+     "status": "edition-dependent",
+     "grade": "B",
+     "note": "one source differs from the corpus (Wikidata \"HarperCollins\") on a field with no single true value -- likely a different printing/edition, not an error.",
+     "sources": [
+      {
+       "src": "Wikidata",
+       "value": "HarperCollins",
+       "url": "https://www.wikidata.org/wiki/Q7993468"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "b1178",
+   "title": "The Iliad",
+   "sourcesReached": [
+    "Google Books",
+    "Wikidata"
+   ],
+   "sourcesMissed": [
+    "OpenLibrary (no match)"
+   ],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "first publication year",
+     "soft": false,
+     "editionDependent": false,
+     "current": -750,
+     "proposed": 2007,
+     "status": "proposed-change",
+     "grade": "B",
+     "note": "corpus year (-750) predates the print era; Google Books 2007 likely describe a modern edition, not the original composition date -- not auto-applied.",
+     "sources": [
+      {
+       "src": "Google Books",
+       "value": 2007,
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3AThe+Iliad&maxResults=1&key=REDACTED"
+      }
+     ]
+    },
+    {
+     "field": "pages",
+     "label": "page count",
+     "soft": false,
+     "editionDependent": true,
+     "current": 683,
+     "proposed": 480,
+     "status": "edition-dependent",
+     "grade": "B",
+     "note": "one source differs from the corpus (Google Books 480) on a field with no single true value -- likely a different printing/edition, not an error.",
+     "sources": [
+      {
+       "src": "Google Books",
+       "value": 480,
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3AThe+Iliad&maxResults=1&key=REDACTED"
+      }
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "author",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Homer",
+     "proposed": "Homer",
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "Google Books",
+       "value": "Homer",
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3AThe+Iliad&maxResults=1&key=REDACTED"
+      },
+      {
+       "src": "Wikidata",
+       "value": "Homer",
+       "url": "https://www.wikidata.org/wiki/Q8275"
+      }
+     ]
+    },
+    {
+     "field": "publisher",
+     "label": "publisher",
+     "soft": true,
+     "editionDependent": true,
+     "current": "Traditional",
+     "proposed": "University of Michigan Press",
+     "status": "edition-dependent",
+     "grade": "B",
+     "note": "one source differs from the corpus (Google Books \"University of Michigan Press\") on a field with no single true value -- likely a different printing/edition, not an error.",
+     "sources": [
+      {
+       "src": "Google Books",
+       "value": "University of Michigan Press",
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3AThe+Iliad&maxResults=1&key=REDACTED"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "b1179",
+   "title": "Beowulf",
+   "sourcesReached": [],
+   "sourcesMissed": [
+    "OpenLibrary (no match)",
+    "Google Books (no match)",
+    "Wikidata (no match)"
+   ],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "first publication year",
+     "soft": false,
+     "current": 1000,
+     "status": "no-source",
+     "grade": null,
+     "sources": []
+    },
+    {
+     "field": "pages",
+     "label": "page count",
+     "soft": false,
+     "current": 213,
+     "status": "no-source",
+     "grade": null,
+     "sources": []
+    },
+    {
+     "field": "creator",
+     "label": "author",
+     "soft": false,
+     "current": "Anonymous",
+     "status": "no-source",
+     "grade": null,
+     "sources": []
+    },
+    {
+     "field": "publisher",
+     "label": "publisher",
+     "soft": true,
+     "current": "Traditional",
+     "status": "no-source",
+     "grade": null,
+     "sources": []
+    }
+   ]
+  }
+ ]
+}
