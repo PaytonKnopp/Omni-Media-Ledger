@@ -1,0 +1,838 @@
+{
+ "medium": "game",
+ "generated": "2026-09-17T02:06:00.887Z",
+ "offline": false,
+ "sources": [
+  "IGDB",
+  "Wikidata"
+ ],
+ "works": [
+  {
+   "id": "g322",
+   "title": "Grand Theft Auto IV",
+   "sourcesReached": [
+    "Wikidata"
+   ],
+   "sourcesMissed": [
+    "IGDB (no key in environment)"
+   ],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "release year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 2008,
+     "proposed": 2008,
+     "status": "confirmed",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "Wikidata",
+       "value": 2008,
+       "url": "https://www.wikidata.org/wiki/Q94797"
+      }
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "developer",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Rockstar North",
+     "proposed": "Rockstar North, Rockstar Toronto",
+     "status": "proposed-change",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "Wikidata",
+       "value": "Rockstar North & Rockstar Toronto",
+       "url": "https://www.wikidata.org/wiki/Q94797"
+      }
+     ]
+    },
+    {
+     "field": "platforms",
+     "label": "platforms",
+     "soft": true,
+     "editionDependent": false,
+     "current": [
+      "PS3",
+      "Xbox 360",
+      "PC"
+     ],
+     "proposed": [
+      "Xbox 360",
+      "Microsoft Windows",
+      "PlayStation 3",
+      "Xbox One"
+     ],
+     "status": "proposed-change",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "Wikidata",
+       "value": [
+        "Xbox 360",
+        "Microsoft Windows",
+        "PlayStation 3",
+        "Xbox One"
+       ],
+       "url": "https://www.wikidata.org/wiki/Q94797"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "g323",
+   "title": "The Elder Scrolls IV: Oblivion",
+   "sourcesReached": [
+    "Wikidata"
+   ],
+   "sourcesMissed": [
+    "IGDB (no key in environment)"
+   ],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "release year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 2006,
+     "proposed": 2006,
+     "status": "confirmed",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "Wikidata",
+       "value": 2006,
+       "url": "https://www.wikidata.org/wiki/Q49607"
+      }
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "developer",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Bethesda Game Studios",
+     "proposed": "4J Studios, Bethesda Game Studios, Superscape Studios",
+     "status": "proposed-change",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "Wikidata",
+       "value": "Bethesda Game Studios & Superscape & 4J Studios",
+       "url": "https://www.wikidata.org/wiki/Q49607"
+      }
+     ]
+    },
+    {
+     "field": "platforms",
+     "label": "platforms",
+     "soft": true,
+     "editionDependent": false,
+     "current": [
+      "PC",
+      "Xbox 360",
+      "PS3"
+     ],
+     "proposed": [
+      "Microsoft Windows",
+      "PlayStation 3",
+      "Xbox 360",
+      "mobile phone"
+     ],
+     "status": "proposed-change",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "Wikidata",
+       "value": [
+        "Microsoft Windows",
+        "PlayStation 3",
+        "Xbox 360",
+        "mobile phone"
+       ],
+       "url": "https://www.wikidata.org/wiki/Q49607"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "g324",
+   "title": "Fallout 4",
+   "sourcesReached": [
+    "Wikidata"
+   ],
+   "sourcesMissed": [
+    "IGDB (no key in environment)"
+   ],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "release year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 2015,
+     "proposed": 2015,
+     "status": "confirmed",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "Wikidata",
+       "value": 2015,
+       "url": "https://www.wikidata.org/wiki/Q10493813"
+      }
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "developer",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Bethesda Game Studios",
+     "proposed": "Bethesda Game Studios",
+     "status": "confirmed",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "Wikidata",
+       "value": "Bethesda Game Studios",
+       "url": "https://www.wikidata.org/wiki/Q10493813"
+      }
+     ]
+    },
+    {
+     "field": "platforms",
+     "label": "platforms",
+     "soft": true,
+     "editionDependent": false,
+     "current": [
+      "PC",
+      "PS4",
+      "Xbox One"
+     ],
+     "proposed": [
+      "Microsoft Windows",
+      "PlayStation 4",
+      "Xbox One"
+     ],
+     "status": "proposed-change",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "Wikidata",
+       "value": [
+        "Microsoft Windows",
+        "PlayStation 4",
+        "Xbox One"
+       ],
+       "url": "https://www.wikidata.org/wiki/Q10493813"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "g325",
+   "title": "Dragon Age: Inquisition",
+   "sourcesReached": [
+    "Wikidata"
+   ],
+   "sourcesMissed": [
+    "IGDB (no key in environment)"
+   ],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "release year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 2014,
+     "proposed": 2014,
+     "status": "confirmed",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "Wikidata",
+       "value": 2014,
+       "url": "https://www.wikidata.org/wiki/Q4037583"
+      }
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "developer",
+     "soft": false,
+     "editionDependent": false,
+     "current": "BioWare",
+     "proposed": "BioWare",
+     "status": "confirmed",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "Wikidata",
+       "value": "BioWare",
+       "url": "https://www.wikidata.org/wiki/Q4037583"
+      }
+     ]
+    },
+    {
+     "field": "platforms",
+     "label": "platforms",
+     "soft": true,
+     "editionDependent": false,
+     "current": [
+      "PC",
+      "PS4",
+      "Xbox One"
+     ],
+     "proposed": [
+      "PlayStation 4",
+      "Xbox One",
+      "Xbox 360",
+      "PlayStation 3",
+      "Microsoft Windows"
+     ],
+     "status": "proposed-change",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "Wikidata",
+       "value": [
+        "PlayStation 4",
+        "Xbox One",
+        "Xbox 360",
+        "PlayStation 3",
+        "Microsoft Windows"
+       ],
+       "url": "https://www.wikidata.org/wiki/Q4037583"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "g326",
+   "title": "The Witcher",
+   "sourcesReached": [
+    "Wikidata"
+   ],
+   "sourcesMissed": [
+    "IGDB (no key in environment)"
+   ],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "release year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 2007,
+     "proposed": 2007,
+     "status": "confirmed",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "Wikidata",
+       "value": 2007,
+       "url": "https://www.wikidata.org/wiki/Q287637"
+      }
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "developer",
+     "soft": false,
+     "editionDependent": false,
+     "current": "CD Projekt Red",
+     "proposed": "CD Projekt RED",
+     "status": "confirmed",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "Wikidata",
+       "value": "CD Projekt RED",
+       "url": "https://www.wikidata.org/wiki/Q287637"
+      }
+     ]
+    },
+    {
+     "field": "platforms",
+     "label": "platforms",
+     "soft": true,
+     "editionDependent": false,
+     "current": [
+      "PC"
+     ],
+     "proposed": [
+      "Microsoft Windows",
+      "macOS"
+     ],
+     "status": "proposed-change",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "Wikidata",
+       "value": [
+        "Microsoft Windows",
+        "macOS"
+       ],
+       "url": "https://www.wikidata.org/wiki/Q287637"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "g327",
+   "title": "The Witcher 2: Assassins of Kings",
+   "sourcesReached": [
+    "Wikidata"
+   ],
+   "sourcesMissed": [
+    "IGDB (no key in environment)"
+   ],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "release year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 2011,
+     "proposed": 2011,
+     "status": "confirmed",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "Wikidata",
+       "value": 2011,
+       "url": "https://www.wikidata.org/wiki/Q917272"
+      }
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "developer",
+     "soft": false,
+     "editionDependent": false,
+     "current": "CD Projekt Red",
+     "proposed": "CD Projekt RED",
+     "status": "confirmed",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "Wikidata",
+       "value": "CD Projekt RED",
+       "url": "https://www.wikidata.org/wiki/Q917272"
+      }
+     ]
+    },
+    {
+     "field": "platforms",
+     "label": "platforms",
+     "soft": true,
+     "editionDependent": false,
+     "current": [
+      "PC",
+      "Xbox 360"
+     ],
+     "proposed": [
+      "Xbox 360",
+      "Microsoft Windows",
+      "macOS",
+      "Linux"
+     ],
+     "status": "proposed-change",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "Wikidata",
+       "value": [
+        "Xbox 360",
+        "Microsoft Windows",
+        "macOS",
+        "Linux"
+       ],
+       "url": "https://www.wikidata.org/wiki/Q917272"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "g328",
+   "title": "Batman: Arkham Knight",
+   "sourcesReached": [
+    "Wikidata"
+   ],
+   "sourcesMissed": [
+    "IGDB (no key in environment)"
+   ],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "release year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 2015,
+     "proposed": 2015,
+     "status": "confirmed",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "Wikidata",
+       "value": 2015,
+       "url": "https://www.wikidata.org/wiki/Q15891648"
+      }
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "developer",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Rocksteady Studios",
+     "proposed": "Rocksteady Studios",
+     "status": "confirmed",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "Wikidata",
+       "value": "Rocksteady Studios",
+       "url": "https://www.wikidata.org/wiki/Q15891648"
+      }
+     ]
+    },
+    {
+     "field": "platforms",
+     "label": "platforms",
+     "soft": true,
+     "editionDependent": false,
+     "current": [
+      "PC",
+      "PS4",
+      "Xbox One"
+     ],
+     "proposed": [
+      "PlayStation 4",
+      "Xbox One",
+      "Microsoft Windows",
+      "Linux",
+      "macOS"
+     ],
+     "status": "proposed-change",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "Wikidata",
+       "value": [
+        "PlayStation 4",
+        "Xbox One",
+        "Microsoft Windows",
+        "Linux",
+        "macOS"
+       ],
+       "url": "https://www.wikidata.org/wiki/Q15891648"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "g329",
+   "title": "Nioh",
+   "sourcesReached": [
+    "Wikidata"
+   ],
+   "sourcesMissed": [
+    "IGDB (no key in environment)"
+   ],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "release year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 2017,
+     "proposed": 2020,
+     "status": "proposed-change",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "Wikidata",
+       "value": 2020,
+       "url": "https://www.wikidata.org/wiki/Q67482292"
+      }
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "developer",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Team Ninja",
+     "proposed": "Team Ninja",
+     "status": "confirmed",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "Wikidata",
+       "value": "Team Ninja",
+       "url": "https://www.wikidata.org/wiki/Q67482292"
+      }
+     ]
+    },
+    {
+     "field": "platforms",
+     "label": "platforms",
+     "soft": true,
+     "editionDependent": false,
+     "current": [
+      "PS4",
+      "PC"
+     ],
+     "proposed": [
+      "PlayStation 4",
+      "Microsoft Windows"
+     ],
+     "status": "proposed-change",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "Wikidata",
+       "value": [
+        "PlayStation 4",
+        "Microsoft Windows"
+       ],
+       "url": "https://www.wikidata.org/wiki/Q67482292"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "g330",
+   "title": "Demon's Souls",
+   "sourcesReached": [
+    "Wikidata"
+   ],
+   "sourcesMissed": [
+    "IGDB (no key in environment)"
+   ],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "release year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 2009,
+     "proposed": 2009,
+     "status": "confirmed",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "Wikidata",
+       "value": 2009,
+       "url": "https://www.wikidata.org/wiki/Q1153708"
+      }
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "developer",
+     "soft": false,
+     "editionDependent": false,
+     "current": "FromSoftware",
+     "proposed": "FromSoftware",
+     "status": "confirmed",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "Wikidata",
+       "value": "FromSoftware",
+       "url": "https://www.wikidata.org/wiki/Q1153708"
+      }
+     ]
+    },
+    {
+     "field": "platforms",
+     "label": "platforms",
+     "soft": true,
+     "editionDependent": false,
+     "current": [
+      "PS3",
+      "PS5"
+     ],
+     "proposed": [
+      "PlayStation 3"
+     ],
+     "status": "proposed-change",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "Wikidata",
+       "value": [
+        "PlayStation 3"
+       ],
+       "url": "https://www.wikidata.org/wiki/Q1153708"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "g331",
+   "title": "Dark Souls II",
+   "sourcesReached": [
+    "Wikidata"
+   ],
+   "sourcesMissed": [
+    "IGDB (no key in environment)"
+   ],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "release year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 2014,
+     "proposed": 2014,
+     "status": "confirmed",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "Wikidata",
+       "value": 2014,
+       "url": "https://www.wikidata.org/wiki/Q3702740"
+      }
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "developer",
+     "soft": false,
+     "editionDependent": false,
+     "current": "FromSoftware",
+     "proposed": "FromSoftware",
+     "status": "confirmed",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "Wikidata",
+       "value": "FromSoftware",
+       "url": "https://www.wikidata.org/wiki/Q3702740"
+      }
+     ]
+    },
+    {
+     "field": "platforms",
+     "label": "platforms",
+     "soft": true,
+     "editionDependent": false,
+     "current": [
+      "PC",
+      "PS3",
+      "Xbox 360"
+     ],
+     "proposed": [
+      "Xbox 360",
+      "PlayStation 3",
+      "Microsoft Windows",
+      "Xbox One",
+      "PlayStation 4"
+     ],
+     "status": "proposed-change",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "Wikidata",
+       "value": [
+        "Xbox 360",
+        "PlayStation 3",
+        "Microsoft Windows",
+        "Xbox One",
+        "PlayStation 4"
+       ],
+       "url": "https://www.wikidata.org/wiki/Q3702740"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "g332",
+   "title": "Days Gone",
+   "sourcesReached": [
+    "Wikidata"
+   ],
+   "sourcesMissed": [
+    "IGDB (no key in environment)"
+   ],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "release year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 2019,
+     "proposed": 2019,
+     "status": "confirmed",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "Wikidata",
+       "value": 2019,
+       "url": "https://www.wikidata.org/wiki/Q24576564"
+      }
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "developer",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Bend Studio",
+     "proposed": "Bend Studio",
+     "status": "confirmed",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "Wikidata",
+       "value": "Bend Studio",
+       "url": "https://www.wikidata.org/wiki/Q24576564"
+      }
+     ]
+    },
+    {
+     "field": "platforms",
+     "label": "platforms",
+     "soft": true,
+     "editionDependent": false,
+     "current": [
+      "PS4",
+      "PC"
+     ],
+     "proposed": [
+      "PlayStation 4",
+      "Microsoft Windows"
+     ],
+     "status": "proposed-change",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "Wikidata",
+       "value": [
+        "PlayStation 4",
+        "Microsoft Windows"
+       ],
+       "url": "https://www.wikidata.org/wiki/Q24576564"
+      }
+     ]
+    }
+   ]
+  }
+ ]
+}
