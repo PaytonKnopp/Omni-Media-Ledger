@@ -1,0 +1,1055 @@
+{
+ "medium": "movie",
+ "generated": "2026-09-17T18:16:45.359Z",
+ "offline": false,
+ "sources": [
+  "OMDb",
+  "TMDB"
+ ],
+ "works": [
+  {
+   "id": "m1708",
+   "title": "Harlem Nights",
+   "sourcesReached": [
+    "OMDb",
+    "TMDB"
+   ],
+   "sourcesMissed": [],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "release year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 1989,
+     "proposed": 1989,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 1989,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Harlem+Nights&type=movie&y=1989"
+      },
+      {
+       "src": "TMDB",
+       "value": 1989,
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Harlem+Nights&year=1989"
+      }
+     ]
+    },
+    {
+     "field": "runtime",
+     "label": "runtime (min)",
+     "soft": false,
+     "editionDependent": true,
+     "current": 118,
+     "proposed": 116,
+     "status": "edition-dependent",
+     "grade": "B",
+     "note": "sources agree with each other but not the corpus (OMDb 116, TMDB 116) on a field with no single true value -- likely a different printing/edition, not an error.",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 116,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Harlem+Nights&type=movie&y=1989"
+      },
+      {
+       "src": "TMDB",
+       "value": 116,
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Harlem+Nights&year=1989"
+      }
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "director",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Eddie Murphy",
+     "proposed": "Eddie Murphy",
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": "Eddie Murphy",
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Harlem+Nights&type=movie&y=1989"
+      },
+      {
+       "src": "TMDB",
+       "value": "Eddie Murphy",
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Harlem+Nights&year=1989"
+      }
+     ]
+    },
+    {
+     "field": "studio",
+     "label": "studio",
+     "soft": true,
+     "editionDependent": false,
+     "current": "Paramount Pictures",
+     "proposed": "Paramount Pictures",
+     "status": "confirmed",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "TMDB",
+       "value": "Paramount Pictures",
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Harlem+Nights&year=1989"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "m1709",
+   "title": "Norbit",
+   "sourcesReached": [
+    "OMDb",
+    "TMDB"
+   ],
+   "sourcesMissed": [],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "release year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 2007,
+     "proposed": 2007,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 2007,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Norbit&type=movie&y=2007"
+      },
+      {
+       "src": "TMDB",
+       "value": 2007,
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Norbit&year=2007"
+      }
+     ]
+    },
+    {
+     "field": "runtime",
+     "label": "runtime (min)",
+     "soft": false,
+     "editionDependent": true,
+     "current": 102,
+     "proposed": 102,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 102,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Norbit&type=movie&y=2007"
+      },
+      {
+       "src": "TMDB",
+       "value": 102,
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Norbit&year=2007"
+      }
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "director",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Brian Robbins",
+     "proposed": "Brian Robbins",
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": "Brian Robbins",
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Norbit&type=movie&y=2007"
+      },
+      {
+       "src": "TMDB",
+       "value": "Brian Robbins",
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Norbit&year=2007"
+      }
+     ]
+    },
+    {
+     "field": "studio",
+     "label": "studio",
+     "soft": true,
+     "editionDependent": false,
+     "current": "Paramount Pictures",
+     "proposed": "Davis Entertainment",
+     "status": "proposed-change",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "TMDB",
+       "value": "Davis Entertainment",
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Norbit&year=2007"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "m1713",
+   "title": "Liar Liar",
+   "sourcesReached": [
+    "OMDb",
+    "TMDB"
+   ],
+   "sourcesMissed": [],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "release year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 1997,
+     "proposed": 1997,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 1997,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Liar+Liar&type=movie&y=1997"
+      },
+      {
+       "src": "TMDB",
+       "value": 1997,
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Liar+Liar&year=1997"
+      }
+     ]
+    },
+    {
+     "field": "runtime",
+     "label": "runtime (min)",
+     "soft": false,
+     "editionDependent": true,
+     "current": 86,
+     "proposed": 86,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 86,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Liar+Liar&type=movie&y=1997"
+      },
+      {
+       "src": "TMDB",
+       "value": 86,
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Liar+Liar&year=1997"
+      }
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "director",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Tom Shadyac",
+     "proposed": "Tom Shadyac",
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": "Tom Shadyac",
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Liar+Liar&type=movie&y=1997"
+      },
+      {
+       "src": "TMDB",
+       "value": "Tom Shadyac",
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Liar+Liar&year=1997"
+      }
+     ]
+    },
+    {
+     "field": "studio",
+     "label": "studio",
+     "soft": true,
+     "editionDependent": false,
+     "current": "Universal Pictures",
+     "proposed": "Universal Pictures",
+     "status": "confirmed",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "TMDB",
+       "value": "Universal Pictures",
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Liar+Liar&year=1997"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "m1714",
+   "title": "The Cable Guy",
+   "sourcesReached": [
+    "OMDb",
+    "TMDB"
+   ],
+   "sourcesMissed": [],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "release year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 1996,
+     "proposed": 1996,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 1996,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=The+Cable+Guy&type=movie&y=1996"
+      },
+      {
+       "src": "TMDB",
+       "value": 1996,
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=The+Cable+Guy&year=1996"
+      }
+     ]
+    },
+    {
+     "field": "runtime",
+     "label": "runtime (min)",
+     "soft": false,
+     "editionDependent": true,
+     "current": 96,
+     "proposed": 96,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 96,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=The+Cable+Guy&type=movie&y=1996"
+      },
+      {
+       "src": "TMDB",
+       "value": 96,
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=The+Cable+Guy&year=1996"
+      }
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "director",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Ben Stiller",
+     "proposed": "Ben Stiller",
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": "Ben Stiller",
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=The+Cable+Guy&type=movie&y=1996"
+      },
+      {
+       "src": "TMDB",
+       "value": "Ben Stiller",
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=The+Cable+Guy&year=1996"
+      }
+     ]
+    },
+    {
+     "field": "studio",
+     "label": "studio",
+     "soft": true,
+     "editionDependent": false,
+     "current": "Columbia Pictures",
+     "proposed": "Columbia Pictures",
+     "status": "confirmed",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "TMDB",
+       "value": "Columbia Pictures",
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=The+Cable+Guy&year=1996"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "m1715",
+   "title": "Ace Ventura: Pet Detective",
+   "sourcesReached": [
+    "OMDb",
+    "TMDB"
+   ],
+   "sourcesMissed": [],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "release year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 1994,
+     "proposed": 1994,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 1994,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Ace+Ventura%3A+Pet+Detective&type=movie&y=1994"
+      },
+      {
+       "src": "TMDB",
+       "value": 1994,
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Ace+Ventura%3A+Pet+Detective&year=1994"
+      }
+     ]
+    },
+    {
+     "field": "runtime",
+     "label": "runtime (min)",
+     "soft": false,
+     "editionDependent": true,
+     "current": 86,
+     "proposed": 86,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 86,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Ace+Ventura%3A+Pet+Detective&type=movie&y=1994"
+      },
+      {
+       "src": "TMDB",
+       "value": 86,
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Ace+Ventura%3A+Pet+Detective&year=1994"
+      }
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "director",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Tom Shadyac",
+     "proposed": "Tom Shadyac",
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": "Tom Shadyac",
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Ace+Ventura%3A+Pet+Detective&type=movie&y=1994"
+      },
+      {
+       "src": "TMDB",
+       "value": "Tom Shadyac",
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Ace+Ventura%3A+Pet+Detective&year=1994"
+      }
+     ]
+    },
+    {
+     "field": "studio",
+     "label": "studio",
+     "soft": true,
+     "editionDependent": false,
+     "current": "Warner Bros.",
+     "proposed": "Morgan Creek Entertainment",
+     "status": "proposed-change",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "TMDB",
+       "value": "Morgan Creek Entertainment",
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Ace+Ventura%3A+Pet+Detective&year=1994"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "m1716",
+   "title": "Ace Ventura: When Nature Calls",
+   "sourcesReached": [
+    "OMDb",
+    "TMDB"
+   ],
+   "sourcesMissed": [],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "release year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 1995,
+     "proposed": 1995,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 1995,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Ace+Ventura%3A+When+Nature+Calls&type=movie&y=1995"
+      },
+      {
+       "src": "TMDB",
+       "value": 1995,
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Ace+Ventura%3A+When+Nature+Calls&year=1995"
+      }
+     ]
+    },
+    {
+     "field": "runtime",
+     "label": "runtime (min)",
+     "soft": false,
+     "editionDependent": true,
+     "current": 90,
+     "proposed": 90,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 90,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Ace+Ventura%3A+When+Nature+Calls&type=movie&y=1995"
+      },
+      {
+       "src": "TMDB",
+       "value": 90,
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Ace+Ventura%3A+When+Nature+Calls&year=1995"
+      }
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "director",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Steve Oedekerk",
+     "proposed": "Steve Oedekerk",
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": "Steve Oedekerk",
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Ace+Ventura%3A+When+Nature+Calls&type=movie&y=1995"
+      },
+      {
+       "src": "TMDB",
+       "value": "Steve Oedekerk",
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Ace+Ventura%3A+When+Nature+Calls&year=1995"
+      }
+     ]
+    },
+    {
+     "field": "studio",
+     "label": "studio",
+     "soft": true,
+     "editionDependent": false,
+     "current": "Warner Bros.",
+     "proposed": "Morgan Creek Entertainment",
+     "status": "proposed-change",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "TMDB",
+       "value": "Morgan Creek Entertainment",
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Ace+Ventura%3A+When+Nature+Calls&year=1995"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "m1717",
+   "title": "Dumb and Dumber",
+   "sourcesReached": [
+    "OMDb",
+    "TMDB"
+   ],
+   "sourcesMissed": [],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "release year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 1994,
+     "proposed": 1994,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 1994,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Dumb+and+Dumber&type=movie&y=1994"
+      },
+      {
+       "src": "TMDB",
+       "value": 1994,
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Dumb+and+Dumber&year=1994"
+      }
+     ]
+    },
+    {
+     "field": "runtime",
+     "label": "runtime (min)",
+     "soft": false,
+     "editionDependent": true,
+     "current": 107,
+     "proposed": 107,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 107,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Dumb+and+Dumber&type=movie&y=1994"
+      },
+      {
+       "src": "TMDB",
+       "value": 107,
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Dumb+and+Dumber&year=1994"
+      }
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "director",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Peter Farrelly",
+     "proposed": "Peter Farrelly",
+     "status": "corroborated-by-one",
+     "grade": "B",
+     "note": "matches TMDB; disagrees with OMDb (\"Peter Farrelly, Bobby Farrelly\")",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": "Peter Farrelly, Bobby Farrelly",
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Dumb+and+Dumber&type=movie&y=1994"
+      },
+      {
+       "src": "TMDB",
+       "value": "Peter Farrelly",
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Dumb+and+Dumber&year=1994"
+      }
+     ],
+     "alternatives": [
+      "Peter Farrelly"
+     ]
+    },
+    {
+     "field": "studio",
+     "label": "studio",
+     "soft": true,
+     "editionDependent": false,
+     "current": "New Line Cinema",
+     "proposed": "New Line Cinema",
+     "status": "confirmed",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "TMDB",
+       "value": "New Line Cinema",
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Dumb+and+Dumber&year=1994"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "m1718",
+   "title": "Dumb and Dumberer: When Harry Met Lloyd",
+   "sourcesReached": [
+    "OMDb",
+    "TMDB"
+   ],
+   "sourcesMissed": [],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "release year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 2003,
+     "proposed": 2003,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 2003,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Dumb+and+Dumberer%3A+When+Harry+Met+Lloyd&type=movie&y=2003"
+      },
+      {
+       "src": "TMDB",
+       "value": 2003,
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Dumb+and+Dumberer%3A+When+Harry+Met+Lloyd&year=2003"
+      }
+     ]
+    },
+    {
+     "field": "runtime",
+     "label": "runtime (min)",
+     "soft": false,
+     "editionDependent": true,
+     "current": 88,
+     "proposed": 85,
+     "status": "edition-dependent",
+     "grade": "B",
+     "note": "sources agree with each other but not the corpus (OMDb 85, TMDB 85) on a field with no single true value -- likely a different printing/edition, not an error.",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 85,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Dumb+and+Dumberer%3A+When+Harry+Met+Lloyd&type=movie&y=2003"
+      },
+      {
+       "src": "TMDB",
+       "value": 85,
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Dumb+and+Dumberer%3A+When+Harry+Met+Lloyd&year=2003"
+      }
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "director",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Troy Miller",
+     "proposed": "Troy Miller",
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": "Troy Miller",
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Dumb+and+Dumberer%3A+When+Harry+Met+Lloyd&type=movie&y=2003"
+      },
+      {
+       "src": "TMDB",
+       "value": "Troy Miller",
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Dumb+and+Dumberer%3A+When+Harry+Met+Lloyd&year=2003"
+      }
+     ]
+    },
+    {
+     "field": "studio",
+     "label": "studio",
+     "soft": true,
+     "editionDependent": false,
+     "current": "New Line Cinema",
+     "proposed": "New Line Cinema",
+     "status": "confirmed",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "TMDB",
+       "value": "New Line Cinema",
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Dumb+and+Dumberer%3A+When+Harry+Met+Lloyd&year=2003"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "m1719",
+   "title": "Me, Myself & Irene",
+   "sourcesReached": [
+    "OMDb",
+    "TMDB"
+   ],
+   "sourcesMissed": [],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "release year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 2000,
+     "proposed": 2000,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 2000,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Me%2C+Myself+%26+Irene&type=movie&y=2000"
+      },
+      {
+       "src": "TMDB",
+       "value": 2000,
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Me%2C+Myself+%26+Irene&year=2000"
+      }
+     ]
+    },
+    {
+     "field": "runtime",
+     "label": "runtime (min)",
+     "soft": false,
+     "editionDependent": true,
+     "current": 116,
+     "proposed": 116,
+     "status": "corroborated-by-one",
+     "grade": "B",
+     "note": "matches OMDb; disagrees with TMDB (117)",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 116,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Me%2C+Myself+%26+Irene&type=movie&y=2000"
+      },
+      {
+       "src": "TMDB",
+       "value": 117,
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Me%2C+Myself+%26+Irene&year=2000"
+      }
+     ],
+     "alternatives": [
+      117
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "director",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Bobby Farrelly & Peter Farrelly",
+     "proposed": "Bobby Farrelly, Peter Farrelly",
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": "Bobby Farrelly, Peter Farrelly",
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Me%2C+Myself+%26+Irene&type=movie&y=2000"
+      },
+      {
+       "src": "TMDB",
+       "value": "Peter Farrelly, Bobby Farrelly",
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Me%2C+Myself+%26+Irene&year=2000"
+      }
+     ]
+    },
+    {
+     "field": "studio",
+     "label": "studio",
+     "soft": true,
+     "editionDependent": false,
+     "current": "20th Century Fox",
+     "proposed": "Conundrum Entertainment",
+     "status": "proposed-change",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "TMDB",
+       "value": "Conundrum Entertainment",
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Me%2C+Myself+%26+Irene&year=2000"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "m1720",
+   "title": "The Mask",
+   "sourcesReached": [
+    "OMDb",
+    "TMDB"
+   ],
+   "sourcesMissed": [],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "release year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 1994,
+     "proposed": 1994,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 1994,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=The+Mask&type=movie&y=1994"
+      },
+      {
+       "src": "TMDB",
+       "value": 1994,
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=The+Mask&year=1994"
+      }
+     ]
+    },
+    {
+     "field": "runtime",
+     "label": "runtime (min)",
+     "soft": false,
+     "editionDependent": true,
+     "current": 101,
+     "proposed": 101,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 101,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=The+Mask&type=movie&y=1994"
+      },
+      {
+       "src": "TMDB",
+       "value": 101,
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=The+Mask&year=1994"
+      }
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "director",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Chuck Russell",
+     "proposed": "Chuck Russell",
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": "Chuck Russell",
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=The+Mask&type=movie&y=1994"
+      },
+      {
+       "src": "TMDB",
+       "value": "Chuck Russell",
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=The+Mask&year=1994"
+      }
+     ]
+    },
+    {
+     "field": "studio",
+     "label": "studio",
+     "soft": true,
+     "editionDependent": false,
+     "current": "New Line Cinema",
+     "proposed": "Dark Horse Entertainment",
+     "status": "proposed-change",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "TMDB",
+       "value": "Dark Horse Entertainment",
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=The+Mask&year=1994"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "m1721",
+   "title": "Batman Forever",
+   "sourcesReached": [
+    "OMDb",
+    "TMDB"
+   ],
+   "sourcesMissed": [],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "release year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 1995,
+     "proposed": 1995,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 1995,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Batman+Forever&type=movie&y=1995"
+      },
+      {
+       "src": "TMDB",
+       "value": 1995,
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Batman+Forever&year=1995"
+      }
+     ]
+    },
+    {
+     "field": "runtime",
+     "label": "runtime (min)",
+     "soft": false,
+     "editionDependent": true,
+     "current": 121,
+     "proposed": 121,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 121,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Batman+Forever&type=movie&y=1995"
+      },
+      {
+       "src": "TMDB",
+       "value": 121,
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Batman+Forever&year=1995"
+      }
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "director",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Joel Schumacher",
+     "proposed": "Joel Schumacher",
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": "Joel Schumacher",
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Batman+Forever&type=movie&y=1995"
+      },
+      {
+       "src": "TMDB",
+       "value": "Joel Schumacher",
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Batman+Forever&year=1995"
+      }
+     ]
+    },
+    {
+     "field": "studio",
+     "label": "studio",
+     "soft": true,
+     "editionDependent": false,
+     "current": "Warner Bros.",
+     "proposed": "Warner Bros. Pictures",
+     "status": "proposed-change",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "TMDB",
+       "value": "Warner Bros. Pictures",
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Batman+Forever&year=1995"
+      }
+     ]
+    }
+   ]
+  }
+ ]
+}

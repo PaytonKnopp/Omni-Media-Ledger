@@ -1631,7 +1631,7 @@ ALL.forEach(x=>{
  x.cozy=Math.max(0,Math.min(100,Math.round((100-x.dread)*0.5+x.aud*0.35+(cozy?16:0)-(x.myst>88?8:0))));
 });
 const GENRE_FAMILIES=[
- ['Sci-Fi',/sci-?fi|cyberpunk|space|dystopia|apocalyp|alt-history|time (loop|travel)|philosophical sci|feminist sf|military sf/i],
+ ['Sci-Fi',/sci-?fi|cyberpunk|space|dystopia|apocalyp|alt-history|time (loop|travel)|philosophical sci|feminist sf|military sf|hard sf/i],
  ['Horror',/horror|slasher|giallo|gothic|cosmic|body horror|folk horror|found footage|supernatural|vampire|ghost story|possession|haunted/i],
  ['Documentary',/documentary|mockumentary|reality/i],
  ['Drama',/(^|\b)drama|tragedy|family|medical|kitchen|coming.of.age|slice of life|domestic|social commentary/i],
@@ -2467,6 +2467,13 @@ const SERIES_DEFS=[
  {name:"Jack Reacher",kind:"movie",members:["Jack Reacher","Jack Reacher: Never Go Back"],total:2},
  {name:"Philip Marlowe",kind:"book",members:["The Big Sleep","Farewell, My Lovely","The Long Goodbye"],total:7},
  {name:"Ripley",kind:"book",members:["The Talented Mr. Ripley","Ripley Under Ground","Ripley's Game"],total:5},
+ {name:"Sprawl Trilogy",kind:"book",members:["Neuromancer","Count Zero","Mona Lisa Overdrive"],total:3},
+ {name:"Takeshi Kovacs",kind:"book",members:["Altered Carbon","Broken Angels","Woken Furies"],total:3},
+ {name:"Ilium/Olympos",kind:"book",members:["Ilium","Olympos"],total:2},
+ {name:"Coming to America",kind:"movie",members:["Coming to America","Coming 2 America"],total:2},
+ {name:"The Nutty Professor",kind:"movie",members:["The Nutty Professor","Nutty Professor II: The Klumps"],total:2},
+ {name:"Ace Ventura",kind:"movie",members:["Ace Ventura: Pet Detective","Ace Ventura: When Nature Calls"],total:2},
+ {name:"Dumb and Dumber",kind:"movie",members:["Dumb and Dumber","Dumb and Dumberer: When Harry Met Lloyd"],total:2},
  {name:"Bourne",kind:"book",members:["The Bourne Identity","The Bourne Supremacy","The Bourne Ultimatum"],total:3},
  {name:"The Dark Tower",kind:"book",members:["The Dark Tower: The Gunslinger","The Dark Tower II: The Drawing of the Three"],total:2},
  {name:"The Vampire Chronicles",kind:"book",members:["Interview with the Vampire","The Vampire Lestat","Queen of the Damned","The Tale of the Body Thief","Memnoch the Devil","Blood and Gold"],total:13},

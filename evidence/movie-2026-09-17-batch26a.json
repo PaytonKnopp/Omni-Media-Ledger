@@ -1,0 +1,1102 @@
+{
+ "medium": "movie",
+ "generated": "2026-09-17T18:16:37.483Z",
+ "offline": false,
+ "sources": [
+  "OMDb",
+  "TMDB"
+ ],
+ "works": [
+  {
+   "id": "m1699",
+   "title": "Coming to America",
+   "sourcesReached": [
+    "OMDb",
+    "TMDB"
+   ],
+   "sourcesMissed": [],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "release year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 1988,
+     "proposed": 1988,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 1988,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Coming+to+America&type=movie&y=1988"
+      },
+      {
+       "src": "TMDB",
+       "value": 1988,
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Coming+to+America&year=1988"
+      }
+     ]
+    },
+    {
+     "field": "runtime",
+     "label": "runtime (min)",
+     "soft": false,
+     "editionDependent": true,
+     "current": 117,
+     "proposed": 117,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 117,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Coming+to+America&type=movie&y=1988"
+      },
+      {
+       "src": "TMDB",
+       "value": 117,
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Coming+to+America&year=1988"
+      }
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "director",
+     "soft": false,
+     "editionDependent": false,
+     "current": "John Landis",
+     "proposed": "John Landis",
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": "John Landis",
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Coming+to+America&type=movie&y=1988"
+      },
+      {
+       "src": "TMDB",
+       "value": "John Landis",
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Coming+to+America&year=1988"
+      }
+     ]
+    },
+    {
+     "field": "studio",
+     "label": "studio",
+     "soft": true,
+     "editionDependent": false,
+     "current": "Paramount Pictures",
+     "proposed": "Eddie Murphy Productions",
+     "status": "proposed-change",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "TMDB",
+       "value": "Eddie Murphy Productions",
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Coming+to+America&year=1988"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "m1700",
+   "title": "Coming 2 America",
+   "sourcesReached": [
+    "OMDb",
+    "TMDB"
+   ],
+   "sourcesMissed": [],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "release year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 2021,
+     "proposed": 2021,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 2021,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Coming+2+America&type=movie&y=2021"
+      },
+      {
+       "src": "TMDB",
+       "value": 2021,
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Coming+2+America&year=2021"
+      }
+     ]
+    },
+    {
+     "field": "runtime",
+     "label": "runtime (min)",
+     "soft": false,
+     "editionDependent": true,
+     "current": 110,
+     "proposed": 110,
+     "status": "corroborated-by-one",
+     "grade": "B",
+     "note": "matches OMDb; disagrees with TMDB (108)",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 110,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Coming+2+America&type=movie&y=2021"
+      },
+      {
+       "src": "TMDB",
+       "value": 108,
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Coming+2+America&year=2021"
+      }
+     ],
+     "alternatives": [
+      108
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "director",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Craig Brewer",
+     "proposed": "Craig Brewer",
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": "Craig Brewer",
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Coming+2+America&type=movie&y=2021"
+      },
+      {
+       "src": "TMDB",
+       "value": "Craig Brewer",
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Coming+2+America&year=2021"
+      }
+     ]
+    },
+    {
+     "field": "studio",
+     "label": "studio",
+     "soft": true,
+     "editionDependent": false,
+     "current": "Amazon Studios",
+     "proposed": "Paramount Pictures",
+     "status": "proposed-change",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "TMDB",
+       "value": "Paramount Pictures",
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Coming+2+America&year=2021"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "m1701",
+   "title": "Boomerang",
+   "sourcesReached": [
+    "OMDb",
+    "TMDB"
+   ],
+   "sourcesMissed": [],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "release year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 1992,
+     "proposed": 1992,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 1992,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Boomerang&type=movie&y=1992"
+      },
+      {
+       "src": "TMDB",
+       "value": 1992,
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Boomerang&year=1992"
+      }
+     ]
+    },
+    {
+     "field": "runtime",
+     "label": "runtime (min)",
+     "soft": false,
+     "editionDependent": true,
+     "current": 118,
+     "proposed": 117,
+     "status": "edition-dependent",
+     "grade": "B",
+     "note": "sources agree with each other but not the corpus (OMDb 117, TMDB 117) on a field with no single true value -- likely a different printing/edition, not an error.",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 117,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Boomerang&type=movie&y=1992"
+      },
+      {
+       "src": "TMDB",
+       "value": 117,
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Boomerang&year=1992"
+      }
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "director",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Reginald Hudlin",
+     "proposed": "Reginald Hudlin",
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": "Reginald Hudlin",
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Boomerang&type=movie&y=1992"
+      },
+      {
+       "src": "TMDB",
+       "value": "Reginald Hudlin",
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Boomerang&year=1992"
+      }
+     ]
+    },
+    {
+     "field": "studio",
+     "label": "studio",
+     "soft": true,
+     "editionDependent": false,
+     "current": "Paramount Pictures",
+     "proposed": "Paramount Pictures",
+     "status": "confirmed",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "TMDB",
+       "value": "Paramount Pictures",
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Boomerang&year=1992"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "m1702",
+   "title": "The Nutty Professor",
+   "sourcesReached": [
+    "OMDb",
+    "TMDB"
+   ],
+   "sourcesMissed": [],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "release year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 1996,
+     "proposed": 1996,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 1996,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=The+Nutty+Professor&type=movie&y=1996"
+      },
+      {
+       "src": "TMDB",
+       "value": 1996,
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=The+Nutty+Professor&year=1996"
+      }
+     ]
+    },
+    {
+     "field": "runtime",
+     "label": "runtime (min)",
+     "soft": false,
+     "editionDependent": true,
+     "current": 95,
+     "proposed": 95,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 95,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=The+Nutty+Professor&type=movie&y=1996"
+      },
+      {
+       "src": "TMDB",
+       "value": 95,
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=The+Nutty+Professor&year=1996"
+      }
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "director",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Tom Shadyac",
+     "proposed": "Tom Shadyac",
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": "Tom Shadyac",
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=The+Nutty+Professor&type=movie&y=1996"
+      },
+      {
+       "src": "TMDB",
+       "value": "Tom Shadyac",
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=The+Nutty+Professor&year=1996"
+      }
+     ]
+    },
+    {
+     "field": "studio",
+     "label": "studio",
+     "soft": true,
+     "editionDependent": false,
+     "current": "Universal Pictures",
+     "proposed": "Universal Pictures",
+     "status": "confirmed",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "TMDB",
+       "value": "Universal Pictures",
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=The+Nutty+Professor&year=1996"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "m1703",
+   "title": "Nutty Professor II: The Klumps",
+   "sourcesReached": [
+    "OMDb",
+    "TMDB"
+   ],
+   "sourcesMissed": [],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "release year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 2000,
+     "proposed": 2000,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 2000,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Nutty+Professor+II%3A+The+Klumps&type=movie&y=2000"
+      },
+      {
+       "src": "TMDB",
+       "value": 2000,
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Nutty+Professor+II%3A+The+Klumps&year=2000"
+      }
+     ]
+    },
+    {
+     "field": "runtime",
+     "label": "runtime (min)",
+     "soft": false,
+     "editionDependent": true,
+     "current": 106,
+     "proposed": 106,
+     "status": "corroborated-by-one",
+     "grade": "B",
+     "note": "matches OMDb; disagrees with TMDB (107)",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 106,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Nutty+Professor+II%3A+The+Klumps&type=movie&y=2000"
+      },
+      {
+       "src": "TMDB",
+       "value": 107,
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Nutty+Professor+II%3A+The+Klumps&year=2000"
+      }
+     ],
+     "alternatives": [
+      107
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "director",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Peter Segal",
+     "proposed": "Peter Segal",
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": "Peter Segal",
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Nutty+Professor+II%3A+The+Klumps&type=movie&y=2000"
+      },
+      {
+       "src": "TMDB",
+       "value": "Peter Segal",
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Nutty+Professor+II%3A+The+Klumps&year=2000"
+      }
+     ]
+    },
+    {
+     "field": "studio",
+     "label": "studio",
+     "soft": true,
+     "editionDependent": false,
+     "current": "Universal Pictures",
+     "proposed": "Universal Pictures",
+     "status": "confirmed",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "TMDB",
+       "value": "Universal Pictures",
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Nutty+Professor+II%3A+The+Klumps&year=2000"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "m1704",
+   "title": "Dr. Dolittle",
+   "sourcesReached": [],
+   "sourcesMissed": [
+    "OMDb (no match)",
+    "TMDB (no match)"
+   ],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "release year",
+     "soft": false,
+     "current": 1998,
+     "status": "no-source",
+     "grade": null,
+     "sources": []
+    },
+    {
+     "field": "runtime",
+     "label": "runtime (min)",
+     "soft": false,
+     "current": 85,
+     "status": "no-source",
+     "grade": null,
+     "sources": []
+    },
+    {
+     "field": "creator",
+     "label": "director",
+     "soft": false,
+     "current": "Betty Thomas",
+     "status": "no-source",
+     "grade": null,
+     "sources": []
+    },
+    {
+     "field": "studio",
+     "label": "studio",
+     "soft": true,
+     "current": "20th Century Fox",
+     "status": "no-source",
+     "grade": null,
+     "sources": []
+    }
+   ]
+  },
+  {
+   "id": "m1705",
+   "title": "Life",
+   "sourcesReached": [
+    "OMDb",
+    "TMDB"
+   ],
+   "sourcesMissed": [],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "release year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 1999,
+     "proposed": 1999,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 1999,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Life&type=movie&y=1999"
+      },
+      {
+       "src": "TMDB",
+       "value": 1999,
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Life&year=1999"
+      }
+     ]
+    },
+    {
+     "field": "runtime",
+     "label": "runtime (min)",
+     "soft": false,
+     "editionDependent": true,
+     "current": 109,
+     "proposed": 108,
+     "status": "edition-dependent",
+     "grade": "B",
+     "note": "sources agree with each other but not the corpus (OMDb 108, TMDB 108) on a field with no single true value -- likely a different printing/edition, not an error.",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 108,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Life&type=movie&y=1999"
+      },
+      {
+       "src": "TMDB",
+       "value": 108,
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Life&year=1999"
+      }
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "director",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Ted Demme",
+     "proposed": "Ted Demme",
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": "Ted Demme",
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Life&type=movie&y=1999"
+      },
+      {
+       "src": "TMDB",
+       "value": "Ted Demme",
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Life&year=1999"
+      }
+     ]
+    },
+    {
+     "field": "studio",
+     "label": "studio",
+     "soft": true,
+     "editionDependent": false,
+     "current": "Universal Pictures",
+     "proposed": "Universal Pictures",
+     "status": "confirmed",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "TMDB",
+       "value": "Universal Pictures",
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Life&year=1999"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "m1706",
+   "title": "Bowfinger",
+   "sourcesReached": [
+    "OMDb",
+    "TMDB"
+   ],
+   "sourcesMissed": [],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "release year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 1999,
+     "proposed": 1999,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 1999,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Bowfinger&type=movie&y=1999"
+      },
+      {
+       "src": "TMDB",
+       "value": 1999,
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Bowfinger&year=1999"
+      }
+     ]
+    },
+    {
+     "field": "runtime",
+     "label": "runtime (min)",
+     "soft": false,
+     "editionDependent": true,
+     "current": 97,
+     "proposed": 97,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 97,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Bowfinger&type=movie&y=1999"
+      },
+      {
+       "src": "TMDB",
+       "value": 97,
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Bowfinger&year=1999"
+      }
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "director",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Frank Oz",
+     "proposed": "Frank Oz",
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": "Frank Oz",
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Bowfinger&type=movie&y=1999"
+      },
+      {
+       "src": "TMDB",
+       "value": "Frank Oz",
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Bowfinger&year=1999"
+      }
+     ]
+    },
+    {
+     "field": "studio",
+     "label": "studio",
+     "soft": true,
+     "editionDependent": false,
+     "current": "Universal Pictures",
+     "proposed": "Universal Pictures",
+     "status": "confirmed",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "TMDB",
+       "value": "Universal Pictures",
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Bowfinger&year=1999"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "m1707",
+   "title": "The Distinguished Gentleman",
+   "sourcesReached": [
+    "OMDb",
+    "TMDB"
+   ],
+   "sourcesMissed": [],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "release year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 1992,
+     "proposed": 1992,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 1992,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=The+Distinguished+Gentleman&type=movie&y=1992"
+      },
+      {
+       "src": "TMDB",
+       "value": 1992,
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=The+Distinguished+Gentleman&year=1992"
+      }
+     ]
+    },
+    {
+     "field": "runtime",
+     "label": "runtime (min)",
+     "soft": false,
+     "editionDependent": true,
+     "current": 112,
+     "proposed": 112,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 112,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=The+Distinguished+Gentleman&type=movie&y=1992"
+      },
+      {
+       "src": "TMDB",
+       "value": 112,
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=The+Distinguished+Gentleman&year=1992"
+      }
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "director",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Jonathan Lynn",
+     "proposed": "Jonathan Lynn",
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": "Jonathan Lynn",
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=The+Distinguished+Gentleman&type=movie&y=1992"
+      },
+      {
+       "src": "TMDB",
+       "value": "Jonathan Lynn",
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=The+Distinguished+Gentleman&year=1992"
+      }
+     ]
+    },
+    {
+     "field": "studio",
+     "label": "studio",
+     "soft": true,
+     "editionDependent": false,
+     "current": "Buena Vista Pictures",
+     "proposed": "Hollywood Pictures",
+     "status": "proposed-change",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "TMDB",
+       "value": "Hollywood Pictures",
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=The+Distinguished+Gentleman&year=1992"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "m1710",
+   "title": "Meet Dave",
+   "sourcesReached": [
+    "OMDb",
+    "TMDB"
+   ],
+   "sourcesMissed": [],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "release year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 2008,
+     "proposed": 2008,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 2008,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Meet+Dave&type=movie&y=2008"
+      },
+      {
+       "src": "TMDB",
+       "value": 2008,
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Meet+Dave&year=2008"
+      }
+     ]
+    },
+    {
+     "field": "runtime",
+     "label": "runtime (min)",
+     "soft": false,
+     "editionDependent": true,
+     "current": 90,
+     "proposed": 90,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 90,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Meet+Dave&type=movie&y=2008"
+      },
+      {
+       "src": "TMDB",
+       "value": 90,
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Meet+Dave&year=2008"
+      }
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "director",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Brian Robbins",
+     "proposed": "Brian Robbins",
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": "Brian Robbins",
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Meet+Dave&type=movie&y=2008"
+      },
+      {
+       "src": "TMDB",
+       "value": "Brian Robbins",
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Meet+Dave&year=2008"
+      }
+     ]
+    },
+    {
+     "field": "studio",
+     "label": "studio",
+     "soft": true,
+     "editionDependent": false,
+     "current": "20th Century Fox",
+     "proposed": "Dune Entertainment",
+     "status": "proposed-change",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "TMDB",
+       "value": "Dune Entertainment",
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Meet+Dave&year=2008"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "m1711",
+   "title": "A Thousand Words",
+   "sourcesReached": [
+    "OMDb",
+    "TMDB"
+   ],
+   "sourcesMissed": [],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "release year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 2012,
+     "proposed": 2012,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 2012,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=A+Thousand+Words&type=movie&y=2012"
+      },
+      {
+       "src": "TMDB",
+       "value": 2012,
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=A+Thousand+Words&year=2012"
+      }
+     ]
+    },
+    {
+     "field": "runtime",
+     "label": "runtime (min)",
+     "soft": false,
+     "editionDependent": true,
+     "current": 91,
+     "proposed": 91,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 91,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=A+Thousand+Words&type=movie&y=2012"
+      },
+      {
+       "src": "TMDB",
+       "value": 91,
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=A+Thousand+Words&year=2012"
+      }
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "director",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Brian Robbins",
+     "proposed": "Brian Robbins",
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": "Brian Robbins",
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=A+Thousand+Words&type=movie&y=2012"
+      },
+      {
+       "src": "TMDB",
+       "value": "Brian Robbins",
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=A+Thousand+Words&year=2012"
+      }
+     ]
+    },
+    {
+     "field": "studio",
+     "label": "studio",
+     "soft": true,
+     "editionDependent": false,
+     "current": "DreamWorks Pictures",
+     "proposed": "Paramount Pictures",
+     "status": "proposed-change",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "TMDB",
+       "value": "Paramount Pictures",
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=A+Thousand+Words&year=2012"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "m1712",
+   "title": "Evan Almighty",
+   "sourcesReached": [
+    "OMDb",
+    "TMDB"
+   ],
+   "sourcesMissed": [],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "release year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 2007,
+     "proposed": 2007,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 2007,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Evan+Almighty&type=movie&y=2007"
+      },
+      {
+       "src": "TMDB",
+       "value": 2007,
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Evan+Almighty&year=2007"
+      }
+     ]
+    },
+    {
+     "field": "runtime",
+     "label": "runtime (min)",
+     "soft": false,
+     "editionDependent": true,
+     "current": 96,
+     "proposed": 96,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 96,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Evan+Almighty&type=movie&y=2007"
+      },
+      {
+       "src": "TMDB",
+       "value": 96,
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Evan+Almighty&year=2007"
+      }
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "director",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Tom Shadyac",
+     "proposed": "Tom Shadyac",
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": "Tom Shadyac",
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Evan+Almighty&type=movie&y=2007"
+      },
+      {
+       "src": "TMDB",
+       "value": "Tom Shadyac",
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Evan+Almighty&year=2007"
+      }
+     ]
+    },
+    {
+     "field": "studio",
+     "label": "studio",
+     "soft": true,
+     "editionDependent": false,
+     "current": "Universal Pictures",
+     "proposed": "Universal Pictures",
+     "status": "confirmed",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "TMDB",
+       "value": "Universal Pictures",
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Evan+Almighty&year=2007"
+      }
+     ]
+    }
+   ]
+  }
+ ]
+}
