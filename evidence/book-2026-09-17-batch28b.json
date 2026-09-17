@@ -1,0 +1,747 @@
+{
+ "medium": "book",
+ "generated": "2026-09-17T22:13:19.108Z",
+ "offline": false,
+ "sources": [
+  "OpenLibrary",
+  "Google Books",
+  "Wikidata"
+ ],
+ "works": [
+  {
+   "id": "b1605",
+   "title": "The Plot Against America",
+   "sourcesReached": [
+    "OpenLibrary",
+    "Google Books",
+    "Wikidata"
+   ],
+   "sourcesMissed": [],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "first publication year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 2004,
+     "proposed": 2004,
+     "status": "corroborated-by-one",
+     "grade": "B",
+     "note": "matches OpenLibrary/Wikidata; disagrees with Google Books (2005)",
+     "sources": [
+      {
+       "src": "OpenLibrary",
+       "value": 2004,
+       "url": "https://openlibrary.org/search.json?title=The+Plot+Against+America&limit=1"
+      },
+      {
+       "src": "Google Books",
+       "value": 2005,
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3AThe+Plot+Against+America&maxResults=1&key=REDACTED"
+      },
+      {
+       "src": "Wikidata",
+       "value": 2004,
+       "url": "https://www.wikidata.org/wiki/Q1758811"
+      }
+     ],
+     "alternatives": [
+      2005
+     ]
+    },
+    {
+     "field": "pages",
+     "label": "page count",
+     "soft": false,
+     "editionDependent": true,
+     "current": 391,
+     "proposed": 417,
+     "status": "edition-dependent",
+     "grade": "B",
+     "note": "one source differs from the corpus (Google Books 417) on a field with no single true value -- likely a different printing/edition, not an error.",
+     "sources": [
+      {
+       "src": "Google Books",
+       "value": 417,
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3AThe+Plot+Against+America&maxResults=1&key=REDACTED"
+      }
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "author",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Philip Roth",
+     "proposed": "Philip Roth",
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OpenLibrary",
+       "value": "Philip Roth",
+       "url": "https://openlibrary.org/search.json?title=The+Plot+Against+America&limit=1"
+      },
+      {
+       "src": "Google Books",
+       "value": "Philip Roth",
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3AThe+Plot+Against+America&maxResults=1&key=REDACTED"
+      },
+      {
+       "src": "Wikidata",
+       "value": "Philip Roth",
+       "url": "https://www.wikidata.org/wiki/Q1758811"
+      }
+     ]
+    },
+    {
+     "field": "publisher",
+     "label": "publisher",
+     "soft": true,
+     "editionDependent": true,
+     "current": "Houghton Mifflin",
+     "proposed": "Vintage",
+     "status": "edition-dependent",
+     "grade": "B",
+     "note": "one source differs from the corpus (Google Books \"Vintage\") on a field with no single true value -- likely a different printing/edition, not an error.",
+     "sources": [
+      {
+       "src": "Google Books",
+       "value": "Vintage",
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3AThe+Plot+Against+America&maxResults=1&key=REDACTED"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "b1606",
+   "title": "Sabbath's Theater",
+   "sourcesReached": [
+    "OpenLibrary",
+    "Google Books",
+    "Wikidata"
+   ],
+   "sourcesMissed": [],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "first publication year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 1995,
+     "proposed": 1995,
+     "status": "corroborated-by-one",
+     "grade": "B",
+     "note": "matches OpenLibrary/Wikidata; disagrees with Google Books (1996)",
+     "sources": [
+      {
+       "src": "OpenLibrary",
+       "value": 1995,
+       "url": "https://openlibrary.org/search.json?title=Sabbath%27s+Theater&limit=1"
+      },
+      {
+       "src": "Google Books",
+       "value": 1996,
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3ASabbath%27s+Theater&maxResults=1&key=REDACTED"
+      },
+      {
+       "src": "Wikidata",
+       "value": 1995,
+       "url": "https://www.wikidata.org/wiki/Q3795983"
+      }
+     ],
+     "alternatives": [
+      1996
+     ]
+    },
+    {
+     "field": "pages",
+     "label": "page count",
+     "soft": false,
+     "editionDependent": true,
+     "current": 451,
+     "proposed": 472,
+     "status": "edition-dependent",
+     "grade": "B",
+     "note": "one source differs from the corpus (Google Books 472) on a field with no single true value -- likely a different printing/edition, not an error.",
+     "sources": [
+      {
+       "src": "Google Books",
+       "value": 472,
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3ASabbath%27s+Theater&maxResults=1&key=REDACTED"
+      }
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "author",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Philip Roth",
+     "proposed": "Philip Roth",
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OpenLibrary",
+       "value": "Philip Roth",
+       "url": "https://openlibrary.org/search.json?title=Sabbath%27s+Theater&limit=1"
+      },
+      {
+       "src": "Google Books",
+       "value": "Philip Roth",
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3ASabbath%27s+Theater&maxResults=1&key=REDACTED"
+      },
+      {
+       "src": "Wikidata",
+       "value": "Philip Roth",
+       "url": "https://www.wikidata.org/wiki/Q3795983"
+      }
+     ]
+    },
+    {
+     "field": "publisher",
+     "label": "publisher",
+     "soft": true,
+     "editionDependent": true,
+     "current": "Houghton Mifflin",
+     "proposed": "Vintage",
+     "status": "edition-dependent",
+     "grade": "B",
+     "note": "corpus value does not match either source (Google Books \"Vintage\", Wikidata \"Houghton Mifflin Harcourt\") -- treated as a distinct edition; the specific cut is not identified from available evidence.",
+     "sources": [
+      {
+       "src": "Google Books",
+       "value": "Vintage",
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3ASabbath%27s+Theater&maxResults=1&key=REDACTED"
+      },
+      {
+       "src": "Wikidata",
+       "value": "Houghton Mifflin Harcourt",
+       "url": "https://www.wikidata.org/wiki/Q3795983"
+      }
+     ],
+     "alternatives": [
+      "Houghton Mifflin Harcourt"
+     ]
+    }
+   ]
+  },
+  {
+   "id": "b1607",
+   "title": "I Married a Communist",
+   "sourcesReached": [
+    "OpenLibrary",
+    "Google Books",
+    "Wikidata"
+   ],
+   "sourcesMissed": [],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "first publication year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 1998,
+     "proposed": 1998,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OpenLibrary",
+       "value": 1998,
+       "url": "https://openlibrary.org/search.json?title=I+Married+a+Communist&limit=1"
+      },
+      {
+       "src": "Google Books",
+       "value": 1998,
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3AI+Married+a+Communist&maxResults=1&key=REDACTED"
+      },
+      {
+       "src": "Wikidata",
+       "value": 1998,
+       "url": "https://www.wikidata.org/wiki/Q1055141"
+      }
+     ]
+    },
+    {
+     "field": "pages",
+     "label": "page count",
+     "soft": false,
+     "editionDependent": true,
+     "current": 323,
+     "proposed": 341,
+     "status": "edition-dependent",
+     "grade": "B",
+     "note": "one source differs from the corpus (Google Books 341) on a field with no single true value -- likely a different printing/edition, not an error.",
+     "sources": [
+      {
+       "src": "Google Books",
+       "value": 341,
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3AI+Married+a+Communist&maxResults=1&key=REDACTED"
+      }
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "author",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Philip Roth",
+     "proposed": "Philip Roth",
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OpenLibrary",
+       "value": "Philip Roth",
+       "url": "https://openlibrary.org/search.json?title=I+Married+a+Communist&limit=1"
+      },
+      {
+       "src": "Google Books",
+       "value": "Philip Roth",
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3AI+Married+a+Communist&maxResults=1&key=REDACTED"
+      },
+      {
+       "src": "Wikidata",
+       "value": "Philip Roth",
+       "url": "https://www.wikidata.org/wiki/Q1055141"
+      }
+     ]
+    },
+    {
+     "field": "publisher",
+     "label": "publisher",
+     "soft": true,
+     "editionDependent": true,
+     "current": "Houghton Mifflin",
+     "proposed": "Houghton Mifflin Harcourt",
+     "status": "edition-dependent",
+     "grade": "B",
+     "note": "sources agree with each other but not the corpus (Google Books \"Houghton Mifflin Harcourt\", Wikidata \"Houghton Mifflin Harcourt\") on a field with no single true value -- likely a different printing/edition, not an error.",
+     "sources": [
+      {
+       "src": "Google Books",
+       "value": "Houghton Mifflin Harcourt",
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3AI+Married+a+Communist&maxResults=1&key=REDACTED"
+      },
+      {
+       "src": "Wikidata",
+       "value": "Houghton Mifflin Harcourt",
+       "url": "https://www.wikidata.org/wiki/Q1055141"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "b1608",
+   "title": "Everyman",
+   "sourcesReached": [
+    "OpenLibrary"
+   ],
+   "sourcesMissed": [
+    "Google Books (no match)",
+    "Wikidata (no match)"
+   ],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "first publication year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 2006,
+     "proposed": 2006,
+     "status": "confirmed",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "OpenLibrary",
+       "value": 2006,
+       "url": "https://openlibrary.org/search.json?title=Everyman&limit=1"
+      }
+     ]
+    },
+    {
+     "field": "pages",
+     "label": "page count",
+     "soft": false,
+     "current": 182,
+     "status": "no-source",
+     "grade": null,
+     "sources": []
+    },
+    {
+     "field": "creator",
+     "label": "author",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Philip Roth",
+     "proposed": "Philip Roth",
+     "status": "confirmed",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "OpenLibrary",
+       "value": "Philip Roth",
+       "url": "https://openlibrary.org/search.json?title=Everyman&limit=1"
+      }
+     ]
+    },
+    {
+     "field": "publisher",
+     "label": "publisher",
+     "soft": true,
+     "current": "Houghton Mifflin",
+     "status": "no-source",
+     "grade": null,
+     "sources": []
+    }
+   ]
+  },
+  {
+   "id": "b1609",
+   "title": "Rabbit, Run",
+   "sourcesReached": [
+    "OpenLibrary",
+    "Google Books",
+    "Wikidata"
+   ],
+   "sourcesMissed": [],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "first publication year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 1960,
+     "proposed": 1960,
+     "status": "corroborated-by-one",
+     "grade": "B",
+     "note": "matches OpenLibrary/Wikidata; disagrees with Google Books (1996)",
+     "sources": [
+      {
+       "src": "OpenLibrary",
+       "value": 1960,
+       "url": "https://openlibrary.org/search.json?title=Rabbit%2C+Run&limit=1"
+      },
+      {
+       "src": "Google Books",
+       "value": 1996,
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3ARabbit%2C+Run&maxResults=1&key=REDACTED"
+      },
+      {
+       "src": "Wikidata",
+       "value": 1960,
+       "url": "https://www.wikidata.org/wiki/Q178791"
+      }
+     ],
+     "alternatives": [
+      1996
+     ]
+    },
+    {
+     "field": "pages",
+     "label": "page count",
+     "soft": false,
+     "editionDependent": true,
+     "current": 264,
+     "proposed": 337,
+     "status": "edition-dependent",
+     "grade": "B",
+     "note": "one source differs from the corpus (Google Books 337) on a field with no single true value -- likely a different printing/edition, not an error.",
+     "sources": [
+      {
+       "src": "Google Books",
+       "value": 337,
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3ARabbit%2C+Run&maxResults=1&key=REDACTED"
+      }
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "author",
+     "soft": false,
+     "editionDependent": false,
+     "current": "John Updike",
+     "proposed": "John Updike",
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OpenLibrary",
+       "value": "John Updike",
+       "url": "https://openlibrary.org/search.json?title=Rabbit%2C+Run&limit=1"
+      },
+      {
+       "src": "Google Books",
+       "value": "John Updike",
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3ARabbit%2C+Run&maxResults=1&key=REDACTED"
+      },
+      {
+       "src": "Wikidata",
+       "value": "John Updike",
+       "url": "https://www.wikidata.org/wiki/Q178791"
+      }
+     ]
+    },
+    {
+     "field": "publisher",
+     "label": "publisher",
+     "soft": true,
+     "editionDependent": true,
+     "current": "Alfred A. Knopf",
+     "proposed": "Alfred A. Knopf",
+     "status": "corroborated-by-one",
+     "grade": "B",
+     "note": "matches Wikidata; disagrees with Google Books (\"Random House Trade Paperbacks\")",
+     "sources": [
+      {
+       "src": "Google Books",
+       "value": "Random House Trade Paperbacks",
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3ARabbit%2C+Run&maxResults=1&key=REDACTED"
+      },
+      {
+       "src": "Wikidata",
+       "value": "Alfred A. Knopf",
+       "url": "https://www.wikidata.org/wiki/Q178791"
+      }
+     ],
+     "alternatives": [
+      "Alfred A. Knopf"
+     ]
+    }
+   ]
+  },
+  {
+   "id": "b1610",
+   "title": "Rabbit Redux",
+   "sourcesReached": [
+    "OpenLibrary",
+    "Google Books",
+    "Wikidata"
+   ],
+   "sourcesMissed": [],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "first publication year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 1971,
+     "proposed": 1971,
+     "status": "corroborated-by-one",
+     "grade": "B",
+     "note": "matches Wikidata; disagrees with OpenLibrary (1961), Google Books (1996)",
+     "sources": [
+      {
+       "src": "OpenLibrary",
+       "value": 1961,
+       "url": "https://openlibrary.org/search.json?title=Rabbit+Redux&limit=1"
+      },
+      {
+       "src": "Google Books",
+       "value": 1996,
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3ARabbit+Redux&maxResults=1&key=REDACTED"
+      },
+      {
+       "src": "Wikidata",
+       "value": 1971,
+       "url": "https://www.wikidata.org/wiki/Q1725082"
+      }
+     ],
+     "alternatives": [
+      1996,
+      1971
+     ]
+    },
+    {
+     "field": "pages",
+     "label": "page count",
+     "soft": false,
+     "editionDependent": true,
+     "current": 406,
+     "proposed": 451,
+     "status": "edition-dependent",
+     "grade": "B",
+     "note": "one source differs from the corpus (Google Books 451) on a field with no single true value -- likely a different printing/edition, not an error.",
+     "sources": [
+      {
+       "src": "Google Books",
+       "value": 451,
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3ARabbit+Redux&maxResults=1&key=REDACTED"
+      }
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "author",
+     "soft": false,
+     "editionDependent": false,
+     "current": "John Updike",
+     "proposed": "John Updike",
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OpenLibrary",
+       "value": "John Updike",
+       "url": "https://openlibrary.org/search.json?title=Rabbit+Redux&limit=1"
+      },
+      {
+       "src": "Google Books",
+       "value": "John Updike",
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3ARabbit+Redux&maxResults=1&key=REDACTED"
+      },
+      {
+       "src": "Wikidata",
+       "value": "John Updike",
+       "url": "https://www.wikidata.org/wiki/Q1725082"
+      }
+     ]
+    },
+    {
+     "field": "publisher",
+     "label": "publisher",
+     "soft": true,
+     "editionDependent": true,
+     "current": "Alfred A. Knopf",
+     "proposed": "Alfred A. Knopf",
+     "status": "corroborated-by-one",
+     "grade": "B",
+     "note": "matches Wikidata; disagrees with Google Books (\"Random House Trade Paperbacks\")",
+     "sources": [
+      {
+       "src": "Google Books",
+       "value": "Random House Trade Paperbacks",
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3ARabbit+Redux&maxResults=1&key=REDACTED"
+      },
+      {
+       "src": "Wikidata",
+       "value": "Alfred A. Knopf",
+       "url": "https://www.wikidata.org/wiki/Q1725082"
+      }
+     ],
+     "alternatives": [
+      "Alfred A. Knopf"
+     ]
+    }
+   ]
+  },
+  {
+   "id": "b1611",
+   "title": "Rabbit Is Rich",
+   "sourcesReached": [
+    "OpenLibrary",
+    "Google Books",
+    "Wikidata"
+   ],
+   "sourcesMissed": [],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "first publication year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 1981,
+     "proposed": 1981,
+     "status": "corroborated-by-one",
+     "grade": "B",
+     "note": "matches OpenLibrary/Wikidata; disagrees with Google Books (1996)",
+     "sources": [
+      {
+       "src": "OpenLibrary",
+       "value": 1981,
+       "url": "https://openlibrary.org/search.json?title=Rabbit+Is+Rich&limit=1"
+      },
+      {
+       "src": "Google Books",
+       "value": 1996,
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3ARabbit+Is+Rich&maxResults=1&key=REDACTED"
+      },
+      {
+       "src": "Wikidata",
+       "value": 1981,
+       "url": "https://www.wikidata.org/wiki/Q549152"
+      }
+     ],
+     "alternatives": [
+      1996
+     ]
+    },
+    {
+     "field": "pages",
+     "label": "page count",
+     "soft": false,
+     "editionDependent": true,
+     "current": 467,
+     "proposed": 545,
+     "status": "edition-dependent",
+     "grade": "B",
+     "note": "one source differs from the corpus (Google Books 545) on a field with no single true value -- likely a different printing/edition, not an error.",
+     "sources": [
+      {
+       "src": "Google Books",
+       "value": 545,
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3ARabbit+Is+Rich&maxResults=1&key=REDACTED"
+      }
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "author",
+     "soft": false,
+     "editionDependent": false,
+     "current": "John Updike",
+     "proposed": "John Updike",
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OpenLibrary",
+       "value": "John Updike",
+       "url": "https://openlibrary.org/search.json?title=Rabbit+Is+Rich&limit=1"
+      },
+      {
+       "src": "Google Books",
+       "value": "John Updike",
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3ARabbit+Is+Rich&maxResults=1&key=REDACTED"
+      },
+      {
+       "src": "Wikidata",
+       "value": "John Updike",
+       "url": "https://www.wikidata.org/wiki/Q549152"
+      }
+     ]
+    },
+    {
+     "field": "publisher",
+     "label": "publisher",
+     "soft": true,
+     "editionDependent": true,
+     "current": "Alfred A. Knopf",
+     "proposed": "Alfred A. Knopf",
+     "status": "corroborated-by-one",
+     "grade": "B",
+     "note": "matches Wikidata; disagrees with Google Books (\"Random House Trade Paperbacks\")",
+     "sources": [
+      {
+       "src": "Google Books",
+       "value": "Random House Trade Paperbacks",
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3ARabbit+Is+Rich&maxResults=1&key=REDACTED"
+      },
+      {
+       "src": "Wikidata",
+       "value": "Alfred A. Knopf",
+       "url": "https://www.wikidata.org/wiki/Q549152"
+      }
+     ],
+     "alternatives": [
+      "Alfred A. Knopf"
+     ]
+    }
+   ]
+  }
+ ]
+}
