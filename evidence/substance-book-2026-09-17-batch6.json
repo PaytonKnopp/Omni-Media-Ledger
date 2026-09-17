@@ -1,0 +1,839 @@
+{
+ "medium": "book",
+ "generated": "2026-09-17T00:32:35.861Z",
+ "offline": false,
+ "includesProse": false,
+ "works": [
+  {
+   "id": "b1140",
+   "title": "Charlotte's Web",
+   "year": 1952,
+   "corpusGenres": [
+    "Family",
+    "Fantasy"
+   ],
+   "tags": [
+    "domestic animals",
+    "fairy tale",
+    "children's fiction",
+    "fantasy"
+   ],
+   "sourceGenres": [],
+   "sources": [
+    {
+     "src": "OpenLibrary",
+     "matchedTitle": "Charlotte's Web",
+     "url": "https://openlibrary.org/search.json?title=Charlotte's%20Web"
+    },
+    {
+     "src": "Google Books",
+     "matchedTitle": "Charlotte's Web",
+     "url": "https://www.googleapis.com/books/v1/volumes?q=intitle:Charlotte's%20Web"
+    },
+    {
+     "src": "Wikidata",
+     "matchedTitle": "Charlotte's Web",
+     "url": "https://www.wikidata.org/wiki/Q45735"
+    }
+   ],
+   "missed": [],
+   "coverage": 4
+  },
+  {
+   "id": "b1141",
+   "title": "Where the Wild Things Are",
+   "year": 1963,
+   "corpusGenres": [
+    "Family",
+    "Fantasy"
+   ],
+   "tags": [
+    "fantasy",
+    "monster"
+   ],
+   "sourceGenres": [],
+   "sources": [
+    {
+     "src": "OpenLibrary",
+     "matchedTitle": "Where the Wild Things Are",
+     "url": "https://openlibrary.org/search.json?title=Where%20the%20Wild%20Things%20Are"
+    },
+    {
+     "src": "Wikidata",
+     "matchedTitle": "Where the Wild Things Are",
+     "url": "https://www.wikidata.org/wiki/Q13912"
+    }
+   ],
+   "missed": [
+    "Google Books (title matched but author \"\" does not -- likely a different book titled \"Where the Wild Things Are\")"
+   ],
+   "coverage": 2
+  },
+  {
+   "id": "b1142",
+   "title": "The Giving Tree",
+   "year": 1964,
+   "corpusGenres": [
+    "Family"
+   ],
+   "tags": [
+    "juvenile fiction",
+    "children's literature",
+    "tree",
+    "friendship",
+    "generosity"
+   ],
+   "sourceGenres": [],
+   "sources": [
+    {
+     "src": "OpenLibrary",
+     "matchedTitle": "The Giving Tree",
+     "url": "https://openlibrary.org/search.json?title=The%20Giving%20Tree"
+    },
+    {
+     "src": "Google Books",
+     "matchedTitle": "Giving Tree",
+     "url": "https://www.googleapis.com/books/v1/volumes?q=intitle:The%20Giving%20Tree"
+    },
+    {
+     "src": "Wikidata",
+     "matchedTitle": "The Giving Tree",
+     "url": "https://www.wikidata.org/wiki/Q2915384"
+    }
+   ],
+   "missed": [],
+   "coverage": 5
+  },
+  {
+   "id": "b1143",
+   "title": "Matilda",
+   "year": 1988,
+   "corpusGenres": [
+    "Family",
+    "Comedy"
+   ],
+   "tags": [
+    "juvenile fiction"
+   ],
+   "sourceGenres": [],
+   "sources": [
+    {
+     "src": "OpenLibrary",
+     "matchedTitle": "Matilda",
+     "url": "https://openlibrary.org/search.json?title=Matilda"
+    },
+    {
+     "src": "Google Books",
+     "matchedTitle": "Matilda",
+     "url": "https://www.googleapis.com/books/v1/volumes?q=intitle:Matilda"
+    }
+   ],
+   "missed": [
+    "Wikidata (no type-matching candidate for \"Matilda\")"
+   ],
+   "coverage": 1
+  },
+  {
+   "id": "b1144",
+   "title": "James and the Giant Peach",
+   "year": 1961,
+   "corpusGenres": [
+    "Family",
+    "Fantasy"
+   ],
+   "tags": [
+    "juvenile fiction",
+    "children's fiction",
+    "fantasy",
+    "orphan"
+   ],
+   "sourceGenres": [],
+   "sources": [
+    {
+     "src": "OpenLibrary",
+     "matchedTitle": "James and the Giant Peach",
+     "url": "https://openlibrary.org/search.json?title=James%20and%20the%20Giant%20Peach"
+    },
+    {
+     "src": "Google Books",
+     "matchedTitle": "James and the Giant Peach",
+     "url": "https://www.googleapis.com/books/v1/volumes?q=intitle:James%20and%20the%20Giant%20Peach"
+    },
+    {
+     "src": "Wikidata",
+     "matchedTitle": "James and the Giant Peach",
+     "url": "https://www.wikidata.org/wiki/Q1426258"
+    }
+   ],
+   "missed": [],
+   "coverage": 4
+  },
+  {
+   "id": "b1145",
+   "title": "The BFG",
+   "year": 1982,
+   "corpusGenres": [
+    "Family",
+    "Fantasy"
+   ],
+   "tags": [
+    "juvenile fiction",
+    "children's fiction",
+    "fantasy",
+    "giant",
+    "man-eater"
+   ],
+   "sourceGenres": [],
+   "sources": [
+    {
+     "src": "OpenLibrary",
+     "matchedTitle": "The BFG",
+     "url": "https://openlibrary.org/search.json?title=The%20BFG"
+    },
+    {
+     "src": "Google Books",
+     "matchedTitle": "The BFG",
+     "url": "https://www.googleapis.com/books/v1/volumes?q=intitle:The%20BFG"
+    },
+    {
+     "src": "Wikidata",
+     "matchedTitle": "The BFG",
+     "url": "https://www.wikidata.org/wiki/Q1476462"
+    }
+   ],
+   "missed": [],
+   "coverage": 5
+  },
+  {
+   "id": "b1146",
+   "title": "Charlie and the Chocolate Factory",
+   "year": 1964,
+   "corpusGenres": [
+    "Family",
+    "Fantasy"
+   ],
+   "tags": [
+    "juvenile fiction",
+    "children's fiction",
+    "humorous fiction",
+    "children's book"
+   ],
+   "sourceGenres": [],
+   "sources": [
+    {
+     "src": "OpenLibrary",
+     "matchedTitle": "Charlie and the Chocolate Factory",
+     "url": "https://openlibrary.org/search.json?title=Charlie%20and%20the%20Chocolate%20Factory"
+    },
+    {
+     "src": "Google Books",
+     "matchedTitle": "Charlie and the Chocolate Factory",
+     "url": "https://www.googleapis.com/books/v1/volumes?q=intitle:Charlie%20and%20the%20Chocolate%20Factory"
+    },
+    {
+     "src": "Wikidata",
+     "matchedTitle": "Charlie and the Chocolate Factory",
+     "url": "https://www.wikidata.org/wiki/Q466605"
+    }
+   ],
+   "missed": [],
+   "coverage": 4
+  },
+  {
+   "id": "b1147",
+   "title": "Bridge to Terabithia",
+   "year": 1977,
+   "corpusGenres": [
+    "Family",
+    "Coming-of-Age"
+   ],
+   "tags": [
+    "death",
+    "fantasy",
+    "children's fiction",
+    "love",
+    "friendship"
+   ],
+   "sourceGenres": [],
+   "sources": [
+    {
+     "src": "OpenLibrary",
+     "matchedTitle": "Bridge to Terabithia",
+     "url": "https://openlibrary.org/search.json?title=Bridge%20to%20Terabithia"
+    },
+    {
+     "src": "Google Books",
+     "matchedTitle": "Bridge to Terabithia",
+     "url": "https://www.googleapis.com/books/v1/volumes?q=intitle:Bridge%20to%20Terabithia"
+    },
+    {
+     "src": "Wikidata",
+     "matchedTitle": "Bridge to Terabithia",
+     "url": "https://www.wikidata.org/wiki/Q838776"
+    }
+   ],
+   "missed": [],
+   "coverage": 5
+  },
+  {
+   "id": "b1148",
+   "title": "Holes",
+   "year": 1998,
+   "corpusGenres": [
+    "Family",
+    "Mystery"
+   ],
+   "tags": [
+    "juvenile fiction",
+    "adventure fiction",
+    "magic realist fiction",
+    "satirical fiction",
+    "family saga",
+    "young adult fiction"
+   ],
+   "sourceGenres": [],
+   "sources": [
+    {
+     "src": "OpenLibrary",
+     "matchedTitle": "Holes",
+     "url": "https://openlibrary.org/search.json?title=Holes"
+    },
+    {
+     "src": "Google Books",
+     "matchedTitle": "Holes",
+     "url": "https://www.googleapis.com/books/v1/volumes?q=intitle:Holes"
+    },
+    {
+     "src": "Wikidata",
+     "matchedTitle": "Holes",
+     "url": "https://www.wikidata.org/wiki/Q175421"
+    }
+   ],
+   "missed": [],
+   "coverage": 6
+  },
+  {
+   "id": "b1149",
+   "title": "The Outsiders",
+   "year": 1967,
+   "corpusGenres": [
+    "Family",
+    "Coming-of-Age"
+   ],
+   "tags": [
+    "juvenile fiction"
+   ],
+   "sourceGenres": [],
+   "sources": [
+    {
+     "src": "OpenLibrary",
+     "matchedTitle": "The Outsiders",
+     "url": "https://openlibrary.org/search.json?title=The%20Outsiders"
+    },
+    {
+     "src": "Google Books",
+     "matchedTitle": "The Outsiders",
+     "url": "https://www.googleapis.com/books/v1/volumes?q=intitle:The%20Outsiders"
+    }
+   ],
+   "missed": [
+    "Wikidata (title matched but credited \"\" does not -- likely a different work titled \"The Outsiders\")"
+   ],
+   "coverage": 1
+  },
+  {
+   "id": "b1150",
+   "title": "A Wrinkle in Time",
+   "year": 1962,
+   "corpusGenres": [
+    "Family",
+    "Sci-Fi"
+   ],
+   "tags": [
+    "juvenile fiction",
+    "science fiction",
+    "fantasy",
+    "science fantasy",
+    "time travel"
+   ],
+   "sourceGenres": [],
+   "sources": [
+    {
+     "src": "OpenLibrary",
+     "matchedTitle": "A Wrinkle in Time",
+     "url": "https://openlibrary.org/search.json?title=A%20Wrinkle%20in%20Time"
+    },
+    {
+     "src": "Google Books",
+     "matchedTitle": "A Wrinkle in Time",
+     "url": "https://www.googleapis.com/books/v1/volumes?q=intitle:A%20Wrinkle%20in%20Time"
+    },
+    {
+     "src": "Wikidata",
+     "matchedTitle": "A Wrinkle in Time",
+     "url": "https://www.wikidata.org/wiki/Q2268391"
+    }
+   ],
+   "missed": [],
+   "coverage": 5
+  },
+  {
+   "id": "b1151",
+   "title": "The Phantom Tollbooth",
+   "year": 1961,
+   "corpusGenres": [
+    "Family",
+    "Fantasy"
+   ],
+   "tags": [
+    "children's stories",
+    "fantasy",
+    "adventure fiction",
+    "children's fiction"
+   ],
+   "sourceGenres": [],
+   "sources": [
+    {
+     "src": "OpenLibrary",
+     "matchedTitle": "The Phantom Tollbooth",
+     "url": "https://openlibrary.org/search.json?title=The%20Phantom%20Tollbooth"
+    },
+    {
+     "src": "Google Books",
+     "matchedTitle": "The Phantom Tollbooth",
+     "url": "https://www.googleapis.com/books/v1/volumes?q=intitle:The%20Phantom%20Tollbooth"
+    },
+    {
+     "src": "Wikidata",
+     "matchedTitle": "The Phantom Tollbooth",
+     "url": "https://www.wikidata.org/wiki/Q149993"
+    }
+   ],
+   "missed": [],
+   "coverage": 4
+  },
+  {
+   "id": "b1152",
+   "title": "The Book of Three",
+   "year": 1964,
+   "corpusGenres": [
+    "Family",
+    "Fantasy"
+   ],
+   "tags": [
+    "fantasy",
+    "high fantasy"
+   ],
+   "sourceGenres": [],
+   "sources": [
+    {
+     "src": "OpenLibrary",
+     "matchedTitle": "The Book Of Three",
+     "url": "https://openlibrary.org/search.json?title=The%20Book%20of%20Three"
+    },
+    {
+     "src": "Wikidata",
+     "matchedTitle": "The Book of Three",
+     "url": "https://www.wikidata.org/wiki/Q1989821"
+    }
+   ],
+   "missed": [
+    "Google Books (title matched but author \"\" does not -- likely a different book titled \"The Book of Three\")"
+   ],
+   "coverage": 2
+  },
+  {
+   "id": "b1153",
+   "title": "Redwall",
+   "year": 1986,
+   "corpusGenres": [
+    "Family",
+    "Fantasy"
+   ],
+   "tags": [
+    "juvenile fiction",
+    "fantasy"
+   ],
+   "sourceGenres": [],
+   "sources": [
+    {
+     "src": "OpenLibrary",
+     "matchedTitle": "Redwall",
+     "url": "https://openlibrary.org/search.json?title=Redwall"
+    },
+    {
+     "src": "Google Books",
+     "matchedTitle": "Redwall",
+     "url": "https://www.googleapis.com/books/v1/volumes?q=intitle:Redwall"
+    },
+    {
+     "src": "Wikidata",
+     "matchedTitle": "Redwall",
+     "url": "https://www.wikidata.org/wiki/Q2617336"
+    }
+   ],
+   "missed": [],
+   "coverage": 2
+  },
+  {
+   "id": "b1154",
+   "title": "The Dark Is Rising",
+   "year": 1973,
+   "corpusGenres": [
+    "Family",
+    "Dark Fantasy"
+   ],
+   "tags": [
+    "juvenile fiction"
+   ],
+   "sourceGenres": [],
+   "sources": [
+    {
+     "src": "OpenLibrary",
+     "matchedTitle": "The dark is rising",
+     "url": "https://openlibrary.org/search.json?title=The%20Dark%20Is%20Rising"
+    },
+    {
+     "src": "Google Books",
+     "matchedTitle": "The Dark Is Rising",
+     "url": "https://www.googleapis.com/books/v1/volumes?q=intitle:The%20Dark%20Is%20Rising"
+    },
+    {
+     "src": "Wikidata",
+     "matchedTitle": "The Dark Is Rising",
+     "url": "https://www.wikidata.org/wiki/Q1618062"
+    }
+   ],
+   "missed": [],
+   "coverage": 1
+  },
+  {
+   "id": "b1155",
+   "title": "Anne of Green Gables",
+   "year": 1908,
+   "corpusGenres": [
+    "Family",
+    "Coming-of-Age"
+   ],
+   "tags": [
+    "developmental novel",
+    "children's fiction",
+    "imagination",
+    "orphan",
+    "adoption"
+   ],
+   "sourceGenres": [],
+   "sources": [
+    {
+     "src": "OpenLibrary",
+     "matchedTitle": "Anne of Green Gables",
+     "url": "https://openlibrary.org/search.json?title=Anne%20of%20Green%20Gables"
+    },
+    {
+     "src": "Google Books",
+     "matchedTitle": "Anne of Green Gables",
+     "url": "https://www.googleapis.com/books/v1/volumes?q=intitle:Anne%20of%20Green%20Gables"
+    },
+    {
+     "src": "Wikidata",
+     "matchedTitle": "Anne of Green Gables",
+     "url": "https://www.wikidata.org/wiki/Q565911"
+    }
+   ],
+   "missed": [],
+   "coverage": 5
+  },
+  {
+   "id": "b1156",
+   "title": "Little Women",
+   "year": 1868,
+   "corpusGenres": [
+    "Family",
+    "Coming-of-Age"
+   ],
+   "tags": [
+    "developmental novel",
+    "bildungsroman",
+    "autobiography",
+    "realist novel",
+    "family saga",
+    "family",
+    "adolescence",
+    "happiness",
+    "poverty",
+    "interdependence"
+   ],
+   "sourceGenres": [],
+   "sources": [
+    {
+     "src": "OpenLibrary",
+     "matchedTitle": "Little Women",
+     "url": "https://openlibrary.org/search.json?title=Little%20Women"
+    },
+    {
+     "src": "Google Books",
+     "matchedTitle": "Little Women",
+     "url": "https://www.googleapis.com/books/v1/volumes?q=intitle:Little%20Women"
+    },
+    {
+     "src": "Wikidata",
+     "matchedTitle": "Little Women",
+     "url": "https://www.wikidata.org/wiki/Q523076"
+    }
+   ],
+   "missed": [],
+   "coverage": 10
+  },
+  {
+   "id": "b1157",
+   "title": "The Secret Garden",
+   "year": 1911,
+   "corpusGenres": [
+    "Family",
+    "Drama"
+   ],
+   "tags": [
+    "fiction",
+    "children's book",
+    "serialized fiction",
+    "hypochondriasis"
+   ],
+   "sourceGenres": [],
+   "sources": [
+    {
+     "src": "OpenLibrary",
+     "matchedTitle": "The Secret Garden",
+     "url": "https://openlibrary.org/search.json?title=The%20Secret%20Garden"
+    },
+    {
+     "src": "Google Books",
+     "matchedTitle": "The Secret Garden",
+     "url": "https://www.googleapis.com/books/v1/volumes?q=intitle:The%20Secret%20Garden"
+    },
+    {
+     "src": "Wikidata",
+     "matchedTitle": "The Secret Garden",
+     "url": "https://www.wikidata.org/wiki/Q472194"
+    }
+   ],
+   "missed": [],
+   "coverage": 4
+  },
+  {
+   "id": "b1158",
+   "title": "Peter Pan",
+   "year": 1911,
+   "corpusGenres": [
+    "Family",
+    "Fantasy"
+   ],
+   "tags": [
+    "juvenile fiction",
+    "fantasy",
+    "adolescence",
+    "childhood",
+    "children's game"
+   ],
+   "sourceGenres": [],
+   "sources": [
+    {
+     "src": "OpenLibrary",
+     "matchedTitle": "Peter Pan",
+     "url": "https://openlibrary.org/search.json?title=Peter%20Pan"
+    },
+    {
+     "src": "Google Books",
+     "matchedTitle": "Peter Pan (StoneHenge Classics)",
+     "url": "https://www.googleapis.com/books/v1/volumes?q=intitle:Peter%20Pan"
+    },
+    {
+     "src": "Wikidata",
+     "matchedTitle": "Peter Pan",
+     "url": "https://www.wikidata.org/wiki/Q3435337"
+    }
+   ],
+   "missed": [],
+   "coverage": 5
+  },
+  {
+   "id": "b1159",
+   "title": "Alice's Adventures in Wonderland",
+   "year": 1865,
+   "corpusGenres": [
+    "Family",
+    "Fantasy"
+   ],
+   "tags": [
+    "adventure and adventurers",
+    "fairy tale",
+    "literary nonsense",
+    "children's fiction",
+    "children's book",
+    "dream"
+   ],
+   "sourceGenres": [],
+   "sources": [
+    {
+     "src": "OpenLibrary",
+     "matchedTitle": "Alice's Adventures in Wonderland",
+     "url": "https://openlibrary.org/search.json?title=Alice's%20Adventures%20in%20Wonderland"
+    },
+    {
+     "src": "Google Books",
+     "matchedTitle": "Alice's Adventures in Wonderland",
+     "url": "https://www.googleapis.com/books/v1/volumes?q=intitle:Alice's%20Adventures%20in%20Wonderland"
+    },
+    {
+     "src": "Wikidata",
+     "matchedTitle": "Alice's Adventures in Wonderland",
+     "url": "https://www.wikidata.org/wiki/Q92640"
+    }
+   ],
+   "missed": [],
+   "coverage": 6
+  },
+  {
+   "id": "b1160",
+   "title": "Winnie-the-Pooh",
+   "year": 1926,
+   "corpusGenres": [
+    "Family",
+    "Comedy"
+   ],
+   "tags": [
+    "juvenile fiction",
+    "children's fiction"
+   ],
+   "sourceGenres": [],
+   "sources": [
+    {
+     "src": "OpenLibrary",
+     "matchedTitle": "Winnie-the-Pooh",
+     "url": "https://openlibrary.org/search.json?title=Winnie-the-Pooh"
+    },
+    {
+     "src": "Google Books",
+     "matchedTitle": "When We Were Very Young (Illustrated)",
+     "url": "https://www.googleapis.com/books/v1/volumes?q=intitle:Winnie-the-Pooh"
+    },
+    {
+     "src": "Wikidata",
+     "matchedTitle": "Winnie-the-Pooh",
+     "url": "https://www.wikidata.org/wiki/Q3766392"
+    }
+   ],
+   "missed": [],
+   "coverage": 2
+  },
+  {
+   "id": "b1161",
+   "title": "Black Beauty",
+   "year": 1877,
+   "corpusGenres": [
+    "Family",
+    "Drama"
+   ],
+   "tags": [
+    "fiction",
+    "young adult fiction",
+    "horse"
+   ],
+   "sourceGenres": [],
+   "sources": [
+    {
+     "src": "OpenLibrary",
+     "matchedTitle": "Black Beauty",
+     "url": "https://openlibrary.org/search.json?title=Black%20Beauty"
+    },
+    {
+     "src": "Google Books",
+     "matchedTitle": "Black Beauty",
+     "url": "https://www.googleapis.com/books/v1/volumes?q=intitle:Black%20Beauty"
+    },
+    {
+     "src": "Wikidata",
+     "matchedTitle": "Black Beauty",
+     "url": "https://www.wikidata.org/wiki/Q880092"
+    }
+   ],
+   "missed": [],
+   "coverage": 3
+  },
+  {
+   "id": "b1162",
+   "title": "The Call of the Wild",
+   "year": 1903,
+   "corpusGenres": [
+    "Adventure",
+    "Drama"
+   ],
+   "tags": [
+    "fiction",
+    "adventure fiction",
+    "sled dog",
+    "mushing",
+    "klondike gold rush",
+    "yukon"
+   ],
+   "sourceGenres": [],
+   "sources": [
+    {
+     "src": "OpenLibrary",
+     "matchedTitle": "The Call of the Wild",
+     "url": "https://openlibrary.org/search.json?title=The%20Call%20of%20the%20Wild"
+    },
+    {
+     "src": "Google Books",
+     "matchedTitle": "The Call of the Wild",
+     "url": "https://www.googleapis.com/books/v1/volumes?q=intitle:The%20Call%20of%20the%20Wild"
+    },
+    {
+     "src": "Wikidata",
+     "matchedTitle": "The Call of the Wild",
+     "url": "https://www.wikidata.org/wiki/Q476871"
+    }
+   ],
+   "missed": [],
+   "coverage": 6
+  },
+  {
+   "id": "b1163",
+   "title": "White Fang",
+   "year": 1906,
+   "corpusGenres": [
+    "Adventure",
+    "Drama"
+   ],
+   "tags": [
+    "canada",
+    "adventure fiction",
+    "young adult fiction",
+    "fictional wolf",
+    "imprinting",
+    "injury",
+    "socialization",
+    "grey wolf"
+   ],
+   "sourceGenres": [],
+   "sources": [
+    {
+     "src": "OpenLibrary",
+     "matchedTitle": "White Fang",
+     "url": "https://openlibrary.org/search.json?title=White%20Fang"
+    },
+    {
+     "src": "Google Books",
+     "matchedTitle": "White Fang",
+     "url": "https://www.googleapis.com/books/v1/volumes?q=intitle:White%20Fang"
+    },
+    {
+     "src": "Wikidata",
+     "matchedTitle": "White Fang",
+     "url": "https://www.wikidata.org/wiki/Q152267"
+    }
+   ],
+   "missed": [],
+   "coverage": 8
+  }
+ ]
+}
