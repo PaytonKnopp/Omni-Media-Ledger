@@ -1648,6 +1648,23 @@ general-knowledge estimates. SERIES_DEFS: Millennium extended to 5 of the real 6
 1,639/2,000 (4,433/5,000 total, 88.7%). Remaining work is exclusively movies (~215 more) and books
 (~361 more).
 
+**Twentieth round (movies batch 32, books batch 32), movies+books only.** Movies: eleven titles, a
+legal/prestige-drama sweep: A Civil Action, The Rainmaker, A Time to Kill (courtroom dramas that had
+never been audited despite obvious fame), The Philadelphia Story, On Golden Pond, The Trip to
+Bountiful, Driving Miss Daisy, Steel Magnolias, Awakenings, The Color Purple, and Fried Green Tomatoes.
+A clean round -- no near-miss duplicates, no genre-taxonomy gaps, no vibeTime omissions, first try
+through validate-corpus.js.
+
+Books: seven titles (one caught by the dedup script and dropped -- Go Down, Moses was already
+present). Closed out three more John Steinbeck novels (Tortilla Flat, In Dubious Battle, The Winter of
+Our Discontent) and four more William Faulkner novels (A Fable, Sanctuary, The Reivers, Intruder in
+the Dust). All seven reached at least one fetch-substance tag, no general-knowledge-estimate
+disclosures needed this round.
+
+**Status at this checkpoint:** movies 1,796/2,000, TV 502/500 (done), games 507/500 (done), books
+1,646/2,000 (4,451/5,000 total, 89.0%). Remaining work is exclusively movies (~204 more) and books
+(~354 more).
+
 ---
 
 ## Ideas / next steps
