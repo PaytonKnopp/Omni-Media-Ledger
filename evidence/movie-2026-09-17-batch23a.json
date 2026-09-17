@@ -1,0 +1,952 @@
+{
+ "medium": "movie",
+ "generated": "2026-09-17T17:53:03.175Z",
+ "offline": false,
+ "sources": [
+  "OMDb",
+  "TMDB"
+ ],
+ "works": [
+  {
+   "id": "m1645",
+   "title": "Sleepy Hollow",
+   "sourcesReached": [
+    "OMDb",
+    "TMDB"
+   ],
+   "sourcesMissed": [],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "release year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 1999,
+     "proposed": 1999,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 1999,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Sleepy+Hollow&type=movie&y=1999"
+      },
+      {
+       "src": "TMDB",
+       "value": 1999,
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Sleepy+Hollow&year=1999"
+      }
+     ]
+    },
+    {
+     "field": "runtime",
+     "label": "runtime (min)",
+     "soft": false,
+     "editionDependent": true,
+     "current": 105,
+     "proposed": 105,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 105,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Sleepy+Hollow&type=movie&y=1999"
+      },
+      {
+       "src": "TMDB",
+       "value": 105,
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Sleepy+Hollow&year=1999"
+      }
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "director",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Tim Burton",
+     "proposed": "Tim Burton",
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": "Tim Burton",
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Sleepy+Hollow&type=movie&y=1999"
+      },
+      {
+       "src": "TMDB",
+       "value": "Tim Burton",
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Sleepy+Hollow&year=1999"
+      }
+     ]
+    },
+    {
+     "field": "studio",
+     "label": "studio",
+     "soft": true,
+     "editionDependent": false,
+     "current": "Paramount Pictures",
+     "proposed": "Paramount Pictures",
+     "status": "confirmed",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "TMDB",
+       "value": "Paramount Pictures",
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Sleepy+Hollow&year=1999"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "m1646",
+   "title": "Frankenweenie",
+   "sourcesReached": [
+    "OMDb",
+    "TMDB"
+   ],
+   "sourcesMissed": [],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "release year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 2012,
+     "proposed": 2012,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 2012,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Frankenweenie&type=movie&y=2012"
+      },
+      {
+       "src": "TMDB",
+       "value": 2012,
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Frankenweenie&year=2012"
+      }
+     ]
+    },
+    {
+     "field": "runtime",
+     "label": "runtime (min)",
+     "soft": false,
+     "editionDependent": true,
+     "current": 87,
+     "proposed": 87,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 87,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Frankenweenie&type=movie&y=2012"
+      },
+      {
+       "src": "TMDB",
+       "value": 87,
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Frankenweenie&year=2012"
+      }
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "director",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Tim Burton",
+     "proposed": "Tim Burton",
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": "Tim Burton",
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Frankenweenie&type=movie&y=2012"
+      },
+      {
+       "src": "TMDB",
+       "value": "Tim Burton",
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Frankenweenie&year=2012"
+      }
+     ]
+    },
+    {
+     "field": "studio",
+     "label": "studio",
+     "soft": true,
+     "editionDependent": false,
+     "current": "Buena Vista Pictures",
+     "proposed": "Tim Burton Productions",
+     "status": "proposed-change",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "TMDB",
+       "value": "Tim Burton Productions",
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Frankenweenie&year=2012"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "m1647",
+   "title": "Dark Shadows",
+   "sourcesReached": [
+    "OMDb",
+    "TMDB"
+   ],
+   "sourcesMissed": [],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "release year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 2012,
+     "proposed": 2012,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 2012,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Dark+Shadows&type=movie&y=2012"
+      },
+      {
+       "src": "TMDB",
+       "value": 2012,
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Dark+Shadows&year=2012"
+      }
+     ]
+    },
+    {
+     "field": "runtime",
+     "label": "runtime (min)",
+     "soft": false,
+     "editionDependent": true,
+     "current": 113,
+     "proposed": 113,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 113,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Dark+Shadows&type=movie&y=2012"
+      },
+      {
+       "src": "TMDB",
+       "value": 113,
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Dark+Shadows&year=2012"
+      }
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "director",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Tim Burton",
+     "proposed": "Tim Burton",
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": "Tim Burton",
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Dark+Shadows&type=movie&y=2012"
+      },
+      {
+       "src": "TMDB",
+       "value": "Tim Burton",
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Dark+Shadows&year=2012"
+      }
+     ]
+    },
+    {
+     "field": "studio",
+     "label": "studio",
+     "soft": true,
+     "editionDependent": false,
+     "current": "Warner Bros.",
+     "proposed": "Village Roadshow Pictures",
+     "status": "proposed-change",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "TMDB",
+       "value": "Village Roadshow Pictures",
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Dark+Shadows&year=2012"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "m1648",
+   "title": "Ed Wood",
+   "sourcesReached": [
+    "OMDb",
+    "TMDB"
+   ],
+   "sourcesMissed": [],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "release year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 1994,
+     "proposed": 1994,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 1994,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Ed+Wood&type=movie&y=1994"
+      },
+      {
+       "src": "TMDB",
+       "value": 1994,
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Ed+Wood&year=1994"
+      }
+     ]
+    },
+    {
+     "field": "runtime",
+     "label": "runtime (min)",
+     "soft": false,
+     "editionDependent": true,
+     "current": 127,
+     "proposed": 127,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 127,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Ed+Wood&type=movie&y=1994"
+      },
+      {
+       "src": "TMDB",
+       "value": 127,
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Ed+Wood&year=1994"
+      }
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "director",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Tim Burton",
+     "proposed": "Tim Burton",
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": "Tim Burton",
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Ed+Wood&type=movie&y=1994"
+      },
+      {
+       "src": "TMDB",
+       "value": "Tim Burton",
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Ed+Wood&year=1994"
+      }
+     ]
+    },
+    {
+     "field": "studio",
+     "label": "studio",
+     "soft": true,
+     "editionDependent": false,
+     "current": "Buena Vista Pictures",
+     "proposed": "Touchstone Pictures",
+     "status": "proposed-change",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "TMDB",
+       "value": "Touchstone Pictures",
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Ed+Wood&year=1994"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "m1649",
+   "title": "Sweeney Todd: The Demon Barber of Fleet Street",
+   "sourcesReached": [
+    "OMDb",
+    "TMDB"
+   ],
+   "sourcesMissed": [],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "release year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 2007,
+     "proposed": 2007,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 2007,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Sweeney+Todd%3A+The+Demon+Barber+of+Fleet+Street&type=movie&y=2007"
+      },
+      {
+       "src": "TMDB",
+       "value": 2007,
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Sweeney+Todd%3A+The+Demon+Barber+of+Fleet+Street&year=2007"
+      }
+     ]
+    },
+    {
+     "field": "runtime",
+     "label": "runtime (min)",
+     "soft": false,
+     "editionDependent": true,
+     "current": 116,
+     "proposed": 116,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 116,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Sweeney+Todd%3A+The+Demon+Barber+of+Fleet+Street&type=movie&y=2007"
+      },
+      {
+       "src": "TMDB",
+       "value": 116,
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Sweeney+Todd%3A+The+Demon+Barber+of+Fleet+Street&year=2007"
+      }
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "director",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Tim Burton",
+     "proposed": "Tim Burton",
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": "Tim Burton",
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Sweeney+Todd%3A+The+Demon+Barber+of+Fleet+Street&type=movie&y=2007"
+      },
+      {
+       "src": "TMDB",
+       "value": "Tim Burton",
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Sweeney+Todd%3A+The+Demon+Barber+of+Fleet+Street&year=2007"
+      }
+     ]
+    },
+    {
+     "field": "studio",
+     "label": "studio",
+     "soft": true,
+     "editionDependent": false,
+     "current": "DreamWorks Pictures",
+     "proposed": "DreamWorks Pictures",
+     "status": "confirmed",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "TMDB",
+       "value": "DreamWorks Pictures",
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Sweeney+Todd%3A+The+Demon+Barber+of+Fleet+Street&year=2007"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "m1650",
+   "title": "Charlie and the Chocolate Factory",
+   "sourcesReached": [
+    "OMDb",
+    "TMDB"
+   ],
+   "sourcesMissed": [],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "release year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 2005,
+     "proposed": 2005,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 2005,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Charlie+and+the+Chocolate+Factory&type=movie&y=2005"
+      },
+      {
+       "src": "TMDB",
+       "value": 2005,
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Charlie+and+the+Chocolate+Factory&year=2005"
+      }
+     ]
+    },
+    {
+     "field": "runtime",
+     "label": "runtime (min)",
+     "soft": false,
+     "editionDependent": true,
+     "current": 115,
+     "proposed": 115,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 115,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Charlie+and+the+Chocolate+Factory&type=movie&y=2005"
+      },
+      {
+       "src": "TMDB",
+       "value": 115,
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Charlie+and+the+Chocolate+Factory&year=2005"
+      }
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "director",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Tim Burton",
+     "proposed": "Tim Burton",
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": "Tim Burton",
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Charlie+and+the+Chocolate+Factory&type=movie&y=2005"
+      },
+      {
+       "src": "TMDB",
+       "value": "Tim Burton",
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Charlie+and+the+Chocolate+Factory&year=2005"
+      }
+     ]
+    },
+    {
+     "field": "studio",
+     "label": "studio",
+     "soft": true,
+     "editionDependent": false,
+     "current": "Warner Bros.",
+     "proposed": "Warner Bros. Pictures",
+     "status": "proposed-change",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "TMDB",
+       "value": "Warner Bros. Pictures",
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Charlie+and+the+Chocolate+Factory&year=2005"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "m1651",
+   "title": "Mars Attacks!",
+   "sourcesReached": [
+    "OMDb",
+    "TMDB"
+   ],
+   "sourcesMissed": [],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "release year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 1996,
+     "proposed": 1996,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 1996,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Mars+Attacks%21&type=movie&y=1996"
+      },
+      {
+       "src": "TMDB",
+       "value": 1996,
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Mars+Attacks%21&year=1996"
+      }
+     ]
+    },
+    {
+     "field": "runtime",
+     "label": "runtime (min)",
+     "soft": false,
+     "editionDependent": true,
+     "current": 106,
+     "proposed": 106,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 106,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Mars+Attacks%21&type=movie&y=1996"
+      },
+      {
+       "src": "TMDB",
+       "value": 106,
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Mars+Attacks%21&year=1996"
+      }
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "director",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Tim Burton",
+     "proposed": "Tim Burton",
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": "Tim Burton",
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Mars+Attacks%21&type=movie&y=1996"
+      },
+      {
+       "src": "TMDB",
+       "value": "Tim Burton",
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Mars+Attacks%21&year=1996"
+      }
+     ]
+    },
+    {
+     "field": "studio",
+     "label": "studio",
+     "soft": true,
+     "editionDependent": false,
+     "current": "Warner Bros.",
+     "proposed": "Warner Bros. Pictures",
+     "status": "proposed-change",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "TMDB",
+       "value": "Warner Bros. Pictures",
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Mars+Attacks%21&year=1996"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "m1652",
+   "title": "Pee-wee's Big Adventure",
+   "sourcesReached": [
+    "OMDb",
+    "TMDB"
+   ],
+   "sourcesMissed": [],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "release year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 1985,
+     "proposed": 1985,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 1985,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Pee-wee%27s+Big+Adventure&type=movie&y=1985"
+      },
+      {
+       "src": "TMDB",
+       "value": 1985,
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Pee-wee%27s+Big+Adventure&year=1985"
+      }
+     ]
+    },
+    {
+     "field": "runtime",
+     "label": "runtime (min)",
+     "soft": false,
+     "editionDependent": true,
+     "current": 91,
+     "proposed": 91,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 91,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Pee-wee%27s+Big+Adventure&type=movie&y=1985"
+      },
+      {
+       "src": "TMDB",
+       "value": 91,
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Pee-wee%27s+Big+Adventure&year=1985"
+      }
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "director",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Tim Burton",
+     "proposed": "Tim Burton",
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": "Tim Burton",
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Pee-wee%27s+Big+Adventure&type=movie&y=1985"
+      },
+      {
+       "src": "TMDB",
+       "value": "Tim Burton",
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Pee-wee%27s+Big+Adventure&year=1985"
+      }
+     ]
+    },
+    {
+     "field": "studio",
+     "label": "studio",
+     "soft": true,
+     "editionDependent": false,
+     "current": "Warner Bros.",
+     "proposed": "Aspen Film Society",
+     "status": "proposed-change",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "TMDB",
+       "value": "Aspen Film Society",
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Pee-wee%27s+Big+Adventure&year=1985"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "m1653",
+   "title": "Planet of the Apes (2001)",
+   "sourcesReached": [
+    "OMDb",
+    "TMDB"
+   ],
+   "sourcesMissed": [],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "release year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 2001,
+     "proposed": 2001,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 2001,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Planet+of+the+Apes&type=movie&y=2001"
+      },
+      {
+       "src": "TMDB",
+       "value": 2001,
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Planet+of+the+Apes&year=2001"
+      }
+     ]
+    },
+    {
+     "field": "runtime",
+     "label": "runtime (min)",
+     "soft": false,
+     "editionDependent": true,
+     "current": 119,
+     "proposed": 120,
+     "status": "edition-dependent",
+     "grade": "B",
+     "note": "sources agree with each other but not the corpus (OMDb 120, TMDB 120) on a field with no single true value -- likely a different printing/edition, not an error.",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 120,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Planet+of+the+Apes&type=movie&y=2001"
+      },
+      {
+       "src": "TMDB",
+       "value": 120,
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Planet+of+the+Apes&year=2001"
+      }
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "director",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Tim Burton",
+     "proposed": "Tim Burton",
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": "Tim Burton",
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Planet+of+the+Apes&type=movie&y=2001"
+      },
+      {
+       "src": "TMDB",
+       "value": "Tim Burton",
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Planet+of+the+Apes&year=2001"
+      }
+     ]
+    },
+    {
+     "field": "studio",
+     "label": "studio",
+     "soft": true,
+     "editionDependent": false,
+     "current": "20th Century Fox",
+     "proposed": "20th Century Fox",
+     "status": "confirmed",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "TMDB",
+       "value": "20th Century Fox",
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Planet+of+the+Apes&year=2001"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "m1654",
+   "title": "Miss Peregrine's Home for Peculiar Children",
+   "sourcesReached": [
+    "OMDb",
+    "TMDB"
+   ],
+   "sourcesMissed": [],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "release year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 2016,
+     "proposed": 2016,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 2016,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Miss+Peregrine%27s+Home+for+Peculiar+Children&type=movie&y=2016"
+      },
+      {
+       "src": "TMDB",
+       "value": 2016,
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Miss+Peregrine%27s+Home+for+Peculiar+Children&year=2016"
+      }
+     ]
+    },
+    {
+     "field": "runtime",
+     "label": "runtime (min)",
+     "soft": false,
+     "editionDependent": true,
+     "current": 127,
+     "proposed": 127,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 127,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Miss+Peregrine%27s+Home+for+Peculiar+Children&type=movie&y=2016"
+      },
+      {
+       "src": "TMDB",
+       "value": 127,
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Miss+Peregrine%27s+Home+for+Peculiar+Children&year=2016"
+      }
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "director",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Tim Burton",
+     "proposed": "Tim Burton",
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": "Tim Burton",
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Miss+Peregrine%27s+Home+for+Peculiar+Children&type=movie&y=2016"
+      },
+      {
+       "src": "TMDB",
+       "value": "Tim Burton",
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Miss+Peregrine%27s+Home+for+Peculiar+Children&year=2016"
+      }
+     ]
+    },
+    {
+     "field": "studio",
+     "label": "studio",
+     "soft": true,
+     "editionDependent": false,
+     "current": "20th Century Fox",
+     "proposed": "Chernin Entertainment",
+     "status": "proposed-change",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "TMDB",
+       "value": "Chernin Entertainment",
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Miss+Peregrine%27s+Home+for+Peculiar+Children&year=2016"
+      }
+     ]
+    }
+   ]
+  }
+ ]
+}

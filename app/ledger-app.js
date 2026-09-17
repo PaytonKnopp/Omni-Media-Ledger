@@ -2315,6 +2315,7 @@ const SERIES_DEFS=[
  {name:"The Nun",kind:"movie",members:["The Nun","The Nun II"],total:2},
  {name:"Paranormal Activity",kind:"movie",members:["Paranormal Activity","Paranormal Activity 2","Paranormal Activity 3"],total:5},
  {name:"The Shining",kind:"movie",members:["The Shining","Doctor Sleep"],total:2},
+ {name:"Willy Wonka",kind:"movie",members:["Willy Wonka & the Chocolate Factory","Charlie and the Chocolate Factory","Wonka"],total:3},
  {name:"Scream",kind:"movie",members:["Scream","Scream (2022)","Scream 2","Scream 3","Scream 4","Scream VI"],total:6},
  {name:"Planet of the Apes",kind:"movie",members:["Planet of the Apes","Rise of the Planet of the Apes","Dawn of the Planet of the Apes","War for the Planet of the Apes"],total:4},
  {name:"Transformers",kind:"movie",members:["Transformers","Transformers: Revenge of the Fallen","Transformers: Dark of the Moon"],total:3},

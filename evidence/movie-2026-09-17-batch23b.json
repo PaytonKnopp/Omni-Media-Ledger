@@ -1,0 +1,873 @@
+{
+ "medium": "movie",
+ "generated": "2026-09-17T17:53:09.782Z",
+ "offline": false,
+ "sources": [
+  "OMDb",
+  "TMDB"
+ ],
+ "works": [
+  {
+   "id": "m1655",
+   "title": "Wonka",
+   "sourcesReached": [
+    "OMDb",
+    "TMDB"
+   ],
+   "sourcesMissed": [],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "release year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 2023,
+     "proposed": 2023,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 2023,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Wonka&type=movie&y=2023"
+      },
+      {
+       "src": "TMDB",
+       "value": 2023,
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Wonka&year=2023"
+      }
+     ]
+    },
+    {
+     "field": "runtime",
+     "label": "runtime (min)",
+     "soft": false,
+     "editionDependent": true,
+     "current": 116,
+     "proposed": 116,
+     "status": "corroborated-by-one",
+     "grade": "B",
+     "note": "matches OMDb; disagrees with TMDB (117)",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 116,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Wonka&type=movie&y=2023"
+      },
+      {
+       "src": "TMDB",
+       "value": 117,
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Wonka&year=2023"
+      }
+     ],
+     "alternatives": [
+      117
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "director",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Paul King",
+     "proposed": "Paul King",
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": "Paul King",
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Wonka&type=movie&y=2023"
+      },
+      {
+       "src": "TMDB",
+       "value": "Paul King",
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Wonka&year=2023"
+      }
+     ]
+    },
+    {
+     "field": "studio",
+     "label": "studio",
+     "soft": true,
+     "editionDependent": false,
+     "current": "Warner Bros.",
+     "proposed": "Warner Bros. Pictures",
+     "status": "proposed-change",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "TMDB",
+       "value": "Warner Bros. Pictures",
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Wonka&year=2023"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "m1656",
+   "title": "Crimson Peak",
+   "sourcesReached": [
+    "OMDb",
+    "TMDB"
+   ],
+   "sourcesMissed": [],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "release year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 2015,
+     "proposed": 2015,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 2015,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Crimson+Peak&type=movie&y=2015"
+      },
+      {
+       "src": "TMDB",
+       "value": 2015,
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Crimson+Peak&year=2015"
+      }
+     ]
+    },
+    {
+     "field": "runtime",
+     "label": "runtime (min)",
+     "soft": false,
+     "editionDependent": true,
+     "current": 119,
+     "proposed": 119,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 119,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Crimson+Peak&type=movie&y=2015"
+      },
+      {
+       "src": "TMDB",
+       "value": 119,
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Crimson+Peak&year=2015"
+      }
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "director",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Guillermo del Toro",
+     "proposed": "Guillermo del Toro",
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": "Guillermo del Toro",
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Crimson+Peak&type=movie&y=2015"
+      },
+      {
+       "src": "TMDB",
+       "value": "Guillermo del Toro",
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Crimson+Peak&year=2015"
+      }
+     ]
+    },
+    {
+     "field": "studio",
+     "label": "studio",
+     "soft": true,
+     "editionDependent": false,
+     "current": "Universal Pictures",
+     "proposed": "Double Dare You",
+     "status": "proposed-change",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "TMDB",
+       "value": "Double Dare You",
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Crimson+Peak&year=2015"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "m1657",
+   "title": "Cronos",
+   "sourcesReached": [
+    "OMDb",
+    "TMDB"
+   ],
+   "sourcesMissed": [],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "release year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 1993,
+     "proposed": 1993,
+     "status": "corroborated-by-one",
+     "grade": "B",
+     "note": "matches TMDB; disagrees with OMDb (1992)",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 1992,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Cronos&type=movie"
+      },
+      {
+       "src": "TMDB",
+       "value": 1993,
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Cronos&year=1993"
+      }
+     ],
+     "alternatives": [
+      1993
+     ]
+    },
+    {
+     "field": "runtime",
+     "label": "runtime (min)",
+     "soft": false,
+     "editionDependent": true,
+     "current": 94,
+     "proposed": 94,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 94,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Cronos&type=movie"
+      },
+      {
+       "src": "TMDB",
+       "value": 94,
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Cronos&year=1993"
+      }
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "director",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Guillermo del Toro",
+     "proposed": "Guillermo del Toro",
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": "Guillermo del Toro",
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Cronos&type=movie"
+      },
+      {
+       "src": "TMDB",
+       "value": "Guillermo del Toro",
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Cronos&year=1993"
+      }
+     ]
+    },
+    {
+     "field": "studio",
+     "label": "studio",
+     "soft": true,
+     "editionDependent": false,
+     "current": "October Films",
+     "proposed": "Consejo Nacional para la Cultura y las Artes",
+     "status": "proposed-change",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "TMDB",
+       "value": "Consejo Nacional para la Cultura y las Artes",
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Cronos&year=1993"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "m1658",
+   "title": "A Very Long Engagement",
+   "sourcesReached": [
+    "OMDb",
+    "TMDB"
+   ],
+   "sourcesMissed": [],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "release year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 2004,
+     "proposed": 2004,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 2004,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=A+Very+Long+Engagement&type=movie&y=2004"
+      },
+      {
+       "src": "TMDB",
+       "value": 2004,
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=A+Very+Long+Engagement&year=2004"
+      }
+     ]
+    },
+    {
+     "field": "runtime",
+     "label": "runtime (min)",
+     "soft": false,
+     "editionDependent": true,
+     "current": 133,
+     "proposed": 133,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 133,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=A+Very+Long+Engagement&type=movie&y=2004"
+      },
+      {
+       "src": "TMDB",
+       "value": 133,
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=A+Very+Long+Engagement&year=2004"
+      }
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "director",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Jean-Pierre Jeunet",
+     "proposed": "Jean-Pierre Jeunet",
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": "Jean-Pierre Jeunet",
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=A+Very+Long+Engagement&type=movie&y=2004"
+      },
+      {
+       "src": "TMDB",
+       "value": "Jean-Pierre Jeunet",
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=A+Very+Long+Engagement&year=2004"
+      }
+     ]
+    },
+    {
+     "field": "studio",
+     "label": "studio",
+     "soft": true,
+     "editionDependent": false,
+     "current": "Warner Bros.",
+     "proposed": "2003 Productions",
+     "status": "proposed-change",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "TMDB",
+       "value": "2003 Productions",
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=A+Very+Long+Engagement&year=2004"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "m1659",
+   "title": "The City of Lost Children",
+   "sourcesReached": [
+    "OMDb",
+    "TMDB"
+   ],
+   "sourcesMissed": [],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "release year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 1995,
+     "proposed": 1995,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 1995,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=The+City+of+Lost+Children&type=movie&y=1995"
+      },
+      {
+       "src": "TMDB",
+       "value": 1995,
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=The+City+of+Lost+Children&year=1995"
+      }
+     ]
+    },
+    {
+     "field": "runtime",
+     "label": "runtime (min)",
+     "soft": false,
+     "editionDependent": true,
+     "current": 112,
+     "proposed": 112,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 112,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=The+City+of+Lost+Children&type=movie&y=1995"
+      },
+      {
+       "src": "TMDB",
+       "value": 112,
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=The+City+of+Lost+Children&year=1995"
+      }
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "director",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Jean-Pierre Jeunet & Marc Caro",
+     "proposed": "Jean-Pierre Jeunet, Marc Caro",
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": "Marc Caro, Jean-Pierre Jeunet",
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=The+City+of+Lost+Children&type=movie&y=1995"
+      },
+      {
+       "src": "TMDB",
+       "value": "Marc Caro, Jean-Pierre Jeunet",
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=The+City+of+Lost+Children&year=1995"
+      }
+     ]
+    },
+    {
+     "field": "studio",
+     "label": "studio",
+     "soft": true,
+     "editionDependent": false,
+     "current": "Sony Pictures Classics",
+     "proposed": "Constellation",
+     "status": "proposed-change",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "TMDB",
+       "value": "Constellation",
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=The+City+of+Lost+Children&year=1995"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "m1660",
+   "title": "Delicatessen",
+   "sourcesReached": [
+    "OMDb",
+    "TMDB"
+   ],
+   "sourcesMissed": [],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "release year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 1991,
+     "proposed": 1991,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 1991,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Delicatessen&type=movie&y=1991"
+      },
+      {
+       "src": "TMDB",
+       "value": 1991,
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Delicatessen&year=1991"
+      }
+     ]
+    },
+    {
+     "field": "runtime",
+     "label": "runtime (min)",
+     "soft": false,
+     "editionDependent": true,
+     "current": 99,
+     "proposed": 99,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 99,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Delicatessen&type=movie&y=1991"
+      },
+      {
+       "src": "TMDB",
+       "value": 99,
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Delicatessen&year=1991"
+      }
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "director",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Jean-Pierre Jeunet & Marc Caro",
+     "proposed": "Jean-Pierre Jeunet, Marc Caro",
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": "Marc Caro, Jean-Pierre Jeunet",
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Delicatessen&type=movie&y=1991"
+      },
+      {
+       "src": "TMDB",
+       "value": "Jean-Pierre Jeunet, Marc Caro",
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Delicatessen&year=1991"
+      }
+     ]
+    },
+    {
+     "field": "studio",
+     "label": "studio",
+     "soft": true,
+     "editionDependent": false,
+     "current": "Miramax",
+     "proposed": "Constellation",
+     "status": "proposed-change",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "TMDB",
+       "value": "Constellation",
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Delicatessen&year=1991"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "m1661",
+   "title": "2046",
+   "sourcesReached": [
+    "OMDb",
+    "TMDB"
+   ],
+   "sourcesMissed": [],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "release year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 2004,
+     "proposed": 2004,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 2004,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=2046&type=movie&y=2004"
+      },
+      {
+       "src": "TMDB",
+       "value": 2004,
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=2046&year=2004"
+      }
+     ]
+    },
+    {
+     "field": "runtime",
+     "label": "runtime (min)",
+     "soft": false,
+     "editionDependent": true,
+     "current": 129,
+     "proposed": 129,
+     "status": "corroborated-by-one",
+     "grade": "B",
+     "note": "matches OMDb; disagrees with TMDB (128)",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 129,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=2046&type=movie&y=2004"
+      },
+      {
+       "src": "TMDB",
+       "value": 128,
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=2046&year=2004"
+      }
+     ],
+     "alternatives": [
+      128
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "director",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Wong Kar-wai",
+     "proposed": "Wong Kar-Wai",
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": "Wong Kar-Wai",
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=2046&type=movie&y=2004"
+      },
+      {
+       "src": "TMDB",
+       "value": "Wong Kar-Wai",
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=2046&year=2004"
+      }
+     ]
+    },
+    {
+     "field": "studio",
+     "label": "studio",
+     "soft": true,
+     "editionDependent": false,
+     "current": "Sony Pictures Classics",
+     "proposed": "Shanghai Film Group",
+     "status": "proposed-change",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "TMDB",
+       "value": "Shanghai Film Group",
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=2046&year=2004"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "m1662",
+   "title": "Fallen Angels",
+   "sourcesReached": [
+    "OMDb",
+    "TMDB"
+   ],
+   "sourcesMissed": [],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "release year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 1995,
+     "proposed": 1995,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 1995,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Fallen+Angels&type=movie&y=1995"
+      },
+      {
+       "src": "TMDB",
+       "value": 1995,
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Fallen+Angels&year=1995"
+      }
+     ]
+    },
+    {
+     "field": "runtime",
+     "label": "runtime (min)",
+     "soft": false,
+     "editionDependent": true,
+     "current": 96,
+     "proposed": 99,
+     "status": "edition-dependent",
+     "grade": "B",
+     "note": "corpus value does not match either source (OMDb 99, TMDB 98) -- treated as a distinct edition; the specific cut is not identified from available evidence.",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 99,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Fallen+Angels&type=movie&y=1995"
+      },
+      {
+       "src": "TMDB",
+       "value": 98,
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Fallen+Angels&year=1995"
+      }
+     ],
+     "alternatives": [
+      98
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "director",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Wong Kar-wai",
+     "proposed": "Wong Kar-Wai",
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": "Wong Kar-Wai",
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Fallen+Angels&type=movie&y=1995"
+      },
+      {
+       "src": "TMDB",
+       "value": "Wong Kar-Wai",
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Fallen+Angels&year=1995"
+      }
+     ]
+    },
+    {
+     "field": "studio",
+     "label": "studio",
+     "soft": true,
+     "editionDependent": false,
+     "current": "Golden Harvest",
+     "proposed": "Jet Tone Production",
+     "status": "proposed-change",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "TMDB",
+       "value": "Jet Tone Production",
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Fallen+Angels&year=1995"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "m1663",
+   "title": "Happy Together",
+   "sourcesReached": [
+    "OMDb",
+    "TMDB"
+   ],
+   "sourcesMissed": [],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "release year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 1997,
+     "proposed": 1997,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 1997,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Happy+Together&type=movie&y=1997"
+      },
+      {
+       "src": "TMDB",
+       "value": 1997,
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Happy+Together&year=1997"
+      }
+     ]
+    },
+    {
+     "field": "runtime",
+     "label": "runtime (min)",
+     "soft": false,
+     "editionDependent": true,
+     "current": 96,
+     "proposed": 96,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 96,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Happy+Together&type=movie&y=1997"
+      },
+      {
+       "src": "TMDB",
+       "value": 96,
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Happy+Together&year=1997"
+      }
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "director",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Wong Kar-wai",
+     "proposed": "Wong Kar-Wai",
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": "Wong Kar-Wai",
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Happy+Together&type=movie&y=1997"
+      },
+      {
+       "src": "TMDB",
+       "value": "Wong Kar-Wai",
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Happy+Together&year=1997"
+      }
+     ]
+    },
+    {
+     "field": "studio",
+     "label": "studio",
+     "soft": true,
+     "editionDependent": false,
+     "current": "Kino International",
+     "proposed": "Block 2 Pictures",
+     "status": "proposed-change",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "TMDB",
+       "value": "Block 2 Pictures",
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Happy+Together&year=1997"
+      }
+     ]
+    }
+   ]
+  }
+ ]
+}
