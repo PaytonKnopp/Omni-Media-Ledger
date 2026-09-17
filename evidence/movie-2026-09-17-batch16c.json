@@ -1,0 +1,1438 @@
+{
+ "medium": "movie",
+ "generated": "2026-09-17T11:01:56.077Z",
+ "offline": false,
+ "sources": [
+  "OMDb",
+  "TMDB"
+ ],
+ "works": [
+  {
+   "id": "m1438",
+   "title": "Jaws 2",
+   "sourcesReached": [
+    "OMDb",
+    "TMDB"
+   ],
+   "sourcesMissed": [],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "release year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 1978,
+     "proposed": 1978,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 1978,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Jaws+2&type=movie&y=1978"
+      },
+      {
+       "src": "TMDB",
+       "value": 1978,
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Jaws+2&year=1978"
+      }
+     ]
+    },
+    {
+     "field": "runtime",
+     "label": "runtime (min)",
+     "soft": false,
+     "editionDependent": true,
+     "current": 116,
+     "proposed": 116,
+     "status": "corroborated-by-one",
+     "grade": "B",
+     "note": "matches OMDb; disagrees with TMDB (117)",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 116,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Jaws+2&type=movie&y=1978"
+      },
+      {
+       "src": "TMDB",
+       "value": 117,
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Jaws+2&year=1978"
+      }
+     ],
+     "alternatives": [
+      117
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "director",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Jeannot Szwarc",
+     "proposed": "Jeannot Szwarc",
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": "Jeannot Szwarc",
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Jaws+2&type=movie&y=1978"
+      },
+      {
+       "src": "TMDB",
+       "value": "Jeannot Szwarc",
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Jaws+2&year=1978"
+      }
+     ]
+    },
+    {
+     "field": "studio",
+     "label": "studio",
+     "soft": true,
+     "editionDependent": false,
+     "current": "Universal Pictures",
+     "proposed": "Universal Pictures",
+     "status": "confirmed",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "TMDB",
+       "value": "Universal Pictures",
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Jaws+2&year=1978"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "m1439",
+   "title": "The Towering Inferno",
+   "sourcesReached": [
+    "OMDb",
+    "TMDB"
+   ],
+   "sourcesMissed": [],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "release year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 1974,
+     "proposed": 1974,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 1974,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=The+Towering+Inferno&type=movie&y=1974"
+      },
+      {
+       "src": "TMDB",
+       "value": 1974,
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=The+Towering+Inferno&year=1974"
+      }
+     ]
+    },
+    {
+     "field": "runtime",
+     "label": "runtime (min)",
+     "soft": false,
+     "editionDependent": true,
+     "current": 165,
+     "proposed": 165,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 165,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=The+Towering+Inferno&type=movie&y=1974"
+      },
+      {
+       "src": "TMDB",
+       "value": 165,
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=The+Towering+Inferno&year=1974"
+      }
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "director",
+     "soft": false,
+     "editionDependent": false,
+     "current": "John Guillermin, Irwin Allen",
+     "proposed": "John Guillermin",
+     "status": "proposed-change",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": "John Guillermin",
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=The+Towering+Inferno&type=movie&y=1974"
+      },
+      {
+       "src": "TMDB",
+       "value": "John Guillermin",
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=The+Towering+Inferno&year=1974"
+      }
+     ]
+    },
+    {
+     "field": "studio",
+     "label": "studio",
+     "soft": true,
+     "editionDependent": false,
+     "current": "20th Century Fox / Warner Bros.",
+     "proposed": "Warner Bros. Pictures",
+     "status": "proposed-change",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "TMDB",
+       "value": "Warner Bros. Pictures",
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=The+Towering+Inferno&year=1974"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "m1440",
+   "title": "Poseidon",
+   "sourcesReached": [
+    "OMDb",
+    "TMDB"
+   ],
+   "sourcesMissed": [],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "release year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 2006,
+     "proposed": 2006,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 2006,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Poseidon&type=movie&y=2006"
+      },
+      {
+       "src": "TMDB",
+       "value": 2006,
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Poseidon&year=2006"
+      }
+     ]
+    },
+    {
+     "field": "runtime",
+     "label": "runtime (min)",
+     "soft": false,
+     "editionDependent": true,
+     "current": 98,
+     "proposed": 98,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 98,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Poseidon&type=movie&y=2006"
+      },
+      {
+       "src": "TMDB",
+       "value": 98,
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Poseidon&year=2006"
+      }
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "director",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Wolfgang Petersen",
+     "proposed": "Wolfgang Petersen",
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": "Wolfgang Petersen",
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Poseidon&type=movie&y=2006"
+      },
+      {
+       "src": "TMDB",
+       "value": "Wolfgang Petersen",
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Poseidon&year=2006"
+      }
+     ]
+    },
+    {
+     "field": "studio",
+     "label": "studio",
+     "soft": true,
+     "editionDependent": false,
+     "current": "Warner Bros.",
+     "proposed": "Virtual Studios",
+     "status": "proposed-change",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "TMDB",
+       "value": "Virtual Studios",
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Poseidon&year=2006"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "m1441",
+   "title": "Alive",
+   "sourcesReached": [
+    "OMDb",
+    "TMDB"
+   ],
+   "sourcesMissed": [],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "release year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 1993,
+     "proposed": 1993,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 1993,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Alive&type=movie&y=1993"
+      },
+      {
+       "src": "TMDB",
+       "value": 1993,
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Alive&year=1993"
+      }
+     ]
+    },
+    {
+     "field": "runtime",
+     "label": "runtime (min)",
+     "soft": false,
+     "editionDependent": true,
+     "current": 126,
+     "proposed": 128,
+     "status": "edition-dependent",
+     "grade": "B",
+     "note": "corpus value does not match either source (OMDb 128, TMDB 127) -- treated as a distinct edition; the specific cut is not identified from available evidence.",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 128,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Alive&type=movie&y=1993"
+      },
+      {
+       "src": "TMDB",
+       "value": 127,
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Alive&year=1993"
+      }
+     ],
+     "alternatives": [
+      127
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "director",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Frank Marshall",
+     "proposed": "Frank Marshall",
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": "Frank Marshall",
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Alive&type=movie&y=1993"
+      },
+      {
+       "src": "TMDB",
+       "value": "Frank Marshall",
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Alive&year=1993"
+      }
+     ]
+    },
+    {
+     "field": "studio",
+     "label": "studio",
+     "soft": true,
+     "editionDependent": false,
+     "current": "Buena Vista Pictures",
+     "proposed": "Touchstone Pictures",
+     "status": "proposed-change",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "TMDB",
+       "value": "Touchstone Pictures",
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Alive&year=1993"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "m1442",
+   "title": "Red Dragon",
+   "sourcesReached": [
+    "OMDb",
+    "TMDB"
+   ],
+   "sourcesMissed": [],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "release year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 2002,
+     "proposed": 2002,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 2002,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Red+Dragon&type=movie&y=2002"
+      },
+      {
+       "src": "TMDB",
+       "value": 2002,
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Red+Dragon&year=2002"
+      }
+     ]
+    },
+    {
+     "field": "runtime",
+     "label": "runtime (min)",
+     "soft": false,
+     "editionDependent": true,
+     "current": 124,
+     "proposed": 124,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 124,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Red+Dragon&type=movie&y=2002"
+      },
+      {
+       "src": "TMDB",
+       "value": 124,
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Red+Dragon&year=2002"
+      }
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "director",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Brett Ratner",
+     "proposed": "Brett Ratner",
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": "Brett Ratner",
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Red+Dragon&type=movie&y=2002"
+      },
+      {
+       "src": "TMDB",
+       "value": "Brett Ratner",
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Red+Dragon&year=2002"
+      }
+     ]
+    },
+    {
+     "field": "studio",
+     "label": "studio",
+     "soft": true,
+     "editionDependent": false,
+     "current": "Universal Pictures",
+     "proposed": "Universal Pictures",
+     "status": "confirmed",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "TMDB",
+       "value": "Universal Pictures",
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Red+Dragon&year=2002"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "m1443",
+   "title": "Hannibal",
+   "sourcesReached": [
+    "OMDb",
+    "TMDB"
+   ],
+   "sourcesMissed": [],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "release year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 2001,
+     "proposed": 2001,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 2001,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Hannibal&type=movie&y=2001"
+      },
+      {
+       "src": "TMDB",
+       "value": 2001,
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Hannibal&year=2001"
+      }
+     ]
+    },
+    {
+     "field": "runtime",
+     "label": "runtime (min)",
+     "soft": false,
+     "editionDependent": true,
+     "current": 131,
+     "proposed": 131,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 131,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Hannibal&type=movie&y=2001"
+      },
+      {
+       "src": "TMDB",
+       "value": 131,
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Hannibal&year=2001"
+      }
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "director",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Ridley Scott",
+     "proposed": "Ridley Scott",
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": "Ridley Scott",
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Hannibal&type=movie&y=2001"
+      },
+      {
+       "src": "TMDB",
+       "value": "Ridley Scott",
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Hannibal&year=2001"
+      }
+     ]
+    },
+    {
+     "field": "studio",
+     "label": "studio",
+     "soft": true,
+     "editionDependent": false,
+     "current": "Universal Pictures / MGM",
+     "proposed": "The De Laurentiis Company",
+     "status": "proposed-change",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "TMDB",
+       "value": "The De Laurentiis Company",
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Hannibal&year=2001"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "m1444",
+   "title": "Constantine",
+   "sourcesReached": [
+    "OMDb",
+    "TMDB"
+   ],
+   "sourcesMissed": [],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "release year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 2005,
+     "proposed": 2005,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 2005,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Constantine&type=movie&y=2005"
+      },
+      {
+       "src": "TMDB",
+       "value": 2005,
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Constantine&year=2005"
+      }
+     ]
+    },
+    {
+     "field": "runtime",
+     "label": "runtime (min)",
+     "soft": false,
+     "editionDependent": true,
+     "current": 121,
+     "proposed": 121,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 121,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Constantine&type=movie&y=2005"
+      },
+      {
+       "src": "TMDB",
+       "value": 121,
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Constantine&year=2005"
+      }
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "director",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Francis Lawrence",
+     "proposed": "Francis Lawrence",
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": "Francis Lawrence",
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Constantine&type=movie&y=2005"
+      },
+      {
+       "src": "TMDB",
+       "value": "Francis Lawrence",
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Constantine&year=2005"
+      }
+     ]
+    },
+    {
+     "field": "studio",
+     "label": "studio",
+     "soft": true,
+     "editionDependent": false,
+     "current": "Warner Bros.",
+     "proposed": "Village Roadshow Pictures",
+     "status": "proposed-change",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "TMDB",
+       "value": "Village Roadshow Pictures",
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Constantine&year=2005"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "m1445",
+   "title": "Hellboy",
+   "sourcesReached": [
+    "OMDb",
+    "TMDB"
+   ],
+   "sourcesMissed": [],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "release year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 2004,
+     "proposed": 2004,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 2004,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Hellboy&type=movie&y=2004"
+      },
+      {
+       "src": "TMDB",
+       "value": 2004,
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Hellboy&year=2004"
+      }
+     ]
+    },
+    {
+     "field": "runtime",
+     "label": "runtime (min)",
+     "soft": false,
+     "editionDependent": true,
+     "current": 132,
+     "proposed": 122,
+     "status": "edition-dependent",
+     "grade": "B",
+     "note": "sources agree with each other but not the corpus (OMDb 122, TMDB 122) on a field with no single true value -- likely a different printing/edition, not an error.",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 122,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Hellboy&type=movie&y=2004"
+      },
+      {
+       "src": "TMDB",
+       "value": 122,
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Hellboy&year=2004"
+      }
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "director",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Guillermo del Toro",
+     "proposed": "Guillermo del Toro",
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": "Guillermo del Toro",
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Hellboy&type=movie&y=2004"
+      },
+      {
+       "src": "TMDB",
+       "value": "Guillermo del Toro",
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Hellboy&year=2004"
+      }
+     ]
+    },
+    {
+     "field": "studio",
+     "label": "studio",
+     "soft": true,
+     "editionDependent": false,
+     "current": "Sony Pictures",
+     "proposed": "Revolution Studios",
+     "status": "proposed-change",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "TMDB",
+       "value": "Revolution Studios",
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Hellboy&year=2004"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "m1446",
+   "title": "Hellboy II: The Golden Army",
+   "sourcesReached": [
+    "OMDb",
+    "TMDB"
+   ],
+   "sourcesMissed": [],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "release year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 2008,
+     "proposed": 2008,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 2008,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Hellboy+II%3A+The+Golden+Army&type=movie&y=2008"
+      },
+      {
+       "src": "TMDB",
+       "value": 2008,
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Hellboy+II%3A+The+Golden+Army&year=2008"
+      }
+     ]
+    },
+    {
+     "field": "runtime",
+     "label": "runtime (min)",
+     "soft": false,
+     "editionDependent": true,
+     "current": 120,
+     "proposed": 120,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 120,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Hellboy+II%3A+The+Golden+Army&type=movie&y=2008"
+      },
+      {
+       "src": "TMDB",
+       "value": 120,
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Hellboy+II%3A+The+Golden+Army&year=2008"
+      }
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "director",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Guillermo del Toro",
+     "proposed": "Guillermo del Toro",
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": "Guillermo del Toro",
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Hellboy+II%3A+The+Golden+Army&type=movie&y=2008"
+      },
+      {
+       "src": "TMDB",
+       "value": "Guillermo del Toro",
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Hellboy+II%3A+The+Golden+Army&year=2008"
+      }
+     ]
+    },
+    {
+     "field": "studio",
+     "label": "studio",
+     "soft": true,
+     "editionDependent": false,
+     "current": "Universal Pictures",
+     "proposed": "Universal Pictures",
+     "status": "confirmed",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "TMDB",
+       "value": "Universal Pictures",
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Hellboy+II%3A+The+Golden+Army&year=2008"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "m1447",
+   "title": "Watchmen",
+   "sourcesReached": [
+    "OMDb",
+    "TMDB"
+   ],
+   "sourcesMissed": [],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "release year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 2009,
+     "proposed": 2009,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 2009,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Watchmen&type=movie&y=2009"
+      },
+      {
+       "src": "TMDB",
+       "value": 2009,
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Watchmen&year=2009"
+      }
+     ]
+    },
+    {
+     "field": "runtime",
+     "label": "runtime (min)",
+     "soft": false,
+     "editionDependent": true,
+     "current": 162,
+     "proposed": 162,
+     "status": "corroborated-by-one",
+     "grade": "B",
+     "note": "matches OMDb; disagrees with TMDB (163)",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 162,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Watchmen&type=movie&y=2009"
+      },
+      {
+       "src": "TMDB",
+       "value": 163,
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Watchmen&year=2009"
+      }
+     ],
+     "alternatives": [
+      163
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "director",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Zack Snyder",
+     "proposed": "Zack Snyder",
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": "Zack Snyder",
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Watchmen&type=movie&y=2009"
+      },
+      {
+       "src": "TMDB",
+       "value": "Zack Snyder",
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Watchmen&year=2009"
+      }
+     ]
+    },
+    {
+     "field": "studio",
+     "label": "studio",
+     "soft": true,
+     "editionDependent": false,
+     "current": "Warner Bros.",
+     "proposed": "Warner Bros. Pictures",
+     "status": "proposed-change",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "TMDB",
+       "value": "Warner Bros. Pictures",
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Watchmen&year=2009"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "m1448",
+   "title": "V for Vendetta",
+   "sourcesReached": [
+    "OMDb",
+    "TMDB"
+   ],
+   "sourcesMissed": [],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "release year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 2005,
+     "proposed": 2006,
+     "status": "proposed-change",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 2006,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=V+for+Vendetta&type=movie"
+      },
+      {
+       "src": "TMDB",
+       "value": 2006,
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=V+for+Vendetta&year=2005"
+      }
+     ]
+    },
+    {
+     "field": "runtime",
+     "label": "runtime (min)",
+     "soft": false,
+     "editionDependent": true,
+     "current": 132,
+     "proposed": 132,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 132,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=V+for+Vendetta&type=movie"
+      },
+      {
+       "src": "TMDB",
+       "value": 132,
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=V+for+Vendetta&year=2005"
+      }
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "director",
+     "soft": false,
+     "editionDependent": false,
+     "current": "James McTeigue",
+     "proposed": "James McTeigue",
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": "James McTeigue",
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=V+for+Vendetta&type=movie"
+      },
+      {
+       "src": "TMDB",
+       "value": "James McTeigue",
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=V+for+Vendetta&year=2005"
+      }
+     ]
+    },
+    {
+     "field": "studio",
+     "label": "studio",
+     "soft": true,
+     "editionDependent": false,
+     "current": "Warner Bros.",
+     "proposed": "Virtual Studios",
+     "status": "proposed-change",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "TMDB",
+       "value": "Virtual Studios",
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=V+for+Vendetta&year=2005"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "m1449",
+   "title": "The Crow",
+   "sourcesReached": [
+    "OMDb",
+    "TMDB"
+   ],
+   "sourcesMissed": [],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "release year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 1994,
+     "proposed": 1994,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 1994,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=The+Crow&type=movie&y=1994"
+      },
+      {
+       "src": "TMDB",
+       "value": 1994,
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=The+Crow&year=1994"
+      }
+     ]
+    },
+    {
+     "field": "runtime",
+     "label": "runtime (min)",
+     "soft": false,
+     "editionDependent": true,
+     "current": 102,
+     "proposed": 102,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 102,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=The+Crow&type=movie&y=1994"
+      },
+      {
+       "src": "TMDB",
+       "value": 102,
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=The+Crow&year=1994"
+      }
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "director",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Alex Proyas",
+     "proposed": "Alex Proyas",
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": "Alex Proyas",
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=The+Crow&type=movie&y=1994"
+      },
+      {
+       "src": "TMDB",
+       "value": "Alex Proyas",
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=The+Crow&year=1994"
+      }
+     ]
+    },
+    {
+     "field": "studio",
+     "label": "studio",
+     "soft": true,
+     "editionDependent": false,
+     "current": "Miramax",
+     "proposed": "Entertainment Media Investment",
+     "status": "proposed-change",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "TMDB",
+       "value": "Entertainment Media Investment",
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=The+Crow&year=1994"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "m1450",
+   "title": "Blade",
+   "sourcesReached": [
+    "OMDb",
+    "TMDB"
+   ],
+   "sourcesMissed": [],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "release year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 1998,
+     "proposed": 1998,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 1998,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Blade&type=movie&y=1998"
+      },
+      {
+       "src": "TMDB",
+       "value": 1998,
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Blade&year=1998"
+      }
+     ]
+    },
+    {
+     "field": "runtime",
+     "label": "runtime (min)",
+     "soft": false,
+     "editionDependent": true,
+     "current": 120,
+     "proposed": 120,
+     "status": "corroborated-by-one",
+     "grade": "B",
+     "note": "matches OMDb; disagrees with TMDB (121)",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 120,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Blade&type=movie&y=1998"
+      },
+      {
+       "src": "TMDB",
+       "value": 121,
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Blade&year=1998"
+      }
+     ],
+     "alternatives": [
+      121
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "director",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Stephen Norrington",
+     "proposed": "Stephen Norrington",
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": "Stephen Norrington",
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Blade&type=movie&y=1998"
+      },
+      {
+       "src": "TMDB",
+       "value": "Stephen Norrington",
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Blade&year=1998"
+      }
+     ]
+    },
+    {
+     "field": "studio",
+     "label": "studio",
+     "soft": true,
+     "editionDependent": false,
+     "current": "New Line Cinema",
+     "proposed": "New Line Cinema",
+     "status": "confirmed",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "TMDB",
+       "value": "New Line Cinema",
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Blade&year=1998"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "m1451",
+   "title": "Blade II",
+   "sourcesReached": [
+    "OMDb",
+    "TMDB"
+   ],
+   "sourcesMissed": [],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "release year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 2002,
+     "proposed": 2002,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 2002,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Blade+II&type=movie&y=2002"
+      },
+      {
+       "src": "TMDB",
+       "value": 2002,
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Blade+II&year=2002"
+      }
+     ]
+    },
+    {
+     "field": "runtime",
+     "label": "runtime (min)",
+     "soft": false,
+     "editionDependent": true,
+     "current": 117,
+     "proposed": 117,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 117,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Blade+II&type=movie&y=2002"
+      },
+      {
+       "src": "TMDB",
+       "value": 117,
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Blade+II&year=2002"
+      }
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "director",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Guillermo del Toro",
+     "proposed": "Guillermo del Toro",
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": "Guillermo del Toro",
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Blade+II&type=movie&y=2002"
+      },
+      {
+       "src": "TMDB",
+       "value": "Guillermo del Toro",
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Blade+II&year=2002"
+      }
+     ]
+    },
+    {
+     "field": "studio",
+     "label": "studio",
+     "soft": true,
+     "editionDependent": false,
+     "current": "New Line Cinema",
+     "proposed": "New Line Cinema",
+     "status": "confirmed",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "TMDB",
+       "value": "New Line Cinema",
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Blade+II&year=2002"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "m1452",
+   "title": "Blade: Trinity",
+   "sourcesReached": [
+    "OMDb",
+    "TMDB"
+   ],
+   "sourcesMissed": [],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "release year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 2004,
+     "proposed": 2004,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 2004,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Blade%3A+Trinity&type=movie&y=2004"
+      },
+      {
+       "src": "TMDB",
+       "value": 2004,
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Blade%3A+Trinity&year=2004"
+      }
+     ]
+    },
+    {
+     "field": "runtime",
+     "label": "runtime (min)",
+     "soft": false,
+     "editionDependent": true,
+     "current": 113,
+     "proposed": 113,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 113,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Blade%3A+Trinity&type=movie&y=2004"
+      },
+      {
+       "src": "TMDB",
+       "value": 113,
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Blade%3A+Trinity&year=2004"
+      }
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "director",
+     "soft": false,
+     "editionDependent": false,
+     "current": "David S. Goyer",
+     "proposed": "David S. Goyer",
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": "David S. Goyer",
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Blade%3A+Trinity&type=movie&y=2004"
+      },
+      {
+       "src": "TMDB",
+       "value": "David S. Goyer",
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Blade%3A+Trinity&year=2004"
+      }
+     ]
+    },
+    {
+     "field": "studio",
+     "label": "studio",
+     "soft": true,
+     "editionDependent": false,
+     "current": "New Line Cinema",
+     "proposed": "Marvel Enterprises",
+     "status": "proposed-change",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "TMDB",
+       "value": "Marvel Enterprises",
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Blade%3A+Trinity&year=2004"
+      }
+     ]
+    }
+   ]
+  }
+ ]
+}

@@ -1,0 +1,1459 @@
+{
+ "medium": "movie",
+ "generated": "2026-09-17T11:01:35.033Z",
+ "offline": false,
+ "sources": [
+  "OMDb",
+  "TMDB"
+ ],
+ "works": [
+  {
+   "id": "m1406",
+   "title": "The Bourne Legacy",
+   "sourcesReached": [
+    "OMDb",
+    "TMDB"
+   ],
+   "sourcesMissed": [],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "release year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 2012,
+     "proposed": 2012,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 2012,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=The+Bourne+Legacy&type=movie&y=2012"
+      },
+      {
+       "src": "TMDB",
+       "value": 2012,
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=The+Bourne+Legacy&year=2012"
+      }
+     ]
+    },
+    {
+     "field": "runtime",
+     "label": "runtime (min)",
+     "soft": false,
+     "editionDependent": true,
+     "current": 135,
+     "proposed": 135,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 135,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=The+Bourne+Legacy&type=movie&y=2012"
+      },
+      {
+       "src": "TMDB",
+       "value": 135,
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=The+Bourne+Legacy&year=2012"
+      }
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "director",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Tony Gilroy",
+     "proposed": "Tony Gilroy",
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": "Tony Gilroy",
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=The+Bourne+Legacy&type=movie&y=2012"
+      },
+      {
+       "src": "TMDB",
+       "value": "Tony Gilroy",
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=The+Bourne+Legacy&year=2012"
+      }
+     ]
+    },
+    {
+     "field": "studio",
+     "label": "studio",
+     "soft": true,
+     "editionDependent": false,
+     "current": "Universal Pictures",
+     "proposed": "Universal Pictures",
+     "status": "confirmed",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "TMDB",
+       "value": "Universal Pictures",
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=The+Bourne+Legacy&year=2012"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "m1407",
+   "title": "Speed 2: Cruise Control",
+   "sourcesReached": [
+    "OMDb",
+    "TMDB"
+   ],
+   "sourcesMissed": [],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "release year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 1997,
+     "proposed": 1997,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 1997,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Speed+2%3A+Cruise+Control&type=movie&y=1997"
+      },
+      {
+       "src": "TMDB",
+       "value": 1997,
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Speed+2%3A+Cruise+Control&year=1997"
+      }
+     ]
+    },
+    {
+     "field": "runtime",
+     "label": "runtime (min)",
+     "soft": false,
+     "editionDependent": true,
+     "current": 121,
+     "proposed": 121,
+     "status": "corroborated-by-one",
+     "grade": "B",
+     "note": "matches OMDb; disagrees with TMDB (125)",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 121,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Speed+2%3A+Cruise+Control&type=movie&y=1997"
+      },
+      {
+       "src": "TMDB",
+       "value": 125,
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Speed+2%3A+Cruise+Control&year=1997"
+      }
+     ],
+     "alternatives": [
+      125
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "director",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Jan de Bont",
+     "proposed": "Jan de Bont",
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": "Jan de Bont",
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Speed+2%3A+Cruise+Control&type=movie&y=1997"
+      },
+      {
+       "src": "TMDB",
+       "value": "Jan de Bont",
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Speed+2%3A+Cruise+Control&year=1997"
+      }
+     ]
+    },
+    {
+     "field": "studio",
+     "label": "studio",
+     "soft": true,
+     "editionDependent": false,
+     "current": "20th Century Fox",
+     "proposed": "20th Century Fox",
+     "status": "confirmed",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "TMDB",
+       "value": "20th Century Fox",
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Speed+2%3A+Cruise+Control&year=1997"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "m1408",
+   "title": "Independence Day: Resurgence",
+   "sourcesReached": [
+    "OMDb",
+    "TMDB"
+   ],
+   "sourcesMissed": [],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "release year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 2016,
+     "proposed": 2016,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 2016,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Independence+Day%3A+Resurgence&type=movie&y=2016"
+      },
+      {
+       "src": "TMDB",
+       "value": 2016,
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Independence+Day%3A+Resurgence&year=2016"
+      }
+     ]
+    },
+    {
+     "field": "runtime",
+     "label": "runtime (min)",
+     "soft": false,
+     "editionDependent": true,
+     "current": 120,
+     "proposed": 120,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 120,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Independence+Day%3A+Resurgence&type=movie&y=2016"
+      },
+      {
+       "src": "TMDB",
+       "value": 120,
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Independence+Day%3A+Resurgence&year=2016"
+      }
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "director",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Roland Emmerich",
+     "proposed": "Roland Emmerich",
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": "Roland Emmerich",
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Independence+Day%3A+Resurgence&type=movie&y=2016"
+      },
+      {
+       "src": "TMDB",
+       "value": "Roland Emmerich",
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Independence+Day%3A+Resurgence&year=2016"
+      }
+     ]
+    },
+    {
+     "field": "studio",
+     "label": "studio",
+     "soft": true,
+     "editionDependent": false,
+     "current": "20th Century Fox",
+     "proposed": "20th Century Fox",
+     "status": "confirmed",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "TMDB",
+       "value": "20th Century Fox",
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Independence+Day%3A+Resurgence&year=2016"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "m1409",
+   "title": "Volcano",
+   "sourcesReached": [
+    "OMDb",
+    "TMDB"
+   ],
+   "sourcesMissed": [],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "release year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 1997,
+     "proposed": 1997,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 1997,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Volcano&type=movie&y=1997"
+      },
+      {
+       "src": "TMDB",
+       "value": 1997,
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Volcano&year=1997"
+      }
+     ]
+    },
+    {
+     "field": "runtime",
+     "label": "runtime (min)",
+     "soft": false,
+     "editionDependent": true,
+     "current": 104,
+     "proposed": 104,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 104,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Volcano&type=movie&y=1997"
+      },
+      {
+       "src": "TMDB",
+       "value": 104,
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Volcano&year=1997"
+      }
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "director",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Mick Jackson",
+     "proposed": "Mick Jackson",
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": "Mick Jackson",
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Volcano&type=movie&y=1997"
+      },
+      {
+       "src": "TMDB",
+       "value": "Mick Jackson",
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Volcano&year=1997"
+      }
+     ]
+    },
+    {
+     "field": "studio",
+     "label": "studio",
+     "soft": true,
+     "editionDependent": false,
+     "current": "20th Century Fox",
+     "proposed": "20th Century Fox",
+     "status": "confirmed",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "TMDB",
+       "value": "20th Century Fox",
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Volcano&year=1997"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "m1410",
+   "title": "Dante's Peak",
+   "sourcesReached": [
+    "OMDb",
+    "TMDB"
+   ],
+   "sourcesMissed": [],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "release year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 1997,
+     "proposed": 1997,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 1997,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Dante%27s+Peak&type=movie&y=1997"
+      },
+      {
+       "src": "TMDB",
+       "value": 1997,
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Dante%27s+Peak&year=1997"
+      }
+     ]
+    },
+    {
+     "field": "runtime",
+     "label": "runtime (min)",
+     "soft": false,
+     "editionDependent": true,
+     "current": 108,
+     "proposed": 108,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 108,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Dante%27s+Peak&type=movie&y=1997"
+      },
+      {
+       "src": "TMDB",
+       "value": 108,
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Dante%27s+Peak&year=1997"
+      }
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "director",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Roger Donaldson",
+     "proposed": "Roger Donaldson",
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": "Roger Donaldson",
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Dante%27s+Peak&type=movie&y=1997"
+      },
+      {
+       "src": "TMDB",
+       "value": "Roger Donaldson",
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Dante%27s+Peak&year=1997"
+      }
+     ]
+    },
+    {
+     "field": "studio",
+     "label": "studio",
+     "soft": true,
+     "editionDependent": false,
+     "current": "Universal Pictures",
+     "proposed": "Pacific Western",
+     "status": "proposed-change",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "TMDB",
+       "value": "Pacific Western",
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Dante%27s+Peak&year=1997"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "m1411",
+   "title": "2012",
+   "sourcesReached": [
+    "OMDb",
+    "TMDB"
+   ],
+   "sourcesMissed": [],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "release year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 2009,
+     "proposed": 2009,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 2009,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=2012&type=movie&y=2009"
+      },
+      {
+       "src": "TMDB",
+       "value": 2009,
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=2012&year=2009"
+      }
+     ]
+    },
+    {
+     "field": "runtime",
+     "label": "runtime (min)",
+     "soft": false,
+     "editionDependent": true,
+     "current": 158,
+     "proposed": 158,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 158,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=2012&type=movie&y=2009"
+      },
+      {
+       "src": "TMDB",
+       "value": 158,
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=2012&year=2009"
+      }
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "director",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Roland Emmerich",
+     "proposed": "Roland Emmerich",
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": "Roland Emmerich",
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=2012&type=movie&y=2009"
+      },
+      {
+       "src": "TMDB",
+       "value": "Roland Emmerich",
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=2012&year=2009"
+      }
+     ]
+    },
+    {
+     "field": "studio",
+     "label": "studio",
+     "soft": true,
+     "editionDependent": false,
+     "current": "Columbia Pictures",
+     "proposed": "Columbia Pictures",
+     "status": "confirmed",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "TMDB",
+       "value": "Columbia Pictures",
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=2012&year=2009"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "m1412",
+   "title": "Bad Boys",
+   "sourcesReached": [
+    "OMDb",
+    "TMDB"
+   ],
+   "sourcesMissed": [],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "release year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 1995,
+     "proposed": 1995,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 1995,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Bad+Boys&type=movie&y=1995"
+      },
+      {
+       "src": "TMDB",
+       "value": 1995,
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Bad+Boys&year=1995"
+      }
+     ]
+    },
+    {
+     "field": "runtime",
+     "label": "runtime (min)",
+     "soft": false,
+     "editionDependent": true,
+     "current": 119,
+     "proposed": 119,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 119,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Bad+Boys&type=movie&y=1995"
+      },
+      {
+       "src": "TMDB",
+       "value": 119,
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Bad+Boys&year=1995"
+      }
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "director",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Michael Bay",
+     "proposed": "Michael Bay",
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": "Michael Bay",
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Bad+Boys&type=movie&y=1995"
+      },
+      {
+       "src": "TMDB",
+       "value": "Michael Bay",
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Bad+Boys&year=1995"
+      }
+     ]
+    },
+    {
+     "field": "studio",
+     "label": "studio",
+     "soft": true,
+     "editionDependent": false,
+     "current": "Columbia Pictures",
+     "proposed": "Columbia Pictures",
+     "status": "confirmed",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "TMDB",
+       "value": "Columbia Pictures",
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Bad+Boys&year=1995"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "m1413",
+   "title": "Bad Boys II",
+   "sourcesReached": [
+    "OMDb",
+    "TMDB"
+   ],
+   "sourcesMissed": [],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "release year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 2003,
+     "proposed": 2003,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 2003,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Bad+Boys+II&type=movie&y=2003"
+      },
+      {
+       "src": "TMDB",
+       "value": 2003,
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Bad+Boys+II&year=2003"
+      }
+     ]
+    },
+    {
+     "field": "runtime",
+     "label": "runtime (min)",
+     "soft": false,
+     "editionDependent": true,
+     "current": 147,
+     "proposed": 147,
+     "status": "corroborated-by-one",
+     "grade": "B",
+     "note": "matches OMDb; disagrees with TMDB (146)",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 147,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Bad+Boys+II&type=movie&y=2003"
+      },
+      {
+       "src": "TMDB",
+       "value": 146,
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Bad+Boys+II&year=2003"
+      }
+     ],
+     "alternatives": [
+      146
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "director",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Michael Bay",
+     "proposed": "Michael Bay",
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": "Michael Bay",
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Bad+Boys+II&type=movie&y=2003"
+      },
+      {
+       "src": "TMDB",
+       "value": "Michael Bay",
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Bad+Boys+II&year=2003"
+      }
+     ]
+    },
+    {
+     "field": "studio",
+     "label": "studio",
+     "soft": true,
+     "editionDependent": false,
+     "current": "Columbia Pictures",
+     "proposed": "Columbia Pictures",
+     "status": "confirmed",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "TMDB",
+       "value": "Columbia Pictures",
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Bad+Boys+II&year=2003"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "m1414",
+   "title": "Bad Boys for Life",
+   "sourcesReached": [
+    "OMDb",
+    "TMDB"
+   ],
+   "sourcesMissed": [],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "release year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 2020,
+     "proposed": 2020,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 2020,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Bad+Boys+for+Life&type=movie&y=2020"
+      },
+      {
+       "src": "TMDB",
+       "value": 2020,
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Bad+Boys+for+Life&year=2020"
+      }
+     ]
+    },
+    {
+     "field": "runtime",
+     "label": "runtime (min)",
+     "soft": false,
+     "editionDependent": true,
+     "current": 124,
+     "proposed": 124,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 124,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Bad+Boys+for+Life&type=movie&y=2020"
+      },
+      {
+       "src": "TMDB",
+       "value": 124,
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Bad+Boys+for+Life&year=2020"
+      }
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "director",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Adil El Arbi, Bilall Fallah",
+     "proposed": "Adil El Arbi, Bilall Fallah",
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": "Adil El Arbi, Bilall Fallah",
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Bad+Boys+for+Life&type=movie&y=2020"
+      },
+      {
+       "src": "TMDB",
+       "value": "Adil El Arbi, Bilall Fallah",
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Bad+Boys+for+Life&year=2020"
+      }
+     ]
+    },
+    {
+     "field": "studio",
+     "label": "studio",
+     "soft": true,
+     "editionDependent": false,
+     "current": "Columbia Pictures",
+     "proposed": "Columbia Pictures",
+     "status": "confirmed",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "TMDB",
+       "value": "Columbia Pictures",
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Bad+Boys+for+Life&year=2020"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "m1415",
+   "title": "Rush Hour",
+   "sourcesReached": [
+    "OMDb",
+    "TMDB"
+   ],
+   "sourcesMissed": [],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "release year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 1998,
+     "proposed": 1998,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 1998,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Rush+Hour&type=movie&y=1998"
+      },
+      {
+       "src": "TMDB",
+       "value": 1998,
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Rush+Hour&year=1998"
+      }
+     ]
+    },
+    {
+     "field": "runtime",
+     "label": "runtime (min)",
+     "soft": false,
+     "editionDependent": true,
+     "current": 98,
+     "proposed": 98,
+     "status": "corroborated-by-one",
+     "grade": "B",
+     "note": "matches OMDb; disagrees with TMDB (97)",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 98,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Rush+Hour&type=movie&y=1998"
+      },
+      {
+       "src": "TMDB",
+       "value": 97,
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Rush+Hour&year=1998"
+      }
+     ],
+     "alternatives": [
+      97
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "director",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Brett Ratner",
+     "proposed": "Brett Ratner",
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": "Brett Ratner",
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Rush+Hour&type=movie&y=1998"
+      },
+      {
+       "src": "TMDB",
+       "value": "Brett Ratner",
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Rush+Hour&year=1998"
+      }
+     ]
+    },
+    {
+     "field": "studio",
+     "label": "studio",
+     "soft": true,
+     "editionDependent": false,
+     "current": "New Line Cinema",
+     "proposed": "New Line Cinema",
+     "status": "confirmed",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "TMDB",
+       "value": "New Line Cinema",
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Rush+Hour&year=1998"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "m1416",
+   "title": "Rush Hour 2",
+   "sourcesReached": [
+    "OMDb",
+    "TMDB"
+   ],
+   "sourcesMissed": [],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "release year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 2001,
+     "proposed": 2001,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 2001,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Rush+Hour+2&type=movie&y=2001"
+      },
+      {
+       "src": "TMDB",
+       "value": 2001,
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Rush+Hour+2&year=2001"
+      }
+     ]
+    },
+    {
+     "field": "runtime",
+     "label": "runtime (min)",
+     "soft": false,
+     "editionDependent": true,
+     "current": 90,
+     "proposed": 90,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 90,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Rush+Hour+2&type=movie&y=2001"
+      },
+      {
+       "src": "TMDB",
+       "value": 90,
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Rush+Hour+2&year=2001"
+      }
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "director",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Brett Ratner",
+     "proposed": "Brett Ratner",
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": "Brett Ratner",
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Rush+Hour+2&type=movie&y=2001"
+      },
+      {
+       "src": "TMDB",
+       "value": "Brett Ratner",
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Rush+Hour+2&year=2001"
+      }
+     ]
+    },
+    {
+     "field": "studio",
+     "label": "studio",
+     "soft": true,
+     "editionDependent": false,
+     "current": "New Line Cinema",
+     "proposed": "New Line Cinema",
+     "status": "confirmed",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "TMDB",
+       "value": "New Line Cinema",
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Rush+Hour+2&year=2001"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "m1417",
+   "title": "Rush Hour 3",
+   "sourcesReached": [
+    "OMDb",
+    "TMDB"
+   ],
+   "sourcesMissed": [],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "release year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 2007,
+     "proposed": 2007,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 2007,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Rush+Hour+3&type=movie&y=2007"
+      },
+      {
+       "src": "TMDB",
+       "value": 2007,
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Rush+Hour+3&year=2007"
+      }
+     ]
+    },
+    {
+     "field": "runtime",
+     "label": "runtime (min)",
+     "soft": false,
+     "editionDependent": true,
+     "current": 91,
+     "proposed": 91,
+     "status": "corroborated-by-one",
+     "grade": "B",
+     "note": "matches OMDb; disagrees with TMDB (90)",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 91,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Rush+Hour+3&type=movie&y=2007"
+      },
+      {
+       "src": "TMDB",
+       "value": 90,
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Rush+Hour+3&year=2007"
+      }
+     ],
+     "alternatives": [
+      90
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "director",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Brett Ratner",
+     "proposed": "Brett Ratner",
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": "Brett Ratner",
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Rush+Hour+3&type=movie&y=2007"
+      },
+      {
+       "src": "TMDB",
+       "value": "Brett Ratner",
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Rush+Hour+3&year=2007"
+      }
+     ]
+    },
+    {
+     "field": "studio",
+     "label": "studio",
+     "soft": true,
+     "editionDependent": false,
+     "current": "New Line Cinema",
+     "proposed": "New Line Cinema",
+     "status": "confirmed",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "TMDB",
+       "value": "New Line Cinema",
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Rush+Hour+3&year=2007"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "m1418",
+   "title": "National Lampoon's Vacation",
+   "sourcesReached": [
+    "OMDb",
+    "TMDB"
+   ],
+   "sourcesMissed": [],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "release year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 1983,
+     "proposed": 1983,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 1983,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=National+Lampoon%27s+Vacation&type=movie&y=1983"
+      },
+      {
+       "src": "TMDB",
+       "value": 1983,
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=National+Lampoon%27s+Vacation&year=1983"
+      }
+     ]
+    },
+    {
+     "field": "runtime",
+     "label": "runtime (min)",
+     "soft": false,
+     "editionDependent": true,
+     "current": 98,
+     "proposed": 98,
+     "status": "corroborated-by-one",
+     "grade": "B",
+     "note": "matches OMDb; disagrees with TMDB (99)",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 98,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=National+Lampoon%27s+Vacation&type=movie&y=1983"
+      },
+      {
+       "src": "TMDB",
+       "value": 99,
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=National+Lampoon%27s+Vacation&year=1983"
+      }
+     ],
+     "alternatives": [
+      99
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "director",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Harold Ramis",
+     "proposed": "Harold Ramis",
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": "Harold Ramis",
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=National+Lampoon%27s+Vacation&type=movie&y=1983"
+      },
+      {
+       "src": "TMDB",
+       "value": "Harold Ramis",
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=National+Lampoon%27s+Vacation&year=1983"
+      }
+     ]
+    },
+    {
+     "field": "studio",
+     "label": "studio",
+     "soft": true,
+     "editionDependent": false,
+     "current": "Warner Bros.",
+     "proposed": "Warner Bros. Pictures",
+     "status": "proposed-change",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "TMDB",
+       "value": "Warner Bros. Pictures",
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=National+Lampoon%27s+Vacation&year=1983"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "m1419",
+   "title": "European Vacation",
+   "sourcesReached": [
+    "OMDb"
+   ],
+   "sourcesMissed": [
+    "TMDB (no match)"
+   ],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "release year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 1985,
+     "proposed": 2009,
+     "status": "proposed-change",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 2009,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=European+Vacation&type=movie"
+      }
+     ]
+    },
+    {
+     "field": "runtime",
+     "label": "runtime (min)",
+     "soft": false,
+     "editionDependent": true,
+     "current": 94,
+     "proposed": 197,
+     "status": "edition-dependent",
+     "grade": "B",
+     "note": "one source differs from the corpus (OMDb 197) on a field with no single true value -- likely a different printing/edition, not an error.",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 197,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=European+Vacation&type=movie"
+      }
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "director",
+     "soft": false,
+     "current": "Amy Heckerling",
+     "status": "no-source",
+     "grade": null,
+     "sources": []
+    },
+    {
+     "field": "studio",
+     "label": "studio",
+     "soft": true,
+     "current": "Warner Bros.",
+     "status": "no-source",
+     "grade": null,
+     "sources": []
+    }
+   ]
+  },
+  {
+   "id": "m1420",
+   "title": "Christmas Vacation",
+   "sourcesReached": [],
+   "sourcesMissed": [
+    "OMDb (no match)",
+    "TMDB (no match)"
+   ],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "release year",
+     "soft": false,
+     "current": 1989,
+     "status": "no-source",
+     "grade": null,
+     "sources": []
+    },
+    {
+     "field": "runtime",
+     "label": "runtime (min)",
+     "soft": false,
+     "current": 97,
+     "status": "no-source",
+     "grade": null,
+     "sources": []
+    },
+    {
+     "field": "creator",
+     "label": "director",
+     "soft": false,
+     "current": "Jeremiah S. Chechik",
+     "status": "no-source",
+     "grade": null,
+     "sources": []
+    },
+    {
+     "field": "studio",
+     "label": "studio",
+     "soft": true,
+     "current": "Warner Bros.",
+     "status": "no-source",
+     "grade": null,
+     "sources": []
+    }
+   ]
+  },
+  {
+   "id": "m1421",
+   "title": "Home Alone 2: Lost in New York",
+   "sourcesReached": [
+    "OMDb",
+    "TMDB"
+   ],
+   "sourcesMissed": [],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "release year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 1992,
+     "proposed": 1992,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 1992,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Home+Alone+2%3A+Lost+in+New+York&type=movie&y=1992"
+      },
+      {
+       "src": "TMDB",
+       "value": 1992,
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Home+Alone+2%3A+Lost+in+New+York&year=1992"
+      }
+     ]
+    },
+    {
+     "field": "runtime",
+     "label": "runtime (min)",
+     "soft": false,
+     "editionDependent": true,
+     "current": 120,
+     "proposed": 120,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 120,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Home+Alone+2%3A+Lost+in+New+York&type=movie&y=1992"
+      },
+      {
+       "src": "TMDB",
+       "value": 120,
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Home+Alone+2%3A+Lost+in+New+York&year=1992"
+      }
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "director",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Chris Columbus",
+     "proposed": "Chris Columbus",
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": "Chris Columbus",
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Home+Alone+2%3A+Lost+in+New+York&type=movie&y=1992"
+      },
+      {
+       "src": "TMDB",
+       "value": "Chris Columbus",
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Home+Alone+2%3A+Lost+in+New+York&year=1992"
+      }
+     ]
+    },
+    {
+     "field": "studio",
+     "label": "studio",
+     "soft": true,
+     "editionDependent": false,
+     "current": "20th Century Fox",
+     "proposed": "20th Century Fox",
+     "status": "confirmed",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "TMDB",
+       "value": "20th Century Fox",
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Home+Alone+2%3A+Lost+in+New+York&year=1992"
+      }
+     ]
+    }
+   ]
+  }
+ ]
+}
