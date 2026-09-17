@@ -1,0 +1,447 @@
+{
+ "medium": "game",
+ "generated": "2026-09-17T01:51:44.257Z",
+ "offline": false,
+ "sources": [
+  "IGDB",
+  "Wikidata"
+ ],
+ "works": [
+  {
+   "id": "g316",
+   "title": "The Sims",
+   "sourcesReached": [
+    "Wikidata"
+   ],
+   "sourcesMissed": [
+    "IGDB (no key in environment)"
+   ],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "release year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 2000,
+     "proposed": 2000,
+     "status": "confirmed",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "Wikidata",
+       "value": 2000,
+       "url": "https://www.wikidata.org/wiki/Q184816"
+      }
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "developer",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Maxis",
+     "proposed": "Maxis",
+     "status": "confirmed",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "Wikidata",
+       "value": "Maxis",
+       "url": "https://www.wikidata.org/wiki/Q184816"
+      }
+     ]
+    },
+    {
+     "field": "platforms",
+     "label": "platforms",
+     "soft": true,
+     "editionDependent": false,
+     "current": [
+      "PC"
+     ],
+     "proposed": [
+      "Xbox",
+      "PlayStation 2",
+      "Microsoft Windows",
+      "macOS",
+      "Nintendo GameCube",
+      "Classic Mac OS",
+      "Linux"
+     ],
+     "status": "proposed-change",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "Wikidata",
+       "value": [
+        "Xbox",
+        "PlayStation 2",
+        "Microsoft Windows",
+        "macOS",
+        "Nintendo GameCube",
+        "Classic Mac OS",
+        "Linux"
+       ],
+       "url": "https://www.wikidata.org/wiki/Q184816"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "g317",
+   "title": "SimCity",
+   "sourcesReached": [
+    "Wikidata"
+   ],
+   "sourcesMissed": [
+    "IGDB (no key in environment)"
+   ],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "release year",
+     "soft": false,
+     "current": 1989,
+     "status": "no-source",
+     "grade": null,
+     "sources": []
+    },
+    {
+     "field": "creator",
+     "label": "developer",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Maxis",
+     "proposed": "Maxis",
+     "status": "confirmed",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "Wikidata",
+       "value": "Maxis",
+       "url": "https://www.wikidata.org/wiki/Q249854"
+      }
+     ]
+    },
+    {
+     "field": "platforms",
+     "label": "platforms",
+     "soft": true,
+     "editionDependent": false,
+     "current": [
+      "PC"
+     ],
+     "proposed": [
+      "Acorn Archimedes",
+      "Acorn Electron",
+      "CDTV",
+      "Amstrad CPC",
+      "Atari ST",
+      "BBC Micro",
+      "Commodore 64",
+      "DESQview",
+      "DOS",
+      "EPOC",
+      "FM Towns",
+      "iOS",
+      "iPod touch",
+      "NEC PC-9800 series",
+      "OLPC XO-1",
+      "OS/2",
+      "Linux",
+      "macOS",
+      "Symbian",
+      "Java",
+      "NeWS",
+      "web browser",
+      "Super Nintendo Entertainment System",
+      "Tk",
+      "Unix",
+      "Microsoft Windows",
+      "X Window System",
+      "Tcl",
+      "ZX Spectrum",
+      "Wii",
+      "Palm OS"
+     ],
+     "status": "proposed-change",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "Wikidata",
+       "value": [
+        "Acorn Archimedes",
+        "Acorn Electron",
+        "CDTV",
+        "Amstrad CPC",
+        "Atari ST",
+        "BBC Micro",
+        "Commodore 64",
+        "DESQview",
+        "DOS",
+        "EPOC",
+        "FM Towns",
+        "iOS",
+        "iPod touch",
+        "NEC PC-9800 series",
+        "OLPC XO-1",
+        "OS/2",
+        "Linux",
+        "macOS",
+        "Symbian",
+        "Java",
+        "NeWS",
+        "web browser",
+        "Super Nintendo Entertainment System",
+        "Tk",
+        "Unix",
+        "Microsoft Windows",
+        "X Window System",
+        "Tcl",
+        "ZX Spectrum",
+        "Wii",
+        "Palm OS"
+       ],
+       "url": "https://www.wikidata.org/wiki/Q249854"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "g318",
+   "title": "Planet Coaster",
+   "sourcesReached": [
+    "Wikidata"
+   ],
+   "sourcesMissed": [
+    "IGDB (no key in environment)"
+   ],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "release year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 2016,
+     "proposed": 2016,
+     "status": "confirmed",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "Wikidata",
+       "value": 2016,
+       "url": "https://www.wikidata.org/wiki/Q19744696"
+      }
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "developer",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Frontier Developments",
+     "proposed": "Frontier Developments",
+     "status": "confirmed",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "Wikidata",
+       "value": "Frontier Developments",
+       "url": "https://www.wikidata.org/wiki/Q19744696"
+      }
+     ]
+    },
+    {
+     "field": "platforms",
+     "label": "platforms",
+     "soft": true,
+     "editionDependent": false,
+     "current": [
+      "PC",
+      "PS4",
+      "Xbox One"
+     ],
+     "proposed": [
+      "Microsoft Windows",
+      "PlayStation 4",
+      "Xbox One",
+      "PlayStation 5",
+      "Xbox Series X and Series S"
+     ],
+     "status": "proposed-change",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "Wikidata",
+       "value": [
+        "Microsoft Windows",
+        "PlayStation 4",
+        "Xbox One",
+        "PlayStation 5",
+        "Xbox Series X and Series S"
+       ],
+       "url": "https://www.wikidata.org/wiki/Q19744696"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "g319",
+   "title": "Satisfactory",
+   "sourcesReached": [
+    "Wikidata"
+   ],
+   "sourcesMissed": [
+    "IGDB (no key in environment)"
+   ],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "release year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 2020,
+     "proposed": 2019,
+     "status": "proposed-change",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "Wikidata",
+       "value": 2019,
+       "url": "https://www.wikidata.org/wiki/Q62049495"
+      }
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "developer",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Coffee Stain Studios",
+     "proposed": "Coffee Stain Studios",
+     "status": "confirmed",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "Wikidata",
+       "value": "Coffee Stain Studios",
+       "url": "https://www.wikidata.org/wiki/Q62049495"
+      }
+     ]
+    },
+    {
+     "field": "platforms",
+     "label": "platforms",
+     "soft": true,
+     "editionDependent": false,
+     "current": [
+      "PC"
+     ],
+     "proposed": [
+      "Microsoft Windows",
+      "PlayStation 5",
+      "Xbox Series X and Series S"
+     ],
+     "status": "proposed-change",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "Wikidata",
+       "value": [
+        "Microsoft Windows",
+        "PlayStation 5",
+        "Xbox Series X and Series S"
+       ],
+       "url": "https://www.wikidata.org/wiki/Q62049495"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "g320",
+   "title": "Prince of Persia: The Sands of Time",
+   "sourcesReached": [],
+   "sourcesMissed": [
+    "IGDB (no key in environment)",
+    "Wikidata (no match)"
+   ],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "release year",
+     "soft": false,
+     "current": 2003,
+     "status": "no-source",
+     "grade": null,
+     "sources": []
+    },
+    {
+     "field": "creator",
+     "label": "developer",
+     "soft": false,
+     "current": "Ubisoft Montreal",
+     "status": "no-source",
+     "grade": null,
+     "sources": []
+    },
+    {
+     "field": "platforms",
+     "label": "platforms",
+     "soft": true,
+     "current": [
+      "PC",
+      "PS2",
+      "Xbox"
+     ],
+     "status": "no-source",
+     "grade": null,
+     "sources": []
+    }
+   ]
+  },
+  {
+   "id": "g321",
+   "title": "Slay the Princess",
+   "sourcesReached": [],
+   "sourcesMissed": [
+    "IGDB (no key in environment)",
+    "Wikidata (no match)"
+   ],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "release year",
+     "soft": false,
+     "current": 2023,
+     "status": "no-source",
+     "grade": null,
+     "sources": []
+    },
+    {
+     "field": "creator",
+     "label": "developer",
+     "soft": false,
+     "current": "Black Tabby Games",
+     "status": "no-source",
+     "grade": null,
+     "sources": []
+    },
+    {
+     "field": "platforms",
+     "label": "platforms",
+     "soft": true,
+     "current": [
+      "PC"
+     ],
+     "status": "no-source",
+     "grade": null,
+     "sources": []
+    }
+   ]
+  }
+ ]
+}
