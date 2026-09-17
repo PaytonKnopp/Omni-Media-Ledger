@@ -1444,6 +1444,32 @@ vocabulary to each rather than inventing a new one.
 1,538/2,000 (4,196/5,000 total, 83.9%). Remaining work is exclusively movies (~351 more) and books
 (~462 more).
 
+**Twelfth round (movies batch 24, books batch 24), movies+books only.** Movies: fifteen titles (one
+caught by the dedup script and dropped -- Point Break was already present under the 1991 original).
+A Tom Cruise star-vehicle sweep found Top Gun's ORIGINAL 1986 film missing despite Top Gun: Maverick
+already being in the corpus -- a genuine sequel-without-its-predecessor gap, the mirror image of the
+usual "missing sequel" pattern. Also closed Days of Thunder, A Bronx Tale, Carlito's Way, Risky
+Business, Cocktail, Vanilla Sky, American Made, Oblivion, both Jack Reacher films, Born on the Fourth
+of July, and rounded out with three workplace/finance-drama gaps (Too Big to Fail, Working Girl, Nine
+to Five). SERIES_DEFS: new Top Gun and Jack Reacher (movie kind, distinct from the pre-existing Jack
+Reacher book-kind entry -- confirmed this dual-kind-same-name pattern is already established via
+Harry Potter) groupings added.
+
+Books: thirteen titles, a hardboiled-noir and espionage sweep: three more Walter Mosley Easy Rawlins
+novels (deliberately not grouped into SERIES_DEFS -- a ~15-book still-being-added-to series, matching
+the large-series precedent), two more Raymond Chandler Marlowe novels, The Thin Man, three more
+Patricia Highsmith novels (one, The Talented Mr. Ripley, caught as an exact duplicate already present
+and dropped), and four John le Carré novels. Two titles (A Red Death, White Butterfly) reached zero
+fetch-substance tags, flagged as general-knowledge estimates. SERIES_DEFS: new Philip Marlowe (3 of
+the real 7-novel run) and Ripley (3 of the real 5-novel run, both cleanly bounded/completed series)
+groupings added; deliberately skipped a George Smiley grouping despite 4 corpus members now -- unlike
+Marlowe/Ripley, uncertain of le Carré's exact canonical Smiley-novel count without further research,
+and an unconfident "total" is worse than no grouping at all.
+
+**Status at this checkpoint:** movies 1,663/2,000, TV 502/500 (done), games 507/500 (done), books
+1,548/2,000 (4,224/5,000 total, 84.5%). Remaining work is exclusively movies (~337 more) and books
+(~452 more).
+
 ---
 
 ## Ideas / next steps
