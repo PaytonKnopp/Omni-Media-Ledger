@@ -1,0 +1,748 @@
+{
+ "medium": "game",
+ "generated": "2026-09-17T02:19:21.793Z",
+ "offline": false,
+ "sources": [
+  "IGDB",
+  "Wikidata"
+ ],
+ "works": [
+  {
+   "id": "g333",
+   "title": "Final Fantasy XV",
+   "sourcesReached": [
+    "Wikidata"
+   ],
+   "sourcesMissed": [
+    "IGDB (no key in environment)"
+   ],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "release year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 2016,
+     "proposed": 2016,
+     "status": "confirmed",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "Wikidata",
+       "value": 2016,
+       "url": "https://www.wikidata.org/wiki/Q1779100"
+      }
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "developer",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Square Enix",
+     "proposed": "Square Enix, XPEC Entertainment",
+     "status": "proposed-change",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "Wikidata",
+       "value": "Square Enix & XPEC Entertainment",
+       "url": "https://www.wikidata.org/wiki/Q1779100"
+      }
+     ]
+    },
+    {
+     "field": "platforms",
+     "label": "platforms",
+     "soft": true,
+     "editionDependent": false,
+     "current": [
+      "PS4",
+      "Xbox One",
+      "PC"
+     ],
+     "proposed": [
+      "PlayStation 4",
+      "Xbox One",
+      "Microsoft Windows"
+     ],
+     "status": "proposed-change",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "Wikidata",
+       "value": [
+        "PlayStation 4",
+        "Xbox One",
+        "Microsoft Windows"
+       ],
+       "url": "https://www.wikidata.org/wiki/Q1779100"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "g334",
+   "title": "Final Fantasy XVI",
+   "sourcesReached": [],
+   "sourcesMissed": [
+    "IGDB (no key in environment)",
+    "Wikidata (no match)"
+   ],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "release year",
+     "soft": false,
+     "current": 2023,
+     "status": "no-source",
+     "grade": null,
+     "sources": []
+    },
+    {
+     "field": "creator",
+     "label": "developer",
+     "soft": false,
+     "current": "Square Enix",
+     "status": "no-source",
+     "grade": null,
+     "sources": []
+    },
+    {
+     "field": "platforms",
+     "label": "platforms",
+     "soft": true,
+     "current": [
+      "PS5",
+      "PC"
+     ],
+     "status": "no-source",
+     "grade": null,
+     "sources": []
+    }
+   ]
+  },
+  {
+   "id": "g335",
+   "title": "Ni no Kuni: Wrath of the White Witch",
+   "sourcesReached": [
+    "Wikidata"
+   ],
+   "sourcesMissed": [
+    "IGDB (no key in environment)"
+   ],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "release year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 2013,
+     "proposed": 2011,
+     "status": "proposed-change",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "Wikidata",
+       "value": 2011,
+       "url": "https://www.wikidata.org/wiki/Q21170302"
+      }
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "developer",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Level-5, Studio Ghibli",
+     "proposed": "Level-5",
+     "status": "proposed-change",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "Wikidata",
+       "value": "Level-5",
+       "url": "https://www.wikidata.org/wiki/Q21170302"
+      }
+     ]
+    },
+    {
+     "field": "platforms",
+     "label": "platforms",
+     "soft": true,
+     "editionDependent": false,
+     "current": [
+      "PS3",
+      "PC"
+     ],
+     "proposed": [
+      "PlayStation 3",
+      "PlayStation 4",
+      "Microsoft Windows",
+      "Nintendo Switch"
+     ],
+     "status": "proposed-change",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "Wikidata",
+       "value": [
+        "PlayStation 3",
+        "PlayStation 4",
+        "Microsoft Windows",
+        "Nintendo Switch"
+       ],
+       "url": "https://www.wikidata.org/wiki/Q21170302"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "g336",
+   "title": "Tales of Arise",
+   "sourcesReached": [],
+   "sourcesMissed": [
+    "IGDB (no key in environment)",
+    "Wikidata (no match)"
+   ],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "release year",
+     "soft": false,
+     "current": 2021,
+     "status": "no-source",
+     "grade": null,
+     "sources": []
+    },
+    {
+     "field": "creator",
+     "label": "developer",
+     "soft": false,
+     "current": "Bandai Namco Studios",
+     "status": "no-source",
+     "grade": null,
+     "sources": []
+    },
+    {
+     "field": "platforms",
+     "label": "platforms",
+     "soft": true,
+     "current": [
+      "PC",
+      "PS4",
+      "Xbox One"
+     ],
+     "status": "no-source",
+     "grade": null,
+     "sources": []
+    }
+   ]
+  },
+  {
+   "id": "g337",
+   "title": "Bayonetta",
+   "sourcesReached": [
+    "Wikidata"
+   ],
+   "sourcesMissed": [
+    "IGDB (no key in environment)"
+   ],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "release year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 2009,
+     "proposed": 2009,
+     "status": "confirmed",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "Wikidata",
+       "value": 2009,
+       "url": "https://www.wikidata.org/wiki/Q791569"
+      }
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "developer",
+     "soft": false,
+     "editionDependent": false,
+     "current": "PlatinumGames",
+     "proposed": "PlatinumGames",
+     "status": "confirmed",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "Wikidata",
+       "value": "PlatinumGames",
+       "url": "https://www.wikidata.org/wiki/Q791569"
+      }
+     ]
+    },
+    {
+     "field": "platforms",
+     "label": "platforms",
+     "soft": true,
+     "editionDependent": false,
+     "current": [
+      "PS3",
+      "Xbox 360",
+      "Switch"
+     ],
+     "proposed": [
+      "Xbox 360",
+      "PlayStation 3",
+      "Wii U",
+      "Nintendo Switch",
+      "PlayStation 4",
+      "Xbox One",
+      "Microsoft Windows"
+     ],
+     "status": "proposed-change",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "Wikidata",
+       "value": [
+        "Xbox 360",
+        "PlayStation 3",
+        "Wii U",
+        "Nintendo Switch",
+        "PlayStation 4",
+        "Xbox One",
+        "Microsoft Windows"
+       ],
+       "url": "https://www.wikidata.org/wiki/Q791569"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "g338",
+   "title": "Devil May Cry 5",
+   "sourcesReached": [
+    "Wikidata"
+   ],
+   "sourcesMissed": [
+    "IGDB (no key in environment)"
+   ],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "release year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 2019,
+     "proposed": 2019,
+     "status": "confirmed",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "Wikidata",
+       "value": 2019,
+       "url": "https://www.wikidata.org/wiki/Q55076932"
+      }
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "developer",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Capcom",
+     "proposed": "Capcom",
+     "status": "confirmed",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "Wikidata",
+       "value": "Capcom",
+       "url": "https://www.wikidata.org/wiki/Q55076932"
+      }
+     ]
+    },
+    {
+     "field": "platforms",
+     "label": "platforms",
+     "soft": true,
+     "editionDependent": false,
+     "current": [
+      "PC",
+      "PS4",
+      "Xbox One"
+     ],
+     "proposed": [
+      "Microsoft Windows",
+      "PlayStation 4",
+      "Xbox One"
+     ],
+     "status": "proposed-change",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "Wikidata",
+       "value": [
+        "Microsoft Windows",
+        "PlayStation 4",
+        "Xbox One"
+       ],
+       "url": "https://www.wikidata.org/wiki/Q55076932"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "g339",
+   "title": "Metal Gear Rising: Revengeance",
+   "sourcesReached": [
+    "Wikidata"
+   ],
+   "sourcesMissed": [
+    "IGDB (no key in environment)"
+   ],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "release year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 2013,
+     "proposed": 2013,
+     "status": "confirmed",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "Wikidata",
+       "value": 2013,
+       "url": "https://www.wikidata.org/wiki/Q930345"
+      }
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "developer",
+     "soft": false,
+     "editionDependent": false,
+     "current": "PlatinumGames",
+     "proposed": "PlatinumGames",
+     "status": "confirmed",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "Wikidata",
+       "value": "PlatinumGames",
+       "url": "https://www.wikidata.org/wiki/Q930345"
+      }
+     ]
+    },
+    {
+     "field": "platforms",
+     "label": "platforms",
+     "soft": true,
+     "editionDependent": false,
+     "current": [
+      "PS3",
+      "Xbox 360",
+      "PC"
+     ],
+     "proposed": [
+      "Xbox 360",
+      "PlayStation 3",
+      "Microsoft Windows",
+      "macOS",
+      "Android"
+     ],
+     "status": "proposed-change",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "Wikidata",
+       "value": [
+        "Xbox 360",
+        "PlayStation 3",
+        "Microsoft Windows",
+        "macOS",
+        "Android"
+       ],
+       "url": "https://www.wikidata.org/wiki/Q930345"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "g340",
+   "title": "Ratchet & Clank: Rift Apart",
+   "sourcesReached": [],
+   "sourcesMissed": [
+    "IGDB (no key in environment)",
+    "Wikidata (no match)"
+   ],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "release year",
+     "soft": false,
+     "current": 2021,
+     "status": "no-source",
+     "grade": null,
+     "sources": []
+    },
+    {
+     "field": "creator",
+     "label": "developer",
+     "soft": false,
+     "current": "Insomniac Games",
+     "status": "no-source",
+     "grade": null,
+     "sources": []
+    },
+    {
+     "field": "platforms",
+     "label": "platforms",
+     "soft": true,
+     "current": [
+      "PS5"
+     ],
+     "status": "no-source",
+     "grade": null,
+     "sources": []
+    }
+   ]
+  },
+  {
+   "id": "g341",
+   "title": "Horizon Forbidden West",
+   "sourcesReached": [
+    "Wikidata"
+   ],
+   "sourcesMissed": [
+    "IGDB (no key in environment)"
+   ],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "release year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 2022,
+     "proposed": 2022,
+     "status": "confirmed",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "Wikidata",
+       "value": 2022,
+       "url": "https://www.wikidata.org/wiki/Q96216443"
+      }
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "developer",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Guerrilla Games",
+     "proposed": "Guerrilla Games, Sony Interactive Entertainment",
+     "status": "proposed-change",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "Wikidata",
+       "value": "Guerrilla Games & Sony Interactive Entertainment",
+       "url": "https://www.wikidata.org/wiki/Q96216443"
+      }
+     ]
+    },
+    {
+     "field": "platforms",
+     "label": "platforms",
+     "soft": true,
+     "editionDependent": false,
+     "current": [
+      "PS4",
+      "PS5"
+     ],
+     "proposed": [
+      "PlayStation 5",
+      "PlayStation 4",
+      "Microsoft Windows"
+     ],
+     "status": "proposed-change",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "Wikidata",
+       "value": [
+        "PlayStation 5",
+        "PlayStation 4",
+        "Microsoft Windows"
+       ],
+       "url": "https://www.wikidata.org/wiki/Q96216443"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "g342",
+   "title": "Lies of P",
+   "sourcesReached": [
+    "Wikidata"
+   ],
+   "sourcesMissed": [
+    "IGDB (no key in environment)"
+   ],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "release year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 2023,
+     "proposed": 2023,
+     "status": "confirmed",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "Wikidata",
+       "value": 2023,
+       "url": "https://www.wikidata.org/wiki/Q109820884"
+      }
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "developer",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Round8 Studio",
+     "proposed": "Round 8 Studio",
+     "status": "proposed-change",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "Wikidata",
+       "value": "Round 8 Studio",
+       "url": "https://www.wikidata.org/wiki/Q109820884"
+      }
+     ]
+    },
+    {
+     "field": "platforms",
+     "label": "platforms",
+     "soft": true,
+     "editionDependent": false,
+     "current": [
+      "PC",
+      "PS5",
+      "Xbox Series X"
+     ],
+     "proposed": [
+      "PlayStation 5",
+      "Xbox Series X and Series S",
+      "Microsoft Windows",
+      "macOS",
+      "PlayStation 4"
+     ],
+     "status": "proposed-change",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "Wikidata",
+       "value": [
+        "PlayStation 5",
+        "Xbox Series X and Series S",
+        "Microsoft Windows",
+        "macOS",
+        "PlayStation 4"
+       ],
+       "url": "https://www.wikidata.org/wiki/Q109820884"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "g343",
+   "title": "Stellar Blade",
+   "sourcesReached": [
+    "Wikidata"
+   ],
+   "sourcesMissed": [
+    "IGDB (no key in environment)"
+   ],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "release year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 2024,
+     "proposed": 2024,
+     "status": "confirmed",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "Wikidata",
+       "value": 2024,
+       "url": "https://www.wikidata.org/wiki/Q108481438"
+      }
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "developer",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Shift Up",
+     "proposed": "PlayStation Studios XDev, Shift Up",
+     "status": "proposed-change",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "Wikidata",
+       "value": "Shift Up & PlayStation Studios XDev",
+       "url": "https://www.wikidata.org/wiki/Q108481438"
+      }
+     ]
+    },
+    {
+     "field": "platforms",
+     "label": "platforms",
+     "soft": true,
+     "editionDependent": false,
+     "current": [
+      "PS5"
+     ],
+     "proposed": [
+      "PlayStation 5",
+      "Microsoft Windows",
+      "Nintendo Switch 2"
+     ],
+     "status": "proposed-change",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "Wikidata",
+       "value": [
+        "PlayStation 5",
+        "Microsoft Windows",
+        "Nintendo Switch 2"
+       ],
+       "url": "https://www.wikidata.org/wiki/Q108481438"
+      }
+     ]
+    }
+   ]
+  }
+ ]
+}
