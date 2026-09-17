@@ -1,0 +1,840 @@
+{
+ "medium": "movie",
+ "generated": "2026-09-17T00:37:03.733Z",
+ "offline": false,
+ "sources": [
+  "OMDb",
+  "TMDB"
+ ],
+ "works": [
+  {
+   "id": "m1263",
+   "title": "Cinderella",
+   "sourcesReached": [
+    "OMDb",
+    "TMDB"
+   ],
+   "sourcesMissed": [],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "release year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 1950,
+     "proposed": 1950,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 1950,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Cinderella&type=movie&y=1950"
+      },
+      {
+       "src": "TMDB",
+       "value": 1950,
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Cinderella&year=1950"
+      }
+     ]
+    },
+    {
+     "field": "runtime",
+     "label": "runtime (min)",
+     "soft": false,
+     "editionDependent": true,
+     "current": 74,
+     "proposed": 74,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 74,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Cinderella&type=movie&y=1950"
+      },
+      {
+       "src": "TMDB",
+       "value": 74,
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Cinderella&year=1950"
+      }
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "director",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Clyde Geronimi, Wilfred Jackson, Hamilton Luske",
+     "proposed": "Clyde Geronimi, Hamilton Luske, Wilfred Jackson",
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": "Clyde Geronimi, Wilfred Jackson, Hamilton Luske",
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Cinderella&type=movie&y=1950"
+      },
+      {
+       "src": "TMDB",
+       "value": "Clyde Geronimi, Wilfred Jackson, Hamilton Luske",
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Cinderella&year=1950"
+      }
+     ]
+    },
+    {
+     "field": "studio",
+     "label": "studio",
+     "soft": true,
+     "editionDependent": false,
+     "current": "Walt Disney",
+     "proposed": "Walt Disney Productions",
+     "status": "proposed-change",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "TMDB",
+       "value": "Walt Disney Productions",
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Cinderella&year=1950"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "m1264",
+   "title": "Sleeping Beauty",
+   "sourcesReached": [
+    "OMDb",
+    "TMDB"
+   ],
+   "sourcesMissed": [],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "release year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 1959,
+     "proposed": 1959,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 1959,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Sleeping+Beauty&type=movie&y=1959"
+      },
+      {
+       "src": "TMDB",
+       "value": 1959,
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Sleeping+Beauty&year=1959"
+      }
+     ]
+    },
+    {
+     "field": "runtime",
+     "label": "runtime (min)",
+     "soft": false,
+     "editionDependent": true,
+     "current": 75,
+     "proposed": 75,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 75,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Sleeping+Beauty&type=movie&y=1959"
+      },
+      {
+       "src": "TMDB",
+       "value": 75,
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Sleeping+Beauty&year=1959"
+      }
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "director",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Clyde Geronimi",
+     "proposed": "Clyde Geronimi",
+     "status": "corroborated-by-one",
+     "grade": "B",
+     "note": "matches TMDB; disagrees with OMDb (\"Les Clark, Clyde Geronimi, Eric Larson\")",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": "Les Clark, Clyde Geronimi, Eric Larson",
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Sleeping+Beauty&type=movie&y=1959"
+      },
+      {
+       "src": "TMDB",
+       "value": "Clyde Geronimi",
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Sleeping+Beauty&year=1959"
+      }
+     ],
+     "alternatives": [
+      "Clyde Geronimi"
+     ]
+    },
+    {
+     "field": "studio",
+     "label": "studio",
+     "soft": true,
+     "editionDependent": false,
+     "current": "Walt Disney",
+     "proposed": "Walt Disney Productions",
+     "status": "proposed-change",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "TMDB",
+       "value": "Walt Disney Productions",
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Sleeping+Beauty&year=1959"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "m1265",
+   "title": "101 Dalmatians",
+   "sourcesReached": [
+    "OMDb"
+   ],
+   "sourcesMissed": [
+    "TMDB (no match)"
+   ],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "release year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 1961,
+     "proposed": 1996,
+     "status": "proposed-change",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 1996,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=101+Dalmatians&type=movie"
+      }
+     ]
+    },
+    {
+     "field": "runtime",
+     "label": "runtime (min)",
+     "soft": false,
+     "editionDependent": true,
+     "current": 79,
+     "proposed": 103,
+     "status": "edition-dependent",
+     "grade": "B",
+     "note": "one source differs from the corpus (OMDb 103) on a field with no single true value -- likely a different printing/edition, not an error.",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 103,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=101+Dalmatians&type=movie"
+      }
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "director",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Wolfgang Reitherman, Hamilton Luske, Clyde Geronimi",
+     "proposed": "Stephen Herek",
+     "status": "proposed-change",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": "Stephen Herek",
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=101+Dalmatians&type=movie"
+      }
+     ]
+    },
+    {
+     "field": "studio",
+     "label": "studio",
+     "soft": true,
+     "current": "Walt Disney",
+     "status": "no-source",
+     "grade": null,
+     "sources": []
+    }
+   ]
+  },
+  {
+   "id": "m1266",
+   "title": "The Jungle Book",
+   "sourcesReached": [
+    "OMDb",
+    "TMDB"
+   ],
+   "sourcesMissed": [],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "release year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 1967,
+     "proposed": 1967,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 1967,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=The+Jungle+Book&type=movie&y=1967"
+      },
+      {
+       "src": "TMDB",
+       "value": 1967,
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=The+Jungle+Book&year=1967"
+      }
+     ]
+    },
+    {
+     "field": "runtime",
+     "label": "runtime (min)",
+     "soft": false,
+     "editionDependent": true,
+     "current": 78,
+     "proposed": 78,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 78,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=The+Jungle+Book&type=movie&y=1967"
+      },
+      {
+       "src": "TMDB",
+       "value": 78,
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=The+Jungle+Book&year=1967"
+      }
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "director",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Wolfgang Reitherman",
+     "proposed": "Wolfgang Reitherman",
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": "Wolfgang Reitherman",
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=The+Jungle+Book&type=movie&y=1967"
+      },
+      {
+       "src": "TMDB",
+       "value": "Wolfgang Reitherman",
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=The+Jungle+Book&year=1967"
+      }
+     ]
+    },
+    {
+     "field": "studio",
+     "label": "studio",
+     "soft": true,
+     "editionDependent": false,
+     "current": "Walt Disney",
+     "proposed": "Walt Disney Productions",
+     "status": "proposed-change",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "TMDB",
+       "value": "Walt Disney Productions",
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=The+Jungle+Book&year=1967"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "m1267",
+   "title": "Peter Pan",
+   "sourcesReached": [
+    "OMDb",
+    "TMDB"
+   ],
+   "sourcesMissed": [],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "release year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 1953,
+     "proposed": 1953,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 1953,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Peter+Pan&type=movie&y=1953"
+      },
+      {
+       "src": "TMDB",
+       "value": 1953,
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Peter+Pan&year=1953"
+      }
+     ]
+    },
+    {
+     "field": "runtime",
+     "label": "runtime (min)",
+     "soft": false,
+     "editionDependent": true,
+     "current": 77,
+     "proposed": 77,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 77,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Peter+Pan&type=movie&y=1953"
+      },
+      {
+       "src": "TMDB",
+       "value": 77,
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Peter+Pan&year=1953"
+      }
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "director",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Clyde Geronimi, Wilfred Jackson, Hamilton Luske",
+     "proposed": "Clyde Geronimi, Hamilton Luske, Wilfred Jackson",
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": "Clyde Geronimi, Wilfred Jackson, Hamilton Luske",
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Peter+Pan&type=movie&y=1953"
+      },
+      {
+       "src": "TMDB",
+       "value": "Clyde Geronimi, Wilfred Jackson, Hamilton Luske",
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Peter+Pan&year=1953"
+      }
+     ]
+    },
+    {
+     "field": "studio",
+     "label": "studio",
+     "soft": true,
+     "editionDependent": false,
+     "current": "Walt Disney",
+     "proposed": "Walt Disney Productions",
+     "status": "proposed-change",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "TMDB",
+       "value": "Walt Disney Productions",
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Peter+Pan&year=1953"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "m1268",
+   "title": "Alice in Wonderland",
+   "sourcesReached": [
+    "OMDb",
+    "TMDB"
+   ],
+   "sourcesMissed": [],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "release year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 1951,
+     "proposed": 1951,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 1951,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Alice+in+Wonderland&type=movie&y=1951"
+      },
+      {
+       "src": "TMDB",
+       "value": 1951,
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Alice+in+Wonderland&year=1951"
+      }
+     ]
+    },
+    {
+     "field": "runtime",
+     "label": "runtime (min)",
+     "soft": false,
+     "editionDependent": true,
+     "current": 75,
+     "proposed": 75,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 75,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Alice+in+Wonderland&type=movie&y=1951"
+      },
+      {
+       "src": "TMDB",
+       "value": 75,
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Alice+in+Wonderland&year=1951"
+      }
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "director",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Clyde Geronimi, Wilfred Jackson, Hamilton Luske",
+     "proposed": "Clyde Geronimi, Hamilton Luske, Wilfred Jackson",
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": "Clyde Geronimi, Wilfred Jackson, Hamilton Luske",
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Alice+in+Wonderland&type=movie&y=1951"
+      },
+      {
+       "src": "TMDB",
+       "value": "Clyde Geronimi, Wilfred Jackson, Hamilton Luske",
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Alice+in+Wonderland&year=1951"
+      }
+     ]
+    },
+    {
+     "field": "studio",
+     "label": "studio",
+     "soft": true,
+     "editionDependent": false,
+     "current": "Walt Disney",
+     "proposed": "Walt Disney Productions",
+     "status": "proposed-change",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "TMDB",
+       "value": "Walt Disney Productions",
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Alice+in+Wonderland&year=1951"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "m1269",
+   "title": "Home Alone",
+   "sourcesReached": [
+    "OMDb",
+    "TMDB"
+   ],
+   "sourcesMissed": [],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "release year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 1990,
+     "proposed": 1990,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 1990,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Home+Alone&type=movie&y=1990"
+      },
+      {
+       "src": "TMDB",
+       "value": 1990,
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Home+Alone&year=1990"
+      }
+     ]
+    },
+    {
+     "field": "runtime",
+     "label": "runtime (min)",
+     "soft": false,
+     "editionDependent": true,
+     "current": 103,
+     "proposed": 103,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 103,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Home+Alone&type=movie&y=1990"
+      },
+      {
+       "src": "TMDB",
+       "value": 103,
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Home+Alone&year=1990"
+      }
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "director",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Chris Columbus",
+     "proposed": "Chris Columbus",
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": "Chris Columbus",
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Home+Alone&type=movie&y=1990"
+      },
+      {
+       "src": "TMDB",
+       "value": "Chris Columbus",
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Home+Alone&year=1990"
+      }
+     ]
+    },
+    {
+     "field": "studio",
+     "label": "studio",
+     "soft": true,
+     "editionDependent": false,
+     "current": "20th Century Fox",
+     "proposed": "Hughes Entertainment",
+     "status": "proposed-change",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "TMDB",
+       "value": "Hughes Entertainment",
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Home+Alone&year=1990"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "m1270",
+   "title": "The Sandlot",
+   "sourcesReached": [
+    "OMDb",
+    "TMDB"
+   ],
+   "sourcesMissed": [],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "release year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 1993,
+     "proposed": 1993,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 1993,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=The+Sandlot&type=movie&y=1993"
+      },
+      {
+       "src": "TMDB",
+       "value": 1993,
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=The+Sandlot&year=1993"
+      }
+     ]
+    },
+    {
+     "field": "runtime",
+     "label": "runtime (min)",
+     "soft": false,
+     "editionDependent": true,
+     "current": 101,
+     "proposed": 101,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 101,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=The+Sandlot&type=movie&y=1993"
+      },
+      {
+       "src": "TMDB",
+       "value": 101,
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=The+Sandlot&year=1993"
+      }
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "director",
+     "soft": false,
+     "editionDependent": false,
+     "current": "David Mickey Evans",
+     "proposed": "David Mickey Evans",
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": "David Mickey Evans",
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=The+Sandlot&type=movie&y=1993"
+      },
+      {
+       "src": "TMDB",
+       "value": "David Mickey Evans",
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=The+Sandlot&year=1993"
+      }
+     ]
+    },
+    {
+     "field": "studio",
+     "label": "studio",
+     "soft": true,
+     "editionDependent": false,
+     "current": "20th Century Fox",
+     "proposed": "Island World",
+     "status": "proposed-change",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "TMDB",
+       "value": "Island World",
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=The+Sandlot&year=1993"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "m1271",
+   "title": "Willy Wonka & the Chocolate Factory",
+   "sourcesReached": [
+    "OMDb",
+    "TMDB"
+   ],
+   "sourcesMissed": [],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "release year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 1971,
+     "proposed": 1971,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 1971,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Willy+Wonka+%26+the+Chocolate+Factory&type=movie&y=1971"
+      },
+      {
+       "src": "TMDB",
+       "value": 1971,
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Willy+Wonka+%26+the+Chocolate+Factory&year=1971"
+      }
+     ]
+    },
+    {
+     "field": "runtime",
+     "label": "runtime (min)",
+     "soft": false,
+     "editionDependent": true,
+     "current": 100,
+     "proposed": 100,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 100,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Willy+Wonka+%26+the+Chocolate+Factory&type=movie&y=1971"
+      },
+      {
+       "src": "TMDB",
+       "value": 100,
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Willy+Wonka+%26+the+Chocolate+Factory&year=1971"
+      }
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "director",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Mel Stuart",
+     "proposed": "Mel Stuart",
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": "Mel Stuart",
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Willy+Wonka+%26+the+Chocolate+Factory&type=movie&y=1971"
+      },
+      {
+       "src": "TMDB",
+       "value": "Mel Stuart",
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Willy+Wonka+%26+the+Chocolate+Factory&year=1971"
+      }
+     ]
+    },
+    {
+     "field": "studio",
+     "label": "studio",
+     "soft": true,
+     "editionDependent": false,
+     "current": "Paramount Pictures",
+     "proposed": "Wolper Pictures",
+     "status": "proposed-change",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "TMDB",
+       "value": "Wolper Pictures",
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Willy+Wonka+%26+the+Chocolate+Factory&year=1971"
+      }
+     ]
+    }
+   ]
+  }
+ ]
+}
