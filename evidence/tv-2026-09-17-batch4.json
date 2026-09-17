@@ -1,0 +1,966 @@
+{
+ "medium": "tv",
+ "generated": "2026-09-17T00:41:59.908Z",
+ "offline": false,
+ "sources": [
+  "OMDb",
+  "TMDB"
+ ],
+ "works": [
+  {
+   "id": "t314",
+   "title": "Sesame Street",
+   "sourcesReached": [
+    "OMDb",
+    "TMDB"
+   ],
+   "sourcesMissed": [],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "first air year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 1969,
+     "proposed": 1969,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 1969,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Sesame+Street&type=series&y=1969"
+      },
+      {
+       "src": "TMDB",
+       "value": 1969,
+       "url": "https://api.themoviedb.org/3/search/tv?api_key=REDACTED&query=Sesame+Street"
+      }
+     ]
+    },
+    {
+     "field": "seasons",
+     "label": "seasons",
+     "soft": false,
+     "editionDependent": false,
+     "current": 55,
+     "proposed": 55,
+     "status": "corroborated-by-one",
+     "grade": "B",
+     "note": "matches OMDb; disagrees with TMDB (56)",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 55,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Sesame+Street&type=series&y=1969"
+      },
+      {
+       "src": "TMDB",
+       "value": 56,
+       "url": "https://api.themoviedb.org/3/search/tv?api_key=REDACTED&query=Sesame+Street"
+      }
+     ],
+     "alternatives": [
+      56
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "creator",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Joan Ganz Cooney, Lloyd Morrisett",
+     "proposed": "Joan Ganz Cooney, Lloyd Morrisett Jr.",
+     "status": "sources-disagree",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": "Joan Ganz Cooney, Lloyd Morrisett Jr.",
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Sesame+Street&type=series&y=1969"
+      },
+      {
+       "src": "TMDB",
+       "value": "Lloyd Morrisett, Joan Ganz Cooney, Jim Henson",
+       "url": "https://api.themoviedb.org/3/search/tv?api_key=REDACTED&query=Sesame+Street"
+      }
+     ],
+     "alternatives": [
+      "Lloyd Morrisett, Joan Ganz Cooney, Jim Henson"
+     ]
+    },
+    {
+     "field": "network",
+     "label": "network / streamer",
+     "soft": true,
+     "editionDependent": false,
+     "current": "PBS",
+     "proposed": "PBS",
+     "status": "confirmed",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "TMDB",
+       "value": "PBS",
+       "url": "https://api.themoviedb.org/3/search/tv?api_key=REDACTED&query=Sesame+Street"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "t315",
+   "title": "Looney Tunes",
+   "sourcesReached": [
+    "OMDb",
+    "TMDB"
+   ],
+   "sourcesMissed": [],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "first air year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 1930,
+     "proposed": 1930,
+     "status": "corroborated-by-one",
+     "grade": "B",
+     "note": "matches OMDb; disagrees with TMDB (1929)",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 1930,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Looney+Tunes&type=series&y=1930"
+      },
+      {
+       "src": "TMDB",
+       "value": 1929,
+       "url": "https://api.themoviedb.org/3/search/tv?api_key=REDACTED&query=Looney+Tunes"
+      }
+     ],
+     "alternatives": [
+      1929
+     ]
+    },
+    {
+     "field": "seasons",
+     "label": "seasons",
+     "soft": false,
+     "editionDependent": false,
+     "current": 1,
+     "proposed": 41,
+     "status": "proposed-change",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "TMDB",
+       "value": 41,
+       "url": "https://api.themoviedb.org/3/search/tv?api_key=REDACTED&query=Looney+Tunes"
+      }
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "creator",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Warner Bros. Cartoons",
+     "proposed": "Leon Schlesinger",
+     "status": "proposed-change",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "TMDB",
+       "value": "Leon Schlesinger",
+       "url": "https://api.themoviedb.org/3/search/tv?api_key=REDACTED&query=Looney+Tunes"
+      }
+     ]
+    },
+    {
+     "field": "network",
+     "label": "network / streamer",
+     "soft": true,
+     "editionDependent": false,
+     "current": "Warner Bros.",
+     "proposed": "The WB",
+     "status": "proposed-change",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "TMDB",
+       "value": "The WB",
+       "url": "https://api.themoviedb.org/3/search/tv?api_key=REDACTED&query=Looney+Tunes"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "t316",
+   "title": "Tom and Jerry",
+   "sourcesReached": [
+    "OMDb",
+    "TMDB"
+   ],
+   "sourcesMissed": [],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "first air year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 1940,
+     "proposed": 1940,
+     "status": "corroborated-by-one",
+     "grade": "B",
+     "note": "matches OMDb; disagrees with TMDB (2023)",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 1940,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Tom+and+Jerry&type=series&y=1940"
+      },
+      {
+       "src": "TMDB",
+       "value": 2023,
+       "url": "https://api.themoviedb.org/3/search/tv?api_key=REDACTED&query=Tom+and+Jerry"
+      }
+     ],
+     "alternatives": [
+      2023
+     ]
+    },
+    {
+     "field": "seasons",
+     "label": "seasons",
+     "soft": false,
+     "editionDependent": false,
+     "current": 7,
+     "proposed": 1,
+     "status": "proposed-change",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 1,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Tom+and+Jerry&type=series&y=1940"
+      },
+      {
+       "src": "TMDB",
+       "value": 1,
+       "url": "https://api.themoviedb.org/3/search/tv?api_key=REDACTED&query=Tom+and+Jerry"
+      }
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "creator",
+     "soft": false,
+     "current": "William Hanna, Joseph Barbera",
+     "status": "no-source",
+     "grade": null,
+     "sources": []
+    },
+    {
+     "field": "network",
+     "label": "network / streamer",
+     "soft": true,
+     "editionDependent": false,
+     "current": "MGM",
+     "proposed": "Cartoon Network Asia",
+     "status": "proposed-change",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "TMDB",
+       "value": "Cartoon Network Asia",
+       "url": "https://api.themoviedb.org/3/search/tv?api_key=REDACTED&query=Tom+and+Jerry"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "t317",
+   "title": "SpongeBob SquarePants",
+   "sourcesReached": [
+    "OMDb",
+    "TMDB"
+   ],
+   "sourcesMissed": [],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "first air year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 1999,
+     "proposed": 1999,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 1999,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=SpongeBob+SquarePants&type=series&y=1999"
+      },
+      {
+       "src": "TMDB",
+       "value": 1999,
+       "url": "https://api.themoviedb.org/3/search/tv?api_key=REDACTED&query=SpongeBob+SquarePants"
+      }
+     ]
+    },
+    {
+     "field": "seasons",
+     "label": "seasons",
+     "soft": false,
+     "editionDependent": false,
+     "current": 14,
+     "proposed": 16,
+     "status": "sources-disagree",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 16,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=SpongeBob+SquarePants&type=series&y=1999"
+      },
+      {
+       "src": "TMDB",
+       "value": 19,
+       "url": "https://api.themoviedb.org/3/search/tv?api_key=REDACTED&query=SpongeBob+SquarePants"
+      }
+     ],
+     "alternatives": [
+      19
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "creator",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Stephen Hillenburg",
+     "proposed": "Stephen Hillenburg",
+     "status": "corroborated-by-one",
+     "grade": "B",
+     "note": "matches TMDB; disagrees with OMDb (\"Stephen Hillenburg, Tim Hill, Nick Jennings\")",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": "Stephen Hillenburg, Tim Hill, Nick Jennings",
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=SpongeBob+SquarePants&type=series&y=1999"
+      },
+      {
+       "src": "TMDB",
+       "value": "Stephen Hillenburg",
+       "url": "https://api.themoviedb.org/3/search/tv?api_key=REDACTED&query=SpongeBob+SquarePants"
+      }
+     ],
+     "alternatives": [
+      "Stephen Hillenburg"
+     ]
+    },
+    {
+     "field": "network",
+     "label": "network / streamer",
+     "soft": true,
+     "editionDependent": false,
+     "current": "Nickelodeon",
+     "proposed": "Nickelodeon",
+     "status": "confirmed",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "TMDB",
+       "value": "Nickelodeon",
+       "url": "https://api.themoviedb.org/3/search/tv?api_key=REDACTED&query=SpongeBob+SquarePants"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "t318",
+   "title": "Scooby-Doo, Where Are You!",
+   "sourcesReached": [
+    "OMDb",
+    "TMDB"
+   ],
+   "sourcesMissed": [],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "first air year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 1969,
+     "proposed": 1969,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 1969,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Scooby-Doo%2C+Where+Are+You%21&type=series&y=1969"
+      },
+      {
+       "src": "TMDB",
+       "value": 1969,
+       "url": "https://api.themoviedb.org/3/search/tv?api_key=REDACTED&query=Scooby-Doo%2C+Where+Are+You%21"
+      }
+     ]
+    },
+    {
+     "field": "seasons",
+     "label": "seasons",
+     "soft": false,
+     "editionDependent": false,
+     "current": 2,
+     "proposed": 3,
+     "status": "proposed-change",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 3,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Scooby-Doo%2C+Where+Are+You%21&type=series&y=1969"
+      },
+      {
+       "src": "TMDB",
+       "value": 3,
+       "url": "https://api.themoviedb.org/3/search/tv?api_key=REDACTED&query=Scooby-Doo%2C+Where+Are+You%21"
+      }
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "creator",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Joe Ruby, Ken Spears",
+     "proposed": "Joe Ruby, Ken Spears",
+     "status": "corroborated-by-one",
+     "grade": "B",
+     "note": "matches TMDB; disagrees with OMDb (\"Joseph Barbera, William Hanna, Joe Ruby\")",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": "Joseph Barbera, William Hanna, Joe Ruby",
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Scooby-Doo%2C+Where+Are+You%21&type=series&y=1969"
+      },
+      {
+       "src": "TMDB",
+       "value": "Joe Ruby, Ken Spears",
+       "url": "https://api.themoviedb.org/3/search/tv?api_key=REDACTED&query=Scooby-Doo%2C+Where+Are+You%21"
+      }
+     ],
+     "alternatives": [
+      "Joe Ruby, Ken Spears"
+     ]
+    },
+    {
+     "field": "network",
+     "label": "network / streamer",
+     "soft": true,
+     "editionDependent": false,
+     "current": "CBS",
+     "proposed": "ABC",
+     "status": "proposed-change",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "TMDB",
+       "value": "ABC",
+       "url": "https://api.themoviedb.org/3/search/tv?api_key=REDACTED&query=Scooby-Doo%2C+Where+Are+You%21"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "t319",
+   "title": "Batman: The Animated Series",
+   "sourcesReached": [
+    "OMDb",
+    "TMDB"
+   ],
+   "sourcesMissed": [],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "first air year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 1992,
+     "proposed": 1992,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 1992,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Batman%3A+The+Animated+Series&type=series&y=1992"
+      },
+      {
+       "src": "TMDB",
+       "value": 1992,
+       "url": "https://api.themoviedb.org/3/search/tv?api_key=REDACTED&query=Batman%3A+The+Animated+Series"
+      }
+     ]
+    },
+    {
+     "field": "seasons",
+     "label": "seasons",
+     "soft": false,
+     "editionDependent": false,
+     "current": 4,
+     "proposed": 4,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 4,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Batman%3A+The+Animated+Series&type=series&y=1992"
+      },
+      {
+       "src": "TMDB",
+       "value": 4,
+       "url": "https://api.themoviedb.org/3/search/tv?api_key=REDACTED&query=Batman%3A+The+Animated+Series"
+      }
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "creator",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Bruce Timm, Eric Radomski",
+     "proposed": "Bruce Timm, Eric Radomski",
+     "status": "corroborated-by-one",
+     "grade": "B",
+     "note": "matches TMDB; disagrees with OMDb (\"Bill Finger, Bob Kane, Eric Radomski\")",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": "Bill Finger, Bob Kane, Eric Radomski",
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Batman%3A+The+Animated+Series&type=series&y=1992"
+      },
+      {
+       "src": "TMDB",
+       "value": "Bruce Timm, Eric Radomski",
+       "url": "https://api.themoviedb.org/3/search/tv?api_key=REDACTED&query=Batman%3A+The+Animated+Series"
+      }
+     ],
+     "alternatives": [
+      "Bruce Timm, Eric Radomski"
+     ]
+    },
+    {
+     "field": "network",
+     "label": "network / streamer",
+     "soft": true,
+     "editionDependent": false,
+     "current": "Fox",
+     "proposed": "Fox Kids",
+     "status": "proposed-change",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "TMDB",
+       "value": "Fox Kids",
+       "url": "https://api.themoviedb.org/3/search/tv?api_key=REDACTED&query=Batman%3A+The+Animated+Series"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "t320",
+   "title": "Phineas and Ferb",
+   "sourcesReached": [
+    "OMDb",
+    "TMDB"
+   ],
+   "sourcesMissed": [],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "first air year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 2007,
+     "proposed": 2007,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 2007,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Phineas+and+Ferb&type=series&y=2007"
+      },
+      {
+       "src": "TMDB",
+       "value": 2007,
+       "url": "https://api.themoviedb.org/3/search/tv?api_key=REDACTED&query=Phineas+and+Ferb"
+      }
+     ]
+    },
+    {
+     "field": "seasons",
+     "label": "seasons",
+     "soft": false,
+     "editionDependent": false,
+     "current": 4,
+     "proposed": 5,
+     "status": "proposed-change",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 5,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Phineas+and+Ferb&type=series&y=2007"
+      },
+      {
+       "src": "TMDB",
+       "value": 5,
+       "url": "https://api.themoviedb.org/3/search/tv?api_key=REDACTED&query=Phineas+and+Ferb"
+      }
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "creator",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Dan Povenmire, Jeff Marsh",
+     "proposed": "Dan Povenmire, Jeff 'Swampy' Marsh",
+     "status": "proposed-change",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": "Jeff 'Swampy' Marsh, Dan Povenmire",
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Phineas+and+Ferb&type=series&y=2007"
+      },
+      {
+       "src": "TMDB",
+       "value": "Dan Povenmire, Jeff 'Swampy' Marsh",
+       "url": "https://api.themoviedb.org/3/search/tv?api_key=REDACTED&query=Phineas+and+Ferb"
+      }
+     ]
+    },
+    {
+     "field": "network",
+     "label": "network / streamer",
+     "soft": true,
+     "editionDependent": false,
+     "current": "Disney Channel",
+     "proposed": "Disney XD",
+     "status": "proposed-change",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "TMDB",
+       "value": "Disney XD",
+       "url": "https://api.themoviedb.org/3/search/tv?api_key=REDACTED&query=Phineas+and+Ferb"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "t321",
+   "title": "Hey Arnold!",
+   "sourcesReached": [
+    "OMDb",
+    "TMDB"
+   ],
+   "sourcesMissed": [],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "first air year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 1996,
+     "proposed": 1996,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 1996,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Hey+Arnold%21&type=series&y=1996"
+      },
+      {
+       "src": "TMDB",
+       "value": 1996,
+       "url": "https://api.themoviedb.org/3/search/tv?api_key=REDACTED&query=Hey+Arnold%21"
+      }
+     ]
+    },
+    {
+     "field": "seasons",
+     "label": "seasons",
+     "soft": false,
+     "editionDependent": false,
+     "current": 5,
+     "proposed": 5,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 5,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Hey+Arnold%21&type=series&y=1996"
+      },
+      {
+       "src": "TMDB",
+       "value": 5,
+       "url": "https://api.themoviedb.org/3/search/tv?api_key=REDACTED&query=Hey+Arnold%21"
+      }
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "creator",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Craig Bartlett",
+     "proposed": "Craig Bartlett",
+     "status": "corroborated-by-one",
+     "grade": "B",
+     "note": "matches TMDB; disagrees with OMDb (\"Joe Ansolabehere, Craig Bartlett, Steve Viksten\")",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": "Joe Ansolabehere, Craig Bartlett, Steve Viksten",
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Hey+Arnold%21&type=series&y=1996"
+      },
+      {
+       "src": "TMDB",
+       "value": "Craig Bartlett",
+       "url": "https://api.themoviedb.org/3/search/tv?api_key=REDACTED&query=Hey+Arnold%21"
+      }
+     ],
+     "alternatives": [
+      "Craig Bartlett"
+     ]
+    },
+    {
+     "field": "network",
+     "label": "network / streamer",
+     "soft": true,
+     "editionDependent": false,
+     "current": "Nickelodeon",
+     "proposed": "Nickelodeon",
+     "status": "confirmed",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "TMDB",
+       "value": "Nickelodeon",
+       "url": "https://api.themoviedb.org/3/search/tv?api_key=REDACTED&query=Hey+Arnold%21"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "t322",
+   "title": "Dexter's Laboratory",
+   "sourcesReached": [
+    "OMDb",
+    "TMDB"
+   ],
+   "sourcesMissed": [],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "first air year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 1996,
+     "proposed": 1996,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 1996,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Dexter%27s+Laboratory&type=series&y=1996"
+      },
+      {
+       "src": "TMDB",
+       "value": 1996,
+       "url": "https://api.themoviedb.org/3/search/tv?api_key=REDACTED&query=Dexter%27s+Laboratory"
+      }
+     ]
+    },
+    {
+     "field": "seasons",
+     "label": "seasons",
+     "soft": false,
+     "editionDependent": false,
+     "current": 4,
+     "proposed": 4,
+     "status": "corroborated-by-one",
+     "grade": "B",
+     "note": "matches TMDB; disagrees with OMDb (5)",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 5,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Dexter%27s+Laboratory&type=series&y=1996"
+      },
+      {
+       "src": "TMDB",
+       "value": 4,
+       "url": "https://api.themoviedb.org/3/search/tv?api_key=REDACTED&query=Dexter%27s+Laboratory"
+      }
+     ],
+     "alternatives": [
+      4
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "creator",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Genndy Tartakovsky",
+     "proposed": "Genndy Tartakovsky",
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": "Genndy Tartakovsky",
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Dexter%27s+Laboratory&type=series&y=1996"
+      },
+      {
+       "src": "TMDB",
+       "value": "Genndy Tartakovsky",
+       "url": "https://api.themoviedb.org/3/search/tv?api_key=REDACTED&query=Dexter%27s+Laboratory"
+      }
+     ]
+    },
+    {
+     "field": "network",
+     "label": "network / streamer",
+     "soft": true,
+     "editionDependent": false,
+     "current": "Cartoon Network",
+     "proposed": "Cartoon Network",
+     "status": "confirmed",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "TMDB",
+       "value": "Cartoon Network",
+       "url": "https://api.themoviedb.org/3/search/tv?api_key=REDACTED&query=Dexter%27s+Laboratory"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "t323",
+   "title": "The Powerpuff Girls",
+   "sourcesReached": [
+    "OMDb",
+    "TMDB"
+   ],
+   "sourcesMissed": [],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "first air year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 1998,
+     "proposed": 1998,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 1998,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=The+Powerpuff+Girls&type=series&y=1998"
+      },
+      {
+       "src": "TMDB",
+       "value": 1998,
+       "url": "https://api.themoviedb.org/3/search/tv?api_key=REDACTED&query=The+Powerpuff+Girls"
+      }
+     ]
+    },
+    {
+     "field": "seasons",
+     "label": "seasons",
+     "soft": false,
+     "editionDependent": false,
+     "current": 6,
+     "proposed": 6,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 6,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=The+Powerpuff+Girls&type=series&y=1998"
+      },
+      {
+       "src": "TMDB",
+       "value": 6,
+       "url": "https://api.themoviedb.org/3/search/tv?api_key=REDACTED&query=The+Powerpuff+Girls"
+      }
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "creator",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Craig McCracken",
+     "proposed": "Craig McCracken",
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": "Craig McCracken",
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=The+Powerpuff+Girls&type=series&y=1998"
+      },
+      {
+       "src": "TMDB",
+       "value": "Craig McCracken",
+       "url": "https://api.themoviedb.org/3/search/tv?api_key=REDACTED&query=The+Powerpuff+Girls"
+      }
+     ]
+    },
+    {
+     "field": "network",
+     "label": "network / streamer",
+     "soft": true,
+     "editionDependent": false,
+     "current": "Cartoon Network",
+     "proposed": "Cartoon Network",
+     "status": "confirmed",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "TMDB",
+       "value": "Cartoon Network",
+       "url": "https://api.themoviedb.org/3/search/tv?api_key=REDACTED&query=The+Powerpuff+Girls"
+      }
+     ]
+    }
+   ]
+  }
+ ]
+}
