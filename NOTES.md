@@ -1091,6 +1091,67 @@ in `app/ledger-app.js`, never force-fit into an adjacent tag.
   (non-grade-A) results, same limitation the pre-existing 258 games already had.
   Games' genre distribution is thin on Racing (3), Sports (2), Fighting (5), Party (1), MMORPG (1).
 
+**Consolidated round (movies batch 12, TV batch 8, games batch 9, books batch 12).** Movies added
+9 standalone Ghibli/Shinkai/found-footage titles (a new "Found Footage" genre tag). TV added 20
+major shonen/isekai anime series in one sweep (Bleach, Demon Slayer, One Punch Man, Code Geass, the
+original 2003 Fullmetal Alchemist, JoJo's Bizarre Adventure, Fruits Basket, Re:Zero, Tokyo Ghoul,
+Black Clover, The Promised Neverland, Assassination Classroom, Dragon Ball, Yu Yu Hakusho, Sword Art
+Online, Dr. Stone, The Rising of the Shield Hero, That Time I Got Reincarnated as a Slime, Spy x
+Family, Oshi No Ko) plus one grade-A season-count fix (Bleach 16→17). Games added 13
+franchise-completion titles (original Metal Gear Solid/Silent Hill/Resident Evil, Kingdom Hearts II,
+Halo 1&2, original StarCraft, Overwatch 2, Street Fighter 6, Smash Ultimate, FF7 Remake, Monster
+Hunter Rise, original Splatoon) — IGDB had no key configured this run, so zero grade-A fact
+corrections, but review-queue naming disagreements were all judgment-checked and kept. Books added
+33 titles closing seven collapsed franchises in one pass: The Wheel of Time (had books 1-5, added
+6-14), Percy Jackson & the Olympians (had book 1 under a variant title, added the four sequels),
+The Inheritance Cycle, Twilight, the two remaining Divergent books, The Girl with the Dragon Tattoo
+(the other two Millennium books were already present), and the full Giver Quartet, plus Where the
+Red Fern Grows and three foundational business/pop-psych non-fiction titles.
+
+**A real near-duplicate caught mid-pipeline, not by the dedup script.** The Percy Jackson batch drew
+its five candidates without checking that book 1 was already in the corpus under a different exact
+title ("Percy Jackson and the Lightning Thief" vs. the freshly-drafted "Percy Jackson & the
+Olympians: The Lightning Thief") — same book, same year, same author, different subtitle wording, so
+the insert script's exact-title dedup check did not catch it (both strings are literally different).
+It was caught afterward while building the SERIES_DEFS member list for the franchise and noticing two
+Percy-Jackson-book-1 rows. Fixed by deleting the newly-inserted duplicate record from `data/books.js`
+directly (leaving an ID gap at that slot, matching the project's established no-renumbering
+convention) before the batch was committed. Worth remembering: the insert script's dedup check is
+exact-string-match only — it does not catch "same work, differently-formatted title," which needs a
+human glance at anything with a subtitle or "and"/"&" variance.
+
+**A real file-corruption near-miss from a hand-rolled Node splice script.** While trying to
+temporarily strip a just-added SERIES_DEFS block back out of `app/ledger-app.js` (to commit the
+Horror-regex genre fix separately from the franchise-grouping additions), a `indexOf(startMarker)` /
+`indexOf(endMarker)` splice script matched the wrong occurrence and silently duplicated a large
+unrelated section of the file (confirmed via a duplicate `function initApp(){` — the file grew from
+4,866 to 7,206 lines). Caught immediately by comparing line/byte counts against `git show HEAD:<path>`
+before anything was staged, not by a validator. Recovered with a plain `git checkout HEAD -- <path>`
+(safe here because that file had no other uncommitted work riding along) and redid both edits with
+the `Edit` tool's exact-match replace instead, which is atomic and refuses on ambiguity rather than
+silently misfiring. Lesson: never hand-roll a splice-by-`indexOf` on a large generated file when a
+scoped, unique-anchor `Edit` call can do the same thing safely — reach for `Edit` (or `git apply` on
+a real patch) over ad hoc string surgery, even for "just temporarily remove this block" work.
+
+**Environment note: this machine runs low on memory under the Playwright suite.** Three consecutive
+`npm test` runs were killed mid-run by the harness's own memory-pressure guard, each time because the
+*previous* killed run had left an orphaned `chrome-headless-shell` process alive (one was measured at
+~4GB resident) that the next run's memory budget then collided with — `test/regression.js` opens one
+long-lived browser for the whole script and only closes it at a clean exit, so a kill mid-run always
+orphans it. Fix each time was checking free memory via PowerShell (`Get-CimInstance
+Win32_OperatingSystem`), finding and force-stopping the leftover `chrome-headless-shell`/`node`
+processes from the previous kill, confirming memory recovered, then retrying — never touching the
+user's other applications (Discord/Steam/Firefox/WSL) that also show up in the process list. Worth
+checking for orphaned `chrome-headless-shell` processes proactively before any future `npm test` run
+in this repo if the previous run in the session was ever killed rather than exiting cleanly.
+
+**Status at this checkpoint:** movies 1,302/2,000, TV 361/500, games 351/500, books 1,242/2,000
+(3,256/5,000 total). SERIES_DEFS now also covers Fullmetal Alchemist (TV) and seven book franchises
+(The Wheel of Time, Percy Jackson & the Olympians, The Inheritance Cycle, Twilight, Divergent,
+Millennium, The Giver Quartet) — note a pre-existing movie-kind "Twilight" SERIES_DEFS entry (the
+film saga) now coexists with the new book-kind "Twilight" entry; this is intentional and harmless
+since franchise lookup keys on `kind+'|'+title`, not name alone.
+
 ---
 
 ## Ideas / next steps
