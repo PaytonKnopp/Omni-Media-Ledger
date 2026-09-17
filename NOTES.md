@@ -1191,6 +1191,23 @@ surgical changes to it.
 future rounds should probably lean the batch-size balance toward movies/books to avoid finishing the
 smaller two media much earlier than the larger two.
 
+**Third consolidated round (movies batch 14, TV batch 10, games batch 11, books batch 14) —
+deliberately imbalanced toward movies/books per the note above (26/15/22/30 titles respectively).**
+Movies closed Lethal Weapon, added a Conjuring Universe spinoff pair, and picked up scattered
+one-off gaps (Tim Burton, '80s kid-adventure, historical epic, a French-cinema entry). TV added
+three more Star Trek series and a full WB/CW-era teen-soap sweep. Games closed five more Assassin's
+Creed entries, Diablo/Pokémon generational gaps, and the Borderlands/Destiny/Left 4 Dead/Alan Wake
+pairs. **Books found a second major absence as big as the Harry Potter placeholder:** the entire
+Hunger Games trilogy plus its prequel had zero corpus entries at all -- not even a collapsed
+placeholder, just completely absent -- despite the films being fully present. All four now added.
+This is the second time in two consecutive rounds that a top-tier, unmistakably famous franchise
+turned out to be missing from books specifically; worth treating books' franchise coverage as less
+reliable than movies' going forward and continuing to spot-check very famous series by exact title
+rather than assuming presence.
+
+**Status at this checkpoint:** movies 1,363/2,000, TV 403/500, games 397/500, books 1,299/2,000
+(3,462/5,000 total).
+
 ---
 
 ## Ideas / next steps
