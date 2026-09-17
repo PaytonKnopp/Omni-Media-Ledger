@@ -1,0 +1,673 @@
+{
+ "medium": "movie",
+ "generated": "2026-09-17T22:12:13.081Z",
+ "offline": false,
+ "sources": [
+  "OMDb",
+  "TMDB"
+ ],
+ "works": [
+  {
+   "id": "m1741",
+   "title": "Multiplicity",
+   "sourcesReached": [
+    "OMDb",
+    "TMDB"
+   ],
+   "sourcesMissed": [],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "release year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 1996,
+     "proposed": 1996,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 1996,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Multiplicity&type=movie&y=1996"
+      },
+      {
+       "src": "TMDB",
+       "value": 1996,
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Multiplicity&year=1996"
+      }
+     ]
+    },
+    {
+     "field": "runtime",
+     "label": "runtime (min)",
+     "soft": false,
+     "editionDependent": true,
+     "current": 117,
+     "proposed": 117,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 117,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Multiplicity&type=movie&y=1996"
+      },
+      {
+       "src": "TMDB",
+       "value": 117,
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Multiplicity&year=1996"
+      }
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "director",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Harold Ramis",
+     "proposed": "Harold Ramis",
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": "Harold Ramis",
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Multiplicity&type=movie&y=1996"
+      },
+      {
+       "src": "TMDB",
+       "value": "Harold Ramis",
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Multiplicity&year=1996"
+      }
+     ]
+    },
+    {
+     "field": "studio",
+     "label": "studio",
+     "soft": true,
+     "editionDependent": false,
+     "current": "Columbia Pictures",
+     "proposed": "Columbia Pictures",
+     "status": "confirmed",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "TMDB",
+       "value": "Columbia Pictures",
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Multiplicity&year=1996"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "m1742",
+   "title": "Michael",
+   "sourcesReached": [
+    "OMDb",
+    "TMDB"
+   ],
+   "sourcesMissed": [],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "release year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 1996,
+     "proposed": 1996,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 1996,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Michael&type=movie&y=1996"
+      },
+      {
+       "src": "TMDB",
+       "value": 1996,
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Michael&year=1996"
+      }
+     ]
+    },
+    {
+     "field": "runtime",
+     "label": "runtime (min)",
+     "soft": false,
+     "editionDependent": true,
+     "current": 105,
+     "proposed": 105,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 105,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Michael&type=movie&y=1996"
+      },
+      {
+       "src": "TMDB",
+       "value": 105,
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Michael&year=1996"
+      }
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "director",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Nora Ephron",
+     "proposed": "Nora Ephron",
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": "Nora Ephron",
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Michael&type=movie&y=1996"
+      },
+      {
+       "src": "TMDB",
+       "value": "Nora Ephron",
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Michael&year=1996"
+      }
+     ]
+    },
+    {
+     "field": "studio",
+     "label": "studio",
+     "soft": true,
+     "editionDependent": false,
+     "current": "New Line Cinema",
+     "proposed": "Alphaville Films",
+     "status": "proposed-change",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "TMDB",
+       "value": "Alphaville Films",
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Michael&year=1996"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "m1743",
+   "title": "Analyze This",
+   "sourcesReached": [
+    "OMDb",
+    "TMDB"
+   ],
+   "sourcesMissed": [],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "release year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 1999,
+     "proposed": 1999,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 1999,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Analyze+This&type=movie&y=1999"
+      },
+      {
+       "src": "TMDB",
+       "value": 1999,
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Analyze+This&year=1999"
+      }
+     ]
+    },
+    {
+     "field": "runtime",
+     "label": "runtime (min)",
+     "soft": false,
+     "editionDependent": true,
+     "current": 103,
+     "proposed": 103,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 103,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Analyze+This&type=movie&y=1999"
+      },
+      {
+       "src": "TMDB",
+       "value": 103,
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Analyze+This&year=1999"
+      }
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "director",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Harold Ramis",
+     "proposed": "Harold Ramis",
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": "Harold Ramis",
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Analyze+This&type=movie&y=1999"
+      },
+      {
+       "src": "TMDB",
+       "value": "Harold Ramis",
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Analyze+This&year=1999"
+      }
+     ]
+    },
+    {
+     "field": "studio",
+     "label": "studio",
+     "soft": true,
+     "editionDependent": false,
+     "current": "Warner Bros.",
+     "proposed": "Warner Bros. Pictures",
+     "status": "proposed-change",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "TMDB",
+       "value": "Warner Bros. Pictures",
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Analyze+This&year=1999"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "m1744",
+   "title": "Analyze That",
+   "sourcesReached": [
+    "OMDb",
+    "TMDB"
+   ],
+   "sourcesMissed": [],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "release year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 2002,
+     "proposed": 2002,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 2002,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Analyze+That&type=movie&y=2002"
+      },
+      {
+       "src": "TMDB",
+       "value": 2002,
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Analyze+That&year=2002"
+      }
+     ]
+    },
+    {
+     "field": "runtime",
+     "label": "runtime (min)",
+     "soft": false,
+     "editionDependent": true,
+     "current": 96,
+     "proposed": 96,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 96,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Analyze+That&type=movie&y=2002"
+      },
+      {
+       "src": "TMDB",
+       "value": 96,
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Analyze+That&year=2002"
+      }
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "director",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Harold Ramis",
+     "proposed": "Harold Ramis",
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": "Harold Ramis",
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Analyze+That&type=movie&y=2002"
+      },
+      {
+       "src": "TMDB",
+       "value": "Harold Ramis",
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Analyze+That&year=2002"
+      }
+     ]
+    },
+    {
+     "field": "studio",
+     "label": "studio",
+     "soft": true,
+     "editionDependent": false,
+     "current": "Warner Bros.",
+     "proposed": "Warner Bros. Pictures",
+     "status": "proposed-change",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "TMDB",
+       "value": "Warner Bros. Pictures",
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Analyze+That&year=2002"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "m1745",
+   "title": "What About Bob?",
+   "sourcesReached": [
+    "OMDb",
+    "TMDB"
+   ],
+   "sourcesMissed": [],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "release year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 1991,
+     "proposed": 1991,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 1991,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=What+About+Bob%3F&type=movie&y=1991"
+      },
+      {
+       "src": "TMDB",
+       "value": 1991,
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=What+About+Bob%3F&year=1991"
+      }
+     ]
+    },
+    {
+     "field": "runtime",
+     "label": "runtime (min)",
+     "soft": false,
+     "editionDependent": true,
+     "current": 99,
+     "proposed": 99,
+     "status": "corroborated-by-one",
+     "grade": "B",
+     "note": "matches OMDb; disagrees with TMDB (100)",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 99,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=What+About+Bob%3F&type=movie&y=1991"
+      },
+      {
+       "src": "TMDB",
+       "value": 100,
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=What+About+Bob%3F&year=1991"
+      }
+     ],
+     "alternatives": [
+      100
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "director",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Frank Oz",
+     "proposed": "Frank Oz",
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": "Frank Oz",
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=What+About+Bob%3F&type=movie&y=1991"
+      },
+      {
+       "src": "TMDB",
+       "value": "Frank Oz",
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=What+About+Bob%3F&year=1991"
+      }
+     ]
+    },
+    {
+     "field": "studio",
+     "label": "studio",
+     "soft": true,
+     "editionDependent": false,
+     "current": "Buena Vista Pictures",
+     "proposed": "Touchstone Pictures",
+     "status": "proposed-change",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "TMDB",
+       "value": "Touchstone Pictures",
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=What+About+Bob%3F&year=1991"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "m1746",
+   "title": "What Women Want",
+   "sourcesReached": [
+    "OMDb",
+    "TMDB"
+   ],
+   "sourcesMissed": [],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "release year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 2000,
+     "proposed": 2000,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 2000,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=What+Women+Want&type=movie&y=2000"
+      },
+      {
+       "src": "TMDB",
+       "value": 2000,
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=What+Women+Want&year=2000"
+      }
+     ]
+    },
+    {
+     "field": "runtime",
+     "label": "runtime (min)",
+     "soft": false,
+     "editionDependent": true,
+     "current": 127,
+     "proposed": 127,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 127,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=What+Women+Want&type=movie&y=2000"
+      },
+      {
+       "src": "TMDB",
+       "value": 127,
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=What+Women+Want&year=2000"
+      }
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "director",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Nancy Meyers",
+     "proposed": "Nancy Meyers",
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": "Nancy Meyers",
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=What+Women+Want&type=movie&y=2000"
+      },
+      {
+       "src": "TMDB",
+       "value": "Nancy Meyers",
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=What+Women+Want&year=2000"
+      }
+     ]
+    },
+    {
+     "field": "studio",
+     "label": "studio",
+     "soft": true,
+     "editionDependent": false,
+     "current": "Paramount Pictures",
+     "proposed": "Paramount Pictures",
+     "status": "confirmed",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "TMDB",
+       "value": "Paramount Pictures",
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=What+Women+Want&year=2000"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "m1747",
+   "title": "Something's Gotta Give",
+   "sourcesReached": [
+    "OMDb",
+    "TMDB"
+   ],
+   "sourcesMissed": [],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "release year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 2003,
+     "proposed": 2003,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 2003,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Something%27s+Gotta+Give&type=movie&y=2003"
+      },
+      {
+       "src": "TMDB",
+       "value": 2003,
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Something%27s+Gotta+Give&year=2003"
+      }
+     ]
+    },
+    {
+     "field": "runtime",
+     "label": "runtime (min)",
+     "soft": false,
+     "editionDependent": true,
+     "current": 128,
+     "proposed": 128,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 128,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Something%27s+Gotta+Give&type=movie&y=2003"
+      },
+      {
+       "src": "TMDB",
+       "value": 128,
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Something%27s+Gotta+Give&year=2003"
+      }
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "director",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Nancy Meyers",
+     "proposed": "Nancy Meyers",
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": "Nancy Meyers",
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Something%27s+Gotta+Give&type=movie&y=2003"
+      },
+      {
+       "src": "TMDB",
+       "value": "Nancy Meyers",
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Something%27s+Gotta+Give&year=2003"
+      }
+     ]
+    },
+    {
+     "field": "studio",
+     "label": "studio",
+     "soft": true,
+     "editionDependent": false,
+     "current": "Sony Pictures",
+     "proposed": "Columbia Pictures",
+     "status": "proposed-change",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "TMDB",
+       "value": "Columbia Pictures",
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Something%27s+Gotta+Give&year=2003"
+      }
+     ]
+    }
+   ]
+  }
+ ]
+}

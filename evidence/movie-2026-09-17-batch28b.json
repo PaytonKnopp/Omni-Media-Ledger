@@ -1,0 +1,670 @@
+{
+ "medium": "movie",
+ "generated": "2026-09-17T22:12:24.406Z",
+ "offline": false,
+ "sources": [
+  "OMDb",
+  "TMDB"
+ ],
+ "works": [
+  {
+   "id": "m1748",
+   "title": "The Bucket List",
+   "sourcesReached": [
+    "OMDb",
+    "TMDB"
+   ],
+   "sourcesMissed": [],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "release year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 2007,
+     "proposed": 2007,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 2007,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=The+Bucket+List&type=movie&y=2007"
+      },
+      {
+       "src": "TMDB",
+       "value": 2007,
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=The+Bucket+List&year=2007"
+      }
+     ]
+    },
+    {
+     "field": "runtime",
+     "label": "runtime (min)",
+     "soft": false,
+     "editionDependent": true,
+     "current": 97,
+     "proposed": 97,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 97,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=The+Bucket+List&type=movie&y=2007"
+      },
+      {
+       "src": "TMDB",
+       "value": 97,
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=The+Bucket+List&year=2007"
+      }
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "director",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Rob Reiner",
+     "proposed": "Rob Reiner",
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": "Rob Reiner",
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=The+Bucket+List&type=movie&y=2007"
+      },
+      {
+       "src": "TMDB",
+       "value": "Rob Reiner",
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=The+Bucket+List&year=2007"
+      }
+     ]
+    },
+    {
+     "field": "studio",
+     "label": "studio",
+     "soft": true,
+     "editionDependent": false,
+     "current": "Warner Bros.",
+     "proposed": "Two Ton Films",
+     "status": "proposed-change",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "TMDB",
+       "value": "Two Ton Films",
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=The+Bucket+List&year=2007"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "m1749",
+   "title": "The Darjeeling Limited",
+   "sourcesReached": [
+    "OMDb",
+    "TMDB"
+   ],
+   "sourcesMissed": [],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "release year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 2007,
+     "proposed": 2007,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 2007,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=The+Darjeeling+Limited&type=movie&y=2007"
+      },
+      {
+       "src": "TMDB",
+       "value": 2007,
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=The+Darjeeling+Limited&year=2007"
+      }
+     ]
+    },
+    {
+     "field": "runtime",
+     "label": "runtime (min)",
+     "soft": false,
+     "editionDependent": true,
+     "current": 91,
+     "proposed": 91,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 91,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=The+Darjeeling+Limited&type=movie&y=2007"
+      },
+      {
+       "src": "TMDB",
+       "value": 91,
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=The+Darjeeling+Limited&year=2007"
+      }
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "director",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Wes Anderson",
+     "proposed": "Wes Anderson",
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": "Wes Anderson",
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=The+Darjeeling+Limited&type=movie&y=2007"
+      },
+      {
+       "src": "TMDB",
+       "value": "Wes Anderson",
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=The+Darjeeling+Limited&year=2007"
+      }
+     ]
+    },
+    {
+     "field": "studio",
+     "label": "studio",
+     "soft": true,
+     "editionDependent": false,
+     "current": "Fox Searchlight",
+     "proposed": "Fox Searchlight Pictures",
+     "status": "proposed-change",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "TMDB",
+       "value": "Fox Searchlight Pictures",
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=The+Darjeeling+Limited&year=2007"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "m1750",
+   "title": "Broken Flowers",
+   "sourcesReached": [
+    "OMDb",
+    "TMDB"
+   ],
+   "sourcesMissed": [],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "release year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 2005,
+     "proposed": 2005,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 2005,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Broken+Flowers&type=movie&y=2005"
+      },
+      {
+       "src": "TMDB",
+       "value": 2005,
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Broken+Flowers&year=2005"
+      }
+     ]
+    },
+    {
+     "field": "runtime",
+     "label": "runtime (min)",
+     "soft": false,
+     "editionDependent": true,
+     "current": 106,
+     "proposed": 106,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 106,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Broken+Flowers&type=movie&y=2005"
+      },
+      {
+       "src": "TMDB",
+       "value": 106,
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Broken+Flowers&year=2005"
+      }
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "director",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Jim Jarmusch",
+     "proposed": "Jim Jarmusch",
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": "Jim Jarmusch",
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Broken+Flowers&type=movie&y=2005"
+      },
+      {
+       "src": "TMDB",
+       "value": "Jim Jarmusch",
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Broken+Flowers&year=2005"
+      }
+     ]
+    },
+    {
+     "field": "studio",
+     "label": "studio",
+     "soft": true,
+     "editionDependent": false,
+     "current": "Focus Features",
+     "proposed": "Focus Features",
+     "status": "confirmed",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "TMDB",
+       "value": "Focus Features",
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Broken+Flowers&year=2005"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "m1751",
+   "title": "Stripes",
+   "sourcesReached": [
+    "OMDb",
+    "TMDB"
+   ],
+   "sourcesMissed": [],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "release year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 1981,
+     "proposed": 1981,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 1981,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Stripes&type=movie&y=1981"
+      },
+      {
+       "src": "TMDB",
+       "value": 1981,
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Stripes&year=1981"
+      }
+     ]
+    },
+    {
+     "field": "runtime",
+     "label": "runtime (min)",
+     "soft": false,
+     "editionDependent": true,
+     "current": 106,
+     "proposed": 106,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 106,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Stripes&type=movie&y=1981"
+      },
+      {
+       "src": "TMDB",
+       "value": 106,
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Stripes&year=1981"
+      }
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "director",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Ivan Reitman",
+     "proposed": "Ivan Reitman",
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": "Ivan Reitman",
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Stripes&type=movie&y=1981"
+      },
+      {
+       "src": "TMDB",
+       "value": "Ivan Reitman",
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Stripes&year=1981"
+      }
+     ]
+    },
+    {
+     "field": "studio",
+     "label": "studio",
+     "soft": true,
+     "editionDependent": false,
+     "current": "Columbia Pictures",
+     "proposed": "Columbia Pictures",
+     "status": "confirmed",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "TMDB",
+       "value": "Columbia Pictures",
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Stripes&year=1981"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "m1752",
+   "title": "Caddyshack",
+   "sourcesReached": [
+    "OMDb",
+    "TMDB"
+   ],
+   "sourcesMissed": [],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "release year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 1980,
+     "proposed": 1980,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 1980,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Caddyshack&type=movie&y=1980"
+      },
+      {
+       "src": "TMDB",
+       "value": 1980,
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Caddyshack&year=1980"
+      }
+     ]
+    },
+    {
+     "field": "runtime",
+     "label": "runtime (min)",
+     "soft": false,
+     "editionDependent": true,
+     "current": 98,
+     "proposed": 98,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 98,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Caddyshack&type=movie&y=1980"
+      },
+      {
+       "src": "TMDB",
+       "value": 98,
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Caddyshack&year=1980"
+      }
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "director",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Harold Ramis",
+     "proposed": "Harold Ramis",
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": "Harold Ramis",
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Caddyshack&type=movie&y=1980"
+      },
+      {
+       "src": "TMDB",
+       "value": "Harold Ramis",
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Caddyshack&year=1980"
+      }
+     ]
+    },
+    {
+     "field": "studio",
+     "label": "studio",
+     "soft": true,
+     "editionDependent": false,
+     "current": "Orion Pictures",
+     "proposed": "Orion Pictures",
+     "status": "confirmed",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "TMDB",
+       "value": "Orion Pictures",
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Caddyshack&year=1980"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "m1753",
+   "title": "Scrooged",
+   "sourcesReached": [
+    "OMDb",
+    "TMDB"
+   ],
+   "sourcesMissed": [],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "release year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 1988,
+     "proposed": 1988,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 1988,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Scrooged&type=movie&y=1988"
+      },
+      {
+       "src": "TMDB",
+       "value": 1988,
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Scrooged&year=1988"
+      }
+     ]
+    },
+    {
+     "field": "runtime",
+     "label": "runtime (min)",
+     "soft": false,
+     "editionDependent": true,
+     "current": 101,
+     "proposed": 101,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 101,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Scrooged&type=movie&y=1988"
+      },
+      {
+       "src": "TMDB",
+       "value": 101,
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Scrooged&year=1988"
+      }
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "director",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Richard Donner",
+     "proposed": "Richard Donner",
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": "Richard Donner",
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Scrooged&type=movie&y=1988"
+      },
+      {
+       "src": "TMDB",
+       "value": "Richard Donner",
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Scrooged&year=1988"
+      }
+     ]
+    },
+    {
+     "field": "studio",
+     "label": "studio",
+     "soft": true,
+     "editionDependent": false,
+     "current": "Paramount Pictures",
+     "proposed": "Paramount Pictures",
+     "status": "confirmed",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "TMDB",
+       "value": "Paramount Pictures",
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Scrooged&year=1988"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "m1754",
+   "title": "Kingpin",
+   "sourcesReached": [
+    "OMDb",
+    "TMDB"
+   ],
+   "sourcesMissed": [],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "release year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 1996,
+     "proposed": 1996,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 1996,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Kingpin&type=movie&y=1996"
+      },
+      {
+       "src": "TMDB",
+       "value": 1996,
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Kingpin&year=1996"
+      }
+     ]
+    },
+    {
+     "field": "runtime",
+     "label": "runtime (min)",
+     "soft": false,
+     "editionDependent": true,
+     "current": 113,
+     "proposed": 114,
+     "status": "edition-dependent",
+     "grade": "B",
+     "note": "sources agree with each other but not the corpus (OMDb 114, TMDB 114) on a field with no single true value -- likely a different printing/edition, not an error.",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 114,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Kingpin&type=movie&y=1996"
+      },
+      {
+       "src": "TMDB",
+       "value": 114,
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Kingpin&year=1996"
+      }
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "director",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Bobby Farrelly, Peter Farrelly",
+     "proposed": "Bobby Farrelly, Peter Farrelly",
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": "Bobby Farrelly, Peter Farrelly",
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Kingpin&type=movie&y=1996"
+      },
+      {
+       "src": "TMDB",
+       "value": "Bobby Farrelly, Peter Farrelly",
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Kingpin&year=1996"
+      }
+     ]
+    },
+    {
+     "field": "studio",
+     "label": "studio",
+     "soft": true,
+     "editionDependent": false,
+     "current": "MGM",
+     "proposed": "Motion Picture Corporation of America",
+     "status": "proposed-change",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "TMDB",
+       "value": "Motion Picture Corporation of America",
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Kingpin&year=1996"
+      }
+     ]
+    }
+   ]
+  }
+ ]
+}
