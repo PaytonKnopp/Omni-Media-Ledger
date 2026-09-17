@@ -1,0 +1,127 @@
+{
+ "medium": "book",
+ "generated": "2026-09-17T13:09:44.056Z",
+ "offline": false,
+ "includesProse": false,
+ "works": [
+  {
+   "id": "b1429",
+   "title": "To Paradise",
+   "year": 2022,
+   "corpusGenres": [
+    "Literary Fiction",
+    "Sci-Fi"
+   ],
+   "tags": [
+    "historical fiction"
+   ],
+   "sourceGenres": [],
+   "sources": [
+    {
+     "src": "OpenLibrary",
+     "matchedTitle": "To Paradise",
+     "url": "https://openlibrary.org/search.json?title=To%20Paradise"
+    },
+    {
+     "src": "Wikidata",
+     "matchedTitle": "To Paradise",
+     "url": "https://www.wikidata.org/wiki/Q110772685"
+    }
+   ],
+   "missed": [
+    "Google Books (title matched but author \"Victoria Holt\" does not -- likely a different book titled \"To Paradise\")"
+   ],
+   "coverage": 1
+  },
+  {
+   "id": "b1430",
+   "title": "The Committed",
+   "year": 2021,
+   "corpusGenres": [
+    "Literary Fiction",
+    "Spy"
+   ],
+   "tags": [
+    "crime fiction",
+    "historical fiction"
+   ],
+   "sourceGenres": [],
+   "sources": [
+    {
+     "src": "Wikidata",
+     "matchedTitle": "The Committed",
+     "url": "https://www.wikidata.org/wiki/Q105670731"
+    }
+   ],
+   "missed": [
+    "OpenLibrary (title matched but author \"Roddy Doyle\" does not -- likely a different book titled \"The Committed\")",
+    "Google Books (title matched but author \"Boston (Mass.). Board of Aldermen\" does not -- likely a different book titled \"The Committed\")"
+   ],
+   "coverage": 2
+  },
+  {
+   "id": "b1431",
+   "title": "Free Food for Millionaires",
+   "year": 2007,
+   "corpusGenres": [
+    "Literary Fiction",
+    "Family Saga"
+   ],
+   "tags": [
+    "fiction",
+    "korean americans",
+    "ethnic conflict",
+    "new york city"
+   ],
+   "sourceGenres": [],
+   "sources": [
+    {
+     "src": "OpenLibrary",
+     "matchedTitle": "Free Food for Millionaires",
+     "url": "https://openlibrary.org/search.json?title=Free%20Food%20for%20Millionaires"
+    },
+    {
+     "src": "Google Books",
+     "matchedTitle": "Free Food for Millionaires",
+     "url": "https://www.googleapis.com/books/v1/volumes?q=intitle:Free%20Food%20for%20Millionaires"
+    },
+    {
+     "src": "Wikidata",
+     "matchedTitle": "Free Food for Millionaires",
+     "url": "https://www.wikidata.org/wiki/Q5499840"
+    }
+   ],
+   "missed": [],
+   "coverage": 4
+  },
+  {
+   "id": "b1432",
+   "title": "Travels with Charley",
+   "year": 1962,
+   "corpusGenres": [
+    "Travel",
+    "Memoir"
+   ],
+   "tags": [
+    "travel"
+   ],
+   "sourceGenres": [],
+   "sources": [
+    {
+     "src": "OpenLibrary",
+     "matchedTitle": "Travels with Charley",
+     "url": "https://openlibrary.org/search.json?title=Travels%20with%20Charley"
+    },
+    {
+     "src": "Google Books",
+     "matchedTitle": "Travels with Charley in Search of America",
+     "url": "https://www.googleapis.com/books/v1/volumes?q=intitle:Travels%20with%20Charley"
+    }
+   ],
+   "missed": [
+    "Wikidata (no type-matching candidate for \"Travels with Charley\")"
+   ],
+   "coverage": 1
+  }
+ ]
+}

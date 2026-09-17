@@ -1,0 +1,380 @@
+{
+ "medium": "book",
+ "generated": "2026-09-17T13:08:07.964Z",
+ "offline": false,
+ "sources": [
+  "OpenLibrary",
+  "Google Books",
+  "Wikidata"
+ ],
+ "works": [
+  {
+   "id": "b1429",
+   "title": "To Paradise",
+   "sourcesReached": [
+    "OpenLibrary",
+    "Wikidata"
+   ],
+   "sourcesMissed": [
+    "Google Books (no match)"
+   ],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "first publication year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 2022,
+     "proposed": 2022,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OpenLibrary",
+       "value": 2022,
+       "url": "https://openlibrary.org/search.json?title=To+Paradise&limit=1"
+      },
+      {
+       "src": "Wikidata",
+       "value": 2022,
+       "url": "https://www.wikidata.org/wiki/Q110772685"
+      }
+     ]
+    },
+    {
+     "field": "pages",
+     "label": "page count",
+     "soft": false,
+     "current": 720,
+     "status": "no-source",
+     "grade": null,
+     "sources": []
+    },
+    {
+     "field": "creator",
+     "label": "author",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Hanya Yanagihara",
+     "proposed": "Hanya Yanagihara",
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OpenLibrary",
+       "value": "Hanya Yanagihara",
+       "url": "https://openlibrary.org/search.json?title=To+Paradise&limit=1"
+      },
+      {
+       "src": "Wikidata",
+       "value": "Hanya Yanagihara",
+       "url": "https://www.wikidata.org/wiki/Q110772685"
+      }
+     ]
+    },
+    {
+     "field": "publisher",
+     "label": "publisher",
+     "soft": true,
+     "current": "Doubleday",
+     "status": "no-source",
+     "grade": null,
+     "sources": []
+    }
+   ]
+  },
+  {
+   "id": "b1430",
+   "title": "The Committed",
+   "sourcesReached": [
+    "Wikidata"
+   ],
+   "sourcesMissed": [
+    "OpenLibrary (no match)",
+    "Google Books (no match)"
+   ],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "first publication year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 2021,
+     "proposed": 2021,
+     "status": "confirmed",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "Wikidata",
+       "value": 2021,
+       "url": "https://www.wikidata.org/wiki/Q105670731"
+      }
+     ]
+    },
+    {
+     "field": "pages",
+     "label": "page count",
+     "soft": false,
+     "editionDependent": true,
+     "current": 384,
+     "proposed": 416,
+     "status": "edition-dependent",
+     "grade": "B",
+     "note": "one source differs from the corpus (Wikidata 416) on a field with no single true value -- likely a different printing/edition, not an error.",
+     "sources": [
+      {
+       "src": "Wikidata",
+       "value": 416,
+       "url": "https://www.wikidata.org/wiki/Q105670731"
+      }
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "author",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Viet Thanh Nguyen",
+     "proposed": "Viet Thanh Nguyen",
+     "status": "confirmed",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "Wikidata",
+       "value": "Viet Thanh Nguyen",
+       "url": "https://www.wikidata.org/wiki/Q105670731"
+      }
+     ]
+    },
+    {
+     "field": "publisher",
+     "label": "publisher",
+     "soft": true,
+     "editionDependent": true,
+     "current": "Grove Press",
+     "proposed": "Grove Press",
+     "status": "confirmed",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "Wikidata",
+       "value": "Grove Press",
+       "url": "https://www.wikidata.org/wiki/Q105670731"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "b1431",
+   "title": "Free Food for Millionaires",
+   "sourcesReached": [
+    "OpenLibrary",
+    "Google Books",
+    "Wikidata"
+   ],
+   "sourcesMissed": [],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "first publication year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 2007,
+     "proposed": 2007,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OpenLibrary",
+       "value": 2007,
+       "url": "https://openlibrary.org/search.json?title=Free+Food+for+Millionaires&limit=1"
+      },
+      {
+       "src": "Google Books",
+       "value": 2007,
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3AFree+Food+for+Millionaires&maxResults=1&key=REDACTED"
+      },
+      {
+       "src": "Wikidata",
+       "value": 2007,
+       "url": "https://www.wikidata.org/wiki/Q5499840"
+      }
+     ]
+    },
+    {
+     "field": "pages",
+     "label": "page count",
+     "soft": false,
+     "editionDependent": true,
+     "current": 560,
+     "proposed": 647,
+     "status": "edition-dependent",
+     "grade": "B",
+     "note": "one source differs from the corpus (Google Books 647) on a field with no single true value -- likely a different printing/edition, not an error.",
+     "sources": [
+      {
+       "src": "Google Books",
+       "value": 647,
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3AFree+Food+for+Millionaires&maxResults=1&key=REDACTED"
+      }
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "author",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Min Jin Lee",
+     "proposed": "Min Jin Lee",
+     "status": "corroborated-by-one",
+     "grade": "B",
+     "note": "matches OpenLibrary/Google Books; disagrees with Wikidata (\"Lee Min Jin\")",
+     "sources": [
+      {
+       "src": "OpenLibrary",
+       "value": "Min Jin Lee",
+       "url": "https://openlibrary.org/search.json?title=Free+Food+for+Millionaires&limit=1"
+      },
+      {
+       "src": "Google Books",
+       "value": "Min Jin Lee",
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3AFree+Food+for+Millionaires&maxResults=1&key=REDACTED"
+      },
+      {
+       "src": "Wikidata",
+       "value": "Lee Min Jin",
+       "url": "https://www.wikidata.org/wiki/Q5499840"
+      }
+     ],
+     "alternatives": [
+      "Lee Min Jin"
+     ]
+    },
+    {
+     "field": "publisher",
+     "label": "publisher",
+     "soft": true,
+     "editionDependent": true,
+     "current": "Warner Books",
+     "proposed": "Grand Central Publishing",
+     "status": "edition-dependent",
+     "grade": "B",
+     "note": "corpus value does not match either source (Google Books \"Grand Central Publishing\", Wikidata \"Hachette Book Group\") -- treated as a distinct edition; the specific cut is not identified from available evidence.",
+     "sources": [
+      {
+       "src": "Google Books",
+       "value": "Grand Central Publishing",
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3AFree+Food+for+Millionaires&maxResults=1&key=REDACTED"
+      },
+      {
+       "src": "Wikidata",
+       "value": "Hachette Book Group",
+       "url": "https://www.wikidata.org/wiki/Q5499840"
+      }
+     ],
+     "alternatives": [
+      "Hachette Book Group"
+     ]
+    }
+   ]
+  },
+  {
+   "id": "b1432",
+   "title": "Travels with Charley",
+   "sourcesReached": [
+    "OpenLibrary",
+    "Google Books"
+   ],
+   "sourcesMissed": [
+    "Wikidata (no match)"
+   ],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "first publication year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 1962,
+     "proposed": 1962,
+     "status": "corroborated-by-one",
+     "grade": "B",
+     "note": "matches OpenLibrary; disagrees with Google Books (1980)",
+     "sources": [
+      {
+       "src": "OpenLibrary",
+       "value": 1962,
+       "url": "https://openlibrary.org/search.json?title=Travels+with+Charley&limit=1"
+      },
+      {
+       "src": "Google Books",
+       "value": 1980,
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3ATravels+with+Charley&maxResults=1&key=REDACTED"
+      }
+     ],
+     "alternatives": [
+      1980
+     ]
+    },
+    {
+     "field": "pages",
+     "label": "page count",
+     "soft": false,
+     "editionDependent": true,
+     "current": 246,
+     "proposed": 292,
+     "status": "edition-dependent",
+     "grade": "B",
+     "note": "one source differs from the corpus (Google Books 292) on a field with no single true value -- likely a different printing/edition, not an error.",
+     "sources": [
+      {
+       "src": "Google Books",
+       "value": 292,
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3ATravels+with+Charley&maxResults=1&key=REDACTED"
+      }
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "author",
+     "soft": false,
+     "editionDependent": false,
+     "current": "John Steinbeck",
+     "proposed": "John Steinbeck",
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OpenLibrary",
+       "value": "John Steinbeck",
+       "url": "https://openlibrary.org/search.json?title=Travels+with+Charley&limit=1"
+      },
+      {
+       "src": "Google Books",
+       "value": "John Steinbeck",
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3ATravels+with+Charley&maxResults=1&key=REDACTED"
+      }
+     ]
+    },
+    {
+     "field": "publisher",
+     "label": "publisher",
+     "soft": true,
+     "editionDependent": true,
+     "current": "Viking",
+     "proposed": "Penguin",
+     "status": "edition-dependent",
+     "grade": "B",
+     "note": "one source differs from the corpus (Google Books \"Penguin\") on a field with no single true value -- likely a different printing/edition, not an error.",
+     "sources": [
+      {
+       "src": "Google Books",
+       "value": "Penguin",
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3ATravels+with+Charley&maxResults=1&key=REDACTED"
+      }
+     ]
+    }
+   ]
+  }
+ ]
+}

@@ -1,0 +1,1440 @@
+{
+ "medium": "book",
+ "generated": "2026-09-17T13:07:22.592Z",
+ "offline": false,
+ "sources": [
+  "OpenLibrary",
+  "Google Books",
+  "Wikidata"
+ ],
+ "works": [
+  {
+   "id": "b1399",
+   "title": "The Dead Zone",
+   "sourcesReached": [
+    "OpenLibrary",
+    "Google Books",
+    "Wikidata"
+   ],
+   "sourcesMissed": [],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "first publication year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 1979,
+     "proposed": 1979,
+     "status": "corroborated-by-one",
+     "grade": "B",
+     "note": "matches OpenLibrary/Wikidata; disagrees with Google Books (2011)",
+     "sources": [
+      {
+       "src": "OpenLibrary",
+       "value": 1979,
+       "url": "https://openlibrary.org/search.json?title=The+Dead+Zone&limit=1"
+      },
+      {
+       "src": "Google Books",
+       "value": 2011,
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3AThe+Dead+Zone&maxResults=1&key=REDACTED"
+      },
+      {
+       "src": "Wikidata",
+       "value": 1979,
+       "url": "https://www.wikidata.org/wiki/Q466790"
+      }
+     ],
+     "alternatives": [
+      2011
+     ]
+    },
+    {
+     "field": "pages",
+     "label": "page count",
+     "soft": false,
+     "editionDependent": true,
+     "current": 428,
+     "proposed": 428,
+     "status": "corroborated-by-one",
+     "grade": "B",
+     "note": "matches Wikidata; disagrees with Google Books (0)",
+     "sources": [
+      {
+       "src": "Google Books",
+       "value": 0,
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3AThe+Dead+Zone&maxResults=1&key=REDACTED"
+      },
+      {
+       "src": "Wikidata",
+       "value": 428,
+       "url": "https://www.wikidata.org/wiki/Q466790"
+      }
+     ],
+     "alternatives": [
+      428
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "author",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Stephen King",
+     "proposed": "Stephen King",
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OpenLibrary",
+       "value": "Stephen King",
+       "url": "https://openlibrary.org/search.json?title=The+Dead+Zone&limit=1"
+      },
+      {
+       "src": "Google Books",
+       "value": "Stephen King",
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3AThe+Dead+Zone&maxResults=1&key=REDACTED"
+      },
+      {
+       "src": "Wikidata",
+       "value": "Stephen King",
+       "url": "https://www.wikidata.org/wiki/Q466790"
+      }
+     ]
+    },
+    {
+     "field": "publisher",
+     "label": "publisher",
+     "soft": true,
+     "editionDependent": true,
+     "current": "Viking",
+     "proposed": "Viking Press",
+     "status": "edition-dependent",
+     "grade": "B",
+     "note": "one source differs from the corpus (Wikidata \"Viking Press\") on a field with no single true value -- likely a different printing/edition, not an error.",
+     "sources": [
+      {
+       "src": "Wikidata",
+       "value": "Viking Press",
+       "url": "https://www.wikidata.org/wiki/Q466790"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "b1400",
+   "title": "Different Seasons",
+   "sourcesReached": [
+    "OpenLibrary"
+   ],
+   "sourcesMissed": [
+    "Google Books (no match)",
+    "Wikidata (no match)"
+   ],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "first publication year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 1982,
+     "proposed": 1982,
+     "status": "confirmed",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "OpenLibrary",
+       "value": 1982,
+       "url": "https://openlibrary.org/search.json?title=Different+Seasons&limit=1"
+      }
+     ]
+    },
+    {
+     "field": "pages",
+     "label": "page count",
+     "soft": false,
+     "current": 527,
+     "status": "no-source",
+     "grade": null,
+     "sources": []
+    },
+    {
+     "field": "creator",
+     "label": "author",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Stephen King",
+     "proposed": "Stephen King",
+     "status": "confirmed",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "OpenLibrary",
+       "value": "Stephen King",
+       "url": "https://openlibrary.org/search.json?title=Different+Seasons&limit=1"
+      }
+     ]
+    },
+    {
+     "field": "publisher",
+     "label": "publisher",
+     "soft": true,
+     "current": "Viking",
+     "status": "no-source",
+     "grade": null,
+     "sources": []
+    }
+   ]
+  },
+  {
+   "id": "b1401",
+   "title": "Gerald's Game",
+   "sourcesReached": [
+    "OpenLibrary",
+    "Wikidata"
+   ],
+   "sourcesMissed": [
+    "Google Books (no match)"
+   ],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "first publication year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 1992,
+     "proposed": 1992,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OpenLibrary",
+       "value": 1992,
+       "url": "https://openlibrary.org/search.json?title=Gerald%27s+Game&limit=1"
+      },
+      {
+       "src": "Wikidata",
+       "value": 1992,
+       "url": "https://www.wikidata.org/wiki/Q629445"
+      }
+     ]
+    },
+    {
+     "field": "pages",
+     "label": "page count",
+     "soft": false,
+     "current": 332,
+     "status": "no-source",
+     "grade": null,
+     "sources": []
+    },
+    {
+     "field": "creator",
+     "label": "author",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Stephen King",
+     "proposed": "Stephen King",
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OpenLibrary",
+       "value": "Stephen King",
+       "url": "https://openlibrary.org/search.json?title=Gerald%27s+Game&limit=1"
+      },
+      {
+       "src": "Wikidata",
+       "value": "Stephen King",
+       "url": "https://www.wikidata.org/wiki/Q629445"
+      }
+     ]
+    },
+    {
+     "field": "publisher",
+     "label": "publisher",
+     "soft": true,
+     "editionDependent": true,
+     "current": "Viking",
+     "proposed": "Viking Press",
+     "status": "edition-dependent",
+     "grade": "B",
+     "note": "one source differs from the corpus (Wikidata \"Viking Press\") on a field with no single true value -- likely a different printing/edition, not an error.",
+     "sources": [
+      {
+       "src": "Wikidata",
+       "value": "Viking Press",
+       "url": "https://www.wikidata.org/wiki/Q629445"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "b1402",
+   "title": "Dolores Claiborne",
+   "sourcesReached": [
+    "OpenLibrary",
+    "Google Books",
+    "Wikidata"
+   ],
+   "sourcesMissed": [],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "first publication year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 1992,
+     "proposed": 1992,
+     "status": "corroborated-by-one",
+     "grade": "B",
+     "note": "matches OpenLibrary/Wikidata; disagrees with Google Books (2003)",
+     "sources": [
+      {
+       "src": "OpenLibrary",
+       "value": 1992,
+       "url": "https://openlibrary.org/search.json?title=Dolores+Claiborne&limit=1"
+      },
+      {
+       "src": "Google Books",
+       "value": 2003,
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3ADolores+Claiborne&maxResults=1&key=REDACTED"
+      },
+      {
+       "src": "Wikidata",
+       "value": 1992,
+       "url": "https://www.wikidata.org/wiki/Q846175"
+      }
+     ],
+     "alternatives": [
+      2003
+     ]
+    },
+    {
+     "field": "pages",
+     "label": "page count",
+     "soft": false,
+     "current": 305,
+     "status": "no-source",
+     "grade": null,
+     "sources": []
+    },
+    {
+     "field": "creator",
+     "label": "author",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Stephen King",
+     "proposed": "Stephen King",
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OpenLibrary",
+       "value": "Stephen King",
+       "url": "https://openlibrary.org/search.json?title=Dolores+Claiborne&limit=1"
+      },
+      {
+       "src": "Google Books",
+       "value": "Stephen King",
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3ADolores+Claiborne&maxResults=1&key=REDACTED"
+      },
+      {
+       "src": "Wikidata",
+       "value": "Stephen King",
+       "url": "https://www.wikidata.org/wiki/Q846175"
+      }
+     ]
+    },
+    {
+     "field": "publisher",
+     "label": "publisher",
+     "soft": true,
+     "editionDependent": true,
+     "current": "Viking",
+     "proposed": "Viking Press",
+     "status": "edition-dependent",
+     "grade": "B",
+     "note": "one source differs from the corpus (Wikidata \"Viking Press\") on a field with no single true value -- likely a different printing/edition, not an error.",
+     "sources": [
+      {
+       "src": "Wikidata",
+       "value": "Viking Press",
+       "url": "https://www.wikidata.org/wiki/Q846175"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "b1403",
+   "title": "Rose Madder",
+   "sourcesReached": [
+    "OpenLibrary",
+    "Google Books",
+    "Wikidata"
+   ],
+   "sourcesMissed": [],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "first publication year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 1995,
+     "proposed": 1995,
+     "status": "corroborated-by-one",
+     "grade": "B",
+     "note": "matches OpenLibrary/Wikidata; disagrees with Google Books (2016)",
+     "sources": [
+      {
+       "src": "OpenLibrary",
+       "value": 1995,
+       "url": "https://openlibrary.org/search.json?title=Rose+Madder&limit=1"
+      },
+      {
+       "src": "Google Books",
+       "value": 2016,
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3ARose+Madder&maxResults=1&key=REDACTED"
+      },
+      {
+       "src": "Wikidata",
+       "value": 1995,
+       "url": "https://www.wikidata.org/wiki/Q468121"
+      }
+     ],
+     "alternatives": [
+      2016
+     ]
+    },
+    {
+     "field": "pages",
+     "label": "page count",
+     "soft": false,
+     "editionDependent": true,
+     "current": 420,
+     "proposed": 656,
+     "status": "edition-dependent",
+     "grade": "B",
+     "note": "one source differs from the corpus (Google Books 656) on a field with no single true value -- likely a different printing/edition, not an error.",
+     "sources": [
+      {
+       "src": "Google Books",
+       "value": 656,
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3ARose+Madder&maxResults=1&key=REDACTED"
+      }
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "author",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Stephen King",
+     "proposed": "Stephen King",
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OpenLibrary",
+       "value": "Stephen King",
+       "url": "https://openlibrary.org/search.json?title=Rose+Madder&limit=1"
+      },
+      {
+       "src": "Google Books",
+       "value": "Stephen King",
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3ARose+Madder&maxResults=1&key=REDACTED"
+      },
+      {
+       "src": "Wikidata",
+       "value": "Stephen King",
+       "url": "https://www.wikidata.org/wiki/Q468121"
+      }
+     ]
+    },
+    {
+     "field": "publisher",
+     "label": "publisher",
+     "soft": true,
+     "editionDependent": true,
+     "current": "Viking",
+     "proposed": "Simon and Schuster",
+     "status": "edition-dependent",
+     "grade": "B",
+     "note": "corpus value does not match either source (Google Books \"Simon and Schuster\", Wikidata \"Viking Press\") -- treated as a distinct edition; the specific cut is not identified from available evidence.",
+     "sources": [
+      {
+       "src": "Google Books",
+       "value": "Simon and Schuster",
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3ARose+Madder&maxResults=1&key=REDACTED"
+      },
+      {
+       "src": "Wikidata",
+       "value": "Viking Press",
+       "url": "https://www.wikidata.org/wiki/Q468121"
+      }
+     ],
+     "alternatives": [
+      "Viking Press"
+     ]
+    }
+   ]
+  },
+  {
+   "id": "b1404",
+   "title": "Black House",
+   "sourcesReached": [
+    "OpenLibrary",
+    "Google Books",
+    "Wikidata"
+   ],
+   "sourcesMissed": [],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "first publication year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 2001,
+     "proposed": 2001,
+     "status": "corroborated-by-one",
+     "grade": "B",
+     "note": "matches Wikidata; disagrees with OpenLibrary (2002), Google Books (2012)",
+     "sources": [
+      {
+       "src": "OpenLibrary",
+       "value": 2002,
+       "url": "https://openlibrary.org/search.json?title=Black+House&limit=1"
+      },
+      {
+       "src": "Google Books",
+       "value": 2012,
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3ABlack+House&maxResults=1&key=REDACTED"
+      },
+      {
+       "src": "Wikidata",
+       "value": 2001,
+       "url": "https://www.wikidata.org/wiki/Q239725"
+      }
+     ],
+     "alternatives": [
+      2012,
+      2001
+     ]
+    },
+    {
+     "field": "pages",
+     "label": "page count",
+     "soft": false,
+     "editionDependent": true,
+     "current": 625,
+     "proposed": 811,
+     "status": "edition-dependent",
+     "grade": "B",
+     "note": "one source differs from the corpus (Google Books 811) on a field with no single true value -- likely a different printing/edition, not an error.",
+     "sources": [
+      {
+       "src": "Google Books",
+       "value": 811,
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3ABlack+House&maxResults=1&key=REDACTED"
+      }
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "author",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Stephen King and Peter Straub",
+     "proposed": "Peter Straub, Stephen King",
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OpenLibrary",
+       "value": "Stephen King & Peter Straub",
+       "url": "https://openlibrary.org/search.json?title=Black+House&limit=1"
+      },
+      {
+       "src": "Google Books",
+       "value": "Stephen King & Peter Straub",
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3ABlack+House&maxResults=1&key=REDACTED"
+      },
+      {
+       "src": "Wikidata",
+       "value": "Stephen King & Peter Straub",
+       "url": "https://www.wikidata.org/wiki/Q239725"
+      }
+     ]
+    },
+    {
+     "field": "publisher",
+     "label": "publisher",
+     "soft": true,
+     "editionDependent": true,
+     "current": "Random House",
+     "proposed": "Simon and Schuster",
+     "status": "edition-dependent",
+     "grade": "B",
+     "note": "one source differs from the corpus (Google Books \"Simon and Schuster\") on a field with no single true value -- likely a different printing/edition, not an error.",
+     "sources": [
+      {
+       "src": "Google Books",
+       "value": "Simon and Schuster",
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3ABlack+House&maxResults=1&key=REDACTED"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "b1405",
+   "title": "Insomnia",
+   "sourcesReached": [
+    "OpenLibrary",
+    "Google Books"
+   ],
+   "sourcesMissed": [
+    "Wikidata (no match)"
+   ],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "first publication year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 1994,
+     "proposed": 1994,
+     "status": "corroborated-by-one",
+     "grade": "B",
+     "note": "matches OpenLibrary; disagrees with Google Books (2002)",
+     "sources": [
+      {
+       "src": "OpenLibrary",
+       "value": 1994,
+       "url": "https://openlibrary.org/search.json?title=Insomnia&limit=1"
+      },
+      {
+       "src": "Google Books",
+       "value": 2002,
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3AInsomnia&maxResults=1&key=REDACTED"
+      }
+     ],
+     "alternatives": [
+      2002
+     ]
+    },
+    {
+     "field": "pages",
+     "label": "page count",
+     "soft": false,
+     "editionDependent": true,
+     "current": 787,
+     "proposed": 889,
+     "status": "edition-dependent",
+     "grade": "B",
+     "note": "one source differs from the corpus (Google Books 889) on a field with no single true value -- likely a different printing/edition, not an error.",
+     "sources": [
+      {
+       "src": "Google Books",
+       "value": 889,
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3AInsomnia&maxResults=1&key=REDACTED"
+      }
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "author",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Stephen King",
+     "proposed": "Stephen King",
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OpenLibrary",
+       "value": "Stephen King",
+       "url": "https://openlibrary.org/search.json?title=Insomnia&limit=1"
+      },
+      {
+       "src": "Google Books",
+       "value": "Stephen King",
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3AInsomnia&maxResults=1&key=REDACTED"
+      }
+     ]
+    },
+    {
+     "field": "publisher",
+     "label": "publisher",
+     "soft": true,
+     "current": "Viking",
+     "status": "no-source",
+     "grade": null,
+     "sources": []
+    }
+   ]
+  },
+  {
+   "id": "b1406",
+   "title": "Desperation",
+   "sourcesReached": [
+    "OpenLibrary",
+    "Google Books",
+    "Wikidata"
+   ],
+   "sourcesMissed": [],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "first publication year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 1996,
+     "proposed": 1996,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OpenLibrary",
+       "value": 1996,
+       "url": "https://openlibrary.org/search.json?title=Desperation&limit=1"
+      },
+      {
+       "src": "Google Books",
+       "value": 1996,
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3ADesperation&maxResults=1&key=REDACTED"
+      },
+      {
+       "src": "Wikidata",
+       "value": 1996,
+       "url": "https://www.wikidata.org/wiki/Q913576"
+      }
+     ]
+    },
+    {
+     "field": "pages",
+     "label": "page count",
+     "soft": false,
+     "editionDependent": true,
+     "current": 690,
+     "proposed": 608,
+     "status": "edition-dependent",
+     "grade": "B",
+     "note": "one source differs from the corpus (Google Books 608) on a field with no single true value -- likely a different printing/edition, not an error.",
+     "sources": [
+      {
+       "src": "Google Books",
+       "value": 608,
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3ADesperation&maxResults=1&key=REDACTED"
+      }
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "author",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Stephen King",
+     "proposed": "Stephen King",
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OpenLibrary",
+       "value": "Stephen King",
+       "url": "https://openlibrary.org/search.json?title=Desperation&limit=1"
+      },
+      {
+       "src": "Google Books",
+       "value": "Stephen King",
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3ADesperation&maxResults=1&key=REDACTED"
+      },
+      {
+       "src": "Wikidata",
+       "value": "Stephen King",
+       "url": "https://www.wikidata.org/wiki/Q913576"
+      }
+     ]
+    },
+    {
+     "field": "publisher",
+     "label": "publisher",
+     "soft": true,
+     "editionDependent": true,
+     "current": "Viking",
+     "proposed": "Viking Press",
+     "status": "edition-dependent",
+     "grade": "B",
+     "note": "one source differs from the corpus (Wikidata \"Viking Press\") on a field with no single true value -- likely a different printing/edition, not an error.",
+     "sources": [
+      {
+       "src": "Wikidata",
+       "value": "Viking Press",
+       "url": "https://www.wikidata.org/wiki/Q913576"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "b1407",
+   "title": "Bag of Bones",
+   "sourcesReached": [
+    "OpenLibrary",
+    "Google Books",
+    "Wikidata"
+   ],
+   "sourcesMissed": [],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "first publication year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 1998,
+     "proposed": 1998,
+     "status": "corroborated-by-one",
+     "grade": "B",
+     "note": "matches OpenLibrary/Wikidata; disagrees with Google Books (2023)",
+     "sources": [
+      {
+       "src": "OpenLibrary",
+       "value": 1998,
+       "url": "https://openlibrary.org/search.json?title=Bag+of+Bones&limit=1"
+      },
+      {
+       "src": "Google Books",
+       "value": 2023,
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3ABag+of+Bones&maxResults=1&key=REDACTED"
+      },
+      {
+       "src": "Wikidata",
+       "value": 1998,
+       "url": "https://www.wikidata.org/wiki/Q302960"
+      }
+     ],
+     "alternatives": [
+      2023
+     ]
+    },
+    {
+     "field": "pages",
+     "label": "page count",
+     "soft": false,
+     "editionDependent": true,
+     "current": 529,
+     "proposed": 529,
+     "status": "corroborated-by-one",
+     "grade": "B",
+     "note": "matches Wikidata; disagrees with Google Books (752)",
+     "sources": [
+      {
+       "src": "Google Books",
+       "value": 752,
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3ABag+of+Bones&maxResults=1&key=REDACTED"
+      },
+      {
+       "src": "Wikidata",
+       "value": 529,
+       "url": "https://www.wikidata.org/wiki/Q302960"
+      }
+     ],
+     "alternatives": [
+      529
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "author",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Stephen King",
+     "proposed": "Stephen King",
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OpenLibrary",
+       "value": "Stephen King",
+       "url": "https://openlibrary.org/search.json?title=Bag+of+Bones&limit=1"
+      },
+      {
+       "src": "Google Books",
+       "value": "Stephen King",
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3ABag+of+Bones&maxResults=1&key=REDACTED"
+      },
+      {
+       "src": "Wikidata",
+       "value": "Stephen King",
+       "url": "https://www.wikidata.org/wiki/Q302960"
+      }
+     ]
+    },
+    {
+     "field": "publisher",
+     "label": "publisher",
+     "soft": true,
+     "editionDependent": true,
+     "current": "Scribner",
+     "proposed": "Simon and Schuster",
+     "status": "edition-dependent",
+     "grade": "B",
+     "note": "corpus value does not match either source (Google Books \"Simon and Schuster\", Wikidata \"Charles Scribner's Sons\") -- treated as a distinct edition; the specific cut is not identified from available evidence.",
+     "sources": [
+      {
+       "src": "Google Books",
+       "value": "Simon and Schuster",
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3ABag+of+Bones&maxResults=1&key=REDACTED"
+      },
+      {
+       "src": "Wikidata",
+       "value": "Charles Scribner's Sons",
+       "url": "https://www.wikidata.org/wiki/Q302960"
+      }
+     ],
+     "alternatives": [
+      "Charles Scribner's Sons"
+     ]
+    }
+   ]
+  },
+  {
+   "id": "b1408",
+   "title": "The Girl Who Loved Tom Gordon",
+   "sourcesReached": [
+    "OpenLibrary",
+    "Google Books",
+    "Wikidata"
+   ],
+   "sourcesMissed": [],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "first publication year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 1999,
+     "proposed": 1999,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OpenLibrary",
+       "value": 1999,
+       "url": "https://openlibrary.org/search.json?title=The+Girl+Who+Loved+Tom+Gordon&limit=1"
+      },
+      {
+       "src": "Google Books",
+       "value": 1999,
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3AThe+Girl+Who+Loved+Tom+Gordon&maxResults=1&key=REDACTED"
+      },
+      {
+       "src": "Wikidata",
+       "value": 1999,
+       "url": "https://www.wikidata.org/wiki/Q930666"
+      }
+     ]
+    },
+    {
+     "field": "pages",
+     "label": "page count",
+     "soft": false,
+     "editionDependent": true,
+     "current": 224,
+     "proposed": 320,
+     "status": "edition-dependent",
+     "grade": "B",
+     "note": "one source differs from the corpus (Google Books 320) on a field with no single true value -- likely a different printing/edition, not an error.",
+     "sources": [
+      {
+       "src": "Google Books",
+       "value": 320,
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3AThe+Girl+Who+Loved+Tom+Gordon&maxResults=1&key=REDACTED"
+      }
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "author",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Stephen King",
+     "proposed": "Stephen King",
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OpenLibrary",
+       "value": "Stephen King",
+       "url": "https://openlibrary.org/search.json?title=The+Girl+Who+Loved+Tom+Gordon&limit=1"
+      },
+      {
+       "src": "Google Books",
+       "value": "Stephen King",
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3AThe+Girl+Who+Loved+Tom+Gordon&maxResults=1&key=REDACTED"
+      },
+      {
+       "src": "Wikidata",
+       "value": "Stephen King",
+       "url": "https://www.wikidata.org/wiki/Q930666"
+      }
+     ]
+    },
+    {
+     "field": "publisher",
+     "label": "publisher",
+     "soft": true,
+     "editionDependent": true,
+     "current": "Scribner",
+     "proposed": "Simon and Schuster",
+     "status": "edition-dependent",
+     "grade": "B",
+     "note": "corpus value does not match either source (Google Books \"Simon and Schuster\", Wikidata \"Charles Scribner's Sons\") -- treated as a distinct edition; the specific cut is not identified from available evidence.",
+     "sources": [
+      {
+       "src": "Google Books",
+       "value": "Simon and Schuster",
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3AThe+Girl+Who+Loved+Tom+Gordon&maxResults=1&key=REDACTED"
+      },
+      {
+       "src": "Wikidata",
+       "value": "Charles Scribner's Sons",
+       "url": "https://www.wikidata.org/wiki/Q930666"
+      }
+     ],
+     "alternatives": [
+      "Charles Scribner's Sons"
+     ]
+    }
+   ]
+  },
+  {
+   "id": "b1409",
+   "title": "Mr. Mercedes",
+   "sourcesReached": [
+    "OpenLibrary",
+    "Google Books",
+    "Wikidata"
+   ],
+   "sourcesMissed": [],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "first publication year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 2014,
+     "proposed": 2014,
+     "status": "corroborated-by-one",
+     "grade": "B",
+     "note": "matches Google Books/Wikidata; disagrees with OpenLibrary (2013)",
+     "sources": [
+      {
+       "src": "OpenLibrary",
+       "value": 2013,
+       "url": "https://openlibrary.org/search.json?title=Mr.+Mercedes&limit=1"
+      },
+      {
+       "src": "Google Books",
+       "value": 2014,
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3AMr.+Mercedes&maxResults=1&key=REDACTED"
+      },
+      {
+       "src": "Wikidata",
+       "value": 2014,
+       "url": "https://www.wikidata.org/wiki/Q15222347"
+      }
+     ],
+     "alternatives": [
+      2013
+     ]
+    },
+    {
+     "field": "pages",
+     "label": "page count",
+     "soft": false,
+     "editionDependent": true,
+     "current": 436,
+     "proposed": 448,
+     "status": "edition-dependent",
+     "grade": "B",
+     "note": "corpus value does not match either source (Google Books 448, Wikidata 454) -- treated as a distinct edition; the specific cut is not identified from available evidence.",
+     "sources": [
+      {
+       "src": "Google Books",
+       "value": 448,
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3AMr.+Mercedes&maxResults=1&key=REDACTED"
+      },
+      {
+       "src": "Wikidata",
+       "value": 454,
+       "url": "https://www.wikidata.org/wiki/Q15222347"
+      }
+     ],
+     "alternatives": [
+      454
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "author",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Stephen King",
+     "proposed": "Stephen King",
+     "status": "corroborated-by-one",
+     "grade": "B",
+     "note": "matches Google Books/Wikidata; disagrees with OpenLibrary (\"Stephen King & Stephen king & Ingah Mikhaʼeli\")",
+     "sources": [
+      {
+       "src": "OpenLibrary",
+       "value": "Stephen King & Stephen king & Ingah Mikhaʼeli",
+       "url": "https://openlibrary.org/search.json?title=Mr.+Mercedes&limit=1"
+      },
+      {
+       "src": "Google Books",
+       "value": "Stephen King",
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3AMr.+Mercedes&maxResults=1&key=REDACTED"
+      },
+      {
+       "src": "Wikidata",
+       "value": "Stephen King",
+       "url": "https://www.wikidata.org/wiki/Q15222347"
+      }
+     ],
+     "alternatives": [
+      "Stephen King & Stephen king & Ingah Mikhaʼeli"
+     ]
+    },
+    {
+     "field": "publisher",
+     "label": "publisher",
+     "soft": true,
+     "editionDependent": true,
+     "current": "Scribner",
+     "proposed": "Simon and Schuster",
+     "status": "edition-dependent",
+     "grade": "B",
+     "note": "corpus value does not match either source (Google Books \"Simon and Schuster\", Wikidata \"Charles Scribner's Sons\") -- treated as a distinct edition; the specific cut is not identified from available evidence.",
+     "sources": [
+      {
+       "src": "Google Books",
+       "value": "Simon and Schuster",
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3AMr.+Mercedes&maxResults=1&key=REDACTED"
+      },
+      {
+       "src": "Wikidata",
+       "value": "Charles Scribner's Sons",
+       "url": "https://www.wikidata.org/wiki/Q15222347"
+      }
+     ],
+     "alternatives": [
+      "Charles Scribner's Sons"
+     ]
+    }
+   ]
+  },
+  {
+   "id": "b1410",
+   "title": "Finders Keepers",
+   "sourcesReached": [
+    "OpenLibrary",
+    "Wikidata"
+   ],
+   "sourcesMissed": [
+    "Google Books (no match)"
+   ],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "first publication year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 2015,
+     "proposed": 2015,
+     "status": "corroborated-by-one",
+     "grade": "B",
+     "note": "matches Wikidata; disagrees with OpenLibrary (2014)",
+     "sources": [
+      {
+       "src": "OpenLibrary",
+       "value": 2014,
+       "url": "https://openlibrary.org/search.json?title=Finders+Keepers&limit=1"
+      },
+      {
+       "src": "Wikidata",
+       "value": 2015,
+       "url": "https://www.wikidata.org/wiki/Q18155726"
+      }
+     ],
+     "alternatives": [
+      2015
+     ]
+    },
+    {
+     "field": "pages",
+     "label": "page count",
+     "soft": false,
+     "current": 434,
+     "status": "no-source",
+     "grade": null,
+     "sources": []
+    },
+    {
+     "field": "creator",
+     "label": "author",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Stephen King",
+     "proposed": "Stephen King",
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OpenLibrary",
+       "value": "Stephen King",
+       "url": "https://openlibrary.org/search.json?title=Finders+Keepers&limit=1"
+      },
+      {
+       "src": "Wikidata",
+       "value": "Stephen King",
+       "url": "https://www.wikidata.org/wiki/Q18155726"
+      }
+     ]
+    },
+    {
+     "field": "publisher",
+     "label": "publisher",
+     "soft": true,
+     "editionDependent": true,
+     "current": "Scribner",
+     "proposed": "Charles Scribner's Sons",
+     "status": "edition-dependent",
+     "grade": "B",
+     "note": "one source differs from the corpus (Wikidata \"Charles Scribner's Sons\") on a field with no single true value -- likely a different printing/edition, not an error.",
+     "sources": [
+      {
+       "src": "Wikidata",
+       "value": "Charles Scribner's Sons",
+       "url": "https://www.wikidata.org/wiki/Q18155726"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "b1411",
+   "title": "End of Watch",
+   "sourcesReached": [
+    "OpenLibrary",
+    "Wikidata"
+   ],
+   "sourcesMissed": [
+    "Google Books (no match)"
+   ],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "first publication year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 2016,
+     "proposed": 2016,
+     "status": "corroborated-by-one",
+     "grade": "B",
+     "note": "matches Wikidata; disagrees with OpenLibrary (2000)",
+     "sources": [
+      {
+       "src": "OpenLibrary",
+       "value": 2000,
+       "url": "https://openlibrary.org/search.json?title=End+of+Watch&limit=1"
+      },
+      {
+       "src": "Wikidata",
+       "value": 2016,
+       "url": "https://www.wikidata.org/wiki/Q19896308"
+      }
+     ],
+     "alternatives": [
+      2016
+     ]
+    },
+    {
+     "field": "pages",
+     "label": "page count",
+     "soft": false,
+     "current": 434,
+     "status": "no-source",
+     "grade": null,
+     "sources": []
+    },
+    {
+     "field": "creator",
+     "label": "author",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Stephen King",
+     "proposed": "Stephen King",
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OpenLibrary",
+       "value": "Stephen King",
+       "url": "https://openlibrary.org/search.json?title=End+of+Watch&limit=1"
+      },
+      {
+       "src": "Wikidata",
+       "value": "Stephen King",
+       "url": "https://www.wikidata.org/wiki/Q19896308"
+      }
+     ]
+    },
+    {
+     "field": "publisher",
+     "label": "publisher",
+     "soft": true,
+     "editionDependent": true,
+     "current": "Scribner",
+     "proposed": "Charles Scribner's Sons",
+     "status": "edition-dependent",
+     "grade": "B",
+     "note": "one source differs from the corpus (Wikidata \"Charles Scribner's Sons\") on a field with no single true value -- likely a different printing/edition, not an error.",
+     "sources": [
+      {
+       "src": "Wikidata",
+       "value": "Charles Scribner's Sons",
+       "url": "https://www.wikidata.org/wiki/Q19896308"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "b1412",
+   "title": "The Outsider",
+   "sourcesReached": [],
+   "sourcesMissed": [
+    "OpenLibrary (no match)",
+    "Google Books (no match)",
+    "Wikidata (no match)"
+   ],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "first publication year",
+     "soft": false,
+     "current": 2018,
+     "status": "no-source",
+     "grade": null,
+     "sources": []
+    },
+    {
+     "field": "pages",
+     "label": "page count",
+     "soft": false,
+     "current": 561,
+     "status": "no-source",
+     "grade": null,
+     "sources": []
+    },
+    {
+     "field": "creator",
+     "label": "author",
+     "soft": false,
+     "current": "Stephen King",
+     "status": "no-source",
+     "grade": null,
+     "sources": []
+    },
+    {
+     "field": "publisher",
+     "label": "publisher",
+     "soft": true,
+     "current": "Scribner",
+     "status": "no-source",
+     "grade": null,
+     "sources": []
+    }
+   ]
+  },
+  {
+   "id": "b1413",
+   "title": "The Institute",
+   "sourcesReached": [
+    "OpenLibrary",
+    "Wikidata"
+   ],
+   "sourcesMissed": [
+    "Google Books (no match)"
+   ],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "first publication year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 2019,
+     "proposed": 2019,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OpenLibrary",
+       "value": 2019,
+       "url": "https://openlibrary.org/search.json?title=The+Institute&limit=1"
+      },
+      {
+       "src": "Wikidata",
+       "value": 2019,
+       "url": "https://www.wikidata.org/wiki/Q65926496"
+      }
+     ]
+    },
+    {
+     "field": "pages",
+     "label": "page count",
+     "soft": false,
+     "current": 576,
+     "status": "no-source",
+     "grade": null,
+     "sources": []
+    },
+    {
+     "field": "creator",
+     "label": "author",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Stephen King",
+     "proposed": "Stephen King",
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OpenLibrary",
+       "value": "Stephen King",
+       "url": "https://openlibrary.org/search.json?title=The+Institute&limit=1"
+      },
+      {
+       "src": "Wikidata",
+       "value": "Stephen King",
+       "url": "https://www.wikidata.org/wiki/Q65926496"
+      }
+     ]
+    },
+    {
+     "field": "publisher",
+     "label": "publisher",
+     "soft": true,
+     "current": "Scribner",
+     "status": "no-source",
+     "grade": null,
+     "sources": []
+    }
+   ]
+  }
+ ]
+}
