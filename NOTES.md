@@ -1356,6 +1356,37 @@ large still-growing series per the batch-19 precedent).
 1,494/2,000 (4,085/5,000 total, 81.7%). Remaining work is exclusively movies (~418 more) and books
 (~506 more).
 
+**Ninth round (movies batch 21, books batch 21), movies+books only.** Movies: twenty-three titles
+(two caught by the dedup script and dropped before insertion -- The World's End and Child's Play were
+already present under the exact same title). Covers a 2010s buddy/action-comedy sweep (Grown Ups 2,
+Ted duology, The Other Guys, Central Intelligence, Ride Along duology, Meet the Parents' two sequels,
+Kingsman duology, Kick-Ass 2) and a horror-franchise-completion sweep (Poltergeist, The Amityville
+Horror, Child's Play + Bride of Chucky, The Hills Have Eyes, the first three Final Destination films,
+The Grudge, The Ring Two). One real fact-harness correction: Kingsman: The Secret Service's year
+(guessed 2014 -> confirmed 2015, its actual wide-release year). Two new genre-taxonomy issues surfaced
+by validate-corpus.js and fixed directly rather than adding redundant tags: "Nonfiction" (should have
+been the closed-vocabulary "Non-Fiction" formatType, and the genre itself was redundant with the
+already-declared "True Crime" tag on the same record) and "Holiday" (redundant with "Comedy" on the
+one record that used it, no existing taxonomy precedent). SERIES_DEFS: seven new movie groupings
+added (Grown Ups, Ted, Ride Along, Meet the Parents, Kingsman, Kick-Ass, Final Destination, Child's
+Play) -- all clean, bounded/near-bounded franchises, unlike the large still-growing series this
+project has been deliberately leaving ungrouped since batch 19.
+
+Books: twenty-two titles -- six more Dean Koontz novels, three more Sue Grafton (Kinsey Millhone)
+entries, two more Clive Cussler Dirk Pitt novels (deliberately NOT added to a Dirk Pitt SERIES_DEFS
+grouping despite 4 corpus members now -- the real series runs 25+ books, matching the large-still-
+growing-series precedent), four more John Sandford Prey novels (same reasoning -- Prey is a 30+ book
+real series, stays ungrouped), three Grisham titles outside his usual legal-thriller mode (The
+Innocent Man, his first nonfiction; Playing for Pizza; Skipping Christmas), one more Cornwell Scarpetta
+novel, and two more Baldacci thrillers. One real fact-harness correction: Atlantis Found's year
+(guessed 2001 -> confirmed 1999). Four titles (Velocity, All That Remains, Zero Day, Deliver Us from
+Evil) reached zero fetch-substance tags, flagged as general-knowledge estimates. SERIES_DEFS: Kinsey
+Millhone extended with E/F/G Is for... (now 6 of the real 25-book run).
+
+**Status at this checkpoint:** movies 1,605/2,000, TV 502/500 (done), games 507/500 (done), books
+1,516/2,000 (4,130/5,000 total, 82.6%). Remaining work is exclusively movies (~395 more) and books
+(~484 more).
+
 ---
 
 ## Ideas / next steps
