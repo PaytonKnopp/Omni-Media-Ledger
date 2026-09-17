@@ -1632,7 +1632,7 @@ ALL.forEach(x=>{
 });
 const GENRE_FAMILIES=[
  ['Sci-Fi',/sci-?fi|cyberpunk|space|dystopia|apocalyp|alt-history|time (loop|travel)|philosophical sci|feminist sf|military sf/i],
- ['Horror',/horror|slasher|giallo|gothic|cosmic|body horror|folk horror|supernatural|vampire|ghost story|possession|haunted/i],
+ ['Horror',/horror|slasher|giallo|gothic|cosmic|body horror|folk horror|found footage|supernatural|vampire|ghost story|possession|haunted/i],
  ['Documentary',/documentary|mockumentary/i],
  ['Drama',/(^|\b)drama|tragedy|family|medical|kitchen|coming.of.age|slice of life|domestic|social commentary/i],
  ['Thriller',/thriller|espionage|spy|conspiracy|techno-|revenge|disaster/i],
@@ -2332,6 +2332,14 @@ const SERIES_DEFS=[
  {name:"Mortal Kombat",kind:"movie",members:["Mortal Kombat","Mortal Kombat (2021)"],total:2},
  {name:"Pitch Perfect",kind:"movie",members:["Pitch Perfect","Pitch Perfect 2"],total:2},
  {name:"Jumanji",kind:"movie",members:["Jumanji","Jumanji: Welcome to the Jungle"],total:2},
+ {name:"Fullmetal Alchemist",kind:"tv",members:["Fullmetal Alchemist","Fullmetal Alchemist: Brotherhood"],total:2},
+ {name:"The Wheel of Time",kind:"book",members:["The Eye of the World","The Great Hunt","The Dragon Reborn","The Shadow Rising","The Fires of Heaven","Lord of Chaos","A Crown of Swords","The Path of Daggers","Winter's Heart","Crossroads of Twilight","Knife of Dreams","The Gathering Storm","Towers of Midnight","A Memory of Light"],total:14},
+ {name:"Percy Jackson & the Olympians",kind:"book",members:["Percy Jackson and the Lightning Thief","The Sea of Monsters","The Titan's Curse","The Battle of the Labyrinth","The Last Olympian"],total:5},
+ {name:"The Inheritance Cycle",kind:"book",members:["Eragon","Eldest","Brisingr","Inheritance"],total:4},
+ {name:"Twilight",kind:"book",members:["Twilight","New Moon","Eclipse","Breaking Dawn"],total:4},
+ {name:"Divergent",kind:"book",members:["Divergent","Insurgent","Allegiant"],total:3},
+ {name:"Millennium",kind:"book",members:["The Girl with the Dragon Tattoo","The Girl Who Played with Fire","The Girl Who Kicked the Hornet's Nest"],total:3},
+ {name:"The Giver Quartet",kind:"book",members:["The Giver","Gathering Blue","Messenger","Son"],total:4},
 ];
 // Reverse lookup used by cardHTML's franchise badge: kind+'|'+title -> series name. Built once,
 // not per card -- the Global Controller can render hundreds of cards per interaction.

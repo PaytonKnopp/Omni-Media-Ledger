@@ -1,0 +1,862 @@
+{
+ "medium": "movie",
+ "generated": "2026-09-17T02:29:51.209Z",
+ "offline": false,
+ "sources": [
+  "OMDb",
+  "TMDB"
+ ],
+ "works": [
+  {
+   "id": "m1306",
+   "title": "Kiki's Delivery Service",
+   "sourcesReached": [
+    "OMDb",
+    "TMDB"
+   ],
+   "sourcesMissed": [],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "release year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 1989,
+     "proposed": 1989,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 1989,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Kiki%27s+Delivery+Service&type=movie&y=1989"
+      },
+      {
+       "src": "TMDB",
+       "value": 1989,
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Kiki%27s+Delivery+Service&year=1989"
+      }
+     ]
+    },
+    {
+     "field": "runtime",
+     "label": "runtime (min)",
+     "soft": false,
+     "editionDependent": true,
+     "current": 103,
+     "proposed": 103,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 103,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Kiki%27s+Delivery+Service&type=movie&y=1989"
+      },
+      {
+       "src": "TMDB",
+       "value": 103,
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Kiki%27s+Delivery+Service&year=1989"
+      }
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "director",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Hayao Miyazaki",
+     "proposed": "Hayao Miyazaki",
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": "Hayao Miyazaki",
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Kiki%27s+Delivery+Service&type=movie&y=1989"
+      },
+      {
+       "src": "TMDB",
+       "value": "Hayao Miyazaki",
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Kiki%27s+Delivery+Service&year=1989"
+      }
+     ]
+    },
+    {
+     "field": "studio",
+     "label": "studio",
+     "soft": true,
+     "editionDependent": false,
+     "current": "Studio Ghibli",
+     "proposed": "Studio Ghibli",
+     "status": "confirmed",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "TMDB",
+       "value": "Studio Ghibli",
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Kiki%27s+Delivery+Service&year=1989"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "m1307",
+   "title": "Ponyo",
+   "sourcesReached": [
+    "OMDb",
+    "TMDB"
+   ],
+   "sourcesMissed": [],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "release year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 2008,
+     "proposed": 2008,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 2008,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Ponyo&type=movie&y=2008"
+      },
+      {
+       "src": "TMDB",
+       "value": 2008,
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Ponyo&year=2008"
+      }
+     ]
+    },
+    {
+     "field": "runtime",
+     "label": "runtime (min)",
+     "soft": false,
+     "editionDependent": true,
+     "current": 101,
+     "proposed": 101,
+     "status": "corroborated-by-one",
+     "grade": "B",
+     "note": "matches OMDb; disagrees with TMDB (100)",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 101,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Ponyo&type=movie&y=2008"
+      },
+      {
+       "src": "TMDB",
+       "value": 100,
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Ponyo&year=2008"
+      }
+     ],
+     "alternatives": [
+      100
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "director",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Hayao Miyazaki",
+     "proposed": "Hayao Miyazaki",
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": "Hayao Miyazaki",
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Ponyo&type=movie&y=2008"
+      },
+      {
+       "src": "TMDB",
+       "value": "Hayao Miyazaki",
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Ponyo&year=2008"
+      }
+     ]
+    },
+    {
+     "field": "studio",
+     "label": "studio",
+     "soft": true,
+     "editionDependent": false,
+     "current": "Studio Ghibli",
+     "proposed": "Studio Ghibli",
+     "status": "confirmed",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "TMDB",
+       "value": "Studio Ghibli",
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Ponyo&year=2008"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "m1308",
+   "title": "Only Yesterday",
+   "sourcesReached": [
+    "OMDb",
+    "TMDB"
+   ],
+   "sourcesMissed": [],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "release year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 1991,
+     "proposed": 1991,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 1991,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Only+Yesterday&type=movie&y=1991"
+      },
+      {
+       "src": "TMDB",
+       "value": 1991,
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Only+Yesterday&year=1991"
+      }
+     ]
+    },
+    {
+     "field": "runtime",
+     "label": "runtime (min)",
+     "soft": false,
+     "editionDependent": true,
+     "current": 118,
+     "proposed": 119,
+     "status": "edition-dependent",
+     "grade": "B",
+     "note": "sources agree with each other but not the corpus (OMDb 119, TMDB 119) on a field with no single true value -- likely a different printing/edition, not an error.",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 119,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Only+Yesterday&type=movie&y=1991"
+      },
+      {
+       "src": "TMDB",
+       "value": 119,
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Only+Yesterday&year=1991"
+      }
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "director",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Isao Takahata",
+     "proposed": "Isao Takahata",
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": "Isao Takahata",
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Only+Yesterday&type=movie&y=1991"
+      },
+      {
+       "src": "TMDB",
+       "value": "Isao Takahata",
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Only+Yesterday&year=1991"
+      }
+     ]
+    },
+    {
+     "field": "studio",
+     "label": "studio",
+     "soft": true,
+     "editionDependent": false,
+     "current": "Studio Ghibli",
+     "proposed": "Studio Ghibli",
+     "status": "confirmed",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "TMDB",
+       "value": "Studio Ghibli",
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Only+Yesterday&year=1991"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "m1309",
+   "title": "The Tale of the Princess Kaguya",
+   "sourcesReached": [
+    "OMDb",
+    "TMDB"
+   ],
+   "sourcesMissed": [],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "release year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 2013,
+     "proposed": 2013,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 2013,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=The+Tale+of+the+Princess+Kaguya&type=movie&y=2013"
+      },
+      {
+       "src": "TMDB",
+       "value": 2013,
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=The+Tale+of+the+Princess+Kaguya&year=2013"
+      }
+     ]
+    },
+    {
+     "field": "runtime",
+     "label": "runtime (min)",
+     "soft": false,
+     "editionDependent": true,
+     "current": 137,
+     "proposed": 137,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 137,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=The+Tale+of+the+Princess+Kaguya&type=movie&y=2013"
+      },
+      {
+       "src": "TMDB",
+       "value": 137,
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=The+Tale+of+the+Princess+Kaguya&year=2013"
+      }
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "director",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Isao Takahata",
+     "proposed": "Isao Takahata",
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": "Isao Takahata",
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=The+Tale+of+the+Princess+Kaguya&type=movie&y=2013"
+      },
+      {
+       "src": "TMDB",
+       "value": "Isao Takahata",
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=The+Tale+of+the+Princess+Kaguya&year=2013"
+      }
+     ]
+    },
+    {
+     "field": "studio",
+     "label": "studio",
+     "soft": true,
+     "editionDependent": false,
+     "current": "Studio Ghibli",
+     "proposed": "Studio Ghibli",
+     "status": "confirmed",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "TMDB",
+       "value": "Studio Ghibli",
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=The+Tale+of+the+Princess+Kaguya&year=2013"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "m1310",
+   "title": "Weathering with You",
+   "sourcesReached": [
+    "OMDb",
+    "TMDB"
+   ],
+   "sourcesMissed": [],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "release year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 2019,
+     "proposed": 2019,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 2019,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Weathering+with+You&type=movie&y=2019"
+      },
+      {
+       "src": "TMDB",
+       "value": 2019,
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Weathering+with+You&year=2019"
+      }
+     ]
+    },
+    {
+     "field": "runtime",
+     "label": "runtime (min)",
+     "soft": false,
+     "editionDependent": true,
+     "current": 112,
+     "proposed": 112,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 112,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Weathering+with+You&type=movie&y=2019"
+      },
+      {
+       "src": "TMDB",
+       "value": 112,
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Weathering+with+You&year=2019"
+      }
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "director",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Makoto Shinkai",
+     "proposed": "Makoto Shinkai",
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": "Makoto Shinkai",
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Weathering+with+You&type=movie&y=2019"
+      },
+      {
+       "src": "TMDB",
+       "value": "Makoto Shinkai",
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Weathering+with+You&year=2019"
+      }
+     ]
+    },
+    {
+     "field": "studio",
+     "label": "studio",
+     "soft": true,
+     "editionDependent": false,
+     "current": "CoMix Wave Films",
+     "proposed": "CoMix Wave Films",
+     "status": "confirmed",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "TMDB",
+       "value": "CoMix Wave Films",
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Weathering+with+You&year=2019"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "m1311",
+   "title": "Suzume",
+   "sourcesReached": [
+    "OMDb",
+    "TMDB"
+   ],
+   "sourcesMissed": [],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "release year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 2022,
+     "proposed": 2022,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 2022,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Suzume&type=movie&y=2022"
+      },
+      {
+       "src": "TMDB",
+       "value": 2022,
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Suzume&year=2022"
+      }
+     ]
+    },
+    {
+     "field": "runtime",
+     "label": "runtime (min)",
+     "soft": false,
+     "editionDependent": true,
+     "current": 122,
+     "proposed": 122,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 122,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Suzume&type=movie&y=2022"
+      },
+      {
+       "src": "TMDB",
+       "value": 122,
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Suzume&year=2022"
+      }
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "director",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Makoto Shinkai",
+     "proposed": "Makoto Shinkai",
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": "Makoto Shinkai",
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Suzume&type=movie&y=2022"
+      },
+      {
+       "src": "TMDB",
+       "value": "Makoto Shinkai",
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Suzume&year=2022"
+      }
+     ]
+    },
+    {
+     "field": "studio",
+     "label": "studio",
+     "soft": true,
+     "editionDependent": false,
+     "current": "CoMix Wave Films",
+     "proposed": "CoMix Wave Films",
+     "status": "confirmed",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "TMDB",
+       "value": "CoMix Wave Films",
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Suzume&year=2022"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "m1312",
+   "title": "Paranormal Activity",
+   "sourcesReached": [
+    "OMDb",
+    "TMDB"
+   ],
+   "sourcesMissed": [],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "release year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 2007,
+     "proposed": 2007,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 2007,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Paranormal+Activity&type=movie&y=2007"
+      },
+      {
+       "src": "TMDB",
+       "value": 2007,
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Paranormal+Activity&year=2007"
+      }
+     ]
+    },
+    {
+     "field": "runtime",
+     "label": "runtime (min)",
+     "soft": false,
+     "editionDependent": true,
+     "current": 86,
+     "proposed": 86,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 86,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Paranormal+Activity&type=movie&y=2007"
+      },
+      {
+       "src": "TMDB",
+       "value": 86,
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Paranormal+Activity&year=2007"
+      }
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "director",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Oren Peli",
+     "proposed": "Oren Peli",
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": "Oren Peli",
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Paranormal+Activity&type=movie&y=2007"
+      },
+      {
+       "src": "TMDB",
+       "value": "Oren Peli",
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Paranormal+Activity&year=2007"
+      }
+     ]
+    },
+    {
+     "field": "studio",
+     "label": "studio",
+     "soft": true,
+     "editionDependent": false,
+     "current": "Paramount Pictures",
+     "proposed": "Blumhouse Productions",
+     "status": "proposed-change",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "TMDB",
+       "value": "Blumhouse Productions",
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Paranormal+Activity&year=2007"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "m1313",
+   "title": "[REC]",
+   "sourcesReached": [
+    "OMDb",
+    "TMDB"
+   ],
+   "sourcesMissed": [],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "release year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 2007,
+     "proposed": 2007,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 2007,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=%5BREC%5D&type=movie&y=2007"
+      },
+      {
+       "src": "TMDB",
+       "value": 2007,
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=%5BREC%5D&year=2007"
+      }
+     ]
+    },
+    {
+     "field": "runtime",
+     "label": "runtime (min)",
+     "soft": false,
+     "editionDependent": true,
+     "current": 78,
+     "proposed": 78,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 78,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=%5BREC%5D&type=movie&y=2007"
+      },
+      {
+       "src": "TMDB",
+       "value": 78,
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=%5BREC%5D&year=2007"
+      }
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "director",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Jaume Balagueró, Paco Plaza",
+     "proposed": "Jaume Balagueró, Paco Plaza",
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": "Jaume Balagueró, Paco Plaza",
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=%5BREC%5D&type=movie&y=2007"
+      },
+      {
+       "src": "TMDB",
+       "value": "Jaume Balagueró, Paco Plaza",
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=%5BREC%5D&year=2007"
+      }
+     ]
+    },
+    {
+     "field": "studio",
+     "label": "studio",
+     "soft": true,
+     "editionDependent": false,
+     "current": "Filmax",
+     "proposed": "Castelao Productions",
+     "status": "proposed-change",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "TMDB",
+       "value": "Castelao Productions",
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=%5BREC%5D&year=2007"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "m1314",
+   "title": "The Magnificent Seven",
+   "sourcesReached": [
+    "OMDb",
+    "TMDB"
+   ],
+   "sourcesMissed": [],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "release year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 1960,
+     "proposed": 1960,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 1960,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=The+Magnificent+Seven&type=movie&y=1960"
+      },
+      {
+       "src": "TMDB",
+       "value": 1960,
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=The+Magnificent+Seven&year=1960"
+      }
+     ]
+    },
+    {
+     "field": "runtime",
+     "label": "runtime (min)",
+     "soft": false,
+     "editionDependent": true,
+     "current": 128,
+     "proposed": 128,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 128,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=The+Magnificent+Seven&type=movie&y=1960"
+      },
+      {
+       "src": "TMDB",
+       "value": 128,
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=The+Magnificent+Seven&year=1960"
+      }
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "director",
+     "soft": false,
+     "editionDependent": false,
+     "current": "John Sturges",
+     "proposed": "John Sturges",
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": "John Sturges",
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=The+Magnificent+Seven&type=movie&y=1960"
+      },
+      {
+       "src": "TMDB",
+       "value": "John Sturges",
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=The+Magnificent+Seven&year=1960"
+      }
+     ]
+    },
+    {
+     "field": "studio",
+     "label": "studio",
+     "soft": true,
+     "editionDependent": false,
+     "current": "United Artists",
+     "proposed": "Alpha Productions",
+     "status": "proposed-change",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "TMDB",
+       "value": "Alpha Productions",
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=The+Magnificent+Seven&year=1960"
+      }
+     ]
+    }
+   ]
+  }
+ ]
+}
