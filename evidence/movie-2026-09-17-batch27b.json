@@ -1,0 +1,863 @@
+{
+ "medium": "movie",
+ "generated": "2026-09-17T22:02:42.196Z",
+ "offline": false,
+ "sources": [
+  "OMDb",
+  "TMDB"
+ ],
+ "works": [
+  {
+   "id": "m1732",
+   "title": "Maggie",
+   "sourcesReached": [
+    "OMDb",
+    "TMDB"
+   ],
+   "sourcesMissed": [],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "release year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 2015,
+     "proposed": 2015,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 2015,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Maggie&type=movie&y=2015"
+      },
+      {
+       "src": "TMDB",
+       "value": 2015,
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Maggie&year=2015"
+      }
+     ]
+    },
+    {
+     "field": "runtime",
+     "label": "runtime (min)",
+     "soft": false,
+     "editionDependent": true,
+     "current": 95,
+     "proposed": 95,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 95,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Maggie&type=movie&y=2015"
+      },
+      {
+       "src": "TMDB",
+       "value": 95,
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Maggie&year=2015"
+      }
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "director",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Henry Hobson",
+     "proposed": "Henry Hobson",
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": "Henry Hobson",
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Maggie&type=movie&y=2015"
+      },
+      {
+       "src": "TMDB",
+       "value": "Henry Hobson",
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Maggie&year=2015"
+      }
+     ]
+    },
+    {
+     "field": "studio",
+     "label": "studio",
+     "soft": true,
+     "editionDependent": false,
+     "current": "Roadside Attractions",
+     "proposed": "Sly Predator",
+     "status": "proposed-change",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "TMDB",
+       "value": "Sly Predator",
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Maggie&year=2015"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "m1733",
+   "title": "Ghost Rider",
+   "sourcesReached": [
+    "OMDb",
+    "TMDB"
+   ],
+   "sourcesMissed": [],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "release year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 2007,
+     "proposed": 2007,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 2007,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Ghost+Rider&type=movie&y=2007"
+      },
+      {
+       "src": "TMDB",
+       "value": 2007,
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Ghost+Rider&year=2007"
+      }
+     ]
+    },
+    {
+     "field": "runtime",
+     "label": "runtime (min)",
+     "soft": false,
+     "editionDependent": true,
+     "current": 114,
+     "proposed": 114,
+     "status": "corroborated-by-one",
+     "grade": "B",
+     "note": "matches TMDB; disagrees with OMDb (110)",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 110,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Ghost+Rider&type=movie&y=2007"
+      },
+      {
+       "src": "TMDB",
+       "value": 114,
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Ghost+Rider&year=2007"
+      }
+     ],
+     "alternatives": [
+      114
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "director",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Mark Steven Johnson",
+     "proposed": "Mark Steven Johnson",
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": "Mark Steven Johnson",
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Ghost+Rider&type=movie&y=2007"
+      },
+      {
+       "src": "TMDB",
+       "value": "Mark Steven Johnson",
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Ghost+Rider&year=2007"
+      }
+     ]
+    },
+    {
+     "field": "studio",
+     "label": "studio",
+     "soft": true,
+     "editionDependent": false,
+     "current": "Columbia Pictures",
+     "proposed": "Crystal Sky Pictures",
+     "status": "proposed-change",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "TMDB",
+       "value": "Crystal Sky Pictures",
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Ghost+Rider&year=2007"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "m1734",
+   "title": "Ghost Rider: Spirit of Vengeance",
+   "sourcesReached": [
+    "OMDb",
+    "TMDB"
+   ],
+   "sourcesMissed": [],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "release year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 2012,
+     "proposed": 2011,
+     "status": "proposed-change",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 2011,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Ghost+Rider%3A+Spirit+of+Vengeance&type=movie"
+      },
+      {
+       "src": "TMDB",
+       "value": 2011,
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Ghost+Rider%3A+Spirit+of+Vengeance&year=2012"
+      }
+     ]
+    },
+    {
+     "field": "runtime",
+     "label": "runtime (min)",
+     "soft": false,
+     "editionDependent": true,
+     "current": 95,
+     "proposed": 96,
+     "status": "edition-dependent",
+     "grade": "B",
+     "note": "sources agree with each other but not the corpus (OMDb 96, TMDB 96) on a field with no single true value -- likely a different printing/edition, not an error.",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 96,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Ghost+Rider%3A+Spirit+of+Vengeance&type=movie"
+      },
+      {
+       "src": "TMDB",
+       "value": 96,
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Ghost+Rider%3A+Spirit+of+Vengeance&year=2012"
+      }
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "director",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Mark Neveldine & Brian Taylor",
+     "proposed": "Brian Taylor, Mark Neveldine",
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": "Mark Neveldine, Brian Taylor",
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Ghost+Rider%3A+Spirit+of+Vengeance&type=movie"
+      },
+      {
+       "src": "TMDB",
+       "value": "Brian Taylor, Mark Neveldine",
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Ghost+Rider%3A+Spirit+of+Vengeance&year=2012"
+      }
+     ]
+    },
+    {
+     "field": "studio",
+     "label": "studio",
+     "soft": true,
+     "editionDependent": false,
+     "current": "Columbia Pictures",
+     "proposed": "Columbia Pictures",
+     "status": "confirmed",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "TMDB",
+       "value": "Columbia Pictures",
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Ghost+Rider%3A+Spirit+of+Vengeance&year=2012"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "m1735",
+   "title": "Next",
+   "sourcesReached": [
+    "OMDb",
+    "TMDB"
+   ],
+   "sourcesMissed": [],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "release year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 2007,
+     "proposed": 2007,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 2007,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Next&type=movie&y=2007"
+      },
+      {
+       "src": "TMDB",
+       "value": 2007,
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Next&year=2007"
+      }
+     ]
+    },
+    {
+     "field": "runtime",
+     "label": "runtime (min)",
+     "soft": false,
+     "editionDependent": true,
+     "current": 96,
+     "proposed": 96,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 96,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Next&type=movie&y=2007"
+      },
+      {
+       "src": "TMDB",
+       "value": 96,
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Next&year=2007"
+      }
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "director",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Lee Tamahori",
+     "proposed": "Lee Tamahori",
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": "Lee Tamahori",
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Next&type=movie&y=2007"
+      },
+      {
+       "src": "TMDB",
+       "value": "Lee Tamahori",
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Next&year=2007"
+      }
+     ]
+    },
+    {
+     "field": "studio",
+     "label": "studio",
+     "soft": true,
+     "editionDependent": false,
+     "current": "Paramount Pictures",
+     "proposed": "Virtual Studios",
+     "status": "proposed-change",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "TMDB",
+       "value": "Virtual Studios",
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Next&year=2007"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "m1736",
+   "title": "Windtalkers",
+   "sourcesReached": [
+    "OMDb",
+    "TMDB"
+   ],
+   "sourcesMissed": [],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "release year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 2002,
+     "proposed": 2002,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 2002,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Windtalkers&type=movie&y=2002"
+      },
+      {
+       "src": "TMDB",
+       "value": 2002,
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Windtalkers&year=2002"
+      }
+     ]
+    },
+    {
+     "field": "runtime",
+     "label": "runtime (min)",
+     "soft": false,
+     "editionDependent": true,
+     "current": 134,
+     "proposed": 134,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 134,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Windtalkers&type=movie&y=2002"
+      },
+      {
+       "src": "TMDB",
+       "value": 134,
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Windtalkers&year=2002"
+      }
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "director",
+     "soft": false,
+     "editionDependent": false,
+     "current": "John Woo",
+     "proposed": "John Woo",
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": "John Woo",
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Windtalkers&type=movie&y=2002"
+      },
+      {
+       "src": "TMDB",
+       "value": "John Woo",
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Windtalkers&year=2002"
+      }
+     ]
+    },
+    {
+     "field": "studio",
+     "label": "studio",
+     "soft": true,
+     "editionDependent": false,
+     "current": "MGM",
+     "proposed": "Lion Rock Productions",
+     "status": "proposed-change",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "TMDB",
+       "value": "Lion Rock Productions",
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Windtalkers&year=2002"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "m1737",
+   "title": "Snake Eyes",
+   "sourcesReached": [
+    "OMDb",
+    "TMDB"
+   ],
+   "sourcesMissed": [],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "release year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 1998,
+     "proposed": 1998,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 1998,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Snake+Eyes&type=movie&y=1998"
+      },
+      {
+       "src": "TMDB",
+       "value": 1998,
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Snake+Eyes&year=1998"
+      }
+     ]
+    },
+    {
+     "field": "runtime",
+     "label": "runtime (min)",
+     "soft": false,
+     "editionDependent": true,
+     "current": 98,
+     "proposed": 98,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 98,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Snake+Eyes&type=movie&y=1998"
+      },
+      {
+       "src": "TMDB",
+       "value": 98,
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Snake+Eyes&year=1998"
+      }
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "director",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Brian De Palma",
+     "proposed": "Brian De Palma",
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": "Brian De Palma",
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Snake+Eyes&type=movie&y=1998"
+      },
+      {
+       "src": "TMDB",
+       "value": "Brian De Palma",
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Snake+Eyes&year=1998"
+      }
+     ]
+    },
+    {
+     "field": "studio",
+     "label": "studio",
+     "soft": true,
+     "editionDependent": false,
+     "current": "Paramount Pictures",
+     "proposed": "Paramount Pictures",
+     "status": "confirmed",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "TMDB",
+       "value": "Paramount Pictures",
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Snake+Eyes&year=1998"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "m1738",
+   "title": "8MM",
+   "sourcesReached": [
+    "OMDb",
+    "TMDB"
+   ],
+   "sourcesMissed": [],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "release year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 1999,
+     "proposed": 1999,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 1999,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=8MM&type=movie&y=1999"
+      },
+      {
+       "src": "TMDB",
+       "value": 1999,
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=8MM&year=1999"
+      }
+     ]
+    },
+    {
+     "field": "runtime",
+     "label": "runtime (min)",
+     "soft": false,
+     "editionDependent": true,
+     "current": 123,
+     "proposed": 123,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 123,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=8MM&type=movie&y=1999"
+      },
+      {
+       "src": "TMDB",
+       "value": 123,
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=8MM&year=1999"
+      }
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "director",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Joel Schumacher",
+     "proposed": "Joel Schumacher",
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": "Joel Schumacher",
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=8MM&type=movie&y=1999"
+      },
+      {
+       "src": "TMDB",
+       "value": "Joel Schumacher",
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=8MM&year=1999"
+      }
+     ]
+    },
+    {
+     "field": "studio",
+     "label": "studio",
+     "soft": true,
+     "editionDependent": false,
+     "current": "Columbia Pictures",
+     "proposed": "Global Medien KG",
+     "status": "proposed-change",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "TMDB",
+       "value": "Global Medien KG",
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=8MM&year=1999"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "m1739",
+   "title": "Bringing Out the Dead",
+   "sourcesReached": [
+    "OMDb",
+    "TMDB"
+   ],
+   "sourcesMissed": [],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "release year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 1999,
+     "proposed": 1999,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 1999,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Bringing+Out+the+Dead&type=movie&y=1999"
+      },
+      {
+       "src": "TMDB",
+       "value": 1999,
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Bringing+Out+the+Dead&year=1999"
+      }
+     ]
+    },
+    {
+     "field": "runtime",
+     "label": "runtime (min)",
+     "soft": false,
+     "editionDependent": true,
+     "current": 121,
+     "proposed": 121,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 121,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Bringing+Out+the+Dead&type=movie&y=1999"
+      },
+      {
+       "src": "TMDB",
+       "value": 121,
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Bringing+Out+the+Dead&year=1999"
+      }
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "director",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Martin Scorsese",
+     "proposed": "Martin Scorsese",
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": "Martin Scorsese",
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Bringing+Out+the+Dead&type=movie&y=1999"
+      },
+      {
+       "src": "TMDB",
+       "value": "Martin Scorsese",
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Bringing+Out+the+Dead&year=1999"
+      }
+     ]
+    },
+    {
+     "field": "studio",
+     "label": "studio",
+     "soft": true,
+     "editionDependent": false,
+     "current": "Paramount Pictures",
+     "proposed": "Scott Rudin Productions",
+     "status": "proposed-change",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "TMDB",
+       "value": "Scott Rudin Productions",
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Bringing+Out+the+Dead&year=1999"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "m1740",
+   "title": "Leaving Las Vegas",
+   "sourcesReached": [
+    "OMDb",
+    "TMDB"
+   ],
+   "sourcesMissed": [],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "release year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 1995,
+     "proposed": 1995,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 1995,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Leaving+Las+Vegas&type=movie&y=1995"
+      },
+      {
+       "src": "TMDB",
+       "value": 1995,
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Leaving+Las+Vegas&year=1995"
+      }
+     ]
+    },
+    {
+     "field": "runtime",
+     "label": "runtime (min)",
+     "soft": false,
+     "editionDependent": true,
+     "current": 112,
+     "proposed": 111,
+     "status": "edition-dependent",
+     "grade": "B",
+     "note": "sources agree with each other but not the corpus (OMDb 111, TMDB 111) on a field with no single true value -- likely a different printing/edition, not an error.",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 111,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Leaving+Las+Vegas&type=movie&y=1995"
+      },
+      {
+       "src": "TMDB",
+       "value": 111,
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Leaving+Las+Vegas&year=1995"
+      }
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "director",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Mike Figgis",
+     "proposed": "Mike Figgis",
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": "Mike Figgis",
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Leaving+Las+Vegas&type=movie&y=1995"
+      },
+      {
+       "src": "TMDB",
+       "value": "Mike Figgis",
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Leaving+Las+Vegas&year=1995"
+      }
+     ]
+    },
+    {
+     "field": "studio",
+     "label": "studio",
+     "soft": true,
+     "editionDependent": false,
+     "current": "United Artists",
+     "proposed": "Initial Productions",
+     "status": "proposed-change",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "TMDB",
+       "value": "Initial Productions",
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Leaving+Las+Vegas&year=1995"
+      }
+     ]
+    }
+   ]
+  }
+ ]
+}

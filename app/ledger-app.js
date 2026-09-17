@@ -2470,6 +2470,8 @@ const SERIES_DEFS=[
  {name:"Sprawl Trilogy",kind:"book",members:["Neuromancer","Count Zero","Mona Lisa Overdrive"],total:3},
  {name:"Takeshi Kovacs",kind:"book",members:["Altered Carbon","Broken Angels","Woken Furies"],total:3},
  {name:"Ilium/Olympos",kind:"book",members:["Ilium","Olympos"],total:2},
+ {name:"MaddAddam Trilogy",kind:"book",members:["Oryx and Crake","The Year of the Flood","MaddAddam"],total:3},
+ {name:"Ghost Rider",kind:"movie",members:["Ghost Rider","Ghost Rider: Spirit of Vengeance"],total:2},
  {name:"Coming to America",kind:"movie",members:["Coming to America","Coming 2 America"],total:2},
  {name:"The Nutty Professor",kind:"movie",members:["The Nutty Professor","Nutty Professor II: The Klumps"],total:2},
  {name:"Ace Ventura",kind:"movie",members:["Ace Ventura: Pet Detective","Ace Ventura: When Nature Calls"],total:2},

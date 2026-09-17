@@ -1,0 +1,960 @@
+{
+ "medium": "movie",
+ "generated": "2026-09-17T22:02:30.876Z",
+ "offline": false,
+ "sources": [
+  "OMDb",
+  "TMDB"
+ ],
+ "works": [
+  {
+   "id": "m1722",
+   "title": "Twins",
+   "sourcesReached": [
+    "OMDb",
+    "TMDB"
+   ],
+   "sourcesMissed": [],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "release year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 1988,
+     "proposed": 1988,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 1988,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Twins&type=movie&y=1988"
+      },
+      {
+       "src": "TMDB",
+       "value": 1988,
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Twins&year=1988"
+      }
+     ]
+    },
+    {
+     "field": "runtime",
+     "label": "runtime (min)",
+     "soft": false,
+     "editionDependent": true,
+     "current": 107,
+     "proposed": 107,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 107,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Twins&type=movie&y=1988"
+      },
+      {
+       "src": "TMDB",
+       "value": 107,
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Twins&year=1988"
+      }
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "director",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Ivan Reitman",
+     "proposed": "Ivan Reitman",
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": "Ivan Reitman",
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Twins&type=movie&y=1988"
+      },
+      {
+       "src": "TMDB",
+       "value": "Ivan Reitman",
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Twins&year=1988"
+      }
+     ]
+    },
+    {
+     "field": "studio",
+     "label": "studio",
+     "soft": true,
+     "editionDependent": false,
+     "current": "Universal Pictures",
+     "proposed": "Universal Pictures",
+     "status": "confirmed",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "TMDB",
+       "value": "Universal Pictures",
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Twins&year=1988"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "m1723",
+   "title": "Kindergarten Cop",
+   "sourcesReached": [
+    "OMDb",
+    "TMDB"
+   ],
+   "sourcesMissed": [],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "release year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 1990,
+     "proposed": 1990,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 1990,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Kindergarten+Cop&type=movie&y=1990"
+      },
+      {
+       "src": "TMDB",
+       "value": 1990,
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Kindergarten+Cop&year=1990"
+      }
+     ]
+    },
+    {
+     "field": "runtime",
+     "label": "runtime (min)",
+     "soft": false,
+     "editionDependent": true,
+     "current": 111,
+     "proposed": 111,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 111,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Kindergarten+Cop&type=movie&y=1990"
+      },
+      {
+       "src": "TMDB",
+       "value": 111,
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Kindergarten+Cop&year=1990"
+      }
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "director",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Ivan Reitman",
+     "proposed": "Ivan Reitman",
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": "Ivan Reitman",
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Kindergarten+Cop&type=movie&y=1990"
+      },
+      {
+       "src": "TMDB",
+       "value": "Ivan Reitman",
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Kindergarten+Cop&year=1990"
+      }
+     ]
+    },
+    {
+     "field": "studio",
+     "label": "studio",
+     "soft": true,
+     "editionDependent": false,
+     "current": "Universal Pictures",
+     "proposed": "Universal Pictures",
+     "status": "confirmed",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "TMDB",
+       "value": "Universal Pictures",
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Kindergarten+Cop&year=1990"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "m1724",
+   "title": "Junior",
+   "sourcesReached": [
+    "OMDb",
+    "TMDB"
+   ],
+   "sourcesMissed": [],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "release year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 1994,
+     "proposed": 1994,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 1994,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Junior&type=movie&y=1994"
+      },
+      {
+       "src": "TMDB",
+       "value": 1994,
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Junior&year=1994"
+      }
+     ]
+    },
+    {
+     "field": "runtime",
+     "label": "runtime (min)",
+     "soft": false,
+     "editionDependent": true,
+     "current": 109,
+     "proposed": 109,
+     "status": "corroborated-by-one",
+     "grade": "B",
+     "note": "matches OMDb; disagrees with TMDB (110)",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 109,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Junior&type=movie&y=1994"
+      },
+      {
+       "src": "TMDB",
+       "value": 110,
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Junior&year=1994"
+      }
+     ],
+     "alternatives": [
+      110
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "director",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Ivan Reitman",
+     "proposed": "Ivan Reitman",
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": "Ivan Reitman",
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Junior&type=movie&y=1994"
+      },
+      {
+       "src": "TMDB",
+       "value": "Ivan Reitman",
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Junior&year=1994"
+      }
+     ]
+    },
+    {
+     "field": "studio",
+     "label": "studio",
+     "soft": true,
+     "editionDependent": false,
+     "current": "Universal Pictures",
+     "proposed": "Northern Lights Entertainment",
+     "status": "proposed-change",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "TMDB",
+       "value": "Northern Lights Entertainment",
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Junior&year=1994"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "m1725",
+   "title": "Jingle All the Way",
+   "sourcesReached": [
+    "OMDb",
+    "TMDB"
+   ],
+   "sourcesMissed": [],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "release year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 1996,
+     "proposed": 1996,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 1996,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Jingle+All+the+Way&type=movie&y=1996"
+      },
+      {
+       "src": "TMDB",
+       "value": 1996,
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Jingle+All+the+Way&year=1996"
+      }
+     ]
+    },
+    {
+     "field": "runtime",
+     "label": "runtime (min)",
+     "soft": false,
+     "editionDependent": true,
+     "current": 89,
+     "proposed": 89,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 89,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Jingle+All+the+Way&type=movie&y=1996"
+      },
+      {
+       "src": "TMDB",
+       "value": 89,
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Jingle+All+the+Way&year=1996"
+      }
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "director",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Brian Levant",
+     "proposed": "Brian Levant",
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": "Brian Levant",
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Jingle+All+the+Way&type=movie&y=1996"
+      },
+      {
+       "src": "TMDB",
+       "value": "Brian Levant",
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Jingle+All+the+Way&year=1996"
+      }
+     ]
+    },
+    {
+     "field": "studio",
+     "label": "studio",
+     "soft": true,
+     "editionDependent": false,
+     "current": "20th Century Fox",
+     "proposed": "1492 Pictures",
+     "status": "proposed-change",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "TMDB",
+       "value": "1492 Pictures",
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Jingle+All+the+Way&year=1996"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "m1726",
+   "title": "Sudden Death",
+   "sourcesReached": [
+    "OMDb",
+    "TMDB"
+   ],
+   "sourcesMissed": [],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "release year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 1995,
+     "proposed": 1995,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 1995,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Sudden+Death&type=movie&y=1995"
+      },
+      {
+       "src": "TMDB",
+       "value": 1995,
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Sudden+Death&year=1995"
+      }
+     ]
+    },
+    {
+     "field": "runtime",
+     "label": "runtime (min)",
+     "soft": false,
+     "editionDependent": true,
+     "current": 111,
+     "proposed": 111,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 111,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Sudden+Death&type=movie&y=1995"
+      },
+      {
+       "src": "TMDB",
+       "value": 111,
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Sudden+Death&year=1995"
+      }
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "director",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Peter Hyams",
+     "proposed": "Peter Hyams",
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": "Peter Hyams",
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Sudden+Death&type=movie&y=1995"
+      },
+      {
+       "src": "TMDB",
+       "value": "Peter Hyams",
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Sudden+Death&year=1995"
+      }
+     ]
+    },
+    {
+     "field": "studio",
+     "label": "studio",
+     "soft": true,
+     "editionDependent": false,
+     "current": "Universal Pictures",
+     "proposed": "Shattered Productions",
+     "status": "proposed-change",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "TMDB",
+       "value": "Shattered Productions",
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Sudden+Death&year=1995"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "m1727",
+   "title": "Escape Plan",
+   "sourcesReached": [
+    "OMDb",
+    "TMDB"
+   ],
+   "sourcesMissed": [],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "release year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 2013,
+     "proposed": 2013,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 2013,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Escape+Plan&type=movie&y=2013"
+      },
+      {
+       "src": "TMDB",
+       "value": 2013,
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Escape+Plan&year=2013"
+      }
+     ]
+    },
+    {
+     "field": "runtime",
+     "label": "runtime (min)",
+     "soft": false,
+     "editionDependent": true,
+     "current": 115,
+     "proposed": 115,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 115,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Escape+Plan&type=movie&y=2013"
+      },
+      {
+       "src": "TMDB",
+       "value": 115,
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Escape+Plan&year=2013"
+      }
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "director",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Mikael Håfström",
+     "proposed": "Mikael Håfström",
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": "Mikael Håfström",
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Escape+Plan&type=movie&y=2013"
+      },
+      {
+       "src": "TMDB",
+       "value": "Mikael Håfström",
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Escape+Plan&year=2013"
+      }
+     ]
+    },
+    {
+     "field": "studio",
+     "label": "studio",
+     "soft": true,
+     "editionDependent": false,
+     "current": "Summit Entertainment",
+     "proposed": "Knightsbridge Entertainment",
+     "status": "proposed-change",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "TMDB",
+       "value": "Knightsbridge Entertainment",
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Escape+Plan&year=2013"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "m1728",
+   "title": "End of Days",
+   "sourcesReached": [
+    "OMDb",
+    "TMDB"
+   ],
+   "sourcesMissed": [],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "release year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 1999,
+     "proposed": 1999,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 1999,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=End+of+Days&type=movie&y=1999"
+      },
+      {
+       "src": "TMDB",
+       "value": 1999,
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=End+of+Days&year=1999"
+      }
+     ]
+    },
+    {
+     "field": "runtime",
+     "label": "runtime (min)",
+     "soft": false,
+     "editionDependent": true,
+     "current": 121,
+     "proposed": 122,
+     "status": "edition-dependent",
+     "grade": "B",
+     "note": "sources agree with each other but not the corpus (OMDb 122, TMDB 122) on a field with no single true value -- likely a different printing/edition, not an error.",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 122,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=End+of+Days&type=movie&y=1999"
+      },
+      {
+       "src": "TMDB",
+       "value": 122,
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=End+of+Days&year=1999"
+      }
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "director",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Peter Hyams",
+     "proposed": "Peter Hyams",
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": "Peter Hyams",
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=End+of+Days&type=movie&y=1999"
+      },
+      {
+       "src": "TMDB",
+       "value": "Peter Hyams",
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=End+of+Days&year=1999"
+      }
+     ]
+    },
+    {
+     "field": "studio",
+     "label": "studio",
+     "soft": true,
+     "editionDependent": false,
+     "current": "Universal Pictures",
+     "proposed": "Beacon Communications",
+     "status": "proposed-change",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "TMDB",
+       "value": "Beacon Communications",
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=End+of+Days&year=1999"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "m1729",
+   "title": "Collateral Damage",
+   "sourcesReached": [
+    "OMDb",
+    "TMDB"
+   ],
+   "sourcesMissed": [],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "release year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 2002,
+     "proposed": 2002,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 2002,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Collateral+Damage&type=movie&y=2002"
+      },
+      {
+       "src": "TMDB",
+       "value": 2002,
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Collateral+Damage&year=2002"
+      }
+     ]
+    },
+    {
+     "field": "runtime",
+     "label": "runtime (min)",
+     "soft": false,
+     "editionDependent": true,
+     "current": 108,
+     "proposed": 108,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 108,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Collateral+Damage&type=movie&y=2002"
+      },
+      {
+       "src": "TMDB",
+       "value": 108,
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Collateral+Damage&year=2002"
+      }
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "director",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Andrew Davis",
+     "proposed": "Andrew Davis",
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": "Andrew Davis",
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Collateral+Damage&type=movie&y=2002"
+      },
+      {
+       "src": "TMDB",
+       "value": "Andrew Davis",
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Collateral+Damage&year=2002"
+      }
+     ]
+    },
+    {
+     "field": "studio",
+     "label": "studio",
+     "soft": true,
+     "editionDependent": false,
+     "current": "Warner Bros.",
+     "proposed": "David Foster Productions",
+     "status": "proposed-change",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "TMDB",
+       "value": "David Foster Productions",
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Collateral+Damage&year=2002"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "m1730",
+   "title": "The Last Stand",
+   "sourcesReached": [
+    "OMDb",
+    "TMDB"
+   ],
+   "sourcesMissed": [],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "release year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 2013,
+     "proposed": 2013,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 2013,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=The+Last+Stand&type=movie&y=2013"
+      },
+      {
+       "src": "TMDB",
+       "value": 2013,
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=The+Last+Stand&year=2013"
+      }
+     ]
+    },
+    {
+     "field": "runtime",
+     "label": "runtime (min)",
+     "soft": false,
+     "editionDependent": true,
+     "current": 107,
+     "proposed": 107,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 107,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=The+Last+Stand&type=movie&y=2013"
+      },
+      {
+       "src": "TMDB",
+       "value": 107,
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=The+Last+Stand&year=2013"
+      }
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "director",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Kim Jee-woon",
+     "proposed": "Kim Jee-woon",
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": "Kim Jee-woon",
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=The+Last+Stand&type=movie&y=2013"
+      },
+      {
+       "src": "TMDB",
+       "value": "Kim Jee-woon",
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=The+Last+Stand&year=2013"
+      }
+     ]
+    },
+    {
+     "field": "studio",
+     "label": "studio",
+     "soft": true,
+     "editionDependent": false,
+     "current": "Lionsgate",
+     "proposed": "di Bonaventura Pictures",
+     "status": "proposed-change",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "TMDB",
+       "value": "di Bonaventura Pictures",
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=The+Last+Stand&year=2013"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "m1731",
+   "title": "Sabotage",
+   "sourcesReached": [
+    "OMDb",
+    "TMDB"
+   ],
+   "sourcesMissed": [],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "release year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 2014,
+     "proposed": 2014,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 2014,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Sabotage&type=movie&y=2014"
+      },
+      {
+       "src": "TMDB",
+       "value": 2014,
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Sabotage&year=2014"
+      }
+     ]
+    },
+    {
+     "field": "runtime",
+     "label": "runtime (min)",
+     "soft": false,
+     "editionDependent": true,
+     "current": 109,
+     "proposed": 109,
+     "status": "corroborated-by-one",
+     "grade": "B",
+     "note": "matches OMDb; disagrees with TMDB (110)",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 109,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Sabotage&type=movie&y=2014"
+      },
+      {
+       "src": "TMDB",
+       "value": 110,
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Sabotage&year=2014"
+      }
+     ],
+     "alternatives": [
+      110
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "director",
+     "soft": false,
+     "editionDependent": false,
+     "current": "David Ayer",
+     "proposed": "David Ayer",
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": "David Ayer",
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Sabotage&type=movie&y=2014"
+      },
+      {
+       "src": "TMDB",
+       "value": "David Ayer",
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Sabotage&year=2014"
+      }
+     ]
+    },
+    {
+     "field": "studio",
+     "label": "studio",
+     "soft": true,
+     "editionDependent": false,
+     "current": "Open Road Films",
+     "proposed": "Open Road Films",
+     "status": "confirmed",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "TMDB",
+       "value": "Open Road Films",
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Sabotage&year=2014"
+      }
+     ]
+    }
+   ]
+  }
+ ]
+}

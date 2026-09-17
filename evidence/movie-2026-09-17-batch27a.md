@@ -1,0 +1,9 @@
+# Review queue -- movie -- 2026-09-17
+
+Everything here needs a human. Grade A proposals are not listed: `scripts/apply-facts.js`
+applies those and records them in the JSON beside this file.
+_Nothing genuinely in question._
+**7 additional naming-only fields omitted** -- soft field, sources agree with each other, differ from the corpus only in naming (e.g. "Warner Bros." vs "Warner Bros. Pictures"). Full detail is in the evidence JSON.
+**2 additional fields already resolved, no review needed** -- sources disagreed with each other, but the corpus value exactly matches one of them; kept as-is. Full detail is in the evidence JSON.
+**1 additional edition-variable field omitted** -- a single source differs on a field with no one true value to begin with (page count, a specific printing detail); not a decision, just expected edition variance. Full detail is in the evidence JSON.
+
