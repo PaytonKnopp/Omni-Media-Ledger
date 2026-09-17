@@ -1,0 +1,631 @@
+{
+ "medium": "game",
+ "generated": "2026-09-17T13:11:08.735Z",
+ "offline": false,
+ "sources": [
+  "IGDB",
+  "Wikidata"
+ ],
+ "works": [
+  {
+   "id": "g507",
+   "title": "Fallout",
+   "sourcesReached": [
+    "Wikidata"
+   ],
+   "sourcesMissed": [
+    "IGDB (no key in environment)"
+   ],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "release year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 1997,
+     "proposed": 1997,
+     "status": "confirmed",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "Wikidata",
+       "value": 1997,
+       "url": "https://www.wikidata.org/wiki/Q60102"
+      }
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "developer",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Black Isle Studios",
+     "proposed": "Black Isle Studios",
+     "status": "confirmed",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "Wikidata",
+       "value": "Black Isle Studios",
+       "url": "https://www.wikidata.org/wiki/Q60102"
+      }
+     ]
+    },
+    {
+     "field": "platforms",
+     "label": "platforms",
+     "soft": true,
+     "editionDependent": false,
+     "current": [
+      "PC"
+     ],
+     "proposed": [
+      "Microsoft Windows",
+      "DOS",
+      "macOS",
+      "Classic Mac OS"
+     ],
+     "status": "proposed-change",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "Wikidata",
+       "value": [
+        "Microsoft Windows",
+        "DOS",
+        "macOS",
+        "Classic Mac OS"
+       ],
+       "url": "https://www.wikidata.org/wiki/Q60102"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "g508",
+   "title": "Fallout 2",
+   "sourcesReached": [
+    "Wikidata"
+   ],
+   "sourcesMissed": [
+    "IGDB (no key in environment)"
+   ],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "release year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 1998,
+     "proposed": 1998,
+     "status": "confirmed",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "Wikidata",
+       "value": 1998,
+       "url": "https://www.wikidata.org/wiki/Q910938"
+      }
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "developer",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Black Isle Studios",
+     "proposed": "Black Isle Studios",
+     "status": "confirmed",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "Wikidata",
+       "value": "Black Isle Studios",
+       "url": "https://www.wikidata.org/wiki/Q910938"
+      }
+     ]
+    },
+    {
+     "field": "platforms",
+     "label": "platforms",
+     "soft": true,
+     "editionDependent": false,
+     "current": [
+      "PC"
+     ],
+     "proposed": [
+      "Microsoft Windows",
+      "macOS"
+     ],
+     "status": "proposed-change",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "Wikidata",
+       "value": [
+        "Microsoft Windows",
+        "macOS"
+       ],
+       "url": "https://www.wikidata.org/wiki/Q910938"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "g509",
+   "title": "Splinter Cell",
+   "sourcesReached": [
+    "Wikidata"
+   ],
+   "sourcesMissed": [
+    "IGDB (no key in environment)"
+   ],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "release year",
+     "soft": false,
+     "current": 2002,
+     "status": "no-source",
+     "grade": null,
+     "sources": []
+    },
+    {
+     "field": "creator",
+     "label": "developer",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Ubisoft Montreal",
+     "proposed": "Gameloft Annecy, Ubisoft Annecy, Ubisoft Annecy, Ubisoft Montreal, Ubisoft Shanghai, Ubisoft Toronto",
+     "status": "proposed-change",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "Wikidata",
+       "value": "Ubisoft & Gameloft & Ubisoft Montreal & Ubisoft Shanghai & Ubisoft Toronto & Ubisoft Annecy",
+       "url": "https://www.wikidata.org/wiki/Q2514735"
+      }
+     ]
+    },
+    {
+     "field": "platforms",
+     "label": "platforms",
+     "soft": true,
+     "editionDependent": false,
+     "current": [
+      "PC",
+      "PS2",
+      "Xbox"
+     ],
+     "proposed": [
+      "Microsoft Windows",
+      "Java Platform, Micro Edition",
+      "PlayStation 2",
+      "PlayStation 3",
+      "PlayStation Portable",
+      "Xbox",
+      "Xbox 360",
+      "Game Boy Advance",
+      "Nintendo GameCube",
+      "Nintendo 3DS",
+      "Wii U",
+      "Android"
+     ],
+     "status": "proposed-change",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "Wikidata",
+       "value": [
+        "Microsoft Windows",
+        "Java Platform, Micro Edition",
+        "PlayStation 2",
+        "PlayStation 3",
+        "PlayStation Portable",
+        "Xbox",
+        "Xbox 360",
+        "Game Boy Advance",
+        "Nintendo GameCube",
+        "Nintendo 3DS",
+        "Wii U",
+        "Android"
+       ],
+       "url": "https://www.wikidata.org/wiki/Q2514735"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "g510",
+   "title": "Splinter Cell: Chaos Theory",
+   "sourcesReached": [
+    "Wikidata"
+   ],
+   "sourcesMissed": [
+    "IGDB (no key in environment)"
+   ],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "release year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 2005,
+     "proposed": 2005,
+     "status": "confirmed",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "Wikidata",
+       "value": 2005,
+       "url": "https://www.wikidata.org/wiki/Q533304"
+      }
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "developer",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Ubisoft Montreal",
+     "proposed": "Ubisoft",
+     "status": "proposed-change",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "Wikidata",
+       "value": "Ubisoft",
+       "url": "https://www.wikidata.org/wiki/Q533304"
+      }
+     ]
+    },
+    {
+     "field": "platforms",
+     "label": "platforms",
+     "soft": true,
+     "editionDependent": false,
+     "current": [
+      "PC",
+      "PS2",
+      "Xbox"
+     ],
+     "proposed": [
+      "Nintendo DS",
+      "Xbox 360",
+      "Xbox",
+      "PlayStation 2",
+      "N-Gage",
+      "PlayStation 3",
+      "Microsoft Windows",
+      "Nintendo GameCube"
+     ],
+     "status": "proposed-change",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "Wikidata",
+       "value": [
+        "Nintendo DS",
+        "Xbox 360",
+        "Xbox",
+        "PlayStation 2",
+        "N-Gage",
+        "PlayStation 3",
+        "Microsoft Windows",
+        "Nintendo GameCube"
+       ],
+       "url": "https://www.wikidata.org/wiki/Q533304"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "g511",
+   "title": "Max Payne 2: The Fall of Max Payne",
+   "sourcesReached": [
+    "Wikidata"
+   ],
+   "sourcesMissed": [
+    "IGDB (no key in environment)"
+   ],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "release year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 2003,
+     "proposed": 2003,
+     "status": "confirmed",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "Wikidata",
+       "value": 2003,
+       "url": "https://www.wikidata.org/wiki/Q946795"
+      }
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "developer",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Remedy Entertainment",
+     "proposed": "Remedy Entertainment",
+     "status": "confirmed",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "Wikidata",
+       "value": "Remedy Entertainment",
+       "url": "https://www.wikidata.org/wiki/Q946795"
+      }
+     ]
+    },
+    {
+     "field": "platforms",
+     "label": "platforms",
+     "soft": true,
+     "editionDependent": false,
+     "current": [
+      "PC",
+      "PS2",
+      "Xbox"
+     ],
+     "proposed": [
+      "Xbox",
+      "PlayStation 2",
+      "Microsoft Windows"
+     ],
+     "status": "proposed-change",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "Wikidata",
+       "value": [
+        "Xbox",
+        "PlayStation 2",
+        "Microsoft Windows"
+       ],
+       "url": "https://www.wikidata.org/wiki/Q946795"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "g512",
+   "title": "Max Payne 3",
+   "sourcesReached": [
+    "Wikidata"
+   ],
+   "sourcesMissed": [
+    "IGDB (no key in environment)"
+   ],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "release year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 2012,
+     "proposed": 2012,
+     "status": "confirmed",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "Wikidata",
+       "value": 2012,
+       "url": "https://www.wikidata.org/wiki/Q736040"
+      }
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "developer",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Rockstar Studios",
+     "proposed": "Rockstar Studios, Rockstar Vancouver",
+     "status": "proposed-change",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "Wikidata",
+       "value": "Rockstar Vancouver & Rockstar Studios",
+       "url": "https://www.wikidata.org/wiki/Q736040"
+      }
+     ]
+    },
+    {
+     "field": "platforms",
+     "label": "platforms",
+     "soft": true,
+     "editionDependent": false,
+     "current": [
+      "PC",
+      "PS3",
+      "Xbox 360"
+     ],
+     "proposed": [
+      "Xbox 360",
+      "PlayStation 3",
+      "Microsoft Windows",
+      "macOS"
+     ],
+     "status": "proposed-change",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "Wikidata",
+       "value": [
+        "Xbox 360",
+        "PlayStation 3",
+        "Microsoft Windows",
+        "macOS"
+       ],
+       "url": "https://www.wikidata.org/wiki/Q736040"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "g513",
+   "title": "Cocoon",
+   "sourcesReached": [
+    "Wikidata"
+   ],
+   "sourcesMissed": [
+    "IGDB (no key in environment)"
+   ],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "release year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 2023,
+     "proposed": 2023,
+     "status": "confirmed",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "Wikidata",
+       "value": 2023,
+       "url": "https://www.wikidata.org/wiki/Q112618750"
+      }
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "developer",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Geometric Interactive",
+     "proposed": "Geometric Interactive",
+     "status": "confirmed",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "Wikidata",
+       "value": "Geometric Interactive",
+       "url": "https://www.wikidata.org/wiki/Q112618750"
+      }
+     ]
+    },
+    {
+     "field": "platforms",
+     "label": "platforms",
+     "soft": true,
+     "editionDependent": false,
+     "current": [
+      "PC",
+      "PS5",
+      "Xbox Series",
+      "Switch"
+     ],
+     "proposed": [
+      "Xbox Series X and Series S",
+      "Microsoft Windows",
+      "Xbox One",
+      "Nintendo Switch"
+     ],
+     "status": "proposed-change",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "Wikidata",
+       "value": [
+        "Xbox Series X and Series S",
+        "Microsoft Windows",
+        "Xbox One",
+        "Nintendo Switch"
+       ],
+       "url": "https://www.wikidata.org/wiki/Q112618750"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "g514",
+   "title": "Alan Wake's American Nightmare",
+   "sourcesReached": [
+    "Wikidata"
+   ],
+   "sourcesMissed": [
+    "IGDB (no key in environment)"
+   ],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "release year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 2012,
+     "proposed": 2012,
+     "status": "confirmed",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "Wikidata",
+       "value": 2012,
+       "url": "https://www.wikidata.org/wiki/Q2502055"
+      }
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "developer",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Remedy Entertainment",
+     "proposed": "Remedy Entertainment",
+     "status": "confirmed",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "Wikidata",
+       "value": "Remedy Entertainment",
+       "url": "https://www.wikidata.org/wiki/Q2502055"
+      }
+     ]
+    },
+    {
+     "field": "platforms",
+     "label": "platforms",
+     "soft": true,
+     "editionDependent": false,
+     "current": [
+      "PC",
+      "Xbox 360"
+     ],
+     "proposed": [
+      "Xbox 360",
+      "Microsoft Windows",
+      "Xbox One"
+     ],
+     "status": "proposed-change",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "Wikidata",
+       "value": [
+        "Xbox 360",
+        "Microsoft Windows",
+        "Xbox One"
+       ],
+       "url": "https://www.wikidata.org/wiki/Q2502055"
+      }
+     ]
+    }
+   ]
+  }
+ ]
+}
