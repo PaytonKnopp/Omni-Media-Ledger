@@ -1,0 +1,1502 @@
+{
+ "medium": "movie",
+ "generated": "2026-09-17T17:06:36.748Z",
+ "offline": false,
+ "sources": [
+  "OMDb",
+  "TMDB"
+ ],
+ "works": [
+  {
+   "id": "m1533",
+   "title": "Eraser",
+   "sourcesReached": [
+    "OMDb",
+    "TMDB"
+   ],
+   "sourcesMissed": [],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "release year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 1996,
+     "proposed": 1996,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 1996,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Eraser&type=movie&y=1996"
+      },
+      {
+       "src": "TMDB",
+       "value": 1996,
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Eraser&year=1996"
+      }
+     ]
+    },
+    {
+     "field": "runtime",
+     "label": "runtime (min)",
+     "soft": false,
+     "editionDependent": true,
+     "current": 115,
+     "proposed": 115,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 115,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Eraser&type=movie&y=1996"
+      },
+      {
+       "src": "TMDB",
+       "value": 115,
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Eraser&year=1996"
+      }
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "director",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Chuck Russell",
+     "proposed": "Chuck Russell",
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": "Chuck Russell",
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Eraser&type=movie&y=1996"
+      },
+      {
+       "src": "TMDB",
+       "value": "Chuck Russell",
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Eraser&year=1996"
+      }
+     ]
+    },
+    {
+     "field": "studio",
+     "label": "studio",
+     "soft": true,
+     "editionDependent": false,
+     "current": "Warner Bros.",
+     "proposed": "Kopelson Entertainment",
+     "status": "proposed-change",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "TMDB",
+       "value": "Kopelson Entertainment",
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Eraser&year=1996"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "m1534",
+   "title": "Last Action Hero",
+   "sourcesReached": [
+    "OMDb",
+    "TMDB"
+   ],
+   "sourcesMissed": [],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "release year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 1993,
+     "proposed": 1993,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 1993,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Last+Action+Hero&type=movie&y=1993"
+      },
+      {
+       "src": "TMDB",
+       "value": 1993,
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Last+Action+Hero&year=1993"
+      }
+     ]
+    },
+    {
+     "field": "runtime",
+     "label": "runtime (min)",
+     "soft": false,
+     "editionDependent": true,
+     "current": 130,
+     "proposed": 130,
+     "status": "corroborated-by-one",
+     "grade": "B",
+     "note": "matches OMDb; disagrees with TMDB (131)",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 130,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Last+Action+Hero&type=movie&y=1993"
+      },
+      {
+       "src": "TMDB",
+       "value": 131,
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Last+Action+Hero&year=1993"
+      }
+     ],
+     "alternatives": [
+      131
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "director",
+     "soft": false,
+     "editionDependent": false,
+     "current": "John McTiernan",
+     "proposed": "John McTiernan",
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": "John McTiernan",
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Last+Action+Hero&type=movie&y=1993"
+      },
+      {
+       "src": "TMDB",
+       "value": "John McTiernan",
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Last+Action+Hero&year=1993"
+      }
+     ]
+    },
+    {
+     "field": "studio",
+     "label": "studio",
+     "soft": true,
+     "editionDependent": false,
+     "current": "Columbia Pictures",
+     "proposed": "Oak Productions",
+     "status": "proposed-change",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "TMDB",
+       "value": "Oak Productions",
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Last+Action+Hero&year=1993"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "m1535",
+   "title": "Commando",
+   "sourcesReached": [
+    "OMDb",
+    "TMDB"
+   ],
+   "sourcesMissed": [],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "release year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 1985,
+     "proposed": 1985,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 1985,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Commando&type=movie&y=1985"
+      },
+      {
+       "src": "TMDB",
+       "value": 1985,
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Commando&year=1985"
+      }
+     ]
+    },
+    {
+     "field": "runtime",
+     "label": "runtime (min)",
+     "soft": false,
+     "editionDependent": true,
+     "current": 90,
+     "proposed": 90,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 90,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Commando&type=movie&y=1985"
+      },
+      {
+       "src": "TMDB",
+       "value": 90,
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Commando&year=1985"
+      }
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "director",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Mark L. Lester",
+     "proposed": "Mark L. Lester",
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": "Mark L. Lester",
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Commando&type=movie&y=1985"
+      },
+      {
+       "src": "TMDB",
+       "value": "Mark L. Lester",
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Commando&year=1985"
+      }
+     ]
+    },
+    {
+     "field": "studio",
+     "label": "studio",
+     "soft": true,
+     "editionDependent": false,
+     "current": "20th Century Fox",
+     "proposed": "SLM Production Group",
+     "status": "proposed-change",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "TMDB",
+       "value": "SLM Production Group",
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Commando&year=1985"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "m1536",
+   "title": "Rambo III",
+   "sourcesReached": [
+    "OMDb",
+    "TMDB"
+   ],
+   "sourcesMissed": [],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "release year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 1988,
+     "proposed": 1988,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 1988,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Rambo+III&type=movie&y=1988"
+      },
+      {
+       "src": "TMDB",
+       "value": 1988,
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Rambo+III&year=1988"
+      }
+     ]
+    },
+    {
+     "field": "runtime",
+     "label": "runtime (min)",
+     "soft": false,
+     "editionDependent": true,
+     "current": 102,
+     "proposed": 102,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 102,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Rambo+III&type=movie&y=1988"
+      },
+      {
+       "src": "TMDB",
+       "value": 102,
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Rambo+III&year=1988"
+      }
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "director",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Peter MacDonald",
+     "proposed": "Peter MacDonald",
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": "Peter MacDonald",
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Rambo+III&type=movie&y=1988"
+      },
+      {
+       "src": "TMDB",
+       "value": "Peter MacDonald",
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Rambo+III&year=1988"
+      }
+     ]
+    },
+    {
+     "field": "studio",
+     "label": "studio",
+     "soft": true,
+     "editionDependent": false,
+     "current": "TriStar Pictures",
+     "proposed": "Carolco Pictures",
+     "status": "proposed-change",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "TMDB",
+       "value": "Carolco Pictures",
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Rambo+III&year=1988"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "m1537",
+   "title": "Rambo: Last Blood",
+   "sourcesReached": [
+    "OMDb",
+    "TMDB"
+   ],
+   "sourcesMissed": [],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "release year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 2019,
+     "proposed": 2019,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 2019,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Rambo%3A+Last+Blood&type=movie&y=2019"
+      },
+      {
+       "src": "TMDB",
+       "value": 2019,
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Rambo%3A+Last+Blood&year=2019"
+      }
+     ]
+    },
+    {
+     "field": "runtime",
+     "label": "runtime (min)",
+     "soft": false,
+     "editionDependent": true,
+     "current": 89,
+     "proposed": 89,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 89,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Rambo%3A+Last+Blood&type=movie&y=2019"
+      },
+      {
+       "src": "TMDB",
+       "value": 89,
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Rambo%3A+Last+Blood&year=2019"
+      }
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "director",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Adrian Grunberg",
+     "proposed": "Adrian Grunberg",
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": "Adrian Grunberg",
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Rambo%3A+Last+Blood&type=movie&y=2019"
+      },
+      {
+       "src": "TMDB",
+       "value": "Adrian Grünberg",
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Rambo%3A+Last+Blood&year=2019"
+      }
+     ]
+    },
+    {
+     "field": "studio",
+     "label": "studio",
+     "soft": true,
+     "editionDependent": false,
+     "current": "Lionsgate",
+     "proposed": "Millennium Media",
+     "status": "proposed-change",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "TMDB",
+       "value": "Millennium Media",
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Rambo%3A+Last+Blood&year=2019"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "m1538",
+   "title": "Universal Soldier",
+   "sourcesReached": [
+    "OMDb",
+    "TMDB"
+   ],
+   "sourcesMissed": [],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "release year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 1992,
+     "proposed": 1992,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 1992,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Universal+Soldier&type=movie&y=1992"
+      },
+      {
+       "src": "TMDB",
+       "value": 1992,
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Universal+Soldier&year=1992"
+      }
+     ]
+    },
+    {
+     "field": "runtime",
+     "label": "runtime (min)",
+     "soft": false,
+     "editionDependent": true,
+     "current": 102,
+     "proposed": 102,
+     "status": "corroborated-by-one",
+     "grade": "B",
+     "note": "matches OMDb; disagrees with TMDB (103)",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 102,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Universal+Soldier&type=movie&y=1992"
+      },
+      {
+       "src": "TMDB",
+       "value": 103,
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Universal+Soldier&year=1992"
+      }
+     ],
+     "alternatives": [
+      103
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "director",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Roland Emmerich",
+     "proposed": "Roland Emmerich",
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": "Roland Emmerich",
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Universal+Soldier&type=movie&y=1992"
+      },
+      {
+       "src": "TMDB",
+       "value": "Roland Emmerich",
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Universal+Soldier&year=1992"
+      }
+     ]
+    },
+    {
+     "field": "studio",
+     "label": "studio",
+     "soft": true,
+     "editionDependent": false,
+     "current": "TriStar Pictures",
+     "proposed": "Carolco Pictures",
+     "status": "proposed-change",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "TMDB",
+       "value": "Carolco Pictures",
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Universal+Soldier&year=1992"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "m1539",
+   "title": "Demolition Man",
+   "sourcesReached": [
+    "OMDb",
+    "TMDB"
+   ],
+   "sourcesMissed": [],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "release year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 1993,
+     "proposed": 1993,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 1993,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Demolition+Man&type=movie&y=1993"
+      },
+      {
+       "src": "TMDB",
+       "value": 1993,
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Demolition+Man&year=1993"
+      }
+     ]
+    },
+    {
+     "field": "runtime",
+     "label": "runtime (min)",
+     "soft": false,
+     "editionDependent": true,
+     "current": 115,
+     "proposed": 115,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 115,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Demolition+Man&type=movie&y=1993"
+      },
+      {
+       "src": "TMDB",
+       "value": 115,
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Demolition+Man&year=1993"
+      }
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "director",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Marco Brambilla",
+     "proposed": "Marco Brambilla",
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": "Marco Brambilla",
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Demolition+Man&type=movie&y=1993"
+      },
+      {
+       "src": "TMDB",
+       "value": "Marco Brambilla",
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Demolition+Man&year=1993"
+      }
+     ]
+    },
+    {
+     "field": "studio",
+     "label": "studio",
+     "soft": true,
+     "editionDependent": false,
+     "current": "Warner Bros.",
+     "proposed": "Silver Pictures",
+     "status": "proposed-change",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "TMDB",
+       "value": "Silver Pictures",
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Demolition+Man&year=1993"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "m1540",
+   "title": "The Expendables",
+   "sourcesReached": [
+    "OMDb",
+    "TMDB"
+   ],
+   "sourcesMissed": [],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "release year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 2010,
+     "proposed": 2010,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 2010,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=The+Expendables&type=movie&y=2010"
+      },
+      {
+       "src": "TMDB",
+       "value": 2010,
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=The+Expendables&year=2010"
+      }
+     ]
+    },
+    {
+     "field": "runtime",
+     "label": "runtime (min)",
+     "soft": false,
+     "editionDependent": true,
+     "current": 103,
+     "proposed": 103,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 103,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=The+Expendables&type=movie&y=2010"
+      },
+      {
+       "src": "TMDB",
+       "value": 103,
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=The+Expendables&year=2010"
+      }
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "director",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Sylvester Stallone",
+     "proposed": "Sylvester Stallone",
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": "Sylvester Stallone",
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=The+Expendables&type=movie&y=2010"
+      },
+      {
+       "src": "TMDB",
+       "value": "Sylvester Stallone",
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=The+Expendables&year=2010"
+      }
+     ]
+    },
+    {
+     "field": "studio",
+     "label": "studio",
+     "soft": true,
+     "editionDependent": false,
+     "current": "Lionsgate",
+     "proposed": "Nimar Studios",
+     "status": "proposed-change",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "TMDB",
+       "value": "Nimar Studios",
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=The+Expendables&year=2010"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "m1541",
+   "title": "The Expendables 2",
+   "sourcesReached": [
+    "OMDb",
+    "TMDB"
+   ],
+   "sourcesMissed": [],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "release year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 2012,
+     "proposed": 2012,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 2012,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=The+Expendables+2&type=movie&y=2012"
+      },
+      {
+       "src": "TMDB",
+       "value": 2012,
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=The+Expendables+2&year=2012"
+      }
+     ]
+    },
+    {
+     "field": "runtime",
+     "label": "runtime (min)",
+     "soft": false,
+     "editionDependent": true,
+     "current": 103,
+     "proposed": 103,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 103,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=The+Expendables+2&type=movie&y=2012"
+      },
+      {
+       "src": "TMDB",
+       "value": 103,
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=The+Expendables+2&year=2012"
+      }
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "director",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Simon West",
+     "proposed": "Simon West",
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": "Simon West",
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=The+Expendables+2&type=movie&y=2012"
+      },
+      {
+       "src": "TMDB",
+       "value": "Simon West",
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=The+Expendables+2&year=2012"
+      }
+     ]
+    },
+    {
+     "field": "studio",
+     "label": "studio",
+     "soft": true,
+     "editionDependent": false,
+     "current": "Lionsgate",
+     "proposed": "Millennium Media",
+     "status": "proposed-change",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "TMDB",
+       "value": "Millennium Media",
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=The+Expendables+2&year=2012"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "m1542",
+   "title": "The Expendables 3",
+   "sourcesReached": [
+    "OMDb",
+    "TMDB"
+   ],
+   "sourcesMissed": [],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "release year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 2014,
+     "proposed": 2014,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 2014,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=The+Expendables+3&type=movie&y=2014"
+      },
+      {
+       "src": "TMDB",
+       "value": 2014,
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=The+Expendables+3&year=2014"
+      }
+     ]
+    },
+    {
+     "field": "runtime",
+     "label": "runtime (min)",
+     "soft": false,
+     "editionDependent": true,
+     "current": 126,
+     "proposed": 126,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 126,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=The+Expendables+3&type=movie&y=2014"
+      },
+      {
+       "src": "TMDB",
+       "value": 126,
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=The+Expendables+3&year=2014"
+      }
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "director",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Patrick Hughes",
+     "proposed": "Patrick Hughes",
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": "Patrick Hughes",
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=The+Expendables+3&type=movie&y=2014"
+      },
+      {
+       "src": "TMDB",
+       "value": "Patrick Hughes",
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=The+Expendables+3&year=2014"
+      }
+     ]
+    },
+    {
+     "field": "studio",
+     "label": "studio",
+     "soft": true,
+     "editionDependent": false,
+     "current": "Lionsgate",
+     "proposed": "Davis Films",
+     "status": "proposed-change",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "TMDB",
+       "value": "Davis Films",
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=The+Expendables+3&year=2014"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "m1543",
+   "title": "U.S. Marshals",
+   "sourcesReached": [
+    "OMDb",
+    "TMDB"
+   ],
+   "sourcesMissed": [],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "release year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 1998,
+     "proposed": 1998,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 1998,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=U.S.+Marshals&type=movie&y=1998"
+      },
+      {
+       "src": "TMDB",
+       "value": 1998,
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=U.S.+Marshals&year=1998"
+      }
+     ]
+    },
+    {
+     "field": "runtime",
+     "label": "runtime (min)",
+     "soft": false,
+     "editionDependent": true,
+     "current": 133,
+     "proposed": 131,
+     "status": "edition-dependent",
+     "grade": "B",
+     "note": "sources agree with each other but not the corpus (OMDb 131, TMDB 131) on a field with no single true value -- likely a different printing/edition, not an error.",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 131,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=U.S.+Marshals&type=movie&y=1998"
+      },
+      {
+       "src": "TMDB",
+       "value": 131,
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=U.S.+Marshals&year=1998"
+      }
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "director",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Stuart Baird",
+     "proposed": "Stuart Baird",
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": "Stuart Baird",
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=U.S.+Marshals&type=movie&y=1998"
+      },
+      {
+       "src": "TMDB",
+       "value": "Stuart Baird",
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=U.S.+Marshals&year=1998"
+      }
+     ]
+    },
+    {
+     "field": "studio",
+     "label": "studio",
+     "soft": true,
+     "editionDependent": false,
+     "current": "Warner Bros.",
+     "proposed": "Kopelson Entertainment",
+     "status": "proposed-change",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "TMDB",
+       "value": "Kopelson Entertainment",
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=U.S.+Marshals&year=1998"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "m1544",
+   "title": "In the Line of Fire",
+   "sourcesReached": [
+    "OMDb",
+    "TMDB"
+   ],
+   "sourcesMissed": [],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "release year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 1993,
+     "proposed": 1993,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 1993,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=In+the+Line+of+Fire&type=movie&y=1993"
+      },
+      {
+       "src": "TMDB",
+       "value": 1993,
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=In+the+Line+of+Fire&year=1993"
+      }
+     ]
+    },
+    {
+     "field": "runtime",
+     "label": "runtime (min)",
+     "soft": false,
+     "editionDependent": true,
+     "current": 128,
+     "proposed": 128,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 128,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=In+the+Line+of+Fire&type=movie&y=1993"
+      },
+      {
+       "src": "TMDB",
+       "value": 128,
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=In+the+Line+of+Fire&year=1993"
+      }
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "director",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Wolfgang Petersen",
+     "proposed": "Wolfgang Petersen",
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": "Wolfgang Petersen",
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=In+the+Line+of+Fire&type=movie&y=1993"
+      },
+      {
+       "src": "TMDB",
+       "value": "Wolfgang Petersen",
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=In+the+Line+of+Fire&year=1993"
+      }
+     ]
+    },
+    {
+     "field": "studio",
+     "label": "studio",
+     "soft": true,
+     "editionDependent": false,
+     "current": "Columbia Pictures",
+     "proposed": "Castle Rock Entertainment",
+     "status": "proposed-change",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "TMDB",
+       "value": "Castle Rock Entertainment",
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=In+the+Line+of+Fire&year=1993"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "m1545",
+   "title": "The Peacemaker",
+   "sourcesReached": [
+    "OMDb",
+    "TMDB"
+   ],
+   "sourcesMissed": [],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "release year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 1997,
+     "proposed": 1997,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 1997,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=The+Peacemaker&type=movie&y=1997"
+      },
+      {
+       "src": "TMDB",
+       "value": 1997,
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=The+Peacemaker&year=1997"
+      }
+     ]
+    },
+    {
+     "field": "runtime",
+     "label": "runtime (min)",
+     "soft": false,
+     "editionDependent": true,
+     "current": 124,
+     "proposed": 124,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 124,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=The+Peacemaker&type=movie&y=1997"
+      },
+      {
+       "src": "TMDB",
+       "value": 124,
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=The+Peacemaker&year=1997"
+      }
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "director",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Mimi Leder",
+     "proposed": "Mimi Leder",
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": "Mimi Leder",
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=The+Peacemaker&type=movie&y=1997"
+      },
+      {
+       "src": "TMDB",
+       "value": "Mimi Leder",
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=The+Peacemaker&year=1997"
+      }
+     ]
+    },
+    {
+     "field": "studio",
+     "label": "studio",
+     "soft": true,
+     "editionDependent": false,
+     "current": "DreamWorks Pictures",
+     "proposed": "DreamWorks Pictures",
+     "status": "confirmed",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "TMDB",
+       "value": "DreamWorks Pictures",
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=The+Peacemaker&year=1997"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "m1546",
+   "title": "Enemy of the State",
+   "sourcesReached": [
+    "OMDb",
+    "TMDB"
+   ],
+   "sourcesMissed": [],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "release year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 1998,
+     "proposed": 1998,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 1998,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Enemy+of+the+State&type=movie&y=1998"
+      },
+      {
+       "src": "TMDB",
+       "value": 1998,
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Enemy+of+the+State&year=1998"
+      }
+     ]
+    },
+    {
+     "field": "runtime",
+     "label": "runtime (min)",
+     "soft": false,
+     "editionDependent": true,
+     "current": 132,
+     "proposed": 132,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 132,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Enemy+of+the+State&type=movie&y=1998"
+      },
+      {
+       "src": "TMDB",
+       "value": 132,
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Enemy+of+the+State&year=1998"
+      }
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "director",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Tony Scott",
+     "proposed": "Tony Scott",
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": "Tony Scott",
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Enemy+of+the+State&type=movie&y=1998"
+      },
+      {
+       "src": "TMDB",
+       "value": "Tony Scott",
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Enemy+of+the+State&year=1998"
+      }
+     ]
+    },
+    {
+     "field": "studio",
+     "label": "studio",
+     "soft": true,
+     "editionDependent": false,
+     "current": "Buena Vista Pictures",
+     "proposed": "Touchstone Pictures",
+     "status": "proposed-change",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "TMDB",
+       "value": "Touchstone Pictures",
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Enemy+of+the+State&year=1998"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "m1547",
+   "title": "Gone in 60 Seconds",
+   "sourcesReached": [
+    "OMDb"
+   ],
+   "sourcesMissed": [
+    "TMDB (no match)"
+   ],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "release year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 2000,
+     "proposed": 2000,
+     "status": "confirmed",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 2000,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Gone+in+60+Seconds&type=movie&y=2000"
+      }
+     ]
+    },
+    {
+     "field": "runtime",
+     "label": "runtime (min)",
+     "soft": false,
+     "editionDependent": true,
+     "current": 118,
+     "proposed": 118,
+     "status": "confirmed",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 118,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Gone+in+60+Seconds&type=movie&y=2000"
+      }
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "director",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Dominic Sena",
+     "proposed": "Dominic Sena",
+     "status": "confirmed",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": "Dominic Sena",
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Gone+in+60+Seconds&type=movie&y=2000"
+      }
+     ]
+    },
+    {
+     "field": "studio",
+     "label": "studio",
+     "soft": true,
+     "current": "Buena Vista Pictures",
+     "status": "no-source",
+     "grade": null,
+     "sources": []
+    }
+   ]
+  },
+  {
+   "id": "m1548",
+   "title": "Pearl Harbor",
+   "sourcesReached": [
+    "OMDb",
+    "TMDB"
+   ],
+   "sourcesMissed": [],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "release year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 2001,
+     "proposed": 2001,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 2001,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Pearl+Harbor&type=movie&y=2001"
+      },
+      {
+       "src": "TMDB",
+       "value": 2001,
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Pearl+Harbor&year=2001"
+      }
+     ]
+    },
+    {
+     "field": "runtime",
+     "label": "runtime (min)",
+     "soft": false,
+     "editionDependent": true,
+     "current": 183,
+     "proposed": 183,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 183,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Pearl+Harbor&type=movie&y=2001"
+      },
+      {
+       "src": "TMDB",
+       "value": 183,
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Pearl+Harbor&year=2001"
+      }
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "director",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Michael Bay",
+     "proposed": "Michael Bay",
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": "Michael Bay",
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Pearl+Harbor&type=movie&y=2001"
+      },
+      {
+       "src": "TMDB",
+       "value": "Michael Bay",
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Pearl+Harbor&year=2001"
+      }
+     ]
+    },
+    {
+     "field": "studio",
+     "label": "studio",
+     "soft": true,
+     "editionDependent": false,
+     "current": "Buena Vista Pictures",
+     "proposed": "Touchstone Pictures",
+     "status": "proposed-change",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "TMDB",
+       "value": "Touchstone Pictures",
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Pearl+Harbor&year=2001"
+      }
+     ]
+    }
+   ]
+  }
+ ]
+}
