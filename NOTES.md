@@ -1152,6 +1152,45 @@ Millennium, The Giver Quartet) — note a pre-existing movie-kind "Twilight" SER
 film saga) now coexists with the new book-kind "Twilight" entry; this is intentional and harmless
 since franchise lookup keys on `kind+'|'+title`, not name alone.
 
+**Second consolidated round (movies batch 13, TV batch 9, games batch 10, books batch 13).** Movies
+added 15 franchise completions (Shrek, Cars, Finding Nemo, Monsters Inc., Despicable Me, Ice Age,
+Kung Fu Panda, How to Train Your Dragon, The Karate Kid, National Treasure, Madagascar, Rio,
+Wreck-It Ralph, Hotel Transylvania, plus an Alien vs. Predator crossover) and 20 category-coverage
+titles (family animation, musicals, sports drama). TV closed two whole-category gaps that were
+entirely absent before this pass — reality competition (Bake Off, Chef's Table, MasterChef,
+Survivor, Amazing Race, Drag Race) and nature/science documentary (Planet Earth, Blue Planet II,
+Cosmos, Our Planet) — plus six crime procedurals, three MCU/Star Wars Disney+ limited series, and a
+scattering of other gaps (Cobra Kai, American Horror Story, The Handmaid's Tale, House of Cards,
+Weeds). Games targeted the Racing/Sports thinness flagged at the last checkpoint (FIFA 23, NBA 2K24,
+Gran Turismo, Forza Horizon 5, Mario Kart 64) and closed an entirely-absent Battle Royale category
+(Fortnite, Apex Legends, PUBG), plus Nintendo evergreens, survival staples, and two HoYoverse gacha
+RPGs. Two new genre tags this round: "Reality" (Documentary family) and "Battle Royale" (Action /
+Adventure family).
+
+**The books batch found the single biggest remaining franchise-completion item in the whole
+project:** Harry Potter was still sitting in the corpus as one collapsed placeholder record,
+`"Harry Potter (Books 1-7)"` — exactly the anti-pattern the original expansion brief called out by
+name. Removed it and inserted all seven novels as independently-sourced, independently-scored
+records (darkness/length escalating across the series per the well-documented real trajectory), and
+added a `kind:"book"` SERIES_DEFS entry for it alongside the pre-existing `kind:"movie"` one. Also
+closed out A Song of Ice and Fire (had books 1-3, added 4-5) and started a second Chronicles of
+Narnia book (Prince Caspian). This is a strong signal to keep auditing for other lingering collapsed
+placeholders in books specifically, since the movies pass's franchise audit was far more thorough
+than the books pass ever was.
+
+**Two near-misses worth remembering, from the round right before this one:** a same-book,
+different-subtitle duplicate (Percy Jackson book 1) that the exact-match dedup script could not
+catch, and a hand-rolled `indexOf`-splice script that silently duplicated a large chunk of
+`app/ledger-app.js` while trying to temporarily strip out a just-added block. Full detail in the
+section above. Both recovered cleanly; the second one specifically argues for never using ad hoc
+string-splice scripts on this file again -- `Edit`'s exact-match replace is the only safe tool for
+surgical changes to it.
+
+**Status at this checkpoint:** movies 1,337/2,000, TV 388/500, games 375/500, books 1,269/2,000
+(3,369/5,000 total). TV and games are now noticeably closer to target than movies and books --
+future rounds should probably lean the batch-size balance toward movies/books to avoid finishing the
+smaller two media much earlier than the larger two.
+
 ---
 
 ## Ideas / next steps
