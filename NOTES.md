@@ -1415,6 +1415,35 @@ The Bachman Books grouping added (5 of the real 7-book run, all under the pseudo
 1,528/2,000 (4,167/5,000 total, 83.3%). Remaining work is exclusively movies (~370 more) and books
 (~472 more).
 
+**Eleventh round (movies batch 23, books batch 23), movies+books only.** Movies: nineteen titles (three
+caught by the dedup script and dropped -- Pan's Labyrinth, The Devil's Backbone, and Amélie were all
+already present; a fourth candidate, Planet of the Apes, collided with the already-present 1968
+original and was disambiguated to "Planet of the Apes (2001)" rather than dropped, the same suffix
+pattern used earlier this project for genuine same-title-different-work cases). A director-catalog
+audit turned up a full Tim Burton sweep (Sleepy Hollow, Frankenweenie, Dark Shadows, Ed Wood, Sweeney
+Todd, Charlie and the Chocolate Factory, Mars Attacks!, Pee-wee's Big Adventure, the 2001 Planet of the
+Apes, Miss Peregrine's Home for Peculiar Children -- ten films from one director previously entirely
+unaudited), a Guillermo del Toro sweep (Crimson Peak, Cronos), and international-arthouse coverage that
+had quietly stalled: Jean-Pierre Jeunet (A Very Long Engagement, The City of Lost Children,
+Delicatessen) and Wong Kar-wai (2046, Fallen Angels, Happy Together) both had only 1-2 films in the
+corpus despite each having a small, celebrated, fully rewatchable filmography. SERIES_DEFS: new Willy
+Wonka grouping (3 films spanning 1971-2023).
+
+Books: ten titles closing a genuine literary-canon gap -- Milan Kundera had ZERO presence in the corpus
+before this round despite being one of the most widely-read 20th-century novelists (The Unbearable
+Lightness of Being, The Book of Laughter and Forgetting, The Joke, Immortality, Identity, Slowness all
+added), plus two Tolstoy works adjacent to his already-present novels (The Death of Ivan Ilyich, A
+Confession), The Gulag Archipelago, and Hillbilly Elegy. Three Kundera titles (Immortality, Identity,
+Slowness) reached zero fetch-substance tags, flagged as general-knowledge estimates. Caught and fixed
+a real validate-corpus.js failure before this round's commit: three records (A Confession, The Gulag
+Archipelago, Hillbilly Elegy) were missing contextTags.vibeTime entirely -- an oversight in the
+candidate JSON, not a scoring judgment call, fixed by adding a fitting vibe from the existing 30-entry
+vocabulary to each rather than inventing a new one.
+
+**Status at this checkpoint:** movies 1,649/2,000, TV 502/500 (done), games 507/500 (done), books
+1,538/2,000 (4,196/5,000 total, 83.9%). Remaining work is exclusively movies (~351 more) and books
+(~462 more).
+
 ---
 
 ## Ideas / next steps
