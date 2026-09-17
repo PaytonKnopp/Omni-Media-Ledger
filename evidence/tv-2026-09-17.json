@@ -1,0 +1,1045 @@
+{
+ "medium": "tv",
+ "generated": "2026-09-17T00:11:15.358Z",
+ "offline": false,
+ "sources": [
+  "OMDb",
+  "TMDB"
+ ],
+ "works": [
+  {
+   "id": "t303",
+   "title": "The Good Wife",
+   "sourcesReached": [
+    "OMDb",
+    "TMDB"
+   ],
+   "sourcesMissed": [],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "first air year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 2009,
+     "proposed": 2009,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 2009,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=The+Good+Wife&type=series&y=2009"
+      },
+      {
+       "src": "TMDB",
+       "value": 2009,
+       "url": "https://api.themoviedb.org/3/search/tv?api_key=REDACTED&query=The+Good+Wife"
+      }
+     ]
+    },
+    {
+     "field": "seasons",
+     "label": "seasons",
+     "soft": false,
+     "editionDependent": false,
+     "current": 7,
+     "proposed": 7,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 7,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=The+Good+Wife&type=series&y=2009"
+      },
+      {
+       "src": "TMDB",
+       "value": 7,
+       "url": "https://api.themoviedb.org/3/search/tv?api_key=REDACTED&query=The+Good+Wife"
+      }
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "creator",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Robert King, Michelle King",
+     "proposed": "Michelle King, Robert King",
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": "Michelle King, Robert King",
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=The+Good+Wife&type=series&y=2009"
+      },
+      {
+       "src": "TMDB",
+       "value": "Michelle King, Robert King",
+       "url": "https://api.themoviedb.org/3/search/tv?api_key=REDACTED&query=The+Good+Wife"
+      }
+     ]
+    },
+    {
+     "field": "network",
+     "label": "network / streamer",
+     "soft": true,
+     "editionDependent": false,
+     "current": "CBS",
+     "proposed": "CBS",
+     "status": "confirmed",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "TMDB",
+       "value": "CBS",
+       "url": "https://api.themoviedb.org/3/search/tv?api_key=REDACTED&query=The+Good+Wife"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "t304",
+   "title": "The Newsroom",
+   "sourcesReached": [
+    "OMDb",
+    "TMDB"
+   ],
+   "sourcesMissed": [],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "first air year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 2012,
+     "proposed": 2012,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 2012,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=The+Newsroom&type=series&y=2012"
+      },
+      {
+       "src": "TMDB",
+       "value": 2012,
+       "url": "https://api.themoviedb.org/3/search/tv?api_key=REDACTED&query=The+Newsroom"
+      }
+     ]
+    },
+    {
+     "field": "seasons",
+     "label": "seasons",
+     "soft": false,
+     "editionDependent": false,
+     "current": 3,
+     "proposed": 3,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 3,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=The+Newsroom&type=series&y=2012"
+      },
+      {
+       "src": "TMDB",
+       "value": 3,
+       "url": "https://api.themoviedb.org/3/search/tv?api_key=REDACTED&query=The+Newsroom"
+      }
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "creator",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Aaron Sorkin",
+     "proposed": "Aaron Sorkin",
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": "Aaron Sorkin",
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=The+Newsroom&type=series&y=2012"
+      },
+      {
+       "src": "TMDB",
+       "value": "Aaron Sorkin",
+       "url": "https://api.themoviedb.org/3/search/tv?api_key=REDACTED&query=The+Newsroom"
+      }
+     ]
+    },
+    {
+     "field": "network",
+     "label": "network / streamer",
+     "soft": true,
+     "editionDependent": false,
+     "current": "HBO",
+     "proposed": "HBO",
+     "status": "confirmed",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "TMDB",
+       "value": "HBO",
+       "url": "https://api.themoviedb.org/3/search/tv?api_key=REDACTED&query=The+Newsroom"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "t305",
+   "title": "The Affair",
+   "sourcesReached": [
+    "OMDb",
+    "TMDB"
+   ],
+   "sourcesMissed": [],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "first air year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 2014,
+     "proposed": 2014,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 2014,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=The+Affair&type=series&y=2014"
+      },
+      {
+       "src": "TMDB",
+       "value": 2014,
+       "url": "https://api.themoviedb.org/3/search/tv?api_key=REDACTED&query=The+Affair"
+      }
+     ]
+    },
+    {
+     "field": "seasons",
+     "label": "seasons",
+     "soft": false,
+     "editionDependent": false,
+     "current": 5,
+     "proposed": 5,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 5,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=The+Affair&type=series&y=2014"
+      },
+      {
+       "src": "TMDB",
+       "value": 5,
+       "url": "https://api.themoviedb.org/3/search/tv?api_key=REDACTED&query=The+Affair"
+      }
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "creator",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Sarah Treem, Hagai Levi",
+     "proposed": "Hagai Levi, Sarah Treem",
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": "Hagai Levi, Sarah Treem",
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=The+Affair&type=series&y=2014"
+      },
+      {
+       "src": "TMDB",
+       "value": "Sarah Treem, Hagai Levi",
+       "url": "https://api.themoviedb.org/3/search/tv?api_key=REDACTED&query=The+Affair"
+      }
+     ]
+    },
+    {
+     "field": "network",
+     "label": "network / streamer",
+     "soft": true,
+     "editionDependent": false,
+     "current": "Showtime",
+     "proposed": "Showtime",
+     "status": "confirmed",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "TMDB",
+       "value": "Showtime",
+       "url": "https://api.themoviedb.org/3/search/tv?api_key=REDACTED&query=The+Affair"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "t306",
+   "title": "Tokyo Vice",
+   "sourcesReached": [
+    "OMDb",
+    "TMDB"
+   ],
+   "sourcesMissed": [],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "first air year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 2022,
+     "proposed": 2022,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 2022,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Tokyo+Vice&type=series&y=2022"
+      },
+      {
+       "src": "TMDB",
+       "value": 2022,
+       "url": "https://api.themoviedb.org/3/search/tv?api_key=REDACTED&query=Tokyo+Vice"
+      }
+     ]
+    },
+    {
+     "field": "seasons",
+     "label": "seasons",
+     "soft": false,
+     "editionDependent": false,
+     "current": 2,
+     "proposed": 2,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 2,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Tokyo+Vice&type=series&y=2022"
+      },
+      {
+       "src": "TMDB",
+       "value": 2,
+       "url": "https://api.themoviedb.org/3/search/tv?api_key=REDACTED&query=Tokyo+Vice"
+      }
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "creator",
+     "soft": false,
+     "editionDependent": false,
+     "current": "J.T. Rogers",
+     "proposed": "J.T. Rogers",
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": "J.T. Rogers",
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Tokyo+Vice&type=series&y=2022"
+      },
+      {
+       "src": "TMDB",
+       "value": "J.T. Rogers",
+       "url": "https://api.themoviedb.org/3/search/tv?api_key=REDACTED&query=Tokyo+Vice"
+      }
+     ]
+    },
+    {
+     "field": "network",
+     "label": "network / streamer",
+     "soft": true,
+     "editionDependent": false,
+     "current": "HBO Max",
+     "proposed": "HBO Max",
+     "status": "confirmed",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "TMDB",
+       "value": "HBO Max",
+       "url": "https://api.themoviedb.org/3/search/tv?api_key=REDACTED&query=Tokyo+Vice"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "t307",
+   "title": "Pachinko",
+   "sourcesReached": [
+    "OMDb",
+    "TMDB"
+   ],
+   "sourcesMissed": [],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "first air year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 2022,
+     "proposed": 2022,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 2022,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Pachinko&type=series&y=2022"
+      },
+      {
+       "src": "TMDB",
+       "value": 2022,
+       "url": "https://api.themoviedb.org/3/search/tv?api_key=REDACTED&query=Pachinko"
+      }
+     ]
+    },
+    {
+     "field": "seasons",
+     "label": "seasons",
+     "soft": false,
+     "editionDependent": false,
+     "current": 2,
+     "proposed": 2,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 2,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Pachinko&type=series&y=2022"
+      },
+      {
+       "src": "TMDB",
+       "value": 2,
+       "url": "https://api.themoviedb.org/3/search/tv?api_key=REDACTED&query=Pachinko"
+      }
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "creator",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Soo Hugh",
+     "proposed": "Soo Hugh",
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": "Soo Hugh",
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Pachinko&type=series&y=2022"
+      },
+      {
+       "src": "TMDB",
+       "value": "Soo Hugh",
+       "url": "https://api.themoviedb.org/3/search/tv?api_key=REDACTED&query=Pachinko"
+      }
+     ]
+    },
+    {
+     "field": "network",
+     "label": "network / streamer",
+     "soft": true,
+     "editionDependent": false,
+     "current": "Apple TV+",
+     "proposed": "Apple TV",
+     "status": "confirmed",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "TMDB",
+       "value": "Apple TV",
+       "url": "https://api.themoviedb.org/3/search/tv?api_key=REDACTED&query=Pachinko"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "t308",
+   "title": "Reservation Dogs",
+   "sourcesReached": [
+    "OMDb",
+    "TMDB"
+   ],
+   "sourcesMissed": [],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "first air year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 2021,
+     "proposed": 2021,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 2021,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Reservation+Dogs&type=series&y=2021"
+      },
+      {
+       "src": "TMDB",
+       "value": 2021,
+       "url": "https://api.themoviedb.org/3/search/tv?api_key=REDACTED&query=Reservation+Dogs"
+      }
+     ]
+    },
+    {
+     "field": "seasons",
+     "label": "seasons",
+     "soft": false,
+     "editionDependent": false,
+     "current": 3,
+     "proposed": 3,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 3,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Reservation+Dogs&type=series&y=2021"
+      },
+      {
+       "src": "TMDB",
+       "value": 3,
+       "url": "https://api.themoviedb.org/3/search/tv?api_key=REDACTED&query=Reservation+Dogs"
+      }
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "creator",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Sterlin Harjo, Taika Waititi",
+     "proposed": "Sterlin Harjo, Taika Waititi",
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": "Sterlin Harjo, Taika Waititi",
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Reservation+Dogs&type=series&y=2021"
+      },
+      {
+       "src": "TMDB",
+       "value": "Taika Waititi, Sterlin Harjo",
+       "url": "https://api.themoviedb.org/3/search/tv?api_key=REDACTED&query=Reservation+Dogs"
+      }
+     ]
+    },
+    {
+     "field": "network",
+     "label": "network / streamer",
+     "soft": true,
+     "editionDependent": false,
+     "current": "FX",
+     "proposed": "Hulu",
+     "status": "proposed-change",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "TMDB",
+       "value": "Hulu",
+       "url": "https://api.themoviedb.org/3/search/tv?api_key=REDACTED&query=Reservation+Dogs"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "t309",
+   "title": "The Righteous Gemstones",
+   "sourcesReached": [
+    "OMDb",
+    "TMDB"
+   ],
+   "sourcesMissed": [],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "first air year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 2019,
+     "proposed": 2019,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 2019,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=The+Righteous+Gemstones&type=series&y=2019"
+      },
+      {
+       "src": "TMDB",
+       "value": 2019,
+       "url": "https://api.themoviedb.org/3/search/tv?api_key=REDACTED&query=The+Righteous+Gemstones"
+      }
+     ]
+    },
+    {
+     "field": "seasons",
+     "label": "seasons",
+     "soft": false,
+     "editionDependent": false,
+     "current": 4,
+     "proposed": 4,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 4,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=The+Righteous+Gemstones&type=series&y=2019"
+      },
+      {
+       "src": "TMDB",
+       "value": 4,
+       "url": "https://api.themoviedb.org/3/search/tv?api_key=REDACTED&query=The+Righteous+Gemstones"
+      }
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "creator",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Danny McBride",
+     "proposed": "Danny McBride",
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": "Danny McBride",
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=The+Righteous+Gemstones&type=series&y=2019"
+      },
+      {
+       "src": "TMDB",
+       "value": "Danny McBride",
+       "url": "https://api.themoviedb.org/3/search/tv?api_key=REDACTED&query=The+Righteous+Gemstones"
+      }
+     ]
+    },
+    {
+     "field": "network",
+     "label": "network / streamer",
+     "soft": true,
+     "editionDependent": false,
+     "current": "HBO",
+     "proposed": "HBO",
+     "status": "confirmed",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "TMDB",
+       "value": "HBO",
+       "url": "https://api.themoviedb.org/3/search/tv?api_key=REDACTED&query=The+Righteous+Gemstones"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "t310",
+   "title": "Poker Face",
+   "sourcesReached": [
+    "OMDb",
+    "TMDB"
+   ],
+   "sourcesMissed": [],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "first air year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 2023,
+     "proposed": 2023,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 2023,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Poker+Face&type=series&y=2023"
+      },
+      {
+       "src": "TMDB",
+       "value": 2023,
+       "url": "https://api.themoviedb.org/3/search/tv?api_key=REDACTED&query=Poker+Face"
+      }
+     ]
+    },
+    {
+     "field": "seasons",
+     "label": "seasons",
+     "soft": false,
+     "editionDependent": false,
+     "current": 2,
+     "proposed": 2,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 2,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Poker+Face&type=series&y=2023"
+      },
+      {
+       "src": "TMDB",
+       "value": 2,
+       "url": "https://api.themoviedb.org/3/search/tv?api_key=REDACTED&query=Poker+Face"
+      }
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "creator",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Rian Johnson",
+     "proposed": "Rian Johnson",
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": "Rian Johnson",
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Poker+Face&type=series&y=2023"
+      },
+      {
+       "src": "TMDB",
+       "value": "Rian Johnson",
+       "url": "https://api.themoviedb.org/3/search/tv?api_key=REDACTED&query=Poker+Face"
+      }
+     ]
+    },
+    {
+     "field": "network",
+     "label": "network / streamer",
+     "soft": true,
+     "editionDependent": false,
+     "current": "Peacock",
+     "proposed": "Peacock",
+     "status": "confirmed",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "TMDB",
+       "value": "Peacock",
+       "url": "https://api.themoviedb.org/3/search/tv?api_key=REDACTED&query=Poker+Face"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "t311",
+   "title": "Baby Reindeer",
+   "sourcesReached": [
+    "OMDb",
+    "TMDB"
+   ],
+   "sourcesMissed": [],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "first air year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 2024,
+     "proposed": 2024,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 2024,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Baby+Reindeer&type=series&y=2024"
+      },
+      {
+       "src": "TMDB",
+       "value": 2024,
+       "url": "https://api.themoviedb.org/3/search/tv?api_key=REDACTED&query=Baby+Reindeer"
+      }
+     ]
+    },
+    {
+     "field": "seasons",
+     "label": "seasons",
+     "soft": false,
+     "editionDependent": false,
+     "current": 1,
+     "proposed": 1,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 1,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Baby+Reindeer&type=series&y=2024"
+      },
+      {
+       "src": "TMDB",
+       "value": 1,
+       "url": "https://api.themoviedb.org/3/search/tv?api_key=REDACTED&query=Baby+Reindeer"
+      }
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "creator",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Richard Gadd",
+     "proposed": "Richard Gadd",
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": "Richard Gadd",
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Baby+Reindeer&type=series&y=2024"
+      },
+      {
+       "src": "TMDB",
+       "value": "Richard Gadd",
+       "url": "https://api.themoviedb.org/3/search/tv?api_key=REDACTED&query=Baby+Reindeer"
+      }
+     ]
+    },
+    {
+     "field": "network",
+     "label": "network / streamer",
+     "soft": true,
+     "editionDependent": false,
+     "current": "Netflix",
+     "proposed": "Netflix",
+     "status": "confirmed",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "TMDB",
+       "value": "Netflix",
+       "url": "https://api.themoviedb.org/3/search/tv?api_key=REDACTED&query=Baby+Reindeer"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "t312",
+   "title": "Adolescence",
+   "sourcesReached": [
+    "OMDb",
+    "TMDB"
+   ],
+   "sourcesMissed": [],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "first air year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 2025,
+     "proposed": 2025,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 2025,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Adolescence&type=series&y=2025"
+      },
+      {
+       "src": "TMDB",
+       "value": 2025,
+       "url": "https://api.themoviedb.org/3/search/tv?api_key=REDACTED&query=Adolescence"
+      }
+     ]
+    },
+    {
+     "field": "seasons",
+     "label": "seasons",
+     "soft": false,
+     "editionDependent": false,
+     "current": 1,
+     "proposed": 1,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 1,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Adolescence&type=series&y=2025"
+      },
+      {
+       "src": "TMDB",
+       "value": 1,
+       "url": "https://api.themoviedb.org/3/search/tv?api_key=REDACTED&query=Adolescence"
+      }
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "creator",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Jack Thorne, Stephen Graham",
+     "proposed": "Jack Thorne, Stephen Graham",
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": "Stephen Graham, Jack Thorne",
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Adolescence&type=series&y=2025"
+      },
+      {
+       "src": "TMDB",
+       "value": "Stephen Graham, Jack Thorne",
+       "url": "https://api.themoviedb.org/3/search/tv?api_key=REDACTED&query=Adolescence"
+      }
+     ]
+    },
+    {
+     "field": "network",
+     "label": "network / streamer",
+     "soft": true,
+     "editionDependent": false,
+     "current": "Netflix",
+     "proposed": "Netflix",
+     "status": "confirmed",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "TMDB",
+       "value": "Netflix",
+       "url": "https://api.themoviedb.org/3/search/tv?api_key=REDACTED&query=Adolescence"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "t313",
+   "title": "One Day",
+   "sourcesReached": [
+    "OMDb",
+    "TMDB"
+   ],
+   "sourcesMissed": [],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "first air year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 2024,
+     "proposed": 2024,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 2024,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=One+Day&type=series&y=2024"
+      },
+      {
+       "src": "TMDB",
+       "value": 2024,
+       "url": "https://api.themoviedb.org/3/search/tv?api_key=REDACTED&query=One+Day"
+      }
+     ]
+    },
+    {
+     "field": "seasons",
+     "label": "seasons",
+     "soft": false,
+     "editionDependent": false,
+     "current": 1,
+     "proposed": 1,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 1,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=One+Day&type=series&y=2024"
+      },
+      {
+       "src": "TMDB",
+       "value": 1,
+       "url": "https://api.themoviedb.org/3/search/tv?api_key=REDACTED&query=One+Day"
+      }
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "creator",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Nicole Taylor",
+     "proposed": "Nicole Taylor",
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": "Nicole Taylor",
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=One+Day&type=series&y=2024"
+      },
+      {
+       "src": "TMDB",
+       "value": "Nicole Taylor",
+       "url": "https://api.themoviedb.org/3/search/tv?api_key=REDACTED&query=One+Day"
+      }
+     ]
+    },
+    {
+     "field": "network",
+     "label": "network / streamer",
+     "soft": true,
+     "editionDependent": false,
+     "current": "Netflix",
+     "proposed": "Netflix",
+     "status": "confirmed",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "TMDB",
+       "value": "Netflix",
+       "url": "https://api.themoviedb.org/3/search/tv?api_key=REDACTED&query=One+Day"
+      }
+     ]
+    }
+   ]
+  }
+ ]
+}
