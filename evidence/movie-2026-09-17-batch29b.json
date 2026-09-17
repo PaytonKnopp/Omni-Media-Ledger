@@ -1,0 +1,575 @@
+{
+ "medium": "movie",
+ "generated": "2026-09-17T22:22:01.271Z",
+ "offline": false,
+ "sources": [
+  "OMDb",
+  "TMDB"
+ ],
+ "works": [
+  {
+   "id": "m1762",
+   "title": "The Mule",
+   "sourcesReached": [
+    "OMDb",
+    "TMDB"
+   ],
+   "sourcesMissed": [],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "release year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 2018,
+     "proposed": 2018,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 2018,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=The+Mule&type=movie&y=2018"
+      },
+      {
+       "src": "TMDB",
+       "value": 2018,
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=The+Mule&year=2018"
+      }
+     ]
+    },
+    {
+     "field": "runtime",
+     "label": "runtime (min)",
+     "soft": false,
+     "editionDependent": true,
+     "current": 116,
+     "proposed": 116,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 116,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=The+Mule&type=movie&y=2018"
+      },
+      {
+       "src": "TMDB",
+       "value": 116,
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=The+Mule&year=2018"
+      }
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "director",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Clint Eastwood",
+     "proposed": "Clint Eastwood",
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": "Clint Eastwood",
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=The+Mule&type=movie&y=2018"
+      },
+      {
+       "src": "TMDB",
+       "value": "Clint Eastwood",
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=The+Mule&year=2018"
+      }
+     ]
+    },
+    {
+     "field": "studio",
+     "label": "studio",
+     "soft": true,
+     "editionDependent": false,
+     "current": "Warner Bros.",
+     "proposed": "Imperative Entertainment",
+     "status": "proposed-change",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "TMDB",
+       "value": "Imperative Entertainment",
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=The+Mule&year=2018"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "m1763",
+   "title": "Richard Jewell",
+   "sourcesReached": [
+    "OMDb",
+    "TMDB"
+   ],
+   "sourcesMissed": [],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "release year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 2019,
+     "proposed": 2019,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 2019,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Richard+Jewell&type=movie&y=2019"
+      },
+      {
+       "src": "TMDB",
+       "value": 2019,
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Richard+Jewell&year=2019"
+      }
+     ]
+    },
+    {
+     "field": "runtime",
+     "label": "runtime (min)",
+     "soft": false,
+     "editionDependent": true,
+     "current": 131,
+     "proposed": 131,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 131,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Richard+Jewell&type=movie&y=2019"
+      },
+      {
+       "src": "TMDB",
+       "value": 131,
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Richard+Jewell&year=2019"
+      }
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "director",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Clint Eastwood",
+     "proposed": "Clint Eastwood",
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": "Clint Eastwood",
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Richard+Jewell&type=movie&y=2019"
+      },
+      {
+       "src": "TMDB",
+       "value": "Clint Eastwood",
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Richard+Jewell&year=2019"
+      }
+     ]
+    },
+    {
+     "field": "studio",
+     "label": "studio",
+     "soft": true,
+     "editionDependent": false,
+     "current": "Warner Bros.",
+     "proposed": "Warner Bros. Pictures",
+     "status": "proposed-change",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "TMDB",
+       "value": "Warner Bros. Pictures",
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Richard+Jewell&year=2019"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "m1764",
+   "title": "Cry Macho",
+   "sourcesReached": [
+    "OMDb",
+    "TMDB"
+   ],
+   "sourcesMissed": [],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "release year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 2021,
+     "proposed": 2021,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 2021,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Cry+Macho&type=movie&y=2021"
+      },
+      {
+       "src": "TMDB",
+       "value": 2021,
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Cry+Macho&year=2021"
+      }
+     ]
+    },
+    {
+     "field": "runtime",
+     "label": "runtime (min)",
+     "soft": false,
+     "editionDependent": true,
+     "current": 104,
+     "proposed": 104,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 104,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Cry+Macho&type=movie&y=2021"
+      },
+      {
+       "src": "TMDB",
+       "value": 104,
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Cry+Macho&year=2021"
+      }
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "director",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Clint Eastwood",
+     "proposed": "Clint Eastwood",
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": "Clint Eastwood",
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Cry+Macho&type=movie&y=2021"
+      },
+      {
+       "src": "TMDB",
+       "value": "Clint Eastwood",
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Cry+Macho&year=2021"
+      }
+     ]
+    },
+    {
+     "field": "studio",
+     "label": "studio",
+     "soft": true,
+     "editionDependent": false,
+     "current": "Warner Bros.",
+     "proposed": "Malpaso Productions",
+     "status": "proposed-change",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "TMDB",
+       "value": "Malpaso Productions",
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Cry+Macho&year=2021"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "m1765",
+   "title": "Space Cowboys",
+   "sourcesReached": [
+    "OMDb",
+    "TMDB"
+   ],
+   "sourcesMissed": [],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "release year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 2000,
+     "proposed": 2000,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 2000,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Space+Cowboys&type=movie&y=2000"
+      },
+      {
+       "src": "TMDB",
+       "value": 2000,
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Space+Cowboys&year=2000"
+      }
+     ]
+    },
+    {
+     "field": "runtime",
+     "label": "runtime (min)",
+     "soft": false,
+     "editionDependent": true,
+     "current": 130,
+     "proposed": 130,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 130,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Space+Cowboys&type=movie&y=2000"
+      },
+      {
+       "src": "TMDB",
+       "value": 130,
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Space+Cowboys&year=2000"
+      }
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "director",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Clint Eastwood",
+     "proposed": "Clint Eastwood",
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": "Clint Eastwood",
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Space+Cowboys&type=movie&y=2000"
+      },
+      {
+       "src": "TMDB",
+       "value": "Clint Eastwood",
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Space+Cowboys&year=2000"
+      }
+     ]
+    },
+    {
+     "field": "studio",
+     "label": "studio",
+     "soft": true,
+     "editionDependent": false,
+     "current": "Warner Bros.",
+     "proposed": "Village Roadshow Pictures",
+     "status": "proposed-change",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "TMDB",
+       "value": "Village Roadshow Pictures",
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Space+Cowboys&year=2000"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "m1766",
+   "title": "Blood Work",
+   "sourcesReached": [
+    "OMDb",
+    "TMDB"
+   ],
+   "sourcesMissed": [],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "release year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 2002,
+     "proposed": 2002,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 2002,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Blood+Work&type=movie&y=2002"
+      },
+      {
+       "src": "TMDB",
+       "value": 2002,
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Blood+Work&year=2002"
+      }
+     ]
+    },
+    {
+     "field": "runtime",
+     "label": "runtime (min)",
+     "soft": false,
+     "editionDependent": true,
+     "current": 110,
+     "proposed": 110,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 110,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Blood+Work&type=movie&y=2002"
+      },
+      {
+       "src": "TMDB",
+       "value": 110,
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Blood+Work&year=2002"
+      }
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "director",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Clint Eastwood",
+     "proposed": "Clint Eastwood",
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": "Clint Eastwood",
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Blood+Work&type=movie&y=2002"
+      },
+      {
+       "src": "TMDB",
+       "value": "Clint Eastwood",
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Blood+Work&year=2002"
+      }
+     ]
+    },
+    {
+     "field": "studio",
+     "label": "studio",
+     "soft": true,
+     "editionDependent": false,
+     "current": "Warner Bros.",
+     "proposed": "Malpaso Productions",
+     "status": "proposed-change",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "TMDB",
+       "value": "Malpaso Productions",
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Blood+Work&year=2002"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "m1767",
+   "title": "True Crime",
+   "sourcesReached": [
+    "OMDb",
+    "TMDB"
+   ],
+   "sourcesMissed": [],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "release year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 1999,
+     "proposed": 1999,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 1999,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=True+Crime&type=movie&y=1999"
+      },
+      {
+       "src": "TMDB",
+       "value": 1999,
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=True+Crime&year=1999"
+      }
+     ]
+    },
+    {
+     "field": "runtime",
+     "label": "runtime (min)",
+     "soft": false,
+     "editionDependent": true,
+     "current": 127,
+     "proposed": 127,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 127,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=True+Crime&type=movie&y=1999"
+      },
+      {
+       "src": "TMDB",
+       "value": 127,
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=True+Crime&year=1999"
+      }
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "director",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Clint Eastwood",
+     "proposed": "Clint Eastwood",
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": "Clint Eastwood",
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=True+Crime&type=movie&y=1999"
+      },
+      {
+       "src": "TMDB",
+       "value": "Clint Eastwood",
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=True+Crime&year=1999"
+      }
+     ]
+    },
+    {
+     "field": "studio",
+     "label": "studio",
+     "soft": true,
+     "editionDependent": false,
+     "current": "Warner Bros.",
+     "proposed": "The Zanuck Company",
+     "status": "proposed-change",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "TMDB",
+       "value": "The Zanuck Company",
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=True+Crime&year=1999"
+      }
+     ]
+    }
+   ]
+  }
+ ]
+}

@@ -1,0 +1,673 @@
+{
+ "medium": "movie",
+ "generated": "2026-09-17T22:21:51.667Z",
+ "offline": false,
+ "sources": [
+  "OMDb",
+  "TMDB"
+ ],
+ "works": [
+  {
+   "id": "m1755",
+   "title": "White Men Can't Jump",
+   "sourcesReached": [
+    "OMDb",
+    "TMDB"
+   ],
+   "sourcesMissed": [],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "release year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 1992,
+     "proposed": 1992,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 1992,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=White+Men+Can%27t+Jump&type=movie&y=1992"
+      },
+      {
+       "src": "TMDB",
+       "value": 1992,
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=White+Men+Can%27t+Jump&year=1992"
+      }
+     ]
+    },
+    {
+     "field": "runtime",
+     "label": "runtime (min)",
+     "soft": false,
+     "editionDependent": true,
+     "current": 115,
+     "proposed": 115,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 115,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=White+Men+Can%27t+Jump&type=movie&y=1992"
+      },
+      {
+       "src": "TMDB",
+       "value": 115,
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=White+Men+Can%27t+Jump&year=1992"
+      }
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "director",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Ron Shelton",
+     "proposed": "Ron Shelton",
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": "Ron Shelton",
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=White+Men+Can%27t+Jump&type=movie&y=1992"
+      },
+      {
+       "src": "TMDB",
+       "value": "Ron Shelton",
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=White+Men+Can%27t+Jump&year=1992"
+      }
+     ]
+    },
+    {
+     "field": "studio",
+     "label": "studio",
+     "soft": true,
+     "editionDependent": false,
+     "current": "20th Century Fox",
+     "proposed": "20th Century Fox",
+     "status": "confirmed",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "TMDB",
+       "value": "20th Century Fox",
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=White+Men+Can%27t+Jump&year=1992"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "m1756",
+   "title": "Rat Race",
+   "sourcesReached": [
+    "OMDb",
+    "TMDB"
+   ],
+   "sourcesMissed": [],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "release year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 2001,
+     "proposed": 2001,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 2001,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Rat+Race&type=movie&y=2001"
+      },
+      {
+       "src": "TMDB",
+       "value": 2001,
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Rat+Race&year=2001"
+      }
+     ]
+    },
+    {
+     "field": "runtime",
+     "label": "runtime (min)",
+     "soft": false,
+     "editionDependent": true,
+     "current": 112,
+     "proposed": 112,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 112,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Rat+Race&type=movie&y=2001"
+      },
+      {
+       "src": "TMDB",
+       "value": 112,
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Rat+Race&year=2001"
+      }
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "director",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Jerry Zucker",
+     "proposed": "Jerry Zucker",
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": "Jerry Zucker",
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Rat+Race&type=movie&y=2001"
+      },
+      {
+       "src": "TMDB",
+       "value": "Jerry Zucker",
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Rat+Race&year=2001"
+      }
+     ]
+    },
+    {
+     "field": "studio",
+     "label": "studio",
+     "soft": true,
+     "editionDependent": false,
+     "current": "Paramount Pictures",
+     "proposed": "Fireworks Pictures",
+     "status": "proposed-change",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "TMDB",
+       "value": "Fireworks Pictures",
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Rat+Race&year=2001"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "m1757",
+   "title": "Gran Torino",
+   "sourcesReached": [
+    "OMDb",
+    "TMDB"
+   ],
+   "sourcesMissed": [],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "release year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 2008,
+     "proposed": 2008,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 2008,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Gran+Torino&type=movie&y=2008"
+      },
+      {
+       "src": "TMDB",
+       "value": 2008,
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Gran+Torino&year=2008"
+      }
+     ]
+    },
+    {
+     "field": "runtime",
+     "label": "runtime (min)",
+     "soft": false,
+     "editionDependent": true,
+     "current": 116,
+     "proposed": 116,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 116,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Gran+Torino&type=movie&y=2008"
+      },
+      {
+       "src": "TMDB",
+       "value": 116,
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Gran+Torino&year=2008"
+      }
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "director",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Clint Eastwood",
+     "proposed": "Clint Eastwood",
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": "Clint Eastwood",
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Gran+Torino&type=movie&y=2008"
+      },
+      {
+       "src": "TMDB",
+       "value": "Clint Eastwood",
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Gran+Torino&year=2008"
+      }
+     ]
+    },
+    {
+     "field": "studio",
+     "label": "studio",
+     "soft": true,
+     "editionDependent": false,
+     "current": "Warner Bros.",
+     "proposed": "Matten Productions",
+     "status": "proposed-change",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "TMDB",
+       "value": "Matten Productions",
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Gran+Torino&year=2008"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "m1758",
+   "title": "Sully",
+   "sourcesReached": [
+    "OMDb",
+    "TMDB"
+   ],
+   "sourcesMissed": [],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "release year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 2016,
+     "proposed": 2016,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 2016,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Sully&type=movie&y=2016"
+      },
+      {
+       "src": "TMDB",
+       "value": 2016,
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Sully&year=2016"
+      }
+     ]
+    },
+    {
+     "field": "runtime",
+     "label": "runtime (min)",
+     "soft": false,
+     "editionDependent": true,
+     "current": 96,
+     "proposed": 96,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 96,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Sully&type=movie&y=2016"
+      },
+      {
+       "src": "TMDB",
+       "value": 96,
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Sully&year=2016"
+      }
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "director",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Clint Eastwood",
+     "proposed": "Clint Eastwood",
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": "Clint Eastwood",
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Sully&type=movie&y=2016"
+      },
+      {
+       "src": "TMDB",
+       "value": "Clint Eastwood",
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Sully&year=2016"
+      }
+     ]
+    },
+    {
+     "field": "studio",
+     "label": "studio",
+     "soft": true,
+     "editionDependent": false,
+     "current": "Warner Bros.",
+     "proposed": "Warner Bros. Pictures",
+     "status": "proposed-change",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "TMDB",
+       "value": "Warner Bros. Pictures",
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Sully&year=2016"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "m1759",
+   "title": "Changeling",
+   "sourcesReached": [
+    "OMDb",
+    "TMDB"
+   ],
+   "sourcesMissed": [],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "release year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 2008,
+     "proposed": 2008,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 2008,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Changeling&type=movie&y=2008"
+      },
+      {
+       "src": "TMDB",
+       "value": 2008,
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Changeling&year=2008"
+      }
+     ]
+    },
+    {
+     "field": "runtime",
+     "label": "runtime (min)",
+     "soft": false,
+     "editionDependent": true,
+     "current": 141,
+     "proposed": 141,
+     "status": "corroborated-by-one",
+     "grade": "B",
+     "note": "matches OMDb; disagrees with TMDB (142)",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 141,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Changeling&type=movie&y=2008"
+      },
+      {
+       "src": "TMDB",
+       "value": 142,
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Changeling&year=2008"
+      }
+     ],
+     "alternatives": [
+      142
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "director",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Clint Eastwood",
+     "proposed": "Clint Eastwood",
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": "Clint Eastwood",
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Changeling&type=movie&y=2008"
+      },
+      {
+       "src": "TMDB",
+       "value": "Clint Eastwood",
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Changeling&year=2008"
+      }
+     ]
+    },
+    {
+     "field": "studio",
+     "label": "studio",
+     "soft": true,
+     "editionDependent": false,
+     "current": "Universal Pictures",
+     "proposed": "Universal Pictures",
+     "status": "confirmed",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "TMDB",
+       "value": "Universal Pictures",
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Changeling&year=2008"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "m1760",
+   "title": "Invictus",
+   "sourcesReached": [
+    "OMDb",
+    "TMDB"
+   ],
+   "sourcesMissed": [],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "release year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 2009,
+     "proposed": 2009,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 2009,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Invictus&type=movie&y=2009"
+      },
+      {
+       "src": "TMDB",
+       "value": 2009,
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Invictus&year=2009"
+      }
+     ]
+    },
+    {
+     "field": "runtime",
+     "label": "runtime (min)",
+     "soft": false,
+     "editionDependent": true,
+     "current": 134,
+     "proposed": 134,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 134,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Invictus&type=movie&y=2009"
+      },
+      {
+       "src": "TMDB",
+       "value": 134,
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Invictus&year=2009"
+      }
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "director",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Clint Eastwood",
+     "proposed": "Clint Eastwood",
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": "Clint Eastwood",
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Invictus&type=movie&y=2009"
+      },
+      {
+       "src": "TMDB",
+       "value": "Clint Eastwood",
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Invictus&year=2009"
+      }
+     ]
+    },
+    {
+     "field": "studio",
+     "label": "studio",
+     "soft": true,
+     "editionDependent": false,
+     "current": "Warner Bros.",
+     "proposed": "Warner Bros. Pictures",
+     "status": "proposed-change",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "TMDB",
+       "value": "Warner Bros. Pictures",
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Invictus&year=2009"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "m1761",
+   "title": "J. Edgar",
+   "sourcesReached": [
+    "OMDb",
+    "TMDB"
+   ],
+   "sourcesMissed": [],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "release year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 2011,
+     "proposed": 2011,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 2011,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=J.+Edgar&type=movie&y=2011"
+      },
+      {
+       "src": "TMDB",
+       "value": 2011,
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=J.+Edgar&year=2011"
+      }
+     ]
+    },
+    {
+     "field": "runtime",
+     "label": "runtime (min)",
+     "soft": false,
+     "editionDependent": true,
+     "current": 137,
+     "proposed": 137,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 137,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=J.+Edgar&type=movie&y=2011"
+      },
+      {
+       "src": "TMDB",
+       "value": 137,
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=J.+Edgar&year=2011"
+      }
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "director",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Clint Eastwood",
+     "proposed": "Clint Eastwood",
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": "Clint Eastwood",
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=J.+Edgar&type=movie&y=2011"
+      },
+      {
+       "src": "TMDB",
+       "value": "Clint Eastwood",
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=J.+Edgar&year=2011"
+      }
+     ]
+    },
+    {
+     "field": "studio",
+     "label": "studio",
+     "soft": true,
+     "editionDependent": false,
+     "current": "Warner Bros.",
+     "proposed": "Imagine Entertainment",
+     "status": "proposed-change",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "TMDB",
+       "value": "Imagine Entertainment",
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=J.+Edgar&year=2011"
+      }
+     ]
+    }
+   ]
+  }
+ ]
+}
