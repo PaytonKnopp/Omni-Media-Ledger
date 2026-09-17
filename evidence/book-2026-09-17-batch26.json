@@ -1,0 +1,1030 @@
+{
+ "medium": "book",
+ "generated": "2026-09-17T18:17:21.944Z",
+ "offline": false,
+ "sources": [
+  "OpenLibrary",
+  "Google Books",
+  "Wikidata"
+ ],
+ "works": [
+  {
+   "id": "b1574",
+   "title": "Mona Lisa Overdrive",
+   "sourcesReached": [
+    "OpenLibrary",
+    "Google Books",
+    "Wikidata"
+   ],
+   "sourcesMissed": [],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "first publication year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 1988,
+     "proposed": 1988,
+     "status": "corroborated-by-one",
+     "grade": "B",
+     "note": "matches Wikidata; disagrees with OpenLibrary (1987), Google Books (2021)",
+     "sources": [
+      {
+       "src": "OpenLibrary",
+       "value": 1987,
+       "url": "https://openlibrary.org/search.json?title=Mona+Lisa+Overdrive&limit=1"
+      },
+      {
+       "src": "Google Books",
+       "value": 2021,
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3AMona+Lisa+Overdrive&maxResults=1&key=REDACTED"
+      },
+      {
+       "src": "Wikidata",
+       "value": 1988,
+       "url": "https://www.wikidata.org/wiki/Q663215"
+      }
+     ],
+     "alternatives": [
+      2021,
+      1988
+     ]
+    },
+    {
+     "field": "pages",
+     "label": "page count",
+     "soft": false,
+     "editionDependent": true,
+     "current": 260,
+     "proposed": 352,
+     "status": "edition-dependent",
+     "grade": "B",
+     "note": "one source differs from the corpus (Google Books 352) on a field with no single true value -- likely a different printing/edition, not an error.",
+     "sources": [
+      {
+       "src": "Google Books",
+       "value": 352,
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3AMona+Lisa+Overdrive&maxResults=1&key=REDACTED"
+      }
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "author",
+     "soft": false,
+     "editionDependent": false,
+     "current": "William Gibson",
+     "proposed": "William Gibson",
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OpenLibrary",
+       "value": "William Gibson",
+       "url": "https://openlibrary.org/search.json?title=Mona+Lisa+Overdrive&limit=1"
+      },
+      {
+       "src": "Google Books",
+       "value": "William Gibson",
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3AMona+Lisa+Overdrive&maxResults=1&key=REDACTED"
+      },
+      {
+       "src": "Wikidata",
+       "value": "William Gibson",
+       "url": "https://www.wikidata.org/wiki/Q663215"
+      }
+     ]
+    },
+    {
+     "field": "publisher",
+     "label": "publisher",
+     "soft": true,
+     "editionDependent": true,
+     "current": "Bantam Spectra",
+     "proposed": "Gollancz",
+     "status": "edition-dependent",
+     "grade": "B",
+     "note": "one source differs from the corpus (Wikidata \"Gollancz\") on a field with no single true value -- likely a different printing/edition, not an error.",
+     "sources": [
+      {
+       "src": "Wikidata",
+       "value": "Gollancz",
+       "url": "https://www.wikidata.org/wiki/Q663215"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "b1575",
+   "title": "Seveneves",
+   "sourcesReached": [
+    "OpenLibrary",
+    "Google Books",
+    "Wikidata"
+   ],
+   "sourcesMissed": [],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "first publication year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 2015,
+     "proposed": 2015,
+     "status": "corroborated-by-one",
+     "grade": "B",
+     "note": "matches OpenLibrary/Wikidata; disagrees with Google Books (2016)",
+     "sources": [
+      {
+       "src": "OpenLibrary",
+       "value": 2015,
+       "url": "https://openlibrary.org/search.json?title=Seveneves&limit=1"
+      },
+      {
+       "src": "Google Books",
+       "value": 2016,
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3ASeveneves&maxResults=1&key=REDACTED"
+      },
+      {
+       "src": "Wikidata",
+       "value": 2015,
+       "url": "https://www.wikidata.org/wiki/Q19902777"
+      }
+     ],
+     "alternatives": [
+      2016
+     ]
+    },
+    {
+     "field": "pages",
+     "label": "page count",
+     "soft": false,
+     "editionDependent": true,
+     "current": 880,
+     "proposed": 0,
+     "status": "edition-dependent",
+     "grade": "B",
+     "note": "one source differs from the corpus (Google Books 0) on a field with no single true value -- likely a different printing/edition, not an error.",
+     "sources": [
+      {
+       "src": "Google Books",
+       "value": 0,
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3ASeveneves&maxResults=1&key=REDACTED"
+      }
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "author",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Neal Stephenson",
+     "proposed": "Neal Stephenson",
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OpenLibrary",
+       "value": "Neal Stephenson",
+       "url": "https://openlibrary.org/search.json?title=Seveneves&limit=1"
+      },
+      {
+       "src": "Google Books",
+       "value": "Neal Stephenson",
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3ASeveneves&maxResults=1&key=REDACTED"
+      },
+      {
+       "src": "Wikidata",
+       "value": "Neal Stephenson",
+       "url": "https://www.wikidata.org/wiki/Q19902777"
+      }
+     ]
+    },
+    {
+     "field": "publisher",
+     "label": "publisher",
+     "soft": true,
+     "editionDependent": true,
+     "current": "William Morrow",
+     "proposed": "William Morrow",
+     "status": "corroborated-by-one",
+     "grade": "B",
+     "note": "matches Wikidata; disagrees with Google Books (\"William Morrow Paperbacks\")",
+     "sources": [
+      {
+       "src": "Google Books",
+       "value": "William Morrow Paperbacks",
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3ASeveneves&maxResults=1&key=REDACTED"
+      },
+      {
+       "src": "Wikidata",
+       "value": "William Morrow",
+       "url": "https://www.wikidata.org/wiki/Q19902777"
+      }
+     ],
+     "alternatives": [
+      "William Morrow"
+     ]
+    }
+   ]
+  },
+  {
+   "id": "b1576",
+   "title": "Reamde",
+   "sourcesReached": [
+    "OpenLibrary",
+    "Google Books",
+    "Wikidata"
+   ],
+   "sourcesMissed": [],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "first publication year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 2011,
+     "proposed": 2011,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OpenLibrary",
+       "value": 2011,
+       "url": "https://openlibrary.org/search.json?title=Reamde&limit=1"
+      },
+      {
+       "src": "Google Books",
+       "value": 2011,
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3AReamde&maxResults=1&key=REDACTED"
+      },
+      {
+       "src": "Wikidata",
+       "value": 2011,
+       "url": "https://www.wikidata.org/wiki/Q7301391"
+      }
+     ]
+    },
+    {
+     "field": "pages",
+     "label": "page count",
+     "soft": false,
+     "editionDependent": true,
+     "current": 1044,
+     "proposed": 1192,
+     "status": "edition-dependent",
+     "grade": "B",
+     "note": "one source differs from the corpus (Google Books 1192) on a field with no single true value -- likely a different printing/edition, not an error.",
+     "sources": [
+      {
+       "src": "Google Books",
+       "value": 1192,
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3AReamde&maxResults=1&key=REDACTED"
+      }
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "author",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Neal Stephenson",
+     "proposed": "Neal Stephenson",
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OpenLibrary",
+       "value": "Neal Stephenson",
+       "url": "https://openlibrary.org/search.json?title=Reamde&limit=1"
+      },
+      {
+       "src": "Google Books",
+       "value": "Neal Stephenson",
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3AReamde&maxResults=1&key=REDACTED"
+      },
+      {
+       "src": "Wikidata",
+       "value": "Neal Stephenson",
+       "url": "https://www.wikidata.org/wiki/Q7301391"
+      }
+     ]
+    },
+    {
+     "field": "publisher",
+     "label": "publisher",
+     "soft": true,
+     "editionDependent": true,
+     "current": "William Morrow",
+     "proposed": "Atlantic Books Ltd",
+     "status": "edition-dependent",
+     "grade": "B",
+     "note": "one source differs from the corpus (Google Books \"Atlantic Books Ltd\") on a field with no single true value -- likely a different printing/edition, not an error.",
+     "sources": [
+      {
+       "src": "Google Books",
+       "value": "Atlantic Books Ltd",
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3AReamde&maxResults=1&key=REDACTED"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "b1577",
+   "title": "Fall; or, Dodge in Hell",
+   "sourcesReached": [
+    "OpenLibrary",
+    "Google Books",
+    "Wikidata"
+   ],
+   "sourcesMissed": [],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "first publication year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 2019,
+     "proposed": 2019,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OpenLibrary",
+       "value": 2019,
+       "url": "https://openlibrary.org/search.json?title=Fall%3B+or%2C+Dodge+in+Hell&limit=1"
+      },
+      {
+       "src": "Google Books",
+       "value": 2019,
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3AFall%3B+or%2C+Dodge+in+Hell&maxResults=1&key=REDACTED"
+      },
+      {
+       "src": "Wikidata",
+       "value": 2019,
+       "url": "https://www.wikidata.org/wiki/Q65043785"
+      }
+     ]
+    },
+    {
+     "field": "pages",
+     "label": "page count",
+     "soft": false,
+     "editionDependent": true,
+     "current": 883,
+     "proposed": 1051,
+     "status": "edition-dependent",
+     "grade": "B",
+     "note": "one source differs from the corpus (Google Books 1051) on a field with no single true value -- likely a different printing/edition, not an error.",
+     "sources": [
+      {
+       "src": "Google Books",
+       "value": 1051,
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3AFall%3B+or%2C+Dodge+in+Hell&maxResults=1&key=REDACTED"
+      }
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "author",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Neal Stephenson",
+     "proposed": "Neal Stephenson",
+     "status": "corroborated-by-one",
+     "grade": "B",
+     "note": "matches Google Books/Wikidata; disagrees with OpenLibrary (\"Neal Stephenson & Malcolm Hillgartner\")",
+     "sources": [
+      {
+       "src": "OpenLibrary",
+       "value": "Neal Stephenson & Malcolm Hillgartner",
+       "url": "https://openlibrary.org/search.json?title=Fall%3B+or%2C+Dodge+in+Hell&limit=1"
+      },
+      {
+       "src": "Google Books",
+       "value": "Neal Stephenson",
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3AFall%3B+or%2C+Dodge+in+Hell&maxResults=1&key=REDACTED"
+      },
+      {
+       "src": "Wikidata",
+       "value": "Neal Stephenson",
+       "url": "https://www.wikidata.org/wiki/Q65043785"
+      }
+     ],
+     "alternatives": [
+      "Neal Stephenson & Malcolm Hillgartner"
+     ]
+    },
+    {
+     "field": "publisher",
+     "label": "publisher",
+     "soft": true,
+     "editionDependent": true,
+     "current": "William Morrow",
+     "proposed": "HarperCollins",
+     "status": "edition-dependent",
+     "grade": "B",
+     "note": "one source differs from the corpus (Google Books \"HarperCollins\") on a field with no single true value -- likely a different printing/edition, not an error.",
+     "sources": [
+      {
+       "src": "Google Books",
+       "value": "HarperCollins",
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3AFall%3B+or%2C+Dodge+in+Hell&maxResults=1&key=REDACTED"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "b1578",
+   "title": "Broken Angels",
+   "sourcesReached": [
+    "OpenLibrary",
+    "Wikidata"
+   ],
+   "sourcesMissed": [
+    "Google Books (no match)"
+   ],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "first publication year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 2003,
+     "proposed": 2003,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OpenLibrary",
+       "value": 2003,
+       "url": "https://openlibrary.org/search.json?title=Broken+Angels&limit=1"
+      },
+      {
+       "src": "Wikidata",
+       "value": 2003,
+       "url": "https://www.wikidata.org/wiki/Q2849572"
+      }
+     ]
+    },
+    {
+     "field": "pages",
+     "label": "page count",
+     "soft": false,
+     "current": 399,
+     "status": "no-source",
+     "grade": null,
+     "sources": []
+    },
+    {
+     "field": "creator",
+     "label": "author",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Richard K. Morgan",
+     "proposed": "Richard K. Morgan",
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OpenLibrary",
+       "value": "Richard K. Morgan",
+       "url": "https://openlibrary.org/search.json?title=Broken+Angels&limit=1"
+      },
+      {
+       "src": "Wikidata",
+       "value": "Richard K. Morgan",
+       "url": "https://www.wikidata.org/wiki/Q2849572"
+      }
+     ]
+    },
+    {
+     "field": "publisher",
+     "label": "publisher",
+     "soft": true,
+     "editionDependent": true,
+     "current": "Gollancz",
+     "proposed": "Gollancz",
+     "status": "confirmed",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "Wikidata",
+       "value": "Gollancz",
+       "url": "https://www.wikidata.org/wiki/Q2849572"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "b1579",
+   "title": "Woken Furies",
+   "sourcesReached": [
+    "OpenLibrary",
+    "Google Books",
+    "Wikidata"
+   ],
+   "sourcesMissed": [],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "first publication year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 2005,
+     "proposed": 2005,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OpenLibrary",
+       "value": 2005,
+       "url": "https://openlibrary.org/search.json?title=Woken+Furies&limit=1"
+      },
+      {
+       "src": "Google Books",
+       "value": 2005,
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3AWoken+Furies&maxResults=1&key=REDACTED"
+      },
+      {
+       "src": "Wikidata",
+       "value": 2005,
+       "url": "https://www.wikidata.org/wiki/Q3005476"
+      }
+     ]
+    },
+    {
+     "field": "pages",
+     "label": "page count",
+     "soft": false,
+     "editionDependent": true,
+     "current": 435,
+     "proposed": 559,
+     "status": "edition-dependent",
+     "grade": "B",
+     "note": "one source differs from the corpus (Google Books 559) on a field with no single true value -- likely a different printing/edition, not an error.",
+     "sources": [
+      {
+       "src": "Google Books",
+       "value": 559,
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3AWoken+Furies&maxResults=1&key=REDACTED"
+      }
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "author",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Richard K. Morgan",
+     "proposed": "Richard K. Morgan",
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OpenLibrary",
+       "value": "Richard K. Morgan",
+       "url": "https://openlibrary.org/search.json?title=Woken+Furies&limit=1"
+      },
+      {
+       "src": "Google Books",
+       "value": "Richard K. Morgan",
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3AWoken+Furies&maxResults=1&key=REDACTED"
+      },
+      {
+       "src": "Wikidata",
+       "value": "Richard K. Morgan",
+       "url": "https://www.wikidata.org/wiki/Q3005476"
+      }
+     ]
+    },
+    {
+     "field": "publisher",
+     "label": "publisher",
+     "soft": true,
+     "editionDependent": true,
+     "current": "Gollancz",
+     "proposed": "Gollancz",
+     "status": "corroborated-by-one",
+     "grade": "B",
+     "note": "matches Wikidata; disagrees with Google Books (\"Del Rey\")",
+     "sources": [
+      {
+       "src": "Google Books",
+       "value": "Del Rey",
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3AWoken+Furies&maxResults=1&key=REDACTED"
+      },
+      {
+       "src": "Wikidata",
+       "value": "Gollancz",
+       "url": "https://www.wikidata.org/wiki/Q3005476"
+      }
+     ],
+     "alternatives": [
+      "Gollancz"
+     ]
+    }
+   ]
+  },
+  {
+   "id": "b1580",
+   "title": "Ilium",
+   "sourcesReached": [
+    "OpenLibrary",
+    "Google Books",
+    "Wikidata"
+   ],
+   "sourcesMissed": [],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "first publication year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 2003,
+     "proposed": 2003,
+     "status": "corroborated-by-one",
+     "grade": "B",
+     "note": "matches OpenLibrary/Wikidata; disagrees with Google Books (2014)",
+     "sources": [
+      {
+       "src": "OpenLibrary",
+       "value": 2003,
+       "url": "https://openlibrary.org/search.json?title=Ilium&limit=1"
+      },
+      {
+       "src": "Google Books",
+       "value": 2014,
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3AIlium&maxResults=1&key=REDACTED"
+      },
+      {
+       "src": "Wikidata",
+       "value": 2003,
+       "url": "https://www.wikidata.org/wiki/Q2725656"
+      }
+     ],
+     "alternatives": [
+      2014
+     ]
+    },
+    {
+     "field": "pages",
+     "label": "page count",
+     "soft": false,
+     "editionDependent": true,
+     "current": 576,
+     "proposed": 582,
+     "status": "edition-dependent",
+     "grade": "B",
+     "note": "one source differs from the corpus (Google Books 582) on a field with no single true value -- likely a different printing/edition, not an error.",
+     "sources": [
+      {
+       "src": "Google Books",
+       "value": 582,
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3AIlium&maxResults=1&key=REDACTED"
+      }
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "author",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Dan Simmons",
+     "proposed": "Dan Simmons",
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OpenLibrary",
+       "value": "Dan Simmons",
+       "url": "https://openlibrary.org/search.json?title=Ilium&limit=1"
+      },
+      {
+       "src": "Google Books",
+       "value": "Dan Simmons",
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3AIlium&maxResults=1&key=REDACTED"
+      },
+      {
+       "src": "Wikidata",
+       "value": "Dan Simmons",
+       "url": "https://www.wikidata.org/wiki/Q2725656"
+      }
+     ]
+    },
+    {
+     "field": "publisher",
+     "label": "publisher",
+     "soft": true,
+     "editionDependent": true,
+     "current": "Eos",
+     "proposed": "Heyne Verlag",
+     "status": "edition-dependent",
+     "grade": "B",
+     "note": "corpus value does not match either source (Google Books \"Heyne Verlag\", Wikidata \"HarperCollins\") -- treated as a distinct edition; the specific cut is not identified from available evidence.",
+     "sources": [
+      {
+       "src": "Google Books",
+       "value": "Heyne Verlag",
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3AIlium&maxResults=1&key=REDACTED"
+      },
+      {
+       "src": "Wikidata",
+       "value": "HarperCollins",
+       "url": "https://www.wikidata.org/wiki/Q2725656"
+      }
+     ],
+     "alternatives": [
+      "HarperCollins"
+     ]
+    }
+   ]
+  },
+  {
+   "id": "b1581",
+   "title": "Olympos",
+   "sourcesReached": [
+    "OpenLibrary",
+    "Wikidata"
+   ],
+   "sourcesMissed": [
+    "Google Books (no match)"
+   ],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "first publication year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 2005,
+     "proposed": 2005,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OpenLibrary",
+       "value": 2005,
+       "url": "https://openlibrary.org/search.json?title=Olympos&limit=1"
+      },
+      {
+       "src": "Wikidata",
+       "value": 2005,
+       "url": "https://www.wikidata.org/wiki/Q2525080"
+      }
+     ]
+    },
+    {
+     "field": "pages",
+     "label": "page count",
+     "soft": false,
+     "current": 690,
+     "status": "no-source",
+     "grade": null,
+     "sources": []
+    },
+    {
+     "field": "creator",
+     "label": "author",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Dan Simmons",
+     "proposed": "Dan Simmons",
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OpenLibrary",
+       "value": "Dan Simmons",
+       "url": "https://openlibrary.org/search.json?title=Olympos&limit=1"
+      },
+      {
+       "src": "Wikidata",
+       "value": "Dan Simmons",
+       "url": "https://www.wikidata.org/wiki/Q2525080"
+      }
+     ]
+    },
+    {
+     "field": "publisher",
+     "label": "publisher",
+     "soft": true,
+     "editionDependent": true,
+     "current": "Eos",
+     "proposed": "HarperCollins",
+     "status": "edition-dependent",
+     "grade": "B",
+     "note": "one source differs from the corpus (Wikidata \"HarperCollins\") on a field with no single true value -- likely a different printing/edition, not an error.",
+     "sources": [
+      {
+       "src": "Wikidata",
+       "value": "HarperCollins",
+       "url": "https://www.wikidata.org/wiki/Q2525080"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "b1582",
+   "title": "Drood",
+   "sourcesReached": [
+    "OpenLibrary",
+    "Wikidata"
+   ],
+   "sourcesMissed": [
+    "Google Books (no match)"
+   ],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "first publication year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 2009,
+     "proposed": 2009,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OpenLibrary",
+       "value": 2009,
+       "url": "https://openlibrary.org/search.json?title=Drood&limit=1"
+      },
+      {
+       "src": "Wikidata",
+       "value": 2009,
+       "url": "https://www.wikidata.org/wiki/Q5308350"
+      }
+     ]
+    },
+    {
+     "field": "pages",
+     "label": "page count",
+     "soft": false,
+     "current": 775,
+     "status": "no-source",
+     "grade": null,
+     "sources": []
+    },
+    {
+     "field": "creator",
+     "label": "author",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Dan Simmons",
+     "proposed": "Dan Simmons",
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OpenLibrary",
+       "value": "Dan Simmons",
+       "url": "https://openlibrary.org/search.json?title=Drood&limit=1"
+      },
+      {
+       "src": "Wikidata",
+       "value": "Dan Simmons",
+       "url": "https://www.wikidata.org/wiki/Q5308350"
+      }
+     ]
+    },
+    {
+     "field": "publisher",
+     "label": "publisher",
+     "soft": true,
+     "editionDependent": true,
+     "current": "Little, Brown",
+     "proposed": "Little, Brown and Company",
+     "status": "edition-dependent",
+     "grade": "B",
+     "note": "one source differs from the corpus (Wikidata \"Little, Brown and Company\") on a field with no single true value -- likely a different printing/edition, not an error.",
+     "sources": [
+      {
+       "src": "Wikidata",
+       "value": "Little, Brown and Company",
+       "url": "https://www.wikidata.org/wiki/Q5308350"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "b1583",
+   "title": "Carrion Comfort",
+   "sourcesReached": [
+    "OpenLibrary",
+    "Google Books",
+    "Wikidata"
+   ],
+   "sourcesMissed": [],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "first publication year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 1989,
+     "proposed": 1989,
+     "status": "corroborated-by-one",
+     "grade": "B",
+     "note": "matches OpenLibrary/Wikidata; disagrees with Google Books (2009)",
+     "sources": [
+      {
+       "src": "OpenLibrary",
+       "value": 1989,
+       "url": "https://openlibrary.org/search.json?title=Carrion+Comfort&limit=1"
+      },
+      {
+       "src": "Google Books",
+       "value": 2009,
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3ACarrion+Comfort&maxResults=1&key=REDACTED"
+      },
+      {
+       "src": "Wikidata",
+       "value": 1989,
+       "url": "https://www.wikidata.org/wiki/Q3205133"
+      }
+     ],
+     "alternatives": [
+      2009
+     ]
+    },
+    {
+     "field": "pages",
+     "label": "page count",
+     "soft": false,
+     "editionDependent": true,
+     "current": 884,
+     "proposed": 802,
+     "status": "edition-dependent",
+     "grade": "B",
+     "note": "one source differs from the corpus (Google Books 802) on a field with no single true value -- likely a different printing/edition, not an error.",
+     "sources": [
+      {
+       "src": "Google Books",
+       "value": 802,
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3ACarrion+Comfort&maxResults=1&key=REDACTED"
+      }
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "author",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Dan Simmons",
+     "proposed": "Dan Simmons",
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OpenLibrary",
+       "value": "Dan Simmons",
+       "url": "https://openlibrary.org/search.json?title=Carrion+Comfort&limit=1"
+      },
+      {
+       "src": "Google Books",
+       "value": "Dan Simmons",
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3ACarrion+Comfort&maxResults=1&key=REDACTED"
+      },
+      {
+       "src": "Wikidata",
+       "value": "Dan Simmons",
+       "url": "https://www.wikidata.org/wiki/Q3205133"
+      }
+     ]
+    },
+    {
+     "field": "publisher",
+     "label": "publisher",
+     "soft": true,
+     "editionDependent": true,
+     "current": "Dark Harvest",
+     "proposed": "Dark Harvest",
+     "status": "corroborated-by-one",
+     "grade": "B",
+     "note": "matches Wikidata; disagrees with Google Books (\"St. Martin's Griffin\")",
+     "sources": [
+      {
+       "src": "Google Books",
+       "value": "St. Martin's Griffin",
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3ACarrion+Comfort&maxResults=1&key=REDACTED"
+      },
+      {
+       "src": "Wikidata",
+       "value": "Dark Harvest",
+       "url": "https://www.wikidata.org/wiki/Q3205133"
+      }
+     ],
+     "alternatives": [
+      "Dark Harvest"
+     ]
+    }
+   ]
+  }
+ ]
+}
