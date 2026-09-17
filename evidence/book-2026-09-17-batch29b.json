@@ -1,0 +1,636 @@
+{
+ "medium": "book",
+ "generated": "2026-09-17T22:23:03.536Z",
+ "offline": false,
+ "sources": [
+  "OpenLibrary",
+  "Google Books",
+  "Wikidata"
+ ],
+ "works": [
+  {
+   "id": "b1620",
+   "title": "Defiant",
+   "sourcesReached": [],
+   "sourcesMissed": [
+    "OpenLibrary (no match)",
+    "Google Books (no match)",
+    "Wikidata (no match)"
+   ],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "first publication year",
+     "soft": false,
+     "current": 2023,
+     "status": "no-source",
+     "grade": null,
+     "sources": []
+    },
+    {
+     "field": "pages",
+     "label": "page count",
+     "soft": false,
+     "current": 560,
+     "status": "no-source",
+     "grade": null,
+     "sources": []
+    },
+    {
+     "field": "creator",
+     "label": "author",
+     "soft": false,
+     "current": "Brandon Sanderson",
+     "status": "no-source",
+     "grade": null,
+     "sources": []
+    },
+    {
+     "field": "publisher",
+     "label": "publisher",
+     "soft": true,
+     "current": "Delacorte Press",
+     "status": "no-source",
+     "grade": null,
+     "sources": []
+    }
+   ]
+  },
+  {
+   "id": "b1621",
+   "title": "The Rithmatist",
+   "sourcesReached": [
+    "OpenLibrary",
+    "Google Books",
+    "Wikidata"
+   ],
+   "sourcesMissed": [],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "first publication year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 2013,
+     "proposed": 2013,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OpenLibrary",
+       "value": 2013,
+       "url": "https://openlibrary.org/search.json?title=The+Rithmatist&limit=1"
+      },
+      {
+       "src": "Google Books",
+       "value": 2013,
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3AThe+Rithmatist&maxResults=1&key=REDACTED"
+      }
+     ]
+    },
+    {
+     "field": "pages",
+     "label": "page count",
+     "soft": false,
+     "editionDependent": true,
+     "current": 378,
+     "proposed": 385,
+     "status": "edition-dependent",
+     "grade": "B",
+     "note": "one source differs from the corpus (Google Books 385) on a field with no single true value -- likely a different printing/edition, not an error.",
+     "sources": [
+      {
+       "src": "Google Books",
+       "value": 385,
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3AThe+Rithmatist&maxResults=1&key=REDACTED"
+      }
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "author",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Brandon Sanderson",
+     "proposed": "Brandon Sanderson",
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OpenLibrary",
+       "value": "Brandon Sanderson",
+       "url": "https://openlibrary.org/search.json?title=The+Rithmatist&limit=1"
+      },
+      {
+       "src": "Google Books",
+       "value": "Brandon Sanderson",
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3AThe+Rithmatist&maxResults=1&key=REDACTED"
+      },
+      {
+       "src": "Wikidata",
+       "value": "Brandon Sanderson",
+       "url": "https://www.wikidata.org/wiki/Q133693337"
+      }
+     ]
+    },
+    {
+     "field": "publisher",
+     "label": "publisher",
+     "soft": true,
+     "editionDependent": true,
+     "current": "Tor Books",
+     "proposed": "Tor Teen",
+     "status": "edition-dependent",
+     "grade": "B",
+     "note": "one source differs from the corpus (Google Books \"Tor Teen\") on a field with no single true value -- likely a different printing/edition, not an error.",
+     "sources": [
+      {
+       "src": "Google Books",
+       "value": "Tor Teen",
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3AThe+Rithmatist&maxResults=1&key=REDACTED"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "b1622",
+   "title": "Steelheart",
+   "sourcesReached": [
+    "OpenLibrary",
+    "Google Books",
+    "Wikidata"
+   ],
+   "sourcesMissed": [],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "first publication year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 2013,
+     "proposed": 2013,
+     "status": "corroborated-by-one",
+     "grade": "B",
+     "note": "matches Wikidata; disagrees with OpenLibrary (2001), Google Books (2020)",
+     "sources": [
+      {
+       "src": "OpenLibrary",
+       "value": 2001,
+       "url": "https://openlibrary.org/search.json?title=Steelheart&limit=1"
+      },
+      {
+       "src": "Google Books",
+       "value": 2020,
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3ASteelheart&maxResults=1&key=REDACTED"
+      },
+      {
+       "src": "Wikidata",
+       "value": 2013,
+       "url": "https://www.wikidata.org/wiki/Q109942294"
+      }
+     ],
+     "alternatives": [
+      2020,
+      2013
+     ]
+    },
+    {
+     "field": "pages",
+     "label": "page count",
+     "soft": false,
+     "editionDependent": true,
+     "current": 386,
+     "proposed": 498,
+     "status": "edition-dependent",
+     "grade": "B",
+     "note": "one source differs from the corpus (Google Books 498) on a field with no single true value -- likely a different printing/edition, not an error.",
+     "sources": [
+      {
+       "src": "Google Books",
+       "value": 498,
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3ASteelheart&maxResults=1&key=REDACTED"
+      }
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "author",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Brandon Sanderson",
+     "proposed": "Brandon Sanderson",
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OpenLibrary",
+       "value": "Brandon Sanderson",
+       "url": "https://openlibrary.org/search.json?title=Steelheart&limit=1"
+      },
+      {
+       "src": "Google Books",
+       "value": "Brandon Sanderson",
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3ASteelheart&maxResults=1&key=REDACTED"
+      },
+      {
+       "src": "Wikidata",
+       "value": "Brandon Sanderson",
+       "url": "https://www.wikidata.org/wiki/Q109942294"
+      }
+     ]
+    },
+    {
+     "field": "publisher",
+     "label": "publisher",
+     "soft": true,
+     "editionDependent": true,
+     "current": "Delacorte Press",
+     "proposed": "Delacorte Press",
+     "status": "confirmed",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "Google Books",
+       "value": "Delacorte Press",
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3ASteelheart&maxResults=1&key=REDACTED"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "b1623",
+   "title": "Firefight",
+   "sourcesReached": [
+    "OpenLibrary"
+   ],
+   "sourcesMissed": [
+    "Google Books (no match)",
+    "Wikidata (no match)"
+   ],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "first publication year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 2015,
+     "proposed": 2001,
+     "status": "proposed-change",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "OpenLibrary",
+       "value": 2001,
+       "url": "https://openlibrary.org/search.json?title=Firefight&limit=1"
+      }
+     ]
+    },
+    {
+     "field": "pages",
+     "label": "page count",
+     "soft": false,
+     "current": 346,
+     "status": "no-source",
+     "grade": null,
+     "sources": []
+    },
+    {
+     "field": "creator",
+     "label": "author",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Brandon Sanderson",
+     "proposed": "Brandon Sanderson",
+     "status": "confirmed",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "OpenLibrary",
+       "value": "Brandon Sanderson",
+       "url": "https://openlibrary.org/search.json?title=Firefight&limit=1"
+      }
+     ]
+    },
+    {
+     "field": "publisher",
+     "label": "publisher",
+     "soft": true,
+     "current": "Delacorte Press",
+     "status": "no-source",
+     "grade": null,
+     "sources": []
+    }
+   ]
+  },
+  {
+   "id": "b1624",
+   "title": "Calamity",
+   "sourcesReached": [
+    "OpenLibrary"
+   ],
+   "sourcesMissed": [
+    "Google Books (no match)",
+    "Wikidata (no match)"
+   ],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "first publication year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 2016,
+     "proposed": 2016,
+     "status": "confirmed",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "OpenLibrary",
+       "value": 2016,
+       "url": "https://openlibrary.org/search.json?title=Calamity&limit=1"
+      }
+     ]
+    },
+    {
+     "field": "pages",
+     "label": "page count",
+     "soft": false,
+     "current": 389,
+     "status": "no-source",
+     "grade": null,
+     "sources": []
+    },
+    {
+     "field": "creator",
+     "label": "author",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Brandon Sanderson",
+     "proposed": "Brandon Sanderson",
+     "status": "confirmed",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "OpenLibrary",
+       "value": "Brandon Sanderson",
+       "url": "https://openlibrary.org/search.json?title=Calamity&limit=1"
+      }
+     ]
+    },
+    {
+     "field": "publisher",
+     "label": "publisher",
+     "soft": true,
+     "current": "Delacorte Press",
+     "status": "no-source",
+     "grade": null,
+     "sources": []
+    }
+   ]
+  },
+  {
+   "id": "b1625",
+   "title": "The Emperor's Soul",
+   "sourcesReached": [
+    "OpenLibrary",
+    "Google Books",
+    "Wikidata"
+   ],
+   "sourcesMissed": [],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "first publication year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 2012,
+     "proposed": 2012,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OpenLibrary",
+       "value": 2012,
+       "url": "https://openlibrary.org/search.json?title=The+Emperor%27s+Soul&limit=1"
+      },
+      {
+       "src": "Google Books",
+       "value": 2012,
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3AThe+Emperor%27s+Soul&maxResults=1&key=REDACTED"
+      },
+      {
+       "src": "Wikidata",
+       "value": 2012,
+       "url": "https://www.wikidata.org/wiki/Q17060438"
+      }
+     ]
+    },
+    {
+     "field": "pages",
+     "label": "page count",
+     "soft": false,
+     "editionDependent": true,
+     "current": 173,
+     "proposed": 118,
+     "status": "edition-dependent",
+     "grade": "B",
+     "note": "one source differs from the corpus (Google Books 118) on a field with no single true value -- likely a different printing/edition, not an error.",
+     "sources": [
+      {
+       "src": "Google Books",
+       "value": 118,
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3AThe+Emperor%27s+Soul&maxResults=1&key=REDACTED"
+      }
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "author",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Brandon Sanderson",
+     "proposed": "Brandon Sanderson",
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OpenLibrary",
+       "value": "Brandon Sanderson",
+       "url": "https://openlibrary.org/search.json?title=The+Emperor%27s+Soul&limit=1"
+      },
+      {
+       "src": "Google Books",
+       "value": "Brandon Sanderson",
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3AThe+Emperor%27s+Soul&maxResults=1&key=REDACTED"
+      },
+      {
+       "src": "Wikidata",
+       "value": "Brandon Sanderson",
+       "url": "https://www.wikidata.org/wiki/Q17060438"
+      }
+     ]
+    },
+    {
+     "field": "publisher",
+     "label": "publisher",
+     "soft": true,
+     "current": "Tachyon Publications",
+     "status": "no-source",
+     "grade": null,
+     "sources": []
+    }
+   ]
+  },
+  {
+   "id": "b1626",
+   "title": "Legion",
+   "sourcesReached": [],
+   "sourcesMissed": [
+    "OpenLibrary (no match)",
+    "Google Books (no match)",
+    "Wikidata (no match)"
+   ],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "first publication year",
+     "soft": false,
+     "current": 2012,
+     "status": "no-source",
+     "grade": null,
+     "sources": []
+    },
+    {
+     "field": "pages",
+     "label": "page count",
+     "soft": false,
+     "current": 88,
+     "status": "no-source",
+     "grade": null,
+     "sources": []
+    },
+    {
+     "field": "creator",
+     "label": "author",
+     "soft": false,
+     "current": "Brandon Sanderson",
+     "status": "no-source",
+     "grade": null,
+     "sources": []
+    },
+    {
+     "field": "publisher",
+     "label": "publisher",
+     "soft": true,
+     "current": "Subterranean Press",
+     "status": "no-source",
+     "grade": null,
+     "sources": []
+    }
+   ]
+  },
+  {
+   "id": "b1627",
+   "title": "Arcanum Unbounded",
+   "sourcesReached": [
+    "OpenLibrary",
+    "Google Books",
+    "Wikidata"
+   ],
+   "sourcesMissed": [],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "first publication year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 2016,
+     "proposed": 2016,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OpenLibrary",
+       "value": 2016,
+       "url": "https://openlibrary.org/search.json?title=Arcanum+Unbounded&limit=1"
+      },
+      {
+       "src": "Google Books",
+       "value": 2016,
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3AArcanum+Unbounded&maxResults=1&key=REDACTED"
+      },
+      {
+       "src": "Wikidata",
+       "value": 2016,
+       "url": "https://www.wikidata.org/wiki/Q28127676"
+      }
+     ]
+    },
+    {
+     "field": "pages",
+     "label": "page count",
+     "soft": false,
+     "editionDependent": true,
+     "current": 668,
+     "proposed": 666,
+     "status": "edition-dependent",
+     "grade": "B",
+     "note": "one source differs from the corpus (Google Books 666) on a field with no single true value -- likely a different printing/edition, not an error.",
+     "sources": [
+      {
+       "src": "Google Books",
+       "value": 666,
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3AArcanum+Unbounded&maxResults=1&key=REDACTED"
+      }
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "author",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Brandon Sanderson",
+     "proposed": "Brandon Sanderson",
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OpenLibrary",
+       "value": "Brandon Sanderson",
+       "url": "https://openlibrary.org/search.json?title=Arcanum+Unbounded&limit=1"
+      },
+      {
+       "src": "Google Books",
+       "value": "Brandon Sanderson",
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3AArcanum+Unbounded&maxResults=1&key=REDACTED"
+      },
+      {
+       "src": "Wikidata",
+       "value": "Brandon Sanderson",
+       "url": "https://www.wikidata.org/wiki/Q28127676"
+      }
+     ]
+    },
+    {
+     "field": "publisher",
+     "label": "publisher",
+     "soft": true,
+     "editionDependent": true,
+     "current": "Tor Books",
+     "proposed": "Macmillan",
+     "status": "edition-dependent",
+     "grade": "B",
+     "note": "one source differs from the corpus (Google Books \"Macmillan\") on a field with no single true value -- likely a different printing/edition, not an error.",
+     "sources": [
+      {
+       "src": "Google Books",
+       "value": "Macmillan",
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3AArcanum+Unbounded&maxResults=1&key=REDACTED"
+      }
+     ]
+    }
+   ]
+  }
+ ]
+}

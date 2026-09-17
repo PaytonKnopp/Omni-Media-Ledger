@@ -1,0 +1,846 @@
+{
+ "medium": "book",
+ "generated": "2026-09-17T22:22:37.691Z",
+ "offline": false,
+ "sources": [
+  "OpenLibrary",
+  "Google Books",
+  "Wikidata"
+ ],
+ "works": [
+  {
+   "id": "b1612",
+   "title": "Beren and Lúthien",
+   "sourcesReached": [
+    "OpenLibrary",
+    "Google Books",
+    "Wikidata"
+   ],
+   "sourcesMissed": [],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "first publication year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 2017,
+     "proposed": 2017,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OpenLibrary",
+       "value": 2017,
+       "url": "https://openlibrary.org/search.json?title=Beren+and+L%C3%BAthien&limit=1"
+      },
+      {
+       "src": "Google Books",
+       "value": 2017,
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3ABeren+and+L%C3%BAthien&maxResults=1&key=REDACTED"
+      },
+      {
+       "src": "Wikidata",
+       "value": 2017,
+       "url": "https://www.wikidata.org/wiki/Q4355253"
+      }
+     ]
+    },
+    {
+     "field": "pages",
+     "label": "page count",
+     "soft": false,
+     "editionDependent": true,
+     "current": 288,
+     "proposed": 244,
+     "status": "edition-dependent",
+     "grade": "B",
+     "note": "corpus value does not match either source (Google Books 244, Wikidata 297) -- treated as a distinct edition; the specific cut is not identified from available evidence.",
+     "sources": [
+      {
+       "src": "Google Books",
+       "value": 244,
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3ABeren+and+L%C3%BAthien&maxResults=1&key=REDACTED"
+      },
+      {
+       "src": "Wikidata",
+       "value": 297,
+       "url": "https://www.wikidata.org/wiki/Q4355253"
+      }
+     ],
+     "alternatives": [
+      297
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "author",
+     "soft": false,
+     "editionDependent": false,
+     "current": "J.R.R. Tolkien",
+     "proposed": "J.R.R. Tolkien",
+     "status": "corroborated-by-one",
+     "grade": "B",
+     "note": "matches Google Books/Wikidata; disagrees with OpenLibrary (\"J.R.R. Tolkien & Christopher Tolkien & ʻImanuʼel Loṭem\")",
+     "sources": [
+      {
+       "src": "OpenLibrary",
+       "value": "J.R.R. Tolkien & Christopher Tolkien & ʻImanuʼel Loṭem",
+       "url": "https://openlibrary.org/search.json?title=Beren+and+L%C3%BAthien&limit=1"
+      },
+      {
+       "src": "Google Books",
+       "value": "J. R. R. Tolkien",
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3ABeren+and+L%C3%BAthien&maxResults=1&key=REDACTED"
+      },
+      {
+       "src": "Wikidata",
+       "value": "J. R. R. Tolkien",
+       "url": "https://www.wikidata.org/wiki/Q4355253"
+      }
+     ],
+     "alternatives": [
+      "J.R.R. Tolkien & Christopher Tolkien & ʻImanuʼel Loṭem"
+     ]
+    },
+    {
+     "field": "publisher",
+     "label": "publisher",
+     "soft": true,
+     "editionDependent": true,
+     "current": "Houghton Mifflin Harcourt",
+     "proposed": "HarperCollins",
+     "status": "edition-dependent",
+     "grade": "B",
+     "note": "sources agree with each other but not the corpus (Google Books \"HarperCollins\", Wikidata \"HarperCollins\") on a field with no single true value -- likely a different printing/edition, not an error.",
+     "sources": [
+      {
+       "src": "Google Books",
+       "value": "HarperCollins",
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3ABeren+and+L%C3%BAthien&maxResults=1&key=REDACTED"
+      },
+      {
+       "src": "Wikidata",
+       "value": "HarperCollins",
+       "url": "https://www.wikidata.org/wiki/Q4355253"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "b1613",
+   "title": "The Fall of Gondolin",
+   "sourcesReached": [
+    "OpenLibrary",
+    "Google Books",
+    "Wikidata"
+   ],
+   "sourcesMissed": [],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "first publication year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 2018,
+     "proposed": 2018,
+     "status": "corroborated-by-one",
+     "grade": "B",
+     "note": "matches Google Books; disagrees with OpenLibrary (1985)",
+     "sources": [
+      {
+       "src": "OpenLibrary",
+       "value": 1985,
+       "url": "https://openlibrary.org/search.json?title=The+Fall+of+Gondolin&limit=1"
+      },
+      {
+       "src": "Google Books",
+       "value": 2018,
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3AThe+Fall+of+Gondolin&maxResults=1&key=REDACTED"
+      }
+     ],
+     "alternatives": [
+      2018
+     ]
+    },
+    {
+     "field": "pages",
+     "label": "page count",
+     "soft": false,
+     "editionDependent": true,
+     "current": 304,
+     "proposed": 250,
+     "status": "edition-dependent",
+     "grade": "B",
+     "note": "one source differs from the corpus (Google Books 250) on a field with no single true value -- likely a different printing/edition, not an error.",
+     "sources": [
+      {
+       "src": "Google Books",
+       "value": 250,
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3AThe+Fall+of+Gondolin&maxResults=1&key=REDACTED"
+      }
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "author",
+     "soft": false,
+     "editionDependent": false,
+     "current": "J.R.R. Tolkien",
+     "proposed": "J.R.R. Tolkien",
+     "status": "corroborated-by-one",
+     "grade": "B",
+     "note": "matches Google Books/Wikidata; disagrees with OpenLibrary (\"J.R.R. Tolkien & Christopher Tolkien\")",
+     "sources": [
+      {
+       "src": "OpenLibrary",
+       "value": "J.R.R. Tolkien & Christopher Tolkien",
+       "url": "https://openlibrary.org/search.json?title=The+Fall+of+Gondolin&limit=1"
+      },
+      {
+       "src": "Google Books",
+       "value": "J. R. R. Tolkien",
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3AThe+Fall+of+Gondolin&maxResults=1&key=REDACTED"
+      },
+      {
+       "src": "Wikidata",
+       "value": "J. R. R. Tolkien",
+       "url": "https://www.wikidata.org/wiki/Q140679598"
+      }
+     ],
+     "alternatives": [
+      "J.R.R. Tolkien & Christopher Tolkien"
+     ]
+    },
+    {
+     "field": "publisher",
+     "label": "publisher",
+     "soft": true,
+     "editionDependent": true,
+     "current": "Houghton Mifflin Harcourt",
+     "proposed": "HarperCollins",
+     "status": "edition-dependent",
+     "grade": "B",
+     "note": "one source differs from the corpus (Google Books \"HarperCollins\") on a field with no single true value -- likely a different printing/edition, not an error.",
+     "sources": [
+      {
+       "src": "Google Books",
+       "value": "HarperCollins",
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3AThe+Fall+of+Gondolin&maxResults=1&key=REDACTED"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "b1614",
+   "title": "The Alloy of Law",
+   "sourcesReached": [
+    "OpenLibrary",
+    "Google Books",
+    "Wikidata"
+   ],
+   "sourcesMissed": [],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "first publication year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 2011,
+     "proposed": 2011,
+     "status": "corroborated-by-one",
+     "grade": "B",
+     "note": "matches Google Books/Wikidata; disagrees with OpenLibrary (2001)",
+     "sources": [
+      {
+       "src": "OpenLibrary",
+       "value": 2001,
+       "url": "https://openlibrary.org/search.json?title=The+Alloy+of+Law&limit=1"
+      },
+      {
+       "src": "Google Books",
+       "value": 2011,
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3AThe+Alloy+of+Law&maxResults=1&key=REDACTED"
+      },
+      {
+       "src": "Wikidata",
+       "value": 2011,
+       "url": "https://www.wikidata.org/wiki/Q6880077"
+      }
+     ],
+     "alternatives": [
+      2001
+     ]
+    },
+    {
+     "field": "pages",
+     "label": "page count",
+     "soft": false,
+     "editionDependent": true,
+     "current": 325,
+     "proposed": 420,
+     "status": "edition-dependent",
+     "grade": "B",
+     "note": "one source differs from the corpus (Google Books 420) on a field with no single true value -- likely a different printing/edition, not an error.",
+     "sources": [
+      {
+       "src": "Google Books",
+       "value": 420,
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3AThe+Alloy+of+Law&maxResults=1&key=REDACTED"
+      }
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "author",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Brandon Sanderson",
+     "proposed": "Brandon Sanderson",
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OpenLibrary",
+       "value": "Brandon Sanderson",
+       "url": "https://openlibrary.org/search.json?title=The+Alloy+of+Law&limit=1"
+      },
+      {
+       "src": "Google Books",
+       "value": "Brandon Sanderson",
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3AThe+Alloy+of+Law&maxResults=1&key=REDACTED"
+      },
+      {
+       "src": "Wikidata",
+       "value": "Brandon Sanderson",
+       "url": "https://www.wikidata.org/wiki/Q6880077"
+      }
+     ]
+    },
+    {
+     "field": "publisher",
+     "label": "publisher",
+     "soft": true,
+     "editionDependent": true,
+     "current": "Tor Books",
+     "proposed": "Tor Books",
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "Google Books",
+       "value": "Tor Books",
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3AThe+Alloy+of+Law&maxResults=1&key=REDACTED"
+      },
+      {
+       "src": "Wikidata",
+       "value": "Tor Books",
+       "url": "https://www.wikidata.org/wiki/Q6880077"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "b1615",
+   "title": "Shadows of Self",
+   "sourcesReached": [
+    "OpenLibrary",
+    "Google Books",
+    "Wikidata"
+   ],
+   "sourcesMissed": [],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "first publication year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 2015,
+     "proposed": 2015,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OpenLibrary",
+       "value": 2015,
+       "url": "https://openlibrary.org/search.json?title=Shadows+of+Self&limit=1"
+      },
+      {
+       "src": "Google Books",
+       "value": 2015,
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3AShadows+of+Self&maxResults=1&key=REDACTED"
+      },
+      {
+       "src": "Wikidata",
+       "value": 2015,
+       "url": "https://www.wikidata.org/wiki/Q16387049"
+      }
+     ]
+    },
+    {
+     "field": "pages",
+     "label": "page count",
+     "soft": false,
+     "editionDependent": true,
+     "current": 381,
+     "proposed": 0,
+     "status": "edition-dependent",
+     "grade": "B",
+     "note": "corpus value does not match either source (Google Books 0, Wikidata 383) -- treated as a distinct edition; the specific cut is not identified from available evidence.",
+     "sources": [
+      {
+       "src": "Google Books",
+       "value": 0,
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3AShadows+of+Self&maxResults=1&key=REDACTED"
+      },
+      {
+       "src": "Wikidata",
+       "value": 383,
+       "url": "https://www.wikidata.org/wiki/Q16387049"
+      }
+     ],
+     "alternatives": [
+      383
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "author",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Brandon Sanderson",
+     "proposed": "Brandon Sanderson",
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OpenLibrary",
+       "value": "Brandon Sanderson",
+       "url": "https://openlibrary.org/search.json?title=Shadows+of+Self&limit=1"
+      },
+      {
+       "src": "Google Books",
+       "value": "Brandon Sanderson",
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3AShadows+of+Self&maxResults=1&key=REDACTED"
+      },
+      {
+       "src": "Wikidata",
+       "value": "Brandon Sanderson",
+       "url": "https://www.wikidata.org/wiki/Q16387049"
+      }
+     ]
+    },
+    {
+     "field": "publisher",
+     "label": "publisher",
+     "soft": true,
+     "editionDependent": true,
+     "current": "Tor Books",
+     "proposed": "Tor Books",
+     "status": "confirmed",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "Wikidata",
+       "value": "Tor Books",
+       "url": "https://www.wikidata.org/wiki/Q16387049"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "b1616",
+   "title": "The Bands of Mourning",
+   "sourcesReached": [
+    "OpenLibrary",
+    "Google Books"
+   ],
+   "sourcesMissed": [
+    "Wikidata (no match)"
+   ],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "first publication year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 2016,
+     "proposed": 2016,
+     "status": "corroborated-by-one",
+     "grade": "B",
+     "note": "matches OpenLibrary; disagrees with Google Books (2017)",
+     "sources": [
+      {
+       "src": "OpenLibrary",
+       "value": 2016,
+       "url": "https://openlibrary.org/search.json?title=The+Bands+of+Mourning&limit=1"
+      },
+      {
+       "src": "Google Books",
+       "value": 2017,
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3AThe+Bands+of+Mourning&maxResults=1&key=REDACTED"
+      }
+     ],
+     "alternatives": [
+      2017
+     ]
+    },
+    {
+     "field": "pages",
+     "label": "page count",
+     "soft": false,
+     "editionDependent": true,
+     "current": 445,
+     "proposed": 448,
+     "status": "edition-dependent",
+     "grade": "B",
+     "note": "one source differs from the corpus (Google Books 448) on a field with no single true value -- likely a different printing/edition, not an error.",
+     "sources": [
+      {
+       "src": "Google Books",
+       "value": 448,
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3AThe+Bands+of+Mourning&maxResults=1&key=REDACTED"
+      }
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "author",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Brandon Sanderson",
+     "proposed": "Brandon Sanderson",
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OpenLibrary",
+       "value": "Brandon Sanderson",
+       "url": "https://openlibrary.org/search.json?title=The+Bands+of+Mourning&limit=1"
+      },
+      {
+       "src": "Google Books",
+       "value": "Brandon Sanderson",
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3AThe+Bands+of+Mourning&maxResults=1&key=REDACTED"
+      }
+     ]
+    },
+    {
+     "field": "publisher",
+     "label": "publisher",
+     "soft": true,
+     "current": "Tor Books",
+     "status": "no-source",
+     "grade": null,
+     "sources": []
+    }
+   ]
+  },
+  {
+   "id": "b1617",
+   "title": "The Lost Metal",
+   "sourcesReached": [
+    "OpenLibrary",
+    "Google Books",
+    "Wikidata"
+   ],
+   "sourcesMissed": [],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "first publication year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 2022,
+     "proposed": 2022,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OpenLibrary",
+       "value": 2022,
+       "url": "https://openlibrary.org/search.json?title=The+Lost+Metal&limit=1"
+      },
+      {
+       "src": "Google Books",
+       "value": 2022,
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3AThe+Lost+Metal&maxResults=1&key=REDACTED"
+      },
+      {
+       "src": "Wikidata",
+       "value": 2022,
+       "url": "https://www.wikidata.org/wiki/Q111635058"
+      }
+     ]
+    },
+    {
+     "field": "pages",
+     "label": "page count",
+     "soft": false,
+     "editionDependent": true,
+     "current": 493,
+     "proposed": 544,
+     "status": "edition-dependent",
+     "grade": "B",
+     "note": "one source differs from the corpus (Google Books 544) on a field with no single true value -- likely a different printing/edition, not an error.",
+     "sources": [
+      {
+       "src": "Google Books",
+       "value": 544,
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3AThe+Lost+Metal&maxResults=1&key=REDACTED"
+      }
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "author",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Brandon Sanderson",
+     "proposed": "Brandon Sanderson",
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OpenLibrary",
+       "value": "Brandon Sanderson",
+       "url": "https://openlibrary.org/search.json?title=The+Lost+Metal&limit=1"
+      },
+      {
+       "src": "Google Books",
+       "value": "Brandon Sanderson",
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3AThe+Lost+Metal&maxResults=1&key=REDACTED"
+      },
+      {
+       "src": "Wikidata",
+       "value": "Brandon Sanderson",
+       "url": "https://www.wikidata.org/wiki/Q111635058"
+      }
+     ]
+    },
+    {
+     "field": "publisher",
+     "label": "publisher",
+     "soft": true,
+     "editionDependent": true,
+     "current": "Tor Books",
+     "proposed": "Tor Books",
+     "status": "confirmed",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "Google Books",
+       "value": "Tor Books",
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3AThe+Lost+Metal&maxResults=1&key=REDACTED"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "b1618",
+   "title": "Starsight",
+   "sourcesReached": [
+    "OpenLibrary",
+    "Google Books",
+    "Wikidata"
+   ],
+   "sourcesMissed": [],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "first publication year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 2019,
+     "proposed": 2019,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OpenLibrary",
+       "value": 2019,
+       "url": "https://openlibrary.org/search.json?title=Starsight&limit=1"
+      },
+      {
+       "src": "Google Books",
+       "value": 2019,
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3AStarsight&maxResults=1&key=REDACTED"
+      },
+      {
+       "src": "Wikidata",
+       "value": 2019,
+       "url": "https://www.wikidata.org/wiki/Q83073100"
+      }
+     ]
+    },
+    {
+     "field": "pages",
+     "label": "page count",
+     "soft": false,
+     "editionDependent": true,
+     "current": 528,
+     "proposed": 481,
+     "status": "edition-dependent",
+     "grade": "B",
+     "note": "one source differs from the corpus (Google Books 481) on a field with no single true value -- likely a different printing/edition, not an error.",
+     "sources": [
+      {
+       "src": "Google Books",
+       "value": 481,
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3AStarsight&maxResults=1&key=REDACTED"
+      }
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "author",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Brandon Sanderson",
+     "proposed": "Brandon Sanderson",
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OpenLibrary",
+       "value": "Brandon Sanderson",
+       "url": "https://openlibrary.org/search.json?title=Starsight&limit=1"
+      },
+      {
+       "src": "Google Books",
+       "value": "Brandon Sanderson",
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3AStarsight&maxResults=1&key=REDACTED"
+      },
+      {
+       "src": "Wikidata",
+       "value": "Brandon Sanderson",
+       "url": "https://www.wikidata.org/wiki/Q83073100"
+      }
+     ]
+    },
+    {
+     "field": "publisher",
+     "label": "publisher",
+     "soft": true,
+     "editionDependent": true,
+     "current": "Delacorte Press",
+     "proposed": "Delacorte Press",
+     "status": "confirmed",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "Google Books",
+       "value": "Delacorte Press",
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3AStarsight&maxResults=1&key=REDACTED"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "b1619",
+   "title": "Cytonic",
+   "sourcesReached": [
+    "OpenLibrary",
+    "Google Books",
+    "Wikidata"
+   ],
+   "sourcesMissed": [],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "first publication year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 2021,
+     "proposed": 2021,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OpenLibrary",
+       "value": 2021,
+       "url": "https://openlibrary.org/search.json?title=Cytonic&limit=1"
+      },
+      {
+       "src": "Google Books",
+       "value": 2021,
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3ACytonic&maxResults=1&key=REDACTED"
+      },
+      {
+       "src": "Wikidata",
+       "value": 2021,
+       "url": "https://www.wikidata.org/wiki/Q108749689"
+      }
+     ]
+    },
+    {
+     "field": "pages",
+     "label": "page count",
+     "soft": false,
+     "editionDependent": true,
+     "current": 448,
+     "proposed": 433,
+     "status": "edition-dependent",
+     "grade": "B",
+     "note": "one source differs from the corpus (Google Books 433) on a field with no single true value -- likely a different printing/edition, not an error.",
+     "sources": [
+      {
+       "src": "Google Books",
+       "value": 433,
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3ACytonic&maxResults=1&key=REDACTED"
+      }
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "author",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Brandon Sanderson",
+     "proposed": "Brandon Sanderson",
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OpenLibrary",
+       "value": "Brandon Sanderson",
+       "url": "https://openlibrary.org/search.json?title=Cytonic&limit=1"
+      },
+      {
+       "src": "Google Books",
+       "value": "Brandon Sanderson",
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3ACytonic&maxResults=1&key=REDACTED"
+      },
+      {
+       "src": "Wikidata",
+       "value": "Brandon Sanderson",
+       "url": "https://www.wikidata.org/wiki/Q108749689"
+      }
+     ]
+    },
+    {
+     "field": "publisher",
+     "label": "publisher",
+     "soft": true,
+     "editionDependent": true,
+     "current": "Delacorte Press",
+     "proposed": "Delacorte Press",
+     "status": "confirmed",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "Google Books",
+       "value": "Delacorte Press",
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3ACytonic&maxResults=1&key=REDACTED"
+      }
+     ]
+    }
+   ]
+  }
+ ]
+}
