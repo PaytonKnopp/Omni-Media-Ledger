@@ -1521,6 +1521,32 @@ Kovacs, and Ilium/Olympos groupings added, all cleanly bounded/complete.
 1,573/2,000 (4,289/5,000 total, 85.8%). Remaining work is exclusively movies (~293 more) and books
 (~427 more).
 
+**Fifteenth round (movies batch 27, books batch 27), movies+books only.** Movies: nineteen titles, a
+late-career Schwarzenegger and Nicolas Cage catalog sweep: Twins, Kindergarten Cop, Junior, Jingle All
+the Way, Sudden Death, Escape Plan, End of Days, Collateral Damage, The Last Stand, Sabotage, Maggie
+(Schwarzenegger); the Ghost Rider duology, Next, Windtalkers, Snake Eyes, 8MM, Bringing Out the Dead,
+Leaving Las Vegas (Cage). One fact-harness correction: Ghost Rider: Spirit of Vengeance's year (guessed
+2012 -> confirmed 2011). Another creator-spelling catch before commit, the same shape as batch 26's:
+my new Ghost Rider: Spirit of Vengeance record used "Mark Neveldine & Brian Taylor" (ampersand) while
+the corpus's two pre-existing Neveldine/Taylor-directed records already used "Mark Neveldine, Brian
+Taylor" (comma) -- fixed by matching the new record to the pre-existing spelling. This is now the
+second time in two consecutive rounds a co-director pair's punctuation convention needed reconciling
+on insert; worth checking existing co-creator credits before finalizing a batch, not just after
+validate-corpus.js catches it. SERIES_DEFS: new Ghost Rider grouping added.
+
+Books: fourteen titles, closing out two literary-giant gaps: seven more Kurt Vonnegut novels (Player
+Piano, The Sirens of Titan, Galapagos, Bluebeard, Hocus Pocus, Timequake, Deadeye Dick) and seven more
+Margaret Atwood novels, including the two books that complete her MaddAddam trilogy alongside the
+already-present Oryx and Crake (The Year of the Flood, MaddAddam), plus Alias Grace, The Robber Bride,
+The Edible Woman, Surfacing, and Bodily Harm. One caught by the dedup script and dropped -- Cat's Eye
+was already present. Three titles (Player Piano, Hocus Pocus, Deadeye Dick) reached zero fetch-
+substance tags, flagged as general-knowledge estimates. SERIES_DEFS: new MaddAddam Trilogy grouping
+added, cleanly complete at 3 books.
+
+**Status at this checkpoint:** movies 1,726/2,000, TV 502/500 (done), games 507/500 (done), books
+1,587/2,000 (4,322/5,000 total, 86.4%). Remaining work is exclusively movies (~274 more) and books
+(~413 more).
+
 ---
 
 ## Ideas / next steps
