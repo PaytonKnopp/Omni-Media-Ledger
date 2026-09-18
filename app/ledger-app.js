@@ -740,11 +740,18 @@ function renderBubble(){
  var allEl=document.querySelector('.bmCount[data-bm-count="all"]');
  if(allEl)allEl.textContent='('+list.filter(function(x){return x.owned;}).length+'/'+list.length+')';
 }
-// The 8 scored axes available to plot on the radar. Any of these can fill any of the 5 slots --
-// radarAxes holds the current assignment, defaulting to the chart's original 5.
-var AXIS_METRICS=[{key:'crit',label:'Critical'},{key:'aud',label:'Audience'},{key:'tech',label:'Technical'},{key:'dread',label:'Dread / Tension'},{key:'myst',label:'Complexity'},{key:'warmth',label:'Emotional Warmth'},{key:'comedy',label:'Comic Intent'},{key:'beauty',label:'Aesthetic Beauty'}];
+// Every 0-100 scored axis in the app (same rubric as the Global Controller's Advanced Filters
+// sliders, INDEX_DEFS, minus runtime -- that one's a minutes cap, not a 0-100 score) is available
+// to plot on the radar. Any of these can fill any of the 5 slots -- radarAxes holds the current
+// assignment, defaulting to the chart's original 5. Built lazily since INDEX_DEFS is defined later
+// in the file (boot section).
+var AXIS_METRICS=null;
+function axisMetrics(){
+ if(!AXIS_METRICS)AXIS_METRICS=INDEX_DEFS.filter(function(d){return d[0]!=='runtime';}).map(function(d){return {key:d[0],label:d[1]};}).sort(function(a,b){return a.label.localeCompare(b.label);});
+ return AXIS_METRICS;
+}
 var radarAxes=['crit','aud','tech','dread','myst'];
-function axisLabel(key){var m=AXIS_METRICS.find(function(a){return a.key===key;});return m?m.label:key;}
+function axisLabel(key){var m=axisMetrics().find(function(a){return a.key===key;});return m?m.label:key;}
 function fingerprintOf(val){
  if(!val)return null;
  const i=val.indexOf('::');if(i<0)return null;
@@ -757,7 +764,7 @@ function fingerprintOf(val){
 function renderRadarAxisRow(){
  var el=$('#radarAxisRow');if(!el)return;
  el.innerHTML=radarAxes.map(function(k,i){
-  var opts=AXIS_METRICS.map(function(m){return '<option value="'+m.key+'"'+(m.key===k?' selected':'')+'>'+esc(m.label)+'</option>';}).join('');
+  var opts=axisMetrics().map(function(m){return '<option value="'+m.key+'"'+(m.key===k?' selected':'')+'>'+esc(m.label)+'</option>';}).join('');
   return '<select class="radarAxisSel inp" style="width:auto;font-size:10.5px;padding:2px 6px" data-axis-i="'+i+'" title="What axis '+(i+1)+' compares by">'+opts+'</select>';
  }).join('');
 }
