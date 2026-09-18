@@ -1158,6 +1158,7 @@ body[data-theme="outer-wilds"]{--bg:#0e0a09;--panel:#181010;--panel-2:#120c0b;--
         <button type="button" class="bubbleMedBtn text-[10.5px] px-2.5 py-0.5 rounded-lg border transition-colors" data-bm="game">Game <span class="bmCount" data-bm-count="game"></span></button>
         <button type="button" class="bubbleMedBtn text-[10.5px] px-2.5 py-0.5 rounded-lg border transition-colors" data-bm="book">Book <span class="bmCount" data-bm-count="book"></span></button>
         <span class="flex items-center gap-1.5 ml-2"><span class="text-[10px] text-slate-500">Min critical score</span><input type="range" id="bubbleMin" min="0" max="95" step="5" value="0" style="width:110px"/><span class="text-[10px] font-bold text-slate-300 tabular-nums" id="bubbleMinLbl">Any</span></span>
+        <span class="text-[10px] text-slate-500 ml-2" id="bubbleScopeNote"></span>
       </div>
       <div class="relative h-[380px] mt-3"><canvas id="bubbleC"></canvas></div>
       <p class="chartFail hidden text-[11px] text-amber-300/80 mt-2">Chart.js CDN unreachable — connect once so the chart runtime can load, then reopen this file.</p>

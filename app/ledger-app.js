@@ -739,8 +739,10 @@ function initCharts(){
  // generated label text is the reliable way to get that breathing room in the legend itself.
  CH.bubble=new Chart($('#bubbleC'),{type:'bubble',data:{datasets:[]},options:{responsive:true,maintainAspectRatio:false,
   plugins:{legend:{labels:{usePointStyle:true,boxWidth:8,generateLabels:function(chart){
-   return chart.data.datasets.map(function(ds,i){var c=ds._legendColor||'#94a3b8';return {text:'  '+ds.label,fillStyle:c,strokeStyle:c,pointStyle:'circle',datasetIndex:i,hidden:!chart.isDatasetVisible(i)};});
-  }}},tooltip:{callbacks:{label:c=>{const d=c.raw;return d.t+' ('+d.yr+') · Crit '+d.x+' · Aud '+d.y+' · Tech '+d.tech+(d.own?' · ◆ owned':'')+(d.canon?' · your canon':'');}}}},
+   // The ghost dataset (points the Global Controller has filtered out of scope, kept visible but
+   // dimmed for spatial context) isn't a real series -- it never gets its own legend entry.
+   return chart.data.datasets.map(function(ds,i){var c=ds._legendColor||'#94a3b8';return {text:'  '+ds.label,fillStyle:c,strokeStyle:c,pointStyle:'circle',datasetIndex:i,hidden:!chart.isDatasetVisible(i)};}).filter(function(l,i){return !chart.data.datasets[i]._ghost;});
+  }}},tooltip:{filter:function(ctx){return !ctx.dataset._ghost;},callbacks:{label:c=>{const d=c.raw;return d.t+' ('+d.yr+') · Crit '+d.x+' · Aud '+d.y+' · Tech '+d.tech+(d.own?' · ◆ owned':'')+(d.canon?' · your canon':'');}}}},
   scales:{x:{title:{display:true,text:'Critical Score'},suggestedMin:55,suggestedMax:100},y:{title:{display:true,text:'Audience Score'},suggestedMin:55,suggestedMax:100}}}});
  CH.radar=new Chart($('#radarC'),{type:'radar',data:{labels:['Critical','Audience','Technical','Dread / Tension','Complexity'],datasets:[]},options:{responsive:true,maintainAspectRatio:false,
   scales:{r:{min:0,max:100,ticks:{stepSize:20,backdropColor:'transparent'},grid:{color:'rgba(148,163,184,.12)'},angleLines:{color:'rgba(148,163,184,.12)'},pointLabels:{color:'#94a3b8',font:{size:10}}}},
@@ -843,7 +845,10 @@ var bubbleMed='all';
 // active. bubbleMinScore is the real, live-adjustable threshold that label always should have been.
 var bubbleMinScore=0;
 function renderBubble(){
- if(!CH.bubble)return;var list=(CH._vizList||ALL).filter(function(x){return x.crit>=bubbleMinScore;});
+ if(!CH.bubble)return;
+ var inScope=CH._vizList||ALL;
+ var inScopeIds=new Set(inScope.map(function(x){return x.id;}));
+ var list=inScope.filter(function(x){return x.crit>=bubbleMinScore;});
  var mk=function(kind,fill,line){return list.filter(function(x){return x.kind===kind;}).map(function(x){
   var canon=!!(x.goat||x.silver);
   return {x:x.crit,y:x.aud,r:Math.max(3,Math.min(15,(x.tech-70)/2.1+3)),t:x.title,yr:x.year,tech:x.tech,own:!!x.owned,canon:canon,
@@ -861,7 +866,15 @@ function renderBubble(){
   s.borderColor=s.data.map(function(p){return p._bd;});
   s.borderWidth=s.data.map(function(p){return p.canon?2:1;});
  });
- CH.bubble.data.datasets=(bubbleMed==='all'?sets:sets.filter(function(d){return d.kind===bubbleMed;}));
+ var shown=(bubbleMed==='all'?sets:sets.filter(function(d){return d.kind===bubbleMed;}));
+ // Ghost dataset: works the Global Controller has filtered out of scope (still honoring the Show
+ // medium tab and min-score slider, so ghosts stay comparable to the live points) drawn as faint,
+ // non-interactive dots. Filtering used to just make points vanish with no positional reference --
+ // this keeps the whole catalog's shape visible while still highlighting what's actually in scope.
+ var ghostPool=ALL.filter(function(x){return !inScopeIds.has(x.id)&&x.crit>=bubbleMinScore&&(bubbleMed==='all'||x.kind===bubbleMed);});
+ var ghostData=ghostPool.map(function(x){return {x:x.crit,y:x.aud,r:Math.max(3,Math.min(15,(x.tech-70)/2.1+3)),t:x.title,yr:x.year,tech:x.tech,own:!!x.owned,canon:false};});
+ var ghostSet={label:'Filtered out',order:-1,_ghost:true,data:ghostData,backgroundColor:'rgba(148,163,184,.07)',borderColor:'rgba(148,163,184,.14)',borderWidth:1,hoverBackgroundColor:'rgba(148,163,184,.07)',hoverBorderColor:'rgba(148,163,184,.14)'};
+ CH.bubble.data.datasets=ghostData.length?[ghostSet].concat(shown):shown;
  CH.bubble.update('none');
  ['movie','tv','game','book'].forEach(function(k){
   var el=document.querySelector('.bmCount[data-bm-count="'+k+'"]');if(!el)return;
@@ -870,6 +883,8 @@ function renderBubble(){
  });
  var allEl=document.querySelector('.bmCount[data-bm-count="all"]');
  if(allEl)allEl.textContent='('+list.filter(function(x){return x.owned;}).length+'/'+list.length+')';
+ var scopeNote=$('#bubbleScopeNote');
+ if(scopeNote)scopeNote.textContent=ghostData.length?('+'+ghostData.length+' dimmed, outside current filters'):'';
 }
 // Every 0-100 scored axis in the app (same rubric as the Global Controller's Advanced Filters
 // sliders, INDEX_DEFS, minus runtime -- that one's a minutes cap, not a 0-100 score) is available
