@@ -2,11 +2,12 @@
 
 Almost no personalization needs this file anymore: expand any card and click
 **Declare favorite**, **Mark owned**, **Boost `<creator>`**, click a genre or vibe
-chip to boost it, **Silver tier**, or (on books) **Boost affinity** to build a
-profile entirely by clicking. This document is for the one field those buttons
-don't cover yet — `cosmicHorrorCanon` — or if you'd rather hand-build or bulk-edit
-a whole profile at once. This is that file's shape, documented field by field,
-with a small filled-in example.
+chip to boost it, **Silver tier**, or click the ☆ Rate chip at the bottom-right of
+any card to give it your own 0–10 score, to build a profile entirely by clicking.
+This document is for the one field those buttons don't cover yet —
+`cosmicHorrorCanon` — or if you'd rather hand-build or bulk-edit a whole profile
+at once. This is that file's shape, documented field by field, with a small
+filled-in example.
 
 **Finding a work's ID:** every card in the Global Controller carries its ID in the
 page itself — right-click a card → Inspect, and look for `data-id="m117"` (or `t..`,
@@ -51,7 +52,7 @@ checking for a `profile` key, so both work without any conversion.
 
   "silverTierIds": ["m14"],
   "bronzeTierIds": ["m22"],
-  "bookAffinity": { "b19": 92 },
+  "ratings": { "m09": 9.5, "b19": 8.5 },
 
   "watchlist": { "c02": 1 },
   "pinnedIdx": ["snd", "scary"]
@@ -73,7 +74,7 @@ checking for a `profile` key, so both work without any conversion.
 | `vibeBoost` | `{ vibeTag: weight }` | Boosts works tagged with an exact vibe/context string (see any card's vibe tag in the app for exact spelling). Click the vibe chip on an expanded card to toggle it. |
 | `silverTierIds` | `[id, ...]` | Silver tier — a strong favorite, one notch below Gold (`declaredGoatIds`). Click **Silver tier** on any card's compact row (or an expanded card) to toggle it. |
 | `bronzeTierIds` | `[id, ...]` | Bronze tier — a lighter nudge than Silver, for "really like it" without full Gold/Silver weight. Same compact row, **Bronze tier**. |
-| `bookAffinity` | `{ id: scoreFloor }` | Sets a specific book's match score to at least this value (0–100). Click **Boost affinity** on an expanded book card to raise it by 5 each click (starts at 75). |
+| `ratings` | `{ id: score }` | Your own personal rating for any work, any medium — 0–10, to one decimal. Optional per title; leaving a work out of this map just means it's unrated. Click the ☆ Rate / ★ chip at the bottom-right of any card to set or clear it. Blends into that work's ★ GOAT Match (a real pull toward the number you gave it, not just a floor — a low rating can pull the match down, not only up), and teaches the same genre/vibe affinity engine `declaredGoatIds`/`silverTierIds`/`bronzeTierIds` do, scaled continuously by how far the rating sits from the 5.0 midpoint. |
 | `cosmicHorrorDeclaredIds` / `cosmicHorrorCanon` | `[id,...]` / `{ id: score }` | Feed the Cosmic Horror Index in Reference Matrices, same idea as above. |
 | `watchlist` | `{ contenderId: rank }` | Ranks specific Contenders Ledger entries (`c01`, `c02`, ...) above the model's own anticipation score, in the order given. |
 | `pinnedIdx` | `[indexKey, ...]` | Which of the 16 specialized index sliders (Soundtrack `snd`, Cosmic Horror `ch`, Scariest `scary`, Iconicness `icon`, etc. — see `INDEX_DEFS` in `index.html` for the full key list) show pinned to the main filter screen instead of tucked inside Advanced Filters. Click the 📌 on any slider to toggle it — this only changes what's convenient to filter by, it never affects scoring. |

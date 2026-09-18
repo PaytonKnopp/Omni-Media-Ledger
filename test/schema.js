@@ -184,6 +184,18 @@ if (!url) {
       on conflict (handle,media_id) do update set tier = excluded.tier returning media_id;`).trim();
     check('the anon role can upsert a media_status row', anonMedia === 'm09');
 
+    const anonRating = asAnon(`insert into public.media_status(handle,media_id,tier,owned,rating)
+      values ('rls','m10',null,false,8.5)
+      on conflict (handle,media_id) do update set rating = excluded.rating returning rating;`).trim();
+    check('the anon role can upsert a media_status row with a personal rating', anonRating === '8.5');
+
+    let ratingRejected = false;
+    try {
+      psql(['-c', `insert into public.media_status(handle,media_id,tier,owned,rating)
+        values ('rls','m11',null,false,15);`]);
+    } catch (e) { ratingRejected = /media_status_rating_check|violates check constraint/i.test(String(e.stderr || e.message || e)); }
+    check('a rating outside 0-10 is rejected, not silently clamped or stored', ratingRejected);
+
     // The one guard that is meant to fail loudly rather than quietly edit someone's data.
     let capRaised = false;
     try {

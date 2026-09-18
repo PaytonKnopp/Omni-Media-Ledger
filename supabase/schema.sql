@@ -267,6 +267,27 @@ begin
 end;
 $$;
 
+-- ── media_status: personal rating ───────────────────────────────────────────────────────────
+-- A genuine personal score, 0-10 to one decimal, on top of the coarser gold/silver/bronze tiers
+-- above -- null means "not rated," same convention as tier. Normalized here the same way
+-- tier/owned already are, for the same reason (queryable per title/person instead of locked inside
+-- profiles.data's jsonb `ratings` map, and it's what rebuildProfileFromMediaStatus in index.html
+-- recovers from if that blob is ever empty or mangled).
+alter table public.media_status
+  add column if not exists rating numeric(3,1);
+
+do $$
+begin
+  if not exists (
+    select 1 from pg_constraint where conname = 'media_status_rating_check'
+  ) then
+    alter table public.media_status
+      add constraint media_status_rating_check
+      check (rating is null or (rating >= 0 and rating <= 10));
+  end if;
+end;
+$$;
+
 create index if not exists media_status_media_id_idx on public.media_status (media_id);
 
 create or replace function public.stamp_media_status_updated_at()
