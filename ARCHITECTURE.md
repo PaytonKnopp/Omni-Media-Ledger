@@ -8,10 +8,18 @@ engineering log (why things ended up this way, phase by phase); this file is the
 ```
 index.html          Page layout + styling, and the account sign-in / cloud-sync code
 app/ledger-app.js   The application: initApp() -- every screen and all account/state-dependent logic
+                      that is still too closure-tangled to pull out (see "Known limits")
 app/format.js       Pure provenance/edition-format helpers (provStampOf, normPhysFormat)
 app/cards.js        Pure HTML-string/widget builders (esc, ring, microBar, frontBars, matrixRow, ...)
 app/scoring.js       Pure deep-index scoring tables + certify()/lerpScore() (the hand-tuned overrides
                       and content-rating logic)
+app/match.js         The live "Match" scoring pass (activeDims/computeMatch/bespokeScore) -- reads
+                      only `state`, passed in explicitly by initApp()
+app/matrices.js      VIEW 4 · Reference Matrices (matrixBlock/renderMatrixNav/renderMatrices) --
+                      takes ALL/$/$$ as parameters; MATRIX_TITLES/matrixOwnedOnly/matrixNavQ live
+                      here too now (see "Known limits")
+app/creators.js      VIEW 5 · Pan-Creator Archives (worksFor/creatorCard/sortCreatorPairs/
+                      renderCreators) -- takes state/ALL/$/$$ as parameters
 data/*.js            Reference data (corpus, creator pantheons, contenders)
 supabase/schema.sql  The database: tables, row-level security, grants
 test/regression.js   Playwright suite, ~130 checks
@@ -21,7 +29,11 @@ scripts/             Corpus integrity checker
 `app/format.js`, `app/cards.js` and `app/scoring.js` load before `app/ledger-app.js`, the same way
 `data/*.js` does: they only declare closure-independent functions and constant data (no
 `state`/`PERSONAL_PROFILE`/DOM access), so `initApp()` calls them like it calls a `data/*.js`
-global. See "Boot sequence" below for why `app/ledger-app.js` itself stays one big `initApp()`.
+global. `app/match.js`, `app/matrices.js` and `app/creators.js` load next, after those and before
+`app/ledger-app.js`: their functions do read `state`/`ALL`/`$`/`$$`, but only as parameters
+`initApp()` passes in at each call site, not as a closure over `initApp()`'s locals -- see "Known
+limits" for which candidates were extracted this way and which weren't. See "Boot sequence" below
+for why `app/ledger-app.js` itself stays one big `initApp()`.
 
 There is no build step. `index.html` loads everything directly, so edit-and-refresh is the whole
 development loop, and deploying is copying the folder.
@@ -206,13 +218,34 @@ the run and takes every later check with it, so one flaky assertion hides the wh
 - `app/ledger-app.js` is still a large file (most of it is `initApp()`'s body). A first pass
   pulled out the closure-independent pieces -- pure functions and constant data tables that never
   touch `state`/`PERSONAL_PROFILE`/DOM -- into `app/format.js`, `app/cards.js` and `app/scoring.js`.
-  What's left inside `initApp()` is either genuinely state-dependent (reads/writes `state` or
-  `PERSONAL_PROFILE`, binds DOM events via `on(...)`) or a closure nested inside an event handler
-  (most of ROUTING & BINDINGS) and can't be hoisted to top level without breaking it. Splitting
-  further means finding more closure-independent pieces the same way: grep the candidate for free
-  variables, confirm they're either true globals or explicit parameters, then move it into
-  `app/<area>.js`, load before `app/ledger-app.js`, and keep everything state-dependent inside
-  `initApp()`.
+  A second pass went further: functions that read `state`/`ALL`/`$`/`$$` directly, but don't nest
+  inside a ROUTING & BINDINGS event-handler closure, can still be extracted by turning those reads
+  into explicit parameters. `app/match.js` (the live Match scoring pass), `app/matrices.js` (VIEW 4
+  · Reference Matrices) and `app/creators.js` (VIEW 5 · Pan-Creator Archives) came out this way --
+  every call site inside `initApp()` now passes `state`/`ALL`/`$`/`$$` in explicitly, and a few
+  module-level `var`s that used to be local to `initApp()` (`MATRIX_TITLES`, `matrixOwnedOnly`,
+  `matrixNavQ`) moved out with the functions that read and write them; that's safe only because
+  `initApp()` is called exactly once per page load (see "Boot sequence"), so a `var` at a classic
+  `<script>`'s top level is exactly as global as one declared inside `initApp()` used to be.
+  Candidates evaluated but left in place, and why:
+  - `renderContenders`/`anticipationScore` read `state`-like module vars (`contMedium`, `contSort`,
+    `contSearchQ`) that are fine to hoist the same way, but `anticipationScore` also reads
+    `GOAT_CREATOR_BOOST`/`BOOK_CREATOR_BOOST`, which are `let`s *reassigned* (not mutated in place)
+    by `recomputeTasteScores()` whenever the profile changes. Extracting it correctly means passing
+    the current value in at every call site rather than assuming a stale closure snapshot -- doable,
+    but higher-risk than the pieces above, and deferred to keep this pass conservative.
+  - `renderGoat`, the GOAT Profile tiering UI, and the Collection/Watchlist/Timeline/Portrait render
+    functions read `PERSONAL_PROFILE` and several derived module-level caches
+    (`goatProfile`/`declaredCategoriesToRender`/`COLL_OPEN`/etc.) with deeper cross-references
+    between each other than the Matrices/Creators pair had; they're plausible future candidates but
+    want their own careful pass rather than being folded into this one.
+  - Anything nested inside an `on(...)`/`addEventListener` handler, or otherwise part of the
+    ~2,700-line ROUTING & BINDINGS section, closes over locals from its enclosing handler rather
+    than just `initApp()`, and hoisting it is a different, riskier problem than this pass takes on.
+  Splitting further means finding more such pieces the same way: grep the candidate for free
+  variables, confirm they're either true globals, safely-hoistable module vars, or need to become
+  explicit parameters, then move it into `app/<area>.js`, load before `app/ledger-app.js`, and keep
+  everything still tangled with ROUTING & BINDINGS or reassigned derived state inside `initApp()`.
 - The corpus is static JS. Fine at this size; if titles ever need to be user-editable it belongs
   in Postgres. Measured headroom, against a synthetically duplicated corpus: at 2,508 works boot is
   ~1.8s and every tab switch is under 320ms; at 10,032 works boot is ~2.9s and the slowest tab
