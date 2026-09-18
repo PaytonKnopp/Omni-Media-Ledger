@@ -666,16 +666,16 @@ function initCharts(){
  if(CH.bubble)return;
  Chart.defaults.color='#7c8aa5';Chart.defaults.borderColor='rgba(148,163,184,.08)';
  CH.bubble=new Chart($('#bubbleC'),{type:'bubble',data:{datasets:[]},options:{responsive:true,maintainAspectRatio:false,
-  plugins:{legend:{labels:{usePointStyle:true,boxWidth:8,generateLabels:function(chart){
+  plugins:{legend:{labels:{usePointStyle:true,boxWidth:8,boxPadding:6,generateLabels:function(chart){
    return chart.data.datasets.map(function(ds,i){var c=ds._legendColor||'#94a3b8';return {text:ds.label,fillStyle:c,strokeStyle:c,pointStyle:'circle',datasetIndex:i,hidden:!chart.isDatasetVisible(i)};});
   }}},tooltip:{callbacks:{label:c=>{const d=c.raw;return d.t+' ('+d.yr+') · Crit '+d.x+' · Aud '+d.y+' · Tech '+d.tech+(d.own?' · ◆ owned':'')+(d.canon?' · your canon':'');}}}},
   scales:{x:{title:{display:true,text:'Critical Score'},suggestedMin:55,suggestedMax:100},y:{title:{display:true,text:'Audience Score'},suggestedMin:55,suggestedMax:100}}}});
  CH.radar=new Chart($('#radarC'),{type:'radar',data:{labels:['Critical','Audience','Technical','Dread / Tension','Complexity'],datasets:[]},options:{responsive:true,maintainAspectRatio:false,
   scales:{r:{min:0,max:100,ticks:{stepSize:20,backdropColor:'transparent'},grid:{color:'rgba(148,163,184,.12)'},angleLines:{color:'rgba(148,163,184,.12)'},pointLabels:{color:'#94a3b8',font:{size:10}}}},
-  plugins:{legend:{labels:{usePointStyle:true,boxWidth:8}}}}});
+  plugins:{legend:{labels:{usePointStyle:true,boxWidth:8,boxPadding:6}}}}});
  CH.decade=new Chart($('#decadeC'),{type:'bar',data:{labels:[],datasets:[]},options:{responsive:true,maintainAspectRatio:false,
   scales:{x:{stacked:true,grid:{display:false}},y:{stacked:true,title:{display:true,text:'Masterpieces indexed'}}},
-  plugins:{legend:{labels:{usePointStyle:true,boxWidth:8}}}}});
+  plugins:{legend:{labels:{usePointStyle:true,boxWidth:8,boxPadding:6}}}}});
  buildRadarSelects();renderRadarAxisRow();updateRadar();
 }
 var decadeOwnedOnly=false;
@@ -770,7 +770,7 @@ function renderRadarAxisRow(){
  var el=$('#radarAxisRow');if(!el)return;
  el.innerHTML=radarAxes.map(function(k,i){
   var opts=axisMetrics().map(function(m){return '<option value="'+m.key+'"'+(m.key===k?' selected':'')+'>'+esc(m.label)+'</option>';}).join('');
-  return '<select class="radarAxisSel inp" style="width:auto;font-size:10.5px;padding:2px 6px" data-axis-i="'+i+'" title="What axis '+(i+1)+' compares by">'+opts+'</select>';
+  return '<select class="radarAxisSel inp" style="width:100%;font-size:10.5px;padding:2px 6px" data-axis-i="'+i+'" title="What axis '+(i+1)+' compares by">'+opts+'</select>';
  }).join('');
 }
 function setRadarAxis(i,key){
