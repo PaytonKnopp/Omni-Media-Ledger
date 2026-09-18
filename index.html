@@ -45,6 +45,21 @@ header.sticky{background:color-mix(in srgb,var(--bg) 85%,transparent)!important;
 .panel{transition:background .4s ease,border-color .4s ease}
 .panel{background:var(--panel);border:1px solid var(--border);border-radius:14px}
 .lbl{font-size:9px;letter-spacing:.14em;text-transform:uppercase;color:var(--text-faint)}
+/* Header stat strip: each tile (Indexed Works / Owned / Contenders) gets its own accent color and
+   a small icon instead of three identical slate numbers with no visual hierarchy -- teal for the
+   whole-corpus count (matches the app's general accent, used for Quick Tips/theme), green for
+   Owned (matches the ✓ OWNED badge color used everywhere else in the app), violet for Contenders
+   (matches the app's existing "special/upcoming" accent, e.g. Rabbit Hole). A vertical divider
+   between tiles (not the last one) replaces the plain gap so the row reads as distinct stats
+   rather than one run-on line. */
+#headStats{background:var(--panel);border:1px solid var(--border);border-radius:12px;padding:9px 16px;gap:0!important}
+#headStats>.statTile{display:flex;align-items:center;gap:9px;padding:0 16px;position:relative}
+#headStats>.statTile:first-child{padding-left:2px}
+#headStats>.statTile:last-child{padding-right:2px}
+#headStats>.statTile:not(:last-child)::after{content:'';position:absolute;right:0;top:2px;bottom:2px;width:1px;background:var(--border)}
+#headStats .statIcon{font-size:15px;line-height:1;flex:0 0 auto}
+#headStats .statNum{font-size:16px;font-weight:800;line-height:1;font-variant-numeric:tabular-nums}
+#headStats .statLbl{font-size:9px;letter-spacing:.14em;text-transform:uppercase;color:var(--text-faint);margin-top:2px}
 /* Collection tab: medium (Films/Series/Books/Games) and edition sections are <details>, so
    collapsing is native and keyboard-accessible. The default triangle marker is replaced with a
    caret we rotate ourselves, so the medium and format levels read identically. */
@@ -223,8 +238,10 @@ button:focus-visible,select:focus-visible,input:focus-visible{outline:2px solid 
     a controls strip where Theme+Help sit on the left and Export/Import/Reset (Profile) sit on the
     right of a divider -- so related controls read together instead of one long row to scan. */
  #headerControlsRow{flex-direction:column;align-items:stretch;gap:.5rem;row-gap:.5rem}
- #headStats{gap:.9rem;justify-content:center;background:rgba(148,163,184,.06);border:1px solid rgba(148,163,184,.14);border-radius:10px;padding:7px 10px}
- #headStats .text-lg{font-size:14px}
+ #headStats{justify-content:center;padding:7px 10px}
+ #headStats>.statTile{padding:0 10px}
+ #headStats .statNum{font-size:14px}
+ #headStats .statIcon{font-size:13px}
  #headerControlsRow .lbl,#headerControlsRow label.text-\[9px\]{font-size:8px}
  /* This row holds 3 sibling columns -- Theme, Help, Profile -- not 2. justify-content:space-between
     spreads all 3 evenly across the full row width, which strands the Help ("?") button in a large
@@ -413,8 +430,8 @@ button:focus-visible,select:focus-visible,input:focus-visible{outline:2px solid 
     w-full) and internally scrollable (max-h-[..vh] + overflow-y-auto) so none of them overflow
     the viewport -- but their desktop p-6/p-8 padding eats a lot of a short phone screen before
     any real content shows. Tighten just the padding/heading size, not the width/scroll behavior. */
- #acctGate>.panel,#onboardGate .panel,#versionGate>.panel,#goatPickerGate>.panel,#suggestGate>.panel{padding:1rem}
- #acctGate .text-lg,#onboardGate .text-lg,#versionGate .text-lg,#goatPickerGate .text-lg,#tipsGate .text-lg,#suggestGate .text-lg{font-size:16px}
+ #acctGate>.panel,#onboardGate .panel,#goatPickerGate>.panel,#suggestGate>.panel{padding:1rem}
+ #acctGate .text-lg,#onboardGate .text-lg,#goatPickerGate .text-lg,#tipsGate .text-lg,#suggestGate .text-lg{font-size:16px}
  /* #tipsGate split its padding onto #tipsHeaderWrap/#tipsBody instead of the outer .panel (see
     markup) so the sticky-header structural fix works at any width -- tighten those two on mobile
     the same way the shared rule above tightens every other modal's single padded .panel. */
@@ -550,20 +567,6 @@ body[data-theme="outer-wilds"]{--bg:#0e0a09;--panel:#181010;--panel-2:#120c0b;--
   </div>
 </div>
 
-<div id="versionGate" class="hidden fixed inset-0 z-[999] flex items-center justify-center bg-black/80 backdrop-blur-sm p-4">
-  <div class="panel p-6 max-w-md w-full space-y-4 max-h-[85vh] overflow-y-auto">
-    <div class="flex items-start justify-between gap-2">
-      <div>
-        <div class="text-[10px] tracking-[.35em] text-indigo-300/80 uppercase mb-1">Version</div>
-        <h2 class="text-lg font-bold text-slate-50">What's changed</h2>
-        <p class="text-[12px] text-slate-500 mt-1">If a friend's copy shows an older number than yours, send them the current <code>index.html</code> link — their own account (or a fresh Export) picks up right where they left off.</p>
-      </div>
-      <button type="button" id="versionClose" class="text-slate-500 hover:text-slate-300 text-lg leading-none" aria-label="Close">✕</button>
-    </div>
-    <div id="versionLog" class="space-y-3"></div>
-  </div>
-</div>
-
 <div id="rateGate" class="hidden fixed inset-0 z-[999] flex items-center justify-center bg-black/80 backdrop-blur-sm p-4">
   <div class="panel p-6 max-w-sm w-full space-y-4">
     <div class="flex items-start justify-between gap-2">
@@ -687,6 +690,7 @@ body[data-theme="outer-wilds"]{--bg:#0e0a09;--panel:#181010;--panel-2:#120c0b;--
       <div class="tipCatHead">One more thing</div>
       <div class="tipCatBody">
         <div class="tipItem">💡 <strong class="text-slate-100">See something missing?</strong> Use "Suggest a feature" in the header, top of page. Click the <strong class="text-slate-100">?</strong> button next to the theme selector anytime to bring these tips back.</div>
+        <div class="tipItem">▲ <strong class="text-slate-100">On a phone</strong>, the "Compact header" toggle next to your account chip collapses the title, stats and theme/profile row down to just the account chip and tabs — more screen for the list below without losing your place.</div>
       </div>
     </div>
 
@@ -699,6 +703,7 @@ body[data-theme="outer-wilds"]{--bg:#0e0a09;--panel:#181010;--panel-2:#120c0b;--
         <div class="tipItem">▶ <strong class="text-slate-100">Advanced Filters &amp; Indices</strong> (collapsed by default) stacks as many specialized index thresholds as you like — dread, complexity, awe, and more — on top of the main filters.</div>
         <div class="tipItem">🔀 <strong class="text-slate-100">The Sort dropdown</strong> is grouped by category — Reception, Craft &amp; Fidelity, Mood &amp; Feel, Depth &amp; Ideas — with each group alphabetized, so related sorts sit together instead of one long list.</div>
         <div class="tipItem">🕳 <strong class="text-slate-100">Rabbit Hole</strong> and 🎲 <strong class="text-slate-100">Surprise Me</strong>, both here in the Global Controller, pull a weighted pick for you — Rabbit Hole starts a connected journey across media from one of your top matches, Surprise Me spins by mood, medium, ownership, or how much time you have.</div>
+        <div class="tipItem">▦ <strong class="text-slate-100">Compact / Comfortable</strong> toggles card density — Compact fits more cards per screen, Comfortable keeps them larger and more spaced out. Remembered across visits.</div>
       </div>
     </div>
 
@@ -839,7 +844,7 @@ body[data-theme="outer-wilds"]{--bg:#0e0a09;--panel:#181010;--panel-2:#120c0b;--
       <div class="flex flex-wrap items-start justify-between gap-3">
         <div id="headerTitleBlock">
           <h1 class="text-xl md:text-2xl font-bold tracking-tight text-slate-50">The Ultimate Omni-Media &amp; Entertainment Ledger</h1>
-          <div id="lastUpdated" class="text-[10px] text-slate-500 mt-1 tracking-wide">Last updated · Aug 30, 2026 · <span id="luCount" class="text-slate-400"></span> · <button type="button" id="versionBtn" class="text-slate-500 hover:text-slate-300 underline decoration-dotted underline-offset-2">v<span id="versionText"></span></button></div>
+          <div id="lastUpdated" class="text-[10px] text-slate-500 mt-1 tracking-wide">Last updated · Aug 30, 2026 · <span id="luCount" class="text-slate-400"></span></div>
         </div>
         <!-- Mobile-only "compact header" toggle: collapses everything except the account chip and
              the tab nav below (see body.headerCompact rules in the max-width:767px CSS block, and
@@ -906,14 +911,14 @@ body[data-theme="outer-wilds"]{--bg:#0e0a09;--panel:#181010;--panel-2:#120c0b;--
     <nav id="nav" class="flex flex-wrap gap-2 mt-4" aria-label="Primary views">
       <button type="button" class="navBtn active" data-view="controller">Global Controller</button>
       <button type="button" class="navBtn" data-view="goat">★ GOAT Profile</button>
-      <button type="button" class="navBtn" data-view="portrait">◐ Taste Portrait</button>
       <button type="button" class="navBtn" data-view="collection">◆ Collection</button>
-      <button type="button" class="navBtn" data-view="watchlist">♡ Watchlist <span id="wlNavCount" class="tabular-nums"></span></button>
       <button type="button" class="navBtn" data-view="contenders">Contenders Ledger</button>
-      <button type="button" class="navBtn" data-view="creators">Creator Archives</button>
-      <button type="button" class="navBtn" data-view="matrix">Reference Matrices</button>
+      <button type="button" class="navBtn" data-view="watchlist">♡ Watchlist <span id="wlNavCount" class="tabular-nums"></span></button>
+      <button type="button" class="navBtn" data-view="portrait">◐ Taste Portrait</button>
       <button type="button" class="navBtn" data-view="viz">Visualization Suite</button>
       <button type="button" class="navBtn" data-view="timeline">◷ Timeline</button>
+      <button type="button" class="navBtn" data-view="creators">Creator Archives</button>
+      <button type="button" class="navBtn" data-view="matrix">Reference Matrices</button>
       <button type="button" id="suggestBtn" class="navBtn" style="border-color:#34d39955;color:#6ee7b7">💡 Suggest a feature <span id="suggestNavCount" class="tabular-nums"></span></button>
     </nav>
   </div>
@@ -973,6 +978,7 @@ body[data-theme="outer-wilds"]{--bg:#0e0a09;--panel:#181010;--panel-2:#120c0b;--
         <span class="fieldlbl mb-0">Tiers · click to require, click again to exclude</span>
         <div id="tierChips" class="flex flex-wrap gap-1.5"></div>
       </span>
+      <button type="button" id="discoverBtn" class="ml-auto text-[11px] px-3 py-1.5 rounded-lg border border-amber-500/50 text-amber-300 hover:bg-amber-500/10 transition-colors font-semibold" title="Shortcut: sort by GOAT Match, show not-owned only, and exclude anything already tiered Gold/Silver/Bronze — the setup for finding new things that best match your taste">✨ Best Untried Matches</button>
     </div>
     <div class="mt-4 pt-4 border-t border-slate-800/70">
       <button type="button" id="advToggle" class="flex items-center gap-2 text-[11.5px] font-bold tracking-[.12em] uppercase transition-colors" style="color:#fbbf24" onmouseover="this.style.color='#fcd34d'" onmouseout="this.style.color='#fbbf24'">

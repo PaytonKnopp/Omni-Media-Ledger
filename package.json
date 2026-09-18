@@ -12,9 +12,9 @@
     "lint": "eslint ."
   },
   "devDependencies": {
-    "playwright-core": "^1.62.1",
-    "eslint": "^10.10.0",
     "@eslint/js": "^10.0.1",
-    "globals": "^17.12.0"
+    "eslint": "^10.10.0",
+    "globals": "^17.12.0",
+    "playwright-core": "^1.63.0"
   }
 }
