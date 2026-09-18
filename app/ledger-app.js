@@ -750,11 +750,14 @@ function initCharts(){
  buildRadarSelects();renderRadarAxisRow();updateRadar();
 }
 function updateCharts(list){
- $('#vizScope').textContent=list.length+' works in scope · Global Controller filters apply live to charts A and C.';
+ $('#vizScope').textContent=list.length+' works in scope · Global Controller filters apply live to chart A. Chart C always reflects your whole catalog.';
  if(!CH.bubble)return;
  CH._vizList=list;
  renderBubble();
- renderSankey(list);
+ // Chart C is a taste-composition summary (where your Gold/Silver/Bronze/Owned works come from),
+ // not a scoped-exploration view like A -- it should read the same whether or not the Global
+ // Controller currently has filters narrowing the rest of the suite, so it always draws from ALL.
+ renderSankey(ALL);
 }
 // Panel C · Taste Flow -- a hand-rolled two-column Sankey (same house style as the relationship
 // graph in panel D: plain SVG, no chart-library dependency) showing how the medium mix in scope
