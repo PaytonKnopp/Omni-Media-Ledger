@@ -1716,3 +1716,5 @@ Roughly in order of value:
 Ad hoc jsdom checks (data integrity, filter behavior, DOM state after simulated clicks) are still useful for quick iteration and don't need a browser — the old approach (jsdom with `runScripts: 'dangerously'`, stub `Chart`/`requestAnimationFrame`/`URL.createObjectURL`) still works and was used throughout Phase 6 development, just never committed since it's redundant with what `test/smoke.js` now covers end to end.
 
 **Batch 33:** movies 11 (R-rated studio comedies), books 7 (contemporary lit-fiction + picture books). Checkpoint: movies 1,807/2,000, books 1,653/2,000.
+
+**Batch 35:** movies 22 (international/arthouse + A24 elevated horror), books 19 (Dickens catalog + Victorian classics). Adopted a bulk title-pre-check technique (check a big list of bare titles against the corpus Set before writing full records) after a director-filmography guess batch came back 35/39 duplicate — corpus is now saturated on "obvious famous title" pools. Checkpoint: movies 1,829/2,000, books 1,672/2,000.
