@@ -1,0 +1,4626 @@
+{
+ "medium": "book",
+ "generated": "2026-09-18T03:37:18.067Z",
+ "offline": false,
+ "sources": [
+  "OpenLibrary",
+  "Google Books",
+  "Wikidata"
+ ],
+ "works": [
+  {
+   "id": "b1714",
+   "title": "I Am the Messenger",
+   "sourcesReached": [
+    "OpenLibrary",
+    "Google Books",
+    "Wikidata"
+   ],
+   "sourcesMissed": [],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "first publication year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 2002,
+     "proposed": 2002,
+     "status": "corroborated-by-one",
+     "grade": "B",
+     "note": "matches OpenLibrary; disagrees with Google Books (2006)",
+     "sources": [
+      {
+       "src": "OpenLibrary",
+       "value": 2002,
+       "url": "https://openlibrary.org/search.json?title=I+Am+the+Messenger&limit=1"
+      },
+      {
+       "src": "Google Books",
+       "value": 2006,
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3AI+Am+the+Messenger&maxResults=1&key=REDACTED"
+      }
+     ],
+     "alternatives": [
+      2006
+     ]
+    },
+    {
+     "field": "pages",
+     "label": "page count",
+     "soft": false,
+     "editionDependent": true,
+     "current": 357,
+     "proposed": 370,
+     "status": "edition-dependent",
+     "grade": "B",
+     "note": "one source differs from the corpus (Google Books 370) on a field with no single true value -- likely a different printing/edition, not an error.",
+     "sources": [
+      {
+       "src": "Google Books",
+       "value": 370,
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3AI+Am+the+Messenger&maxResults=1&key=REDACTED"
+      }
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "author",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Markus Zusak",
+     "proposed": "Markus Zusak",
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OpenLibrary",
+       "value": "Markus Zusak",
+       "url": "https://openlibrary.org/search.json?title=I+Am+the+Messenger&limit=1"
+      },
+      {
+       "src": "Google Books",
+       "value": "Markus Zusak",
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3AI+Am+the+Messenger&maxResults=1&key=REDACTED"
+      },
+      {
+       "src": "Wikidata",
+       "value": "Markus Zusak",
+       "url": "https://www.wikidata.org/wiki/Q138565088"
+      }
+     ]
+    },
+    {
+     "field": "publisher",
+     "label": "publisher",
+     "soft": true,
+     "editionDependent": true,
+     "current": "Pan Macmillan",
+     "proposed": "Knopf Books for Young Readers",
+     "status": "edition-dependent",
+     "grade": "B",
+     "note": "one source differs from the corpus (Google Books \"Knopf Books for Young Readers\") on a field with no single true value -- likely a different printing/edition, not an error.",
+     "sources": [
+      {
+       "src": "Google Books",
+       "value": "Knopf Books for Young Readers",
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3AI+Am+the+Messenger&maxResults=1&key=REDACTED"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "b1715",
+   "title": "Walk Two Moons",
+   "sourcesReached": [
+    "OpenLibrary",
+    "Google Books",
+    "Wikidata"
+   ],
+   "sourcesMissed": [],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "first publication year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 1994,
+     "proposed": 1994,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OpenLibrary",
+       "value": 1994,
+       "url": "https://openlibrary.org/search.json?title=Walk+Two+Moons&limit=1"
+      },
+      {
+       "src": "Google Books",
+       "value": 1994,
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3AWalk+Two+Moons&maxResults=1&key=REDACTED"
+      },
+      {
+       "src": "Wikidata",
+       "value": 1994,
+       "url": "https://www.wikidata.org/wiki/Q7962056"
+      }
+     ]
+    },
+    {
+     "field": "pages",
+     "label": "page count",
+     "soft": false,
+     "editionDependent": true,
+     "current": 280,
+     "proposed": 736,
+     "status": "edition-dependent",
+     "grade": "B",
+     "note": "one source differs from the corpus (Google Books 736) on a field with no single true value -- likely a different printing/edition, not an error.",
+     "sources": [
+      {
+       "src": "Google Books",
+       "value": 736,
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3AWalk+Two+Moons&maxResults=1&key=REDACTED"
+      }
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "author",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Sharon Creech",
+     "proposed": "Sharon Creech",
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OpenLibrary",
+       "value": "Sharon Creech",
+       "url": "https://openlibrary.org/search.json?title=Walk+Two+Moons&limit=1"
+      },
+      {
+       "src": "Google Books",
+       "value": "Sharon Creech",
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3AWalk+Two+Moons&maxResults=1&key=REDACTED"
+      },
+      {
+       "src": "Wikidata",
+       "value": "Sharon Creech",
+       "url": "https://www.wikidata.org/wiki/Q7962056"
+      }
+     ]
+    },
+    {
+     "field": "publisher",
+     "label": "publisher",
+     "soft": true,
+     "editionDependent": true,
+     "current": "HarperCollins",
+     "proposed": "HarperCollins",
+     "status": "confirmed",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "Wikidata",
+       "value": "HarperCollins",
+       "url": "https://www.wikidata.org/wiki/Q7962056"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "b1716",
+   "title": "Flora & Ulysses",
+   "sourcesReached": [
+    "OpenLibrary",
+    "Google Books",
+    "Wikidata"
+   ],
+   "sourcesMissed": [],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "first publication year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 2013,
+     "proposed": 2013,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OpenLibrary",
+       "value": 2013,
+       "url": "https://openlibrary.org/search.json?title=Flora+%26+Ulysses&limit=1"
+      },
+      {
+       "src": "Google Books",
+       "value": 2013,
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3AFlora+%26+Ulysses&maxResults=1&key=REDACTED"
+      },
+      {
+       "src": "Wikidata",
+       "value": 2013,
+       "url": "https://www.wikidata.org/wiki/Q17046136"
+      }
+     ]
+    },
+    {
+     "field": "pages",
+     "label": "page count",
+     "soft": false,
+     "editionDependent": true,
+     "current": 233,
+     "proposed": 245,
+     "status": "edition-dependent",
+     "grade": "B",
+     "note": "one source differs from the corpus (Google Books 245) on a field with no single true value -- likely a different printing/edition, not an error.",
+     "sources": [
+      {
+       "src": "Google Books",
+       "value": 245,
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3AFlora+%26+Ulysses&maxResults=1&key=REDACTED"
+      }
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "author",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Kate DiCamillo",
+     "proposed": "Kate DiCamillo",
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OpenLibrary",
+       "value": "Kate DiCamillo",
+       "url": "https://openlibrary.org/search.json?title=Flora+%26+Ulysses&limit=1"
+      },
+      {
+       "src": "Google Books",
+       "value": "Kate DiCamillo",
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3AFlora+%26+Ulysses&maxResults=1&key=REDACTED"
+      },
+      {
+       "src": "Wikidata",
+       "value": "Kate DiCamillo",
+       "url": "https://www.wikidata.org/wiki/Q17046136"
+      }
+     ]
+    },
+    {
+     "field": "publisher",
+     "label": "publisher",
+     "soft": true,
+     "editionDependent": true,
+     "current": "Candlewick Press",
+     "proposed": "Candlewick Press",
+     "status": "confirmed",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "Google Books",
+       "value": "Candlewick Press",
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3AFlora+%26+Ulysses&maxResults=1&key=REDACTED"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "b1717",
+   "title": "Raymie Nightingale",
+   "sourcesReached": [
+    "OpenLibrary",
+    "Google Books",
+    "Wikidata"
+   ],
+   "sourcesMissed": [],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "first publication year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 2016,
+     "proposed": 2016,
+     "status": "corroborated-by-one",
+     "grade": "B",
+     "note": "matches OpenLibrary; disagrees with Google Books (2023)",
+     "sources": [
+      {
+       "src": "OpenLibrary",
+       "value": 2016,
+       "url": "https://openlibrary.org/search.json?title=Raymie+Nightingale&limit=1"
+      },
+      {
+       "src": "Google Books",
+       "value": 2023,
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3ARaymie+Nightingale&maxResults=1&key=REDACTED"
+      }
+     ],
+     "alternatives": [
+      2023
+     ]
+    },
+    {
+     "field": "pages",
+     "label": "page count",
+     "soft": false,
+     "editionDependent": true,
+     "current": 263,
+     "proposed": 0,
+     "status": "edition-dependent",
+     "grade": "B",
+     "note": "one source differs from the corpus (Google Books 0) on a field with no single true value -- likely a different printing/edition, not an error.",
+     "sources": [
+      {
+       "src": "Google Books",
+       "value": 0,
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3ARaymie+Nightingale&maxResults=1&key=REDACTED"
+      }
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "author",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Kate DiCamillo",
+     "proposed": "Kate DiCamillo",
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OpenLibrary",
+       "value": "Kate DiCamillo",
+       "url": "https://openlibrary.org/search.json?title=Raymie+Nightingale&limit=1"
+      },
+      {
+       "src": "Google Books",
+       "value": "Kate DiCamillo",
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3ARaymie+Nightingale&maxResults=1&key=REDACTED"
+      },
+      {
+       "src": "Wikidata",
+       "value": "Kate DiCamillo",
+       "url": "https://www.wikidata.org/wiki/Q135070805"
+      }
+     ]
+    },
+    {
+     "field": "publisher",
+     "label": "publisher",
+     "soft": true,
+     "editionDependent": true,
+     "current": "Candlewick Press",
+     "proposed": "Three Rancheros",
+     "status": "edition-dependent",
+     "grade": "B",
+     "note": "one source differs from the corpus (Google Books \"Three Rancheros\") on a field with no single true value -- likely a different printing/edition, not an error.",
+     "sources": [
+      {
+       "src": "Google Books",
+       "value": "Three Rancheros",
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3ARaymie+Nightingale&maxResults=1&key=REDACTED"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "b1718",
+   "title": "Counting by 7s",
+   "sourcesReached": [
+    "OpenLibrary",
+    "Google Books"
+   ],
+   "sourcesMissed": [
+    "Wikidata (no match)"
+   ],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "first publication year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 2013,
+     "proposed": 2013,
+     "status": "corroborated-by-one",
+     "grade": "B",
+     "note": "matches Google Books; disagrees with OpenLibrary (2014)",
+     "sources": [
+      {
+       "src": "OpenLibrary",
+       "value": 2014,
+       "url": "https://openlibrary.org/search.json?title=Counting+by+7s&limit=1"
+      },
+      {
+       "src": "Google Books",
+       "value": 2013,
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3ACounting+by+7s&maxResults=1&key=REDACTED"
+      }
+     ],
+     "alternatives": [
+      2013
+     ]
+    },
+    {
+     "field": "pages",
+     "label": "page count",
+     "soft": false,
+     "editionDependent": true,
+     "current": 384,
+     "proposed": 386,
+     "status": "edition-dependent",
+     "grade": "B",
+     "note": "one source differs from the corpus (Google Books 386) on a field with no single true value -- likely a different printing/edition, not an error.",
+     "sources": [
+      {
+       "src": "Google Books",
+       "value": 386,
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3ACounting+by+7s&maxResults=1&key=REDACTED"
+      }
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "author",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Holly Goldberg Sloan",
+     "proposed": "Holly Goldberg Sloan",
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OpenLibrary",
+       "value": "Holly Goldberg Sloan",
+       "url": "https://openlibrary.org/search.json?title=Counting+by+7s&limit=1"
+      },
+      {
+       "src": "Google Books",
+       "value": "Holly Goldberg Sloan",
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3ACounting+by+7s&maxResults=1&key=REDACTED"
+      }
+     ]
+    },
+    {
+     "field": "publisher",
+     "label": "publisher",
+     "soft": true,
+     "editionDependent": true,
+     "current": "Dial Books",
+     "proposed": "Penguin",
+     "status": "edition-dependent",
+     "grade": "B",
+     "note": "one source differs from the corpus (Google Books \"Penguin\") on a field with no single true value -- likely a different printing/edition, not an error.",
+     "sources": [
+      {
+       "src": "Google Books",
+       "value": "Penguin",
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3ACounting+by+7s&maxResults=1&key=REDACTED"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "b1719",
+   "title": "The One and Only Ivan",
+   "sourcesReached": [
+    "OpenLibrary",
+    "Google Books",
+    "Wikidata"
+   ],
+   "sourcesMissed": [],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "first publication year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 2012,
+     "proposed": 2012,
+     "status": "corroborated-by-one",
+     "grade": "B",
+     "note": "matches Wikidata; disagrees with OpenLibrary (2011), Google Books (2015)",
+     "sources": [
+      {
+       "src": "OpenLibrary",
+       "value": 2011,
+       "url": "https://openlibrary.org/search.json?title=The+One+and+Only+Ivan&limit=1"
+      },
+      {
+       "src": "Google Books",
+       "value": 2015,
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3AThe+One+and+Only+Ivan&maxResults=1&key=REDACTED"
+      },
+      {
+       "src": "Wikidata",
+       "value": 2012,
+       "url": "https://www.wikidata.org/wiki/Q7755084"
+      }
+     ],
+     "alternatives": [
+      2015,
+      2012
+     ]
+    },
+    {
+     "field": "pages",
+     "label": "page count",
+     "soft": false,
+     "editionDependent": true,
+     "current": 305,
+     "proposed": 336,
+     "status": "edition-dependent",
+     "grade": "B",
+     "note": "one source differs from the corpus (Google Books 336) on a field with no single true value -- likely a different printing/edition, not an error.",
+     "sources": [
+      {
+       "src": "Google Books",
+       "value": 336,
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3AThe+One+and+Only+Ivan&maxResults=1&key=REDACTED"
+      }
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "author",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Katherine Applegate",
+     "proposed": "Katherine Applegate",
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OpenLibrary",
+       "value": "Katherine Applegate",
+       "url": "https://openlibrary.org/search.json?title=The+One+and+Only+Ivan&limit=1"
+      },
+      {
+       "src": "Google Books",
+       "value": "Katherine Applegate",
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3AThe+One+and+Only+Ivan&maxResults=1&key=REDACTED"
+      },
+      {
+       "src": "Wikidata",
+       "value": "Katherine Applegate",
+       "url": "https://www.wikidata.org/wiki/Q7755084"
+      }
+     ]
+    },
+    {
+     "field": "publisher",
+     "label": "publisher",
+     "soft": true,
+     "editionDependent": true,
+     "current": "HarperCollins",
+     "proposed": "HarperCollins",
+     "status": "corroborated-by-one",
+     "grade": "B",
+     "note": "matches Wikidata; disagrees with Google Books (\"Perfection Learning\")",
+     "sources": [
+      {
+       "src": "Google Books",
+       "value": "Perfection Learning",
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3AThe+One+and+Only+Ivan&maxResults=1&key=REDACTED"
+      },
+      {
+       "src": "Wikidata",
+       "value": "HarperCollins",
+       "url": "https://www.wikidata.org/wiki/Q7755084"
+      }
+     ],
+     "alternatives": [
+      "HarperCollins"
+     ]
+    }
+   ]
+  },
+  {
+   "id": "b1720",
+   "title": "Fish in a Tree",
+   "sourcesReached": [
+    "OpenLibrary",
+    "Google Books",
+    "Wikidata"
+   ],
+   "sourcesMissed": [],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "first publication year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 2015,
+     "proposed": 2015,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OpenLibrary",
+       "value": 2015,
+       "url": "https://openlibrary.org/search.json?title=Fish+in+a+Tree&limit=1"
+      },
+      {
+       "src": "Google Books",
+       "value": 2015,
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3AFish+in+a+Tree&maxResults=1&key=REDACTED"
+      },
+      {
+       "src": "Wikidata",
+       "value": 2015,
+       "url": "https://www.wikidata.org/wiki/Q123904836"
+      }
+     ]
+    },
+    {
+     "field": "pages",
+     "label": "page count",
+     "soft": false,
+     "editionDependent": true,
+     "current": 275,
+     "proposed": 321,
+     "status": "edition-dependent",
+     "grade": "B",
+     "note": "one source differs from the corpus (Google Books 321) on a field with no single true value -- likely a different printing/edition, not an error.",
+     "sources": [
+      {
+       "src": "Google Books",
+       "value": 321,
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3AFish+in+a+Tree&maxResults=1&key=REDACTED"
+      }
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "author",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Lynda Mullaly Hunt",
+     "proposed": "Lynda Mullaly Hunt",
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OpenLibrary",
+       "value": "Lynda Mullaly Hunt",
+       "url": "https://openlibrary.org/search.json?title=Fish+in+a+Tree&limit=1"
+      },
+      {
+       "src": "Google Books",
+       "value": "Lynda Mullaly Hunt",
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3AFish+in+a+Tree&maxResults=1&key=REDACTED"
+      },
+      {
+       "src": "Wikidata",
+       "value": "Lynda Mullaly Hunt",
+       "url": "https://www.wikidata.org/wiki/Q123904836"
+      }
+     ]
+    },
+    {
+     "field": "publisher",
+     "label": "publisher",
+     "soft": true,
+     "editionDependent": true,
+     "current": "Nancy Paulsen Books",
+     "proposed": "Penguin",
+     "status": "edition-dependent",
+     "grade": "B",
+     "note": "one source differs from the corpus (Google Books \"Penguin\") on a field with no single true value -- likely a different printing/edition, not an error.",
+     "sources": [
+      {
+       "src": "Google Books",
+       "value": "Penguin",
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3AFish+in+a+Tree&maxResults=1&key=REDACTED"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "b1721",
+   "title": "El Deafo",
+   "sourcesReached": [
+    "OpenLibrary",
+    "Google Books",
+    "Wikidata"
+   ],
+   "sourcesMissed": [],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "first publication year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 2014,
+     "proposed": 2014,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OpenLibrary",
+       "value": 2014,
+       "url": "https://openlibrary.org/search.json?title=El+Deafo&limit=1"
+      },
+      {
+       "src": "Google Books",
+       "value": 2014,
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3AEl+Deafo&maxResults=1&key=REDACTED"
+      }
+     ]
+    },
+    {
+     "field": "pages",
+     "label": "page count",
+     "soft": false,
+     "editionDependent": true,
+     "current": 248,
+     "proposed": 252,
+     "status": "edition-dependent",
+     "grade": "B",
+     "note": "one source differs from the corpus (Google Books 252) on a field with no single true value -- likely a different printing/edition, not an error.",
+     "sources": [
+      {
+       "src": "Google Books",
+       "value": 252,
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3AEl+Deafo&maxResults=1&key=REDACTED"
+      }
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "author",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Cece Bell",
+     "proposed": "Cece Bell",
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OpenLibrary",
+       "value": "Cece Bell",
+       "url": "https://openlibrary.org/search.json?title=El+Deafo&limit=1"
+      },
+      {
+       "src": "Google Books",
+       "value": "Cece Bell",
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3AEl+Deafo&maxResults=1&key=REDACTED"
+      },
+      {
+       "src": "Wikidata",
+       "value": "Cece Bell",
+       "url": "https://www.wikidata.org/wiki/Q19879560"
+      }
+     ]
+    },
+    {
+     "field": "publisher",
+     "label": "publisher",
+     "soft": true,
+     "editionDependent": true,
+     "current": "Amulet Books",
+     "proposed": "Abrams",
+     "status": "edition-dependent",
+     "grade": "B",
+     "note": "one source differs from the corpus (Google Books \"Abrams\") on a field with no single true value -- likely a different printing/edition, not an error.",
+     "sources": [
+      {
+       "src": "Google Books",
+       "value": "Abrams",
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3AEl+Deafo&maxResults=1&key=REDACTED"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "b1722",
+   "title": "Smile",
+   "sourcesReached": [
+    "OpenLibrary"
+   ],
+   "sourcesMissed": [
+    "Google Books (no match)",
+    "Wikidata (no match)"
+   ],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "first publication year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 2010,
+     "proposed": 2010,
+     "status": "confirmed",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "OpenLibrary",
+       "value": 2010,
+       "url": "https://openlibrary.org/search.json?title=Smile&limit=1"
+      }
+     ]
+    },
+    {
+     "field": "pages",
+     "label": "page count",
+     "soft": false,
+     "current": 224,
+     "status": "no-source",
+     "grade": null,
+     "sources": []
+    },
+    {
+     "field": "creator",
+     "label": "author",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Raina Telgemeier",
+     "proposed": "Raina Telgemeier",
+     "status": "confirmed",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "OpenLibrary",
+       "value": "Raina Telgemeier",
+       "url": "https://openlibrary.org/search.json?title=Smile&limit=1"
+      }
+     ]
+    },
+    {
+     "field": "publisher",
+     "label": "publisher",
+     "soft": true,
+     "current": "Graphix",
+     "status": "no-source",
+     "grade": null,
+     "sources": []
+    }
+   ]
+  },
+  {
+   "id": "b1723",
+   "title": "Drama",
+   "sourcesReached": [
+    "OpenLibrary"
+   ],
+   "sourcesMissed": [
+    "Google Books (no match)",
+    "Wikidata (no match)"
+   ],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "first publication year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 2012,
+     "proposed": 2012,
+     "status": "confirmed",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "OpenLibrary",
+       "value": 2012,
+       "url": "https://openlibrary.org/search.json?title=Drama&limit=1"
+      }
+     ]
+    },
+    {
+     "field": "pages",
+     "label": "page count",
+     "soft": false,
+     "current": 233,
+     "status": "no-source",
+     "grade": null,
+     "sources": []
+    },
+    {
+     "field": "creator",
+     "label": "author",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Raina Telgemeier",
+     "proposed": "Raina Telgemeier",
+     "status": "confirmed",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "OpenLibrary",
+       "value": "Raina Telgemeier",
+       "url": "https://openlibrary.org/search.json?title=Drama&limit=1"
+      }
+     ]
+    },
+    {
+     "field": "publisher",
+     "label": "publisher",
+     "soft": true,
+     "current": "Graphix",
+     "status": "no-source",
+     "grade": null,
+     "sources": []
+    }
+   ]
+  },
+  {
+   "id": "b1724",
+   "title": "Sisters",
+   "sourcesReached": [],
+   "sourcesMissed": [
+    "OpenLibrary (no match)",
+    "Google Books (no match)",
+    "Wikidata (no match)"
+   ],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "first publication year",
+     "soft": false,
+     "current": 2014,
+     "status": "no-source",
+     "grade": null,
+     "sources": []
+    },
+    {
+     "field": "pages",
+     "label": "page count",
+     "soft": false,
+     "current": 208,
+     "status": "no-source",
+     "grade": null,
+     "sources": []
+    },
+    {
+     "field": "creator",
+     "label": "author",
+     "soft": false,
+     "current": "Raina Telgemeier",
+     "status": "no-source",
+     "grade": null,
+     "sources": []
+    },
+    {
+     "field": "publisher",
+     "label": "publisher",
+     "soft": true,
+     "current": "Graphix",
+     "status": "no-source",
+     "grade": null,
+     "sources": []
+    }
+   ]
+  },
+  {
+   "id": "b1725",
+   "title": "Guts",
+   "sourcesReached": [
+    "OpenLibrary"
+   ],
+   "sourcesMissed": [
+    "Google Books (HTTP 429 (daily quota exceeded -- not retrying))",
+    "Wikidata (no match)"
+   ],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "first publication year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 2019,
+     "proposed": 2019,
+     "status": "confirmed",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "OpenLibrary",
+       "value": 2019,
+       "url": "https://openlibrary.org/search.json?title=Guts&limit=1"
+      }
+     ]
+    },
+    {
+     "field": "pages",
+     "label": "page count",
+     "soft": false,
+     "current": 224,
+     "status": "no-source",
+     "grade": null,
+     "sources": []
+    },
+    {
+     "field": "creator",
+     "label": "author",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Raina Telgemeier",
+     "proposed": "Raina Telgemeier",
+     "status": "confirmed",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "OpenLibrary",
+       "value": "Raina Telgemeier",
+       "url": "https://openlibrary.org/search.json?title=Guts&limit=1"
+      }
+     ]
+    },
+    {
+     "field": "publisher",
+     "label": "publisher",
+     "soft": true,
+     "current": "Graphix",
+     "status": "no-source",
+     "grade": null,
+     "sources": []
+    }
+   ]
+  },
+  {
+   "id": "b1726",
+   "title": "New Kid",
+   "sourcesReached": [
+    "OpenLibrary",
+    "Wikidata"
+   ],
+   "sourcesMissed": [
+    "Google Books (HTTP 429 (daily quota exceeded -- not retrying))"
+   ],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "first publication year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 2019,
+     "proposed": 2019,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OpenLibrary",
+       "value": 2019,
+       "url": "https://openlibrary.org/search.json?title=New+Kid&limit=1"
+      },
+      {
+       "src": "Wikidata",
+       "value": 2019,
+       "url": "https://www.wikidata.org/wiki/Q85788534"
+      }
+     ]
+    },
+    {
+     "field": "pages",
+     "label": "page count",
+     "soft": false,
+     "current": 256,
+     "status": "no-source",
+     "grade": null,
+     "sources": []
+    },
+    {
+     "field": "creator",
+     "label": "author",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Jerry Craft",
+     "proposed": "Jerry Craft",
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OpenLibrary",
+       "value": "Jerry Craft",
+       "url": "https://openlibrary.org/search.json?title=New+Kid&limit=1"
+      },
+      {
+       "src": "Wikidata",
+       "value": "Jerry Craft",
+       "url": "https://www.wikidata.org/wiki/Q85788534"
+      }
+     ]
+    },
+    {
+     "field": "publisher",
+     "label": "publisher",
+     "soft": true,
+     "current": "Quill Tree Books",
+     "status": "no-source",
+     "grade": null,
+     "sources": []
+    }
+   ]
+  },
+  {
+   "id": "b1727",
+   "title": "Class Act",
+   "sourcesReached": [
+    "OpenLibrary"
+   ],
+   "sourcesMissed": [
+    "Google Books (HTTP 429 (daily quota exceeded -- not retrying))",
+    "Wikidata (no match)"
+   ],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "first publication year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 2020,
+     "proposed": 2020,
+     "status": "confirmed",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "OpenLibrary",
+       "value": 2020,
+       "url": "https://openlibrary.org/search.json?title=Class+Act&limit=1"
+      }
+     ]
+    },
+    {
+     "field": "pages",
+     "label": "page count",
+     "soft": false,
+     "current": 256,
+     "status": "no-source",
+     "grade": null,
+     "sources": []
+    },
+    {
+     "field": "creator",
+     "label": "author",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Jerry Craft",
+     "proposed": "Jerry Craft",
+     "status": "confirmed",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "OpenLibrary",
+       "value": "Jerry Craft",
+       "url": "https://openlibrary.org/search.json?title=Class+Act&limit=1"
+      }
+     ]
+    },
+    {
+     "field": "publisher",
+     "label": "publisher",
+     "soft": true,
+     "current": "Quill Tree Books",
+     "status": "no-source",
+     "grade": null,
+     "sources": []
+    }
+   ]
+  },
+  {
+   "id": "b1728",
+   "title": "American Born Chinese",
+   "sourcesReached": [
+    "OpenLibrary",
+    "Wikidata"
+   ],
+   "sourcesMissed": [
+    "Google Books (HTTP 429 (daily quota exceeded -- not retrying))"
+   ],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "first publication year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 2006,
+     "proposed": 2006,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OpenLibrary",
+       "value": 2006,
+       "url": "https://openlibrary.org/search.json?title=American+Born+Chinese&limit=1"
+      },
+      {
+       "src": "Wikidata",
+       "value": 2006,
+       "url": "https://www.wikidata.org/wiki/Q4743234"
+      }
+     ]
+    },
+    {
+     "field": "pages",
+     "label": "page count",
+     "soft": false,
+     "current": 233,
+     "status": "no-source",
+     "grade": null,
+     "sources": []
+    },
+    {
+     "field": "creator",
+     "label": "author",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Gene Luen Yang",
+     "proposed": "Gene Luen Yang",
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OpenLibrary",
+       "value": "Gene Luen Yang",
+       "url": "https://openlibrary.org/search.json?title=American+Born+Chinese&limit=1"
+      },
+      {
+       "src": "Wikidata",
+       "value": "Gene Luen Yang",
+       "url": "https://www.wikidata.org/wiki/Q4743234"
+      }
+     ]
+    },
+    {
+     "field": "publisher",
+     "label": "publisher",
+     "soft": true,
+     "editionDependent": true,
+     "current": "First Second Books",
+     "proposed": "First Second Books",
+     "status": "confirmed",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "Wikidata",
+       "value": "First Second Books",
+       "url": "https://www.wikidata.org/wiki/Q4743234"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "b1729",
+   "title": "Persepolis 2",
+   "sourcesReached": [
+    "OpenLibrary",
+    "Wikidata"
+   ],
+   "sourcesMissed": [
+    "Google Books (HTTP 429 (daily quota exceeded -- not retrying))"
+   ],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "first publication year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 2004,
+     "proposed": 2003,
+     "status": "proposed-change",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "OpenLibrary",
+       "value": 2003,
+       "url": "https://openlibrary.org/search.json?title=Persepolis+2&limit=1"
+      }
+     ]
+    },
+    {
+     "field": "pages",
+     "label": "page count",
+     "soft": false,
+     "current": 187,
+     "status": "no-source",
+     "grade": null,
+     "sources": []
+    },
+    {
+     "field": "creator",
+     "label": "author",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Marjane Satrapi",
+     "proposed": "Marjane Satrapi",
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OpenLibrary",
+       "value": "Marjane Satrapi",
+       "url": "https://openlibrary.org/search.json?title=Persepolis+2&limit=1"
+      },
+      {
+       "src": "Wikidata",
+       "value": "Marjane Satrapi",
+       "url": "https://www.wikidata.org/wiki/Q138559006"
+      }
+     ]
+    },
+    {
+     "field": "publisher",
+     "label": "publisher",
+     "soft": true,
+     "current": "Pantheon Books",
+     "status": "no-source",
+     "grade": null,
+     "sources": []
+    }
+   ]
+  },
+  {
+   "id": "b1730",
+   "title": "Maus II",
+   "sourcesReached": [
+    "OpenLibrary",
+    "Wikidata"
+   ],
+   "sourcesMissed": [
+    "Google Books (HTTP 429 (daily quota exceeded -- not retrying))"
+   ],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "first publication year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 1991,
+     "proposed": 1991,
+     "status": "confirmed",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "OpenLibrary",
+       "value": 1991,
+       "url": "https://openlibrary.org/search.json?title=Maus+II&limit=1"
+      }
+     ]
+    },
+    {
+     "field": "pages",
+     "label": "page count",
+     "soft": false,
+     "current": 136,
+     "status": "no-source",
+     "grade": null,
+     "sources": []
+    },
+    {
+     "field": "creator",
+     "label": "author",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Art Spiegelman",
+     "proposed": "Art Spiegelman",
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OpenLibrary",
+       "value": "Art Spiegelman",
+       "url": "https://openlibrary.org/search.json?title=Maus+II&limit=1"
+      },
+      {
+       "src": "Wikidata",
+       "value": "Art Spiegelman",
+       "url": "https://www.wikidata.org/wiki/Q59696"
+      }
+     ]
+    },
+    {
+     "field": "publisher",
+     "label": "publisher",
+     "soft": true,
+     "current": "Pantheon Books",
+     "status": "no-source",
+     "grade": null,
+     "sources": []
+    }
+   ]
+  },
+  {
+   "id": "b1731",
+   "title": "Are You There God? It's Me, Margaret.",
+   "sourcesReached": [
+    "OpenLibrary",
+    "Wikidata"
+   ],
+   "sourcesMissed": [
+    "Google Books (HTTP 429 (daily quota exceeded -- not retrying))"
+   ],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "first publication year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 1970,
+     "proposed": 1970,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OpenLibrary",
+       "value": 1970,
+       "url": "https://openlibrary.org/search.json?title=Are+You+There+God%3F+It%27s+Me%2C+Margaret.&limit=1"
+      },
+      {
+       "src": "Wikidata",
+       "value": 1970,
+       "url": "https://www.wikidata.org/wiki/Q4466947"
+      }
+     ]
+    },
+    {
+     "field": "pages",
+     "label": "page count",
+     "soft": false,
+     "current": 149,
+     "status": "no-source",
+     "grade": null,
+     "sources": []
+    },
+    {
+     "field": "creator",
+     "label": "author",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Judy Blume",
+     "proposed": "Judy Blume",
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OpenLibrary",
+       "value": "Judy Blume",
+       "url": "https://openlibrary.org/search.json?title=Are+You+There+God%3F+It%27s+Me%2C+Margaret.&limit=1"
+      },
+      {
+       "src": "Wikidata",
+       "value": "Judy Blume",
+       "url": "https://www.wikidata.org/wiki/Q4466947"
+      }
+     ]
+    },
+    {
+     "field": "publisher",
+     "label": "publisher",
+     "soft": true,
+     "editionDependent": true,
+     "current": "Bradbury Press",
+     "proposed": "Random House",
+     "status": "edition-dependent",
+     "grade": "B",
+     "note": "one source differs from the corpus (Wikidata \"Random House\") on a field with no single true value -- likely a different printing/edition, not an error.",
+     "sources": [
+      {
+       "src": "Wikidata",
+       "value": "Random House",
+       "url": "https://www.wikidata.org/wiki/Q4466947"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "b1732",
+   "title": "Blubber",
+   "sourcesReached": [
+    "OpenLibrary",
+    "Google Books",
+    "Wikidata"
+   ],
+   "sourcesMissed": [],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "first publication year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 1974,
+     "proposed": 1974,
+     "status": "corroborated-by-one",
+     "grade": "B",
+     "note": "matches Wikidata; disagrees with OpenLibrary (1972), Google Books (1986)",
+     "sources": [
+      {
+       "src": "OpenLibrary",
+       "value": 1972,
+       "url": "https://openlibrary.org/search.json?title=Blubber&limit=1"
+      },
+      {
+       "src": "Google Books",
+       "value": 1986,
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3ABlubber&maxResults=1&key=REDACTED"
+      },
+      {
+       "src": "Wikidata",
+       "value": 1974,
+       "url": "https://www.wikidata.org/wiki/Q4928664"
+      }
+     ],
+     "alternatives": [
+      1986,
+      1974
+     ]
+    },
+    {
+     "field": "pages",
+     "label": "page count",
+     "soft": false,
+     "editionDependent": true,
+     "current": 153,
+     "proposed": 0,
+     "status": "edition-dependent",
+     "grade": "B",
+     "note": "one source differs from the corpus (Google Books 0) on a field with no single true value -- likely a different printing/edition, not an error.",
+     "sources": [
+      {
+       "src": "Google Books",
+       "value": 0,
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3ABlubber&maxResults=1&key=REDACTED"
+      }
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "author",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Judy Blume",
+     "proposed": "Judy Blume",
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OpenLibrary",
+       "value": "Judy Blume",
+       "url": "https://openlibrary.org/search.json?title=Blubber&limit=1"
+      },
+      {
+       "src": "Google Books",
+       "value": "Judy Blume",
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3ABlubber&maxResults=1&key=REDACTED"
+      },
+      {
+       "src": "Wikidata",
+       "value": "Judy Blume",
+       "url": "https://www.wikidata.org/wiki/Q4928664"
+      }
+     ]
+    },
+    {
+     "field": "publisher",
+     "label": "publisher",
+     "soft": true,
+     "editionDependent": true,
+     "current": "Bradbury Press",
+     "proposed": "Macmillan Inc.",
+     "status": "edition-dependent",
+     "grade": "B",
+     "note": "one source differs from the corpus (Wikidata \"Macmillan Inc.\") on a field with no single true value -- likely a different printing/edition, not an error.",
+     "sources": [
+      {
+       "src": "Wikidata",
+       "value": "Macmillan Inc.",
+       "url": "https://www.wikidata.org/wiki/Q4928664"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "b1733",
+   "title": "Deenie",
+   "sourcesReached": [
+    "OpenLibrary",
+    "Wikidata"
+   ],
+   "sourcesMissed": [
+    "Google Books (HTTP 429 (daily quota exceeded -- not retrying))"
+   ],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "first publication year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 1973,
+     "proposed": 1973,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OpenLibrary",
+       "value": 1973,
+       "url": "https://openlibrary.org/search.json?title=Deenie&limit=1"
+      },
+      {
+       "src": "Wikidata",
+       "value": 1973,
+       "url": "https://www.wikidata.org/wiki/Q5250046"
+      }
+     ]
+    },
+    {
+     "field": "pages",
+     "label": "page count",
+     "soft": false,
+     "current": 152,
+     "status": "no-source",
+     "grade": null,
+     "sources": []
+    },
+    {
+     "field": "creator",
+     "label": "author",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Judy Blume",
+     "proposed": "Judy Blume",
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OpenLibrary",
+       "value": "Judy Blume",
+       "url": "https://openlibrary.org/search.json?title=Deenie&limit=1"
+      },
+      {
+       "src": "Wikidata",
+       "value": "Judy Blume",
+       "url": "https://www.wikidata.org/wiki/Q5250046"
+      }
+     ]
+    },
+    {
+     "field": "publisher",
+     "label": "publisher",
+     "soft": true,
+     "current": "Bradbury Press",
+     "status": "no-source",
+     "grade": null,
+     "sources": []
+    }
+   ]
+  },
+  {
+   "id": "b1734",
+   "title": "Tiger Eyes",
+   "sourcesReached": [
+    "OpenLibrary",
+    "Wikidata"
+   ],
+   "sourcesMissed": [
+    "Google Books (no match)"
+   ],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "first publication year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 1981,
+     "proposed": 1981,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OpenLibrary",
+       "value": 1981,
+       "url": "https://openlibrary.org/search.json?title=Tiger+Eyes&limit=1"
+      },
+      {
+       "src": "Wikidata",
+       "value": 1981,
+       "url": "https://www.wikidata.org/wiki/Q7801406"
+      }
+     ]
+    },
+    {
+     "field": "pages",
+     "label": "page count",
+     "soft": false,
+     "current": 220,
+     "status": "no-source",
+     "grade": null,
+     "sources": []
+    },
+    {
+     "field": "creator",
+     "label": "author",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Judy Blume",
+     "proposed": "Judy Blume",
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OpenLibrary",
+       "value": "Judy Blume",
+       "url": "https://openlibrary.org/search.json?title=Tiger+Eyes&limit=1"
+      },
+      {
+       "src": "Wikidata",
+       "value": "Judy Blume",
+       "url": "https://www.wikidata.org/wiki/Q7801406"
+      }
+     ]
+    },
+    {
+     "field": "publisher",
+     "label": "publisher",
+     "soft": true,
+     "editionDependent": true,
+     "current": "Bradbury Press",
+     "proposed": "Bradbury Press",
+     "status": "confirmed",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "Wikidata",
+       "value": "Bradbury Press",
+       "url": "https://www.wikidata.org/wiki/Q7801406"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "b1735",
+   "title": "Then Again, Maybe I Won't",
+   "sourcesReached": [
+    "OpenLibrary",
+    "Google Books",
+    "Wikidata"
+   ],
+   "sourcesMissed": [],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "first publication year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 1971,
+     "proposed": 1971,
+     "status": "corroborated-by-one",
+     "grade": "B",
+     "note": "matches OpenLibrary/Wikidata; disagrees with Google Books (2024)",
+     "sources": [
+      {
+       "src": "OpenLibrary",
+       "value": 1971,
+       "url": "https://openlibrary.org/search.json?title=Then+Again%2C+Maybe+I+Won%27t&limit=1"
+      },
+      {
+       "src": "Google Books",
+       "value": 2024,
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3AThen+Again%2C+Maybe+I+Won%27t&maxResults=1&key=REDACTED"
+      },
+      {
+       "src": "Wikidata",
+       "value": 1971,
+       "url": "https://www.wikidata.org/wiki/Q7781309"
+      }
+     ],
+     "alternatives": [
+      2024
+     ]
+    },
+    {
+     "field": "pages",
+     "label": "page count",
+     "soft": false,
+     "editionDependent": true,
+     "current": 172,
+     "proposed": 192,
+     "status": "edition-dependent",
+     "grade": "B",
+     "note": "one source differs from the corpus (Google Books 192) on a field with no single true value -- likely a different printing/edition, not an error.",
+     "sources": [
+      {
+       "src": "Google Books",
+       "value": 192,
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3AThen+Again%2C+Maybe+I+Won%27t&maxResults=1&key=REDACTED"
+      }
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "author",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Judy Blume",
+     "proposed": "Judy Blume",
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OpenLibrary",
+       "value": "Judy Blume",
+       "url": "https://openlibrary.org/search.json?title=Then+Again%2C+Maybe+I+Won%27t&limit=1"
+      },
+      {
+       "src": "Google Books",
+       "value": "Judy Blume",
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3AThen+Again%2C+Maybe+I+Won%27t&maxResults=1&key=REDACTED"
+      },
+      {
+       "src": "Wikidata",
+       "value": "Judy Blume",
+       "url": "https://www.wikidata.org/wiki/Q7781309"
+      }
+     ]
+    },
+    {
+     "field": "publisher",
+     "label": "publisher",
+     "soft": true,
+     "editionDependent": true,
+     "current": "Bradbury Press",
+     "proposed": "Simon and Schuster",
+     "status": "edition-dependent",
+     "grade": "B",
+     "note": "corpus value does not match either source (Google Books \"Simon and Schuster\", Wikidata \"Macmillan Inc.\") -- treated as a distinct edition; the specific cut is not identified from available evidence.",
+     "sources": [
+      {
+       "src": "Google Books",
+       "value": "Simon and Schuster",
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3AThen+Again%2C+Maybe+I+Won%27t&maxResults=1&key=REDACTED"
+      },
+      {
+       "src": "Wikidata",
+       "value": "Macmillan Inc.",
+       "url": "https://www.wikidata.org/wiki/Q7781309"
+      }
+     ],
+     "alternatives": [
+      "Macmillan Inc."
+     ]
+    }
+   ]
+  },
+  {
+   "id": "b1736",
+   "title": "Forever",
+   "sourcesReached": [],
+   "sourcesMissed": [
+    "OpenLibrary (no match)",
+    "Google Books (HTTP 429 (daily quota exceeded -- not retrying))",
+    "Wikidata (no match)"
+   ],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "first publication year",
+     "soft": false,
+     "current": 1975,
+     "status": "no-source",
+     "grade": null,
+     "sources": []
+    },
+    {
+     "field": "pages",
+     "label": "page count",
+     "soft": false,
+     "current": 220,
+     "status": "no-source",
+     "grade": null,
+     "sources": []
+    },
+    {
+     "field": "creator",
+     "label": "author",
+     "soft": false,
+     "current": "Judy Blume",
+     "status": "no-source",
+     "grade": null,
+     "sources": []
+    },
+    {
+     "field": "publisher",
+     "label": "publisher",
+     "soft": true,
+     "current": "Bradbury Press",
+     "status": "no-source",
+     "grade": null,
+     "sources": []
+    }
+   ]
+  },
+  {
+   "id": "b1737",
+   "title": "Superfudge",
+   "sourcesReached": [
+    "OpenLibrary",
+    "Wikidata"
+   ],
+   "sourcesMissed": [
+    "Google Books (HTTP 429 (daily quota exceeded -- not retrying))"
+   ],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "first publication year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 1980,
+     "proposed": 1980,
+     "status": "corroborated-by-one",
+     "grade": "B",
+     "note": "matches Wikidata; disagrees with OpenLibrary (1972)",
+     "sources": [
+      {
+       "src": "OpenLibrary",
+       "value": 1972,
+       "url": "https://openlibrary.org/search.json?title=Superfudge&limit=1"
+      },
+      {
+       "src": "Wikidata",
+       "value": 1980,
+       "url": "https://www.wikidata.org/wiki/Q7643381"
+      }
+     ],
+     "alternatives": [
+      1980
+     ]
+    },
+    {
+     "field": "pages",
+     "label": "page count",
+     "soft": false,
+     "current": 178,
+     "status": "no-source",
+     "grade": null,
+     "sources": []
+    },
+    {
+     "field": "creator",
+     "label": "author",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Judy Blume",
+     "proposed": "Judy Blume",
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OpenLibrary",
+       "value": "Judy Blume",
+       "url": "https://openlibrary.org/search.json?title=Superfudge&limit=1"
+      },
+      {
+       "src": "Wikidata",
+       "value": "Judy Blume",
+       "url": "https://www.wikidata.org/wiki/Q7643381"
+      }
+     ]
+    },
+    {
+     "field": "publisher",
+     "label": "publisher",
+     "soft": true,
+     "editionDependent": true,
+     "current": "Dutton Books",
+     "proposed": "Dutton",
+     "status": "edition-dependent",
+     "grade": "B",
+     "note": "one source differs from the corpus (Wikidata \"Dutton\") on a field with no single true value -- likely a different printing/edition, not an error.",
+     "sources": [
+      {
+       "src": "Wikidata",
+       "value": "Dutton",
+       "url": "https://www.wikidata.org/wiki/Q7643381"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "b1738",
+   "title": "Tales of a Fourth Grade Nothing",
+   "sourcesReached": [
+    "OpenLibrary",
+    "Google Books",
+    "Wikidata"
+   ],
+   "sourcesMissed": [],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "first publication year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 1972,
+     "proposed": 1972,
+     "status": "corroborated-by-one",
+     "grade": "B",
+     "note": "matches OpenLibrary/Wikidata; disagrees with Google Books (2011)",
+     "sources": [
+      {
+       "src": "OpenLibrary",
+       "value": 1972,
+       "url": "https://openlibrary.org/search.json?title=Tales+of+a+Fourth+Grade+Nothing&limit=1"
+      },
+      {
+       "src": "Google Books",
+       "value": 2011,
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3ATales+of+a+Fourth+Grade+Nothing&maxResults=1&key=REDACTED"
+      },
+      {
+       "src": "Wikidata",
+       "value": 1972,
+       "url": "https://www.wikidata.org/wiki/Q7679373"
+      }
+     ],
+     "alternatives": [
+      2011
+     ]
+    },
+    {
+     "field": "pages",
+     "label": "page count",
+     "soft": false,
+     "editionDependent": true,
+     "current": 120,
+     "proposed": 165,
+     "status": "edition-dependent",
+     "grade": "B",
+     "note": "one source differs from the corpus (Google Books 165) on a field with no single true value -- likely a different printing/edition, not an error.",
+     "sources": [
+      {
+       "src": "Google Books",
+       "value": 165,
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3ATales+of+a+Fourth+Grade+Nothing&maxResults=1&key=REDACTED"
+      }
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "author",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Judy Blume",
+     "proposed": "Judy Blume",
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OpenLibrary",
+       "value": "Judy Blume",
+       "url": "https://openlibrary.org/search.json?title=Tales+of+a+Fourth+Grade+Nothing&limit=1"
+      },
+      {
+       "src": "Google Books",
+       "value": "Judy Blume",
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3ATales+of+a+Fourth+Grade+Nothing&maxResults=1&key=REDACTED"
+      },
+      {
+       "src": "Wikidata",
+       "value": "Judy Blume",
+       "url": "https://www.wikidata.org/wiki/Q7679373"
+      }
+     ]
+    },
+    {
+     "field": "publisher",
+     "label": "publisher",
+     "soft": true,
+     "editionDependent": true,
+     "current": "Dutton Books",
+     "proposed": "Penguin",
+     "status": "edition-dependent",
+     "grade": "B",
+     "note": "corpus value does not match either source (Google Books \"Penguin\", Wikidata \"Dutton\") -- treated as a distinct edition; the specific cut is not identified from available evidence.",
+     "sources": [
+      {
+       "src": "Google Books",
+       "value": "Penguin",
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3ATales+of+a+Fourth+Grade+Nothing&maxResults=1&key=REDACTED"
+      },
+      {
+       "src": "Wikidata",
+       "value": "Dutton",
+       "url": "https://www.wikidata.org/wiki/Q7679373"
+      }
+     ],
+     "alternatives": [
+      "Dutton"
+     ]
+    }
+   ]
+  },
+  {
+   "id": "b1739",
+   "title": "Freckle Juice",
+   "sourcesReached": [
+    "OpenLibrary",
+    "Wikidata"
+   ],
+   "sourcesMissed": [
+    "Google Books (HTTP 429 (daily quota exceeded -- not retrying))"
+   ],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "first publication year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 1971,
+     "proposed": 1971,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OpenLibrary",
+       "value": 1971,
+       "url": "https://openlibrary.org/search.json?title=Freckle+Juice&limit=1"
+      },
+      {
+       "src": "Wikidata",
+       "value": 1971,
+       "url": "https://www.wikidata.org/wiki/Q5494333"
+      }
+     ]
+    },
+    {
+     "field": "pages",
+     "label": "page count",
+     "soft": false,
+     "current": 40,
+     "status": "no-source",
+     "grade": null,
+     "sources": []
+    },
+    {
+     "field": "creator",
+     "label": "author",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Judy Blume",
+     "proposed": "Judy Blume",
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OpenLibrary",
+       "value": "Judy Blume",
+       "url": "https://openlibrary.org/search.json?title=Freckle+Juice&limit=1"
+      },
+      {
+       "src": "Wikidata",
+       "value": "Judy Blume",
+       "url": "https://www.wikidata.org/wiki/Q5494333"
+      }
+     ]
+    },
+    {
+     "field": "publisher",
+     "label": "publisher",
+     "soft": true,
+     "editionDependent": true,
+     "current": "Four Winds Press",
+     "proposed": "Four Winds Press",
+     "status": "confirmed",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "Wikidata",
+       "value": "Four Winds Press",
+       "url": "https://www.wikidata.org/wiki/Q5494333"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "b1740",
+   "title": "Ramona and Her Father",
+   "sourcesReached": [
+    "OpenLibrary",
+    "Wikidata"
+   ],
+   "sourcesMissed": [
+    "Google Books (HTTP 429 (daily quota exceeded -- not retrying))"
+   ],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "first publication year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 1977,
+     "proposed": 1977,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OpenLibrary",
+       "value": 1977,
+       "url": "https://openlibrary.org/search.json?title=Ramona+and+Her+Father&limit=1"
+      },
+      {
+       "src": "Wikidata",
+       "value": 1977,
+       "url": "https://www.wikidata.org/wiki/Q7289937"
+      }
+     ]
+    },
+    {
+     "field": "pages",
+     "label": "page count",
+     "soft": false,
+     "current": 192,
+     "status": "no-source",
+     "grade": null,
+     "sources": []
+    },
+    {
+     "field": "creator",
+     "label": "author",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Beverly Cleary",
+     "proposed": "Beverly Cleary",
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OpenLibrary",
+       "value": "Beverly Cleary",
+       "url": "https://openlibrary.org/search.json?title=Ramona+and+Her+Father&limit=1"
+      },
+      {
+       "src": "Wikidata",
+       "value": "Beverly Cleary",
+       "url": "https://www.wikidata.org/wiki/Q7289937"
+      }
+     ]
+    },
+    {
+     "field": "publisher",
+     "label": "publisher",
+     "soft": true,
+     "current": "William Morrow",
+     "status": "no-source",
+     "grade": null,
+     "sources": []
+    }
+   ]
+  },
+  {
+   "id": "b1741",
+   "title": "Ramona Quimby, Age 8",
+   "sourcesReached": [
+    "OpenLibrary",
+    "Wikidata"
+   ],
+   "sourcesMissed": [
+    "Google Books (HTTP 429 (daily quota exceeded -- not retrying))"
+   ],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "first publication year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 1981,
+     "proposed": 1981,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OpenLibrary",
+       "value": 1981,
+       "url": "https://openlibrary.org/search.json?title=Ramona+Quimby%2C+Age+8&limit=1"
+      },
+      {
+       "src": "Wikidata",
+       "value": 1981,
+       "url": "https://www.wikidata.org/wiki/Q7289933"
+      }
+     ]
+    },
+    {
+     "field": "pages",
+     "label": "page count",
+     "soft": false,
+     "current": 190,
+     "status": "no-source",
+     "grade": null,
+     "sources": []
+    },
+    {
+     "field": "creator",
+     "label": "author",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Beverly Cleary",
+     "proposed": "Beverly Cleary",
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OpenLibrary",
+       "value": "Beverly Cleary",
+       "url": "https://openlibrary.org/search.json?title=Ramona+Quimby%2C+Age+8&limit=1"
+      },
+      {
+       "src": "Wikidata",
+       "value": "Beverly Cleary",
+       "url": "https://www.wikidata.org/wiki/Q7289933"
+      }
+     ]
+    },
+    {
+     "field": "publisher",
+     "label": "publisher",
+     "soft": true,
+     "editionDependent": true,
+     "current": "William Morrow",
+     "proposed": "William Morrow",
+     "status": "confirmed",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "Wikidata",
+       "value": "William Morrow",
+       "url": "https://www.wikidata.org/wiki/Q7289933"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "b1742",
+   "title": "Beezus and Ramona",
+   "sourcesReached": [
+    "OpenLibrary",
+    "Wikidata"
+   ],
+   "sourcesMissed": [
+    "Google Books (HTTP 429 (daily quota exceeded -- not retrying))"
+   ],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "first publication year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 1955,
+     "proposed": 1955,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OpenLibrary",
+       "value": 1955,
+       "url": "https://openlibrary.org/search.json?title=Beezus+and+Ramona&limit=1"
+      },
+      {
+       "src": "Wikidata",
+       "value": 1955,
+       "url": "https://www.wikidata.org/wiki/Q4880234"
+      }
+     ]
+    },
+    {
+     "field": "pages",
+     "label": "page count",
+     "soft": false,
+     "current": 159,
+     "status": "no-source",
+     "grade": null,
+     "sources": []
+    },
+    {
+     "field": "creator",
+     "label": "author",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Beverly Cleary",
+     "proposed": "Beverly Cleary",
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OpenLibrary",
+       "value": "Beverly Cleary",
+       "url": "https://openlibrary.org/search.json?title=Beezus+and+Ramona&limit=1"
+      },
+      {
+       "src": "Wikidata",
+       "value": "Beverly Cleary",
+       "url": "https://www.wikidata.org/wiki/Q4880234"
+      }
+     ]
+    },
+    {
+     "field": "publisher",
+     "label": "publisher",
+     "soft": true,
+     "editionDependent": true,
+     "current": "William Morrow",
+     "proposed": "William Morrow",
+     "status": "confirmed",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "Wikidata",
+       "value": "William Morrow",
+       "url": "https://www.wikidata.org/wiki/Q4880234"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "b1743",
+   "title": "Henry Huggins",
+   "sourcesReached": [
+    "OpenLibrary",
+    "Wikidata"
+   ],
+   "sourcesMissed": [
+    "Google Books (HTTP 429 (daily quota exceeded -- not retrying))"
+   ],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "first publication year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 1950,
+     "proposed": 1950,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OpenLibrary",
+       "value": 1950,
+       "url": "https://openlibrary.org/search.json?title=Henry+Huggins&limit=1"
+      },
+      {
+       "src": "Wikidata",
+       "value": 1950,
+       "url": "https://www.wikidata.org/wiki/Q5723398"
+      }
+     ]
+    },
+    {
+     "field": "pages",
+     "label": "page count",
+     "soft": false,
+     "current": 158,
+     "status": "no-source",
+     "grade": null,
+     "sources": []
+    },
+    {
+     "field": "creator",
+     "label": "author",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Beverly Cleary",
+     "proposed": "Beverly Cleary",
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OpenLibrary",
+       "value": "Beverly Cleary",
+       "url": "https://openlibrary.org/search.json?title=Henry+Huggins&limit=1"
+      },
+      {
+       "src": "Wikidata",
+       "value": "Beverly Cleary",
+       "url": "https://www.wikidata.org/wiki/Q5723398"
+      }
+     ]
+    },
+    {
+     "field": "publisher",
+     "label": "publisher",
+     "soft": true,
+     "editionDependent": true,
+     "current": "William Morrow",
+     "proposed": "William Morrow",
+     "status": "confirmed",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "Wikidata",
+       "value": "William Morrow",
+       "url": "https://www.wikidata.org/wiki/Q5723398"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "b1744",
+   "title": "The Mouse and the Motorcycle",
+   "sourcesReached": [
+    "OpenLibrary",
+    "Wikidata"
+   ],
+   "sourcesMissed": [
+    "Google Books (HTTP 429 (daily quota exceeded -- not retrying))"
+   ],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "first publication year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 1965,
+     "proposed": 1965,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OpenLibrary",
+       "value": 1965,
+       "url": "https://openlibrary.org/search.json?title=The+Mouse+and+the+Motorcycle&limit=1"
+      },
+      {
+       "src": "Wikidata",
+       "value": 1965,
+       "url": "https://www.wikidata.org/wiki/Q7752511"
+      }
+     ]
+    },
+    {
+     "field": "pages",
+     "label": "page count",
+     "soft": false,
+     "current": 158,
+     "status": "no-source",
+     "grade": null,
+     "sources": []
+    },
+    {
+     "field": "creator",
+     "label": "author",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Beverly Cleary",
+     "proposed": "Beverly Cleary",
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OpenLibrary",
+       "value": "Beverly Cleary",
+       "url": "https://openlibrary.org/search.json?title=The+Mouse+and+the+Motorcycle&limit=1"
+      },
+      {
+       "src": "Wikidata",
+       "value": "Beverly Cleary",
+       "url": "https://www.wikidata.org/wiki/Q7752511"
+      }
+     ]
+    },
+    {
+     "field": "publisher",
+     "label": "publisher",
+     "soft": true,
+     "editionDependent": true,
+     "current": "William Morrow",
+     "proposed": "William Morrow",
+     "status": "confirmed",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "Wikidata",
+       "value": "William Morrow",
+       "url": "https://www.wikidata.org/wiki/Q7752511"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "b1745",
+   "title": "Runaway Ralph",
+   "sourcesReached": [
+    "OpenLibrary",
+    "Wikidata"
+   ],
+   "sourcesMissed": [
+    "Google Books (HTTP 429 (daily quota exceeded -- not retrying))"
+   ],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "first publication year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 1970,
+     "proposed": 1970,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OpenLibrary",
+       "value": 1970,
+       "url": "https://openlibrary.org/search.json?title=Runaway+Ralph&limit=1"
+      },
+      {
+       "src": "Wikidata",
+       "value": 1970,
+       "url": "https://www.wikidata.org/wiki/Q56216467"
+      }
+     ]
+    },
+    {
+     "field": "pages",
+     "label": "page count",
+     "soft": false,
+     "current": 179,
+     "status": "no-source",
+     "grade": null,
+     "sources": []
+    },
+    {
+     "field": "creator",
+     "label": "author",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Beverly Cleary",
+     "proposed": "Beverly Cleary",
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OpenLibrary",
+       "value": "Beverly Cleary",
+       "url": "https://openlibrary.org/search.json?title=Runaway+Ralph&limit=1"
+      },
+      {
+       "src": "Wikidata",
+       "value": "Beverly Cleary",
+       "url": "https://www.wikidata.org/wiki/Q56216467"
+      }
+     ]
+    },
+    {
+     "field": "publisher",
+     "label": "publisher",
+     "soft": true,
+     "editionDependent": true,
+     "current": "William Morrow",
+     "proposed": "William Morrow",
+     "status": "confirmed",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "Wikidata",
+       "value": "William Morrow",
+       "url": "https://www.wikidata.org/wiki/Q56216467"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "b1746",
+   "title": "Dear Mr. Henshaw",
+   "sourcesReached": [
+    "OpenLibrary",
+    "Wikidata"
+   ],
+   "sourcesMissed": [
+    "Google Books (HTTP 429 (daily quota exceeded -- not retrying))"
+   ],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "first publication year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 1983,
+     "proposed": 1983,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OpenLibrary",
+       "value": 1983,
+       "url": "https://openlibrary.org/search.json?title=Dear+Mr.+Henshaw&limit=1"
+      },
+      {
+       "src": "Wikidata",
+       "value": 1983,
+       "url": "https://www.wikidata.org/wiki/Q5246906"
+      }
+     ]
+    },
+    {
+     "field": "pages",
+     "label": "page count",
+     "soft": false,
+     "current": 134,
+     "status": "no-source",
+     "grade": null,
+     "sources": []
+    },
+    {
+     "field": "creator",
+     "label": "author",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Beverly Cleary",
+     "proposed": "Beverly Cleary",
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OpenLibrary",
+       "value": "Beverly Cleary",
+       "url": "https://openlibrary.org/search.json?title=Dear+Mr.+Henshaw&limit=1"
+      },
+      {
+       "src": "Wikidata",
+       "value": "Beverly Cleary",
+       "url": "https://www.wikidata.org/wiki/Q5246906"
+      }
+     ]
+    },
+    {
+     "field": "publisher",
+     "label": "publisher",
+     "soft": true,
+     "editionDependent": true,
+     "current": "William Morrow",
+     "proposed": "William Morrow",
+     "status": "confirmed",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "Wikidata",
+       "value": "William Morrow",
+       "url": "https://www.wikidata.org/wiki/Q5246906"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "b1747",
+   "title": "George's Marvelous Medicine",
+   "sourcesReached": [
+    "OpenLibrary"
+   ],
+   "sourcesMissed": [
+    "Google Books (HTTP 429 (daily quota exceeded -- not retrying))",
+    "Wikidata (no match)"
+   ],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "first publication year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 1981,
+     "proposed": 1981,
+     "status": "confirmed",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "OpenLibrary",
+       "value": 1981,
+       "url": "https://openlibrary.org/search.json?title=George%27s+Marvelous+Medicine&limit=1"
+      }
+     ]
+    },
+    {
+     "field": "pages",
+     "label": "page count",
+     "soft": false,
+     "current": 90,
+     "status": "no-source",
+     "grade": null,
+     "sources": []
+    },
+    {
+     "field": "creator",
+     "label": "author",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Roald Dahl",
+     "proposed": "Roald Dahl",
+     "status": "confirmed",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "OpenLibrary",
+       "value": "Roald Dahl",
+       "url": "https://openlibrary.org/search.json?title=George%27s+Marvelous+Medicine&limit=1"
+      }
+     ]
+    },
+    {
+     "field": "publisher",
+     "label": "publisher",
+     "soft": true,
+     "current": "Jonathan Cape",
+     "status": "no-source",
+     "grade": null,
+     "sources": []
+    }
+   ]
+  },
+  {
+   "id": "b1748",
+   "title": "Fantastic Mr. Fox",
+   "sourcesReached": [
+    "OpenLibrary",
+    "Google Books",
+    "Wikidata"
+   ],
+   "sourcesMissed": [],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "first publication year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 1970,
+     "proposed": 1970,
+     "status": "corroborated-by-one",
+     "grade": "B",
+     "note": "matches Wikidata; disagrees with OpenLibrary (1917), Google Books (2017)",
+     "sources": [
+      {
+       "src": "OpenLibrary",
+       "value": 1917,
+       "url": "https://openlibrary.org/search.json?title=Fantastic+Mr.+Fox&limit=1"
+      },
+      {
+       "src": "Google Books",
+       "value": 2017,
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3AFantastic+Mr.+Fox&maxResults=1&key=REDACTED"
+      },
+      {
+       "src": "Wikidata",
+       "value": 1970,
+       "url": "https://www.wikidata.org/wiki/Q2320903"
+      }
+     ],
+     "alternatives": [
+      2017,
+      1970
+     ]
+    },
+    {
+     "field": "pages",
+     "label": "page count",
+     "soft": false,
+     "editionDependent": true,
+     "current": 96,
+     "proposed": 80,
+     "status": "edition-dependent",
+     "grade": "B",
+     "note": "corpus value does not match either source (Google Books 80, Wikidata 88) -- treated as a distinct edition; the specific cut is not identified from available evidence.",
+     "sources": [
+      {
+       "src": "Google Books",
+       "value": 80,
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3AFantastic+Mr.+Fox&maxResults=1&key=REDACTED"
+      },
+      {
+       "src": "Wikidata",
+       "value": 88,
+       "url": "https://www.wikidata.org/wiki/Q2320903"
+      }
+     ],
+     "alternatives": [
+      88
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "author",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Roald Dahl",
+     "proposed": "Roald Dahl",
+     "status": "corroborated-by-one",
+     "grade": "B",
+     "note": "matches Google Books/Wikidata; disagrees with OpenLibrary (\"Roald Dahl & Roal'd Dal'\")",
+     "sources": [
+      {
+       "src": "OpenLibrary",
+       "value": "Roald Dahl & Roal'd Dal'",
+       "url": "https://openlibrary.org/search.json?title=Fantastic+Mr.+Fox&limit=1"
+      },
+      {
+       "src": "Google Books",
+       "value": "Roald Dahl",
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3AFantastic+Mr.+Fox&maxResults=1&key=REDACTED"
+      },
+      {
+       "src": "Wikidata",
+       "value": "Roald Dahl",
+       "url": "https://www.wikidata.org/wiki/Q2320903"
+      }
+     ],
+     "alternatives": [
+      "Roald Dahl & Roal'd Dal'"
+     ]
+    },
+    {
+     "field": "publisher",
+     "label": "publisher",
+     "soft": true,
+     "editionDependent": true,
+     "current": "George Allen & Unwin",
+     "proposed": "Puffin",
+     "status": "edition-dependent",
+     "grade": "B",
+     "note": "corpus value does not match either source (Google Books \"Puffin\", Wikidata \"Penguin Books\") -- treated as a distinct edition; the specific cut is not identified from available evidence.",
+     "sources": [
+      {
+       "src": "Google Books",
+       "value": "Puffin",
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3AFantastic+Mr.+Fox&maxResults=1&key=REDACTED"
+      },
+      {
+       "src": "Wikidata",
+       "value": "Penguin Books",
+       "url": "https://www.wikidata.org/wiki/Q2320903"
+      }
+     ],
+     "alternatives": [
+      "Penguin Books"
+     ]
+    }
+   ]
+  },
+  {
+   "id": "b1749",
+   "title": "Esio Trot",
+   "sourcesReached": [
+    "OpenLibrary",
+    "Wikidata"
+   ],
+   "sourcesMissed": [
+    "Google Books (HTTP 429 (daily quota exceeded -- not retrying))"
+   ],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "first publication year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 1990,
+     "proposed": 1990,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OpenLibrary",
+       "value": 1990,
+       "url": "https://openlibrary.org/search.json?title=Esio+Trot&limit=1"
+      },
+      {
+       "src": "Wikidata",
+       "value": 1990,
+       "url": "https://www.wikidata.org/wiki/Q2358233"
+      }
+     ]
+    },
+    {
+     "field": "pages",
+     "label": "page count",
+     "soft": false,
+     "editionDependent": true,
+     "current": 80,
+     "proposed": 80,
+     "status": "confirmed",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "Wikidata",
+       "value": 80,
+       "url": "https://www.wikidata.org/wiki/Q2358233"
+      }
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "author",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Roald Dahl",
+     "proposed": "Roald Dahl",
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OpenLibrary",
+       "value": "Roald Dahl",
+       "url": "https://openlibrary.org/search.json?title=Esio+Trot&limit=1"
+      },
+      {
+       "src": "Wikidata",
+       "value": "Roald Dahl",
+       "url": "https://www.wikidata.org/wiki/Q2358233"
+      }
+     ]
+    },
+    {
+     "field": "publisher",
+     "label": "publisher",
+     "soft": true,
+     "current": "Jonathan Cape",
+     "status": "no-source",
+     "grade": null,
+     "sources": []
+    }
+   ]
+  },
+  {
+   "id": "b1750",
+   "title": "Many Waters",
+   "sourcesReached": [
+    "OpenLibrary",
+    "Wikidata"
+   ],
+   "sourcesMissed": [
+    "Google Books (HTTP 429 (daily quota exceeded -- not retrying))"
+   ],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "first publication year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 1986,
+     "proposed": 1986,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OpenLibrary",
+       "value": 1986,
+       "url": "https://openlibrary.org/search.json?title=Many+Waters&limit=1"
+      },
+      {
+       "src": "Wikidata",
+       "value": 1986,
+       "url": "https://www.wikidata.org/wiki/Q6753362"
+      }
+     ]
+    },
+    {
+     "field": "pages",
+     "label": "page count",
+     "soft": false,
+     "current": 310,
+     "status": "no-source",
+     "grade": null,
+     "sources": []
+    },
+    {
+     "field": "creator",
+     "label": "author",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Madeleine L'Engle",
+     "proposed": "Madeleine L'Engle",
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OpenLibrary",
+       "value": "Madeleine L'Engle",
+       "url": "https://openlibrary.org/search.json?title=Many+Waters&limit=1"
+      },
+      {
+       "src": "Wikidata",
+       "value": "Madeleine L'Engle",
+       "url": "https://www.wikidata.org/wiki/Q6753362"
+      }
+     ]
+    },
+    {
+     "field": "publisher",
+     "label": "publisher",
+     "soft": true,
+     "current": "Farrar, Straus and Giroux",
+     "status": "no-source",
+     "grade": null,
+     "sources": []
+    }
+   ]
+  },
+  {
+   "id": "b1751",
+   "title": "The Chronicles of Narnia: The Magician's Nephew",
+   "sourcesReached": [
+    "OpenLibrary",
+    "Wikidata"
+   ],
+   "sourcesMissed": [
+    "Google Books (HTTP 429 (daily quota exceeded -- not retrying))"
+   ],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "first publication year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 1955,
+     "proposed": 1955,
+     "status": "corroborated-by-one",
+     "grade": "B",
+     "note": "matches Wikidata; disagrees with OpenLibrary (1997)",
+     "sources": [
+      {
+       "src": "OpenLibrary",
+       "value": 1997,
+       "url": "https://openlibrary.org/search.json?title=The+Chronicles+of+Narnia%3A+The+Magician%27s+Nephew&limit=1"
+      },
+      {
+       "src": "Wikidata",
+       "value": 1955,
+       "url": "https://www.wikidata.org/wiki/Q477831"
+      }
+     ],
+     "alternatives": [
+      1955
+     ]
+    },
+    {
+     "field": "pages",
+     "label": "page count",
+     "soft": false,
+     "current": 221,
+     "status": "no-source",
+     "grade": null,
+     "sources": []
+    },
+    {
+     "field": "creator",
+     "label": "author",
+     "soft": false,
+     "editionDependent": false,
+     "current": "C.S. Lewis",
+     "proposed": "C.S. Lewis",
+     "status": "corroborated-by-one",
+     "grade": "B",
+     "note": "matches Wikidata; disagrees with OpenLibrary (\"C. S. Lewis & Dramatization\")",
+     "sources": [
+      {
+       "src": "OpenLibrary",
+       "value": "C. S. Lewis & Dramatization",
+       "url": "https://openlibrary.org/search.json?title=The+Chronicles+of+Narnia%3A+The+Magician%27s+Nephew&limit=1"
+      },
+      {
+       "src": "Wikidata",
+       "value": "C. S. Lewis",
+       "url": "https://www.wikidata.org/wiki/Q477831"
+      }
+     ],
+     "alternatives": [
+      "C. S. Lewis"
+     ]
+    },
+    {
+     "field": "publisher",
+     "label": "publisher",
+     "soft": true,
+     "current": "The Bodley Head",
+     "status": "no-source",
+     "grade": null,
+     "sources": []
+    }
+   ]
+  },
+  {
+   "id": "b1752",
+   "title": "The Chronicles of Narnia: The Horse and His Boy",
+   "sourcesReached": [
+    "Wikidata"
+   ],
+   "sourcesMissed": [
+    "OpenLibrary (no match)",
+    "Google Books (HTTP 429 (daily quota exceeded -- not retrying))"
+   ],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "first publication year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 1954,
+     "proposed": 1954,
+     "status": "confirmed",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "Wikidata",
+       "value": 1954,
+       "url": "https://www.wikidata.org/wiki/Q157360"
+      }
+     ]
+    },
+    {
+     "field": "pages",
+     "label": "page count",
+     "soft": false,
+     "current": 217,
+     "status": "no-source",
+     "grade": null,
+     "sources": []
+    },
+    {
+     "field": "creator",
+     "label": "author",
+     "soft": false,
+     "editionDependent": false,
+     "current": "C.S. Lewis",
+     "proposed": "C. S. Lewis",
+     "status": "confirmed",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "Wikidata",
+       "value": "C. S. Lewis",
+       "url": "https://www.wikidata.org/wiki/Q157360"
+      }
+     ]
+    },
+    {
+     "field": "publisher",
+     "label": "publisher",
+     "soft": true,
+     "current": "Geoffrey Bles",
+     "status": "no-source",
+     "grade": null,
+     "sources": []
+    }
+   ]
+  },
+  {
+   "id": "b1753",
+   "title": "The Chronicles of Narnia: Prince Caspian",
+   "sourcesReached": [
+    "Wikidata"
+   ],
+   "sourcesMissed": [
+    "OpenLibrary (no match)",
+    "Google Books (HTTP 429 (daily quota exceeded -- not retrying))"
+   ],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "first publication year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 1951,
+     "proposed": 1951,
+     "status": "confirmed",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "Wikidata",
+       "value": 1951,
+       "url": "https://www.wikidata.org/wiki/Q218950"
+      }
+     ]
+    },
+    {
+     "field": "pages",
+     "label": "page count",
+     "soft": false,
+     "current": 216,
+     "status": "no-source",
+     "grade": null,
+     "sources": []
+    },
+    {
+     "field": "creator",
+     "label": "author",
+     "soft": false,
+     "editionDependent": false,
+     "current": "C.S. Lewis",
+     "proposed": "C. S. Lewis",
+     "status": "confirmed",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "Wikidata",
+       "value": "C. S. Lewis",
+       "url": "https://www.wikidata.org/wiki/Q218950"
+      }
+     ]
+    },
+    {
+     "field": "publisher",
+     "label": "publisher",
+     "soft": true,
+     "current": "Geoffrey Bles",
+     "status": "no-source",
+     "grade": null,
+     "sources": []
+    }
+   ]
+  },
+  {
+   "id": "b1754",
+   "title": "The Chronicles of Narnia: The Voyage of the Dawn Treader",
+   "sourcesReached": [
+    "OpenLibrary",
+    "Wikidata"
+   ],
+   "sourcesMissed": [
+    "Google Books (HTTP 429 (daily quota exceeded -- not retrying))"
+   ],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "first publication year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 1952,
+     "proposed": 1952,
+     "status": "corroborated-by-one",
+     "grade": "B",
+     "note": "matches Wikidata; disagrees with OpenLibrary (1991)",
+     "sources": [
+      {
+       "src": "OpenLibrary",
+       "value": 1991,
+       "url": "https://openlibrary.org/search.json?title=The+Chronicles+of+Narnia%3A+The+Voyage+of+the+Dawn+Treader&limit=1"
+      },
+      {
+       "src": "Wikidata",
+       "value": 1952,
+       "url": "https://www.wikidata.org/wiki/Q331656"
+      }
+     ],
+     "alternatives": [
+      1952
+     ]
+    },
+    {
+     "field": "pages",
+     "label": "page count",
+     "soft": false,
+     "current": 223,
+     "status": "no-source",
+     "grade": null,
+     "sources": []
+    },
+    {
+     "field": "creator",
+     "label": "author",
+     "soft": false,
+     "editionDependent": false,
+     "current": "C.S. Lewis",
+     "proposed": "C. S. Lewis",
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OpenLibrary",
+       "value": "C. S. Lewis",
+       "url": "https://openlibrary.org/search.json?title=The+Chronicles+of+Narnia%3A+The+Voyage+of+the+Dawn+Treader&limit=1"
+      },
+      {
+       "src": "Wikidata",
+       "value": "C. S. Lewis",
+       "url": "https://www.wikidata.org/wiki/Q331656"
+      }
+     ]
+    },
+    {
+     "field": "publisher",
+     "label": "publisher",
+     "soft": true,
+     "current": "Geoffrey Bles",
+     "status": "no-source",
+     "grade": null,
+     "sources": []
+    }
+   ]
+  },
+  {
+   "id": "b1755",
+   "title": "The Chronicles of Narnia: The Silver Chair",
+   "sourcesReached": [
+    "Wikidata"
+   ],
+   "sourcesMissed": [
+    "OpenLibrary (no match)",
+    "Google Books (HTTP 429 (daily quota exceeded -- not retrying))"
+   ],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "first publication year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 1953,
+     "proposed": 1953,
+     "status": "confirmed",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "Wikidata",
+       "value": 1953,
+       "url": "https://www.wikidata.org/wiki/Q331669"
+      }
+     ]
+    },
+    {
+     "field": "pages",
+     "label": "page count",
+     "soft": false,
+     "current": 217,
+     "status": "no-source",
+     "grade": null,
+     "sources": []
+    },
+    {
+     "field": "creator",
+     "label": "author",
+     "soft": false,
+     "editionDependent": false,
+     "current": "C.S. Lewis",
+     "proposed": "C. S. Lewis",
+     "status": "confirmed",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "Wikidata",
+       "value": "C. S. Lewis",
+       "url": "https://www.wikidata.org/wiki/Q331669"
+      }
+     ]
+    },
+    {
+     "field": "publisher",
+     "label": "publisher",
+     "soft": true,
+     "current": "Geoffrey Bles",
+     "status": "no-source",
+     "grade": null,
+     "sources": []
+    }
+   ]
+  },
+  {
+   "id": "b1756",
+   "title": "The Chronicles of Narnia: The Last Battle",
+   "sourcesReached": [],
+   "sourcesMissed": [
+    "OpenLibrary (no match)",
+    "Google Books (HTTP 429 (daily quota exceeded -- not retrying))",
+    "Wikidata (no match)"
+   ],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "first publication year",
+     "soft": false,
+     "current": 1956,
+     "status": "no-source",
+     "grade": null,
+     "sources": []
+    },
+    {
+     "field": "pages",
+     "label": "page count",
+     "soft": false,
+     "current": 210,
+     "status": "no-source",
+     "grade": null,
+     "sources": []
+    },
+    {
+     "field": "creator",
+     "label": "author",
+     "soft": false,
+     "current": "C.S. Lewis",
+     "status": "no-source",
+     "grade": null,
+     "sources": []
+    },
+    {
+     "field": "publisher",
+     "label": "publisher",
+     "soft": true,
+     "current": "The Bodley Head",
+     "status": "no-source",
+     "grade": null,
+     "sources": []
+    }
+   ]
+  },
+  {
+   "id": "b1757",
+   "title": "Anne of Windy Poplars",
+   "sourcesReached": [
+    "OpenLibrary",
+    "Wikidata"
+   ],
+   "sourcesMissed": [
+    "Google Books (HTTP 429 (daily quota exceeded -- not retrying))"
+   ],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "first publication year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 1936,
+     "proposed": 1936,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OpenLibrary",
+       "value": 1936,
+       "url": "https://openlibrary.org/search.json?title=Anne+of+Windy+Poplars&limit=1"
+      },
+      {
+       "src": "Wikidata",
+       "value": 1936,
+       "url": "https://www.wikidata.org/wiki/Q2633966"
+      }
+     ]
+    },
+    {
+     "field": "pages",
+     "label": "page count",
+     "soft": false,
+     "current": 249,
+     "status": "no-source",
+     "grade": null,
+     "sources": []
+    },
+    {
+     "field": "creator",
+     "label": "author",
+     "soft": false,
+     "editionDependent": false,
+     "current": "L.M. Montgomery",
+     "proposed": "Lucy Maud Montgomery",
+     "status": "proposed-change",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OpenLibrary",
+       "value": "Lucy Maud Montgomery",
+       "url": "https://openlibrary.org/search.json?title=Anne+of+Windy+Poplars&limit=1"
+      },
+      {
+       "src": "Wikidata",
+       "value": "Lucy Maud Montgomery",
+       "url": "https://www.wikidata.org/wiki/Q2633966"
+      }
+     ]
+    },
+    {
+     "field": "publisher",
+     "label": "publisher",
+     "soft": true,
+     "editionDependent": true,
+     "current": "McClelland & Stewart",
+     "proposed": "McClelland & Stewart",
+     "status": "confirmed",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "Wikidata",
+       "value": "McClelland & Stewart",
+       "url": "https://www.wikidata.org/wiki/Q2633966"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "b1758",
+   "title": "Little Men",
+   "sourcesReached": [
+    "OpenLibrary",
+    "Wikidata"
+   ],
+   "sourcesMissed": [
+    "Google Books (HTTP 429 (daily quota exceeded -- not retrying))"
+   ],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "first publication year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 1871,
+     "proposed": 1871,
+     "status": "corroborated-by-one",
+     "grade": "B",
+     "note": "matches Wikidata; disagrees with OpenLibrary (1885)",
+     "sources": [
+      {
+       "src": "OpenLibrary",
+       "value": 1885,
+       "url": "https://openlibrary.org/search.json?title=Little+Men&limit=1"
+      },
+      {
+       "src": "Wikidata",
+       "value": 1871,
+       "url": "https://www.wikidata.org/wiki/Q3902626"
+      }
+     ],
+     "alternatives": [
+      1871
+     ]
+    },
+    {
+     "field": "pages",
+     "label": "page count",
+     "soft": false,
+     "current": 330,
+     "status": "no-source",
+     "grade": null,
+     "sources": []
+    },
+    {
+     "field": "creator",
+     "label": "author",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Louisa May Alcott",
+     "proposed": "Louisa May Alcott",
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OpenLibrary",
+       "value": "Louisa May Alcott",
+       "url": "https://openlibrary.org/search.json?title=Little+Men&limit=1"
+      },
+      {
+       "src": "Wikidata",
+       "value": "Louisa May Alcott",
+       "url": "https://www.wikidata.org/wiki/Q3902626"
+      }
+     ]
+    },
+    {
+     "field": "publisher",
+     "label": "publisher",
+     "soft": true,
+     "editionDependent": true,
+     "current": "Roberts Brothers",
+     "proposed": "Roberts Brothers",
+     "status": "confirmed",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "Wikidata",
+       "value": "Roberts Brothers",
+       "url": "https://www.wikidata.org/wiki/Q3902626"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "b1759",
+   "title": "Jo's Boys",
+   "sourcesReached": [
+    "OpenLibrary",
+    "Wikidata"
+   ],
+   "sourcesMissed": [
+    "Google Books (HTTP 429 (daily quota exceeded -- not retrying))"
+   ],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "first publication year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 1886,
+     "proposed": 1886,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OpenLibrary",
+       "value": 1886,
+       "url": "https://openlibrary.org/search.json?title=Jo%27s+Boys&limit=1"
+      },
+      {
+       "src": "Wikidata",
+       "value": 1886,
+       "url": "https://www.wikidata.org/wiki/Q1436824"
+      }
+     ]
+    },
+    {
+     "field": "pages",
+     "label": "page count",
+     "soft": false,
+     "current": 340,
+     "status": "no-source",
+     "grade": null,
+     "sources": []
+    },
+    {
+     "field": "creator",
+     "label": "author",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Louisa May Alcott",
+     "proposed": "Louisa May Alcott",
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OpenLibrary",
+       "value": "Louisa May Alcott",
+       "url": "https://openlibrary.org/search.json?title=Jo%27s+Boys&limit=1"
+      },
+      {
+       "src": "Wikidata",
+       "value": "Louisa May Alcott",
+       "url": "https://www.wikidata.org/wiki/Q1436824"
+      }
+     ]
+    },
+    {
+     "field": "publisher",
+     "label": "publisher",
+     "soft": true,
+     "current": "Roberts Brothers",
+     "status": "no-source",
+     "grade": null,
+     "sources": []
+    }
+   ]
+  },
+  {
+   "id": "b1760",
+   "title": "Eight Cousins",
+   "sourcesReached": [
+    "OpenLibrary",
+    "Wikidata"
+   ],
+   "sourcesMissed": [
+    "Google Books (HTTP 429 (daily quota exceeded -- not retrying))"
+   ],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "first publication year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 1875,
+     "proposed": 1875,
+     "status": "corroborated-by-one",
+     "grade": "B",
+     "note": "matches Wikidata; disagrees with OpenLibrary (1874)",
+     "sources": [
+      {
+       "src": "OpenLibrary",
+       "value": 1874,
+       "url": "https://openlibrary.org/search.json?title=Eight+Cousins&limit=1"
+      },
+      {
+       "src": "Wikidata",
+       "value": 1875,
+       "url": "https://www.wikidata.org/wiki/Q3281243"
+      }
+     ],
+     "alternatives": [
+      1875
+     ]
+    },
+    {
+     "field": "pages",
+     "label": "page count",
+     "soft": false,
+     "current": 296,
+     "status": "no-source",
+     "grade": null,
+     "sources": []
+    },
+    {
+     "field": "creator",
+     "label": "author",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Louisa May Alcott",
+     "proposed": "Louisa May Alcott",
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OpenLibrary",
+       "value": "Louisa May Alcott",
+       "url": "https://openlibrary.org/search.json?title=Eight+Cousins&limit=1"
+      },
+      {
+       "src": "Wikidata",
+       "value": "Louisa May Alcott",
+       "url": "https://www.wikidata.org/wiki/Q3281243"
+      }
+     ]
+    },
+    {
+     "field": "publisher",
+     "label": "publisher",
+     "soft": true,
+     "current": "Roberts Brothers",
+     "status": "no-source",
+     "grade": null,
+     "sources": []
+    }
+   ]
+  },
+  {
+   "id": "b1761",
+   "title": "Rose in Bloom",
+   "sourcesReached": [
+    "OpenLibrary",
+    "Wikidata"
+   ],
+   "sourcesMissed": [
+    "Google Books (HTTP 429 (daily quota exceeded -- not retrying))"
+   ],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "first publication year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 1876,
+     "proposed": 1876,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OpenLibrary",
+       "value": 1876,
+       "url": "https://openlibrary.org/search.json?title=Rose+in+Bloom&limit=1"
+      },
+      {
+       "src": "Wikidata",
+       "value": 1876,
+       "url": "https://www.wikidata.org/wiki/Q7368002"
+      }
+     ]
+    },
+    {
+     "field": "pages",
+     "label": "page count",
+     "soft": false,
+     "current": 320,
+     "status": "no-source",
+     "grade": null,
+     "sources": []
+    },
+    {
+     "field": "creator",
+     "label": "author",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Louisa May Alcott",
+     "proposed": "Louisa May Alcott",
+     "status": "corroborated-by-one",
+     "grade": "B",
+     "note": "matches Wikidata; disagrees with OpenLibrary (\"Louisa May Alcott & Harriet Roosevelt Richards\")",
+     "sources": [
+      {
+       "src": "OpenLibrary",
+       "value": "Louisa May Alcott & Harriet Roosevelt Richards",
+       "url": "https://openlibrary.org/search.json?title=Rose+in+Bloom&limit=1"
+      },
+      {
+       "src": "Wikidata",
+       "value": "Louisa May Alcott",
+       "url": "https://www.wikidata.org/wiki/Q7368002"
+      }
+     ],
+     "alternatives": [
+      "Louisa May Alcott"
+     ]
+    },
+    {
+     "field": "publisher",
+     "label": "publisher",
+     "soft": true,
+     "current": "Roberts Brothers",
+     "status": "no-source",
+     "grade": null,
+     "sources": []
+    }
+   ]
+  },
+  {
+   "id": "b1762",
+   "title": "Ozma of Oz",
+   "sourcesReached": [
+    "OpenLibrary",
+    "Wikidata"
+   ],
+   "sourcesMissed": [
+    "Google Books (HTTP 429 (daily quota exceeded -- not retrying))"
+   ],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "first publication year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 1907,
+     "proposed": 1907,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OpenLibrary",
+       "value": 1907,
+       "url": "https://openlibrary.org/search.json?title=Ozma+of+Oz&limit=1"
+      },
+      {
+       "src": "Wikidata",
+       "value": 1907,
+       "url": "https://www.wikidata.org/wiki/Q634885"
+      }
+     ]
+    },
+    {
+     "field": "pages",
+     "label": "page count",
+     "soft": false,
+     "current": 270,
+     "status": "no-source",
+     "grade": null,
+     "sources": []
+    },
+    {
+     "field": "creator",
+     "label": "author",
+     "soft": false,
+     "editionDependent": false,
+     "current": "L. Frank Baum",
+     "proposed": "L. Frank Baum",
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OpenLibrary",
+       "value": "L. Frank Baum",
+       "url": "https://openlibrary.org/search.json?title=Ozma+of+Oz&limit=1"
+      },
+      {
+       "src": "Wikidata",
+       "value": "L. Frank Baum",
+       "url": "https://www.wikidata.org/wiki/Q634885"
+      }
+     ]
+    },
+    {
+     "field": "publisher",
+     "label": "publisher",
+     "soft": true,
+     "editionDependent": true,
+     "current": "Reilly & Britton",
+     "proposed": "The Reilly & Britton Co.",
+     "status": "edition-dependent",
+     "grade": "B",
+     "note": "one source differs from the corpus (Wikidata \"The Reilly & Britton Co.\") on a field with no single true value -- likely a different printing/edition, not an error.",
+     "sources": [
+      {
+       "src": "Wikidata",
+       "value": "The Reilly & Britton Co.",
+       "url": "https://www.wikidata.org/wiki/Q634885"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "b1763",
+   "title": "Kim",
+   "sourcesReached": [
+    "OpenLibrary"
+   ],
+   "sourcesMissed": [
+    "Google Books (HTTP 429 (daily quota exceeded -- not retrying))",
+    "Wikidata (no match)"
+   ],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "first publication year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 1901,
+     "proposed": 1901,
+     "status": "confirmed",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "OpenLibrary",
+       "value": 1901,
+       "url": "https://openlibrary.org/search.json?title=Kim&limit=1"
+      }
+     ]
+    },
+    {
+     "field": "pages",
+     "label": "page count",
+     "soft": false,
+     "current": 413,
+     "status": "no-source",
+     "grade": null,
+     "sources": []
+    },
+    {
+     "field": "creator",
+     "label": "author",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Rudyard Kipling",
+     "proposed": "Rudyard Kipling",
+     "status": "confirmed",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "OpenLibrary",
+       "value": "Rudyard Kipling",
+       "url": "https://openlibrary.org/search.json?title=Kim&limit=1"
+      }
+     ]
+    },
+    {
+     "field": "publisher",
+     "label": "publisher",
+     "soft": true,
+     "current": "Macmillan",
+     "status": "no-source",
+     "grade": null,
+     "sources": []
+    }
+   ]
+  },
+  {
+   "id": "b1764",
+   "title": "Adventures of Huckleberry Finn",
+   "sourcesReached": [
+    "OpenLibrary",
+    "Wikidata"
+   ],
+   "sourcesMissed": [
+    "Google Books (HTTP 429 (daily quota exceeded -- not retrying))"
+   ],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "first publication year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 1884,
+     "proposed": 1884,
+     "status": "corroborated-by-one",
+     "grade": "B",
+     "note": "matches Wikidata; disagrees with OpenLibrary (1876)",
+     "sources": [
+      {
+       "src": "OpenLibrary",
+       "value": 1876,
+       "url": "https://openlibrary.org/search.json?title=Adventures+of+Huckleberry+Finn&limit=1"
+      },
+      {
+       "src": "Wikidata",
+       "value": 1884,
+       "url": "https://www.wikidata.org/wiki/Q215410"
+      }
+     ],
+     "alternatives": [
+      1884
+     ]
+    },
+    {
+     "field": "pages",
+     "label": "page count",
+     "soft": false,
+     "editionDependent": true,
+     "current": 366,
+     "proposed": 366,
+     "status": "confirmed",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "Wikidata",
+       "value": 366,
+       "url": "https://www.wikidata.org/wiki/Q215410"
+      }
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "author",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Mark Twain",
+     "proposed": "Mark Twain",
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OpenLibrary",
+       "value": "Mark Twain",
+       "url": "https://openlibrary.org/search.json?title=Adventures+of+Huckleberry+Finn&limit=1"
+      },
+      {
+       "src": "Wikidata",
+       "value": "Mark Twain",
+       "url": "https://www.wikidata.org/wiki/Q215410"
+      }
+     ]
+    },
+    {
+     "field": "publisher",
+     "label": "publisher",
+     "soft": true,
+     "editionDependent": true,
+     "current": "Charles L. Webster and Company",
+     "proposed": "Chatto & Windus",
+     "status": "edition-dependent",
+     "grade": "B",
+     "note": "one source differs from the corpus (Wikidata \"Chatto & Windus\") on a field with no single true value -- likely a different printing/edition, not an error.",
+     "sources": [
+      {
+       "src": "Wikidata",
+       "value": "Chatto & Windus",
+       "url": "https://www.wikidata.org/wiki/Q215410"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "b1765",
+   "title": "The Prince and the Pauper",
+   "sourcesReached": [
+    "OpenLibrary",
+    "Wikidata"
+   ],
+   "sourcesMissed": [
+    "Google Books (HTTP 429 (daily quota exceeded -- not retrying))"
+   ],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "first publication year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 1881,
+     "proposed": 1881,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OpenLibrary",
+       "value": 1881,
+       "url": "https://openlibrary.org/search.json?title=The+Prince+and+the+Pauper&limit=1"
+      },
+      {
+       "src": "Wikidata",
+       "value": 1881,
+       "url": "https://www.wikidata.org/wiki/Q869725"
+      }
+     ]
+    },
+    {
+     "field": "pages",
+     "label": "page count",
+     "soft": false,
+     "current": 224,
+     "status": "no-source",
+     "grade": null,
+     "sources": []
+    },
+    {
+     "field": "creator",
+     "label": "author",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Mark Twain",
+     "proposed": "Mark Twain",
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OpenLibrary",
+       "value": "Mark Twain",
+       "url": "https://openlibrary.org/search.json?title=The+Prince+and+the+Pauper&limit=1"
+      },
+      {
+       "src": "Wikidata",
+       "value": "Mark Twain",
+       "url": "https://www.wikidata.org/wiki/Q869725"
+      }
+     ]
+    },
+    {
+     "field": "publisher",
+     "label": "publisher",
+     "soft": true,
+     "editionDependent": true,
+     "current": "Chatto & Windus",
+     "proposed": "James R. Osgood",
+     "status": "edition-dependent",
+     "grade": "B",
+     "note": "one source differs from the corpus (Wikidata \"James R. Osgood\") on a field with no single true value -- likely a different printing/edition, not an error.",
+     "sources": [
+      {
+       "src": "Wikidata",
+       "value": "James R. Osgood",
+       "url": "https://www.wikidata.org/wiki/Q869725"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "b1766",
+   "title": "A Connecticut Yankee in King Arthur's Court",
+   "sourcesReached": [
+    "OpenLibrary",
+    "Wikidata"
+   ],
+   "sourcesMissed": [
+    "Google Books (HTTP 429 (daily quota exceeded -- not retrying))"
+   ],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "first publication year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 1889,
+     "proposed": 1889,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OpenLibrary",
+       "value": 1889,
+       "url": "https://openlibrary.org/search.json?title=A+Connecticut+Yankee+in+King+Arthur%27s+Court&limit=1"
+      },
+      {
+       "src": "Wikidata",
+       "value": 1889,
+       "url": "https://www.wikidata.org/wiki/Q848612"
+      }
+     ]
+    },
+    {
+     "field": "pages",
+     "label": "page count",
+     "soft": false,
+     "current": 327,
+     "status": "no-source",
+     "grade": null,
+     "sources": []
+    },
+    {
+     "field": "creator",
+     "label": "author",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Mark Twain",
+     "proposed": "Mark Twain",
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OpenLibrary",
+       "value": "Mark Twain",
+       "url": "https://openlibrary.org/search.json?title=A+Connecticut+Yankee+in+King+Arthur%27s+Court&limit=1"
+      },
+      {
+       "src": "Wikidata",
+       "value": "Mark Twain",
+       "url": "https://www.wikidata.org/wiki/Q848612"
+      }
+     ]
+    },
+    {
+     "field": "publisher",
+     "label": "publisher",
+     "soft": true,
+     "current": "Charles L. Webster and Company",
+     "status": "no-source",
+     "grade": null,
+     "sources": []
+    }
+   ]
+  },
+  {
+   "id": "b1767",
+   "title": "Little Lord Fauntleroy",
+   "sourcesReached": [
+    "OpenLibrary",
+    "Wikidata"
+   ],
+   "sourcesMissed": [
+    "Google Books (HTTP 429 (daily quota exceeded -- not retrying))"
+   ],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "first publication year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 1886,
+     "proposed": 1886,
+     "status": "corroborated-by-one",
+     "grade": "B",
+     "note": "matches OpenLibrary; disagrees with Wikidata (1885)",
+     "sources": [
+      {
+       "src": "OpenLibrary",
+       "value": 1886,
+       "url": "https://openlibrary.org/search.json?title=Little+Lord+Fauntleroy&limit=1"
+      },
+      {
+       "src": "Wikidata",
+       "value": 1885,
+       "url": "https://www.wikidata.org/wiki/Q387480"
+      }
+     ],
+     "alternatives": [
+      1885
+     ]
+    },
+    {
+     "field": "pages",
+     "label": "page count",
+     "soft": false,
+     "current": 214,
+     "status": "no-source",
+     "grade": null,
+     "sources": []
+    },
+    {
+     "field": "creator",
+     "label": "author",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Frances Hodgson Burnett",
+     "proposed": "Frances Hodgson Burnett",
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OpenLibrary",
+       "value": "Frances Hodgson Burnett",
+       "url": "https://openlibrary.org/search.json?title=Little+Lord+Fauntleroy&limit=1"
+      },
+      {
+       "src": "Wikidata",
+       "value": "Frances Hodgson Burnett",
+       "url": "https://www.wikidata.org/wiki/Q387480"
+      }
+     ]
+    },
+    {
+     "field": "publisher",
+     "label": "publisher",
+     "soft": true,
+     "current": "Charles Scribner's Sons",
+     "status": "no-source",
+     "grade": null,
+     "sources": []
+    }
+   ]
+  },
+  {
+   "id": "b1768",
+   "title": "Heidi",
+   "sourcesReached": [
+    "OpenLibrary",
+    "Wikidata"
+   ],
+   "sourcesMissed": [
+    "Google Books (HTTP 429 (daily quota exceeded -- not retrying))"
+   ],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "first publication year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 1881,
+     "proposed": 1885,
+     "status": "sources-disagree",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "OpenLibrary",
+       "value": 1885,
+       "url": "https://openlibrary.org/search.json?title=Heidi&limit=1"
+      },
+      {
+       "src": "Wikidata",
+       "value": 1922,
+       "url": "https://www.wikidata.org/wiki/Q30139730"
+      }
+     ],
+     "alternatives": [
+      1922
+     ]
+    },
+    {
+     "field": "pages",
+     "label": "page count",
+     "soft": false,
+     "current": 260,
+     "status": "no-source",
+     "grade": null,
+     "sources": []
+    },
+    {
+     "field": "creator",
+     "label": "author",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Johanna Spyri",
+     "proposed": "Johanna Spyri",
+     "status": "corroborated-by-one",
+     "grade": "B",
+     "note": "matches Wikidata; disagrees with OpenLibrary (\"Spyri, Johanna\")",
+     "sources": [
+      {
+       "src": "OpenLibrary",
+       "value": "Spyri, Johanna",
+       "url": "https://openlibrary.org/search.json?title=Heidi&limit=1"
+      },
+      {
+       "src": "Wikidata",
+       "value": "Johanna Spyri",
+       "url": "https://www.wikidata.org/wiki/Q30139730"
+      }
+     ],
+     "alternatives": [
+      "Johanna Spyri"
+     ]
+    },
+    {
+     "field": "publisher",
+     "label": "publisher",
+     "soft": true,
+     "editionDependent": true,
+     "current": "Perthes",
+     "proposed": "David McKay Publications",
+     "status": "edition-dependent",
+     "grade": "B",
+     "note": "one source differs from the corpus (Wikidata \"David McKay Publications\") on a field with no single true value -- likely a different printing/edition, not an error.",
+     "sources": [
+      {
+       "src": "Wikidata",
+       "value": "David McKay Publications",
+       "url": "https://www.wikidata.org/wiki/Q30139730"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "b1769",
+   "title": "Pollyanna",
+   "sourcesReached": [
+    "OpenLibrary",
+    "Wikidata"
+   ],
+   "sourcesMissed": [
+    "Google Books (HTTP 429 (daily quota exceeded -- not retrying))"
+   ],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "first publication year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 1913,
+     "proposed": 1913,
+     "status": "corroborated-by-one",
+     "grade": "B",
+     "note": "matches Wikidata; disagrees with OpenLibrary (1912)",
+     "sources": [
+      {
+       "src": "OpenLibrary",
+       "value": 1912,
+       "url": "https://openlibrary.org/search.json?title=Pollyanna&limit=1"
+      },
+      {
+       "src": "Wikidata",
+       "value": 1913,
+       "url": "https://www.wikidata.org/wiki/Q2348190"
+      }
+     ],
+     "alternatives": [
+      1913
+     ]
+    },
+    {
+     "field": "pages",
+     "label": "page count",
+     "soft": false,
+     "current": 270,
+     "status": "no-source",
+     "grade": null,
+     "sources": []
+    },
+    {
+     "field": "creator",
+     "label": "author",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Eleanor H. Porter",
+     "proposed": "Eleanor H. Porter",
+     "status": "corroborated-by-one",
+     "grade": "B",
+     "note": "matches Wikidata; disagrees with OpenLibrary (\"Eleanor Hodgman Porter & Porter & Neil Reed & Lee Giles\")",
+     "sources": [
+      {
+       "src": "OpenLibrary",
+       "value": "Eleanor Hodgman Porter & Porter & Neil Reed & Lee Giles",
+       "url": "https://openlibrary.org/search.json?title=Pollyanna&limit=1"
+      },
+      {
+       "src": "Wikidata",
+       "value": "Eleanor H. Porter",
+       "url": "https://www.wikidata.org/wiki/Q2348190"
+      }
+     ],
+     "alternatives": [
+      "Eleanor H. Porter"
+     ]
+    },
+    {
+     "field": "publisher",
+     "label": "publisher",
+     "soft": true,
+     "editionDependent": true,
+     "current": "L.C. Page & Company",
+     "proposed": "Louis Coues Page",
+     "status": "edition-dependent",
+     "grade": "B",
+     "note": "one source differs from the corpus (Wikidata \"Louis Coues Page\") on a field with no single true value -- likely a different printing/edition, not an error.",
+     "sources": [
+      {
+       "src": "Wikidata",
+       "value": "Louis Coues Page",
+       "url": "https://www.wikidata.org/wiki/Q2348190"
+      }
+     ]
+    }
+   ]
+  }
+ ]
+}
