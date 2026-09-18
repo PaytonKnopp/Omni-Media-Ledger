@@ -1039,12 +1039,14 @@ function anticipationScore(c){
  var score=Math.round(c.goatProbability*0.6+pullNorm*0.25+(avgGm||70)*0.15);
  score=Math.max(40,Math.min(99,score));
  // Your own watchlist is the strongest personal signal there is — it outranks any modelled score.
- if(c.watchRank){
+ // Once it's released and reconciled into the real corpus (migratedTo), it's no longer a
+ // *contender* to be anticipated, so the override retires with it.
+ if(c.watchRank&&!c.migratedTo){
   var floor=Math.round(99-(c.watchRank-1)*1.5);
   score=Math.max(score,floor);
   reasons.unshift('#'+c.watchRank+' on your personal watchlist');
  }
- return {score:score,reasons:reasons.slice(0,2),pull:pull,watch:c.watchRank||0};
+ return {score:score,reasons:reasons.slice(0,3),pull:pull,watch:c.watchRank||0};
 }
 var contSort='foryou';
 var contSearchQ='';
@@ -1062,6 +1064,11 @@ function isPastWindow(c){
  var d=parseWindowDate(c.window);
  return d?d.getTime()<Date.now():false;
 }
+/* Shelved: cancelled outright, or explicitly not moving forward -- kept in the corpus for the
+   record (per its pedigree note) rather than deleted, but should read as dead, not upcoming. */
+function isShelved(c){
+ return !c.migratedTo&&/^Cancelled|not moving forward/i.test(c.window||'');
+}
 function renderContenders(){const MED={Film:'#a78bfa',TV:'#22d3ee',Game:'#fbbf24',Book:'#4ade80'};
  var cq=(contSearchQ||'').trim().toLowerCase();
  var pool=contenders.slice().filter(c=>contMedium==='all'||c.medium===contMedium)
@@ -1070,19 +1077,22 @@ function renderContenders(){const MED={Film:'#a78bfa',TV:'#22d3ee',Game:'#fbbf24
  pool.sort(
   contSort==='foryou'?function(a,b){return b._antScore-a._antScore;}
   :contSort==='title'?function(a,b){return a.title.localeCompare(b.title);}
-  :contSort==='window'?function(a,b){var da=parseWindowDate(a.window),db=parseWindowDate(b.window);if(!da&&!db)return 0;if(!da)return 1;if(!db)return -1;return da-db;}
+  :contSort==='window'?function(a,b){var da=parseWindowDate(a.window),db=parseWindowDate(b.window);if(!da&&!db)return a.title.localeCompare(b.title);if(!da)return 1;if(!db)return -1;return da-db;}
   :function(a,b){return b.goatProbability-a.goatProbability;});
- $$('.contMedBtn').forEach(b=>{var on=b.dataset.med===contMedium;var mc=MED[b.dataset.med]||'#818cf8';b.style.color=on?mc:'#94a3b8';b.style.borderColor=on?mc+'88':'rgba(148,163,184,.25)';b.style.background=on?mc+'18':'transparent';b.style.fontWeight=on?'700':'400';});
+ $$('.contMedBtn').forEach(b=>{var med=b.dataset.med;var on=med===contMedium;var mc=MED[med]||'#818cf8';b.style.color=on?mc:'#94a3b8';b.style.borderColor=on?mc+'88':'rgba(148,163,184,.25)';b.style.background=on?mc+'18':'transparent';b.style.fontWeight=on?'700':'400';
+  var n=med==='all'?contenders.length:contenders.filter(function(c){return c.medium===med;}).length;
+  b.textContent=(b.dataset.medLabel||(b.dataset.medLabel=b.textContent))+' ('+n+')';});
  var cc=$('#contCount');if(cc)cc.textContent=pool.length+(contMedium==='all'?' contenders':' '+contMedium.toLowerCase()+' contenders');
  var vc=$('#contVerifiedCount');if(vc){var verifiedN=pool.filter(function(c){return c.verified;}).length;vc.textContent='◉ '+verifiedN+'/'+pool.length+' spot-checked';}
+ if(!pool.length){$('#contenderGrid').innerHTML='<div class="panel p-6 text-center text-[12px] text-slate-500 col-span-full">No contenders match'+(cq?' "'+esc(cq)+'"':'')+(contMedium!=='all'?' in '+contMedium:'')+'. Try a different medium or search term.</div>';return;}
  $('#contenderGrid').innerHTML=pool.map(c=>{const col=MED[c.medium]||'#94a3b8';
   var antCol=c._antScore>=88?'#fbbf24':c._antScore>=78?'#f0abfc':'#818cf8';
   var reasonLine=(c._antReasons&&c._antReasons.length)?'<div class="text-[10.5px] mt-1.5" style="color:'+antCol+'">\u2605 For you: '+esc(c._antReasons.join(' \u00b7 '))+'</div>':'';
   var MEDICON={Film:'🎬',TV:'📺',Game:'🎮',Book:'📖'};
-  return '<div class="panel p-4 flex gap-3.5 fade-in"><div class="shrink-0 flex flex-col items-center gap-2.5">'
+  return '<div class="panel p-4 flex gap-3.5 fade-in'+(isShelved(c)?' opacity-60':'')+'"><div class="shrink-0 flex flex-col items-center gap-2.5">'
   +'<div class="flex flex-col items-center gap-0.5">'+gaugeC(c._antScore,antCol)+'<span class="lbl" style="color:'+antCol+';font-weight:700">For You</span></div>'
   +'<div class="flex flex-col items-center gap-0.5 opacity-60">'+gauge(c.goatProbability)+'<span class="lbl">Editorial</span></div></div>'
-  +'<div class="flex-1 min-w-0"><div class="flex items-center gap-2 flex-wrap"><span class="text-[14px] font-bold text-slate-50 leading-tight">'+esc(c.title)+'</span><span class="chip" style="color:'+col+';border-color:'+col+'44">'+(MEDICON[c.medium]||'')+' '+c.medium.toUpperCase()+'</span>'+(c.watchRank?'<span class="chip" style="color:#0B0F19;background:#fb7185;border-color:#fb7185;font-weight:800" title="On your personal watchlist">\u2665 WATCHLIST #'+c.watchRank+'</span>':'')+(c.migratedTo?'<button type="button" class="chip contMigratedBtn" data-q="'+esc(c.migratedTo)+'" style="color:#0B0F19;background:#4ade80;border-color:#4ade80;font-weight:800;cursor:pointer" title="Released and reconciled into the scored corpus with real review data \u2014 click to view it in the Global Controller">\u2713 IN LEDGER \u2014 VIEW SCORE</button>':'')+(isPastWindow(c)?'<span class="chip" style="color:#0B0F19;background:#fb923c;border-color:#fb923c;font-weight:800" title="This window has passed but the entry has not been checked or reconciled -- likely due for a status update (see NOTES.md refresh runbook).">\u26a0 WINDOW PASSED \u2014 CHECK STATUS</span>':'')+'</div>'
+  +'<div class="flex-1 min-w-0"><div class="flex items-center gap-2 flex-wrap"><span class="text-[14px] font-bold text-slate-50 leading-tight">'+esc(c.title)+'</span><span class="chip" style="color:'+col+';border-color:'+col+'44">'+(MEDICON[c.medium]||'')+' '+c.medium.toUpperCase()+'</span>'+(c.watchRank?'<span class="chip" style="color:#0B0F19;background:#fb7185;border-color:#fb7185;font-weight:800" title="On your personal watchlist">\u2665 WATCHLIST #'+c.watchRank+'</span>':'')+(c.migratedTo?'<button type="button" class="chip contMigratedBtn" data-q="'+esc(c.migratedTo)+'" style="color:#0B0F19;background:#4ade80;border-color:#4ade80;font-weight:800;cursor:pointer" title="Released and reconciled into the scored corpus with real review data \u2014 click to view it in the Global Controller">\u2713 IN LEDGER \u2014 VIEW SCORE</button>':'')+(isShelved(c)?'<span class="chip" style="color:#e2e8f0;background:#475569;border-color:#475569;font-weight:800" title="Cancelled or confirmed not moving forward -- kept in the ledger for the record rather than deleted.">\u2715 SHELVED</span>':isPastWindow(c)?'<span class="chip" style="color:#0B0F19;background:#fb923c;border-color:#fb923c;font-weight:800" title="This window has passed but the entry has not been checked or reconciled -- likely due for a status update (see NOTES.md refresh runbook).">\u26a0 WINDOW PASSED \u2014 CHECK STATUS</span>':'')+'</div>'
   +'<div class="grid grid-cols-[auto_1fr] gap-x-2 gap-y-0.5 mt-2 text-[11px]">'
   +'<span class="text-slate-500">Lead</span><span class="text-slate-200 min-w-0 truncate">'+esc(c.creativeLead)+'</span>'
   +'<span class="text-slate-500">Where</span><span class="text-slate-300 min-w-0 truncate">'+esc(c.platform)+'</span>'
