@@ -1824,25 +1824,21 @@ function renderTimeline(){
  var decades=Object.keys(buckets).map(Number).sort((a,b)=>a-b);
  var colOf=x=>KM[x.kind].c;
  var cols=[];if(preCount)cols.push(['Pre-1900',preItems,-9999,1900]);decades.forEach(d=>cols.push([d+'s',buckets[d],d,d+10]));
- // catalog "ghost" counts (same medium filter, ignoring scope) so an owned/rated bar can be read
- // against how much of that era exists at all -- ALL already carries every field this needs.
+ // catalog counts (same medium filter, ignoring scope) so an owned/rated bar can be annotated
+ // with how much of that era exists at all -- ALL already carries every field this needs.
+ // Kept OUT of the height scale on purpose: catalog totals dwarf owned/rated counts, so sharing
+ // one axis crushed the real bars down to slivers. The comparison is shown as a small "of N"
+ // label instead, so the chart still reads at a glance as "your" data.
  var showGhost=tlScope!=='all';
  var catalogItems=ALL.filter(x=>typeof x.year==='number'&&x.year!==0&&(tlMedium==='all'||x.kind===tlMedium));
  var catalogCountFor=function(ymin,ymax){return catalogItems.filter(function(x){return x.year>=ymin&&x.year<ymax;}).length;};
- var maxCount=Math.max(1,Math.max.apply(null,cols.map(function(c){return showGhost?Math.max(c[1].length,catalogCountFor(c[2],c[3])):c[1].length;})));
+ var maxCount=Math.max(1,Math.max.apply(null,cols.map(function(c){return c[1].length;})));
  var W=Math.max(700,cols.length*64),H=254,pad=30,bw=48,gap=16;
  var svg='<svg viewBox="0 0 '+W+' '+H+'" style="width:100%;height:auto" xmlns="http://www.w3.org/2000/svg">';
  cols.forEach(function(c,i){
   var x=pad+i*(bw+gap);
   var items2=c[1];var h=(items2.length/maxCount)*(H-70);
   svg+='<g class="tlBar" style="cursor:pointer" data-ymin="'+c[2]+'" data-ymax="'+c[3]+'" data-kind="'+(tlMedium!=='all'?tlMedium:'')+'" data-label="'+esc(c[0])+'"><title>'+c[0]+' — '+items2.length+' works · click to open in the Global Controller, or use the 🔍 to preview here</title><rect x="'+x+'" y="'+(H-30-h-4)+'" width="'+bw+'" height="'+(h+4)+'" fill="transparent"/>';
-  if(showGhost){
-   var gCount=catalogCountFor(c[2],c[3]);
-   if(gCount>items2.length){
-    var gh=(gCount/maxCount)*(H-70);
-    svg+='<rect x="'+x+'" y="'+(H-30-gh)+'" width="'+bw+'" height="'+gh+'" fill="none" stroke="#475569" stroke-width="1" stroke-dasharray="2,2" rx="2"><title>'+gCount+' total in catalog for this era</title></rect>';
-   }
-  }
   // stacked by medium
   var order=['book','movie','tv','game'];
   var y=H-30;
@@ -1853,7 +1849,9 @@ function renderTimeline(){
    y-=seg;
   });
   svg+='<text x="'+(x+bw/2)+'" y="'+(H-14)+'" fill="#94a3b8" font-size="10" text-anchor="middle">'+c[0]+'</text>';
-  svg+='<text x="'+(x+bw/2)+'" y="'+(H-38-h)+'" fill="#e2e8f0" font-size="11" font-weight="700" text-anchor="middle">'+items2.length+'</text>';
+  var gCount=showGhost?catalogCountFor(c[2],c[3]):0;
+  var countLabel=gCount>items2.length?items2.length+'<tspan fill="#64748b" font-weight="400" font-size="9">/'+gCount+'</tspan>':''+items2.length;
+  svg+='<text x="'+(x+bw/2)+'" y="'+(H-38-h)+'" fill="#e2e8f0" font-size="11" font-weight="700" text-anchor="middle">'+countLabel+'</text>';
   var avgGm=Math.round(items2.reduce(function(s,it){return s+it.gm;},0)/items2.length);
   svg+='<text x="'+(x+bw/2)+'" y="'+(H-2)+'" fill="#fbbf24" font-size="9.5" font-weight="600" text-anchor="middle">★'+avgGm+'</text>';
   /* Zoom icon sits on its own row well above the count label (never the same y, regardless of bar
@@ -1867,7 +1865,7 @@ function renderTimeline(){
  svg+='</svg>';
  // legend
  var legend='<div class="flex gap-3 flex-wrap mt-2 text-[10px]">'+['movie','tv','game','book'].map(k=>'<span class="flex items-center gap-1"><span class="w-2.5 h-2.5 rounded-sm inline-block" style="background:'+KM[k].c+'"></span>'+KM[k].label+'</span>').join('')+'</div>';
- var ghostNote=showGhost?' · dashed outline = full catalog size for that era':'';
+ var ghostNote=showGhost?' · small number = full catalog size for that era':'';
  $('#tlChart').innerHTML=items.length?('<div class="lbl mb-2" style="color:#f0abfc">Works per decade · click a bar to open it in the Global Controller, or 🔍 to preview without leaving this tab'+ghostNote+'</div>'+svg+legend):'<div class="text-center text-slate-500 text-sm py-10">Nothing to show for this filter.</div>';
  // --- optional in-tab decade zoom/preview (no navigation away from Timeline) ---
  var zoomBox=$('#tlDecadeZoom');
