@@ -2109,9 +2109,11 @@ function renderPortrait(){
  // panel is never misleadingly empty just because nobody has been collected twice yet.
  function topCreatorsOf(list){
   const c={};list.forEach(x=>{if(x.creator)c[x.creator]=(c[x.creator]||0)+1;});
-  const all=Object.entries(c).sort((a,b)=>b[1]-a[1]||a[0].localeCompare(b[0]));
-  const repeat=all.filter(e=>e[1]>=2);
-  return (repeat.length?repeat:all).slice(0,8);
+  // Sorted by count desc, so repeat creators naturally lead the list -- take the top 8 straight
+  // from that instead of showing ONLY repeats, which previously hid every single-owned creator
+  // the moment any one creator reached 2 (e.g. a TV panel with one 2x creator showed just that
+  // one name even with seven more single-owned creators that had room to display).
+  return Object.entries(c).sort((a,b)=>b[1]-a[1]||a[0].localeCompare(b[0])).slice(0,8);
  }
  $('#portraitDirectors').innerHTML=barList(topCreatorsOf(films),'#a78bfa')||'<div class="text-slate-500 text-[12px]">\u2014</div>';
  $('#portraitAuthors').innerHTML=barList(topCreatorsOf(books),'#4ade80')||'<div class="text-slate-500 text-[12px]">\u2014</div>';
