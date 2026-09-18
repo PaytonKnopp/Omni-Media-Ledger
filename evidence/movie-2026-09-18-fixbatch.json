@@ -1,0 +1,490 @@
+{
+ "medium": "movie",
+ "generated": "2026-09-18T04:30:03.560Z",
+ "offline": false,
+ "sources": [
+  "OMDb",
+  "TMDB"
+ ],
+ "works": [
+  {
+   "id": "m2022",
+   "title": "Tron",
+   "sourcesReached": [
+    "OMDb",
+    "TMDB"
+   ],
+   "sourcesMissed": [],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "release year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 1982,
+     "proposed": 1982,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 1982,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Tron&type=movie&y=1982"
+      },
+      {
+       "src": "TMDB",
+       "value": 1982,
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Tron&year=1982"
+      }
+     ]
+    },
+    {
+     "field": "runtime",
+     "label": "runtime (min)",
+     "soft": false,
+     "editionDependent": true,
+     "current": 96,
+     "proposed": 96,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 96,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Tron&type=movie&y=1982"
+      },
+      {
+       "src": "TMDB",
+       "value": 96,
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Tron&year=1982"
+      }
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "director",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Steven Lisberger",
+     "proposed": "Steven Lisberger",
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": "Steven Lisberger",
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Tron&type=movie&y=1982"
+      },
+      {
+       "src": "TMDB",
+       "value": "Steven Lisberger",
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Tron&year=1982"
+      }
+     ]
+    },
+    {
+     "field": "studio",
+     "label": "studio",
+     "soft": true,
+     "editionDependent": false,
+     "current": "Walt Disney Productions",
+     "proposed": "Lisberger/Kushner Productions",
+     "status": "proposed-change",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "TMDB",
+       "value": "Lisberger/Kushner Productions",
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Tron&year=1982"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "m2023",
+   "title": "Tron: Legacy",
+   "sourcesReached": [
+    "OMDb",
+    "TMDB"
+   ],
+   "sourcesMissed": [],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "release year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 2010,
+     "proposed": 2010,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 2010,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Tron%3A+Legacy&type=movie&y=2010"
+      },
+      {
+       "src": "TMDB",
+       "value": 2010,
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Tron%3A+Legacy&year=2010"
+      }
+     ]
+    },
+    {
+     "field": "runtime",
+     "label": "runtime (min)",
+     "soft": false,
+     "editionDependent": true,
+     "current": 125,
+     "proposed": 125,
+     "status": "corroborated-by-one",
+     "grade": "B",
+     "note": "matches OMDb; disagrees with TMDB (126)",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 125,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Tron%3A+Legacy&type=movie&y=2010"
+      },
+      {
+       "src": "TMDB",
+       "value": 126,
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Tron%3A+Legacy&year=2010"
+      }
+     ],
+     "alternatives": [
+      126
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "director",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Joseph Kosinski",
+     "proposed": "Joseph Kosinski",
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": "Joseph Kosinski",
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Tron%3A+Legacy&type=movie&y=2010"
+      },
+      {
+       "src": "TMDB",
+       "value": "Joseph Kosinski",
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Tron%3A+Legacy&year=2010"
+      }
+     ]
+    },
+    {
+     "field": "studio",
+     "label": "studio",
+     "soft": true,
+     "editionDependent": false,
+     "current": "Walt Disney Pictures",
+     "proposed": "Walt Disney Pictures",
+     "status": "confirmed",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "TMDB",
+       "value": "Walt Disney Pictures",
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Tron%3A+Legacy&year=2010"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "m2024",
+   "title": "Tron: Ares",
+   "sourcesReached": [
+    "OMDb",
+    "TMDB"
+   ],
+   "sourcesMissed": [],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "release year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 2025,
+     "proposed": 2025,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 2025,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Tron%3A+Ares&type=movie&y=2025"
+      },
+      {
+       "src": "TMDB",
+       "value": 2025,
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Tron%3A+Ares&year=2025"
+      }
+     ]
+    },
+    {
+     "field": "runtime",
+     "label": "runtime (min)",
+     "soft": false,
+     "editionDependent": true,
+     "current": 119,
+     "proposed": 119,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 119,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Tron%3A+Ares&type=movie&y=2025"
+      },
+      {
+       "src": "TMDB",
+       "value": 119,
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Tron%3A+Ares&year=2025"
+      }
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "director",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Joachim Rønning",
+     "proposed": "Joachim Rønning",
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": "Joachim Rønning",
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Tron%3A+Ares&type=movie&y=2025"
+      },
+      {
+       "src": "TMDB",
+       "value": "Joachim Rønning",
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Tron%3A+Ares&year=2025"
+      }
+     ]
+    },
+    {
+     "field": "studio",
+     "label": "studio",
+     "soft": true,
+     "editionDependent": false,
+     "current": "Walt Disney Pictures",
+     "proposed": "Walt Disney Pictures",
+     "status": "confirmed",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "TMDB",
+       "value": "Walt Disney Pictures",
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Tron%3A+Ares&year=2025"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "m2025",
+   "title": "Spider-Man: Brand New Day",
+   "sourcesReached": [
+    "OMDb",
+    "TMDB"
+   ],
+   "sourcesMissed": [],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "release year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 2026,
+     "proposed": 2026,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 2026,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Spider-Man%3A+Brand+New+Day&type=movie&y=2026"
+      },
+      {
+       "src": "TMDB",
+       "value": 2026,
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Spider-Man%3A+Brand+New+Day&year=2026"
+      }
+     ]
+    },
+    {
+     "field": "runtime",
+     "label": "runtime (min)",
+     "soft": false,
+     "editionDependent": true,
+     "current": 130,
+     "proposed": 145,
+     "status": "edition-dependent",
+     "grade": "B",
+     "note": "sources agree with each other but not the corpus (OMDb 145, TMDB 145) on a field with no single true value -- likely a different printing/edition, not an error.",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 145,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Spider-Man%3A+Brand+New+Day&type=movie&y=2026"
+      },
+      {
+       "src": "TMDB",
+       "value": 145,
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Spider-Man%3A+Brand+New+Day&year=2026"
+      }
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "director",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Destin Daniel Cretton",
+     "proposed": "Destin Daniel Cretton",
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": "Destin Daniel Cretton",
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Spider-Man%3A+Brand+New+Day&type=movie&y=2026"
+      },
+      {
+       "src": "TMDB",
+       "value": "Destin Daniel Cretton",
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Spider-Man%3A+Brand+New+Day&year=2026"
+      }
+     ]
+    },
+    {
+     "field": "studio",
+     "label": "studio",
+     "soft": true,
+     "editionDependent": false,
+     "current": "Sony Pictures Releasing",
+     "proposed": "Marvel Studios",
+     "status": "proposed-change",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "TMDB",
+       "value": "Marvel Studios",
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Spider-Man%3A+Brand+New+Day&year=2026"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "m2026",
+   "title": "High Plains Drifter",
+   "sourcesReached": [
+    "OMDb",
+    "TMDB"
+   ],
+   "sourcesMissed": [],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "release year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 1973,
+     "proposed": 1973,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 1973,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=High+Plains+Drifter&type=movie&y=1973"
+      },
+      {
+       "src": "TMDB",
+       "value": 1973,
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=High+Plains+Drifter&year=1973"
+      }
+     ]
+    },
+    {
+     "field": "runtime",
+     "label": "runtime (min)",
+     "soft": false,
+     "editionDependent": true,
+     "current": 105,
+     "proposed": 105,
+     "status": "corroborated-by-one",
+     "grade": "B",
+     "note": "matches OMDb; disagrees with TMDB (106)",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 105,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=High+Plains+Drifter&type=movie&y=1973"
+      },
+      {
+       "src": "TMDB",
+       "value": 106,
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=High+Plains+Drifter&year=1973"
+      }
+     ],
+     "alternatives": [
+      106
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "director",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Clint Eastwood",
+     "proposed": "Clint Eastwood",
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": "Clint Eastwood",
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=High+Plains+Drifter&type=movie&y=1973"
+      },
+      {
+       "src": "TMDB",
+       "value": "Clint Eastwood",
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=High+Plains+Drifter&year=1973"
+      }
+     ]
+    },
+    {
+     "field": "studio",
+     "label": "studio",
+     "soft": true,
+     "editionDependent": false,
+     "current": "Universal Pictures",
+     "proposed": "Malpaso Productions",
+     "status": "proposed-change",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "TMDB",
+       "value": "Malpaso Productions",
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=High+Plains+Drifter&year=1973"
+      }
+     ]
+    }
+   ]
+  }
+ ]
+}
