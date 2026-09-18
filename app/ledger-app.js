@@ -732,6 +732,13 @@ function renderBubble(){
  });
  CH.bubble.data.datasets=(bubbleMed==='all'?sets:sets.filter(function(d){return d.kind===bubbleMed;}));
  CH.bubble.update('none');
+ ['movie','tv','game','book'].forEach(function(k){
+  var el=document.querySelector('.bmCount[data-bm-count="'+k+'"]');if(!el)return;
+  var inKind=list.filter(function(x){return x.kind===k;});
+  el.textContent='('+inKind.filter(function(x){return x.owned;}).length+'/'+inKind.length+')';
+ });
+ var allEl=document.querySelector('.bmCount[data-bm-count="all"]');
+ if(allEl)allEl.textContent='('+list.filter(function(x){return x.owned;}).length+'/'+list.length+')';
 }
 function fingerprintOf(val){
  if(!val)return null;
