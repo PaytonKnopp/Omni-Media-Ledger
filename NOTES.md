@@ -1665,6 +1665,22 @@ disclosures needed this round.
 1,646/2,000 (4,451/5,000 total, 89.0%). Remaining work is exclusively movies (~204 more) and books
 (~354 more).
 
+**Twenty-first round (movies batch 33, books batch 33), movies+books only.** Movies: eleven titles, a
+2000s-2010s R-rated studio-comedy sweep: Zoolander 2, Semi-Pro, The Campaign, Get Him to the Greek,
+Forgetting Sarah Marshall, Sex Tape, The Hangover Part III, Role Models, the Neighbors duology, and
+This Is 40. Another clean round -- no near-miss duplicates, no genre-taxonomy gaps, no vibeTime
+omissions. SERIES_DEFS: The Hangover extended to complete (3/3); new Neighbors grouping added.
+
+Books: seven titles, a contemporary-literary-fiction and classic-picture-book sweep: The Curious
+Incident of the Dog in the Night-Time, The Tattooist of Auschwitz, The Boy in the Striped Pajamas,
+Snow Flower and the Secret Fan, The Lowland, and two classic picture books (Corduroy, Make Way for
+Ducklings). All seven reached at least one fetch-substance tag, no general-knowledge-estimate
+disclosures needed.
+
+**Status at this checkpoint:** movies 1,807/2,000, TV 502/500 (done), games 507/500 (done), books
+1,653/2,000 (4,469/5,000 total, 89.4%). Remaining work is exclusively movies (~193 more) and books
+(~347 more).
+
 ---
 
 ## Ideas / next steps
@@ -1698,3 +1714,5 @@ Roughly in order of value:
 `test/smoke.js` (Phase 6) is now committed and real — a Playwright suite run against `index.html` (`share.html` retired, see "One file, not two" above): syntax check, onboarding gate paths, all 10 views render, filter/search/slider narrowing, reset, combo-dropdown open/close/select/scroll regressions (checking actual rendered visibility, not just the `hidden` class — see Phase 11's dropdown-fix writeup for why that distinction matters), the GOAT Picker's search-stage-cancel round trip, the cloud-account flow against a mocked Firestore, and a mobile-viewport horizontal-overflow check. Run with `npm test` (needs `playwright-core` and a local Chromium — see README's "Running the regression suite"). It auto-detects a Chromium build via `PLAYWRIGHT_CHROMIUM_PATH` or common install locations, so it isn't hardwired to any one machine.
 
 Ad hoc jsdom checks (data integrity, filter behavior, DOM state after simulated clicks) are still useful for quick iteration and don't need a browser — the old approach (jsdom with `runScripts: 'dangerously'`, stub `Chart`/`requestAnimationFrame`/`URL.createObjectURL`) still works and was used throughout Phase 6 development, just never committed since it's redundant with what `test/smoke.js` now covers end to end.
+
+**Batch 33:** movies 11 (R-rated studio comedies), books 7 (contemporary lit-fiction + picture books). Checkpoint: movies 1,807/2,000, books 1,653/2,000.
