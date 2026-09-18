@@ -2048,8 +2048,10 @@ function renderTimeline(){
 var FAMILY_COLORS={'Sci-Fi':'#67e8f9','Horror':'#f87171','Documentary':'#e2e8f0','Drama':'#cbd5e1','Thriller':'#fbbf24','Mystery / Detective':'#a5b4fc','Crime':'#fb923c','Psychological':'#c084fc','Action / Adventure':'#fb7185','Epic / Historical':'#fcd34d','Fantasy':'#818cf8','Western':'#d97706','Comedy / Satire':'#fde047','Anime / Animated':'#f0abfc','RPG':'#a78bfa','Open World / Survival':'#4ade80','Puzzle / Systems':'#34d399','Romance':'#f472b6','Superhero':'#38bdf8','War':'#a3a3a3','Physics & Cosmology':'#22d3ee','Philosophy & Ideas':'#c4b5fd','Science & Nature':'#86efac','Biography & History':'#a3e635','Literary & Poetry':'#93c5fd','Platformer':'#fb7185','Strategy & Tactics':'#f59e0b','Sports & Music':'#2dd4bf'};
 function renderFamilyLens(){
  var el=$('#familyLens');if(!el)return;
+ var ps=state.portraitScope||'all';
+ var pool=ps==='all'?ALL:ALL.filter(function(x){return x.kind===ps;});
  var rows=GENRE_FAMILIES.map(function(f){
-  var name=f[0];var members=ALL.filter(function(x){return x.fam.includes(name);});
+  var name=f[0];var members=pool.filter(function(x){return x.fam.includes(name);});
   if(!members.length)return null;
   var owned=members.filter(function(x){return x.owned;}).length;
   var topGm=Math.max.apply(null,members.map(function(x){return x.gm;}));
@@ -2123,8 +2125,13 @@ function renderPortrait(){
  let decEntries=Object.keys(dd).sort().map(d=>[d,dd[d]]);
  if(preCount)decEntries=[['Pre-1900',preCount]].concat(decEntries);
  $('#portraitDecades').innerHTML=barList(decEntries,'#fbbf24')||'<div class="text-slate-500 text-[12px]">\u2014</div>';
- // --- blind spots (its own, independent medium filter -- deliberately not tied to portraitScope,
- // since "what am I missing in X" is a different question from "show me my Y stats") ---
+ // --- vibe center of gravity + physical-format breakdown (both scoped like the stats above) ---
+ renderVibeGravity();
+ renderFormatBreakdown();
+ // --- franchises you're close to completing (own 2+, missing a handful) ---
+ renderSeriesNearComplete();
+ // --- blind spots (each has its own, independent medium filter -- deliberately not tied to
+ // portraitScope, since "what am I missing in X" is a different question from "show me my Y stats") ---
  renderPortraitGaps();
  renderCreatorBlindSpots();
 }
@@ -2134,12 +2141,14 @@ function renderPortrait(){
 // Collection tab's "creators you collect with more to get" gap finder, which only ever looks at
 // creators you already own 2+ works from.
 function creatorBlindSpots(){
+ var cf=state.creatorGapFilter||'all';
+ var scopeAll=cf==='all'?ALL:ALL.filter(function(x){return x.kind===cf;});
  var ownedCreators={};
- ALL.filter(function(x){return x.owned;}).forEach(function(x){
+ scopeAll.filter(function(x){return x.owned;}).forEach(function(x){
   (x.creator||'').split(/,| and | & /).forEach(function(cr){cr=cr.trim();if(cr)ownedCreators[cr]=true;});
  });
  var byCreator={};
- ALL.forEach(function(x){
+ scopeAll.forEach(function(x){
   if(!x.creator)return;
   x.creator.split(/,| and | & /).forEach(function(cr){
    cr=cr.trim();if(cr.length<3||ownedCreators[cr])return;
@@ -2443,6 +2452,54 @@ const SERIES_DEFS=[
 const SERIES_BY_TITLE=new Map();
 SERIES_DEFS.forEach(function(d){d.members.forEach(function(t){SERIES_BY_TITLE.set(d.kind+'|'+t,d.name);});});
 function franchiseOf(it){return SERIES_BY_TITLE.get(it.kind+'|'+it.title);}
+// Taste Portrait's "almost there" franchise panel -- a lightweight read of the same SERIES_DEFS
+// data the Collection tab's full series browser uses, but narrowed to franchises you're 2+ deep
+// into and just a few titles from completing, since that's the insight worth surfacing here (the
+// Collection tab remains the place to browse every series you own any of).
+function seriesNearComplete(){
+ var byKindTitle=new Map(ALL.map(function(x){return [x.kind+'|'+x.title,x];}));
+ return SERIES_DEFS.map(function(def){
+  var members=def.members.map(function(t){return byKindTitle.get(def.kind+'|'+t);}).filter(Boolean);
+  var owned=members.filter(function(x){return x.owned;});
+  var missing=members.filter(function(x){return !x.owned;});
+  return {def:def,ownedN:owned.length,missing:missing,complete:owned.length>=def.total};
+ }).filter(function(r){return r.ownedN>=2&&!r.complete&&r.missing.length&&r.missing.length<=3;})
+  .sort(function(a,b){return (b.ownedN/b.def.total)-(a.ownedN/a.def.total)||a.def.name.localeCompare(b.def.name);})
+  .slice(0,9);
+}
+function renderSeriesNearComplete(){
+ var el=$('#portraitSeries');if(!el)return;
+ var rows=seriesNearComplete();
+ el.innerHTML=rows.map(function(r){var k=KM[r.def.kind];
+  var next=r.missing.slice().sort(function(a,b){return (a.year||0)-(b.year||0);})[0];
+  return '<div class="panel p-2.5 goatJump cursor-pointer" data-q="'+esc(next.title)+'" title="Open '+esc(next.title)+' in the Global Controller"><div class="flex items-center gap-2"><span class="w-1.5 h-1.5 rounded-full shrink-0" style="background:'+k.c+'"></span>'
+   +'<span class="flex-1 min-w-0 truncate text-[12px] font-semibold text-slate-200">'+esc(r.def.name)+'</span>'
+   +'<span class="text-[11px] font-bold tabular-nums" style="color:'+k.c+'">'+r.ownedN+'/'+r.def.total+'</span></div>'
+   +'<div class="text-[10px] text-slate-500 mt-1 ml-3.5 truncate">'+esc(k.label)+' · next up: '+esc(next.title)+(r.missing.length>1?' · '+(r.missing.length-1)+' more after that':'')+'</div></div>';
+ }).join('')||'<div class="text-slate-500 text-[12px]">No franchises close to complete right now.</div>';
+}
+// "How you own it" -- physFormat is already tracked per owned movie/TV/book (games are digital-only
+// and carry no physFormat), so this is a pure readout of existing data, scoped like the other
+// portraitScope-aware panels.
+function renderFormatBreakdown(){
+ var el=$('#portraitFormats');if(!el)return;
+ var ps=state.portraitScope||'all';
+ var scoped=ALL.filter(function(x){return x.owned&&x.physFormat&&(ps==='all'||x.kind===ps);});
+ var fc={};scoped.forEach(function(x){fc[x.physFormat]=(fc[x.physFormat]||0)+1;});
+ var entries=Object.entries(fc).sort(function(a,b){return b[1]-a[1];});
+ el.innerHTML=barList(entries,'#38bdf8')||'<div class="text-slate-500 text-[12px]">'+(ps==='game'?'Games are digital — no physical formats to show.':'—')+'</div>';
+}
+// Vibe center of gravity -- the mood/vibe counterpart to the existing genre center of gravity
+// panel, using it.vibe which every item already carries.
+function renderVibeGravity(){
+ var el=$('#portraitVibes');if(!el)return;
+ var ps=state.portraitScope||'all';
+ var owned=ALL.filter(function(x){return x.owned;});
+ var scoped=ps==='all'?owned:owned.filter(function(x){return x.kind===ps;});
+ var vc={};scoped.forEach(function(x){if(x.vibe)vc[x.vibe]=(vc[x.vibe]||0)+1;});
+ var entries=Object.entries(vc).sort(function(a,b){return b[1]-a[1];}).slice(0,10);
+ el.innerHTML=barList(entries,'#f0abfc')||'<div class="text-slate-500 text-[12px]">—</div>';
+}
 function formatRank(fmt){
  if(!fmt)return 0;var f=fmt.toLowerCase();
  if(f.indexOf('4k')>=0||f.indexOf('uhd')>=0)return 4;
@@ -3424,6 +3481,7 @@ on('#upgradeToggle','click',()=>{state.collUpgrade=!state.collUpgrade;const on=s
 on('#exportBtn','click',()=>{try{const owned=ALL.filter(x=>x.owned).map(x=>({id:x.id,title:x.title,kind:x.kind,format:x.physFormat}));const wl=(typeof WL!=='undefined')?Object.keys(WL):[];const wlItems=wl.map(id=>{const x=byId.get(id);return x?{id:id,title:x.title,kind:x.kind}:{id:id};});const data={exported:new Date().toISOString(),app:'Omni-Media Ledger',totals:{works:ALL.length,owned:owned.length,watchlist:wl.length},watchlist:wlItems,ownedCollection:owned};const blob=new Blob([JSON.stringify(data,null,2)],{type:'application/json'});const url=URL.createObjectURL(blob);const a=document.createElement('a');a.href=url;a.download='omni-ledger-backup-'+new Date().toISOString().slice(0,10)+'.json';document.body.appendChild(a);a.click();document.body.removeChild(a);setTimeout(()=>URL.revokeObjectURL(url),1000);const btn=$('#exportBtn');const t=btn.textContent;btn.textContent='✓ Downloaded';setTimeout(()=>{btn.textContent=t;},1800);}catch(err){const btn=$('#exportBtn');btn.textContent='Export failed';setTimeout(()=>{btn.textContent='⬇ Export / Backup';},1800);}});
 on('#familyLens','click',e=>{var b=e.target.closest('.familyTile');if(b)focusFamily(b.dataset.fam);});
 on('#gapSeg','click',e=>{const b=e.target.closest('button');if(!b)return;state.gapFilter=b.dataset.gap;$$('#gapSeg button').forEach(x=>x.classList.toggle('on',x===b));renderPortraitGaps();});
+on('#creatorGapSeg','click',e=>{const b=e.target.closest('button');if(!b)return;state.creatorGapFilter=b.dataset.cgap;$$('#creatorGapSeg button').forEach(x=>x.classList.toggle('on',x===b));renderCreatorBlindSpots();});
 on('#portraitScopeSeg','click',e=>{const b=e.target.closest('button');if(!b)return;state.portraitScope=b.dataset.ps;$$('#portraitScopeSeg button').forEach(x=>x.classList.toggle('on',x===b));renderPortrait();scheduleURLSync();});
 on('#tlScope','click',e=>{const b=e.target.closest('button');if(!b)return;tlScope=b.dataset.t;$$('#tlScope button').forEach(x=>x.classList.toggle('on',x===b));renderTimeline();});
 on('#tlMedium','click',e=>{const b=e.target.closest('button');if(!b)return;tlMedium=b.dataset.tm;$$('#tlMedium button').forEach(x=>x.classList.toggle('on',x===b));renderTimeline();scheduleURLSync();});
