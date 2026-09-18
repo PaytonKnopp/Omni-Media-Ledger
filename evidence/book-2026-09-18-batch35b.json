@@ -1,0 +1,917 @@
+{
+ "medium": "book",
+ "generated": "2026-09-18T03:16:10.696Z",
+ "offline": false,
+ "sources": [
+  "OpenLibrary",
+  "Google Books",
+  "Wikidata"
+ ],
+ "works": [
+  {
+   "id": "b1674",
+   "title": "Hard Times",
+   "sourcesReached": [
+    "OpenLibrary"
+   ],
+   "sourcesMissed": [
+    "Google Books (no match)",
+    "Wikidata (no match)"
+   ],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "first publication year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 1854,
+     "proposed": 1854,
+     "status": "confirmed",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "OpenLibrary",
+       "value": 1854,
+       "url": "https://openlibrary.org/search.json?title=Hard+Times&limit=1"
+      }
+     ]
+    },
+    {
+     "field": "pages",
+     "label": "page count",
+     "soft": false,
+     "current": 288,
+     "status": "no-source",
+     "grade": null,
+     "sources": []
+    },
+    {
+     "field": "creator",
+     "label": "author",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Charles Dickens",
+     "proposed": "Charles Dickens",
+     "status": "confirmed",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "OpenLibrary",
+       "value": "Charles Dickens",
+       "url": "https://openlibrary.org/search.json?title=Hard+Times&limit=1"
+      }
+     ]
+    },
+    {
+     "field": "publisher",
+     "label": "publisher",
+     "soft": true,
+     "current": "Bradbury & Evans",
+     "status": "no-source",
+     "grade": null,
+     "sources": []
+    }
+   ]
+  },
+  {
+   "id": "b1675",
+   "title": "The History of Tom Jones, a Foundling",
+   "sourcesReached": [
+    "OpenLibrary",
+    "Google Books",
+    "Wikidata"
+   ],
+   "sourcesMissed": [],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "first publication year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 1749,
+     "proposed": 1749,
+     "status": "corroborated-by-one",
+     "grade": "B",
+     "note": "matches Wikidata; disagrees with OpenLibrary (1943), Google Books (1878)",
+     "sources": [
+      {
+       "src": "OpenLibrary",
+       "value": 1943,
+       "url": "https://openlibrary.org/search.json?title=The+History+of+Tom+Jones%2C+a+Foundling&limit=1"
+      },
+      {
+       "src": "Google Books",
+       "value": 1878,
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3AThe+History+of+Tom+Jones%2C+a+Foundling&maxResults=1&key=REDACTED"
+      },
+      {
+       "src": "Wikidata",
+       "value": 1749,
+       "url": "https://www.wikidata.org/wiki/Q248096"
+      }
+     ],
+     "alternatives": [
+      1878,
+      1749
+     ]
+    },
+    {
+     "field": "pages",
+     "label": "page count",
+     "soft": false,
+     "current": 900,
+     "status": "no-source",
+     "grade": null,
+     "sources": []
+    },
+    {
+     "field": "creator",
+     "label": "author",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Henry Fielding",
+     "proposed": "Henry Fielding",
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OpenLibrary",
+       "value": "Henry Fielding",
+       "url": "https://openlibrary.org/search.json?title=The+History+of+Tom+Jones%2C+a+Foundling&limit=1"
+      },
+      {
+       "src": "Google Books",
+       "value": "Henry Fielding",
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3AThe+History+of+Tom+Jones%2C+a+Foundling&maxResults=1&key=REDACTED"
+      },
+      {
+       "src": "Wikidata",
+       "value": "Henry Fielding",
+       "url": "https://www.wikidata.org/wiki/Q248096"
+      }
+     ]
+    },
+    {
+     "field": "publisher",
+     "label": "publisher",
+     "soft": true,
+     "editionDependent": true,
+     "current": "Andrew Millar",
+     "proposed": "Andrew Millar",
+     "status": "confirmed",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "Wikidata",
+       "value": "Andrew Millar",
+       "url": "https://www.wikidata.org/wiki/Q248096"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "b1676",
+   "title": "Moll Flanders",
+   "sourcesReached": [
+    "OpenLibrary",
+    "Google Books",
+    "Wikidata"
+   ],
+   "sourcesMissed": [],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "first publication year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 1722,
+     "proposed": 1722,
+     "status": "corroborated-by-one",
+     "grade": "B",
+     "note": "matches OpenLibrary/Wikidata; disagrees with Google Books (2020)",
+     "sources": [
+      {
+       "src": "OpenLibrary",
+       "value": 1722,
+       "url": "https://openlibrary.org/search.json?title=Moll+Flanders&limit=1"
+      },
+      {
+       "src": "Google Books",
+       "value": 2020,
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3AMoll+Flanders&maxResults=1&key=REDACTED"
+      },
+      {
+       "src": "Wikidata",
+       "value": 1722,
+       "url": "https://www.wikidata.org/wiki/Q612523"
+      }
+     ],
+     "alternatives": [
+      2020
+     ]
+    },
+    {
+     "field": "pages",
+     "label": "page count",
+     "soft": false,
+     "editionDependent": true,
+     "current": 336,
+     "proposed": 414,
+     "status": "edition-dependent",
+     "grade": "B",
+     "note": "one source differs from the corpus (Google Books 414) on a field with no single true value -- likely a different printing/edition, not an error.",
+     "sources": [
+      {
+       "src": "Google Books",
+       "value": 414,
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3AMoll+Flanders&maxResults=1&key=REDACTED"
+      }
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "author",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Daniel Defoe",
+     "proposed": "Daniel Defoe",
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OpenLibrary",
+       "value": "Daniel Defoe",
+       "url": "https://openlibrary.org/search.json?title=Moll+Flanders&limit=1"
+      },
+      {
+       "src": "Google Books",
+       "value": "Daniel Defoe",
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3AMoll+Flanders&maxResults=1&key=REDACTED"
+      },
+      {
+       "src": "Wikidata",
+       "value": "Daniel Defoe",
+       "url": "https://www.wikidata.org/wiki/Q612523"
+      }
+     ]
+    },
+    {
+     "field": "publisher",
+     "label": "publisher",
+     "soft": true,
+     "editionDependent": true,
+     "current": "William Chetwood",
+     "proposed": "William Rufus Chetwood",
+     "status": "edition-dependent",
+     "grade": "B",
+     "note": "one source differs from the corpus (Wikidata \"William Rufus Chetwood\") on a field with no single true value -- likely a different printing/edition, not an error.",
+     "sources": [
+      {
+       "src": "Wikidata",
+       "value": "William Rufus Chetwood",
+       "url": "https://www.wikidata.org/wiki/Q612523"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "b1677",
+   "title": "The Woodlanders",
+   "sourcesReached": [
+    "OpenLibrary",
+    "Google Books",
+    "Wikidata"
+   ],
+   "sourcesMissed": [],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "first publication year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 1887,
+     "proposed": 1887,
+     "status": "corroborated-by-one",
+     "grade": "B",
+     "note": "matches Wikidata; disagrees with OpenLibrary (1800), Google Books (2018)",
+     "sources": [
+      {
+       "src": "OpenLibrary",
+       "value": 1800,
+       "url": "https://openlibrary.org/search.json?title=The+Woodlanders&limit=1"
+      },
+      {
+       "src": "Google Books",
+       "value": 2018,
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3AThe+Woodlanders&maxResults=1&key=REDACTED"
+      },
+      {
+       "src": "Wikidata",
+       "value": 1887,
+       "url": "https://www.wikidata.org/wiki/Q2254480"
+      }
+     ],
+     "alternatives": [
+      2018,
+      1887
+     ]
+    },
+    {
+     "field": "pages",
+     "label": "page count",
+     "soft": false,
+     "editionDependent": true,
+     "current": 384,
+     "proposed": 176,
+     "status": "edition-dependent",
+     "grade": "B",
+     "note": "one source differs from the corpus (Google Books 176) on a field with no single true value -- likely a different printing/edition, not an error.",
+     "sources": [
+      {
+       "src": "Google Books",
+       "value": 176,
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3AThe+Woodlanders&maxResults=1&key=REDACTED"
+      }
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "author",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Thomas Hardy",
+     "proposed": "Thomas Hardy",
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OpenLibrary",
+       "value": "Thomas Hardy",
+       "url": "https://openlibrary.org/search.json?title=The+Woodlanders&limit=1"
+      },
+      {
+       "src": "Google Books",
+       "value": "Thomas Hardy",
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3AThe+Woodlanders&maxResults=1&key=REDACTED"
+      },
+      {
+       "src": "Wikidata",
+       "value": "Thomas Hardy",
+       "url": "https://www.wikidata.org/wiki/Q2254480"
+      }
+     ]
+    },
+    {
+     "field": "publisher",
+     "label": "publisher",
+     "soft": true,
+     "editionDependent": true,
+     "current": "Macmillan",
+     "proposed": "Createspace Independent Publishing Platform",
+     "status": "edition-dependent",
+     "grade": "B",
+     "note": "one source differs from the corpus (Google Books \"Createspace Independent Publishing Platform\") on a field with no single true value -- likely a different printing/edition, not an error.",
+     "sources": [
+      {
+       "src": "Google Books",
+       "value": "Createspace Independent Publishing Platform",
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3AThe+Woodlanders&maxResults=1&key=REDACTED"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "b1678",
+   "title": "Under the Greenwood Tree",
+   "sourcesReached": [
+    "OpenLibrary",
+    "Google Books",
+    "Wikidata"
+   ],
+   "sourcesMissed": [],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "first publication year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 1872,
+     "proposed": 1872,
+     "status": "corroborated-by-one",
+     "grade": "B",
+     "note": "matches OpenLibrary/Wikidata; disagrees with Google Books (2013)",
+     "sources": [
+      {
+       "src": "OpenLibrary",
+       "value": 1872,
+       "url": "https://openlibrary.org/search.json?title=Under+the+Greenwood+Tree&limit=1"
+      },
+      {
+       "src": "Google Books",
+       "value": 2013,
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3AUnder+the+Greenwood+Tree&maxResults=1&key=REDACTED"
+      },
+      {
+       "src": "Wikidata",
+       "value": 1872,
+       "url": "https://www.wikidata.org/wiki/Q2251594"
+      }
+     ],
+     "alternatives": [
+      2013
+     ]
+    },
+    {
+     "field": "pages",
+     "label": "page count",
+     "soft": false,
+     "editionDependent": true,
+     "current": 224,
+     "proposed": 333,
+     "status": "edition-dependent",
+     "grade": "B",
+     "note": "one source differs from the corpus (Google Books 333) on a field with no single true value -- likely a different printing/edition, not an error.",
+     "sources": [
+      {
+       "src": "Google Books",
+       "value": 333,
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3AUnder+the+Greenwood+Tree&maxResults=1&key=REDACTED"
+      }
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "author",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Thomas Hardy",
+     "proposed": "Thomas Hardy",
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OpenLibrary",
+       "value": "Thomas Hardy",
+       "url": "https://openlibrary.org/search.json?title=Under+the+Greenwood+Tree&limit=1"
+      },
+      {
+       "src": "Google Books",
+       "value": "Thomas Hardy",
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3AUnder+the+Greenwood+Tree&maxResults=1&key=REDACTED"
+      },
+      {
+       "src": "Wikidata",
+       "value": "Thomas Hardy",
+       "url": "https://www.wikidata.org/wiki/Q2251594"
+      }
+     ]
+    },
+    {
+     "field": "publisher",
+     "label": "publisher",
+     "soft": true,
+     "editionDependent": true,
+     "current": "Tinsley Brothers",
+     "proposed": "OUP Oxford",
+     "status": "edition-dependent",
+     "grade": "B",
+     "note": "corpus value does not match either source (Google Books \"OUP Oxford\", Wikidata \"William Tinsley\") -- treated as a distinct edition; the specific cut is not identified from available evidence.",
+     "sources": [
+      {
+       "src": "Google Books",
+       "value": "OUP Oxford",
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3AUnder+the+Greenwood+Tree&maxResults=1&key=REDACTED"
+      },
+      {
+       "src": "Wikidata",
+       "value": "William Tinsley",
+       "url": "https://www.wikidata.org/wiki/Q2251594"
+      }
+     ],
+     "alternatives": [
+      "William Tinsley"
+     ]
+    }
+   ]
+  },
+  {
+   "id": "b1679",
+   "title": "Daisy Miller",
+   "sourcesReached": [
+    "OpenLibrary",
+    "Google Books",
+    "Wikidata"
+   ],
+   "sourcesMissed": [],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "first publication year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 1878,
+     "proposed": 1877,
+     "status": "sources-disagree",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "OpenLibrary",
+       "value": 1877,
+       "url": "https://openlibrary.org/search.json?title=Daisy+Miller&limit=1"
+      },
+      {
+       "src": "Google Books",
+       "value": 2019,
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3ADaisy+Miller&maxResults=1&key=REDACTED"
+      },
+      {
+       "src": "Wikidata",
+       "value": 1879,
+       "url": "https://www.wikidata.org/wiki/Q574887"
+      }
+     ],
+     "alternatives": [
+      2019,
+      1879
+     ]
+    },
+    {
+     "field": "pages",
+     "label": "page count",
+     "soft": false,
+     "editionDependent": true,
+     "current": 112,
+     "proposed": 60,
+     "status": "edition-dependent",
+     "grade": "B",
+     "note": "one source differs from the corpus (Google Books 60) on a field with no single true value -- likely a different printing/edition, not an error.",
+     "sources": [
+      {
+       "src": "Google Books",
+       "value": 60,
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3ADaisy+Miller&maxResults=1&key=REDACTED"
+      }
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "author",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Henry James",
+     "proposed": "Henry James",
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OpenLibrary",
+       "value": "Henry James",
+       "url": "https://openlibrary.org/search.json?title=Daisy+Miller&limit=1"
+      },
+      {
+       "src": "Google Books",
+       "value": "Henry James",
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3ADaisy+Miller&maxResults=1&key=REDACTED"
+      },
+      {
+       "src": "Wikidata",
+       "value": "Henry James",
+       "url": "https://www.wikidata.org/wiki/Q574887"
+      }
+     ]
+    },
+    {
+     "field": "publisher",
+     "label": "publisher",
+     "soft": true,
+     "editionDependent": true,
+     "current": "Harper & Brothers",
+     "proposed": "Harper",
+     "status": "edition-dependent",
+     "grade": "B",
+     "note": "one source differs from the corpus (Wikidata \"Harper\") on a field with no single true value -- likely a different printing/edition, not an error.",
+     "sources": [
+      {
+       "src": "Wikidata",
+       "value": "Harper",
+       "url": "https://www.wikidata.org/wiki/Q574887"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "b1680",
+   "title": "The Wings of the Dove",
+   "sourcesReached": [
+    "OpenLibrary",
+    "Google Books",
+    "Wikidata"
+   ],
+   "sourcesMissed": [],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "first publication year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 1902,
+     "proposed": 1902,
+     "status": "corroborated-by-one",
+     "grade": "B",
+     "note": "matches OpenLibrary/Wikidata; disagrees with Google Books (1909)",
+     "sources": [
+      {
+       "src": "OpenLibrary",
+       "value": 1902,
+       "url": "https://openlibrary.org/search.json?title=The+Wings+of+the+Dove&limit=1"
+      },
+      {
+       "src": "Google Books",
+       "value": 1909,
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3AThe+Wings+of+the+Dove&maxResults=1&key=REDACTED"
+      },
+      {
+       "src": "Wikidata",
+       "value": 1902,
+       "url": "https://www.wikidata.org/wiki/Q1557588"
+      }
+     ],
+     "alternatives": [
+      1909
+     ]
+    },
+    {
+     "field": "pages",
+     "label": "page count",
+     "soft": false,
+     "editionDependent": true,
+     "current": 576,
+     "proposed": 805,
+     "status": "edition-dependent",
+     "grade": "B",
+     "note": "one source differs from the corpus (Google Books 805) on a field with no single true value -- likely a different printing/edition, not an error.",
+     "sources": [
+      {
+       "src": "Google Books",
+       "value": 805,
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3AThe+Wings+of+the+Dove&maxResults=1&key=REDACTED"
+      }
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "author",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Henry James",
+     "proposed": "Henry James",
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OpenLibrary",
+       "value": "Henry James",
+       "url": "https://openlibrary.org/search.json?title=The+Wings+of+the+Dove&limit=1"
+      },
+      {
+       "src": "Google Books",
+       "value": "Henry James",
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3AThe+Wings+of+the+Dove&maxResults=1&key=REDACTED"
+      },
+      {
+       "src": "Wikidata",
+       "value": "Henry James",
+       "url": "https://www.wikidata.org/wiki/Q1557588"
+      }
+     ]
+    },
+    {
+     "field": "publisher",
+     "label": "publisher",
+     "soft": true,
+     "editionDependent": true,
+     "current": "Archibald Constable and Company",
+     "proposed": "LA CASE Books",
+     "status": "edition-dependent",
+     "grade": "B",
+     "note": "one source differs from the corpus (Google Books \"LA CASE Books\") on a field with no single true value -- likely a different printing/edition, not an error.",
+     "sources": [
+      {
+       "src": "Google Books",
+       "value": "LA CASE Books",
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3AThe+Wings+of+the+Dove&maxResults=1&key=REDACTED"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "b1681",
+   "title": "The Ambassadors",
+   "sourcesReached": [
+    "OpenLibrary",
+    "Google Books",
+    "Wikidata"
+   ],
+   "sourcesMissed": [],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "first publication year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 1903,
+     "proposed": 1903,
+     "status": "corroborated-by-one",
+     "grade": "B",
+     "note": "matches OpenLibrary/Wikidata; disagrees with Google Books (2023)",
+     "sources": [
+      {
+       "src": "OpenLibrary",
+       "value": 1903,
+       "url": "https://openlibrary.org/search.json?title=The+Ambassadors&limit=1"
+      },
+      {
+       "src": "Google Books",
+       "value": 2023,
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3AThe+Ambassadors&maxResults=1&key=REDACTED"
+      },
+      {
+       "src": "Wikidata",
+       "value": 1903,
+       "url": "https://www.wikidata.org/wiki/Q650571"
+      }
+     ],
+     "alternatives": [
+      2023
+     ]
+    },
+    {
+     "field": "pages",
+     "label": "page count",
+     "soft": false,
+     "editionDependent": true,
+     "current": 448,
+     "proposed": 578,
+     "status": "edition-dependent",
+     "grade": "B",
+     "note": "one source differs from the corpus (Google Books 578) on a field with no single true value -- likely a different printing/edition, not an error.",
+     "sources": [
+      {
+       "src": "Google Books",
+       "value": 578,
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3AThe+Ambassadors&maxResults=1&key=REDACTED"
+      }
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "author",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Henry James",
+     "proposed": "Henry James",
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OpenLibrary",
+       "value": "Henry James",
+       "url": "https://openlibrary.org/search.json?title=The+Ambassadors&limit=1"
+      },
+      {
+       "src": "Google Books",
+       "value": "Henry James",
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3AThe+Ambassadors&maxResults=1&key=REDACTED"
+      },
+      {
+       "src": "Wikidata",
+       "value": "Henry James",
+       "url": "https://www.wikidata.org/wiki/Q650571"
+      }
+     ]
+    },
+    {
+     "field": "publisher",
+     "label": "publisher",
+     "soft": true,
+     "editionDependent": true,
+     "current": "Methuen & Co.",
+     "proposed": "BoD - Books on Demand",
+     "status": "edition-dependent",
+     "grade": "B",
+     "note": "one source differs from the corpus (Google Books \"BoD - Books on Demand\") on a field with no single true value -- likely a different printing/edition, not an error.",
+     "sources": [
+      {
+       "src": "Google Books",
+       "value": "BoD - Books on Demand",
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3AThe+Ambassadors&maxResults=1&key=REDACTED"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "b1682",
+   "title": "The Custom of the Country",
+   "sourcesReached": [
+    "OpenLibrary",
+    "Google Books",
+    "Wikidata"
+   ],
+   "sourcesMissed": [],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "first publication year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 1913,
+     "proposed": 1913,
+     "status": "corroborated-by-one",
+     "grade": "B",
+     "note": "matches Wikidata; disagrees with OpenLibrary (1900), Google Books (2021)",
+     "sources": [
+      {
+       "src": "OpenLibrary",
+       "value": 1900,
+       "url": "https://openlibrary.org/search.json?title=The+Custom+of+the+Country&limit=1"
+      },
+      {
+       "src": "Google Books",
+       "value": 2021,
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3AThe+Custom+of+the+Country&maxResults=1&key=REDACTED"
+      },
+      {
+       "src": "Wikidata",
+       "value": 1913,
+       "url": "https://www.wikidata.org/wiki/Q7728505"
+      }
+     ],
+     "alternatives": [
+      2021,
+      1913
+     ]
+    },
+    {
+     "field": "pages",
+     "label": "page count",
+     "soft": false,
+     "editionDependent": true,
+     "current": 594,
+     "proposed": 364,
+     "status": "edition-dependent",
+     "grade": "B",
+     "note": "one source differs from the corpus (Google Books 364) on a field with no single true value -- likely a different printing/edition, not an error.",
+     "sources": [
+      {
+       "src": "Google Books",
+       "value": 364,
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3AThe+Custom+of+the+Country&maxResults=1&key=REDACTED"
+      }
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "author",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Edith Wharton",
+     "proposed": "Edith Wharton",
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OpenLibrary",
+       "value": "Edith Wharton",
+       "url": "https://openlibrary.org/search.json?title=The+Custom+of+the+Country&limit=1"
+      },
+      {
+       "src": "Google Books",
+       "value": "Edith Wharton",
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3AThe+Custom+of+the+Country&maxResults=1&key=REDACTED"
+      },
+      {
+       "src": "Wikidata",
+       "value": "Edith Wharton",
+       "url": "https://www.wikidata.org/wiki/Q7728505"
+      }
+     ]
+    },
+    {
+     "field": "publisher",
+     "label": "publisher",
+     "soft": true,
+     "current": "Charles Scribner's Sons",
+     "status": "no-source",
+     "grade": null,
+     "sources": []
+    }
+   ]
+  }
+ ]
+}

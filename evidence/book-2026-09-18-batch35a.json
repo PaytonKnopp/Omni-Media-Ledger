@@ -1,0 +1,1112 @@
+{
+ "medium": "book",
+ "generated": "2026-09-18T03:15:22.164Z",
+ "offline": false,
+ "sources": [
+  "OpenLibrary",
+  "Google Books",
+  "Wikidata"
+ ],
+ "works": [
+  {
+   "id": "b1664",
+   "title": "The Strange Case of Dr. Jekyll and Mr. Hyde",
+   "sourcesReached": [
+    "OpenLibrary",
+    "Google Books",
+    "Wikidata"
+   ],
+   "sourcesMissed": [],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "first publication year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 1886,
+     "proposed": 1886,
+     "status": "corroborated-by-one",
+     "grade": "B",
+     "note": "matches Wikidata; disagrees with OpenLibrary (1875), Google Books (1979)",
+     "sources": [
+      {
+       "src": "OpenLibrary",
+       "value": 1875,
+       "url": "https://openlibrary.org/search.json?title=The+Strange+Case+of+Dr.+Jekyll+and+Mr.+Hyde&limit=1"
+      },
+      {
+       "src": "Google Books",
+       "value": 1979,
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3AThe+Strange+Case+of+Dr.+Jekyll+and+Mr.+Hyde&maxResults=1&key=REDACTED"
+      },
+      {
+       "src": "Wikidata",
+       "value": 1886,
+       "url": "https://www.wikidata.org/wiki/Q217352"
+      }
+     ],
+     "alternatives": [
+      1979,
+      1886
+     ]
+    },
+    {
+     "field": "pages",
+     "label": "page count",
+     "soft": false,
+     "editionDependent": true,
+     "current": 141,
+     "proposed": 308,
+     "status": "edition-dependent",
+     "grade": "B",
+     "note": "one source differs from the corpus (Google Books 308) on a field with no single true value -- likely a different printing/edition, not an error.",
+     "sources": [
+      {
+       "src": "Google Books",
+       "value": 308,
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3AThe+Strange+Case+of+Dr.+Jekyll+and+Mr.+Hyde&maxResults=1&key=REDACTED"
+      }
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "author",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Robert Louis Stevenson",
+     "proposed": "Robert Louis Stevenson",
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OpenLibrary",
+       "value": "Robert Louis Stevenson",
+       "url": "https://openlibrary.org/search.json?title=The+Strange+Case+of+Dr.+Jekyll+and+Mr.+Hyde&limit=1"
+      },
+      {
+       "src": "Google Books",
+       "value": "Robert Louis Stevenson",
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3AThe+Strange+Case+of+Dr.+Jekyll+and+Mr.+Hyde&maxResults=1&key=REDACTED"
+      },
+      {
+       "src": "Wikidata",
+       "value": "Robert Louis Stevenson",
+       "url": "https://www.wikidata.org/wiki/Q217352"
+      }
+     ]
+    },
+    {
+     "field": "publisher",
+     "label": "publisher",
+     "soft": true,
+     "editionDependent": true,
+     "current": "Longmans, Green & Co.",
+     "proposed": "Penguin Classics",
+     "status": "edition-dependent",
+     "grade": "B",
+     "note": "one source differs from the corpus (Google Books \"Penguin Classics\") on a field with no single true value -- likely a different printing/edition, not an error.",
+     "sources": [
+      {
+       "src": "Google Books",
+       "value": "Penguin Classics",
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3AThe+Strange+Case+of+Dr.+Jekyll+and+Mr.+Hyde&maxResults=1&key=REDACTED"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "b1665",
+   "title": "The Beautiful and Damned",
+   "sourcesReached": [
+    "OpenLibrary",
+    "Google Books",
+    "Wikidata"
+   ],
+   "sourcesMissed": [],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "first publication year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 1922,
+     "proposed": 1922,
+     "status": "corroborated-by-one",
+     "grade": "B",
+     "note": "matches Wikidata; disagrees with OpenLibrary (1920), Google Books (1990)",
+     "sources": [
+      {
+       "src": "OpenLibrary",
+       "value": 1920,
+       "url": "https://openlibrary.org/search.json?title=The+Beautiful+and+Damned&limit=1"
+      },
+      {
+       "src": "Google Books",
+       "value": 1990,
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3AThe+Beautiful+and+Damned&maxResults=1&key=REDACTED"
+      },
+      {
+       "src": "Wikidata",
+       "value": 1922,
+       "url": "https://www.wikidata.org/wiki/Q2531205"
+      }
+     ],
+     "alternatives": [
+      1990,
+      1922
+     ]
+    },
+    {
+     "field": "pages",
+     "label": "page count",
+     "soft": false,
+     "editionDependent": true,
+     "current": 449,
+     "proposed": 400,
+     "status": "edition-dependent",
+     "grade": "B",
+     "note": "one source differs from the corpus (Google Books 400) on a field with no single true value -- likely a different printing/edition, not an error.",
+     "sources": [
+      {
+       "src": "Google Books",
+       "value": 400,
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3AThe+Beautiful+and+Damned&maxResults=1&key=REDACTED"
+      }
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "author",
+     "soft": false,
+     "editionDependent": false,
+     "current": "F. Scott Fitzgerald",
+     "proposed": "F. Scott Fitzgerald",
+     "status": "corroborated-by-one",
+     "grade": "B",
+     "note": "matches OpenLibrary/Wikidata; disagrees with Google Books (\"Francis Scott Fitzgerald\")",
+     "sources": [
+      {
+       "src": "OpenLibrary",
+       "value": "F. Scott Fitzgerald",
+       "url": "https://openlibrary.org/search.json?title=The+Beautiful+and+Damned&limit=1"
+      },
+      {
+       "src": "Google Books",
+       "value": "Francis Scott Fitzgerald",
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3AThe+Beautiful+and+Damned&maxResults=1&key=REDACTED"
+      },
+      {
+       "src": "Wikidata",
+       "value": "F. Scott Fitzgerald",
+       "url": "https://www.wikidata.org/wiki/Q2531205"
+      }
+     ],
+     "alternatives": [
+      "Francis Scott Fitzgerald"
+     ]
+    },
+    {
+     "field": "publisher",
+     "label": "publisher",
+     "soft": true,
+     "editionDependent": true,
+     "current": "Charles Scribner's Sons",
+     "proposed": "Charles Scribner's Sons",
+     "status": "corroborated-by-one",
+     "grade": "B",
+     "note": "matches Wikidata; disagrees with Google Books (\"Facsimiles-Garl\")",
+     "sources": [
+      {
+       "src": "Google Books",
+       "value": "Facsimiles-Garl",
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3AThe+Beautiful+and+Damned&maxResults=1&key=REDACTED"
+      },
+      {
+       "src": "Wikidata",
+       "value": "Charles Scribner's Sons",
+       "url": "https://www.wikidata.org/wiki/Q2531205"
+      }
+     ],
+     "alternatives": [
+      "Charles Scribner's Sons"
+     ]
+    }
+   ]
+  },
+  {
+   "id": "b1666",
+   "title": "Franny and Zooey",
+   "sourcesReached": [
+    "OpenLibrary",
+    "Google Books",
+    "Wikidata"
+   ],
+   "sourcesMissed": [],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "first publication year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 1961,
+     "proposed": 1961,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OpenLibrary",
+       "value": 1961,
+       "url": "https://openlibrary.org/search.json?title=Franny+and+Zooey&limit=1"
+      },
+      {
+       "src": "Google Books",
+       "value": 1961,
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3AFranny+and+Zooey&maxResults=1&key=REDACTED"
+      },
+      {
+       "src": "Wikidata",
+       "value": 1961,
+       "url": "https://www.wikidata.org/wiki/Q1445395"
+      }
+     ]
+    },
+    {
+     "field": "pages",
+     "label": "page count",
+     "soft": false,
+     "editionDependent": true,
+     "current": 201,
+     "proposed": 201,
+     "status": "confirmed",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "Google Books",
+       "value": 201,
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3AFranny+and+Zooey&maxResults=1&key=REDACTED"
+      }
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "author",
+     "soft": false,
+     "editionDependent": false,
+     "current": "J. D. Salinger",
+     "proposed": "J. D. Salinger",
+     "status": "corroborated-by-one",
+     "grade": "B",
+     "note": "matches OpenLibrary/Wikidata; disagrees with Google Books (\"Jerome David Salinger\")",
+     "sources": [
+      {
+       "src": "OpenLibrary",
+       "value": "J. D. Salinger",
+       "url": "https://openlibrary.org/search.json?title=Franny+and+Zooey&limit=1"
+      },
+      {
+       "src": "Google Books",
+       "value": "Jerome David Salinger",
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3AFranny+and+Zooey&maxResults=1&key=REDACTED"
+      },
+      {
+       "src": "Wikidata",
+       "value": "J. D. Salinger",
+       "url": "https://www.wikidata.org/wiki/Q1445395"
+      }
+     ],
+     "alternatives": [
+      "Jerome David Salinger"
+     ]
+    },
+    {
+     "field": "publisher",
+     "label": "publisher",
+     "soft": true,
+     "current": "Little, Brown",
+     "status": "no-source",
+     "grade": null,
+     "sources": []
+    }
+   ]
+  },
+  {
+   "id": "b1667",
+   "title": "Nicholas Nickleby",
+   "sourcesReached": [
+    "OpenLibrary",
+    "Google Books",
+    "Wikidata"
+   ],
+   "sourcesMissed": [],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "first publication year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 1839,
+     "proposed": 1839,
+     "status": "corroborated-by-one",
+     "grade": "B",
+     "note": "matches Wikidata; disagrees with OpenLibrary (1800), Google Books (2013)",
+     "sources": [
+      {
+       "src": "OpenLibrary",
+       "value": 1800,
+       "url": "https://openlibrary.org/search.json?title=Nicholas+Nickleby&limit=1"
+      },
+      {
+       "src": "Google Books",
+       "value": 2013,
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3ANicholas+Nickleby&maxResults=1&key=REDACTED"
+      },
+      {
+       "src": "Wikidata",
+       "value": 1839,
+       "url": "https://www.wikidata.org/wiki/Q847642"
+      }
+     ],
+     "alternatives": [
+      2013,
+      1839
+     ]
+    },
+    {
+     "field": "pages",
+     "label": "page count",
+     "soft": false,
+     "editionDependent": true,
+     "current": 624,
+     "proposed": 940,
+     "status": "edition-dependent",
+     "grade": "B",
+     "note": "one source differs from the corpus (Google Books 940) on a field with no single true value -- likely a different printing/edition, not an error.",
+     "sources": [
+      {
+       "src": "Google Books",
+       "value": 940,
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3ANicholas+Nickleby&maxResults=1&key=REDACTED"
+      }
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "author",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Charles Dickens",
+     "proposed": "Charles Dickens",
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OpenLibrary",
+       "value": "Charles Dickens",
+       "url": "https://openlibrary.org/search.json?title=Nicholas+Nickleby&limit=1"
+      },
+      {
+       "src": "Google Books",
+       "value": "Charles Dickens",
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3ANicholas+Nickleby&maxResults=1&key=REDACTED"
+      },
+      {
+       "src": "Wikidata",
+       "value": "Charles Dickens",
+       "url": "https://www.wikidata.org/wiki/Q847642"
+      }
+     ]
+    },
+    {
+     "field": "publisher",
+     "label": "publisher",
+     "soft": true,
+     "editionDependent": true,
+     "current": "Chapman & Hall",
+     "proposed": "Random House",
+     "status": "edition-dependent",
+     "grade": "B",
+     "note": "corpus value does not match either source (Google Books \"Random House\", Wikidata \"Chapman and Hall\") -- treated as a distinct edition; the specific cut is not identified from available evidence.",
+     "sources": [
+      {
+       "src": "Google Books",
+       "value": "Random House",
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3ANicholas+Nickleby&maxResults=1&key=REDACTED"
+      },
+      {
+       "src": "Wikidata",
+       "value": "Chapman and Hall",
+       "url": "https://www.wikidata.org/wiki/Q847642"
+      }
+     ],
+     "alternatives": [
+      "Chapman and Hall"
+     ]
+    }
+   ]
+  },
+  {
+   "id": "b1668",
+   "title": "Dombey and Son",
+   "sourcesReached": [
+    "OpenLibrary",
+    "Google Books",
+    "Wikidata"
+   ],
+   "sourcesMissed": [],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "first publication year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 1848,
+     "proposed": 1848,
+     "status": "corroborated-by-one",
+     "grade": "B",
+     "note": "matches Wikidata; disagrees with OpenLibrary (1800), Google Books (2016)",
+     "sources": [
+      {
+       "src": "OpenLibrary",
+       "value": 1800,
+       "url": "https://openlibrary.org/search.json?title=Dombey+and+Son&limit=1"
+      },
+      {
+       "src": "Google Books",
+       "value": 2016,
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3ADombey+and+Son&maxResults=1&key=REDACTED"
+      },
+      {
+       "src": "Wikidata",
+       "value": 1848,
+       "url": "https://www.wikidata.org/wiki/Q963659"
+      }
+     ],
+     "alternatives": [
+      2016,
+      1848
+     ]
+    },
+    {
+     "field": "pages",
+     "label": "page count",
+     "soft": false,
+     "editionDependent": true,
+     "current": 800,
+     "proposed": 1247,
+     "status": "edition-dependent",
+     "grade": "B",
+     "note": "one source differs from the corpus (Google Books 1247) on a field with no single true value -- likely a different printing/edition, not an error.",
+     "sources": [
+      {
+       "src": "Google Books",
+       "value": 1247,
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3ADombey+and+Son&maxResults=1&key=REDACTED"
+      }
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "author",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Charles Dickens",
+     "proposed": "Charles Dickens",
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OpenLibrary",
+       "value": "Charles Dickens",
+       "url": "https://openlibrary.org/search.json?title=Dombey+and+Son&limit=1"
+      },
+      {
+       "src": "Google Books",
+       "value": "Charles Dickens",
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3ADombey+and+Son&maxResults=1&key=REDACTED"
+      },
+      {
+       "src": "Wikidata",
+       "value": "Charles Dickens",
+       "url": "https://www.wikidata.org/wiki/Q963659"
+      }
+     ]
+    },
+    {
+     "field": "publisher",
+     "label": "publisher",
+     "soft": true,
+     "editionDependent": true,
+     "current": "Bradbury & Evans",
+     "proposed": "anboco",
+     "status": "edition-dependent",
+     "grade": "B",
+     "note": "corpus value does not match either source (Google Books \"anboco\", Wikidata \"Bradbury and Evans\") -- treated as a distinct edition; the specific cut is not identified from available evidence.",
+     "sources": [
+      {
+       "src": "Google Books",
+       "value": "anboco",
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3ADombey+and+Son&maxResults=1&key=REDACTED"
+      },
+      {
+       "src": "Wikidata",
+       "value": "Bradbury and Evans",
+       "url": "https://www.wikidata.org/wiki/Q963659"
+      }
+     ],
+     "alternatives": [
+      "Bradbury and Evans"
+     ]
+    }
+   ]
+  },
+  {
+   "id": "b1669",
+   "title": "Martin Chuzzlewit",
+   "sourcesReached": [
+    "OpenLibrary",
+    "Google Books",
+    "Wikidata"
+   ],
+   "sourcesMissed": [],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "first publication year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 1844,
+     "proposed": 1844,
+     "status": "corroborated-by-one",
+     "grade": "B",
+     "note": "matches Wikidata; disagrees with OpenLibrary (1800), Google Books (1869)",
+     "sources": [
+      {
+       "src": "OpenLibrary",
+       "value": 1800,
+       "url": "https://openlibrary.org/search.json?title=Martin+Chuzzlewit&limit=1"
+      },
+      {
+       "src": "Google Books",
+       "value": 1869,
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3AMartin+Chuzzlewit&maxResults=1&key=REDACTED"
+      },
+      {
+       "src": "Wikidata",
+       "value": 1844,
+       "url": "https://www.wikidata.org/wiki/Q1903609"
+      }
+     ],
+     "alternatives": [
+      1869,
+      1844
+     ]
+    },
+    {
+     "field": "pages",
+     "label": "page count",
+     "soft": false,
+     "editionDependent": true,
+     "current": 700,
+     "proposed": 1250,
+     "status": "edition-dependent",
+     "grade": "B",
+     "note": "one source differs from the corpus (Google Books 1250) on a field with no single true value -- likely a different printing/edition, not an error.",
+     "sources": [
+      {
+       "src": "Google Books",
+       "value": 1250,
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3AMartin+Chuzzlewit&maxResults=1&key=REDACTED"
+      }
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "author",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Charles Dickens",
+     "proposed": "Charles Dickens",
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OpenLibrary",
+       "value": "Charles Dickens",
+       "url": "https://openlibrary.org/search.json?title=Martin+Chuzzlewit&limit=1"
+      },
+      {
+       "src": "Google Books",
+       "value": "Charles Dickens",
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3AMartin+Chuzzlewit&maxResults=1&key=REDACTED"
+      },
+      {
+       "src": "Wikidata",
+       "value": "Charles Dickens",
+       "url": "https://www.wikidata.org/wiki/Q1903609"
+      }
+     ]
+    },
+    {
+     "field": "publisher",
+     "label": "publisher",
+     "soft": true,
+     "editionDependent": true,
+     "current": "Chapman & Hall",
+     "proposed": "Chapman and Hall",
+     "status": "edition-dependent",
+     "grade": "B",
+     "note": "one source differs from the corpus (Wikidata \"Chapman and Hall\") on a field with no single true value -- likely a different printing/edition, not an error.",
+     "sources": [
+      {
+       "src": "Wikidata",
+       "value": "Chapman and Hall",
+       "url": "https://www.wikidata.org/wiki/Q1903609"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "b1670",
+   "title": "Barnaby Rudge",
+   "sourcesReached": [
+    "OpenLibrary",
+    "Google Books",
+    "Wikidata"
+   ],
+   "sourcesMissed": [],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "first publication year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 1841,
+     "proposed": 1840,
+     "status": "sources-disagree",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "OpenLibrary",
+       "value": 1840,
+       "url": "https://openlibrary.org/search.json?title=Barnaby+Rudge&limit=1"
+      },
+      {
+       "src": "Google Books",
+       "value": 2017,
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3ABarnaby+Rudge&maxResults=1&key=REDACTED"
+      },
+      {
+       "src": "Wikidata",
+       "value": 1840,
+       "url": "https://www.wikidata.org/wiki/Q2362527"
+      }
+     ],
+     "alternatives": [
+      2017
+     ]
+    },
+    {
+     "field": "pages",
+     "label": "page count",
+     "soft": false,
+     "editionDependent": true,
+     "current": 700,
+     "proposed": 468,
+     "status": "edition-dependent",
+     "grade": "B",
+     "note": "one source differs from the corpus (Google Books 468) on a field with no single true value -- likely a different printing/edition, not an error.",
+     "sources": [
+      {
+       "src": "Google Books",
+       "value": 468,
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3ABarnaby+Rudge&maxResults=1&key=REDACTED"
+      }
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "author",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Charles Dickens",
+     "proposed": "Charles Dickens",
+     "status": "corroborated-by-one",
+     "grade": "B",
+     "note": "matches Wikidata; disagrees with OpenLibrary (\"Charles Dickens & Eileen Warren Norris\"), Google Books (\"Charles Charles Dickens\")",
+     "sources": [
+      {
+       "src": "OpenLibrary",
+       "value": "Charles Dickens & Eileen Warren Norris",
+       "url": "https://openlibrary.org/search.json?title=Barnaby+Rudge&limit=1"
+      },
+      {
+       "src": "Google Books",
+       "value": "Charles Charles Dickens",
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3ABarnaby+Rudge&maxResults=1&key=REDACTED"
+      },
+      {
+       "src": "Wikidata",
+       "value": "Charles Dickens",
+       "url": "https://www.wikidata.org/wiki/Q2362527"
+      }
+     ],
+     "alternatives": [
+      "Charles Charles Dickens",
+      "Charles Dickens"
+     ]
+    },
+    {
+     "field": "publisher",
+     "label": "publisher",
+     "soft": true,
+     "editionDependent": true,
+     "current": "Chapman & Hall",
+     "proposed": "Chapman and Hall",
+     "status": "edition-dependent",
+     "grade": "B",
+     "note": "one source differs from the corpus (Wikidata \"Chapman and Hall\") on a field with no single true value -- likely a different printing/edition, not an error.",
+     "sources": [
+      {
+       "src": "Wikidata",
+       "value": "Chapman and Hall",
+       "url": "https://www.wikidata.org/wiki/Q2362527"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "b1671",
+   "title": "The Old Curiosity Shop",
+   "sourcesReached": [
+    "OpenLibrary",
+    "Google Books",
+    "Wikidata"
+   ],
+   "sourcesMissed": [],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "first publication year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 1841,
+     "proposed": 1800,
+     "status": "sources-disagree",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "OpenLibrary",
+       "value": 1800,
+       "url": "https://openlibrary.org/search.json?title=The+Old+Curiosity+Shop&limit=1"
+      },
+      {
+       "src": "Google Books",
+       "value": 2021,
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3AThe+Old+Curiosity+Shop&maxResults=1&key=REDACTED"
+      },
+      {
+       "src": "Wikidata",
+       "value": 1840,
+       "url": "https://www.wikidata.org/wiki/Q2700616"
+      }
+     ],
+     "alternatives": [
+      2021,
+      1840
+     ]
+    },
+    {
+     "field": "pages",
+     "label": "page count",
+     "soft": false,
+     "editionDependent": true,
+     "current": 576,
+     "proposed": 692,
+     "status": "edition-dependent",
+     "grade": "B",
+     "note": "one source differs from the corpus (Google Books 692) on a field with no single true value -- likely a different printing/edition, not an error.",
+     "sources": [
+      {
+       "src": "Google Books",
+       "value": 692,
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3AThe+Old+Curiosity+Shop&maxResults=1&key=REDACTED"
+      }
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "author",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Charles Dickens",
+     "proposed": "Charles Dickens",
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OpenLibrary",
+       "value": "Charles Dickens",
+       "url": "https://openlibrary.org/search.json?title=The+Old+Curiosity+Shop&limit=1"
+      },
+      {
+       "src": "Google Books",
+       "value": "Charles Dickens",
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3AThe+Old+Curiosity+Shop&maxResults=1&key=REDACTED"
+      },
+      {
+       "src": "Wikidata",
+       "value": "Charles Dickens",
+       "url": "https://www.wikidata.org/wiki/Q2700616"
+      }
+     ]
+    },
+    {
+     "field": "publisher",
+     "label": "publisher",
+     "soft": true,
+     "editionDependent": true,
+     "current": "Chapman & Hall",
+     "proposed": "Chapman and Hall",
+     "status": "edition-dependent",
+     "grade": "B",
+     "note": "one source differs from the corpus (Wikidata \"Chapman and Hall\") on a field with no single true value -- likely a different printing/edition, not an error.",
+     "sources": [
+      {
+       "src": "Wikidata",
+       "value": "Chapman and Hall",
+       "url": "https://www.wikidata.org/wiki/Q2700616"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "b1672",
+   "title": "Our Mutual Friend",
+   "sourcesReached": [
+    "OpenLibrary",
+    "Google Books",
+    "Wikidata"
+   ],
+   "sourcesMissed": [],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "first publication year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 1865,
+     "proposed": 1865,
+     "status": "corroborated-by-one",
+     "grade": "B",
+     "note": "matches Google Books; disagrees with OpenLibrary (1800), Wikidata (1864)",
+     "sources": [
+      {
+       "src": "OpenLibrary",
+       "value": 1800,
+       "url": "https://openlibrary.org/search.json?title=Our+Mutual+Friend&limit=1"
+      },
+      {
+       "src": "Google Books",
+       "value": 1865,
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3AOur+Mutual+Friend&maxResults=1&key=REDACTED"
+      },
+      {
+       "src": "Wikidata",
+       "value": 1864,
+       "url": "https://www.wikidata.org/wiki/Q1557935"
+      }
+     ],
+     "alternatives": [
+      1865,
+      1864
+     ]
+    },
+    {
+     "field": "pages",
+     "label": "page count",
+     "soft": false,
+     "editionDependent": true,
+     "current": 800,
+     "proposed": 386,
+     "status": "edition-dependent",
+     "grade": "B",
+     "note": "one source differs from the corpus (Google Books 386) on a field with no single true value -- likely a different printing/edition, not an error.",
+     "sources": [
+      {
+       "src": "Google Books",
+       "value": 386,
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3AOur+Mutual+Friend&maxResults=1&key=REDACTED"
+      }
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "author",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Charles Dickens",
+     "proposed": "Charles Dickens",
+     "status": "corroborated-by-one",
+     "grade": "B",
+     "note": "matches Google Books/Wikidata; disagrees with OpenLibrary (\"Charles Dickens & Margeret Tarner & Adam Leverton\")",
+     "sources": [
+      {
+       "src": "OpenLibrary",
+       "value": "Charles Dickens & Margeret Tarner & Adam Leverton",
+       "url": "https://openlibrary.org/search.json?title=Our+Mutual+Friend&limit=1"
+      },
+      {
+       "src": "Google Books",
+       "value": "Charles Dickens",
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3AOur+Mutual+Friend&maxResults=1&key=REDACTED"
+      },
+      {
+       "src": "Wikidata",
+       "value": "Charles Dickens",
+       "url": "https://www.wikidata.org/wiki/Q1557935"
+      }
+     ],
+     "alternatives": [
+      "Charles Dickens & Margeret Tarner & Adam Leverton"
+     ]
+    },
+    {
+     "field": "publisher",
+     "label": "publisher",
+     "soft": true,
+     "editionDependent": true,
+     "current": "Chapman & Hall",
+     "proposed": "Chapman and Hall",
+     "status": "edition-dependent",
+     "grade": "B",
+     "note": "one source differs from the corpus (Wikidata \"Chapman and Hall\") on a field with no single true value -- likely a different printing/edition, not an error.",
+     "sources": [
+      {
+       "src": "Wikidata",
+       "value": "Chapman and Hall",
+       "url": "https://www.wikidata.org/wiki/Q1557935"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "b1673",
+   "title": "The Pickwick Papers",
+   "sourcesReached": [
+    "OpenLibrary",
+    "Google Books",
+    "Wikidata"
+   ],
+   "sourcesMissed": [],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "first publication year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 1837,
+     "proposed": 1800,
+     "status": "sources-disagree",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "OpenLibrary",
+       "value": 1800,
+       "url": "https://openlibrary.org/search.json?title=The+Pickwick+Papers&limit=1"
+      },
+      {
+       "src": "Google Books",
+       "value": 2023,
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3AThe+Pickwick+Papers&maxResults=1&key=REDACTED"
+      },
+      {
+       "src": "Wikidata",
+       "value": 1836,
+       "url": "https://www.wikidata.org/wiki/Q460583"
+      }
+     ],
+     "alternatives": [
+      2023,
+      1836
+     ]
+    },
+    {
+     "field": "pages",
+     "label": "page count",
+     "soft": false,
+     "editionDependent": true,
+     "current": 800,
+     "proposed": 1162,
+     "status": "edition-dependent",
+     "grade": "B",
+     "note": "one source differs from the corpus (Google Books 1162) on a field with no single true value -- likely a different printing/edition, not an error.",
+     "sources": [
+      {
+       "src": "Google Books",
+       "value": 1162,
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3AThe+Pickwick+Papers&maxResults=1&key=REDACTED"
+      }
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "author",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Charles Dickens",
+     "proposed": "Charles Dickens",
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OpenLibrary",
+       "value": "Charles Dickens",
+       "url": "https://openlibrary.org/search.json?title=The+Pickwick+Papers&limit=1"
+      },
+      {
+       "src": "Google Books",
+       "value": "Charles Dickens",
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3AThe+Pickwick+Papers&maxResults=1&key=REDACTED"
+      },
+      {
+       "src": "Wikidata",
+       "value": "Charles Dickens",
+       "url": "https://www.wikidata.org/wiki/Q460583"
+      }
+     ]
+    },
+    {
+     "field": "publisher",
+     "label": "publisher",
+     "soft": true,
+     "editionDependent": true,
+     "current": "Chapman & Hall",
+     "proposed": "BoD – Books on Demand",
+     "status": "edition-dependent",
+     "grade": "B",
+     "note": "corpus value does not match either source (Google Books \"BoD – Books on Demand\", Wikidata \"Chapman and Hall\") -- treated as a distinct edition; the specific cut is not identified from available evidence.",
+     "sources": [
+      {
+       "src": "Google Books",
+       "value": "BoD – Books on Demand",
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3AThe+Pickwick+Papers&maxResults=1&key=REDACTED"
+      },
+      {
+       "src": "Wikidata",
+       "value": "Chapman and Hall",
+       "url": "https://www.wikidata.org/wiki/Q460583"
+      }
+     ],
+     "alternatives": [
+      "Chapman and Hall"
+     ]
+    }
+   ]
+  }
+ ]
+}
