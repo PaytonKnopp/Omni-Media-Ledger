@@ -164,7 +164,13 @@ const state={view:'controller',q:'',type:'all',struct:'all',plats:[],minGoat:0,m
 const $=s=>document.querySelector(s),$$=s=>Array.from(document.querySelectorAll(s));
 const on=(sel,ev,fn)=>{const el=$(sel);if(el)el.addEventListener(ev,fn);else console.warn('missing element:',sel);};
 // esc/themeColor(+THEME_PALETTE) live in app/cards.js (pure, closure-independent) now.
-const SORTS={overall:(a,b)=>(b.ovr-a.ovr)||(b.crit-a.crit),gm:(a,b)=>(b.gm-a.gm)||(b.crit-a.crit),myrating:(a,b)=>((b.myRating==null?-1:b.myRating)-(a.myRating==null?-1:a.myRating))||(b.gm-a.gm),cosmic:(a,b)=>(b.ch-a.ch)||(b.dread-a.dread),sound:(a,b)=>(b.snd-a.snd)||(b.crit-a.crit),ref4k:(a,b)=>(b.ref-a.ref)||(b.crit-a.crit),emotion:(a,b)=>(b.emo-a.emo)||(b.crit-a.crit),awe:(a,b)=>(b.awe-a.awe)||(b.crit-a.crit),comfort:(a,b)=>(b.cozy-a.cozy)||(b.aud-a.aud),perf:(a,b)=>(b.perf-a.perf)||(b.crit-a.crit),icon:(a,b)=>(b.icon-a.icon)||(b.crit-a.crit),scary:(a,b)=>(b.scary-a.scary)||(b.dread-a.dread),real:(a,b)=>(b.real-a.real)||(b.crit-a.crit),reality:(a,b)=>(b.reality-a.reality)||(b.myst-a.myst),shock:(a,b)=>(b.shock-a.shock)||(b.dread-a.dread),sci:(a,b)=>(b.sci-a.sci)||(b.myst-a.myst),funny:(a,b)=>(b.funny-a.funny)||(b.aud-a.aud),hist:(a,b)=>(b.hist-a.hist)||(b.crit-a.crit),vibe2:(a,b)=>(b.vibe2-a.vibe2)||(b.tech-a.tech),blend:(a,b)=>(bespokeScore(b,state)-bespokeScore(a,state))||(b.crit-a.crit),crit:(a,b)=>b.crit-a.crit,aud:(a,b)=>b.aud-a.aud,tech:(a,b)=>b.tech-a.tech,dread:(a,b)=>b.dread-a.dread,myst:(a,b)=>b.myst-a.myst,warmth:(a,b)=>(b.warmth||0)-(a.warmth||0)||(b.crit-a.crit),comedy:(a,b)=>(b.comedy||0)-(a.comedy||0)||(b.aud-a.aud),beauty:(a,b)=>(b.beauty||0)-(a.beauty||0)||(b.crit-a.crit),yearNew:(a,b)=>b.year-a.year,yearOld:(a,b)=>a.year-b.year,title:(a,b)=>a.title.localeCompare(b.title),tier:(a,b)=>(tierRank(b)-tierRank(a))||(b.gm-a.gm)};
+const SORTS={overall:(a,b)=>(b.ovr-a.ovr)||(b.crit-a.crit),gm:(a,b)=>(b.gm-a.gm)||(b.crit-a.crit),myrating:(a,b)=>((b.myRating==null?-1:b.myRating)-(a.myRating==null?-1:a.myRating))||(b.gm-a.gm),cosmic:(a,b)=>(b.ch-a.ch)||(b.dread-a.dread),sound:(a,b)=>(b.snd-a.snd)||(b.crit-a.crit),ref4k:(a,b)=>(b.ref-a.ref)||(b.crit-a.crit),emotion:(a,b)=>(b.emo-a.emo)||(b.crit-a.crit),awe:(a,b)=>(b.awe-a.awe)||(b.crit-a.crit),comfort:(a,b)=>(b.cozy-a.cozy)||(b.aud-a.aud),perf:(a,b)=>(b.perf-a.perf)||(b.crit-a.crit),icon:(a,b)=>(b.icon-a.icon)||(b.crit-a.crit),scary:(a,b)=>(b.scary-a.scary)||(b.dread-a.dread),real:(a,b)=>(b.real-a.real)||(b.crit-a.crit),reality:(a,b)=>(b.reality-a.reality)||(b.myst-a.myst),shock:(a,b)=>(b.shock-a.shock)||(b.dread-a.dread),sci:(a,b)=>(b.sci-a.sci)||(b.myst-a.myst),funny:(a,b)=>(b.funny-a.funny)||(b.aud-a.aud),hist:(a,b)=>(b.hist-a.hist)||(b.crit-a.crit),vibe2:(a,b)=>(b.vibe2-a.vibe2)||(b.tech-a.tech),blend:(a,b)=>(bespokeScore(b,state)-bespokeScore(a,state))||(b.crit-a.crit),crit:(a,b)=>b.crit-a.crit,aud:(a,b)=>b.aud-a.aud,tech:(a,b)=>b.tech-a.tech,dread:(a,b)=>b.dread-a.dread,myst:(a,b)=>b.myst-a.myst,warmth:(a,b)=>(b.warmth||0)-(a.warmth||0)||(b.crit-a.crit),comedy:(a,b)=>(b.comedy||0)-(a.comedy||0)||(b.aud-a.aud),beauty:(a,b)=>(b.beauty||0)-(a.beauty||0)||(b.crit-a.crit),yearNew:(a,b)=>b.year-a.year,yearOld:(a,b)=>a.year-b.year,title:(a,b)=>a.title.localeCompare(b.title),
+// Groups by tier first (unchanged), but within a tier now breaks ties by your own rating before
+// falling back to GOAT Match -- "My Tiers" is the one sort whose entire point is ranking by YOUR
+// taste, so a Gold pick you rated 10 belongs above a Gold pick you rated 7 or never rated at all,
+// not ordered by the algorithm's estimate. Unrated (null) sorts as -1, below any real rating but
+// still inside its own tier group.
+tier:(a,b)=>(tierRank(b)-tierRank(a))||((b.myRating==null?-1:b.myRating)-(a.myRating==null?-1:a.myRating))||(b.gm-a.gm)};
 
 const IDX_KEYS=['snd','ref','ch','emo','awe','cozy','perf','icon','scary','real','reality','shock','sci','funny','hist','vibe2','crit','aud','tech','dread','myst','warmth','comedy','beauty'];
 // `skip` lets a caller ask "what would be in scope if this ONE facet's own selection were ignored,
@@ -2877,6 +2883,7 @@ function collItemCardHTML(x,col){
   +'<div class="flex-1 min-w-0"><div class="text-[12px] font-semibold text-slate-100 truncate">'+esc(x.title)+'</div>'
   +'<div class="text-[10px] text-slate-500 truncate">'+x.year+' · '+esc(x.creator)+' · <span style="color:'+k.c+'">'+k.label+'</span></div>'+formatPickerHTML(x)+'</div>'
   +'<div class="text-right shrink-0"><div class="text-[13px] font-bold tabular-nums" style="color:'+col+'">'+x.ovr+'</div>'
+  +(typeof x.myRating==='number'?'<div class="text-[9px] font-bold" style="color:#5eead4" title="Your rating">★ '+x.myRating.toFixed(1)+'</div>':'')
   +(x.goat?'<div class="text-[9px]" style="color:#fbbf24">★ GOAT</div>':x.silver?'<div class="text-[9px] text-slate-400">☆</div>':'')+'</div>'
   +'<button type="button" class="profEditBtn removeItemBtn shrink-0 text-slate-500 hover:text-rose-300 text-[13px] leading-none px-1" data-act="remove-owned" data-id="'+x.id+'" data-kind="'+x.kind+'" data-title="'+esc(x.title)+'" title="Remove from your collection">✕</button>'
   +'</div>';
@@ -2885,6 +2892,7 @@ function collCaret(){return '<span class="collCaret text-slate-500 shrink-0">▸
 function collSortFn(){
  var mode=state.collSort||'az';
  if(mode==='quality')return (a,b)=>b.ovr-a.ovr||a.title.localeCompare(b.title);
+ if(mode==='myrating')return (a,b)=>((b.myRating==null?-1:b.myRating)-(a.myRating==null?-1:a.myRating))||a.title.localeCompare(b.title);
  if(mode==='year')return (a,b)=>(b.year||0)-(a.year||0)||a.title.localeCompare(b.title);
  if(mode==='oldest')return (a,b)=>(a.year||0)-(b.year||0)||a.title.localeCompare(b.title);
  return (a,b)=>a.title.localeCompare(b.title);
@@ -5353,4 +5361,5 @@ var _rzT;window.addEventListener('resize',function(){clearTimeout(_rzT);_rzT=set
  window.switchView=switchView;
  window.CH=CH;
  window.setRating=setRating;window.clearRating=clearRating;window.SORTS=SORTS;
+ window.collSortFn=collSortFn;window.collItemCardHTML=collItemCardHTML;
 }
