@@ -674,7 +674,7 @@ function initCharts(){
  CH.decade=new Chart($('#decadeC'),{type:'bar',data:{labels:[],datasets:[]},options:{responsive:true,maintainAspectRatio:false,
   scales:{x:{stacked:true,grid:{display:false}},y:{stacked:true,title:{display:true,text:'Masterpieces indexed'}}},
   plugins:{legend:{labels:{usePointStyle:true,boxWidth:8}}}}});
- buildRadarSelects();updateRadar();
+ buildRadarSelects();renderRadarAxisRow();updateRadar();
 }
 var decadeOwnedOnly=false;
 function updateCharts(list){
@@ -740,14 +740,31 @@ function renderBubble(){
  var allEl=document.querySelector('.bmCount[data-bm-count="all"]');
  if(allEl)allEl.textContent='('+list.filter(function(x){return x.owned;}).length+'/'+list.length+')';
 }
+// The 8 scored axes available to plot on the radar. Any of these can fill any of the 5 slots --
+// radarAxes holds the current assignment, defaulting to the chart's original 5.
+var AXIS_METRICS=[{key:'crit',label:'Critical'},{key:'aud',label:'Audience'},{key:'tech',label:'Technical'},{key:'dread',label:'Dread / Tension'},{key:'myst',label:'Complexity'},{key:'warmth',label:'Emotional Warmth'},{key:'comedy',label:'Comic Intent'},{key:'beauty',label:'Aesthetic Beauty'}];
+var radarAxes=['crit','aud','tech','dread','myst'];
+function axisLabel(key){var m=AXIS_METRICS.find(function(a){return a.key===key;});return m?m.label:key;}
 function fingerprintOf(val){
  if(!val)return null;
  const i=val.indexOf('::');if(i<0)return null;
  const kind=val.slice(0,i),key=val.slice(i+2);
- if(kind==='id'){const it=byId.get(key);if(!it)return null;return{label:it.title,data:[it.crit,it.aud,it.tech,it.dread,it.myst]};}
+ if(kind==='id'){const it=byId.get(key);if(!it)return null;return{label:it.title,data:radarAxes.map(function(k){return it[k]||0;})};}
  const works=ALL.filter(x=>x.creator.includes(key));if(!works.length)return null;
  const avg=f=>Math.round(works.reduce((s,x)=>s+f(x),0)/works.length);
- return{label:key+' (avg of '+works.length+')',data:[avg(x=>x.crit),avg(x=>x.aud),avg(x=>x.tech),avg(x=>x.dread),avg(x=>x.myst)]};
+ return{label:key+' (avg of '+works.length+')',data:radarAxes.map(function(k){return avg(function(x){return x[k]||0;});})};
+}
+function renderRadarAxisRow(){
+ var el=$('#radarAxisRow');if(!el)return;
+ el.innerHTML=radarAxes.map(function(k,i){
+  var opts=AXIS_METRICS.map(function(m){return '<option value="'+m.key+'"'+(m.key===k?' selected':'')+'>'+esc(m.label)+'</option>';}).join('');
+  return '<select class="radarAxisSel inp" style="width:auto;font-size:10.5px;padding:2px 6px" data-axis-i="'+i+'" title="What axis '+(i+1)+' compares by">'+opts+'</select>';
+ }).join('');
+}
+function setRadarAxis(i,key){
+ radarAxes[i]=key;
+ if(CH.radar)CH.radar.data.labels=radarAxes.map(axisLabel);
+ updateRadar();
 }
 // Options catalog for the radar comboboxes (built once)
 function radarOptions(){
@@ -3237,6 +3254,7 @@ window.addEventListener('scroll',function(e){
 document.addEventListener('click',function(e){var b=e.target.closest&&e.target.closest('.bubbleMedBtn');if(!b)return;bubbleMed=b.dataset.bm;$$('.bubbleMedBtn').forEach(function(x){x.classList.toggle('on',x===b);});if(typeof renderBubble==='function')renderBubble();});
 on('#bubbleMin','input',e=>{bubbleMinScore=+e.target.value;const lbl=$('#bubbleMinLbl');if(lbl)lbl.textContent=bubbleMinScore>0?bubbleMinScore+'+':'Any';renderBubble();scheduleURLSync();});
 on('#decadeOwnedOnly','change',e=>{decadeOwnedOnly=e.target.checked;if(CH.decade)updateCharts(CH._vizList||filtered());});
+document.addEventListener('change',function(e){var sel=e.target.closest&&e.target.closest('.radarAxisSel');if(!sel)return;setRadarAxis(+sel.dataset.axisI,sel.value);});
 // Relationship graph: node + chip clicks
 document.addEventListener('click',function(e){
  var node=e.target.closest&&e.target.closest('.gnode');
