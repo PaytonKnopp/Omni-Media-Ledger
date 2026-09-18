@@ -1110,13 +1110,13 @@ body[data-theme="outer-wilds"]{--bg:#0e0a09;--panel:#181010;--panel-2:#120c0b;--
         <div class="radarCombo" data-slot="r3"><input type="hidden" id="r3"><div class="rcField" tabindex="0" role="button" aria-haspopup="listbox"><span class="rcLabel" style="color:#5eead4"></span><span class="rcCaret">▾</span></div><div class="rcPop hidden"><input type="text" class="rcSearch inp" placeholder="🔍 Search…" autocomplete="off"><div class="rcList"></div></div></div>
       </div>
       <div class="relative h-[330px] mt-3"><canvas id="radarC"></canvas></div>
-      <div id="radarAxisRow" class="mt-2.5" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(128px,1fr));gap:6px"></div>
+      <div id="radarAxisRow" class="mt-2.5" style="display:grid;grid-template-columns:repeat(5,1fr);gap:6px"></div>
       <p class="chartFail hidden text-[11px] text-amber-300/80 mt-2">Chart.js CDN unreachable.</p>
     </div>
-    <div class="panel p-4">
+    <div class="panel p-4 flex flex-col">
       <h3 class="text-[12px] font-bold uppercase tracking-[.16em] text-slate-100">C · Taste Flow · Medium → Tier</h3>
       <p class="text-[11px] text-slate-500 mt-1">Where your Gold, Silver, Bronze and Owned works come from, by medium — ribbon width = number of works. Untiered works are left out so the shape isn't swamped by the bulk of the catalog. Hover a ribbon or node for exact counts.</p>
-      <div id="sankeyWrap" class="relative mt-3"></div>
+      <div id="sankeyWrap" class="relative mt-3 flex-1" style="min-height:280px"></div>
     </div>
     <div class="panel p-4 xl:col-span-2">
       <div class="flex flex-wrap items-baseline justify-between gap-2"><h3 class="text-[12px] font-bold uppercase tracking-[.16em] text-slate-100">D · Taste Relationship Graph</h3><span class="lbl">click a creator or work to explore its web</span></div>

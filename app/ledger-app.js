@@ -665,14 +665,19 @@ function initCharts(){
  $$('.chartFail').forEach(e=>e.classList.add('hidden'));
  if(CH.bubble)return;
  Chart.defaults.color='#7c8aa5';Chart.defaults.borderColor='rgba(148,163,184,.08)';
+ // Chart.js has no legend-level "gap between swatch and text" option -- boxPadding is a *tooltip*
+ // option and does nothing here despite the similar name. A couple of leading spaces in the
+ // generated label text is the reliable way to get that breathing room in the legend itself.
  CH.bubble=new Chart($('#bubbleC'),{type:'bubble',data:{datasets:[]},options:{responsive:true,maintainAspectRatio:false,
-  plugins:{legend:{labels:{usePointStyle:true,boxWidth:8,boxPadding:6,generateLabels:function(chart){
-   return chart.data.datasets.map(function(ds,i){var c=ds._legendColor||'#94a3b8';return {text:ds.label,fillStyle:c,strokeStyle:c,pointStyle:'circle',datasetIndex:i,hidden:!chart.isDatasetVisible(i)};});
+  plugins:{legend:{labels:{usePointStyle:true,boxWidth:8,generateLabels:function(chart){
+   return chart.data.datasets.map(function(ds,i){var c=ds._legendColor||'#94a3b8';return {text:'  '+ds.label,fillStyle:c,strokeStyle:c,pointStyle:'circle',datasetIndex:i,hidden:!chart.isDatasetVisible(i)};});
   }}},tooltip:{callbacks:{label:c=>{const d=c.raw;return d.t+' ('+d.yr+') · Crit '+d.x+' · Aud '+d.y+' · Tech '+d.tech+(d.own?' · ◆ owned':'')+(d.canon?' · your canon':'');}}}},
   scales:{x:{title:{display:true,text:'Critical Score'},suggestedMin:55,suggestedMax:100},y:{title:{display:true,text:'Audience Score'},suggestedMin:55,suggestedMax:100}}}});
  CH.radar=new Chart($('#radarC'),{type:'radar',data:{labels:['Critical','Audience','Technical','Dread / Tension','Complexity'],datasets:[]},options:{responsive:true,maintainAspectRatio:false,
   scales:{r:{min:0,max:100,ticks:{stepSize:20,backdropColor:'transparent'},grid:{color:'rgba(148,163,184,.12)'},angleLines:{color:'rgba(148,163,184,.12)'},pointLabels:{color:'#94a3b8',font:{size:10}}}},
-  plugins:{legend:{labels:{usePointStyle:true,boxWidth:8,boxPadding:6}}}}});
+  plugins:{legend:{labels:{usePointStyle:true,boxWidth:8,generateLabels:function(chart){
+   return chart.data.datasets.map(function(ds,i){var c=ds.borderColor||ds.backgroundColor;return {text:'  '+ds.label,fillStyle:c,strokeStyle:c,pointStyle:'circle',datasetIndex:i,hidden:!chart.isDatasetVisible(i)};});
+  }}}}}});
  buildRadarSelects();renderRadarAxisRow();updateRadar();
 }
 function updateCharts(list){
@@ -703,7 +708,11 @@ function renderSankey(list){
  var leftTotals={};SANKEY_KINDS.forEach(function(k){leftTotals[k]=SANKEY_TIERS.reduce(function(s,t){return s+counts[k][t.key];},0);});
  var rightTotals={};SANKEY_TIERS.forEach(function(t){rightTotals[t.key]=SANKEY_KINDS.reduce(function(s,k){return s+counts[k][t.key];},0);});
  var grand=list.length;
- var Wd=wrap.clientWidth||700,targetH=290,gapV=10;
+ // wrap is a flex-1 child of a flex-column panel, so it's already been stretched to fill whatever
+ // height the panel grew to (matching panel B's height, via CSS grid's row stretch) by the time this
+ // runs -- read that real height instead of a fixed constant so the diagram fills its box instead of
+ // leaving dead space below it.
+ var Wd=wrap.clientWidth||700,targetH=Math.max(240,(wrap.clientHeight||320)-26),gapV=10;
  var pxPerUnit=Math.max(0.25,(targetH-gapV*(SANKEY_TIERS.length-1))/grand);
  // Labels live outside the node columns (left labels to the left, right labels to the right) so
  // they never sit on top of the ribbons, which occupy all the horizontal space between the two
