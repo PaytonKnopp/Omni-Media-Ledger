@@ -54,5 +54,5 @@ function matrixRow(it,i,cols){const k=KM[it.kind];
  +'<span class="text-[10px] text-slate-500 w-6 tabular-nums">'+String(i+1).padStart(2,'0')+'</span>'
  +'<span class="w-1.5 h-1.5 rounded-full shrink-0" style="background:'+k.c+'"></span>'
  +'<span class="flex-1 min-w-0 truncate text-[12px] text-slate-200" title="'+esc(it.title)+' · '+esc(it.creator)+'">'+esc(it.title)+' <span class="text-slate-500 text-[10px]">'+it.year+'</span>'+(it.owned?' <span style="color:#4ade80;font-size:9px;font-weight:700" title="Owned">✓</span>':'')+'</span>'
- +cols.map(c=>'<span class="hidden sm:flex items-center gap-1.5 w-24 shrink-0"><span class="bar flex-1"><i style="width:'+c[0]+'%;background:'+c[1]+'"></i></span><span class="text-[10px] tabular-nums text-slate-400 w-5 text-right">'+c[0]+'</span></span>').join('')
+ +cols.map(c=>'<span class="flex items-center gap-1 sm:gap-1.5 w-14 sm:w-24 shrink-0"><span class="bar flex-1"><i style="width:'+c[0]+'%;background:'+c[1]+'"></i></span><span class="text-[9.5px] sm:text-[10px] tabular-nums text-slate-400 w-5 text-right">'+c[0]+'</span></span>').join('')
  +'</div>';}
