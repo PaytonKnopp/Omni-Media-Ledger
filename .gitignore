@@ -13,6 +13,12 @@ desktop.ini
 node_modules/
 npm-debug.log*
 
+# Claude Code agent-tooling internals (subagent worktrees, etc.) -- not project content.
+.claude/
+
+# Scratch copy test/regression.js writes for the account-flow test.
+/_test_acct_index.html
+
 # Local scratch
 *.local
 *.bak
