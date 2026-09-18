@@ -149,10 +149,17 @@ const state={view:'controller',q:'',type:'all',struct:'all',plats:[],minGoat:0,g
 const $=s=>document.querySelector(s),$$=s=>Array.from(document.querySelectorAll(s));
 const on=(sel,ev,fn)=>{const el=$(sel);if(el)el.addEventListener(ev,fn);else console.warn('missing element:',sel);};
 // esc/themeColor(+THEME_PALETTE) live in app/cards.js (pure, closure-independent) now.
-const SORTS={overall:(a,b)=>(b.ovr-a.ovr)||(b.crit-a.crit),cosmic:(a,b)=>(b.ch-a.ch)||(b.dread-a.dread),sound:(a,b)=>(b.snd-a.snd)||(b.crit-a.crit),ref4k:(a,b)=>(b.ref-a.ref)||(b.crit-a.crit),emotion:(a,b)=>(b.emo-a.emo)||(b.crit-a.crit),awe:(a,b)=>(b.awe-a.awe)||(b.crit-a.crit),comfort:(a,b)=>(b.cozy-a.cozy)||(b.aud-a.aud),perf:(a,b)=>(b.perf-a.perf)||(b.crit-a.crit),icon:(a,b)=>(b.icon-a.icon)||(b.crit-a.crit),scary:(a,b)=>(b.scary-a.scary)||(b.dread-a.dread),real:(a,b)=>(b.real-a.real)||(b.crit-a.crit),reality:(a,b)=>(b.reality-a.reality)||(b.myst-a.myst),shock:(a,b)=>(b.shock-a.shock)||(b.dread-a.dread),sci:(a,b)=>(b.sci-a.sci)||(b.myst-a.myst),funny:(a,b)=>(b.funny-a.funny)||(b.aud-a.aud),hist:(a,b)=>(b.hist-a.hist)||(b.crit-a.crit),vibe2:(a,b)=>(b.vibe2-a.vibe2)||(b.tech-a.tech),blend:(a,b)=>(bespokeScore(b,state)-bespokeScore(a,state))||(b.crit-a.crit),crit:(a,b)=>b.crit-a.crit,aud:(a,b)=>b.aud-a.aud,tech:(a,b)=>b.tech-a.tech,dread:(a,b)=>b.dread-a.dread,myst:(a,b)=>b.myst-a.myst,warmth:(a,b)=>(b.warmth||0)-(a.warmth||0)||(b.crit-a.crit),comedy:(a,b)=>(b.comedy||0)-(a.comedy||0)||(b.aud-a.aud),beauty:(a,b)=>(b.beauty||0)-(a.beauty||0)||(b.crit-a.crit),yearNew:(a,b)=>b.year-a.year,yearOld:(a,b)=>a.year-b.year,title:(a,b)=>a.title.localeCompare(b.title),tier:(a,b)=>(tierRank(b)-tierRank(a))||(b.gm-a.gm)};
+const SORTS={overall:(a,b)=>(b.ovr-a.ovr)||(b.crit-a.crit),gm:(a,b)=>(b.gm-a.gm)||(b.crit-a.crit),cosmic:(a,b)=>(b.ch-a.ch)||(b.dread-a.dread),sound:(a,b)=>(b.snd-a.snd)||(b.crit-a.crit),ref4k:(a,b)=>(b.ref-a.ref)||(b.crit-a.crit),emotion:(a,b)=>(b.emo-a.emo)||(b.crit-a.crit),awe:(a,b)=>(b.awe-a.awe)||(b.crit-a.crit),comfort:(a,b)=>(b.cozy-a.cozy)||(b.aud-a.aud),perf:(a,b)=>(b.perf-a.perf)||(b.crit-a.crit),icon:(a,b)=>(b.icon-a.icon)||(b.crit-a.crit),scary:(a,b)=>(b.scary-a.scary)||(b.dread-a.dread),real:(a,b)=>(b.real-a.real)||(b.crit-a.crit),reality:(a,b)=>(b.reality-a.reality)||(b.myst-a.myst),shock:(a,b)=>(b.shock-a.shock)||(b.dread-a.dread),sci:(a,b)=>(b.sci-a.sci)||(b.myst-a.myst),funny:(a,b)=>(b.funny-a.funny)||(b.aud-a.aud),hist:(a,b)=>(b.hist-a.hist)||(b.crit-a.crit),vibe2:(a,b)=>(b.vibe2-a.vibe2)||(b.tech-a.tech),blend:(a,b)=>(bespokeScore(b,state)-bespokeScore(a,state))||(b.crit-a.crit),crit:(a,b)=>b.crit-a.crit,aud:(a,b)=>b.aud-a.aud,tech:(a,b)=>b.tech-a.tech,dread:(a,b)=>b.dread-a.dread,myst:(a,b)=>b.myst-a.myst,warmth:(a,b)=>(b.warmth||0)-(a.warmth||0)||(b.crit-a.crit),comedy:(a,b)=>(b.comedy||0)-(a.comedy||0)||(b.aud-a.aud),beauty:(a,b)=>(b.beauty||0)-(a.beauty||0)||(b.crit-a.crit),yearNew:(a,b)=>b.year-a.year,yearOld:(a,b)=>a.year-b.year,title:(a,b)=>a.title.localeCompare(b.title),tier:(a,b)=>(tierRank(b)-tierRank(a))||(b.gm-a.gm)};
 
 const IDX_KEYS=['snd','ref','ch','emo','awe','cozy','perf','icon','scary','real','reality','shock','sci','funny','hist','vibe2','crit','aud','tech','dread','myst','warmth','comedy','beauty'];
-function filtered(){const q=state.q.trim().toLowerCase();
+// `skip` lets a caller ask "what would be in scope if this ONE facet's own selection were ignored,
+// every other active filter left exactly as-is" -- that's the pool a facet chip's count should be
+// computed against (so a genre chip shows how many results picking it would add to/from the REST of
+// your filters, not how many exist in the untouched full corpus). filtered() itself is just this
+// with nothing skipped. Keeping one predicate for both means a new filter added here automatically
+// gets correct contextual counts everywhere, instead of a second hand-maintained copy drifting out
+// of sync.
+function filteredSkipping(skip){const q=state.q.trim().toLowerCase();
  return ALL.filter(it=>{
   if(state.type!=='all'&&it.kind!==state.type)return false;
   if(it.kind==='tv'){
@@ -162,13 +169,17 @@ function filtered(){const q=state.q.trim().toLowerCase();
   if(state.plats.length&&!state.plats.some(p=>it.plats.includes(p)))return false;
   if(state.idx.runtime>0&&it.kind==='movie'&&it.mins&&it.mins>state.idx.runtime)return false;
   if(it.tech<state.idx.tech||it.gm<state.minGoat)return false;
-  if(state.genres.length&&!state.genres.some(g=>it.fam.includes(g)))return false;
-  if(state.genresExclude.length&&state.genresExclude.some(g=>it.fam.includes(g)))return false;
-  if(state.ratings.length&&!state.ratings.includes(it.rating))return false;
+  if(!skip||!skip.has('genre')){
+   if(state.genres.length&&!state.genres.some(g=>it.fam.includes(g)))return false;
+   if(state.genresExclude.length&&state.genresExclude.some(g=>it.fam.includes(g)))return false;
+  }
+  if((!skip||!skip.has('rating'))&&state.ratings.length&&!state.ratings.includes(it.rating))return false;
   if(state.ownedOnly&&!it.owned)return false;
   if(state.notOwnedOnly&&it.owned)return false;
-  if(state.tierFilter.length&&!state.tierFilter.some(t=>(t==='gold'&&it.goat)||(t==='silver'&&it.silver)||(t==='bronze'&&it.bronze)))return false;
-  if(state.tierFilterExclude.length&&state.tierFilterExclude.some(t=>(t==='gold'&&it.goat)||(t==='silver'&&it.silver)||(t==='bronze'&&it.bronze)))return false;
+  if(!skip||!skip.has('tier')){
+   if(state.tierFilter.length&&!state.tierFilter.some(t=>(t==='gold'&&it.goat)||(t==='silver'&&it.silver)||(t==='bronze'&&it.bronze)))return false;
+   if(state.tierFilterExclude.length&&state.tierFilterExclude.some(t=>(t==='gold'&&it.goat)||(t==='silver'&&it.silver)||(t==='bronze'&&it.bronze)))return false;
+  }
   // it[k]===undefined (a construct genuinely unscored for this work -- flagged, not guessed at,
   // per the rubric) must FAIL a minimum-threshold filter, not silently pass it: undefined<N is
   // false in JS, so a naive threshold check would let an unscored work through every "≥ N" filter
@@ -182,6 +193,7 @@ function filtered(){const q=state.q.trim().toLowerCase();
   return true;
  });
 }
+function filtered(){return filteredSkipping(null);}
 // activeDims/computeMatch/bespokeScore live in app/match.js (read only `state`, passed in) now.
 
 // ring/microBar/frontBars/microBar2 live in app/cards.js (pure, closure-independent) now.
@@ -567,6 +579,7 @@ function renderController(list,changedIds){
  window._blendActive=(state.sort==='blend');
  const sorted=list.slice().sort(SORTS[state.sort]||SORTS.overall);
  $('#priorityNote').textContent=note;renderActiveBar();
+ buildGenreChips();buildRatingChips();
  const shown=sorted.slice(0,state.limit);
  if(patchControllerGrid(shown,changedIds))return;
  renderGridChunked(shown);
@@ -4886,10 +4899,16 @@ const GENRE_FAMILIES_AZ=GENRE_FAMILIES.slice().sort((a,b)=>a[0].localeCompare(b[
 // to neutral. Included stays the existing indigo "on" look; excluded gets a distinct red/struck
 // treatment so the two are never confusable at a glance.
 function buildGenreChips(){
- $('#genreChips').innerHTML=GENRE_FAMILIES_AZ.map(f=>{const name=f[0],n=GENRE_COUNTS[name]||0;if(!n)return '';
+ // Counts shown on each chip are contextual -- how many works this genre would leave in scope
+ // given every OTHER active filter (search, type, sliders, ratings, tiers, owned...), not a static
+ // count over the whole corpus. GENRE_COUNTS still decides which genres exist in the corpus at all
+ // (so a genre with zero works ever isn't offered); the number displayed comes from the live pool.
+ const pool=state.view==='controller'?filteredSkipping(new Set(['genre'])):null;
+ $('#genreChips').innerHTML=GENRE_FAMILIES_AZ.map(f=>{const name=f[0];if(!GENRE_COUNTS[name])return '';
+  const n=pool?pool.filter(x=>x.fam.includes(name)).length:GENRE_COUNTS[name];
   const on=state.genres.includes(name),off=state.genresExclude.includes(name);
-  const style=on?'color:#0B0F19;background:#a5b4fc;border-color:#a5b4fc;font-weight:700':off?'color:#fca5a5;background:#7f1d1d33;border-color:#f8717166;text-decoration:line-through;font-weight:700':'';
-  const title=on?'Included -- click to exclude instead':off?'Excluded -- click to clear':'Click to include, click again to exclude';
+  const style=on?'color:#0B0F19;background:#a5b4fc;border-color:#a5b4fc;font-weight:700':off?'color:#fca5a5;background:#7f1d1d33;border-color:#f8717166;text-decoration:line-through;font-weight:700':(n===0?'opacity:.45':'');
+  const title=on?'Included -- click to exclude instead':off?'Excluded -- click to clear':(n===0?'No works match your current filters with this genre':'Click to include, click again to exclude');
   return '<button type="button" class="chip genreChip" data-g="'+esc(name)+'" title="'+title+'" style="cursor:pointer;'+style+'">'+(off?'✕ ':'')+esc(name)+' <span style="opacity:.6">'+n+'</span></button>';}).join('');
 }
 const TIER_CHIP_DEFS=[['gold','🥇 Gold','#fbbf24'],['silver','🥈 Silver','#cbd5e1'],['bronze','🥉 Bronze','#cd7f32']];
@@ -4904,8 +4923,14 @@ function buildTierFilterChips(){
   return '<button type="button" class="chip tierChip" data-tier="'+key+'" title="'+title+'" style="cursor:pointer;'+style+'">'+(off?'✕ ':'')+label+'</button>';}).join('');
 }
 function buildRatingChips(){
- $('#ratingChips').innerHTML=RATING_ORDER.filter(r=>RATING_COUNTS[r]).map(r=>{const on=state.ratings.includes(r);
-  return '<button type="button" class="chip ratingChip" data-r="'+esc(r)+'" style="cursor:pointer;'+(on?'color:#0B0F19;background:#5eead4;border-color:#5eead4;font-weight:700':'')+'">'+esc(r)+' <span style="opacity:.6">'+RATING_COUNTS[r]+'</span></button>';}).join('');
+ // Same contextual-count treatment as buildGenreChips -- see its comment.
+ const pool=state.view==='controller'?filteredSkipping(new Set(['rating'])):null;
+ $('#ratingChips').innerHTML=RATING_ORDER.filter(r=>RATING_COUNTS[r]).map(r=>{
+  const n=pool?pool.filter(x=>x.rating===r).length:RATING_COUNTS[r];
+  const on=state.ratings.includes(r);
+  const style=on?'color:#0B0F19;background:#5eead4;border-color:#5eead4;font-weight:700':(n===0?'opacity:.45':'');
+  const title=n===0&&!on?'No works match your current filters with this rating':'';
+  return '<button type="button" class="chip ratingChip" data-r="'+esc(r)+'" style="cursor:pointer;'+style+'"'+(title?' title="'+title+'"':'')+'>'+esc(r)+' <span style="opacity:.6">'+n+'</span></button>';}).join('');
 }
 // Pinning: a user can pin any of the 17 specialized index sliders to the always-visible main
 // filter row instead of needing to open Advanced Filters every time to reach it. A slider lives in
