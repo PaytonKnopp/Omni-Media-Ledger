@@ -792,117 +792,14 @@ function updateRadar(){if(!CH.radar)return;
 }
 
 /* ===================== VIEW 4 · REFERENCE MATRICES ===================== */
-// MATRIX_TITLES was being collected every render and never read anywhere -- the quick-jump nav
-// below is what that collection was clearly meant to drive; with 18 independently-scrolling
-// panels on one page there was previously no way to reach e.g. "Scariest" without scrolling past
-// 17 others first.
-var MATRIX_TITLES=[];
-var matrixOwnedOnly=false;
-var matrixNavQ='';
-function matrixBlock(title,sub,arr,colFn,heads){
- if(MATRIX_TITLES.indexOf(title)<0)MATRIX_TITLES.push(title);
- var shown=matrixOwnedOnly?arr.filter(function(x){return x.owned;}):arr;
- return '<div class="panel overflow-hidden fade-in" id="mx-'+slugify(title)+'"><div class="px-4 pt-4 pb-3 border-b border-slate-800/70">'
- +'<div class="flex items-baseline justify-between gap-2"><h3 class="text-[12px] font-bold tracking-[.14em] text-slate-100 uppercase">'+title+'</h3><span class="chip">'+shown.length+(matrixOwnedOnly?' owned':' qualify')+'</span></div>'
- +'<p class="text-[11px] text-slate-500 mt-1.5 leading-relaxed">'+sub+'</p>'
- +'<div class="hidden sm:flex justify-end gap-2.5 mt-2.5">'+heads.map(h=>'<span class="lbl w-24 text-right">'+h+'</span>').join('')+'</div></div>'
- +'<div class="matrixScroll max-h-[460px] overflow-y-auto">'+(shown.length?shown.map((it,i)=>matrixRow(it,i,colFn(it))).join(''):'<div class="px-4 py-6 text-center text-slate-500 text-[12px]">None of these are in your collection yet.</div>')+'</div></div>';
-}
-function renderMatrixNav(){
- var el=$('#matrixNav');if(!el)return;
- var q=(matrixNavQ||'').trim().toLowerCase();
- var titles=q?MATRIX_TITLES.filter(function(t){return t.toLowerCase().indexOf(q)>=0;}):MATRIX_TITLES;
- el.innerHTML=titles.length?titles.map(function(t){var label=t.replace(/&amp;/g,'&').replace(/&ge;/g,'≥').replace(/&le;/g,'≤');
-  var slug=slugify(t);var panel=document.getElementById('mx-'+slug);var chip=panel?panel.querySelector('.chip'):null;var countLabel=chip?chip.textContent:'';
-  return '<a href="#mx-'+slug+'" class="matrixNavLink text-[10.5px] px-2.5 py-1 rounded-lg border border-slate-700 text-slate-400 hover:border-indigo-500 hover:text-indigo-300 transition-colors whitespace-nowrap flex items-center gap-1.5" data-anchor="mx-'+slug+'">'+label+(countLabel?'<span class="text-slate-600">·</span><span class="tabular-nums'+(matrixOwnedOnly?' text-emerald-400':'')+'">'+countLabel+'</span>':'')+'</a>';}).join('')
-  :'<div class="text-[11px] text-slate-500 px-1 py-1">No brackets match “'+esc(q)+'”.</div>';
-}
-function renderMatrices(){
- MATRIX_TITLES=[];
- const ref=ALL.filter(x=>x.kind!=='game'&&x.fid[0][1]>=94&&x.fid[1][1]>=90).sort((a,b)=>(b.fid[0][1]+b.fid[1][1]+b.fid[2][1])-(a.fid[0][1]+a.fid[1][1]+a.fid[2][1]));
- const dread=ALL.filter(x=>x.dread>=90).sort((a,b)=>b.dread-a.dread);
- const myst=ALL.filter(x=>x.myst>=90).sort((a,b)=>b.myst-a.myst);
- const eldritch=ALL.filter(x=>x.ch>=78).sort((a,b)=>(b.ch-a.ch)||(b.dread-a.dread));
- $('#matrixWrap').innerHTML=
-  // Reference Matrices' 20 brackets are listed alphabetically by title (icon/emoji ignored) so
-  // they're easy to scan in order, both in this DOM/nav-building sequence and in the jump-to-
-  // bracket pill nav that reads MATRIX_TITLES in this same push order (see matrixBlock/renderMatrixNav).
-  matrixBlock('📀 4K Physical UHD Reference Tier','Disc-pushing transfers and object-audio mixes for calibrated HDR rigs. Films &amp; series with Transfer &ge; 94 and Audio &ge; 90.',ref,it=>[[it.fid[0][1],'#818cf8'],[it.fid[1][1],'#7dd3fc'],[it.fid[2][1],'#c4b5fd']],['Transfer','Audio','Cinema'])
-  +matrixBlock('🕳 Atmospheric Isolation &amp; Cosmic Dread','High-tension slow-burns across every medium. Dread / Immersion Index &ge; 90.',dread,it=>[[it.dread,'#fb7185'],[it.tech,'#818cf8']],['Dread','Tech'])
-  +matrixBlock('🤠 Best Western &amp; Frontier','Gunfighters, open ranges, dark Americana and the closing of the frontier — ranked by match. Western family, top of the bracket.',ALL.filter(x=>x.fam.indexOf('Western')>=0).sort((a,b)=>(b.gm-a.gm)||(b.ovr-a.ovr)).slice(0,24),it=>[[it.gm,'#d97706'],[it.ovr,'#94a3b8']],['Match','Overall'])
-  +matrixBlock('🎭 Bravura Performances','Career-defining acting and voice work — the roles that carry their whole piece. Performance index ≥ 88.',ALL.filter(x=>x.perf>=88).sort((a,b)=>b.perf-a.perf),it=>[[it.perf,'#f472b6'],[it.crit,'#94a3b8']],['Perf','Critic'])
-  +matrixBlock('😴 Comfort &amp; Warmth','Rainy-Sunday companions — the cozy, humane, restorative works to return to. Comfort index ≥ 74.',ALL.filter(x=>x.cozy>=74).sort((a,b)=>b.cozy-a.cozy),it=>[[it.cozy,'#fbbf24'],[it.aud,'#94a3b8']],['Comfort','Audience'])
-  +matrixBlock('🌌 Cosmic Awe &amp; Sense of Wonder','Vastness, transcendence, the sublime — works that make you feel small before something immense. Awe index ≥ 88.',ALL.filter(x=>x.awe>=88).sort((a,b)=>b.awe-a.awe),it=>[[it.awe,'#38bdf8'],[it.myst,'#34d399']],['Awe','Mind'])
-  +matrixBlock('◉ Eldritch Cosmic Horror Canon','The void looks back: indifferent universes, unknowable entities, sanity under siege. Cosmic Horror Index &ge; 78 — anchored to your declared canon.',eldritch,it=>[[it.ch,'#c084fc'],[it.dread,'#fb7185']],['Mind','Critic'])
-  +matrixBlock('🔁 Endlessly Rewatchable','Comfort-food favorites you would happily return to any night — low-friction, high-reward. Rewatchability index ≥ 78.',ALL.filter(x=>x.rewatch>=78).sort((a,b)=>(b.rewatch-a.rewatch)||(b.aud-a.aud)),it=>[[it.rewatch,'#5eead4'],[it.aud,'#94a3b8']],['Rewatch','Audience'])
-  +matrixBlock('⚡ Genuine Shock &amp; The Twist','Gut-punch reveals and moments that rewrite everything before them. Shock index ≥ 80.',ALL.filter(x=>x.shock>=80).sort((a,b)=>b.shock-a.shock),it=>[[it.shock,'#fb923c'],[it.crit,'#94a3b8']],['Shock','Critic'])
-  +matrixBlock('🌍 Grounded &amp; Realistic','Life as it is, not stylized — plausible situations and real-world stakes, no genre gloss. Realism index ≥ 80.',ALL.filter(x=>x.real>=80).sort((a,b)=>(b.real-a.real)||(b.crit-a.crit)),it=>[[it.real,'#d4d4d8'],[it.crit,'#94a3b8']],['Real','Critic'])
-  +matrixBlock('⚛ Hard Science &amp; Big Ideas','Rigorous, idea-dense works — physics, cosmology, deep systems, real intellectual heft. Scientific index ≥ 80.',ALL.filter(x=>x.sci>=80).sort((a,b)=>b.sci-a.sci),it=>[[it.sci,'#22d3ee'],[it.myst,'#34d399']],['Science','Mind'])
-  +matrixBlock('🏛 Historical Weight &amp; True Stories','Meticulously grounded history — the real events, rendered with rigor. Historical-accuracy index ≥ 72.',ALL.filter(x=>x.hist>=72).sort((a,b)=>b.hist-a.hist),it=>[[it.hist,'#a3e635'],[it.real,'#86efac']],['History','Real'])
-  +matrixBlock('🗿 Iconic &amp; Culture-Defining','The landmarks — works that shaped the medium and lodged in the collective memory. Iconic index ≥ 84.',ALL.filter(x=>x.icon>=84).sort((a,b)=>(b.icon-a.icon)||(b.crit-a.crit)),it=>[[it.icon,'#fcd34d'],[it.crit,'#94a3b8']],['Iconic','Critic'])
-  +matrixBlock('🧩 Mind-Bending Puzzles &amp; Ontological Mysteries','Structural labyrinths, recursive timelines, bottomless systems. Complexity &ge; 90.',myst,it=>[[it.myst,'#34d399'],[it.crit,'#94a3b8']],['Mind','Critic'])
-  +matrixBlock('🌀 Reality-Bending &amp; Surreal','Dream logic, unreliable realities, the floor dropping out — works that warp perception. Reality-warp index ≥ 82.',ALL.filter(x=>x.reality>=82).sort((a,b)=>b.reality-a.reality),it=>[[it.reality,'#a78bfa'],[it.myst,'#34d399']],['Warp','Mind'])
-  +matrixBlock('💀 Scariest — Pure Horror','Dread made physical — the works that get under your skin and stay there. Scare index ≥ 82.',ALL.filter(x=>x.scary>=82).sort((a,b)=>b.scary-a.scary),it=>[[it.scary,'#f87171'],[it.dread,'#fb7185']],['Scare','Dread'])
-  +matrixBlock('♫ Soundtrack &amp; Audio Hall','Reference scores and sound design — the works that justify the speakers. Soundtrack index &ge; 90.',ALL.filter(x=>x.snd>=90).sort((a,b)=>b.snd-a.snd),it=>[[it.snd,'#7dd3fc'],[it.ref,'#818cf8']],['Audio','4K'])
-  +matrixBlock('💧 Tearjerker &amp; Emotional Gut-Punch','Bring tissues — the most devastating, moving works across every medium. Emotional index ≥ 86.',ALL.filter(x=>x.emo>=86).sort((a,b)=>b.emo-a.emo),it=>[[it.emo,'#f0abfc'],[it.crit,'#94a3b8']],['Emotion','Critic'])
-  +matrixBlock('⚔ War &amp; Valor','The chaos, cost and brotherhood of combat — from the trenches to the beaches. War family, ranked by match.',ALL.filter(x=>x.fam.indexOf('War')>=0).sort((a,b)=>(b.gm-a.gm)||(b.ovr-a.ovr)).slice(0,24),it=>[[it.gm,'#a3a3a3'],[it.real,'#86efac']],['Match','Real'])
-  +matrixBlock('😀 Wit &amp; Comedy Peak','The sharpest, funniest works across every medium — satire, farce, and perfect timing. Comedy index ≥ 74.',ALL.filter(x=>x.funny>=74).sort((a,b)=>b.funny-a.funny),it=>[[it.funny,'#fde047'],[it.aud,'#94a3b8']],['Funny','Audience']);
- renderMatrixNav();
- var q=(matrixNavQ||'').trim().toLowerCase();
- if(q){$$('#matrixWrap > .panel').forEach(function(p){var h3=p.querySelector('h3');var match=h3&&h3.textContent.toLowerCase().indexOf(q)>=0;p.classList.toggle('hidden',!match);});}
-}
+// MATRIX_TITLES/matrixOwnedOnly/matrixNavQ and matrixBlock/renderMatrixNav/renderMatrices now
+// live in app/matrices.js (they take state/ALL/$/$$ as explicit parameters, per ARCHITECTURE.md
+// "Known limits"). Every call below now passes them in.
 
 /* ===================== VIEW 5 · PAN-CREATOR ARCHIVES ===================== */
-function worksFor(name){return ALL.filter(x=>x.creator.includes(name)).sort((a,b)=>b.crit-a.crit);}
-function creatorCard(c,tab){const isDir=tab===true||tab==='directors';const isAuthor=tab==='authors';const isAuteur=tab==='auteurs'||tab===false;const works=worksFor(c.name);const accent=isDir?'#a78bfa':(isAuthor?'#4ade80':'#fbbf24');
- const frontLabel=isDir?'Director · Pantheon':(isAuthor?'Author · Pantheon':'Gaming Auteur');
- const sigField=isAuteur?c.designPhilosophy:c.visualSignature;
- const backSigLabel=isDir?'Visual Signature':(isAuthor?'Prose & Vision':'Design Philosophy');
- const ownedN=works.filter(function(w){return w.owned;}).length;
- const ownedPct=works.length?Math.round(ownedN/works.length*100):0;
- const front='<div class="flip-face absolute inset-0 panel p-4 flex flex-col">'
-  +'<div class="flex items-start justify-between gap-2"><div class="min-w-0"><div class="lbl">'+frontLabel+'</div><div class="text-[15px] font-bold text-slate-50 mt-1 leading-tight">'+esc(c.name)+'</div></div>'
-  +'<div class="text-right shrink-0"><div class="text-2xl font-extrabold leading-none goatJump cursor-pointer" data-q="'+esc(c.name)+'" title="View all of '+esc(c.name)+'’s works in the Global Controller" style="color:'+accent+'">'+works.length+'</div><div class="lbl mt-1">on ledger</div></div></div>'
-  +'<div class="flex flex-wrap gap-1.5 mt-3">'+c.activeEras.map(e=>'<span class="chip">'+esc(e)+'</span>').join('')+'</div>'
-  +(works.length?'<div class="flex items-center gap-1.5 mt-2 text-[10.5px]" title="'+ownedN+' of '+works.length+' ledger works owned"><div class="flex-1 h-1 rounded-full bg-slate-800 overflow-hidden"><div style="width:'+ownedPct+'%;height:100%;background:'+accent+'"></div></div><span class="text-slate-400 tabular-nums shrink-0">'+ownedPct+'% owned</span></div>':'')
-  +'<p class="text-[11px] text-slate-400 mt-3 leading-relaxed clamp4">'+esc(sigField)+'</p>'
-  +'<div class="mt-auto pt-2 flex items-center justify-between text-[9px] tracking-[.22em] uppercase text-slate-600"><span>Click to flip &#10227;</span>'+(works.length?'<span class="goatJump cursor-pointer hover:text-teal-400 normal-case tracking-normal" data-q="'+esc(c.name)+'" title="View all of '+esc(c.name)+'’s works in the Global Controller">View in Controller →</span>':'')+'</div></div>';
- const back='<div class="flip-face flip-back absolute inset-0 panel p-4 flex flex-col" style="border-color:'+accent+'40">'
-  +'<div class="lbl">'+backSigLabel+'</div>'
-  +'<p class="text-[10.5px] text-slate-300 mt-1 leading-relaxed">'+esc(sigField)+'</p>'
-  +'<div class="lbl mt-2">Core Themes</div><div class="flex flex-wrap gap-1 mt-1">'+c.primaryThemes.slice().sort((a,b)=>a.localeCompare(b)).map(t=>{const tc=themeColor(t);return '<span class="chip" style="color:'+tc+';background:'+tc+'1f;border-color:'+tc+'66;font-weight:600">'+esc(t)+'</span>';}).join('')+'</div>'
-  +'<div class="lbl mt-2">Ledger Entries ('+works.length+')</div>'
-  +'<div class="mt-1 flex-1 overflow-y-auto pr-1 space-y-1">'+(works.length?works.map(w=>{const k=KM[w.kind];
-    return '<div class="flex items-center gap-2 text-[11px] goatJump cursor-pointer hover:bg-slate-800/30 rounded px-1 -mx-1" data-q="'+esc(w.title)+'" title="Open '+esc(w.title)+' in the Global Controller"><span class="w-1.5 h-1.5 rounded-full shrink-0" style="background:'+k.c+'"></span><span class="flex-1 truncate text-slate-200 hover:text-teal-300">'+esc(w.title)+'</span><span class="text-slate-500 tabular-nums">'+w.year+'</span><span class="tabular-nums font-semibold" style="color:'+k.c+'">'+w.crit+'</span></div>';}).join(''):'<div class="text-[11px] text-slate-500">No direct credits indexed.</div>')+'</div></div>';
- return '<div class="flip h-[300px] select-none cursor-pointer" role="button" tabindex="0" aria-label="Flip card for '+esc(c.name)+'"><div class="flip-inner">'+front+back+'</div></div>';
-}
-const CREATOR_TOTAL=directorsPantheon.length+authorsPantheon.length+gamingAuteurs.length;
-function sortCreatorPairs(pairs,sortMode){
- if(sortMode==='az')return pairs.slice().sort(function(a,b){return a[0].name.localeCompare(b[0].name);});
- if(sortMode==='works')return pairs.slice().sort(function(a,b){return (worksFor(b[0].name).length)-(worksFor(a[0].name).length);});
- return pairs;
-}
-function renderCreators(){const tab=state.creatorTab;
- const q=(state.creatorSearch||'').trim().toLowerCase();
- const scope=state.creatorSearchScope||'all';
- const sortMode=state.creatorSort||'default';
- var grid=$('#creatorGrid');
- if(q){
-  // search across ALL pantheons by default, tagging each with its tab type -- optionally scoped
-  // to just one pantheon via the search-scope segmented control.
-  var all=directorsPantheon.map(c=>[c,'directors']).concat(authorsPantheon.map(c=>[c,'authors'])).concat(gamingAuteurs.map(c=>[c,'auteurs']));
-  if(scope!=='all')all=all.filter(function(pair){return pair[1]===scope;});
-  var hits=sortCreatorPairs(all.filter(function(pair){return pair[0].name.toLowerCase().indexOf(q)>=0;}),sortMode);
-  grid.innerHTML=hits.length?hits.map(function(pair){return creatorCard(pair[0],pair[1]);}).join(''):'<div class="col-span-full text-center text-slate-500 text-sm py-10">No creator matches “'+esc(q)+'”.</div>';
-  var cc=$('#creatorSearchCount');if(cc)cc.textContent=hits.length+' of '+(scope==='all'?CREATOR_TOTAL:all.length)+' creators';
-  return;
- }
- var cc=$('#creatorSearchCount');if(cc)cc.textContent='';
- const data=tab==='directors'?directorsPantheon:(tab==='authors'?authorsPantheon:gamingAuteurs);
- const pairs=sortCreatorPairs(data.map(function(c){return [c,tab];}),sortMode);
- grid.innerHTML=pairs.map(function(pair){return creatorCard(pair[0],pair[1]);}).join('');
- $$('#creatorSeg button').forEach(b=>b.classList.toggle('on',b.dataset.tab===tab));
-}
+// worksFor/creatorCard/sortCreatorPairs/renderCreators (and CREATOR_TOTAL) now live in
+// app/creators.js (they take state/ALL/$/$$ as explicit parameters, per ARCHITECTURE.md
+// "Known limits"). Every call below now passes them in.
 
 /* ===================== VIEW 6 · CONTENDERS LEDGER ===================== */
 function gauge(p){const r=26,c=2*Math.PI*r,off=c*(1-p/100);const col=p>=90?'#34d399':p>=80?'#a5b4fc':p>=70?'#7dd3fc':'#fbbf24';
@@ -2880,9 +2777,9 @@ function applyStateToStaticControls(){
  if(typeof renderGoat==='function')renderGoat();
  if(typeof renderCollection==='function')renderCollection();
  if(typeof renderWatchlist==='function')renderWatchlist();
- if(typeof renderCreators==='function')renderCreators();
+ if(typeof renderCreators==='function')renderCreators(state,ALL,$,$$);
  if(typeof renderContenders==='function')renderContenders();
- if(typeof renderMatrices==='function')renderMatrices();
+ if(typeof renderMatrices==='function')renderMatrices(ALL,$,$$);
 }
 // `changedIds`, when given, is the set of works whose derived state this render is reacting to --
 // it lets the controller grid patch just those cards instead of rebuilding all of them. Every
@@ -3289,10 +3186,10 @@ document.addEventListener('click',function(e){
  else if(work)renderGraph({type:'work',key:work.id});
  else if(cr)renderGraph({type:'creator',key:cr});
 });})();
-on('#creatorSeg','click',e=>{const b=e.target.closest('button');if(!b)return;state.creatorTab=b.dataset.tab;state.creatorSearch='';var cs=$('#creatorSearch');if(cs)cs.value='';renderCreators();});
-on('#creatorSearch','input',e=>{state.creatorSearch=e.target.value;renderCreators();});
-on('#creatorSearchScope','click',e=>{const b=e.target.closest('button');if(!b)return;state.creatorSearchScope=b.dataset.scope;$$('#creatorSearchScope button').forEach(x=>x.classList.toggle('on',x===b));renderCreators();scheduleURLSync();});
-on('#creatorSortSel','change',e=>{state.creatorSort=e.target.value;renderCreators();scheduleURLSync();});
+on('#creatorSeg','click',e=>{const b=e.target.closest('button');if(!b)return;state.creatorTab=b.dataset.tab;state.creatorSearch='';var cs=$('#creatorSearch');if(cs)cs.value='';renderCreators(state,ALL,$,$$);});
+on('#creatorSearch','input',e=>{state.creatorSearch=e.target.value;renderCreators(state,ALL,$,$$);});
+on('#creatorSearchScope','click',e=>{const b=e.target.closest('button');if(!b)return;state.creatorSearchScope=b.dataset.scope;$$('#creatorSearchScope button').forEach(x=>x.classList.toggle('on',x===b));renderCreators(state,ALL,$,$$);scheduleURLSync();});
+on('#creatorSortSel','change',e=>{state.creatorSort=e.target.value;renderCreators(state,ALL,$,$$);scheduleURLSync();});
 on('#creatorGrid','click',e=>{if(e.target.closest('.goatJump'))return;const f=e.target.closest('.flip');if(f)f.classList.toggle('flipped');});
 on('#collSeg','click',e=>{const b=e.target.closest('button');if(!b)return;state.collSeg=b.dataset.cs;$$('#collSeg button').forEach(x=>x.classList.toggle('on',x===b));renderCollection();if(state.collGroup==='series')renderCollectionSeries();if(state.collShelf)renderCollectionShelf();if(state.collUpgrade)renderUpgradeAudit();});
 let collSearchT=null;
@@ -3466,9 +3363,9 @@ function renderDeferredProfileView(v){
   // renderGoat does not touch it -- and it is exactly where a run of tier clicks happens.
   if(typeof renderGoatSearchResults==='function')renderGoatSearchResults();
  }
- else if(v==='creators'&&typeof renderCreators==='function')renderCreators();
+ else if(v==='creators'&&typeof renderCreators==='function')renderCreators(state,ALL,$,$$);
  else if(v==='contenders'&&typeof renderContenders==='function')renderContenders();
- else if(v==='matrix'&&typeof renderMatrices==='function')renderMatrices();
+ else if(v==='matrix'&&typeof renderMatrices==='function')renderMatrices(ALL,$,$$);
 }
 /* Everything cardHTML reads straight off the profile rather than off the work it is drawing:
    boosted-genre and boosted-vibe stars, the creator weight stepper, a book's affinity button. A
@@ -4816,9 +4713,9 @@ $('#headStats').innerHTML=[['Indexed Works',ALL.length],['Contenders',contenders
  .map(s=>'<div><div class="text-lg font-extrabold text-slate-50 leading-none tabular-nums">'+s[1]+'</div><div class="lbl mt-1">'+s[0]+'</div></div>').join('');
 (function(){var lc=$('#luCount');if(lc){var m=ALL.filter(function(x){return x.kind==='movie'}).length,t=ALL.filter(function(x){return x.kind==='tv'}).length,g=ALL.filter(function(x){return x.kind==='game'}).length,b=ALL.filter(function(x){return x.kind==='book'}).length;lc.textContent=ALL.length+' works · '+m+' films / '+t+' series / '+g+' games / '+b+' books';}})();
 var mi=$('#matrixIntro');if(mi)mi.textContent='Elite specialized brackets computed across the full '+ALL.length.toLocaleString()+'-work corpus (Global Controller filters intentionally ignored here so brackets stay canonical). Hover rows for full credits.';
-on('#matrixOwnedOnly','change',e=>{matrixOwnedOnly=e.target.checked;renderMatrices();scheduleURLSync();});
+on('#matrixOwnedOnly','change',e=>{matrixOwnedOnly=e.target.checked;renderMatrices(ALL,$,$$);scheduleURLSync();});
 var matrixNavSearchT=null;
-on('#matrixNavSearch','input',e=>{clearTimeout(matrixNavSearchT);const v=e.target.value;matrixNavSearchT=setTimeout(()=>{matrixNavQ=v;renderMatrices();scheduleURLSync();},120);});
+on('#matrixNavSearch','input',e=>{clearTimeout(matrixNavSearchT);const v=e.target.value;matrixNavSearchT=setTimeout(()=>{matrixNavQ=v;renderMatrices(ALL,$,$$);scheduleURLSync();},120);});
 on('#matrixNav','click',e=>{const a=e.target.closest('.matrixNavLink');if(!a)return;e.preventDefault();const el=document.getElementById(a.dataset.anchor);if(el)jumpToMatrixSection(el);});
 // The sticky <header> covers whatever's pinned to viewport y=0, and its height isn't a constant
 // -- it wraps differently by theme/width and by whether the controls row has broken into extra
@@ -4833,8 +4730,8 @@ function jumpToMatrixSection(el){
  const top=el.getBoundingClientRect().top+window.pageYOffset-headerH-gap;
  window.scrollTo({top:Math.max(0,top),behavior:'smooth'});
 }
-renderMatrices();
-renderCreators();
+renderMatrices(ALL,$,$$);
+renderCreators(state,ALL,$,$$);
 renderContenders();
 document.addEventListener('click',e=>{const b=e.target.closest('.contMedBtn');if(b){contMedium=b.dataset.med;renderContenders();scheduleURLSync();}});
 document.addEventListener('click',e=>{const b=e.target.closest('.contSortBtn');if(b){contSort=b.dataset.sort;$$('.contSortBtn').forEach(function(x){x.classList.toggle('on',x===b);});renderContenders();scheduleURLSync();}});
