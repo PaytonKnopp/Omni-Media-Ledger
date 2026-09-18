@@ -36,7 +36,7 @@ These are the owner's, and they are not negotiable. A future session must follow
 2. **The current index values are not a trustworthy baseline.** Nobody ever checked them against
    a rubric. Do not anchor on them or assume they need only nudging.
 3. **Do not touch `PERSONAL_PROFILE`** (`declaredGoatIds`, `silverTierIds`, `creatorBoost`,
-   `genreBoost`, `vibeBoost`, `bookAffinity`, `ownedMedia`…). That is the owner's taste, not data
+   `genreBoost`, `vibeBoost`, `ratings`, `ownedMedia`…). That is the owner's taste, not data
    quality. Tuning it to improve the numbers is fitting the answer to the test. Raise concerns
    about a weight; let the owner decide.
 4. **No unrequested scope bundled into a working change.** Added scope has broken this repo twice.

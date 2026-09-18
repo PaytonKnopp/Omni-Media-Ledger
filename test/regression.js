@@ -2202,6 +2202,147 @@ async function runLegacyProfileFlow(browser, file) {
   if (pageErrors.length) pageErrors.forEach(e => console.log('     ' + e));
 }
 
+// Personal ratings (0-10, one decimal, any medium): the bookAffinity -> ratings migration that
+// runs once on boot for an old saved profile, the on-card rating popup end to end (ghost prompt,
+// open, save, re-open pre-filled, clear, cancel-does-not-save), the GOAT Match blend, and the new
+// Global Controller filter/sort. Two fresh contexts -- migration only makes sense against a profile
+// that predates `ratings`, so it needs its own boot separate from the interactive-UI pass below.
+async function runRatingFlow(browser, file) {
+  const legacy = { bookAffinity: { b19: 92, b20: 74 }, declaredGoatIds: [] };
+  const ctxA = await browser.newContext({ viewport: { width: 1400, height: 1000 } });
+  const pageA = await ctxA.newPage();
+  await pageA.route('**/supabase-js*/**', route => route.abort());
+  await pageA.addInitScript(p => {
+    localStorage.setItem('omniLedgerProfile', JSON.stringify(p));
+    localStorage.setItem('omniLedgerOnboarded', '1');
+  }, legacy);
+  await pageA.goto('file://' + path.join(ROOT, file));
+  await waitForBoot(pageA);
+  await pageA.waitForTimeout(400);
+  const migrated = await pageA.evaluate(() => ({
+    ratings: PERSONAL_PROFILE.ratings,
+    hasBookAffinity: Object.prototype.hasOwnProperty.call(PERSONAL_PROFILE, 'bookAffinity'),
+    stored: localStorage.getItem('omniLedgerProfile') || ''
+  }));
+  check('a legacy bookAffinity profile migrates into ratings on boot',
+    !!migrated.ratings && migrated.ratings.b19 === 9.2 && migrated.ratings.b20 === 7.4);
+  check('bookAffinity is dropped from the in-memory profile after migration', !migrated.hasBookAffinity);
+  check('the migration is written back to localStorage, not just held in memory',
+    migrated.stored.indexOf('bookAffinity') === -1 && migrated.stored.indexOf('"b19":9.2') >= 0);
+  await ctxA.close();
+
+  const ctxB = await browser.newContext({ viewport: { width: 1400, height: 1000 } });
+  const pageB = await ctxB.newPage();
+  const pageErrors = [];
+  pageB.on('pageerror', e => pageErrors.push(e.message));
+  await pageB.route('**/supabase-js*/**', route => route.abort());
+  await pageB.addInitScript(() => { localStorage.setItem('omniLedgerOnboarded', '1'); });
+  await pageB.goto('file://' + path.join(ROOT, file));
+  await waitForBoot(pageB);
+  await pageB.waitForTimeout(400);
+
+  const cardId = await firstCardId(pageB);
+  const initiallyUnrated = await pageB.evaluate((id) => {
+    const btn = document.querySelector('.panel .rateBtn[data-id="' + id + '"]');
+    return !!btn && !btn.classList.contains('rated') && /Rate/.test(btn.textContent);
+  }, cardId);
+  check('an unrated card shows a ghost "Rate" prompt, not a number', initiallyUnrated);
+
+  await pageB.click('.panel .rateBtn[data-id="' + cardId + '"]');
+  const gateOpened = await readWhen(pageB, () => !document.getElementById('rateGate').classList.contains('hidden'));
+  check('clicking Rate opens the rating popup', !!gateOpened);
+  const titleMatches = await pageB.evaluate((id) =>
+    document.getElementById('rateGateTitle').textContent === ALL.find(x => x.id === id).title, cardId);
+  check('the popup names the work being rated', titleMatches);
+
+  await pageB.fill('#rateGateNum', '8.5');
+  let rev = await pageB.evaluate(() => window.__omniProfileRevision || 0);
+  await pageB.click('#rateGateSave');
+  await pageB.waitForFunction((n) => (window.__omniProfileRevision || 0) > n, rev, { timeout: 10000 }).catch(() => {});
+  const afterSave = await pageB.evaluate((id) => {
+    const btn = document.querySelector('.panel .rateBtn[data-id="' + id + '"]');
+    return {
+      gateHidden: document.getElementById('rateGate').classList.contains('hidden'),
+      btnText: btn ? btn.textContent : '',
+      rated: !!btn && btn.classList.contains('rated'),
+      stored: (JSON.parse(localStorage.getItem('omniLedgerProfile') || '{}').ratings || {})[id],
+      myRating: ALL.find(x => x.id === id).myRating
+    };
+  }, cardId);
+  check('saving a rating closes the popup', afterSave.gateHidden);
+  check('the card face updates to show the saved rating', afterSave.rated && /8\.5/.test(afterSave.btnText));
+  check('the rating is saved into the profile', afterSave.stored === 8.5);
+  check("the derived it.myRating reflects the saved rating", afterSave.myRating === 8.5);
+
+  await pageB.click('.panel .rateBtn[data-id="' + cardId + '"]');
+  await readWhen(pageB, () => !document.getElementById('rateGate').classList.contains('hidden'));
+  const prefilled = await pageB.evaluate(() => document.getElementById('rateGateNum').value);
+  check("reopening the popup pre-fills the value you already gave it", prefilled === '8.5');
+
+  rev = await pageB.evaluate(() => window.__omniProfileRevision || 0);
+  await pageB.click('#rateGateClear');
+  await pageB.waitForFunction((n) => (window.__omniProfileRevision || 0) > n, rev, { timeout: 10000 }).catch(() => {});
+  const afterClear = await pageB.evaluate((id) => {
+    const btn = document.querySelector('.panel .rateBtn[data-id="' + id + '"]');
+    return {
+      btnText: btn ? btn.textContent : '',
+      rated: !!btn && btn.classList.contains('rated'),
+      stored: JSON.parse(localStorage.getItem('omniLedgerProfile') || '{}').ratings || {}
+    };
+  }, cardId);
+  check('clearing the rating reverts the card to the ghost prompt', !afterClear.rated && /Rate/.test(afterClear.btnText));
+  check('clearing the rating removes it from the profile', !(cardId in afterClear.stored));
+
+  await pageB.click('.panel .rateBtn[data-id="' + cardId + '"]');
+  await readWhen(pageB, () => !document.getElementById('rateGate').classList.contains('hidden'));
+  await pageB.fill('#rateGateNum', '3.3');
+  await pageB.click('#rateGateCancel');
+  await pageB.waitForTimeout(200);
+  const afterCancel = await pageB.evaluate((id) => ({
+    gateHidden: document.getElementById('rateGate').classList.contains('hidden'),
+    myRating: ALL.find(x => x.id === id).myRating
+  }), cardId);
+  check('Cancel closes the popup without saving', afterCancel.gateHidden && afterCancel.myRating == null);
+
+  const blend = await pageB.evaluate((id) => {
+    const before = ALL.find(x => x.id === id).gm;
+    setRating(id, 10);
+    const highGm = ALL.find(x => x.id === id).gm, highOverride = ALL.find(x => x.id === id).gmOverride;
+    setRating(id, 0);
+    const lowGm = ALL.find(x => x.id === id).gm;
+    clearRating(id);
+    const resetGm = ALL.find(x => x.id === id).gm;
+    return { before, highGm, highOverride, lowGm, resetGm };
+  }, cardId);
+  check('rating something 10 pulls its GOAT Match up toward 100', blend.highGm >= blend.before);
+  check('a 10 rating is flagged as the reason for the match score', blend.highOverride === 'rated');
+  check('rating something 0 pulls its GOAT Match down, not just up', blend.lowGm < blend.highGm);
+  check('clearing the rating returns GOAT Match to its unrated value', blend.resetGm === blend.before);
+
+  const filterResult = await pageB.evaluate((id) => {
+    setRating(id, 10);
+    state.minMyRating = 5; refresh();
+    const passesHighBar = filtered().some(x => x.id === id);
+    state.minMyRating = 0; state.ratedOnly = true; refresh();
+    const inRatedOnly = filtered().some(x => x.id === id);
+    const anyUnrated = filtered().some(x => x.myRating == null);
+    state.ratedOnly = false; state.unratedOnly = true; refresh();
+    const excludedFromUnratedOnly = !filtered().some(x => x.id === id);
+    state.unratedOnly = false;
+    const sortedFirst = filtered().slice().sort(SORTS.myrating)[0].id === id;
+    clearRating(id); refresh();
+    return { passesHighBar, inRatedOnly, anyUnrated, excludedFromUnratedOnly, sortedFirst };
+  }, cardId);
+  check('"My Rating ≥" filters to works rated at least that high', filterResult.passesHighBar);
+  check('"Rated by me only" keeps a rated work and excludes unrated ones', filterResult.inRatedOnly && !filterResult.anyUnrated);
+  check('"Unrated only" excludes a work you rated', filterResult.excludedFromUnratedOnly);
+  check('sorting by "My Rating" puts your highest-rated work first', filterResult.sortedFirst);
+
+  await ctxB.close();
+  check('no uncaught page errors during the rating pass', pageErrors.length === 0);
+  if (pageErrors.length) pageErrors.forEach(e => console.log('     ' + e));
+}
+
 async function runTabFiltersFlow(browser, file) {
   const full = 'file://' + path.join(ROOT, file);
   const page = await browser.newPage({ viewport: { width: 1400, height: 1000 } });
@@ -2718,6 +2859,8 @@ async function runTabFiltersFlow(browser, file) {
     await runCollectionFlow(browser, t);
     console.log('\n=== ' + t + ' — a profile saved before the edition vocabulary changed ===');
     await runLegacyProfileFlow(browser, t);
+    console.log('\n=== ' + t + ' — personal ratings (migration, popup, GOAT Match blend, filters) ===');
+    await runRatingFlow(browser, t);
     console.log('\n=== ' + t + ' — tab filters, search/sort, URL bookmarking ===');
     await runTabFiltersFlow(browser, t);
   }

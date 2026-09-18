@@ -45,6 +45,21 @@ const PERSONAL_PROFILE=(function(){
  try{const raw=localStorage.getItem('omniLedgerProfile');if(raw!==null){PROFILE_FROM_STORAGE=true;return JSON.parse(raw)||{};}}catch(e){}
  return {};
 })();
+/* One-time migration: bookAffinity (books-only, a 0-100 match-score floor) is retired in favor of
+   `ratings` (all four media kinds, a genuine personal 0-10 score to one decimal) -- ported straight
+   across (/10) the first time a saved profile carrying the old field is loaded, then the old field
+   is dropped and the migration is flagged done so a rating cleared afterward doesn't reappear on
+   the next load. Written straight back to localStorage here, not through mutateProfile (which
+   doesn't exist yet at this point in boot), so this only ever runs once per browser. */
+if(PROFILE_FROM_STORAGE&&PERSONAL_PROFILE.bookAffinity&&!PERSONAL_PROFILE.ratingsMigratedFromBookAffinity){
+ PERSONAL_PROFILE.ratings=PERSONAL_PROFILE.ratings||{};
+ Object.keys(PERSONAL_PROFILE.bookAffinity).forEach(function(id){
+  if(PERSONAL_PROFILE.ratings[id]===undefined)PERSONAL_PROFILE.ratings[id]=Math.round(PERSONAL_PROFILE.bookAffinity[id]/10*10)/10;
+ });
+ delete PERSONAL_PROFILE.bookAffinity;
+ PERSONAL_PROFILE.ratingsMigratedFromBookAffinity=true;
+ try{localStorage.setItem('omniLedgerProfile',JSON.stringify(PERSONAL_PROFILE));}catch(e){}
+}
 if(!PROFILE_FROM_STORAGE)PERSONAL_PROFILE.watchlist={c02:1,c78:2,c79:3,c80:4,c81:5,c82:6,c83:7};
 contenders.forEach(c=>{const wl=PERSONAL_PROFILE.watchlist||{};if(wl[c.id])c.watchRank=wl[c.id];});
 
@@ -145,11 +160,11 @@ function wlSetWatched(id,v){if(WL[id]){WL[id].watched=v;wlSave();}}
 function wlCount(){return Object.keys(WL).length;}
 
 /* ===================== STATE & HELPERS ===================== */
-const state={view:'controller',q:'',type:'all',struct:'all',plats:[],minGoat:0,genres:[],genresExclude:[],ownedOnly:false,notOwnedOnly:false,limit:100,idx:{snd:0,ref:0,ch:0,emo:0,awe:0,cozy:0,perf:0,icon:0,scary:0,real:0,reality:0,shock:0,sci:0,funny:0,hist:0,vibe2:0,crit:0,aud:0,tech:0,dread:0,myst:0,warmth:0,comedy:0,beauty:0,runtime:0},ratings:[],tierFilter:[],tierFilterExclude:[],yearMin:null,yearMax:null,combine:false,sort:'overall',w:{tech:0.85,dread:0.95,myst:0.90},creatorTab:'directors',creatorSearch:'',creatorLedgerOnly:false,creatorOwnedOnly:false,goatType:'all',goatTierFilter:'all',goatSort:'match',goatDeclaredQ:'',portraitScope:'all',collSearchQ:'',collSort:'az',wlType:'all',wlSort:'added',wlSearchQ:'',creatorSearchScope:'all',creatorSort:'works'};
+const state={view:'controller',q:'',type:'all',struct:'all',plats:[],minGoat:0,minMyRating:0,ratedOnly:false,unratedOnly:false,genres:[],genresExclude:[],ownedOnly:false,notOwnedOnly:false,limit:100,idx:{snd:0,ref:0,ch:0,emo:0,awe:0,cozy:0,perf:0,icon:0,scary:0,real:0,reality:0,shock:0,sci:0,funny:0,hist:0,vibe2:0,crit:0,aud:0,tech:0,dread:0,myst:0,warmth:0,comedy:0,beauty:0,runtime:0},ratings:[],tierFilter:[],tierFilterExclude:[],yearMin:null,yearMax:null,combine:false,sort:'overall',w:{tech:0.85,dread:0.95,myst:0.90},creatorTab:'directors',creatorSearch:'',creatorLedgerOnly:false,creatorOwnedOnly:false,goatType:'all',goatTierFilter:'all',goatSort:'match',goatDeclaredQ:'',portraitScope:'all',collSearchQ:'',collSort:'az',wlType:'all',wlSort:'added',wlSearchQ:'',creatorSearchScope:'all',creatorSort:'works'};
 const $=s=>document.querySelector(s),$$=s=>Array.from(document.querySelectorAll(s));
 const on=(sel,ev,fn)=>{const el=$(sel);if(el)el.addEventListener(ev,fn);else console.warn('missing element:',sel);};
 // esc/themeColor(+THEME_PALETTE) live in app/cards.js (pure, closure-independent) now.
-const SORTS={overall:(a,b)=>(b.ovr-a.ovr)||(b.crit-a.crit),gm:(a,b)=>(b.gm-a.gm)||(b.crit-a.crit),cosmic:(a,b)=>(b.ch-a.ch)||(b.dread-a.dread),sound:(a,b)=>(b.snd-a.snd)||(b.crit-a.crit),ref4k:(a,b)=>(b.ref-a.ref)||(b.crit-a.crit),emotion:(a,b)=>(b.emo-a.emo)||(b.crit-a.crit),awe:(a,b)=>(b.awe-a.awe)||(b.crit-a.crit),comfort:(a,b)=>(b.cozy-a.cozy)||(b.aud-a.aud),perf:(a,b)=>(b.perf-a.perf)||(b.crit-a.crit),icon:(a,b)=>(b.icon-a.icon)||(b.crit-a.crit),scary:(a,b)=>(b.scary-a.scary)||(b.dread-a.dread),real:(a,b)=>(b.real-a.real)||(b.crit-a.crit),reality:(a,b)=>(b.reality-a.reality)||(b.myst-a.myst),shock:(a,b)=>(b.shock-a.shock)||(b.dread-a.dread),sci:(a,b)=>(b.sci-a.sci)||(b.myst-a.myst),funny:(a,b)=>(b.funny-a.funny)||(b.aud-a.aud),hist:(a,b)=>(b.hist-a.hist)||(b.crit-a.crit),vibe2:(a,b)=>(b.vibe2-a.vibe2)||(b.tech-a.tech),blend:(a,b)=>(bespokeScore(b,state)-bespokeScore(a,state))||(b.crit-a.crit),crit:(a,b)=>b.crit-a.crit,aud:(a,b)=>b.aud-a.aud,tech:(a,b)=>b.tech-a.tech,dread:(a,b)=>b.dread-a.dread,myst:(a,b)=>b.myst-a.myst,warmth:(a,b)=>(b.warmth||0)-(a.warmth||0)||(b.crit-a.crit),comedy:(a,b)=>(b.comedy||0)-(a.comedy||0)||(b.aud-a.aud),beauty:(a,b)=>(b.beauty||0)-(a.beauty||0)||(b.crit-a.crit),yearNew:(a,b)=>b.year-a.year,yearOld:(a,b)=>a.year-b.year,title:(a,b)=>a.title.localeCompare(b.title),tier:(a,b)=>(tierRank(b)-tierRank(a))||(b.gm-a.gm)};
+const SORTS={overall:(a,b)=>(b.ovr-a.ovr)||(b.crit-a.crit),gm:(a,b)=>(b.gm-a.gm)||(b.crit-a.crit),myrating:(a,b)=>((b.myRating==null?-1:b.myRating)-(a.myRating==null?-1:a.myRating))||(b.gm-a.gm),cosmic:(a,b)=>(b.ch-a.ch)||(b.dread-a.dread),sound:(a,b)=>(b.snd-a.snd)||(b.crit-a.crit),ref4k:(a,b)=>(b.ref-a.ref)||(b.crit-a.crit),emotion:(a,b)=>(b.emo-a.emo)||(b.crit-a.crit),awe:(a,b)=>(b.awe-a.awe)||(b.crit-a.crit),comfort:(a,b)=>(b.cozy-a.cozy)||(b.aud-a.aud),perf:(a,b)=>(b.perf-a.perf)||(b.crit-a.crit),icon:(a,b)=>(b.icon-a.icon)||(b.crit-a.crit),scary:(a,b)=>(b.scary-a.scary)||(b.dread-a.dread),real:(a,b)=>(b.real-a.real)||(b.crit-a.crit),reality:(a,b)=>(b.reality-a.reality)||(b.myst-a.myst),shock:(a,b)=>(b.shock-a.shock)||(b.dread-a.dread),sci:(a,b)=>(b.sci-a.sci)||(b.myst-a.myst),funny:(a,b)=>(b.funny-a.funny)||(b.aud-a.aud),hist:(a,b)=>(b.hist-a.hist)||(b.crit-a.crit),vibe2:(a,b)=>(b.vibe2-a.vibe2)||(b.tech-a.tech),blend:(a,b)=>(bespokeScore(b,state)-bespokeScore(a,state))||(b.crit-a.crit),crit:(a,b)=>b.crit-a.crit,aud:(a,b)=>b.aud-a.aud,tech:(a,b)=>b.tech-a.tech,dread:(a,b)=>b.dread-a.dread,myst:(a,b)=>b.myst-a.myst,warmth:(a,b)=>(b.warmth||0)-(a.warmth||0)||(b.crit-a.crit),comedy:(a,b)=>(b.comedy||0)-(a.comedy||0)||(b.aud-a.aud),beauty:(a,b)=>(b.beauty||0)-(a.beauty||0)||(b.crit-a.crit),yearNew:(a,b)=>b.year-a.year,yearOld:(a,b)=>a.year-b.year,title:(a,b)=>a.title.localeCompare(b.title),tier:(a,b)=>(tierRank(b)-tierRank(a))||(b.gm-a.gm)};
 
 const IDX_KEYS=['snd','ref','ch','emo','awe','cozy','perf','icon','scary','real','reality','shock','sci','funny','hist','vibe2','crit','aud','tech','dread','myst','warmth','comedy','beauty'];
 // `skip` lets a caller ask "what would be in scope if this ONE facet's own selection were ignored,
@@ -169,6 +184,9 @@ function filteredSkipping(skip){const q=state.q.trim().toLowerCase();
   if(state.plats.length&&!state.plats.some(p=>it.plats.includes(p)))return false;
   if(state.idx.runtime>0&&it.kind==='movie'&&it.mins&&it.mins>state.idx.runtime)return false;
   if(it.tech<state.idx.tech||it.gm<state.minGoat)return false;
+  if(state.minMyRating>0&&(it.myRating==null||it.myRating<state.minMyRating))return false;
+  if(state.ratedOnly&&it.myRating==null)return false;
+  if(state.unratedOnly&&it.myRating!=null)return false;
   if(!skip||!skip.has('genre')){
    if(state.genres.length&&!state.genres.some(g=>it.fam.includes(g)))return false;
    if(state.genresExclude.length&&state.genresExclude.some(g=>it.fam.includes(g)))return false;
@@ -403,7 +421,8 @@ function crossThreadHTML(it){
 }
 function gmBreakdownHTML(it){
  var chips=[];
- var ovMap={declared:['\u2605 Declared all-time favorite \u2014 locked at 100','#fbbf24'],silver:['\u2726 Declared favorite (silver tier)','#cbd5e1'],owned:['\u25c8 In your physical collection','#4ade80']};
+ var ovMap={declared:['\u2605 Declared all-time favorite \u2014 locked at 100','#fbbf24'],silver:['\u2726 Declared favorite (silver tier)','#cbd5e1'],owned:['\u25c8 In your physical collection','#4ade80'],
+  rated:['\u2605 Pulled toward your rating of '+(typeof it.myRating==='number'?it.myRating.toFixed(1):'?')+'/10','#5eead4']};
  (it.gmBoosts||[]).slice().sort((a,b)=>b[2]-a[2]).forEach(function(b){
   var lab={creator:'Creator',author:'Author',genre:'Genre',vibe:'Vibe',complexity:'Depth',craft:'Craft',dread:'Dread'}[b[0]]||b[0];
   var cap=(''+b[1]).replace(/\b\w/g,function(c){return c.toUpperCase();});
@@ -494,6 +513,15 @@ function tierRowHTML(it,roomy){
    +(active?' style="background:'+color+';border-color:'+color+';color:#0B0F19"':' style="color:'+color+';border-color:transparent"')+'>'
    +emoji+(showName?' '+name:'')+'</button>';
  }
+ // Your personal rating, 0-10 to one decimal -- entirely optional. A quiet ghost "Rate" prompt when
+ // there isn't one yet (so it's discoverable without shouting), a filled ★ chip with the number once
+ // there is. Click either to open the rating popup (openRateGate) -- never a direct increment/toggle
+ // like the segments above, since a number needs a real input, not a click cycle.
+ var rv=it.myRating;
+ var rateCls='profEditBtn rateBtn'+(roomy?'':' ml-auto');
+ var rateBtn=(typeof rv==='number')
+  ?'<button type="button" class="'+rateCls+' rated" data-act="rate" data-id="'+it.id+'" title="Your rating: '+rv.toFixed(1)+'/10 — click to change">★ '+rv.toFixed(1)+'</button>'
+  :'<button type="button" class="'+rateCls+'" data-act="rate" data-id="'+it.id+'" title="Rate this 0–10 — entirely optional, click to add">☆ Rate</button>';
  // roomy: the GOAT Profile "Search & Build Your Favorites" list renders these one card at a time
  // (not the dense main grid), so it can afford noticeably more breathing room between the four
  // buttons -- addresses the specific "still quite close together" feedback about that screen
@@ -505,6 +533,7 @@ function tierRowHTML(it,roomy){
  +'<span class="w-px h-4 mx-0.5" style="background:#334155"></span>'
  +seg('own','◆','Owned','Toggle whether this is in your owned collection',it.owned,'#4ade80',true)
  +(roomy?'<span class="ml-auto flex items-center gap-3 text-[10.5px] text-slate-500 shrink-0"><span title="GOAT match /100">★ <b style="color:#fbbf24">'+it.gm+'</b></span><span title="Critical score /100">Crit <b class="text-slate-300">'+it.crit+'</b></span><span title="Audience score /100">Aud <b class="text-slate-300">'+it.aud+'</b></span></span>':'')
+ +rateBtn
  +'</div>';
 }
 function cardHTML(it){const k=KM[it.kind];
@@ -527,7 +556,6 @@ function cardHTML(it){const k=KM[it.kind];
  +crossMediumPairingsHTML(it)
  +'<div class="flex flex-wrap gap-1.5 mt-2.5 pt-2.5 border-t border-slate-800/70">'
  +creatorBoostHTML(it)
- +(it.kind==='book'?'<button type="button" class="profEditBtn presetBtn" data-act="bookaffinity" data-id="'+it.id+'" title="Raise this book’s match-score floor directly, independent of genre/author boosts">'+((PERSONAL_PROFILE.bookAffinity||{})[it.id]?'+ Raise affinity ('+PERSONAL_PROFILE.bookAffinity[it.id]+')':'+ Boost affinity')+'</button>':'')
  +'</div>'
  +'</div>'+'</div>';}
 /* Rebuild only the cards whose contents can actually have changed.
@@ -636,6 +664,9 @@ function renderActiveBar(){
  state.genresExclude.forEach(g=>chips.push(X('✕ '+esc(g),'genreEx:'+g)));
  state.ratings.forEach(r=>chips.push(X(esc(r),'rating:'+r)));
  if(state.minGoat>0)chips.push(X('★ GOAT ≥'+state.minGoat,'minGoat'));
+ if(state.minMyRating>0)chips.push(X('★ My Rating ≥'+state.minMyRating.toFixed(1),'minMyRating'));
+ if(state.ratedOnly)chips.push(X('★ Rated by me only','rated'));
+ if(state.unratedOnly)chips.push(X('☆ Unrated only','unrated'));
  if(state.idx.runtime>0)chips.push(X('Runtime ≤'+state.idx.runtime+'m','idx:runtime'));
  const IL={snd:'Soundtrack',ref:'4K Ref',ch:'◉ Cosmic',emo:'Emotional',awe:'Awe',cozy:'Comfort',perf:'Performances',icon:'Iconic',scary:'Scariest',real:'Realistic',reality:'Reality-Altering',dread:'Dread',myst:'Mind',shock:'Shocking',sci:'Scientific',funny:'Funniest',hist:'Historical',vibe2:'Vibe',crit:'Critical',aud:'Audience',tech:'Technical Craft',warmth:'Warmth',comedy:'Comic Intent',beauty:'Beauty'};
  Object.keys(IL).forEach(k=>{if(state.idx[k]>0)chips.push(X(IL[k]+' ≥'+state.idx[k],'idx:'+k));});
@@ -1281,11 +1312,17 @@ if(!PROFILE_FROM_STORAGE)PERSONAL_PROFILE.bronzeTierIds=[];
 if(!PROFILE_FROM_STORAGE)PERSONAL_PROFILE.pinnedIdx=DEFAULT_PINNED_IDX.slice();
 /* Owned, but not tiered: the weakest rung of the ladder above -- a real signal, since you bought
    it, but weaker than any deliberate tier because you own things you have not judged yet. */
-/* Book affinity: your fingerprint (Tolkien mythology, cosmic horror, physics/space, sincere science bios) lifts matching books. */
-if(!PROFILE_FROM_STORAGE)PERSONAL_PROFILE.bookAffinity={b19:96,b20:94,b21:95,b18:90,b22:92,b31:86,b26:92,b08:94,b12:90,b34:90,b29:90,b30:88,b33:88,b32:86,b04:86,b02:84,b05:88,b09:84,b10:84,b38:86,b37:88,b39:90,b28:84,b27:86,b47:84,b40:82,b58:90,b153:90,b154:92,b71:92,b53:86,b155:84,b156:84,b64:86,b56:90,b148:88,b74:92,b118:88,b151:86,b152:88,b157:88,b158:88,b159:84,b160:88,b88:86,b96:82,b100:84,b54:90,b52:90,b55:92,b126:88,b129:86,b130:88,b131:88,b132:88,b133:90,b78:90,b77:90,b79:88,b68:84,b70:86,b72:82,b150:86,b149:86,b76:86,b161:82,b162:84,b163:84,b164:84,b165:82,b166:82,b167:88,b93:84,b94:78};
+/* The sample profile's seed ratings -- ported from what used to be bookAffinity's hardcoded 0-100
+   scores (see the migration above), divided by 10 so a fresh browser's default data lands in the
+   same `ratings` field a real saved profile now uses, at the same one-decimal precision. */
+if(!PROFILE_FROM_STORAGE){
+ var _SEED_BOOK_SCORES={b19:96,b20:94,b21:95,b18:90,b22:92,b31:86,b26:92,b08:94,b12:90,b34:90,b29:90,b30:88,b33:88,b32:86,b04:86,b02:84,b05:88,b09:84,b10:84,b38:86,b37:88,b39:90,b28:84,b27:86,b47:84,b40:82,b58:90,b153:90,b154:92,b71:92,b53:86,b155:84,b156:84,b64:86,b56:90,b148:88,b74:92,b118:88,b151:86,b152:88,b157:88,b158:88,b159:84,b160:88,b88:86,b96:82,b100:84,b54:90,b52:90,b55:92,b126:88,b129:86,b130:88,b131:88,b132:88,b133:90,b78:90,b77:90,b79:88,b68:84,b70:86,b72:82,b150:86,b149:86,b76:86,b161:82,b162:84,b163:84,b164:84,b165:82,b166:82,b167:88,b93:84,b94:78};
+ PERSONAL_PROFILE.ratings=PERSONAL_PROFILE.ratings||{};
+ Object.keys(_SEED_BOOK_SCORES).forEach(function(id){PERSONAL_PROFILE.ratings[id]=Math.round(_SEED_BOOK_SCORES[id]/10*10)/10;});
+}
 /* Declared here, assigned inside recomputeTasteScores below (which runs immediately after) so
    every one of them is re-read from the profile on each recompute rather than frozen at boot. */
-let GOAT_SILVER,GOAT_BRONZE,BOOK_AFFINITY;
+let GOAT_SILVER,GOAT_BRONZE,RATINGS;
 // Declaring a Gold/Silver/Bronze favorite is the single most natural way someone expresses taste
 // in this app -- far more people will tier a handful of favorites than ever find the separate,
 // manual genre/vibe-boost toggles. But until this function, declaring favorites only pinned THOSE
@@ -1296,7 +1333,7 @@ let GOAT_SILVER,GOAT_BRONZE,BOOK_AFFINITY;
 // genre/vibe affinity from whatever is already declared (Gold weighted above Silver above Bronze),
 // and adds it on top of -- never replacing -- any boost the person set by hand via the explicit
 // toggles, so a manual adjustment always still means something extra.
-function deriveAutoTasteBoosts(declaredIds,silverIds,bronzeIds){
+function deriveAutoTasteBoosts(declaredIds,silverIds,bronzeIds,ratings){
  const genreW={},vibeW={};
  const add=(obj,k,w)=>{if(!k)return;obj[k]=(obj[k]||0)+w;};
  const weightFor=id=>declaredIds.has(id)?3:silverIds.has(id)?2:bronzeIds.has(id)?1:0;
@@ -1307,9 +1344,22 @@ function deriveAutoTasteBoosts(declaredIds,silverIds,bronzeIds){
   (x.genres||[]).forEach(g=>add(genreW,g,w));
   add(vibeW,x.vibe,w);
  });
+ // A personal rating is a second, independent taste signal alongside the tiers above -- same idea
+ // (teach the genre/vibe affinity from what you've told the app you like), but continuous instead
+ // of the tiers' fixed 3/2/1 steps: a 9.5 teaches more than a flat 6, and a rating below the 5
+ // midpoint gently counter-signals a genre/vibe instead of only ever boosting it. Stacks with a
+ // tier when a work carries both -- rating and tiering are different gestures, not the same one.
+ Object.keys(ratings||{}).forEach(id=>{
+  const rv=ratings[id];if(typeof rv!=='number')return;
+  const x=byId.get(id);if(!x)return;
+  const w=(rv-5)*0.6; // -3..+3 across the 0-10 range, same order of magnitude as a tier weight
+  if(!w)return;
+  (x.genres||[]).forEach(g=>add(genreW,g,w));
+  add(vibeW,x.vibe,w);
+ });
  const CAP=15;
- const genreArr=Object.keys(genreW).map(k=>[k.toLowerCase(),Math.min(CAP,genreW[k]*1.5)]);
- const vibeObj={};Object.keys(vibeW).forEach(k=>{vibeObj[k]=Math.min(CAP,vibeW[k]*1.5);});
+ const genreArr=Object.keys(genreW).map(k=>[k.toLowerCase(),Math.max(-CAP,Math.min(CAP,genreW[k]*1.5))]);
+ const vibeObj={};Object.keys(vibeW).forEach(k=>{vibeObj[k]=Math.max(-CAP,Math.min(CAP,vibeW[k]*1.5));});
  return {genreArr,vibeObj};
 }
 function recomputeTasteScores(){
@@ -1317,7 +1367,8 @@ function recomputeTasteScores(){
  GOAT_CREATOR_BOOST=PERSONAL_PROFILE.creatorBoost||[];
  GOAT_SILVER=new Set(PERSONAL_PROFILE.silverTierIds||[]);
  GOAT_BRONZE=new Set(PERSONAL_PROFILE.bronzeTierIds||[]);
- const auto=deriveAutoTasteBoosts(GOAT_DECLARED,GOAT_SILVER,GOAT_BRONZE);
+ RATINGS=PERSONAL_PROFILE.ratings||{};
+ const auto=deriveAutoTasteBoosts(GOAT_DECLARED,GOAT_SILVER,GOAT_BRONZE,RATINGS);
  // Merged by keyword into ONE entry per keyword, not concatenated -- the per-item loop below
  // checks genreMatches(x,keyword) once per GOAT_GENRE_BOOST entry and adds its weight every time
  // it matches, so two entries sharing a keyword (the common case: the sample profile's manual
@@ -1331,7 +1382,7 @@ function recomputeTasteScores(){
  GOAT_VIBE_BOOST=Object.assign({},auto.vibeObj);
  Object.keys(PERSONAL_PROFILE.vibeBoost||{}).forEach(v=>{GOAT_VIBE_BOOST[v]=(GOAT_VIBE_BOOST[v]||0)+PERSONAL_PROFILE.vibeBoost[v];});
  BOOK_CREATOR_BOOST=PERSONAL_PROFILE.bookCreatorBoost||[];
- BOOK_AFFINITY=PERSONAL_PROFILE.bookAffinity||{};
+ ALL.forEach(x=>{x.myRating=(typeof RATINGS[x.id]==='number')?RATINGS[x.id]:null;});
  ALL.forEach(x=>{
  let base=0.5*x.crit+0.2*x.aud+0.3*x.tech;const br=[];
  // Taste-match signals (creator/author, genre, vibe) are the ones that STACK: a film matching
@@ -1375,10 +1426,22 @@ function recomputeTasteScores(){
  x.goat=false;x.silver=false;x.bronze=false;x.gmOverride=null;x.ownedBoost=false;
  x.gmBase=Math.round(base*0.5+14);x.gmBoosts=br;x.gmBoostTotal=Math.round(a*1.2*10)/10;
  });
+ // A personal rating pulls GOAT Match toward the number you actually typed -- a real blend (65%
+ // your rating, 35% the algorithmic estimate), not just a floor, so a low rating can pull a score
+ // DOWN the way Gold/Silver/Bronze/Owned below only ever pull it up. Runs before those tier floors
+ // so a work that's both rated and tiered still gets the tier's floor guarantee on top; runs after
+ // the base taste/quality pass so it's blending against this work's own freshly computed estimate,
+ // not last run's.
+ ALL.forEach(x=>{
+  if(typeof x.myRating==='number'){
+   var target=Math.round(x.myRating*10);
+   x.gm=Math.max(40,Math.min(99,Math.round(x.gm*0.35+target*0.65)));
+   x.gmOverride='rated';
+  }
+ });
  ALL.forEach(x=>{x.silver=GOAT_SILVER.has(x.id);if(x.silver){var sg=tierTarget(x.gm,'silver');if(sg>x.gm){x.gm=sg;x.gmOverride=x.gmOverride||'silver';}}});
  ALL.forEach(x=>{x.bronze=GOAT_BRONZE.has(x.id);if(x.bronze){var bg=tierTarget(x.gm,'bronze');if(bg>x.gm){x.gm=bg;x.gmOverride=x.gmOverride||'bronze';}}});
  ALL.forEach(x=>{if(x.owned&&!x.goat){const target=tierTarget(x.gm,'owned');if(target>x.gm){x.gm=target;x.gmOverride=x.gmOverride||'owned';}x.ownedBoost=true;}});
- ALL.forEach(x=>{if(x.kind==='book'&&BOOK_AFFINITY[x.id]){x.gm=Math.max(x.gm,BOOK_AFFINITY[x.id]);}});
  GOAT_DECLARED.forEach(id=>{const x=byId.get(id);if(x){x.gm=100;x.goat=true;x.gmOverride='declared';}});
 }
 recomputeTasteScores();
@@ -2916,6 +2979,9 @@ function stateToParams(){
  if(state.ownedOnly)p.set('owned','1');
  if(state.notOwnedOnly)p.set('notowned','1');
  if(state.minGoat)p.set('goat',state.minGoat);
+ if(state.minMyRating)p.set('myr',state.minMyRating);
+ if(state.ratedOnly)p.set('rated','1');
+ if(state.unratedOnly)p.set('unrated','1');
  if(state.idx.dread)p.set('dread',state.idx.dread);
  if(state.idx.myst)p.set('myst',state.idx.myst);
  if(state.idx.runtime)p.set('runtime',state.idx.runtime);
@@ -2966,6 +3032,9 @@ function paramsToState(){
   if(p.has('owned'))state.ownedOnly=p.get('owned')==='1';
   if(p.has('notowned'))state.notOwnedOnly=p.get('notowned')==='1';
   if(p.has('goat'))state.minGoat=+p.get('goat')||0;
+  if(p.has('myr'))state.minMyRating=+p.get('myr')||0;
+  if(p.has('rated'))state.ratedOnly=p.get('rated')==='1';
+  if(p.has('unrated'))state.unratedOnly=p.get('unrated')==='1';
   if(p.has('dread'))state.idx.dread=+p.get('dread')||0;
   if(p.has('myst'))state.idx.myst=+p.get('myst')||0;
   if(p.has('runtime'))state.idx.runtime=+p.get('runtime')||0;
@@ -3020,10 +3089,13 @@ function applyStateToStaticControls(){
  var qi=$('#q');if(qi)qi.value=state.q;
  $$('#typeSeg button').forEach(function(b){b.classList.toggle('on',b.dataset.type===state.type);});
  var mg=$('#minGoat');if(mg){mg.value=state.minGoat;var mgv=$('#minGoatV');if(mgv)mgv.textContent=state.minGoat;}
+ var mmr=$('#minMyRating');if(mmr){mmr.value=state.minMyRating;var mmrv=$('#minMyRatingV');if(mmrv)mmrv.textContent=state.minMyRating.toFixed(1);}
  var ss=$('#structSel');if(ss)ss.value=state.struct;
  var cm=$('#combineMode');if(cm)cm.checked=state.combine;
  var ot=$('#ownedToggle');if(ot)ot.checked=state.ownedOnly;
  var nt=$('#notOwnedToggle');if(nt)nt.checked=state.notOwnedOnly;
+ var rt=$('#ratedToggle');if(rt)rt.checked=state.ratedOnly;
+ var urt=$('#unratedToggle');if(urt)urt.checked=state.unratedOnly;
  buildTierFilterChips();
  var ymin=$('#yearMin');if(ymin)ymin.value=state.yearMin!=null?state.yearMin:'';
  var ymax=$('#yearMax');if(ymax)ymax.value=state.yearMax!=null?state.yearMax:'';
@@ -3380,6 +3452,7 @@ on('#spinGo','click',doSpin);
 on('#rabbitBtn','click',()=>{var panel=$('#surprisePanel');var sc=$('#surpriseScope');if(sc)sc.classList.add('hidden');var showing=!panel.classList.contains('hidden')&&panel.dataset.mode==='rabbit';if(showing){panel.classList.add('hidden');panel.innerHTML='';panel.dataset.mode='';$('#rabbitBtn').setAttribute('aria-expanded','false');return;}var pool=filtered();if(!pool.length)pool=ALL;var top=pool.slice().sort((a,b)=>b.gm-a.gm).slice(0,20);var seed=top[Math.floor(Math.random()*top.length)];renderRabbitHole(seed.id);$('#rabbitBtn').setAttribute('aria-expanded','true');});
 
 on('#minGoat','input',e=>{state.minGoat=+e.target.value;$('#minGoatV').textContent=e.target.value;refresh();});
+on('#minMyRating','input',e=>{state.minMyRating=+e.target.value;$('#minMyRatingV').textContent=(+e.target.value).toFixed(1);refresh();});
 // Live match-count preview: a small floating bubble that tracks the thumb of whichever threshold
 // slider you're dragging (mouse or keyboard), showing how many works match right now -- so you can
 // feel where a threshold matters without looking away to the result count under the search bar.
@@ -3393,7 +3466,7 @@ on('#minGoat','input',e=>{state.minGoat=+e.target.value;$('#minGoatV').textConte
  bubble.style.cssText='position:fixed;z-index:1200;pointer-events:none;left:0;top:0;transform:translate(-50%,-135%);background:#0f1626;border:1px solid #334155;border-radius:8px;padding:4px 10px;font-size:11px;font-weight:700;color:#5eead4;box-shadow:0 4px 14px rgba(0,0,0,.45);white-space:nowrap;display:none;opacity:0;transition:opacity .12s ease';
  document.body.appendChild(bubble);
  var hideT=null;
- function isLiveSlider(t){return !!(t&&t.tagName==='INPUT'&&t.type==='range'&&(t.classList.contains('idxSlider')||t.id==='minGoat'));}
+ function isLiveSlider(t){return !!(t&&t.tagName==='INPUT'&&t.type==='range'&&(t.classList.contains('idxSlider')||t.id==='minGoat'||t.id==='minMyRating'));}
  document.addEventListener('input',function(e){
   var t=e.target;if(!isLiveSlider(t))return;
   var r=t.getBoundingClientRect();
@@ -3578,13 +3651,14 @@ on('#profileResetBtn','click',()=>{if(typeof confirm!=='undefined'&&!confirm('Re
    per title in the DB, not just locked inside the profiles.data jsonb blob. */
 function computeMediaStatusMap(p){
  var m={};
- function ensure(id){return m[id]||(m[id]={tier:null,owned:false});}
+ function ensure(id){return m[id]||(m[id]={tier:null,owned:false,rating:null});}
  (p.declaredGoatIds||[]).forEach(function(id){ensure(id).tier='gold';});
  (p.silverTierIds||[]).forEach(function(id){var e=ensure(id);if(!e.tier)e.tier='silver';});
  (p.bronzeTierIds||[]).forEach(function(id){var e=ensure(id);if(!e.tier)e.tier='bronze';});
  Object.keys(p.ownedMedia||{}).forEach(function(id){ensure(id).owned=true;});
  (p.ownedGameIds||[]).forEach(function(id){ensure(id).owned=true;});
  Object.keys(p.ownedBooksExtra||{}).forEach(function(id){ensure(id).owned=true;});
+ Object.keys(p.ratings||{}).forEach(function(id){var rv=p.ratings[id];if(typeof rv==='number')ensure(id).rating=rv;});
  return m;
 }
 function diffMediaStatus(oldProfile,newProfile){
@@ -3594,8 +3668,8 @@ function diffMediaStatus(oldProfile,newProfile){
  Object.keys(after).forEach(function(id){ids[id]=1;});
  var rows=[];
  Object.keys(ids).forEach(function(id){
-  var b=before[id]||{tier:null,owned:false},a=after[id]||{tier:null,owned:false};
-  if(b.tier!==a.tier||b.owned!==a.owned)rows.push({id:id,tier:a.tier,owned:a.owned});
+  var b=before[id]||{tier:null,owned:false,rating:null},a=after[id]||{tier:null,owned:false,rating:null};
+  if(b.tier!==a.tier||b.owned!==a.owned||b.rating!==a.rating)rows.push({id:id,tier:a.tier,owned:a.owned,rating:a.rating});
  });
  return rows;
 }
@@ -3669,7 +3743,7 @@ function renderDeferredProfileView(v){
    boosted-genre and boosted-vibe stars, the creator weight stepper, a book's affinity button. A
    change to any of them can alter a card whose own score never moved, so when one of these differs
    the whole grid is redrawn and no changed-set shortcut is taken. */
-const CARD_PROFILE_KEYS=['genreBoost','vibeBoost','creatorBoost','bookCreatorBoost','bookAffinity'];
+const CARD_PROFILE_KEYS=['genreBoost','vibeBoost','creatorBoost','bookCreatorBoost'];
 function cardProfileFingerprint(p){
  return CARD_PROFILE_KEYS.map(function(k){try{return JSON.stringify(p[k]||null);}catch(e){return '?';}}).join('\u0001');
 }
@@ -3901,12 +3975,23 @@ function moveToTier(id,targetTier){
   else if(targetTier==='bronze')p.bronzeTierIds.push(id);
  });
 }
-function boostBookAffinity(id){
+// Your personal 0-10 rating (one decimal) on any work, any medium -- optional, cleared by leaving
+// it blank. Unlike a tier click, this also reshapes OTHER cards' GOAT Match (it feeds the genre/
+// vibe affinity engine, see deriveAutoTasteBoosts) and the patched-grid fast path only ever proves
+// itself safe for the ONE card whose own fields changed, so this always asks for a full redraw
+// rather than trying to chase every card a rating could indirectly move -- same call as toggleOwned
+// makes for the same reason.
+function setRating(id,value){
+ const v=Math.max(0,Math.min(10,Math.round(value*10)/10));
  mutateProfile(p=>{
-  p.bookAffinity=p.bookAffinity||{};
-  const cur=p.bookAffinity[id]||0;
-  p.bookAffinity[id]=Math.min(99,cur?cur+5:75);
- });
+  p.ratings=p.ratings||{};
+  p.ratings[id]=v;
+ },true);
+}
+function clearRating(id){
+ mutateProfile(p=>{
+  if(p.ratings)delete p.ratings[id];
+ },true);
 }
 // Owned-format tracking: which physical edition you actually have. Movies/TV pick from
 // DVD/Blu-ray/4K/Box Set, books from Hardcover/Paperback/Box Set -- stored on the same profile keys the adapter
@@ -3957,7 +4042,7 @@ function handleProfileEditClick(btn){
  else if(act==='vibe')toggleVibeBoost(btn.dataset.vibe);
  else if(act==='silver')toggleSilverTier(btn.dataset.id);
  else if(act==='bronze')toggleBronzeTier(btn.dataset.id);
- else if(act==='bookaffinity')boostBookAffinity(btn.dataset.id);
+ else if(act==='rate')openRateGate(btn.dataset.id);
  else if(act==='setformat')setPhysFormat(btn.dataset.id,btn.dataset.kind,btn.dataset.fmt);
  else if(act==='remove-owned'){
   if(typeof confirm!=='undefined'&&!confirm('Remove “'+btn.dataset.title+'” from your owned collection?'))return;
@@ -4588,6 +4673,55 @@ const CHANGELOG=[
  updateCharCount();
 })();
 
+/* ===== Personal rating popup: 0-10 to one decimal, any medium =====
+   One shared gate, filled in per open() call for whichever card's ☆/★ Rate button was clicked (see
+   tierRowHTML) -- same "one static gate, dynamically filled" pattern the GOAT Picker modal below
+   uses, rather than a popup instance per card. openRateGate is called from handleProfileEditClick
+   above, hoisted the same way every other profile-edit function here is. */
+var rateGateId=null;
+function closeRateGate(){
+ var gate=$('#rateGate');if(gate)gate.classList.add('hidden');
+ rateGateId=null;
+}
+function openRateGate(id){
+ var x=byId.get(id);if(!x)return;
+ var gate=$('#rateGate');if(!gate)return;
+ rateGateId=id;
+ var title=$('#rateGateTitle');if(title)title.textContent=x.title;
+ var cur=(PERSONAL_PROFILE.ratings||{})[id];
+ var slider=$('#rateGateSlider'),num=$('#rateGateNum');
+ if(slider)slider.value=(typeof cur==='number')?cur:0;
+ if(num)num.value=(typeof cur==='number')?cur.toFixed(1):'';
+ gate.classList.remove('hidden');
+ if(num){num.focus();num.select();}
+}
+(function rateGateWiring(){
+ var gate=$('#rateGate');if(!gate)return;
+ var slider=$('#rateGateSlider'),num=$('#rateGateNum');
+ slider.addEventListener('input',function(){num.value=(+slider.value).toFixed(1);});
+ num.addEventListener('input',function(){
+  if(num.value==='')return;
+  slider.value=Math.max(0,Math.min(10,+num.value||0));
+ });
+ function save(){
+  if(!rateGateId)return;
+  if(num.value==='')clearRating(rateGateId);
+  else setRating(rateGateId,+num.value||0);
+  closeRateGate();
+ }
+ on('#rateGateSave','click',save);
+ on('#rateGateClear','click',function(){if(rateGateId)clearRating(rateGateId);closeRateGate();});
+ on('#rateGateClose','click',closeRateGate);
+ on('#rateGateCancel','click',closeRateGate);
+ num.addEventListener('keydown',function(e){if(e.key==='Enter'){e.preventDefault();save();}else if(e.key==='Escape')closeRateGate();});
+ // Click the dim backdrop (not the panel itself) to back out without saving, same low-friction
+ // dismissal a text field or select gets for free -- the other gates in this app only close via an
+ // explicit button, but this one is opened far more often (it's a routine per-card action, not an
+ // occasional settings screen), so the extra escape hatches earn their keep here specifically.
+ gate.addEventListener('click',function(e){if(e.target===gate)closeRateGate();});
+ document.addEventListener('keydown',function(e){if(e.key==='Escape'&&!gate.classList.contains('hidden'))closeRateGate();});
+})();
+
 /* ===== GOAT Picker modal: onboarding-only search-and-select =====
    This full-screen search/stage/finalize modal used to also be reachable anytime via a header
    "Pick Your GOATs" button. That's gone now -- the ongoing, day-to-day version of "search and
@@ -4999,6 +5133,8 @@ on('#pinnedMainSliders','click',handlePinBtnClick);
 on('#combineMode','change',e=>{state.combine=e.target.checked;refresh();});
 on('#ownedToggle','change',e=>{state.ownedOnly=e.target.checked;if(e.target.checked){state.notOwnedOnly=false;const no=$('#notOwnedToggle');if(no)no.checked=false;}syncAdvCount();refresh();});
 on('#notOwnedToggle','change',e=>{state.notOwnedOnly=e.target.checked;if(e.target.checked){state.ownedOnly=false;const o=$('#ownedToggle');if(o)o.checked=false;}syncAdvCount();refresh();});
+on('#ratedToggle','change',e=>{state.ratedOnly=e.target.checked;if(e.target.checked){state.unratedOnly=false;const u=$('#unratedToggle');if(u)u.checked=false;}syncAdvCount();refresh();});
+on('#unratedToggle','change',e=>{state.unratedOnly=e.target.checked;if(e.target.checked){state.ratedOnly=false;const r=$('#ratedToggle');if(r)r.checked=false;}syncAdvCount();refresh();});
 on('#tierChips','click',e=>{const b=e.target.closest('.tierChip');if(!b)return;const t=b.dataset.tier;
  const inI=state.tierFilter.indexOf(t),inX=state.tierFilterExclude.indexOf(t);
  if(inI>=0){state.tierFilter.splice(inI,1);state.tierFilterExclude.push(t);} // required -> excluded
@@ -5029,17 +5165,23 @@ on('#activeBar','click',e=>{
  else if(c.indexOf('rating:')===0){const r=c.slice(7);state.ratings=state.ratings.filter(x=>x!==r);buildRatingChips();}
  else if(c.indexOf('idx:')===0){const k=c.slice(4);state.idx[k]=0;const sl=$$('.idxSlider').find(s=>s.dataset.k===k);if(sl)sl.value=0;const vv=$('#idxV_'+k);if(vv)vv.textContent=idxDisplay(k,0);}
  else if(c==='minGoat'){state.minGoat=0;$('#minGoat').value=0;$('#minGoatV').textContent='0';}
+ else if(c==='minMyRating'){state.minMyRating=0;$('#minMyRating').value=0;$('#minMyRatingV').textContent='0.0';}
+ else if(c==='rated'){state.ratedOnly=false;const r=$('#ratedToggle');if(r)r.checked=false;}
+ else if(c==='unrated'){state.unratedOnly=false;const u=$('#unratedToggle');if(u)u.checked=false;}
  syncAdvCount();refresh();
 });
 function clearAllFilters(){
- Object.assign(state,{q:'',type:'all',struct:'all',plats:[],minGoat:0,genres:[],genresExclude:[],ratings:[],ownedOnly:false,notOwnedOnly:false,tierFilter:[],tierFilterExclude:[],yearMin:null,yearMax:null,combine:false});
+ Object.assign(state,{q:'',type:'all',struct:'all',plats:[],minGoat:0,minMyRating:0,ratedOnly:false,unratedOnly:false,genres:[],genresExclude:[],ratings:[],ownedOnly:false,notOwnedOnly:false,tierFilter:[],tierFilterExclude:[],yearMin:null,yearMax:null,combine:false});
  buildTierFilterChips();
  state.idx={snd:0,ref:0,ch:0,emo:0,awe:0,cozy:0,perf:0,icon:0,scary:0,real:0,reality:0,shock:0,sci:0,funny:0,hist:0,vibe2:0,crit:0,aud:0,tech:0,dread:0,myst:0,warmth:0,comedy:0,beauty:0,runtime:0};state.ratings=[];
  $('#q').value='';var ss=$('#structSel');if(ss)ss.value='all';updatePlatLabel();
  var mgs=$('#minGoat');if(mgs)mgs.value=0;var mgv2=$('#minGoatV');if(mgv2)mgv2.textContent='0';
+ var mmrs=$('#minMyRating');if(mmrs)mmrs.value=0;var mmrv2=$('#minMyRatingV');if(mmrv2)mmrv2.textContent='0.0';
  $$('#typeSeg button').forEach(x=>x.classList.toggle('on',x.dataset.type==='all'));
  $$('.idxSlider').forEach(sl=>{sl.value=0;var c=$('#idxV_'+sl.dataset.k);if(c)c.textContent=idxDisplay(sl.dataset.k,0);});
- $('#combineMode').checked=false;const _o=$('#ownedToggle');if(_o)_o.checked=false;const _no=$('#notOwnedToggle');if(_no)_no.checked=false;$('#yearMin').value='';$('#yearMax').value='';
+ $('#combineMode').checked=false;const _o=$('#ownedToggle');if(_o)_o.checked=false;const _no=$('#notOwnedToggle');if(_no)_no.checked=false;
+ const _r=$('#ratedToggle');if(_r)_r.checked=false;const _ur=$('#unratedToggle');if(_ur)_ur.checked=false;
+ $('#yearMin').value='';$('#yearMax').value='';
  buildGenreChips();buildRatingChips();syncAdvCount();refresh();
 }
 buildGenreChips();buildRatingChips();buildTierFilterChips();buildIndexSliders();
@@ -5190,4 +5332,5 @@ var _rzT;window.addEventListener('resize',function(){clearTimeout(_rzT);_rzT=set
  window.refresh=refresh;
  window.switchView=switchView;
  window.CH=CH;
+ window.setRating=setRating;window.clearRating=clearRating;window.SORTS=SORTS;
 }

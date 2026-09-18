@@ -29,7 +29,7 @@ This is the part to think about. The file is not anonymous — the personal data
 | **Owned physical collection** — 179 items (83 film/TV entries + 34 book entries, expanding to 179 works once series volumes resolve) | `PERSONAL_PROFILE.ownedMedia`, `.ownedBooksExtra`, `.ownedBookIdCeiling`, `.ownedGameIds` | Your actual home library: which films, discs, editions, and books you own, and in what format (4K, Blu-ray, Deluxe, Hardcover, Paperback) |
 | **Declared personal canon** | `PERSONAL_PROFILE.declaredCanon`, `.declaredGoatIds` | Your stated favourite films, books, TV, games, director, actors, composers, cinematographer, musician, and YouTuber |
 | **Personal watchlist with ranked anticipation** | `PERSONAL_PROFILE.watchlist` | Seven upcoming films you're waiting for, in your own order of excitement |
-| **Taste-engine weightings** | `PERSONAL_PROFILE.creatorBoost`, `.genreBoost`, `.vibeBoost`, `.bookAffinity` | An explicit, quantified map of your preferences — arguably the most revealing part, since it's your taste written as numbers |
+| **Taste-engine weightings** | `PERSONAL_PROFILE.creatorBoost`, `.genreBoost`, `.vibeBoost`, `.ratings` | An explicit, quantified map of your preferences — arguably the most revealing part, since it's your taste written as numbers |
 | **Upgrade audit** | derived at runtime from the above | Which items in your collection you consider worth spending money to upgrade |
 
 There is no name, address, photo, employer, phone number, email, or financial detail anywhere in the file. What's exposed is **taste and property**: a detailed inventory of what media you own and what you love.

@@ -65,7 +65,7 @@ The app has one source of truth per person, and three places it is stored.
 |---|---|---|
 | `localStorage` | The live profile | Authoritative while you are using the app |
 | `profiles.data` (jsonb) | Full snapshot | Convenience copy of the same six keys |
-| `media_status` (rows) | Gold/Silver/Bronze/Owned | Normalized, one row per person per title |
+| `media_status` (rows) | Gold/Silver/Bronze/Owned/Rating | Normalized, one row per person per title |
 
 Six `localStorage` keys are synced (`TRACKED` in `index.html`): profile, watchlist, theme,
 density, onboarded, tips-dismissed. Everything else the app shows — match scores, recommendations,
