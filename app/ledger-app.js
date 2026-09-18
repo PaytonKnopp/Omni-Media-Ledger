@@ -4061,7 +4061,9 @@ const CHANGELOG=[
  var allItems=[];
  var activeTab='open';
  var activeCat='feedback';
+ var activeSort='top';
  var myVotes={};
+ var TEXT_MAX=2000;
  var RESOLVED_STATUSES=['shipped','declined'];
  var CAT_LABEL={feedback:'Feature &amp; bug suggestions',media:'Media requests'};
  var CAT_DESC={
@@ -4069,6 +4071,17 @@ const CHANGELOG=[
   media:'Missing a movie, show, or book? Request it here so it can be added and factored into taste matching. Visible to everyone using this app.'
  };
  var CAT_PLACEHOLDER={feedback:'e.g. It would be great if…',media:'e.g. Dune (2021), or just the title'};
+ // Cheap similarity check for the duplicate warnings below: normalize, then compare shared-word
+ // overlap. Good enough to catch "same idea, different wording" without pulling in a real string-
+ // distance library for a friend-group feedback box.
+ function normWords(s){return (s||'').toLowerCase().replace(/[^a-z0-9\s]/g,' ').split(/\s+/).filter(function(w){return w.length>2;});}
+ function wordOverlap(a,b){
+  var wa=normWords(a),wb=normWords(b);
+  if(!wa.length||!wb.length)return 0;
+  var setB={};wb.forEach(function(w){setB[w]=true;});
+  var hits=wa.filter(function(w){return setB[w];}).length;
+  return hits/Math.min(wa.length,wb.length);
+ }
  function acct(){return (typeof window.__omniAcct==='function')?window.__omniAcct():null;}
  function showError(msg){var e=$('#suggestError');if(!e)return;e.textContent=msg;e.classList.toggle('hidden',!msg);}
  function open(){
@@ -4076,6 +4089,10 @@ const CHANGELOG=[
   showError('');
   if(!loaded){loaded=true;loadSuggestions();}
  }
+ // Load once at startup (not gated behind opening the modal) so the header badge can show the
+ // outstanding count before anyone's clicked in -- the same data the modal itself needs anyway.
+ var a0=acct();
+ if(a0&&a0.configured){loaded=true;loadSuggestions();}
  function close(){gate.classList.add('hidden');}
  function esc2(s){return esc(String(s==null?'':s));}
  function timeAgo(ms){
@@ -4091,6 +4108,11 @@ const CHANGELOG=[
   document.querySelectorAll('#suggestTabs .suggestTab').forEach(function(b){b.classList.toggle('on',b.dataset.tab===tab);});
   renderList(allItems);
  }
+ function setSort(sort){
+  activeSort=sort;
+  document.querySelectorAll('#suggestSortTabs .suggestSortTab').forEach(function(b){b.classList.toggle('on',b.dataset.sort===sort);});
+  renderList(allItems);
+ }
  function setCat(cat){
   activeCat=cat;
   document.querySelectorAll('#suggestCatTabs .suggestCatTab').forEach(function(b){b.classList.toggle('on',b.dataset.cat===cat);});
@@ -4098,6 +4120,7 @@ const CHANGELOG=[
   var desc=$('#suggestCatDesc');if(desc)desc.innerHTML=CAT_DESC[cat]||'';
   var label=$('#suggestListLabel');if(label)label.innerHTML=CAT_LABEL[cat]||'';
   var ta=$('#suggestText');if(ta)ta.placeholder=CAT_PLACEHOLDER[cat]||'';
+  checkDuplicateWarning();
   renderList(allItems);
  }
  // Media requests are stored as plain suggestions text prefixed with "[Type] " (e.g. "[Movie] Dune
@@ -4116,8 +4139,14 @@ const CHANGELOG=[
  // separate moderators, and the RLS policies underneath already allow this (anyone can update/
  // delete any row, same as profiles' "delete my account" already does) -- the UI was just more
  // restrictive than the backend for no real reason.
+ function updateNavBadge(items){
+  var el=$('#suggestNavCount');if(!el)return;
+  var openTotal=items.filter(function(it){return RESOLVED_STATUSES.indexOf(it.status)<0;}).length;
+  el.textContent=openTotal?('('+openTotal+')'):'';
+ }
  function renderList(items){
   var list=$('#suggestList');if(!list)return;
+  updateNavBadge(items);
   var inCat=items.filter(function(it){return (it.kind||'feedback')===activeCat;});
   var openCount=inCat.filter(function(it){return RESOLVED_STATUSES.indexOf(it.status)<0;}).length;
   var resolvedCount=inCat.length-openCount;
@@ -4127,7 +4156,9 @@ const CHANGELOG=[
   var shown=inCat.filter(function(it){
    var isResolved=RESOLVED_STATUSES.indexOf(it.status)>=0;
    return activeTab==='resolved'?isResolved:!isResolved;
-  }).sort(function(x,y){return(y.votes||0)-(x.votes||0);});
+  }).sort(function(x,y){
+   return activeSort==='new'?(y.createdAtMs||0)-(x.createdAtMs||0):(y.votes||0)-(x.votes||0);
+  });
   if(!shown.length){
    var emptyMsg=activeTab==='resolved'?'Nothing resolved yet.':(activeCat==='media'?'No media requests yet — be the first to ask for a title.':'Nothing outstanding — be the first to suggest something.');
    list.innerHTML='<div class="text-[12px] text-slate-500">'+emptyMsg+'</div>';
@@ -4146,7 +4177,9 @@ const CHANGELOG=[
     +'<div class="flex items-center justify-between gap-2 mt-1 flex-wrap">'
     +'<div class="text-[10px] text-slate-500">'+esc2(it.handle||'anonymous')+(it.createdAtMs?' · '+timeAgo(it.createdAtMs):'')+'</div>'
     +'<div class="flex items-center gap-2 shrink-0">'
-    +'<button type="button" class="suggestVoteBtn'+(voted?' voted':'')+'" data-id="'+it.id+'" data-voted="'+(voted?'1':'0')+'" title="'+(voted?'Remove your vote':'This matters to me too')+'">👍 '+votes+'</button>'
+    +(mine
+      ?'<span class="suggestVoteBtn" style="opacity:.5;cursor:default" title="You can\'t vote on your own suggestion">👍 '+votes+'</span>'
+      :'<button type="button" class="suggestVoteBtn'+(voted?' voted':'')+'" data-id="'+it.id+'" data-voted="'+(voted?'1':'0')+'" title="'+(voted?'Remove your vote':'This matters to me too')+'">👍 '+votes+'</button>')
     +(mine?'<button type="button" class="suggestEditBtn text-[10px] text-slate-500 hover:text-slate-300 underline decoration-dotted underline-offset-2" data-id="'+it.id+'">Edit</button>':'')
     +'<button type="button" class="suggestResolveBtn text-[10px] underline decoration-dotted underline-offset-2" style="color:'+(isResolved?'#94a3b8':'#34d399')+'" data-id="'+it.id+'" data-next="'+(isResolved?'open':'shipped')+'">'+(isResolved?'↩ Reopen':'✅ Mark resolved')+'</button>'
     +'<button type="button" class="suggestDeleteBtn text-[10px] text-rose-400/80 hover:text-rose-300 underline decoration-dotted underline-offset-2" data-id="'+it.id+'">Delete</button>'
@@ -4206,8 +4239,11 @@ const CHANGELOG=[
  function startEdit(row){
   var id=row.dataset.suggestId;
   var item=allItems.filter(function(it){return String(it.id)===String(id);})[0];
-  var original=item?item.text:(row.querySelector('.suggestTextView')||{}).textContent||'';
-  row.innerHTML='<textarea class="inp suggestEditArea" rows="3" style="resize:vertical;font-size:12px">'+esc2(original)+'</textarea>'
+  // Edit the parsed body, not the raw "[Type] " prefix -- the read view already splits that into a
+  // separate badge, so exposing the bracket syntax here would let someone accidentally mangle it.
+  // The original type (if any) is stashed on the textarea's dataset and re-applied in saveEdit.
+  var parsed=item&&item.kind==='media'?parseMediaText(item.text):{type:null,body:item?item.text:(row.querySelector('.suggestTextView')||{}).textContent||''};
+  row.innerHTML='<textarea class="inp suggestEditArea" rows="3" style="resize:vertical;font-size:12px" data-media-type="'+esc2(parsed.type||'')+'">'+esc2(parsed.body)+'</textarea>'
    +'<div class="flex justify-end gap-2 mt-1.5">'
    +'<button type="button" class="suggestEditCancel text-[10px] text-slate-500 hover:text-slate-300">Cancel</button>'
    +'<button type="button" class="suggestEditSave text-[10px] text-emerald-400 hover:text-emerald-300 font-semibold" data-id="'+id+'">Save</button>'
@@ -4218,16 +4254,50 @@ const CHANGELOG=[
   var ta=row.querySelector('.suggestEditArea');if(!ta)return;
   var text=ta.value.trim();
   if(!text)return;
+  var mediaType=ta.dataset.mediaType;
+  if(mediaType)text='['+mediaType+'] '+text;
   var a=acct();if(!a||!a.configured)return;
   a.client.from('suggestions').update({text:text}).eq('id',id).then(function(res){
    if(res&&res.error){showError('Couldn\'t save that edit ('+(res.error.message||res.error)+').');return;}
    loadSuggestions();
   });
  }
+ function updateCharCount(){
+  var ta=$('#suggestText'),cc=$('#suggestCharCount');if(!ta||!cc)return;
+  var len=(ta.value||'').length;
+  cc.textContent=len+' / '+TEXT_MAX;
+  cc.style.color=len>TEXT_MAX?'#f87171':'';
+ }
+ // Warns before submit, doesn't block it -- a false-positive match (same word used two different
+ // ways) shouldn't stop a real, distinct suggestion from going in.
+ function checkDuplicateWarning(){
+  var warn=$('#suggestDupWarning');if(!warn)return;
+  var ta=$('#suggestText');
+  var text=(ta&&ta.value||'').trim();
+  if(text.length<6){warn.classList.add('hidden');warn.innerHTML='';return;}
+  if(activeCat==='media'){
+   var q=text.toLowerCase();
+   var match=ALL.filter(function(x){return x.title&&x.title.toLowerCase().indexOf(q)>=0||q.indexOf((x.title||'').toLowerCase())>=0;})[0];
+   if(match){
+    warn.innerHTML='You may already have <b>'+esc2(match.title)+' ('+match.year+')</b> in the collection.';
+    warn.classList.remove('hidden');
+    return;
+   }
+  }
+  var existing=allItems.filter(function(it){return (it.kind||'feedback')===activeCat;});
+  var dup=existing.filter(function(it){return wordOverlap(text,parseMediaText(it.text).body||it.text)>=0.6;})[0];
+  if(dup){
+   warn.innerHTML='This looks similar to an existing '+(activeCat==='media'?'request':'suggestion')+': “'+esc2(parseMediaText(dup.text).body.slice(0,80))+(dup.text.length>80?'…':'')+'”. Consider upvoting it instead.';
+   warn.classList.remove('hidden');
+  }else{
+   warn.classList.add('hidden');warn.innerHTML='';
+  }
+ }
  function submit(){
   var ta=$('#suggestText');
   var text=(ta&&ta.value||'').trim();
   if(!text){showError('Write something first.');return;}
+  if(text.length>TEXT_MAX){showError('That\'s too long -- keep it under '+TEXT_MAX+' characters.');return;}
   var a=acct();
   if(!a||!a.configured){showError('Cloud accounts aren\'t set up on this copy of the app, so there\'s nowhere to send this yet.');return;}
   showError('');
@@ -4242,6 +4312,8 @@ const CHANGELOG=[
   a.client.from('suggestions').insert(payload).then(function(res){
    if(res.error)throw res.error;
    if(ta)ta.value='';
+   updateCharCount();
+   var warn=$('#suggestDupWarning');if(warn){warn.classList.add('hidden');warn.innerHTML='';}
    loaded=true;
    activeTab='open';setTab('open');
    loadSuggestions();
@@ -4254,9 +4326,14 @@ const CHANGELOG=[
  on('#suggestBtn','click',function(e){e.stopPropagation();open();});
  on('#suggestClose','click',close);
  on('#suggestSubmit','click',submit);
+ on('#suggestText','input',function(){updateCharCount();checkDuplicateWarning();});
  on('#suggestCatTabs','click',function(e){
   var b=e.target.closest('.suggestCatTab');if(!b)return;
   setCat(b.dataset.cat);
+ });
+ on('#suggestSortTabs','click',function(e){
+  var b=e.target.closest('.suggestSortTab');if(!b)return;
+  setSort(b.dataset.sort);
  });
  on('#suggestExpandBtn','click',function(e){
   var list=$('#suggestList');if(!list)return;
@@ -4278,6 +4355,8 @@ const CHANGELOG=[
  });
  setCat('feedback');
  setTab('open');
+ setSort('top');
+ updateCharCount();
 })();
 
 /* ===== GOAT Picker modal: onboarding-only search-and-select =====
