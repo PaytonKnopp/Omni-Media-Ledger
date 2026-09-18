@@ -4068,7 +4068,7 @@ const CHANGELOG=[
  var CAT_LABEL={feedback:'Feature &amp; bug suggestions',media:'Media requests'};
  var CAT_DESC={
   feedback:'Bugs, ideas, missing features — anything. Visible to everyone using this app, not just the person who set it up.',
-  media:'Missing a movie, show, or book? Request it here so it can be added and factored into taste matching. Visible to everyone using this app.'
+  media:'Missing a movie, show, game, or book? Request it here so it can be added and factored into taste matching — and if you spot one already requested (or already in the collection), mention that too so it can get sorted out. Visible to everyone using this app.'
  };
  var CAT_PLACEHOLDER={feedback:'e.g. It would be great if…',media:'e.g. Dune (2021), or just the title'};
  // Cheap similarity check for the duplicate warnings below: normalize, then compare shared-word
