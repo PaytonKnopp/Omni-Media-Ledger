@@ -1204,6 +1204,7 @@ body[data-theme="outer-wilds"]{--bg:#0e0a09;--panel:#181010;--panel-2:#120c0b;--
 </section>
 
 <section data-sec="goat" class="hidden">
+  <div id="goatStats" class="grid grid-cols-3 sm:grid-cols-6 gap-2.5 mb-5"></div>
   <div class="panel p-4 md:p-5 mb-5" style="border-color:#818cf840;background:linear-gradient(180deg,rgba(129,140,248,.05),rgba(15,22,38,1) 60%)">
     <h2 class="text-[13px] font-bold uppercase tracking-[.18em]" style="color:#a5b4fc">🔍 Search &amp; Build Your Favorites</h2>
     <p class="text-[11px] text-slate-500 mt-1.5 max-w-3xl">Search the full 2,508-work corpus and tier or own anything right from the results — no separate picker, no popup. Everything below (your declared canon, taste DNA, and generated recommendations) updates the moment you do.</p>
@@ -1230,10 +1231,11 @@ body[data-theme="outer-wilds"]{--bg:#0e0a09;--panel:#181010;--panel-2:#120c0b;--
     <input type="text" id="goatDeclaredSearch" class="inp mt-3" style="max-width:360px" placeholder="🔍 Filter your declared canon by title…" autocomplete="off">
     <div id="goatDeclared" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-3 mt-4"></div>
     <div class="mt-5 pt-4 border-t border-slate-800/70">
-      <div class="lbl mb-3" style="color:#fde68a">✨ Your Taste DNA · averaged signature of your declared &amp; silver canon vs. the full ledger</div>
+      <div class="lbl mb-3" style="color:#fde68a">✨ Your Taste DNA · averaged signature of your Gold, Silver &amp; Owned works vs. the full ledger</div>
       <div id="tasteDNA" class="space-y-2"></div>
     </div>
   </div>
+  <div id="goatRecsUnhideAll" class="hidden mb-2 text-right"><button type="button" id="goatUnhideAllBtn" class="text-[10.5px] text-sky-400/80 hover:text-sky-300">show all hidden recommendations</button></div>
   <div id="goatRecs" class="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-4"></div>
 </section>
 
