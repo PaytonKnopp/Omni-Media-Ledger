@@ -2312,6 +2312,52 @@ async function runRatingFlow(browser, file) {
   check('"Unrated only" excludes a work you rated', filterResult.excludedFromUnratedOnly);
   check('sorting by "My Rating" puts your highest-rated work first', filterResult.sortedFirst);
 
+  // "My Tiers" groups by tier (unchanged) but should now break ties within a tier by your own
+  // rating before falling back to GOAT Match -- a Gold pick you loved belongs above a Gold pick
+  // you were lukewarm on, not ordered by the algorithm's estimate.
+  const tierSortResult = await pageB.evaluate(() => {
+    const golds = ALL.filter(x => x.goat);
+    if (golds.length < 2) return null;
+    const [gx, gy] = golds;
+    clearRating(gx.id); clearRating(gy.id);
+    setRating(gx.id, 6);
+    setRating(gy.id, 9.5);
+    const sorted = ALL.filter(x => x.goat).sort(SORTS.tier);
+    const idxX = sorted.findIndex(w => w.id === gx.id);
+    const idxY = sorted.findIndex(w => w.id === gy.id);
+    clearRating(gx.id); clearRating(gy.id);
+    return { idxX, idxY };
+  });
+  check('"My Tiers" sort ranks a higher-rated Gold pick above a lower-rated one',
+    !!tierSortResult && tierSortResult.idxY < tierSortResult.idxX);
+
+  // Collection tab: the fixed quality score (x.ovr, also what "Avg Quality" sums) stays the
+  // primary number so every owned item still shows one -- your rating is a secondary badge next
+  // to it when set, and its own sort option, rather than replacing ovr and going blank for
+  // anything you haven't rated yet.
+  const collResult = await pageB.evaluate(() => {
+    const owned = ALL.filter(x => x.owned);
+    if (owned.length < 2) return null;
+    const [ox, oy] = owned.slice(0, 2);
+    clearRating(ox.id); clearRating(oy.id);
+    setRating(ox.id, 3);
+    setRating(oy.id, 9.7);
+    state.collSort = 'myrating';
+    const sorted = owned.slice().sort(collSortFn());
+    const idxX = sorted.findIndex(w => w.id === ox.id);
+    const idxY = sorted.findIndex(w => w.id === oy.id);
+    const badgeHTML = collItemCardHTML(oy, '#38bdf8');
+    const hasBadge = badgeHTML.indexOf('9.7') >= 0;
+    const hasOvr = badgeHTML.indexOf(String(oy.ovr)) >= 0;
+    clearRating(ox.id); clearRating(oy.id);
+    state.collSort = 'az';
+    return { idxX, idxY, hasBadge, hasOvr };
+  });
+  check('Collection "Sort: My rating" ranks your higher-rated owned item first',
+    !!collResult && collResult.idxY < collResult.idxX);
+  check('the Collection card shows your rating as a secondary badge alongside quality, not instead of it',
+    !!collResult && collResult.hasBadge && collResult.hasOvr);
+
   await ctxB.close();
   check('no uncaught page errors during the rating pass', pageErrors.length === 0);
   if (pageErrors.length) pageErrors.forEach(e => console.log('     ' + e));
