@@ -42,7 +42,7 @@ const DEFAULT_PINNED_IDX=['tech','ref','snd','ch'];
 // esc/KM live in app/cards.js (pure, closure-independent) now, loaded before this file.
 let PROFILE_FROM_STORAGE=false;
 const PERSONAL_PROFILE=(function(){
- try{const raw=localStorage.getItem('omniLedgerProfile');if(raw!==null){PROFILE_FROM_STORAGE=true;return JSON.parse(raw)||{};}}catch(e){}
+ try{const raw=localStorage.getItem('omniLedgerProfile');if(raw!==null){PROFILE_FROM_STORAGE=true;return JSON.parse(raw)||{};}}catch(e){console.warn('omniLedgerProfile failed',e);}
  return {};
 })();
 /* One-time migration: bookAffinity (books-only, a 0-100 match-score floor) is retired in favor of
@@ -58,7 +58,7 @@ if(PROFILE_FROM_STORAGE&&PERSONAL_PROFILE.bookAffinity&&!PERSONAL_PROFILE.rating
  });
  delete PERSONAL_PROFILE.bookAffinity;
  PERSONAL_PROFILE.ratingsMigratedFromBookAffinity=true;
- try{localStorage.setItem('omniLedgerProfile',JSON.stringify(PERSONAL_PROFILE));}catch(e){}
+ try{localStorage.setItem('omniLedgerProfile',JSON.stringify(PERSONAL_PROFILE));}catch(e){console.warn('omniLedgerProfile failed',e);}
 }
 if(!PROFILE_FROM_STORAGE)PERSONAL_PROFILE.watchlist={c02:1,c78:2,c79:3,c80:4,c81:5,c82:6,c83:7};
 contenders.forEach(c=>{const wl=PERSONAL_PROFILE.watchlist||{};if(wl[c.id])c.watchRank=wl[c.id];});
@@ -156,7 +156,7 @@ try{const raw=localStorage.getItem('omniLedgerWatchlist');if(raw)WL=JSON.parse(r
    media_status rows of its own (only tier/owned state is normalized per title), but the snapshot
    that goes up holds the whole watchlist either way. */
 function wlSave(){
- try{localStorage.setItem('omniLedgerWatchlist',JSON.stringify(WL));}catch(e){}
+ try{localStorage.setItem('omniLedgerWatchlist',JSON.stringify(WL));}catch(e){console.warn('omniLedgerWatchlist failed',e);}
  if(typeof window.__omniSyncAfterChange==='function')window.__omniSyncAfterChange([]);
 }
 function wlHas(id){return !!WL[id];}
@@ -326,8 +326,8 @@ function crossThread(it){
   if(shared.length){
    // prefer a canonical/high-match companion
    shared.sort((a,b)=>(b.gm+b.ovr)-(a.gm+a.ovr));
-   var e=shared[0];var fam=fams.find(f=>(e.fam||[]).includes(f))||fams[0];
-   return {it:e,reason:'shares your '+esc(fam)+' thread'};
+   var companion=shared[0];var fam=fams.find(f=>(companion.fam||[]).includes(f))||fams[0];
+   return {it:companion,reason:'shares your '+esc(fam)+' thread'};
   }
  }
  // (c) shared vibe
@@ -468,7 +468,7 @@ function summaryHTML(it){const k=KM[it.kind];
  const recep='Critics '+(it.crit>=90?'adore it':it.crit>=80?'rate it highly':it.crit>=70?'regard it well':'are mixed')+' ('+it.crit+'/100)';
  const aud='audiences '+(it.aud>=90?'love it':it.aud>=80?'rate it highly':it.aud>=70?'like it':'are split')+' ('+it.aud+'/100).';
  // Taste-fit note based on personal GOAT match
- let fit='';
+ let fit;
  if(it.goat)fit='\u2605 One of your declared all-time favorites.';
  else if(it.silver)fit='\u2606 A silver-tier favorite of yours.';
  else if(it.owned)fit='\u2713 Already in your collection'+(it.physFormat?' ('+esc(it.physFormat)+')':'')+'.';
@@ -1877,7 +1877,7 @@ function renderGoat(){renderTasteDNA();renderGoatStats();
  var declaredCats=declaredCategoriesToRender().slice().sort(function(a,b){return tieredCountInCat(b)-tieredCountInCat(a);});
  var declaredHTML=declaredCats.map(declaredCategoryHTML).join('');
  $('#goatDeclared').innerHTML=declaredHTML||((state.goatDeclaredQ||'').trim()?'<div class="col-span-full text-center text-slate-500 text-sm py-6">Nothing in your declared canon matches “'+esc(state.goatDeclaredQ.trim())+'”.</div>':'<div class="col-span-full text-center text-slate-500 text-sm py-6">Nothing declared yet — search above and tier or own something to start building your canon.</div>');
- var recCats=isPaytonSampleProfile()?goatProfile.recs:goatProfile.recs.filter(function(c){return RECS_KIND_BY_CAT.hasOwnProperty(c.cat);});
+ var recCats=isPaytonSampleProfile()?goatProfile.recs:goatProfile.recs.filter(function(c){return Object.prototype.hasOwnProperty.call(RECS_KIND_BY_CAT,c.cat);});
  var hiddenAll=PERSONAL_PROFILE.hiddenRecs||[];
  var unhideAllBox=$('#goatRecsUnhideAll');
  if(unhideAllBox)unhideAllBox.classList.toggle('hidden',!hiddenAll.length);
@@ -2871,12 +2871,12 @@ try{COLL_OPEN=JSON.parse(localStorage.getItem('omniLedgerCollOpen')||'{}')||{};}
 function collIsOpen(key){return COLL_OPEN[key]!==false;}
 function collSetOpen(key,open){
  if(open)delete COLL_OPEN[key];else COLL_OPEN[key]=false;
- try{localStorage.setItem('omniLedgerCollOpen',JSON.stringify(COLL_OPEN));}catch(e){}
+ try{localStorage.setItem('omniLedgerCollOpen',JSON.stringify(COLL_OPEN));}catch(e){console.warn('omniLedgerCollOpen failed',e);}
 }
 function collSetAllOpen(open){
  if(open){COLL_OPEN={};}
  else{$$('#collFormats details[data-ck]').forEach(function(d){COLL_OPEN[d.dataset.ck]=false;});}
- try{localStorage.setItem('omniLedgerCollOpen',JSON.stringify(COLL_OPEN));}catch(e){}
+ try{localStorage.setItem('omniLedgerCollOpen',JSON.stringify(COLL_OPEN));}catch(e){console.warn('omniLedgerCollOpen failed',e);}
  $$('#collFormats details[data-ck]').forEach(function(d){d.open=open;});
 }
 function collItemCardHTML(x,col){
@@ -2938,7 +2938,7 @@ function renderCollection(){
   // Medium header carries a per-format tally, so a collapsed medium still tells you what's in it.
   const tally=(kind==='game')?'':fOrder.map(function(f){const fs=fmtStyle(f);
    return '<span class="text-[9.5px] px-1.5 py-0.5 rounded-full" style="background:'+fs.bg+'22;color:'+fs.ac+';border:1px solid '+fs.bd+'55">'+esc(f)+' '+buckets[f].length+'</span>';}).join('');
-  let inner='';
+  let inner;
   if(kind==='game'){
    inner='<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-2">'+buckets['Games'].slice().sort(collSortFn()).map(x=>collItemCardHTML(x,fmtStyle('Games').ac)).join('')+'</div>';
   }else{
@@ -3105,7 +3105,7 @@ function scheduleURLSync(){
   try{
    var qs=stateToParams().toString();
    history.replaceState(null,'',location.pathname+(qs?'?'+qs:'')+location.hash);
-  }catch(e){}
+  }catch(e){console.warn('URL state sync failed',e);}
  },250);
 }
 // Pushes every restored value into the controls that aren't already rebuilt fresh from `state`
@@ -3300,8 +3300,8 @@ function doSpin(){
   if(i>=frames){clearInterval(timer);renderSpinResult(weightedPick(cands),cands);}
  },70);
 }
-on('#densityBtn','click',()=>{var on=document.body.classList.toggle('compact');var b=$('#densityBtn');b.textContent=on?'\u25a4 Comfortable':'\u25a6 Compact';b.classList.toggle('border-teal-500',on);b.classList.toggle('text-teal-300',on);try{localStorage.setItem('omniLedgerDensity',on?'1':'0');}catch(e){}});
-(function initDensity(){var v='0';try{v=localStorage.getItem('omniLedgerDensity')||'0';}catch(e){}if(v==='1'){document.body.classList.add('compact');var b=$('#densityBtn');if(b){b.textContent='\u25a4 Comfortable';b.classList.add('border-teal-500','text-teal-300');}}})();
+on('#densityBtn','click',()=>{var on=document.body.classList.toggle('compact');var b=$('#densityBtn');b.textContent=on?'\u25a4 Comfortable':'\u25a6 Compact';b.classList.toggle('border-teal-500',on);b.classList.toggle('text-teal-300',on);try{localStorage.setItem('omniLedgerDensity',on?'1':'0');}catch(e){console.warn('omniLedgerDensity failed',e);}});
+(function initDensity(){var v='0';try{v=localStorage.getItem('omniLedgerDensity')||'0';}catch(e){console.warn('omniLedgerDensity failed',e);}if(v==='1'){document.body.classList.add('compact');var b=$('#densityBtn');if(b){b.textContent='\u25a4 Comfortable';b.classList.add('border-teal-500','text-teal-300');}}})();
 
 /* Compact header, mobile only: a toggle next to the account chip collapses the header down to just
    the account chip + tab nav (see body.headerCompact rules in the max-width:767px CSS block),
@@ -3323,13 +3323,13 @@ on('#densityBtn','click',()=>{var on=document.body.classList.toggle('compact');v
   if(icon)icon.textContent=on?'\u25bc':'\u25b2';
   if(label)label.textContent=on?'Expand header':'Compact header';
  }
- var v='0';try{v=localStorage.getItem('omniLedgerHeaderCompact')||'0';}catch(e){}
+ var v='0';try{v=localStorage.getItem('omniLedgerHeaderCompact')||'0';}catch(e){console.warn('omniLedgerHeaderCompact failed',e);}
  apply(isMobile&&v==='1');
  if(!isMobile)return; // toggle stays inert (and invisible, via CSS) off mobile
  btn.addEventListener('click',function(){
   var on=!document.body.classList.contains('headerCompact');
   apply(on);
-  try{localStorage.setItem('omniLedgerHeaderCompact',on?'1':'0');}catch(e){}
+  try{localStorage.setItem('omniLedgerHeaderCompact',on?'1':'0');}catch(e){console.warn('omniLedgerHeaderCompact failed',e);}
  });
 })();
 
@@ -3638,11 +3638,11 @@ on('#tlEras','click',e=>{var b=e.target.closest('.eraMore');if(b){var box=$('#'+
 /* ===== Theme system ===== */
 function applyTheme(t){
  if(t){document.body.setAttribute('data-theme',t);}else{document.body.removeAttribute('data-theme');}
- try{localStorage.setItem('omniLedgerTheme',t||'');}catch(e){}
+ try{localStorage.setItem('omniLedgerTheme',t||'');}catch(e){console.warn('omniLedgerTheme failed',e);}
  var sel=$('#themeSel');if(sel&&sel.value!==(t||''))sel.value=t||'';
 }
 (function initTheme(){
- var saved='';try{saved=localStorage.getItem('omniLedgerTheme')||'';}catch(e){}
+ var saved='';try{saved=localStorage.getItem('omniLedgerTheme')||'';}catch(e){console.warn('omniLedgerTheme failed',e);}
  applyTheme(saved);
 })();
 on('#themeSel','change',e=>{applyTheme(e.target.value);});
@@ -3668,9 +3668,9 @@ function applyImportedSnapshot(parsed){
  }
 }
 on('#profileExportBtn','click',()=>{try{
- let watchlist={};try{watchlist=JSON.parse(localStorage.getItem('omniLedgerWatchlist')||'{}')||{};}catch(e){}
- let theme='';try{theme=localStorage.getItem('omniLedgerTheme')||'';}catch(e){}
- let density='0';try{density=localStorage.getItem('omniLedgerDensity')||'0';}catch(e){}
+ let watchlist={};try{watchlist=JSON.parse(localStorage.getItem('omniLedgerWatchlist')||'{}')||{};}catch(e){console.warn('omniLedgerWatchlist failed',e);}
+ let theme='';try{theme=localStorage.getItem('omniLedgerTheme')||'';}catch(e){console.warn('omniLedgerTheme failed',e);}
+ let density='0';try{density=localStorage.getItem('omniLedgerDensity')||'0';}catch(e){console.warn('omniLedgerDensity failed',e);}
  const snapshot={version:1,exported:new Date().toISOString(),profile:PERSONAL_PROFILE,watchlist:watchlist,theme:theme,density:density};
  const blob=new Blob([JSON.stringify(snapshot,null,2)],{type:'application/json'});const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='omni-ledger-profile.json';document.body.appendChild(a);a.click();document.body.removeChild(a);
 }catch(e){alert('Export failed: '+e.message);}});
@@ -3716,7 +3716,7 @@ function diffMediaStatus(oldProfile,newProfile){
 // this the same way regardless of how it built its new profile.
 function reloadWithMediaSync(oldProfile){
  var newProfile={};
- try{newProfile=JSON.parse(localStorage.getItem('omniLedgerProfile')||'{}');}catch(e){}
+ try{newProfile=JSON.parse(localStorage.getItem('omniLedgerProfile')||'{}');}catch(e){console.warn('omniLedgerProfile failed',e);}
  var rows=diffMediaStatus(oldProfile,newProfile);
  if(typeof window.__omniReloadAfterSync==='function')window.__omniReloadAfterSync(rows);
  else location.reload();
@@ -3849,7 +3849,7 @@ function rerenderAfterProfileChange(changedIds){
    const sf=card.querySelector('.summaryFace'),head=card.querySelector('.cardHead');
    if(sf&&head&&!sf.classList.contains('hidden'))openIds.push(head.dataset.id);
   });
- }catch(e){}
+ }catch(e){console.warn('open panel id collection failed',e);}
  try{
   DEFERRED_PROFILE_VIEWS.forEach(function(v){if(v!==state.view)profileDirtyViews[v]=true;});
   collectionExtrasDirty=(state.view!=='collection');
@@ -3874,7 +3874,7 @@ function mutateProfile(mutatorFn,forceFullRender){
  // Diffed before PERSONAL_PROFILE is overwritten, so the media_status rows describe what actually
  // changed in this one edit rather than the whole profile.
  let rows=[];
- try{rows=diffMediaStatus(PERSONAL_PROFILE,snapshot);}catch(e){}
+ try{rows=diffMediaStatus(PERSONAL_PROFILE,snapshot);}catch(e){console.warn('diffMediaStatus failed',e);}
  // Taken before the recompute, compared after, so the re-render knows which cards can possibly
  // look different. A tier or own click moves exactly one work; redrawing the other 99 on screen
  // is most of what a click used to cost.
@@ -3901,7 +3901,7 @@ function mutateProfile(mutatorFn,forceFullRender){
  // A monotonic "the profile changed and the app has caught up" counter. With no navigation to
  // watch for any more, this is what the regression suite waits on to know a tier click actually
  // landed, and it is a useful thing to watch from a console for the same reason.
- try{window.__omniProfileRevision=(window.__omniProfileRevision||0)+1;}catch(e){}
+ try{window.__omniProfileRevision=(window.__omniProfileRevision||0)+1;}catch(e){console.warn('profile revision counter failed',e);}
  // Fire-and-forget: the local write above already landed, and the sync pill in the header reports
  // success or failure. Falls back to the debounced sync that the localStorage write itself
  // schedules if this hook isn't present.
@@ -4908,7 +4908,7 @@ function pickSeedCandidates(excludeIds){
  return picks;
 }
 (function onboardGate(){
- var onboarded=false;try{onboarded=!!localStorage.getItem('omniLedgerOnboarded');}catch(e){onboarded=true;}
+ var onboarded;try{onboarded=!!localStorage.getItem('omniLedgerOnboarded');}catch(e){onboarded=true;}
  if(onboarded)return;
  var gate=$('#onboardGate');if(!gate)return;
  gate.classList.remove('hidden');
@@ -4963,7 +4963,7 @@ function pickSeedCandidates(excludeIds){
    reloadWithMediaSync({});
   });
  });
- on('#onboardBlank','click',()=>{try{localStorage.setItem('omniLedgerOnboarded','1');localStorage.setItem('omniLedgerProfile','{}');}catch(e){}reloadWithMediaSync({});});
+ on('#onboardBlank','click',()=>{try{localStorage.setItem('omniLedgerOnboarded','1');localStorage.setItem('omniLedgerProfile','{}');}catch(e){console.warn('omniLedgerProfile failed',e);}reloadWithMediaSync({});});
  on('#onboardImportInput','change',e=>{const file=e.target.files&&e.target.files[0];if(!file)return;const reader=new FileReader();reader.onload=()=>{try{const parsed=JSON.parse(reader.result);if(typeof parsed!=='object'||parsed===null||Array.isArray(parsed))throw new Error('File is not a profile object');localStorage.setItem('omniLedgerOnboarded','1');applyImportedSnapshot(parsed);reloadWithMediaSync({});}catch(err){alert('Could not import that file: '+err.message);}};reader.readAsText(file);});
  on('#onboardSeed','click',()=>{
   const picks=pickSeedCandidates();
@@ -4991,7 +4991,7 @@ function pickSeedCandidates(excludeIds){
   if(tiers.get(id)===t)tiers.delete(id);else tiers.set(id,t);
   renderSeedGrid(currentPicks);
  });
- on('#onboardSeedSkip','click',()=>{try{localStorage.setItem('omniLedgerOnboarded','1');localStorage.setItem('omniLedgerProfile','{}');}catch(e){}reloadWithMediaSync({});});
+ on('#onboardSeedSkip','click',()=>{try{localStorage.setItem('omniLedgerOnboarded','1');localStorage.setItem('omniLedgerProfile','{}');}catch(e){console.warn('omniLedgerProfile failed',e);}reloadWithMediaSync({});});
  on('#onboardSeedContinue','click',()=>{
   try{
    const profile={};
@@ -5005,7 +5005,7 @@ function pickSeedCandidates(excludeIds){
    if(bronzes.length)profile.bronzeTierIds=bronzes;
    localStorage.setItem('omniLedgerOnboarded','1');
    localStorage.setItem('omniLedgerProfile',JSON.stringify(profile));
-  }catch(e){}
+  }catch(e){console.warn('storage op failed',e);}
   reloadWithMediaSync({});
  });
 })();
@@ -5118,7 +5118,7 @@ function togglePinIdx(key){
  PERSONAL_PROFILE.pinnedIdx=PERSONAL_PROFILE.pinnedIdx||DEFAULT_PINNED_IDX.slice();
  var i=PERSONAL_PROFILE.pinnedIdx.indexOf(key);
  if(i>=0)PERSONAL_PROFILE.pinnedIdx.splice(i,1);else PERSONAL_PROFILE.pinnedIdx.push(key);
- try{localStorage.setItem('omniLedgerProfile',JSON.stringify(PERSONAL_PROFILE));localStorage.setItem('omniLedgerOnboarded','1');}catch(e){}
+ try{localStorage.setItem('omniLedgerProfile',JSON.stringify(PERSONAL_PROFILE));localStorage.setItem('omniLedgerOnboarded','1');}catch(e){console.warn('omniLedgerOnboarded failed',e);}
  buildIndexSliders(); // rebuilds both the advanced list and the pinned main row, preserving state.idx values
 }
 function syncAdvCount(){
@@ -5333,7 +5333,7 @@ function focusFamily(fam){
 }
 // Reliability: re-fit charts and the relationship graph on viewport resize / device rotation.
 var _rzT;window.addEventListener('resize',function(){clearTimeout(_rzT);_rzT=setTimeout(function(){
- if(state.view==='viz'){['bubble','radar'].forEach(function(k){if(CH[k]&&CH[k].resize)try{CH[k].resize();}catch(e){}});if(CH._vizList&&typeof renderSankey==='function')renderSankey(CH._vizList);if(typeof graphCenter!=='undefined'&&graphCenter&&typeof renderGraph==='function')renderGraph(graphCenter,true);}
+ if(state.view==='viz'){['bubble','radar'].forEach(function(k){if(CH[k]&&CH[k].resize)try{CH[k].resize();}catch(e){console.warn('chart resize failed',e);}});if(CH._vizList&&typeof renderSankey==='function')renderSankey(CH._vizList);if(typeof graphCenter!=='undefined'&&graphCenter&&typeof renderGraph==='function')renderGraph(graphCenter,true);}
 },200);});
 (function(){
  // Which tab to open on boot. The URL's `view` param is what a bookmark or a shared link

@@ -53,6 +53,7 @@ function renderCreators(state,ALL,$,$$){const tab=state.creatorTab;
  const scope=state.creatorSearchScope||'all';
  const sortMode=state.creatorSort||'default';
  var grid=$('#creatorGrid');
+ var cc=$('#creatorSearchCount');
  if(q){
   // search across ALL pantheons by default, tagging each with its tab type -- optionally scoped
   // to just one pantheon via the search-scope segmented control.
@@ -61,10 +62,10 @@ function renderCreators(state,ALL,$,$$){const tab=state.creatorTab;
   var scoped=all.filter(function(pair){return pair[0].name.toLowerCase().indexOf(q)>=0;});
   var hits=sortCreatorPairs(filterCreatorPairs(scoped,state,ALL),sortMode,ALL);
   grid.innerHTML=hits.length?hits.map(function(pair){return creatorCard(pair[0],pair[1],ALL);}).join(''):'<div class="col-span-full text-center text-slate-500 text-sm py-10">No creator matches “'+esc(q)+'”.</div>';
-  var cc=$('#creatorSearchCount');if(cc)cc.textContent=hits.length+' of '+(scope==='all'?CREATOR_TOTAL:all.length)+' creators';
+  if(cc)cc.textContent=hits.length+' of '+(scope==='all'?CREATOR_TOTAL:all.length)+' creators';
   return;
  }
- var cc=$('#creatorSearchCount');if(cc)cc.textContent='';
+ if(cc)cc.textContent='';
  const data=tab==='directors'?directorsPantheon:(tab==='authors'?authorsPantheon:gamingAuteurs);
  const pairs=sortCreatorPairs(filterCreatorPairs(data.map(function(c){return [c,tab];}),state,ALL),sortMode,ALL);
  grid.innerHTML=pairs.length?pairs.map(function(pair){return creatorCard(pair[0],pair[1],ALL);}).join(''):'<div class="col-span-full text-center text-slate-500 text-sm py-10">No creators match the current filters.</div>';
