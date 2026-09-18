@@ -2000,7 +2000,7 @@ document.addEventListener('click',e=>{
  if(e.target.closest('.profEditBtn')||e.target.closest('button,a,input,select,textarea'))return;
  const j=e.target.closest('.goatJump');if(j&&j.dataset.q)goatJumpTo(j.dataset.q);
 });
-document.addEventListener('click',e=>{const pe=e.target.closest('.profEditBtn');if(pe&&(pe.dataset.act==='setformat'||pe.dataset.act==='remove-owned'||pe.dataset.act==='remove-tier')){e.stopPropagation();handleProfileEditClick(pe);}});
+document.addEventListener('click',e=>{const pe=e.target.closest('.profEditBtn');if(pe&&(pe.dataset.act==='setformat'||pe.dataset.act==='remove-owned'||pe.dataset.act==='remove-tier'||pe.dataset.act==='rate')){e.stopPropagation();handleProfileEditClick(pe);}});
 
 /* ===================== ROUTING & BINDINGS ===================== */
 function updateWlNav(){const c=wlCount();const el=$('#wlNavCount');if(el)el.textContent=c?('('+c+')'):'';}
@@ -2879,6 +2879,17 @@ function collSetAllOpen(open){
  try{localStorage.setItem('omniLedgerCollOpen',JSON.stringify(COLL_OPEN));}catch(e){console.warn('omniLedgerCollOpen failed',e);}
  $$('#collFormats details[data-ck]').forEach(function(d){d.open=open;});
 }
+// The same ☆ Rate / ★ N.N control tierRowHTML puts on every Global Controller card -- same classes,
+// same data-act="rate" dispatch (handleProfileEditClick -> openRateGate), same popup. Rating
+// something from the Collection updates the exact same PERSONAL_PROFILE.ratings field, so it shows
+// up back in the Global Controller (and everywhere else) immediately, nothing separate to keep in
+// sync.
+function collRateBtnHTML(x){
+ var rv=x.myRating;
+ return (typeof rv==='number')
+  ?'<button type="button" class="profEditBtn rateBtn rated shrink-0" data-act="rate" data-id="'+x.id+'" title="Your rating: '+rv.toFixed(1)+'/10 — click to change">★ '+rv.toFixed(1)+'</button>'
+  :'<button type="button" class="profEditBtn rateBtn shrink-0" data-act="rate" data-id="'+x.id+'" title="Rate this 0–10 — entirely optional, click to add">☆ Rate</button>';
+}
 function collItemCardHTML(x,col){
  const k=KM[x.kind];
  // The whole card jumps to Global Controller (same as every other cross-linked row in the app);
@@ -2887,9 +2898,7 @@ function collItemCardHTML(x,col){
   +'<div class="w-1 self-stretch rounded" style="background:'+col+'"></div>'
   +'<div class="flex-1 min-w-0"><div class="text-[12px] font-semibold text-slate-100 truncate">'+esc(x.title)+'</div>'
   +'<div class="text-[10px] text-slate-500 truncate">'+x.year+' · '+esc(x.creator)+' · <span style="color:'+k.c+'">'+k.label+'</span></div>'+formatPickerHTML(x)+'</div>'
-  +'<div class="text-right shrink-0"><div class="text-[13px] font-bold tabular-nums" style="color:'+col+'">'+x.ovr+'</div>'
-  +(typeof x.myRating==='number'?'<div class="text-[9px] font-bold" style="color:#5eead4" title="Your rating">★ '+x.myRating.toFixed(1)+'</div>':'')
-  +(x.goat?'<div class="text-[9px]" style="color:#fbbf24">★ GOAT</div>':x.silver?'<div class="text-[9px] text-slate-400">☆</div>':'')+'</div>'
+  +collRateBtnHTML(x)
   +'<button type="button" class="profEditBtn removeItemBtn shrink-0 text-slate-500 hover:text-rose-300 text-[13px] leading-none px-1" data-act="remove-owned" data-id="'+x.id+'" data-kind="'+x.kind+'" data-title="'+esc(x.title)+'" title="Remove from your collection">✕</button>'
   +'</div>';
 }

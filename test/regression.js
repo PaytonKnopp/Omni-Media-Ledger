@@ -2331,32 +2331,69 @@ async function runRatingFlow(browser, file) {
   check('"My Tiers" sort ranks a higher-rated Gold pick above a lower-rated one',
     !!tierSortResult && tierSortResult.idxY < tierSortResult.idxX);
 
-  // Collection tab: the fixed quality score (x.ovr, also what "Avg Quality" sums) stays the
-  // primary number so every owned item still shows one -- your rating is a secondary badge next
-  // to it when set, and its own sort option, rather than replacing ovr and going blank for
-  // anything you haven't rated yet.
+  // Collection tab: the right side of every card is now ONLY the same ☆ Rate / ★ N.N control the
+  // Global Controller cards use -- no quality score, no GOAT dot alongside it any more (per
+  // explicit direction: rate your owned stuff right there, nothing else competing for that space).
+  // "Sort: My rating" still ranks by it.
   const collResult = await pageB.evaluate(() => {
     const owned = ALL.filter(x => x.owned);
     if (owned.length < 2) return null;
     const [ox, oy] = owned.slice(0, 2);
     clearRating(ox.id); clearRating(oy.id);
+    const unratedHTML = collItemCardHTML(ox, '#38bdf8');
     setRating(ox.id, 3);
     setRating(oy.id, 9.7);
     state.collSort = 'myrating';
     const sorted = owned.slice().sort(collSortFn());
     const idxX = sorted.findIndex(w => w.id === ox.id);
     const idxY = sorted.findIndex(w => w.id === oy.id);
-    const badgeHTML = collItemCardHTML(oy, '#38bdf8');
-    const hasBadge = badgeHTML.indexOf('9.7') >= 0;
-    const hasOvr = badgeHTML.indexOf(String(oy.ovr)) >= 0;
+    const ratedHTML = collItemCardHTML(oy, '#38bdf8');
+    const hasRateBtn = /rateBtn/.test(unratedHTML) && /rateBtn/.test(ratedHTML);
+    const showsRatingValue = ratedHTML.indexOf('9.7') >= 0;
+    // Neither card should carry the old ovr score or GOAT dot any more.
+    const noOvrOnUnrated = unratedHTML.indexOf('tabular-nums" style="color:#38bdf8">' + ox.ovr) === -1;
+    const noOvrOnRated = ratedHTML.indexOf('tabular-nums" style="color:#38bdf8">' + oy.ovr) === -1;
+    const noGoatDot = unratedHTML.indexOf('GOAT') === -1 && ratedHTML.indexOf('GOAT') === -1;
     clearRating(ox.id); clearRating(oy.id);
     state.collSort = 'az';
-    return { idxX, idxY, hasBadge, hasOvr };
+    return { idxX, idxY, hasRateBtn, showsRatingValue, noOvrOnUnrated, noOvrOnRated, noGoatDot };
   });
   check('Collection "Sort: My rating" ranks your higher-rated owned item first',
     !!collResult && collResult.idxY < collResult.idxX);
-  check('the Collection card shows your rating as a secondary badge alongside quality, not instead of it',
-    !!collResult && collResult.hasBadge && collResult.hasOvr);
+  check('every Collection card carries the same Rate control as the Global Controller',
+    !!collResult && collResult.hasRateBtn && collResult.showsRatingValue);
+  check('the Collection card no longer shows a quality score or GOAT dot next to it',
+    !!collResult && collResult.noOvrOnUnrated && collResult.noOvrOnRated && collResult.noGoatDot);
+
+  // And a real click, not just the string output: rating something from inside the Collection tab
+  // has to go through the exact same popup and land in the exact same field the Global Controller
+  // uses, so it shows up back there immediately with nothing separate to keep in sync.
+  const collClick = await pageB.evaluate(() => { switchView('collection'); return true; });
+  await pageB.waitForTimeout(300);
+  const collCardId = await pageB.evaluate(() => {
+    const btn = document.querySelector('#collFormats .rateBtn');
+    return btn ? btn.dataset.id : null;
+  });
+  if (collCardId) {
+    await pageB.evaluate((id) => { clearRating(id); }, collCardId);
+    await pageB.waitForTimeout(150);
+    await pageB.click('#collFormats .rateBtn[data-id="' + collCardId + '"]');
+    const gateOpenedFromColl = await readWhen(pageB, () => !document.getElementById('rateGate').classList.contains('hidden'));
+    check('clicking Rate on a Collection card opens the same popup', !!gateOpenedFromColl);
+    await pageB.fill('#rateGateNum', '7.2');
+    const revC = await pageB.evaluate(() => window.__omniProfileRevision || 0);
+    await pageB.click('#rateGateSave');
+    await pageB.waitForFunction((n) => (window.__omniProfileRevision || 0) > n, revC, { timeout: 10000 }).catch(() => {});
+    const afterCollSave = await pageB.evaluate((id) => ({
+      myRating: ALL.find(x => x.id === id).myRating,
+      cardShowsIt: (document.querySelector('#collFormats .rateBtn[data-id="' + id + '"]') || {}).textContent
+    }), collCardId);
+    check('rating from the Collection card lands in the same field the Global Controller reads', afterCollSave.myRating === 7.2);
+    check('the Collection card itself updates to show it, right there', /7\.2/.test(afterCollSave.cardShowsIt || ''));
+    await pageB.evaluate((id) => { clearRating(id); }, collCardId);
+  } else {
+    check('clicking Rate on a Collection card opens the same popup', false, 'no .rateBtn found in Collection');
+  }
 
   await ctxB.close();
   check('no uncaught page errors during the rating pass', pageErrors.length === 0);
