@@ -673,42 +673,82 @@ function initCharts(){
  CH.radar=new Chart($('#radarC'),{type:'radar',data:{labels:['Critical','Audience','Technical','Dread / Tension','Complexity'],datasets:[]},options:{responsive:true,maintainAspectRatio:false,
   scales:{r:{min:0,max:100,ticks:{stepSize:20,backdropColor:'transparent'},grid:{color:'rgba(148,163,184,.12)'},angleLines:{color:'rgba(148,163,184,.12)'},pointLabels:{color:'#94a3b8',font:{size:10}}}},
   plugins:{legend:{labels:{usePointStyle:true,boxWidth:8,boxPadding:6}}}}});
- CH.decade=new Chart($('#decadeC'),{type:'bar',data:{labels:[],datasets:[]},options:{responsive:true,maintainAspectRatio:false,
-  scales:{x:{stacked:true,grid:{display:false}},y:{stacked:true,title:{display:true,text:'Masterpieces indexed'}}},
-  plugins:{legend:{labels:{usePointStyle:true,boxWidth:8,boxPadding:6}}}}});
  buildRadarSelects();renderRadarAxisRow();updateRadar();
 }
-var decadeOwnedOnly=false;
 function updateCharts(list){
  $('#vizScope').textContent=list.length+' works in scope · Global Controller filters apply live to charts A and C.';
  if(!CH.bubble)return;
  CH._vizList=list;
  renderBubble();
- if(decadeOwnedOnly)list=list.filter(function(x){return x.owned;});
- // Decade range used to be a hardcoded 1950-2020 window covering only 3 of the 4 media kinds --
- // that silently dropped every pre-1950 or post-2020 work (real ones exist today, e.g. 1920s films
- // and 2026 releases) and every book from the chart. Derived from the actual data instead, so it
- // stays correct as the corpus grows in either direction.
- // A handful of items (ancient texts etc.) carry years in the low hundreds, which used to drag
- // minD down with them -- the decade axis then spanned ~200 mostly-empty decades and Chart.js's
- // tick auto-skipping showed a few widely-spaced ancient decades while the real (mostly modern)
- // distribution was crushed into an invisible sliver. Mirror the Timeline SVG histogram's
- // Pre-1900-bucket approach: clamp the per-decade axis to 1900+ and fold every earlier item into
- // one leading "Pre-1900" bar instead of dropping them.
- const years=list.map(x=>x.year).filter(function(y){return y>0;});
- const maxD=years.length?Math.floor(Math.max.apply(null,years)/10)*10:2020;
- const minD=years.length?Math.max(1900,Math.floor(Math.min.apply(null,years)/10)*10):1900;
- const decs=[];for(let d=minD;d<=maxD;d+=10)decs.push(d);
- const hasPre=list.some(x=>x.year>0&&x.year<1900);
- const cnt=k=>decs.map(d=>list.filter(x=>x.kind===k&&x.year>=d&&x.year<d+10).length);
- const preCnt=k=>list.filter(x=>x.kind===k&&x.year>0&&x.year<1900).length;
- CH.decade.data.labels=(hasPre?['Pre-1900']:[]).concat(decs.map(d=>d+'s'));
- CH.decade.data.datasets=[
-  {label:'Movies',data:(hasPre?[preCnt('movie')]:[]).concat(cnt('movie')),backgroundColor:'#8b5cf6'},
-  {label:'TV',data:(hasPre?[preCnt('tv')]:[]).concat(cnt('tv')),backgroundColor:'#22d3ee'},
-  {label:'Games',data:(hasPre?[preCnt('game')]:[]).concat(cnt('game')),backgroundColor:'#f59e0b'},
-  {label:'Books',data:(hasPre?[preCnt('book')]:[]).concat(cnt('book')),backgroundColor:'#4ade80'}];
- CH.decade.update('none');
+ renderSankey(list);
+}
+// Panel C · Taste Flow -- a hand-rolled two-column Sankey (same house style as the relationship
+// graph in panel D: plain SVG, no chart-library dependency) showing how the medium mix in scope
+// converts into actual taste tiers. Buckets are mutually exclusive so ribbon widths sum cleanly,
+// using the same precedence the app already applies when GOAT-boosting a work's match score
+// (goat > silver > bronze > owned > untiered -- see recomputeProfileDerived).
+var SANKEY_TIERS=[{key:'gold',label:'Gold',color:'#fbbf24'},{key:'silver',label:'Silver',color:'#cbd5e1'},{key:'bronze',label:'Bronze',color:'#cd7f32'},{key:'owned',label:'Owned',color:'#38bdf8'},{key:'untiered',label:'Untiered',color:'#475569'}];
+var SANKEY_KINDS=['movie','tv','game','book'];
+function sankeyTierOf(x){return x.goat?'gold':x.silver?'silver':x.bronze?'bronze':x.owned?'owned':'untiered';}
+function renderSankey(list){
+ var wrap=$('#sankeyWrap');if(!wrap)return;
+ if(!list.length){wrap.innerHTML='<div class="p-8 text-center text-slate-500 text-sm">Nothing in scope to flow.</div>';return;}
+ var counts={};SANKEY_KINDS.forEach(function(k){counts[k]={};SANKEY_TIERS.forEach(function(t){counts[k][t.key]=0;});});
+ list.forEach(function(x){if(counts[x.kind])counts[x.kind][sankeyTierOf(x)]++;});
+ var leftTotals={};SANKEY_KINDS.forEach(function(k){leftTotals[k]=SANKEY_TIERS.reduce(function(s,t){return s+counts[k][t.key];},0);});
+ var rightTotals={};SANKEY_TIERS.forEach(function(t){rightTotals[t.key]=SANKEY_KINDS.reduce(function(s,k){return s+counts[k][t.key];},0);});
+ var grand=list.length;
+ var Wd=wrap.clientWidth||700,targetH=290,gapV=10;
+ var pxPerUnit=Math.max(0.25,(targetH-gapV*(SANKEY_TIERS.length-1))/grand);
+ // Labels live outside the node columns (left labels to the left, right labels to the right) so
+ // they never sit on top of the ribbons, which occupy all the horizontal space between the two
+ // node columns.
+ var topMargin=30,nodeW=14,leftLabelW=98,rightLabelW=98;
+ var leftX=leftLabelW,rightX=Wd-rightLabelW-nodeW,curveX=(leftX+nodeW+rightX)/2;
+ // left (medium) node geometry
+ var leftNodes={},cursor=topMargin;
+ SANKEY_KINDS.forEach(function(k){var h=leftTotals[k]*pxPerUnit;if(h<=0)return;leftNodes[k]={y0:cursor,y1:cursor+h,h:h};cursor+=h+gapV;});
+ var leftColBottom=cursor-gapV;
+ // right (tier) node geometry
+ var rightNodes={};cursor=topMargin;
+ SANKEY_TIERS.forEach(function(t){var h=rightTotals[t.key]*pxPerUnit;if(h<=0)return;rightNodes[t.key]={y0:cursor,y1:cursor+h,h:h};cursor+=h+gapV;});
+ var rightColBottom=cursor-gapV;
+ var Ht=Math.max(leftColBottom,rightColBottom)+18;
+ // sub-cursors for stacking multiple ribbons within one node
+ var leftSub={};SANKEY_KINDS.forEach(function(k){leftSub[k]=0;});
+ var rightSub={};SANKEY_TIERS.forEach(function(t){rightSub[t.key]=0;});
+ var svg='<svg viewBox="0 0 '+Wd+' '+Ht+'" style="width:100%;height:'+Ht+'px" xmlns="http://www.w3.org/2000/svg">';
+ svg+='<text x="'+leftX+'" y="16" fill="#64748b" font-size="9.5" letter-spacing="1" font-weight="600">MEDIUM</text>';
+ svg+='<text x="'+(rightX+nodeW)+'" y="16" fill="#64748b" font-size="9.5" letter-spacing="1" font-weight="600" text-anchor="end">TIER</text>';
+ // ribbons (drawn first, under the nodes)
+ SANKEY_KINDS.forEach(function(k){
+  if(!leftNodes[k])return;
+  SANKEY_TIERS.forEach(function(t){
+   var cnt=counts[k][t.key];if(!cnt||!rightNodes[t.key])return;
+   var segH=cnt*pxPerUnit;
+   var ly0=leftNodes[k].y0+leftSub[k],ly1=ly0+segH;leftSub[k]+=segH;
+   var ry0=rightNodes[t.key].y0+rightSub[t.key],ry1=ry0+segH;rightSub[t.key]+=segH;
+   var x1=leftX+nodeW,x2=rightX;
+   var d='M'+x1+','+ly0+' C'+curveX+','+ly0+' '+curveX+','+ry0+' '+x2+','+ry0+
+    ' L'+x2+','+ry1+' C'+curveX+','+ry1+' '+curveX+','+ly1+' '+x1+','+ly1+' Z';
+   svg+='<path d="'+d+'" fill="'+KM[k].c+'" opacity="0.38" class="skRibbon"><title>'+KM[k].label+' → '+t.label+' · '+cnt+' works</title></path>';
+  });
+ });
+ // nodes + labels on top, labels sitting clear of the ribbon area
+ SANKEY_KINDS.forEach(function(k){
+  var n=leftNodes[k];if(!n)return;
+  svg+='<rect x="'+leftX+'" y="'+n.y0+'" width="'+nodeW+'" height="'+n.h+'" fill="'+KM[k].c+'" rx="2"><title>'+KM[k].label+' · '+leftTotals[k]+' works</title></rect>';
+  svg+='<text x="'+(leftX-8)+'" y="'+(n.y0+n.h/2+1)+'" fill="#cbd5e1" font-size="10.5" font-weight="600" text-anchor="end">'+KM[k].label+'</text>';
+  svg+='<text x="'+(leftX-8)+'" y="'+(n.y0+n.h/2+13)+'" fill="#64748b" font-size="9" text-anchor="end">'+leftTotals[k]+'</text>';
+ });
+ SANKEY_TIERS.forEach(function(t){
+  var n=rightNodes[t.key];if(!n)return;
+  svg+='<rect x="'+rightX+'" y="'+n.y0+'" width="'+nodeW+'" height="'+n.h+'" fill="'+t.color+'" rx="2"><title>'+t.label+' · '+rightTotals[t.key]+' works</title></rect>';
+  svg+='<text x="'+(rightX+nodeW+8)+'" y="'+(n.y0+n.h/2+1)+'" fill="#cbd5e1" font-size="10.5" font-weight="600">'+t.label+'</text>';
+  svg+='<text x="'+(rightX+nodeW+8)+'" y="'+(n.y0+n.h/2+13)+'" fill="#64748b" font-size="9">'+rightTotals[t.key]+'</text>';
+ });
+ svg+='</svg>';
+ wrap.innerHTML=svg;
 }
 var bubbleMed='all';
 // The field used to advertise a "min score 55+" label with no filter anywhere actually enforcing
@@ -2910,7 +2950,7 @@ function switchView(v){state.view=v;
  if(profileDirtyViews[v]){delete profileDirtyViews[v];renderDeferredProfileView(v);}
  refresh();
  if(v==='collection'&&collectionExtrasDirty){collectionExtrasDirty=false;renderCollectionExtras();}
- if(v==='viz'){graphChips();if(!graphCenter)renderGraph(defaultGraphCenter(),true);else renderGraph(graphCenter,true);(window.requestAnimationFrame||setTimeout)(()=>{['bubble','radar','decade'].forEach(k=>{if(CH[k])CH[k].resize();});if(graphCenter)renderGraph(graphCenter,true);});setTimeout(function(){['bubble','radar','decade'].forEach(k=>{if(CH[k])CH[k].resize();});if(graphCenter&&state.view==='viz')renderGraph(graphCenter,true);},260);}
+ if(v==='viz'){graphChips();if(!graphCenter)renderGraph(defaultGraphCenter(),true);else renderGraph(graphCenter,true);if(CH._vizList)renderSankey(CH._vizList);(window.requestAnimationFrame||setTimeout)(()=>{['bubble','radar'].forEach(k=>{if(CH[k])CH[k].resize();});if(CH._vizList)renderSankey(CH._vizList);if(graphCenter)renderGraph(graphCenter,true);});setTimeout(function(){['bubble','radar'].forEach(k=>{if(CH[k])CH[k].resize();});if(CH._vizList)renderSankey(CH._vizList);if(graphCenter&&state.view==='viz')renderGraph(graphCenter,true);},260);}
  if(v==='portrait')renderPortrait();
  if(v==='timeline')renderTimeline();
 }
@@ -3265,7 +3305,6 @@ window.addEventListener('scroll',function(e){
 // Bubble field medium filter
 document.addEventListener('click',function(e){var b=e.target.closest&&e.target.closest('.bubbleMedBtn');if(!b)return;bubbleMed=b.dataset.bm;$$('.bubbleMedBtn').forEach(function(x){x.classList.toggle('on',x===b);});if(typeof renderBubble==='function')renderBubble();});
 on('#bubbleMin','input',e=>{bubbleMinScore=+e.target.value;const lbl=$('#bubbleMinLbl');if(lbl)lbl.textContent=bubbleMinScore>0?bubbleMinScore+'+':'Any';renderBubble();scheduleURLSync();});
-on('#decadeOwnedOnly','change',e=>{decadeOwnedOnly=e.target.checked;if(CH.decade)updateCharts(CH._vizList||filtered());});
 document.addEventListener('change',function(e){var sel=e.target.closest&&e.target.closest('.radarAxisSel');if(!sel)return;setRadarAxis(+sel.dataset.axisI,sel.value);});
 // Relationship graph: node + chip clicks
 document.addEventListener('click',function(e){
@@ -4870,7 +4909,7 @@ function focusFamily(fam){
 }
 // Reliability: re-fit charts and the relationship graph on viewport resize / device rotation.
 var _rzT;window.addEventListener('resize',function(){clearTimeout(_rzT);_rzT=setTimeout(function(){
- if(state.view==='viz'){['bubble','radar','decade'].forEach(function(k){if(CH[k]&&CH[k].resize)try{CH[k].resize();}catch(e){}});if(typeof graphCenter!=='undefined'&&graphCenter&&typeof renderGraph==='function')renderGraph(graphCenter,true);}
+ if(state.view==='viz'){['bubble','radar'].forEach(function(k){if(CH[k]&&CH[k].resize)try{CH[k].resize();}catch(e){}});if(CH._vizList&&typeof renderSankey==='function')renderSankey(CH._vizList);if(typeof graphCenter!=='undefined'&&graphCenter&&typeof renderGraph==='function')renderGraph(graphCenter,true);}
 },200);});
 (function(){
  // Which tab to open on boot. The URL's `view` param is what a bookmark or a shared link

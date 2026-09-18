@@ -72,6 +72,8 @@ details[open]>.collSum .collCaret{transform:rotate(90deg)}
 .bubbleMedBtn{border-color:rgba(148,163,184,.25);color:#94a3b8}
 .bubbleMedBtn.on{border-color:#818cf8;color:#c7d2fe;background:rgba(129,140,248,.12);font-weight:600}
 .bmCount{opacity:.65;font-weight:400}
+.skRibbon{transition:opacity .12s}
+.skRibbon:hover{opacity:.68!important}
 body.compact #grid{grid-template-columns:repeat(2,minmax(0,1fr))!important;gap:.5rem}
 @media(min-width:768px){body.compact #grid{grid-template-columns:repeat(3,minmax(0,1fr))!important}}
 @media(min-width:1280px){body.compact #grid{grid-template-columns:repeat(4,minmax(0,1fr))!important}}
@@ -1112,10 +1114,9 @@ body[data-theme="outer-wilds"]{--bg:#0e0a09;--panel:#181010;--panel-2:#120c0b;--
       <p class="chartFail hidden text-[11px] text-amber-300/80 mt-2">Chart.js CDN unreachable.</p>
     </div>
     <div class="panel p-4">
-      <div class="flex flex-wrap items-baseline justify-between gap-2"><h3 class="text-[12px] font-bold uppercase tracking-[.16em] text-slate-100">C · Golden Eras · Decade Histogram</h3><label class="flex items-center gap-1.5 text-[11px] cursor-pointer shrink-0" style="color:#86efac"><input type="checkbox" id="decadeOwnedOnly" class="accent-emerald-500"/> ◆ Owned only</label></div>
-      <p class="text-[11px] text-slate-500 mt-1">Volume of indexed masterpieces per decade, stacked by medium. Spikes mark golden eras.</p>
-      <div class="relative h-[366px] mt-3"><canvas id="decadeC"></canvas></div>
-      <p class="chartFail hidden text-[11px] text-amber-300/80 mt-2">Chart.js CDN unreachable.</p>
+      <h3 class="text-[12px] font-bold uppercase tracking-[.16em] text-slate-100">C · Taste Flow · Medium → Tier</h3>
+      <p class="text-[11px] text-slate-500 mt-1">How the medium mix in scope converts into your actual taste tiers — ribbon width = number of works. Hover a ribbon or node for exact counts.</p>
+      <div id="sankeyWrap" class="relative mt-3"></div>
     </div>
     <div class="panel p-4 xl:col-span-2">
       <div class="flex flex-wrap items-baseline justify-between gap-2"><h3 class="text-[12px] font-bold uppercase tracking-[.16em] text-slate-100">D · Taste Relationship Graph</h3><span class="lbl">click a creator or work to explore its web</span></div>
