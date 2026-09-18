@@ -1786,7 +1786,7 @@ var tlScope='owned';
 var tlMedium='all';
 var tlZoomDecade=null;
 function renderTimeline(){
- var items=(tlScope==='owned'?ALL.filter(x=>x.owned):ALL).filter(x=>typeof x.year==='number'&&x.year!==0);
+ var items=(tlScope==='owned'?ALL.filter(x=>x.owned):tlScope==='rated'?ALL.filter(x=>x.goat||x.silver||x.bronze):ALL).filter(x=>typeof x.year==='number'&&x.year!==0);
  if(tlMedium!=='all')items=items.filter(x=>x.kind===tlMedium);
  if(!items.length){
   $('#tlStats').innerHTML=[['Works on timeline',0,'#f0abfc'],['Spans','—','#22d3ee'],['Busiest decade','—','#fbbf24'],['Peak count',0,'#4ade80']]
