@@ -3086,14 +3086,22 @@ function refresh(changedIds){const list=filtered();
 function switchView(v){state.view=v;
  window.scrollTo(0,0);
  // #nav scrolls horizontally on mobile (see the MOBILE media-query block) rather than wrapping
- // into several rows -- scrollIntoView here keeps whichever tab is now active from getting stuck
- // off to the side out of view. inline/block:'nearest' makes this a no-op wherever it isn't
- // needed (desktop's wrapping nav, or a tab that's already fully visible).
- $$('#nav .navBtn').forEach(b=>{
-  const on=b.dataset.view===v;
-  b.classList.toggle('active',on);
-  if(on&&typeof b.scrollIntoView==='function')b.scrollIntoView({inline:'nearest',block:'nearest'});
- });
+ // into several rows -- keeps whichever tab is now active from getting stuck off to the side out
+ // of view. Scrolled by hand rather than the native scrollIntoView({inline:'nearest'}): .navBtn
+ // has `transition:.18s` (see its CSS), and .active makes a tab bold/wider, so a scroll calculated
+ // in the same tick as the class toggle -- native or hand-rolled -- reads the pre-transition width
+ // and lands short for any tab that isn't already the rightmost one in the strip. Deferred to just
+ // after that transition settles instead of racing it. This bug only ever went unnoticed because
+ // the tab it was most commonly tested with used to be the last one in nav order, where scrolling
+ // to "nearest" clamps to the scroller's true max regardless of the mismeasured width.
+ $$('#nav .navBtn').forEach(b=>{b.classList.toggle('active',b.dataset.view===v);});
+ setTimeout(function(){
+  var activeBtn=$('#nav .navBtn.active'),navEl=$('#nav');
+  if(!activeBtn||!navEl)return;
+  var navRect=navEl.getBoundingClientRect(),btnRect=activeBtn.getBoundingClientRect();
+  if(btnRect.right>navRect.right)navEl.scrollLeft+=Math.ceil(btnRect.right-navRect.right);
+  else if(btnRect.left<navRect.left)navEl.scrollLeft-=Math.ceil(navRect.left-btnRect.left);
+ },200);
  $$('main > section').forEach(s=>s.classList.toggle('hidden',s.dataset.sec!==v));
  // Pay for a tab that went stale while it was hidden, once, on the way in (see
  // rerenderAfterProfileChange). Nothing happens for a tab that is already current.
@@ -5116,7 +5124,7 @@ console.assert(movies.length>0&&tvShows.length>0&&videoGames.length>0&&books.len
 updateWlNav();
 if(typeof syncBlendPanel==='function')syncBlendPanel();
 /* ===================== COMMAND PALETTE (Cmd/Ctrl-K) ===================== */
-var TAB_LABELS={controller:'Global Controller',goat:'GOAT Profile',portrait:'Taste Portrait',collection:'Collection',watchlist:'Watchlist',contenders:'Contenders Ledger',creators:'Creator Archives',matrix:'Reference Matrices',viz:'Visualization Suite',timeline:'Timeline'};
+var TAB_LABELS={controller:'Global Controller',goat:'GOAT Profile',collection:'Collection',contenders:'Contenders Ledger',watchlist:'Watchlist',portrait:'Taste Portrait',viz:'Visualization Suite',timeline:'Timeline',creators:'Creator Archives',matrix:'Reference Matrices'};
 function focusWork(id){
  var it=byId.get(id);if(!it)return;
  clearAllFilters();
