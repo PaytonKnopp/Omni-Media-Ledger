@@ -1786,10 +1786,11 @@ var tlScope='owned';
 var tlMedium='all';
 var tlZoomDecade=null;
 function renderTimeline(){
+ var scopeNoun=tlScope==='owned'?'Owned works':tlScope==='rated'?'Rated works':'Total works';
  var items=(tlScope==='owned'?ALL.filter(x=>x.owned):tlScope==='rated'?ALL.filter(x=>x.goat||x.silver||x.bronze):ALL).filter(x=>typeof x.year==='number'&&x.year!==0);
  if(tlMedium!=='all')items=items.filter(x=>x.kind===tlMedium);
  if(!items.length){
-  $('#tlStats').innerHTML=[['Works on timeline',0,'#f0abfc'],['Spans','—','#22d3ee'],['Busiest decade','—','#fbbf24'],['Peak count',0,'#4ade80']]
+  $('#tlStats').innerHTML=[[scopeNoun,0,'#f0abfc'],['Spans','—','#22d3ee'],['Busiest decade','—','#fbbf24'],['Avg gap','—','#4ade80']]
    .map(x=>'<div class="panel p-3 text-center"><div class="text-lg font-extrabold text-slate-50 tabular-nums leading-tight">'+x[1]+'</div><div class="lbl mt-1" style="color:'+x[2]+'">'+x[0]+'</div></div>').join('');
   $('#tlChart').innerHTML='<div class="text-center text-slate-500 text-sm py-10">Nothing to show for this filter.</div>';
   $('#tlEras').innerHTML='';
@@ -1803,25 +1804,45 @@ function renderTimeline(){
  // busiest decade
  var dd={};items.forEach(x=>{var d=Math.floor(x.year/10)*10;dd[d]=(dd[d]||0)+1;});
  var peak=Object.entries(dd).sort((a,b)=>b[1]-a[1])[0];
+ // average gap between distinct release years -- a pacing signal that reads the same way across
+ // all three scopes, unlike a raw peak-count which just restates the tallest bar.
+ var uYears=Array.from(new Set(years)).sort((a,b)=>a-b);
+ var avgGap='\u2014';
+ if(uYears.length>1){
+  var gapSum=0;for(var gi=1;gi<uYears.length;gi++)gapSum+=uYears[gi]-uYears[gi-1];
+  avgGap=(gapSum/(uYears.length-1)).toFixed(1)+' yrs';
+ }
  $('#tlStats').innerHTML=[
-  ['Works on timeline',items.length,'#f0abfc'],
+  [scopeNoun,items.length,'#f0abfc'],
   ['Spans',(earliest<0?Math.abs(earliest)+' BC':earliest)+' \u2013 '+latest,'#22d3ee'],
   ['Busiest decade',(peak?peak[0]+'s':'\u2014'),'#fbbf24'],
-  ['Peak count',(peak?peak[1]:0),'#4ade80']
+  ['Avg gap',avgGap,'#4ade80']
  ].map(x=>'<div class="panel p-3 text-center"><div class="text-lg font-extrabold text-slate-50 tabular-nums leading-tight">'+x[1]+'</div><div class="lbl mt-1" style="color:'+x[2]+'">'+x[0]+'</div></div>').join('');
  // --- SVG histogram by decade (pre-1900 bucketed) ---
  var buckets={};var preCount=0,preItems=[];
  items.forEach(x=>{if(x.year<1900){preCount++;preItems.push(x);}else{var d=Math.floor(x.year/10)*10;(buckets[d]=buckets[d]||[]).push(x);}});
  var decades=Object.keys(buckets).map(Number).sort((a,b)=>a-b);
- var maxCount=Math.max(preCount,Math.max.apply(null,decades.map(d=>buckets[d].length)));
  var colOf=x=>KM[x.kind].c;
- var W=Math.max(700,(decades.length+(preCount?1:0))*64),H=240+(tlScope==='rated'?14:0),pad=30,bw=48,gap=16;
  var cols=[];if(preCount)cols.push(['Pre-1900',preItems,-9999,1900]);decades.forEach(d=>cols.push([d+'s',buckets[d],d,d+10]));
+ // catalog "ghost" counts (same medium filter, ignoring scope) so an owned/rated bar can be read
+ // against how much of that era exists at all -- ALL already carries every field this needs.
+ var showGhost=tlScope!=='all';
+ var catalogItems=ALL.filter(x=>typeof x.year==='number'&&x.year!==0&&(tlMedium==='all'||x.kind===tlMedium));
+ var catalogCountFor=function(ymin,ymax){return catalogItems.filter(function(x){return x.year>=ymin&&x.year<ymax;}).length;};
+ var maxCount=Math.max(1,Math.max.apply(null,cols.map(function(c){return showGhost?Math.max(c[1].length,catalogCountFor(c[2],c[3])):c[1].length;})));
+ var W=Math.max(700,cols.length*64),H=254,pad=30,bw=48,gap=16;
  var svg='<svg viewBox="0 0 '+W+' '+H+'" style="width:100%;height:auto" xmlns="http://www.w3.org/2000/svg">';
  cols.forEach(function(c,i){
   var x=pad+i*(bw+gap);
   var items2=c[1];var h=(items2.length/maxCount)*(H-70);
   svg+='<g class="tlBar" style="cursor:pointer" data-ymin="'+c[2]+'" data-ymax="'+c[3]+'" data-kind="'+(tlMedium!=='all'?tlMedium:'')+'" data-label="'+esc(c[0])+'"><title>'+c[0]+' — '+items2.length+' works · click to open in the Global Controller, or use the 🔍 to preview here</title><rect x="'+x+'" y="'+(H-30-h-4)+'" width="'+bw+'" height="'+(h+4)+'" fill="transparent"/>';
+  if(showGhost){
+   var gCount=catalogCountFor(c[2],c[3]);
+   if(gCount>items2.length){
+    var gh=(gCount/maxCount)*(H-70);
+    svg+='<rect x="'+x+'" y="'+(H-30-gh)+'" width="'+bw+'" height="'+gh+'" fill="none" stroke="#475569" stroke-width="1" stroke-dasharray="2,2" rx="2"><title>'+gCount+' total in catalog for this era</title></rect>';
+   }
+  }
   // stacked by medium
   var order=['book','movie','tv','game'];
   var y=H-30;
@@ -1833,10 +1854,8 @@ function renderTimeline(){
   });
   svg+='<text x="'+(x+bw/2)+'" y="'+(H-14)+'" fill="#94a3b8" font-size="10" text-anchor="middle">'+c[0]+'</text>';
   svg+='<text x="'+(x+bw/2)+'" y="'+(H-38-h)+'" fill="#e2e8f0" font-size="11" font-weight="700" text-anchor="middle">'+items2.length+'</text>';
-  if(tlScope==='rated'){
-   var avgGm=Math.round(items2.reduce(function(s,it){return s+it.gm;},0)/items2.length);
-   svg+='<text x="'+(x+bw/2)+'" y="'+(H-2)+'" fill="#fbbf24" font-size="9.5" font-weight="600" text-anchor="middle">★'+avgGm+'</text>';
-  }
+  var avgGm=Math.round(items2.reduce(function(s,it){return s+it.gm;},0)/items2.length);
+  svg+='<text x="'+(x+bw/2)+'" y="'+(H-2)+'" fill="#fbbf24" font-size="9.5" font-weight="600" text-anchor="middle">★'+avgGm+'</text>';
   /* Zoom icon sits on its own row well above the count label (never the same y, regardless of bar
      height or column width) and is centered like the count rather than right-anchored against a
      narrow bw, so it can't collide with or get clipped by the number at any column count/width. A
@@ -1848,7 +1867,8 @@ function renderTimeline(){
  svg+='</svg>';
  // legend
  var legend='<div class="flex gap-3 flex-wrap mt-2 text-[10px]">'+['movie','tv','game','book'].map(k=>'<span class="flex items-center gap-1"><span class="w-2.5 h-2.5 rounded-sm inline-block" style="background:'+KM[k].c+'"></span>'+KM[k].label+'</span>').join('')+'</div>';
- $('#tlChart').innerHTML=items.length?('<div class="lbl mb-2" style="color:#f0abfc">Works per decade · click a bar to open it in the Global Controller, or 🔍 to preview without leaving this tab</div>'+svg+legend):'<div class="text-center text-slate-500 text-sm py-10">Nothing to show for this filter.</div>';
+ var ghostNote=showGhost?' · dashed outline = full catalog size for that era':'';
+ $('#tlChart').innerHTML=items.length?('<div class="lbl mb-2" style="color:#f0abfc">Works per decade · click a bar to open it in the Global Controller, or 🔍 to preview without leaving this tab'+ghostNote+'</div>'+svg+legend):'<div class="text-center text-slate-500 text-sm py-10">Nothing to show for this filter.</div>';
  // --- optional in-tab decade zoom/preview (no navigation away from Timeline) ---
  var zoomBox=$('#tlDecadeZoom');
  if(zoomBox){
@@ -1863,20 +1883,36 @@ function renderTimeline(){
  }
  // --- era highlight rows (chronological), each era shows top works ---
  var ERAS=[[-9999,1900,'Antiquity & Classics'],[1900,1960,'The Mid-Century'],[1960,1980,'The New Wave'],[1980,2000,'The Modern Canon'],[2000,2015,'The Digital Age'],[2015,9999,'The Present']];
+ var scopeLabel=tlScope==='owned'?'My Collection':tlScope==='rated'?'GOAT Profile':'All Works';
+ var mediumLabel=tlMedium==='all'?'All Media':KM[tlMedium].label;
+ var header='<div class="text-[11px] text-slate-500 -mb-1">Showing <span class="text-slate-300">'+esc(scopeLabel)+'</span> \u00b7 <span class="text-slate-300">'+esc(mediumLabel)+'</span></div>';
  var html='';
  ERAS.forEach(function(era){
   var evs=items.filter(x=>x.year>=era[0]&&x.year<era[1]).sort((a,b)=>b.gm-a.gm);
-  if(!evs.length)return;
+  if(!evs.length){
+   // An empty era is itself a signal for owned/rated scope -- a blind spot worth naming instead
+   // of silently vanishing -- but for the unscoped catalog it's just noise, so skip it there.
+   if(tlScope!=='all')html+='<div class="panel p-4 opacity-60"><div class="flex items-center justify-between"><div class="lbl" style="color:#c084fc">'+esc(era[2])+'</div><div class="text-[11px] text-slate-500">no works yet</div></div></div>';
+   return;
+  }
   var chip=function(x){var k=KM[x.kind];return '<span class="cardTitle text-[11px] px-2 py-1 rounded-lg border flex items-center gap-1.5 cursor-pointer hover:border-slate-500" data-flip="'+x.id+'" style="border-color:'+k.c+'44" title="Click to open"><span class="w-1.5 h-1.5 rounded-full" style="background:'+k.c+'"></span>'+(x.owned?'<span style="color:#4ade80">\u2713</span> ':'')+esc(x.title)+' <span class="text-slate-500">'+x.year+'</span> <span style="color:#fbbf24">\u2605'+x.gm+'</span></span>';};
   var top=evs.slice(0,8),rest=evs.slice(8);
   var eid='era'+Math.abs(era[0]);
-  html+='<div class="panel p-4"><div class="flex items-center justify-between mb-2"><div class="lbl" style="color:#c084fc">'+esc(era[2])+'</div><div class="text-[11px] text-slate-500">'+evs.length+' works</div></div>'
+  // per-era medium mix bar -- reuses the same KM colors as the histogram/legend so an era's
+  // medium makeup is readable at a glance without opening every chip.
+  var mixOrder=['book','movie','tv','game'];
+  var mixBar=mixOrder.map(function(kind){
+   var cnt=evs.filter(function(x){return x.kind===kind;}).length;if(!cnt)return'';
+   return '<span style="width:'+(cnt/evs.length*100)+'%;background:'+KM[kind].c+'" title="'+KM[kind].label+': '+cnt+'"></span>';
+  }).join('');
+  html+='<div class="panel p-4"><div class="flex items-center justify-between mb-1.5"><div class="lbl" style="color:#c084fc">'+esc(era[2])+'</div><div class="text-[11px] text-slate-500">'+evs.length+' works</div></div>'
+   +'<div class="flex h-1 rounded-full overflow-hidden mb-2.5" style="background:rgba(148,163,184,.12)">'+mixBar+'</div>'
    +'<div class="flex flex-wrap gap-2">'+top.map(chip).join('')+'</div>'
    +(rest.length?'<div id="'+eid+'" class="flex flex-wrap gap-2 mt-2 hidden">'+rest.map(chip).join('')+'</div>'
      +'<button type="button" class="eraMore text-[10.5px] mt-2.5 px-2.5 py-1 rounded border border-slate-700 text-slate-400 hover:border-purple-500 hover:text-purple-300 transition-colors" data-era="'+eid+'" data-n="'+rest.length+'">\u2295 Show all '+evs.length+'</button>':'')
    +'</div>';
  });
- $('#tlEras').innerHTML=html;
+ $('#tlEras').innerHTML=header+html;
 }
 /* ===== Taste Portrait dashboard ===== */
 var FAMILY_COLORS={'Sci-Fi':'#67e8f9','Horror':'#f87171','Documentary':'#e2e8f0','Drama':'#cbd5e1','Thriller':'#fbbf24','Mystery / Detective':'#a5b4fc','Crime':'#fb923c','Psychological':'#c084fc','Action / Adventure':'#fb7185','Epic / Historical':'#fcd34d','Fantasy':'#818cf8','Western':'#d97706','Comedy / Satire':'#fde047','Anime / Animated':'#f0abfc','RPG':'#a78bfa','Open World / Survival':'#4ade80','Puzzle / Systems':'#34d399','Romance':'#f472b6','Superhero':'#38bdf8','War':'#a3a3a3','Physics & Cosmology':'#22d3ee','Philosophy & Ideas':'#c4b5fd','Science & Nature':'#86efac','Biography & History':'#a3e635','Literary & Poetry':'#93c5fd','Platformer':'#fb7185','Strategy & Tactics':'#f59e0b','Sports & Music':'#2dd4bf'};
