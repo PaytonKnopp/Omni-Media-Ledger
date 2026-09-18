@@ -39,6 +39,7 @@ function initApp(){
 // can be unpinned/re-pinned the same way any of them can. Declared this early since
 // PERSONAL_PROFILE's own default-fallback construction below needs it.
 const DEFAULT_PINNED_IDX=['tech','ref','snd','ch'];
+// esc/KM live in app/cards.js (pure, closure-independent) now, loaded before this file.
 let PROFILE_FROM_STORAGE=false;
 const PERSONAL_PROFILE=(function(){
  try{const raw=localStorage.getItem('omniLedgerProfile');if(raw!==null){PROFILE_FROM_STORAGE=true;return JSON.parse(raw)||{};}}catch(e){}
@@ -57,7 +58,6 @@ const OB=id=>OWNED_BOOKS_EXTRA[id]!==undefined;
 if(!PROFILE_FROM_STORAGE)PERSONAL_PROFILE.ownedBookIdCeiling=0;
 let OWNED_BOOK_ID_CEILING=PERSONAL_PROFILE.ownedBookIdCeiling||0;
 if(!PROFILE_FROM_STORAGE)PERSONAL_PROFILE.ownedGameIds=['g45'];
-const KM={movie:{label:'FILM',c:'#a78bfa'},tv:{label:'TV',c:'#22d3ee'},game:{label:'GAME',c:'#fbbf24'},book:{label:'BOOK',c:'#4ade80'}};
 const ALL=[
  ...movies.map(m=>({kind:'movie',id:m.id,title:m.title,year:m.year,creator:m.creator,org:m.studio,span:m.runtime+' min',mins:m.runtime,genres:m.genres,crit:m.metrics.criticalScore,aud:m.metrics.audienceScore,
   tech:Math.round((m.physicalMediaFidelity.transferFidelity+m.physicalMediaFidelity.audioSoundscape+m.physicalMediaFidelity.cinematographyScore)/3),
@@ -89,19 +89,7 @@ const byId=new Map(ALL.map(x=>[x.id,x]));
    games and books are entirely profile-driven. */
 ALL.forEach(x=>{const fromCorpus=(x.kind==='movie'||x.kind==='tv');x._baseOwned=fromCorpus&&!!x.owned;x._basePhys=fromCorpus?(x.physFormat||null):null;});
 ALL.forEach(x=>{x.ovr=Math.round(((x.crit+x.aud+x.tech)/3)*10)/10;});
-/* Provenance is a per-record stamp, never inferred from a record's ID or from whether the shelf
-   holds a copy. Owning a disc verifies that it is owned; it verifies nothing about the runtime
-   printed on the back. A record whose facts have been checked against sources carries
-   prov:{facts,checked,src,indices}; everything else is an unverified estimate and says so.
-   See QUALITY_PASS.md decision 13. */
-const PROV_FACTS=['sourced','estimated','edition-dependent','corroborated'];
-const PROV_INDICES=['rubric-v1','unscored'];
-function provStampOf(raw){
- const s=(raw&&typeof raw==='object')?raw:{};
- return {facts:PROV_FACTS.indexOf(s.facts)>=0?s.facts:'estimated',
-         indices:PROV_INDICES.indexOf(s.indices)>=0?s.indices:'unscored',
-         checked:s.checked||null,src:s.src||null};
-}
+// provStampOf() lives in app/format.js (pure, closure-independent) now, loaded before this file.
 ALL.forEach(x=>{const s=provStampOf(x.provRaw);delete x.provRaw;x.provStamp=s;x.prov=s.facts==='sourced'?'verified':'estimated';});
 /* Owned physical collection, reconciled against the master shelf ledger (film/TV + books). */
 if(!PROFILE_FROM_STORAGE)PERSONAL_PROFILE.ownedMedia={"m120":"4K","m106":"4K","m444":"4K","m384":"4K","t144":"Blu-ray","m116":"Blu-ray","m89":"Blu-ray","m66":"4K","m117":"4K","m65":"4K","m118":"4K","m119":"4K","m01":"4K","m121":"4K","m103":"4K","m122":"4K","m39":"Blu-ray","m158":"Blu-ray","m37":"4K","m40":"4K","m63":"4K","m20":"4K","m81":"Blu-ray","m02":"4K","m84":"4K","m114":"4K","m64":"4K","m14":"4K","m108":"4K","m159":"4K","m06":"4K","m105":"Blu-ray","m07":"4K","m88":"4K","m56":"4K","m12":"4K","m123":"Blu-ray","m54":"4K","m10":"Blu-ray","m124":"4K","m125":"4K","m107":"Blu-ray","m104":"4K","m126":"Blu-ray","m127":"4K","m128":"Blu-ray","m101":"Blu-ray","m110":"Blu-ray","m129":"Blu-ray","m130":"4K","m131":"Blu-ray","m132":"Blu-ray","m133":"Blu-ray","m134":"4K","m135":"Blu-ray","m09":"4K","m109":"4K","m102":"Blu-ray","m136":"4K","m113":"Blu-ray","m137":"Blu-ray","m138":"Blu-ray","m139":"Blu-ray","m140":"Blu-ray","m141":"Blu-ray","m142":"Blu-ray","m143":"Blu-ray","m144":"4K","m115":"Blu-ray","m145":"Blu-ray","m146":"Blu-ray","m147":"4K","m148":"Blu-ray","m149":"4K","m150":"4K","m151":"Blu-ray","m152":"4K","m160":"4K","m111":"Blu-ray","m154":"Blu-ray","m155":"Blu-ray","m156":"4K","m157":"4K","m86":"4K","m112":"Blu-ray","t17":"Box Set","t97":"Box Set","t03":"Box Set","t10":"Box Set","t47":"Box Set","t13":"Box Set","t28":"Box Set","t101":"Box Set"};
@@ -116,19 +104,9 @@ let OWNED_MEDIA=PERSONAL_PROFILE.ownedMedia||{};
    The default profile below no longer writes any of these -- not BD/DVD, Deluxe, Boxed Set or
    Softcover -- so a fresh account never picks one up; the aliases exist purely for profiles
    saved before this change. Normalizing on read rather
-   than rewriting stored profiles keeps old exports and cloud rows loading correctly forever. */
-const PHYS_FORMAT_ALIASES={'softcover':'Paperback','soft cover':'Paperback','boxed set':'Box Set','boxset':'Box Set','box-set':'Box Set','bd/dvd':'Blu-ray','blu-ray/dvd':'Blu-ray','blu ray':'Blu-ray','bluray':'Blu-ray','uhd':'4K','4k uhd':'4K','deluxe':'Deluxe','deluxe / illustrated':'Deluxe','collector\'s edition':'Deluxe','owned':null};
-function normPhysFormat(kind,f){
- if(!f)return null;
- var key=String(f).trim().toLowerCase();
- var mapped=PHYS_FORMAT_ALIASES.hasOwnProperty(key)?PHYS_FORMAT_ALIASES[key]:String(f).trim();
- if(!mapped)return null;
- // Deluxe is not an edition you can own any more, in any medium. A saved profile that still
- // says so resolves to the nearest edition that IS pickable: the durable copy for a book, the
- // boxed edition for a disc. Nothing renders the word.
- if(mapped==='Deluxe')return (kind==='book')?'Hardcover':'Box Set';
- return mapped;
-}
+   than rewriting stored profiles keeps old exports and cloud rows loading correctly forever.
+   PHYS_FORMAT_ALIASES/normPhysFormat() now live in app/format.js (pure, closure-independent),
+   loaded before this file. */
 /* Re-derives every item's owned flag and edition from the current PERSONAL_PROFILE, starting from
    the corpus baseline each time so it is safe to call again after the profile changes (marking
    something owned, setting an edition, importing a profile). Format normalization runs at the end
@@ -170,14 +148,7 @@ function wlCount(){return Object.keys(WL).length;}
 const state={view:'controller',q:'',type:'all',struct:'all',plats:[],minGoat:0,genres:[],genresExclude:[],ownedOnly:false,notOwnedOnly:false,limit:100,idx:{snd:0,ref:0,ch:0,emo:0,awe:0,cozy:0,perf:0,icon:0,scary:0,real:0,reality:0,shock:0,sci:0,funny:0,hist:0,vibe2:0,crit:0,aud:0,tech:0,dread:0,myst:0,warmth:0,comedy:0,beauty:0,runtime:0},ratings:[],tierFilter:[],tierFilterExclude:[],yearMin:null,yearMax:null,combine:false,sort:'overall',w:{tech:0.85,dread:0.95,myst:0.90},creatorTab:'directors',creatorSearch:'',goatType:'all',goatTierFilter:'all',goatSort:'match',goatDeclaredQ:'',portraitScope:'all',collSearchQ:'',wlType:'all',wlSort:'added',wlSearchQ:'',creatorSearchScope:'all',creatorSort:'default'};
 const $=s=>document.querySelector(s),$$=s=>Array.from(document.querySelectorAll(s));
 const on=(sel,ev,fn)=>{const el=$(sel);if(el)el.addEventListener(ev,fn);else console.warn('missing element:',sel);};
-const esc=s=>String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
-// Deterministic color per tag string (a creator's Core Themes, etc.) so a set of tags reads as
-// visually distinct from each other at a glance instead of a wall of same-colored chips -- same
-// string always lands on the same color, so it's still stable across renders/sessions. Each entry
-// is a full hue apart from its neighbors (not just a lightness/saturation tweak on the same violet)
-// so a row of themes reads as genuinely different colors, not one tint repeated.
-const THEME_PALETTE=['#a78bfa','#38bdf8','#fb7185','#4ade80','#fbbf24','#e879f9','#2dd4bf','#f97316','#818cf8','#facc15','#f472b6','#84cc16','#22d3ee','#ef4444'];
-function themeColor(s){let h=0;for(let i=0;i<s.length;i++)h=(h*31+s.charCodeAt(i))|0;return THEME_PALETTE[Math.abs(h)%THEME_PALETTE.length];}
+// esc/themeColor(+THEME_PALETTE) live in app/cards.js (pure, closure-independent) now.
 const SORTS={overall:(a,b)=>(b.ovr-a.ovr)||(b.crit-a.crit),cosmic:(a,b)=>(b.ch-a.ch)||(b.dread-a.dread),sound:(a,b)=>(b.snd-a.snd)||(b.crit-a.crit),ref4k:(a,b)=>(b.ref-a.ref)||(b.crit-a.crit),emotion:(a,b)=>(b.emo-a.emo)||(b.crit-a.crit),awe:(a,b)=>(b.awe-a.awe)||(b.crit-a.crit),comfort:(a,b)=>(b.cozy-a.cozy)||(b.aud-a.aud),perf:(a,b)=>(b.perf-a.perf)||(b.crit-a.crit),icon:(a,b)=>(b.icon-a.icon)||(b.crit-a.crit),scary:(a,b)=>(b.scary-a.scary)||(b.dread-a.dread),real:(a,b)=>(b.real-a.real)||(b.crit-a.crit),reality:(a,b)=>(b.reality-a.reality)||(b.myst-a.myst),shock:(a,b)=>(b.shock-a.shock)||(b.dread-a.dread),sci:(a,b)=>(b.sci-a.sci)||(b.myst-a.myst),funny:(a,b)=>(b.funny-a.funny)||(b.aud-a.aud),hist:(a,b)=>(b.hist-a.hist)||(b.crit-a.crit),vibe2:(a,b)=>(b.vibe2-a.vibe2)||(b.tech-a.tech),blend:(a,b)=>(bespokeScore(b)-bespokeScore(a))||(b.crit-a.crit),crit:(a,b)=>b.crit-a.crit,aud:(a,b)=>b.aud-a.aud,tech:(a,b)=>b.tech-a.tech,dread:(a,b)=>b.dread-a.dread,myst:(a,b)=>b.myst-a.myst,warmth:(a,b)=>(b.warmth||0)-(a.warmth||0)||(b.crit-a.crit),comedy:(a,b)=>(b.comedy||0)-(a.comedy||0)||(b.aud-a.aud),beauty:(a,b)=>(b.beauty||0)-(a.beauty||0)||(b.crit-a.crit),yearNew:(a,b)=>b.year-a.year,yearOld:(a,b)=>a.year-b.year,title:(a,b)=>a.title.localeCompare(b.title),tier:(a,b)=>(tierRank(b)-tierRank(a))||(b.gm-a.gm)};
 
 const IDX_KEYS=['snd','ref','ch','emo','awe','cozy','perf','icon','scary','real','reality','shock','sci','funny','hist','vibe2','crit','aud','tech','dread','myst','warmth','comedy','beauty'];
@@ -262,30 +233,7 @@ function computeMatch(list){
 }
 function bespokeScore(it){const w=state.w,s=w.tech+w.dread+w.myst;if(s<=0)return 0;return (it.tech*w.tech+it.dread*w.dread+it.myst*w.myst)/s;}
 
-function ring(v,color,size){size=size||42;const r=size/2-4,c=2*Math.PI*r,off=c*(1-Math.max(0,Math.min(100,v))/100);
- return '<svg width="'+size+'" height="'+size+'" class="shrink-0" aria-hidden="true"><circle cx="'+(size/2)+'" cy="'+(size/2)+'" r="'+r+'" fill="none" stroke="#1b2740" stroke-width="3.5"/><circle cx="'+(size/2)+'" cy="'+(size/2)+'" r="'+r+'" fill="none" stroke="'+color+'" stroke-width="3.5" stroke-linecap="round" stroke-dasharray="'+c.toFixed(1)+'" stroke-dashoffset="'+off.toFixed(1)+'" transform="rotate(-90 '+(size/2)+' '+(size/2)+')"/><text x="50%" y="54%" text-anchor="middle" dominant-baseline="middle" fill="#e2e8f0" font-size="'+Math.round(size*0.3)+'" font-weight="700">'+Math.round(v)+'</text></svg>';}
-function microBar(lbl,v,color){return '<div class="flex items-center gap-2"><span class="lbl w-14 shrink-0">'+lbl+'</span><div class="bar flex-1"><i style="width:'+v+'%;background:'+color+'"></i></div><span class="text-[10px] text-slate-400 w-6 text-right tabular-nums">'+v+'</span></div>';}
-// The three at-a-glance bars: whichever 3 indices score HIGHEST for THIS SPECIFIC work, out of a
-// medium-appropriate candidate pool -- not a fixed set of 3 that's identical across every movie,
-// every book, etc. A quiet horror film that's mostly about dread leads with Dread; a soundtrack-
-// driven epic leads with Soundtrack; a cosmic-horror game leads with Cosmic. Click the card to see
-// the rest (all ~19 indices are still in the expanded detail panel, unchanged).
-function frontBars(it){
- var f=it.fid||[];
- var pick=function(name,fb){for(var i=0;i<f.length;i++){if(f[i][0]===name)return f[i][1];}return fb;};
- var shared=[['Awe',it.awe,'#fbbf24'],['Comfort',it.cozy,'#34d399'],['Iconic',it.icon,'#fcd34d'],['Scary',it.scary,'#f87171'],['Real',it.real,'#86efac'],['Reality',it.reality,'#c4b5fd'],['Shock',it.shock,'#fb923c'],['Sci-Fi',it.sci,'#67e8f9'],['Funny',it.funny,'#fde047'],['History',it.hist,'#a3e635'],['Vibe',it.vibe2,'#e879f9'],['Cosmic',it.ch,'#c084fc']];
- var candidates;
- if(it.kind==='game'){
-  candidates=[['Art',pick('Art Direction',it.tech),'#818cf8'],['Tension',it.dread,'#fb7185'],['Systems',it.myst,'#34d399']].concat(shared);
- }else if(it.kind==='book'){
-  candidates=[['Prose',pick('Prose Craft',it.tech),'#818cf8'],['Ideas',pick('Idea Density',it.tech),'#22d3ee'],['Depth',it.myst,'#34d399'],['Emote',it.emo,'#f0abfc']].concat(shared);
- }else{
-  candidates=[['Image',pick('Cinematography',it.tech),'#818cf8'],['Dread',it.dread,'#fb7185'],['Mind',it.myst,'#34d399'],['Sound',it.snd,'#7dd3fc'],['4K Ref',it.ref,'#818cf8'],['Emote',it.emo,'#f0abfc'],['Perf',it.perf,'#fda4af']].concat(shared);
- }
- var top3=candidates.slice().sort(function(a,b){return b[1]-a[1];}).slice(0,3);
- return top3.map(function(c){return microBar(c[0],c[1],c[2]);}).join('');
-}
-function microBar2(lbl,v){return '<div class="flex items-center gap-2"><span class="lbl w-32 shrink-0">'+lbl+'</span><div class="bar flex-1"><i style="width:'+v+'%;background:#64748b"></i></div><span class="text-[10px] text-slate-300 w-6 text-right tabular-nums">'+v+'</span></div>';}
+// ring/microBar/frontBars/microBar2 live in app/cards.js (pure, closure-independent) now.
 
 /* ===================== VIEW 1 · GLOBAL CONTROLLER ===================== */
 function summaryTraits(it){
@@ -670,7 +618,47 @@ function renderController(list,changedIds){
  $('#priorityNote').textContent=note;renderActiveBar();
  const shown=sorted.slice(0,state.limit);
  if(patchControllerGrid(shown,changedIds))return;
- $('#grid').innerHTML=shown.map(cardHTML).join('')||'<div class="col-span-full text-center text-slate-500 text-sm py-14">No works match every active filter. Loosen a threshold, remove a chip, or widen your genres.</div>';
+ renderGridChunked(shown);
+}
+// Building card HTML is ~2ms/card (see patchControllerGrid's comment) -- fine for the default
+// Top 100, but "Show: All" on an unfiltered library is ~2,500 cards, and setting innerHTML for all
+// of them in one go blocks the main thread for seconds: the screen looks frozen and can't be
+// scrolled or clicked until the whole string is built and parsed.
+//
+// Render the first screenful synchronously (so it's interactive immediately), then fill the rest
+// in small batches across animation frames, so the tab stays responsive and scrollable while the
+// remaining cards stream in. Nothing is dropped or paginated away -- every requested card still
+// lands in the grid, just spread over a few frames instead of one long blocking one.
+let _gridRenderGen=0;
+// A fixed card-count-per-frame batch (the first cut of this fix) is wrong: at ~2ms/card, a batch
+// of 120 costs ~240ms of *uninterruptible* JS -- long enough to delay the very next click or
+// keystroke's handler, which is worse than the blocking full-redraw this replaced. Budget each
+// frame by TIME instead (a handful of ms, well under a 16ms frame and nowhere near enough to make
+// an interaction feel delayed), appending a few cards at a time until the budget is spent, so the
+// main thread is always free again in single-digit milliseconds for the next real event.
+const GRID_FIRST_BATCH=60,GRID_FRAME_BUDGET_MS=6,GRID_MIN_STEP=8;
+function renderGridChunked(shown){
+ const grid=$('#grid');if(!grid)return;
+ const gen=++_gridRenderGen;
+ if(!shown.length){grid.innerHTML='<div class="col-span-full text-center text-slate-500 text-sm py-14">No works match every active filter. Loosen a threshold, remove a chip, or widen your genres.</div>';return;}
+ const first=shown.slice(0,GRID_FIRST_BATCH);
+ grid.innerHTML=first.map(cardHTML).join('');
+ if(shown.length<=GRID_FIRST_BATCH)return;
+ let i=GRID_FIRST_BATCH;
+ function step(){
+  if(gen!==_gridRenderGen)return; // superseded by a newer filter/sort/limit change -- drop this job
+  const start=performance.now();
+  let html='';
+  while(i<shown.length){
+   const end=Math.min(i+GRID_MIN_STEP,shown.length);
+   html+=shown.slice(i,end).map(cardHTML).join('');
+   i=end;
+   if(performance.now()-start>=GRID_FRAME_BUDGET_MS)break;
+  }
+  if(html)grid.insertAdjacentHTML('beforeend',html);
+  if(i<shown.length)requestAnimationFrame(step);
+ }
+ requestAnimationFrame(step);
 }
 let activeBarExpanded=false;
 function renderActiveBar(){
@@ -853,13 +841,6 @@ function updateRadar(){if(!CH.radar)return;
 }
 
 /* ===================== VIEW 4 · REFERENCE MATRICES ===================== */
-function matrixRow(it,i,cols){const k=KM[it.kind];
- return '<div class="flex items-center gap-2.5 px-3.5 py-2.5 border-b border-slate-800/50 last:border-0 hover:bg-slate-800/20 goatJump cursor-pointer" data-q="'+esc(it.title)+'" title="Open in Global Controller">'
- +'<span class="text-[10px] text-slate-500 w-6 tabular-nums">'+String(i+1).padStart(2,'0')+'</span>'
- +'<span class="w-1.5 h-1.5 rounded-full shrink-0" style="background:'+k.c+'"></span>'
- +'<span class="flex-1 min-w-0 truncate text-[12px] text-slate-200" title="'+esc(it.title)+' · '+esc(it.creator)+'">'+esc(it.title)+' <span class="text-slate-500 text-[10px]">'+it.year+'</span>'+(it.owned?' <span style="color:#4ade80;font-size:9px;font-weight:700" title="Owned">\u2713</span>':'')+'</span>'
- +cols.map(c=>'<span class="hidden sm:flex items-center gap-1.5 w-24 shrink-0"><span class="bar flex-1"><i style="width:'+c[0]+'%;background:'+c[1]+'"></i></span><span class="text-[10px] tabular-nums text-slate-400 w-5 text-right">'+c[0]+'</span></span>').join('')
- +'</div>';}
 // MATRIX_TITLES was being collected every render and never read anywhere -- the quick-jump nav
 // below is what that collection was clearly meant to drive; with 18 independently-scrolling
 // panels on one page there was previously no way to reach e.g. "Scariest" without scrolling past
@@ -867,7 +848,6 @@ function matrixRow(it,i,cols){const k=KM[it.kind];
 var MATRIX_TITLES=[];
 var matrixOwnedOnly=false;
 var matrixNavQ='';
-function slugify(s){return s.replace(/&[a-z]+;/gi,' ').replace(/[^\w\s-]/g,'').trim().toLowerCase().replace(/\s+/g,'-');}
 function matrixBlock(title,sub,arr,colFn,heads){
  if(MATRIX_TITLES.indexOf(title)<0)MATRIX_TITLES.push(title);
  var shown=matrixOwnedOnly?arr.filter(function(x){return x.owned;}):arr;
@@ -1686,38 +1666,8 @@ ALL.forEach(x=>{
 const GENRE_COUNTS={};GENRE_FAMILIES.forEach(f=>{GENRE_COUNTS[f[0]]=ALL.filter(x=>x.fam.includes(f[0])).length;});
 
 /* ===================== DEEP INDEX BATTERY ===================== */
-/* Hand-tuned overrides (id:score) where the algorithm alone would miss the mark. */
-const PERF={'m09':99,'m54':99,'m97':98,'m85':97,'m46':96,'m52':95,'m70':95,'m101':97,'m104':93,'m05':94,'m02':93,'m55':96,'m45':93,'m86':95,'m50':92,'m29':92,'m99':94,'m12':95,'m20':95,'m22':93,'m32':92,
- 't19':98,'t17':98,'t18':96,'t44':97,'t21':95,'t03':95,'t10':94,'t45':94,'t96':93,'t52':94,'t88':93,'t57':92,'t58':92,'t101':92,'t13':91,'t46':92,
- 'g59':96,'g65':94,'g66':95,'g39':90,'g40':92,'g42':93,'g13':90,'g71':88,'g34':88,'m113':93,'m109':92,'m107':90,'m112':95,'m110':92,'m111':92};
-const ICON={'m65':99,'m88':98,'m46':98,'m40':97,'m12':97,'m37':96,'m02':99,'m86':96,'m63':97,'m64':96,'m41':95,'m87':94,'m06':95,'m07':94,'m59':95,'m60':94,'m44':92,'m45':95,'m91':92,'m72':93,'m106':97,'m103':95,'m104':95,'m85':95,'m50':94,
- 't41':97,'t19':97,'t17':98,'t01':94,'t30':93,'t20':93,'t29':90,'t28':92,'t47':92,'t101':93,'t27':90,
- 'g77':98,'g01':96,'g92':99,'g83':95,'g36':95,'g34':95,'g15':95,'g13':94,'g38':93,'g80':93,'g79':92,'g94':92,'g02':94,'g52':92,'g07':92,'m112':90,'m111':90,'m110':88,'m107':88,'m114':86};
-const SCARY={'m24':99,'m37':98,'m20':96,'m72':97,'m02':95,'m38':94,'m90':96,'m28':95,'m25':92,'m96':94,'m73':92,'m74':92,'m71':90,'m91':92,'m39':93,'m69':88,'m95':86,'m94':86,'m21':92,'m23':93,
- 't24':93,'t14':95,'t16':92,'t49':90,'t59':92,'t25':90,'t61':90,'t98':90,'t51':90,'t26':86,
- 'g02':95,'g12':99,'g13':96,'g14':94,'g17':95,'g19':98,'g21':97,'g16':93,'g18':94,'g101':98,'g23':93,'g20':90,'g41':88,'g22':90,'g96':88};
-const REAL={'m09':96,'m29':95,'m48':92,'m66':94,'m36':92,'m13':70,'m99':95,'m89':97,'m86':90,'m47':90,'m17':92,'m97':90,'m85':88,'m54':86,'m103':82,'m106':74,'m102':88,'m105':80,
- 't13':98,'t20':96,'t21':92,'t44':92,'t47':95,'t33':92,'t84':92,'t88':88,'t97':90,'t101':88,'t36':80,'t46':86,
- 'g64':95,'g33':84,'g96':86,'g37':88,'g19':86,'g28':82,'g09':84};
-const REALITY={'m01':99,'m32':99,'m07':97,'m08':97,'m11':96,'m79':98,'m80':96,'m82':95,'m78':95,'m81':95,'m93':94,'m83':96,'m57':96,'m58':95,'m61':94,'m76':95,'m34':94,'m30':95,'m10':94,'m84':94,
- 't02':99,'t08':98,'t07':96,'t23':96,'t31':95,'t64':94,'t72':97,'t100':94,'t90':92,'t91':92,'t83':92,'t27':90,
- 'g45':98,'g07':98,'g50':96,'g51':95,'g52':94,'g71':96,'g55':95,'g46':92,'g59':94,'g24':92,'g100':70};
-const SHOCK={'m24':99,'m52':98,'m46':96,'m56':94,'m35':95,'m62':95,'m89':96,'m90':94,'m32':92,'m70':92,'m96':92,'m50':94,'m84':92,'m83':90,'m29':92,
- 't13':94,'t41':92,'t49':92,'t36':92,'t60':90,'t98':88,'t63':92,'t44':88,
- 'g66':96,'g74':98,'g34':95,'g13':94,'g52':92,'g71':94,'g35':90,'g12':94,'m112':90,'m111':86};
-const SCI={'m06':97,'m14':95,'m09':94,'m26':92,'m27':92,'m48':86,'m49':88,'m105':96,'m88':80,'m61':86,'m13':82,'m79':92,'m80':88,'m31':86,'m30':84,'m81':82,'m78':80,
- 't38':90,'t39':92,'t79':95,'t80':86,'t91':88,'t12':90,'t11':82,'t99':92,'t36':78,
- 'g45':94,'g90':92,'g91':88,'g89':84,'g57':90,'g46':84,'g31':82,'g85':80,'g28':84,'m108':86,'m114':92,'m113':80};
-const FUNNY={'m101':70,'m102':72,'m77':82,'m04':70,
- 't57':92,'t58':94,'t45':86,'t101':95,'t93':88,'t44':84,'t88':82,'t22':80,'t18':78,'t95':76,
- 'g38':96,'g51':95,'g52':90,'g94':84,'g100':80,'g73':82,'g59':86};
-const HIST={'m09':95,'m86':86,'m103':80,'m106':62,'m44':80,'m99':86,'m22':92,'m48':70,'m66':92,
- 't13':96,'t47':95,'t21':92,'t33':90,'t88':86,'t84':86,'t46':88,'t101':84,'t94':90,'t97':82,
- 'g64':86,'g31':74,'g85':70,'m113':82,'m112':58,'m109':80,'m115':78};
-const VIBEIDX={'m13':99,'m41':96,'m32':97,'m68':96,'m69':95,'m91':95,'m05':94,'m20':95,'m60':94,'m61':94,'m88':93,'m99':93,'m33':94,'m44':93,'m100':95,
- 't01':96,'t02':97,'t10':94,'t27':92,'t57':94,'t70':95,'t72':94,'t67':95,'t71':93,
- 'g02':97,'g10':95,'g40':95,'g22':94,'g73':95,'g71':94,'g94':93,'g93':95,'g75':94,'g03':92};
-function lerpScore(x,o,baseFn,lo,hi){let v=o[x.id];if(v==null){v=baseFn(x);v=Math.max(lo,Math.min(hi,v));}return v;}
+// PERF/ICON/SCARY/REAL/REALITY/SHOCK/SCI/FUNNY/HIST/VIBEIDX/lerpScore live in app/scoring.js
+// (pure, closure-independent) now, loaded before this file.
 ALL.forEach(x=>{
  const g=x.genres.join(' ').toLowerCase();
  x.perf=lerpScore(x,PERF,it=>Math.round(0.62*it.crit+0.18*it.aud+(/(drama|psychological|biopic|tragedy)/.test(g)?10:0)+(it.kind==='movie'?4:it.kind==='tv'?3:-6)),35,90);
@@ -1736,60 +1686,8 @@ ALL.forEach(x=>{
  // No hand-curated override table like the indices above; this one's heuristic-only for now.
  x.rewatch=Math.max(0,Math.min(100,Math.round(0.30*x.aud+0.24*x.cozy+0.20*x.funny-0.14*x.myst-0.08*x.dread+18)));
 });
-/* ---- Content ratings (algorithmic certification) ---- */
-function certify(x){const g=x.genres.join(' ').toLowerCase();
- if(x.kind==='book'){
-  if(/cosmic horror|weird fiction|gothic/.test(g)||x.dread>=80)return 'Mature Readers';
-  // Verse is decided by the book's FORM (contextTags.formatType, surfaced as x.format), not by
-  // searching its genre strings for "poetry". 200 prose novels -- The Great Gatsby, Anna Karenina,
-  // Middlemarch, Madame Bovary -- used to certify as Verse purely because they carry the compound
-  // family label "Literary & Poetry" among their genres, and a substring match cannot tell that
-  // apart from a genuine Poetry tag. Matching the form field exactly can.
-  if(x.format==='Poetry')return 'Verse';
-  if(/physics|cosmology|mathematics|philosophy|engineering/.test(g))return 'Technical';
-  if(/biography|history|memoir|anthropology|science|technology|futurism|design|art/.test(g))return 'Nonfiction';
-  return 'General';
- }
- if(x.kind==='game'){
-  /* Rated from GENRE alone, never from x.dread. For a game, x.dread carries
-     immersionTensionIndex, and RUBRIC.md construct 2 defines that as absorption -- how
-     completely the game takes you in -- explicitly NOT menace. Rating content maturity from
-     how gripping something is says that anything hard to put down must be for adults, and
-     that is exactly what it did: 71 of 258 games certified M with no violent or horror genre
-     anywhere, among them Outer Wilds, Return of the Obra Dinn, Subnautica and Inside. Outer
-     Wilds is rated E10+ in reality.
-     A game's real age rating is a FACT (ESRB/PEGI, and IGDB carries it), not something to
-     infer from a taste index. Phase 5 fetches it. Until then genre is the honest signal:
-     narrower coverage, but it stops asserting something false about a third of the library. */
-  if(/horror|cosmic|gothic|body|vampire/.test(g))return 'M';
-  if(/shooter|\bfps\b|action rpg|soulslike|dark fantasy|stealth action|crime|revenge|cyberpunk|\bwar\b|fighting|beat .em up|run-and-gun|boss rush|dystopian/.test(g))return 'M';
-  if(/party|sports|rhythm|racing|collectathon|social sim/.test(g))return 'E';
-  if(/puzzle|platformer|metroidvania|simulation|\bsim\b|exploration|sandbox|builder|automation|synesthesia|walking sim|point-and-click|visual novel|deduction/.test(g))return 'E10+';
-  return 'T';
- }
- // film/tv
- const mature=/horror|slasher|giallo|crime|revenge|war|neo-noir|body horror|cosmic|gangster|thriller/.test(g);
- /* Certification reads a work's fields, never its name. This used to carry `|| /^(the thing|
-    hereditary|come and see|possession|oldboy|se7en)/` against the lowercased title, and every one
-    of those six already cleared dread>=86 on its own -- so the clause decided nothing and was pure
-    latent risk: it is a PREFIX match, so any future "Possession of Hannah Grace" or "The Thing
-    About Pam" would silently certify as heavy on the strength of its first two words. A title is
-    not a property of a work's content, and a rule keyed to one cannot generalise to the next
-    thousand records. */
- const heavy=x.dread>=86;
- if(x.kind==='tv'){
-  if(mature||x.dread>=78)return 'TV-MA';
-  if(/drama|mystery|sci-fi|fantasy|period/.test(g))return 'TV-14';
-  return 'TV-PG';
- }
- if(heavy||(mature&&x.dread>=72))return x.dread>=92?'NC-17 / Unrated':'R';
- if(mature||x.dread>=66||/psychological|dystopian/.test(g))return 'R';
- if(/sci-fi|action|epic|adventure|superhero|fantasy|western|thriller/.test(g))return 'PG-13';
- if(/animated|family|comedy/.test(g))return 'PG';
- return 'PG-13';
-}
+// certify()/RATING_ORDER live in app/scoring.js (pure, closure-independent) now.
 ALL.forEach(x=>{x.rating=certify(x);});
-const RATING_ORDER=['G','PG','PG-13','R','NC-17 / Unrated','TV-PG','TV-14','TV-MA','E','E10+','T','M','Nonfiction','Technical','General','Mature Readers','Verse'];
 const RATING_COUNTS={};ALL.forEach(x=>{RATING_COUNTS[x.rating]=(RATING_COUNTS[x.rating]||0)+1;});
 function renderTasteDNA(){
  const canon=ALL.filter(x=>x.goat||x.silver||x.owned);
