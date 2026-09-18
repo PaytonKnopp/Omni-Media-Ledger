@@ -1889,22 +1889,28 @@ function renderWatchlist(){
  let list=wf==='todo'?todo:wf==='done'?watched:items;
  if(wt!=='all')list=list.filter(x=>x.kind===wt);
  if(wq)list=list.filter(x=>(x.title+' '+x.creator).toLowerCase().indexOf(wq)>=0);
- list=list.slice().sort(ws==='title'?(a,b)=>a.title.localeCompare(b.title):ws==='match'?(a,b)=>b.gm-a.gm:(a,b)=>(WL[b.id].added||0)-(WL[a.id].added||0));
+ list=list.slice().sort(ws==='title'?(a,b)=>a.title.localeCompare(b.title):ws==='match'?(a,b)=>b.gm-a.gm:ws==='rating'?(a,b)=>b.ovr-a.ovr:ws==='year'?(a,b)=>b.year-a.year:(a,b)=>(WL[b.id].added||0)-(WL[a.id].added||0));
+ // Filter-button labels carry their base text in data-label so counts can be appended on every
+ // re-render without accumulating "(n) (n)" from the previous render.
+ $$('#wlFilter button').forEach(b=>{const n=b.dataset.wf==='all'?items.length:b.dataset.wf==='todo'?todo.length:watched.length;b.textContent=b.dataset.label+' ('+n+')';});
+ $$('#wlTypeSeg button').forEach(b=>{const n=b.dataset.wt==='all'?items.length:items.filter(x=>x.kind===b.dataset.wt).length;b.textContent=b.dataset.label+' ('+n+')';});
  const DONE_VERB={movie:'Watched',tv:'Watched',game:'Played',book:'Read'};
  $('#wlGrid').innerHTML=list.length?list.map(x=>{const k=KM[x.kind];const done=WL[x.id].watched;const verb=DONE_VERB[x.kind]||'Done';
   return '<div class="panel p-3 flex gap-3 items-start'+(done?' opacity-60':'')+'">'
    +ring(x.crit,k.c,38)
-   +'<div class="flex-1 min-w-0"><div class="flex items-center gap-1.5 flex-wrap"><span class="text-[13px] font-semibold text-slate-100">'+esc(x.title)+'</span><span class="chip" style="color:'+k.c+';border-color:'+k.c+'44">'+k.label+'</span><span class="chip" style="color:#5eead4;border-color:#5eead455">'+esc(x.rating)+'</span></div>'
+   +'<div class="flex-1 min-w-0"><div class="flex items-center gap-1.5 flex-wrap"><span class="goatJump text-[13px] font-semibold text-slate-100 cursor-pointer hover:text-teal-300" data-q="'+esc(x.title)+'" title="Open '+esc(x.title)+' in the Global Controller">'+esc(x.title)+'</span><span class="chip" style="color:'+k.c+';border-color:'+k.c+'44">'+k.label+'</span><span class="chip" style="color:#5eead4;border-color:#5eead455">'+esc(x.rating)+'</span><span class="chip" style="color:#fbbf24;border-color:#fbbf2444" title="Your GOAT-fingerprint match score">\u2605'+x.gm+' match</span></div>'
    +'<div class="text-[11px] text-slate-400 mt-0.5 truncate">'+x.year+' \u00b7 '+esc(x.creator)+' \u00b7 <span title="Estimated from runtime/season count/playtime/page count \u2014 not a guarantee">~'+formatHours(estimateHours(x))+'</span></div>'
    +'<div class="flex gap-1.5 mt-2"><button type="button" class="wlDone presetBtn" data-id="'+x.id+'" title="'+(done?'Click to mark as not yet '+verb.toLowerCase():'Mark this '+verb.toLowerCase())+'" style="'+(done?'color:#34d399;border-color:#34d39955':'')+'">'+(done?'\u2713 '+verb+' \u00b7 click to undo':'Mark '+verb.toLowerCase())+'</button><button type="button" class="wlRemove presetBtn" data-id="'+x.id+'" title="Remove from your watchlist entirely" style="color:#fca5a5;border-color:#fca5a544">Remove</button></div>'
    +'</div></div>';}).join(''):'<div class="col-span-full text-center text-slate-500 text-sm py-12">'+(items.length?'Nothing matches this filter.':'Nothing saved yet \u2014 tap the \u2661 on any card to build your backlog.')+'</div>';
  const saved=new Set(Object.keys(WL));
- const recs=ALL.filter(x=>!saved.has(x.id)).sort((a,b)=>(b.gm-a.gm)||(b.ovr-a.ovr)).slice(0,12);
- $('#wlRecs').innerHTML=recs.map(x=>{const k=KM[x.kind];
+ let recs=ALL.filter(x=>!saved.has(x.id));
+ if(wt!=='all')recs=recs.filter(x=>x.kind===wt);
+ recs=recs.sort((a,b)=>(b.gm-a.gm)||(b.ovr-a.ovr)).slice(0,12);
+ $('#wlRecs').innerHTML=recs.length?recs.map(x=>{const k=KM[x.kind];
   return '<button type="button" class="wlAdd panel p-2.5 w-full text-left flex items-center gap-2 hover:border-slate-600" data-id="'+x.id+'">'
    +'<span class="w-1.5 h-1.5 rounded-full shrink-0" style="background:'+k.c+'"></span>'
    +'<span class="flex-1 min-w-0 truncate text-[12px] text-slate-200">'+esc(x.title)+' <span class="text-slate-500 text-[10px]">'+x.year+'</span></span>'
-   +'<span class="text-[11px] font-bold tabular-nums" style="color:#fbbf24">\u2605'+x.gm+'</span><span class="text-rose-400 text-sm">\u2661</span></button>';}).join('');
+   +'<span class="text-[11px] font-bold tabular-nums" style="color:#fbbf24">\u2605'+x.gm+'</span><span class="text-rose-400 text-sm">\u2661</span></button>';}).join(''):'<div class="text-center text-slate-500 text-[11px] py-6">'+(wt!=='all'?'Nothing left to recommend in this type \u2014 try "All types".':'You\u2019ve saved everything the engine would recommend.')+'</div>';
  updateWlNav();
 }
 /* ===== Collection Timeline ===== */
