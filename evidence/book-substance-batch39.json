@@ -1,0 +1,80 @@
+{
+ "medium": "book",
+ "generated": "2026-09-18T04:15:52.198Z",
+ "offline": false,
+ "includesProse": false,
+ "works": [
+  {
+   "id": "b2010",
+   "title": "North and South (Elizabeth Gaskell)",
+   "year": 1855,
+   "corpusGenres": [
+    "Drama",
+    "Romance"
+   ],
+   "tags": [],
+   "sourceGenres": [],
+   "sources": [
+    {
+     "src": "OpenLibrary",
+     "matchedTitle": "North and South Elizabeth Gaskell",
+     "url": "https://openlibrary.org/search.json?title=North%20and%20South%20(Elizabeth%20Gaskell)"
+    }
+   ],
+   "missed": [
+    "Google Books (HTTP 429 (daily quota exceeded -- not retrying))",
+    "Wikidata (no type-matching candidate for \"North and South (Elizabeth Gaskell)\")"
+   ],
+   "coverage": 0
+  },
+  {
+   "id": "b2011",
+   "title": "Cranford",
+   "year": 1853,
+   "corpusGenres": [
+    "Comedy",
+    "Drama"
+   ],
+   "tags": [],
+   "sourceGenres": [],
+   "sources": [
+    {
+     "src": "OpenLibrary",
+     "matchedTitle": "Cranford",
+     "url": "https://openlibrary.org/search.json?title=Cranford"
+    },
+    {
+     "src": "Wikidata",
+     "matchedTitle": "Cranford",
+     "url": "https://www.wikidata.org/wiki/Q265100"
+    }
+   ],
+   "missed": [
+    "Google Books (HTTP 429 (daily quota exceeded -- not retrying))"
+   ],
+   "coverage": 0
+  },
+  {
+   "id": "b2012",
+   "title": "Mary Barton",
+   "year": 1848,
+   "corpusGenres": [
+    "Drama"
+   ],
+   "tags": [],
+   "sourceGenres": [],
+   "sources": [
+    {
+     "src": "OpenLibrary",
+     "matchedTitle": "Mary Barton",
+     "url": "https://openlibrary.org/search.json?title=Mary%20Barton"
+    }
+   ],
+   "missed": [
+    "Google Books (HTTP 429 (daily quota exceeded -- not retrying))",
+    "Wikidata (no type-matching candidate for \"Mary Barton\")"
+   ],
+   "coverage": 0
+  }
+ ]
+}
