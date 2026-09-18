@@ -666,7 +666,9 @@ function initCharts(){
  if(CH.bubble)return;
  Chart.defaults.color='#7c8aa5';Chart.defaults.borderColor='rgba(148,163,184,.08)';
  CH.bubble=new Chart($('#bubbleC'),{type:'bubble',data:{datasets:[]},options:{responsive:true,maintainAspectRatio:false,
-  plugins:{legend:{labels:{usePointStyle:true,boxWidth:8}},tooltip:{callbacks:{label:c=>{const d=c.raw;return d.t+' ('+d.yr+') · Crit '+d.x+' · Aud '+d.y+' · Tech '+d.tech+(d.own?' · ◆ owned':'')+(d.canon?' · your canon':'');}}}},
+  plugins:{legend:{labels:{usePointStyle:true,boxWidth:8,generateLabels:function(chart){
+   return chart.data.datasets.map(function(ds,i){var c=ds._legendColor||'#94a3b8';return {text:ds.label,fillStyle:c,strokeStyle:c,pointStyle:'circle',datasetIndex:i,hidden:!chart.isDatasetVisible(i)};});
+  }}},tooltip:{callbacks:{label:c=>{const d=c.raw;return d.t+' ('+d.yr+') · Crit '+d.x+' · Aud '+d.y+' · Tech '+d.tech+(d.own?' · ◆ owned':'')+(d.canon?' · your canon':'');}}}},
   scales:{x:{title:{display:true,text:'Critical Score'},suggestedMin:55,suggestedMax:100},y:{title:{display:true,text:'Audience Score'},suggestedMin:55,suggestedMax:100}}}});
  CH.radar=new Chart($('#radarC'),{type:'radar',data:{labels:['Critical','Audience','Technical','Dread / Tension','Complexity'],datasets:[]},options:{responsive:true,maintainAspectRatio:false,
   scales:{r:{min:0,max:100,ticks:{stepSize:20,backdropColor:'transparent'},grid:{color:'rgba(148,163,184,.12)'},angleLines:{color:'rgba(148,163,184,.12)'},pointLabels:{color:'#94a3b8',font:{size:10}}}},
@@ -721,10 +723,13 @@ function renderBubble(){
   return {x:x.crit,y:x.aud,r:Math.max(3,Math.min(15,(x.tech-70)/2.1+3)),t:x.title,yr:x.year,tech:x.tech,own:!!x.owned,canon:canon,
    _bg:x.owned?fill.replace(/,[^,]*\)$/,',.85)'):fill,_bd:canon?'#fbbf24':line};});};
  var sets=[
-  {label:'Movies',kind:'movie',data:mk('movie','rgba(167,139,250,.45)','#a78bfa'),backgroundColor:'#a78bfa',borderColor:'#a78bfa'},
-  {label:'TV',kind:'tv',data:mk('tv','rgba(34,211,238,.40)','#22d3ee'),backgroundColor:'#22d3ee',borderColor:'#22d3ee'},
-  {label:'Games',kind:'game',data:mk('game','rgba(251,191,36,.40)','#fbbf24'),backgroundColor:'#fbbf24',borderColor:'#fbbf24'},
-  {label:'Books',kind:'book',data:mk('book','rgba(74,222,128,.38)','#4ade80'),backgroundColor:'#4ade80',borderColor:'#4ade80'}];
+  {label:'Movies',kind:'movie',data:mk('movie','rgba(167,139,250,.45)','#a78bfa'),_legendColor:'#a78bfa'},
+  {label:'TV',kind:'tv',data:mk('tv','rgba(34,211,238,.40)','#22d3ee'),_legendColor:'#22d3ee'},
+  {label:'Games',kind:'game',data:mk('game','rgba(251,191,36,.40)','#fbbf24'),_legendColor:'#fbbf24'},
+  {label:'Books',kind:'book',data:mk('book','rgba(74,222,128,.38)','#4ade80'),_legendColor:'#4ade80'}];
+ // backgroundColor/borderColor are per-point arrays here (owned/canon styling) -- Chart.js's legend
+ // reads dataset.backgroundColor directly and an array isn't a valid canvas fill color, so the
+ // legend gets its swatch color from the flat _legendColor via a custom generateLabels instead.
  sets.forEach(function(s){
   s.backgroundColor=s.data.map(function(p){return p._bg;});
   s.borderColor=s.data.map(function(p){return p._bd;});
