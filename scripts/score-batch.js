@@ -219,7 +219,6 @@ function applyDecisions() {
         // Insert next to contextTags, which every medium has, so the field lands in a predictable
         // place instead of wherever a regex happened to match.
         needle = '"id":"' + rec.id + '"';
-        replacement = '"id":"' + rec.id + '"';
         const anchor = ',"contextTags":';
         const recStart = src.indexOf(needle);
         if (recStart < 0) { console.error('could not locate ' + d.id); process.exit(1); }

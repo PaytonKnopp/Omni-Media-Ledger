@@ -36,7 +36,7 @@ const PHYS_FORMAT_ALIASES={'softcover':'Paperback','soft cover':'Paperback','box
 function normPhysFormat(kind,f){
  if(!f)return null;
  var key=String(f).trim().toLowerCase();
- var mapped=PHYS_FORMAT_ALIASES.hasOwnProperty(key)?PHYS_FORMAT_ALIASES[key]:String(f).trim();
+ var mapped=Object.prototype.hasOwnProperty.call(PHYS_FORMAT_ALIASES,key)?PHYS_FORMAT_ALIASES[key]:String(f).trim();
  if(!mapped)return null;
  // Deluxe is not an edition you can own any more, in any medium. A saved profile that still
  // says so resolves to the nearest edition that IS pickable: the durable copy for a book, the

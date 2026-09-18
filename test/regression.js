@@ -1233,7 +1233,7 @@ async function runAccountFlow(browser, file) {
       const row = window.__mockTables.profiles['brandnew'];
       if (!row || !row.data) return { ok: false, keys: [] };
       const keys = Object.keys(row.data);
-      let hasPick = false;
+      let hasPick;
       try { hasPick = (JSON.parse(row.data.omniLedgerProfile || '{}').bronzeTierIds || []).includes(id); }
       catch (e) { hasPick = false; }
       return { ok: hasPick && !!row.data.omniLedgerOnboarded, keys: keys };
@@ -1704,7 +1704,7 @@ async function runAccountFlow(browser, file) {
     const healed = await page2.waitForFunction((id) => {
       const row = window.__mockTables && window.__mockTables.profiles && window.__mockTables.profiles['smoketestuser2'];
       if (!row) return false;
-      let stored = false;
+      let stored;
       try { stored = (JSON.parse(row.data.omniLedgerProfile || '{}').bronzeTierIds || []).includes(id); }
       catch (e) { return false; }
       return stored && localStorage.getItem('omniLedgerPendingSync') !== '1';
@@ -1787,7 +1787,7 @@ async function runAccountFlow(browser, file) {
     const healedByRetry = !!(await readWhen(page2, (id) => {
       const row = window.__mockTables && window.__mockTables.profiles && window.__mockTables.profiles['smoketestuser2'];
       if (!row || !row.data) return false;
-      let stored = false;
+      let stored;
       try { stored = (JSON.parse(row.data.omniLedgerProfile || '{}').declaredGoatIds || []).includes(id); }
       catch (e) { return false; }
       return stored && localStorage.getItem('omniLedgerPendingSync') !== '1';

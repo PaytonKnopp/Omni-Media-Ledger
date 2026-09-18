@@ -57,7 +57,7 @@ async function recsFor(browser, profileObj, label) {
     try {
       localStorage.setItem('omniLedgerOnboarded', '1');
       localStorage.setItem('omniLedgerProfile', profileJson);
-    } catch (e) {}
+    } catch (e) { console.warn('seed localStorage failed', e); }
   }, [JSON.stringify(profileObj)]);
 
   await page.goto('file://' + path.join(ROOT, 'index.html'));
