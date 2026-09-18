@@ -1665,7 +1665,10 @@ ALL.forEach(x=>{x.rating=certify(x);});
 const RATING_COUNTS={};ALL.forEach(x=>{RATING_COUNTS[x.rating]=(RATING_COUNTS[x.rating]||0)+1;});
 function renderTasteDNA(){
  const canon=ALL.filter(x=>x.goat||x.silver||x.owned);
- if(!canon.length){return;}
+ if(!canon.length){
+  $('#tasteDNA').innerHTML='<div class="text-center text-slate-500 text-[11px] py-4">No taste signature yet — tier something Gold/Silver or mark it owned, and your dimensions will appear here.</div>';
+  return;
+ }
  const dims=[['Performances','perf','#fda4af'],['Emotional','emo','#f0abfc'],['Reality-Altering','reality','#c4b5fd'],['Vibe / Atmosphere','vibe2','#e879f9'],['Scientific','sci','#67e8f9'],['Iconicness','icon','#fcd34d'],['Soundtrack','snd','#7dd3fc'],['Awe / Spectacle','awe','#fbbf24'],['Complexity','myst','#34d399'],['Realism','real','#86efac']];
  const avg=(arr,k)=>Math.round(arr.reduce((s,x)=>s+x[k],0)/arr.length);
  $('#tasteDNA').innerHTML=dims.map(d=>{const you=avg(canon,d[1]),all=avg(ALL,d[1]),diff=you-all;
@@ -1726,6 +1729,14 @@ function declaredCategoryHTML(d){
 // which is populated by the sample profile and the GOAT Picker's finalize step -- so on an account
 // started from scratch it was empty, and tiering something Gold/Silver/Bronze from a card had
 // nowhere to appear at all. That looked exactly like "my picks aren't saving" even when they were.
+// How many tiered/declared items a declared-canon category actually has right now -- used only to
+// order the grid so categories you've actually built out surface above ones with a single entry,
+// not to gate visibility (declaredCategoryHTML/declaredCategoriesToRender still decide that).
+function tieredCountInCat(d){
+ var kind=CORPUS_CANON_KIND[d.cat];
+ if(!kind)return (d.items||[]).length;
+ return ALL.filter(function(x){return x.kind===kind&&(x.goat||x.silver||x.bronze);}).length;
+}
 function declaredCategoriesToRender(){
  var cats=(goatProfile.declared||[]).slice();
  var named={};cats.forEach(function(d){named[d.cat]=true;});
@@ -1737,16 +1748,45 @@ function declaredCategoriesToRender(){
  });
  return cats;
 }
-function renderGoat(){renderTasteDNA();
- var declaredHTML=declaredCategoriesToRender().map(declaredCategoryHTML).join('');
- $('#goatDeclared').innerHTML=declaredHTML||((state.goatDeclaredQ||'').trim()?'<div class="col-span-full text-center text-slate-500 text-sm py-6">Nothing in your declared canon matches “'+esc(state.goatDeclaredQ.trim())+'”.</div>':'');
+// Quick-scan counts for the tab header: how much of the ledger you've actually tiered/owned, and
+// how personalized the recommendation categories currently are (basis text already distinguishes
+// "declared from your picks" vs "ranked by weights" -- this just tallies that instead of making the
+// user read four gray sentences to notice most categories are still generic).
+function renderGoatStats(){
+ var el=$('#goatStats');if(!el)return;
+ var gold=ALL.filter(function(x){return x.goat;}).length;
+ var silver=ALL.filter(function(x){return x.silver;}).length;
+ var bronze=ALL.filter(function(x){return x.bronze;}).length;
+ var owned=ALL.filter(function(x){return x.owned;}).length;
+ var canon=ALL.filter(function(x){return x.goat||x.silver||x.owned;});
+ var avgMatch=canon.length?Math.round(canon.reduce(function(s,x){return s+x.gm;},0)/canon.length):0;
+ var recCatsAll=Object.keys(RECS_KIND_BY_CAT);
+ var personalized=recCatsAll.filter(function(cat){var c=goatProfile.recs.find(function(r){return r.cat===cat;});return c&&c.basis&&c.basis.indexOf('No ')!==0;}).length;
+ var stats=[
+  ['🥇 Gold',gold,'#fbbf24'],
+  ['🥈 Silver',silver,'#cbd5e1'],
+  ['🥉 Bronze',bronze,'#cd7f32'],
+  ['◆ Owned',owned,'#5eead4'],
+  ['Avg Match',canon.length?avgMatch:'—','#f0abfc'],
+  ['Personalized Cats',personalized+'/'+recCatsAll.length,'#a5b4fc']
+ ];
+ el.innerHTML=stats.map(function(s){return '<div class="panel p-2.5 text-center"><div class="text-lg font-extrabold tabular-nums leading-tight" style="color:'+s[2]+'">'+s[1]+'</div><div class="lbl mt-1">'+s[0]+'</div></div>';}).join('');
+}
+function renderGoat(){renderTasteDNA();renderGoatStats();
+ var declaredCats=declaredCategoriesToRender().slice().sort(function(a,b){return tieredCountInCat(b)-tieredCountInCat(a);});
+ var declaredHTML=declaredCats.map(declaredCategoryHTML).join('');
+ $('#goatDeclared').innerHTML=declaredHTML||((state.goatDeclaredQ||'').trim()?'<div class="col-span-full text-center text-slate-500 text-sm py-6">Nothing in your declared canon matches “'+esc(state.goatDeclaredQ.trim())+'”.</div>':'<div class="col-span-full text-center text-slate-500 text-sm py-6">Nothing declared yet — search above and tier or own something to start building your canon.</div>');
  var recCats=isPaytonSampleProfile()?goatProfile.recs:goatProfile.recs.filter(function(c){return RECS_KIND_BY_CAT.hasOwnProperty(c.cat);});
+ var hiddenAll=PERSONAL_PROFILE.hiddenRecs||[];
+ var unhideAllBox=$('#goatRecsUnhideAll');
+ if(unhideAllBox)unhideAllBox.classList.toggle('hidden',!hiddenAll.length);
  $('#goatRecs').innerHTML=recCats.map(cat=>{
   var hidden=PERSONAL_PROFILE.hiddenRecs||[];
   var visible=cat.items.filter(function(it){return hidden.indexOf(recKey(cat.cat,it))<0;});
   var hiddenN=cat.items.length-visible.length;
-  return '<div class="panel overflow-hidden fade-in">'
-  +'<div class="px-4 pt-4 pb-3 border-b border-slate-800/70"><div class="flex items-baseline justify-between gap-2"><h3 class="text-[12px] font-bold tracking-[.14em] uppercase text-slate-100">'+esc(cat.cat)+(cat.approx?(cat.partiallyLinked?' <span class="text-[8.5px] font-normal normal-case tracking-normal text-emerald-400/80" title="Where a pick has a known, ledger-linked work (marked ◆ below), the score is a real average of that work'+"'"+'s GOAT match, not a guess. Unlinked picks fall back to genre overlap.">◆ partly ledger-linked</span>':' <span class="text-[8.5px] font-normal normal-case tracking-normal text-amber-400/70" title="No corpus of music/video-essay works exists to link these picks to (the ledger only tracks movies, TV, games and books), so these stay hand-curated -- but the score and order do respond to both your genre AND vibe weights.">◈ approximate — by genre + vibe overlap</span>'):'')+'</h3><span class="lbl">match /100</span></div>'
+  var unpersonalized=cat.basis&&cat.basis.indexOf('No ')===0;
+  return '<div class="panel overflow-hidden fade-in"'+(unpersonalized?' style="opacity:.82"':'')+'>'
+  +'<div class="px-4 pt-4 pb-3 border-b border-slate-800/70"><div class="flex items-baseline justify-between gap-2"><h3 class="text-[12px] font-bold tracking-[.14em] uppercase text-slate-100">'+esc(cat.cat)+(unpersonalized?' <span class="text-[8.5px] font-normal normal-case tracking-normal text-slate-500" title="No favorites declared for this category yet, so these are ranked by your general genre/vibe weights, not projected from anything you picked.">○ not personalized</span>':'')+(cat.approx?(cat.partiallyLinked?' <span class="text-[8.5px] font-normal normal-case tracking-normal text-emerald-400/80" title="Where a pick has a known, ledger-linked work (marked ◆ below), the score is a real average of that work'+"'"+'s GOAT match, not a guess. Unlinked picks fall back to genre overlap.">◆ partly ledger-linked</span>':' <span class="text-[8.5px] font-normal normal-case tracking-normal text-amber-400/70" title="No corpus of music/video-essay works exists to link these picks to (the ledger only tracks movies, TV, games and books), so these stay hand-curated -- but the score and order do respond to both your genre AND vibe weights.">◈ approximate — by genre + vibe overlap</span>'):'')+'</h3><span class="lbl">match /100</span></div>'
   +'<p class="text-[10.5px] text-slate-500 mt-1 leading-relaxed">'+esc(cat.basis)+'</p>'
   +(hiddenN?'<button type="button" class="recUnhideAll text-[10px] text-sky-400/80 hover:text-sky-300 mt-1.5" data-cat="'+esc(cat.cat)+'">'+hiddenN+' hidden here — show again</button>':'')
   +'</div>'
@@ -1831,6 +1871,7 @@ on('#goatRecs','click',e=>{
  const ub=e.target.closest('.recUnhideAll');
  if(ub){e.stopPropagation();unhideAllRecsInCat(ub.dataset.cat);return;}
 });
+on('#goatUnhideAllBtn','click',()=>{unhideAllRecs();});
 // Drag-and-drop between a medium's own Gold/Silver/Bronze columns (see tierChipGroupHTML/
 // moveToTier above). Scoped to #goatDeclared and, within it, to drop zones sharing the dragged
 // chip's own data-drag-kind -- a chip can only ever land in a same-medium zone since each
@@ -3851,6 +3892,9 @@ function unhideAllRecsInCat(cat){
  mutateProfile(p=>{
   p.hiddenRecs=(p.hiddenRecs||[]).filter(function(k){return k.indexOf(cat+'|')!==0;});
  });
+}
+function unhideAllRecs(){
+ mutateProfile(p=>{p.hiddenRecs=[];});
 }
 // Drag-and-drop re-tiering (GOAT Profile's per-medium Gold/Silver/Bronze columns): moves `id`
 // cleanly into exactly `targetTier`, removing it from whichever of the three lists it was already
