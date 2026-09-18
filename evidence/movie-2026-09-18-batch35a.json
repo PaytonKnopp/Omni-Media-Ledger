@@ -1,0 +1,908 @@
+{
+ "medium": "movie",
+ "generated": "2026-09-18T03:11:25.488Z",
+ "offline": false,
+ "sources": [
+  "OMDb",
+  "TMDB"
+ ],
+ "works": [
+  {
+   "id": "m1823",
+   "title": "5 Centimeters per Second",
+   "sourcesReached": [
+    "OMDb",
+    "TMDB"
+   ],
+   "sourcesMissed": [],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "release year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 2007,
+     "proposed": 2007,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 2007,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=5+Centimeters+per+Second&type=movie&y=2007"
+      },
+      {
+       "src": "TMDB",
+       "value": 2007,
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=5+Centimeters+per+Second&year=2007"
+      }
+     ]
+    },
+    {
+     "field": "runtime",
+     "label": "runtime (min)",
+     "soft": false,
+     "editionDependent": true,
+     "current": 63,
+     "proposed": 63,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 63,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=5+Centimeters+per+Second&type=movie&y=2007"
+      },
+      {
+       "src": "TMDB",
+       "value": 63,
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=5+Centimeters+per+Second&year=2007"
+      }
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "director",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Makoto Shinkai",
+     "proposed": "Makoto Shinkai",
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": "Makoto Shinkai",
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=5+Centimeters+per+Second&type=movie&y=2007"
+      },
+      {
+       "src": "TMDB",
+       "value": "Makoto Shinkai",
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=5+Centimeters+per+Second&year=2007"
+      }
+     ]
+    },
+    {
+     "field": "studio",
+     "label": "studio",
+     "soft": true,
+     "editionDependent": false,
+     "current": "CoMix Wave Films",
+     "proposed": "CoMix Wave Films",
+     "status": "confirmed",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "TMDB",
+       "value": "CoMix Wave Films",
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=5+Centimeters+per+Second&year=2007"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "m1824",
+   "title": "From Up on Poppy Hill",
+   "sourcesReached": [
+    "OMDb",
+    "TMDB"
+   ],
+   "sourcesMissed": [],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "release year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 2011,
+     "proposed": 2011,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 2011,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=From+Up+on+Poppy+Hill&type=movie&y=2011"
+      },
+      {
+       "src": "TMDB",
+       "value": 2011,
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=From+Up+on+Poppy+Hill&year=2011"
+      }
+     ]
+    },
+    {
+     "field": "runtime",
+     "label": "runtime (min)",
+     "soft": false,
+     "editionDependent": true,
+     "current": 91,
+     "proposed": 91,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 91,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=From+Up+on+Poppy+Hill&type=movie&y=2011"
+      },
+      {
+       "src": "TMDB",
+       "value": 91,
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=From+Up+on+Poppy+Hill&year=2011"
+      }
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "director",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Goro Miyazaki",
+     "proposed": "Gorô Miyazaki",
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": "Gorô Miyazaki",
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=From+Up+on+Poppy+Hill&type=movie&y=2011"
+      },
+      {
+       "src": "TMDB",
+       "value": "Goro Miyazaki",
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=From+Up+on+Poppy+Hill&year=2011"
+      }
+     ]
+    },
+    {
+     "field": "studio",
+     "label": "studio",
+     "soft": true,
+     "editionDependent": false,
+     "current": "Studio Ghibli",
+     "proposed": "Studio Ghibli",
+     "status": "confirmed",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "TMDB",
+       "value": "Studio Ghibli",
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=From+Up+on+Poppy+Hill&year=2011"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "m1825",
+   "title": "The Diving Bell and the Butterfly",
+   "sourcesReached": [
+    "OMDb",
+    "TMDB"
+   ],
+   "sourcesMissed": [],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "release year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 2007,
+     "proposed": 2007,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 2007,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=The+Diving+Bell+and+the+Butterfly&type=movie&y=2007"
+      },
+      {
+       "src": "TMDB",
+       "value": 2007,
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=The+Diving+Bell+and+the+Butterfly&year=2007"
+      }
+     ]
+    },
+    {
+     "field": "runtime",
+     "label": "runtime (min)",
+     "soft": false,
+     "editionDependent": true,
+     "current": 112,
+     "proposed": 112,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 112,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=The+Diving+Bell+and+the+Butterfly&type=movie&y=2007"
+      },
+      {
+       "src": "TMDB",
+       "value": 112,
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=The+Diving+Bell+and+the+Butterfly&year=2007"
+      }
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "director",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Julian Schnabel",
+     "proposed": "Julian Schnabel",
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": "Julian Schnabel",
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=The+Diving+Bell+and+the+Butterfly&type=movie&y=2007"
+      },
+      {
+       "src": "TMDB",
+       "value": "Julian Schnabel",
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=The+Diving+Bell+and+the+Butterfly&year=2007"
+      }
+     ]
+    },
+    {
+     "field": "studio",
+     "label": "studio",
+     "soft": true,
+     "editionDependent": false,
+     "current": "Miramax",
+     "proposed": "Pathé Renn Productions",
+     "status": "proposed-change",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "TMDB",
+       "value": "Pathé Renn Productions",
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=The+Diving+Bell+and+the+Butterfly&year=2007"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "m1826",
+   "title": "The Salesman",
+   "sourcesReached": [
+    "OMDb",
+    "TMDB"
+   ],
+   "sourcesMissed": [],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "release year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 2016,
+     "proposed": 2016,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 2016,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=The+Salesman&type=movie&y=2016"
+      },
+      {
+       "src": "TMDB",
+       "value": 2016,
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=The+Salesman&year=2016"
+      }
+     ]
+    },
+    {
+     "field": "runtime",
+     "label": "runtime (min)",
+     "soft": false,
+     "editionDependent": true,
+     "current": 125,
+     "proposed": 125,
+     "status": "corroborated-by-one",
+     "grade": "B",
+     "note": "matches TMDB; disagrees with OMDb (124)",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 124,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=The+Salesman&type=movie&y=2016"
+      },
+      {
+       "src": "TMDB",
+       "value": 125,
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=The+Salesman&year=2016"
+      }
+     ],
+     "alternatives": [
+      125
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "director",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Asghar Farhadi",
+     "proposed": "Asghar Farhadi",
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": "Asghar Farhadi",
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=The+Salesman&type=movie&y=2016"
+      },
+      {
+       "src": "TMDB",
+       "value": "Asghar Farhadi",
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=The+Salesman&year=2016"
+      }
+     ]
+    },
+    {
+     "field": "studio",
+     "label": "studio",
+     "soft": true,
+     "editionDependent": false,
+     "current": "Amazon Studios",
+     "proposed": "Memento Production",
+     "status": "proposed-change",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "TMDB",
+       "value": "Memento Production",
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=The+Salesman&year=2016"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "m1827",
+   "title": "I Saw the Devil",
+   "sourcesReached": [
+    "OMDb",
+    "TMDB"
+   ],
+   "sourcesMissed": [],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "release year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 2010,
+     "proposed": 2010,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 2010,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=I+Saw+the+Devil&type=movie&y=2010"
+      },
+      {
+       "src": "TMDB",
+       "value": 2010,
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=I+Saw+the+Devil&year=2010"
+      }
+     ]
+    },
+    {
+     "field": "runtime",
+     "label": "runtime (min)",
+     "soft": false,
+     "editionDependent": true,
+     "current": 144,
+     "proposed": 144,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 144,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=I+Saw+the+Devil&type=movie&y=2010"
+      },
+      {
+       "src": "TMDB",
+       "value": 144,
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=I+Saw+the+Devil&year=2010"
+      }
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "director",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Kim Jee-woon",
+     "proposed": "Kim Jee-woon",
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": "Kim Jee-woon",
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=I+Saw+the+Devil&type=movie&y=2010"
+      },
+      {
+       "src": "TMDB",
+       "value": "Kim Jee-woon",
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=I+Saw+the+Devil&year=2010"
+      }
+     ]
+    },
+    {
+     "field": "studio",
+     "label": "studio",
+     "soft": true,
+     "editionDependent": false,
+     "current": "Showbox",
+     "proposed": "Softbank Ventures",
+     "status": "proposed-change",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "TMDB",
+       "value": "Softbank Ventures",
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=I+Saw+the+Devil&year=2010"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "m1828",
+   "title": "Il Postino: The Postman",
+   "sourcesReached": [],
+   "sourcesMissed": [
+    "OMDb (no match)",
+    "TMDB (no match)"
+   ],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "release year",
+     "soft": false,
+     "current": 1994,
+     "status": "no-source",
+     "grade": null,
+     "sources": []
+    },
+    {
+     "field": "runtime",
+     "label": "runtime (min)",
+     "soft": false,
+     "current": 108,
+     "status": "no-source",
+     "grade": null,
+     "sources": []
+    },
+    {
+     "field": "creator",
+     "label": "director",
+     "soft": false,
+     "current": "Michael Radford",
+     "status": "no-source",
+     "grade": null,
+     "sources": []
+    },
+    {
+     "field": "studio",
+     "label": "studio",
+     "soft": true,
+     "current": "Miramax",
+     "status": "no-source",
+     "grade": null,
+     "sources": []
+    }
+   ]
+  },
+  {
+   "id": "m1829",
+   "title": "Gomorrah",
+   "sourcesReached": [
+    "OMDb",
+    "TMDB"
+   ],
+   "sourcesMissed": [],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "release year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 2008,
+     "proposed": 2008,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 2008,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Gomorrah&type=movie&y=2008"
+      },
+      {
+       "src": "TMDB",
+       "value": 2008,
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Gomorrah&year=2008"
+      }
+     ]
+    },
+    {
+     "field": "runtime",
+     "label": "runtime (min)",
+     "soft": false,
+     "editionDependent": true,
+     "current": 137,
+     "proposed": 137,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 137,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Gomorrah&type=movie&y=2008"
+      },
+      {
+       "src": "TMDB",
+       "value": 137,
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Gomorrah&year=2008"
+      }
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "director",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Matteo Garrone",
+     "proposed": "Matteo Garrone",
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": "Matteo Garrone",
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Gomorrah&type=movie&y=2008"
+      },
+      {
+       "src": "TMDB",
+       "value": "Matteo Garrone",
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Gomorrah&year=2008"
+      }
+     ]
+    },
+    {
+     "field": "studio",
+     "label": "studio",
+     "soft": true,
+     "editionDependent": false,
+     "current": "IFC Films",
+     "proposed": "Fandango",
+     "status": "proposed-change",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "TMDB",
+       "value": "Fandango",
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Gomorrah&year=2008"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "m1830",
+   "title": "Bad Times at the El Royale",
+   "sourcesReached": [
+    "OMDb",
+    "TMDB"
+   ],
+   "sourcesMissed": [],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "release year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 2018,
+     "proposed": 2018,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 2018,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Bad+Times+at+the+El+Royale&type=movie&y=2018"
+      },
+      {
+       "src": "TMDB",
+       "value": 2018,
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Bad+Times+at+the+El+Royale&year=2018"
+      }
+     ]
+    },
+    {
+     "field": "runtime",
+     "label": "runtime (min)",
+     "soft": false,
+     "editionDependent": true,
+     "current": 141,
+     "proposed": 141,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 141,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Bad+Times+at+the+El+Royale&type=movie&y=2018"
+      },
+      {
+       "src": "TMDB",
+       "value": 141,
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Bad+Times+at+the+El+Royale&year=2018"
+      }
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "director",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Drew Goddard",
+     "proposed": "Drew Goddard",
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": "Drew Goddard",
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Bad+Times+at+the+El+Royale&type=movie&y=2018"
+      },
+      {
+       "src": "TMDB",
+       "value": "Drew Goddard",
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Bad+Times+at+the+El+Royale&year=2018"
+      }
+     ]
+    },
+    {
+     "field": "studio",
+     "label": "studio",
+     "soft": true,
+     "editionDependent": false,
+     "current": "20th Century Fox",
+     "proposed": "20th Century Fox",
+     "status": "confirmed",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "TMDB",
+       "value": "20th Century Fox",
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Bad+Times+at+the+El+Royale&year=2018"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "m1831",
+   "title": "Hunt for the Wilderpeople",
+   "sourcesReached": [
+    "OMDb",
+    "TMDB"
+   ],
+   "sourcesMissed": [],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "release year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 2016,
+     "proposed": 2016,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 2016,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Hunt+for+the+Wilderpeople&type=movie&y=2016"
+      },
+      {
+       "src": "TMDB",
+       "value": 2016,
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Hunt+for+the+Wilderpeople&year=2016"
+      }
+     ]
+    },
+    {
+     "field": "runtime",
+     "label": "runtime (min)",
+     "soft": false,
+     "editionDependent": true,
+     "current": 101,
+     "proposed": 101,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 101,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Hunt+for+the+Wilderpeople&type=movie&y=2016"
+      },
+      {
+       "src": "TMDB",
+       "value": 101,
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Hunt+for+the+Wilderpeople&year=2016"
+      }
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "director",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Taika Waititi",
+     "proposed": "Taika Waititi",
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": "Taika Waititi",
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Hunt+for+the+Wilderpeople&type=movie&y=2016"
+      },
+      {
+       "src": "TMDB",
+       "value": "Taika Waititi",
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Hunt+for+the+Wilderpeople&year=2016"
+      }
+     ]
+    },
+    {
+     "field": "studio",
+     "label": "studio",
+     "soft": true,
+     "editionDependent": false,
+     "current": "Piki Films",
+     "proposed": "Defender Films",
+     "status": "proposed-change",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "TMDB",
+       "value": "Defender Films",
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Hunt+for+the+Wilderpeople&year=2016"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "m1832",
+   "title": "Mother",
+   "sourcesReached": [
+    "OMDb",
+    "TMDB"
+   ],
+   "sourcesMissed": [],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "release year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 2009,
+     "proposed": 2009,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 2009,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Mother&type=movie&y=2009"
+      },
+      {
+       "src": "TMDB",
+       "value": 2009,
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Mother&year=2009"
+      }
+     ]
+    },
+    {
+     "field": "runtime",
+     "label": "runtime (min)",
+     "soft": false,
+     "editionDependent": true,
+     "current": 129,
+     "proposed": 129,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 129,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Mother&type=movie&y=2009"
+      },
+      {
+       "src": "TMDB",
+       "value": 129,
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Mother&year=2009"
+      }
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "director",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Bong Joon-ho",
+     "proposed": "Bong Joon Ho",
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": "Bong Joon Ho",
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Mother&type=movie&y=2009"
+      },
+      {
+       "src": "TMDB",
+       "value": "Bong Joon Ho",
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Mother&year=2009"
+      }
+     ]
+    },
+    {
+     "field": "studio",
+     "label": "studio",
+     "soft": true,
+     "editionDependent": false,
+     "current": "CJ Entertainment",
+     "proposed": "Barunson E&A",
+     "status": "proposed-change",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "TMDB",
+       "value": "Barunson E&A",
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Mother&year=2009"
+      }
+     ]
+    }
+   ]
+  }
+ ]
+}

@@ -1,0 +1,1145 @@
+{
+ "medium": "movie",
+ "generated": "2026-09-18T03:11:38.160Z",
+ "offline": false,
+ "sources": [
+  "OMDb",
+  "TMDB"
+ ],
+ "works": [
+  {
+   "id": "m1833",
+   "title": "The Machinist",
+   "sourcesReached": [
+    "OMDb",
+    "TMDB"
+   ],
+   "sourcesMissed": [],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "release year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 2004,
+     "proposed": 2004,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 2004,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=The+Machinist&type=movie&y=2004"
+      },
+      {
+       "src": "TMDB",
+       "value": 2004,
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=The+Machinist&year=2004"
+      }
+     ]
+    },
+    {
+     "field": "runtime",
+     "label": "runtime (min)",
+     "soft": false,
+     "editionDependent": true,
+     "current": 102,
+     "proposed": 102,
+     "status": "corroborated-by-one",
+     "grade": "B",
+     "note": "matches TMDB; disagrees with OMDb (101)",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 101,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=The+Machinist&type=movie&y=2004"
+      },
+      {
+       "src": "TMDB",
+       "value": 102,
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=The+Machinist&year=2004"
+      }
+     ],
+     "alternatives": [
+      102
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "director",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Brad Anderson",
+     "proposed": "Brad Anderson",
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": "Brad Anderson",
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=The+Machinist&type=movie&y=2004"
+      },
+      {
+       "src": "TMDB",
+       "value": "Brad Anderson",
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=The+Machinist&year=2004"
+      }
+     ]
+    },
+    {
+     "field": "studio",
+     "label": "studio",
+     "soft": true,
+     "editionDependent": false,
+     "current": "Filmax",
+     "proposed": "Castelao Productions",
+     "status": "proposed-change",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "TMDB",
+       "value": "Castelao Productions",
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=The+Machinist&year=2004"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "m1834",
+   "title": "12 Monkeys",
+   "sourcesReached": [
+    "OMDb"
+   ],
+   "sourcesMissed": [
+    "TMDB (no match)"
+   ],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "release year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 1995,
+     "proposed": 1995,
+     "status": "confirmed",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 1995,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=12+Monkeys&type=movie&y=1995"
+      }
+     ]
+    },
+    {
+     "field": "runtime",
+     "label": "runtime (min)",
+     "soft": false,
+     "editionDependent": true,
+     "current": 129,
+     "proposed": 129,
+     "status": "confirmed",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 129,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=12+Monkeys&type=movie&y=1995"
+      }
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "director",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Terry Gilliam",
+     "proposed": "Terry Gilliam",
+     "status": "confirmed",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": "Terry Gilliam",
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=12+Monkeys&type=movie&y=1995"
+      }
+     ]
+    },
+    {
+     "field": "studio",
+     "label": "studio",
+     "soft": true,
+     "current": "Universal Pictures",
+     "status": "no-source",
+     "grade": null,
+     "sources": []
+    }
+   ]
+  },
+  {
+   "id": "m1835",
+   "title": "Fear and Loathing in Las Vegas",
+   "sourcesReached": [
+    "OMDb",
+    "TMDB"
+   ],
+   "sourcesMissed": [],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "release year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 1998,
+     "proposed": 1998,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 1998,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Fear+and+Loathing+in+Las+Vegas&type=movie&y=1998"
+      },
+      {
+       "src": "TMDB",
+       "value": 1998,
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Fear+and+Loathing+in+Las+Vegas&year=1998"
+      }
+     ]
+    },
+    {
+     "field": "runtime",
+     "label": "runtime (min)",
+     "soft": false,
+     "editionDependent": true,
+     "current": 118,
+     "proposed": 118,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 118,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Fear+and+Loathing+in+Las+Vegas&type=movie&y=1998"
+      },
+      {
+       "src": "TMDB",
+       "value": 118,
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Fear+and+Loathing+in+Las+Vegas&year=1998"
+      }
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "director",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Terry Gilliam",
+     "proposed": "Terry Gilliam",
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": "Terry Gilliam",
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Fear+and+Loathing+in+Las+Vegas&type=movie&y=1998"
+      },
+      {
+       "src": "TMDB",
+       "value": "Terry Gilliam",
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Fear+and+Loathing+in+Las+Vegas&year=1998"
+      }
+     ]
+    },
+    {
+     "field": "studio",
+     "label": "studio",
+     "soft": true,
+     "editionDependent": false,
+     "current": "Universal Pictures",
+     "proposed": "Summit Entertainment",
+     "status": "proposed-change",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "TMDB",
+       "value": "Summit Entertainment",
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Fear+and+Loathing+in+Las+Vegas&year=1998"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "m1836",
+   "title": "Skinamarink",
+   "sourcesReached": [
+    "OMDb",
+    "TMDB"
+   ],
+   "sourcesMissed": [],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "release year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 2022,
+     "proposed": 2022,
+     "status": "corroborated-by-one",
+     "grade": "B",
+     "note": "matches OMDb; disagrees with TMDB (2023)",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 2022,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Skinamarink&type=movie&y=2022"
+      },
+      {
+       "src": "TMDB",
+       "value": 2023,
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Skinamarink&year=2022"
+      }
+     ],
+     "alternatives": [
+      2023
+     ]
+    },
+    {
+     "field": "runtime",
+     "label": "runtime (min)",
+     "soft": false,
+     "editionDependent": true,
+     "current": 100,
+     "proposed": 100,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 100,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Skinamarink&type=movie&y=2022"
+      },
+      {
+       "src": "TMDB",
+       "value": 100,
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Skinamarink&year=2022"
+      }
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "director",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Kyle Edward Ball",
+     "proposed": "Kyle Edward Ball",
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": "Kyle Edward Ball",
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Skinamarink&type=movie&y=2022"
+      },
+      {
+       "src": "TMDB",
+       "value": "Kyle Edward Ball",
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Skinamarink&year=2022"
+      }
+     ]
+    },
+    {
+     "field": "studio",
+     "label": "studio",
+     "soft": true,
+     "editionDependent": false,
+     "current": "IFC Midnight",
+     "proposed": "ERO Picture Company",
+     "status": "proposed-change",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "TMDB",
+       "value": "ERO Picture Company",
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Skinamarink&year=2022"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "m1837",
+   "title": "Cam",
+   "sourcesReached": [
+    "OMDb",
+    "TMDB"
+   ],
+   "sourcesMissed": [],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "release year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 2018,
+     "proposed": 2018,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 2018,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Cam&type=movie&y=2018"
+      },
+      {
+       "src": "TMDB",
+       "value": 2018,
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Cam&year=2018"
+      }
+     ]
+    },
+    {
+     "field": "runtime",
+     "label": "runtime (min)",
+     "soft": false,
+     "editionDependent": true,
+     "current": 94,
+     "proposed": 94,
+     "status": "corroborated-by-one",
+     "grade": "B",
+     "note": "matches OMDb; disagrees with TMDB (95)",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 94,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Cam&type=movie&y=2018"
+      },
+      {
+       "src": "TMDB",
+       "value": 95,
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Cam&year=2018"
+      }
+     ],
+     "alternatives": [
+      95
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "director",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Daniel Goldhaber",
+     "proposed": "Daniel Goldhaber",
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": "Daniel Goldhaber",
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Cam&type=movie&y=2018"
+      },
+      {
+       "src": "TMDB",
+       "value": "Daniel Goldhaber",
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Cam&year=2018"
+      }
+     ]
+    },
+    {
+     "field": "studio",
+     "label": "studio",
+     "soft": true,
+     "editionDependent": false,
+     "current": "Netflix",
+     "proposed": "Divide / Conquer",
+     "status": "proposed-change",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "TMDB",
+       "value": "Divide / Conquer",
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Cam&year=2018"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "m1838",
+   "title": "The Invitation",
+   "sourcesReached": [
+    "OMDb",
+    "TMDB"
+   ],
+   "sourcesMissed": [],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "release year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 2015,
+     "proposed": 2015,
+     "status": "corroborated-by-one",
+     "grade": "B",
+     "note": "matches OMDb; disagrees with TMDB (2016)",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 2015,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=The+Invitation&type=movie&y=2015"
+      },
+      {
+       "src": "TMDB",
+       "value": 2016,
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=The+Invitation&year=2015"
+      }
+     ],
+     "alternatives": [
+      2016
+     ]
+    },
+    {
+     "field": "runtime",
+     "label": "runtime (min)",
+     "soft": false,
+     "editionDependent": true,
+     "current": 100,
+     "proposed": 100,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 100,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=The+Invitation&type=movie&y=2015"
+      },
+      {
+       "src": "TMDB",
+       "value": 100,
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=The+Invitation&year=2015"
+      }
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "director",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Karyn Kusama",
+     "proposed": "Karyn Kusama",
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": "Karyn Kusama",
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=The+Invitation&type=movie&y=2015"
+      },
+      {
+       "src": "TMDB",
+       "value": "Karyn Kusama",
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=The+Invitation&year=2015"
+      }
+     ]
+    },
+    {
+     "field": "studio",
+     "label": "studio",
+     "soft": true,
+     "editionDependent": false,
+     "current": "Drafthouse Films",
+     "proposed": "XYZ Films",
+     "status": "proposed-change",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "TMDB",
+       "value": "XYZ Films",
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=The+Invitation&year=2015"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "m1839",
+   "title": "Malignant",
+   "sourcesReached": [
+    "OMDb",
+    "TMDB"
+   ],
+   "sourcesMissed": [],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "release year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 2021,
+     "proposed": 2021,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 2021,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Malignant&type=movie&y=2021"
+      },
+      {
+       "src": "TMDB",
+       "value": 2021,
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Malignant&year=2021"
+      }
+     ]
+    },
+    {
+     "field": "runtime",
+     "label": "runtime (min)",
+     "soft": false,
+     "editionDependent": true,
+     "current": 111,
+     "proposed": 111,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 111,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Malignant&type=movie&y=2021"
+      },
+      {
+       "src": "TMDB",
+       "value": 111,
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Malignant&year=2021"
+      }
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "director",
+     "soft": false,
+     "editionDependent": false,
+     "current": "James Wan",
+     "proposed": "James Wan",
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": "James Wan",
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Malignant&type=movie&y=2021"
+      },
+      {
+       "src": "TMDB",
+       "value": "James Wan",
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Malignant&year=2021"
+      }
+     ]
+    },
+    {
+     "field": "studio",
+     "label": "studio",
+     "soft": true,
+     "editionDependent": false,
+     "current": "Warner Bros.",
+     "proposed": "New Line Cinema",
+     "status": "proposed-change",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "TMDB",
+       "value": "New Line Cinema",
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Malignant&year=2021"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "m1840",
+   "title": "Titane",
+   "sourcesReached": [
+    "OMDb",
+    "TMDB"
+   ],
+   "sourcesMissed": [],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "release year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 2021,
+     "proposed": 2021,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 2021,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Titane&type=movie&y=2021"
+      },
+      {
+       "src": "TMDB",
+       "value": 2021,
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Titane&year=2021"
+      }
+     ]
+    },
+    {
+     "field": "runtime",
+     "label": "runtime (min)",
+     "soft": false,
+     "editionDependent": true,
+     "current": 108,
+     "proposed": 108,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 108,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Titane&type=movie&y=2021"
+      },
+      {
+       "src": "TMDB",
+       "value": 108,
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Titane&year=2021"
+      }
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "director",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Julia Ducournau",
+     "proposed": "Julia Ducournau",
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": "Julia Ducournau",
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Titane&type=movie&y=2021"
+      },
+      {
+       "src": "TMDB",
+       "value": "Julia Ducournau",
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Titane&year=2021"
+      }
+     ]
+    },
+    {
+     "field": "studio",
+     "label": "studio",
+     "soft": true,
+     "editionDependent": false,
+     "current": "Neon",
+     "proposed": "Kazak Productions",
+     "status": "proposed-change",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "TMDB",
+       "value": "Kazak Productions",
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Titane&year=2021"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "m1841",
+   "title": "Raw",
+   "sourcesReached": [
+    "OMDb",
+    "TMDB"
+   ],
+   "sourcesMissed": [],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "release year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 2016,
+     "proposed": 2016,
+     "status": "corroborated-by-one",
+     "grade": "B",
+     "note": "matches OMDb; disagrees with TMDB (2017)",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 2016,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Raw&type=movie&y=2016"
+      },
+      {
+       "src": "TMDB",
+       "value": 2017,
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Raw&year=2016"
+      }
+     ],
+     "alternatives": [
+      2017
+     ]
+    },
+    {
+     "field": "runtime",
+     "label": "runtime (min)",
+     "soft": false,
+     "editionDependent": true,
+     "current": 99,
+     "proposed": 99,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 99,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Raw&type=movie&y=2016"
+      },
+      {
+       "src": "TMDB",
+       "value": 99,
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Raw&year=2016"
+      }
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "director",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Julia Ducournau",
+     "proposed": "Julia Ducournau",
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": "Julia Ducournau",
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Raw&type=movie&y=2016"
+      },
+      {
+       "src": "TMDB",
+       "value": "Julia Ducournau",
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Raw&year=2016"
+      }
+     ]
+    },
+    {
+     "field": "studio",
+     "label": "studio",
+     "soft": true,
+     "editionDependent": false,
+     "current": "Focus World",
+     "proposed": "Petit Film, Rouge International",
+     "status": "sources-disagree",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": "Petit Film, Rouge International",
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Raw&type=movie&y=2016"
+      },
+      {
+       "src": "TMDB",
+       "value": "Wild Bunch",
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Raw&year=2016"
+      }
+     ],
+     "alternatives": [
+      "Wild Bunch"
+     ]
+    }
+   ]
+  },
+  {
+   "id": "m1842",
+   "title": "Border",
+   "sourcesReached": [
+    "OMDb",
+    "TMDB"
+   ],
+   "sourcesMissed": [],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "release year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 2018,
+     "proposed": 2018,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 2018,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Border&type=movie&y=2018"
+      },
+      {
+       "src": "TMDB",
+       "value": 2018,
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Border&year=2018"
+      }
+     ]
+    },
+    {
+     "field": "runtime",
+     "label": "runtime (min)",
+     "soft": false,
+     "editionDependent": true,
+     "current": 110,
+     "proposed": 110,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 110,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Border&type=movie&y=2018"
+      },
+      {
+       "src": "TMDB",
+       "value": 110,
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Border&year=2018"
+      }
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "director",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Ali Abbasi",
+     "proposed": "Ali Abbasi",
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": "Ali Abbasi",
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Border&type=movie&y=2018"
+      },
+      {
+       "src": "TMDB",
+       "value": "Ali Abbasi",
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Border&year=2018"
+      }
+     ]
+    },
+    {
+     "field": "studio",
+     "label": "studio",
+     "soft": true,
+     "editionDependent": false,
+     "current": "Neon",
+     "proposed": "Meta Film Stockholm",
+     "status": "proposed-change",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "TMDB",
+       "value": "Meta Film Stockholm",
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Border&year=2018"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "m1843",
+   "title": "Possessor",
+   "sourcesReached": [
+    "OMDb",
+    "TMDB"
+   ],
+   "sourcesMissed": [],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "release year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 2020,
+     "proposed": 2020,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 2020,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Possessor&type=movie&y=2020"
+      },
+      {
+       "src": "TMDB",
+       "value": 2020,
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Possessor&year=2020"
+      }
+     ]
+    },
+    {
+     "field": "runtime",
+     "label": "runtime (min)",
+     "soft": false,
+     "editionDependent": true,
+     "current": 103,
+     "proposed": 103,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 103,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Possessor&type=movie&y=2020"
+      },
+      {
+       "src": "TMDB",
+       "value": 103,
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Possessor&year=2020"
+      }
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "director",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Brandon Cronenberg",
+     "proposed": "Brandon Cronenberg",
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": "Brandon Cronenberg",
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Possessor&type=movie&y=2020"
+      },
+      {
+       "src": "TMDB",
+       "value": "Brandon Cronenberg",
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Possessor&year=2020"
+      }
+     ]
+    },
+    {
+     "field": "studio",
+     "label": "studio",
+     "soft": true,
+     "editionDependent": false,
+     "current": "Neon",
+     "proposed": "Ingenious Media",
+     "status": "proposed-change",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "TMDB",
+       "value": "Ingenious Media",
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Possessor&year=2020"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "m1844",
+   "title": "Where the Wild Things Are",
+   "sourcesReached": [
+    "OMDb",
+    "TMDB"
+   ],
+   "sourcesMissed": [],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "release year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 2009,
+     "proposed": 2009,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 2009,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Where+the+Wild+Things+Are&type=movie&y=2009"
+      },
+      {
+       "src": "TMDB",
+       "value": 2009,
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Where+the+Wild+Things+Are&year=2009"
+      }
+     ]
+    },
+    {
+     "field": "runtime",
+     "label": "runtime (min)",
+     "soft": false,
+     "editionDependent": true,
+     "current": 101,
+     "proposed": 101,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 101,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Where+the+Wild+Things+Are&type=movie&y=2009"
+      },
+      {
+       "src": "TMDB",
+       "value": 101,
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Where+the+Wild+Things+Are&year=2009"
+      }
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "director",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Spike Jonze",
+     "proposed": "Spike Jonze",
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": "Spike Jonze",
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Where+the+Wild+Things+Are&type=movie&y=2009"
+      },
+      {
+       "src": "TMDB",
+       "value": "Spike Jonze",
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Where+the+Wild+Things+Are&year=2009"
+      }
+     ]
+    },
+    {
+     "field": "studio",
+     "label": "studio",
+     "soft": true,
+     "editionDependent": false,
+     "current": "Warner Bros.",
+     "proposed": "Warner Bros. Pictures",
+     "status": "proposed-change",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "TMDB",
+       "value": "Warner Bros. Pictures",
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Where+the+Wild+Things+Are&year=2009"
+      }
+     ]
+    }
+   ]
+  }
+ ]
+}
