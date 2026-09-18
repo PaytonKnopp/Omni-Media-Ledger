@@ -145,7 +145,7 @@ function wlSetWatched(id,v){if(WL[id]){WL[id].watched=v;wlSave();}}
 function wlCount(){return Object.keys(WL).length;}
 
 /* ===================== STATE & HELPERS ===================== */
-const state={view:'controller',q:'',type:'all',struct:'all',plats:[],minGoat:0,genres:[],genresExclude:[],ownedOnly:false,notOwnedOnly:false,limit:100,idx:{snd:0,ref:0,ch:0,emo:0,awe:0,cozy:0,perf:0,icon:0,scary:0,real:0,reality:0,shock:0,sci:0,funny:0,hist:0,vibe2:0,crit:0,aud:0,tech:0,dread:0,myst:0,warmth:0,comedy:0,beauty:0,runtime:0},ratings:[],tierFilter:[],tierFilterExclude:[],yearMin:null,yearMax:null,combine:false,sort:'overall',w:{tech:0.85,dread:0.95,myst:0.90},creatorTab:'directors',creatorSearch:'',goatType:'all',goatTierFilter:'all',goatSort:'match',goatDeclaredQ:'',portraitScope:'all',collSearchQ:'',wlType:'all',wlSort:'added',wlSearchQ:'',creatorSearchScope:'all',creatorSort:'default'};
+const state={view:'controller',q:'',type:'all',struct:'all',plats:[],minGoat:0,genres:[],genresExclude:[],ownedOnly:false,notOwnedOnly:false,limit:100,idx:{snd:0,ref:0,ch:0,emo:0,awe:0,cozy:0,perf:0,icon:0,scary:0,real:0,reality:0,shock:0,sci:0,funny:0,hist:0,vibe2:0,crit:0,aud:0,tech:0,dread:0,myst:0,warmth:0,comedy:0,beauty:0,runtime:0},ratings:[],tierFilter:[],tierFilterExclude:[],yearMin:null,yearMax:null,combine:false,sort:'overall',w:{tech:0.85,dread:0.95,myst:0.90},creatorTab:'directors',creatorSearch:'',creatorLedgerOnly:false,creatorOwnedOnly:false,goatType:'all',goatTierFilter:'all',goatSort:'match',goatDeclaredQ:'',portraitScope:'all',collSearchQ:'',wlType:'all',wlSort:'added',wlSearchQ:'',creatorSearchScope:'all',creatorSort:'default'};
 const $=s=>document.querySelector(s),$$=s=>Array.from(document.querySelectorAll(s));
 const on=(sel,ev,fn)=>{const el=$(sel);if(el)el.addEventListener(ev,fn);else console.warn('missing element:',sel);};
 // esc/themeColor(+THEME_PALETTE) live in app/cards.js (pure, closure-independent) now.
@@ -2814,6 +2814,10 @@ function stateToParams(){
  if(state.wlSearchQ)p.set('wlQ',state.wlSearchQ);
  if(state.creatorSearchScope&&state.creatorSearchScope!=='all')p.set('crScope',state.creatorSearchScope);
  if(state.creatorSort&&state.creatorSort!=='default')p.set('crSort',state.creatorSort);
+ if(state.creatorTab&&state.creatorTab!=='directors')p.set('crTab',state.creatorTab);
+ if(state.creatorSearch)p.set('crQ',state.creatorSearch);
+ if(state.creatorLedgerOnly)p.set('crLedger','1');
+ if(state.creatorOwnedOnly)p.set('crOwned','1');
  if(typeof contMedium!=='undefined'&&contMedium!=='all')p.set('contMed',contMedium);
  if(typeof contSort!=='undefined'&&contSort!=='foryou')p.set('contSort',contSort);
  if(typeof contSearchQ!=='undefined'&&contSearchQ)p.set('contQ',contSearchQ);
@@ -2859,6 +2863,10 @@ function paramsToState(){
   if(p.has('wlQ'))state.wlSearchQ=p.get('wlQ');
   if(p.has('crScope'))state.creatorSearchScope=p.get('crScope');
   if(p.has('crSort'))state.creatorSort=p.get('crSort');
+  if(p.has('crTab'))state.creatorTab=p.get('crTab');
+  if(p.has('crQ'))state.creatorSearch=p.get('crQ');
+  if(p.has('crLedger'))state.creatorLedgerOnly=p.get('crLedger')==='1';
+  if(p.has('crOwned'))state.creatorOwnedOnly=p.get('crOwned')==='1';
   if(p.has('contMed')&&typeof contMedium!=='undefined')contMedium=p.get('contMed');
   if(p.has('contSort')&&typeof contSort!=='undefined')contSort=p.get('contSort');
   if(p.has('contQ')&&typeof contSearchQ!=='undefined')contSearchQ=p.get('contQ');
@@ -2921,6 +2929,10 @@ function applyStateToStaticControls(){
  var wlQ=$('#wlSearch');if(wlQ)wlQ.value=state.wlSearchQ;
  $$('#creatorSearchScope button').forEach(function(b){b.classList.toggle('on',b.dataset.scope===state.creatorSearchScope);});
  var crSortSel=$('#creatorSortSel');if(crSortSel)crSortSel.value=state.creatorSort;
+ $$('#creatorSeg button').forEach(function(b){b.classList.toggle('on',b.dataset.tab===state.creatorTab);});
+ var crQEl=$('#creatorSearch');if(crQEl)crQEl.value=state.creatorSearch;
+ var crLedgerEl=$('#creatorLedgerOnly');if(crLedgerEl)crLedgerEl.checked=state.creatorLedgerOnly;
+ var crOwnedEl=$('#creatorOwnedOnly');if(crOwnedEl)crOwnedEl.checked=state.creatorOwnedOnly;
  if(typeof contMedium!=='undefined'){$$('.contMedBtn').forEach(function(b){b.classList.toggle('on',b.dataset.med===contMedium);});}
  if(typeof contSort!=='undefined'){$$('.contSortBtn').forEach(function(b){b.classList.toggle('on',b.dataset.sort===contSort);});}
  if(typeof contSearchQ!=='undefined'){var contQEl=$('#contSearch');if(contQEl)contQEl.value=contSearchQ;}
@@ -3341,11 +3353,14 @@ document.addEventListener('click',function(e){
  else if(work)renderGraph({type:'work',key:work.id});
  else if(cr)renderGraph({type:'creator',key:cr});
 });})();
-on('#creatorSeg','click',e=>{const b=e.target.closest('button');if(!b)return;state.creatorTab=b.dataset.tab;state.creatorSearch='';var cs=$('#creatorSearch');if(cs)cs.value='';renderCreators(state,ALL,$,$$);});
-on('#creatorSearch','input',e=>{state.creatorSearch=e.target.value;renderCreators(state,ALL,$,$$);});
+on('#creatorSeg','click',e=>{const b=e.target.closest('button');if(!b)return;state.creatorTab=b.dataset.tab;state.creatorSearch='';var cs=$('#creatorSearch');if(cs)cs.value='';renderCreators(state,ALL,$,$$);scheduleURLSync();});
+on('#creatorSearch','input',e=>{state.creatorSearch=e.target.value;renderCreators(state,ALL,$,$$);scheduleURLSync();});
 on('#creatorSearchScope','click',e=>{const b=e.target.closest('button');if(!b)return;state.creatorSearchScope=b.dataset.scope;$$('#creatorSearchScope button').forEach(x=>x.classList.toggle('on',x===b));renderCreators(state,ALL,$,$$);scheduleURLSync();});
 on('#creatorSortSel','change',e=>{state.creatorSort=e.target.value;renderCreators(state,ALL,$,$$);scheduleURLSync();});
+on('#creatorLedgerOnly','change',e=>{state.creatorLedgerOnly=e.target.checked;renderCreators(state,ALL,$,$$);scheduleURLSync();});
+on('#creatorOwnedOnly','change',e=>{state.creatorOwnedOnly=e.target.checked;renderCreators(state,ALL,$,$$);scheduleURLSync();});
 on('#creatorGrid','click',e=>{if(e.target.closest('.goatJump'))return;const f=e.target.closest('.flip');if(f)f.classList.toggle('flipped');});
+on('#creatorGrid','keydown',e=>{if(e.key!=='Enter'&&e.key!==' ')return;if(e.target.closest('.goatJump'))return;const f=e.target.closest('.flip');if(!f)return;e.preventDefault();f.classList.toggle('flipped');});
 on('#collSeg','click',e=>{const b=e.target.closest('button');if(!b)return;state.collSeg=b.dataset.cs;$$('#collSeg button').forEach(x=>x.classList.toggle('on',x===b));renderCollection();if(state.collGroup==='series')renderCollectionSeries();if(state.collShelf)renderCollectionShelf();if(state.collUpgrade)renderUpgradeAudit();});
 let collSearchT=null;
 on('#collSearch','input',e=>{clearTimeout(collSearchT);const v=e.target.value;collSearchT=setTimeout(()=>{state.collSearchQ=v;renderCollection();if(state.collGroup==='series')renderCollectionSeries();if(state.collShelf)renderCollectionShelf();scheduleURLSync();},120);});
