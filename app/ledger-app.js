@@ -666,7 +666,9 @@ function initCharts(){
  if(CH.bubble)return;
  Chart.defaults.color='#7c8aa5';Chart.defaults.borderColor='rgba(148,163,184,.08)';
  CH.bubble=new Chart($('#bubbleC'),{type:'bubble',data:{datasets:[]},options:{responsive:true,maintainAspectRatio:false,
-  plugins:{legend:{labels:{usePointStyle:true,boxWidth:8}},tooltip:{callbacks:{label:c=>{const d=c.raw;return d.t+' ('+d.yr+') · Crit '+d.x+' · Aud '+d.y+' · Tech '+d.tech+(d.own?' · ◆ owned':'')+(d.canon?' · your canon':'');}}}},
+  plugins:{legend:{labels:{usePointStyle:true,boxWidth:8,generateLabels:function(chart){
+   return chart.data.datasets.map(function(ds,i){var c=ds._legendColor||'#94a3b8';return {text:ds.label,fillStyle:c,strokeStyle:c,pointStyle:'circle',datasetIndex:i,hidden:!chart.isDatasetVisible(i)};});
+  }}},tooltip:{callbacks:{label:c=>{const d=c.raw;return d.t+' ('+d.yr+') · Crit '+d.x+' · Aud '+d.y+' · Tech '+d.tech+(d.own?' · ◆ owned':'')+(d.canon?' · your canon':'');}}}},
   scales:{x:{title:{display:true,text:'Critical Score'},suggestedMin:55,suggestedMax:100},y:{title:{display:true,text:'Audience Score'},suggestedMin:55,suggestedMax:100}}}});
  CH.radar=new Chart($('#radarC'),{type:'radar',data:{labels:['Critical','Audience','Technical','Dread / Tension','Complexity'],datasets:[]},options:{responsive:true,maintainAspectRatio:false,
   scales:{r:{min:0,max:100,ticks:{stepSize:20,backdropColor:'transparent'},grid:{color:'rgba(148,163,184,.12)'},angleLines:{color:'rgba(148,163,184,.12)'},pointLabels:{color:'#94a3b8',font:{size:10}}}},
@@ -721,10 +723,13 @@ function renderBubble(){
   return {x:x.crit,y:x.aud,r:Math.max(3,Math.min(15,(x.tech-70)/2.1+3)),t:x.title,yr:x.year,tech:x.tech,own:!!x.owned,canon:canon,
    _bg:x.owned?fill.replace(/,[^,]*\)$/,',.85)'):fill,_bd:canon?'#fbbf24':line};});};
  var sets=[
-  {label:'Movies',kind:'movie',data:mk('movie','rgba(167,139,250,.45)','#a78bfa'),backgroundColor:'#a78bfa',borderColor:'#a78bfa'},
-  {label:'TV',kind:'tv',data:mk('tv','rgba(34,211,238,.40)','#22d3ee'),backgroundColor:'#22d3ee',borderColor:'#22d3ee'},
-  {label:'Games',kind:'game',data:mk('game','rgba(251,191,36,.40)','#fbbf24'),backgroundColor:'#fbbf24',borderColor:'#fbbf24'},
-  {label:'Books',kind:'book',data:mk('book','rgba(74,222,128,.38)','#4ade80'),backgroundColor:'#4ade80',borderColor:'#4ade80'}];
+  {label:'Movies',kind:'movie',data:mk('movie','rgba(167,139,250,.45)','#a78bfa'),_legendColor:'#a78bfa'},
+  {label:'TV',kind:'tv',data:mk('tv','rgba(34,211,238,.40)','#22d3ee'),_legendColor:'#22d3ee'},
+  {label:'Games',kind:'game',data:mk('game','rgba(251,191,36,.40)','#fbbf24'),_legendColor:'#fbbf24'},
+  {label:'Books',kind:'book',data:mk('book','rgba(74,222,128,.38)','#4ade80'),_legendColor:'#4ade80'}];
+ // backgroundColor/borderColor are per-point arrays here (owned/canon styling) -- Chart.js's legend
+ // reads dataset.backgroundColor directly and an array isn't a valid canvas fill color, so the
+ // legend gets its swatch color from the flat _legendColor via a custom generateLabels instead.
  sets.forEach(function(s){
   s.backgroundColor=s.data.map(function(p){return p._bg;});
   s.borderColor=s.data.map(function(p){return p._bd;});
@@ -740,11 +745,18 @@ function renderBubble(){
  var allEl=document.querySelector('.bmCount[data-bm-count="all"]');
  if(allEl)allEl.textContent='('+list.filter(function(x){return x.owned;}).length+'/'+list.length+')';
 }
-// The 8 scored axes available to plot on the radar. Any of these can fill any of the 5 slots --
-// radarAxes holds the current assignment, defaulting to the chart's original 5.
-var AXIS_METRICS=[{key:'crit',label:'Critical'},{key:'aud',label:'Audience'},{key:'tech',label:'Technical'},{key:'dread',label:'Dread / Tension'},{key:'myst',label:'Complexity'},{key:'warmth',label:'Emotional Warmth'},{key:'comedy',label:'Comic Intent'},{key:'beauty',label:'Aesthetic Beauty'}];
+// Every 0-100 scored axis in the app (same rubric as the Global Controller's Advanced Filters
+// sliders, INDEX_DEFS, minus runtime -- that one's a minutes cap, not a 0-100 score) is available
+// to plot on the radar. Any of these can fill any of the 5 slots -- radarAxes holds the current
+// assignment, defaulting to the chart's original 5. Built lazily since INDEX_DEFS is defined later
+// in the file (boot section).
+var AXIS_METRICS=null;
+function axisMetrics(){
+ if(!AXIS_METRICS)AXIS_METRICS=INDEX_DEFS.filter(function(d){return d[0]!=='runtime';}).map(function(d){return {key:d[0],label:d[1]};}).sort(function(a,b){return a.label.localeCompare(b.label);});
+ return AXIS_METRICS;
+}
 var radarAxes=['crit','aud','tech','dread','myst'];
-function axisLabel(key){var m=AXIS_METRICS.find(function(a){return a.key===key;});return m?m.label:key;}
+function axisLabel(key){var m=axisMetrics().find(function(a){return a.key===key;});return m?m.label:key;}
 function fingerprintOf(val){
  if(!val)return null;
  const i=val.indexOf('::');if(i<0)return null;
@@ -757,7 +769,7 @@ function fingerprintOf(val){
 function renderRadarAxisRow(){
  var el=$('#radarAxisRow');if(!el)return;
  el.innerHTML=radarAxes.map(function(k,i){
-  var opts=AXIS_METRICS.map(function(m){return '<option value="'+m.key+'"'+(m.key===k?' selected':'')+'>'+esc(m.label)+'</option>';}).join('');
+  var opts=axisMetrics().map(function(m){return '<option value="'+m.key+'"'+(m.key===k?' selected':'')+'>'+esc(m.label)+'</option>';}).join('');
   return '<select class="radarAxisSel inp" style="width:auto;font-size:10.5px;padding:2px 6px" data-axis-i="'+i+'" title="What axis '+(i+1)+' compares by">'+opts+'</select>';
  }).join('');
 }
