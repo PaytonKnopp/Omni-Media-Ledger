@@ -1,0 +1,6962 @@
+{
+ "medium": "movie",
+ "generated": "2026-09-18T03:36:00.033Z",
+ "offline": false,
+ "sources": [
+  "OMDb",
+  "TMDB"
+ ],
+ "works": [
+  {
+   "id": "m1867",
+   "title": "Cool Hand Luke",
+   "sourcesReached": [
+    "OMDb",
+    "TMDB"
+   ],
+   "sourcesMissed": [],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "release year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 1967,
+     "proposed": 1967,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 1967,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Cool+Hand+Luke&type=movie&y=1967"
+      },
+      {
+       "src": "TMDB",
+       "value": 1967,
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Cool+Hand+Luke&year=1967"
+      }
+     ]
+    },
+    {
+     "field": "runtime",
+     "label": "runtime (min)",
+     "soft": false,
+     "editionDependent": true,
+     "current": 127,
+     "proposed": 127,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 127,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Cool+Hand+Luke&type=movie&y=1967"
+      },
+      {
+       "src": "TMDB",
+       "value": 127,
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Cool+Hand+Luke&year=1967"
+      }
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "director",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Stuart Rosenberg",
+     "proposed": "Stuart Rosenberg",
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": "Stuart Rosenberg",
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Cool+Hand+Luke&type=movie&y=1967"
+      },
+      {
+       "src": "TMDB",
+       "value": "Stuart Rosenberg",
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Cool+Hand+Luke&year=1967"
+      }
+     ]
+    },
+    {
+     "field": "studio",
+     "label": "studio",
+     "soft": true,
+     "editionDependent": false,
+     "current": "Warner Bros.",
+     "proposed": "Warner Bros.-Seven Arts",
+     "status": "proposed-change",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "TMDB",
+       "value": "Warner Bros.-Seven Arts",
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Cool+Hand+Luke&year=1967"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "m1868",
+   "title": "In the Heat of the Night",
+   "sourcesReached": [
+    "OMDb",
+    "TMDB"
+   ],
+   "sourcesMissed": [],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "release year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 1967,
+     "proposed": 1967,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 1967,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=In+the+Heat+of+the+Night&type=movie&y=1967"
+      },
+      {
+       "src": "TMDB",
+       "value": 1967,
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=In+the+Heat+of+the+Night&year=1967"
+      }
+     ]
+    },
+    {
+     "field": "runtime",
+     "label": "runtime (min)",
+     "soft": false,
+     "editionDependent": true,
+     "current": 109,
+     "proposed": 109,
+     "status": "corroborated-by-one",
+     "grade": "B",
+     "note": "matches TMDB; disagrees with OMDb (110)",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 110,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=In+the+Heat+of+the+Night&type=movie&y=1967"
+      },
+      {
+       "src": "TMDB",
+       "value": 109,
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=In+the+Heat+of+the+Night&year=1967"
+      }
+     ],
+     "alternatives": [
+      109
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "director",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Norman Jewison",
+     "proposed": "Norman Jewison",
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": "Norman Jewison",
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=In+the+Heat+of+the+Night&type=movie&y=1967"
+      },
+      {
+       "src": "TMDB",
+       "value": "Norman Jewison",
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=In+the+Heat+of+the+Night&year=1967"
+      }
+     ]
+    },
+    {
+     "field": "studio",
+     "label": "studio",
+     "soft": true,
+     "editionDependent": false,
+     "current": "United Artists",
+     "proposed": "United Artists",
+     "status": "confirmed",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "TMDB",
+       "value": "United Artists",
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=In+the+Heat+of+the+Night&year=1967"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "m1869",
+   "title": "The Hustler",
+   "sourcesReached": [
+    "OMDb",
+    "TMDB"
+   ],
+   "sourcesMissed": [],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "release year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 1961,
+     "proposed": 1961,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 1961,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=The+Hustler&type=movie&y=1961"
+      },
+      {
+       "src": "TMDB",
+       "value": 1961,
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=The+Hustler&year=1961"
+      }
+     ]
+    },
+    {
+     "field": "runtime",
+     "label": "runtime (min)",
+     "soft": false,
+     "editionDependent": true,
+     "current": 134,
+     "proposed": 134,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 134,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=The+Hustler&type=movie&y=1961"
+      },
+      {
+       "src": "TMDB",
+       "value": 134,
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=The+Hustler&year=1961"
+      }
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "director",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Robert Rossen",
+     "proposed": "Robert Rossen",
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": "Robert Rossen",
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=The+Hustler&type=movie&y=1961"
+      },
+      {
+       "src": "TMDB",
+       "value": "Robert Rossen",
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=The+Hustler&year=1961"
+      }
+     ]
+    },
+    {
+     "field": "studio",
+     "label": "studio",
+     "soft": true,
+     "editionDependent": false,
+     "current": "20th Century Fox",
+     "proposed": "Rossen Films",
+     "status": "proposed-change",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "TMDB",
+       "value": "Rossen Films",
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=The+Hustler&year=1961"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "m1870",
+   "title": "Prince of the City",
+   "sourcesReached": [
+    "OMDb",
+    "TMDB"
+   ],
+   "sourcesMissed": [],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "release year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 1981,
+     "proposed": 1981,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 1981,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Prince+of+the+City&type=movie&y=1981"
+      },
+      {
+       "src": "TMDB",
+       "value": 1981,
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Prince+of+the+City&year=1981"
+      }
+     ]
+    },
+    {
+     "field": "runtime",
+     "label": "runtime (min)",
+     "soft": false,
+     "editionDependent": true,
+     "current": 167,
+     "proposed": 167,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 167,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Prince+of+the+City&type=movie&y=1981"
+      },
+      {
+       "src": "TMDB",
+       "value": 167,
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Prince+of+the+City&year=1981"
+      }
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "director",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Sidney Lumet",
+     "proposed": "Sidney Lumet",
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": "Sidney Lumet",
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Prince+of+the+City&type=movie&y=1981"
+      },
+      {
+       "src": "TMDB",
+       "value": "Sidney Lumet",
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Prince+of+the+City&year=1981"
+      }
+     ]
+    },
+    {
+     "field": "studio",
+     "label": "studio",
+     "soft": true,
+     "editionDependent": false,
+     "current": "Orion Pictures",
+     "proposed": "Orion Pictures",
+     "status": "confirmed",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "TMDB",
+       "value": "Orion Pictures",
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Prince+of+the+City&year=1981"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "m1871",
+   "title": "The China Syndrome",
+   "sourcesReached": [
+    "OMDb",
+    "TMDB"
+   ],
+   "sourcesMissed": [],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "release year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 1979,
+     "proposed": 1979,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 1979,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=The+China+Syndrome&type=movie&y=1979"
+      },
+      {
+       "src": "TMDB",
+       "value": 1979,
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=The+China+Syndrome&year=1979"
+      }
+     ]
+    },
+    {
+     "field": "runtime",
+     "label": "runtime (min)",
+     "soft": false,
+     "editionDependent": true,
+     "current": 122,
+     "proposed": 122,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 122,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=The+China+Syndrome&type=movie&y=1979"
+      },
+      {
+       "src": "TMDB",
+       "value": 122,
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=The+China+Syndrome&year=1979"
+      }
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "director",
+     "soft": false,
+     "editionDependent": false,
+     "current": "James Bridges",
+     "proposed": "James Bridges",
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": "James Bridges",
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=The+China+Syndrome&type=movie&y=1979"
+      },
+      {
+       "src": "TMDB",
+       "value": "James Bridges",
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=The+China+Syndrome&year=1979"
+      }
+     ]
+    },
+    {
+     "field": "studio",
+     "label": "studio",
+     "soft": true,
+     "editionDependent": false,
+     "current": "Columbia Pictures",
+     "proposed": "Columbia Pictures",
+     "status": "confirmed",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "TMDB",
+       "value": "Columbia Pictures",
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=The+China+Syndrome&year=1979"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "m1872",
+   "title": "Silkwood",
+   "sourcesReached": [
+    "OMDb",
+    "TMDB"
+   ],
+   "sourcesMissed": [],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "release year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 1983,
+     "proposed": 1983,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 1983,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Silkwood&type=movie&y=1983"
+      },
+      {
+       "src": "TMDB",
+       "value": 1983,
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Silkwood&year=1983"
+      }
+     ]
+    },
+    {
+     "field": "runtime",
+     "label": "runtime (min)",
+     "soft": false,
+     "editionDependent": true,
+     "current": 131,
+     "proposed": 131,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 131,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Silkwood&type=movie&y=1983"
+      },
+      {
+       "src": "TMDB",
+       "value": 131,
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Silkwood&year=1983"
+      }
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "director",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Mike Nichols",
+     "proposed": "Mike Nichols",
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": "Mike Nichols",
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Silkwood&type=movie&y=1983"
+      },
+      {
+       "src": "TMDB",
+       "value": "Mike Nichols",
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Silkwood&year=1983"
+      }
+     ]
+    },
+    {
+     "field": "studio",
+     "label": "studio",
+     "soft": true,
+     "editionDependent": false,
+     "current": "20th Century Fox",
+     "proposed": "ABC Motion Pictures",
+     "status": "proposed-change",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "TMDB",
+       "value": "ABC Motion Pictures",
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Silkwood&year=1983"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "m1873",
+   "title": "Norma Rae",
+   "sourcesReached": [
+    "OMDb",
+    "TMDB"
+   ],
+   "sourcesMissed": [],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "release year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 1979,
+     "proposed": 1979,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 1979,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Norma+Rae&type=movie&y=1979"
+      },
+      {
+       "src": "TMDB",
+       "value": 1979,
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Norma+Rae&year=1979"
+      }
+     ]
+    },
+    {
+     "field": "runtime",
+     "label": "runtime (min)",
+     "soft": false,
+     "editionDependent": true,
+     "current": 110,
+     "proposed": 110,
+     "status": "corroborated-by-one",
+     "grade": "B",
+     "note": "matches TMDB; disagrees with OMDb (114)",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 114,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Norma+Rae&type=movie&y=1979"
+      },
+      {
+       "src": "TMDB",
+       "value": 110,
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Norma+Rae&year=1979"
+      }
+     ],
+     "alternatives": [
+      110
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "director",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Martin Ritt",
+     "proposed": "Martin Ritt",
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": "Martin Ritt",
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Norma+Rae&type=movie&y=1979"
+      },
+      {
+       "src": "TMDB",
+       "value": "Martin Ritt",
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Norma+Rae&year=1979"
+      }
+     ]
+    },
+    {
+     "field": "studio",
+     "label": "studio",
+     "soft": true,
+     "editionDependent": false,
+     "current": "20th Century Fox",
+     "proposed": "20th Century Fox",
+     "status": "confirmed",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "TMDB",
+       "value": "20th Century Fox",
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Norma+Rae&year=1979"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "m1874",
+   "title": "Places in the Heart",
+   "sourcesReached": [
+    "OMDb",
+    "TMDB"
+   ],
+   "sourcesMissed": [],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "release year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 1984,
+     "proposed": 1984,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 1984,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Places+in+the+Heart&type=movie&y=1984"
+      },
+      {
+       "src": "TMDB",
+       "value": 1984,
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Places+in+the+Heart&year=1984"
+      }
+     ]
+    },
+    {
+     "field": "runtime",
+     "label": "runtime (min)",
+     "soft": false,
+     "editionDependent": true,
+     "current": 111,
+     "proposed": 111,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 111,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Places+in+the+Heart&type=movie&y=1984"
+      },
+      {
+       "src": "TMDB",
+       "value": 111,
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Places+in+the+Heart&year=1984"
+      }
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "director",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Robert Benton",
+     "proposed": "Robert Benton",
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": "Robert Benton",
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Places+in+the+Heart&type=movie&y=1984"
+      },
+      {
+       "src": "TMDB",
+       "value": "Robert Benton",
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Places+in+the+Heart&year=1984"
+      }
+     ]
+    },
+    {
+     "field": "studio",
+     "label": "studio",
+     "soft": true,
+     "editionDependent": false,
+     "current": "TriStar Pictures",
+     "proposed": "TriStar Pictures",
+     "status": "confirmed",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "TMDB",
+       "value": "TriStar Pictures",
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Places+in+the+Heart&year=1984"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "m1875",
+   "title": "Tender Mercies",
+   "sourcesReached": [
+    "OMDb",
+    "TMDB"
+   ],
+   "sourcesMissed": [],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "release year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 1983,
+     "proposed": 1983,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 1983,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Tender+Mercies&type=movie&y=1983"
+      },
+      {
+       "src": "TMDB",
+       "value": 1983,
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Tender+Mercies&year=1983"
+      }
+     ]
+    },
+    {
+     "field": "runtime",
+     "label": "runtime (min)",
+     "soft": false,
+     "editionDependent": true,
+     "current": 92,
+     "proposed": 92,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 92,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Tender+Mercies&type=movie&y=1983"
+      },
+      {
+       "src": "TMDB",
+       "value": 92,
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Tender+Mercies&year=1983"
+      }
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "director",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Bruce Beresford",
+     "proposed": "Bruce Beresford",
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": "Bruce Beresford",
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Tender+Mercies&type=movie&y=1983"
+      },
+      {
+       "src": "TMDB",
+       "value": "Bruce Beresford",
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Tender+Mercies&year=1983"
+      }
+     ]
+    },
+    {
+     "field": "studio",
+     "label": "studio",
+     "soft": true,
+     "editionDependent": false,
+     "current": "Universal Pictures",
+     "proposed": "Antron Media Production",
+     "status": "proposed-change",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "TMDB",
+       "value": "Antron Media Production",
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Tender+Mercies&year=1983"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "m1876",
+   "title": "The Turning Point",
+   "sourcesReached": [
+    "OMDb",
+    "TMDB"
+   ],
+   "sourcesMissed": [],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "release year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 1977,
+     "proposed": 1977,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 1977,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=The+Turning+Point&type=movie&y=1977"
+      },
+      {
+       "src": "TMDB",
+       "value": 1977,
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=The+Turning+Point&year=1977"
+      }
+     ]
+    },
+    {
+     "field": "runtime",
+     "label": "runtime (min)",
+     "soft": false,
+     "editionDependent": true,
+     "current": 119,
+     "proposed": 119,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 119,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=The+Turning+Point&type=movie&y=1977"
+      },
+      {
+       "src": "TMDB",
+       "value": 119,
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=The+Turning+Point&year=1977"
+      }
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "director",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Herbert Ross",
+     "proposed": "Herbert Ross",
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": "Herbert Ross",
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=The+Turning+Point&type=movie&y=1977"
+      },
+      {
+       "src": "TMDB",
+       "value": "Herbert Ross",
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=The+Turning+Point&year=1977"
+      }
+     ]
+    },
+    {
+     "field": "studio",
+     "label": "studio",
+     "soft": true,
+     "editionDependent": false,
+     "current": "20th Century Fox",
+     "proposed": "Hera Productions",
+     "status": "proposed-change",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "TMDB",
+       "value": "Hera Productions",
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=The+Turning+Point&year=1977"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "m1877",
+   "title": "Julia",
+   "sourcesReached": [
+    "OMDb",
+    "TMDB"
+   ],
+   "sourcesMissed": [],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "release year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 1977,
+     "proposed": 1977,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 1977,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Julia&type=movie&y=1977"
+      },
+      {
+       "src": "TMDB",
+       "value": 1977,
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Julia&year=1977"
+      }
+     ]
+    },
+    {
+     "field": "runtime",
+     "label": "runtime (min)",
+     "soft": false,
+     "editionDependent": true,
+     "current": 118,
+     "proposed": 117,
+     "status": "edition-dependent",
+     "grade": "B",
+     "note": "sources agree with each other but not the corpus (OMDb 117, TMDB 117) on a field with no single true value -- likely a different printing/edition, not an error.",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 117,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Julia&type=movie&y=1977"
+      },
+      {
+       "src": "TMDB",
+       "value": 117,
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Julia&year=1977"
+      }
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "director",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Fred Zinnemann",
+     "proposed": "Fred Zinnemann",
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": "Fred Zinnemann",
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Julia&type=movie&y=1977"
+      },
+      {
+       "src": "TMDB",
+       "value": "Fred Zinnemann",
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Julia&year=1977"
+      }
+     ]
+    },
+    {
+     "field": "studio",
+     "label": "studio",
+     "soft": true,
+     "editionDependent": false,
+     "current": "20th Century Fox",
+     "proposed": "20th Century Fox",
+     "status": "confirmed",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "TMDB",
+       "value": "20th Century Fox",
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Julia&year=1977"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "m1878",
+   "title": "Coming Home",
+   "sourcesReached": [
+    "OMDb",
+    "TMDB"
+   ],
+   "sourcesMissed": [],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "release year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 1978,
+     "proposed": 1978,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 1978,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Coming+Home&type=movie&y=1978"
+      },
+      {
+       "src": "TMDB",
+       "value": 1978,
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Coming+Home&year=1978"
+      }
+     ]
+    },
+    {
+     "field": "runtime",
+     "label": "runtime (min)",
+     "soft": false,
+     "editionDependent": true,
+     "current": 127,
+     "proposed": 127,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 127,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Coming+Home&type=movie&y=1978"
+      },
+      {
+       "src": "TMDB",
+       "value": 127,
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Coming+Home&year=1978"
+      }
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "director",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Hal Ashby",
+     "proposed": "Hal Ashby",
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": "Hal Ashby",
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Coming+Home&type=movie&y=1978"
+      },
+      {
+       "src": "TMDB",
+       "value": "Hal Ashby",
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Coming+Home&year=1978"
+      }
+     ]
+    },
+    {
+     "field": "studio",
+     "label": "studio",
+     "soft": true,
+     "editionDependent": false,
+     "current": "United Artists",
+     "proposed": "United Artists",
+     "status": "confirmed",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "TMDB",
+       "value": "United Artists",
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Coming+Home&year=1978"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "m1879",
+   "title": "Apocalypse Now Redux",
+   "sourcesReached": [],
+   "sourcesMissed": [
+    "OMDb (no match)",
+    "TMDB (no match)"
+   ],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "release year",
+     "soft": false,
+     "current": 2001,
+     "status": "no-source",
+     "grade": null,
+     "sources": []
+    },
+    {
+     "field": "runtime",
+     "label": "runtime (min)",
+     "soft": false,
+     "current": 202,
+     "status": "no-source",
+     "grade": null,
+     "sources": []
+    },
+    {
+     "field": "creator",
+     "label": "director",
+     "soft": false,
+     "current": "Francis Ford Coppola",
+     "status": "no-source",
+     "grade": null,
+     "sources": []
+    },
+    {
+     "field": "studio",
+     "label": "studio",
+     "soft": true,
+     "current": "Miramax",
+     "status": "no-source",
+     "grade": null,
+     "sources": []
+    }
+   ]
+  },
+  {
+   "id": "m1880",
+   "title": "Casualties of War",
+   "sourcesReached": [
+    "OMDb",
+    "TMDB"
+   ],
+   "sourcesMissed": [],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "release year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 1989,
+     "proposed": 1989,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 1989,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Casualties+of+War&type=movie&y=1989"
+      },
+      {
+       "src": "TMDB",
+       "value": 1989,
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Casualties+of+War&year=1989"
+      }
+     ]
+    },
+    {
+     "field": "runtime",
+     "label": "runtime (min)",
+     "soft": false,
+     "editionDependent": true,
+     "current": 113,
+     "proposed": 113,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 113,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Casualties+of+War&type=movie&y=1989"
+      },
+      {
+       "src": "TMDB",
+       "value": 113,
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Casualties+of+War&year=1989"
+      }
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "director",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Brian De Palma",
+     "proposed": "Brian De Palma",
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": "Brian De Palma",
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Casualties+of+War&type=movie&y=1989"
+      },
+      {
+       "src": "TMDB",
+       "value": "Brian De Palma",
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Casualties+of+War&year=1989"
+      }
+     ]
+    },
+    {
+     "field": "studio",
+     "label": "studio",
+     "soft": true,
+     "editionDependent": false,
+     "current": "Columbia Pictures",
+     "proposed": "Columbia Pictures",
+     "status": "confirmed",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "TMDB",
+       "value": "Columbia Pictures",
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Casualties+of+War&year=1989"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "m1881",
+   "title": "Hamburger Hill",
+   "sourcesReached": [
+    "OMDb",
+    "TMDB"
+   ],
+   "sourcesMissed": [],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "release year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 1987,
+     "proposed": 1987,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 1987,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Hamburger+Hill&type=movie&y=1987"
+      },
+      {
+       "src": "TMDB",
+       "value": 1987,
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Hamburger+Hill&year=1987"
+      }
+     ]
+    },
+    {
+     "field": "runtime",
+     "label": "runtime (min)",
+     "soft": false,
+     "editionDependent": true,
+     "current": 110,
+     "proposed": 110,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 110,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Hamburger+Hill&type=movie&y=1987"
+      },
+      {
+       "src": "TMDB",
+       "value": 110,
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Hamburger+Hill&year=1987"
+      }
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "director",
+     "soft": false,
+     "editionDependent": false,
+     "current": "John Irvin",
+     "proposed": "John Irvin",
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": "John Irvin",
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Hamburger+Hill&type=movie&y=1987"
+      },
+      {
+       "src": "TMDB",
+       "value": "John Irvin",
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Hamburger+Hill&year=1987"
+      }
+     ]
+    },
+    {
+     "field": "studio",
+     "label": "studio",
+     "soft": true,
+     "editionDependent": false,
+     "current": "Paramount Pictures",
+     "proposed": "RKO Pictures",
+     "status": "proposed-change",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "TMDB",
+       "value": "RKO Pictures",
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Hamburger+Hill&year=1987"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "m1882",
+   "title": "The Sand Pebbles",
+   "sourcesReached": [
+    "OMDb",
+    "TMDB"
+   ],
+   "sourcesMissed": [],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "release year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 1966,
+     "proposed": 1966,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 1966,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=The+Sand+Pebbles&type=movie&y=1966"
+      },
+      {
+       "src": "TMDB",
+       "value": 1966,
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=The+Sand+Pebbles&year=1966"
+      }
+     ]
+    },
+    {
+     "field": "runtime",
+     "label": "runtime (min)",
+     "soft": false,
+     "editionDependent": true,
+     "current": 182,
+     "proposed": 182,
+     "status": "corroborated-by-one",
+     "grade": "B",
+     "note": "matches OMDb; disagrees with TMDB (196)",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 182,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=The+Sand+Pebbles&type=movie&y=1966"
+      },
+      {
+       "src": "TMDB",
+       "value": 196,
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=The+Sand+Pebbles&year=1966"
+      }
+     ],
+     "alternatives": [
+      196
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "director",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Robert Wise",
+     "proposed": "Robert Wise",
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": "Robert Wise",
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=The+Sand+Pebbles&type=movie&y=1966"
+      },
+      {
+       "src": "TMDB",
+       "value": "Robert Wise",
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=The+Sand+Pebbles&year=1966"
+      }
+     ]
+    },
+    {
+     "field": "studio",
+     "label": "studio",
+     "soft": true,
+     "editionDependent": false,
+     "current": "20th Century Fox",
+     "proposed": "Robert Wise Productions",
+     "status": "proposed-change",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "TMDB",
+       "value": "Robert Wise Productions",
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=The+Sand+Pebbles&year=1966"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "m1883",
+   "title": "Fail Safe",
+   "sourcesReached": [
+    "OMDb",
+    "TMDB"
+   ],
+   "sourcesMissed": [],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "release year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 1964,
+     "proposed": 1964,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 1964,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Fail+Safe&type=movie&y=1964"
+      },
+      {
+       "src": "TMDB",
+       "value": 1964,
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Fail+Safe&year=1964"
+      }
+     ]
+    },
+    {
+     "field": "runtime",
+     "label": "runtime (min)",
+     "soft": false,
+     "editionDependent": true,
+     "current": 112,
+     "proposed": 112,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 112,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Fail+Safe&type=movie&y=1964"
+      },
+      {
+       "src": "TMDB",
+       "value": 112,
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Fail+Safe&year=1964"
+      }
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "director",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Sidney Lumet",
+     "proposed": "Sidney Lumet",
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": "Sidney Lumet",
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Fail+Safe&type=movie&y=1964"
+      },
+      {
+       "src": "TMDB",
+       "value": "Sidney Lumet",
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Fail+Safe&year=1964"
+      }
+     ]
+    },
+    {
+     "field": "studio",
+     "label": "studio",
+     "soft": true,
+     "editionDependent": false,
+     "current": "Columbia Pictures",
+     "proposed": "Columbia Pictures",
+     "status": "confirmed",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "TMDB",
+       "value": "Columbia Pictures",
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Fail+Safe&year=1964"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "m1884",
+   "title": "Seven Days in May",
+   "sourcesReached": [
+    "OMDb",
+    "TMDB"
+   ],
+   "sourcesMissed": [],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "release year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 1964,
+     "proposed": 1964,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 1964,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Seven+Days+in+May&type=movie&y=1964"
+      },
+      {
+       "src": "TMDB",
+       "value": 1964,
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Seven+Days+in+May&year=1964"
+      }
+     ]
+    },
+    {
+     "field": "runtime",
+     "label": "runtime (min)",
+     "soft": false,
+     "editionDependent": true,
+     "current": 118,
+     "proposed": 118,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 118,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Seven+Days+in+May&type=movie&y=1964"
+      },
+      {
+       "src": "TMDB",
+       "value": 118,
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Seven+Days+in+May&year=1964"
+      }
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "director",
+     "soft": false,
+     "editionDependent": false,
+     "current": "John Frankenheimer",
+     "proposed": "John Frankenheimer",
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": "John Frankenheimer",
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Seven+Days+in+May&type=movie&y=1964"
+      },
+      {
+       "src": "TMDB",
+       "value": "John Frankenheimer",
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Seven+Days+in+May&year=1964"
+      }
+     ]
+    },
+    {
+     "field": "studio",
+     "label": "studio",
+     "soft": true,
+     "editionDependent": false,
+     "current": "Paramount Pictures",
+     "proposed": "Joel Productions",
+     "status": "proposed-change",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "TMDB",
+       "value": "Joel Productions",
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Seven+Days+in+May&year=1964"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "m1885",
+   "title": "The Manchurian Candidate (1962)",
+   "sourcesReached": [
+    "OMDb",
+    "TMDB"
+   ],
+   "sourcesMissed": [],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "release year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 1962,
+     "proposed": 1962,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 1962,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=The+Manchurian+Candidate&type=movie&y=1962"
+      },
+      {
+       "src": "TMDB",
+       "value": 1962,
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=The+Manchurian+Candidate&year=1962"
+      }
+     ]
+    },
+    {
+     "field": "runtime",
+     "label": "runtime (min)",
+     "soft": false,
+     "editionDependent": true,
+     "current": 126,
+     "proposed": 126,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 126,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=The+Manchurian+Candidate&type=movie&y=1962"
+      },
+      {
+       "src": "TMDB",
+       "value": 126,
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=The+Manchurian+Candidate&year=1962"
+      }
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "director",
+     "soft": false,
+     "editionDependent": false,
+     "current": "John Frankenheimer",
+     "proposed": "John Frankenheimer",
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": "John Frankenheimer",
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=The+Manchurian+Candidate&type=movie&y=1962"
+      },
+      {
+       "src": "TMDB",
+       "value": "John Frankenheimer",
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=The+Manchurian+Candidate&year=1962"
+      }
+     ]
+    },
+    {
+     "field": "studio",
+     "label": "studio",
+     "soft": true,
+     "editionDependent": false,
+     "current": "United Artists",
+     "proposed": "MC Productions",
+     "status": "proposed-change",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "TMDB",
+       "value": "MC Productions",
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=The+Manchurian+Candidate&year=1962"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "m1886",
+   "title": "Advise & Consent",
+   "sourcesReached": [
+    "OMDb",
+    "TMDB"
+   ],
+   "sourcesMissed": [],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "release year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 1962,
+     "proposed": 1962,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 1962,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Advise+%26+Consent&type=movie&y=1962"
+      },
+      {
+       "src": "TMDB",
+       "value": 1962,
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Advise+%26+Consent&year=1962"
+      }
+     ]
+    },
+    {
+     "field": "runtime",
+     "label": "runtime (min)",
+     "soft": false,
+     "editionDependent": true,
+     "current": 139,
+     "proposed": 139,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 139,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Advise+%26+Consent&type=movie&y=1962"
+      },
+      {
+       "src": "TMDB",
+       "value": 139,
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Advise+%26+Consent&year=1962"
+      }
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "director",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Otto Preminger",
+     "proposed": "Otto Preminger",
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": "Otto Preminger",
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Advise+%26+Consent&type=movie&y=1962"
+      },
+      {
+       "src": "TMDB",
+       "value": "Otto Preminger",
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Advise+%26+Consent&year=1962"
+      }
+     ]
+    },
+    {
+     "field": "studio",
+     "label": "studio",
+     "soft": true,
+     "editionDependent": false,
+     "current": "Columbia Pictures",
+     "proposed": "Otto Preminger Films",
+     "status": "proposed-change",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "TMDB",
+       "value": "Otto Preminger Films",
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Advise+%26+Consent&year=1962"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "m1887",
+   "title": "The Best Man",
+   "sourcesReached": [
+    "OMDb",
+    "TMDB"
+   ],
+   "sourcesMissed": [],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "release year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 1964,
+     "proposed": 1964,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 1964,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=The+Best+Man&type=movie&y=1964"
+      },
+      {
+       "src": "TMDB",
+       "value": 1964,
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=The+Best+Man&year=1964"
+      }
+     ]
+    },
+    {
+     "field": "runtime",
+     "label": "runtime (min)",
+     "soft": false,
+     "editionDependent": true,
+     "current": 102,
+     "proposed": 102,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 102,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=The+Best+Man&type=movie&y=1964"
+      },
+      {
+       "src": "TMDB",
+       "value": 102,
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=The+Best+Man&year=1964"
+      }
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "director",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Franklin J. Schaffner",
+     "proposed": "Franklin J. Schaffner",
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": "Franklin J. Schaffner",
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=The+Best+Man&type=movie&y=1964"
+      },
+      {
+       "src": "TMDB",
+       "value": "Franklin J. Schaffner",
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=The+Best+Man&year=1964"
+      }
+     ]
+    },
+    {
+     "field": "studio",
+     "label": "studio",
+     "soft": true,
+     "editionDependent": false,
+     "current": "United Artists",
+     "proposed": "United Artists",
+     "status": "confirmed",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "TMDB",
+       "value": "United Artists",
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=The+Best+Man&year=1964"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "m1888",
+   "title": "All the King's Men",
+   "sourcesReached": [
+    "OMDb",
+    "TMDB"
+   ],
+   "sourcesMissed": [],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "release year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 1949,
+     "proposed": 1949,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 1949,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=All+the+King%27s+Men&type=movie&y=1949"
+      },
+      {
+       "src": "TMDB",
+       "value": 1949,
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=All+the+King%27s+Men&year=1949"
+      }
+     ]
+    },
+    {
+     "field": "runtime",
+     "label": "runtime (min)",
+     "soft": false,
+     "editionDependent": true,
+     "current": 110,
+     "proposed": 110,
+     "status": "corroborated-by-one",
+     "grade": "B",
+     "note": "matches OMDb; disagrees with TMDB (109)",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 110,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=All+the+King%27s+Men&type=movie&y=1949"
+      },
+      {
+       "src": "TMDB",
+       "value": 109,
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=All+the+King%27s+Men&year=1949"
+      }
+     ],
+     "alternatives": [
+      109
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "director",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Robert Rossen",
+     "proposed": "Robert Rossen",
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": "Robert Rossen",
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=All+the+King%27s+Men&type=movie&y=1949"
+      },
+      {
+       "src": "TMDB",
+       "value": "Robert Rossen",
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=All+the+King%27s+Men&year=1949"
+      }
+     ]
+    },
+    {
+     "field": "studio",
+     "label": "studio",
+     "soft": true,
+     "editionDependent": false,
+     "current": "Columbia Pictures",
+     "proposed": "Columbia Pictures",
+     "status": "confirmed",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "TMDB",
+       "value": "Columbia Pictures",
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=All+the+King%27s+Men&year=1949"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "m1889",
+   "title": "A Face in the Crowd",
+   "sourcesReached": [
+    "OMDb",
+    "TMDB"
+   ],
+   "sourcesMissed": [],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "release year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 1957,
+     "proposed": 1957,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 1957,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=A+Face+in+the+Crowd&type=movie&y=1957"
+      },
+      {
+       "src": "TMDB",
+       "value": 1957,
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=A+Face+in+the+Crowd&year=1957"
+      }
+     ]
+    },
+    {
+     "field": "runtime",
+     "label": "runtime (min)",
+     "soft": false,
+     "editionDependent": true,
+     "current": 126,
+     "proposed": 126,
+     "status": "corroborated-by-one",
+     "grade": "B",
+     "note": "matches OMDb; disagrees with TMDB (125)",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 126,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=A+Face+in+the+Crowd&type=movie&y=1957"
+      },
+      {
+       "src": "TMDB",
+       "value": 125,
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=A+Face+in+the+Crowd&year=1957"
+      }
+     ],
+     "alternatives": [
+      125
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "director",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Elia Kazan",
+     "proposed": "Elia Kazan",
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": "Elia Kazan",
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=A+Face+in+the+Crowd&type=movie&y=1957"
+      },
+      {
+       "src": "TMDB",
+       "value": "Elia Kazan",
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=A+Face+in+the+Crowd&year=1957"
+      }
+     ]
+    },
+    {
+     "field": "studio",
+     "label": "studio",
+     "soft": true,
+     "editionDependent": false,
+     "current": "Warner Bros.",
+     "proposed": "Newtown Productions",
+     "status": "proposed-change",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "TMDB",
+       "value": "Newtown Productions",
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=A+Face+in+the+Crowd&year=1957"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "m1890",
+   "title": "Elmer Gantry",
+   "sourcesReached": [
+    "OMDb",
+    "TMDB"
+   ],
+   "sourcesMissed": [],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "release year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 1960,
+     "proposed": 1960,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 1960,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Elmer+Gantry&type=movie&y=1960"
+      },
+      {
+       "src": "TMDB",
+       "value": 1960,
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Elmer+Gantry&year=1960"
+      }
+     ]
+    },
+    {
+     "field": "runtime",
+     "label": "runtime (min)",
+     "soft": false,
+     "editionDependent": true,
+     "current": 146,
+     "proposed": 146,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 146,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Elmer+Gantry&type=movie&y=1960"
+      },
+      {
+       "src": "TMDB",
+       "value": 146,
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Elmer+Gantry&year=1960"
+      }
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "director",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Richard Brooks",
+     "proposed": "Richard Brooks",
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": "Richard Brooks",
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Elmer+Gantry&type=movie&y=1960"
+      },
+      {
+       "src": "TMDB",
+       "value": "Richard Brooks",
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Elmer+Gantry&year=1960"
+      }
+     ]
+    },
+    {
+     "field": "studio",
+     "label": "studio",
+     "soft": true,
+     "editionDependent": false,
+     "current": "United Artists",
+     "proposed": "United Artists",
+     "status": "confirmed",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "TMDB",
+       "value": "United Artists",
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Elmer+Gantry&year=1960"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "m1891",
+   "title": "Inherit the Wind",
+   "sourcesReached": [
+    "OMDb",
+    "TMDB"
+   ],
+   "sourcesMissed": [],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "release year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 1960,
+     "proposed": 1960,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 1960,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Inherit+the+Wind&type=movie&y=1960"
+      },
+      {
+       "src": "TMDB",
+       "value": 1960,
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Inherit+the+Wind&year=1960"
+      }
+     ]
+    },
+    {
+     "field": "runtime",
+     "label": "runtime (min)",
+     "soft": false,
+     "editionDependent": true,
+     "current": 128,
+     "proposed": 128,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 128,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Inherit+the+Wind&type=movie&y=1960"
+      },
+      {
+       "src": "TMDB",
+       "value": 128,
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Inherit+the+Wind&year=1960"
+      }
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "director",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Stanley Kramer",
+     "proposed": "Stanley Kramer",
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": "Stanley Kramer",
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Inherit+the+Wind&type=movie&y=1960"
+      },
+      {
+       "src": "TMDB",
+       "value": "Stanley Kramer",
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Inherit+the+Wind&year=1960"
+      }
+     ]
+    },
+    {
+     "field": "studio",
+     "label": "studio",
+     "soft": true,
+     "editionDependent": false,
+     "current": "United Artists",
+     "proposed": "Stanley Kramer Productions",
+     "status": "proposed-change",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "TMDB",
+       "value": "Stanley Kramer Productions",
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Inherit+the+Wind&year=1960"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "m1892",
+   "title": "The Caine Mutiny",
+   "sourcesReached": [
+    "OMDb",
+    "TMDB"
+   ],
+   "sourcesMissed": [],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "release year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 1954,
+     "proposed": 1954,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 1954,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=The+Caine+Mutiny&type=movie&y=1954"
+      },
+      {
+       "src": "TMDB",
+       "value": 1954,
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=The+Caine+Mutiny&year=1954"
+      }
+     ]
+    },
+    {
+     "field": "runtime",
+     "label": "runtime (min)",
+     "soft": false,
+     "editionDependent": true,
+     "current": 124,
+     "proposed": 124,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 124,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=The+Caine+Mutiny&type=movie&y=1954"
+      },
+      {
+       "src": "TMDB",
+       "value": 124,
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=The+Caine+Mutiny&year=1954"
+      }
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "director",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Edward Dmytryk",
+     "proposed": "Edward Dmytryk",
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": "Edward Dmytryk",
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=The+Caine+Mutiny&type=movie&y=1954"
+      },
+      {
+       "src": "TMDB",
+       "value": "Edward Dmytryk",
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=The+Caine+Mutiny&year=1954"
+      }
+     ]
+    },
+    {
+     "field": "studio",
+     "label": "studio",
+     "soft": true,
+     "editionDependent": false,
+     "current": "Columbia Pictures",
+     "proposed": "Stanley Kramer Productions",
+     "status": "proposed-change",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "TMDB",
+       "value": "Stanley Kramer Productions",
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=The+Caine+Mutiny&year=1954"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "m1893",
+   "title": "Twelve O'Clock High",
+   "sourcesReached": [
+    "OMDb",
+    "TMDB"
+   ],
+   "sourcesMissed": [],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "release year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 1949,
+     "proposed": 1949,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 1949,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Twelve+O%27Clock+High&type=movie&y=1949"
+      },
+      {
+       "src": "TMDB",
+       "value": 1949,
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Twelve+O%27Clock+High&year=1949"
+      }
+     ]
+    },
+    {
+     "field": "runtime",
+     "label": "runtime (min)",
+     "soft": false,
+     "editionDependent": true,
+     "current": 132,
+     "proposed": 132,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 132,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Twelve+O%27Clock+High&type=movie&y=1949"
+      },
+      {
+       "src": "TMDB",
+       "value": 132,
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Twelve+O%27Clock+High&year=1949"
+      }
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "director",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Henry King",
+     "proposed": "Henry King",
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": "Henry King",
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Twelve+O%27Clock+High&type=movie&y=1949"
+      },
+      {
+       "src": "TMDB",
+       "value": "Henry King",
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Twelve+O%27Clock+High&year=1949"
+      }
+     ]
+    },
+    {
+     "field": "studio",
+     "label": "studio",
+     "soft": true,
+     "editionDependent": false,
+     "current": "20th Century Fox",
+     "proposed": "20th Century Fox",
+     "status": "confirmed",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "TMDB",
+       "value": "20th Century Fox",
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Twelve+O%27Clock+High&year=1949"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "m1894",
+   "title": "Sergeant York",
+   "sourcesReached": [
+    "OMDb",
+    "TMDB"
+   ],
+   "sourcesMissed": [],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "release year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 1941,
+     "proposed": 1941,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 1941,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Sergeant+York&type=movie&y=1941"
+      },
+      {
+       "src": "TMDB",
+       "value": 1941,
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Sergeant+York&year=1941"
+      }
+     ]
+    },
+    {
+     "field": "runtime",
+     "label": "runtime (min)",
+     "soft": false,
+     "editionDependent": true,
+     "current": 134,
+     "proposed": 134,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 134,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Sergeant+York&type=movie&y=1941"
+      },
+      {
+       "src": "TMDB",
+       "value": 134,
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Sergeant+York&year=1941"
+      }
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "director",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Howard Hawks",
+     "proposed": "Howard Hawks",
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": "Howard Hawks",
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Sergeant+York&type=movie&y=1941"
+      },
+      {
+       "src": "TMDB",
+       "value": "Howard Hawks",
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Sergeant+York&year=1941"
+      }
+     ]
+    },
+    {
+     "field": "studio",
+     "label": "studio",
+     "soft": true,
+     "editionDependent": false,
+     "current": "Warner Bros.",
+     "proposed": "Warner Bros. Pictures",
+     "status": "proposed-change",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "TMDB",
+       "value": "Warner Bros. Pictures",
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Sergeant+York&year=1941"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "m1895",
+   "title": "The Longest Day",
+   "sourcesReached": [
+    "OMDb",
+    "TMDB"
+   ],
+   "sourcesMissed": [],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "release year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 1962,
+     "proposed": 1962,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 1962,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=The+Longest+Day&type=movie&y=1962"
+      },
+      {
+       "src": "TMDB",
+       "value": 1962,
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=The+Longest+Day&year=1962"
+      }
+     ]
+    },
+    {
+     "field": "runtime",
+     "label": "runtime (min)",
+     "soft": false,
+     "editionDependent": true,
+     "current": 178,
+     "proposed": 178,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 178,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=The+Longest+Day&type=movie&y=1962"
+      },
+      {
+       "src": "TMDB",
+       "value": 178,
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=The+Longest+Day&year=1962"
+      }
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "director",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Ken Annakin, Andrew Marton, Bernhard Wicki",
+     "proposed": "Ken Annakin, Andrew Marton, Bernhard Wicki",
+     "status": "corroborated-by-one",
+     "grade": "B",
+     "note": "matches TMDB; disagrees with OMDb (\"Ken Annakin, Andrew Marton, Gerd Oswald\")",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": "Ken Annakin, Andrew Marton, Gerd Oswald",
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=The+Longest+Day&type=movie&y=1962"
+      },
+      {
+       "src": "TMDB",
+       "value": "Ken Annakin, Bernhard Wicki, Andrew Marton",
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=The+Longest+Day&year=1962"
+      }
+     ],
+     "alternatives": [
+      "Ken Annakin, Bernhard Wicki, Andrew Marton"
+     ]
+    },
+    {
+     "field": "studio",
+     "label": "studio",
+     "soft": true,
+     "editionDependent": false,
+     "current": "20th Century Fox",
+     "proposed": "Darryl F. Zanuck Productions",
+     "status": "proposed-change",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "TMDB",
+       "value": "Darryl F. Zanuck Productions",
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=The+Longest+Day&year=1962"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "m1896",
+   "title": "Ryan's Daughter",
+   "sourcesReached": [
+    "OMDb",
+    "TMDB"
+   ],
+   "sourcesMissed": [],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "release year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 1970,
+     "proposed": 1970,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 1970,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Ryan%27s+Daughter&type=movie&y=1970"
+      },
+      {
+       "src": "TMDB",
+       "value": 1970,
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Ryan%27s+Daughter&year=1970"
+      }
+     ]
+    },
+    {
+     "field": "runtime",
+     "label": "runtime (min)",
+     "soft": false,
+     "editionDependent": true,
+     "current": 206,
+     "proposed": 206,
+     "status": "corroborated-by-one",
+     "grade": "B",
+     "note": "matches TMDB; disagrees with OMDb (200)",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 200,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Ryan%27s+Daughter&type=movie&y=1970"
+      },
+      {
+       "src": "TMDB",
+       "value": 206,
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Ryan%27s+Daughter&year=1970"
+      }
+     ],
+     "alternatives": [
+      206
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "director",
+     "soft": false,
+     "editionDependent": false,
+     "current": "David Lean",
+     "proposed": "David Lean",
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": "David Lean",
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Ryan%27s+Daughter&type=movie&y=1970"
+      },
+      {
+       "src": "TMDB",
+       "value": "David Lean",
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Ryan%27s+Daughter&year=1970"
+      }
+     ]
+    },
+    {
+     "field": "studio",
+     "label": "studio",
+     "soft": true,
+     "editionDependent": false,
+     "current": "MGM",
+     "proposed": "Metro-Goldwyn-Mayer",
+     "status": "proposed-change",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "TMDB",
+       "value": "Metro-Goldwyn-Mayer",
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Ryan%27s+Daughter&year=1970"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "m1897",
+   "title": "A Passage to India",
+   "sourcesReached": [
+    "OMDb",
+    "TMDB"
+   ],
+   "sourcesMissed": [],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "release year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 1984,
+     "proposed": 1984,
+     "status": "corroborated-by-one",
+     "grade": "B",
+     "note": "matches TMDB; disagrees with OMDb (1985)",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 1985,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=A+Passage+to+India&type=movie"
+      },
+      {
+       "src": "TMDB",
+       "value": 1984,
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=A+Passage+to+India&year=1984"
+      }
+     ],
+     "alternatives": [
+      1984
+     ]
+    },
+    {
+     "field": "runtime",
+     "label": "runtime (min)",
+     "soft": false,
+     "editionDependent": true,
+     "current": 164,
+     "proposed": 164,
+     "status": "corroborated-by-one",
+     "grade": "B",
+     "note": "matches OMDb; disagrees with TMDB (163)",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 164,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=A+Passage+to+India&type=movie"
+      },
+      {
+       "src": "TMDB",
+       "value": 163,
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=A+Passage+to+India&year=1984"
+      }
+     ],
+     "alternatives": [
+      163
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "director",
+     "soft": false,
+     "editionDependent": false,
+     "current": "David Lean",
+     "proposed": "David Lean",
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": "David Lean",
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=A+Passage+to+India&type=movie"
+      },
+      {
+       "src": "TMDB",
+       "value": "David Lean",
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=A+Passage+to+India&year=1984"
+      }
+     ]
+    },
+    {
+     "field": "studio",
+     "label": "studio",
+     "soft": true,
+     "editionDependent": false,
+     "current": "Columbia Pictures",
+     "proposed": "EMI Films",
+     "status": "proposed-change",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "TMDB",
+       "value": "EMI Films",
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=A+Passage+to+India&year=1984"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "m1898",
+   "title": "The Killing Fields",
+   "sourcesReached": [
+    "OMDb",
+    "TMDB"
+   ],
+   "sourcesMissed": [],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "release year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 1984,
+     "proposed": 1984,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 1984,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=The+Killing+Fields&type=movie&y=1984"
+      },
+      {
+       "src": "TMDB",
+       "value": 1984,
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=The+Killing+Fields&year=1984"
+      }
+     ]
+    },
+    {
+     "field": "runtime",
+     "label": "runtime (min)",
+     "soft": false,
+     "editionDependent": true,
+     "current": 141,
+     "proposed": 141,
+     "status": "corroborated-by-one",
+     "grade": "B",
+     "note": "matches OMDb; disagrees with TMDB (142)",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 141,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=The+Killing+Fields&type=movie&y=1984"
+      },
+      {
+       "src": "TMDB",
+       "value": 142,
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=The+Killing+Fields&year=1984"
+      }
+     ],
+     "alternatives": [
+      142
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "director",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Roland Joffé",
+     "proposed": "Roland Joffé",
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": "Roland Joffé",
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=The+Killing+Fields&type=movie&y=1984"
+      },
+      {
+       "src": "TMDB",
+       "value": "Roland Joffé",
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=The+Killing+Fields&year=1984"
+      }
+     ]
+    },
+    {
+     "field": "studio",
+     "label": "studio",
+     "soft": true,
+     "editionDependent": false,
+     "current": "Warner Bros.",
+     "proposed": "Goldcrest Films International",
+     "status": "proposed-change",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "TMDB",
+       "value": "Goldcrest Films International",
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=The+Killing+Fields&year=1984"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "m1899",
+   "title": "The Year of Living Dangerously",
+   "sourcesReached": [
+    "OMDb",
+    "TMDB"
+   ],
+   "sourcesMissed": [],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "release year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 1982,
+     "proposed": 1982,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 1982,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=The+Year+of+Living+Dangerously&type=movie&y=1982"
+      },
+      {
+       "src": "TMDB",
+       "value": 1982,
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=The+Year+of+Living+Dangerously&year=1982"
+      }
+     ]
+    },
+    {
+     "field": "runtime",
+     "label": "runtime (min)",
+     "soft": false,
+     "editionDependent": true,
+     "current": 117,
+     "proposed": 115,
+     "status": "edition-dependent",
+     "grade": "B",
+     "note": "corpus value does not match either source (OMDb 115, TMDB 114) -- treated as a distinct edition; the specific cut is not identified from available evidence.",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 115,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=The+Year+of+Living+Dangerously&type=movie&y=1982"
+      },
+      {
+       "src": "TMDB",
+       "value": 114,
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=The+Year+of+Living+Dangerously&year=1982"
+      }
+     ],
+     "alternatives": [
+      114
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "director",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Peter Weir",
+     "proposed": "Peter Weir",
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": "Peter Weir",
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=The+Year+of+Living+Dangerously&type=movie&y=1982"
+      },
+      {
+       "src": "TMDB",
+       "value": "Peter Weir",
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=The+Year+of+Living+Dangerously&year=1982"
+      }
+     ]
+    },
+    {
+     "field": "studio",
+     "label": "studio",
+     "soft": true,
+     "editionDependent": false,
+     "current": "MGM",
+     "proposed": "McElroy & McElroy",
+     "status": "proposed-change",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "TMDB",
+       "value": "McElroy & McElroy",
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=The+Year+of+Living+Dangerously&year=1982"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "m1900",
+   "title": "Reds",
+   "sourcesReached": [
+    "OMDb",
+    "TMDB"
+   ],
+   "sourcesMissed": [],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "release year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 1981,
+     "proposed": 1981,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 1981,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Reds&type=movie&y=1981"
+      },
+      {
+       "src": "TMDB",
+       "value": 1981,
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Reds&year=1981"
+      }
+     ]
+    },
+    {
+     "field": "runtime",
+     "label": "runtime (min)",
+     "soft": false,
+     "editionDependent": true,
+     "current": 195,
+     "proposed": 195,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 195,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Reds&type=movie&y=1981"
+      },
+      {
+       "src": "TMDB",
+       "value": 195,
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Reds&year=1981"
+      }
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "director",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Warren Beatty",
+     "proposed": "Warren Beatty",
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": "Warren Beatty",
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Reds&type=movie&y=1981"
+      },
+      {
+       "src": "TMDB",
+       "value": "Warren Beatty",
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Reds&year=1981"
+      }
+     ]
+    },
+    {
+     "field": "studio",
+     "label": "studio",
+     "soft": true,
+     "editionDependent": false,
+     "current": "Paramount Pictures",
+     "proposed": "JRS Productions",
+     "status": "proposed-change",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "TMDB",
+       "value": "JRS Productions",
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Reds&year=1981"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "m1901",
+   "title": "Missing",
+   "sourcesReached": [
+    "OMDb",
+    "TMDB"
+   ],
+   "sourcesMissed": [],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "release year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 1982,
+     "proposed": 1982,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 1982,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Missing&type=movie&y=1982"
+      },
+      {
+       "src": "TMDB",
+       "value": 1982,
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Missing&year=1982"
+      }
+     ]
+    },
+    {
+     "field": "runtime",
+     "label": "runtime (min)",
+     "soft": false,
+     "editionDependent": true,
+     "current": 122,
+     "proposed": 122,
+     "status": "corroborated-by-one",
+     "grade": "B",
+     "note": "matches OMDb; disagrees with TMDB (123)",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 122,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Missing&type=movie&y=1982"
+      },
+      {
+       "src": "TMDB",
+       "value": 123,
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Missing&year=1982"
+      }
+     ],
+     "alternatives": [
+      123
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "director",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Costa-Gavras",
+     "proposed": "Costa-Gavras",
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": "Costa-Gavras",
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Missing&type=movie&y=1982"
+      },
+      {
+       "src": "TMDB",
+       "value": "Costa-Gavras",
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Missing&year=1982"
+      }
+     ]
+    },
+    {
+     "field": "studio",
+     "label": "studio",
+     "soft": true,
+     "editionDependent": false,
+     "current": "Universal Pictures",
+     "proposed": "Universal Pictures",
+     "status": "confirmed",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "TMDB",
+       "value": "Universal Pictures",
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Missing&year=1982"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "m1902",
+   "title": "Salvador",
+   "sourcesReached": [
+    "OMDb",
+    "TMDB"
+   ],
+   "sourcesMissed": [],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "release year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 1986,
+     "proposed": 1986,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 1986,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Salvador&type=movie&y=1986"
+      },
+      {
+       "src": "TMDB",
+       "value": 1986,
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Salvador&year=1986"
+      }
+     ]
+    },
+    {
+     "field": "runtime",
+     "label": "runtime (min)",
+     "soft": false,
+     "editionDependent": true,
+     "current": 122,
+     "proposed": 122,
+     "status": "corroborated-by-one",
+     "grade": "B",
+     "note": "matches OMDb; disagrees with TMDB (123)",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 122,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Salvador&type=movie&y=1986"
+      },
+      {
+       "src": "TMDB",
+       "value": 123,
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Salvador&year=1986"
+      }
+     ],
+     "alternatives": [
+      123
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "director",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Oliver Stone",
+     "proposed": "Oliver Stone",
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": "Oliver Stone",
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Salvador&type=movie&y=1986"
+      },
+      {
+       "src": "TMDB",
+       "value": "Oliver Stone",
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Salvador&year=1986"
+      }
+     ]
+    },
+    {
+     "field": "studio",
+     "label": "studio",
+     "soft": true,
+     "editionDependent": false,
+     "current": "Hemdale Film Corporation",
+     "proposed": "Hemdale",
+     "status": "proposed-change",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "TMDB",
+       "value": "Hemdale",
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Salvador&year=1986"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "m1903",
+   "title": "Under Fire",
+   "sourcesReached": [
+    "OMDb",
+    "TMDB"
+   ],
+   "sourcesMissed": [],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "release year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 1983,
+     "proposed": 1983,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 1983,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Under+Fire&type=movie&y=1983"
+      },
+      {
+       "src": "TMDB",
+       "value": 1983,
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Under+Fire&year=1983"
+      }
+     ]
+    },
+    {
+     "field": "runtime",
+     "label": "runtime (min)",
+     "soft": false,
+     "editionDependent": true,
+     "current": 128,
+     "proposed": 128,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 128,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Under+Fire&type=movie&y=1983"
+      },
+      {
+       "src": "TMDB",
+       "value": 128,
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Under+Fire&year=1983"
+      }
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "director",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Roger Spottiswoode",
+     "proposed": "Roger Spottiswoode",
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": "Roger Spottiswoode",
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Under+Fire&type=movie&y=1983"
+      },
+      {
+       "src": "TMDB",
+       "value": "Roger Spottiswoode",
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Under+Fire&year=1983"
+      }
+     ]
+    },
+    {
+     "field": "studio",
+     "label": "studio",
+     "soft": true,
+     "editionDependent": false,
+     "current": "Orion Pictures",
+     "proposed": "Orion Pictures",
+     "status": "confirmed",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "TMDB",
+       "value": "Orion Pictures",
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Under+Fire&year=1983"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "m1904",
+   "title": "Romero",
+   "sourcesReached": [
+    "OMDb",
+    "TMDB"
+   ],
+   "sourcesMissed": [],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "release year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 1989,
+     "proposed": 1989,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 1989,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Romero&type=movie&y=1989"
+      },
+      {
+       "src": "TMDB",
+       "value": 1989,
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Romero&year=1989"
+      }
+     ]
+    },
+    {
+     "field": "runtime",
+     "label": "runtime (min)",
+     "soft": false,
+     "editionDependent": true,
+     "current": 105,
+     "proposed": 105,
+     "status": "corroborated-by-one",
+     "grade": "B",
+     "note": "matches TMDB; disagrees with OMDb (102)",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 102,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Romero&type=movie&y=1989"
+      },
+      {
+       "src": "TMDB",
+       "value": 105,
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Romero&year=1989"
+      }
+     ],
+     "alternatives": [
+      105
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "director",
+     "soft": false,
+     "editionDependent": false,
+     "current": "John Duigan",
+     "proposed": "John Duigan",
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": "John Duigan",
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Romero&type=movie&y=1989"
+      },
+      {
+       "src": "TMDB",
+       "value": "John Duigan",
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Romero&year=1989"
+      }
+     ]
+    },
+    {
+     "field": "studio",
+     "label": "studio",
+     "soft": true,
+     "editionDependent": false,
+     "current": "Vidmark Entertainment",
+     "proposed": "Paulist Productions",
+     "status": "proposed-change",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "TMDB",
+       "value": "Paulist Productions",
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Romero&year=1989"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "m1905",
+   "title": "El Norte",
+   "sourcesReached": [
+    "OMDb",
+    "TMDB"
+   ],
+   "sourcesMissed": [],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "release year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 1983,
+     "proposed": 1983,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 1983,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=El+Norte&type=movie&y=1983"
+      },
+      {
+       "src": "TMDB",
+       "value": 1983,
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=El+Norte&year=1983"
+      }
+     ]
+    },
+    {
+     "field": "runtime",
+     "label": "runtime (min)",
+     "soft": false,
+     "editionDependent": true,
+     "current": 141,
+     "proposed": 141,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 141,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=El+Norte&type=movie&y=1983"
+      },
+      {
+       "src": "TMDB",
+       "value": 141,
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=El+Norte&year=1983"
+      }
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "director",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Gregory Nava",
+     "proposed": "Gregory Nava",
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": "Gregory Nava",
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=El+Norte&type=movie&y=1983"
+      },
+      {
+       "src": "TMDB",
+       "value": "Gregory Nava",
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=El+Norte&year=1983"
+      }
+     ]
+    },
+    {
+     "field": "studio",
+     "label": "studio",
+     "soft": true,
+     "editionDependent": false,
+     "current": "Cinecom Pictures",
+     "proposed": "Independent Productions",
+     "status": "proposed-change",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "TMDB",
+       "value": "Independent Productions",
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=El+Norte&year=1983"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "m1906",
+   "title": "Stand and Deliver",
+   "sourcesReached": [
+    "OMDb",
+    "TMDB"
+   ],
+   "sourcesMissed": [],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "release year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 1988,
+     "proposed": 1988,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 1988,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Stand+and+Deliver&type=movie&y=1988"
+      },
+      {
+       "src": "TMDB",
+       "value": 1988,
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Stand+and+Deliver&year=1988"
+      }
+     ]
+    },
+    {
+     "field": "runtime",
+     "label": "runtime (min)",
+     "soft": false,
+     "editionDependent": true,
+     "current": 103,
+     "proposed": 103,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 103,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Stand+and+Deliver&type=movie&y=1988"
+      },
+      {
+       "src": "TMDB",
+       "value": 103,
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Stand+and+Deliver&year=1988"
+      }
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "director",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Ramón Menéndez",
+     "proposed": "Ramón Menéndez",
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": "Ramón Menéndez",
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Stand+and+Deliver&type=movie&y=1988"
+      },
+      {
+       "src": "TMDB",
+       "value": "Ramón Menéndez",
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Stand+and+Deliver&year=1988"
+      }
+     ]
+    },
+    {
+     "field": "studio",
+     "label": "studio",
+     "soft": true,
+     "editionDependent": false,
+     "current": "Warner Bros.",
+     "proposed": "American Playhouse",
+     "status": "proposed-change",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "TMDB",
+       "value": "American Playhouse",
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Stand+and+Deliver&year=1988"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "m1907",
+   "title": "Mi Vida Loca",
+   "sourcesReached": [
+    "TMDB"
+   ],
+   "sourcesMissed": [
+    "OMDb (no match)"
+   ],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "release year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 1993,
+     "proposed": 1994,
+     "status": "proposed-change",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "TMDB",
+       "value": 1994,
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Mi+Vida+Loca&year=1993"
+      }
+     ]
+    },
+    {
+     "field": "runtime",
+     "label": "runtime (min)",
+     "soft": false,
+     "editionDependent": true,
+     "current": 92,
+     "proposed": 92,
+     "status": "confirmed",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "TMDB",
+       "value": 92,
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Mi+Vida+Loca&year=1993"
+      }
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "director",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Allison Anders",
+     "proposed": "Allison Anders",
+     "status": "confirmed",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "TMDB",
+       "value": "Allison Anders",
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Mi+Vida+Loca&year=1993"
+      }
+     ]
+    },
+    {
+     "field": "studio",
+     "label": "studio",
+     "soft": true,
+     "editionDependent": false,
+     "current": "Sony Pictures Classics",
+     "proposed": "Cineville",
+     "status": "proposed-change",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "TMDB",
+       "value": "Cineville",
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Mi+Vida+Loca&year=1993"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "m1908",
+   "title": "American Me",
+   "sourcesReached": [
+    "OMDb",
+    "TMDB"
+   ],
+   "sourcesMissed": [],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "release year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 1992,
+     "proposed": 1992,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 1992,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=American+Me&type=movie&y=1992"
+      },
+      {
+       "src": "TMDB",
+       "value": 1992,
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=American+Me&year=1992"
+      }
+     ]
+    },
+    {
+     "field": "runtime",
+     "label": "runtime (min)",
+     "soft": false,
+     "editionDependent": true,
+     "current": 125,
+     "proposed": 125,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 125,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=American+Me&type=movie&y=1992"
+      },
+      {
+       "src": "TMDB",
+       "value": 125,
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=American+Me&year=1992"
+      }
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "director",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Edward James Olmos",
+     "proposed": "Edward James Olmos",
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": "Edward James Olmos",
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=American+Me&type=movie&y=1992"
+      },
+      {
+       "src": "TMDB",
+       "value": "Edward James Olmos",
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=American+Me&year=1992"
+      }
+     ]
+    },
+    {
+     "field": "studio",
+     "label": "studio",
+     "soft": true,
+     "editionDependent": false,
+     "current": "Universal Pictures",
+     "proposed": "YOY",
+     "status": "proposed-change",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "TMDB",
+       "value": "YOY",
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=American+Me&year=1992"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "m1909",
+   "title": "Blood In Blood Out",
+   "sourcesReached": [
+    "OMDb"
+   ],
+   "sourcesMissed": [
+    "TMDB (no match)"
+   ],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "release year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 1993,
+     "proposed": 1993,
+     "status": "confirmed",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 1993,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Blood+In+Blood+Out&type=movie&y=1993"
+      }
+     ]
+    },
+    {
+     "field": "runtime",
+     "label": "runtime (min)",
+     "soft": false,
+     "editionDependent": true,
+     "current": 180,
+     "proposed": 180,
+     "status": "confirmed",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 180,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Blood+In+Blood+Out&type=movie&y=1993"
+      }
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "director",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Taylor Hackford",
+     "proposed": "Taylor Hackford",
+     "status": "confirmed",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": "Taylor Hackford",
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Blood+In+Blood+Out&type=movie&y=1993"
+      }
+     ]
+    },
+    {
+     "field": "studio",
+     "label": "studio",
+     "soft": true,
+     "current": "Hollywood Pictures",
+     "status": "no-source",
+     "grade": null,
+     "sources": []
+    }
+   ]
+  },
+  {
+   "id": "m1910",
+   "title": "Boyz n the Hood",
+   "sourcesReached": [
+    "OMDb",
+    "TMDB"
+   ],
+   "sourcesMissed": [],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "release year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 1991,
+     "proposed": 1991,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 1991,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Boyz+n+the+Hood&type=movie&y=1991"
+      },
+      {
+       "src": "TMDB",
+       "value": 1991,
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Boyz+n+the+Hood&year=1991"
+      }
+     ]
+    },
+    {
+     "field": "runtime",
+     "label": "runtime (min)",
+     "soft": false,
+     "editionDependent": true,
+     "current": 112,
+     "proposed": 112,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 112,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Boyz+n+the+Hood&type=movie&y=1991"
+      },
+      {
+       "src": "TMDB",
+       "value": 112,
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Boyz+n+the+Hood&year=1991"
+      }
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "director",
+     "soft": false,
+     "editionDependent": false,
+     "current": "John Singleton",
+     "proposed": "John Singleton",
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": "John Singleton",
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Boyz+n+the+Hood&type=movie&y=1991"
+      },
+      {
+       "src": "TMDB",
+       "value": "John Singleton",
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Boyz+n+the+Hood&year=1991"
+      }
+     ]
+    },
+    {
+     "field": "studio",
+     "label": "studio",
+     "soft": true,
+     "editionDependent": false,
+     "current": "Columbia Pictures",
+     "proposed": "Columbia Pictures",
+     "status": "confirmed",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "TMDB",
+       "value": "Columbia Pictures",
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Boyz+n+the+Hood&year=1991"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "m1911",
+   "title": "Menace II Society",
+   "sourcesReached": [
+    "OMDb",
+    "TMDB"
+   ],
+   "sourcesMissed": [],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "release year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 1993,
+     "proposed": 1993,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 1993,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Menace+II+Society&type=movie&y=1993"
+      },
+      {
+       "src": "TMDB",
+       "value": 1993,
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Menace+II+Society&year=1993"
+      }
+     ]
+    },
+    {
+     "field": "runtime",
+     "label": "runtime (min)",
+     "soft": false,
+     "editionDependent": true,
+     "current": 97,
+     "proposed": 97,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 97,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Menace+II+Society&type=movie&y=1993"
+      },
+      {
+       "src": "TMDB",
+       "value": 97,
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Menace+II+Society&year=1993"
+      }
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "director",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Allen Hughes, Albert Hughes",
+     "proposed": "Albert Hughes, Allen Hughes",
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": "Albert Hughes, Allen Hughes",
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Menace+II+Society&type=movie&y=1993"
+      },
+      {
+       "src": "TMDB",
+       "value": "Allen Hughes, Albert Hughes",
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Menace+II+Society&year=1993"
+      }
+     ]
+    },
+    {
+     "field": "studio",
+     "label": "studio",
+     "soft": true,
+     "editionDependent": false,
+     "current": "New Line Cinema",
+     "proposed": "New Line Cinema",
+     "status": "confirmed",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "TMDB",
+       "value": "New Line Cinema",
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Menace+II+Society&year=1993"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "m1912",
+   "title": "Juice",
+   "sourcesReached": [
+    "OMDb",
+    "TMDB"
+   ],
+   "sourcesMissed": [],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "release year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 1992,
+     "proposed": 1992,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 1992,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Juice&type=movie&y=1992"
+      },
+      {
+       "src": "TMDB",
+       "value": 1992,
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Juice&year=1992"
+      }
+     ]
+    },
+    {
+     "field": "runtime",
+     "label": "runtime (min)",
+     "soft": false,
+     "editionDependent": true,
+     "current": 95,
+     "proposed": 95,
+     "status": "corroborated-by-one",
+     "grade": "B",
+     "note": "matches OMDb; disagrees with TMDB (96)",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 95,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Juice&type=movie&y=1992"
+      },
+      {
+       "src": "TMDB",
+       "value": 96,
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Juice&year=1992"
+      }
+     ],
+     "alternatives": [
+      96
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "director",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Ernest R. Dickerson",
+     "proposed": "Ernest R. Dickerson",
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": "Ernest R. Dickerson",
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Juice&type=movie&y=1992"
+      },
+      {
+       "src": "TMDB",
+       "value": "Ernest R. Dickerson",
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Juice&year=1992"
+      }
+     ]
+    },
+    {
+     "field": "studio",
+     "label": "studio",
+     "soft": true,
+     "editionDependent": false,
+     "current": "Paramount Pictures",
+     "proposed": "Paramount Pictures",
+     "status": "confirmed",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "TMDB",
+       "value": "Paramount Pictures",
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Juice&year=1992"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "m1913",
+   "title": "South Central",
+   "sourcesReached": [
+    "OMDb",
+    "TMDB"
+   ],
+   "sourcesMissed": [],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "release year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 1992,
+     "proposed": 1992,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 1992,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=South+Central&type=movie&y=1992"
+      },
+      {
+       "src": "TMDB",
+       "value": 1992,
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=South+Central&year=1992"
+      }
+     ]
+    },
+    {
+     "field": "runtime",
+     "label": "runtime (min)",
+     "soft": false,
+     "editionDependent": true,
+     "current": 99,
+     "proposed": 99,
+     "status": "corroborated-by-one",
+     "grade": "B",
+     "note": "matches TMDB; disagrees with OMDb (98)",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 98,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=South+Central&type=movie&y=1992"
+      },
+      {
+       "src": "TMDB",
+       "value": 99,
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=South+Central&year=1992"
+      }
+     ],
+     "alternatives": [
+      99
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "director",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Steve Anderson",
+     "proposed": "Stephen Milburn Anderson",
+     "status": "proposed-change",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": "Stephen Milburn Anderson",
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=South+Central&type=movie&y=1992"
+      },
+      {
+       "src": "TMDB",
+       "value": "Stephen Milburn Anderson",
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=South+Central&year=1992"
+      }
+     ]
+    },
+    {
+     "field": "studio",
+     "label": "studio",
+     "soft": true,
+     "editionDependent": false,
+     "current": "Warner Bros.",
+     "proposed": "Ixtlan Productions",
+     "status": "proposed-change",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "TMDB",
+       "value": "Ixtlan Productions",
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=South+Central&year=1992"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "m1914",
+   "title": "Baby Boy",
+   "sourcesReached": [
+    "OMDb",
+    "TMDB"
+   ],
+   "sourcesMissed": [],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "release year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 2001,
+     "proposed": 2001,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 2001,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Baby+Boy&type=movie&y=2001"
+      },
+      {
+       "src": "TMDB",
+       "value": 2001,
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Baby+Boy&year=2001"
+      }
+     ]
+    },
+    {
+     "field": "runtime",
+     "label": "runtime (min)",
+     "soft": false,
+     "editionDependent": true,
+     "current": 130,
+     "proposed": 130,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 130,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Baby+Boy&type=movie&y=2001"
+      },
+      {
+       "src": "TMDB",
+       "value": 130,
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Baby+Boy&year=2001"
+      }
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "director",
+     "soft": false,
+     "editionDependent": false,
+     "current": "John Singleton",
+     "proposed": "John Singleton",
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": "John Singleton",
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Baby+Boy&type=movie&y=2001"
+      },
+      {
+       "src": "TMDB",
+       "value": "John Singleton",
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Baby+Boy&year=2001"
+      }
+     ]
+    },
+    {
+     "field": "studio",
+     "label": "studio",
+     "soft": true,
+     "editionDependent": false,
+     "current": "Columbia Pictures",
+     "proposed": "New Deal Productions",
+     "status": "proposed-change",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "TMDB",
+       "value": "New Deal Productions",
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Baby+Boy&year=2001"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "m1915",
+   "title": "Higher Learning",
+   "sourcesReached": [
+    "OMDb",
+    "TMDB"
+   ],
+   "sourcesMissed": [],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "release year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 1995,
+     "proposed": 1995,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 1995,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Higher+Learning&type=movie&y=1995"
+      },
+      {
+       "src": "TMDB",
+       "value": 1995,
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Higher+Learning&year=1995"
+      }
+     ]
+    },
+    {
+     "field": "runtime",
+     "label": "runtime (min)",
+     "soft": false,
+     "editionDependent": true,
+     "current": 127,
+     "proposed": 128,
+     "status": "edition-dependent",
+     "grade": "B",
+     "note": "sources agree with each other but not the corpus (OMDb 128, TMDB 128) on a field with no single true value -- likely a different printing/edition, not an error.",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 128,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Higher+Learning&type=movie&y=1995"
+      },
+      {
+       "src": "TMDB",
+       "value": 128,
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Higher+Learning&year=1995"
+      }
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "director",
+     "soft": false,
+     "editionDependent": false,
+     "current": "John Singleton",
+     "proposed": "John Singleton",
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": "John Singleton",
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Higher+Learning&type=movie&y=1995"
+      },
+      {
+       "src": "TMDB",
+       "value": "John Singleton",
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Higher+Learning&year=1995"
+      }
+     ]
+    },
+    {
+     "field": "studio",
+     "label": "studio",
+     "soft": true,
+     "editionDependent": false,
+     "current": "Columbia Pictures",
+     "proposed": "New Deal Productions",
+     "status": "proposed-change",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "TMDB",
+       "value": "New Deal Productions",
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Higher+Learning&year=1995"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "m1916",
+   "title": "Clockers",
+   "sourcesReached": [
+    "OMDb",
+    "TMDB"
+   ],
+   "sourcesMissed": [],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "release year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 1995,
+     "proposed": 1995,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 1995,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Clockers&type=movie&y=1995"
+      },
+      {
+       "src": "TMDB",
+       "value": 1995,
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Clockers&year=1995"
+      }
+     ]
+    },
+    {
+     "field": "runtime",
+     "label": "runtime (min)",
+     "soft": false,
+     "editionDependent": true,
+     "current": 129,
+     "proposed": 128,
+     "status": "edition-dependent",
+     "grade": "B",
+     "note": "sources agree with each other but not the corpus (OMDb 128, TMDB 128) on a field with no single true value -- likely a different printing/edition, not an error.",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 128,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Clockers&type=movie&y=1995"
+      },
+      {
+       "src": "TMDB",
+       "value": 128,
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Clockers&year=1995"
+      }
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "director",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Spike Lee",
+     "proposed": "Spike Lee",
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": "Spike Lee",
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Clockers&type=movie&y=1995"
+      },
+      {
+       "src": "TMDB",
+       "value": "Spike Lee",
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Clockers&year=1995"
+      }
+     ]
+    },
+    {
+     "field": "studio",
+     "label": "studio",
+     "soft": true,
+     "editionDependent": false,
+     "current": "Universal Pictures",
+     "proposed": "40 Acres and a Mule Filmworks",
+     "status": "proposed-change",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "TMDB",
+       "value": "40 Acres and a Mule Filmworks",
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Clockers&year=1995"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "m1917",
+   "title": "He Got Game",
+   "sourcesReached": [
+    "OMDb",
+    "TMDB"
+   ],
+   "sourcesMissed": [],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "release year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 1998,
+     "proposed": 1998,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 1998,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=He+Got+Game&type=movie&y=1998"
+      },
+      {
+       "src": "TMDB",
+       "value": 1998,
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=He+Got+Game&year=1998"
+      }
+     ]
+    },
+    {
+     "field": "runtime",
+     "label": "runtime (min)",
+     "soft": false,
+     "editionDependent": true,
+     "current": 136,
+     "proposed": 136,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 136,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=He+Got+Game&type=movie&y=1998"
+      },
+      {
+       "src": "TMDB",
+       "value": 136,
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=He+Got+Game&year=1998"
+      }
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "director",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Spike Lee",
+     "proposed": "Spike Lee",
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": "Spike Lee",
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=He+Got+Game&type=movie&y=1998"
+      },
+      {
+       "src": "TMDB",
+       "value": "Spike Lee",
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=He+Got+Game&year=1998"
+      }
+     ]
+    },
+    {
+     "field": "studio",
+     "label": "studio",
+     "soft": true,
+     "editionDependent": false,
+     "current": "Buena Vista Pictures",
+     "proposed": "40 Acres and a Mule Filmworks",
+     "status": "proposed-change",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "TMDB",
+       "value": "40 Acres and a Mule Filmworks",
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=He+Got+Game&year=1998"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "m1918",
+   "title": "Malcolm X",
+   "sourcesReached": [
+    "OMDb",
+    "TMDB"
+   ],
+   "sourcesMissed": [],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "release year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 1992,
+     "proposed": 1992,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 1992,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Malcolm+X&type=movie&y=1992"
+      },
+      {
+       "src": "TMDB",
+       "value": 1992,
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Malcolm+X&year=1992"
+      }
+     ]
+    },
+    {
+     "field": "runtime",
+     "label": "runtime (min)",
+     "soft": false,
+     "editionDependent": true,
+     "current": 202,
+     "proposed": 202,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 202,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Malcolm+X&type=movie&y=1992"
+      },
+      {
+       "src": "TMDB",
+       "value": 202,
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Malcolm+X&year=1992"
+      }
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "director",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Spike Lee",
+     "proposed": "Spike Lee",
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": "Spike Lee",
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Malcolm+X&type=movie&y=1992"
+      },
+      {
+       "src": "TMDB",
+       "value": "Spike Lee",
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Malcolm+X&year=1992"
+      }
+     ]
+    },
+    {
+     "field": "studio",
+     "label": "studio",
+     "soft": true,
+     "editionDependent": false,
+     "current": "Warner Bros.",
+     "proposed": "Warner Bros. Pictures",
+     "status": "proposed-change",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "TMDB",
+       "value": "Warner Bros. Pictures",
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Malcolm+X&year=1992"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "m1919",
+   "title": "Jungle Fever",
+   "sourcesReached": [
+    "OMDb",
+    "TMDB"
+   ],
+   "sourcesMissed": [],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "release year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 1991,
+     "proposed": 1991,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 1991,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Jungle+Fever&type=movie&y=1991"
+      },
+      {
+       "src": "TMDB",
+       "value": 1991,
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Jungle+Fever&year=1991"
+      }
+     ]
+    },
+    {
+     "field": "runtime",
+     "label": "runtime (min)",
+     "soft": false,
+     "editionDependent": true,
+     "current": 132,
+     "proposed": 132,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 132,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Jungle+Fever&type=movie&y=1991"
+      },
+      {
+       "src": "TMDB",
+       "value": 132,
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Jungle+Fever&year=1991"
+      }
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "director",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Spike Lee",
+     "proposed": "Spike Lee",
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": "Spike Lee",
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Jungle+Fever&type=movie&y=1991"
+      },
+      {
+       "src": "TMDB",
+       "value": "Spike Lee",
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Jungle+Fever&year=1991"
+      }
+     ]
+    },
+    {
+     "field": "studio",
+     "label": "studio",
+     "soft": true,
+     "editionDependent": false,
+     "current": "Universal Pictures",
+     "proposed": "40 Acres and a Mule Filmworks",
+     "status": "proposed-change",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "TMDB",
+       "value": "40 Acres and a Mule Filmworks",
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Jungle+Fever&year=1991"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "m1920",
+   "title": "Crooklyn",
+   "sourcesReached": [
+    "OMDb",
+    "TMDB"
+   ],
+   "sourcesMissed": [],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "release year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 1994,
+     "proposed": 1994,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 1994,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Crooklyn&type=movie&y=1994"
+      },
+      {
+       "src": "TMDB",
+       "value": 1994,
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Crooklyn&year=1994"
+      }
+     ]
+    },
+    {
+     "field": "runtime",
+     "label": "runtime (min)",
+     "soft": false,
+     "editionDependent": true,
+     "current": 115,
+     "proposed": 115,
+     "status": "corroborated-by-one",
+     "grade": "B",
+     "note": "matches OMDb; disagrees with TMDB (114)",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 115,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Crooklyn&type=movie&y=1994"
+      },
+      {
+       "src": "TMDB",
+       "value": 114,
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Crooklyn&year=1994"
+      }
+     ],
+     "alternatives": [
+      114
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "director",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Spike Lee",
+     "proposed": "Spike Lee",
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": "Spike Lee",
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Crooklyn&type=movie&y=1994"
+      },
+      {
+       "src": "TMDB",
+       "value": "Spike Lee",
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Crooklyn&year=1994"
+      }
+     ]
+    },
+    {
+     "field": "studio",
+     "label": "studio",
+     "soft": true,
+     "editionDependent": false,
+     "current": "Universal Pictures",
+     "proposed": "40 Acres and a Mule Filmworks",
+     "status": "proposed-change",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "TMDB",
+       "value": "40 Acres and a Mule Filmworks",
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Crooklyn&year=1994"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "m1921",
+   "title": "Bamboozled",
+   "sourcesReached": [
+    "OMDb",
+    "TMDB"
+   ],
+   "sourcesMissed": [],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "release year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 2000,
+     "proposed": 2000,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 2000,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Bamboozled&type=movie&y=2000"
+      },
+      {
+       "src": "TMDB",
+       "value": 2000,
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Bamboozled&year=2000"
+      }
+     ]
+    },
+    {
+     "field": "runtime",
+     "label": "runtime (min)",
+     "soft": false,
+     "editionDependent": true,
+     "current": 135,
+     "proposed": 135,
+     "status": "corroborated-by-one",
+     "grade": "B",
+     "note": "matches OMDb; disagrees with TMDB (136)",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 135,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Bamboozled&type=movie&y=2000"
+      },
+      {
+       "src": "TMDB",
+       "value": 136,
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Bamboozled&year=2000"
+      }
+     ],
+     "alternatives": [
+      136
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "director",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Spike Lee",
+     "proposed": "Spike Lee",
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": "Spike Lee",
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Bamboozled&type=movie&y=2000"
+      },
+      {
+       "src": "TMDB",
+       "value": "Spike Lee",
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Bamboozled&year=2000"
+      }
+     ]
+    },
+    {
+     "field": "studio",
+     "label": "studio",
+     "soft": true,
+     "editionDependent": false,
+     "current": "New Line Cinema",
+     "proposed": "New Line Cinema",
+     "status": "confirmed",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "TMDB",
+       "value": "New Line Cinema",
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Bamboozled&year=2000"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "m1922",
+   "title": "Summer of Sam",
+   "sourcesReached": [
+    "OMDb",
+    "TMDB"
+   ],
+   "sourcesMissed": [],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "release year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 1999,
+     "proposed": 1999,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 1999,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Summer+of+Sam&type=movie&y=1999"
+      },
+      {
+       "src": "TMDB",
+       "value": 1999,
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Summer+of+Sam&year=1999"
+      }
+     ]
+    },
+    {
+     "field": "runtime",
+     "label": "runtime (min)",
+     "soft": false,
+     "editionDependent": true,
+     "current": 142,
+     "proposed": 142,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 142,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Summer+of+Sam&type=movie&y=1999"
+      },
+      {
+       "src": "TMDB",
+       "value": 142,
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Summer+of+Sam&year=1999"
+      }
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "director",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Spike Lee",
+     "proposed": "Spike Lee",
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": "Spike Lee",
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Summer+of+Sam&type=movie&y=1999"
+      },
+      {
+       "src": "TMDB",
+       "value": "Spike Lee",
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Summer+of+Sam&year=1999"
+      }
+     ]
+    },
+    {
+     "field": "studio",
+     "label": "studio",
+     "soft": true,
+     "editionDependent": false,
+     "current": "Buena Vista Pictures",
+     "proposed": "40 Acres and a Mule Filmworks",
+     "status": "proposed-change",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "TMDB",
+       "value": "40 Acres and a Mule Filmworks",
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Summer+of+Sam&year=1999"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "m1923",
+   "title": "4 Little Girls",
+   "sourcesReached": [
+    "OMDb",
+    "TMDB"
+   ],
+   "sourcesMissed": [],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "release year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 1997,
+     "proposed": 1997,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 1997,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=4+Little+Girls&type=movie&y=1997"
+      },
+      {
+       "src": "TMDB",
+       "value": 1997,
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=4+Little+Girls&year=1997"
+      }
+     ]
+    },
+    {
+     "field": "runtime",
+     "label": "runtime (min)",
+     "soft": false,
+     "editionDependent": true,
+     "current": 102,
+     "proposed": 102,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 102,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=4+Little+Girls&type=movie&y=1997"
+      },
+      {
+       "src": "TMDB",
+       "value": 102,
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=4+Little+Girls&year=1997"
+      }
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "director",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Spike Lee",
+     "proposed": "Spike Lee",
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": "Spike Lee",
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=4+Little+Girls&type=movie&y=1997"
+      },
+      {
+       "src": "TMDB",
+       "value": "Spike Lee",
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=4+Little+Girls&year=1997"
+      }
+     ]
+    },
+    {
+     "field": "studio",
+     "label": "studio",
+     "soft": true,
+     "editionDependent": false,
+     "current": "HBO",
+     "proposed": "40 Acres and a Mule Filmworks",
+     "status": "proposed-change",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "TMDB",
+       "value": "40 Acres and a Mule Filmworks",
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=4+Little+Girls&year=1997"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "m1924",
+   "title": "When the Levees Broke",
+   "sourcesReached": [
+    "OMDb"
+   ],
+   "sourcesMissed": [
+    "TMDB (no match)"
+   ],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "release year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 2006,
+     "proposed": 2023,
+     "status": "proposed-change",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 2023,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=When+the+Levees+Broke&type=movie"
+      }
+     ]
+    },
+    {
+     "field": "runtime",
+     "label": "runtime (min)",
+     "soft": false,
+     "editionDependent": true,
+     "current": 255,
+     "proposed": 89,
+     "status": "edition-dependent",
+     "grade": "B",
+     "note": "one source differs from the corpus (OMDb 89) on a field with no single true value -- likely a different printing/edition, not an error.",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 89,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=When+the+Levees+Broke&type=movie"
+      }
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "director",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Spike Lee",
+     "proposed": "Musing Derick Tenn",
+     "status": "proposed-change",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": "Musing Derick Tenn",
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=When+the+Levees+Broke&type=movie"
+      }
+     ]
+    },
+    {
+     "field": "studio",
+     "label": "studio",
+     "soft": true,
+     "current": "HBO",
+     "status": "no-source",
+     "grade": null,
+     "sources": []
+    }
+   ]
+  },
+  {
+   "id": "m1925",
+   "title": "The Central Park Five",
+   "sourcesReached": [
+    "OMDb",
+    "TMDB"
+   ],
+   "sourcesMissed": [],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "release year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 2012,
+     "proposed": 2012,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 2012,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=The+Central+Park+Five&type=movie&y=2012"
+      },
+      {
+       "src": "TMDB",
+       "value": 2012,
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=The+Central+Park+Five&year=2012"
+      }
+     ]
+    },
+    {
+     "field": "runtime",
+     "label": "runtime (min)",
+     "soft": false,
+     "editionDependent": true,
+     "current": 119,
+     "proposed": 119,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 119,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=The+Central+Park+Five&type=movie&y=2012"
+      },
+      {
+       "src": "TMDB",
+       "value": 119,
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=The+Central+Park+Five&year=2012"
+      }
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "director",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Ken Burns, Sarah Burns, David McMahon",
+     "proposed": "David McMahon, Ken Burns, Sarah Burns",
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": "Ken Burns, Sarah Burns, David McMahon",
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=The+Central+Park+Five&type=movie&y=2012"
+      },
+      {
+       "src": "TMDB",
+       "value": "Sarah Burns, Ken Burns, David McMahon",
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=The+Central+Park+Five&year=2012"
+      }
+     ]
+    },
+    {
+     "field": "studio",
+     "label": "studio",
+     "soft": true,
+     "editionDependent": false,
+     "current": "PBS",
+     "proposed": "WETA",
+     "status": "proposed-change",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "TMDB",
+       "value": "WETA",
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=The+Central+Park+Five&year=2012"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "m1926",
+   "title": "13th",
+   "sourcesReached": [
+    "OMDb",
+    "TMDB"
+   ],
+   "sourcesMissed": [],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "release year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 2016,
+     "proposed": 2016,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 2016,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=13th&type=movie&y=2016"
+      },
+      {
+       "src": "TMDB",
+       "value": 2016,
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=13th&year=2016"
+      }
+     ]
+    },
+    {
+     "field": "runtime",
+     "label": "runtime (min)",
+     "soft": false,
+     "editionDependent": true,
+     "current": 100,
+     "proposed": 100,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 100,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=13th&type=movie&y=2016"
+      },
+      {
+       "src": "TMDB",
+       "value": 100,
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=13th&year=2016"
+      }
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "director",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Ava DuVernay",
+     "proposed": "Ava DuVernay",
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": "Ava DuVernay",
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=13th&type=movie&y=2016"
+      },
+      {
+       "src": "TMDB",
+       "value": "Ava DuVernay",
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=13th&year=2016"
+      }
+     ]
+    },
+    {
+     "field": "studio",
+     "label": "studio",
+     "soft": true,
+     "editionDependent": false,
+     "current": "Netflix",
+     "proposed": "Kandoo Films",
+     "status": "proposed-change",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "TMDB",
+       "value": "Kandoo Films",
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=13th&year=2016"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "m1927",
+   "title": "I Am Not Your Negro",
+   "sourcesReached": [
+    "OMDb",
+    "TMDB"
+   ],
+   "sourcesMissed": [],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "release year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 2016,
+     "proposed": 2016,
+     "status": "corroborated-by-one",
+     "grade": "B",
+     "note": "matches OMDb; disagrees with TMDB (2017)",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 2016,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=I+Am+Not+Your+Negro&type=movie&y=2016"
+      },
+      {
+       "src": "TMDB",
+       "value": 2017,
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=I+Am+Not+Your+Negro&year=2016"
+      }
+     ],
+     "alternatives": [
+      2017
+     ]
+    },
+    {
+     "field": "runtime",
+     "label": "runtime (min)",
+     "soft": false,
+     "editionDependent": true,
+     "current": 93,
+     "proposed": 93,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 93,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=I+Am+Not+Your+Negro&type=movie&y=2016"
+      },
+      {
+       "src": "TMDB",
+       "value": 93,
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=I+Am+Not+Your+Negro&year=2016"
+      }
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "director",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Raoul Peck",
+     "proposed": "Raoul Peck",
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": "Raoul Peck",
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=I+Am+Not+Your+Negro&type=movie&y=2016"
+      },
+      {
+       "src": "TMDB",
+       "value": "Raoul Peck",
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=I+Am+Not+Your+Negro&year=2016"
+      }
+     ]
+    },
+    {
+     "field": "studio",
+     "label": "studio",
+     "soft": true,
+     "editionDependent": false,
+     "current": "Magnolia Pictures",
+     "proposed": "Independent Lens",
+     "status": "proposed-change",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "TMDB",
+       "value": "Independent Lens",
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=I+Am+Not+Your+Negro&year=2016"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "m1928",
+   "title": "Loving",
+   "sourcesReached": [
+    "OMDb",
+    "TMDB"
+   ],
+   "sourcesMissed": [],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "release year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 2016,
+     "proposed": 2016,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 2016,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Loving&type=movie&y=2016"
+      },
+      {
+       "src": "TMDB",
+       "value": 2016,
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Loving&year=2016"
+      }
+     ]
+    },
+    {
+     "field": "runtime",
+     "label": "runtime (min)",
+     "soft": false,
+     "editionDependent": true,
+     "current": 123,
+     "proposed": 123,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 123,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Loving&type=movie&y=2016"
+      },
+      {
+       "src": "TMDB",
+       "value": 123,
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Loving&year=2016"
+      }
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "director",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Jeff Nichols",
+     "proposed": "Jeff Nichols",
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": "Jeff Nichols",
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Loving&type=movie&y=2016"
+      },
+      {
+       "src": "TMDB",
+       "value": "Jeff Nichols",
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Loving&year=2016"
+      }
+     ]
+    },
+    {
+     "field": "studio",
+     "label": "studio",
+     "soft": true,
+     "editionDependent": false,
+     "current": "Focus Features",
+     "proposed": "Big Beach",
+     "status": "proposed-change",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "TMDB",
+       "value": "Big Beach",
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Loving&year=2016"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "m1929",
+   "title": "Marshall",
+   "sourcesReached": [
+    "OMDb",
+    "TMDB"
+   ],
+   "sourcesMissed": [],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "release year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 2017,
+     "proposed": 2017,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 2017,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Marshall&type=movie&y=2017"
+      },
+      {
+       "src": "TMDB",
+       "value": 2017,
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Marshall&year=2017"
+      }
+     ]
+    },
+    {
+     "field": "runtime",
+     "label": "runtime (min)",
+     "soft": false,
+     "editionDependent": true,
+     "current": 118,
+     "proposed": 118,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 118,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Marshall&type=movie&y=2017"
+      },
+      {
+       "src": "TMDB",
+       "value": 118,
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Marshall&year=2017"
+      }
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "director",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Reginald Hudlin",
+     "proposed": "Reginald Hudlin",
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": "Reginald Hudlin",
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Marshall&type=movie&y=2017"
+      },
+      {
+       "src": "TMDB",
+       "value": "Reginald Hudlin",
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Marshall&year=2017"
+      }
+     ]
+    },
+    {
+     "field": "studio",
+     "label": "studio",
+     "soft": true,
+     "editionDependent": false,
+     "current": "Open Road Films",
+     "proposed": "Chestnut Ridge",
+     "status": "proposed-change",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "TMDB",
+       "value": "Chestnut Ridge",
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Marshall&year=2017"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "m1930",
+   "title": "Just Mercy",
+   "sourcesReached": [
+    "OMDb",
+    "TMDB"
+   ],
+   "sourcesMissed": [],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "release year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 2019,
+     "proposed": 2019,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 2019,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Just+Mercy&type=movie&y=2019"
+      },
+      {
+       "src": "TMDB",
+       "value": 2019,
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Just+Mercy&year=2019"
+      }
+     ]
+    },
+    {
+     "field": "runtime",
+     "label": "runtime (min)",
+     "soft": false,
+     "editionDependent": true,
+     "current": 137,
+     "proposed": 137,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 137,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Just+Mercy&type=movie&y=2019"
+      },
+      {
+       "src": "TMDB",
+       "value": 137,
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Just+Mercy&year=2019"
+      }
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "director",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Destin Daniel Cretton",
+     "proposed": "Destin Daniel Cretton",
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": "Destin Daniel Cretton",
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Just+Mercy&type=movie&y=2019"
+      },
+      {
+       "src": "TMDB",
+       "value": "Destin Daniel Cretton",
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Just+Mercy&year=2019"
+      }
+     ]
+    },
+    {
+     "field": "studio",
+     "label": "studio",
+     "soft": true,
+     "editionDependent": false,
+     "current": "Warner Bros.",
+     "proposed": "Netter Productions",
+     "status": "proposed-change",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "TMDB",
+       "value": "Netter Productions",
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Just+Mercy&year=2019"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "m1931",
+   "title": "The Hate U Give",
+   "sourcesReached": [
+    "OMDb",
+    "TMDB"
+   ],
+   "sourcesMissed": [],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "release year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 2018,
+     "proposed": 2018,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 2018,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=The+Hate+U+Give&type=movie&y=2018"
+      },
+      {
+       "src": "TMDB",
+       "value": 2018,
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=The+Hate+U+Give&year=2018"
+      }
+     ]
+    },
+    {
+     "field": "runtime",
+     "label": "runtime (min)",
+     "soft": false,
+     "editionDependent": true,
+     "current": 133,
+     "proposed": 133,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 133,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=The+Hate+U+Give&type=movie&y=2018"
+      },
+      {
+       "src": "TMDB",
+       "value": 133,
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=The+Hate+U+Give&year=2018"
+      }
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "director",
+     "soft": false,
+     "editionDependent": false,
+     "current": "George Tillman Jr.",
+     "proposed": "George Tillman Jr.",
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": "George Tillman Jr.",
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=The+Hate+U+Give&type=movie&y=2018"
+      },
+      {
+       "src": "TMDB",
+       "value": "George Tillman Jr.",
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=The+Hate+U+Give&year=2018"
+      }
+     ]
+    },
+    {
+     "field": "studio",
+     "label": "studio",
+     "soft": true,
+     "editionDependent": false,
+     "current": "20th Century Fox",
+     "proposed": "Temple Hill Entertainment",
+     "status": "proposed-change",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "TMDB",
+       "value": "Temple Hill Entertainment",
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=The+Hate+U+Give&year=2018"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "m1932",
+   "title": "Medicine for Melancholy",
+   "sourcesReached": [
+    "OMDb",
+    "TMDB"
+   ],
+   "sourcesMissed": [],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "release year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 2008,
+     "proposed": 2008,
+     "status": "corroborated-by-one",
+     "grade": "B",
+     "note": "matches OMDb; disagrees with TMDB (2009)",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 2008,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Medicine+for+Melancholy&type=movie&y=2008"
+      },
+      {
+       "src": "TMDB",
+       "value": 2009,
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Medicine+for+Melancholy&year=2008"
+      }
+     ],
+     "alternatives": [
+      2009
+     ]
+    },
+    {
+     "field": "runtime",
+     "label": "runtime (min)",
+     "soft": false,
+     "editionDependent": true,
+     "current": 88,
+     "proposed": 88,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 88,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Medicine+for+Melancholy&type=movie&y=2008"
+      },
+      {
+       "src": "TMDB",
+       "value": 88,
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Medicine+for+Melancholy&year=2008"
+      }
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "director",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Barry Jenkins",
+     "proposed": "Barry Jenkins",
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": "Barry Jenkins",
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Medicine+for+Melancholy&type=movie&y=2008"
+      },
+      {
+       "src": "TMDB",
+       "value": "Barry Jenkins",
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Medicine+for+Melancholy&year=2008"
+      }
+     ]
+    },
+    {
+     "field": "studio",
+     "label": "studio",
+     "soft": true,
+     "editionDependent": false,
+     "current": "IFC Films",
+     "proposed": "Bandry",
+     "status": "proposed-change",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "TMDB",
+       "value": "Bandry",
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Medicine+for+Melancholy&year=2008"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "m1933",
+   "title": "Mudbound",
+   "sourcesReached": [
+    "OMDb",
+    "TMDB"
+   ],
+   "sourcesMissed": [],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "release year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 2017,
+     "proposed": 2017,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 2017,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Mudbound&type=movie&y=2017"
+      },
+      {
+       "src": "TMDB",
+       "value": 2017,
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Mudbound&year=2017"
+      }
+     ]
+    },
+    {
+     "field": "runtime",
+     "label": "runtime (min)",
+     "soft": false,
+     "editionDependent": true,
+     "current": 134,
+     "proposed": 134,
+     "status": "corroborated-by-one",
+     "grade": "B",
+     "note": "matches OMDb; disagrees with TMDB (135)",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 134,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Mudbound&type=movie&y=2017"
+      },
+      {
+       "src": "TMDB",
+       "value": 135,
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Mudbound&year=2017"
+      }
+     ],
+     "alternatives": [
+      135
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "director",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Dee Rees",
+     "proposed": "Dee Rees",
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": "Dee Rees",
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Mudbound&type=movie&y=2017"
+      },
+      {
+       "src": "TMDB",
+       "value": "Dee Rees",
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Mudbound&year=2017"
+      }
+     ]
+    },
+    {
+     "field": "studio",
+     "label": "studio",
+     "soft": true,
+     "editionDependent": false,
+     "current": "Netflix",
+     "proposed": "Zeal Media",
+     "status": "proposed-change",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "TMDB",
+       "value": "Zeal Media",
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Mudbound&year=2017"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "m1934",
+   "title": "Blindspotting",
+   "sourcesReached": [
+    "OMDb",
+    "TMDB"
+   ],
+   "sourcesMissed": [],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "release year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 2018,
+     "proposed": 2018,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 2018,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Blindspotting&type=movie&y=2018"
+      },
+      {
+       "src": "TMDB",
+       "value": 2018,
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Blindspotting&year=2018"
+      }
+     ]
+    },
+    {
+     "field": "runtime",
+     "label": "runtime (min)",
+     "soft": false,
+     "editionDependent": true,
+     "current": 95,
+     "proposed": 95,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 95,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Blindspotting&type=movie&y=2018"
+      },
+      {
+       "src": "TMDB",
+       "value": 95,
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Blindspotting&year=2018"
+      }
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "director",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Carlos López Estrada",
+     "proposed": "Carlos López Estrada",
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": "Carlos López Estrada",
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Blindspotting&type=movie&y=2018"
+      },
+      {
+       "src": "TMDB",
+       "value": "Carlos López Estrada",
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Blindspotting&year=2018"
+      }
+     ]
+    },
+    {
+     "field": "studio",
+     "label": "studio",
+     "soft": true,
+     "editionDependent": false,
+     "current": "Lionsgate",
+     "proposed": "Summit Entertainment",
+     "status": "proposed-change",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "TMDB",
+       "value": "Summit Entertainment",
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Blindspotting&year=2018"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "m1935",
+   "title": "The Last Black Man in San Francisco",
+   "sourcesReached": [
+    "OMDb",
+    "TMDB"
+   ],
+   "sourcesMissed": [],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "release year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 2019,
+     "proposed": 2019,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 2019,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=The+Last+Black+Man+in+San+Francisco&type=movie&y=2019"
+      },
+      {
+       "src": "TMDB",
+       "value": 2019,
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=The+Last+Black+Man+in+San+Francisco&year=2019"
+      }
+     ]
+    },
+    {
+     "field": "runtime",
+     "label": "runtime (min)",
+     "soft": false,
+     "editionDependent": true,
+     "current": 121,
+     "proposed": 121,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 121,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=The+Last+Black+Man+in+San+Francisco&type=movie&y=2019"
+      },
+      {
+       "src": "TMDB",
+       "value": 121,
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=The+Last+Black+Man+in+San+Francisco&year=2019"
+      }
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "director",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Joe Talbot",
+     "proposed": "Joe Talbot",
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": "Joe Talbot",
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=The+Last+Black+Man+in+San+Francisco&type=movie&y=2019"
+      },
+      {
+       "src": "TMDB",
+       "value": "Joe Talbot",
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=The+Last+Black+Man+in+San+Francisco&year=2019"
+      }
+     ]
+    },
+    {
+     "field": "studio",
+     "label": "studio",
+     "soft": true,
+     "editionDependent": false,
+     "current": "A24",
+     "proposed": "Longshot Features",
+     "status": "proposed-change",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "TMDB",
+       "value": "Longshot Features",
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=The+Last+Black+Man+in+San+Francisco&year=2019"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "m1936",
+   "title": "Da 5 Bloods",
+   "sourcesReached": [
+    "OMDb",
+    "TMDB"
+   ],
+   "sourcesMissed": [],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "release year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 2020,
+     "proposed": 2020,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 2020,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Da+5+Bloods&type=movie&y=2020"
+      },
+      {
+       "src": "TMDB",
+       "value": 2020,
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Da+5+Bloods&year=2020"
+      }
+     ]
+    },
+    {
+     "field": "runtime",
+     "label": "runtime (min)",
+     "soft": false,
+     "editionDependent": true,
+     "current": 154,
+     "proposed": 154,
+     "status": "corroborated-by-one",
+     "grade": "B",
+     "note": "matches OMDb; disagrees with TMDB (155)",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 154,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Da+5+Bloods&type=movie&y=2020"
+      },
+      {
+       "src": "TMDB",
+       "value": 155,
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Da+5+Bloods&year=2020"
+      }
+     ],
+     "alternatives": [
+      155
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "director",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Spike Lee",
+     "proposed": "Spike Lee",
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": "Spike Lee",
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Da+5+Bloods&type=movie&y=2020"
+      },
+      {
+       "src": "TMDB",
+       "value": "Spike Lee",
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Da+5+Bloods&year=2020"
+      }
+     ]
+    },
+    {
+     "field": "studio",
+     "label": "studio",
+     "soft": true,
+     "editionDependent": false,
+     "current": "Netflix",
+     "proposed": "40 Acres and a Mule Filmworks",
+     "status": "proposed-change",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "TMDB",
+       "value": "40 Acres and a Mule Filmworks",
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Da+5+Bloods&year=2020"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "m1937",
+   "title": "One Night in Miami",
+   "sourcesReached": [
+    "OMDb",
+    "TMDB"
+   ],
+   "sourcesMissed": [],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "release year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 2020,
+     "proposed": 2020,
+     "status": "corroborated-by-one",
+     "grade": "B",
+     "note": "matches TMDB; disagrees with OMDb (2021)",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 2021,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=One+Night+in+Miami&type=movie"
+      },
+      {
+       "src": "TMDB",
+       "value": 2020,
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=One+Night+in+Miami&year=2020"
+      }
+     ],
+     "alternatives": [
+      2020
+     ]
+    },
+    {
+     "field": "runtime",
+     "label": "runtime (min)",
+     "soft": false,
+     "editionDependent": true,
+     "current": 114,
+     "proposed": 114,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 114,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=One+Night+in+Miami&type=movie"
+      },
+      {
+       "src": "TMDB",
+       "value": 114,
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=One+Night+in+Miami&year=2020"
+      }
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "director",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Regina King",
+     "proposed": "Regina King",
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": "Regina King",
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=One+Night+in+Miami&type=movie"
+      },
+      {
+       "src": "TMDB",
+       "value": "Regina King",
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=One+Night+in+Miami&year=2020"
+      }
+     ]
+    },
+    {
+     "field": "studio",
+     "label": "studio",
+     "soft": true,
+     "editionDependent": false,
+     "current": "Amazon Studios",
+     "proposed": "Snoot Entertainment",
+     "status": "proposed-change",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "TMDB",
+       "value": "Snoot Entertainment",
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=One+Night+in+Miami&year=2020"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "m1938",
+   "title": "Passing",
+   "sourcesReached": [
+    "OMDb",
+    "TMDB"
+   ],
+   "sourcesMissed": [],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "release year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 2021,
+     "proposed": 2021,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 2021,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Passing&type=movie&y=2021"
+      },
+      {
+       "src": "TMDB",
+       "value": 2021,
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Passing&year=2021"
+      }
+     ]
+    },
+    {
+     "field": "runtime",
+     "label": "runtime (min)",
+     "soft": false,
+     "editionDependent": true,
+     "current": 98,
+     "proposed": 98,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 98,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Passing&type=movie&y=2021"
+      },
+      {
+       "src": "TMDB",
+       "value": 98,
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Passing&year=2021"
+      }
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "director",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Rebecca Hall",
+     "proposed": "Rebecca Hall",
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": "Rebecca Hall",
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Passing&type=movie&y=2021"
+      },
+      {
+       "src": "TMDB",
+       "value": "Rebecca Hall",
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Passing&year=2021"
+      }
+     ]
+    },
+    {
+     "field": "studio",
+     "label": "studio",
+     "soft": true,
+     "editionDependent": false,
+     "current": "Netflix",
+     "proposed": "Picture Films",
+     "status": "proposed-change",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "TMDB",
+       "value": "Picture Films",
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Passing&year=2021"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "m1939",
+   "title": "Till",
+   "sourcesReached": [
+    "OMDb",
+    "TMDB"
+   ],
+   "sourcesMissed": [],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "release year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 2022,
+     "proposed": 2022,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 2022,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Till&type=movie&y=2022"
+      },
+      {
+       "src": "TMDB",
+       "value": 2022,
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Till&year=2022"
+      }
+     ]
+    },
+    {
+     "field": "runtime",
+     "label": "runtime (min)",
+     "soft": false,
+     "editionDependent": true,
+     "current": 130,
+     "proposed": 130,
+     "status": "corroborated-by-one",
+     "grade": "B",
+     "note": "matches OMDb; disagrees with TMDB (131)",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 130,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Till&type=movie&y=2022"
+      },
+      {
+       "src": "TMDB",
+       "value": 131,
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Till&year=2022"
+      }
+     ],
+     "alternatives": [
+      131
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "director",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Chinonye Chukwu",
+     "proposed": "Chinonye Chukwu",
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": "Chinonye Chukwu",
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=Till&type=movie&y=2022"
+      },
+      {
+       "src": "TMDB",
+       "value": "Chinonye Chukwu",
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Till&year=2022"
+      }
+     ]
+    },
+    {
+     "field": "studio",
+     "label": "studio",
+     "soft": true,
+     "editionDependent": false,
+     "current": "Orion Pictures",
+     "proposed": "EON Productions",
+     "status": "proposed-change",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "TMDB",
+       "value": "EON Productions",
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=Till&year=2022"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "m1940",
+   "title": "The Color Purple (1985)",
+   "sourcesReached": [
+    "OMDb",
+    "TMDB"
+   ],
+   "sourcesMissed": [],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "release year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 1985,
+     "proposed": 1985,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 1985,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=The+Color+Purple&type=movie&y=1985"
+      },
+      {
+       "src": "TMDB",
+       "value": 1985,
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=The+Color+Purple&year=1985"
+      }
+     ]
+    },
+    {
+     "field": "runtime",
+     "label": "runtime (min)",
+     "soft": false,
+     "editionDependent": true,
+     "current": 154,
+     "proposed": 154,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": 154,
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=The+Color+Purple&type=movie&y=1985"
+      },
+      {
+       "src": "TMDB",
+       "value": 154,
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=The+Color+Purple&year=1985"
+      }
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "director",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Steven Spielberg",
+     "proposed": "Steven Spielberg",
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OMDb",
+       "value": "Steven Spielberg",
+       "url": "https://www.omdbapi.com/?apikey=REDACTED&t=The+Color+Purple&type=movie&y=1985"
+      },
+      {
+       "src": "TMDB",
+       "value": "Steven Spielberg",
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=The+Color+Purple&year=1985"
+      }
+     ]
+    },
+    {
+     "field": "studio",
+     "label": "studio",
+     "soft": true,
+     "editionDependent": false,
+     "current": "Warner Bros.",
+     "proposed": "Amblin Entertainment",
+     "status": "proposed-change",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "TMDB",
+       "value": "Amblin Entertainment",
+       "url": "https://api.themoviedb.org/3/search/movie?api_key=REDACTED&query=The+Color+Purple&year=1985"
+      }
+     ]
+    }
+   ]
+  }
+ ]
+}
