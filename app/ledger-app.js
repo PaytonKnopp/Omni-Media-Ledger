@@ -5088,8 +5088,13 @@ buildPlatSelect();
  // Outside-click and Escape are handled once, for every .radarCombo including this one -- see the
  // shared closeAllCombos listener registered earlier in the script. No separate listener needed here.
 })();
-$('#headStats').innerHTML=[['Indexed Works',ALL.length],['Owned',ALL.filter(function(x){return x.owned;}).length],['Contenders',contenders.length]]
- .map(s=>'<div><div class="text-lg font-extrabold text-slate-50 leading-none tabular-nums">'+s[1]+'</div><div class="lbl mt-1">'+s[0]+'</div></div>').join('');
+$('#headStats').innerHTML=[
+ {icon:'◈',label:'Indexed Works',n:ALL.length,color:'#5eead4'},
+ {icon:'✓',label:'Owned',n:ALL.filter(function(x){return x.owned;}).length,color:'#4ade80'},
+ {icon:'🔮',label:'Contenders',n:contenders.length,color:'#c084fc'}
+].map(function(s){
+ return '<div class="statTile"><span class="statIcon" style="color:'+s.color+'">'+s.icon+'</span><div><div class="statNum" style="color:'+s.color+'">'+s.n.toLocaleString()+'</div><div class="statLbl">'+s.label+'</div></div></div>';
+}).join('');
 (function(){var lc=$('#luCount');if(lc){var m=ALL.filter(function(x){return x.kind==='movie'}).length,t=ALL.filter(function(x){return x.kind==='tv'}).length,g=ALL.filter(function(x){return x.kind==='game'}).length,b=ALL.filter(function(x){return x.kind==='book'}).length;lc.textContent=ALL.length+' works · '+m+' films / '+t+' series / '+g+' games / '+b+' books';}})();
 var mi=$('#matrixIntro');if(mi)mi.textContent='Elite specialized brackets computed across the full '+ALL.length.toLocaleString()+'-work corpus (Global Controller filters intentionally ignored here so brackets stay canonical). Hover rows for full credits.';
 on('#matrixOwnedOnly','change',e=>{matrixOwnedOnly=e.target.checked;renderMatrices(ALL,$,$$);scheduleURLSync();});
