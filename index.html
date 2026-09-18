@@ -126,6 +126,9 @@ body.compact #grid .cardHead{padding-top:.5rem;padding-bottom:.5rem}
 .suggestTab:hover{color:#94a3b8;border-color:#334155}
 .suggestTab.on[data-tab="open"]{color:#fbbf24;border-color:#fbbf2466;background:rgba(251,191,36,.1)}
 .suggestTab.on[data-tab="resolved"]{color:#34d399;border-color:#34d39966;background:rgba(52,211,153,.1)}
+.suggestSortTab{font-size:10px;font-weight:700;padding:4px 9px;border-radius:9999px;border:1px solid #1e293b;color:#64748b;background:rgba(15,23,42,.5);transition:.15s;white-space:nowrap}
+.suggestSortTab:hover{color:#94a3b8;border-color:#334155}
+.suggestSortTab.on{color:#a5b4fc;border-color:#818cf866;background:rgba(129,140,248,.1)}
 .suggestItem{border-left:3px solid #334155}
 .suggestItem.isResolved{opacity:.72;border-left-color:#34d399;background:rgba(52,211,153,.05)}
 .suggestItem.isOpen{border-left-color:#fbbf24}
@@ -762,21 +765,32 @@ body[data-theme="outer-wilds"]{--bg:#0e0a09;--panel:#181010;--panel-2:#120c0b;--
       <select id="suggestMediaType" class="inp text-[13px]">
         <option value="Movie">🎬 Movie</option>
         <option value="TV Show">📺 TV Show</option>
+        <option value="Video Game">🎮 Video Game</option>
         <option value="Book">📖 Book</option>
         <option value="Other">✨ Other</option>
       </select>
     </div>
-    <textarea id="suggestText" class="inp" rows="4" placeholder="e.g. It would be great if…" style="resize:vertical"></textarea>
-    <div id="suggestError" class="hidden text-[12px] text-rose-400"></div>
+    <textarea id="suggestText" class="inp" rows="4" placeholder="e.g. It would be great if…" style="resize:vertical" maxlength="2000"></textarea>
+    <div id="suggestDupWarning" class="hidden text-[11.5px] text-amber-300/90 bg-amber-500/10 border border-amber-500/25 rounded-lg p-2"></div>
+    <div class="flex items-center justify-between gap-2">
+      <div id="suggestCharCount" class="text-[10.5px] text-slate-500 tabular-nums">0 / 2000</div>
+      <div id="suggestError" class="hidden text-[12px] text-rose-400"></div>
+    </div>
     <div class="flex justify-end gap-2">
       <button type="button" id="suggestSubmit" class="presetBtn" style="color:#6ee7b7;border-color:#34d39955">Submit</button>
     </div>
     <div class="pt-3 border-t border-slate-800/70">
       <div class="flex items-center justify-between mb-2">
         <div class="lbl mb-0" id="suggestListLabel">Feature &amp; bug suggestions</div>
-        <div class="flex gap-1" id="suggestTabs">
-          <button type="button" class="suggestTab" data-tab="open">📥 Not done <span id="suggestTabOpenCount"></span></button>
-          <button type="button" class="suggestTab" data-tab="resolved">✅ Resolved <span id="suggestTabResolvedCount"></span></button>
+        <div class="flex items-center gap-2">
+          <div class="flex gap-1" id="suggestSortTabs">
+            <button type="button" class="suggestSortTab" data-sort="top">🔥 Top</button>
+            <button type="button" class="suggestSortTab" data-sort="new">🆕 Newest</button>
+          </div>
+          <div class="flex gap-1" id="suggestTabs">
+            <button type="button" class="suggestTab" data-tab="open">📥 Not done <span id="suggestTabOpenCount"></span></button>
+            <button type="button" class="suggestTab" data-tab="resolved">✅ Resolved <span id="suggestTabResolvedCount"></span></button>
+          </div>
         </div>
       </div>
       <div id="suggestList" class="suggestListBox space-y-2 overflow-y-auto"></div>
@@ -866,7 +880,7 @@ body[data-theme="outer-wilds"]{--bg:#0e0a09;--panel:#181010;--panel-2:#120c0b;--
       <button type="button" class="navBtn" data-view="matrix">Reference Matrices</button>
       <button type="button" class="navBtn" data-view="viz">Visualization Suite</button>
       <button type="button" class="navBtn" data-view="timeline">◷ Timeline</button>
-      <button type="button" id="suggestBtn" class="navBtn" style="border-color:#34d39955;color:#6ee7b7">💡 Suggest a feature</button>
+      <button type="button" id="suggestBtn" class="navBtn" style="border-color:#34d39955;color:#6ee7b7">💡 Suggest a feature <span id="suggestNavCount" class="tabular-nums"></span></button>
     </nav>
   </div>
 </header>
