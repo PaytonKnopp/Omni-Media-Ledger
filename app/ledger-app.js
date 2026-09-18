@@ -1490,7 +1490,16 @@ function crossMediumPairingsHTML(it){
 }
 function personCorpusScore(works){
  if(!works||!works.length)return null;
- const matched=works.map(t=>ALL.find(x=>x.title.toLowerCase()===String(t).toLowerCase())).filter(Boolean);
+ // A title can legitimately exist in more than one medium (a book and its film adaptation both
+ // named "Dune", say) -- a composer or actor's hand-curated `works` list has no medium tag telling
+ // us which one they meant, and guessing wrong would silently feed the wrong work's score into a
+ // real recommendation. Safer to treat a same-title match across multiple media as ambiguous and
+ // skip it (falling back to the honestly-labeled tagOverlapScore approximation below) than to pick
+ // one arbitrarily by array order.
+ const matched=works.map(t=>{
+  const hits=ALL.filter(x=>x.title.toLowerCase()===String(t).toLowerCase());
+  return hits.length===1?hits[0]:null;
+ }).filter(Boolean);
  if(!matched.length)return null;
  const top=matched.slice().sort((a,b)=>b.gm-a.gm).slice(0,3);
  return Math.round(top.reduce((s,x)=>s+x.gm,0)/top.length);
