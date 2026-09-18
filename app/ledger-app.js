@@ -3086,14 +3086,22 @@ function refresh(changedIds){const list=filtered();
 function switchView(v){state.view=v;
  window.scrollTo(0,0);
  // #nav scrolls horizontally on mobile (see the MOBILE media-query block) rather than wrapping
- // into several rows -- scrollIntoView here keeps whichever tab is now active from getting stuck
- // off to the side out of view. inline/block:'nearest' makes this a no-op wherever it isn't
- // needed (desktop's wrapping nav, or a tab that's already fully visible).
- $$('#nav .navBtn').forEach(b=>{
-  const on=b.dataset.view===v;
-  b.classList.toggle('active',on);
-  if(on&&typeof b.scrollIntoView==='function')b.scrollIntoView({inline:'nearest',block:'nearest'});
- });
+ // into several rows -- keeps whichever tab is now active from getting stuck off to the side out
+ // of view. Scrolled by hand rather than the native scrollIntoView({inline:'nearest'}): .navBtn
+ // has `transition:.18s` (see its CSS), and .active makes a tab bold/wider, so a scroll calculated
+ // in the same tick as the class toggle -- native or hand-rolled -- reads the pre-transition width
+ // and lands short for any tab that isn't already the rightmost one in the strip. Deferred to just
+ // after that transition settles instead of racing it. This bug only ever went unnoticed because
+ // the tab it was most commonly tested with used to be the last one in nav order, where scrolling
+ // to "nearest" clamps to the scroller's true max regardless of the mismeasured width.
+ $$('#nav .navBtn').forEach(b=>{b.classList.toggle('active',b.dataset.view===v);});
+ setTimeout(function(){
+  var activeBtn=$('#nav .navBtn.active'),navEl=$('#nav');
+  if(!activeBtn||!navEl)return;
+  var navRect=navEl.getBoundingClientRect(),btnRect=activeBtn.getBoundingClientRect();
+  if(btnRect.right>navRect.right)navEl.scrollLeft+=Math.ceil(btnRect.right-navRect.right);
+  else if(btnRect.left<navRect.left)navEl.scrollLeft-=Math.ceil(navRect.left-btnRect.left);
+ },200);
  $$('main > section').forEach(s=>s.classList.toggle('hidden',s.dataset.sec!==v));
  // Pay for a tab that went stale while it was hidden, once, on the way in (see
  // rerenderAfterProfileChange). Nothing happens for a tab that is already current.
@@ -3979,12 +3987,10 @@ function handleProfileEditClick(btn){
    need to touch PERSONAL_PROFILE construction above: "sample" just marks onboarding done and
    leaves the already-computed defaults in place; "blank" and "import" write to omniLedgerProfile
    and reload so the whole app recomputes from the fresh profile, same as Reset/Import already do. */
-/* ===== Version / changelog marker =====
-   Lets a friend running an older copy of index.html tell they're behind just by comparing the
-   number in the header -- there's no auto-update mechanism, so this is deliberately just a
-   "here's what changed" readout, not a live version check against anything. Bump APP_VERSION and
-   add a CHANGELOG entry whenever a change is worth a friend knowing about; cosmetic tweaks don't
-   need a bump. */
+/* ===== Version / changelog history =====
+   No longer surfaced in the header (it fell too far behind real changes to be worth showing), but
+   kept here as the project's own record. Bump APP_VERSION and add a CHANGELOG entry whenever a
+   change is worth remembering; cosmetic tweaks don't need a bump. */
 const APP_VERSION='1.46.0';
 const CHANGELOG=[
  {v:'1.46.0',date:'2026-09-12',summary:'The GOAT Profile tab’s recommendations now show only the four categories every account can actually build (Movies, Books, TV Series, Video Games) — the six sample-only categories (Directors, Actors, Composers, Cinematographers, Music Artists, YouTube) are back to being just PK’s own account and the PK Sample, not something every new account inherited.',notes:[
@@ -4253,25 +4259,6 @@ const CHANGELOG=[
  {v:'0.9.0',date:'2026-08-31',summary:'Your profile can now be saved, exported, imported, and reset.',notes:['Personal profile is now swappable: saved to this browser, exportable/importable as JSON, resettable to blank']},
  {v:'0.8.0',date:'2026-08-30',summary:'Foundational: separated personal taste data from the shared collection data.',notes:['All personal data (owned collection, declared canon, taste weights) consolidated onto one PERSONAL_PROFILE object, separate from the shared 1,300-work corpus']}
 ];
-(function versionMarker(){
- var vt=$('#versionText');if(vt)vt.textContent=APP_VERSION;
- var btn=$('#versionBtn'),gate=$('#versionGate');
- if(!btn||!gate)return;
- $('#versionLog').innerHTML=CHANGELOG.map(function(e,i){
-  return '<div><div class="flex items-baseline gap-2"><span class="text-sm font-bold text-slate-100">v'+e.v+'</span><span class="text-[11px] text-slate-500">'+e.date+'</span></div>'
-   +'<p class="text-[13px] text-slate-300 mt-1 leading-relaxed">'+esc(e.summary||e.notes[0])+'</p>'
-   +(e.notes.length>1?'<button type="button" class="verDetailsBtn text-[11px] text-slate-500 hover:text-slate-300 underline decoration-dotted underline-offset-2 mt-1" data-i="'+i+'">Show full details</button>':'')
-   +'<ul class="verDetails hidden mt-1 space-y-0.5" data-i="'+i+'">'+e.notes.map(function(n){return '<li class="text-[12px] text-slate-400 leading-relaxed">· '+esc(n)+'</li>';}).join('')+'</ul></div>';
- }).join('');
- on('#versionBtn','click',function(){gate.classList.remove('hidden');});
- on('#versionClose','click',function(){gate.classList.add('hidden');});
- on('#versionLog','click',function(e){
-  var b=e.target.closest('.verDetailsBtn');if(!b)return;
-  var ul=$('.verDetails[data-i="'+b.dataset.i+'"]');if(!ul)return;
-  var nowHidden=ul.classList.toggle('hidden');
-  b.textContent=nowHidden?'Show full details':'Hide details';
- });
-})();
 
 /* ===== Suggestion box: shared Supabase table, visible to everyone =====
    Writes/reads use window.__omniAcct().client directly rather than a row keyed by handle --
@@ -5101,7 +5088,7 @@ buildPlatSelect();
  // Outside-click and Escape are handled once, for every .radarCombo including this one -- see the
  // shared closeAllCombos listener registered earlier in the script. No separate listener needed here.
 })();
-$('#headStats').innerHTML=[['Indexed Works',ALL.length],['Contenders',contenders.length]]
+$('#headStats').innerHTML=[['Indexed Works',ALL.length],['Owned',ALL.filter(function(x){return x.owned;}).length],['Contenders',contenders.length]]
  .map(s=>'<div><div class="text-lg font-extrabold text-slate-50 leading-none tabular-nums">'+s[1]+'</div><div class="lbl mt-1">'+s[0]+'</div></div>').join('');
 (function(){var lc=$('#luCount');if(lc){var m=ALL.filter(function(x){return x.kind==='movie'}).length,t=ALL.filter(function(x){return x.kind==='tv'}).length,g=ALL.filter(function(x){return x.kind==='game'}).length,b=ALL.filter(function(x){return x.kind==='book'}).length;lc.textContent=ALL.length+' works · '+m+' films / '+t+' series / '+g+' games / '+b+' books';}})();
 var mi=$('#matrixIntro');if(mi)mi.textContent='Elite specialized brackets computed across the full '+ALL.length.toLocaleString()+'-work corpus (Global Controller filters intentionally ignored here so brackets stay canonical). Hover rows for full credits.';
@@ -5137,7 +5124,7 @@ console.assert(movies.length>0&&tvShows.length>0&&videoGames.length>0&&books.len
 updateWlNav();
 if(typeof syncBlendPanel==='function')syncBlendPanel();
 /* ===================== COMMAND PALETTE (Cmd/Ctrl-K) ===================== */
-var TAB_LABELS={controller:'Global Controller',goat:'GOAT Profile',portrait:'Taste Portrait',collection:'Collection',watchlist:'Watchlist',contenders:'Contenders Ledger',creators:'Creator Archives',matrix:'Reference Matrices',viz:'Visualization Suite',timeline:'Timeline'};
+var TAB_LABELS={controller:'Global Controller',goat:'GOAT Profile',collection:'Collection',contenders:'Contenders Ledger',watchlist:'Watchlist',portrait:'Taste Portrait',viz:'Visualization Suite',timeline:'Timeline',creators:'Creator Archives',matrix:'Reference Matrices'};
 function focusWork(id){
  var it=byId.get(id);if(!it)return;
  clearAllFilters();
