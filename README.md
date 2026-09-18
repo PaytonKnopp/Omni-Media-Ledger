@@ -1,6 +1,6 @@
 # Omni-Media Ledger
 
-A personal movie/TV/game/book tracker that actually knows your taste. You tell it what you love (a few clicks, no spreadsheets), and it scores and ranks a library of **5,020 real works** — 2,012 films, 502 TV series, 508 video games, 1,998 books — based on how well each one matches you specifically. It also tracks what you physically own, keeps a watchlist, and has a bunch of "explore and discover" views for when you don't know what you want yet.
+A personal movie/TV/game/book tracker that actually knows your taste. You tell it what you love (a few clicks, no spreadsheets), and it scores and ranks a library of roughly **5,000 real works** — about 2,000 films, 500 TV series, 500 video games, 2,000 books — based on how well each one matches you specifically. The library keeps growing; works get added as needed or requested. It also tracks what you physically own, keeps a watchlist, and has a bunch of "explore and discover" views for when you don't know what you want yet.
 
 There's nothing to install. It's just a folder — one HTML file plus a `data` folder next to it — that you open in a browser like any web page. No account is required to use it, though you can optionally add one (see [Cloud accounts](#cloud-accounts-follow-you-between-devices) below) so your taste follows you between your phone, laptop, etc.
 
