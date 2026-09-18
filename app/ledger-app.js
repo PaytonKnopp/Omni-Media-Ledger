@@ -145,7 +145,7 @@ function wlSetWatched(id,v){if(WL[id]){WL[id].watched=v;wlSave();}}
 function wlCount(){return Object.keys(WL).length;}
 
 /* ===================== STATE & HELPERS ===================== */
-const state={view:'controller',q:'',type:'all',struct:'all',plats:[],minGoat:0,genres:[],genresExclude:[],ownedOnly:false,notOwnedOnly:false,limit:100,idx:{snd:0,ref:0,ch:0,emo:0,awe:0,cozy:0,perf:0,icon:0,scary:0,real:0,reality:0,shock:0,sci:0,funny:0,hist:0,vibe2:0,crit:0,aud:0,tech:0,dread:0,myst:0,warmth:0,comedy:0,beauty:0,runtime:0},ratings:[],tierFilter:[],tierFilterExclude:[],yearMin:null,yearMax:null,combine:false,sort:'overall',w:{tech:0.85,dread:0.95,myst:0.90},creatorTab:'directors',creatorSearch:'',creatorLedgerOnly:false,creatorOwnedOnly:false,goatType:'all',goatTierFilter:'all',goatSort:'match',goatDeclaredQ:'',portraitScope:'all',collSearchQ:'',wlType:'all',wlSort:'added',wlSearchQ:'',creatorSearchScope:'all',creatorSort:'works'};
+const state={view:'controller',q:'',type:'all',struct:'all',plats:[],minGoat:0,genres:[],genresExclude:[],ownedOnly:false,notOwnedOnly:false,limit:100,idx:{snd:0,ref:0,ch:0,emo:0,awe:0,cozy:0,perf:0,icon:0,scary:0,real:0,reality:0,shock:0,sci:0,funny:0,hist:0,vibe2:0,crit:0,aud:0,tech:0,dread:0,myst:0,warmth:0,comedy:0,beauty:0,runtime:0},ratings:[],tierFilter:[],tierFilterExclude:[],yearMin:null,yearMax:null,combine:false,sort:'overall',w:{tech:0.85,dread:0.95,myst:0.90},creatorTab:'directors',creatorSearch:'',creatorLedgerOnly:false,creatorOwnedOnly:false,goatType:'all',goatTierFilter:'all',goatSort:'match',goatDeclaredQ:'',portraitScope:'all',collSearchQ:'',collSort:'az',wlType:'all',wlSort:'added',wlSearchQ:'',creatorSearchScope:'all',creatorSort:'works'};
 const $=s=>document.querySelector(s),$$=s=>Array.from(document.querySelectorAll(s));
 const on=(sel,ev,fn)=>{const el=$(sel);if(el)el.addEventListener(ev,fn);else console.warn('missing element:',sel);};
 // esc/themeColor(+THEME_PALETTE) live in app/cards.js (pure, closure-independent) now.
@@ -2575,7 +2575,7 @@ function renderCollectionShelf(){
  var groups=[['movie','Films'],['tv','Series'],['book','Books'],['game','Games']];
  var html='<p class="text-[11px] text-slate-500 mb-3">Your physical collection as a shelf \u2014 spine height reflects quality, colour marks the medium. Hover a spine for the title.</p>';
  groups.forEach(function(g){
-  var items=owned.filter(x=>x.kind===g[0]).sort((a,b)=>a.title.localeCompare(b.title));
+  var items=owned.filter(x=>x.kind===g[0]).sort(collSortFn());
   if(!items.length)return;
   var k=KM[g[0]];
   // shelf
@@ -2720,15 +2720,25 @@ function collItemCardHTML(x,col){
   +'</div>';
 }
 function collCaret(){return '<span class="collCaret text-slate-500 shrink-0">▸</span>';}
+function collSortFn(){
+ var mode=state.collSort||'az';
+ if(mode==='quality')return (a,b)=>b.ovr-a.ovr||a.title.localeCompare(b.title);
+ if(mode==='year')return (a,b)=>(b.year||0)-(a.year||0)||a.title.localeCompare(b.title);
+ if(mode==='oldest')return (a,b)=>(a.year||0)-(b.year||0)||a.title.localeCompare(b.title);
+ return (a,b)=>a.title.localeCompare(b.title);
+}
 function renderCollection(){
  const owned=ALL.filter(x=>x.owned);
  const cs=state.collSeg||'all';
  const q=(state.collSearchQ||'').trim().toLowerCase();
  const scope=(cs==='all'?owned:owned.filter(x=>x.kind===cs)).filter(x=>!q||x.title.toLowerCase().indexOf(q)>=0);
  const avg=scope.length?Math.round(scope.reduce((s,x)=>s+x.ovr,0)/scope.length):0;
+ const topFmt={movie:'4K',tv:'4K',book:'Hardcover'};
+ const bestEdition=owned.filter(x=>x.kind!=='game'&&x.physFormat===topFmt[x.kind]).length;
  $('#collStats').innerHTML=[
   ['Total Owned',owned.length],['Films',owned.filter(x=>x.kind==='movie').length],
   ['Series',owned.filter(x=>x.kind==='tv').length],['Games',owned.filter(x=>x.kind==='game').length],['Books',owned.filter(x=>x.kind==='book').length],
+  ['GOAT Owned',owned.filter(x=>x.goat).length],['Best Edition',bestEdition],
   ['Avg Quality',avg]
  ].map(s=>'<div class="panel p-3 text-center"><div class="text-xl font-extrabold text-slate-50 tabular-nums">'+s[1]+'</div><div class="lbl mt-1">'+s[0]+'</div></div>').join('');
 
@@ -2755,10 +2765,10 @@ function renderCollection(){
    return '<span class="text-[9.5px] px-1.5 py-0.5 rounded-full" style="background:'+fs.bg+'22;color:'+fs.ac+';border:1px solid '+fs.bd+'55">'+esc(f)+' '+buckets[f].length+'</span>';}).join('');
   let inner='';
   if(kind==='game'){
-   inner='<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-2">'+buckets['Games'].slice().sort((a,b)=>a.title.localeCompare(b.title)).map(x=>collItemCardHTML(x,fmtStyle('Games').ac)).join('')+'</div>';
+   inner='<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-2">'+buckets['Games'].slice().sort(collSortFn()).map(x=>collItemCardHTML(x,fmtStyle('Games').ac)).join('')+'</div>';
   }else{
    inner=fOrder.map(function(f){
-    const list=buckets[f].slice().sort((a,b)=>a.title.localeCompare(b.title));
+    const list=buckets[f].slice().sort(collSortFn());
     const fs=fmtStyle(f);const col=fs.ac;const fKey='f:'+kind+'|'+f;
     return '<details class="collGroup" data-ck="'+esc(fKey)+'"'+(collIsOpen(fKey)?' open':'')+'>'
      +'<summary class="collSum flex items-center gap-2 py-1.5 cursor-pointer select-none">'+collCaret()
@@ -2782,12 +2792,24 @@ function renderCollection(){
    +'<button type="button" class="collAll text-[10.5px] px-2.5 py-1 rounded-lg border border-slate-700 text-slate-400 hover:text-slate-200 hover:border-slate-500 transition-colors" data-open="0">⬍ Collapse all</button></div>'
    +'<div class="space-y-3">'+html+'</div>';
  }
- // gaps: top-rated NOT owned, per medium (games included now that they're part of the Collection tab)
- const gaps=ALL.filter(x=>!x.owned).sort((a,b)=>b.ovr-a.ovr).slice(0,12);
- $('#collGaps').innerHTML=gaps.map(x=>{const k=KM[x.kind];
-  return '<div class="panel p-2.5 flex items-center gap-2 goatJump cursor-pointer" data-q="'+esc(x.title)+'" title="Open in Global Controller"><span class="w-1.5 h-1.5 rounded-full shrink-0" style="background:'+k.c+'"></span>'
-   +'<span class="flex-1 min-w-0 truncate text-[12px] text-slate-200">'+esc(x.title)+' <span class="text-slate-500 text-[10px]">'+x.year+'</span></span>'
-   +'<span class="text-[11px] font-bold tabular-nums" style="color:'+k.c+'">'+x.ovr+'</span></div>';}).join('');
+ // gaps: top-rated NOT owned, grouped by medium (same Films/Series/Books/Games grouping as the
+ // main list above), honoring the active medium segment and search so this section stays in sync
+ // with the rest of the tab instead of always showing every medium regardless of filter.
+ const gapPool=ALL.filter(x=>!x.owned&&(cs==='all'||x.kind===cs)&&(!q||x.title.toLowerCase().indexOf(q)>=0));
+ let gapsHTML='';
+ COLL_MEDIA.forEach(function(g){
+  const kind=g[0],label=g[1];
+  const items=gapPool.filter(x=>x.kind===kind).sort((a,b)=>b.ovr-a.ovr).slice(0,6);
+  if(!items.length)return;
+  const k=KM[kind];
+  gapsHTML+='<div><div class="text-[11px] font-bold mb-1.5" style="color:'+k.c+'">'+esc(label)+'</div>'
+   +'<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-2">'+items.map(function(x){
+    return '<div class="panel p-2.5 flex items-center gap-2 goatJump cursor-pointer" data-q="'+esc(x.title)+'" title="Open in Global Controller"><span class="w-1.5 h-1.5 rounded-full shrink-0" style="background:'+k.c+'"></span>'
+     +'<span class="flex-1 min-w-0 truncate text-[12px] text-slate-200">'+esc(x.title)+' <span class="text-slate-500 text-[10px]">'+x.year+'</span></span>'
+     +'<span class="text-[11px] font-bold tabular-nums" style="color:'+k.c+'">'+x.ovr+'</span></div>';
+   }).join('')+'</div></div>';
+ });
+ $('#collGaps').innerHTML=gapsHTML||'<div class="text-center text-slate-500 text-sm py-6">No gaps in this category.</div>';
 }
 /* ===== Shareable / bookmarkable URL state =====
    Encodes which tab you're on plus the Global Controller's active filters into the query string,
@@ -2825,6 +2847,7 @@ function stateToParams(){
  if(state.goatDeclaredQ)p.set('goatQ',state.goatDeclaredQ);
  if(state.portraitScope&&state.portraitScope!=='all')p.set('portScope',state.portraitScope);
  if(state.collSearchQ)p.set('collQ',state.collSearchQ);
+ if(state.collSort&&state.collSort!=='az')p.set('collSort',state.collSort);
  if(state.wlType&&state.wlType!=='all')p.set('wlType',state.wlType);
  if(state.wlSort&&state.wlSort!=='added')p.set('wlSort',state.wlSort);
  if(state.wlSearchQ)p.set('wlQ',state.wlSearchQ);
@@ -2874,6 +2897,7 @@ function paramsToState(){
   if(p.has('goatQ'))state.goatDeclaredQ=p.get('goatQ');
   if(p.has('portScope'))state.portraitScope=p.get('portScope');
   if(p.has('collQ'))state.collSearchQ=p.get('collQ');
+  if(p.has('collSort'))state.collSort=p.get('collSort');
   if(p.has('wlType'))state.wlType=p.get('wlType');
   if(p.has('wlSort'))state.wlSort=p.get('wlSort');
   if(p.has('wlQ'))state.wlSearchQ=p.get('wlQ');
@@ -2940,6 +2964,7 @@ function applyStateToStaticControls(){
  var goatQ=$('#goatDeclaredSearch');if(goatQ)goatQ.value=state.goatDeclaredQ;
  $$('#portraitScopeSeg button').forEach(function(b){b.classList.toggle('on',b.dataset.ps===state.portraitScope);});
  var collQ=$('#collSearch');if(collQ)collQ.value=state.collSearchQ;
+ var collSortSel=$('#collSortSel');if(collSortSel)collSortSel.value=state.collSort;
  $$('#wlTypeSeg button').forEach(function(b){b.classList.toggle('on',b.dataset.wt===state.wlType);});
  var wlSortSel=$('#wlSortSel');if(wlSortSel)wlSortSel.value=state.wlSort;
  var wlQ=$('#wlSearch');if(wlQ)wlQ.value=state.wlSearchQ;
@@ -3380,6 +3405,7 @@ on('#creatorGrid','keydown',e=>{if(e.key!=='Enter'&&e.key!==' ')return;if(e.targ
 on('#collSeg','click',e=>{const b=e.target.closest('button');if(!b)return;state.collSeg=b.dataset.cs;$$('#collSeg button').forEach(x=>x.classList.toggle('on',x===b));renderCollection();if(state.collGroup==='series')renderCollectionSeries();if(state.collShelf)renderCollectionShelf();if(state.collUpgrade)renderUpgradeAudit();});
 let collSearchT=null;
 on('#collSearch','input',e=>{clearTimeout(collSearchT);const v=e.target.value;collSearchT=setTimeout(()=>{state.collSearchQ=v;renderCollection();if(state.collGroup==='series')renderCollectionSeries();if(state.collShelf)renderCollectionShelf();scheduleURLSync();},120);});
+on('#collSortSel','change',e=>{state.collSort=e.target.value;renderCollection();if(state.collShelf)renderCollectionShelf();scheduleURLSync();});
 // Collapse state for the Collection's medium / format sections. <details> fires `toggle` on the
 // element itself and it doesn't bubble, so it's captured at the container instead of bound per
 // section (the sections are re-rendered on every filter change). The .collAll buttons live inside
