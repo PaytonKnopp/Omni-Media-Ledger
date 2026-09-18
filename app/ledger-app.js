@@ -770,7 +770,7 @@ function renderRadarAxisRow(){
  var el=$('#radarAxisRow');if(!el)return;
  el.innerHTML=radarAxes.map(function(k,i){
   var opts=axisMetrics().map(function(m){return '<option value="'+m.key+'"'+(m.key===k?' selected':'')+'>'+esc(m.label)+'</option>';}).join('');
-  return '<select class="radarAxisSel inp" style="width:100%;font-size:10.5px;padding:2px 6px" data-axis-i="'+i+'" title="What axis '+(i+1)+' compares by">'+opts+'</select>';
+  return '<select class="radarAxisSel inp" style="width:100%;min-width:0;font-size:10.5px;padding:2px 6px;text-overflow:ellipsis;white-space:nowrap;overflow:hidden" data-axis-i="'+i+'" title="What axis '+(i+1)+' compares by">'+opts+'</select>';
  }).join('');
 }
 function setRadarAxis(i,key){
