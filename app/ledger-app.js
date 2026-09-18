@@ -657,6 +657,16 @@ function renderActiveBar(){
  const moreBtn=overflowing?'<button type="button" id="activeBarToggle" class="chip" style="color:#7dd3fc;border-color:#7dd3fc44">'+(activeBarExpanded?'▲ show less':'▾ +'+(chips.length-OVERFLOW_AT)+' more')+'</button>':'';
  bar.innerHTML=chips.length?('<span class="lbl mr-1">Active:</span>'+shown.join('')+moreBtn+'<button type="button" id="clearAllF" class="chip" style="color:#94a3b8">clear all</button>'):'';
  if(!chips.length)activeBarExpanded=false; // reset so the next unrelated search doesn't open pre-expanded
+ syncDiscoverBtn();
+}
+const DISCOVER_TIERS=['gold','silver','bronze'];
+function isDiscoverActive(){
+ return state.notOwnedOnly&&DISCOVER_TIERS.every(t=>state.tierFilterExclude.includes(t))&&state.tierFilter.every(t=>!DISCOVER_TIERS.includes(t));
+}
+function syncDiscoverBtn(){
+ const b=$('#discoverBtn');if(!b)return;
+ b.classList.toggle('bg-amber-500/15',isDiscoverActive());
+ b.textContent=isDiscoverActive()?'✨ Best Untried Matches (on)':'✨ Best Untried Matches';
 }
 
 /* ===================== VIEW 2 · BESPOKE TASTE ENGINE ===================== */
@@ -4998,6 +5008,20 @@ on('#yearPresets','click',e=>{const b=e.target.closest('button');if(!b)return;
  state.yearMin=b.dataset.ymin?+b.dataset.ymin:null;state.yearMax=b.dataset.ymax?+b.dataset.ymax:null;
  $('#yearMin').value=state.yearMin!=null?state.yearMin:'';$('#yearMax').value=state.yearMax!=null?state.yearMax:'';
  syncAdvCount();refresh();});
+on('#discoverBtn','click',()=>{
+ if(isDiscoverActive()){
+  state.notOwnedOnly=false;
+  state.tierFilterExclude=state.tierFilterExclude.filter(t=>!DISCOVER_TIERS.includes(t));
+ }else{
+  state.ownedOnly=false;state.notOwnedOnly=true;
+  state.tierFilter=state.tierFilter.filter(t=>!DISCOVER_TIERS.includes(t));
+  state.tierFilterExclude=Array.from(new Set(state.tierFilterExclude.concat(DISCOVER_TIERS)));
+  state.sort='gm';const ss=$('#sortSel');if(ss)ss.value='gm';
+ }
+ const ot=$('#ownedToggle');if(ot)ot.checked=state.ownedOnly;
+ const nt=$('#notOwnedToggle');if(nt)nt.checked=state.notOwnedOnly;
+ buildTierFilterChips();syncAdvCount();refresh();
+});
 on('#activeBar','click',e=>{
  if(e.target.closest('#clearAllF')){clearAllFilters();return;}
  if(e.target.closest('#activeBarToggle')){activeBarExpanded=!activeBarExpanded;renderActiveBar();return;}
