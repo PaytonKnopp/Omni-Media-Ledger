@@ -1815,7 +1815,7 @@ function renderTimeline(){
  var decades=Object.keys(buckets).map(Number).sort((a,b)=>a-b);
  var maxCount=Math.max(preCount,Math.max.apply(null,decades.map(d=>buckets[d].length)));
  var colOf=x=>KM[x.kind].c;
- var W=Math.max(700,(decades.length+(preCount?1:0))*64),H=240,pad=30,bw=48,gap=16;
+ var W=Math.max(700,(decades.length+(preCount?1:0))*64),H=240+(tlScope==='rated'?14:0),pad=30,bw=48,gap=16;
  var cols=[];if(preCount)cols.push(['Pre-1900',preItems,-9999,1900]);decades.forEach(d=>cols.push([d+'s',buckets[d],d,d+10]));
  var svg='<svg viewBox="0 0 '+W+' '+H+'" style="width:100%;height:auto" xmlns="http://www.w3.org/2000/svg">';
  cols.forEach(function(c,i){
@@ -1833,6 +1833,10 @@ function renderTimeline(){
   });
   svg+='<text x="'+(x+bw/2)+'" y="'+(H-14)+'" fill="#94a3b8" font-size="10" text-anchor="middle">'+c[0]+'</text>';
   svg+='<text x="'+(x+bw/2)+'" y="'+(H-38-h)+'" fill="#e2e8f0" font-size="11" font-weight="700" text-anchor="middle">'+items2.length+'</text>';
+  if(tlScope==='rated'){
+   var avgGm=Math.round(items2.reduce(function(s,it){return s+it.gm;},0)/items2.length);
+   svg+='<text x="'+(x+bw/2)+'" y="'+(H-2)+'" fill="#fbbf24" font-size="9.5" font-weight="600" text-anchor="middle">★'+avgGm+'</text>';
+  }
   /* Zoom icon sits on its own row well above the count label (never the same y, regardless of bar
      height or column width) and is centered like the count rather than right-anchored against a
      narrow bw, so it can't collide with or get clipped by the number at any column count/width. A
