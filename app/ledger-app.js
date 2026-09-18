@@ -666,7 +666,7 @@ function initCharts(){
  if(CH.bubble)return;
  Chart.defaults.color='#7c8aa5';Chart.defaults.borderColor='rgba(148,163,184,.08)';
  CH.bubble=new Chart($('#bubbleC'),{type:'bubble',data:{datasets:[]},options:{responsive:true,maintainAspectRatio:false,
-  plugins:{legend:{labels:{usePointStyle:true,boxWidth:8}},tooltip:{callbacks:{label:c=>{const d=c.raw;return d.t+' ('+d.yr+') · Crit '+d.x+' · Aud '+d.y+' · Tech '+d.tech;}}}},
+  plugins:{legend:{labels:{usePointStyle:true,boxWidth:8}},tooltip:{callbacks:{label:c=>{const d=c.raw;return d.t+' ('+d.yr+') · Crit '+d.x+' · Aud '+d.y+' · Tech '+d.tech+(d.own?' · ◆ owned':'')+(d.canon?' · your canon':'');}}}},
   scales:{x:{title:{display:true,text:'Critical Score'},suggestedMin:55,suggestedMax:100},y:{title:{display:true,text:'Audience Score'},suggestedMin:55,suggestedMax:100}}}});
  CH.radar=new Chart($('#radarC'),{type:'radar',data:{labels:['Critical','Audience','Technical','Dread / Tension','Complexity'],datasets:[]},options:{responsive:true,maintainAspectRatio:false,
   scales:{r:{min:0,max:100,ticks:{stepSize:20,backdropColor:'transparent'},grid:{color:'rgba(148,163,184,.12)'},angleLines:{color:'rgba(148,163,184,.12)'},pointLabels:{color:'#94a3b8',font:{size:10}}}},
@@ -676,11 +676,13 @@ function initCharts(){
   plugins:{legend:{labels:{usePointStyle:true,boxWidth:8}}}}});
  buildRadarSelects();updateRadar();
 }
+var decadeOwnedOnly=false;
 function updateCharts(list){
  $('#vizScope').textContent=list.length+' works in scope · Global Controller filters apply live to charts A and C.';
  if(!CH.bubble)return;
  CH._vizList=list;
  renderBubble();
+ if(decadeOwnedOnly)list=list.filter(function(x){return x.owned;});
  // Decade range used to be a hardcoded 1950-2020 window covering only 3 of the 4 media kinds --
  // that silently dropped every pre-1950 or post-2020 work (real ones exist today, e.g. 1920s films
  // and 2026 releases) and every book from the chart. Derived from the actual data instead, so it
@@ -714,12 +716,20 @@ var bubbleMed='all';
 var bubbleMinScore=0;
 function renderBubble(){
  if(!CH.bubble)return;var list=(CH._vizList||ALL).filter(function(x){return x.crit>=bubbleMinScore;});
- var mk=function(kind){return list.filter(function(x){return x.kind===kind;}).map(function(x){return {x:x.crit,y:x.aud,r:Math.max(3,Math.min(15,(x.tech-70)/2.1+3)),t:x.title,yr:x.year,tech:x.tech};});};
+ var mk=function(kind,fill,line){return list.filter(function(x){return x.kind===kind;}).map(function(x){
+  var canon=!!(x.goat||x.silver);
+  return {x:x.crit,y:x.aud,r:Math.max(3,Math.min(15,(x.tech-70)/2.1+3)),t:x.title,yr:x.year,tech:x.tech,own:!!x.owned,canon:canon,
+   _bg:x.owned?fill.replace(/,[^,]*\)$/,',.85)'):fill,_bd:canon?'#fbbf24':line};});};
  var sets=[
-  {label:'Movies',kind:'movie',data:mk('movie'),backgroundColor:'rgba(167,139,250,.45)',borderColor:'#a78bfa'},
-  {label:'TV',kind:'tv',data:mk('tv'),backgroundColor:'rgba(34,211,238,.40)',borderColor:'#22d3ee'},
-  {label:'Games',kind:'game',data:mk('game'),backgroundColor:'rgba(251,191,36,.40)',borderColor:'#fbbf24'},
-  {label:'Books',kind:'book',data:mk('book'),backgroundColor:'rgba(74,222,128,.38)',borderColor:'#4ade80'}];
+  {label:'Movies',kind:'movie',data:mk('movie','rgba(167,139,250,.45)','#a78bfa'),backgroundColor:'#a78bfa',borderColor:'#a78bfa'},
+  {label:'TV',kind:'tv',data:mk('tv','rgba(34,211,238,.40)','#22d3ee'),backgroundColor:'#22d3ee',borderColor:'#22d3ee'},
+  {label:'Games',kind:'game',data:mk('game','rgba(251,191,36,.40)','#fbbf24'),backgroundColor:'#fbbf24',borderColor:'#fbbf24'},
+  {label:'Books',kind:'book',data:mk('book','rgba(74,222,128,.38)','#4ade80'),backgroundColor:'#4ade80',borderColor:'#4ade80'}];
+ sets.forEach(function(s){
+  s.backgroundColor=s.data.map(function(p){return p._bg;});
+  s.borderColor=s.data.map(function(p){return p._bd;});
+  s.borderWidth=s.data.map(function(p){return p.canon?2:1;});
+ });
  CH.bubble.data.datasets=(bubbleMed==='all'?sets:sets.filter(function(d){return d.kind===bubbleMed;}));
  CH.bubble.update('none');
 }
@@ -776,8 +786,13 @@ function setRadarSlot(slot,v){
 }
 function buildRadarSelects(){
  RADAR_OPTS=radarOptions();
- // default selections (only if unset)
+ // default selections (only if unset) -- prefer the user's own Gold favorites so the chart opens
+ // on their taste rather than an arbitrary editorial pick; fall back when they haven't declared any.
+ var gold=ALL.filter(function(x){return x.goat;}).sort(function(a,b){return b.gm-a.gm;});
  var defs={r1:'id::m13',r2:'id::g02',r3:'cr::Stanley Kubrick'};
+ if(gold.length)defs.r1='id::'+gold[0].id;
+ if(gold.length>1)defs.r2='id::'+gold[1].id;
+ if(gold.length>2)defs.r3='id::'+gold[2].id;
  ['r1','r2','r3'].forEach(function(slot){
   var hid=$('#'+slot);if(!hid)return;
   if(!hid.value)hid.value=defs[slot];
@@ -898,10 +913,21 @@ function renderGraph(center,fromTrail){
   +'<span class="text-slate-600 ml-auto">hover a line for why it connects</span></div>';
  wrap.innerHTML=crumbs+svg+legend;
 }
+// The user's own top Gold favorite makes the best default graph center -- falls back to a fixed
+// editorial pick only if they haven't declared any favorites yet.
+function defaultGraphCenter(){
+ var gold=ALL.filter(function(x){return x.goat;}).sort(function(a,b){return b.gm-a.gm;});
+ if(gold.length)return {type:'work',key:gold[0].id};
+ return {type:'creator',key:'Christopher Nolan'};
+}
 function graphChips(){
  var el=$('#graphChips');if(!el)return;
  var seeds=[['creator','Christopher Nolan'],['creator','Denis Villeneuve'],['work','m09'],['creator','Cormac McCarthy'],['creator','John Carpenter'],['work','g45']];
- el.innerHTML=seeds.map(function(s){var lbl=s[0]==='creator'?s[1]:(byId.get(s[1])||{}).title||s[1];return '<button type="button" class="graphChip text-[10.5px] px-2 py-0.5 rounded-lg border border-slate-700 text-slate-300 hover:border-indigo-500 hover:text-indigo-300 transition-colors" data-gtype="'+s[0]+'" data-gkey="'+esc(s[0]==='creator'?s[1]:s[1])+'">'+esc(lbl)+'</button>';}).join('');
+ var gold=ALL.filter(function(x){return x.goat;}).sort(function(a,b){return b.gm-a.gm;}).slice(0,3);
+ var goldSeeds=gold.map(function(x){return ['work',x.id];});
+ // put the user's own favorites first, then fall back to the fixed editorial list, deduped
+ var seen={};var all=goldSeeds.concat(seeds).filter(function(s){var k=s[0]+':'+s[1];if(seen[k])return false;seen[k]=1;return true;}).slice(0,6);
+ el.innerHTML=all.map(function(s){var lbl=s[0]==='creator'?s[1]:(byId.get(s[1])||{}).title||s[1];var isGold=s[0]==='work'&&(byId.get(s[1])||{}).goat;return '<button type="button" class="graphChip text-[10.5px] px-2 py-0.5 rounded-lg border transition-colors '+(isGold?'border-amber-500/50 text-amber-300 hover:border-amber-400':'border-slate-700 text-slate-300 hover:border-indigo-500 hover:text-indigo-300')+'" data-gtype="'+s[0]+'" data-gkey="'+esc(s[1])+'" title="'+(isGold?'Your Gold favorite':'')+'">'+esc(lbl)+'</button>';}).join('');
 }
 let contMedium='all';
 function anticipationScore(c){
@@ -2848,7 +2874,7 @@ function switchView(v){state.view=v;
  if(profileDirtyViews[v]){delete profileDirtyViews[v];renderDeferredProfileView(v);}
  refresh();
  if(v==='collection'&&collectionExtrasDirty){collectionExtrasDirty=false;renderCollectionExtras();}
- if(v==='viz'){graphChips();if(!graphCenter)renderGraph({type:'creator',key:'Christopher Nolan'},true);else renderGraph(graphCenter,true);(window.requestAnimationFrame||setTimeout)(()=>{['bubble','radar','decade'].forEach(k=>{if(CH[k])CH[k].resize();});if(graphCenter)renderGraph(graphCenter,true);});setTimeout(function(){['bubble','radar','decade'].forEach(k=>{if(CH[k])CH[k].resize();});if(graphCenter&&state.view==='viz')renderGraph(graphCenter,true);},260);}
+ if(v==='viz'){graphChips();if(!graphCenter)renderGraph(defaultGraphCenter(),true);else renderGraph(graphCenter,true);(window.requestAnimationFrame||setTimeout)(()=>{['bubble','radar','decade'].forEach(k=>{if(CH[k])CH[k].resize();});if(graphCenter)renderGraph(graphCenter,true);});setTimeout(function(){['bubble','radar','decade'].forEach(k=>{if(CH[k])CH[k].resize();});if(graphCenter&&state.view==='viz')renderGraph(graphCenter,true);},260);}
  if(v==='portrait')renderPortrait();
  if(v==='timeline')renderTimeline();
 }
@@ -3203,6 +3229,7 @@ window.addEventListener('scroll',function(e){
 // Bubble field medium filter
 document.addEventListener('click',function(e){var b=e.target.closest&&e.target.closest('.bubbleMedBtn');if(!b)return;bubbleMed=b.dataset.bm;$$('.bubbleMedBtn').forEach(function(x){x.classList.toggle('on',x===b);});if(typeof renderBubble==='function')renderBubble();});
 on('#bubbleMin','input',e=>{bubbleMinScore=+e.target.value;const lbl=$('#bubbleMinLbl');if(lbl)lbl.textContent=bubbleMinScore>0?bubbleMinScore+'+':'Any';renderBubble();scheduleURLSync();});
+on('#decadeOwnedOnly','change',e=>{decadeOwnedOnly=e.target.checked;if(CH.decade)updateCharts(CH._vizList||filtered());});
 // Relationship graph: node + chip clicks
 document.addEventListener('click',function(e){
  var node=e.target.closest&&e.target.closest('.gnode');
