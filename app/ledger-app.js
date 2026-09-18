@@ -665,8 +665,12 @@ function isDiscoverActive(){
 }
 function syncDiscoverBtn(){
  const b=$('#discoverBtn');if(!b)return;
- b.classList.toggle('bg-amber-500/15',isDiscoverActive());
- b.textContent=isDiscoverActive()?'✨ Best Untried Matches (on)':'✨ Best Untried Matches';
+ const on=isDiscoverActive();
+ b.style.background=on?'linear-gradient(#fcd34d,#f59e0b)':'';
+ b.style.color=on?'#1c1917':'';
+ b.style.borderColor=on?'#fbbf24':'';
+ b.style.boxShadow=on?'0 0 14px #f59e0b66':'';
+ b.textContent='✨ Best Untried Matches';
 }
 
 /* ===================== VIEW 2 · BESPOKE TASTE ENGINE ===================== */
