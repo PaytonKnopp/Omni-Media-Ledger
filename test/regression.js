@@ -2574,7 +2574,7 @@ async function runTabFiltersFlow(browser, file) {
       const base = ALL[0];
       const mk = (scary, funny) => Object.assign({}, base, { scary: scary, funny: funny });
       const a = mk(90, 10), b = mk(10, 90);
-      computeMatch([a, b]);
+      computeMatch([a, b], state);
       return a._m === b._m ? []
         : ['swapping two equally-weighted dimensions changed the Match score: ' + a._m + ' vs ' + b._m];
     } finally {

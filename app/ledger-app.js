@@ -149,7 +149,7 @@ const state={view:'controller',q:'',type:'all',struct:'all',plats:[],minGoat:0,g
 const $=s=>document.querySelector(s),$$=s=>Array.from(document.querySelectorAll(s));
 const on=(sel,ev,fn)=>{const el=$(sel);if(el)el.addEventListener(ev,fn);else console.warn('missing element:',sel);};
 // esc/themeColor(+THEME_PALETTE) live in app/cards.js (pure, closure-independent) now.
-const SORTS={overall:(a,b)=>(b.ovr-a.ovr)||(b.crit-a.crit),cosmic:(a,b)=>(b.ch-a.ch)||(b.dread-a.dread),sound:(a,b)=>(b.snd-a.snd)||(b.crit-a.crit),ref4k:(a,b)=>(b.ref-a.ref)||(b.crit-a.crit),emotion:(a,b)=>(b.emo-a.emo)||(b.crit-a.crit),awe:(a,b)=>(b.awe-a.awe)||(b.crit-a.crit),comfort:(a,b)=>(b.cozy-a.cozy)||(b.aud-a.aud),perf:(a,b)=>(b.perf-a.perf)||(b.crit-a.crit),icon:(a,b)=>(b.icon-a.icon)||(b.crit-a.crit),scary:(a,b)=>(b.scary-a.scary)||(b.dread-a.dread),real:(a,b)=>(b.real-a.real)||(b.crit-a.crit),reality:(a,b)=>(b.reality-a.reality)||(b.myst-a.myst),shock:(a,b)=>(b.shock-a.shock)||(b.dread-a.dread),sci:(a,b)=>(b.sci-a.sci)||(b.myst-a.myst),funny:(a,b)=>(b.funny-a.funny)||(b.aud-a.aud),hist:(a,b)=>(b.hist-a.hist)||(b.crit-a.crit),vibe2:(a,b)=>(b.vibe2-a.vibe2)||(b.tech-a.tech),blend:(a,b)=>(bespokeScore(b)-bespokeScore(a))||(b.crit-a.crit),crit:(a,b)=>b.crit-a.crit,aud:(a,b)=>b.aud-a.aud,tech:(a,b)=>b.tech-a.tech,dread:(a,b)=>b.dread-a.dread,myst:(a,b)=>b.myst-a.myst,warmth:(a,b)=>(b.warmth||0)-(a.warmth||0)||(b.crit-a.crit),comedy:(a,b)=>(b.comedy||0)-(a.comedy||0)||(b.aud-a.aud),beauty:(a,b)=>(b.beauty||0)-(a.beauty||0)||(b.crit-a.crit),yearNew:(a,b)=>b.year-a.year,yearOld:(a,b)=>a.year-b.year,title:(a,b)=>a.title.localeCompare(b.title),tier:(a,b)=>(tierRank(b)-tierRank(a))||(b.gm-a.gm)};
+const SORTS={overall:(a,b)=>(b.ovr-a.ovr)||(b.crit-a.crit),cosmic:(a,b)=>(b.ch-a.ch)||(b.dread-a.dread),sound:(a,b)=>(b.snd-a.snd)||(b.crit-a.crit),ref4k:(a,b)=>(b.ref-a.ref)||(b.crit-a.crit),emotion:(a,b)=>(b.emo-a.emo)||(b.crit-a.crit),awe:(a,b)=>(b.awe-a.awe)||(b.crit-a.crit),comfort:(a,b)=>(b.cozy-a.cozy)||(b.aud-a.aud),perf:(a,b)=>(b.perf-a.perf)||(b.crit-a.crit),icon:(a,b)=>(b.icon-a.icon)||(b.crit-a.crit),scary:(a,b)=>(b.scary-a.scary)||(b.dread-a.dread),real:(a,b)=>(b.real-a.real)||(b.crit-a.crit),reality:(a,b)=>(b.reality-a.reality)||(b.myst-a.myst),shock:(a,b)=>(b.shock-a.shock)||(b.dread-a.dread),sci:(a,b)=>(b.sci-a.sci)||(b.myst-a.myst),funny:(a,b)=>(b.funny-a.funny)||(b.aud-a.aud),hist:(a,b)=>(b.hist-a.hist)||(b.crit-a.crit),vibe2:(a,b)=>(b.vibe2-a.vibe2)||(b.tech-a.tech),blend:(a,b)=>(bespokeScore(b,state)-bespokeScore(a,state))||(b.crit-a.crit),crit:(a,b)=>b.crit-a.crit,aud:(a,b)=>b.aud-a.aud,tech:(a,b)=>b.tech-a.tech,dread:(a,b)=>b.dread-a.dread,myst:(a,b)=>b.myst-a.myst,warmth:(a,b)=>(b.warmth||0)-(a.warmth||0)||(b.crit-a.crit),comedy:(a,b)=>(b.comedy||0)-(a.comedy||0)||(b.aud-a.aud),beauty:(a,b)=>(b.beauty||0)-(a.beauty||0)||(b.crit-a.crit),yearNew:(a,b)=>b.year-a.year,yearOld:(a,b)=>a.year-b.year,title:(a,b)=>a.title.localeCompare(b.title),tier:(a,b)=>(tierRank(b)-tierRank(a))||(b.gm-a.gm)};
 
 const IDX_KEYS=['snd','ref','ch','emo','awe','cozy','perf','icon','scary','real','reality','shock','sci','funny','hist','vibe2','crit','aud','tech','dread','myst','warmth','comedy','beauty'];
 function filtered(){const q=state.q.trim().toLowerCase();
@@ -182,56 +182,7 @@ function filtered(){const q=state.q.trim().toLowerCase();
   return true;
  });
 }
-function activeDims(){
- const d=[];
- if(state.minGoat>0)d.push(['gm','★ GOAT',state.minGoat]);
- if(state.idx.ch>0)d.push(['ch','◉ Cosmic',state.idx.ch]);
- if(state.idx.emo>0)d.push(['emo','Emotional',state.idx.emo]);
- if(state.idx.snd>0)d.push(['snd','Soundtrack',state.idx.snd]);
- if(state.idx.ref>0)d.push(['ref','4K Reference',state.idx.ref]);
- if(state.idx.awe>0)d.push(['awe','Awe',state.idx.awe]);
- if(state.idx.cozy>0)d.push(['cozy','Comfort',state.idx.cozy]);
- if(state.idx.perf>0)d.push(['perf','Performances',state.idx.perf]);
- if(state.idx.icon>0)d.push(['icon','Iconic',state.idx.icon]);
- if(state.idx.scary>0)d.push(['scary','Scariest',state.idx.scary]);
- if(state.idx.real>0)d.push(['real','Realistic',state.idx.real]);
- if(state.idx.reality>0)d.push(['reality','Reality-Altering',state.idx.reality]);
- if(state.idx.shock>0)d.push(['shock','Shocking',state.idx.shock]);
- if(state.idx.sci>0)d.push(['sci','Scientific',state.idx.sci]);
- if(state.idx.funny>0)d.push(['funny','Funniest',state.idx.funny]);
- if(state.idx.hist>0)d.push(['hist','Historical',state.idx.hist]);
- if(state.idx.vibe2>0)d.push(['vibe2','Vibe',state.idx.vibe2]);
- if(state.idx.crit>0)d.push(['crit','Critical Score',state.idx.crit]);
- if(state.idx.aud>0)d.push(['aud','Audience Score',state.idx.aud]);
- if(state.idx.tech>0)d.push(['tech','Technical Craft',state.idx.tech]);
- if(state.idx.dread>0)d.push(['dread','Dread',state.idx.dread]);
- if(state.idx.myst>0)d.push(['myst','Complexity',state.idx.myst]);
- return d;
-}
-/* The "Match" number on a card while filters are active: how well a work answers the specific
-   question the sliders are asking, blended with its overall standing.
-
-   Each active dimension is weighted by how high its slider is set. That is the only signal of
-   intent available -- someone who asks for Scariest >= 80 and Funniest >= 20 is telling you which
-   of the two they came for -- and it is the same for everyone, which matters because this number
-   has to serve any taste, not one shape of taste.
-
-   It used to weight by `dims.length - i`, the dimension's position in activeDims(), which is a
-   hardcoded list of if-statements in app source order. So ★ GOAT outranked every other filter for
-   no reason except being written first, Cosmic Horror outranked Scariest, and Complexity came last
-   however hard you pulled it. Nothing about that ordering was a claim about taste; it was an
-   artifact of the order someone typed the conditions, and it silently ranked every filtered
-   result. */
-function computeMatch(list){
- const dims=activeDims();
- const wsum=dims.reduce((s,d)=>s+d[2],0);
- list.forEach(it=>{
-  if(!dims.length||wsum<=0){it._m=it.ovr;return;}
-  let sum=0;dims.forEach(d=>{sum+=it[d[0]]*d[2];});
-  it._m=Math.round((sum/wsum)*0.8+it.ovr*0.2);
- });
-}
-function bespokeScore(it){const w=state.w,s=w.tech+w.dread+w.myst;if(s<=0)return 0;return (it.tech*w.tech+it.dread*w.dread+it.myst*w.myst)/s;}
+// activeDims/computeMatch/bespokeScore live in app/match.js (read only `state`, passed in) now.
 
 // ring/microBar/frontBars/microBar2 live in app/cards.js (pure, closure-independent) now.
 
@@ -549,7 +500,7 @@ function cardHTML(it){const k=KM[it.kind];
  +'<button type="button" class="cardHead w-full text-left p-3.5 flex gap-3 items-start" data-id="'+it.id+'">'
  +ring(it.crit,k.c,42)
  +'<div class="flex-1 min-w-0">'
- +'<div class="flex items-center gap-x-2 gap-y-1.5 flex-wrap"><span class="cardTitle text-[13px] font-semibold text-slate-100 leading-tight hover:text-teal-300 cursor-pointer underline decoration-dotted decoration-slate-600 underline-offset-2" data-flip="'+it.id+'" title="Click for a summary and full breakdown">'+esc(it.title)+'</span><span class="chip" style="color:'+k.c+';border-color:'+k.c+'44">'+k.label+'</span><span class="chip" style="color:#5eead4;border-color:#5eead455">'+esc(it.rating)+'</span>'+'<span class="chip" style="color:#fbbf24;border-color:#fbbf2444" title="GOAT match /100">\u2605 '+it.gm+'</span>'+(window._blendActive?'<span class="chip" style="color:#0B0F19;background:#34d399;border-color:#34d399;font-weight:800" title="Weighted blend match">\u2696 '+bespokeScore(it).toFixed(0)+'%</span>':'')+(it.chFlag?'<span class="chip" style="color:#0B0F19;background:#c084fc;border-color:#c084fc;font-weight:700">\u25c9 CANON 100</span>':(it.ch>=70?'<span class="chip" style="color:#c084fc;border-color:#c084fc44">\u25c9 '+it.ch+'</span>':''))+(function(){const fr=franchiseOf(it);return fr?'<span class="chip" style="color:#5eead4;border-color:#5eead444" title="Part of the '+esc(fr)+' series">\u2699 '+esc(fr)+'</span>':'';})()+'</div>'
+ +'<div class="flex items-center gap-x-2 gap-y-1.5 flex-wrap"><span class="cardTitle text-[13px] font-semibold text-slate-100 leading-tight hover:text-teal-300 cursor-pointer underline decoration-dotted decoration-slate-600 underline-offset-2" data-flip="'+it.id+'" title="Click for a summary and full breakdown">'+esc(it.title)+'</span><span class="chip" style="color:'+k.c+';border-color:'+k.c+'44">'+k.label+'</span><span class="chip" style="color:#5eead4;border-color:#5eead455">'+esc(it.rating)+'</span>'+'<span class="chip" style="color:#fbbf24;border-color:#fbbf2444" title="GOAT match /100">\u2605 '+it.gm+'</span>'+(window._blendActive?'<span class="chip" style="color:#0B0F19;background:#34d399;border-color:#34d399;font-weight:800" title="Weighted blend match">\u2696 '+bespokeScore(it,state).toFixed(0)+'%</span>':'')+(it.chFlag?'<span class="chip" style="color:#0B0F19;background:#c084fc;border-color:#c084fc;font-weight:700">\u25c9 CANON 100</span>':(it.ch>=70?'<span class="chip" style="color:#c084fc;border-color:#c084fc44">\u25c9 '+it.ch+'</span>':''))+(function(){const fr=franchiseOf(it);return fr?'<span class="chip" style="color:#5eead4;border-color:#5eead444" title="Part of the '+esc(fr)+' series">\u2699 '+esc(fr)+'</span>':'';})()+'</div>'
  +'<div class="text-[11px] text-slate-400 mt-1.5 truncate" title="'+esc(it.creator)+' · '+esc(it.org)+'">'+it.year+' · '+esc(it.creator)+' · '+esc(it.span)+'</div>'
  +'<div class="mt-2 space-y-1 cardMicro" title="This work\'s 3 strongest indices out of ~19 tracked -- click the card to see all of them">'+frontBars(it)+'</div>'
  +'</div><span class="text-slate-600 text-xs mt-1" aria-hidden="true">&#9662;</span></button>'+'<button type="button" class="wlBtn absolute top-2 right-2 text-base leading-none transition-transform hover:scale-125" data-wl="'+it.id+'" title="Toggle watchlist" aria-label="'+(wlHas(it.id)?'Remove from watchlist':'Add to watchlist')+'" style="color:'+(wlHas(it.id)?'#fb7185':'#475569')+'">'+(wlHas(it.id)?'\u2665':'\u2661')+'</button>'
@@ -607,7 +558,7 @@ function patchControllerGrid(shown,changedIds){
  return true;
 }
 function renderController(list,changedIds){
- computeMatch(list);
+ computeMatch(list,state);
  $('#resultCount').textContent=(list.length>state.limit?(state.limit+' of '+list.length):list.length);
  const m=list.filter(x=>x.kind==='movie').length,t=list.filter(x=>x.kind==='tv').length,g=list.length-m-t;
  const bk=list.filter(x=>x.kind==='book').length;const gg=list.filter(x=>x.kind==='game').length;$('#scopeBreak').textContent=' · '+m+' films / '+t+' series / '+gg+' games / '+bk+' books';
