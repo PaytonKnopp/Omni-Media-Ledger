@@ -73,17 +73,18 @@ These are the owner's, and they are not negotiable. A future session must follow
 
 ### Still open
 
-- **Canonical score source per medium.** Evidence says the corpus already mixes scales: films
-  track **RT Tomatometer %** (14 films at exactly 100; *Rain Man* is 86 against RT 88 / Metacritic
-  65), games track **Metacritic** (max 97, no 100s). `gm` adds them together as if identical, so a
-  film at 95 and a game at 95 are not comparable. Recommendation put to the owner: RT for film/TV,
-  Metacritic for games, and **stop presenting books' `criticalScore` as sourced** (most books have
-  no critical aggregator at all). `gm` should normalise per medium before combining. **Not yet
-  answered.**
-- **Convert `ownedBookIdCeiling: 51` into an explicit list.** 51 of the 85 owned books are owned by
-  a *positional rule* (`id <= b51`), so inserting any book below b51 silently marks it owned — the
-  same ID-derived fragility as `prov`. Owner confirmed the 51 are genuinely owned; the conversion
-  itself is still to do (Phase 6).
+- **Canonical score source per medium — naming/provenance half only.** The *engine* half of this
+  (see E11 below) is fixed: `gm`/`ovr` no longer add raw RT/Metacritic/estimated numbers together
+  as if they were one scale. What's still open is the labeling question underneath it — whether
+  books' `criticalScore` should stop presenting as `prov.facts:"sourced"` at all, since most books
+  have no real critical aggregator and the number has no source to point to. That's a data/
+  provenance decision for Phase 5 (real sourcing), not an engine fix, so it's left for then.
+- ~~**Convert `ownedBookIdCeiling: 51` into an explicit list.**~~ **Done.** Ownership is now stated
+  per book in `PERSONAL_PROFILE.ownedBooksExtra` (an explicit `{id: format}` map); the ceiling
+  defaults to 0 for any profile created after the change and is kept only so a profile saved before
+  it still loads with its books owned. See `app/ledger-app.js` (`OWNED_BOOKS_EXTRA`/`OB()`) and its
+  comment: "the old 'id<=51 is owned by convention' rule made a personal shelf fact a property of
+  the corpus's numbering."
 
 ---
 
@@ -160,7 +161,7 @@ TV is the worst medium overall (dread spread 68.2, complexity 53.8, fidelity fie
 | E8 | `prov` is decorative | 661 "verified", of which **3** owe it to ownership; the rest is `id <= ceiling`. Confounded with score (corr −0.6). `NOTES.md` Phase 10 records *Casablanca* and *Rififi* as both `verified` **and** wrong |
 | E9 | Book recommendations are not generated | All 10 are `bookAffinity` floor overrides — the top of a hand-typed dictionary read back |
 | E10 | `buildGeneratedRec` excludes owned and Gold but **not** Silver/Bronze | Latent: re-recommending declared favourites |
-| E11 | Cross-medium score scales are incompatible | See "Still open" above |
+| E11 | Cross-medium score scales are incompatible | **Fixed** — `normalizeReceptionByKind()` in `app/scoring.js`, called on `ALL` before anything derives from `crit`/`aud`. See "Still open" above for the one remaining piece (a provenance-labeling question, not an engine defect) |
 
 ---
 

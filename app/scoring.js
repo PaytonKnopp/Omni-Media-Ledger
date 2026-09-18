@@ -95,3 +95,31 @@ function certify(x){const g=x.genres.join(' ').toLowerCase();
 }
 
 const RATING_ORDER=['G','PG','PG-13','R','NC-17 / Unrated','TV-PG','TV-14','TV-MA','E','E10+','T','M','Nonfiction','Technical','General','Mature Readers','Verse'];
+
+/* ---- Cross-medium reception normalization ----
+   RUBRIC.md "Reception fields" / QUALITY_PASS.md defect E11: metrics.criticalScore and
+   audienceScore are sourced from different aggregators per medium and are not the same scale --
+   movies/TV track the RT Tomatometer (percent of critics positive; 14 films sit at exactly 100),
+   games track Metacritic (a weighted mean; no game in the corpus exceeds 98), and books have no
+   real aggregator at all. `gm`, `ovr` and every cross-medium sort/filter add these numbers
+   together as if they were identical, so a 95 on a game and a 95 on a film are not measuring the
+   same thing -- games' tighter, higher-centered distribution systematically outranks film's wider
+   one with no taste signal involved.
+   This corrects it once, at the source, rather than in each of the dozen places that reads
+   x.crit/x.aud: each kind's values are converted to a z-score against that kind's own mean and
+   spread, then mapped back onto the whole corpus's mean and spread. That preserves every work's
+   standing *within its own medium* exactly (the transform is monotonic, so rank order inside a
+   kind never changes) while putting all four mediums on one shared, comparable scale. Run once,
+   on the adapter array, before anything derives from crit/aud -- the underlying data/*.js values
+   (and their sourcing/provenance) are untouched; only the runtime scoring copy is adjusted. */
+function normalizeReceptionByKind(all,field){
+ function mean(a){return a.reduce((s,v)=>s+v,0)/a.length;}
+ function sd(a,m){return Math.sqrt(a.reduce((s,v)=>s+(v-m)*(v-m),0)/a.length)||1;}
+ const gVals=all.map(x=>x[field]),gMean=mean(gVals),gSd=sd(gVals,gMean);
+ const byKind={};
+ all.forEach(x=>{(byKind[x.kind]=byKind[x.kind]||[]).push(x);});
+ Object.keys(byKind).forEach(k=>{
+  const items=byKind[k],vals=items.map(x=>x[field]),m=mean(vals),s=sd(vals,m);
+  items.forEach(x=>{x[field]=Math.max(0,Math.min(100,Math.round(gMean+((x[field]-m)/s)*gSd)));});
+ });
+}

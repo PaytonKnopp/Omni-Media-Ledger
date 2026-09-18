@@ -508,9 +508,17 @@ percentage of critics who were positive*, so a film every critic mildly liked sc
 Metacritic is *a weighted mean*, and the same film scores 65. `gm` adds them together as if
 identical, so **a film at 95 and a game at 95 are not comparable**.
 
-Proposed, pending the owner's ruling: RT Tomatometer for film/TV, Metacritic for games, and books'
-`criticalScore` stops presenting as sourced at all — most books have no critical aggregator, so
-that number has no source and cannot acquire one. `gm` normalises per medium before combining.
+**Fixed:** `gm` and `ovr` now normalise per medium before combining (`normalizeReceptionByKind()`
+in `app/scoring.js`, run once on the adapter array before anything derives from `crit`/`aud`).
+Each medium's values are converted to a z-score against that medium's own mean/spread, then mapped
+onto the corpus-wide mean/spread — a work's standing *within its own medium* is unchanged (the
+transform is monotonic, so rank order inside a kind never moves), but the four mediums now land on
+one shared, comparable scale instead of adding raw RT/Metacritic/estimated numbers as if identical.
+
+Still open, and separate from the engine fix above: whether books' `criticalScore` should keep
+presenting as `prov.facts:"sourced"` at all, since most books have no critical aggregator and the
+number has no source to point to. That's a data-provenance labeling question for Phase 5 (when
+real sourcing lands), not something the normalization above can settle on its own.
 
 Every reception value carries its source and retrieval date once Phase 6's provenance lands.
 Aggregator scores drift, so an undated one is not a fact.
