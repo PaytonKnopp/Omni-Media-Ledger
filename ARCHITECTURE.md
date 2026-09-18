@@ -7,12 +7,21 @@ engineering log (why things ended up this way, phase by phase); this file is the
 
 ```
 index.html          Page layout + styling, and the account sign-in / cloud-sync code
-app/ledger-app.js   The application: every screen, the scoring engine, all interactions
-data/*.js           Reference data (corpus, creator pantheons, contenders)
-supabase/schema.sql The database: tables, row-level security, grants
-test/regression.js  Playwright suite, ~130 checks
-scripts/            Corpus integrity checker
+app/ledger-app.js   The application: initApp() -- every screen and all account/state-dependent logic
+app/format.js       Pure provenance/edition-format helpers (provStampOf, normPhysFormat)
+app/cards.js        Pure HTML-string/widget builders (esc, ring, microBar, frontBars, matrixRow, ...)
+app/scoring.js       Pure deep-index scoring tables + certify()/lerpScore() (the hand-tuned overrides
+                      and content-rating logic)
+data/*.js            Reference data (corpus, creator pantheons, contenders)
+supabase/schema.sql  The database: tables, row-level security, grants
+test/regression.js   Playwright suite, ~130 checks
+scripts/             Corpus integrity checker
 ```
+
+`app/format.js`, `app/cards.js` and `app/scoring.js` load before `app/ledger-app.js`, the same way
+`data/*.js` does: they only declare closure-independent functions and constant data (no
+`state`/`PERSONAL_PROFILE`/DOM access), so `initApp()` calls them like it calls a `data/*.js`
+global. See "Boot sequence" below for why `app/ledger-app.js` itself stays one big `initApp()`.
 
 There is no build step. `index.html` loads everything directly, so edit-and-refresh is the whole
 development loop, and deploying is copying the folder.
@@ -194,9 +203,16 @@ the run and takes every later check with it, so one flaky assertion hides the wh
 
 ## Known limits
 
-- `app/ledger-app.js` is one large file. Splitting it further is straightforward now that it is
-  real JavaScript: move functions into `app/<area>.js`, load before it, keep profile-dependent
-  initialisation inside `initApp()`.
+- `app/ledger-app.js` is still a large file (most of it is `initApp()`'s body). A first pass
+  pulled out the closure-independent pieces -- pure functions and constant data tables that never
+  touch `state`/`PERSONAL_PROFILE`/DOM -- into `app/format.js`, `app/cards.js` and `app/scoring.js`.
+  What's left inside `initApp()` is either genuinely state-dependent (reads/writes `state` or
+  `PERSONAL_PROFILE`, binds DOM events via `on(...)`) or a closure nested inside an event handler
+  (most of ROUTING & BINDINGS) and can't be hoisted to top level without breaking it. Splitting
+  further means finding more closure-independent pieces the same way: grep the candidate for free
+  variables, confirm they're either true globals or explicit parameters, then move it into
+  `app/<area>.js`, load before `app/ledger-app.js`, and keep everything state-dependent inside
+  `initApp()`.
 - The corpus is static JS. Fine at this size; if titles ever need to be user-editable it belongs
   in Postgres. Measured headroom, against a synthetically duplicated corpus: at 2,508 works boot is
   ~1.8s and every tab switch is under 320ms; at 10,032 works boot is ~2.9s and the slowest tab
