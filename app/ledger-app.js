@@ -687,12 +687,17 @@ function updateCharts(list){
 // converts into actual taste tiers. Buckets are mutually exclusive so ribbon widths sum cleanly,
 // using the same precedence the app already applies when GOAT-boosting a work's match score
 // (goat > silver > bronze > owned > untiered -- see recomputeProfileDerived).
-var SANKEY_TIERS=[{key:'gold',label:'Gold',color:'#fbbf24'},{key:'silver',label:'Silver',color:'#cbd5e1'},{key:'bronze',label:'Bronze',color:'#cd7f32'},{key:'owned',label:'Owned',color:'#38bdf8'},{key:'untiered',label:'Untiered',color:'#475569'}];
+var SANKEY_TIERS=[{key:'gold',label:'Gold',color:'#fbbf24'},{key:'silver',label:'Silver',color:'#cbd5e1'},{key:'bronze',label:'Bronze',color:'#cd7f32'},{key:'owned',label:'Owned',color:'#38bdf8'}];
 var SANKEY_KINDS=['movie','tv','game','book'];
 function sankeyTierOf(x){return x.goat?'gold':x.silver?'silver':x.bronze?'bronze':x.owned?'owned':'untiered';}
 function renderSankey(list){
  var wrap=$('#sankeyWrap');if(!wrap)return;
- if(!list.length){wrap.innerHTML='<div class="p-8 text-center text-slate-500 text-sm">Nothing in scope to flow.</div>';return;}
+ // Untiered is the vast majority of any real corpus -- including it as a node let it dominate the
+ // whole diagram's scale and crush Gold/Silver/Bronze/Owned into barely-visible slivers. This chart
+ // is about where your tiered/owned works come from, not the untouched bulk of the catalog, so only
+ // works that actually landed in a tier flow through it at all.
+ list=list.filter(function(x){return sankeyTierOf(x)!=='untiered';});
+ if(!list.length){wrap.innerHTML='<div class="p-8 text-center text-slate-500 text-sm">Nothing tiered or owned in scope yet.</div>';return;}
  var counts={};SANKEY_KINDS.forEach(function(k){counts[k]={};SANKEY_TIERS.forEach(function(t){counts[k][t.key]=0;});});
  list.forEach(function(x){if(counts[x.kind])counts[x.kind][sankeyTierOf(x)]++;});
  var leftTotals={};SANKEY_KINDS.forEach(function(k){leftTotals[k]=SANKEY_TIERS.reduce(function(s,t){return s+counts[k][t.key];},0);});
