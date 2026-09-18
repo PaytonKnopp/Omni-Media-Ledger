@@ -2130,8 +2130,6 @@ function renderPortrait(){
  // --- vibe center of gravity + physical-format breakdown (both scoped like the stats above) ---
  renderVibeGravity();
  renderFormatBreakdown();
- // --- franchises you're close to completing (own 2+, missing a handful) ---
- renderSeriesNearComplete();
  // --- blind spots (each has its own, independent medium filter -- deliberately not tied to
  // portraitScope, since "what am I missing in X" is a different question from "show me my Y stats") ---
  renderPortraitGaps();
@@ -2454,32 +2452,6 @@ const SERIES_DEFS=[
 const SERIES_BY_TITLE=new Map();
 SERIES_DEFS.forEach(function(d){d.members.forEach(function(t){SERIES_BY_TITLE.set(d.kind+'|'+t,d.name);});});
 function franchiseOf(it){return SERIES_BY_TITLE.get(it.kind+'|'+it.title);}
-// Taste Portrait's "almost there" franchise panel -- a lightweight read of the same SERIES_DEFS
-// data the Collection tab's full series browser uses, but narrowed to franchises you're 2+ deep
-// into and just a few titles from completing, since that's the insight worth surfacing here (the
-// Collection tab remains the place to browse every series you own any of).
-function seriesNearComplete(){
- var byKindTitle=new Map(ALL.map(function(x){return [x.kind+'|'+x.title,x];}));
- return SERIES_DEFS.map(function(def){
-  var members=def.members.map(function(t){return byKindTitle.get(def.kind+'|'+t);}).filter(Boolean);
-  var owned=members.filter(function(x){return x.owned;});
-  var missing=members.filter(function(x){return !x.owned;});
-  return {def:def,ownedN:owned.length,missing:missing,complete:owned.length>=def.total};
- }).filter(function(r){return r.ownedN>=2&&!r.complete&&r.missing.length&&r.missing.length<=3;})
-  .sort(function(a,b){return (b.ownedN/b.def.total)-(a.ownedN/a.def.total)||a.def.name.localeCompare(b.def.name);})
-  .slice(0,9);
-}
-function renderSeriesNearComplete(){
- var el=$('#portraitSeries');if(!el)return;
- var rows=seriesNearComplete();
- el.innerHTML=rows.map(function(r){var k=KM[r.def.kind];
-  var next=r.missing.slice().sort(function(a,b){return (a.year||0)-(b.year||0);})[0];
-  return '<div class="panel p-2.5 goatJump cursor-pointer" data-q="'+esc(next.title)+'" title="Open '+esc(next.title)+' in the Global Controller"><div class="flex items-center gap-2"><span class="w-1.5 h-1.5 rounded-full shrink-0" style="background:'+k.c+'"></span>'
-   +'<span class="flex-1 min-w-0 truncate text-[12px] font-semibold text-slate-200">'+esc(r.def.name)+'</span>'
-   +'<span class="text-[11px] font-bold tabular-nums" style="color:'+k.c+'">'+r.ownedN+'/'+r.def.total+'</span></div>'
-   +'<div class="text-[10px] text-slate-500 mt-1 ml-3.5 truncate">'+esc(k.label)+' · next up: '+esc(next.title)+(r.missing.length>1?' · '+(r.missing.length-1)+' more after that':'')+'</div></div>';
- }).join('')||'<div class="text-slate-500 text-[12px]">No franchises close to complete right now.</div>';
-}
 // "How you own it" -- physFormat is already tracked per owned movie/TV/book (games are digital-only
 // and carry no physFormat), so this is a pure readout of existing data, scoped like the other
 // portraitScope-aware panels.
