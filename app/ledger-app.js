@@ -750,27 +750,32 @@ function initCharts(){
  buildRadarSelects();renderRadarAxisRow();updateRadar();
 }
 function updateCharts(list){
- $('#vizScope').textContent=list.length+' works in scope · Global Controller filters apply live to charts A and C.';
+ $('#vizScope').textContent=list.length+' works in scope · Global Controller filters apply live to chart A.';
  if(!CH.bubble)return;
  CH._vizList=list;
  renderBubble();
- renderSankey(list);
+ renderSankey();
 }
 // Panel C · Taste Flow -- a hand-rolled two-column Sankey (same house style as the relationship
-// graph in panel D: plain SVG, no chart-library dependency) showing how the medium mix in scope
-// converts into actual taste tiers. Buckets are mutually exclusive so ribbon widths sum cleanly,
-// using the same precedence the app already applies when GOAT-boosting a work's match score
-// (goat > silver > bronze > owned > untiered -- see recomputeProfileDerived).
+// graph in panel D: plain SVG, no chart-library dependency) showing how the medium mix of your
+// ENTIRE tiered/owned collection converts into actual taste tiers. Deliberately NOT scoped to
+// whatever the Global Controller's filters currently are (unlike chart A) -- this is meant to
+// answer "where does my taste come from, overall," and a search/filter left on in a different tab
+// silently emptying it (or skewing it to one narrow slice) would be actively misleading, not a
+// useful "current scope" view the way the bubble chart's filtering is. Always reads the full
+// corpus. Buckets are mutually exclusive so ribbon widths sum cleanly, using the same precedence
+// the app already applies when GOAT-boosting a work's match score (goat > silver > bronze > owned
+// > untiered -- see recomputeProfileDerived).
 var SANKEY_TIERS=[{key:'gold',label:'Gold',color:'#fbbf24'},{key:'silver',label:'Silver',color:'#cbd5e1'},{key:'bronze',label:'Bronze',color:'#cd7f32'},{key:'owned',label:'Owned',color:'#38bdf8'}];
 var SANKEY_KINDS=['movie','tv','game','book'];
 function sankeyTierOf(x){return x.goat?'gold':x.silver?'silver':x.bronze?'bronze':x.owned?'owned':'untiered';}
-function renderSankey(list){
+function renderSankey(){
  var wrap=$('#sankeyWrap');if(!wrap)return;
  // Untiered is the vast majority of any real corpus -- including it as a node let it dominate the
  // whole diagram's scale and crush Gold/Silver/Bronze/Owned into barely-visible slivers. This chart
  // is about where your tiered/owned works come from, not the untouched bulk of the catalog, so only
  // works that actually landed in a tier flow through it at all.
- list=list.filter(function(x){return sankeyTierOf(x)!=='untiered';});
+ var list=ALL.filter(function(x){return sankeyTierOf(x)!=='untiered';});
  if(!list.length){wrap.innerHTML='<div class="p-8 text-center text-slate-500 text-sm">Nothing tiered or owned in scope yet.</div>';return;}
  var counts={};SANKEY_KINDS.forEach(function(k){counts[k]={};SANKEY_TIERS.forEach(function(t){counts[k][t.key]=0;});});
  list.forEach(function(x){if(counts[x.kind])counts[x.kind][sankeyTierOf(x)]++;});
@@ -3216,7 +3221,7 @@ function switchView(v){state.view=v;
  if(profileDirtyViews[v]){delete profileDirtyViews[v];renderDeferredProfileView(v);}
  refresh();
  if(v==='collection'&&collectionExtrasDirty){collectionExtrasDirty=false;renderCollectionExtras();}
- if(v==='viz'){graphChips();if(!graphCenter)renderGraph(defaultGraphCenter(),true);else renderGraph(graphCenter,true);if(CH._vizList)renderSankey(CH._vizList);(window.requestAnimationFrame||setTimeout)(()=>{['bubble','radar'].forEach(k=>{if(CH[k])CH[k].resize();});if(CH._vizList)renderSankey(CH._vizList);if(graphCenter)renderGraph(graphCenter,true);});setTimeout(function(){['bubble','radar'].forEach(k=>{if(CH[k])CH[k].resize();});if(CH._vizList)renderSankey(CH._vizList);if(graphCenter&&state.view==='viz')renderGraph(graphCenter,true);},260);}
+ if(v==='viz'){graphChips();if(!graphCenter)renderGraph(defaultGraphCenter(),true);else renderGraph(graphCenter,true);renderSankey();(window.requestAnimationFrame||setTimeout)(()=>{['bubble','radar'].forEach(k=>{if(CH[k])CH[k].resize();});renderSankey();if(graphCenter)renderGraph(graphCenter,true);});setTimeout(function(){['bubble','radar'].forEach(k=>{if(CH[k])CH[k].resize();});renderSankey();if(graphCenter&&state.view==='viz')renderGraph(graphCenter,true);},260);}
  if(v==='portrait')renderPortrait();
  if(v==='timeline')renderTimeline();
 }
@@ -5342,7 +5347,7 @@ function focusFamily(fam){
 }
 // Reliability: re-fit charts and the relationship graph on viewport resize / device rotation.
 var _rzT;window.addEventListener('resize',function(){clearTimeout(_rzT);_rzT=setTimeout(function(){
- if(state.view==='viz'){['bubble','radar'].forEach(function(k){if(CH[k]&&CH[k].resize)try{CH[k].resize();}catch(e){console.warn('chart resize failed',e);}});if(CH._vizList&&typeof renderSankey==='function')renderSankey(CH._vizList);if(typeof graphCenter!=='undefined'&&graphCenter&&typeof renderGraph==='function')renderGraph(graphCenter,true);}
+ if(state.view==='viz'){['bubble','radar'].forEach(function(k){if(CH[k]&&CH[k].resize)try{CH[k].resize();}catch(e){console.warn('chart resize failed',e);}});if(typeof renderSankey==='function')renderSankey();if(typeof graphCenter!=='undefined'&&graphCenter&&typeof renderGraph==='function')renderGraph(graphCenter,true);}
 },200);});
 (function(){
  // Which tab to open on boot. The URL's `view` param is what a bookmark or a shared link

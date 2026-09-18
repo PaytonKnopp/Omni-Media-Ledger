@@ -2497,6 +2497,24 @@ async function runTabFiltersFlow(browser, file) {
   const bubbleLbl = await page.textContent('#bubbleMinLbl');
   check('bubble min-score slider updates its live label', bubbleLbl.includes('80'));
 
+  // Taste Flow (chart C) must stay accurate regardless of the Global Controller's filters -- it
+  // answers "where does my whole taste profile come from," not "what's in the current filtered
+  // view" the way chart A does, so a search/filter that excludes everything tiered/owned (the
+  // exact case that used to blank it entirely) must not empty it.
+  await goto('controller');
+  await page.fill('#q', 'zzzz-no-real-title-matches-this');
+  await page.dispatchEvent('#q', 'input');
+  await page.waitForTimeout(250);
+  await goto('viz');
+  await page.waitForTimeout(400);
+  const sankeyHTML = await page.evaluate(() => (document.getElementById('sankeyWrap') || {}).innerHTML || '');
+  check('Taste Flow (chart C) still shows your full tier breakdown when Global Controller filters exclude everything',
+    sankeyHTML.indexOf('skRibbon') >= 0 && sankeyHTML.indexOf('Nothing tiered or owned') === -1);
+  await goto('controller');
+  await page.fill('#q', '');
+  await page.dispatchEvent('#q', 'input');
+  await page.waitForTimeout(150);
+
   // Timeline: medium filter narrows the chart, and the in-tab decade zoom preview works without navigating away.
   await goto('timeline');
   await page.waitForTimeout(300);
