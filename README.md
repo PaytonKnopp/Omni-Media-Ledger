@@ -1,6 +1,6 @@
 # Omni-Media Ledger
 
-A personal movie/TV/game/book tracker that actually knows your taste. You tell it what you love (a few clicks, no spreadsheets), and it scores and ranks a library of **2,508 real works** — 1,000 films, 250 TV series, 258 video games, 1,000 books — based on how well each one matches you specifically. It also tracks what you physically own, keeps a watchlist, and has a bunch of "explore and discover" views for when you don't know what you want yet.
+A personal movie/TV/game/book tracker that actually knows your taste. You tell it what you love (a few clicks, no spreadsheets), and it scores and ranks a library of **5,020 real works** — 2,012 films, 502 TV series, 508 video games, 1,998 books — based on how well each one matches you specifically. It also tracks what you physically own, keeps a watchlist, and has a bunch of "explore and discover" views for when you don't know what you want yet.
 
 There's nothing to install. It's just a folder — one HTML file plus a `data` folder next to it — that you open in a browser like any web page. No account is required to use it, though you can optionally add one (see [Cloud accounts](#cloud-accounts-follow-you-between-devices) below) so your taste follows you between your phone, laptop, etc.
 
@@ -25,12 +25,12 @@ That's genuinely most of it. Everything past this point is detail for people who
 | --- | --- |
 | **Global Controller** (the home screen) | Search and browse everything. Filter by type, genre, ownership, favorite tier, platform/studio/network, and 15 more specific tastes (scariest, funniest, best soundtrack, etc.). Sort by match score, critical/audience score, year, or a custom weighted blend you control with three sliders. |
 | **GOAT Profile** | Your declared all-time favorites, and where you build them — search the whole library right there and tier or mark things owned. Movies/TV/Games/Books show your Gold, Silver, and Bronze picks as distinct, labeled groups. Also shows computer-generated recommendations based on what you've already told it you love. |
-| **Taste Portrait** | A snapshot of what your collection says about you — genre breakdown, ownership stats, a clickable map of 27 genre families. |
+| **Taste Portrait** | A snapshot of what your collection says about you — genre breakdown, ownership stats, a clickable map of 28 genre families. |
 | **Collection** | Your actual physical/digital library, organized by format, plus a "worth upgrading?" audit and gap-finder ("you love this director, here's what you don't own yet"). |
 | **Watchlist** | Things you've flagged to check out later. |
 | **Contenders Ledger** | 50 upcoming releases being tracked, each with a general hype score and a personal "for you" score. |
 | **Creator Archives** | 150 notable directors, authors, and game designers, searchable. |
-| **Reference Matrices** | 19 curated top-lists — best soundtracks, scariest, funniest, biggest twists, and more. |
+| **Reference Matrices** | 22 curated top-lists — best soundtracks, scariest, funniest, biggest twists, and more. |
 | **Visualization Suite** | Charts and an interactive relationship map showing how works connect to each other and why. |
 | **Timeline** | Everything placed on a single timeline, 700 BC to 2027. |
 
@@ -59,7 +59,7 @@ Recommendations lean on Gold first, then Silver, then Bronze, then the rest of w
 
 ## Making it yours (no file-editing required)
 
-Every card has a compact row of icons — Gold/Silver/Bronze/Owned — right under it, and expanding a card gives you more: boost a genre, a `−`/`+` stepper to boost *or bury* a specific creator across your whole match scoring, boost a book's affinity directly. Everything you click updates your recommendations immediately.
+Every card has a compact row of icons — Gold/Silver/Bronze/Owned — right under it, and expanding a card gives you more: boost a genre, a `−`/`+` stepper to boost *or bury* a specific creator across your whole match scoring, boost a book's affinity directly, or type in a personal 0-10 rating (one decimal, entirely optional) that blends into that work's match score alongside your tier picks. Everything you click updates your recommendations immediately.
 
 If you'd rather build or edit a whole profile at once by hand, `PROFILE_TEMPLATE.md` documents the file format field-by-field with an example — useful for bulk edits, but nobody needs it for day-to-day use.
 
