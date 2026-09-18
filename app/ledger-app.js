@@ -618,7 +618,47 @@ function renderController(list,changedIds){
  $('#priorityNote').textContent=note;renderActiveBar();
  const shown=sorted.slice(0,state.limit);
  if(patchControllerGrid(shown,changedIds))return;
- $('#grid').innerHTML=shown.map(cardHTML).join('')||'<div class="col-span-full text-center text-slate-500 text-sm py-14">No works match every active filter. Loosen a threshold, remove a chip, or widen your genres.</div>';
+ renderGridChunked(shown);
+}
+// Building card HTML is ~2ms/card (see patchControllerGrid's comment) -- fine for the default
+// Top 100, but "Show: All" on an unfiltered library is ~2,500 cards, and setting innerHTML for all
+// of them in one go blocks the main thread for seconds: the screen looks frozen and can't be
+// scrolled or clicked until the whole string is built and parsed.
+//
+// Render the first screenful synchronously (so it's interactive immediately), then fill the rest
+// in small batches across animation frames, so the tab stays responsive and scrollable while the
+// remaining cards stream in. Nothing is dropped or paginated away -- every requested card still
+// lands in the grid, just spread over a few frames instead of one long blocking one.
+let _gridRenderGen=0;
+// A fixed card-count-per-frame batch (the first cut of this fix) is wrong: at ~2ms/card, a batch
+// of 120 costs ~240ms of *uninterruptible* JS -- long enough to delay the very next click or
+// keystroke's handler, which is worse than the blocking full-redraw this replaced. Budget each
+// frame by TIME instead (a handful of ms, well under a 16ms frame and nowhere near enough to make
+// an interaction feel delayed), appending a few cards at a time until the budget is spent, so the
+// main thread is always free again in single-digit milliseconds for the next real event.
+const GRID_FIRST_BATCH=60,GRID_FRAME_BUDGET_MS=6,GRID_MIN_STEP=8;
+function renderGridChunked(shown){
+ const grid=$('#grid');if(!grid)return;
+ const gen=++_gridRenderGen;
+ if(!shown.length){grid.innerHTML='<div class="col-span-full text-center text-slate-500 text-sm py-14">No works match every active filter. Loosen a threshold, remove a chip, or widen your genres.</div>';return;}
+ const first=shown.slice(0,GRID_FIRST_BATCH);
+ grid.innerHTML=first.map(cardHTML).join('');
+ if(shown.length<=GRID_FIRST_BATCH)return;
+ let i=GRID_FIRST_BATCH;
+ function step(){
+  if(gen!==_gridRenderGen)return; // superseded by a newer filter/sort/limit change -- drop this job
+  const start=performance.now();
+  let html='';
+  while(i<shown.length){
+   const end=Math.min(i+GRID_MIN_STEP,shown.length);
+   html+=shown.slice(i,end).map(cardHTML).join('');
+   i=end;
+   if(performance.now()-start>=GRID_FRAME_BUDGET_MS)break;
+  }
+  if(html)grid.insertAdjacentHTML('beforeend',html);
+  if(i<shown.length)requestAnimationFrame(step);
+ }
+ requestAnimationFrame(step);
 }
 let activeBarExpanded=false;
 function renderActiveBar(){
