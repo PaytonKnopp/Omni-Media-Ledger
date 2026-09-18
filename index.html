@@ -405,8 +405,8 @@ button:focus-visible,select:focus-visible,input:focus-visible{outline:2px solid 
     w-full) and internally scrollable (max-h-[..vh] + overflow-y-auto) so none of them overflow
     the viewport -- but their desktop p-6/p-8 padding eats a lot of a short phone screen before
     any real content shows. Tighten just the padding/heading size, not the width/scroll behavior. */
- #acctGate>.panel,#onboardGate .panel,#versionGate>.panel,#goatPickerGate>.panel,#suggestGate>.panel{padding:1rem}
- #acctGate .text-lg,#onboardGate .text-lg,#versionGate .text-lg,#goatPickerGate .text-lg,#tipsGate .text-lg,#suggestGate .text-lg{font-size:16px}
+ #acctGate>.panel,#onboardGate .panel,#goatPickerGate>.panel,#suggestGate>.panel{padding:1rem}
+ #acctGate .text-lg,#onboardGate .text-lg,#goatPickerGate .text-lg,#tipsGate .text-lg,#suggestGate .text-lg{font-size:16px}
  /* #tipsGate split its padding onto #tipsHeaderWrap/#tipsBody instead of the outer .panel (see
     markup) so the sticky-header structural fix works at any width -- tighten those two on mobile
     the same way the shared rule above tightens every other modal's single padded .panel. */
@@ -542,20 +542,6 @@ body[data-theme="outer-wilds"]{--bg:#0e0a09;--panel:#181010;--panel-2:#120c0b;--
   </div>
 </div>
 
-<div id="versionGate" class="hidden fixed inset-0 z-[999] flex items-center justify-center bg-black/80 backdrop-blur-sm p-4">
-  <div class="panel p-6 max-w-md w-full space-y-4 max-h-[85vh] overflow-y-auto">
-    <div class="flex items-start justify-between gap-2">
-      <div>
-        <div class="text-[10px] tracking-[.35em] text-indigo-300/80 uppercase mb-1">Version</div>
-        <h2 class="text-lg font-bold text-slate-50">What's changed</h2>
-        <p class="text-[12px] text-slate-500 mt-1">If a friend's copy shows an older number than yours, send them the current <code>index.html</code> link — their own account (or a fresh Export) picks up right where they left off.</p>
-      </div>
-      <button type="button" id="versionClose" class="text-slate-500 hover:text-slate-300 text-lg leading-none" aria-label="Close">✕</button>
-    </div>
-    <div id="versionLog" class="space-y-3"></div>
-  </div>
-</div>
-
 <div id="goatPickerGate" class="hidden fixed inset-0 z-[999] flex items-center justify-center bg-black/80 backdrop-blur-sm p-4">
   <div class="panel p-6 max-w-2xl w-full space-y-4 max-h-[85vh] overflow-y-auto">
     <div class="flex items-start justify-between gap-2">
@@ -655,6 +641,7 @@ body[data-theme="outer-wilds"]{--bg:#0e0a09;--panel:#181010;--panel-2:#120c0b;--
       <div class="tipCatHead">One more thing</div>
       <div class="tipCatBody">
         <div class="tipItem">💡 <strong class="text-slate-100">See something missing?</strong> Use "Suggest a feature" in the header, top of page. Click the <strong class="text-slate-100">?</strong> button next to the theme selector anytime to bring these tips back.</div>
+        <div class="tipItem">▲ <strong class="text-slate-100">On a phone</strong>, the "Compact header" toggle next to your account chip collapses the title, stats and theme/profile row down to just the account chip and tabs — more screen for the list below without losing your place.</div>
       </div>
     </div>
 
@@ -667,6 +654,7 @@ body[data-theme="outer-wilds"]{--bg:#0e0a09;--panel:#181010;--panel-2:#120c0b;--
         <div class="tipItem">▶ <strong class="text-slate-100">Advanced Filters &amp; Indices</strong> (collapsed by default) stacks as many specialized index thresholds as you like — dread, complexity, awe, and more — on top of the main filters.</div>
         <div class="tipItem">🔀 <strong class="text-slate-100">The Sort dropdown</strong> is grouped by category — Reception, Craft &amp; Fidelity, Mood &amp; Feel, Depth &amp; Ideas — with each group alphabetized, so related sorts sit together instead of one long list.</div>
         <div class="tipItem">🕳 <strong class="text-slate-100">Rabbit Hole</strong> and 🎲 <strong class="text-slate-100">Surprise Me</strong>, both here in the Global Controller, pull a weighted pick for you — Rabbit Hole starts a connected journey across media from one of your top matches, Surprise Me spins by mood, medium, ownership, or how much time you have.</div>
+        <div class="tipItem">▦ <strong class="text-slate-100">Compact / Comfortable</strong> toggles card density — Compact fits more cards per screen, Comfortable keeps them larger and more spaced out. Remembered across visits.</div>
       </div>
     </div>
 
@@ -807,7 +795,7 @@ body[data-theme="outer-wilds"]{--bg:#0e0a09;--panel:#181010;--panel-2:#120c0b;--
       <div class="flex flex-wrap items-start justify-between gap-3">
         <div id="headerTitleBlock">
           <h1 class="text-xl md:text-2xl font-bold tracking-tight text-slate-50">The Ultimate Omni-Media &amp; Entertainment Ledger</h1>
-          <div id="lastUpdated" class="text-[10px] text-slate-500 mt-1 tracking-wide">Last updated · Aug 30, 2026 · <span id="luCount" class="text-slate-400"></span> · <button type="button" id="versionBtn" class="text-slate-500 hover:text-slate-300 underline decoration-dotted underline-offset-2">v<span id="versionText"></span></button></div>
+          <div id="lastUpdated" class="text-[10px] text-slate-500 mt-1 tracking-wide">Last updated · Aug 30, 2026 · <span id="luCount" class="text-slate-400"></span></div>
         </div>
         <!-- Mobile-only "compact header" toggle: collapses everything except the account chip and
              the tab nav below (see body.headerCompact rules in the max-width:767px CSS block, and
