@@ -1,0 +1,724 @@
+{
+ "medium": "book",
+ "generated": "2026-09-17T23:01:06.477Z",
+ "offline": false,
+ "sources": [
+  "OpenLibrary",
+  "Google Books",
+  "Wikidata"
+ ],
+ "works": [
+  {
+   "id": "b1657",
+   "title": "The Curious Incident of the Dog in the Night-Time",
+   "sourcesReached": [
+    "OpenLibrary",
+    "Google Books",
+    "Wikidata"
+   ],
+   "sourcesMissed": [],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "first publication year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 2003,
+     "proposed": 2003,
+     "status": "corroborated-by-one",
+     "grade": "B",
+     "note": "matches Wikidata; disagrees with OpenLibrary (2002), Google Books (2004)",
+     "sources": [
+      {
+       "src": "OpenLibrary",
+       "value": 2002,
+       "url": "https://openlibrary.org/search.json?title=The+Curious+Incident+of+the+Dog+in+the+Night-Time&limit=1"
+      },
+      {
+       "src": "Google Books",
+       "value": 2004,
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3AThe+Curious+Incident+of+the+Dog+in+the+Night-Time&maxResults=1&key=REDACTED"
+      },
+      {
+       "src": "Wikidata",
+       "value": 2003,
+       "url": "https://www.wikidata.org/wiki/Q876848"
+      }
+     ],
+     "alternatives": [
+      2004,
+      2003
+     ]
+    },
+    {
+     "field": "pages",
+     "label": "page count",
+     "soft": false,
+     "editionDependent": true,
+     "current": 226,
+     "proposed": 0,
+     "status": "edition-dependent",
+     "grade": "B",
+     "note": "one source differs from the corpus (Google Books 0) on a field with no single true value -- likely a different printing/edition, not an error.",
+     "sources": [
+      {
+       "src": "Google Books",
+       "value": 0,
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3AThe+Curious+Incident+of+the+Dog+in+the+Night-Time&maxResults=1&key=REDACTED"
+      }
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "author",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Mark Haddon",
+     "proposed": "Mark Haddon",
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OpenLibrary",
+       "value": "Mark Haddon",
+       "url": "https://openlibrary.org/search.json?title=The+Curious+Incident+of+the+Dog+in+the+Night-Time&limit=1"
+      },
+      {
+       "src": "Google Books",
+       "value": "Mark Haddon",
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3AThe+Curious+Incident+of+the+Dog+in+the+Night-Time&maxResults=1&key=REDACTED"
+      },
+      {
+       "src": "Wikidata",
+       "value": "Mark Haddon",
+       "url": "https://www.wikidata.org/wiki/Q876848"
+      }
+     ]
+    },
+    {
+     "field": "publisher",
+     "label": "publisher",
+     "soft": true,
+     "editionDependent": true,
+     "current": "Jonathan Cape",
+     "proposed": "Jonathan Cape",
+     "status": "confirmed",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "Wikidata",
+       "value": "Jonathan Cape",
+       "url": "https://www.wikidata.org/wiki/Q876848"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "b1658",
+   "title": "The Tattooist of Auschwitz",
+   "sourcesReached": [
+    "OpenLibrary",
+    "Google Books",
+    "Wikidata"
+   ],
+   "sourcesMissed": [],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "first publication year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 2018,
+     "proposed": 2018,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OpenLibrary",
+       "value": 2018,
+       "url": "https://openlibrary.org/search.json?title=The+Tattooist+of+Auschwitz&limit=1"
+      },
+      {
+       "src": "Google Books",
+       "value": 2018,
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3AThe+Tattooist+of+Auschwitz&maxResults=1&key=REDACTED"
+      },
+      {
+       "src": "Wikidata",
+       "value": 2018,
+       "url": "https://www.wikidata.org/wiki/Q65173665"
+      }
+     ]
+    },
+    {
+     "field": "pages",
+     "label": "page count",
+     "soft": false,
+     "editionDependent": true,
+     "current": 262,
+     "proposed": 263,
+     "status": "edition-dependent",
+     "grade": "B",
+     "note": "one source differs from the corpus (Google Books 263) on a field with no single true value -- likely a different printing/edition, not an error.",
+     "sources": [
+      {
+       "src": "Google Books",
+       "value": 263,
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3AThe+Tattooist+of+Auschwitz&maxResults=1&key=REDACTED"
+      }
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "author",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Heather Morris",
+     "proposed": "Heather Morris",
+     "status": "corroborated-by-one",
+     "grade": "B",
+     "note": "matches Google Books/Wikidata; disagrees with OpenLibrary (\"Heather Morris & Heather Morris & Morris, Heather teacher. & Morris Heather & Sarah Fields\")",
+     "sources": [
+      {
+       "src": "OpenLibrary",
+       "value": "Heather Morris & Heather Morris & Morris, Heather teacher. & Morris Heather & Sarah Fields",
+       "url": "https://openlibrary.org/search.json?title=The+Tattooist+of+Auschwitz&limit=1"
+      },
+      {
+       "src": "Google Books",
+       "value": "Heather Morris",
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3AThe+Tattooist+of+Auschwitz&maxResults=1&key=REDACTED"
+      },
+      {
+       "src": "Wikidata",
+       "value": "Heather Morris",
+       "url": "https://www.wikidata.org/wiki/Q65173665"
+      }
+     ],
+     "alternatives": [
+      "Heather Morris & Heather Morris & Morris, Heather teacher. & Morris Heather & Sarah Fields"
+     ]
+    },
+    {
+     "field": "publisher",
+     "label": "publisher",
+     "soft": true,
+     "editionDependent": true,
+     "current": "Zaffre",
+     "proposed": "Bonnier Zaffre Ltd.",
+     "status": "edition-dependent",
+     "grade": "B",
+     "note": "corpus value does not match either source (Google Books \"Bonnier Zaffre Ltd.\", Wikidata \"CPress\") -- treated as a distinct edition; the specific cut is not identified from available evidence.",
+     "sources": [
+      {
+       "src": "Google Books",
+       "value": "Bonnier Zaffre Ltd.",
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3AThe+Tattooist+of+Auschwitz&maxResults=1&key=REDACTED"
+      },
+      {
+       "src": "Wikidata",
+       "value": "CPress",
+       "url": "https://www.wikidata.org/wiki/Q65173665"
+      }
+     ],
+     "alternatives": [
+      "CPress"
+     ]
+    }
+   ]
+  },
+  {
+   "id": "b1659",
+   "title": "The Boy in the Striped Pajamas",
+   "sourcesReached": [
+    "Google Books",
+    "Wikidata"
+   ],
+   "sourcesMissed": [
+    "OpenLibrary (no match)"
+   ],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "first publication year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 2006,
+     "proposed": 2017,
+     "status": "proposed-change",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "Google Books",
+       "value": 2017,
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3AThe+Boy+in+the+Striped+Pajamas&maxResults=1&key=REDACTED"
+      }
+     ]
+    },
+    {
+     "field": "pages",
+     "label": "page count",
+     "soft": false,
+     "editionDependent": true,
+     "current": 216,
+     "proposed": 200,
+     "status": "edition-dependent",
+     "grade": "B",
+     "note": "one source differs from the corpus (Google Books 200) on a field with no single true value -- likely a different printing/edition, not an error.",
+     "sources": [
+      {
+       "src": "Google Books",
+       "value": 200,
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3AThe+Boy+in+the+Striped+Pajamas&maxResults=1&key=REDACTED"
+      }
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "author",
+     "soft": false,
+     "editionDependent": false,
+     "current": "John Boyne",
+     "proposed": "John Boyne",
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "Google Books",
+       "value": "John Boyne",
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3AThe+Boy+in+the+Striped+Pajamas&maxResults=1&key=REDACTED"
+      },
+      {
+       "src": "Wikidata",
+       "value": "John Boyne",
+       "url": "https://www.wikidata.org/wiki/Q140500228"
+      }
+     ]
+    },
+    {
+     "field": "publisher",
+     "label": "publisher",
+     "soft": true,
+     "editionDependent": true,
+     "current": "David Fickling Books",
+     "proposed": "Knopf Books for Young Readers",
+     "status": "edition-dependent",
+     "grade": "B",
+     "note": "one source differs from the corpus (Google Books \"Knopf Books for Young Readers\") on a field with no single true value -- likely a different printing/edition, not an error.",
+     "sources": [
+      {
+       "src": "Google Books",
+       "value": "Knopf Books for Young Readers",
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3AThe+Boy+in+the+Striped+Pajamas&maxResults=1&key=REDACTED"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "b1660",
+   "title": "Snow Flower and the Secret Fan",
+   "sourcesReached": [
+    "OpenLibrary",
+    "Wikidata"
+   ],
+   "sourcesMissed": [
+    "Google Books (no match)"
+   ],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "first publication year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 2005,
+     "proposed": 2005,
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OpenLibrary",
+       "value": 2005,
+       "url": "https://openlibrary.org/search.json?title=Snow+Flower+and+the+Secret+Fan&limit=1"
+      },
+      {
+       "src": "Wikidata",
+       "value": 2005,
+       "url": "https://www.wikidata.org/wiki/Q630508"
+      }
+     ]
+    },
+    {
+     "field": "pages",
+     "label": "page count",
+     "soft": false,
+     "current": 258,
+     "status": "no-source",
+     "grade": null,
+     "sources": []
+    },
+    {
+     "field": "creator",
+     "label": "author",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Lisa See",
+     "proposed": "Lisa See",
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OpenLibrary",
+       "value": "Lisa See",
+       "url": "https://openlibrary.org/search.json?title=Snow+Flower+and+the+Secret+Fan&limit=1"
+      },
+      {
+       "src": "Wikidata",
+       "value": "Lisa See",
+       "url": "https://www.wikidata.org/wiki/Q630508"
+      }
+     ]
+    },
+    {
+     "field": "publisher",
+     "label": "publisher",
+     "soft": true,
+     "editionDependent": true,
+     "current": "Random House",
+     "proposed": "Random House",
+     "status": "confirmed",
+     "grade": "B",
+     "sources": [
+      {
+       "src": "Wikidata",
+       "value": "Random House",
+       "url": "https://www.wikidata.org/wiki/Q630508"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "b1661",
+   "title": "The Lowland",
+   "sourcesReached": [
+    "OpenLibrary",
+    "Google Books",
+    "Wikidata"
+   ],
+   "sourcesMissed": [],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "first publication year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 2013,
+     "proposed": 2013,
+     "status": "corroborated-by-one",
+     "grade": "B",
+     "note": "matches OpenLibrary/Wikidata; disagrees with Google Books (2014)",
+     "sources": [
+      {
+       "src": "OpenLibrary",
+       "value": 2013,
+       "url": "https://openlibrary.org/search.json?title=The+Lowland&limit=1"
+      },
+      {
+       "src": "Google Books",
+       "value": 2014,
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3AThe+Lowland&maxResults=1&key=REDACTED"
+      },
+      {
+       "src": "Wikidata",
+       "value": 2013,
+       "url": "https://www.wikidata.org/wiki/Q16321394"
+      }
+     ],
+     "alternatives": [
+      2014
+     ]
+    },
+    {
+     "field": "pages",
+     "label": "page count",
+     "soft": false,
+     "editionDependent": true,
+     "current": 340,
+     "proposed": 406,
+     "status": "edition-dependent",
+     "grade": "B",
+     "note": "one source differs from the corpus (Google Books 406) on a field with no single true value -- likely a different printing/edition, not an error.",
+     "sources": [
+      {
+       "src": "Google Books",
+       "value": 406,
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3AThe+Lowland&maxResults=1&key=REDACTED"
+      }
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "author",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Jhumpa Lahiri",
+     "proposed": "Jhumpa Lahiri",
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OpenLibrary",
+       "value": "Jhumpa Lahiri",
+       "url": "https://openlibrary.org/search.json?title=The+Lowland&limit=1"
+      },
+      {
+       "src": "Google Books",
+       "value": "Jhumpa Lahiri",
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3AThe+Lowland&maxResults=1&key=REDACTED"
+      },
+      {
+       "src": "Wikidata",
+       "value": "Jhumpa Lahiri",
+       "url": "https://www.wikidata.org/wiki/Q16321394"
+      }
+     ]
+    },
+    {
+     "field": "publisher",
+     "label": "publisher",
+     "soft": true,
+     "current": "Alfred A. Knopf",
+     "status": "no-source",
+     "grade": null,
+     "sources": []
+    }
+   ]
+  },
+  {
+   "id": "b1662",
+   "title": "Corduroy",
+   "sourcesReached": [
+    "OpenLibrary",
+    "Google Books",
+    "Wikidata"
+   ],
+   "sourcesMissed": [],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "first publication year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 1968,
+     "proposed": 1968,
+     "status": "corroborated-by-one",
+     "grade": "B",
+     "note": "matches OpenLibrary/Wikidata; disagrees with Google Books (2014)",
+     "sources": [
+      {
+       "src": "OpenLibrary",
+       "value": 1968,
+       "url": "https://openlibrary.org/search.json?title=Corduroy&limit=1"
+      },
+      {
+       "src": "Google Books",
+       "value": 2014,
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3ACorduroy&maxResults=1&key=REDACTED"
+      },
+      {
+       "src": "Wikidata",
+       "value": 1968,
+       "url": "https://www.wikidata.org/wiki/Q16155609"
+      }
+     ],
+     "alternatives": [
+      2014
+     ]
+    },
+    {
+     "field": "pages",
+     "label": "page count",
+     "soft": false,
+     "editionDependent": true,
+     "current": 32,
+     "proposed": 33,
+     "status": "edition-dependent",
+     "grade": "B",
+     "note": "one source differs from the corpus (Google Books 33) on a field with no single true value -- likely a different printing/edition, not an error.",
+     "sources": [
+      {
+       "src": "Google Books",
+       "value": 33,
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3ACorduroy&maxResults=1&key=REDACTED"
+      }
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "author",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Don Freeman",
+     "proposed": "Don Freeman",
+     "status": "confirmed",
+     "grade": "A",
+     "sources": [
+      {
+       "src": "OpenLibrary",
+       "value": "Don Freeman",
+       "url": "https://openlibrary.org/search.json?title=Corduroy&limit=1"
+      },
+      {
+       "src": "Google Books",
+       "value": "Don Freeman",
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3ACorduroy&maxResults=1&key=REDACTED"
+      },
+      {
+       "src": "Wikidata",
+       "value": "Don Freeman",
+       "url": "https://www.wikidata.org/wiki/Q16155609"
+      }
+     ]
+    },
+    {
+     "field": "publisher",
+     "label": "publisher",
+     "soft": true,
+     "editionDependent": true,
+     "current": "Viking Press",
+     "proposed": "Viking Press",
+     "status": "corroborated-by-one",
+     "grade": "B",
+     "note": "matches Wikidata; disagrees with Google Books (\"Viking Books for Young Readers\")",
+     "sources": [
+      {
+       "src": "Google Books",
+       "value": "Viking Books for Young Readers",
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3ACorduroy&maxResults=1&key=REDACTED"
+      },
+      {
+       "src": "Wikidata",
+       "value": "Viking Press",
+       "url": "https://www.wikidata.org/wiki/Q16155609"
+      }
+     ],
+     "alternatives": [
+      "Viking Press"
+     ]
+    }
+   ]
+  },
+  {
+   "id": "b1663",
+   "title": "Make Way for Ducklings",
+   "sourcesReached": [
+    "OpenLibrary",
+    "Google Books",
+    "Wikidata"
+   ],
+   "sourcesMissed": [],
+   "proposals": [
+    {
+     "field": "year",
+     "label": "first publication year",
+     "soft": false,
+     "editionDependent": false,
+     "current": 1941,
+     "proposed": 1941,
+     "status": "corroborated-by-one",
+     "grade": "B",
+     "note": "matches OpenLibrary/Wikidata; disagrees with Google Books (2026)",
+     "sources": [
+      {
+       "src": "OpenLibrary",
+       "value": 1941,
+       "url": "https://openlibrary.org/search.json?title=Make+Way+for+Ducklings&limit=1"
+      },
+      {
+       "src": "Google Books",
+       "value": 2026,
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3AMake+Way+for+Ducklings&maxResults=1&key=REDACTED"
+      },
+      {
+       "src": "Wikidata",
+       "value": 1941,
+       "url": "https://www.wikidata.org/wiki/Q1886318"
+      }
+     ],
+     "alternatives": [
+      2026
+     ]
+    },
+    {
+     "field": "pages",
+     "label": "page count",
+     "soft": false,
+     "editionDependent": true,
+     "current": 68,
+     "proposed": 39,
+     "status": "edition-dependent",
+     "grade": "B",
+     "note": "one source differs from the corpus (Google Books 39) on a field with no single true value -- likely a different printing/edition, not an error.",
+     "sources": [
+      {
+       "src": "Google Books",
+       "value": 39,
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3AMake+Way+for+Ducklings&maxResults=1&key=REDACTED"
+      }
+     ]
+    },
+    {
+     "field": "creator",
+     "label": "author",
+     "soft": false,
+     "editionDependent": false,
+     "current": "Robert McCloskey",
+     "proposed": "Robert McCloskey",
+     "status": "corroborated-by-one",
+     "grade": "B",
+     "note": "matches Google Books/Wikidata; disagrees with OpenLibrary (\"Robert McCloskey & David Crommett\")",
+     "sources": [
+      {
+       "src": "OpenLibrary",
+       "value": "Robert McCloskey & David Crommett",
+       "url": "https://openlibrary.org/search.json?title=Make+Way+for+Ducklings&limit=1"
+      },
+      {
+       "src": "Google Books",
+       "value": "Robert McCloskey",
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3AMake+Way+for+Ducklings&maxResults=1&key=REDACTED"
+      },
+      {
+       "src": "Wikidata",
+       "value": "Robert McCloskey",
+       "url": "https://www.wikidata.org/wiki/Q1886318"
+      }
+     ],
+     "alternatives": [
+      "Robert McCloskey & David Crommett"
+     ]
+    },
+    {
+     "field": "publisher",
+     "label": "publisher",
+     "soft": true,
+     "editionDependent": true,
+     "current": "Viking Press",
+     "proposed": "Penguin Group",
+     "status": "edition-dependent",
+     "grade": "B",
+     "note": "one source differs from the corpus (Google Books \"Penguin Group\") on a field with no single true value -- likely a different printing/edition, not an error.",
+     "sources": [
+      {
+       "src": "Google Books",
+       "value": "Penguin Group",
+       "url": "https://www.googleapis.com/books/v1/volumes?q=intitle%3AMake+Way+for+Ducklings&maxResults=1&key=REDACTED"
+      }
+     ]
+    }
+   ]
+  }
+ ]
+}
