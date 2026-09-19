@@ -784,11 +784,25 @@ function renderSankey(){
  var leftTotals={};SANKEY_KINDS.forEach(function(k){leftTotals[k]=SANKEY_TIERS.reduce(function(s,t){return s+counts[k][t.key];},0);});
  var rightTotals={};SANKEY_TIERS.forEach(function(t){rightTotals[t.key]=SANKEY_KINDS.reduce(function(s,k){return s+counts[k][t.key];},0);});
  var grand=list.length;
- // wrap is a flex-1 child of a flex-column panel, so it's already been stretched to fill whatever
- // height the panel grew to (matching panel B's height, via CSS grid's row stretch) by the time this
- // runs -- read that real height instead of a fixed constant so the diagram fills its box instead of
- // leaving dead space below it.
- var Wd=wrap.clientWidth||700,targetH=Math.max(240,(wrap.clientHeight||320)-26),gapV=10;
+ // wrap is a flex-1 child of a flex-column panel, and CSS grid stretches panel B and panel C to the
+ // same row height. Reading wrap's OWN clientHeight here would be self-referential -- this function
+ // sets the SVG's height, which grows the wrap, which grows panel C, which grows the stretched row,
+ // which grows wrap again next call, compounding taller on every re-render (view switches, filters,
+ // resizes all call this). Instead, measure panel B's actual content height (title/desc/dropdowns/
+ // chart/axis row, all fixed-size, no feedback loop) and size the diagram to match that -- panel C
+ // then stretches to fit it exactly instead of ballooning past it.
+ var panelB=$('#panelB'),panelC=$('#panelC'),fallbackH=Math.max(240,(wrap.clientHeight||320)-26);
+ var targetH=fallbackH;
+ if(panelB&&panelC){
+  var axisRow=$('#radarAxisRow');
+  var bBottomEl=axisRow&&axisRow.children.length?axisRow:panelB.lastElementChild;
+  if(bBottomEl){
+   var bContentBottom=bBottomEl.getBoundingClientRect().bottom-panelB.getBoundingClientRect().top+16; // + panel's own bottom padding
+   var headerH=wrap.getBoundingClientRect().top-panelC.getBoundingClientRect().top;
+   targetH=Math.max(240,bContentBottom-headerH-16);
+  }
+ }
+ var Wd=wrap.clientWidth||700,gapV=10;
  var pxPerUnit=Math.max(0.25,(targetH-gapV*(SANKEY_TIERS.length-1))/grand);
  // Labels live outside the node columns (left labels to the left, right labels to the right) so
  // they never sit on top of the ribbons, which occupy all the horizontal space between the two

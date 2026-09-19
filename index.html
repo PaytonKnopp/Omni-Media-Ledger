@@ -1203,7 +1203,7 @@ body[data-theme="outer-wilds"]{--bg:#0e0a09;--panel:#181010;--panel-2:#120c0b;--
       <div class="relative h-[380px] mt-3"><canvas id="bubbleC"></canvas></div>
       <p class="chartFail hidden text-[11px] text-amber-300/80 mt-2">Chart.js CDN unreachable — connect once so the chart runtime can load, then reopen this file.</p>
     </div>
-    <div class="panel p-4">
+    <div class="panel p-4" id="panelB">
       <h3 class="text-[12px] font-bold uppercase tracking-[.16em] text-slate-100">B · Structural Fingerprint Radar</h3>
       <p class="text-[11px] text-slate-500 mt-1">Overlay up to three works or creators across five axes — click any axis name below the chart to swap what it compares by. Type in any slot to search all films, series, games, books and creators.</p>
       <div class="grid grid-cols-1 gap-2 mt-3">
@@ -1215,10 +1215,10 @@ body[data-theme="outer-wilds"]{--bg:#0e0a09;--panel:#181010;--panel-2:#120c0b;--
       <div id="radarAxisRow" class="mt-2.5" style="display:grid;grid-template-columns:repeat(5,1fr);gap:6px"></div>
       <p class="chartFail hidden text-[11px] text-amber-300/80 mt-2">Chart.js CDN unreachable.</p>
     </div>
-    <div class="panel p-4 flex flex-col">
+    <div class="panel p-4 flex flex-col" id="panelC">
       <h3 class="text-[12px] font-bold uppercase tracking-[.16em] text-slate-100">C · Taste Flow · Medium → Tier</h3>
       <p class="text-[11px] text-slate-500 mt-1">Where your Gold, Silver, Bronze and Owned works come from, by medium — ribbon width = number of works. Untiered works are left out so the shape isn't swamped by the bulk of the catalog. Hover a ribbon or node for exact counts.</p>
-      <div id="sankeyWrap" class="relative mt-3 flex-1" style="min-height:280px"></div>
+      <div id="sankeyWrap" class="relative mt-3 flex-1" style="min-height:280px;overflow:hidden"></div>
     </div>
     <div class="panel p-4 xl:col-span-2">
       <div class="flex flex-wrap items-baseline justify-between gap-2"><h3 class="text-[12px] font-bold uppercase tracking-[.16em] text-slate-100">D · Taste Relationship Graph</h3><span class="lbl">click a creator or work to explore its web</span></div>
