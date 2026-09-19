@@ -367,6 +367,17 @@ button:focus-visible,select:focus-visible,input:focus-visible{outline:2px solid 
  #goatTierSeg button{border-right:1px solid var(--border);border-bottom:1px solid var(--border)}
  #goatTierSeg button:nth-child(4n){border-right:none}
  #goatTierSeg button:nth-last-child(-n+2){border-bottom:none;grid-column:span 2}
+ /* #goatTierSeg (and its sibling #goatTypeSeg/#goatSortSel) each carry a desktop
+    style="flex:0 0 auto" so they sit side by side at their own natural width in one row. On a
+    phone that row can't fit all three, so it wraps -- and once wrapped, "flex:0 0 auto" means
+    each one keeps sizing to its own content instead of stretching to the row's full width, so
+    the status filter (6 buttons' worth of text) ends up visibly narrower than the type filter
+    (5 shorter labels) or the search box above them, an asymmetric ragged right edge rather than
+    everything lining up. Stack the row and force every child to the same full width so they all
+    align flush left AND right, the same as every other grouped control strip in this file. */
+ #goatSearchFilterRow{flex-direction:column;align-items:stretch;gap:.5rem}
+ #goatSearchFilterRow>#goatTypeSeg,#goatSearchFilterRow>#goatTierSeg,#goatSearchFilterRow>#goatSortSel{width:100%!important;flex:1 1 auto!important}
+ #goatSearchFilterRow>#goatSearchCount{margin-left:0!important;width:100%}
  /* Contenders Ledger's Rank/sort row (For You/Editorial/Title A-Z/Soonest Window): plain flex-wrap
     left the 4th pill ("Soonest Window") alone on its own row since 3 fit on the first. A 2-column
     grid for just the sort buttons keeps two per row consistently instead of an uneven 3-then-1. */
@@ -1321,7 +1332,7 @@ body[data-theme="outer-wilds"]{--bg:#0e0a09;--panel:#181010;--panel-2:#120c0b;--
     <h2 class="text-[13px] font-bold uppercase tracking-[.18em]" style="color:#a5b4fc">🔍 Search &amp; Build Your Favorites</h2>
     <p class="text-[11px] text-slate-500 mt-1.5 max-w-3xl">Search the full 2,508-work corpus and tier or own anything right from the results — no separate picker, no popup. Everything below (your declared canon, taste DNA, and generated recommendations) updates the moment you do.</p>
     <input type="text" id="goatSearchInput" class="inp mt-3" placeholder="🔍 Search movies, TV, games, books by title, creator, genre…" autocomplete="off">
-    <div class="flex flex-wrap items-center gap-2 mt-3">
+    <div class="flex flex-wrap items-center gap-2 mt-3" id="goatSearchFilterRow">
       <div class="seg" id="goatTypeSeg" style="flex:0 0 auto"><button type="button" data-t="all" class="on">All</button><button type="button" data-t="movie">Movies</button><button type="button" data-t="tv">TV</button><button type="button" data-t="game">Games</button><button type="button" data-t="book">Books</button></div>
       <div class="seg" id="goatTierSeg" style="flex:0 0 auto"><button type="button" data-tf="all" class="on">Any status</button><button type="button" data-tf="gold">🥇 Gold</button><button type="button" data-tf="silver">🥈 Silver</button><button type="button" data-tf="bronze">🥉 Bronze</button><button type="button" data-tf="untiered" title="Not yet Gold/Silver/Bronze or owned">Untiered</button><button type="button" data-tf="owned">◆ Owned</button></div>
       <select id="goatSortSel" class="inp" style="width:auto">
