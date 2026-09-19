@@ -4584,12 +4584,17 @@ const CHANGELOG=[
  var activeCat='feedback';
  var activeSort='top';
  var myVotes={};
+ // The list is capped to a handful of rows and expanded on demand rather than given its own
+ // inner scrollbar: the modal body is already a scroll container, and nesting a second one in
+ // the same thumb-reach on a phone meant a drag could scroll either list unpredictably.
+ var listExpanded=false;
+ var COLLAPSED_ROWS=5;
  var TEXT_MAX=2000;
  var RESOLVED_STATUSES=['shipped','declined'];
  var CAT_LABEL={feedback:'Feature &amp; bug suggestions',media:'Media requests'};
  var CAT_DESC={
   feedback:'Bugs, ideas, missing features — anything. Visible to everyone using this app, not just the person who set it up.',
-  media:'Missing a movie, show, game, or book? Request it here so it can be added and factored into taste matching — and if you spot one already requested (or already in the collection), mention that too so it can get sorted out. Visible to everyone using this app.'
+  media:'Missing a movie, show, game, or book? Ask for it here and it gets added to the collection and factored into taste matching. Visible to everyone using this app.'
  };
  var CAT_PLACEHOLDER={feedback:'e.g. It would be great if…',media:'e.g. Dune (2021), or just the title'};
  // Cheap similarity check for the duplicate warnings below: normalize, then compare shared-word
@@ -4609,6 +4614,8 @@ const CHANGELOG=[
   gate.classList.remove('hidden');
   showError('');
   if(!loaded){loaded=true;loadSuggestions();}
+  var ta=$('#suggestText');
+  if(ta)setTimeout(function(){ta.focus();},0);
  }
  // Load once at startup (not gated behind opening the modal) so the header badge can show the
  // outstanding count before anyone's clicked in -- the same data the modal itself needs anyway.
@@ -4625,7 +4632,7 @@ const CHANGELOG=[
   var d=Math.round(h/24);return d+'d ago';
  }
  function setTab(tab){
-  activeTab=tab;
+  activeTab=tab;listExpanded=false;
   document.querySelectorAll('#suggestTabs .suggestTab').forEach(function(b){b.classList.toggle('on',b.dataset.tab===tab);});
   renderList(allItems);
  }
@@ -4635,7 +4642,7 @@ const CHANGELOG=[
   renderList(allItems);
  }
  function setCat(cat){
-  activeCat=cat;
+  activeCat=cat;listExpanded=false;
   document.querySelectorAll('#suggestCatTabs .suggestCatTab').forEach(function(b){b.classList.toggle('on',b.dataset.cat===cat);});
   var mediaRow=$('#suggestMediaRow');if(mediaRow)mediaRow.classList.toggle('hidden',cat!=='media');
   var desc=$('#suggestCatDesc');if(desc)desc.innerHTML=CAT_DESC[cat]||'';
@@ -4665,6 +4672,14 @@ const CHANGELOG=[
   var openTotal=items.filter(function(it){return RESOLVED_STATUSES.indexOf(it.status)<0;}).length;
   el.textContent=openTotal?('('+openTotal+')'):'';
  }
+ // Show more/less only earns its place when something is actually hidden behind it.
+ function syncExpandBtn(total){
+  var btn=$('#suggestExpandBtn');if(!btn)return;
+  var hidden=total-COLLAPSED_ROWS;
+  if(hidden<=0){btn.classList.add('hidden');listExpanded=false;return;}
+  btn.classList.remove('hidden');
+  btn.textContent=listExpanded?'Show less \u2303':('Show '+hidden+' more \u2304');
+ }
  function renderList(items){
   var list=$('#suggestList');if(!list)return;
   updateNavBadge(items);
@@ -4682,10 +4697,13 @@ const CHANGELOG=[
   });
   if(!shown.length){
    var emptyMsg=activeTab==='resolved'?'Nothing resolved yet.':(activeCat==='media'?'No media requests yet — be the first to ask for a title.':'Nothing outstanding — be the first to suggest something.');
-   list.innerHTML='<div class="text-[12px] text-slate-500">'+emptyMsg+'</div>';
+   list.innerHTML='<div class="suggestEmpty">'+emptyMsg+'</div>';
+   syncExpandBtn(0);
    return;
   }
   var a=acct();var myHandle=a&&a.handle;
+  syncExpandBtn(shown.length);
+  if(!listExpanded)shown=shown.slice(0,COLLAPSED_ROWS);
   list.innerHTML=shown.map(function(it){
    var mine=!!(myHandle&&it.handle&&it.handle===myHandle);
    var isResolved=RESOLVED_STATUSES.indexOf(it.status)>=0;
@@ -4784,10 +4802,16 @@ const CHANGELOG=[
   });
  }
  function updateCharCount(){
-  var ta=$('#suggestText'),cc=$('#suggestCharCount');if(!ta||!cc)return;
+  var ta=$('#suggestText'),cc=$('#suggestCharCount');if(!ta)return;
   var len=(ta.value||'').length;
-  cc.textContent=len+' / '+TEXT_MAX;
-  cc.style.color=len>TEXT_MAX?'#f87171':'';
+  if(cc){
+   cc.textContent=len+' / '+TEXT_MAX;
+   cc.style.color=len>TEXT_MAX?'#f87171':'';
+  }
+  // Greying out Submit on an empty box is clearer than letting it be pressed and answered with an
+  // error; the empty/too-long guards in submit() stay as the real check either way.
+  var btn=$('#suggestSubmit');
+  if(btn&&!btn.dataset.sending)btn.disabled=!ta.value.trim()||len>TEXT_MAX;
  }
  // Warns before submit, doesn't block it -- a false-positive match (same word used two different
  // ways) shouldn't stop a real, distinct suggestion from going in.
@@ -4823,7 +4847,7 @@ const CHANGELOG=[
   if(!a||!a.configured){showError('Cloud accounts aren\'t set up on this copy of the app, so there\'s nowhere to send this yet.');return;}
   showError('');
   var submitBtn=$('#suggestSubmit');
-  if(submitBtn)submitBtn.disabled=true;
+  if(submitBtn){submitBtn.dataset.sending='1';submitBtn.disabled=true;submitBtn.textContent='Sending…';}
   var handle=a.handle||'anonymous';
   var payload={text:text,handle:handle,kind:activeCat};
   if(activeCat==='media'){
@@ -4841,11 +4865,25 @@ const CHANGELOG=[
   }).catch(function(err){
    showError('Couldn\'t submit that ('+(err&&err.message||err)+').');
   }).finally(function(){
-   if(submitBtn)submitBtn.disabled=false;
+   if(submitBtn){delete submitBtn.dataset.sending;submitBtn.textContent='Submit';}
+   updateCharCount();
   });
  }
  on('#suggestBtn','click',function(e){e.stopPropagation();open();});
  on('#suggestClose','click',close);
+ // Clicking the dimmed backdrop closes; a click that started inside the card does not, so
+ // dragging to select text in the textarea and releasing outside it can't dismiss your draft.
+ gate.addEventListener('mousedown',function(e){if(e.target===gate)gate.dataset.backdropDown='1';});
+ gate.addEventListener('click',function(e){
+  var fromBackdrop=gate.dataset.backdropDown==='1';
+  delete gate.dataset.backdropDown;
+  if(e.target===gate&&fromBackdrop)close();
+ });
+ document.addEventListener('keydown',function(e){
+  if(e.key==='Escape'&&!gate.classList.contains('hidden')){close();return;}
+  // Ctrl/Cmd+Enter submits from inside the textarea, the usual shortcut for a compose box.
+  if((e.key==='Enter')&&(e.metaKey||e.ctrlKey)&&e.target&&e.target.id==='suggestText'){e.preventDefault();submit();}
+ });
  on('#suggestSubmit','click',submit);
  on('#suggestText','input',function(){updateCharCount();checkDuplicateWarning();});
  on('#suggestCatTabs','click',function(e){
@@ -4856,10 +4894,9 @@ const CHANGELOG=[
   var b=e.target.closest('.suggestSortTab');if(!b)return;
   setSort(b.dataset.sort);
  });
- on('#suggestExpandBtn','click',function(e){
-  var list=$('#suggestList');if(!list)return;
-  var expanded=list.classList.toggle('expanded');
-  e.target.textContent=expanded?'Show less ⌃':'Show more ⌄';
+ on('#suggestExpandBtn','click',function(){
+  listExpanded=!listExpanded;
+  renderList(allItems);
  });
  on('#suggestTabs','click',function(e){
   var b=e.target.closest('.suggestTab');if(!b)return;
