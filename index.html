@@ -424,6 +424,15 @@ button:focus-visible,select:focus-visible,input:focus-visible{outline:2px solid 
  #contMediumFilter{flex-direction:column;align-items:stretch;gap:.5rem}
  #contMedGroup,#contRankGroup{background:rgba(148,163,184,.04);border:1px solid rgba(148,163,184,.1);border-radius:10px;padding:7px 8px}
  .contFilterDivider{display:none}
+ /* 5 medium buttons (All/Film/TV/Game/Book) in plain flex-wrap split 4-then-1, stranding "Book"
+    alone with a ragged gap next to it -- same "one item left dangling" problem #goatTierSeg and
+    #contRankGroup already solve elsewhere in this file with a grid instead of flex-wrap. 4 equal
+    columns for All/Film/TV/Game, then the last button spans the full row underneath instead of
+    trailing off to one side. */
+ #contMedGroup{display:grid;grid-template-columns:repeat(4,1fr);gap:6px 8px;align-items:center}
+ #contMedGroup>.text-\[10px\]{grid-column:1/-1;margin:0 0 2px}
+ #contMedGroup .contMedBtn{text-align:center}
+ #contMedGroup .contMedBtn:last-child{grid-column:1/-1}
 
  /* Watchlist's filter row (status seg / type seg / sort dropdown) was the same kind of flat
     flex-wrap row as Contenders Ledger's was before that cleanup -- three unrelated controls with
@@ -1282,7 +1291,6 @@ body[data-theme="outer-wilds"]{--bg:#0e0a09;--panel:#181010;--panel-2:#120c0b;--
 <section data-sec="contenders" class="hidden">
   <div class="flex flex-wrap items-baseline justify-between gap-2 mb-4">
     <p class="text-[11px] text-slate-500 max-w-2xl">Predictive tracking terminal for upcoming releases backed by elite artistic / technical pedigree. Two scores per title: <span style="color:#fbbf24">For You</span> = how well it fits <em>your</em> taste engine; <span style="color:#7dd3fc">Editorial</span> = general odds it becomes an all-timer. All 50 entries are spot-checked against live sources — see the date on each card. Calendars still drift between checks.</p>
-    <span class="chip" id="contCount"></span>
     <span class="chip" id="contVerifiedCount" style="color:#94a3b8" title="How many entries in view have been double-checked against a live source (Rotten Tomatoes, Metacritic, Steam, etc.) for their release status and scores, vs. still running on the original editorial estimate. A card with a ⚠ WINDOW PASSED badge is one of the unchecked ones whose release date has already come and gone -- the highest priority to verify next."></span>
   </div>
   <input type="text" id="contSearch" class="inp mb-3" style="max-width:340px" placeholder="🔍 Search contenders by title, lead, or platform…" autocomplete="off">

@@ -1171,7 +1171,6 @@ function renderContenders(){const MED={Film:'#a78bfa',TV:'#22d3ee',Game:'#fbbf24
  $$('.contMedBtn').forEach(b=>{var med=b.dataset.med;var on=med===contMedium;var mc=MED[med]||'#818cf8';b.style.color=on?mc:'#94a3b8';b.style.borderColor=on?mc+'88':'rgba(148,163,184,.25)';b.style.background=on?mc+'18':'transparent';b.style.fontWeight=on?'700':'400';
   var n=med==='all'?contenders.length:contenders.filter(function(c){return c.medium===med;}).length;
   b.textContent=(b.dataset.medLabel||(b.dataset.medLabel=b.textContent))+' ('+n+')';});
- var cc=$('#contCount');if(cc)cc.textContent=pool.length+(contMedium==='all'?' contenders':' '+contMedium.toLowerCase()+' contenders');
  var vc=$('#contVerifiedCount');if(vc){var verifiedN=pool.filter(function(c){return c.verified;}).length;vc.textContent='◉ '+verifiedN+'/'+pool.length+' spot-checked';}
  if(!pool.length){$('#contenderGrid').innerHTML='<div class="panel p-6 text-center text-[12px] text-slate-500 col-span-full">No contenders match'+(cq?' "'+esc(cq)+'"':'')+(contMedium!=='all'?' in '+contMedium:'')+'. Try a different medium or search term.</div>';return;}
  $('#contenderGrid').innerHTML=pool.map(c=>{const col=MED[c.medium]||'#94a3b8';
