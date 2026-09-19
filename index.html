@@ -445,6 +445,21 @@ button:focus-visible,select:focus-visible,input:focus-visible{outline:2px solid 
  #contMedGroup .contMedBtn{text-align:center}
  #contMedGroup .contMedBtn:last-child{grid-column:1/-1}
 
+ /* Global Controller's Compact density mode drops the grid to 2 columns even on a phone (see the
+    body.compact #grid rule above, outside this media query) so a card is only ~150px wide there.
+    Nothing in the card head's chip row (kind/content-rating/GOAT-match/optional franchise chip,
+    alongside the title) shrinks below its own text width by default, so on a card that narrow they
+    stacked one-per-line into a tall pile of separate pills instead of a scannable line, and a long
+    franchise name ("Middle-earth (Tolkien)") had nowhere to go but overflow past the card's own
+    edge, clipped mid-word by the card's overflow:hidden. Shrink the chips specifically here so
+    short ones (kind/rating/GOAT) have a real chance of sharing a line, and cap+ellipsis the
+    franchise chip so a long series name truncates instead of blowing out the card -- its full name
+    is still in the title attribute. Comfortable density and desktop's wider compact columns
+    (3-up/4-up, see the min-width queries above) are untouched. */
+ body.compact #grid .cardChips{gap:.3rem .3rem}
+ body.compact #grid .cardChips .chip{font-size:9px;padding:2px 6px;min-width:0}
+ body.compact #grid .franchiseChip{display:inline-block;max-width:112px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;vertical-align:top}
+
  /* Watchlist's filter row (status seg / type seg / sort dropdown) was the same kind of flat
     flex-wrap row as Contenders Ledger's was before that cleanup -- three unrelated controls with
     no visual separation, wrapping unpredictably on a phone. Same treatment: each becomes its own
