@@ -318,7 +318,15 @@ button:focus-visible,select:focus-visible,input:focus-visible{outline:2px solid 
  @keyframes navFadeHint{0%,100%{opacity:1}50%{opacity:.35}}
  .navScrollWrap.nav-hint-pulse .navFadeR{animation:navFadeHint 1s ease-in-out 3}
  #tipsTabPicker{position:relative}
- #profileBtnRow{flex-wrap:nowrap;overflow-x:auto;-webkit-overflow-scrolling:touch;scrollbar-width:none;max-width:100%}
+ /* max-width:100% here only ever meant "no wider than whatever width flex-shrink happens to leave
+    this column" -- it does NOT force that shrink to happen, and in practice this row's own
+    min-content width (driven by however many/long its buttons are) won this tug-of-war against the
+    header's own available space, so the row silently overflowed its column, then the row above it,
+    then the page itself, once a 4th, longer-labeled button (Clear Ratings) pushed its natural width
+    past what used to just barely fit. A hard pixel cap makes this row scroll internally past that
+    point instead of ever growing the header past the viewport, regardless of how many buttons this
+    row holds in the future. */
+ #profileBtnRow{flex-wrap:nowrap;overflow-x:auto;-webkit-overflow-scrolling:touch;scrollbar-width:none;max-width:150px}
  #profileBtnRow::-webkit-scrollbar{display:none}
  #profileBtnRow>*{flex:0 0 auto;padding-top:.5rem;padding-bottom:.5rem;min-height:36px;display:inline-flex;align-items:center}
 
