@@ -383,13 +383,14 @@ button:focus-visible,select:focus-visible,input:focus-visible{outline:2px solid 
     wrapping is unchanged). */
  #tierGroup{flex-basis:100%;padding-top:.4rem;margin-top:.15rem;border-top:1px dashed var(--border-2)}
  /* "✨ Best Untried Matches" used ml-auto to sit flush-right of the checkbox/tier row on desktop;
-    once that row wraps on a phone, the auto margin just strands it alone on its own line at the
-    right edge, reading as a stray floating pill instead of a clear action. Drop the auto-margin
-    behavior here and give it its own full-width, centered, clearly-divided row instead -- same
-    dashed-divider treatment as #tierGroup above, so the whole filter card reads as consistent
-    stacked bands on mobile. Desktop's ml-auto placement is untouched (this selector only exists
-    inside this media query). */
- #discoverBtn{flex-basis:100%;margin-left:0!important;width:100%;text-align:center;margin-top:.4rem;padding-top:.6rem;border-top:1px dashed var(--border-2)}
+    once that row wraps on a phone, the auto margin just strands it alone at the far right of an
+    otherwise-empty line. A full-width row (an earlier version of this fix) over-corrected: it added
+    a divider and margin that shifted every time the button's active/inactive state changed. Just
+    drop the auto-margin so it falls inline right after the tier chips, wrapping like any other chip
+    in the row -- same spot on the row every time, in place, and syncDiscoverBtn's own background/
+    border/glow toggle is the only thing that changes when it's active. Desktop's ml-auto placement
+    is untouched (this selector only exists inside this media query). */
+ #discoverBtn{margin-left:0!important}
 
  /* Results/actions row (below the active-filter bar): on desktop this is 3 flex children --
     result count, a cluster of Rabbit Hole/Surprise Me/Compact/Show, and Sort -- laid out with
