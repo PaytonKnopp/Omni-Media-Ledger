@@ -765,8 +765,10 @@ function initCharts(){
  // Chart.js has no legend-level "gap between swatch and text" option -- boxPadding is a *tooltip*
  // option and does nothing here despite the similar name. A couple of leading spaces in the
  // generated label text is the reliable way to get that breathing room in the legend itself.
+ // The global Chart.defaults.color (a muted slate used for axis ticks) is too dark for the legend
+ // against the near-black panel, so the legend labels get their own brighter color/size.
  CH.bubble=new Chart($('#bubbleC'),{type:'bubble',data:{datasets:[]},options:{responsive:true,maintainAspectRatio:false,
-  plugins:{legend:{labels:{usePointStyle:true,boxWidth:8,generateLabels:function(chart){
+  plugins:{legend:{labels:{usePointStyle:true,boxWidth:8,color:'#e2e8f0',font:{size:12},generateLabels:function(chart){
    // The ghost dataset (points the Global Controller has filtered out of scope, kept visible but
    // dimmed for spatial context) isn't a real series -- it never gets its own legend entry.
    return chart.data.datasets.map(function(ds,i){var c=ds._legendColor||'#94a3b8';return {text:'  '+ds.label,fillStyle:c,strokeStyle:c,pointStyle:'circle',datasetIndex:i,hidden:!chart.isDatasetVisible(i)};}).filter(function(l,i){return !chart.data.datasets[i]._ghost;});
@@ -774,7 +776,7 @@ function initCharts(){
   scales:{x:{title:{display:true,text:'Critical Score'},suggestedMin:55,suggestedMax:100},y:{title:{display:true,text:'Audience Score'},suggestedMin:55,suggestedMax:100}}}});
  CH.radar=new Chart($('#radarC'),{type:'radar',data:{labels:['Critical','Audience','Technical','Dread / Tension','Complexity'],datasets:[]},options:{responsive:true,maintainAspectRatio:false,
   scales:{r:{min:0,max:100,ticks:{stepSize:20,backdropColor:'transparent'},grid:{color:'rgba(148,163,184,.12)'},angleLines:{color:'rgba(148,163,184,.12)'},pointLabels:{color:'#94a3b8',font:{size:10}}}},
-  plugins:{legend:{labels:{usePointStyle:true,boxWidth:8,generateLabels:function(chart){
+  plugins:{legend:{labels:{usePointStyle:true,boxWidth:8,color:'#e2e8f0',font:{size:12},generateLabels:function(chart){
    return chart.data.datasets.map(function(ds,i){var c=ds.borderColor||ds.backgroundColor;return {text:'  '+ds.label,fillStyle:c,strokeStyle:c,pointStyle:'circle',datasetIndex:i,hidden:!chart.isDatasetVisible(i)};});
   }}}}}});
  buildRadarSelects();renderRadarAxisRow();updateRadar();
