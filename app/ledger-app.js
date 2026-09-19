@@ -3721,6 +3721,22 @@ on('#profileExportBtn','click',()=>{try{
 }catch(e){alert('Export failed: '+e.message);}});
 on('#profileImportInput','change',e=>{const file=e.target.files&&e.target.files[0];if(!file)return;const reader=new FileReader();reader.onload=()=>{try{const parsed=JSON.parse(reader.result);if(typeof parsed!=='object'||parsed===null||Array.isArray(parsed))throw new Error('File is not a profile object');applyImportedSnapshot(parsed);reloadWithMediaSync(PERSONAL_PROFILE);}catch(err){alert('Could not import that file: '+err.message);}};reader.readAsText(file);e.target.value='';});
 on('#profileResetBtn','click',()=>{if(typeof confirm!=='undefined'&&!confirm('Reset your profile to blank? This clears your owned collection, declared canon, taste weights and watchlist in this browser. Export first if you want to keep a copy.'))return;localStorage.setItem('omniLedgerProfile','{}');localStorage.setItem('omniLedgerWatchlist','{}');reloadWithMediaSync(PERSONAL_PROFILE);});
+// "Start from the PK Sample" onboarding copies PK's own ~70 pre-rated books (see the
+// !PROFILE_FROM_STORAGE seed ratings above) into whoever picks it as a starting point, same as it
+// copies the sample's tiers/owned collection/taste weights -- by design, so a fresh account isn't
+// staring at an empty app. But a rating is a much more personal, specific claim ("I give this a
+// 9.5") than a starter tier or genre weight, and someone who took the sample as a base to build
+// their OWN account on may want every one of those ratings gone without also losing the owned
+// collection, tiers, or taste weights the full Reset above would wipe. This clears only
+// PERSONAL_PROFILE.ratings, through the normal mutateProfile path (same local save + cloud sync +
+// re-render as every other profile edit), so a user's own ratings are always exactly, and only,
+// what they entered through the Rate popup themselves from that point on.
+on('#profileClearRatingsBtn','click',()=>{
+ const n=Object.keys(PERSONAL_PROFILE.ratings||{}).length;
+ if(!n){alert('No personal ratings to clear.');return;}
+ if(typeof confirm!=='undefined'&&!confirm('Clear all '+n+' personal rating'+(n===1?'':'s')+' (the 0-10 scores from the Rate popup)? Your owned collection, tiers, and taste weights are untouched. This cannot be undone.'))return;
+ mutateProfile(p=>{p.ratings={};});
+});
 
 /* ===== Normalized gold/silver/bronze/owned sync (supabase/schema.sql media_status) =====
    Every reload site below writes a new omniLedgerProfile to localStorage and then reloads the
