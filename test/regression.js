@@ -790,12 +790,12 @@ async function runFile(browser, file) {
     if (pageErrors.length) pageErrors.forEach(e => console.log('     ' + e));
     check('no failing console.assert (dataset integrity check)', consoleAssertFailures.length === 0);
     if (consoleAssertFailures.length) consoleAssertFailures.forEach(e => console.log('     ' + e));
-    const contCountText = await page.evaluate(() => {
+    const contVerifiedText = await page.evaluate(() => {
       const b = document.querySelector('#nav .navBtn[data-view="contenders"]');
       if (b) b.click();
-      return document.getElementById('contCount').textContent;
+      return document.getElementById('contVerifiedCount').textContent;
     });
-    check('contenders count reflects the live contenders array, not a stale default', /^\d+ contenders$/.test(contCountText));
+    check('contenders spot-check count reflects the live contenders array, not a stale default', /^◉ \d+\/\d+ spot-checked$/.test(contVerifiedText));
     await page.close();
   }
 
