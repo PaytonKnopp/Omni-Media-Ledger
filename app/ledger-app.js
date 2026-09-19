@@ -169,7 +169,12 @@ const state={view:'controller',q:'',type:'all',struct:'all',plats:[],minGoat:0,m
 const $=s=>document.querySelector(s),$$=s=>Array.from(document.querySelectorAll(s));
 const on=(sel,ev,fn)=>{const el=$(sel);if(el)el.addEventListener(ev,fn);else console.warn('missing element:',sel);};
 // esc/themeColor(+THEME_PALETTE) live in app/cards.js (pure, closure-independent) now.
-const SORTS={overall:(a,b)=>(b.ovr-a.ovr)||(b.crit-a.crit),gm:(a,b)=>(b.gm-a.gm)||(b.crit-a.crit),myrating:(a,b)=>((b.myRating==null?-1:b.myRating)-(a.myRating==null?-1:a.myRating))||a.title.localeCompare(b.title),cosmic:(a,b)=>(b.ch-a.ch)||(b.dread-a.dread),sound:(a,b)=>(b.snd-a.snd)||(b.crit-a.crit),ref4k:(a,b)=>(b.ref-a.ref)||(b.crit-a.crit),emotion:(a,b)=>(b.emo-a.emo)||(b.crit-a.crit),awe:(a,b)=>(b.awe-a.awe)||(b.crit-a.crit),comfort:(a,b)=>(b.cozy-a.cozy)||(b.aud-a.aud),perf:(a,b)=>(b.perf-a.perf)||(b.crit-a.crit),icon:(a,b)=>(b.icon-a.icon)||(b.crit-a.crit),scary:(a,b)=>(b.scary-a.scary)||(b.dread-a.dread),real:(a,b)=>(b.real-a.real)||(b.crit-a.crit),reality:(a,b)=>(b.reality-a.reality)||(b.myst-a.myst),shock:(a,b)=>(b.shock-a.shock)||(b.dread-a.dread),sci:(a,b)=>(b.sci-a.sci)||(b.myst-a.myst),funny:(a,b)=>(b.funny-a.funny)||(b.aud-a.aud),hist:(a,b)=>(b.hist-a.hist)||(b.crit-a.crit),vibe2:(a,b)=>(b.vibe2-a.vibe2)||(b.tech-a.tech),blend:(a,b)=>(bespokeScore(b,state)-bespokeScore(a,state))||(b.crit-a.crit),crit:(a,b)=>b.crit-a.crit,aud:(a,b)=>b.aud-a.aud,tech:(a,b)=>b.tech-a.tech,dread:(a,b)=>b.dread-a.dread,myst:(a,b)=>b.myst-a.myst,warmth:(a,b)=>(b.warmth||0)-(a.warmth||0)||(b.crit-a.crit),comedy:(a,b)=>(b.comedy||0)-(a.comedy||0)||(b.aud-a.aud),beauty:(a,b)=>(b.beauty||0)-(a.beauty||0)||(b.crit-a.crit),yearNew:(a,b)=>b.year-a.year,yearOld:(a,b)=>a.year-b.year,title:(a,b)=>a.title.localeCompare(b.title),
+/* `match` ranks by _m -- how well a work answers the filters currently pulled, blended with its
+   standing (see computeMatch in app/match.js). computeMatch() has always run, on the filtered list,
+   immediately before this sort is applied; until now nothing ever read the number it produced, so
+   pulling "Scariest" to 80 narrowed the results correctly and then ordered them by overall critical
+   standing -- the one thing the person had just said was not the question. */
+const SORTS={match:(a,b)=>((b._m||0)-(a._m||0))||(b.gm-a.gm)||(b.ovr-a.ovr),overall:(a,b)=>(b.ovr-a.ovr)||(b.crit-a.crit),gm:(a,b)=>(b.gm-a.gm)||(b.crit-a.crit),myrating:(a,b)=>((b.myRating==null?-1:b.myRating)-(a.myRating==null?-1:a.myRating))||a.title.localeCompare(b.title),cosmic:(a,b)=>(b.ch-a.ch)||(b.dread-a.dread),sound:(a,b)=>(b.snd-a.snd)||(b.crit-a.crit),ref4k:(a,b)=>(b.ref-a.ref)||(b.crit-a.crit),emotion:(a,b)=>(b.emo-a.emo)||(b.crit-a.crit),awe:(a,b)=>(b.awe-a.awe)||(b.crit-a.crit),comfort:(a,b)=>(b.cozy-a.cozy)||(b.aud-a.aud),perf:(a,b)=>(b.perf-a.perf)||(b.crit-a.crit),icon:(a,b)=>(b.icon-a.icon)||(b.crit-a.crit),scary:(a,b)=>(b.scary-a.scary)||(b.dread-a.dread),real:(a,b)=>(b.real-a.real)||(b.crit-a.crit),reality:(a,b)=>(b.reality-a.reality)||(b.myst-a.myst),shock:(a,b)=>(b.shock-a.shock)||(b.dread-a.dread),sci:(a,b)=>(b.sci-a.sci)||(b.myst-a.myst),funny:(a,b)=>(b.funny-a.funny)||(b.aud-a.aud),hist:(a,b)=>(b.hist-a.hist)||(b.crit-a.crit),vibe2:(a,b)=>(b.vibe2-a.vibe2)||(b.tech-a.tech),blend:(a,b)=>(bespokeScore(b,state)-bespokeScore(a,state))||(b.crit-a.crit),crit:(a,b)=>b.crit-a.crit,aud:(a,b)=>b.aud-a.aud,tech:(a,b)=>b.tech-a.tech,dread:(a,b)=>b.dread-a.dread,myst:(a,b)=>b.myst-a.myst,warmth:(a,b)=>(b.warmth||0)-(a.warmth||0)||(b.crit-a.crit),comedy:(a,b)=>(b.comedy||0)-(a.comedy||0)||(b.aud-a.aud),beauty:(a,b)=>(b.beauty||0)-(a.beauty||0)||(b.crit-a.crit),yearNew:(a,b)=>b.year-a.year,yearOld:(a,b)=>a.year-b.year,title:(a,b)=>a.title.localeCompare(b.title),
 // Groups by tier first (unchanged), but within a tier now breaks ties by your own rating before
 // falling back to title -- "My Tiers" is the one sort whose entire point is ranking by YOUR
 // taste, so a Gold pick you rated 10 belongs above a Gold pick you rated 7 or never rated at all,
@@ -179,17 +184,19 @@ const SORTS={overall:(a,b)=>(b.ovr-a.ovr)||(b.crit-a.crit),gm:(a,b)=>(b.gm-a.gm)
 // instead of another algorithmic ranking.
 tier:(a,b)=>(tierRank(b)-tierRank(a))||((b.myRating==null?-1:b.myRating)-(a.myRating==null?-1:a.myRating))||a.title.localeCompare(b.title)};
 
-// Filtering to "Rated by me only" or a specific tier (Gold/Silver/Bronze) is a deliberate request
-// to browse a small, personal slice of the catalog, and "Best Overall" -- the app-wide default --
-// answers a different question (what does the algorithm rate highest) that has nothing to do with
-// why someone narrowed to just their own rated or tiered work. Switch to the sort that actually
-// matches the filter (tier ladder + your rating for a tier filter, your rating alone for "Rated by
-// me only") the moment it's turned on, but only when the sort is still sitting on that untouched
-// default -- once someone has deliberately picked a different sort, leave it alone rather than
-// yanking their choice out from under them every time a filter checkbox changes.
+// Every filter is a question, and "Best Overall" -- the app-wide default -- answers a different
+// one (what does the algorithm rate highest overall) than any of them asked. Filtering to "Rated
+// by me only" or to a tier is a request to browse a small personal slice; pulling an index slider
+// is a request for the works that best express that index. So switch to the sort that actually
+// answers what was asked: the tier ladder plus your rating for a tier filter, your rating alone
+// for "Rated by me only", and Best Match to Filters the moment any threshold slider is pulled --
+// otherwise narrowing to Scariest >= 80 correctly finds 300 horror works and then hands them back
+// ordered by critical consensus, which is the one thing the person just said was not the question.
+// Only ever from that untouched default, though: once someone has deliberately picked a sort,
+// leave it alone rather than yanking their choice out from under them on every slider nudge.
 function maybeAutoSort(){
  if(state.sort!=='overall')return;
- var want=state.tierFilter.length?'tier':(state.ratedOnly?'myrating':null);
+ var want=state.tierFilter.length?'tier':(state.ratedOnly?'myrating':(activeDims(state).length?'match':null));
  if(!want)return;
  state.sort=want;var ss=$('#sortSel');if(ss)ss.value=want;
 }
@@ -452,13 +459,17 @@ function gmBreakdownHTML(it){
  var ovMap={declared:['\u2605 Declared all-time favorite \u2014 locked at 100','#fbbf24'],silver:['\u2726 Declared favorite (silver tier)','#cbd5e1'],owned:['\u25c8 In your physical collection','#4ade80'],
   rated:['\u2605 Pulled toward your rating of '+(typeof it.myRating==='number'?it.myRating.toFixed(1):'?')+'/10','#5eead4']};
  (it.gmBoosts||[]).slice().sort((a,b)=>b[2]-a[2]).forEach(function(b){
-  var lab={creator:'Creator',author:'Author',genre:'Genre',vibe:'Vibe',complexity:'Depth',craft:'Craft',dread:'Dread'}[b[0]]||b[0];
+  var lab={creator:'Creator',author:'Author',genre:'Genre',vibe:'Vibe',complexity:'Depth',craft:'Craft',dread:'Dread',warmth:'Warmth',comedy:'Comedy',beauty:'Beauty'}[b[0]]||b[0];
   var cap=(''+b[1]).replace(/\b\w/g,function(c){return c.toUpperCase();});
-  chips.push('<span class="text-[9.5px] px-1.5 py-0.5 rounded" style="background:#1e293b;color:#cbd5e1">'+lab+': '+esc(cap)+' <b style="color:#fbbf24">+'+b[2]+'</b></span>');
+  // A derived taste weight can be negative -- a genre this person's own ratings count against --
+  // so the sign comes from the number rather than being hardcoded to '+', which would have
+  // rendered a -2.3 as "+-2.3".
+  var neg=b[2]<0;
+  chips.push('<span class="text-[9.5px] px-1.5 py-0.5 rounded" style="background:#1e293b;color:#cbd5e1">'+lab+': '+esc(cap)+' <b style="color:'+(neg?'#fca5a5':'#fbbf24')+'">'+(neg?'':'+')+b[2]+'</b></span>');
  });
  var ov=it.gmOverride&&ovMap[it.gmOverride];
  var head='<div class="flex items-center gap-2 mb-1"><span class="lbl" style="color:#fbbf24">\u2605 Why this match?</span>'
-  +'<span class="text-[9px] text-slate-500">base '+it.gmBase+(it.gmBoostTotal>0?' \u00b7 +'+it.gmBoostTotal+' taste':'')+' \u2192 '+it.gm+'</span></div>';
+  +'<span class="text-[9px] text-slate-500">base '+it.gmBase+(it.gmBoostTotal?' \u00b7 '+(it.gmBoostTotal>0?'+':'')+it.gmBoostTotal+' taste':'')+' \u2192 '+it.gm+'</span></div>';
  var body=ov?'<div class="text-[10.5px] mb-1" style="color:'+ov[1]+'">'+ov[0]+'</div>':'';
  if(chips.length)body+='<div class="flex flex-wrap gap-1">'+chips.join('')+'</div>';
  else if(!ov)body+='<div class="text-[10px] text-slate-500">Scored on critical, audience and craft consensus \u2014 no personal-taste multipliers triggered.</div>';
@@ -1146,13 +1157,29 @@ function anticipationScore(c){
  var lead=(c.creativeLead||'');var pull=0;var reasons=[];
  GOAT_CREATOR_BOOST.forEach(function(b){if(lead.indexOf(b[0])>=0){pull=Math.max(pull,b[1]);reasons.push(b[0]+' is in your creator pantheon');}});
  if(typeof BOOK_CREATOR_BOOST!=='undefined')BOOK_CREATOR_BOOST.forEach(function(b){if(lead.indexOf(b[0])>=0){pull=Math.max(pull,b[1]);reasons.push(b[0]+' is a favorite author');}});
+ /* The creator weights DERIVED from tiers, ratings and ownership count here too. They did not
+    before, because this only ever read the hand-set pantheon list -- so someone who had Gold-tiered
+    four Villeneuve films but never opened the manual creator-boost toggles got a Dune: Part Three
+    anticipation score with no personal component in it at all, which is the exact case this
+    screen exists for. */
+ Object.keys(AUTO_CREATOR_BOOST).forEach(function(nm){
+  if(AUTO_CREATOR_BOOST[nm]>0&&lead.indexOf(nm)>=0){
+   pull=Math.max(pull,AUTO_CREATOR_BOOST[nm]);
+   reasons.push('your own ratings and tiers favor '+nm);
+  }
+ });
  // pantheon membership adds pull
  var inPantheon=(directorsPantheon.some(function(d){return lead.indexOf(d.name)>=0;})||gamingAuteurs.some(function(a){return lead.indexOf(a.name)>=0;})||(typeof authorsPantheon!=='undefined'&&authorsPantheon.some(function(a){return lead.indexOf(a.name)>=0;})));
  if(inPantheon){pull=Math.max(pull,8);if(!reasons.length)reasons.push(lead+' is a master creator you follow');}
  // do you own / love works by this lead already?
  var byLead=ALL.filter(function(x){return x.creator&&lead&&x.creator.indexOf(lead)>=0;});
  var ownedByLead=byLead.filter(function(x){return x.owned;}).length;
- var avgGm=byLead.length?Math.round(byLead.reduce(function(s,x){return s+x.gm;},0)/byLead.length):0;
+ /* Their best work, not their average. A mean over a long catalogue says more about how much
+    filler a prolific creator has than about what their next major project is likely to be worth
+    to this person -- the same reason directorCorpusScore() reads a top-3 average rather than a
+    career mean. */
+ var topByLead=byLead.slice().sort(function(a,b){return b.gm-a.gm;}).slice(0,3);
+ var avgGm=topByLead.length?Math.round(topByLead.reduce(function(s,x){return s+x.gm;},0)/topByLead.length):0;
  if(ownedByLead>=2)reasons.push('you own '+ownedByLead+' of their works');
  // blend: editorial probability (60%) + creator pull scaled (25%) + your avg match to their catalog (15%)
  var pullNorm=Math.min(100,50+pull*3.2);
@@ -1323,6 +1350,25 @@ if(!PROFILE_FROM_STORAGE)PERSONAL_PROFILE.vibeBoost={'Notebook-and-Theories Nigh
 let GOAT_VIBE_BOOST=PERSONAL_PROFILE.vibeBoost||{};
 if(!PROFILE_FROM_STORAGE)PERSONAL_PROFILE.bookCreatorBoost=[['Tolkien',12],['Dan Simmons',9],['Patrick Rothfuss',9],['Ursula K. Le Guin',8],['Isaac Asimov',7],['Liu Cixin',7],['Carl Sagan',7],['Gene Wolfe',6],['Frank Herbert',6],['Arthur C. Clarke',5],['Neil deGrasse Tyson',5],['Walter Isaacson',5],['Yuval Noah Harari',4],['China Mi\u00e9ville',5],['Jeff VanderMeer',5],['H.P. Lovecraft',5],['Cormac McCarthy',5],['Neal Stephenson',5],['Ted Chiang',5],['Susanna Clarke',5],['Stephen King',8]];
 let BOOK_CREATOR_BOOST=PERSONAL_PROFILE.bookCreatorBoost||[];
+/* Rebuilt on every recompute by recomputeTasteScores(). GENRE_BOOST_INDEX is GOAT_GENRE_BOOST
+   inverted for lookup -- lowercased keyword -> {label, w} -- so a work's own keyword set can be
+   walked once instead of testing every boosted keyword against it. AUTO_CREATOR_BOOST holds the
+   creator weights derived from the profile, keyed by the exact name they were split out of, and
+   is kept separate from the hand-set GOAT_CREATOR_BOOST because that one matches by substring. */
+let GENRE_BOOST_INDEX=Object.create(null);
+let AUTO_CREATOR_BOOST=Object.create(null);
+/* Every genre keyword each work matches, and every creator name it credits, resolved once.
+
+   Both are pure functions of the corpus (a work's genres and creator never change at runtime),
+   and both are read on every single scoring pass -- which happens on every tier click, every
+   rating, every ownership toggle. Resolving them per pass meant re-walking the taxonomy for each
+   boosted keyword on each of ~5,000 works: with the derived taste weights below that is hundreds
+   of keywords, not a dozen, and the cost of a click would have grown with the size of both the
+   library and the person's own profile. Resolved here instead, once, at load. */
+ALL.forEach(x=>{
+ x._gkeys=genreMatchKeys(x,(typeof GENRE_TAXONOMY!=='undefined')?GENRE_TAXONOMY:{});
+ x._creators=creatorTokens(x);
+});
 /* Does this work carry `keyword` as a genre, or as something that inherits from it?
    Looked up through data/genre-taxonomy.js rather than searched for as a substring.
 
@@ -1338,11 +1384,8 @@ let BOOK_CREATOR_BOOST=PERSONAL_PROFILE.bookCreatorBoost||[];
    "Cosmic Horror" and "Gothic Horror" collects the Horror boost a single time, not twice. */
 function genreMatches(x,keyword){
  const want=String(keyword).toLowerCase();
- const tax=(typeof GENRE_TAXONOMY!=='undefined')?GENRE_TAXONOMY:{};
- return (x.genres||[]).some(function(tag){
-  const inherits=tax[tag]||[tag];
-  return inherits.some(function(p){return p.toLowerCase()===want;});
- });
+ const keys=x._gkeys||genreMatchKeys(x,(typeof GENRE_TAXONOMY!=='undefined')?GENRE_TAXONOMY:{});
+ return keys.has(want);
 }
 /* The taste pipeline, in one re-runnable pass.
 
@@ -1398,45 +1441,42 @@ if(!PROFILE_FROM_STORAGE){
 /* Declared here, assigned inside recomputeTasteScores below (which runs immediately after) so
    every one of them is re-read from the profile on each recompute rather than frozen at boot. */
 let GOAT_SILVER,GOAT_BRONZE,RATINGS;
-// Declaring a Gold/Silver/Bronze favorite is the single most natural way someone expresses taste
-// in this app -- far more people will tier a handful of favorites than ever find the separate,
-// manual genre/vibe-boost toggles. But until this function, declaring favorites only pinned THOSE
-// specific works' own gm (and excluded them from recs, since a recommendation is never something
-// you already claimed) -- it never fed back into what gets recommended for everything else. Two
-// profiles that declared entirely different genres as Gold produced byte-identical "Movies"
-// recommendations, because genreBoost/vibeBoost stayed empty for both. This derives an automatic
-// genre/vibe affinity from whatever is already declared (Gold weighted above Silver above Bronze),
-// and adds it on top of -- never replacing -- any boost the person set by hand via the explicit
-// toggles, so a manual adjustment always still means something extra.
+// Declaring a Gold/Silver/Bronze favorite, typing a rating out of ten and marking something owned
+// are the three ways someone tells this app what they like, and until deriveAutoTasteBoosts()
+// existed none of them fed back into what got recommended for everything ELSE -- two profiles that
+// declared entirely different genres as Gold produced byte-identical "Movies" recommendations.
+// buildTasteModel() (app/scoring.js, pure and parameterised) is that derivation, rebuilt: it reads
+// all three signals together, learns creator and per-axis affinity as well as genre and vibe, and
+// measures each feature against the person's own baseline and the corpus's base rates rather than
+// by raw count. See its comment for why every one of those mattered. Whatever it derives is added
+// on top of -- never in place of -- a boost the person set by hand with the explicit toggles, so a
+// manual adjustment always still means something extra.
 function deriveAutoTasteBoosts(declaredIds,silverIds,bronzeIds,ratings){
- const genreW={},vibeW={};
- const add=(obj,k,w)=>{if(!k)return;obj[k]=(obj[k]||0)+w;};
- const weightFor=id=>declaredIds.has(id)?3:silverIds.has(id)?2:bronzeIds.has(id)?1:0;
- const favIds=new Set([...declaredIds,...silverIds,...bronzeIds]);
- favIds.forEach(id=>{
-  const x=byId.get(id);if(!x)return;
-  const w=weightFor(id);if(!w)return;
-  (x.genres||[]).forEach(g=>add(genreW,g,w));
-  add(vibeW,x.vibe,w);
+ const model=buildTasteModel(ALL,{
+  ratings:ratings||{},gold:declaredIds,silver:silverIds,bronze:bronzeIds,
+  taxonomy:(typeof GENRE_TAXONOMY!=='undefined')?GENRE_TAXONOMY:{}
  });
- // A personal rating is a second, independent taste signal alongside the tiers above -- same idea
- // (teach the genre/vibe affinity from what you've told the app you like), but continuous instead
- // of the tiers' fixed 3/2/1 steps: a 9.5 teaches more than a flat 6, and a rating below the 5
- // midpoint gently counter-signals a genre/vibe instead of only ever boosting it. Stacks with a
- // tier when a work carries both -- rating and tiering are different gestures, not the same one.
- Object.keys(ratings||{}).forEach(id=>{
-  const rv=ratings[id];if(typeof rv!=='number')return;
-  const x=byId.get(id);if(!x)return;
-  const w=(rv-5)*0.6; // -3..+3 across the 0-10 range, same order of magnitude as a tier weight
-  if(!w)return;
-  (x.genres||[]).forEach(g=>add(genreW,g,w));
-  add(vibeW,x.vibe,w);
- });
- const CAP=15;
- const genreArr=Object.keys(genreW).map(k=>[k.toLowerCase(),Math.max(-CAP,Math.min(CAP,genreW[k]*1.5))]);
- const vibeObj={};Object.keys(vibeW).forEach(k=>{vibeObj[k]=Math.max(-CAP,Math.min(CAP,vibeW[k]*1.5));});
- return {genreArr,vibeObj};
+ // A weight small enough to move a score by less than a tenth of a point is noise in the lists it
+ // would otherwise clutter (a card's "why this match" chips, the creator loop below), so it is
+ // dropped rather than carried. Creators are additionally capped: the boost list is walked once
+ // per work, and an unbounded one would make every recompute scale with the size of the library.
+ const genreArr=Object.keys(model.genre).map(k=>[k,model.genre[k]]).filter(e=>Math.abs(e[1])>=0.3);
+ const vibeObj={};Object.keys(model.vibe).forEach(k=>{if(Math.abs(model.vibe[k])>=0.3)vibeObj[k]=model.vibe[k];});
+ const creatorArr=Object.keys(model.creator).map(k=>[k,model.creator[k]])
+  .filter(e=>Math.abs(e[1])>=1)
+  .sort((a,b)=>Math.abs(b[1])-Math.abs(a[1])).slice(0,AUTO_CREATOR_LIMIT);
+ return {genreArr:genreArr,vibeObj:vibeObj,creatorArr:creatorArr,model:model};
 }
+const AUTO_CREATOR_LIMIT=200;
+/* The saturating ceiling on stacked taste signals. A film matching three boosted genres plus a
+   boosted vibe plus a boosted creator used to add all five together with no limit, so a broad,
+   well-covered taste profile pushed hundreds of titles into the same clamped ceiling at once,
+   collapsing the taper a match score exists to provide. tanh is the same diminishing-returns
+   curve as before with one difference that now matters: it saturates in BOTH directions, so a
+   work matching several things this person's ratings actively count against settles smoothly
+   toward -TASTE_CAP instead of running away exponentially. */
+const TASTE_CAP=30,TASTE_SCALE=20;
+let TASTE_MODEL=null;
 function recomputeTasteScores(){
  GOAT_DECLARED=new Set(PERSONAL_PROFILE.declaredGoatIds||[]);
  GOAT_CREATOR_BOOST=PERSONAL_PROFILE.creatorBoost||[];
@@ -1444,62 +1484,96 @@ function recomputeTasteScores(){
  GOAT_BRONZE=new Set(PERSONAL_PROFILE.bronzeTierIds||[]);
  RATINGS=PERSONAL_PROFILE.ratings||{};
  const auto=deriveAutoTasteBoosts(GOAT_DECLARED,GOAT_SILVER,GOAT_BRONZE,RATINGS);
- // Merged by keyword into ONE entry per keyword, not concatenated -- the per-item loop below
- // checks genreMatches(x,keyword) once per GOAT_GENRE_BOOST entry and adds its weight every time
- // it matches, so two entries sharing a keyword (the common case: the sample profile's manual
- // genreBoost already seeds 'sci-fi','epic','psychological', etc, the same keywords a declared
- // favorite's own genres are likely to produce here) would double that work's boost rather than
- // just summing it once, same bug class the genre-family/taxonomy work already fixed once before.
- const genreMap={};
- auto.genreArr.forEach(([k,w])=>{genreMap[k]=(genreMap[k]||0)+w;});
- (PERSONAL_PROFILE.genreBoost||[]).forEach(([k,w])=>{genreMap[k]=(genreMap[k]||0)+w;});
- GOAT_GENRE_BOOST=Object.keys(genreMap).map(k=>[k,genreMap[k]]);
+ TASTE_MODEL=auto.model;
+ // Merged by keyword into ONE entry per keyword, not concatenated -- a work's genre keyword set is
+ // looked up once per boosted keyword below, so two entries sharing a keyword (the common case:
+ // the sample profile's manual genreBoost seeds 'sci-fi','epic','psychological', the same keywords
+ // a declared favorite's own genres are likely to produce) would double that work's boost rather
+ // than summing it once, the same bug class the genre-taxonomy work already fixed before.
+ // Keyed by the lowercased keyword (which is what a work's key set holds) while keeping the first
+ // spelling seen as the label, so a hand-set 'Sci-Fi' and a derived 'Sci-Fi' are one entry and the
+ // UI still shows the keyword the way it was written rather than a flattened lowercase copy.
+ const genreMap=Object.create(null);
+ const addGenre=(label,w)=>{
+  const k=String(label).toLowerCase();
+  const e=genreMap[k]||(genreMap[k]={label:label,w:0});
+  e.w+=w;
+ };
+ auto.genreArr.forEach(([k,w])=>addGenre(k,w));
+ // The hand-set boosts go on last so their exact spelling wins the label: PERSONAL_PROFILE's own
+ // keywords are what the profile UI and the regression suite name a boost by.
+ (PERSONAL_PROFILE.genreBoost||[]).forEach(([k,w])=>{addGenre(k,w);genreMap[String(k).toLowerCase()].label=k;});
+ GOAT_GENRE_BOOST=Object.keys(genreMap).map(k=>[genreMap[k].label,genreMap[k].w]);
+ GENRE_BOOST_INDEX=genreMap;
  GOAT_VIBE_BOOST=Object.assign({},auto.vibeObj);
  Object.keys(PERSONAL_PROFILE.vibeBoost||{}).forEach(v=>{GOAT_VIBE_BOOST[v]=(GOAT_VIBE_BOOST[v]||0)+PERSONAL_PROFILE.vibeBoost[v];});
  BOOK_CREATOR_BOOST=PERSONAL_PROFILE.bookCreatorBoost||[];
+ /* Hand-set creator boosts match by literal substring against the whole `creator` field, which is
+    how they have always worked and what a name like "Joel & Ethan Coen" needs. Derived ones are
+    exact, because they were split out of that same field by the same rule. Merging the derived
+    weight into a hand-set entry of the same name -- rather than letting both fire -- is what stops
+    a creator the person both boosted by hand AND clearly loves from collecting the boost twice. */
+ const manualByName=Object.create(null);
+ GOAT_CREATOR_BOOST=GOAT_CREATOR_BOOST.map(c=>{const e=[c[0],c[1]];manualByName[c[0]]=e;return e;});
+ AUTO_CREATOR_BOOST=Object.create(null);
+ auto.creatorArr.forEach(([nm,w])=>{
+  if(manualByName[nm])manualByName[nm][1]+=w;
+  else AUTO_CREATOR_BOOST[nm]=w;
+ });
  ALL.forEach(x=>{x.myRating=(typeof RATINGS[x.id]==='number')?RATINGS[x.id]:null;});
- ALL.forEach(x=>{
+ const AX=TASTE_MODEL.axisMul;
+ const objRaw=new Array(ALL.length),tasteAdd=new Array(ALL.length);
+ ALL.forEach((x,i)=>{
  let base=0.5*x.crit+0.2*x.aud+0.3*x.tech;const br=[];
- // Taste-match signals (creator/author, genre, vibe) are the ones that STACK: a film matching
- // three of a person's boosted genres plus their boosted vibe used to add all four boosts
- // together with no limit, so a broad, well-covered taste profile routinely pushed hundreds of
- // titles past the gm ceiling at once -- collapsing exactly the differentiation ("Dune at 96,
- // Blade Runner at 95, a real taper") a match score exists to provide. tasteRaw accumulates the
- // same way as before; it is the COMBINATION step below that changed, not any individual boost.
+ // Taste-match signals (creator/author, genre, vibe) are the ones that STACK and so saturate
+ // together below; per-work quality signals stay linear and uncapped, because each only fires past
+ // a real rubric threshold and flattening them would blur differences RUBRIC.md actually measured.
  let tasteRaw=0,qualityRaw=0;
- GOAT_CREATOR_BOOST.forEach(c=>{if(x.creator.includes(c[0])){tasteRaw+=c[1];br.push(['creator',c[0],c[1]]);}});
- if(x.kind==='book'){BOOK_CREATOR_BOOST.forEach(c=>{if(x.creator.includes(c[0])){tasteRaw+=c[1];br.push(['author',c[0],c[1]]);}});}
- GOAT_GENRE_BOOST.forEach(g=>{if(genreMatches(x,g[0])){tasteRaw+=g[1];br.push(['genre',g[0],g[1]]);}});
- const vb=GOAT_VIBE_BOOST[x.vibe]||0;if(vb){tasteRaw+=vb;br.push(['vibe',x.vibe,vb]);}
- if(x.myst>70){var mb=(x.myst-70)/6;qualityRaw+=mb;br.push(['complexity','Ontological depth',Math.round(mb*10)/10]);}
- if(x.tech>85){var tb=(x.tech-85)/5;qualityRaw+=tb;br.push(['craft','Technical craft',Math.round(tb*10)/10]);}
- /* No upper bound. This used to read `x.dread>80&&x.dread<=95`, which meant the boost climbed to
-    +1.5 at dread 95 and then fell off a cliff to zero at 96 -- so the sixteen most dread-soaked
-    works in the corpus (The Shining 97, The Thing 98, Hereditary 99, Come and See 99) were the
-    only ones that got nothing for it. A threshold with a ceiling reads like a range check, but
-    every other boost here is monotonic, and a taste signal that reverses at the top of its own
-    scale is a bug in any reading. */
- if(x.dread>80){var db=(x.dread-80)/10;qualityRaw+=db;br.push(['dread','Atmospheric dread',Math.round(db*10)/10]);}
- // Same footing as the complexity boost above (threshold 70, monotonic, no ceiling for the same
- // reason dread's lost its cliff): emotionalWarmth/comicIntent/aestheticBeauty are core rubric
- // constructs same as dread and complexity, not lesser ones, so a work strongly expressing any of
- // them should pull gm the same way. `x.warmth>70` etc. is naturally false (not a crash) for a
- // work RUBRIC.md's own evidence gate flagged rather than scored -- no bonus, not a guessed one.
- if(x.warmth>70){var wb=(x.warmth-70)/6;qualityRaw+=wb;br.push(['warmth','Emotional warmth',Math.round(wb*10)/10]);}
- if(x.comedy>70){var cb=(x.comedy-70)/6;qualityRaw+=cb;br.push(['comedy','Comic intent',Math.round(cb*10)/10]);}
- if(x.beauty>70){var eb=(x.beauty-70)/6;qualityRaw+=eb;br.push(['beauty','Aesthetic beauty',Math.round(eb*10)/10]);}
- // Taste-match signals saturate (diminishing returns, asymptotic to TASTE_CAP) instead of adding
- // linearly without limit -- matching a second or third boosted genre still helps, meaningfully
- // less each time, rather than stacking without bound. Per-work quality signals (complexity,
- // craft, dread, warmth, comedy, beauty) stay linear and uncapped: those already only fire past a
- // real rubric threshold and are naturally small and rare enough not to need saturation, and
- // flattening a work's own measured qualities would blur real differences RUBRIC.md measured.
- const TASTE_CAP=22,TASTE_SCALE=14;
- const tasteEffective=TASTE_CAP*(1-Math.exp(-tasteRaw/TASTE_SCALE));
- const a=tasteEffective+qualityRaw;
- x.gm=Math.max(40,Math.min(99,Math.round(base*0.5+a*1.2+14)));
- x.goat=false;x.silver=false;x.bronze=false;x.gmOverride=null;x.ownedBoost=false;
- x.gmBase=Math.round(base*0.5+14);x.gmBoosts=br;x.gmBoostTotal=Math.round(a*1.2*10)/10;
+ GOAT_CREATOR_BOOST.forEach(c=>{if(x.creator.includes(c[0])){tasteRaw+=c[1];br.push(['creator',c[0],Math.round(c[1]*10)/10]);}});
+ x._creators.forEach(nm=>{const w=AUTO_CREATOR_BOOST[nm];if(w){tasteRaw+=w;br.push(['creator',nm,Math.round(w*10)/10]);}});
+ if(x.kind==='book'){BOOK_CREATOR_BOOST.forEach(c=>{if(x.creator.includes(c[0])){tasteRaw+=c[1];br.push(['author',c[0],Math.round(c[1]*10)/10]);}});}
+ // One pass over the work's own genre keywords rather than one pass per boosted keyword: a Set
+ // membership test counts each keyword exactly once for this work, same as genreMatches() did,
+ // without re-walking the taxonomy 275 times per work on every tier click.
+ x._gkeys.forEach(k=>{const e=GENRE_BOOST_INDEX[k];if(e&&e.w){tasteRaw+=e.w;br.push(['genre',e.label,Math.round(e.w*10)/10]);}});
+ const vb=GOAT_VIBE_BOOST[x.vibe]||0;if(vb){tasteRaw+=vb;br.push(['vibe',x.vibe,Math.round(vb*10)/10]);}
+ /* The six quality boosts below are each scaled by how much that construct characterises THIS
+    person's favorites (TASTE_MODEL.axisMul, 0.4x-1.6x, 1.0x for a profile with no evidence yet).
+    They used to be identical for everyone, which meant a third of a work's match score was the
+    same number for a horror obsessive and someone who has never finished a horror film -- the
+    largest remaining piece of "personal" match that was not personal at all.
+    Every one is monotonic in the index it reads and has no upper bound: `x.dread>80&&x.dread<=95`
+    once meant the boost climbed to +1.5 at dread 95 and fell off a cliff to zero at 96, so the
+    sixteen most dread-soaked works in the corpus were the only ones earning nothing for it. A
+    threshold with a ceiling reads like a range check, but a taste signal that reverses at the top
+    of its own scale is a bug in any reading. The multiplier cannot reintroduce that: it is a
+    single non-negative factor per axis, so it rescales the line without ever bending it.
+    `x.warmth>70` etc. is naturally false (not a crash) for a work RUBRIC.md's evidence gate
+    flagged rather than scored -- no bonus, not a guessed one. */
+ if(x.myst>70){var mb=(x.myst-70)/6*AX.myst;qualityRaw+=mb;br.push(['complexity','Ontological depth',Math.round(mb*10)/10]);}
+ if(x.tech>85){var tb=(x.tech-85)/5*AX.tech;qualityRaw+=tb;br.push(['craft','Technical craft',Math.round(tb*10)/10]);}
+ if(x.dread>80){var db=(x.dread-80)/10*AX.dread;qualityRaw+=db;br.push(['dread','Atmospheric dread',Math.round(db*10)/10]);}
+ if(x.warmth>70){var wb=(x.warmth-70)/6*AX.warmth;qualityRaw+=wb;br.push(['warmth','Emotional warmth',Math.round(wb*10)/10]);}
+ if(x.comedy>70){var cb=(x.comedy-70)/6*AX.comedy;qualityRaw+=cb;br.push(['comedy','Comic intent',Math.round(cb*10)/10]);}
+ if(x.beauty>70){var eb=(x.beauty-70)/6*AX.beauty;qualityRaw+=eb;br.push(['beauty','Aesthetic beauty',Math.round(eb*10)/10]);}
+ objRaw[i]=base*0.5+qualityRaw*1.2+14;
+ tasteAdd[i]=TASTE_CAP*Math.tanh(tasteRaw/TASTE_SCALE)*1.2;
+ x.gmBoosts=br;
+ });
+ /* The objective half is put on one cross-medium scale before the personal half is added, so which
+    medium tops a shared list is decided by taste rather than by which aggregator and which rubric
+    conventions a medium's numbers came from -- see normalizeObjectiveByKind in app/scoring.js. */
+ const objNorm=normalizeObjectiveByKind(ALL,objRaw);
+ const raws=objNorm.map((v,i)=>v+tasteAdd[i]);
+ const curve=buildScoreCurve(raws,TASTE_MODEL.evidence);
+ ALL.forEach((x,i)=>{
+  x.gm=curve(raws[i]);
+  // The same curve applied to the boost-free score, so the "base N -> M" line in a card's match
+  // breakdown keeps saying something true after calibration: N is what this work would score on
+  // reception and craft alone, M is where personal taste actually puts it.
+  x.gmBase=curve(objNorm[i]);
+  x.gmBoostTotal=Math.round((x.gm-x.gmBase)*10)/10;
+  x.goat=false;x.silver=false;x.bronze=false;x.gmOverride=null;x.ownedBoost=false;
  });
  // A personal rating pulls GOAT Match toward the number you actually typed -- a real blend (65%
  // your rating, 35% the algorithmic estimate), not just a floor, so a low rating can pull a score
@@ -1627,9 +1701,17 @@ function goatWhy(x){
   if(b[0]==='complexity')return 'has the ontological depth you favor';
   if(b[0]==='craft')return 'stands out on technical craft';
   if(b[0]==='dread')return 'carries the atmospheric dread you favor';
+  if(b[0]==='warmth')return 'has the emotional warmth you favor';
+  if(b[0]==='comedy')return 'is as funny as the work you rate highest';
+  if(b[0]==='beauty')return 'is as beautiful to look at as your favorites';
   return b[1];
  };
- const top=x.gmBoosts.slice().sort((a,b)=>b[2]-a[2]).slice(0,2);
+ // Only reasons that actually argue FOR the work. A derived genre weight can be negative (a genre
+ // this person's own ratings count against), and reading one of those back as "why this is
+ // recommended" would be the opposite of true; the sort alone would have surfaced exactly those
+ // whenever nothing positive fired.
+ const top=x.gmBoosts.filter(b=>b[2]>0).sort((a,b)=>b[2]-a[2]).slice(0,2);
+ if(!top.length)return 'Scores well on craft and reception even without a direct match to your declared favorites.';
  const text=top.map(phrase).join(' and ')+'.';
  return text.charAt(0).toUpperCase()+text.slice(1);
 }
@@ -1648,7 +1730,12 @@ function buildGeneratedRec(cat){
  // creator first, then backfill any remaining slots from whoever's left, still gm-ordered, so a
  // cap that can't be satisfied (fewer than 4 creators exist in the whole eligible pool) still
  // returns the best 10 available rather than refusing to fill the list.
- const ranked=ALL.filter(x=>x.kind===kind&&!x.owned&&!x.goat&&!x.silver&&!x.bronze)
+ // A rating is the one signal that can only be given AFTER finishing something, so a rated work
+ // is by definition not a discovery either -- and the rating blend pulls its score toward what you
+ // typed, which for anything you loved is straight into the top of this very list. Payton's seed
+ // ratings are all books, so before this the Books column spent its first several slots handing
+ // back novels he had already read and scored.
+ const ranked=ALL.filter(x=>x.kind===kind&&!x.owned&&!x.goat&&!x.silver&&!x.bronze&&x.myRating==null)
   .sort((a,b)=>b.gm-a.gm);
  const PER_CREATOR_CAP=3;
  const creatorCount={};
@@ -2347,10 +2434,20 @@ function creatorBlindSpots(){
    (byCreator[cr]=byCreator[cr]||{creator:cr,kind:x.kind,works:[]}).works.push(x);
   });
  });
+ /* Ranked on their best work AND on how much else of theirs would be worth having. Sorting on the
+    single best title alone treated a director with one 88 and nothing else as exactly the same
+    size of gap as one with an 88 and four more in the 80s -- and the second is plainly the bigger
+    thing to be missing. Depth is deliberately capped (it tops out around +4.5) so a prolific
+    creator cannot outrank a genuinely stronger one on volume alone. */
  return Object.values(byCreator)
-  .map(function(c){var top=c.works.slice().sort(function(a,b){return b.gm-a.gm;})[0];return {creator:c.creator,kind:c.kind,n:c.works.length,top:top};})
+  .map(function(c){
+   var ranked=c.works.slice().sort(function(a,b){return b.gm-a.gm;});
+   var strong=ranked.filter(function(w){return w.gm>=78;}).length;
+   return {creator:c.creator,kind:c.kind,n:c.works.length,top:ranked[0],
+     score:ranked[0].gm+Math.min(3,strong-1)*1.5};
+  })
   .filter(function(r){return r.top.gm>=80;})
-  .sort(function(a,b){return b.top.gm-a.top.gm;})
+  .sort(function(a,b){return (b.score-a.score)||(b.top.gm-a.top.gm);})
   .slice(0,12);
 }
 function renderCreatorBlindSpots(){
@@ -2374,14 +2471,21 @@ function renderPortraitGaps(){
  const allFams={};scopeAll.forEach(x=>(x.fam||[]).forEach(f=>allFams[f]=true));
  const thin=Object.keys(allFams).filter(f=>(famOwned[f]||0)<=2);
  const seen={};
- const gaps=scopeAll.filter(x=>!x.owned&&(x.fam||[]).some(f=>thin.includes(f)))
-   .sort((a,b)=>b.ovr-a.ovr)
+ /* A blind spot is only useful as a suggestion if it is somewhere you would actually go. Ranking
+    these by `ovr` handed back whatever the critics rated highest in each thin family regardless of
+    whether it had anything to do with the person looking at it -- the one screen in the app
+    entirely about a particular person's taste, answered without consulting it. Ranked by match
+    now, with critical standing as the tie-break, so the twelve shown are the twelve openings into
+    an under-covered family that this profile is most likely to want. Anything already tiered or
+    already rated is dropped: a work you have judged is not a blind spot, whatever you decided. */
+ const gaps=scopeAll.filter(x=>!x.owned&&!x.goat&&!x.silver&&!x.bronze&&x.myRating==null&&(x.fam||[]).some(f=>thin.includes(f)))
+   .sort((a,b)=>(b.gm-a.gm)||(b.ovr-a.ovr))
    .filter(x=>{if(seen[x.title])return false;seen[x.title]=1;return true;})
    .slice(0,12);
  $('#portraitGaps').innerHTML=gaps.map(x=>{const k=KM[x.kind];const thinFam=(x.fam||[]).find(f=>thin.includes(f))||'';
   return '<div class="panel p-2.5 goatJump cursor-pointer" data-q="'+esc(x.title)+'" title="Open in Global Controller"><div class="flex items-center gap-2"><span class="w-1.5 h-1.5 rounded-full shrink-0" style="background:'+k.c+'"></span>'
    +'<span class="flex-1 min-w-0 truncate text-[12px] text-slate-200">'+esc(x.title)+' <span class="text-slate-500 text-[10px]">'+x.year+'</span></span>'
-   +'<span class="text-[11px] font-bold tabular-nums" style="color:'+k.c+'">'+x.ovr+'</span></div>'
+   +'<span class="text-[11px] font-bold tabular-nums" style="color:#fbbf24" title="Your GOAT Match">\u2605'+x.gm+'</span></div>'
    +(thinFam?'<div class="text-[10px] text-slate-500 mt-1 ml-3.5 truncate">'+esc(k.label)+' \u00b7 '+esc(thinFam)+'</div>':'')+'</div>';}).join('')
    ||'<div class="text-slate-500 text-[12px]">No significant blind spots in this category \u2014 your collection covers it well.</div>';
 }
@@ -2692,7 +2796,13 @@ function collectionGaps(){
   if(!missing.length)return;
   out.creators.push({creator:cr,ownedN:byCreator[cr].length,missing:missing.slice(0,5),topGm:missing[0].gm});
  });
- out.creators.sort(function(a,b){return (b.ownedN-a.ownedN)||(b.topGm-a.topGm);});
+ /* Ordering purely by how many of a creator you own put the person you collect hardest at the top
+    even when everything still missing from them is weak, and buried a creator you own two of with
+    a 95 behind them. Both halves matter, so both are in the sort: how clearly you collect this
+    creator (with diminishing returns past a handful -- owning twelve is not twice the signal of
+    owning six) and how strong the best thing you are missing actually is. */
+ out.creators.forEach(function(c){c.score=c.topGm+Math.min(6,c.ownedN)*2.5;});
+ out.creators.sort(function(a,b){return (b.score-a.score)||(b.topGm-a.topGm)||(b.ownedN-a.ownedN);});
  out.creators=out.creators.slice(0,10);
  // (B) Same-root franchise gaps: cluster by a normalized title root (before ':' or a number)
  function root(t){return t.toLowerCase().replace(/[:\-\u2013].*$/,'').replace(/\b(part|vol|volume|book)\b.*$/,'').replace(/\b(i{1,3}|iv|v|vi{0,3}|\d+)\b\s*$/,'').replace(/[^a-z0-9 ]/g,'').trim();}
@@ -3551,7 +3661,7 @@ on('#spinPool','click',e=>{const b=e.target.closest('button');if(!b)return;spinS
 on('#spinGo','click',doSpin);
 on('#rabbitBtn','click',()=>{var panel=$('#surprisePanel');var sc=$('#surpriseScope');if(sc)sc.classList.add('hidden');var showing=!panel.classList.contains('hidden')&&panel.dataset.mode==='rabbit';if(showing){panel.classList.add('hidden');panel.innerHTML='';panel.dataset.mode='';$('#rabbitBtn').setAttribute('aria-expanded','false');return;}var pool=filtered();if(!pool.length)pool=ALL;var top=pool.slice().sort((a,b)=>b.gm-a.gm).slice(0,20);var seed=top[Math.floor(Math.random()*top.length)];renderRabbitHole(seed.id);$('#rabbitBtn').setAttribute('aria-expanded','true');});
 
-on('#minGoat','input',e=>{state.minGoat=+e.target.value;$('#minGoatV').textContent=e.target.value;refresh();});
+on('#minGoat','input',e=>{state.minGoat=+e.target.value;$('#minGoatV').textContent=e.target.value;maybeAutoSort();refresh();});
 on('#minMyRating','input',e=>{state.minMyRating=+e.target.value;$('#minMyRatingV').textContent=(+e.target.value).toFixed(1);refresh();});
 // Live match-count preview: a small floating bubble that tracks the thumb of whichever threshold
 // slider you're dragging (mouse or keyboard), showing how many works match right now -- so you can
@@ -5219,7 +5329,7 @@ on('#genreChips','click',e=>{const b=e.target.closest('.genreChip');if(!b)return
 on('#genreClear','click',()=>{state.genres=[];state.genresExclude=[];buildGenreChips();syncAdvCount();refresh();});
 on('#ratingChips','click',e=>{const b=e.target.closest('.ratingChip');if(!b)return;const r=b.dataset.r;const i=state.ratings.indexOf(r);if(i<0)state.ratings.push(r);else state.ratings.splice(i,1);buildRatingChips();syncAdvCount();refresh();});
 on('#ratingClear','click',()=>{state.ratings=[];buildRatingChips();syncAdvCount();refresh();});
-function handleIdxSliderInput(e){const sl=e.target.closest('.idxSlider');if(!sl)return;const k=sl.dataset.k;state.idx[k]=+sl.value;const v=$('#idxV_'+k);if(v)v.textContent=idxDisplay(k,+sl.value);syncAdvCount();refresh();}
+function handleIdxSliderInput(e){const sl=e.target.closest('.idxSlider');if(!sl)return;const k=sl.dataset.k;state.idx[k]=+sl.value;const v=$('#idxV_'+k);if(v)v.textContent=idxDisplay(k,+sl.value);maybeAutoSort();syncAdvCount();refresh();}
 on('#indexSliders','input',handleIdxSliderInput);
 on('#pinnedMainSliders','input',handleIdxSliderInput);
 function handlePinBtnClick(e){const b=e.target.closest('.pinIdxBtn');if(!b)return;togglePinIdx(b.dataset.k);}
@@ -5448,4 +5558,9 @@ var _rzT;window.addEventListener('resize',function(){clearTimeout(_rzT);_rzT=set
  window.CH=CH;
  window.setRating=setRating;window.clearRating=clearRating;window.SORTS=SORTS;
  window.collSortFn=collSortFn;window.collItemCardHTML=collItemCardHTML;
+ // The taste pipeline itself, so the suite can assert on what the derived weights actually
+ // are rather than only on the scores that fall out the far end of them.
+ window.recomputeTasteScores=recomputeTasteScores;window.recomputeProfileDerived=recomputeProfileDerived;
+ window.tasteModel=function(){return TASTE_MODEL;};
+ window.genreMatches=genreMatches;
 }

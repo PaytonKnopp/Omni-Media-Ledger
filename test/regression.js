@@ -2892,6 +2892,190 @@ async function runTabFiltersFlow(browser, file) {
   check('every boosted genre reaches at least one work, and counts once per work', boostReach.length === 0);
   if (boostReach.length) console.log('     ' + boostReach.join('\n     '));
 
+  // ---- The personal taste model -------------------------------------------------------------
+  //
+  // The point of rating, tiering and shelving things is that the app gets better at the ~5,000
+  // works you have said nothing about. For a long time it mostly did not: a rating moved that one
+  // work's own score and taught the profile almost nothing, genre weights were counted rather than
+  // measured (so the commonest genre in the corpus won on any profile), and creator and per-axis
+  // affinity were not learned at all. Each check below pins one half of that contract, and all of
+  // them build their own adversarial case rather than reading the sample profile, because the
+  // sample profile cannot demonstrate a defect it does not happen to trigger.
+  const tasteLearning = await page.evaluate(() => {
+    if (typeof setRating !== 'function' || typeof clearRating !== 'function' || typeof tasteModel !== 'function') {
+      return ['setRating/clearRating/tasteModel are not exposed'];
+    }
+    const bad = [];
+    const virgin = ALL.filter(x => !x.owned && !x.goat && !x.silver && !x.bronze && x.myRating == null);
+    const restore = [];
+    const rate = (x, v) => { restore.push(x.id); setRating(x.id, v); };
+    const undo = () => { restore.splice(0).forEach(id => clearRating(id)); };
+    // The model keys genres by the taxonomy's own spelling ("Cosmic Horror"), because that is what
+    // the UI reads them back as; a work's precomputed match keys are lowercased, because that is
+    // what boost lookup needs. Resolve across the two rather than assuming either.
+    const gw = k => { const m = tasteModel().genre, kk = Object.keys(m).find(x => x.toLowerCase() === k); return kk ? m[kk] : 0; };
+
+    // Pick the genre keyword with the most never-touched works behind it, so there is both a
+    // teaching set and an untouched held-out work that shares it.
+    const byKey = new Map();
+    virgin.forEach(x => x._gkeys.forEach(k => { (byKey.get(k) || byKey.set(k, []).get(k)).push(x); }));
+    // Deliberately not the biggest group. A keyword sitting on a third of the corpus barely moves
+    // when five more works vote for it (correctly -- that is the base-rate correction this model
+    // exists for), so it is the wrong instrument for asking whether teaching works at all. The
+    // largest group under a few dozen works is both distinctive enough to move and common enough
+    // to leave a held-out work behind.
+    let key = null, group = [];
+    byKey.forEach((v, k) => { if (v.length >= 8 && v.length <= 60 && v.length > group.length) { key = k; group = v; } });
+
+    if (group.length < 8) {
+      bad.push('no genre keyword has 8 untouched works to teach from');
+    } else {
+      // (1) A rating has to generalise. Teach five, hold one out, and require the held-out work to
+      //     move -- this is the whole difference between "the app remembers what I typed" and "the
+      //     app learned something from it".
+      const teach = group.slice(0, 5), held = group[6];
+      const before = held.gm, beforeW = gw(key);
+      teach.forEach(x => rate(x, 10));
+      const afterOne = gw(key);
+      if (!(held.gm > before)) {
+        bad.push('rating five "' + key + '" works 10/10 left an untouched sixth at ' + before);
+      }
+      if (!(afterOne > beforeW)) bad.push('teaching five works did not raise the "' + key + '" weight');
+      undo();
+
+      // (2) Evidence has to accumulate. One favorite carrying a genre must count for less than
+      //     five do -- the old model clamped at +/-15, so past about five favorites every genre
+      //     hit the same ceiling and stopped distinguishing anything.
+      rate(teach[0], 10);
+      const w1 = gw(key);
+      teach.slice(1).forEach(x => rate(x, 10));
+      const w5 = gw(key);
+      if (!(w5 > w1)) bad.push('five favorites in "' + key + '" weigh no more than one (' + w5 + ' vs ' + w1 + ')');
+      undo();
+
+      // (3) A rating is read against this person's own scale, not a fixed 5/10 midpoint. Rating
+      //     the same works 10 must teach strictly more than rating them 7 -- under the old fixed
+      //     midpoint a 7 was still a solid positive vote for every genre it touched, which is why
+      //     profiles that (like most real ones) only ever rate things they chose to watch ended up
+      //     boosting nearly every genre in the corpus and discriminating between none of them.
+      teach.forEach(x => rate(x, 7));
+      const wLow = gw(key);
+      undo();
+      teach.forEach(x => rate(x, 10));
+      const wHigh = gw(key);
+      undo();
+      if (!(wHigh > wLow)) bad.push('a 7/10 teaches as much as a 10/10 in "' + key + '" (' + wLow + ' vs ' + wHigh + ')');
+    }
+
+    // (4) Creator affinity is learned from the same three signals. Tiering four Kubrick films used
+    //     to teach the app nothing whatsoever about Kubrick -- only the hand-set creatorBoost list
+    //     ever moved a creator, and most people will never open that control.
+    const byCreator = new Map();
+    virgin.forEach(x => (x._creators || []).forEach(c => { (byCreator.get(c) || byCreator.set(c, []).get(c)).push(x); }));
+    let cname = null, cworks = [];
+    byCreator.forEach((v, c) => { if (v.length > cworks.length) { cname = c; cworks = v; } });
+    if (cworks.length >= 4) {
+      const held = cworks[cworks.length - 1];
+      const before = held.gm;
+      cworks.slice(0, 3).forEach(x => rate(x, 10));
+      const learned = tasteModel().creator[cname] || 0;
+      const cited = (held.gmBoosts || []).some(b => b[0] === 'creator' && b[1] === cname);
+      if (!(learned > 0)) bad.push('rating three works by ' + cname + ' taught no creator affinity');
+      if (!(held.gm > before)) bad.push('a fourth ' + cname + ' work did not move after three were rated 10');
+      if (!cited) bad.push('the fourth ' + cname + ' work does not name the creator among its reasons');
+      undo();
+    }
+
+    // (5) Disliking has to be expressible. Every weight the old model could produce from a rating
+    //     was positive for anything at or above 5/10, so "I have rated eleven comedies and did not
+    //     care for any of them" was information the engine had no way to hold.
+    const model = tasteModel();
+    if (!Object.keys(model.genre).some(k => model.genre[k] < 0)) {
+      bad.push('no genre can ever carry a negative weight');
+    }
+    // (6) The per-axis multipliers stay inside their declared band and are exactly neutral where
+    //     there is no evidence -- they scale a boost, so a value at or below zero would invert it
+    //     and break the monotonicity the check above guarantees.
+    Object.keys(model.axisMul).forEach(f => {
+      const v = model.axisMul[f];
+      if (!(v >= 0.4 - 1e-9 && v <= 1.6 + 1e-9)) bad.push('axis multiplier ' + f + ' = ' + v + ' is outside 0.4-1.6');
+    });
+    return bad;
+  });
+  check('ratings, tiers and ownership teach the profile, not just their own work\'s score',
+    tasteLearning.length === 0);
+  if (tasteLearning.length) console.log('     ' + tasteLearning.join('\n     '));
+
+  // The score bands have to mean something, and keep meaning it as the corpus grows. "Anything in
+  // the nineties is a strong, strong match" is a claim about the distribution, and an additive
+  // formula with a clamp cannot hold it: raise the weight of the personal half (which is the whole
+  // point of a personal score) and works pile against the 99 ceiling, losing exactly the
+  // differentiation at the top the number exists for. Asserted as a proportion rather than a count
+  // so it stays true at 5,000 works and at 50,000.
+  const bands = await page.evaluate(() => {
+    const n = ALL.length;
+    const at = lo => ALL.filter(x => x.gm >= lo).length;
+    return { n: n, ninety: at(90), ninetyfive: at(95), floor: at(41), median: ALL.map(x => x.gm).sort((a, b) => a - b)[Math.floor(n / 2)] };
+  });
+  check('the nineties are the top few percent of matches, not a third of the library',
+    bands.ninety > 0 && bands.ninety / bands.n <= 0.07 && bands.ninetyfive / bands.n <= 0.025,
+    bands.ninety + ' of ' + bands.n + ' at 90+, ' + bands.ninetyfive + ' at 95+');
+  check('the scale still uses its whole range rather than bunching at the top',
+    bands.median >= 55 && bands.median <= 80, 'median ' + bands.median);
+
+  // Every filter is a question. Narrowing to Scariest >= 80 found the right 300 works and then
+  // ordered them by overall critical standing -- the one thing the person had just said was not
+  // what they were asking. computeMatch() had been running on the filtered list before every sort
+  // for as long as it has existed; nothing read the number it produced.
+  const filterAnswered = await page.evaluate(() => {
+    const bad = [];
+    if (!SORTS.match) return ['there is no sort that reads the Match score'];
+    const saved = { sort: state.sort, idx: JSON.stringify(state.idx) };
+    try {
+      Object.keys(state.idx).forEach(k => { state.idx[k] = 0; });
+      state.sort = 'overall';
+      state.idx.scary = 60;
+      if (typeof maybeAutoSort === 'function') maybeAutoSort();
+      const list = filtered();
+      if (list.length < 20) return ['not enough works clear Scariest >= 60 to test the ordering'];
+      computeMatch(list, state);
+      const ranked = list.slice().sort(SORTS.match);
+      const headScary = ranked.slice(0, 10).reduce((s, x) => s + x.scary, 0) / 10;
+      const tailScary = ranked.slice(-10).reduce((s, x) => s + x.scary, 0) / 10;
+      if (!(headScary > tailScary)) {
+        bad.push('sorting by Match put works averaging ' + headScary.toFixed(1) + ' Scariest above ones averaging ' + tailScary.toFixed(1));
+      }
+    } finally {
+      state.sort = saved.sort; state.idx = JSON.parse(saved.idx);
+    }
+    return bad;
+  });
+  check('a pulled slider is answered by the ordering, not only by the filter',
+    filterAnswered.length === 0);
+  if (filterAnswered.length) console.log('     ' + filterAnswered.join('\n     '));
+
+  // A rating can only be given after finishing something, so a rated work is no more a discovery
+  // than an owned or tiered one -- and the rating blend pulls anything you loved straight to the
+  // top of the very list that is supposed to show you what is next.
+  const recsExcludeRated = await page.evaluate(() => {
+    const kindByCat = { Movies: 'movie', Books: 'book', 'TV Series': 'tv', 'Video Games': 'game' };
+    const bad = [];
+    Object.keys(kindByCat).forEach(cat => {
+      const kind = kindByCat[cat];
+      const victim = buildGeneratedRec(cat).items[0];
+      const work = victim && ALL.find(x => x.kind === kind && x.title === victim.n);
+      if (!work) { bad.push(cat + ': cannot resolve its top recommendation'); return; }
+      setRating(work.id, 9.5);
+      const after = buildGeneratedRec(cat).items.map(i => i.n);
+      clearRating(work.id);
+      if (after.indexOf(work.title) >= 0) bad.push(cat + ': "' + work.title + '" is still recommended after being rated 9.5');
+    });
+    return bad;
+  });
+  check('a work you have already rated is not handed back as a recommendation',
+    recsExcludeRated.length === 0);
+  if (recsExcludeRated.length) console.log('     ' + recsExcludeRated.join('\n     '));
+
 
   // URL bookmarking: filters set across three different tabs all round-trip through a fresh load.
   await goto('timeline');

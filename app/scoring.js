@@ -123,3 +123,315 @@ function normalizeReceptionByKind(all,field){
   items.forEach(x=>{x[field]=Math.max(0,Math.min(100,Math.round(gMean+((x[field]-m)/s)*gSd)));});
  });
 }
+
+/* ===================== PERSONAL TASTE MODEL =====================
+   Everything below turns "what this person has told the app" -- a 0-10 rating, a Gold/Silver/
+   Bronze tier, a work on their shelf -- into weights the GOAT Match pass can apply to the ~5,000
+   works they have said nothing about. It is pure: every input is a parameter, nothing reads
+   PERSONAL_PROFILE/ALL/state/DOM, so it loads as an ordinary top-level script (same contract as
+   lerpScore/certify above) and can be reasoned about and tested on its own.
+
+   The model it replaces summed a fixed weight per favorite (Gold 3 / Silver 2 / Bronze 1, plus
+   (rating-5)*0.6) into a per-genre bucket and clamped the total at +/-15. That has four failure
+   modes, and all four get worse the MORE someone uses the app, which is exactly backwards:
+
+   1. A fixed 5/10 midpoint assumed people rate on a symmetric scale. They do not -- you mostly
+      rate things you chose to watch/read, so real rating sets cluster at 7-10. Every genre then
+      scored positive and none of them discriminated. Centring on the person's OWN distribution
+      (shrunk toward a neutral prior while their sample is small) is what makes a 9 read as "much
+      better than my usual" for one person and "about average for me" for another.
+   2. Raw counting rewarded genres for being COMMON, not for being characteristic. Drama sits on
+      a third of the corpus, so it accumulated the largest bucket for almost any profile and then
+      boosted a third of the corpus back. A feature only tells you something if it is
+      over-represented in what you like relative to how often it turns up at all -- that is what
+      the prevalence lift below measures, and it is the half of the signal that still works for
+      someone who has only ever marked things owned.
+   3. A hard +/-15 clamp flattened everything past ~5 favorites into one indistinguishable ceiling.
+      Shrinkage (n/(n+k)) does the job the clamp was reaching for -- it holds a thin signal back
+      until there is evidence behind it -- without ever capping a well-evidenced one.
+   4. Only genre and vibe were learned. Tiering three Kubrick films taught the app nothing about
+      Kubrick, and nothing at all about the fact that what you keep choosing is dense, dread-heavy
+      and slow. Creator affinity and per-axis affinity are both learned here now.
+
+   The shape is the same for every feature: average the signed affinity of the works carrying it,
+   measure it against this person's own baseline, mix in how over-represented it is versus the
+   corpus, then shrink by how much evidence there actually is. More ratings/tiers/ownership always
+   means more confident weights, never noisier ones. */
+
+const TASTE_TIER_AFFINITY={gold:1,silver:0.7,bronze:0.45,owned:0.2};
+/* A fresh profile with two ratings should not have its centre yanked to those two numbers, so the
+   observed mean is shrunk toward a neutral 6.8 (roughly where "I liked it" sits on a 0-10 scale
+   people actually use) with the weight of 4 imaginary ratings. */
+const TASTE_RATING_PRIOR_MEAN=6.8,TASTE_RATING_PRIOR_N=4,TASTE_RATING_MIN_SPREAD=1.1;
+/* n/(n+k): one favorite carrying a genre earns a quarter of the weight five do. */
+const TASTE_SHRINK_K=3;
+/* The baseline a feature is measured against is the person's mean affinity pulled partway toward
+   zero. At full pull (1.0) a library of nothing but owned-but-untiered works would have every
+   genre land exactly on the baseline and score zero -- which would throw away the one signal that
+   person has given. At 0.7 mere ownership still says a quiet yes, while a Gold pick says a much
+   louder one. */
+const TASTE_BASELINE_PULL=0.7;
+/* How much of a feature's weight comes from "this is over-represented in my library" rather than
+   "I rate these highly". The first still works when someone has only marked things owned; the
+   second is sharper once real ratings and tiers exist. */
+const TASTE_PREVALENCE_MIX=0.4;
+const TASTE_GENRE_SCALE=11,TASTE_VIBE_SCALE=9,TASTE_CREATOR_SCALE=13;
+/* A favorite tagged "Cosmic Horror" is also evidence about Horror, just weaker evidence -- credit
+   the tag's declared ancestors too, at a discount, so specific taste generalises up the taxonomy
+   instead of only ever matching its own exact tag. */
+const TASTE_ANCESTOR_CREDIT=0.6;
+/* The six per-work quality boosts used to be identical for everyone: a comedy lover still earned
+   the atmospheric-dread bonus. Each is now scaled by how much that axis actually characterises
+   the person's favorites, between 0.4x and 1.6x. Never negative, so a boost stays monotonic in
+   the index it reads (more dread can never earn less). */
+const TASTE_AXIS_SPAN=0.6;
+const TASTE_AXIS_FIELDS=['myst','tech','dread','warmth','comedy','beauty'];
+/* Shared with the corpus-side creator index so a name splits the same way in both places. */
+const CREATOR_SPLIT_RE=/,| and | & /;
+
+function tasteClamp1(v){return v<-1?-1:v>1?1:v;}
+function creatorTokens(x){
+ return String((x&&x.creator)||'').split(CREATOR_SPLIT_RE).map(function(s){return s.trim();}).filter(function(s){return s.length>2;});
+}
+/* Every genre keyword a work matches, lowercased: its own tags plus everything they declare they
+   inherit from. Exactly the set genreMatches() tests one keyword at a time, precomputed once so
+   the per-work scoring pass can look boosts up instead of re-walking the taxonomy for each of
+   them (275 possible keywords x 5,000 works is not a loop to run on every tier click). */
+function genreMatchKeys(x,tax){
+ const out=new Set();
+ (x.genres||[]).forEach(function(tag){
+  const inh=(tax&&tax[tag])||[tag];
+  inh.forEach(function(p){out.add(String(p).toLowerCase());});
+ });
+ return out;
+}
+/* The same keywords, but weighted for LEARNING rather than matching: a work's own tag counts
+   fully, an ancestor it merely inherits counts at TASTE_ANCESTOR_CREDIT. Keyed by the taxonomy's
+   own spelling so the weights it produces read as "Cosmic Horror", not "cosmic horror", wherever
+   the UI shows them back. */
+function genreLearnKeys(x,tax){
+ const m=new Map();
+ (x.genres||[]).forEach(function(tag){
+  const inh=(tax&&tax[tag])||[tag];
+  inh.forEach(function(p){if(!(m.get(p)>=TASTE_ANCESTOR_CREDIT))m.set(p,TASTE_ANCESTOR_CREDIT);});
+  m.set(tag,1);
+ });
+ return m;
+}
+function creatorLearnKeys(x){
+ const m=new Map();
+ creatorTokens(x).forEach(function(nm){m.set(nm,1);});
+ return m;
+}
+function vibeLearnKeys(x){
+ const m=new Map();
+ if(x&&x.vibe)m.set(x.vibe,1);
+ return m;
+}
+
+/* Builds the whole model in one pass over the corpus.
+     all      -- the adapter array (reads .id/.genres/.vibe/.creator/.owned and the axis fields)
+     ratings  -- {id: 0-10}
+     gold/silver/bronze -- Sets of ids
+     taxonomy -- GENRE_TAXONOMY
+   Returns plain data: {genre, vibe, creator} keyword->weight maps in the same units as the
+   hand-set PERSONAL_PROFILE.genreBoost entries (a strong, well-evidenced genre lands near +9,
+   a hand-set one is 3-6), an axisMul map, and the evidence count. */
+function buildTasteModel(all,opts){
+ opts=opts||{};
+ const ratings=opts.ratings||{};
+ const gold=opts.gold||new Set(),silver=opts.silver||new Set(),bronze=opts.bronze||new Set();
+ const tax=opts.taxonomy||{};
+
+ /* --- 1. Where this person's ratings actually sit --- */
+ const rv=[];
+ Object.keys(ratings).forEach(function(id){const v=ratings[id];if(typeof v==='number'&&isFinite(v))rv.push(v);});
+ const rn=rv.length;
+ const rawMean=rn?rv.reduce(function(s,v){return s+v;},0)/rn:TASTE_RATING_PRIOR_MEAN;
+ const centre=(rawMean*rn+TASTE_RATING_PRIOR_MEAN*TASTE_RATING_PRIOR_N)/(rn+TASTE_RATING_PRIOR_N);
+ const variance=rn>1?rv.reduce(function(s,v){return s+(v-rawMean)*(v-rawMean);},0)/(rn-1):0;
+ const spread=Math.max(TASTE_RATING_MIN_SPREAD,Math.sqrt(variance));
+
+ /* --- 2. One signed affinity per evidenced work, in [-1,+1] ---
+    A rating is read two ways at once and blended: RELATIVE to this person's own centre (which is
+    what makes an 8 mean different things to a generous and a stingy rater) and ABSOLUTE against a
+    fixed 6/10 midpoint (which is what keeps "I rated all forty of these a 9" reading as a wall of
+    yes rather than as forty works of merely average interest). A tier on the same work nudges the
+    result; a rating always outweighs it, because typing a number is the more deliberate act. */
+ const ev=[];
+ all.forEach(function(x){
+  const r=ratings[x.id];
+  const rated=typeof r==='number'&&isFinite(r);
+  const tier=gold.has(x.id)?'gold':silver.has(x.id)?'silver':bronze.has(x.id)?'bronze':(x.owned?'owned':null);
+  if(!rated&&!tier)return;
+  let aff;
+  if(rated){
+   aff=tasteClamp1(((r-centre)/(spread*1.4))*0.55+((r-6)/3)*0.45);
+   if(tier)aff=aff*0.65+TASTE_TIER_AFFINITY[tier]*0.35;
+  }else aff=TASTE_TIER_AFFINITY[tier];
+  ev.push({x:x,aff:tasteClamp1(aff)});
+ });
+
+ const N=ev.length;
+ const meanAff=N?ev.reduce(function(s,e){return s+e.aff;},0)/N:0;
+ const baseline=meanAff*TASTE_BASELINE_PULL;
+ const posTotal=ev.reduce(function(s,e){return s+Math.max(0,e.aff);},0)||1;
+ const corpusN=all.length||1;
+
+ /* --- 3. One table per feature kind --- */
+ function buildTable(keysOf,scale){
+  const corpusCount=Object.create(null);
+  all.forEach(function(x){keysOf(x,tax).forEach(function(w,k){corpusCount[k]=(corpusCount[k]||0)+1;});});
+  const acc=Object.create(null);
+  ev.forEach(function(e){
+   keysOf(e.x,tax).forEach(function(w,k){
+    const a=acc[k]||(acc[k]={n:0,s:0,p:0});
+    a.n+=w;a.s+=w*e.aff;a.p+=w*Math.max(0,e.aff);
+   });
+  });
+  const out=Object.create(null);
+  Object.keys(acc).forEach(function(k){
+   const a=acc[k];
+   if(a.n<=0)return;
+   // How much better than this person's own baseline the works carrying this feature score.
+   const liftAff=a.s/a.n-baseline;
+   // How over-represented the feature is in what they like, versus the corpus at large. log2 of
+   // the ratio, halved and clamped, so "four times as common as usual" saturates at +1 instead of
+   // letting one rare tag on two favorites outrun everything.
+   const mine=a.p/posTotal,theirs=(corpusCount[k]||0)/corpusN;
+   const liftPrev=theirs>0?tasteClamp1(Math.log(( mine+1e-4)/(theirs+1e-4))/Math.LN2/2):0;
+   const shrink=a.n/(a.n+TASTE_SHRINK_K);
+   out[k]=(liftAff*(1-TASTE_PREVALENCE_MIX)+liftPrev*TASTE_PREVALENCE_MIX)*shrink*scale;
+  });
+  return out;
+ }
+
+ /* --- 4. Per-axis affinity ---
+    How far the person's favorites sit from the corpus mean on each scored construct, in standard
+    deviations, weighted by how much they liked each one and shrunk by how much evidence there is.
+    z is clamped to +/-1 before shrinking, so one extraordinary outlier cannot swing an axis. */
+ const axis=Object.create(null),axisMul=Object.create(null);
+ TASTE_AXIS_FIELDS.forEach(function(f){
+  const vals=[];
+  all.forEach(function(x){const v=x[f];if(typeof v==='number'&&isFinite(v))vals.push(v);});
+  if(vals.length<10){axis[f]=0;axisMul[f]=1;return;}
+  const m=vals.reduce(function(s,v){return s+v;},0)/vals.length;
+  const sd=Math.sqrt(vals.reduce(function(s,v){return s+(v-m)*(v-m);},0)/vals.length)||1;
+  let num=0,den=0;
+  ev.forEach(function(e){
+   const v=e.x[f];
+   if(typeof v!=='number'||!isFinite(v))return;
+   num+=e.aff*((v-m)/sd);den+=Math.abs(e.aff);
+  });
+  const z=den>0?tasteClamp1(num/den):0;
+  axis[f]=z*(den/(den+TASTE_SHRINK_K));
+  axisMul[f]=1+TASTE_AXIS_SPAN*axis[f];
+ });
+
+ return {
+  evidence:N,ratingCentre:centre,ratingSpread:spread,
+  genre:buildTable(genreLearnKeys,TASTE_GENRE_SCALE),
+  vibe:buildTable(vibeLearnKeys,TASTE_VIBE_SCALE),
+  creator:buildTable(creatorLearnKeys,TASTE_CREATOR_SCALE),
+  axis:axis,axisMul:axisMul
+ };
+}
+
+/* ---- Cross-medium fairness for the OBJECTIVE half of GOAT Match ----
+   normalizeReceptionByKind() above already puts criticalScore/audienceScore on one scale, for
+   exactly the reason restated here: a 95 sourced from Metacritic and a 95 sourced from the
+   Tomatometer are not the same claim. The same is true of everything else the objective half of
+   the match score is built from -- `tech` is disc transfer/audio/cinematography for a film,
+   engine-and-art-direction for a game and prose-craft/idea-density for a book, and the rubric
+   indices (ontological complexity, aesthetic beauty, dread) are scored within each medium's own
+   conventions too. Left alone, books swept the top of every cross-medium recommendation list on
+   any profile, because "objectively excellent book" and "objectively excellent game" were being
+   compared as if the numbers meant the same thing.
+   Rather than rewrite the displayed fields (a film's Technical Craft has to keep agreeing with
+   the Transfer/Audio/Cinematography figures printed beside it), the fix is applied once to the
+   combined objective SCORE, which nothing displays on its own: each medium's objective scores are
+   mapped onto the corpus-wide mean and spread. Rank inside a medium is untouched -- the transform
+   is monotonic -- so what changes is only which medium's works are eligible to sit at the top of a
+   shared list, and that is then decided by the personal-taste half instead of by which aggregator
+   a number came from. */
+function normalizeObjectiveByKind(all,values){
+ function mean(a){return a.reduce(function(s,v){return s+v;},0)/a.length;}
+ function sd(a,m){return Math.sqrt(a.reduce(function(s,v){return s+(v-m)*(v-m);},0)/a.length)||1;}
+ if(!values.length)return values;
+ const gMean=mean(values),gSd=sd(values,gMean);
+ const idxByKind={};
+ all.forEach(function(x,i){(idxByKind[x.kind]=idxByKind[x.kind]||[]).push(i);});
+ const out=values.slice();
+ Object.keys(idxByKind).forEach(function(k){
+  const idx=idxByKind[k];
+  if(idx.length<12)return; // too few to estimate a distribution from; leave them on the raw scale
+  const vals=idx.map(function(i){return values[i];});
+  const m=mean(vals),s=sd(vals,m);
+  idx.forEach(function(i){out[i]=gMean+((values[i]-m)/s)*gSd;});
+ });
+ return out;
+}
+
+/* ---- GOAT Match calibration ----
+   "Anything in the nineties has to be a strong, strong match, then it goes down logically."
+   That is a statement about the DISTRIBUTION of the score, and it cannot be guaranteed by an
+   additive formula with a clamp: raise the weight of the personal-taste term (which is the whole
+   point of a personal match score) and works pile up against the 99 ceiling, losing exactly the
+   differentiation at the top that the number exists to provide; leave it low and the top of
+   everyone's list is just the corpus's best-reviewed works in the same order.
+   So the raw score is mapped through a monotone curve anchored on the corpus's own quantiles:
+   the median lands near 68, the top decile clears 85, the top 3% reach the nineties and the top
+   half-percent the high nineties. Order is preserved exactly (it is a monotone remap, so nothing
+   overtakes anything), but the bands now MEAN something, and they keep meaning it as works are
+   added -- a quantile is scale-free, so a corpus of 5,000 and one of 50,000 both put "in the
+   nineties" at the same place: the top few percent of matches for that person. */
+const GM_FLOOR=40,GM_CEIL=99;
+const GM_MEDIAN_TARGET=68;
+const GM_ANCHORS=[[0,40],[0.25,58],[0.5,GM_MEDIAN_TARGET],[0.75,78],[0.9,85],[0.97,91],[0.995,96],[1,99]];
+/* How much evidence it takes before the top of the scale is allowed to mean its full strength.
+   A quantile curve is relative, so on its own it would stretch ANY profile's best raw scores to
+   the high nineties -- including a profile that has rated nothing, tiered nothing and owns
+   nothing, where "99" would be a claim about a person the app has never been told anything about.
+   The band above the median is compressed toward it while evidence is thin and relaxes to its
+   full range as ratings, tiers and shelved works accumulate: a brand-new profile's best
+   suggestions top out in the low nineties (still the best guess available, honestly labelled as a
+   guess), and a well-fed one reaches the high nineties it has earned. Below the median nothing is
+   compressed -- "this is not for you" needs no evidence to be worth saying. */
+const GM_CONFIDENCE_HALF=60,GM_MIN_TOP_SPAN=0.82;
+function buildScoreCurve(raws,evidence){
+ const flat=function(v){return Math.max(GM_FLOOR,Math.min(GM_CEIL,Math.round(v)));};
+ const s=raws.filter(function(v){return typeof v==='number'&&isFinite(v);}).sort(function(a,b){return a-b;});
+ if(s.length<40)return flat; // too small a sample to read quantiles off; leave the raw scale alone
+ const n=(typeof evidence==='number'&&evidence>0)?evidence:0;
+ const span=GM_MIN_TOP_SPAN+(1-GM_MIN_TOP_SPAN)*(n/(n+GM_CONFIDENCE_HALF));
+ const q=function(p){
+  const i=(s.length-1)*p,lo=Math.floor(i),hi=Math.ceil(i);
+  return s[lo]+(s[hi]-s[lo])*(i-lo);
+ };
+ const pts=[];
+ GM_ANCHORS.forEach(function(a){
+  const x=q(a[0]);
+  const t=a[1]>GM_MEDIAN_TARGET?GM_MEDIAN_TARGET+(a[1]-GM_MEDIAN_TARGET)*span:a[1];
+  if(!pts.length||x>pts[pts.length-1][0]+1e-9)pts.push([x,t]);
+ });
+ if(pts.length<2)return flat;
+ // Linear between anchors, and linear along the end segments' slope outside them -- so a
+ // hypothetical score below the corpus minimum (the boost-free baseline shown in a card's "why
+ // this match" breakdown is one) still lands somewhere sensible instead of collapsing onto 40.
+ function at(v){
+  if(!isFinite(v))return GM_FLOOR;
+  if(v<=pts[0][0]){
+   const a=pts[0],b=pts[1];
+   return a[1]+(v-a[0])*(b[1]-a[1])/(b[0]-a[0]);
+  }
+  for(let i=1;i<pts.length;i++){
+   if(v<=pts[i][0]){
+    const a=pts[i-1],b=pts[i];
+    return a[1]+(v-a[0])*(b[1]-a[1])/(b[0]-a[0]);
+   }
+  }
+  const a=pts[pts.length-2],b=pts[pts.length-1];
+  return b[1]+(v-b[0])*(b[1]-a[1])/(b[0]-a[0]);
+ }
+ return function(v){return Math.max(GM_FLOOR,Math.min(GM_CEIL,Math.round(at(v))));};
+}
