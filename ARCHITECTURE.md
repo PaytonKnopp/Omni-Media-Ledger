@@ -12,7 +12,10 @@ app/ledger-app.js   The application: initApp() -- every screen and all account/s
 app/format.js       Pure provenance/edition-format helpers (provStampOf, normPhysFormat)
 app/cards.js        Pure HTML-string/widget builders (esc, ring, microBar, frontBars, matrixRow, ...)
 app/scoring.js       Pure deep-index scoring tables + certify()/lerpScore() (the hand-tuned overrides
-                      and content-rating logic)
+                      and content-rating logic), plus the personal taste model -- buildTasteModel()
+                      turns ratings/tiers/ownership into genre, vibe, creator and per-axis weights,
+                      normalizeObjectiveByKind()/normalizeReceptionByKind() put the four mediums on
+                      one scale, buildScoreCurve() calibrates the 40-99 GOAT Match band
 app/match.js         The live "Match" scoring pass (activeDims/computeMatch/bespokeScore) -- reads
                       only `state`, passed in explicitly by initApp()
 app/matrices.js      VIEW 4 · Reference Matrices (matrixBlock/renderMatrixNav/renderMatrices) --
@@ -75,6 +78,38 @@ persisted, which is why changing the scoring engine needs no migration.
 `media_status` is the durable, scalable copy: plain rows, queryable per person and per title. If
 the jsonb blob is ever empty or damaged, `rebuildProfileFromMediaStatus()` reconstructs the account
 from those rows rather than treating it as new.
+
+## How GOAT Match is computed
+
+One re-runnable pass, `recomputeTasteScores()`, rebuilt from scratch every time the profile changes
+(a tier click, a rating, an ownership toggle). In order:
+
+1. **Learn.** `buildTasteModel(ALL, {ratings, gold, silver, bronze, taxonomy})` reads every work the
+   person has rated, tiered or shelved and turns it into one signed affinity in `[-1,+1]` — a rating
+   read both against that person's own centre (shrunk toward a neutral prior while their sample is
+   small) and against a fixed midpoint, blended with the tier if the work carries one. From those it
+   derives four tables: **genre** (credited up the taxonomy, so a Cosmic Horror favorite also teaches
+   Horror, weaker), **vibe**, **creator**, and a per-**axis** multiplier for each of the six quality
+   constructs. Every weight is measured against the person's own baseline *and* against how common
+   the feature is in the corpus, then shrunk by `n/(n+3)` — so weights get stronger and sharper as
+   the profile fills, never noisier, and a genre only scores for being characteristic rather than
+   for being common.
+2. **Score.** Per work: an objective half (`0.5·crit + 0.2·aud + 0.3·tech` plus the six quality
+   boosts, each scaled by that person's axis multiplier) and a personal half (creator + genre + vibe
+   weights, saturated through `tanh` so stacked matches taper instead of piling into the ceiling).
+   The objective half is put on one cross-medium scale first, so which medium tops a shared list is
+   decided by taste rather than by which aggregator a medium's numbers came from.
+3. **Calibrate.** `buildScoreCurve()` maps the raw score through a monotone quantile curve: median
+   near 68, top decile past 85, the nineties reserved for the top ~3%. Order is preserved exactly.
+   The band above the median is compressed while the profile is thin and relaxes as evidence
+   accumulates, so a profile that has told the app nothing tops out in the low nineties instead of
+   claiming a 99% match to someone it knows nothing about.
+4. **Override.** A rating blends the score 65/35 toward the number typed (the only signal that can
+   pull a score *down*); then the Silver/Bronze/owned floors lift it (parallel rungs, never
+   crossing — see `tierTarget`); then Gold pins to 100.
+
+Nothing here is persisted, and every field is reset at the top of the pass, so running it twice
+produces the same result as a fresh boot.
 
 ## Saving, and why it is defensive
 

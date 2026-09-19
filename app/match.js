@@ -48,13 +48,21 @@ function activeDims(state){
    however hard you pulled it. Nothing about that ordering was a claim about taste; it was an
    artifact of the order someone typed the conditions, and it silently ranked every filtered
    result. */
+/* The anchor the weighted answer is blended against: half the work's objective standing, half how
+   well it matches this person. It used to be `ovr` alone, which quietly made the tie-break between
+   two works that answer the sliders equally well a question about critical consensus rather than
+   about the person asking -- in an app whose every other surface is personal. Splitting it keeps
+   an objective filter ("show me the scariest things") objective, since the dimension terms are
+   82% of the score and untouched, while letting taste settle the near-ties underneath. With no
+   filters active at all there is no question to answer, so the anchor is the whole score. */
+function matchAnchor(it){return it.ovr*0.5+it.gm*0.5;}
 function computeMatch(list,state){
  const dims=activeDims(state);
  const wsum=dims.reduce((s,d)=>s+d[2],0);
  list.forEach(it=>{
-  if(!dims.length||wsum<=0){it._m=it.ovr;return;}
+  if(!dims.length||wsum<=0){it._m=Math.round(matchAnchor(it));return;}
   let sum=0;dims.forEach(d=>{sum+=it[d[0]]*d[2];});
-  it._m=Math.round((sum/wsum)*0.8+it.ovr*0.2);
+  it._m=Math.round((sum/wsum)*0.82+matchAnchor(it)*0.18);
  });
 }
 function bespokeScore(it,state){const w=state.w,s=w.tech+w.dread+w.myst;if(s<=0)return 0;return (it.tech*w.tech+it.dread*w.dread+it.myst*w.myst)/s;}
