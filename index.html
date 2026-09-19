@@ -374,23 +374,30 @@ button:focus-visible,select:focus-visible,input:focus-visible{outline:2px solid 
  #contRankGroup>.text-\[10px\]{grid-column:1/-1;margin:0 0 2px}
  #contRankGroup .contSortBtn{text-align:center}
 
- /* Tier checkboxes (Owned-only / Not-owned / Tiers row): plain flex-wrap let "Tiers" + Gold split
-    onto the same line as Owned/Not-owned while Silver+Bronze fell to the next line, so the group of
-    three tier checkboxes wasn't reading as one unit. #tierGroup wraps just "Tiers"+Gold+Silver+
-    Bronze (see index.html markup) so it can be pushed onto its own full-width row here and kept
-    together -- desktop keeps the original single flex-wrap row (this selector only exists inside
-    this media query, and #tierGroup is itself display:flex there too, so desktop's visual order/
-    wrapping is unchanged). */
- #tierGroup{flex-basis:100%;padding-top:.4rem;margin-top:.15rem;border-top:1px dashed var(--border-2)}
- /* "✨ Best Untried Matches" used ml-auto to sit flush-right of the checkbox/tier row on desktop;
-    once that row wraps on a phone, the auto margin just strands it alone at the far right of an
-    otherwise-empty line. A full-width row (an earlier version of this fix) over-corrected: it added
-    a divider and margin that shifted every time the button's active/inactive state changed. Just
-    drop the auto-margin so it falls inline right after the tier chips, wrapping like any other chip
-    in the row -- same spot on the row every time, in place, and syncDiscoverBtn's own background/
-    border/glow toggle is the only thing that changes when it's active. Desktop's ml-auto placement
-    is untouched (this selector only exists inside this media query). */
- #discoverBtn{margin-left:0!important}
+ /* Owned/Not-owned/Rated/Unrated/Tiers/Best-Untried-Matches row: on desktop this is one flat
+    flex-wrap line and reads fine because everything fits without wrapping. On a phone it used to
+    wrap wherever the width ran out -- Owned alone, then Not-owned+Rated together, then Unrated
+    alone, an arbitrary split with no relation to which toggles are actually a pair. Owned/Not-owned
+    are two ends of the same choice, and so are Rated/Unrated, so index.html now wraps each pair in
+    its own #ownershipToggleGroup/#ratingToggleGroup div (still just a plain flex wrapper on desktop,
+    no visual change there) purely so they can be kept together and given one consistent "grouped
+    control strip" card here -- same background/border/radius pattern already used for
+    #quickActionsRow/#sortGroup below, so the whole filter card reads as one family of stacked bands
+    instead of loose wrapped checkboxes. #tierGroup and #discoverBtn get the same card treatment
+    (replacing the old dashed-divider-only look, which read as a stray line rather than a clear
+    section) so every band in this row looks and feels the same. Desktop's original single-row
+    flex-wrap layout is untouched (none of this exists outside the media query). */
+ #filterTogglesRow{flex-direction:column;align-items:stretch;gap:.55rem}
+ #ownershipToggleGroup,#ratingToggleGroup,#tierGroup,#discoverBtn{background:rgba(148,163,184,.04);border:1px solid rgba(148,163,184,.1);border-radius:10px}
+ #ownershipToggleGroup,#ratingToggleGroup{justify-content:space-between;padding:10px 12px;gap:.5rem}
+ #ownershipToggleGroup label,#ratingToggleGroup label{flex:1 1 0;white-space:normal}
+ #tierGroup{padding:10px 12px}
+ /* "✨ Best Untried Matches" used ml-auto to sit flush-right of the row on desktop; on a phone,
+    now that the row is a column, ml-auto has no row left to push against, so drop it and let the
+    button lay out as its own full-width band like every other group here -- highlighting via
+    syncDiscoverBtn's background/border/glow toggle is the only thing that changes when it's
+    active, never its position or size. Desktop's ml-auto placement is untouched. */
+ #discoverBtn{margin-left:0!important;width:100%;text-align:center;padding-top:10px;padding-bottom:10px}
 
  /* Results/actions row (below the active-filter bar): on desktop this is 3 flex children --
     result count, a cluster of Rabbit Hole/Surprise Me/Compact/Show, and Sort -- laid out with
@@ -998,10 +1005,14 @@ body[data-theme="outer-wilds"]{--bg:#0e0a09;--panel:#181010;--panel-2:#120c0b;--
       <div id="genreChips" class="flex flex-wrap gap-1.5"></div>
     </div>
     <div class="flex flex-wrap items-center gap-x-6 gap-y-3 mt-4 pt-4 border-t border-slate-800/70" id="filterTogglesRow">
-      <label class="flex items-center gap-2 text-[11px] cursor-pointer" style="color:#86efac"><input type="checkbox" id="ownedToggle" class="accent-emerald-500"/> ◆ Owned in my collection only</label>
-      <label class="flex items-center gap-2 text-[11px] cursor-pointer" style="color:#fca5a5"><input type="checkbox" id="notOwnedToggle" class="accent-rose-500"/> ○ Not owned · discover only</label>
-      <label class="flex items-center gap-2 text-[11px] cursor-pointer" style="color:#5eead4"><input type="checkbox" id="ratedToggle" class="accent-teal-500"/> ★ Rated by me only</label>
-      <label class="flex items-center gap-2 text-[11px] cursor-pointer" style="color:#94a3b8"><input type="checkbox" id="unratedToggle" class="accent-slate-500"/> ☆ Unrated only</label>
+      <div class="flex items-center gap-4" id="ownershipToggleGroup">
+        <label class="flex items-center gap-2 text-[11px] cursor-pointer" style="color:#86efac"><input type="checkbox" id="ownedToggle" class="accent-emerald-500"/> ◆ Owned in my collection only</label>
+        <label class="flex items-center gap-2 text-[11px] cursor-pointer" style="color:#fca5a5"><input type="checkbox" id="notOwnedToggle" class="accent-rose-500"/> ○ Not owned · discover only</label>
+      </div>
+      <div class="flex items-center gap-4" id="ratingToggleGroup">
+        <label class="flex items-center gap-2 text-[11px] cursor-pointer" style="color:#5eead4"><input type="checkbox" id="ratedToggle" class="accent-teal-500"/> ★ Rated by me only</label>
+        <label class="flex items-center gap-2 text-[11px] cursor-pointer" style="color:#94a3b8"><input type="checkbox" id="unratedToggle" class="accent-slate-500"/> ☆ Unrated only</label>
+      </div>
       <span id="tierGroup" class="flex flex-wrap items-center gap-x-2 gap-y-3">
         <span class="fieldlbl mb-0">Tiers · click to require, click again to exclude</span>
         <div id="tierChips" class="flex flex-wrap gap-1.5"></div>
