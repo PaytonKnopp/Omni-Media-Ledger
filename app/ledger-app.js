@@ -169,13 +169,30 @@ const state={view:'controller',q:'',type:'all',struct:'all',plats:[],minGoat:0,m
 const $=s=>document.querySelector(s),$$=s=>Array.from(document.querySelectorAll(s));
 const on=(sel,ev,fn)=>{const el=$(sel);if(el)el.addEventListener(ev,fn);else console.warn('missing element:',sel);};
 // esc/themeColor(+THEME_PALETTE) live in app/cards.js (pure, closure-independent) now.
-const SORTS={overall:(a,b)=>(b.ovr-a.ovr)||(b.crit-a.crit),gm:(a,b)=>(b.gm-a.gm)||(b.crit-a.crit),myrating:(a,b)=>((b.myRating==null?-1:b.myRating)-(a.myRating==null?-1:a.myRating))||(b.gm-a.gm),cosmic:(a,b)=>(b.ch-a.ch)||(b.dread-a.dread),sound:(a,b)=>(b.snd-a.snd)||(b.crit-a.crit),ref4k:(a,b)=>(b.ref-a.ref)||(b.crit-a.crit),emotion:(a,b)=>(b.emo-a.emo)||(b.crit-a.crit),awe:(a,b)=>(b.awe-a.awe)||(b.crit-a.crit),comfort:(a,b)=>(b.cozy-a.cozy)||(b.aud-a.aud),perf:(a,b)=>(b.perf-a.perf)||(b.crit-a.crit),icon:(a,b)=>(b.icon-a.icon)||(b.crit-a.crit),scary:(a,b)=>(b.scary-a.scary)||(b.dread-a.dread),real:(a,b)=>(b.real-a.real)||(b.crit-a.crit),reality:(a,b)=>(b.reality-a.reality)||(b.myst-a.myst),shock:(a,b)=>(b.shock-a.shock)||(b.dread-a.dread),sci:(a,b)=>(b.sci-a.sci)||(b.myst-a.myst),funny:(a,b)=>(b.funny-a.funny)||(b.aud-a.aud),hist:(a,b)=>(b.hist-a.hist)||(b.crit-a.crit),vibe2:(a,b)=>(b.vibe2-a.vibe2)||(b.tech-a.tech),blend:(a,b)=>(bespokeScore(b,state)-bespokeScore(a,state))||(b.crit-a.crit),crit:(a,b)=>b.crit-a.crit,aud:(a,b)=>b.aud-a.aud,tech:(a,b)=>b.tech-a.tech,dread:(a,b)=>b.dread-a.dread,myst:(a,b)=>b.myst-a.myst,warmth:(a,b)=>(b.warmth||0)-(a.warmth||0)||(b.crit-a.crit),comedy:(a,b)=>(b.comedy||0)-(a.comedy||0)||(b.aud-a.aud),beauty:(a,b)=>(b.beauty||0)-(a.beauty||0)||(b.crit-a.crit),yearNew:(a,b)=>b.year-a.year,yearOld:(a,b)=>a.year-b.year,title:(a,b)=>a.title.localeCompare(b.title),
+const SORTS={overall:(a,b)=>(b.ovr-a.ovr)||(b.crit-a.crit),gm:(a,b)=>(b.gm-a.gm)||(b.crit-a.crit),myrating:(a,b)=>((b.myRating==null?-1:b.myRating)-(a.myRating==null?-1:a.myRating))||a.title.localeCompare(b.title),cosmic:(a,b)=>(b.ch-a.ch)||(b.dread-a.dread),sound:(a,b)=>(b.snd-a.snd)||(b.crit-a.crit),ref4k:(a,b)=>(b.ref-a.ref)||(b.crit-a.crit),emotion:(a,b)=>(b.emo-a.emo)||(b.crit-a.crit),awe:(a,b)=>(b.awe-a.awe)||(b.crit-a.crit),comfort:(a,b)=>(b.cozy-a.cozy)||(b.aud-a.aud),perf:(a,b)=>(b.perf-a.perf)||(b.crit-a.crit),icon:(a,b)=>(b.icon-a.icon)||(b.crit-a.crit),scary:(a,b)=>(b.scary-a.scary)||(b.dread-a.dread),real:(a,b)=>(b.real-a.real)||(b.crit-a.crit),reality:(a,b)=>(b.reality-a.reality)||(b.myst-a.myst),shock:(a,b)=>(b.shock-a.shock)||(b.dread-a.dread),sci:(a,b)=>(b.sci-a.sci)||(b.myst-a.myst),funny:(a,b)=>(b.funny-a.funny)||(b.aud-a.aud),hist:(a,b)=>(b.hist-a.hist)||(b.crit-a.crit),vibe2:(a,b)=>(b.vibe2-a.vibe2)||(b.tech-a.tech),blend:(a,b)=>(bespokeScore(b,state)-bespokeScore(a,state))||(b.crit-a.crit),crit:(a,b)=>b.crit-a.crit,aud:(a,b)=>b.aud-a.aud,tech:(a,b)=>b.tech-a.tech,dread:(a,b)=>b.dread-a.dread,myst:(a,b)=>b.myst-a.myst,warmth:(a,b)=>(b.warmth||0)-(a.warmth||0)||(b.crit-a.crit),comedy:(a,b)=>(b.comedy||0)-(a.comedy||0)||(b.aud-a.aud),beauty:(a,b)=>(b.beauty||0)-(a.beauty||0)||(b.crit-a.crit),yearNew:(a,b)=>b.year-a.year,yearOld:(a,b)=>a.year-b.year,title:(a,b)=>a.title.localeCompare(b.title),
 // Groups by tier first (unchanged), but within a tier now breaks ties by your own rating before
-// falling back to GOAT Match -- "My Tiers" is the one sort whose entire point is ranking by YOUR
+// falling back to title -- "My Tiers" is the one sort whose entire point is ranking by YOUR
 // taste, so a Gold pick you rated 10 belongs above a Gold pick you rated 7 or never rated at all,
 // not ordered by the algorithm's estimate. Unrated (null) sorts as -1, below any real rating but
-// still inside its own tier group.
-tier:(a,b)=>(tierRank(b)-tierRank(a))||((b.myRating==null?-1:b.myRating)-(a.myRating==null?-1:a.myRating))||(b.gm-a.gm)};
+// still inside its own tier group, and ties (including the unrated group itself) settle
+// alphabetically rather than by GOAT Match, so an unrated pile reads as a browsable A-Z list
+// instead of another algorithmic ranking.
+tier:(a,b)=>(tierRank(b)-tierRank(a))||((b.myRating==null?-1:b.myRating)-(a.myRating==null?-1:a.myRating))||a.title.localeCompare(b.title)};
+
+// Filtering to "Rated by me only" or a specific tier (Gold/Silver/Bronze) is a deliberate request
+// to browse a small, personal slice of the catalog, and "Best Overall" -- the app-wide default --
+// answers a different question (what does the algorithm rate highest) that has nothing to do with
+// why someone narrowed to just their own rated or tiered work. Switch to the sort that actually
+// matches the filter (tier ladder + your rating for a tier filter, your rating alone for "Rated by
+// me only") the moment it's turned on, but only when the sort is still sitting on that untouched
+// default -- once someone has deliberately picked a different sort, leave it alone rather than
+// yanking their choice out from under them every time a filter checkbox changes.
+function maybeAutoSort(){
+ if(state.sort!=='overall')return;
+ var want=state.tierFilter.length?'tier':(state.ratedOnly?'myrating':null);
+ if(!want)return;
+ state.sort=want;var ss=$('#sortSel');if(ss)ss.value=want;
+}
 
 const IDX_KEYS=['snd','ref','ch','emo','awe','cozy','perf','icon','scary','real','reality','shock','sci','funny','hist','vibe2','crit','aud','tech','dread','myst','warmth','comedy','beauty'];
 // `skip` lets a caller ask "what would be in scope if this ONE facet's own selection were ignored,
@@ -552,7 +569,7 @@ function cardHTML(it){const k=KM[it.kind];
  +'<button type="button" class="cardHead w-full text-left p-3.5 flex gap-3 items-start" data-id="'+it.id+'">'
  +ring(it.crit,k.c,42)
  +'<div class="flex-1 min-w-0">'
- +'<div class="flex items-center gap-x-2 gap-y-1.5 flex-wrap"><span class="cardTitle text-[13px] font-semibold text-slate-100 leading-tight hover:text-teal-300 cursor-pointer underline decoration-dotted decoration-slate-600 underline-offset-2" data-flip="'+it.id+'" title="Click for a summary and full breakdown">'+esc(it.title)+'</span><span class="chip" style="color:'+k.c+';border-color:'+k.c+'44">'+k.label+'</span><span class="chip" style="color:#5eead4;border-color:#5eead455">'+esc(it.rating)+'</span>'+'<span class="chip" style="color:#fbbf24;border-color:#fbbf2444" title="GOAT match /100">\u2605 '+it.gm+'</span>'+(window._blendActive?'<span class="chip" style="color:#0B0F19;background:#34d399;border-color:#34d399;font-weight:800" title="Weighted blend match">\u2696 '+bespokeScore(it,state).toFixed(0)+'%</span>':'')+(it.chFlag?'<span class="chip" style="color:#0B0F19;background:#c084fc;border-color:#c084fc;font-weight:700">\u25c9 CANON 100</span>':(it.ch>=70?'<span class="chip" style="color:#c084fc;border-color:#c084fc44">\u25c9 '+it.ch+'</span>':''))+(function(){const fr=franchiseOf(it);return fr?'<span class="chip" style="color:#5eead4;border-color:#5eead444" title="Part of the '+esc(fr)+' series">\u2699 '+esc(fr)+'</span>':'';})()+'</div>'
+ +'<div class="flex items-center gap-x-2 gap-y-1.5 flex-wrap cardChips"><span class="cardTitle text-[13px] font-semibold text-slate-100 leading-tight hover:text-teal-300 cursor-pointer underline decoration-dotted decoration-slate-600 underline-offset-2" data-flip="'+it.id+'" title="Click for a summary and full breakdown">'+esc(it.title)+'</span><span class="chip" style="color:'+k.c+';border-color:'+k.c+'44">'+k.label+'</span><span class="chip" style="color:#5eead4;border-color:#5eead455">'+esc(it.rating)+'</span>'+'<span class="chip" style="color:#fbbf24;border-color:#fbbf2444" title="GOAT match /100">\u2605 '+it.gm+'</span>'+(window._blendActive?'<span class="chip" style="color:#0B0F19;background:#34d399;border-color:#34d399;font-weight:800" title="Weighted blend match">\u2696 '+bespokeScore(it,state).toFixed(0)+'%</span>':'')+(it.chFlag?'<span class="chip" style="color:#0B0F19;background:#c084fc;border-color:#c084fc;font-weight:700">\u25c9 CANON 100</span>':(it.ch>=70?'<span class="chip" style="color:#c084fc;border-color:#c084fc44">\u25c9 '+it.ch+'</span>':''))+(function(){const fr=franchiseOf(it);return fr?'<span class="chip franchiseChip" style="color:#5eead4;border-color:#5eead444" title="Part of the '+esc(fr)+' series">\u2699 '+esc(fr)+'</span>':'';})()+'</div>'
  +'<div class="text-[11px] text-slate-400 mt-1.5 truncate" title="'+esc(it.creator)+' · '+esc(it.org)+'">'+it.year+' · '+esc(it.creator)+' · '+esc(it.span)+'</div>'
  +'<div class="mt-2 space-y-1 cardMicro" title="This work\'s 3 strongest indices out of ~19 tracked -- click the card to see all of them">'+frontBars(it)+'</div>'
  +'</div><span class="text-slate-600 text-xs mt-1" aria-hidden="true">&#9662;</span></button>'+'<button type="button" class="wlBtn absolute top-2 right-2 text-base leading-none transition-transform hover:scale-125" data-wl="'+it.id+'" title="Toggle watchlist" aria-label="'+(wlHas(it.id)?'Remove from watchlist':'Add to watchlist')+'" style="color:'+(wlHas(it.id)?'#fb7185':'#475569')+'">'+(wlHas(it.id)?'\u2665':'\u2661')+'</button>'
@@ -5189,14 +5206,14 @@ on('#pinnedMainSliders','click',handlePinBtnClick);
 on('#combineMode','change',e=>{state.combine=e.target.checked;refresh();});
 on('#ownedToggle','change',e=>{state.ownedOnly=e.target.checked;if(e.target.checked){state.notOwnedOnly=false;const no=$('#notOwnedToggle');if(no)no.checked=false;}syncAdvCount();refresh();});
 on('#notOwnedToggle','change',e=>{state.notOwnedOnly=e.target.checked;if(e.target.checked){state.ownedOnly=false;const o=$('#ownedToggle');if(o)o.checked=false;}syncAdvCount();refresh();});
-on('#ratedToggle','change',e=>{state.ratedOnly=e.target.checked;if(e.target.checked){state.unratedOnly=false;const u=$('#unratedToggle');if(u)u.checked=false;}syncAdvCount();refresh();});
+on('#ratedToggle','change',e=>{state.ratedOnly=e.target.checked;if(e.target.checked){state.unratedOnly=false;const u=$('#unratedToggle');if(u)u.checked=false;}maybeAutoSort();syncAdvCount();refresh();});
 on('#unratedToggle','change',e=>{state.unratedOnly=e.target.checked;if(e.target.checked){state.ratedOnly=false;const r=$('#ratedToggle');if(r)r.checked=false;}syncAdvCount();refresh();});
 on('#tierChips','click',e=>{const b=e.target.closest('.tierChip');if(!b)return;const t=b.dataset.tier;
  const inI=state.tierFilter.indexOf(t),inX=state.tierFilterExclude.indexOf(t);
  if(inI>=0){state.tierFilter.splice(inI,1);state.tierFilterExclude.push(t);} // required -> excluded
  else if(inX>=0){state.tierFilterExclude.splice(inX,1);} // excluded -> neutral
  else{state.tierFilter.push(t);} // neutral -> required
- buildTierFilterChips();syncAdvCount();refresh();});
+ buildTierFilterChips();maybeAutoSort();syncAdvCount();refresh();});
 on('#yearMin','input',e=>{state.yearMin=e.target.value?+e.target.value:null;syncAdvCount();refresh();});
 on('#yearMax','input',e=>{state.yearMax=e.target.value?+e.target.value:null;syncAdvCount();refresh();});
 on('#yearPresets','click',e=>{const b=e.target.closest('button');if(!b)return;
