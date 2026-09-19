@@ -154,7 +154,7 @@ body.compact #grid .cardHead{padding-top:.5rem;padding-bottom:.5rem}
 .suggestSortTab{font-size:10px;font-weight:700;padding:4px 9px;border-radius:9999px;border:1px solid #1e293b;color:#64748b;background:rgba(15,23,42,.5);transition:.15s;white-space:nowrap}
 .suggestSortTab:hover{color:#94a3b8;border-color:#334155}
 .suggestSortTab.on{color:#a5b4fc;border-color:#818cf866;background:rgba(129,140,248,.1)}
-.suggestItem{border-left:3px solid #334155;transition:.15s;padding:9px 11px}
+.suggestItem{border-left:3px solid #334155;transition:.15s;padding:10px 12px}
 /* The row's three actions were dotted-underlined text links crowded against the vote chip, which
    read as body copy rather than controls. Same colors, but given chip shape and a real tap target
    so a thumb can hit one without hitting its neighbour. */
@@ -174,7 +174,7 @@ body.compact #grid .cardHead{padding-top:.5rem;padding-bottom:.5rem}
 .suggestListBox{max-height:none}
 /* Composer block: groups the type picker, the textarea and the submit row into one visually
    distinct card so "write something" reads as separate from "browse what's already there". */
-.suggestComposer{background:rgba(15,23,42,.45);border:1px solid rgba(51,65,85,.5);border-radius:12px;padding:12px}
+.suggestComposer{background:rgba(15,23,42,.45);border:1px solid rgba(51,65,85,.5);border-radius:12px;padding:14px}
 .suggestTextarea{resize:vertical;min-height:84px;font-size:13px;line-height:1.55}
 .suggestTextarea:focus{outline:none;border-color:#34d39966;box-shadow:0 0 0 2px rgba(52,211,153,.12)}
 /* Solid, not ghost: this is the one primary action in the modal and the old outline-only pill
@@ -187,6 +187,25 @@ body.compact #grid .cardHead{padding-top:.5rem;padding-bottom:.5rem}
 .suggestExpandBtn{font-size:11px;font-weight:600;color:#64748b;border:1px solid #1e293b;background:rgba(15,23,42,.5);border-radius:9999px;padding:4px 12px;transition:.15s}
 .suggestExpandBtn:hover{color:#cbd5e1;border-color:#334155}
 .suggestEmpty{font-size:12px;color:#64748b;text-align:center;padding:18px 10px;border:1px dashed rgba(51,65,85,.7);border-radius:10px;line-height:1.6}
+/* The modal's own spacing lives here rather than in Tailwind utilities: px-5/py-4/pt-3.5/mb-2.5
+   and friends are not in the compiled stylesheet (this repo has hit that exact "class referenced
+   in markup but never built" bug before), so relying on them silently produced a popup with NO
+   horizontal padding at all -- every edge flush against the border. Real rules can't go missing. */
+.suggestHead{padding:18px 20px 16px;border-bottom:1px solid rgba(30,41,59,.7)}
+.suggestBody{padding:18px 20px 20px;min-height:0}
+.suggestDesc{margin-top:10px;font-size:12px;line-height:1.6;color:#94a3b8}
+.suggestSection{margin-top:20px;padding-top:16px;border-top:1px solid rgba(30,41,59,.7)}
+/* Sort chips and status chips on one row where they fit, wrapping on a narrow phone. The bottom
+   margin is what keeps the first suggestion off the chips above it. */
+.suggestFilters{display:flex;align-items:center;flex-wrap:wrap;column-gap:12px;row-gap:7px;margin-bottom:14px}
+.suggestList>*+*{margin-top:8px}
+.suggestNote{margin-top:10px;padding:8px 10px;border-radius:10px;font-size:11.5px;line-height:1.6}
+.suggestNote.isDup{color:rgba(252,211,77,.9);background:rgba(245,158,11,.1);border:1px solid rgba(245,158,11,.25)}
+.suggestNote.isError{color:#fb7185;background:rgba(244,63,94,.1);border:1px solid rgba(244,63,94,.25)}
+@media (max-width:420px){
+ .suggestHead{padding:16px 16px 14px}
+ .suggestBody{padding:16px 16px 18px}
+}
 .acctPrimaryBtn{background:#6366f1}
 .acctPrimaryBtn:hover:not(:disabled){background:#818cf8}
 .acctPrimaryBtn:disabled{opacity:.6;cursor:default}
@@ -903,7 +922,7 @@ body[data-theme="outer-wilds"]{--bg:#0e0a09;--panel:#181010;--panel-2:#120c0b;--
      the body below it moves. See suggestBox() in ledger-app.js for the behavior. -->
 <div id="suggestGate" class="hidden fixed inset-0 z-[999] flex items-center justify-center bg-black/80 backdrop-blur-sm p-4">
   <div class="panel max-w-lg w-full flex flex-col overflow-hidden" style="max-height:88vh" role="dialog" aria-modal="true" aria-labelledby="suggestHeading">
-    <div class="shrink-0 px-5 pt-4 pb-3.5 border-b border-slate-800/70">
+    <div class="shrink-0 suggestHead">
       <div class="flex items-start justify-between gap-2">
         <div class="min-w-0">
           <div class="text-[10px] tracking-[.35em] text-emerald-300/80 uppercase mb-1">Suggest a feature</div>
@@ -915,12 +934,12 @@ body[data-theme="outer-wilds"]{--bg:#0e0a09;--panel:#181010;--panel-2:#120c0b;--
         <button type="button" class="suggestCatTab" data-cat="feedback" role="tab">💡 Feature / Bug</button>
         <button type="button" class="suggestCatTab" data-cat="media" role="tab">🎬 Request Media</button>
       </div>
-      <p id="suggestCatDesc" class="text-[12px] text-slate-400 mt-2.5 leading-relaxed"></p>
+      <p id="suggestCatDesc" class="suggestDesc"></p>
     </div>
 
-    <div class="grow overflow-y-auto px-5 py-4" style="min-height:0">
+    <div class="grow overflow-y-auto suggestBody">
       <div class="suggestComposer">
-        <div id="suggestMediaRow" class="hidden mb-2.5">
+        <div id="suggestMediaRow" class="hidden" style="margin-bottom:12px">
           <label for="suggestMediaType" class="lbl block mb-1">What kind of thing is it?</label>
           <select id="suggestMediaType" class="inp text-[13px]">
             <option value="Movie">🎬 Movie</option>
@@ -936,14 +955,14 @@ body[data-theme="outer-wilds"]{--bg:#0e0a09;--panel:#181010;--panel-2:#120c0b;--
           <button type="button" id="suggestSubmit" class="suggestSubmitBtn">Submit</button>
         </div>
       </div>
-      <div id="suggestDupWarning" class="hidden text-[11.5px] text-amber-300/90 bg-amber-500/10 border border-amber-500/25 rounded-lg p-2 mt-2.5 leading-relaxed"></div>
-      <div id="suggestError" class="hidden text-[12px] text-rose-400 bg-rose-500/10 border border-rose-500/25 rounded-lg p-2 mt-2.5 leading-relaxed"></div>
+      <div id="suggestDupWarning" class="hidden suggestNote isDup"></div>
+      <div id="suggestError" class="hidden suggestNote isError"></div>
 
-      <div class="mt-4 pt-3.5 border-t border-slate-800/70">
+      <div class="suggestSection">
         <!-- Label on its own line above the filters: side by side, the four filter chips ran off
              the right edge of a phone screen with "Resolved" clipped in half. -->
         <div class="lbl mb-2" id="suggestListLabel">Feature &amp; bug suggestions</div>
-        <div class="flex items-center gap-x-3 gap-y-1.5 flex-wrap mb-2.5">
+        <div class="suggestFilters">
           <div class="flex gap-1" id="suggestSortTabs">
             <button type="button" class="suggestSortTab" data-sort="top">🔥 Top</button>
             <button type="button" class="suggestSortTab" data-sort="new">🆕 Newest</button>
@@ -953,7 +972,7 @@ body[data-theme="outer-wilds"]{--bg:#0e0a09;--panel:#181010;--panel-2:#120c0b;--
             <button type="button" class="suggestTab" data-tab="resolved">✅ Resolved <span id="suggestTabResolvedCount"></span></button>
           </div>
         </div>
-        <div id="suggestList" class="suggestListBox space-y-2"></div>
+        <div id="suggestList" class="suggestListBox suggestList"></div>
         <button type="button" id="suggestExpandBtn" class="hidden suggestExpandBtn mt-2">Show more ⌄</button>
       </div>
     </div>
