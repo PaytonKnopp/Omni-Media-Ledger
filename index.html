@@ -382,6 +382,32 @@ button:focus-visible,select:focus-visible,input:focus-visible{outline:2px solid 
     this media query, and #tierGroup is itself display:flex there too, so desktop's visual order/
     wrapping is unchanged). */
  #tierGroup{flex-basis:100%;padding-top:.4rem;margin-top:.15rem;border-top:1px dashed var(--border-2)}
+ /* "✨ Best Untried Matches" used ml-auto to sit flush-right of the checkbox/tier row on desktop;
+    once that row wraps on a phone, the auto margin just strands it alone on its own line at the
+    right edge, reading as a stray floating pill instead of a clear action. Drop the auto-margin
+    behavior here and give it its own full-width, centered, clearly-divided row instead -- same
+    dashed-divider treatment as #tierGroup above, so the whole filter card reads as consistent
+    stacked bands on mobile. Desktop's ml-auto placement is untouched (this selector only exists
+    inside this media query). */
+ #discoverBtn{flex-basis:100%;margin-left:0!important;width:100%;text-align:center;margin-top:.4rem;padding-top:.6rem;border-top:1px dashed var(--border-2)}
+
+ /* Results/actions row (below the active-filter bar): on desktop this is 3 flex children --
+    result count, a cluster of Rabbit Hole/Surprise Me/Compact/Show, and Sort -- laid out with
+    justify-between across a wide row. On a phone that cluster wrapped unpredictably: 3 buttons
+    then "Show" got separated from its own "Top 100" select (see index.html markup: "Show" +
+    #limitSel are now wrapped together in #limitGroup precisely so they can never split apart),
+    and Sort ended up on a lonely trailing line. Stack the three bands (count / quick actions /
+    sort) full-width, and turn the quick-actions cluster and the Sort control into their own
+    bordered bands -- same "grouped control strip" pattern already used for #wlFilterGroup /
+    #contMedGroup elsewhere in this file -- so Show+Top 100 and Sort+Best Overall each read as one
+    unambiguous label+control pair instead of loose wrapped text. */
+ #resultsControlRow{flex-direction:column;align-items:stretch;gap:.5rem}
+ #quickActionsRow{width:100%;background:rgba(148,163,184,.04);border:1px solid rgba(148,163,184,.1);border-radius:10px;padding:8px}
+ #quickActionsRow>button{flex:1 1 0;text-align:center;white-space:nowrap}
+ #limitGroup{flex-basis:100%;justify-content:space-between;margin-top:.5rem;padding-top:.5rem;border-top:1px dashed var(--border-2)}
+ #limitGroup #limitSel{flex:1 1 auto;min-width:0;margin-left:.5rem}
+ #sortGroup{width:100%;justify-content:space-between;background:rgba(148,163,184,.04);border:1px solid rgba(148,163,184,.1);border-radius:10px;padding:8px}
+ #sortGroup #sortSel{flex:1 1 auto;min-width:0;margin-left:.5rem}
 
  /* Contenders Ledger top filter row: Medium buttons and Rank/sort buttons used to be one flat
     flex-wrap row (divided only by "|" glyphs), which reads as clutter once it wraps across 2-3
@@ -970,7 +996,7 @@ body[data-theme="outer-wilds"]{--bg:#0e0a09;--panel:#181010;--panel-2:#120c0b;--
       <div class="flex items-center justify-between mb-2"><span class="fieldlbl mb-0">Genre / Type · click to include, click again to exclude</span><button type="button" id="genreClear" class="text-[10px] text-slate-500 hover:text-rose-300">clear genres</button></div>
       <div id="genreChips" class="flex flex-wrap gap-1.5"></div>
     </div>
-    <div class="flex flex-wrap items-center gap-x-6 gap-y-3 mt-4 pt-4 border-t border-slate-800/70">
+    <div class="flex flex-wrap items-center gap-x-6 gap-y-3 mt-4 pt-4 border-t border-slate-800/70" id="filterTogglesRow">
       <label class="flex items-center gap-2 text-[11px] cursor-pointer" style="color:#86efac"><input type="checkbox" id="ownedToggle" class="accent-emerald-500"/> ◆ Owned in my collection only</label>
       <label class="flex items-center gap-2 text-[11px] cursor-pointer" style="color:#fca5a5"><input type="checkbox" id="notOwnedToggle" class="accent-rose-500"/> ○ Not owned · discover only</label>
       <label class="flex items-center gap-2 text-[11px] cursor-pointer" style="color:#5eead4"><input type="checkbox" id="ratedToggle" class="accent-teal-500"/> ★ Rated by me only</label>
@@ -1021,22 +1047,24 @@ body[data-theme="outer-wilds"]{--bg:#0e0a09;--panel:#181010;--panel-2:#120c0b;--
       </div>
       <div id="activeBar" class="flex flex-wrap items-center gap-1.5 mt-3"></div>
     </div>
-    <div class="flex flex-wrap items-center justify-between gap-3 mt-4 pt-4 border-t border-slate-800/70">
+    <div class="flex flex-wrap items-center justify-between gap-3 mt-4 pt-4 border-t border-slate-800/70" id="resultsControlRow">
       <div class="text-xs text-slate-400"><span id="resultCount" class="text-slate-100 font-semibold tabular-nums">0</span> works in scope<span id="scopeBreak" class="text-slate-500"></span><span id="priorityNote" class="text-indigo-300/80"></span></div>
-      <div class="flex flex-wrap items-center gap-2">
+      <div class="flex flex-wrap items-center gap-2" id="quickActionsRow">
         <button type="button" id="rabbitBtn" class="text-[11px] px-3 py-1.5 rounded-lg border border-purple-500/50 text-purple-300 hover:bg-purple-500/10 transition-colors font-semibold" title="Take a journey through connected works across media" aria-expanded="false">🕳 Rabbit Hole</button>
         <button type="button" id="surpriseBtn" class="text-[11px] px-3 py-1.5 rounded-lg border border-fuchsia-500/50 text-fuchsia-300 hover:bg-fuchsia-500/10 transition-colors font-semibold" title="One weighted pick by mood, medium, ownership, and how much time you have">🎲 Surprise Me</button>
         <button type="button" id="densityBtn" class="text-[11px] px-2.5 py-1.5 rounded-lg border border-slate-700 text-slate-400 hover:border-teal-500 hover:text-teal-300 transition-colors" title="Toggle compact / comfortable card density">▦ Compact</button>
-        <label class="fieldlbl mb-0" for="limitSel">Show</label>
-        <select id="limitSel" class="inp" style="width:auto">
-          <option value="50">Top 50</option>
-          <option value="100">Top 100</option>
-          <option value="250">Top 250</option>
-          <option value="500">Top 500</option>
-          <option value="9999">All</option>
-        </select>
+        <div class="flex items-center gap-2" id="limitGroup">
+          <label class="fieldlbl mb-0" for="limitSel">Show</label>
+          <select id="limitSel" class="inp" style="width:auto">
+            <option value="50">Top 50</option>
+            <option value="100">Top 100</option>
+            <option value="250">Top 250</option>
+            <option value="500">Top 500</option>
+            <option value="9999">All</option>
+          </select>
+        </div>
       </div>
-      <div class="flex items-center gap-2">
+      <div class="flex items-center gap-2" id="sortGroup">
         <label class="fieldlbl mb-0" for="sortSel">Sort</label>
         <select id="sortSel" class="inp" style="width:auto">
           <option value="overall">Best Overall</option>
