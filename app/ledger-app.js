@@ -3535,6 +3535,12 @@ function initMobileScrollHint(el){
 (function initMobileNavScrollHint(){
  if(!window.matchMedia || !window.matchMedia('(max-width:767px)').matches)return;
  initMobileScrollHint($('#nav'));
+ // Export/Import/Clear Ratings/Reset is the same kind of side-scrolling strip as #nav (more
+ // buttons than fit at 390px, #profileBtnRow already scrolls -- see its mobile CSS), but it never
+ // got the fade+chevron treatment #nav and #tipsTabPicker share, so there was nothing on screen
+ // hinting it scrolls at all: Reset just silently existed off the visible edge. Same affordance,
+ // same reason to notice it.
+ initMobileScrollHint($('#profileBtnRow'));
 })();
 on('#surpriseBtn','click',()=>{const sc=$('#surpriseScope');sc.classList.toggle('hidden');var opening=!sc.classList.contains('hidden');var panel=$('#surprisePanel');
  if(opening){if(panel.dataset.mode==='rabbit'){panel.classList.add('hidden');panel.innerHTML='';panel.dataset.mode='';$('#rabbitBtn').setAttribute('aria-expanded','false');}if(sc.scrollIntoView)sc.scrollIntoView({behavior:'smooth',block:'nearest'});}
