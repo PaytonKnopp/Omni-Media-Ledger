@@ -1602,8 +1602,10 @@ async function runAccountFlow(browser, file) {
     // still get every title's row into media_status. Before the shared debounce, each click fired
     // its own verified upsert AND read-back, so twenty owned clicks queued twenty round-trips.
     await readWhen(page2, () => localStorage.getItem('omniLedgerPendingSync') !== '1', undefined, 10000);
+    // Only titles not already owned: Owned is a toggle, so clicking one that's already on turns it
+    // off, and the check below would then (correctly) not find it in media_status as owned.
     const runIds = await page2.evaluate(() => Array.from(document.querySelectorAll('.panel .profEditBtn[data-act="own"]'))
-      .slice(0, 5).map(b => b.dataset.id));
+      .filter(b => !/click to remove/.test(b.title || '')).slice(0, 5).map(b => b.dataset.id));
     const upsertsBeforeRun = await page2.evaluate(() => window.__profileUpsertCalls);
     // Dispatched back-to-back in one pass, which is what a run of clicks actually looks like and
     // what the debounce is for. Driving them through Playwright instead would put a few hundred
@@ -1613,12 +1615,9 @@ async function runAccountFlow(browser, file) {
       // Re-query each button: every edit re-renders the grid, so the previous node is gone.
       ids.forEach(id => {
         const b = document.querySelector('.panel .profEditBtn[data-act="own"][data-id="' + id + '"]');
-        window.__dbg = (window.__dbg || []).concat([id + ':' + (b ? b.dataset.kind + ':' + (window.__omniProfileRevision||0) : 'MISSING')]);
         if (b) b.click();
-        window.__dbg.push('after:' + (window.__omniProfileRevision||0));
       });
     }, runIds);
-    console.log('DBG2', await page2.evaluate(() => JSON.stringify(window.__dbg)));
     const allApplied = await page2.waitForFunction(
       (n) => (window.__omniProfileRevision || 0) >= n, revBefore + runIds.length, { timeout: 15000 })
       .then(() => true).catch(() => false);
