@@ -1556,7 +1556,12 @@ async function runAccountFlow(browser, file) {
             if (!btns.length) continue;
             const btn = btns[(n * 7) % btns.length];
             const id = btn.dataset.id;
-            btn.click();
+            // Start from a fresh full redraw, so anything that landed asynchronously before this
+            // click (a late sync or sort re-render on a slow CI box) isn't blamed on the patch.
+            window.refresh();
+            const fresh = document.querySelector('.panel .profEditBtn[data-act="' + act + '"][data-id="' + id + '"]');
+            if (!fresh) continue;
+            fresh.click();
             const patched = document.getElementById('grid').innerHTML;
             window.refresh();                    // full redraw, no changed-set shortcut
             if (patched !== document.getElementById('grid').innerHTML) bad.push(sortKey + '/' + act);
