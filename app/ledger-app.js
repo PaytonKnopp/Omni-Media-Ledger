@@ -4758,6 +4758,8 @@ const CHANGELOG=[
   });
  }
  function toggleVote(id,voted){
+  // The greyed-out count on your own suggestion is a <span> with no id -- never send a null vote.
+  if(!id)return;
   var a=acct();if(!a||!a.configured)return;
   var handle=a.handle||'anonymous';
   var req=voted
@@ -4914,7 +4916,7 @@ const CHANGELOG=[
   var row=e.target.closest('[data-suggest-id]');if(!row)return;
   if(e.target.closest('.suggestDeleteBtn')){deleteSuggestion(e.target.closest('.suggestDeleteBtn').dataset.id);return;}
   if(e.target.closest('.suggestResolveBtn')){var rb=e.target.closest('.suggestResolveBtn');toggleResolved(rb.dataset.id,rb.dataset.next);return;}
-  if(e.target.closest('.suggestVoteBtn')){var vb=e.target.closest('.suggestVoteBtn');toggleVote(vb.dataset.id,vb.dataset.voted==='1');return;}
+  if(e.target.closest('button.suggestVoteBtn')){var vb=e.target.closest('button.suggestVoteBtn');toggleVote(vb.dataset.id,vb.dataset.voted==='1');return;}
   if(e.target.closest('.suggestEditBtn')){startEdit(row);return;}
   if(e.target.closest('.suggestEditCancel')){renderList(allItems);return;}
   if(e.target.closest('.suggestEditSave')){saveEdit(e.target.closest('.suggestEditSave').dataset.id,row);return;}

@@ -1429,20 +1429,42 @@ async function runAccountFlow(browser, file) {
     });
     check('the media request is stored with kind=media', mediaKindStored);
 
+    // You can't vote on your own suggestion (the count renders as an inert span), so hand this
+    // request to another handle in the shared store and make the list re-read it via an edit/save.
+    const ownVoteIsInert = await page2.evaluate(() => {
+      const row = Array.from(document.querySelectorAll('#suggestList [data-suggest-id]')).find(r => r.textContent.includes('Project Hail Mary'));
+      const v = row && row.querySelector('.suggestVoteBtn');
+      return !!(v && v.tagName === 'SPAN' && !v.dataset.id);
+    });
+    check('your own suggestion shows its vote count but no vote button', ownVoteIsInert);
+    await page2.evaluate(() => {
+      const db = JSON.parse(sessionStorage.getItem('__mockDb'));
+      const row = db.tables.suggestions.find(s => (s.text || '').includes('Project Hail Mary'));
+      if (row) row.handle = 'someoneelse';
+      sessionStorage.setItem('__mockDb', JSON.stringify(db));
+      const r = Array.from(document.querySelectorAll('#suggestList [data-suggest-id]')).find(x => x.textContent.includes('Project Hail Mary'));
+      r.querySelector('.suggestEditBtn').click();
+    });
+    await page2.click('#suggestList .suggestEditSave');
+    await page2.waitForFunction(() => {
+      const row = Array.from(document.querySelectorAll('#suggestList [data-suggest-id]')).find(r => r.textContent.includes('Project Hail Mary'));
+      const btn = row && row.querySelector('button.suggestVoteBtn');
+      return !!btn;
+    }, null, { timeout: 10000 }).catch(() => {});
+
     const voteBtnClicked = await page2.evaluate(() => {
       const row = Array.from(document.querySelectorAll('#suggestList [data-suggest-id]')).find(r => r.textContent.includes('Project Hail Mary'));
-      const btn = row && row.querySelector('.suggestVoteBtn');
+      const btn = row && row.querySelector('button.suggestVoteBtn');
       if (!btn) return false;
       btn.click();
       return true;
     });
     check('a vote button is offered on a media request', voteBtnClicked);
-    await page2.waitForTimeout(300);
-    const voteRegistered = await page2.evaluate(() => {
+    const voteRegistered = await page2.waitForFunction(() => {
       const row = Array.from(document.querySelectorAll('#suggestList [data-suggest-id]')).find(r => r.textContent.includes('Project Hail Mary'));
       const btn = row && row.querySelector('.suggestVoteBtn');
       return !!(btn && btn.classList.contains('voted') && btn.textContent.includes('1'));
-    });
+    }, null, { timeout: 10000 }).then(() => true).catch(() => false);
     check('voting for a suggestion increments its count and marks it as voted', voteRegistered);
     await page2.click('#suggestCatTabs [data-cat="feedback"]');
     await page2.waitForTimeout(150);
@@ -1591,9 +1613,12 @@ async function runAccountFlow(browser, file) {
       // Re-query each button: every edit re-renders the grid, so the previous node is gone.
       ids.forEach(id => {
         const b = document.querySelector('.panel .profEditBtn[data-act="own"][data-id="' + id + '"]');
+        window.__dbg = (window.__dbg || []).concat([id + ':' + (b ? b.dataset.kind + ':' + (window.__omniProfileRevision||0) : 'MISSING')]);
         if (b) b.click();
+        window.__dbg.push('after:' + (window.__omniProfileRevision||0));
       });
     }, runIds);
+    console.log('DBG2', await page2.evaluate(() => JSON.stringify(window.__dbg)));
     const allApplied = await page2.waitForFunction(
       (n) => (window.__omniProfileRevision || 0) >= n, revBefore + runIds.length, { timeout: 15000 })
       .then(() => true).catch(() => false);
