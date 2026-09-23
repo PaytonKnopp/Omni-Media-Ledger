@@ -526,7 +526,7 @@ function gmBreakdownHTML(it){
  var ovMap={declared:['\u2605 Declared all-time favorite \u2014 locked at 100','#fbbf24'],silver:['\u2726 Declared favorite (silver tier)','#cbd5e1'],owned:['\u25c8 In your physical collection','#4ade80'],
   rated:['\u2605 Pulled toward your rating of '+(typeof it.myRating==='number'?it.myRating.toFixed(1):'?')+'/10','#5eead4']};
  (it.gmBoosts||[]).slice().sort((a,b)=>b[2]-a[2]).forEach(function(b){
-  var lab={creator:'Creator',author:'Author',genre:'Genre',vibe:'Vibe',complexity:'Depth',craft:'Craft',dread:'Dread',warmth:'Warmth',comedy:'Comedy',beauty:'Beauty'}[b[0]]||b[0];
+  var lab={creator:'Creator',author:'Author',genre:'Genre',vibe:'Vibe',complexity:'Depth',craft:'Craft',tone:'Tone',dread:'Dread',warmth:'Warmth',comedy:'Comedy',beauty:'Beauty'}[b[0]]||b[0];
   var cap=(''+b[1]).replace(/\b\w/g,function(c){return c.toUpperCase();});
   // A derived taste weight can be negative -- a genre this person's own ratings count against --
   // so the sign comes from the number rather than being hardcoded to '+', which would have
@@ -1649,6 +1649,9 @@ function recomputeTasteScores(){
  // without re-walking the taxonomy 275 times per work on every tier click.
  x._gkeys.forEach(k=>{const e=GENRE_BOOST_INDEX[k];if(e&&e.w){tasteRaw+=e.w;br.push(['genre',e.label,Math.round(e.w*10)/10]);}});
  const vb=GOAT_VIBE_BOOST[x.vibe]||0;if(vb){tasteRaw+=vb;br.push(['vibe',x.vibe,Math.round(vb*10)/10]);}
+ // Signed, and read within the work's own medium, so it is the one taste signal that reaches a
+ // medium the person has never tiered in -- see step 5 of buildTasteModel (app/scoring.js).
+ const tf=toneFit(x,TASTE_MODEL);if(Math.abs(tf)>=0.3){tasteRaw+=tf;br.push(['tone','Tone of your favorites',Math.round(tf*10)/10]);}
  /* The six quality boosts below are each scaled by how much that construct characterises THIS
     person's favorites (TASTE_MODEL.axisMul, 0.4x-1.6x, 1.0x for a profile with no evidence yet).
     They used to be identical for everyone, which meant a third of a work's match score was the
@@ -1833,6 +1836,7 @@ function goatWhy(x){
   if(b[0]==='author')return 'by '+b[1]+', an author your profile favors';
   if(b[0]==='genre')return 'matches your weighted “'+b[1]+'” genre';
   if(b[0]==='vibe')return 'fits your “'+b[1]+'” vibe';
+  if(b[0]==='tone')return 'has the tone of your favorites';
   if(b[0]==='complexity')return 'has the ontological depth you favor';
   if(b[0]==='craft')return 'stands out on technical craft';
   if(b[0]==='dread')return 'carries the atmospheric dread you favor';
@@ -4550,8 +4554,12 @@ function handleProfileEditClick(btn){
    No longer surfaced in the header (it fell too far behind real changes to be worth showing), but
    kept here as the project's own record. Bump APP_VERSION and add a CHANGELOG entry whenever a
    change is worth remembering; cosmetic tweaks don't need a bump. */
-const APP_VERSION='1.47.1';
+const APP_VERSION='1.48.0';
 const CHANGELOG=[
+ {v:'1.48.0',date:'2026-09-23',summary:'Recommendations now carry your taste in tone across media.',notes:[
+  'GOAT Match learns how warm, how funny and how dark your favorites are, measured within each medium, and rewards works that share that tone and marks down ones that pull the other way. Before, tone could only add points, and it never reached a medium you had not tiered in: tiering cosy games put Blood Meridian at the top of your Books. It now suggests Winnie-the-Pooh and Dandelion Wine; a comedy lover\u2019s Books list leads with The Hitchhiker\u2019s Guide, Good Omens and Discworld.',
+  'A card\u2019s \u201cWhy this match?\u201d shows it as a Tone chip.'
+ ]},
  {v:'1.47.1',date:'2026-09-23',summary:'"Best Untried Matches" and Surprise Me\u2019s Discover now leave out anything you have rated, too.',notes:[
   'A rating means you have tried something, so both discovery shortcuts now skip rated titles, the way every recommendation list already did. Best Untried Matches ticks "Unrated only" alongside "Not owned" and "Not yet", and clears "My Rating \u2265" (nothing unrated could pass it). Surprise Me\u2019s Discover pool also skips anything tiered Gold, Silver or Bronze.',
   'On phones, the Watched / Not yet filters sit in the same card as the other filter pairs, and the \u2715 on the "Watched" confirmation sits in its top-right corner.'

@@ -117,9 +117,13 @@ One re-runnable pass, `recomputeTasteScores()`, rebuilt from scratch every time 
    the feature is in the corpus, then shrunk by `n/(n+3)` — so weights get stronger and sharper as
    the profile fills, never noisier, and a genre only scores for being characteristic rather than
    for being common.
+   Last, a signed **tone** affinity (warmth, comedy, dread), each work placed within its own
+   medium: the one taste signal that reaches a medium the person has not tiered in, and the only
+   axis signal that can count *against* a work.
 2. **Score.** Per work: an objective half (`0.5·crit + 0.2·aud + 0.3·tech` plus the six quality
    boosts, each scaled by that person's axis multiplier) and a personal half (creator + genre + vibe
-   weights, saturated through `tanh` so stacked matches taper instead of piling into the ceiling).
+   weights plus the signed tone fit, saturated through `tanh` so stacked matches taper instead of
+   piling into the ceiling).
    The objective half is put on one cross-medium scale first, so which medium tops a shared list is
    decided by taste rather than by which aggregator a medium's numbers came from.
 3. **Calibrate.** `buildScoreCurve()` maps the raw score through a monotone quantile curve: median

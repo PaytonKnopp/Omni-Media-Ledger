@@ -189,7 +189,31 @@ const TASTE_AXIS_FIELDS=['myst','tech','dread','warmth','comedy','beauty'];
 /* Shared with the corpus-side creator index so a name splits the same way in both places. */
 const CREATOR_SPLIT_RE=/,| and | & /;
 
+/* Tone fit (see step 5 of buildTasteModel): the three constructs that mean the same thing in every
+   medium. Ontological/systems complexity and beauty are left to the axis multipliers above --
+   "complexity" is a different rubric construct for a game than for a book, and beauty is craft. */
+const TASTE_TONE_FIELDS=['warmth','comedy','dread'];
+/* Points of raw taste per unit of fit (affinity x within-medium z, summed over the three). A
+   strongly shared tone lands near one well-evidenced genre; z is clamped to +/-2 so one extreme
+   score on one axis cannot outweigh the rest of the match. */
+const TASTE_TONE_SCALE=3;
+
 function tasteClamp1(v){return v<-1?-1:v>1?1:v;}
+function toneZ(x,f,stats){
+ const s=stats[x.kind]&&stats[x.kind][f],v=x[f];
+ if(!s||typeof v!=='number'||!isFinite(v))return null;
+ const z=(v-s.m)/s.sd;
+ return z<-2?-2:z>2?2:z;
+}
+/* One work's tone fit against a model from buildTasteModel(): signed, 0 with no evidence. */
+function toneFit(x,model){
+ let t=0;
+ TASTE_TONE_FIELDS.forEach(function(f){
+  const a=model.tone[f];if(!a)return;
+  const z=toneZ(x,f,model.toneStats);if(z!=null)t+=a*z;
+ });
+ return t*TASTE_TONE_SCALE;
+}
 function creatorTokens(x){
  return String((x&&x.creator)||'').split(CREATOR_SPLIT_RE).map(function(s){return s.trim();}).filter(function(s){return s.length>2;});
 }
@@ -328,7 +352,45 @@ function buildTasteModel(all,opts){
   axisMul[f]=1+TASTE_AXIS_SPAN*axis[f];
  });
 
+ /* --- 5. Tone: how warm, how funny, how dark ---
+    The axis multipliers above can only ever scale a bonus UP from zero, so a person whose
+    favorites are all gentle still hands every dread-soaked work a (smaller) dread bonus, and
+    nothing about tone ever reaches a medium they have not tiered in: a cosy-games player's Books
+    list was Blood Meridian. Tone is the one thing RUBRIC.md scores the same way in every medium,
+    so it is what should carry taste across them. Each work is placed within its OWN medium
+    (a z-score against that medium's mean and spread, since games and books sit on different
+    parts of every scale), the person's affinity per construct is the like-weighted mean of their
+    evidence's placement, shrunk like every other weight, and the fit is signed: a work pointing
+    the way their favorites point gains, one pointing the other way loses. */
+ const toneStats=Object.create(null);
+ all.forEach(function(x){
+  const s=toneStats[x.kind]||(toneStats[x.kind]=Object.create(null));
+  TASTE_TONE_FIELDS.forEach(function(f){
+   const v=x[f];if(typeof v!=='number'||!isFinite(v))return;
+   const a=s[f]||(s[f]={n:0,s:0,q:0});a.n++;a.s+=v;a.q+=v*v;
+  });
+ });
+ Object.keys(toneStats).forEach(function(k){
+  TASTE_TONE_FIELDS.forEach(function(f){
+   const a=toneStats[k][f];if(!a)return;
+   if(a.n<12){toneStats[k][f]=null;return;}
+   const m=a.s/a.n;
+   toneStats[k][f]={m:m,sd:Math.sqrt(Math.max(0,a.q/a.n-m*m))||1};
+  });
+ });
+ const tone=Object.create(null);
+ TASTE_TONE_FIELDS.forEach(function(f){
+  let num=0,den=0;
+  ev.forEach(function(e){
+   const z=toneZ(e.x,f,toneStats);
+   if(z==null)return;
+   num+=e.aff*z;den+=Math.abs(e.aff);
+  });
+  tone[f]=den>0?tasteClamp1(num/den)*(den/(den+TASTE_SHRINK_K)):0;
+ });
+
  return {
+  tone:tone,toneStats:toneStats,
   evidence:N,ratingCentre:centre,ratingSpread:spread,
   genre:buildTable(genreLearnKeys,TASTE_GENRE_SCALE),
   vibe:buildTable(vibeLearnKeys,TASTE_VIBE_SCALE),
