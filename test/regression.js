@@ -3539,13 +3539,16 @@ async function runRenderPerfFlow(browser, file) {
   const { page, pageErrors } = await bootSample(browser, file);
   const compare = () => page.evaluate(() => {
     const ALL = window.ALL;
-    const tierRank = x => x.goat ? 3 : x.silver ? 2 : x.bronze ? 1 : 0;
-    const bestAnchor = c => c.length ? c.slice().sort((a, b) => (tierRank(b) - tierRank(a)) || (b.gm - a.gm))[0] : null;
-    const anchorPhrase = ex => ex.goat ? ('one of your Gold favorites, ' + esc(ex.title)) : ex.silver ? ('your Silver favorite ' + esc(ex.title)) : ex.bronze ? ('your Bronze pick ' + esc(ex.title)) : ('you own ' + esc(ex.title));
-    const sig = x => x.owned || x.goat || x.silver || x.bronze;
-    // The original implementations, verbatim in behaviour.
+    const rank = x => x.goat ? 4 : x.silver ? 3 : x.bronze ? 2 : x.myRating != null ? 1 : 0;
+    const bestAnchor = c => c.length ? c.slice().sort((a, b) => (rank(b) - rank(a)) || (b.gm - a.gm))[0] : null;
+    const anchorPhrase = ex => ex.goat ? ('one of your Gold favorites, ' + esc(ex.title)) : ex.silver ? ('your Silver favorite ' + esc(ex.title)) : ex.bronze ? ('your Bronze pick ' + esc(ex.title)) : ex.myRating != null ? ('you rated ' + esc(ex.title) + ' ' + (+ex.myRating.toFixed(1)) + '/10') : ('you own ' + esc(ex.title));
+    // Tiered, rated 7+, or owned and not rated below 7.
+    const sig = x => x.goat || x.silver || x.bronze || (x.myRating != null ? x.myRating >= 7 : x.owned);
+    // Rated, tiered or finished: never offered as a companion.
+    const been = x => x.goat || x.silver || x.bronze || x.myRating != null || window.wlDone(x.id);
+    // Full-scan implementations of the same rules, the memoized ones are held to.
     function whyRef(it) {
-      if (it.owned) return '';
+      if (it.owned || it.goat || it.silver || it.bronze || it.myRating != null) return '';
       if (it.creator) {
         const ex = bestAnchor(ALL.filter(x => sig(x) && x.creator && x.creator === it.creator && x.id !== it.id));
         if (ex) { const noun = it.kind === 'book' ? 'author' : (it.kind === 'game' ? 'studio' : 'director'); return 'Because ' + anchorPhrase(ex) + ' — same ' + noun + '.'; }
@@ -3561,7 +3564,7 @@ async function runRenderPerfFlow(browser, file) {
       return '';
     }
     function threadRef(it) {
-      const others = ALL.filter(x => x.kind !== it.kind && x.id !== it.id);
+      const others = ALL.filter(x => x.kind !== it.kind && x.id !== it.id && !been(x));
       if (it.creator) { const s = others.filter(x => x.creator && x.creator === it.creator).sort((a, b) => b.gm - a.gm); if (s.length) return s[0].id; }
       const fams = it.fam || [];
       if (fams.length) { const s = others.filter(x => (x.fam || []).some(f => fams.includes(f))); if (s.length) { s.sort((a, b) => (b.gm + b.ovr) - (a.gm + a.ovr)); return s[0].id; } }
@@ -3569,7 +3572,7 @@ async function runRenderPerfFlow(browser, file) {
       return null;
     }
     function pairRef(it, n) {
-      return ALL.filter(x => x.kind !== it.kind).map(x => {
+      return ALL.filter(x => x.kind !== it.kind && !been(x)).map(x => {
         const shared = (it.genres || []).filter(g => (x.genres || []).indexOf(g) >= 0).length;
         const vibeMatch = (it.vibe && x.vibe === it.vibe) ? 1 : 0;
         return { x, shared, vibeMatch, score: shared * 10 + vibeMatch * 8 + x.gm * 0.15 };

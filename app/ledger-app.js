@@ -296,13 +296,27 @@ function summaryTraits(it){
 // Picks the best "anchor" work to cite as the reason for a recommendation, out of a candidate
 // pool -- ranked Gold > Silver > Bronze > merely-owned first, then by match score within that tier,
 // so the reasoning cites your strongest taste signal, not just whatever's owned.
+// A rating is a taste signal as strong as a tier, so a work you rated highly is a reason worth
+// citing even if you never tiered or bought it -- and a work you rated low is never cited as the
+// reason for anything, owned or not ("because you own X" about something you scored a 3 is the
+// opposite of true).
+const ANCHOR_MIN_RATING=7;
+function isTasteAnchor(x){
+ if(x.goat||x.silver||x.bronze)return true;
+ if(x.myRating!=null)return x.myRating>=ANCHOR_MIN_RATING;
+ return !!x.owned;
+}
+function anchorRank(x){return x.goat?4:x.silver?3:x.bronze?2:x.myRating!=null?1:0;}
 function bestAnchor(candidates){
  if(!candidates.length)return null;
- return candidates.slice().sort((a,b)=>(tierRank(b)-tierRank(a))||(b.gm-a.gm))[0];
+ return candidates.slice().sort((a,b)=>(anchorRank(b)-anchorRank(a))||(b.gm-a.gm))[0];
 }
 function anchorPhrase(ex){
- return ex.goat?('one of your Gold favorites, '+esc(ex.title)):ex.silver?('your Silver favorite '+esc(ex.title)):ex.bronze?('your Bronze pick '+esc(ex.title)):('you own '+esc(ex.title));
+ return ex.goat?('one of your Gold favorites, '+esc(ex.title)):ex.silver?('your Silver favorite '+esc(ex.title)):ex.bronze?('your Bronze pick '+esc(ex.title)):ex.myRating!=null?('you rated '+esc(ex.title)+' '+(+ex.myRating.toFixed(1))+'/10'):('you own '+esc(ex.title));
 }
+// Already rated, tiered or finished: a companion suggestion ("cross over to...") pointing at one of
+// these points somewhere the person has already been. Owned-but-unfinished still qualifies.
+function isExperienced(x){return x.goat||x.silver||x.bronze||x.myRating!=null||wlDone(x.id);}
 /* Per-card corpus lookups, memoized per scoring pass.
 
    whyRecommended and crossThread run for every card drawn, and each used to filter and sort the
@@ -329,7 +343,7 @@ function derivedLookups(){
    if(x.vibe){let a=byVibe.get(x.vibe);if(!a)byVibe.set(x.vibe,a=[]);a.push(x);}
   });
   _lookups={
-   signal:ALL.filter(x=>x.owned||x.goat||x.silver||x.bronze),
+   signal:ALL.filter(isTasteAnchor),
    byGm:byGm,byCreator:byCreator,byVibe:byVibe,
    byGmOvr:ALL.slice().sort((a,b)=>(b.gm+b.ovr)-(a.gm+a.ovr))
   };
@@ -337,8 +351,8 @@ function derivedLookups(){
  return _lookups;
 }
 function whyRecommended(it){
- // Only meaningful for unowned discoveries.
- if(it.owned) return '';
+ // Only meaningful for discoveries: not for something you own, tiered or rated.
+ if(it.owned||it.goat||it.silver||it.bronze||it.myRating!=null) return '';
  const signal=derivedLookups().signal;
  // (a) Same creator as a taste signal (strongest): Gold/Silver/Bronze favorites first, owned items
  // as a fallback signal, all considered together and ranked by tier.
@@ -406,7 +420,7 @@ function crossThread(it){
  // Finds the strongest companion in a DIFFERENT medium: shared creator > shared family+high match > shared vibe.
  // Each step takes the first qualifying work from a pre-sorted corpus order (see derivedLookups).
  const L=derivedLookups();
- const other=x=>x.kind!==it.kind&&x.id!==it.id;
+ const other=x=>x.kind!==it.kind&&x.id!==it.id&&!isExperienced(x);
  // (a) same creator across media (rare but powerful, e.g. author who also directs)
  if(it.creator){
   var e=(L.byCreator.get(it.creator)||[]).find(other);
@@ -526,7 +540,7 @@ function gmBreakdownHTML(it){
  var ovMap={declared:['\u2605 Declared all-time favorite \u2014 locked at 100','#fbbf24'],silver:['\u2726 Declared favorite (silver tier)','#cbd5e1'],owned:['\u25c8 In your physical collection','#4ade80'],
   rated:['\u2605 Pulled toward your rating of '+(typeof it.myRating==='number'?it.myRating.toFixed(1):'?')+'/10','#5eead4']};
  (it.gmBoosts||[]).slice().sort((a,b)=>b[2]-a[2]).forEach(function(b){
-  var lab={creator:'Creator',author:'Author',genre:'Genre',vibe:'Vibe',complexity:'Depth',craft:'Craft',dread:'Dread',warmth:'Warmth',comedy:'Comedy',beauty:'Beauty'}[b[0]]||b[0];
+  var lab={creator:'Creator',author:'Author',genre:'Genre',vibe:'Vibe',complexity:'Depth',craft:'Craft',tone:'Tone',dread:'Dread',warmth:'Warmth',comedy:'Comedy',beauty:'Beauty'}[b[0]]||b[0];
   var cap=(''+b[1]).replace(/\b\w/g,function(c){return c.toUpperCase();});
   // A derived taste weight can be negative -- a genre this person's own ratings count against --
   // so the sign comes from the number rather than being hardcoded to '+', which would have
@@ -1649,6 +1663,9 @@ function recomputeTasteScores(){
  // without re-walking the taxonomy 275 times per work on every tier click.
  x._gkeys.forEach(k=>{const e=GENRE_BOOST_INDEX[k];if(e&&e.w){tasteRaw+=e.w;br.push(['genre',e.label,Math.round(e.w*10)/10]);}});
  const vb=GOAT_VIBE_BOOST[x.vibe]||0;if(vb){tasteRaw+=vb;br.push(['vibe',x.vibe,Math.round(vb*10)/10]);}
+ // Signed, and read within the work's own medium, so it is the one taste signal that reaches a
+ // medium the person has never tiered in -- see step 5 of buildTasteModel (app/scoring.js).
+ const tf=toneFit(x,TASTE_MODEL);if(Math.abs(tf)>=0.3){tasteRaw+=tf;br.push(['tone','Tone of your favorites',Math.round(tf*10)/10]);}
  /* The six quality boosts below are each scaled by how much that construct characterises THIS
     person's favorites (TASTE_MODEL.axisMul, 0.4x-1.6x, 1.0x for a profile with no evidence yet).
     They used to be identical for everyone, which meant a third of a work's match score was the
@@ -1778,8 +1795,8 @@ function crossMediumPairings(it,n){
  n=n||3;
  const ix=pairingIndex();
  const shared=new Map();
- (it.genres||[]).forEach(g=>{(ix.genre.get(g)||[]).forEach(x=>{if(x.kind!==it.kind)shared.set(x,(shared.get(x)||0)+1);});});
- if(it.vibe)(ix.vibe.get(it.vibe)||[]).forEach(x=>{if(x.kind!==it.kind&&!shared.has(x))shared.set(x,0);});
+ (it.genres||[]).forEach(g=>{(ix.genre.get(g)||[]).forEach(x=>{if(x.kind!==it.kind&&!isExperienced(x))shared.set(x,(shared.get(x)||0)+1);});});
+ if(it.vibe)(ix.vibe.get(it.vibe)||[]).forEach(x=>{if(x.kind!==it.kind&&!isExperienced(x)&&!shared.has(x))shared.set(x,0);});
  const top=[];
  const before=(a,b)=>a.score>b.score||(a.score===b.score&&a.pos<b.pos);
  shared.forEach((cnt,x)=>{
@@ -1833,6 +1850,7 @@ function goatWhy(x){
   if(b[0]==='author')return 'by '+b[1]+', an author your profile favors';
   if(b[0]==='genre')return 'matches your weighted “'+b[1]+'” genre';
   if(b[0]==='vibe')return 'fits your “'+b[1]+'” vibe';
+  if(b[0]==='tone')return 'has the tone of your favorites';
   if(b[0]==='complexity')return 'has the ontological depth you favor';
   if(b[0]==='craft')return 'stands out on technical craft';
   if(b[0]==='dread')return 'carries the atmospheric dread you favor';
@@ -1873,17 +1891,61 @@ function buildGeneratedRec(cat){
  // Same goes for anything marked watched/read/played: finished is finished, rated or not.
  const ranked=ALL.filter(x=>x.kind===kind&&!x.owned&&!x.goat&&!x.silver&&!x.bronze&&x.myRating==null&&!wlDone(x.id))
   .sort((a,b)=>b.gm-a.gm);
- const PER_CREATOR_CAP=3;
- const creatorCount={};
+ // The same failure one level up: three Lord of the Rings films, or Planet Earth and Planet Earth
+ // II, spend a third of the list on one decision. One entry per franchise in the first pass, and for
+ // a curated series (whose order is known) that entry is where you would actually start -- the
+ // earliest one you have not been through yet that is still a comparable match (within
+ // FRANCHISE_ENTRY_DROP points of the best), rather than recommending The Return of the King to someone who
+ // has not seen The Fellowship of the Ring.
+ const PER_CREATOR_CAP=3,FRANCHISE_ENTRY_DROP=6;
+ const groups=new Map();
+ ranked.forEach(x=>{const f=recFranchise(x);if(f){let g=groups.get(f.key);if(!g)groups.set(f.key,g=[]);g.push(x);}});
+ const creatorCount={},franchiseUsed=new Set(),pickedIds=new Set();
  const picked=[],leftover=[];
  ranked.forEach(x=>{
-  const c=x.creator||'';
-  if((creatorCount[c]||0)<PER_CREATOR_CAP){creatorCount[c]=(creatorCount[c]||0)+1;picked.push(x);}
-  else leftover.push(x);
+  if(pickedIds.has(x.id))return;
+  const f=recFranchise(x);
+  let pick=x;
+  if(f){
+   if(franchiseUsed.has(f.key)){leftover.push(x);return;}
+   if(f.ord!=null){
+    const entry=groups.get(f.key).filter(y=>recFranchise(y).ord!=null&&y.gm>=x.gm-FRANCHISE_ENTRY_DROP&&!pickedIds.has(y.id))
+     .sort((a,b)=>recFranchise(a).ord-recFranchise(b).ord)[0];
+    if(entry)pick=entry;
+   }
+  }
+  const c=pick.creator||'';
+  if((creatorCount[c]||0)>=PER_CREATOR_CAP){leftover.push(x);return;}
+  creatorCount[c]=(creatorCount[c]||0)+1;
+  if(f)franchiseUsed.add(f.key);
+  pickedIds.add(pick.id);picked.push(pick);
+  if(pick!==x)leftover.push(x);
  });
- const items=picked.concat(leftover).slice(0,10)
+ // Cut to ten first, then order what made it by score: an entry point carries its franchise's
+ // slot, so sorting it before the cut could push the franchise off the list altogether.
+ const items=picked.concat(leftover.filter(x=>!pickedIds.has(x.id))).slice(0,10).sort((a,b)=>b.gm-a.gm)
   .map(x=>({n:x.title,s:x.gm,k:x.kind,q:x.title,why:goatWhy(x)}));
  return {cat:cat,basis:computeBasisText(cat),items:items,generated:true};
+}
+/* Which franchise a work belongs to, for the one-per-franchise rule above: the curated SERIES_DEFS
+   (with the work's place in the series) first, else the same title-root clustering the Collection
+   view uses (no known order, so it only caps). SERIES_BY_TITLE is defined further down and the
+   first rebuild runs before it, so that pass falls back to title roots, is not cached, and the
+   recs are rebuilt once SERIES_BY_TITLE exists. */
+function recFranchise(x){
+ if(x._franchise!==undefined)return x._franchise;
+ let series=null,ready=true;
+ try{series=SERIES_BY_TITLE.get(x.kind+'|'+x.title)||null;}catch(e){ready=false;}
+ let f=null;
+ if(series){
+  const def=SERIES_DEFS.find(d=>d.name===series&&d.kind===x.kind);
+  f={key:x.kind+'|S|'+series,ord:def?def.members.indexOf(x.title):null};
+ }else{
+  const r=seriesTitleRoot(x.title);
+  if(r.length>=4)f={key:x.kind+'|'+r,ord:null};
+ }
+ if(ready)x._franchise=f;
+ return f;
 }
 /* Recommendations are a function of the match scores above (they are the top-scoring things you
    have NOT owned, tiered, rated or finished), so they are rebuilt whenever those scores are --
@@ -2912,6 +2974,8 @@ const SERIES_DEFS=[
 // not per card -- the Global Controller can render hundreds of cards per interaction.
 const SERIES_BY_TITLE=new Map();
 SERIES_DEFS.forEach(function(d){d.members.forEach(function(t){SERIES_BY_TITLE.set(d.kind+'|'+t,d.name);});});
+// The boot-time rebuild ran before the curated series existed (see recFranchise); redo it with them.
+rebuildGeneratedRecs();
 function franchiseOf(it){return SERIES_BY_TITLE.get(it.kind+'|'+it.title);}
 // "How you own it" -- physFormat is already tracked per owned movie/TV/book (games are digital-only
 // and carry no physFormat), so this is a pure readout of existing data, scoped like the other
@@ -4550,8 +4614,15 @@ function handleProfileEditClick(btn){
    No longer surfaced in the header (it fell too far behind real changes to be worth showing), but
    kept here as the project's own record. Bump APP_VERSION and add a CHANGELOG entry whenever a
    change is worth remembering; cosmetic tweaks don't need a bump. */
-const APP_VERSION='1.47.1';
+const APP_VERSION='1.48.0';
 const CHANGELOG=[
+ {v:'1.48.0',date:'2026-09-23',summary:'Recommendations now carry your taste in tone across media.',notes:[
+  'GOAT Match learns how warm, how funny and how dark your favorites are, measured within each medium, and rewards works that share that tone and marks down ones that pull the other way. Before, tone could only add points, and it never reached a medium you had not tiered in: tiering cosy games put Blood Meridian at the top of your Books. It now suggests Winnie-the-Pooh and Dandelion Wine; a comedy lover\u2019s Books list leads with The Hitchhiker\u2019s Guide, Good Omens and Discworld.',
+  'A card\u2019s \u201cWhy this match?\u201d shows it as a Tone chip.',
+  'Each recommendation list gives a franchise one slot and starts you at the right entry: The Fellowship of the Ring rather than The Return of the King, Into the Spider-Verse before Across, Rocky before Creed.',
+  'The \u201cBecause\u2026\u201d line under a suggestion can now cite a title you rated 7 or higher, and never cites one you rated lower. It no longer appears on titles you have rated or tiered.',
+  '\u201cCross over to\u201d and Cross-Medium Pairings no longer suggest titles you have already rated, tiered or finished.'
+ ]},
  {v:'1.47.1',date:'2026-09-23',summary:'"Best Untried Matches" and Surprise Me\u2019s Discover now leave out anything you have rated, too.',notes:[
   'A rating means you have tried something, so both discovery shortcuts now skip rated titles, the way every recommendation list already did. Best Untried Matches ticks "Unrated only" alongside "Not owned" and "Not yet", and clears "My Rating \u2265" (nothing unrated could pass it). Surprise Me\u2019s Discover pool also skips anything tiered Gold, Silver or Bronze.',
   'On phones, the Watched / Not yet filters sit in the same card as the other filter pairs, and the \u2715 on the "Watched" confirmation sits in its top-right corner.'
@@ -5894,5 +5965,5 @@ var _rzT;window.addEventListener('resize',function(){clearTimeout(_rzT);_rzT=set
  // The per-card corpus lookups, so the suite can hold their memoized versions to the original
  // full-scan behaviour (see derivedLookups).
  window.isUntried=isUntried;
- window.whyRecommended=whyRecommended;window.crossThread=crossThread;window.crossMediumPairings=crossMediumPairings;
+ window.whyRecommended=whyRecommended;window.crossThread=crossThread;window.wlDone=wlDone;window.crossMediumPairings=crossMediumPairings;
 }
