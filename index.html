@@ -449,9 +449,10 @@ button:focus-visible,select:focus-visible,input:focus-visible{outline:2px solid 
     always-full-width row right in the markup (#discoverBtnRow) instead of a media-query patch --
     nothing further to do for it here. */
  #filterTogglesRow{flex-direction:column;align-items:stretch;gap:.55rem}
- #ownershipToggleGroup,#ratingToggleGroup,#tierGroup{background:rgba(148,163,184,.04);border:1px solid rgba(148,163,184,.1);border-radius:10px}
- #ownershipToggleGroup,#ratingToggleGroup{justify-content:space-between;padding:10px 12px;gap:.5rem}
- #ownershipToggleGroup label,#ratingToggleGroup label{flex:1 1 0;white-space:normal}
+ /* Watched/Not yet (#doneToggleGroup) is the same kind of pair and gets the same card. */
+ #ownershipToggleGroup,#doneToggleGroup,#ratingToggleGroup,#tierGroup{background:rgba(148,163,184,.04);border:1px solid rgba(148,163,184,.1);border-radius:10px}
+ #ownershipToggleGroup,#doneToggleGroup,#ratingToggleGroup{justify-content:space-between;padding:10px 12px;gap:.5rem}
+ #ownershipToggleGroup label,#doneToggleGroup label,#ratingToggleGroup label{flex:1 1 0;white-space:normal}
  #tierGroup{padding:10px 12px}
  #discoverBtn{width:100%;text-align:center}
 
@@ -621,12 +622,14 @@ button:focus-visible,select:focus-visible,input:focus-visible{outline:2px solid 
 /* The confirmation toast after marking something completed: bottom-centred, above everything but
    modal gates, themed through the same variables as .panel so all nine themes pick it up. Slides
    in from below; pointer-events are off while hidden so it never blocks a tap underneath. */
-#appToast{position:fixed;left:50%;bottom:18px;z-index:998;display:flex;align-items:center;flex-wrap:wrap;gap:8px 12px;max-width:min(560px,calc(100vw - 24px));padding:10px 12px 10px 14px;border-radius:12px;background:var(--panel);border:1px solid rgba(56,189,248,.45);color:var(--text);font-size:12px;box-shadow:0 10px 30px rgba(0,0,0,.45);transform:translate(-50%,140%);opacity:0;pointer-events:none;transition:transform .22s ease,opacity .22s ease}
+#appToast{position:fixed;left:50%;bottom:18px;z-index:998;display:flex;align-items:center;flex-wrap:wrap;gap:8px 12px;max-width:min(560px,calc(100vw - 24px));padding:10px 40px 10px 14px;border-radius:12px;background:var(--panel);border:1px solid rgba(56,189,248,.45);color:var(--text);font-size:12px;box-shadow:0 10px 30px rgba(0,0,0,.45);transform:translate(-50%,140%);opacity:0;pointer-events:none;transition:transform .22s ease,opacity .22s ease}
 #appToast.show{transform:translate(-50%,0);opacity:1;pointer-events:auto}
 #appToast .toastMsg{flex:1 1 220px;min-width:0;line-height:1.35}
 #appToast .toastSub{display:block;color:var(--text-dim);font-size:10.5px;margin-top:1px}
 #appToast .toastActions{display:flex;align-items:center;gap:6px;flex-wrap:wrap}
-#appToast .toastClose{color:var(--text-dim);font-size:13px;padding:2px 6px}
+/* The dismiss ✕ sits in the toast's top-right corner, apart from the action buttons, on every
+   screen size; the toast reserves room on the right so text never runs underneath it. */
+#appToast .toastClose{position:absolute;top:6px;right:8px;color:var(--text-dim);font-size:13px;line-height:1;padding:6px}
 @media (prefers-reduced-motion:reduce){#appToast{transition:opacity .15s}}
 .wlItemDone{border-color:rgba(56,189,248,.28)!important}
 .doneSeg{white-space:nowrap}

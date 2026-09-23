@@ -4494,8 +4494,8 @@ function showDoneToast(it,wasQueued){
   +'<span class="toastActions">'
   +(it.myRating==null?'<button type="button" class="presetBtn" data-toast="rate">\u2606 Rate it</button>':'')
   +'<button type="button" class="presetBtn" data-toast="view">View</button>'
-  +'<button type="button" class="presetBtn" data-toast="undo">Undo</button>'
-  +'<button type="button" class="toastClose" data-toast="close" aria-label="Dismiss">\u2715</button></span>',7000);
+  +'<button type="button" class="presetBtn" data-toast="undo">Undo</button></span>'
+  +'<button type="button" class="toastClose" data-toast="close" aria-label="Dismiss">\u2715</button>',7000);
  t.dataset.id=it.id;
 }
 document.addEventListener('click',function(e){

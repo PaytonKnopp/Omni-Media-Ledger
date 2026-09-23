@@ -66,12 +66,17 @@ async function waitForBoot(page, timeout) {
 // and the check that finally reports FAIL is three steps downstream of the actual problem. That is
 // precisely how "declaring Gold upserts a row into the media_status table" failed on CI while the
 // same commit passed on the push run: a race, not a regression, reported in the wrong place.
+//
+// Goes through readWhen, which retries across a navigation, rather than a bare waitForFunction:
+// several callers ask right after an action that saves and reloads the page (onboarding's "Start
+// from the PK Sample"), and a reload landing mid-wait destroyed the context, which a bare wait
+// reported as "no card" -- the next step then clicked data-id="undefined" and timed out.
 async function firstCardId(page, timeout) {
-  const handle = await page.waitForFunction(() => {
+  const id = await readWhen(page, () => {
     const el = document.querySelector('.cardHead[data-id]');
     return el ? el.dataset.id : false;
-  }, { timeout: timeout || 15000 }).catch(() => null);
-  return handle ? handle.jsonValue() : undefined;
+  }, undefined, timeout || 15000);
+  return id || undefined;
 }
 
 // Read a value once it satisfies `predicate`, rather than sleeping a fixed interval and reading
