@@ -34,6 +34,19 @@ module.exports = [
     },
   },
   {
+    // A fixed sleep in the browser suite is a race against the runner's speed, and ~150 of them
+    // were why the suite failed a different way on most CI runs. Wait on the app instead:
+    // settle(page), waitForBoot(page) or readWhen(...) (see ARCHITECTURE.md). The rare sleep that
+    // genuinely needs real time to pass carries an eslint-disable-next-line saying why.
+    files: ['test/regression.js'],
+    rules: {
+      'no-restricted-syntax': ['error', {
+        selector: "CallExpression[callee.property.name='waitForTimeout']",
+        message: 'No fixed sleeps in the regression suite: use settle(page), waitForBoot(page) or readWhen(...).',
+      }],
+    },
+  },
+  {
     ignores: ['node_modules/**', 'data/**', 'evidence/**'],
   },
 ];

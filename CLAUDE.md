@@ -23,6 +23,14 @@ Rules for Claude when making changes in this repo:
    test flaked, rather than silently looping "test without it, then with
    it again." Flaky tests should get fixed or flagged, not routinely danced
    around.
+   - To reproduce a CI-only failure locally, run
+     `OMNI_THROTTLE=4 node test/regression.js` (slows every page's CPU 4x,
+     which is what a busy CI runner does). Fix the wait, don't lengthen it.
+   - In `test/regression.js`, never add `waitForTimeout(N)` to wait for the
+     app. Use `settle(page)` / `waitForBoot(page)` / `readWhen(...)` — see
+     "Never sleep a fixed number of milliseconds" in ARCHITECTURE.md.
+     Sleeps racing a slow runner were the cause of the suite's chronic
+     flakiness.
 4. Since CI runs on the PR anyway, it's fine to treat the local full-suite
    run as a pre-push sanity check, not a hard gate that must be reconfirmed
    after every subsequent tiny fix — trust CI to catch anything a last-minute
