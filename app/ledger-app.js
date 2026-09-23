@@ -829,8 +829,11 @@ function renderActiveBar(){
  syncDiscoverBtn();
 }
 const DISCOVER_TIERS=['gold','silver','bronze'];
+// "Untried" -- new to you: not owned, not finished, not tiered, not rated. The one definition behind
+// both discovery shortcuts: Best Untried Matches (as filters, below) and Surprise Me's Discover pool.
+function isUntried(x){return !x.owned&&!wlDone(x.id)&&!x.goat&&!x.silver&&!x.bronze&&x.myRating==null;}
 function isDiscoverActive(){
- return state.notOwnedOnly&&state.notDoneOnly&&DISCOVER_TIERS.every(t=>state.tierFilterExclude.includes(t))&&state.tierFilter.every(t=>!DISCOVER_TIERS.includes(t));
+ return state.notOwnedOnly&&state.notDoneOnly&&state.unratedOnly&&DISCOVER_TIERS.every(t=>state.tierFilterExclude.includes(t))&&state.tierFilter.every(t=>!DISCOVER_TIERS.includes(t));
 }
 function syncDiscoverBtn(){
  const b=$('#discoverBtn');if(!b)return;
@@ -3591,7 +3594,7 @@ function spinCandidates(){
  var pool=filtered();
  if(spinScope.medium!=='any')pool=pool.filter(x=>x.kind===spinScope.medium);
  if(spinScope.pool==='owned')pool=pool.filter(x=>x.owned);
- else if(spinScope.pool==='discover')pool=pool.filter(x=>!x.owned&&!wlDone(x.id));
+ else if(spinScope.pool==='discover')pool=pool.filter(isUntried);
  else if(spinScope.pool==='queue')pool=pool.filter(x=>wlHas(x.id)&&!wlDone(x.id));
  var timeMax=$('#spinTime')?parseInt($('#spinTime').value,10)||0:0;
  if(timeMax>0)pool=pool.filter(x=>x.kind!=='movie'||!x.mins||x.mins<=timeMax);
@@ -4547,8 +4550,12 @@ function handleProfileEditClick(btn){
    No longer surfaced in the header (it fell too far behind real changes to be worth showing), but
    kept here as the project's own record. Bump APP_VERSION and add a CHANGELOG entry whenever a
    change is worth remembering; cosmetic tweaks don't need a bump. */
-const APP_VERSION='1.47.0';
+const APP_VERSION='1.47.1';
 const CHANGELOG=[
+ {v:'1.47.1',date:'2026-09-23',summary:'"Best Untried Matches" and Surprise Me\u2019s Discover now leave out anything you have rated, too.',notes:[
+  'A rating means you have tried something, so both discovery shortcuts now skip rated titles, the way every recommendation list already did. Best Untried Matches ticks "Unrated only" alongside "Not owned" and "Not yet", and clears "My Rating \u2265" (nothing unrated could pass it). Surprise Me\u2019s Discover pool also skips anything tiered Gold, Silver or Bronze.',
+  'On phones, the Watched / Not yet filters sit in the same card as the other filter pairs, and the \u2715 on the "Watched" confirmation sits in its top-right corner.'
+ ]},
  {v:'1.47.0',date:'2026-09-23',summary:'Mark anything watched, read or played in one tap from any card, the app works offline, and clicks and page loads are faster.',notes:[
   'Every card has a "\u2713 Watched" (or Read / Played) button next to Owned. One tap files it under the Watchlist tab\u2019s Completed section with today\u2019s date, with a confirmation that offers Undo and "Rate it". The \u2661 in the card\u2019s corner turns into a \u2713 so finished titles are easy to spot.',
   'It works whether or not the title was saved first. Undoing a title that was in Up Next puts it back in Up Next; undoing one that never was removes it again.',
@@ -5662,11 +5669,16 @@ on('#yearPresets','click',e=>{const b=e.target.closest('button');if(!b)return;
  syncAdvCount();refresh();});
 on('#discoverBtn','click',()=>{
  if(isDiscoverActive()){
-  state.notOwnedOnly=false;state.notDoneOnly=false;
+  state.notOwnedOnly=false;state.notDoneOnly=false;state.unratedOnly=false;
   state.tierFilterExclude=state.tierFilterExclude.filter(t=>!DISCOVER_TIERS.includes(t));
  }else{
-  // "Untried" means new to you: not owned, not already finished, not already tiered.
+  // "Untried" means new to you: not owned, not already finished, not already tiered, and not
+  // already rated -- a rating can only come after trying something, which is why every other
+  // recommendation list (buildGeneratedRec, blind spots, the Watchlist's picks) skips rated works
+  // too. "My Rating ≥" is cleared with it, since no unrated work could pass it.
   state.ownedOnly=false;state.notOwnedOnly=true;state.doneOnly=false;state.notDoneOnly=true;
+  state.ratedOnly=false;state.unratedOnly=true;state.minMyRating=0;
+  const mr=$('#minMyRating');if(mr)mr.value=0;const mrv=$('#minMyRatingV');if(mrv)mrv.textContent='0.0';
   state.tierFilter=state.tierFilter.filter(t=>!DISCOVER_TIERS.includes(t));
   state.tierFilterExclude=Array.from(new Set(state.tierFilterExclude.concat(DISCOVER_TIERS)));
   state.sort='gm';const ss=$('#sortSel');if(ss)ss.value='gm';
@@ -5675,6 +5687,8 @@ on('#discoverBtn','click',()=>{
  const nt=$('#notOwnedToggle');if(nt)nt.checked=state.notOwnedOnly;
  const dt=$('#doneToggle');if(dt)dt.checked=state.doneOnly;
  const ndt=$('#notDoneToggle');if(ndt)ndt.checked=state.notDoneOnly;
+ const rt=$('#ratedToggle');if(rt)rt.checked=state.ratedOnly;
+ const urt=$('#unratedToggle');if(urt)urt.checked=state.unratedOnly;
  buildTierFilterChips();syncAdvCount();refresh();
 });
 on('#activeBar','click',e=>{
@@ -5879,5 +5893,6 @@ var _rzT;window.addEventListener('resize',function(){clearTimeout(_rzT);_rzT=set
  window.genreMatches=genreMatches;
  // The per-card corpus lookups, so the suite can hold their memoized versions to the original
  // full-scan behaviour (see derivedLookups).
+ window.isUntried=isUntried;
  window.whyRecommended=whyRecommended;window.crossThread=crossThread;window.crossMediumPairings=crossMediumPairings;
 }

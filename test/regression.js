@@ -3236,11 +3236,22 @@ async function runCompletedFlow(browser, file) {
   check('Clear all resets the completed filters',
     await page.evaluate(() => !window.state.doneOnly && !window.state.notDoneOnly && !document.getElementById('doneToggle').checked));
 
-  // Best Untried Matches: nothing already finished.
+  // Best Untried Matches: nothing already finished, owned, tiered or rated.
   await page.click('#discoverBtn');
   check('Best Untried Matches also excludes anything completed',
     await readWhen(page, (i) => window.state.notDoneOnly && !document.querySelector('#grid .cardHead[data-id="' + i + '"]'), id, 5000));
+  check('Best Untried Matches shows only unrated, unowned, untiered, unfinished works, with every box it set ticked',
+    await page.evaluate(() => {
+      const wl = JSON.parse(localStorage.getItem('omniLedgerWatchlist') || '{}');
+      const ids = Array.from(document.querySelectorAll('#grid .cardHead')).map(h => h.dataset.id);
+      return ids.length > 0 && ids.every(i => { const x = window.byId.get(i); return x && x.myRating == null && !x.owned && !x.goat && !x.silver && !x.bronze && !(wl[i] && wl[i].watched); }) &&
+        ['notOwnedToggle', 'notDoneToggle', 'unratedToggle'].every(t => document.getElementById(t).checked);
+    }));
   await page.click('#discoverBtn');
+  check('the shared "untried" test (Surprise Me\u2019s Discover pool) leaves out tiered and rated works',
+    await page.evaluate(() => window.ALL.filter(x => x.goat || x.myRating != null).every(x => !window.isUntried(x))));
+  check('turning Best Untried Matches off clears what it switched on',
+    await page.evaluate(() => !window.state.notOwnedOnly && !window.state.notDoneOnly && !window.state.unratedOnly && !document.getElementById('unratedToggle').checked));
 
   // Recommendations never hand back something already finished.
   const topRec = await page.evaluate(() => {
