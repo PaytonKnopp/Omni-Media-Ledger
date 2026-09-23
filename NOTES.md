@@ -68,7 +68,7 @@ Everything currently in the app is functional. Verified by an automated suite of
 
 2. ~~**Tailwind CDN is a single point of failure.**~~ Fixed — see "Made genuinely offline" below. Tailwind is now a compiled stylesheet committed to `index.html`, not a runtime CDN dependency. Chart.js's CDN is still a soft dependency, but it already degrades gracefully by design.
 
-3. **About half the data is curated estimate, not sourced measurement.** The app is honest about this per-card via a provenance flag: **658 verified / 642 estimated**. Scores like `atmosphericDreadIndex` and `ontologicalComplexity` are editorial judgements, not measured values. Recommendations are taste-aligned, not empirically grounded.
+3. **Facts are mostly sourced; reception scores and the subjective indices are not, by design.** (Recounted 2026-09-23; the "658 verified / 642 estimated" figure that used to be here dates from the 1,300-work corpus and the retired `PROV_CEIL` badge.) Three separate things, often conflated: **(a) the subjective indices** (dread, soundtrack, comfort, …) are judgement by definition — all 5,024 works are scored against RUBRIC.md (`indices: rubric-v1`) with recorded evidence, and no external source exists to verify them further. **(b) Facts** — year, runtime/pages, creator, studio/network/platforms — carry a per-record `prov.facts` stamp: movies 1,834 of 2,012 sourced or corroborated (125 edition-dependent, 53 estimated); TV 398 of 503 (105 estimated); books 549 of 2,001 (1,037 edition-dependent, which is the honest label for a page count, 415 estimated); **games 0 of 508 — all estimated**, because IGDB and Wikidata are unreachable from the cloud sessions this was built in. These fields are mostly filter-only and carry almost no score leverage (see QUALITY_PASS.md's leverage ranking). **(c) Reception** (`criticalScore`/`audienceScore`) is not covered by the facts stamp at all: every work's values are best estimates, deferred by owner ruling until a licensed source can be applied uniformly (RUBRIC.md "Reception fields"). A 12-point error moves ★ GOAT Match by ~3.
 
 4. **The Contenders Ledger has a shelf life.** Release windows drift constantly. Two entries currently carry windows at or near the present date. This tab needs periodic manual review in a way the rest of the app does not. Contender data was web-verified at time of writing.
 
@@ -1683,6 +1683,52 @@ disclosures needed.
 
 ---
 
+## Phase 46 — Completed (watched / read / played) from any card, offline support, faster clicks
+
+**Completed tracking.** The Watchlist already had a per-entry `watched` flag ("Mark completed"),
+but only for titles saved to it first, and nothing else in the app read it. It is now a first-class
+state:
+
+- Every card's tier row has a labelled "✓ Watched" / "✓ Read" / "✓ Played" button, and the card's
+  corner icon becomes a ✓ (♡ nothing, ♥ Up Next, ✓ completed). One tap files the title under the
+  Watchlist tab's Completed section with a date, and a toast says so, with Undo / Rate it / View.
+- Data stays in `omniLedgerWatchlist` (already synced, exported, imported), extended with `doneAt`
+  and `logOnly` — see ARCHITECTURE.md "The watchlist, and what you have completed". No schema
+  change was needed; the profiles trigger no longer filters keys.
+- Deliberately not routed through `mutateProfile`: completion is not a taste signal, so it does not
+  re-run the scoring pass. It does feed every "what next" surface — GOAT recommendations, blind
+  spots, Surprise Me Discover, Best Untried Matches, and the Watchlist's own recommendations.
+- The Watchlist's "Recommended next" column turned out to be recommending the sample profile's own
+  Gold favorites (a Gold pick pins a 100 match, and the column only excluded already-saved titles).
+  It now skips owned, tiered and rated titles too, like every other recommendation surface.
+- Global Controller filters "✓ Watched / read / played" and "○ Not yet" (URL params `done` /
+  `notdone`), a Timeline "Completed" scope, a Surprise Me "Up Next" pool, an editable completion
+  date, a "Done in <year>" stat and a "Recently completed" sort. The nav badge counts Up Next only.
+- Fitting a fifth labelled segment into the tier row pushed "Rate" onto its own line on phones and
+  on the two-column tablet layout. Fixed with a container query on the card (not the viewport — the
+  tablet case is a narrow card on a wide screen), compacting in stages down to a 320px phone.
+
+**Faster clicks (the old "stop reloading on every click" suggestion).** That suggestion was made in
+error: clicks already re-render in place (`mutateProfile`, see its comments); the only `location.reload`
+left is for whole-profile replacement (onboarding, import, reset, account switch). A click was
+still ~330ms, though, and a CPU profile showed why: `whyRecommended`, `crossThread` and
+`crossMediumPairings` each filtered and sorted all ~5,000 works for every one of ~100 cards.
+Memoizing those per scoring pass (`derivedLookups`, keyed on `_derivEpoch`) and building each
+card's hidden summary/breakdown only when it is opened (~77% of a card's HTML) brought a click to
+~140ms median and a reload from ~2.0s to ~1.2s (same machine, same profile, 24 clicks each). The
+memoized functions are checked against the original full-scan implementations for every title in
+the suite, before and after a profile edit.
+
+**Offline.** `sw.js` — network-first for the app's own files (so a deploy is never masked by a
+stale cache and there is no version to bump), cache-first for the two version-pinned CDN scripts,
+Supabase API untouched. The Supabase client is precached on purpose: without it an offline boot
+fell back to local-only mode, where edits are not marked pending, so the next online boot could
+hydrate the cloud copy over them. `account-sync` now skips sync attempts while `navigator.onLine`
+is false (no red "NOT saved" for what is not an error, no burned retry backoff), uploads on the
+`online` event, and boots a remembered handle straight from local when offline instead of waiting
+out a fetch and its retry. The suite serves the app over http to test the service worker for real,
+and drives the cloud path offline and back against the mocked Supabase.
+
 ## Ideas / next steps
 
 Roughly in order of value:
@@ -1692,7 +1738,7 @@ Roughly in order of value:
 3. ~~**Refresh the contenders ledger on an actual schedule.**~~ Done — see Phase 43 above. All 50/50 now verified (up from 20/50 in Phase 9), and a cron-scheduled Claude Code Remote Routine fires on every equinox/solstice to redo the refresh from scratch and open a PR. Genuine automation was impossible from inside the static file itself, but not from the platform hosting the work.
 4. ~~**Cross-medium pairings.**~~ Done — see Phase 6 above.
 5. ~~**Split the dataset out of `index.html`.**~~ Done — see Phase 8 above and the decision note above for the `file://`/CORS reasoning.
-6. **Raise data provenance.** Replace estimated scores with sourced ones where possible; the provenance flag already tracks which are which. Still open — the `PROV_CEIL` mechanism correctly flags anything past the original hand-scored ledger as "curated estimate," which is honest, but doesn't replace any of those estimates with real sourced figures.
+6. **Raise data provenance.** Mostly done for facts; see Known limitations #3 above for the current counts (recounted 2026-09-23). What remains, in order of value: **reception scores** for all four mediums (the only part with real score leverage, ~3 GOAT Match points per 12-point error — IMDb's bulk `title.ratings.tsv.gz` for film/TV audience, IGDB's aggregated rating for games; one source per field, applied uniformly, never averaged across catalogues), then **game facts** (508 estimated; `scripts/fetch-facts.js` already has an IGDB adapter). Both need network access to those hosts, which the cloud sessions do not have — run `fetch-facts` locally with free keys per DATA_RUNBOOK.md, or allow the hosts in the environment's network settings. Search-engine summaries are evidence grade B and are deliberately not used to overwrite estimates. Low priority: the leverage is small next to the taste signals, and nothing here is wrong so much as unconfirmed.
 7. ~~**Export/import of `localStorage`.**~~ Done, fully — see Phase 5 above. Export/Import now bundle `omniLedgerWatchlist`, `omniLedgerTheme`, and `omniLedgerDensity` alongside the profile; a single exported file is a complete snapshot of a person.
 8. ~~**A real "blank first run" for a friend's copy.**~~ Done — see Phase 3 above. First load in any browser now asks (quick-rate / search & pick / sample / blank / import) via a blocking gate rather than silently inheriting Payton's defaults.
 9. ~~**Genericize `goatProfile.recs`.**~~ Done for Movies/Books/TV Series/Video Games (Phase 4) and for Directors (Phase 5, genuinely computed from corpus filmography). Actors/Composers/Cinematographers are corpus-linked where possible (Phase 7); Music Artists/YouTube use genre+vibe overlap (Phase 5, refined Phase 8) since no corpus category exists to link them to. Since none of those six ever became a real per-account recommendation (only the score reapplies per account, never the list of names), Phase 44 stopped showing them to anyone but Payton's own account/PK Sample rather than continue presenting them as personalized.

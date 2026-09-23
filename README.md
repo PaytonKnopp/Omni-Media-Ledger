@@ -27,7 +27,7 @@ That's genuinely most of it. Everything past this point is detail for people who
 | **GOAT Profile** | Your declared all-time favorites, and where you build them — search the whole library right there and tier or mark things owned. Movies/TV/Games/Books show your Gold, Silver, and Bronze picks as distinct, labeled groups. Also shows computer-generated recommendations based on what you've already told it you love. |
 | **Taste Portrait** | A snapshot of what your collection says about you — genre breakdown, ownership stats, a clickable map of 28 genre families. |
 | **Collection** | Your actual physical/digital library, organized by format, plus a "worth upgrading?" audit and gap-finder ("you love this director, here's what you don't own yet"). |
-| **Watchlist** | Things you've flagged to check out later. |
+| **Watchlist** | Two lists in one: **Up Next** (things you've saved with the ♡ to get to later) and **Completed** (everything you've marked watched, read or played, with the date). |
 | **Contenders Ledger** | 50 upcoming releases being tracked, each with a general hype score and a personal "for you" score. |
 | **Creator Archives** | 150 notable directors, authors, and game designers, searchable. |
 | **Reference Matrices** | 22 curated top-lists — best soundtracks, scariest, funniest, biggest twists, and more. |
@@ -36,11 +36,11 @@ That's genuinely most of it. Everything past this point is detail for people who
 
 A few other things worth knowing about:
 
-- **🎲 Surprise Me** — one weighted pick, scoped by medium, mood, ownership, and (for films) how much time you have.
+- **✓ Watched / Read / Played** — one tap on any card logs something you've finished. It moves to the Watchlist's Completed section with the date (editable, for things you're logging from before), recommendations stop suggesting it, and the Global Controller can filter by it ("Watched / read / played" or "Not yet").
+- **🎲 Surprise Me** — one weighted pick, scoped by medium, mood, ownership (or just your Up Next list), and (for films) how much time you have.
 - **💡 Suggest a feature** — a shared box (visible to everyone using the app, not just you) for writing down "it'd be great if…" ideas.
 - **Themes** — nine visual looks, pick one from the header.
 - **Rabbit Hole** — a guided chain of related works to fall down, one click at a time.
-- **Compare** — load someone else's exported profile to see what taste you share and where you differ. Nothing is saved, it's just a look.
 - **"Why this was recommended"** — every match score comes with a plain-English reason, not just a number.
 
 ---
@@ -93,12 +93,13 @@ index.html       Page layout, styling, and the cloud-account sign-in/sync code
 app/             The application itself
   ledger-app.js    Every screen, the scoring engine, and all the interactions
 data/            Reference data, split by type so it can grow independently
-  movies.js  tv.js  games.js  books.js    The 2,508-work library
+  movies.js  tv.js  games.js  books.js    The ~5,000-work library
   creators.js                             Director / auteur / author pantheons
   contenders.js                           Upcoming releases being tracked
 scripts/         A data-integrity checker (for anyone editing the library)
 test/            An automated regression test suite
 supabase/        SQL schema for cloud accounts (run once in your Supabase project, if you set one up)
+sw.js            Offline support for the hosted copy (a service worker; unused when opened from disk)
 ```
 
 Nothing here needs building or installing. `index.html` loads the files above directly, so
@@ -122,7 +123,7 @@ There's no name, email, address, or financial information anywhere in the app or
 
 - **No API keys needed**, ever, for the app to work. It makes zero network requests by default.
 - **External dependencies**: Chart.js (loaded from a public CDN), used only for 3 charts in the Visualization Suite — if it can't load, those 3 charts show a friendly message and everything else, including the interactive relationship map, keeps working. When cloud accounts are configured, the Supabase JS client also loads from a public CDN — if it can't load, the app falls back to local-only mode exactly as if cloud accounts weren't configured at all.
-- **Fully offline-capable**: no internet connection needed for anything except those 3 charts.
+- **Fully offline-capable**: no internet connection needed for anything except those 3 charts. Opened from disk, that's simply true. On the hosted link, a service worker (`sw.js`) keeps a copy of the app after your first online visit, so it opens with no connection too (the 3 charts included, once they've loaded online once). With cloud accounts on, edits made offline are saved on the device and upload by themselves when you're back online.
 - **Data storage**: without cloud accounts, everything is saved in the browser's own `localStorage` — per browser, per device. It's not backed up by this repository; committing code doesn't save anyone's personal data.
 - **Automated tests**: `scripts/validate-corpus.js` is the data-quality gate for the library — duplicates and missing fields, but also score values outside their scale, implausible years and runtimes, placeholder text, unknown values in the closed vocabularies, works no genre family can see, and creators spelled two different ways. (That last set matters because the recommendation engine has no external source of truth: a bad field doesn't error, it just makes every score derived from it quietly worse.) It has no dependencies. `test/regression.js` is a full Playwright browser-automation suite covering onboarding, every screen, filters, and the cloud-account flow (against a mocked cloud, so no real account needed to run it). Both are optional for using the app, but useful if you're changing code:
 

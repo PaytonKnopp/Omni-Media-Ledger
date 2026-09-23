@@ -526,6 +526,8 @@ button:focus-visible,select:focus-visible,input:focus-visible{outline:2px solid 
     let it stretch full-width and centered on its own row instead, matching the sibling groups. */
  #tlScope{margin-left:0!important;width:100%;display:flex}
  #tlScope button{flex:1 1 0;text-align:center}
+ /* Four scopes since Completed joined: a 2x2 grid rather than three across and one stranded. */
+ #tlScope{display:grid;grid-template-columns:1fr 1fr}
 
  /* Quick Tips wall of text -> per-category accordion. Structure below is unchanged (still plain
     text, still in document order); on mobile only, JS (see initMobileTipsAccordion) wraps each
@@ -614,6 +616,38 @@ button:focus-visible,select:focus-visible,input:focus-visible{outline:2px solid 
  #bubbleScopeNote{margin-left:0!important;width:100%;text-align:center}
 
 }
+
+/* ===== Completed (watched / read / played) ===== */
+/* The confirmation toast after marking something completed: bottom-centred, above everything but
+   modal gates, themed through the same variables as .panel so all nine themes pick it up. Slides
+   in from below; pointer-events are off while hidden so it never blocks a tap underneath. */
+#appToast{position:fixed;left:50%;bottom:18px;z-index:998;display:flex;align-items:center;flex-wrap:wrap;gap:8px 12px;max-width:min(560px,calc(100vw - 24px));padding:10px 12px 10px 14px;border-radius:12px;background:var(--panel);border:1px solid rgba(56,189,248,.45);color:var(--text);font-size:12px;box-shadow:0 10px 30px rgba(0,0,0,.45);transform:translate(-50%,140%);opacity:0;pointer-events:none;transition:transform .22s ease,opacity .22s ease}
+#appToast.show{transform:translate(-50%,0);opacity:1;pointer-events:auto}
+#appToast .toastMsg{flex:1 1 220px;min-width:0;line-height:1.35}
+#appToast .toastSub{display:block;color:var(--text-dim);font-size:10.5px;margin-top:1px}
+#appToast .toastActions{display:flex;align-items:center;gap:6px;flex-wrap:wrap}
+#appToast .toastClose{color:var(--text-dim);font-size:13px;padding:2px 6px}
+@media (prefers-reduced-motion:reduce){#appToast{transition:opacity .15s}}
+.wlItemDone{border-color:rgba(56,189,248,.28)!important}
+.doneSeg{white-space:nowrap}
+/* The tier row gained a fifth labelled segment (\u2713 Watched / Read / Played), which left it a
+   few pixels too wide for a narrow card: a ~390px phone and the two-column tablet layout both
+   pushed "Rate" onto a line of its own. Measured against the CARD, not the viewport, since the
+   tablet case is a narrow card on a wide screen -- and the container is the card rather than the
+   row because a container query cannot restyle the container's own gap. Tighter gaps and
+   horizontal padding keep the row on one line without touching any tap target's height. */
+.resultCard{container-type:inline-size}
+@container (max-width:390px){
+ .tierRow{column-gap:4px!important}
+ .tierRow .tierSeg{padding:5px 4px}
+ .tierRow .tierSeg[data-act="own"],.tierRow .doneSeg{padding:5px 6px}
+ .tierRow .rateBtn{padding:5px 7px}
+}
+/* Narrower still (a 360px phone): "Rate" becomes its star alone. Then on the smallest phones, Owned
+   and Watched drop to their symbols too. Each keeps its word as an aria-label and a tooltip. */
+@container (max-width:330px){.tierRow .rateBtn .segWord{display:none}}
+@container (max-width:290px){.tierRow .tierSeg .segWord{display:none}}
+@media (max-width:480px){#appToast{width:calc(100vw - 24px)}}
 
 /* ===== THEMES ===== */
 body[data-theme="oppenheimer"]{--bg:#0e0b07;--panel:#181109;--panel-2:#120d07;--panel-3:#2a1c0d;--border:#33240f;--border-2:#443015;--border-3:#5c421d;--text:#f6e8d0;--text-dim:#c4a97e;--text-faint:#8f7550;--text-muted:#5f4c31;--accent:#f59e0b;--accent-bright:#fcd34d;--accent-soft:#d97706;--accent-pale:#fde68a;--range-track:#33240f;--scroll-thumb:#443015;--scroll-thumb-hover:#6b4a1f;--nav-active-text:#0e0b07;--accent-glow:rgba(245,158,11,.18);--grad-1:#0e0b07;--grad-2:#1a1108}
@@ -802,6 +836,7 @@ body[data-theme="outer-wilds"]{--bg:#0e0a09;--panel:#181010;--panel-2:#120c0b;--
         <div class="tipItem">🖱️ <strong class="text-slate-100">Click any card's title or body</strong> to expand it and see all ~19 stats, not just the 3 shown up front.</div>
         <div class="tipItem">🥇 <strong class="text-slate-100">The row under each card</strong> lets you mark Gold / Silver / Bronze favorites or "owned" in one click — no need to expand first. Gold is your absolute favorite, Silver the next tier down, Bronze the one after that — this tiering is the single thing that drives your ★ GOAT Match score and recommendations everywhere in the app. That row always sits at the bottom of the card, so it lines up card to card no matter how long a title is or whether you're in compact or comfortable view.</div>
         <div class="tipItem">★ <strong class="text-slate-100">That same row</strong> also has a "☆ Rate" button — a personal 0–10 rating (one decimal), entirely optional and separate from tiering. Once you rate something it pulls ★ GOAT Match toward the number you typed instead of just the algorithm's own estimate. Filter to it with "My Rating ≥" or the Rated-only / Unrated-only toggles in Advanced Filters.</div>
+        <div class="tipItem">✓ <strong class="text-slate-100">"✓ Watched" (or Read / Played)</strong>, in that same row, logs something you've finished in one tap. It lands in the Watchlist tab's Completed section with today's date, recommendations stop suggesting it, and the ✓ in the card's corner shows it at a glance. Tap it again (or Undo on the confirmation) to take it back.</div>
         <div class="tipItem">🏷️ <strong class="text-slate-100">Genre, vibe, format and platform tags</strong> inside an expanded card are read-only — just information, like the stat bars next to them.</div>
         <div class="tipItem">🔗 <strong class="text-slate-100">"Cross-medium pairings" and "If you like this, cross over to"</strong> inside an expanded card are clickable — click one to jump straight to it in the Global Controller search.</div>
       </div>
@@ -812,6 +847,7 @@ body[data-theme="outer-wilds"]{--bg:#0e0a09;--panel:#181010;--panel-2:#120c0b;--
       <div class="tipCatBody">
         <div class="tipItem">☁️ <strong class="text-slate-100">Sign into an account</strong> (top right) to sync your picks across devices — type any name; the same name anywhere brings it all back. Every profile — tiers, owned formats, pinned sliders, theme, everything — is remembered per account.</div>
         <div class="tipItem">⬇ <strong class="text-slate-100">Export / Import / Reset</strong> (top right, "Profile") back up your whole profile to a file, load one back in, or start blank.</div>
+        <div class="tipItem">📶 <strong class="text-slate-100">Works offline</strong> once you've opened the hosted link online. Changes you make with no connection are saved on this device and sync by themselves when you're back online; the account menu says "Offline" in the meantime.</div>
       </div>
     </div>
 
@@ -827,6 +863,7 @@ body[data-theme="outer-wilds"]{--bg:#0e0a09;--panel:#181010;--panel-2:#120c0b;--
       <div class="tipCatHead">Global Controller · filtering &amp; sorting</div>
       <div class="tipCatBody">
         <div class="tipItem">🔍 <strong class="text-slate-100">Omni-Search</strong> matches on title, creator, studio, genre, vibe, and year all at once — try a director's name, a network, or just a year.</div>
+        <div class="tipItem">✓ <strong class="text-slate-100">"Watched / read / played" and "Not yet"</strong>, next to the owned toggles, filter by what you've finished — "Not yet" hides it everywhere in the results. ✨ Best Untried Matches includes "Not yet" automatically.</div>
         <div class="tipItem">🏷️ <strong class="text-slate-100">Genre chips</strong> under the main filters let you click any genre to filter straight to it — click again to clear it.</div>
         <div class="tipItem">📌 <strong class="text-slate-100">Pin any slider you use a lot</strong> — from Advanced Filters, or the specialized index thresholds inside it — so it shows up in the always-visible "Your 5 quick filters" row up top instead of staying tucked away. Both the pinned row and Advanced Filters start in alphabetical order.</div>
         <div class="tipItem">▶ <strong class="text-slate-100">Advanced Filters &amp; Indices</strong> (collapsed by default) stacks as many specialized index thresholds as you like — dread, complexity, awe, and more — on top of the main filters.</div>
@@ -866,7 +903,8 @@ body[data-theme="outer-wilds"]{--bg:#0e0a09;--panel:#181010;--panel-2:#120c0b;--
     <div class="tipCat" data-tabs="watchlist">
       <div class="tipCatHead">♡ Watchlist</div>
       <div class="tipCatBody">
-        <div class="tipItem">♡ <strong class="text-slate-100">Tap the ♡ on any card</strong> to add or remove it from this tab's backlog. Filter it by Up Next / Complete, by medium, sort by date added / title / match, and mark items done (or undo that) right from here — this tab also shows your saved count, an estimated backlog time, and a few personalized picks to add next.</div>
+        <div class="tipItem">♡ <strong class="text-slate-100">Tap the ♡ on any card</strong> to save it to Up Next. When you finish it, tap "✓ Mark watched" here (or ✓ Watched / Read / Played on any card) and it moves to Completed with the date — which you can change, for things you're logging from before. Filter by Up Next / Completed or medium, and sort by date added, date completed, title or match.</div>
+        <div class="tipItem">✓ <strong class="text-slate-100">Completed is your history</strong>: the stats count what you've finished this year, the nav badge counts only what's still Up Next, and 🎲 Surprise Me can spin from just your Up Next list.</div>
       </div>
     </div>
 
@@ -1116,6 +1154,10 @@ body[data-theme="outer-wilds"]{--bg:#0e0a09;--panel:#181010;--panel-2:#120c0b;--
         <label class="flex items-center gap-2 text-[11px] cursor-pointer" style="color:#86efac"><input type="checkbox" id="ownedToggle" class="accent-emerald-500"/> ◆ Owned in my collection only</label>
         <label class="flex items-center gap-2 text-[11px] cursor-pointer" style="color:#fca5a5"><input type="checkbox" id="notOwnedToggle" class="accent-rose-500"/> ○ Not owned · discover only</label>
       </div>
+      <div class="flex items-center gap-4" id="doneToggleGroup">
+        <label class="flex items-center gap-2 text-[11px] cursor-pointer" style="color:#7dd3fc" title="Only titles you've marked watched, read or played"><input type="checkbox" id="doneToggle" style="accent-color:#0ea5e9"/> ✓ Watched / read / played</label>
+        <label class="flex items-center gap-2 text-[11px] cursor-pointer" style="color:#94a3b8" title="Hide everything you've already watched, read or played"><input type="checkbox" id="notDoneToggle" class="accent-slate-400"/> ○ Not yet</label>
+      </div>
       <div class="flex items-center gap-4" id="ratingToggleGroup">
         <label class="flex items-center gap-2 text-[11px] cursor-pointer" style="color:#5eead4"><input type="checkbox" id="ratedToggle" class="accent-teal-500"/> ★ Rated by me only</label>
         <label class="flex items-center gap-2 text-[11px] cursor-pointer" style="color:#94a3b8"><input type="checkbox" id="unratedToggle" class="accent-slate-500"/> ☆ Unrated only</label>
@@ -1126,7 +1168,7 @@ body[data-theme="outer-wilds"]{--bg:#0e0a09;--panel:#181010;--panel-2:#120c0b;--
       </span>
     </div>
     <div class="flex justify-center w-full mt-3 pt-3 border-t border-slate-800/70" id="discoverBtnRow">
-      <button type="button" id="discoverBtn" class="text-[11px] px-4 py-2 rounded-lg border border-amber-500/50 text-amber-300 hover:bg-amber-500/10 transition-colors font-semibold" title="Shortcut: sort by GOAT Match, show not-owned only, and exclude anything already tiered Gold/Silver/Bronze — the setup for finding new things that best match your taste">✨ Best Untried Matches</button>
+      <button type="button" id="discoverBtn" class="text-[11px] px-4 py-2 rounded-lg border border-amber-500/50 text-amber-300 hover:bg-amber-500/10 transition-colors font-semibold" title="Shortcut: sort by GOAT Match, show not-owned and not-yet-watched/read/played only, and exclude anything already tiered Gold/Silver/Bronze — the setup for finding new things that best match your taste">✨ Best Untried Matches</button>
     </div>
     <div class="mt-4 pt-4 border-t border-slate-800/70">
       <button type="button" id="advToggle" class="flex items-center gap-2 text-[11.5px] font-bold tracking-[.12em] uppercase transition-colors" style="color:#fbbf24" onmouseover="this.style.color='#fcd34d'" onmouseout="this.style.color='#fbbf24'">
@@ -1277,7 +1319,7 @@ body[data-theme="outer-wilds"]{--bg:#0e0a09;--panel:#181010;--panel-2:#120c0b;--
           </select>
         </div>
         <div class="flex items-center gap-1.5"><span class="fieldlbl mb-0">Pool</span>
-          <div class="seg" id="spinPool"><button type="button" data-p="all" class="on">All</button><button type="button" data-p="owned">Owned</button><button type="button" data-p="discover">Discover</button></div>
+          <div class="seg" id="spinPool"><button type="button" data-p="all" class="on">All</button><button type="button" data-p="owned">Owned</button><button type="button" data-p="discover" title="Things you don't own and haven't watched, read or played">Discover</button><button type="button" data-p="queue" title="Only titles saved to your Watchlist's Up Next">Up Next</button></div>
         </div>
         <div class="flex items-center gap-1.5"><span class="fieldlbl mb-0 cursor-help" title="Only applies to films -- the only kind with a reliable single-sitting runtime. TV, games, and books are shown regardless of the time picked.">Time</span>
           <select id="spinTime" class="inp" style="width:auto">
@@ -1443,7 +1485,7 @@ body[data-theme="outer-wilds"]{--bg:#0e0a09;--panel:#181010;--panel-2:#120c0b;--
     <div class="flex items-center gap-2 flex-wrap">
       <h2 class="text-lg font-bold tracking-tight" style="color:#f0abfc">◷ Collection Timeline</h2>
       <div class="seg" id="tlMedium" style="flex:0 0 auto"><button type="button" data-tm="all" class="on">All Media</button><button type="button" data-tm="movie">Film</button><button type="button" data-tm="tv">TV</button><button type="button" data-tm="game">Games</button><button type="button" data-tm="book">Books</button></div>
-      <div class="seg ml-auto" id="tlScope"><button type="button" data-t="owned" class="on">My Collection</button><button type="button" data-t="rated">Goat Profile</button><button type="button" data-t="all">All Works</button></div>
+      <div class="seg ml-auto" id="tlScope"><button type="button" data-t="owned" class="on">My Collection</button><button type="button" data-t="rated">Goat Profile</button><button type="button" data-t="done">Completed</button><button type="button" data-t="all">All Works</button></div>
     </div>
     <p class="text-[11px] text-slate-500 mt-1.5 max-w-3xl">Your taste across time — every work placed by release year. The shape shows the eras your collection reaches into. Click any bar to open that decade in the Global Controller.</p>
     <div id="tlStats" class="grid grid-cols-2 md:grid-cols-4 gap-3 mt-4"></div>
@@ -1460,22 +1502,22 @@ body[data-theme="outer-wilds"]{--bg:#0e0a09;--panel:#181010;--panel-2:#120c0b;--
         <button type="button" id="wlClear" class="presetBtn" style="color:#fca5a5;border-color:#fca5a544">Clear all</button>
       </div>
     </div>
-    <p class="text-[11px] text-slate-500 mt-1.5 max-w-3xl">Tap the ♡ on any card across the ledger to save it here. Mark things watched, see your backlog stats, and let the engine surface what to watch next based on your GOAT fingerprint. Saved locally in your browser.</p>
+    <p class="text-[11px] text-slate-500 mt-1.5 max-w-3xl">Tap the ♡ on any card to save it for later, or ✓ Watched / Read / Played to log something you've finished — both land here. Finished titles move to Completed with the date, recommendations stop suggesting them, and the engine surfaces what to watch next based on your GOAT fingerprint.</p>
     <div id="wlStats" class="grid grid-cols-2 md:grid-cols-5 gap-3 mt-4"></div>
   </div>
   <div class="grid grid-cols-1 lg:grid-cols-3 gap-4">
     <div class="lg:col-span-2">
       <div id="wlFilterRow" class="flex items-center gap-2 mb-3 flex-wrap">
-        <span id="wlFilterGroup" class="flex items-center gap-2 flex-wrap"><span class="lbl">Saved titles</span>
-        <div class="seg" id="wlFilter" style="flex:0 0 auto"><button type="button" data-wf="all" data-label="All" class="on">All</button><button type="button" data-wf="todo" data-label="Up Next" title="Not yet watched, read, or played">Up Next</button><button type="button" data-wf="done" data-label="Complete" title="Marked watched, read, or played">Complete</button></div></span>
+        <span id="wlFilterGroup" class="flex items-center gap-2 flex-wrap"><span class="lbl">Show</span>
+        <div class="seg" id="wlFilter" style="flex:0 0 auto"><button type="button" data-wf="all" data-label="All" class="on">All</button><button type="button" data-wf="todo" data-label="Up Next" title="Not yet watched, read, or played">Up Next</button><button type="button" data-wf="done" data-label="Completed" title="Watched, read, or played">Completed</button></div></span>
         <span id="wlTypeGroup"><div class="seg" id="wlTypeSeg" style="flex:0 0 auto"><button type="button" data-wt="all" data-label="All types" class="on">All types</button><button type="button" data-wt="movie" data-label="Movies">Movies</button><button type="button" data-wt="tv" data-label="TV">TV</button><button type="button" data-wt="game" data-label="Games">Games</button><button type="button" data-wt="book" data-label="Books">Books</button></div></span>
-        <span id="wlSortGroup"><select id="wlSortSel" class="inp" style="width:auto"><option value="added">Sort: Recently added</option><option value="match">Sort: Best Match</option><option value="rating">Sort: Highest rated</option><option value="year">Sort: Newest release</option><option value="title">Sort: Title A–Z</option></select></span>
+        <span id="wlSortGroup"><select id="wlSortSel" class="inp" style="width:auto"><option value="added">Sort: Recently added</option><option value="done">Sort: Recently completed</option><option value="match">Sort: Best Match</option><option value="rating">Sort: Highest rated</option><option value="year">Sort: Newest release</option><option value="title">Sort: Title A–Z</option></select></span>
       </div>
       <input type="text" id="wlSearch" class="inp mb-3" style="max-width:320px" placeholder="🔍 Search your watchlist…" autocomplete="off">
       <div id="wlGrid" class="grid grid-cols-1 md:grid-cols-2 gap-3"></div>
     </div>
     <div>
-      <div class="lbl mb-3">✨ Recommended next · highest GOAT match not yet saved</div>
+      <div class="lbl mb-3">✨ Recommended next · best matches you haven't saved, owned, tiered or rated</div>
       <div id="wlRecs" class="space-y-2"></div>
     </div>
   </div>
@@ -1721,8 +1763,17 @@ var SUPABASE_CONFIG={url:"https://gqpjeccmwsjxrlrazqxt.supabase.co",anonKey:"sb_
     :'the write reported success but no row for "'+handle+'" can be read back at all');
   });
  }
+ // navigator.onLine is only trustworthy in one direction: false really means no network, true
+ // just means "maybe". So it is only ever used to skip work that is certain to fail.
+ function isOffline(){return typeof navigator!=='undefined'&&navigator.onLine===false;}
+ function offlineLabel(){return 'Signed in as '+handle+'. Offline \u2014 your changes are saved on this device and will sync when you reconnect.';}
  function runScheduledSync(){
   if(!cloudReady||!handle||!client)return Promise.resolve(false);
+  // Offline, an upload is certain to fail, and failing it would burn through the retry backoff and
+  // paint the dot red for what is not an error. The edit is already saved locally and marked
+  // pending (so no boot can pull the cloud copy over it); the 'online' listener below sends it the
+  // moment the connection is back.
+  if(isOffline()){setSyncState('slate',offlineLabel());return Promise.resolve(false);}
   // Taken before the push and restored if it fails: these rows are derived from one profile edit
   // that has already happened, so nothing regenerates them on a later attempt.
   var rows=Object.keys(pendingMediaRows).map(function(k){return pendingMediaRows[k];});
@@ -1737,6 +1788,8 @@ var SUPABASE_CONFIG={url:"https://gqpjeccmwsjxrlrazqxt.supabase.co",anonKey:"sb_
    return true;
   },function(e){
    rows.forEach(function(r){if(!pendingMediaRows[r.id])pendingMediaRows[r.id]=r;});
+   // The connection dropped mid-upload: same as never having had one (see above).
+   if(isOffline()){setSyncState('slate',offlineLabel());return false;}
    var msg=recordSyncError(e);
    console.warn('Cloud sync failed — your change is kept on this device and will retry:',msg);
    setSyncState('rose','Signed in as '+handle+'. NOT saved to the cloud: '+msg);
@@ -1769,6 +1822,15 @@ var SUPABASE_CONFIG={url:"https://gqpjeccmwsjxrlrazqxt.supabase.co",anonKey:"sb_
  // and giving up only after the backoff is exhausted -- at which point the pending mark, the rose
  // dot and the recorded reason are all still in place, and the next edit or boot tries again.
  var RETRY_DELAYS=[5000,15000,45000,120000];
+ // Back online: send whatever was saved on this device while the connection was gone, straight
+ // away and with a fresh backoff, rather than waiting for the next edit or the next page load.
+ window.addEventListener('online',function(){
+  if(!cloudReady||!handle||!client)return;
+  if(!hasPendingFor(handle)&&!Object.keys(pendingMediaRows).length)return;
+  clearTimeout(retryTimer);retryTimer=null;retryStep=0;
+  setSyncState('amber','Signed in as '+handle+'. Back online \u2014 syncing\u2026');
+  runScheduledSync();
+ });
  function scheduleRetry(){
   if(!cloudReady||!handle)return;
   if(retryStep>=RETRY_DELAYS.length)return;
@@ -2166,6 +2228,15 @@ var SUPABASE_CONFIG={url:"https://gqpjeccmwsjxrlrazqxt.supabase.co",anonKey:"sb_
     runScheduledSync();
     return;
    }
+   // Offline: the fetch below is certain to fail, and would only delay opening the app by its
+   // retry before landing on the local copy anyway (the .catch further down). Go straight there.
+   // Nothing is lost by it -- any edit made offline is marked pending, which is what stops the
+   // next online boot from pulling the cloud copy over it.
+   if(isOffline()){
+    handle=remembered;clearViewParamForLogin();bootApp();
+    setSyncState('slate',offlineLabel());
+    return;
+   }
    fetchProfileRow(remembered).then(function(res){
     handle=remembered;
     clearViewParamForLogin();
@@ -2251,5 +2322,15 @@ var SUPABASE_CONFIG={url:"https://gqpjeccmwsjxrlrazqxt.supabase.co",anonKey:"sb_
 <script src="app/matrices.js"></script>
 <script src="app/creators.js"></script>
 <script src="app/ledger-app.js"></script>
+<script>
+/* Offline support (sw.js). Web-served copies only: browsers never run a service worker for a
+   file:// page, so opening this file from disk is unaffected. Registered after load so it never
+   competes with the app's own boot for bandwidth. */
+if('serviceWorker' in navigator&&/^https?:$/.test(location.protocol)){
+ window.addEventListener('load',function(){
+  navigator.serviceWorker.register('sw.js').catch(function(e){console.warn('Offline support unavailable:',e&&e.message||e);});
+ });
+}
+</script>
 </body>
 </html>
