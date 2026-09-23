@@ -12,7 +12,7 @@ There's nothing to install. It's just a folder — one HTML file plus a `data` f
 
 1. Open the app. Pick how you want to start — a quick sample, blank, search-and-pick your favorites, or import a file.
 2. Browse the collection. Every card shows a match score for you and can be expanded for full detail.
-3. Click things to teach it your taste: 🥇 Gold / 🥈 Silver / 🥉 Bronze favorite, "mark owned," boost (or bury) a genre or a creator. No JSON, no settings screen — it's all buttons on the cards themselves.
+3. Click things to teach it your taste: 🥇 Gold / 🥈 Silver / 🥉 Bronze favorite, "mark owned," ✓ "watched / read / played," a personal rating, boost (or bury) a genre or a creator. No JSON, no settings screen — it's all buttons on the cards themselves.
 4. The more you click, the better its recommendations get.
 
 That's genuinely most of it. Everything past this point is detail for people who want it.
@@ -23,7 +23,7 @@ That's genuinely most of it. Everything past this point is detail for people who
 
 | Where | What it's for |
 | --- | --- |
-| **Global Controller** (the home screen) | Search and browse everything. Filter by type, genre, ownership, favorite tier, platform/studio/network, and 15 more specific tastes (scariest, funniest, best soundtrack, etc.). Sort by match score, critical/audience score, year, or a custom weighted blend you control with three sliders. |
+| **Global Controller** (the home screen) | Search and browse everything. Filter by type, genre, ownership, whether you've watched/read/played it, your own rating, favorite tier, platform/studio/network, and 21 more specific tastes (scariest, funniest, best soundtrack, etc.). **✨ Best Untried Matches** is a one-click setup for "best things I haven't tried yet" — not owned, not finished, not rated, not tiered. Sort by match score, critical/audience score, year, or a custom weighted blend you control with three sliders. |
 | **GOAT Profile** | Your declared all-time favorites, and where you build them — search the whole library right there and tier or mark things owned. Movies/TV/Games/Books show your Gold, Silver, and Bronze picks as distinct, labeled groups. Also shows computer-generated recommendations based on what you've already told it you love. |
 | **Taste Portrait** | A snapshot of what your collection says about you — genre breakdown, ownership stats, a clickable map of 28 genre families. |
 | **Collection** | Your actual physical/digital library, organized by format, plus a "worth upgrading?" audit and gap-finder ("you love this director, here's what you don't own yet"). |
@@ -37,7 +37,7 @@ That's genuinely most of it. Everything past this point is detail for people who
 A few other things worth knowing about:
 
 - **✓ Watched / Read / Played** — one tap on any card logs something you've finished. It moves to the Watchlist's Completed section with the date (editable, for things you're logging from before), recommendations stop suggesting it, and the Global Controller can filter by it ("Watched / read / played" or "Not yet").
-- **🎲 Surprise Me** — one weighted pick, scoped by medium, mood, ownership (or just your Up Next list), and (for films) how much time you have.
+- **🎲 Surprise Me** — one weighted pick, scoped by medium, mood, pool (everything, what you own, only things new to you, or just your Up Next list), and (for films) how much time you have.
 - **💡 Suggest a feature** — a shared box (visible to everyone using the app, not just you) for writing down "it'd be great if…" ideas.
 - **Themes** — nine visual looks, pick one from the header.
 - **Rabbit Hole** — a guided chain of related works to fall down, one click at a time.
@@ -59,7 +59,7 @@ Recommendations lean on Gold first, then Silver, then Bronze, then the rest of w
 
 ## Making it yours (no file-editing required)
 
-Every card has a compact row of icons — Gold/Silver/Bronze/Owned — right under it, and expanding a card gives you more: boost a genre, a `−`/`+` stepper to boost *or bury* a specific creator across your whole match scoring, boost a book's affinity directly, or type in a personal 0-10 rating (one decimal, entirely optional) that blends into that work's match score alongside your tier picks. Everything you click updates your recommendations immediately.
+Every card has a compact row of buttons right under it — Gold / Silver / Bronze / Owned / ✓ Watched (Read, Played), plus ☆ Rate for a personal 0-10 rating (one decimal, entirely optional) that blends into that work's match score alongside your tier picks. Expanding a card gives you more: boost a genre, a `−`/`+` stepper to boost *or bury* a specific creator across your whole match scoring, or boost a book's affinity directly. Everything you click updates your recommendations immediately.
 
 If you'd rather build or edit a whole profile at once by hand, `PROFILE_TEMPLATE.md` documents the file format field-by-field with an example — useful for bulk edits, but nobody needs it for day-to-day use.
 
