@@ -348,7 +348,8 @@ verification campaign spent its whole search budget there.
 
 ### Per-batch verification protocol
 
-Snapshot before → edit → `npm run validate-corpus` → snapshot after → `--diff` → `npm test`.
+Snapshot before → edit → `npm run validate-corpus` → snapshot after → `--diff` → `npm run test-fast`
+(the browser suite runs on the PR).
 A batch is accepted only when **every line of the diff is explainable**; anything that moved
 outside the batch is a bug, not an improvement.
 

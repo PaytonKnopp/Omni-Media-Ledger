@@ -1,32 +1,45 @@
 # Working agreement: testing during a session
 
-CI (`.github/workflows/test.yml`) already runs the full suite once, only on
-pull requests. Don't duplicate that work locally on every small edit — it
-wastes time and, if `test/regression.js` (Playwright-driven) is flaky, means
-paying the flake tax twice.
+CI (`.github/workflows/test.yml`) runs the full suite on every pull request,
+once per push (a newer push cancels the older run). That is the gate. Local
+runs exist to get changes committed to the branch quickly, not to re-prove
+what CI is about to prove anyway.
+
+There are two tiers of checks:
+
+| Command                  | What it covers                                        | Time    |
+|--------------------------|-------------------------------------------------------|---------|
+| `npm run lint`           | ESLint, including the no-fixed-sleeps rule for tests  | ~3s     |
+| `npm run test-fast`      | corpus validation, schema, fact/substance/score harnesses | ~15s |
+| `npm run test-browser`   | the Playwright suite, `test/regression.js`            | ~7 min  |
+
+`npm test` runs both tiers in order.
 
 Rules for Claude when making changes in this repo:
 
-1. **While iterating on a change within a session**, don't run `npm test`
-   (the full suite) after every edit. Run only the check(s) relevant to what
-   changed:
-   - Touched `schema.sql` / DB logic → `npm run test-schema`
-   - Touched corpus/fact-fetching scripts → `npm run test-facts` or
-     `node scripts/validate-corpus.js`
-   - Touched JS/general logic with no obvious scoped test → `npm run lint`
-     is cheap and safe to run often; prefer it over the full suite for quick
-     sanity checks.
-2. **Run the full `npm test` suite once**, right before committing / opening
-   or updating a PR — not after each intermediate tweak in the conversation.
-3. **Flaky tests are a bug, not a normal cost.** If `npm test` fails and a
-   re-run (with no code change) passes, say so explicitly and note which
-   test flaked, rather than silently looping "test without it, then with
-   it again." Flaky tests should get fixed or flagged, not routinely danced
-   around.
-4. Since CI runs on the PR anyway, it's fine to treat the local full-suite
-   run as a pre-push sanity check, not a hard gate that must be reconfirmed
-   after every subsequent tiny fix — trust CI to catch anything a last-minute
-   change might have broken, and address it there if it does.
+1. **Before committing and pushing to a branch, run `npm run lint` and
+   `npm run test-fast`. That's all.** Do not run `npm test` or
+   `npm run test-browser` as a pre-commit step. CI runs it on the PR.
+   While iterating, it's fine to run only the scoped check for what changed
+   (`npm run test-schema`, `npm run test-facts`,
+   `node scripts/validate-corpus.js`).
+2. **Run the browser suite only when it is the point of the work:** a change
+   to `test/regression.js` itself, or fixing a regression check that failed
+   on CI. Even then, run just the affected flow with
+   `node test/regression.js --only=<part of the flow name>` (flow names are
+   the `=== ... ===` headers it prints), which takes seconds instead of
+   minutes. A full run is only warranted if the user asks for one.
+3. **A CI failure is real until proven otherwise.** The suite no longer
+   sleeps on the clock (see "Never sleep a fixed number of milliseconds" in
+   ARCHITECTURE.md), so a red check is expected to mean something. Don't
+   re-run CI hoping for green. Reproduce the failing flow with `--only`,
+   and if it only fails on CI, add `OMNI_THROTTLE=4` (slows every page's CPU
+   4x, like a busy runner). If it genuinely flaked, say so explicitly, name
+   the check, and fix the wait it depends on. Don't lengthen a timeout.
+4. **In `test/regression.js`, never wait on the app with
+   `waitForTimeout(N)`.** Use `settle(page)`, `waitForBoot(page)` or
+   `readWhen(...)`. Lint enforces this. Sleeps racing a slow runner were
+   the cause of the suite's chronic flakiness.
 
-Goal: fast iteration locally, full confidence from CI on the PR, without
-running the same expensive suite two or three times for one logical change.
+Goal: changes get committed to the branch in seconds of checking, and the
+full suite runs exactly once per PR push, on CI, where its result is trusted.

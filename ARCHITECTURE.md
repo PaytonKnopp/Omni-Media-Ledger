@@ -274,9 +274,12 @@ a substring, and add the vocabulary to the validator so the next person cannot d
 
 ## Testing
 
-`npm test` runs the corpus validator, the schema checks and the full Playwright suite. The suite
-covers onboarding, every screen, filters, tiering, and the whole cloud-account flow against a mocked
-Supabase, so no real project is needed.
+`npm test` runs two tiers: `npm run test-fast` (the corpus validator, the schema checks and the
+fact/substance/score harnesses, ~15s) and `npm run test-browser` (the Playwright suite, ~7 min).
+The suite covers onboarding, every screen, filters, tiering, and the whole cloud-account flow
+against a mocked Supabase, so no real project is needed. CI runs both on every pull request; day to
+day, `test-fast` plus lint is the pre-commit check, and `node test/regression.js --only=<flow>`
+re-runs a single browser flow in seconds (see CLAUDE.md).
 
 ### The live database checks
 
@@ -306,14 +309,38 @@ The convention worth keeping: when fixing a bug, add a check, then **disable the
 the check fails**. Several tests in here originally passed with the fix removed and proved nothing
 until they were rewritten.
 
-**Never sleep a fixed number of milliseconds after a page load.** Use `waitForBoot(page)`. Boot cost
-scales with the corpus — every `data/*.js` file is parsed on every load — so a sleep tuned to be
-"comfortably enough" at 2,500 works is a coin flip at 5,000 and a reliable failure at 10,000. A
-suite that gets less trustworthy as the dataset grows is worse than no suite, because it teaches you
-to ignore it exactly when the data is changing fastest.
+**Never sleep a fixed number of milliseconds — after a page load or after anything else.** Use
+`waitForBoot(page)` after a load, `settle(page)` after an interaction, and `readWhen(...)` when the
+check is about a specific value arriving. Boot cost scales with the corpus — every `data/*.js` file
+is parsed on every load — so a sleep tuned to be "comfortably enough" at 2,500 works is a coin flip
+at 5,000 and a reliable failure at 10,000. A suite that gets less trustworthy as the dataset grows
+is worse than no suite, because it teaches you to ignore it exactly when the data is changing
+fastest.
 
-Related: a check that can't find its element should **fail**, not throw. An uncaught error aborts
-the run and takes every later check with it, so one flaky assertion hides the whole suite.
+This rule used to cover page loads only, and the suite still had ~150 "click, sleep 150–900ms,
+read once" sites. On a slower CI runner a different handful of them lost the race on each run,
+which is why fixing one flaky check only ever surfaced the next one. They are all gone now:
+
+- `settle(page)` waits until the page has no pending short timers (≤ 1s: debounces, the edit-sync
+  debounce, read-back retries), no pending animation frames (the chunked grid render) and no
+  in-flight fetches, and is not mid-unload. Every page gets the instrumentation that tracks this
+  injected by `instrumentBrowser`, so a new page cannot miss it.
+- `settle(page, { through: 1500 })` also waits out the 1.5s idle-sync debounce, for checks that
+  need "every queued upload has run".
+- Inside a single `page.evaluate`, use `await window.__omniSettle.whenIdle()`.
+- A deliberate wait for real time (only the combo's 300ms just-opened guard today) keeps its sleep
+  and says why on the same line. A sleep is only acceptable where being too short would make a
+  check *pass* wrongly, never *fail*.
+
+To find a timing-dependent check before CI does, run with every page's CPU slowed:
+`OMNI_THROTTLE=4 node test/regression.js`. It should pass exactly like a normal run, only slower;
+if it doesn't, the failing check is waiting on the clock somewhere. Plain host load does not
+reproduce CI failures here — the page being slow does. `OMNI_SETTLE_DEBUG=1` logs every settle
+that took over two seconds, with its caller.
+
+Related: a check that can't find its element should **fail**, not throw. Each flow now runs inside
+`runFlow`, so a throw costs one failure named after its flow instead of aborting the run — but it
+still skips the rest of that flow, so one flaky assertion can hide dozens of checks behind it.
 
 ## Known limits
 
