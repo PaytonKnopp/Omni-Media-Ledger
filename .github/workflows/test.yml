@@ -15,6 +15,13 @@ name: Tests
 on:
   pull_request:
 
+# One run per PR at a time: pushing again while a run is in progress cancels the older run instead
+# of queuing both. Only the newest commit's result means anything, and a stale run finishing red
+# after a newer one went green is exactly the kind of noise that makes a suite hard to trust.
+concurrency:
+  group: tests-${{ github.event.pull_request.number }}
+  cancel-in-progress: true
+
 jobs:
   test:
     runs-on: ubuntu-latest
@@ -49,9 +56,10 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: 20
+          cache: npm
 
       - name: Install dependencies
-        run: npm install
+        run: npm ci
 
       - name: Lint
         run: npm run lint

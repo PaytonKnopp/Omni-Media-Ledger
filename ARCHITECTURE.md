@@ -274,9 +274,12 @@ a substring, and add the vocabulary to the validator so the next person cannot d
 
 ## Testing
 
-`npm test` runs the corpus validator, the schema checks and the full Playwright suite. The suite
-covers onboarding, every screen, filters, tiering, and the whole cloud-account flow against a mocked
-Supabase, so no real project is needed.
+`npm test` runs two tiers: `npm run test-fast` (the corpus validator, the schema checks and the
+fact/substance/score harnesses, ~15s) and `npm run test-browser` (the Playwright suite, ~7 min).
+The suite covers onboarding, every screen, filters, tiering, and the whole cloud-account flow
+against a mocked Supabase, so no real project is needed. CI runs both on every pull request; day to
+day, `test-fast` plus lint is the pre-commit check, and `node test/regression.js --only=<flow>`
+re-runs a single browser flow in seconds (see CLAUDE.md).
 
 ### The live database checks
 

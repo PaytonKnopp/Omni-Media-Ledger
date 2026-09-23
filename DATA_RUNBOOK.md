@@ -115,7 +115,7 @@ at 25 works, not at 1,000.
 ```bash
 node scripts/apply-facts.js evidence/movie-<date>.json            # shows, writes nothing
 node scripts/apply-facts.js evidence/movie-<date>.json --write
-npm run validate-corpus && npm test
+npm run test-fast        # corpus + harnesses, ~15s; the browser suite runs on the PR
 ```
 
 Grade A applies. Everything else waits for you. Records whose hard facts all came back grade A get
@@ -216,7 +216,7 @@ node scripts/score-snapshot.js --diff before-blank.json after-blank.json
 
 node scripts/corpus-metrics.js --snapshot after-blank.json --assert
 node scripts/corpus-metrics.js --snapshot after-pk.json    --assert
-npm test
+npm run test-fast
 ```
 
 **Both `--assert` runs must pass.** The blank-profile one is the "works for everyone" test, and it

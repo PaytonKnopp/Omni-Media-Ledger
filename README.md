@@ -130,7 +130,9 @@ There's no name, email, address, or financial information anywhere in the app or
   ```
   npm install -D playwright-core
   npx playwright install chromium   # once
-  npm test
+  npm test                             # everything (~7 min, mostly the browser suite)
+  npm run test-fast                    # everything except the browser suite (~15s)
+  node test/regression.js --only=account   # one browser flow, by name
 
   npm run validate-corpus              # just the data checks (no browser needed)
   node scripts/validate-corpus.js --report   # ...plus a health report and the next free IDs

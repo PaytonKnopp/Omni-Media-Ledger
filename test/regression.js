@@ -5,8 +5,12 @@
  * Requires a Chromium binary. Point it at one with PLAYWRIGHT_CHROMIUM_PATH,
  * or run `npx playwright install chromium` once and it'll be found automatically.
  *
- * Usage: node test/smoke.js            (tests index.html)
- *        node test/smoke.js index.html (same, named explicitly)
+ * Usage: node test/regression.js                  (tests index.html)
+ *        node test/regression.js index.html       (same, named explicitly)
+ *        node test/regression.js --only=account   (just the flows whose name contains "account")
+ *
+ * --only is for re-checking one failing flow in seconds-to-a-minute instead of re-running the whole
+ * ~7-minute suite. The flow names are the "=== ... ===" headers this prints.
  */
 const fs = require('fs');
 const path = require('path');
@@ -24,12 +28,14 @@ try {
 }
 
 const ROOT = path.resolve(__dirname, '..');
-const TARGETS = process.argv.slice(2).length
-  ? process.argv.slice(2)
-  : ['index.html'];
+const ARGS = process.argv.slice(2);
+const ONLY = ARGS.filter(a => a.startsWith('--only=')).map(a => a.slice('--only='.length).toLowerCase());
+const FILES = ARGS.filter(a => !a.startsWith('--'));
+const TARGETS = FILES.length ? FILES : ['index.html'];
 
-let failures = 0;
+let failures = 0, checksRun = 0;
 function check(label, cond) {
+  checksRun++;
   if (cond) { console.log('  ok   -', label); }
   else { console.log('  FAIL -', label); failures++; }
 }
@@ -520,8 +526,10 @@ async function runFile(browser, file) {
     await settle(page);
 
     // Filters actually narrow results
+    // No settle here: #resultCount is written synchronously by the change handler, and waiting for
+    // "Show: All" to finish drawing ~5,000 cards would cost seconds (16s on a slowed page) for a
+    // check that only reads the count. Selecting 100 below supersedes that render.
     await page.selectOption('#limitSel', '9999');
-    await settle(page);
     const countOf = async () => {
       const t = await page.textContent('#resultCount');
       const m = t.match(/of\s+(\d+)/);
@@ -3725,6 +3733,7 @@ async function runOfflineFlow(browser, file) {
 // checks after it down too, and a single timing problem read as a wall of red. Now it counts as
 // one failure, named after its flow, and the run carries on to the next flow.
 async function runFlow(browser, name, fn) {
+  if (ONLY.length && !ONLY.some(o => name.toLowerCase().includes(o))) return;
   console.log('\n=== ' + name + ' ===');
   try {
     await fn();
@@ -3756,6 +3765,10 @@ async function runFlow(browser, name, fn) {
   }
   await browser.close();
 
+  if (ONLY.length && checksRun === 0) {
+    console.log('\n--only matched no flow: ' + ONLY.join(', '));
+    process.exit(1);
+  }
   console.log('\n' + (failures === 0 ? 'All checks passed.' : failures + ' check(s) failed.'));
   process.exit(failures === 0 ? 0 : 1);
 })();
