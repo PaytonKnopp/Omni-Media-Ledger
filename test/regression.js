@@ -66,12 +66,17 @@ async function waitForBoot(page, timeout) {
 // and the check that finally reports FAIL is three steps downstream of the actual problem. That is
 // precisely how "declaring Gold upserts a row into the media_status table" failed on CI while the
 // same commit passed on the push run: a race, not a regression, reported in the wrong place.
+//
+// Goes through readWhen, which retries across a navigation, rather than a bare waitForFunction:
+// several callers ask right after an action that saves and reloads the page (onboarding's "Start
+// from the PK Sample"), and a reload landing mid-wait destroyed the context, which a bare wait
+// reported as "no card" -- the next step then clicked data-id="undefined" and timed out.
 async function firstCardId(page, timeout) {
-  const handle = await page.waitForFunction(() => {
+  const id = await readWhen(page, () => {
     const el = document.querySelector('.cardHead[data-id]');
     return el ? el.dataset.id : false;
-  }, { timeout: timeout || 15000 }).catch(() => null);
-  return handle ? handle.jsonValue() : undefined;
+  }, undefined, timeout || 15000);
+  return id || undefined;
 }
 
 // Read a value once it satisfies `predicate`, rather than sleeping a fixed interval and reading
@@ -3231,11 +3236,22 @@ async function runCompletedFlow(browser, file) {
   check('Clear all resets the completed filters',
     await page.evaluate(() => !window.state.doneOnly && !window.state.notDoneOnly && !document.getElementById('doneToggle').checked));
 
-  // Best Untried Matches: nothing already finished.
+  // Best Untried Matches: nothing already finished, owned, tiered or rated.
   await page.click('#discoverBtn');
   check('Best Untried Matches also excludes anything completed',
     await readWhen(page, (i) => window.state.notDoneOnly && !document.querySelector('#grid .cardHead[data-id="' + i + '"]'), id, 5000));
+  check('Best Untried Matches shows only unrated, unowned, untiered, unfinished works, with every box it set ticked',
+    await page.evaluate(() => {
+      const wl = JSON.parse(localStorage.getItem('omniLedgerWatchlist') || '{}');
+      const ids = Array.from(document.querySelectorAll('#grid .cardHead')).map(h => h.dataset.id);
+      return ids.length > 0 && ids.every(i => { const x = window.byId.get(i); return x && x.myRating == null && !x.owned && !x.goat && !x.silver && !x.bronze && !(wl[i] && wl[i].watched); }) &&
+        ['notOwnedToggle', 'notDoneToggle', 'unratedToggle'].every(t => document.getElementById(t).checked);
+    }));
   await page.click('#discoverBtn');
+  check('the shared "untried" test (Surprise Me\u2019s Discover pool) leaves out tiered and rated works',
+    await page.evaluate(() => window.ALL.filter(x => x.goat || x.myRating != null).every(x => !window.isUntried(x))));
+  check('turning Best Untried Matches off clears what it switched on',
+    await page.evaluate(() => !window.state.notOwnedOnly && !window.state.notDoneOnly && !window.state.unratedOnly && !document.getElementById('unratedToggle').checked));
 
   // Recommendations never hand back something already finished.
   const topRec = await page.evaluate(() => {

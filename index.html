@@ -449,9 +449,10 @@ button:focus-visible,select:focus-visible,input:focus-visible{outline:2px solid 
     always-full-width row right in the markup (#discoverBtnRow) instead of a media-query patch --
     nothing further to do for it here. */
  #filterTogglesRow{flex-direction:column;align-items:stretch;gap:.55rem}
- #ownershipToggleGroup,#ratingToggleGroup,#tierGroup{background:rgba(148,163,184,.04);border:1px solid rgba(148,163,184,.1);border-radius:10px}
- #ownershipToggleGroup,#ratingToggleGroup{justify-content:space-between;padding:10px 12px;gap:.5rem}
- #ownershipToggleGroup label,#ratingToggleGroup label{flex:1 1 0;white-space:normal}
+ /* Watched/Not yet (#doneToggleGroup) is the same kind of pair and gets the same card. */
+ #ownershipToggleGroup,#doneToggleGroup,#ratingToggleGroup,#tierGroup{background:rgba(148,163,184,.04);border:1px solid rgba(148,163,184,.1);border-radius:10px}
+ #ownershipToggleGroup,#doneToggleGroup,#ratingToggleGroup{justify-content:space-between;padding:10px 12px;gap:.5rem}
+ #ownershipToggleGroup label,#doneToggleGroup label,#ratingToggleGroup label{flex:1 1 0;white-space:normal}
  #tierGroup{padding:10px 12px}
  #discoverBtn{width:100%;text-align:center}
 
@@ -621,12 +622,14 @@ button:focus-visible,select:focus-visible,input:focus-visible{outline:2px solid 
 /* The confirmation toast after marking something completed: bottom-centred, above everything but
    modal gates, themed through the same variables as .panel so all nine themes pick it up. Slides
    in from below; pointer-events are off while hidden so it never blocks a tap underneath. */
-#appToast{position:fixed;left:50%;bottom:18px;z-index:998;display:flex;align-items:center;flex-wrap:wrap;gap:8px 12px;max-width:min(560px,calc(100vw - 24px));padding:10px 12px 10px 14px;border-radius:12px;background:var(--panel);border:1px solid rgba(56,189,248,.45);color:var(--text);font-size:12px;box-shadow:0 10px 30px rgba(0,0,0,.45);transform:translate(-50%,140%);opacity:0;pointer-events:none;transition:transform .22s ease,opacity .22s ease}
+#appToast{position:fixed;left:50%;bottom:18px;z-index:998;display:flex;align-items:center;flex-wrap:wrap;gap:8px 12px;max-width:min(560px,calc(100vw - 24px));padding:10px 40px 10px 14px;border-radius:12px;background:var(--panel);border:1px solid rgba(56,189,248,.45);color:var(--text);font-size:12px;box-shadow:0 10px 30px rgba(0,0,0,.45);transform:translate(-50%,140%);opacity:0;pointer-events:none;transition:transform .22s ease,opacity .22s ease}
 #appToast.show{transform:translate(-50%,0);opacity:1;pointer-events:auto}
 #appToast .toastMsg{flex:1 1 220px;min-width:0;line-height:1.35}
 #appToast .toastSub{display:block;color:var(--text-dim);font-size:10.5px;margin-top:1px}
 #appToast .toastActions{display:flex;align-items:center;gap:6px;flex-wrap:wrap}
-#appToast .toastClose{color:var(--text-dim);font-size:13px;padding:2px 6px}
+/* The dismiss ✕ sits in the toast's top-right corner, apart from the action buttons, on every
+   screen size; the toast reserves room on the right so text never runs underneath it. */
+#appToast .toastClose{position:absolute;top:6px;right:8px;color:var(--text-dim);font-size:13px;line-height:1;padding:6px}
 @media (prefers-reduced-motion:reduce){#appToast{transition:opacity .15s}}
 .wlItemDone{border-color:rgba(56,189,248,.28)!important}
 .doneSeg{white-space:nowrap}
@@ -863,7 +866,7 @@ body[data-theme="outer-wilds"]{--bg:#0e0a09;--panel:#181010;--panel-2:#120c0b;--
       <div class="tipCatHead">Global Controller · filtering &amp; sorting</div>
       <div class="tipCatBody">
         <div class="tipItem">🔍 <strong class="text-slate-100">Omni-Search</strong> matches on title, creator, studio, genre, vibe, and year all at once — try a director's name, a network, or just a year.</div>
-        <div class="tipItem">✓ <strong class="text-slate-100">"Watched / read / played" and "Not yet"</strong>, next to the owned toggles, filter by what you've finished — "Not yet" hides it everywhere in the results. ✨ Best Untried Matches includes "Not yet" automatically.</div>
+        <div class="tipItem">✓ <strong class="text-slate-100">"Watched / read / played" and "Not yet"</strong>, next to the owned toggles, filter by what you've finished — "Not yet" hides it everywhere in the results. ✨ Best Untried Matches switches on "Not yet" automatically, along with "Not owned" and "Unrated only", so it shows only things new to you.</div>
         <div class="tipItem">🏷️ <strong class="text-slate-100">Genre chips</strong> under the main filters let you click any genre to filter straight to it — click again to clear it.</div>
         <div class="tipItem">📌 <strong class="text-slate-100">Pin any slider you use a lot</strong> — from Advanced Filters, or the specialized index thresholds inside it — so it shows up in the always-visible "Your 5 quick filters" row up top instead of staying tucked away. Both the pinned row and Advanced Filters start in alphabetical order.</div>
         <div class="tipItem">▶ <strong class="text-slate-100">Advanced Filters &amp; Indices</strong> (collapsed by default) stacks as many specialized index thresholds as you like — dread, complexity, awe, and more — on top of the main filters.</div>
@@ -1168,7 +1171,7 @@ body[data-theme="outer-wilds"]{--bg:#0e0a09;--panel:#181010;--panel-2:#120c0b;--
       </span>
     </div>
     <div class="flex justify-center w-full mt-3 pt-3 border-t border-slate-800/70" id="discoverBtnRow">
-      <button type="button" id="discoverBtn" class="text-[11px] px-4 py-2 rounded-lg border border-amber-500/50 text-amber-300 hover:bg-amber-500/10 transition-colors font-semibold" title="Shortcut: sort by GOAT Match, show not-owned and not-yet-watched/read/played only, and exclude anything already tiered Gold/Silver/Bronze — the setup for finding new things that best match your taste">✨ Best Untried Matches</button>
+      <button type="button" id="discoverBtn" class="text-[11px] px-4 py-2 rounded-lg border border-amber-500/50 text-amber-300 hover:bg-amber-500/10 transition-colors font-semibold" title="Shortcut: sort by GOAT Match and show only what is new to you — not owned, not yet watched/read/played, not rated, and not tiered Gold/Silver/Bronze — the setup for finding new things that best match your taste">✨ Best Untried Matches</button>
     </div>
     <div class="mt-4 pt-4 border-t border-slate-800/70">
       <button type="button" id="advToggle" class="flex items-center gap-2 text-[11.5px] font-bold tracking-[.12em] uppercase transition-colors" style="color:#fbbf24" onmouseover="this.style.color='#fcd34d'" onmouseout="this.style.color='#fbbf24'">
@@ -1319,7 +1322,7 @@ body[data-theme="outer-wilds"]{--bg:#0e0a09;--panel:#181010;--panel-2:#120c0b;--
           </select>
         </div>
         <div class="flex items-center gap-1.5"><span class="fieldlbl mb-0">Pool</span>
-          <div class="seg" id="spinPool"><button type="button" data-p="all" class="on">All</button><button type="button" data-p="owned">Owned</button><button type="button" data-p="discover" title="Things you don't own and haven't watched, read or played">Discover</button><button type="button" data-p="queue" title="Only titles saved to your Watchlist's Up Next">Up Next</button></div>
+          <div class="seg" id="spinPool"><button type="button" data-p="all" class="on">All</button><button type="button" data-p="owned">Owned</button><button type="button" data-p="discover" title="Only things new to you: not owned, not watched/read/played, not rated or tiered">Discover</button><button type="button" data-p="queue" title="Only titles saved to your Watchlist's Up Next">Up Next</button></div>
         </div>
         <div class="flex items-center gap-1.5"><span class="fieldlbl mb-0 cursor-help" title="Only applies to films -- the only kind with a reliable single-sitting runtime. TV, games, and books are shown regardless of the time picked.">Time</span>
           <select id="spinTime" class="inp" style="width:auto">
