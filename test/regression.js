@@ -355,8 +355,11 @@ async function runFile(browser, file) {
     await page.click('#typeSeg [data-type="all"]');
     await page.waitForTimeout(200);
 
+    // Waits for the count rather than sleeping: with "Show: All" the search has to tear down every
+    // card already drawn, and how many that is depends on how far the chunked render got -- so a
+    // fixed 300ms passed only while rendering was slow enough that few cards existed yet.
     await page.fill('#q', 'Nolan');
-    await page.waitForTimeout(300);
+    await readWhen(page, (b) => { const t = document.getElementById('resultCount').textContent; const m = t.match(/of\s+(\d+)/); return (m ? +m[1] : +t) < b; }, baseline, 5000);
     const nolanCount = await countOf();
     check('omni-search narrows and finds results', nolanCount > 0 && nolanCount < baseline);
     await page.fill('#q', '');
@@ -607,7 +610,12 @@ async function runFile(browser, file) {
     // squeezed into one column's width while Cosmic Horror sat oddly alone) -- now they're plain
     // siblings, each a normal full-width responsive grid, with GOAT Match/Cosmic Horror folded into
     // the same idxGrid as everything else instead of sitting apart from it.
+    // A card's breakdown is built the first time it is opened (see fillCardPanels), so open the
+    // first card and close it again: the layout is then real, and the collapsed state later
+    // checks expect is left as it was.
     const detailLayoutOk = await page.evaluate(() => {
+      const head = document.querySelector('#grid .cardHead');
+      if (head) { head.click(); head.click(); }
       const detail = document.querySelector('.detail');
       if (!detail) return false;
       const fidGrid = detail.querySelector('.fidGrid');
@@ -3130,6 +3138,382 @@ async function runTabFiltersFlow(browser, file) {
   if (page2Errors.length) page2Errors.forEach(e => console.log('     ' + e));
 }
 
+// Boot a fresh page on the PK Sample, local-only, and wait until the result grid is drawn.
+async function bootSample(browser, file, viewport) {
+  const page = await browser.newPage({ viewport: viewport || { width: 1400, height: 1000 } });
+  await page.route('**/supabase-js*/**', route => route.abort());
+  const pageErrors = [];
+  page.on('pageerror', e => pageErrors.push(e.message));
+  await page.goto('file://' + path.join(ROOT, file));
+  await waitForBoot(page);
+  const gate = await page.evaluate(() => { const g = document.getElementById('onboardGate'); return !!g && !g.classList.contains('hidden'); });
+  if (gate) { await page.click('#onboardSample'); await waitForBoot(page); }
+  await firstCardId(page);
+  return { page, pageErrors };
+}
+const readWL = (page, id) => page.evaluate((i) => {
+  try { return JSON.parse(localStorage.getItem('omniLedgerWatchlist') || '{}')[i] || null; } catch (e) { return null; }
+}, id);
+
+// Completed (watched / read / played): marked from any card, filed under the Watchlist tab's
+// Completed section, filterable in the Global Controller, and kept out of every "what next" list.
+async function runCompletedFlow(browser, file) {
+  const { page, pageErrors } = await bootSample(browser, file);
+
+  // An untouched title: not on the watchlist, not owned, not tiered.
+  const id = await page.evaluate(() => {
+    const WLraw = JSON.parse(localStorage.getItem('omniLedgerWatchlist') || '{}');
+    const seg = Array.from(document.querySelectorAll('#grid .doneSeg')).find(b => {
+      const x = window.byId.get(b.dataset.id);
+      return x && !x.owned && !x.goat && !x.silver && !x.bronze && !WLraw[x.id];
+    });
+    return seg ? seg.dataset.id : null;
+  });
+  check('every result card has a Watched / Read / Played button', !!id);
+  if (!id) { await page.close(); return; }
+  const revBefore = await page.evaluate(() => window.__omniProfileRevision || 0);
+
+  await page.click('#grid .doneSeg[data-id="' + id + '"]');
+  const marked = await readWhen(page, (i) => {
+    const seg = document.querySelector('#grid .doneSeg[data-id="' + i + '"]');
+    const corner = document.querySelector('#grid .wlBtn[data-wl="' + i + '"]');
+    return seg && seg.getAttribute('aria-pressed') === 'true' && corner && corner.textContent === '✓'
+      ? { toast: !!document.querySelector('#appToast.show'), toastText: document.querySelector('#appToast').textContent } : false;
+  }, id, 5000);
+  check('marking a card completed flips its button and its corner to ✓, in place', !!marked);
+  check('marking a card completed shows a confirmation that says where it went, with Undo',
+    !!marked && marked.toast && /Completed/.test(marked.toastText) && /Undo/.test(marked.toastText));
+  const entry = await readWL(page, id);
+  check('a completion from a card is saved as a dated, log-only watchlist entry',
+    !!entry && entry.watched === true && entry.logOnly === true && typeof entry.doneAt === 'number');
+  check('marking something completed does not re-run the taste scoring pass',
+    (await page.evaluate(() => window.__omniProfileRevision || 0)) === revBefore);
+  check('the Watchlist nav count counts Up Next only, not the Completed history',
+    await page.evaluate(() => !/\(\d+\)/.test(document.getElementById('wlNavCount').textContent) || !!Object.values(JSON.parse(localStorage.getItem('omniLedgerWatchlist'))).some(e => !e.watched)));
+
+  // Undo from the toast removes a log-only entry entirely.
+  await page.click('#appToast [data-toast="undo"]');
+  check('Undo on the toast forgets a completion that was never queued', (await readWL(page, id)) === null);
+  check('after Undo the card is back to an empty heart',
+    await page.evaluate((i) => document.querySelector('#grid .wlBtn[data-wl="' + i + '"]').textContent === '♡', id));
+
+  // Queued first, then completed: undoing puts it back in Up Next rather than dropping it.
+  await page.click('#grid .wlBtn[data-wl="' + id + '"]');
+  await page.click('#grid .doneSeg[data-id="' + id + '"]');
+  const queuedDone = await readWL(page, id);
+  check('completing a queued title keeps it (not log-only) and stamps a date',
+    !!queuedDone && queuedDone.watched === true && !queuedDone.logOnly && typeof queuedDone.doneAt === 'number');
+  await page.click('#grid .wlBtn[data-wl="' + id + '"]'); // the corner now shows ✓ and undoes it
+  const backToQueue = await readWL(page, id);
+  check('undoing a completed title that was queued returns it to Up Next',
+    !!backToQueue && backToQueue.watched === false && !('doneAt' in backToQueue) &&
+    await page.evaluate((i) => document.querySelector('#grid .wlBtn[data-wl="' + i + '"]').textContent === '♥', id));
+  await page.click('#grid .doneSeg[data-id="' + id + '"]');
+
+  // Global Controller filters.
+  await page.check('#notDoneToggle');
+  check('"Not yet" hides completed titles from the results',
+    await readWhen(page, (i) => !document.querySelector('#grid .cardHead[data-id="' + i + '"]'), id, 5000));
+  await page.check('#doneToggle');
+  const doneOnly = await readWhen(page, () => {
+    const ids = Array.from(document.querySelectorAll('#grid .cardHead')).map(h => h.dataset.id);
+    const wl = JSON.parse(localStorage.getItem('omniLedgerWatchlist') || '{}');
+    return ids.length && ids.every(i => wl[i] && wl[i].watched) ? ids : false;
+  }, undefined, 5000);
+  check('"Watched / read / played" shows only completed titles', !!doneOnly && doneOnly.includes(id));
+  check('the two completed filters are mutually exclusive',
+    await page.evaluate(() => !document.getElementById('notDoneToggle').checked && window.state.doneOnly && !window.state.notDoneOnly));
+  check('the completed filter appears as a removable active-filter chip',
+    await page.evaluate(() => !!document.querySelector('#activeBar .activeChip[data-clr="done"]')));
+  const urlHasDone = await readWhen(page, () => /[?&]done=1/.test(location.search), undefined, 3000);
+  check('the completed filter is kept in the URL, so a bookmark restores it', !!urlHasDone);
+  await page.click('#activeBar #clearAllF');
+  check('Clear all resets the completed filters',
+    await page.evaluate(() => !window.state.doneOnly && !window.state.notDoneOnly && !document.getElementById('doneToggle').checked));
+
+  // Best Untried Matches: nothing already finished.
+  await page.click('#discoverBtn');
+  check('Best Untried Matches also excludes anything completed',
+    await readWhen(page, (i) => window.state.notDoneOnly && !document.querySelector('#grid .cardHead[data-id="' + i + '"]'), id, 5000));
+  await page.click('#discoverBtn');
+
+  // Recommendations never hand back something already finished.
+  const topRec = await page.evaluate(() => {
+    const rec = window.buildGeneratedRec('Movies');
+    const top = rec.items[0] && window.ALL.find(x => x.kind === 'movie' && x.title === rec.items[0].n);
+    if (!top) return null;
+    window.state.q = top.title; document.getElementById('q').value = top.title; window.refresh();
+    return { id: top.id, title: top.title };
+  });
+  let recGone = null;
+  if (topRec) {
+    await page.click('#grid .doneSeg[data-id="' + topRec.id + '"]');
+    recGone = await page.evaluate((t) => !window.buildGeneratedRec('Movies').items.some(i => i.n === t), topRec.title);
+    await page.evaluate(() => { window.state.q = ''; document.getElementById('q').value = ''; window.refresh(); });
+  }
+  check('marking the top movie recommendation completed removes it from the GOAT recommendations', recGone === true);
+
+  // Watchlist tab: Completed section, dated, date editable, sorted by completion.
+  await page.evaluate(() => window.switchView('watchlist'));
+  await page.click('#wlFilter button[data-wf="done"]');
+  const wlDone = await readWhen(page, (i) => {
+    const row = document.querySelector('#wlGrid .wlItem[data-id="' + i + '"]');
+    const input = row && row.querySelector('.wlDoneDate');
+    return row && input ? { value: input.value, label: document.querySelector('#wlFilter button[data-wf="done"]').textContent } : false;
+  }, id, 5000);
+  check('a completed title appears in the Watchlist tab’s Completed section with its date',
+    !!wlDone && /^\d{4}-\d{2}-\d{2}$/.test(wlDone.value) && /^Completed \(\d+\)$/.test(wlDone.label));
+  await page.fill('#wlGrid .wlItem[data-id="' + id + '"] .wlDoneDate', '2019-06-15');
+  await page.dispatchEvent('#wlGrid .wlItem[data-id="' + id + '"] .wlDoneDate', 'change');
+  const edited = await readWL(page, id);
+  check('the completion date can be changed for something logged after the fact',
+    !!edited && new Date(edited.doneAt).getFullYear() === 2019 && new Date(edited.doneAt).getMonth() === 5 && new Date(edited.doneAt).getDate() === 15);
+  check('Watchlist recommendations never include owned, tiered or already-saved titles',
+    await page.evaluate(() => Array.from(document.querySelectorAll('#wlRecs .wlAdd')).every(b => {
+      const x = window.byId.get(b.dataset.id);
+      return x && !x.owned && !x.goat && !x.silver && !x.bronze && x.myRating == null;
+    })));
+
+  // Survives a reload; the Timeline can show just what you have finished.
+  await page.reload();
+  await waitForBoot(page);
+  check('completed state survives a reload', !!(await readWL(page, id)) && (await readWL(page, id)).watched === true);
+  await page.evaluate(() => window.switchView('timeline'));
+  await page.click('#tlScope button[data-t="done"]');
+  check('the Timeline has a Completed scope counting finished titles',
+    await readWhen(page, () => {
+      const first = document.querySelector('#tlStats .panel');
+      return !!first && /Completed works/i.test(first.textContent) && parseInt(first.textContent, 10) > 0;
+    }, undefined, 5000));
+
+  // Phone width: the tier row, now five segments long, still fits on one line.
+  await page.setViewportSize({ width: 360, height: 800 });
+  await page.evaluate(() => window.switchView('controller'));
+  await firstCardId(page);
+  const wrapped = await page.evaluate(() => Array.from(document.querySelectorAll('#grid .tierRow')).slice(0, 20).filter(r => {
+    const tops = Array.from(r.children).map(c => Math.round(c.getBoundingClientRect().top));
+    return Math.max.apply(null, tops) - Math.min.apply(null, tops) > 4;
+  }).length);
+  check('the card tier row stays on one line on a 360px phone', wrapped === 0);
+
+  await page.close();
+  check('no uncaught page errors during the completed flow', pageErrors.length === 0);
+  if (pageErrors.length) pageErrors.forEach(e => console.log('     ' + e));
+}
+
+// Clicks got cheaper by memoizing the per-card corpus scans and building a card's hidden panels
+// only when it is opened. Both are only acceptable if nothing a person can see changed, so both
+// are held to the originals here: the lookups against the full-scan implementations they replaced,
+// across the entire corpus, before and after a profile edit.
+async function runRenderPerfFlow(browser, file) {
+  const { page, pageErrors } = await bootSample(browser, file);
+  const compare = () => page.evaluate(() => {
+    const ALL = window.ALL;
+    const tierRank = x => x.goat ? 3 : x.silver ? 2 : x.bronze ? 1 : 0;
+    const bestAnchor = c => c.length ? c.slice().sort((a, b) => (tierRank(b) - tierRank(a)) || (b.gm - a.gm))[0] : null;
+    const anchorPhrase = ex => ex.goat ? ('one of your Gold favorites, ' + esc(ex.title)) : ex.silver ? ('your Silver favorite ' + esc(ex.title)) : ex.bronze ? ('your Bronze pick ' + esc(ex.title)) : ('you own ' + esc(ex.title));
+    const sig = x => x.owned || x.goat || x.silver || x.bronze;
+    // The original implementations, verbatim in behaviour.
+    function whyRef(it) {
+      if (it.owned) return '';
+      if (it.creator) {
+        const ex = bestAnchor(ALL.filter(x => sig(x) && x.creator && x.creator === it.creator && x.id !== it.id));
+        if (ex) { const noun = it.kind === 'book' ? 'author' : (it.kind === 'game' ? 'studio' : 'director'); return 'Because ' + anchorPhrase(ex) + ' — same ' + noun + '.'; }
+      }
+      const fams = it.fam || [];
+      if (fams.length) {
+        const e1 = bestAnchor(ALL.filter(x => sig(x) && x.kind === it.kind && (x.fam || []).some(f => fams.includes(f))));
+        if (e1) { const sf = fams.find(f => (e1.fam || []).includes(f)) || fams[0]; return 'Because ' + anchorPhrase(e1) + ' — shares your taste for ' + esc(sf) + '.'; }
+        const e2 = bestAnchor(ALL.filter(x => sig(x) && (x.fam || []).some(f => fams.includes(f))));
+        if (e2) { const sf = fams.find(f => (e2.fam || []).includes(f)) || fams[0]; return 'Matches your ' + esc(sf) + ' taste (' + anchorPhrase(e2) + ').'; }
+      }
+      if (it.vibe) { const ex = bestAnchor(ALL.filter(x => sig(x) && x.vibe === it.vibe)); if (ex) return 'Same mood as ' + esc(ex.title) + ' (' + esc(it.vibe) + ').'; }
+      return '';
+    }
+    function threadRef(it) {
+      const others = ALL.filter(x => x.kind !== it.kind && x.id !== it.id);
+      if (it.creator) { const s = others.filter(x => x.creator && x.creator === it.creator).sort((a, b) => b.gm - a.gm); if (s.length) return s[0].id; }
+      const fams = it.fam || [];
+      if (fams.length) { const s = others.filter(x => (x.fam || []).some(f => fams.includes(f))); if (s.length) { s.sort((a, b) => (b.gm + b.ovr) - (a.gm + a.ovr)); return s[0].id; } }
+      if (it.vibe) { const s = others.filter(x => x.vibe === it.vibe).sort((a, b) => b.gm - a.gm); if (s.length) return s[0].id; }
+      return null;
+    }
+    function pairRef(it, n) {
+      return ALL.filter(x => x.kind !== it.kind).map(x => {
+        const shared = (it.genres || []).filter(g => (x.genres || []).indexOf(g) >= 0).length;
+        const vibeMatch = (it.vibe && x.vibe === it.vibe) ? 1 : 0;
+        return { x, shared, vibeMatch, score: shared * 10 + vibeMatch * 8 + x.gm * 0.15 };
+      }).filter(s => s.shared > 0 || s.vibeMatch).sort((a, b) => b.score - a.score).slice(0, n);
+    }
+    const fmt = a => a.map(s => s.x.id + ':' + s.shared + ':' + s.vibeMatch + ':' + s.score).join(',');
+    const bad = [];
+    ALL.forEach(it => {
+      if (whyRef(it) !== window.whyRecommended(it)) bad.push('why:' + it.id);
+      const t = window.crossThread(it);
+      if (threadRef(it) !== (t ? t.it.id : null)) bad.push('thread:' + it.id);
+      if (fmt(pairRef(it, 3)) !== fmt(window.crossMediumPairings(it, 3))) bad.push('pairs:' + it.id);
+    });
+    return { n: ALL.length, bad: bad.slice(0, 5), count: bad.length };
+  });
+  const before = await compare();
+  check('memoized card lookups match the original full-corpus scans for all ' + before.n + ' works', before.count === 0);
+  if (before.count) console.log('     ' + before.count + ' mismatches, e.g. ' + before.bad.join(' '));
+  await clickAndSettle(page, '#grid .tierSeg[data-act="silver"]');
+  await clickAndSettle(page, '#grid .tierSeg[data-act="own"]');
+  const after = await compare();
+  check('...and still match after the profile changes (the memo is invalidated)', after.count === 0);
+  if (after.count) console.log('     ' + after.count + ' mismatches, e.g. ' + after.bad.join(' '));
+
+  const lazy = await page.evaluate(() => {
+    const card = document.querySelector('#grid .panel');
+    const shells = card.querySelectorAll('.summaryFace[data-lazy], .detail[data-lazy]').length;
+    const emptyBefore = !card.querySelector('.detail').children.length;
+    card.querySelector('.cardHead').click();
+    const detail = card.querySelector('.detail');
+    const filled = !card.querySelector('[data-lazy]') && !!detail.querySelector('.fidGrid') && !detail.classList.contains('hidden');
+    card.querySelector('.cardHead').click();
+    card.querySelector('.cardHead').click();
+    return { shells, emptyBefore, filled, reopened: !card.querySelector('.detail').classList.contains('hidden') };
+  });
+  check('a collapsed card carries empty panel shells, not its hidden summary and breakdown',
+    lazy.shells === 2 && lazy.emptyBefore);
+  check('opening a card builds its summary and breakdown, and re-opening keeps them', lazy.filled && lazy.reopened);
+
+  await page.close();
+  check('no uncaught page errors during the render-performance pass', pageErrors.length === 0);
+  if (pageErrors.length) pageErrors.forEach(e => console.log('     ' + e));
+}
+
+// Offline support. Three layers, each checked on its own terms:
+//   1. sw.js's precache list is exactly what index.html loads (a file added to the page but not
+//      the list opens offline into a broken app -- nothing else would catch that).
+//   2. Served over http, the service worker installs, and a reload with the network cut still boots.
+//   3. With cloud accounts on (mocked), an edit made offline is kept, not reported as a failure,
+//      survives an offline reload without waiting on the cloud, and uploads when the connection
+//      returns.
+async function runOfflineFlow(browser, file) {
+  const html = fs.readFileSync(path.join(ROOT, file), 'utf8');
+  const sw = fs.readFileSync(path.join(ROOT, 'sw.js'), 'utf8');
+  const listOf = (name) => {
+    const m = sw.match(new RegExp('const ' + name + ' = \\[([\\s\\S]*?)\\];'));
+    return m ? (m[1].match(/'[^']+'/g) || []).map(s => s.slice(1, -1)) : [];
+  };
+  const precache = listOf('PRECACHE'), cdn = listOf('CDN_SCRIPTS');
+  const refs = Array.from(html.matchAll(/(?:src|href)="([^"#]+)"/g)).map(m => m[1]);
+  const local = refs.filter(r => !/^https?:/.test(r)), remote = refs.filter(r => /^https?:/.test(r));
+  const missing = local.filter(r => !precache.includes(r));
+  check('sw.js precaches every local file index.html loads', precache.length > 0 && missing.length === 0);
+  if (missing.length) console.log('     not precached: ' + missing.join(', '));
+  const absent = precache.filter(r => r !== './' && !fs.existsSync(path.join(ROOT, r)));
+  check('every file sw.js precaches exists', absent.length === 0);
+  if (absent.length) console.log('     missing on disk: ' + absent.join(', '));
+  check('sw.js caches exactly the CDN scripts index.html loads',
+    remote.length === cdn.length && remote.every(r => cdn.includes(r)));
+  check('the service worker is only registered for http(s) pages, never file://',
+    /serviceWorker\.register\('sw\.js'\)/.test(html) && /\^https\?:\$/.test(html));
+
+  // 2. A real service worker, over http.
+  const http = require('http');
+  const TYPES = { '.html': 'text/html', '.js': 'text/javascript', '.png': 'image/png', '.webmanifest': 'application/manifest+json' };
+  const server = http.createServer((req, res) => {
+    let u = decodeURIComponent(req.url.split('?')[0]);
+    if (u.endsWith('/')) u += 'index.html';
+    const f = path.join(ROOT, u);
+    if (!f.startsWith(ROOT) || !fs.existsSync(f) || fs.statSync(f).isDirectory()) { res.writeHead(404); res.end(); return; }
+    res.writeHead(200, { 'content-type': TYPES[path.extname(f)] || 'application/octet-stream' });
+    fs.createReadStream(f).pipe(res);
+  });
+  await new Promise(r => server.listen(0, '127.0.0.1', r));
+  const base = 'http://127.0.0.1:' + server.address().port + '/';
+  const ctx = await browser.newContext({ viewport: { width: 1200, height: 900 } });
+  try {
+    await ctx.route('**/supabase-js*/**', route => route.abort());
+    await ctx.route('**/cdnjs.cloudflare.com/**', route => route.abort());
+    const page = await ctx.newPage();
+    const pageErrors = [];
+    page.on('pageerror', e => pageErrors.push(e.message));
+    await page.goto(base + (file === 'index.html' ? '' : file));
+    await waitForBoot(page);
+    const gate = await page.evaluate(() => { const g = document.getElementById('onboardGate'); return !!g && !g.classList.contains('hidden'); });
+    if (gate) { await page.click('#onboardSample'); await waitForBoot(page); }
+    await firstCardId(page);
+    const active = await page.evaluate(() => Promise.race([
+      navigator.serviceWorker.ready.then(r => !!r.active),
+      new Promise(r => setTimeout(() => r(false), 20000))]));
+    check('served over http, the service worker installs and activates', active);
+    await ctx.setOffline(true);
+    await page.reload();
+    await waitForBoot(page);
+    const cards = await firstCardId(page);
+    check('with the network cut, a reload still opens the app with its results', !!cards);
+    await page.goto(base + 'index.html?view=watchlist');
+    await waitForBoot(page);
+    check('offline, a link carrying filters in its URL opens from the same saved page',
+      await page.evaluate(() => !!window.ALL && window.state.view === 'watchlist'));
+    await ctx.setOffline(false);
+    check('no uncaught page errors during the offline (service worker) pass', pageErrors.length === 0);
+    if (pageErrors.length) pageErrors.forEach(e => console.log('     ' + e));
+  } finally {
+    await ctx.close();
+    server.close();
+  }
+
+  // 3. Cloud accounts while offline (mocked Supabase, as in runAccountFlow).
+  const patched = html.replace(/var SUPABASE_CONFIG=\{[^}]*\};/, 'var SUPABASE_CONFIG={url:"https://dummy.supabase.co",anonKey:"dummy-anon-key"};');
+  const tmpPath = path.join(ROOT, '_test_offline_' + file);
+  fs.writeFileSync(tmpPath, patched);
+  const ctx2 = await browser.newContext({ viewport: { width: 1200, height: 900 } });
+  try {
+    const page = await ctx2.newPage();
+    const pageErrors = [];
+    page.on('pageerror', e => pageErrors.push(e.message));
+    await page.route('**/supabase-js*/**', route => route.fulfill({ contentType: 'application/javascript', body: '' }));
+    await page.addInitScript(MOCK_SUPABASE_SDK);
+    await page.goto('file://' + tmpPath);
+    await waitForBoot(page);
+    await signInAndSettle(page, 'OfflineUser', '#onboardSample');
+    await firstCardId(page);
+    await readWhen(page, () => localStorage.getItem('omniLedgerPendingSync') !== '1', undefined, 15000);
+
+    await ctx2.setOffline(true);
+    const id = await page.evaluate(() => document.querySelector('#grid .doneSeg').dataset.id);
+    const uploadsBefore = await page.evaluate(() => window.__mockTables ? JSON.stringify(window.__mockTables.profiles.offlineuser || null).length : -1);
+    await page.click('#grid .doneSeg[data-id="' + id + '"]');
+    const offlineState = await readWhen(page, () => {
+      const st = document.getElementById('acctMenuStatus');
+      return !!st && /Offline/.test(st.textContent);
+    }, undefined, 8000);
+    check('an edit made offline reports "saved on this device", not a sync failure', !!offlineState);
+    check('an edit made offline stays marked as not yet uploaded',
+      await page.evaluate(() => localStorage.getItem('omniLedgerPendingSync') === '1'));
+    check('nothing is uploaded while offline',
+      (await page.evaluate(() => window.__mockTables ? JSON.stringify(window.__mockTables.profiles.offlineuser || null).length : -1)) === uploadsBefore);
+
+    const t0 = Date.now();
+    await page.reload();
+    await waitForBoot(page);
+    const bootMs = Date.now() - t0;
+    check('offline, a signed-in account reopens from this device without waiting on the cloud', await page.evaluate(() => !!window.ALL));
+    check('...and still has the edit made offline',
+      await page.evaluate((i) => { const w = JSON.parse(localStorage.getItem('omniLedgerWatchlist') || '{}'); return !!(w[i] && w[i].watched); }, id));
+    if (bootMs > 12000) console.log('     (offline reboot took ' + bootMs + 'ms)');
+
+    await ctx2.setOffline(false);
+    const uploaded = await readWhen(page, (i) => {
+      const row = window.__mockTables && window.__mockTables.profiles.offlineuser;
+      if (!row) return false;
+      const data = row.data || row;
+      try { const w = JSON.parse(data.omniLedgerWatchlist || '{}'); return !!(w[i] && w[i].watched) && localStorage.getItem('omniLedgerPendingSync') !== '1'; } catch (e) { return false; }
+    }, id, 20000);
+    check('coming back online uploads the edit made offline, without another edit or a reload', !!uploaded);
+    check('no uncaught page errors during the offline (cloud) pass', pageErrors.length === 0);
+    if (pageErrors.length) pageErrors.forEach(e => console.log('     ' + e));
+  } finally {
+    await ctx2.close();
+    try { fs.unlinkSync(tmpPath); } catch (e) { /* already gone */ }
+  }
+}
+
 (async () => {
   const executablePath = findChromium();
   const browser = await chromium.launch(executablePath ? { executablePath } : {});
@@ -3151,6 +3535,12 @@ async function runTabFiltersFlow(browser, file) {
     await runRatingFlow(browser, t);
     console.log('\n=== ' + t + ' — tab filters, search/sort, URL bookmarking ===');
     await runTabFiltersFlow(browser, t);
+    console.log('\n=== ' + t + ' — completed (watched / read / played) ===');
+    await runCompletedFlow(browser, t);
+    console.log('\n=== ' + t + ' — render performance (memoized lookups, lazy card panels) ===');
+    await runRenderPerfFlow(browser, t);
+    console.log('\n=== ' + t + ' — offline (service worker, cloud sync while offline) ===');
+    await runOfflineFlow(browser, t);
   }
   await browser.close();
 

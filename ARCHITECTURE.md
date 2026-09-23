@@ -25,7 +25,8 @@ app/creators.js      VIEW 5 · Pan-Creator Archives (worksFor/creatorCard/sortCr
                       renderCreators) -- takes state/ALL/$/$$ as parameters
 data/*.js            Reference data (corpus, creator pantheons, contenders)
 supabase/schema.sql  The database: tables, row-level security, grants
-test/regression.js   Playwright suite, ~130 checks
+sw.js                Offline support for the hosted copy (service worker) -- see "Offline"
+test/regression.js   Playwright suite, ~280 checks
 scripts/             Corpus integrity checker
 ```
 
@@ -79,6 +80,28 @@ persisted, which is why changing the scoring engine needs no migration.
 the jsonb blob is ever empty or damaged, `rebuildProfileFromMediaStatus()` reconstructs the account
 from those rows rather than treating it as new.
 
+### The watchlist, and what you have completed
+
+`omniLedgerWatchlist` holds both halves of the Watchlist tab, one entry per title:
+
+```
+{ watched: false, added: <ms> }                                 Up Next (saved with the ♡)
+{ watched: true,  added: <ms>, doneAt: <ms> }                   Completed, after being in Up Next
+{ watched: true,  added: <ms>, doneAt: <ms>, logOnly: true }    Completed straight from a card
+```
+
+`logOnly` is what makes undo behave: undoing a completion that was never queued deletes the entry,
+while undoing one that was queued puts it back in Up Next. `doneAt` is editable from the Watchlist
+tab and absent on entries completed before it existed. `wlSetDone()` is the one writer.
+
+Completion is deliberately **not** part of `PERSONAL_PROFILE`: it is a record of what you did, not a
+taste signal, so it never re-runs the scoring pass — a ✓ click redraws only that title's corner and
+tier-row button (`refreshDoneUI`) plus whatever list is filtered by it. It still shapes what the app
+*suggests*: generated recommendations, blind spots, Surprise Me's Discover pool, Best Untried
+Matches and the Watchlist's own "Recommended next" all skip completed titles. It is not mirrored
+into `media_status`, so `rebuildProfileFromMediaStatus()` cannot restore it; the jsonb snapshot and
+Export both carry it.
+
 ## How GOAT Match is computed
 
 One re-runnable pass, `recomputeTasteScores()`, rebuilt from scratch every time the profile changes
@@ -111,6 +134,45 @@ One re-runnable pass, `recomputeTasteScores()`, rebuilt from scratch every time 
 Nothing here is persisted, and every field is reset at the top of the pass, so running it twice
 produces the same result as a fresh boot.
 
+## What keeps a click fast
+
+A tier, owned or rating click re-runs the whole scoring pass in place (`mutateProfile` →
+`recomputeProfileDerived`), then redraws only what it has to. Three things keep that at ~140ms on a
+5,000-title corpus:
+
+- **Only the cards that can have changed are rebuilt** (`patchControllerGrid`, with
+  `expandChangedIds` widening the set along the two ways one card reads others). The regression
+  suite asserts the patched grid is byte-identical to a full redraw.
+- **A card's hidden panels are built on first open.** The summary and the full breakdown are ~3/4
+  of a card's HTML; `cardHTML` emits empty `[data-lazy]` shells and `fillCardPanels` (called from
+  `setCardExpanded`) builds them when the card is opened. Anything that needs a panel's contents
+  must open the card first, which is also the only way a person can see them.
+- **Per-card corpus lookups are memoized per scoring pass.** `whyRecommended`, `crossThread` and
+  `crossMediumPairings` used to filter and sort the whole corpus for every card drawn.
+  `derivedLookups()` builds the shared pools and sort orders once, keyed on `_derivEpoch`, which
+  `applyOwnershipFromProfile` and `recomputeTasteScores` bump. Anything new that changes
+  owned/tier flags or `gm` must go through one of those two, or bump the epoch itself. The results
+  are identical to the old full scans (stable sort commutes with filter), and the suite checks that
+  against the original implementations for every title.
+
+## Offline
+
+Two layers, independent of each other.
+
+**The app files** (`sw.js`, registered from `index.html` for http(s) pages only — a `file://` copy
+never runs a service worker and needs none). Same-origin requests are network-first: online you
+always get the current deploy and the offline copy is refreshed from it, so there is no cache
+version to bump and no way to run new HTML against old scripts. If the network fails, or has not
+answered in 4s, the saved copy is served. The two CDN scripts are pinned to exact versions and
+served cache-first. Supabase API calls are never intercepted. Everything is precached at install,
+so one online visit is enough.
+
+**Your data** (`account-sync` in `index.html`). Offline, `runScheduledSync` does not try: the edit
+is already in `localStorage` and marked pending, which is what stops any later boot from pulling
+the cloud copy over it, and the account menu reads "Offline" rather than reporting a failure. An
+`online` listener sends it the moment the connection returns. Booting offline with a remembered
+handle skips the profile fetch (and its retry) and opens from this device's copy directly.
+
 ## Saving, and why it is defensive
 
 Saving is the part of this codebase with the most hard-won logic. The short version:
@@ -137,8 +199,13 @@ standing between a bulk import and quietly worse recommendations.
 **Adding a screen** — add a `<section data-sec="...">` in `index.html`, a nav button, and a render
 function in `app/ledger-app.js` wired into `switchView()`.
 
-**Adding a synced setting** — add the key to `TRACKED` in `index.html` *and* to the `allowed` list
-in `supabase/schema.sql`, then re-run the schema. Keys the schema does not recognise are stripped.
+**Adding a synced setting** — add the key to `TRACKED` in `index.html`. (The schema used to keep an
+allow-list of keys too; it no longer filters the payload at all — see the comment in
+`validate_omni_profile_data` for why.)
+
+**Adding a file the page loads** — add the `<script src>` / `<link href>` to `index.html` *and* the
+path to `PRECACHE` in `sw.js`, or the hosted app opens offline without it. The suite fails if the
+two lists disagree.
 
 **Changing the database** — `supabase/schema.sql` is idempotent; re-run the whole file. The
 Supabase SQL Editor runs it as one transaction, so a single failing statement rolls back
@@ -289,7 +356,7 @@ the run and takes every later check with it, so one flaky assertion hides the wh
   problem. The first thing to feel it will be the Visualization Suite.
 - Two server-side caps sit above the corpus rather than scaling with it: `profiles.data` is limited
   to ~200KB (the sample profile is ~6KB, roughly 46 bytes per tiered or owned title, so ~4,000
-  titles), and `media_status` is capped at 50,000 rows per handle. Both are backstops against a
+  titles; each completed title adds ~70 bytes to the watchlist key in the same row), and `media_status` is capped at 50,000 rows per handle. Both are backstops against a
   runaway client, not product limits — raise them before they bind.
 - Handles are names, not verified identities. There is no auth — anyone can sign in as any handle.
   This is an intentional trust model for a small friend group, not an oversight, but it is the

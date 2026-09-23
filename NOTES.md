@@ -1683,6 +1683,52 @@ disclosures needed.
 
 ---
 
+## Phase 46 — Completed (watched / read / played) from any card, offline support, faster clicks
+
+**Completed tracking.** The Watchlist already had a per-entry `watched` flag ("Mark completed"),
+but only for titles saved to it first, and nothing else in the app read it. It is now a first-class
+state:
+
+- Every card's tier row has a labelled "✓ Watched" / "✓ Read" / "✓ Played" button, and the card's
+  corner icon becomes a ✓ (♡ nothing, ♥ Up Next, ✓ completed). One tap files the title under the
+  Watchlist tab's Completed section with a date, and a toast says so, with Undo / Rate it / View.
+- Data stays in `omniLedgerWatchlist` (already synced, exported, imported), extended with `doneAt`
+  and `logOnly` — see ARCHITECTURE.md "The watchlist, and what you have completed". No schema
+  change was needed; the profiles trigger no longer filters keys.
+- Deliberately not routed through `mutateProfile`: completion is not a taste signal, so it does not
+  re-run the scoring pass. It does feed every "what next" surface — GOAT recommendations, blind
+  spots, Surprise Me Discover, Best Untried Matches, and the Watchlist's own recommendations.
+- The Watchlist's "Recommended next" column turned out to be recommending the sample profile's own
+  Gold favorites (a Gold pick pins a 100 match, and the column only excluded already-saved titles).
+  It now skips owned, tiered and rated titles too, like every other recommendation surface.
+- Global Controller filters "✓ Watched / read / played" and "○ Not yet" (URL params `done` /
+  `notdone`), a Timeline "Completed" scope, a Surprise Me "Up Next" pool, an editable completion
+  date, a "Done in <year>" stat and a "Recently completed" sort. The nav badge counts Up Next only.
+- Fitting a fifth labelled segment into the tier row pushed "Rate" onto its own line on phones and
+  on the two-column tablet layout. Fixed with a container query on the card (not the viewport — the
+  tablet case is a narrow card on a wide screen), compacting in stages down to a 320px phone.
+
+**Faster clicks (the old "stop reloading on every click" suggestion).** That suggestion was made in
+error: clicks already re-render in place (`mutateProfile`, see its comments); the only `location.reload`
+left is for whole-profile replacement (onboarding, import, reset, account switch). A click was
+still ~330ms, though, and a CPU profile showed why: `whyRecommended`, `crossThread` and
+`crossMediumPairings` each filtered and sorted all ~5,000 works for every one of ~100 cards.
+Memoizing those per scoring pass (`derivedLookups`, keyed on `_derivEpoch`) and building each
+card's hidden summary/breakdown only when it is opened (~77% of a card's HTML) brought a click to
+~140ms median and a reload from ~2.0s to ~1.2s (same machine, same profile, 24 clicks each). The
+memoized functions are checked against the original full-scan implementations for every title in
+the suite, before and after a profile edit.
+
+**Offline.** `sw.js` — network-first for the app's own files (so a deploy is never masked by a
+stale cache and there is no version to bump), cache-first for the two version-pinned CDN scripts,
+Supabase API untouched. The Supabase client is precached on purpose: without it an offline boot
+fell back to local-only mode, where edits are not marked pending, so the next online boot could
+hydrate the cloud copy over them. `account-sync` now skips sync attempts while `navigator.onLine`
+is false (no red "NOT saved" for what is not an error, no burned retry backoff), uploads on the
+`online` event, and boots a remembered handle straight from local when offline instead of waiting
+out a fetch and its retry. The suite serves the app over http to test the service worker for real,
+and drives the cloud path offline and back against the mocked Supabase.
+
 ## Ideas / next steps
 
 Roughly in order of value:

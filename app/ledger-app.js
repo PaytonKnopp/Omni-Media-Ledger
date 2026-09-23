@@ -131,6 +131,11 @@ let OWNED_MEDIA=PERSONAL_PROFILE.ownedMedia||{};
    the corpus baseline each time so it is safe to call again after the profile changes (marking
    something owned, setting an edition, importing a profile). Format normalization runs at the end
    of the same pass, so a profile written in an older vocabulary is canonicalized here too. */
+// Bumped every time owned flags or match scores are re-derived (here and at the end of
+// recomputeTasteScores), so anything memoized from them -- see derivedLookups() -- knows it is
+// stale. A `var`, not a `let`: applyOwnershipFromProfile runs immediately below, before any later
+// declaration would have left its temporal dead zone.
+var _derivEpoch=0;
 function applyOwnershipFromProfile(){
  OWNED_MEDIA=PERSONAL_PROFILE.ownedMedia||{};
  OWNED_BOOKS_EXTRA=PERSONAL_PROFILE.ownedBooksExtra||{};
@@ -146,6 +151,7 @@ function applyOwnershipFromProfile(){
   if(OWNED_MEDIA[x.id]){x.owned=true;x.physFormat=OWNED_MEDIA[x.id];}
   x.physFormat=normPhysFormat(x.kind,x.physFormat);
  });
+ _derivEpoch++;
 }
 applyOwnershipFromProfile();
 let WL={};
@@ -161,11 +167,37 @@ function wlSave(){
 }
 function wlHas(id){return !!WL[id];}
 function wlToggle(id){if(WL[id])delete WL[id];else WL[id]={watched:false,added:Date.now()};wlSave();}
-function wlSetWatched(id,v){if(WL[id]){WL[id].watched=v;wlSave();}}
-function wlCount(){return Object.keys(WL).length;}
+/* Completed -- watched, read or played -- lives on the watchlist entry, where it always did (the
+   Watchlist tab's "Mark completed"). What changed is that it no longer needs the title to have been
+   saved first: marking something done from any card creates an entry already in the Completed
+   section, flagged `logOnly` so undoing it removes the entry again instead of leaving behind an
+   "Up Next" item the person never asked for. Undoing a title that WAS queued first puts it back
+   in Up Next. `doneAt` (epoch ms) is when it was finished -- stamped on completion, editable from
+   the Watchlist tab; entries completed before it existed simply have none.
+
+   Kept in omniLedgerWatchlist rather than the profile on purpose: that key already syncs, exports
+   and imports as-is, and completion is a record of what you have done, not a taste signal, so it
+   has no business re-running the scoring pass. */
+function wlDone(id){const e=WL[id];return !!(e&&e.watched);}
+function wlSetDone(id,v){
+ const e=WL[id];
+ if(v){
+  if(!e)WL[id]={watched:true,added:Date.now(),doneAt:Date.now(),logOnly:true};
+  else if(!e.watched){e.watched=true;e.doneAt=Date.now();}
+  else return;
+ }else{
+  if(!e||!e.watched)return;
+  if(e.logOnly)delete WL[id];
+  else{e.watched=false;delete e.doneAt;}
+ }
+ wlSave();
+}
+function wlSetDoneDate(id,ms){const e=WL[id];if(!e||!e.watched)return;if(ms)e.doneAt=ms;else delete e.doneAt;wlSave();}
+const DONE_VERB={movie:'Watched',tv:'Watched',game:'Played',book:'Read'};
+function doneVerb(it){return DONE_VERB[it&&it.kind]||'Completed';}
 
 /* ===================== STATE & HELPERS ===================== */
-const state={view:'controller',q:'',type:'all',struct:'all',plats:[],minGoat:0,minMyRating:0,ratedOnly:false,unratedOnly:false,genres:[],genresExclude:[],ownedOnly:false,notOwnedOnly:false,limit:100,idx:{snd:0,ref:0,ch:0,emo:0,awe:0,cozy:0,perf:0,icon:0,scary:0,real:0,reality:0,shock:0,sci:0,funny:0,hist:0,vibe2:0,crit:0,aud:0,tech:0,dread:0,myst:0,warmth:0,comedy:0,beauty:0,runtime:0},ratings:[],tierFilter:[],tierFilterExclude:[],yearMin:null,yearMax:null,combine:false,sort:'overall',w:{tech:0.85,dread:0.95,myst:0.90},creatorTab:'directors',creatorSearch:'',creatorLedgerOnly:false,creatorOwnedOnly:false,goatType:'all',goatTierFilter:'all',goatSort:'match',goatDeclaredQ:'',portraitScope:'all',collSearchQ:'',collSort:'az',wlType:'all',wlSort:'added',wlSearchQ:'',creatorSearchScope:'all',creatorSort:'works'};
+const state={view:'controller',q:'',type:'all',struct:'all',plats:[],minGoat:0,minMyRating:0,ratedOnly:false,unratedOnly:false,genres:[],genresExclude:[],ownedOnly:false,notOwnedOnly:false,doneOnly:false,notDoneOnly:false,limit:100,idx:{snd:0,ref:0,ch:0,emo:0,awe:0,cozy:0,perf:0,icon:0,scary:0,real:0,reality:0,shock:0,sci:0,funny:0,hist:0,vibe2:0,crit:0,aud:0,tech:0,dread:0,myst:0,warmth:0,comedy:0,beauty:0,runtime:0},ratings:[],tierFilter:[],tierFilterExclude:[],yearMin:null,yearMax:null,combine:false,sort:'overall',w:{tech:0.85,dread:0.95,myst:0.90},creatorTab:'directors',creatorSearch:'',creatorLedgerOnly:false,creatorOwnedOnly:false,goatType:'all',goatTierFilter:'all',goatSort:'match',goatDeclaredQ:'',portraitScope:'all',collSearchQ:'',collSort:'az',wlType:'all',wlSort:'added',wlSearchQ:'',creatorSearchScope:'all',creatorSort:'works'};
 const $=s=>document.querySelector(s),$$=s=>Array.from(document.querySelectorAll(s));
 const on=(sel,ev,fn)=>{const el=$(sel);if(el)el.addEventListener(ev,fn);else console.warn('missing element:',sel);};
 // esc/themeColor(+THEME_PALETTE) live in app/cards.js (pure, closure-independent) now.
@@ -229,6 +261,8 @@ function filteredSkipping(skip){const q=state.q.trim().toLowerCase();
   if((!skip||!skip.has('rating'))&&state.ratings.length&&!state.ratings.includes(it.rating))return false;
   if(state.ownedOnly&&!it.owned)return false;
   if(state.notOwnedOnly&&it.owned)return false;
+  if(state.doneOnly&&!wlDone(it.id))return false;
+  if(state.notDoneOnly&&wlDone(it.id))return false;
   if(!skip||!skip.has('tier')){
    if(state.tierFilter.length&&!state.tierFilter.some(t=>(t==='gold'&&it.goat)||(t==='silver'&&it.silver)||(t==='bronze'&&it.bronze)))return false;
    if(state.tierFilterExclude.length&&state.tierFilterExclude.some(t=>(t==='gold'&&it.goat)||(t==='silver'&&it.silver)||(t==='bronze'&&it.bronze)))return false;
@@ -269,13 +303,47 @@ function bestAnchor(candidates){
 function anchorPhrase(ex){
  return ex.goat?('one of your Gold favorites, '+esc(ex.title)):ex.silver?('your Silver favorite '+esc(ex.title)):ex.bronze?('your Bronze pick '+esc(ex.title)):('you own '+esc(ex.title));
 }
+/* Per-card corpus lookups, memoized per scoring pass.
+
+   whyRecommended and crossThread run for every card drawn, and each used to filter and sort the
+   whole corpus from scratch -- at ~5,000 works and 100 cards that was most of what a tier click
+   cost (a profile of the click path put these scans at well over half of it). Everything they rank
+   by (owned/tier flags, gm, ovr) only changes when _derivEpoch does, so the pools and sort orders
+   are built once per pass and shared by every card.
+
+   The answers are identical, not approximately so: Array.prototype.sort is stable, and a stable
+   sort commutes with a filter (sorting then filtering keeps the same relative order as filtering
+   then sorting), so "first match in the pre-sorted list" is exactly "first element after filter +
+   sort". The regression suite checks this against the original implementations across the corpus. */
+var _lookupEpoch=-1,_lookups=null;
+function derivedLookups(){
+ if(_lookupEpoch!==_derivEpoch||!_lookups){
+  _lookupEpoch=_derivEpoch;
+  const byGm=ALL.slice().sort((a,b)=>b.gm-a.gm);
+  // The same gm order, split by creator and by vibe, so a lookup for either walks only the works
+  // that share it instead of the whole corpus (most creators have no work in another medium, and
+  // the old scan paid for all ~5,000 entries to find that out).
+  const byCreator=new Map(),byVibe=new Map();
+  byGm.forEach(x=>{
+   if(x.creator){let a=byCreator.get(x.creator);if(!a)byCreator.set(x.creator,a=[]);a.push(x);}
+   if(x.vibe){let a=byVibe.get(x.vibe);if(!a)byVibe.set(x.vibe,a=[]);a.push(x);}
+  });
+  _lookups={
+   signal:ALL.filter(x=>x.owned||x.goat||x.silver||x.bronze),
+   byGm:byGm,byCreator:byCreator,byVibe:byVibe,
+   byGmOvr:ALL.slice().sort((a,b)=>(b.gm+b.ovr)-(a.gm+a.ovr))
+  };
+ }
+ return _lookups;
+}
 function whyRecommended(it){
  // Only meaningful for unowned discoveries.
  if(it.owned) return '';
+ const signal=derivedLookups().signal;
  // (a) Same creator as a taste signal (strongest): Gold/Silver/Bronze favorites first, owned items
  // as a fallback signal, all considered together and ranked by tier.
  if(it.creator){
-  const sameCreator=ALL.filter(x=>(x.owned||x.goat||x.silver||x.bronze)&&x.creator&&x.creator===it.creator&&x.id!==it.id);
+  const sameCreator=signal.filter(x=>x.creator&&x.creator===it.creator&&x.id!==it.id);
   const ex=bestAnchor(sameCreator);
   if(ex){
    const noun=it.kind==='book'?'author':(it.kind==='game'?'studio':'director');
@@ -285,14 +353,14 @@ function whyRecommended(it){
  // (b) Shared genre-family with a taste signal (tiered favorites ranked above merely-owned).
  const fams=(it.fam||[]);
  if(fams.length){
-  const sameKind=ALL.filter(x=>(x.owned||x.goat||x.silver||x.bronze)&&x.kind===it.kind&&(x.fam||[]).some(f=>fams.includes(f)));
+  const sameKind=signal.filter(x=>x.kind===it.kind&&(x.fam||[]).some(f=>fams.includes(f)));
   const exSame=bestAnchor(sameKind);
   if(exSame){
    const sharedFam=fams.find(f=>(exSame.fam||[]).includes(f))||fams[0];
    return 'Because '+anchorPhrase(exSame)+' \u2014 shares your taste for '+esc(sharedFam)+'.';
   }
   // cross-medium fallback: same family, any medium
-  const anyKind=ALL.filter(x=>(x.owned||x.goat||x.silver||x.bronze)&&(x.fam||[]).some(f=>fams.includes(f)));
+  const anyKind=signal.filter(x=>(x.fam||[]).some(f=>fams.includes(f)));
   const exAny=bestAnchor(anyKind);
   if(exAny){
    const sharedFam=fams.find(f=>(exAny.fam||[]).includes(f))||fams[0];
@@ -301,7 +369,7 @@ function whyRecommended(it){
  }
  // (c) Shared vibe with a taste signal.
  if(it.vibe){
-  const sameVibe=ALL.filter(x=>(x.owned||x.goat||x.silver||x.bronze)&&x.vibe===it.vibe);
+  const sameVibe=signal.filter(x=>x.vibe===it.vibe);
   const ex=bestAnchor(sameVibe);
   if(ex){
    return 'Same mood as '+esc(ex.title)+' ('+esc(it.vibe)+').';
@@ -336,28 +404,27 @@ function suggestedFormat(it){
 }
 function crossThread(it){
  // Finds the strongest companion in a DIFFERENT medium: shared creator > shared family+high match > shared vibe.
- var others=ALL.filter(x=>x.kind!==it.kind&&x.id!==it.id);
- var kindWord={movie:'film',tv:'series',game:'game',book:'book'};
+ // Each step takes the first qualifying work from a pre-sorted corpus order (see derivedLookups).
+ const L=derivedLookups();
+ const other=x=>x.kind!==it.kind&&x.id!==it.id;
  // (a) same creator across media (rare but powerful, e.g. author who also directs)
  if(it.creator){
-  var sameC=others.filter(x=>x.creator&&x.creator===it.creator).sort((a,b)=>b.gm-a.gm);
-  if(sameC.length){var e=sameC[0];return {it:e,reason:'also by '+esc(it.creator)};}
+  var e=(L.byCreator.get(it.creator)||[]).find(other);
+  if(e)return {it:e,reason:'also by '+esc(it.creator)};
  }
- // (b) shared genre-family, strongest taste match
+ // (b) shared genre-family, strongest taste match -- prefer a canonical/high-match companion
  var fams=(it.fam||[]);
  if(fams.length){
-  var shared=others.filter(x=>(x.fam||[]).some(f=>fams.includes(f)));
-  if(shared.length){
-   // prefer a canonical/high-match companion
-   shared.sort((a,b)=>(b.gm+b.ovr)-(a.gm+a.ovr));
-   var companion=shared[0];var fam=fams.find(f=>(companion.fam||[]).includes(f))||fams[0];
+  var companion=L.byGmOvr.find(x=>other(x)&&(x.fam||[]).some(f=>fams.includes(f)));
+  if(companion){
+   var fam=fams.find(f=>(companion.fam||[]).includes(f))||fams[0];
    return {it:companion,reason:'shares your '+esc(fam)+' thread'};
   }
  }
  // (c) shared vibe
  if(it.vibe){
-  var sv=others.filter(x=>x.vibe===it.vibe).sort((a,b)=>b.gm-a.gm);
-  if(sv.length)return {it:sv[0],reason:'same mood ('+esc(it.vibe)+')'};
+  var sv=(L.byVibe.get(it.vibe)||[]).find(other);
+  if(sv)return {it:sv,reason:'same mood ('+esc(it.vibe)+')'};
  }
  return null;
 }
@@ -548,9 +615,9 @@ function tierRowHTML(it,roomy){
  // with strong inherent color (varies a lot across platforms/fonts) that could otherwise make an
  // active vs. inactive button harder to tell apart at a glance.
  function seg(act,emoji,name,label,active,color,showName){
-  return '<button type="button" class="profEditBtn tierSeg'+(roomy?' tierSegRoomy':'')+'" data-act="'+act+'" data-id="'+it.id+'"'+(act==='own'?' data-kind="'+it.kind+'"':'')+' title="'+label+(active?' — click to remove':'')+'"'
+  return '<button type="button" class="profEditBtn tierSeg'+(roomy?' tierSegRoomy':'')+'" data-act="'+act+'" data-id="'+it.id+'"'+(act==='own'?' data-kind="'+it.kind+'"':'')+(showName?' aria-label="'+name+'"':'')+' title="'+label+(active?' — click to remove':'')+'"'
    +(active?' style="background:'+color+';border-color:'+color+';color:#0B0F19"':' style="color:'+color+';border-color:transparent"')+'>'
-   +emoji+(showName?' '+name:'')+'</button>';
+   +emoji+(showName?' <span class="segWord">'+name+'</span>':'')+'</button>';
  }
  // Your personal rating, 0-10 to one decimal -- entirely optional. A quiet ghost "Rate" prompt when
  // there isn't one yet (so it's discoverable without shouting), a filled ★ chip with the number once
@@ -560,32 +627,61 @@ function tierRowHTML(it,roomy){
  var rateCls='profEditBtn rateBtn'+(roomy?'':' ml-auto');
  var rateBtn=(typeof rv==='number')
   ?'<button type="button" class="'+rateCls+' rated" data-act="rate" data-id="'+it.id+'" title="Your rating: '+rv.toFixed(1)+'/10 — click to change">★ '+rv.toFixed(1)+'</button>'
-  :'<button type="button" class="'+rateCls+'" data-act="rate" data-id="'+it.id+'" title="Rate this 0–10 — entirely optional, click to add">☆ Rate</button>';
+  :'<button type="button" class="'+rateCls+'" data-act="rate" data-id="'+it.id+'" aria-label="Rate" title="Rate this 0–10 — entirely optional, click to add">☆ <span class="segWord">Rate</span></button>';
  // roomy: the GOAT Profile "Search & Build Your Favorites" list renders these one card at a time
  // (not the dense main grid), so it can afford noticeably more breathing room between the four
  // buttons -- addresses the specific "still quite close together" feedback about that screen
  // without touching the deliberately compact spacing every other card everywhere else relies on.
- return '<div class="flex items-center flex-wrap px-3.5 pb-3'+(roomy?' gap-3 mt-4':' gap-1.5 mt-auto pt-3')+'">'
+ return '<div class="flex items-center flex-wrap px-3.5 pb-3'+(roomy?' gap-3 mt-4':' tierRow gap-1.5 mt-auto pt-3')+'">'
  +seg('declare','\u{1F947}','Gold','Gold: your declared all-time favorites — pins a 100 match, the strongest recommendation signal',it.goat,'#fbbf24',false)
  +seg('silver','\u{1F948}','Silver','Silver: a strong favorite, one notch below Gold',it.silver,'#cbd5e1',false)
  +seg('bronze','\u{1F949}','Bronze','Bronze: really like it, a lighter nudge than Silver',it.bronze,'#cd7f32',false)
  +'<span class="w-px h-4 mx-0.5" style="background:#334155"></span>'
  +seg('own','◆','Owned','Toggle whether this is in your owned collection',it.owned,'#4ade80',true)
+ +doneSegHTML(it,roomy)
  +(roomy?'<span class="ml-auto flex items-center gap-3 text-[10.5px] text-slate-500 shrink-0"><span title="GOAT match /100">★ <b style="color:#fbbf24">'+it.gm+'</b></span><span title="Critical score /100">Crit <b class="text-slate-300">'+it.crit+'</b></span><span title="Audience score /100">Aud <b class="text-slate-300">'+it.aud+'</b></span></span>':'')
  +rateBtn
  +'</div>';
 }
+/* Completed (watched / read / played) -- the one tier-row segment that is not part of the taste
+   profile: it lives on the watchlist entry (see wlSetDone), so a click never re-runs the scoring
+   pass and is redrawn in place by refreshDoneUI. Labelled with its verb, like Owned, because a bare
+   check mark is as ambiguous as a bare diamond. */
+const DONE_COLOR='#38bdf8';
+function doneSegHTML(it,roomy){
+ const done=wlDone(it.id),verb=doneVerb(it);
+ return '<button type="button" class="profEditBtn tierSeg doneSeg'+(roomy?' tierSegRoomy':'')+'" data-act="done" data-id="'+it.id+'" aria-pressed="'+done+'" aria-label="'+verb+'"'
+  +' title="'+(done?verb+' \u2014 click to undo':'Mark as '+verb.toLowerCase()+' \u2014 it goes into your Watchlist\u2019s Completed section')+'"'
+  +(done?' style="background:'+DONE_COLOR+';border-color:'+DONE_COLOR+';color:#0B0F19"':' style="color:'+DONE_COLOR+';border-color:transparent"')+'>'
+  +'\u2713 <span class="segWord">'+verb+'</span></button>';
+}
+// The corner status on every card: \u2661 not saved, \u2665 saved to watch later, \u2713 completed.
+// Clicking it undoes whichever of those it shows -- it never silently discards a completion by
+// treating a finished title as a mere "saved" one.
+function wlCornerHTML(it){
+ const done=wlDone(it.id),has=wlHas(it.id),verb=doneVerb(it);
+ const label=done?(verb+' \u2014 click to undo'):has?'Remove from watchlist':'Add to watchlist';
+ return '<button type="button" class="wlBtn absolute top-2 right-2 text-base leading-none transition-transform hover:scale-125" data-wl="'+it.id+'" title="'+(done?label:'Toggle watchlist')+'" aria-label="'+label+'" style="color:'+(done?DONE_COLOR:has?'#fb7185':'#475569')+'">'+(done?'\u2713':has?'\u2665':'\u2661')+'</button>';
+}
 function cardHTML(it){const k=KM[it.kind];
- return '<div class="panel overflow-hidden hover:border-slate-600/80 transition-colors fade-in relative flex flex-col h-full">'
+ return '<div class="panel resultCard overflow-hidden hover:border-slate-600/80 transition-colors fade-in relative flex flex-col h-full">'
  +'<button type="button" class="cardHead w-full text-left p-3.5 flex gap-3 items-start" data-id="'+it.id+'">'
  +ring(it.crit,k.c,42)
  +'<div class="flex-1 min-w-0">'
  +'<div class="flex items-center gap-x-2 gap-y-1.5 flex-wrap cardChips"><span class="cardTitle text-[13px] font-semibold text-slate-100 leading-tight hover:text-teal-300 cursor-pointer underline decoration-dotted decoration-slate-600 underline-offset-2" data-flip="'+it.id+'" title="Click for a summary and full breakdown">'+esc(it.title)+'</span><span class="chip" style="color:'+k.c+';border-color:'+k.c+'44">'+k.label+'</span><span class="chip" style="color:#5eead4;border-color:#5eead455">'+esc(it.rating)+'</span>'+'<span class="chip" style="color:#fbbf24;border-color:#fbbf2444" title="GOAT match /100">\u2605 '+it.gm+'</span>'+(window._blendActive?'<span class="chip" style="color:#0B0F19;background:#34d399;border-color:#34d399;font-weight:800" title="Weighted blend match">\u2696 '+bespokeScore(it,state).toFixed(0)+'%</span>':'')+(it.chFlag?'<span class="chip" style="color:#0B0F19;background:#c084fc;border-color:#c084fc;font-weight:700">\u25c9 CANON 100</span>':(it.ch>=70?'<span class="chip" style="color:#c084fc;border-color:#c084fc44">\u25c9 '+it.ch+'</span>':''))+(function(){const fr=franchiseOf(it);return fr?'<span class="chip franchiseChip" style="color:#5eead4;border-color:#5eead444" title="Part of the '+esc(fr)+' series">\u2699 '+esc(fr)+'</span>':'';})()+'</div>'
  +'<div class="text-[11px] text-slate-400 mt-1.5 truncate" title="'+esc(it.creator)+' · '+esc(it.org)+'">'+it.year+' · '+esc(it.creator)+' · '+esc(it.span)+'</div>'
  +'<div class="mt-2 space-y-1 cardMicro" title="This work\'s 3 strongest indices out of ~19 tracked -- click the card to see all of them">'+frontBars(it)+'</div>'
- +'</div><span class="text-slate-600 text-xs mt-1" aria-hidden="true">&#9662;</span></button>'+'<button type="button" class="wlBtn absolute top-2 right-2 text-base leading-none transition-transform hover:scale-125" data-wl="'+it.id+'" title="Toggle watchlist" aria-label="'+(wlHas(it.id)?'Remove from watchlist':'Add to watchlist')+'" style="color:'+(wlHas(it.id)?'#fb7185':'#475569')+'">'+(wlHas(it.id)?'\u2665':'\u2661')+'</button>'
+ +'</div><span class="text-slate-600 text-xs mt-1" aria-hidden="true">&#9662;</span></button>'+wlCornerHTML(it)
  +tierRowHTML(it)
- +summaryHTML(it)
+ // The summary and the full breakdown are ~3/4 of a card's HTML and stay hidden until the card is
+ // opened, yet every card used to build (and every grid redraw used to parse) both of them -- for
+ // ~100 cards, on every load and every tier click. They are now empty shells, filled on first
+ // expand by fillCardPanels(); see setCardExpanded.
+ +'<div class="summaryFace hidden" data-lazy="'+it.id+'"></div><div class="detail hidden" data-lazy="'+it.id+'"></div>'
+ +'</div>';}
+// The two expandable panels of a result card, built on demand (see cardHTML).
+function cardPanelsHTML(it){
+ return summaryHTML(it)
  +'<div class="detail hidden border-t border-slate-800/80 px-3.5 py-3.5 bg-[#0b1322]/60">'
  +'<div class="fidGrid">'+it.fid.map(f=>microBar2(f[0],f[1])).join('')+microBar2('Audience Score',it.aud)+microBar2('Critical Score',it.crit)+'</div>'
  +'<div class="idxGrid">'+[['\u2605 GOAT Match',it.gm,'#fbbf24'],['\u25c9 Cosmic Horror',it.ch,'#c084fc'],['Soundtrack',it.snd,'#7dd3fc'],['4K Reference',it.ref,'#818cf8'],['Emotional',it.emo,'#f0abfc'],['Awe / Spectacle',it.awe,'#fbbf24'],['Comfort',it.cozy,'#34d399'],['Performances',it.perf,'#fda4af'],['Iconicness',it.icon,'#fcd34d'],['Scariest',it.scary,'#f87171'],['Realism',it.real,'#86efac'],['Reality-Altering',it.reality,'#c4b5fd'],['Genuine Shock',it.shock,'#fb923c'],['Scientific',it.sci,'#67e8f9'],['Funniest',it.funny,'#fde047'],['Historically Accurate',it.hist,'#a3e635'],['Vibe / Atmosphere',it.vibe2,'#e879f9']].map(r=>'<div class="flex flex-col gap-0.5"><div class="flex items-baseline justify-between gap-2"><span class="lbl leading-tight" style="color:'+r[2]+'">'+r[0]+'</span><span class="text-[10px] tabular-nums shrink-0" style="color:'+r[2]+'">'+r[1]+'</span></div><div class="bar"><i style="width:'+r[1]+'%;background:'+r[2]+'"></i></div></div>').join('')+'</div>'
@@ -596,7 +692,8 @@ function cardHTML(it){const k=KM[it.kind];
  +'<div class="flex flex-wrap gap-1.5 mt-2.5 pt-2.5 border-t border-slate-800/70">'
  +creatorBoostHTML(it)
  +'</div>'
- +'</div>'+'</div>';}
+ +'</div>';}
+
 /* Rebuild only the cards whose contents can actually have changed.
 
    A card is ~2ms of string building, so redrawing all 100 of them costs ~210ms -- and a tier or
@@ -712,6 +809,8 @@ function renderActiveBar(){
  if(state.yearMin!=null||state.yearMax!=null)chips.push(X('Year '+(state.yearMin||'←')+'–'+(state.yearMax||'→'),'year'));
  if(state.ownedOnly)chips.push(X('◆ Owned only','owned'));
  if(state.notOwnedOnly)chips.push(X('○ Not owned','notowned'));
+ if(state.doneOnly)chips.push(X('✓ Watched / read / played','done'));
+ if(state.notDoneOnly)chips.push(X('○ Not yet watched / read / played','notdone'));
  const TL={gold:'🥇 Gold',silver:'🥈 Silver',bronze:'🥉 Bronze'};
  state.tierFilter.forEach(t=>chips.push(X(TL[t],'tier:'+t)));
  state.tierFilterExclude.forEach(t=>chips.push(X('✕ '+TL[t],'tierEx:'+t)));
@@ -731,7 +830,7 @@ function renderActiveBar(){
 }
 const DISCOVER_TIERS=['gold','silver','bronze'];
 function isDiscoverActive(){
- return state.notOwnedOnly&&DISCOVER_TIERS.every(t=>state.tierFilterExclude.includes(t))&&state.tierFilter.every(t=>!DISCOVER_TIERS.includes(t));
+ return state.notOwnedOnly&&state.notDoneOnly&&DISCOVER_TIERS.every(t=>state.tierFilterExclude.includes(t))&&state.tierFilter.every(t=>!DISCOVER_TIERS.includes(t));
 }
 function syncDiscoverBtn(){
  const b=$('#discoverBtn');if(!b)return;
@@ -1602,6 +1701,7 @@ function recomputeTasteScores(){
  ALL.forEach(x=>{x.bronze=GOAT_BRONZE.has(x.id);if(x.bronze){var bg=tierTarget(x.gm,'bronze');if(bg>x.gm){x.gm=bg;x.gmOverride=x.gmOverride||'bronze';}}});
  ALL.forEach(x=>{if(x.owned&&!x.goat){const target=tierTarget(x.gm,'owned');if(target>x.gm){x.gm=target;x.gmOverride=x.gmOverride||'owned';}x.ownedBoost=true;}});
  GOAT_DECLARED.forEach(id=>{const x=byId.get(id);if(x){x.gm=100;x.goat=true;x.gmOverride='declared';}});
+ _derivEpoch++;
 }
 recomputeTasteScores();
 /* ===== Generated recommendations, corpus-backed and people-backed (Phase 4 of the sharing roadmap) =====
@@ -1654,17 +1754,39 @@ function directorCorpusScore(name){
  const top=works.slice().sort((a,b)=>b.gm-a.gm).slice(0,3);
  return Math.round(top.reduce((s,x)=>s+x.gm,0)/top.length);
 }
+/* Genre tag and vibe -> the works carrying it, in corpus order. Built once: genres and vibes never
+   change after load, only gm does, and that is read live below. */
+var _pairingIx=null;
+function pairingIndex(){
+ if(_pairingIx)return _pairingIx;
+ const genre=new Map(),vibe=new Map(),pos=new Map();
+ ALL.forEach((x,i)=>{
+  pos.set(x,i);
+  new Set(x.genres||[]).forEach(g=>{let a=genre.get(g);if(!a)genre.set(g,a=[]);a.push(x);});
+  if(x.vibe){let a=vibe.get(x.vibe);if(!a)vibe.set(x.vibe,a=[]);a.push(x);}
+ });
+ return (_pairingIx={genre:genre,vibe:vibe,pos:pos});
+}
+/* Ranks other-medium works by shared genre tags and vibe. Used to score every work in the corpus
+   for every card; now it only visits works that share at least one tag or the vibe (the only ones
+   the old .filter ever kept) and keeps a running top-n instead of sorting them all. Ties keep the
+   old stable-sort order -- corpus position -- so the result is identical. */
 function crossMediumPairings(it,n){
  n=n||3;
- return ALL.filter(x=>x.kind!==it.kind)
-  .map(x=>{
-   const shared=(it.genres||[]).filter(g=>(x.genres||[]).indexOf(g)>=0).length;
-   const vibeMatch=(it.vibe&&x.vibe===it.vibe)?1:0;
-   return {x:x,shared:shared,vibeMatch:vibeMatch,score:shared*10+vibeMatch*8+x.gm*0.15};
-  })
-  .filter(s=>s.shared>0||s.vibeMatch)
-  .sort((a,b)=>b.score-a.score)
-  .slice(0,n);
+ const ix=pairingIndex();
+ const shared=new Map();
+ (it.genres||[]).forEach(g=>{(ix.genre.get(g)||[]).forEach(x=>{if(x.kind!==it.kind)shared.set(x,(shared.get(x)||0)+1);});});
+ if(it.vibe)(ix.vibe.get(it.vibe)||[]).forEach(x=>{if(x.kind!==it.kind&&!shared.has(x))shared.set(x,0);});
+ const top=[];
+ const before=(a,b)=>a.score>b.score||(a.score===b.score&&a.pos<b.pos);
+ shared.forEach((cnt,x)=>{
+  const vibeMatch=(it.vibe&&x.vibe===it.vibe)?1:0;
+  const s={x:x,shared:cnt,vibeMatch:vibeMatch,score:cnt*10+vibeMatch*8+x.gm*0.15,pos:ix.pos.get(x)};
+  if(top.length===n&&!before(s,top[n-1]))return;
+  let i=top.length;while(i>0&&before(s,top[i-1]))i--;
+  top.splice(i,0,s);if(top.length>n)top.pop();
+ });
+ return top;
 }
 function crossMediumPairingsHTML(it){
  const pairs=crossMediumPairings(it,3);
@@ -1745,7 +1867,8 @@ function buildGeneratedRec(cat){
  // typed, which for anything you loved is straight into the top of this very list. Payton's seed
  // ratings are all books, so before this the Books column spent its first several slots handing
  // back novels he had already read and scored.
- const ranked=ALL.filter(x=>x.kind===kind&&!x.owned&&!x.goat&&!x.silver&&!x.bronze&&x.myRating==null)
+ // Same goes for anything marked watched/read/played: finished is finished, rated or not.
+ const ranked=ALL.filter(x=>x.kind===kind&&!x.owned&&!x.goat&&!x.silver&&!x.bronze&&x.myRating==null&&!wlDone(x.id))
   .sort((a,b)=>b.gm-a.gm);
  const PER_CREATOR_CAP=3;
  const creatorCount={};
@@ -1760,7 +1883,8 @@ function buildGeneratedRec(cat){
  return {cat:cat,basis:computeBasisText(cat),items:items,generated:true};
 }
 /* Recommendations are a function of the match scores above (they are the top-scoring things you
-   have NOT owned or tiered), so they are rebuilt whenever those scores are. Replacing each
+   have NOT owned, tiered, rated or finished), so they are rebuilt whenever those scores are --
+   and whenever something is marked completed (afterWatchStateChange). Replacing each
    category in place rather than appending keeps this safe to call repeatedly. */
 function rebuildGeneratedRecs(){
  Object.keys(RECS_KIND_BY_CAT).forEach(cat=>{
@@ -2150,7 +2274,9 @@ document.addEventListener('click',e=>{
 document.addEventListener('click',e=>{const pe=e.target.closest('.profEditBtn');if(pe&&(pe.dataset.act==='setformat'||pe.dataset.act==='remove-owned'||pe.dataset.act==='remove-tier'||pe.dataset.act==='rate')){e.stopPropagation();handleProfileEditClick(pe);}});
 
 /* ===================== ROUTING & BINDINGS ===================== */
-function updateWlNav(){const c=wlCount();const el=$('#wlNavCount');if(el)el.textContent=c?('('+c+')'):'';}
+// The nav badge counts what is still waiting (Up Next), not the whole list: a Completed history of
+// a few hundred titles is a record, not a to-do, and should not read as a growing backlog.
+function updateWlNav(){const c=Object.keys(WL).filter(id=>!WL[id].watched).length;const el=$('#wlNavCount');if(el)el.textContent=c?('('+c+')'):'';}
 function wlItems(){return Object.keys(WL).map(id=>byId.get(id)).filter(Boolean);}
 // Per-kind time-to-finish estimate. Movies use the real runtime field; TV assumes ~8hrs/season
 // (a reasonable prestige-TV average); games strip the "~" the corpus already prefixes hour
@@ -2166,33 +2292,56 @@ function estimateHours(x){
  return 0;
 }
 function formatHours(h){return h>=48?Math.round(h/24)+' days':Math.round(h)+' hrs';}
+// Local calendar date <-> the epoch-ms doneAt stored on an entry. Noon, so a date picked in one
+// timezone never reads back as the day before in another.
+function dateInputValue(ms){if(!ms)return '';const d=new Date(ms);return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0');}
+function msFromDateInput(v){const m=/^(\d{4})-(\d{2})-(\d{2})$/.exec(v||'');return m?new Date(+m[1],+m[2]-1,+m[3],12).getTime():null;}
 function renderWatchlist(){
  const items=wlItems();
  const watched=items.filter(x=>WL[x.id].watched),todo=items.filter(x=>!WL[x.id].watched);
  const backlogHrs=todo.reduce((s,x)=>s+estimateHours(x),0);
  const avg=items.length?Math.round(items.reduce((s,x)=>s+x.ovr,0)/items.length):0;
+ const thisYear=new Date().getFullYear();
+ const doneThisYear=watched.filter(x=>WL[x.id].doneAt&&new Date(WL[x.id].doneAt).getFullYear()===thisYear).length;
  var BACKLOG_TITLE='Estimated, not measured: movies use their actual runtime, TV uses ~8hrs/season, games use their listed playtime (or 20hrs if unlisted), books use pages\u00f750wpm. Treat this as a rough sense of scale, not a real countdown.';
- $('#wlStats').innerHTML=[['Saved',items.length,null],['Up Next',todo.length,null],['Complete',watched.length,null],['Est. Backlog',todo.length?formatHours(backlogHrs):'\u2014',BACKLOG_TITLE],['Avg Quality',avg||'\u2014',null]]
-  .map(s=>'<div class="panel p-3 text-center"'+(s[2]?' title="'+esc(s[2])+'"':'')+'><div class="text-xl font-extrabold text-slate-50 tabular-nums">'+s[1]+(s[2]?' <span style="font-size:9px;color:#64748b" title="'+esc(s[2])+'">(est.)</span>':'')+'</div><div class="lbl mt-1">'+s[0]+'</div></div>').join('');
+ $('#wlStats').innerHTML=[['Up Next',todo.length,null],['Completed',watched.length,'Everything you have marked watched, read or played \u2014 from this tab or from the \u2713 on any card'],['Done in '+thisYear,doneThisYear,'Completed this calendar year (titles marked before completion dates were recorded are not counted)'],['Est. Backlog',todo.length?formatHours(backlogHrs):'\u2014',BACKLOG_TITLE],['Avg Quality',avg||'\u2014',null]]
+  .map(s=>'<div class="panel p-3 text-center"'+(s[2]?' title="'+esc(s[2])+'"':'')+'><div class="text-xl font-extrabold text-slate-50 tabular-nums">'+s[1]+(s[2]===BACKLOG_TITLE?' <span style="font-size:9px;color:#64748b">(est.)</span>':'')+'</div><div class="lbl mt-1">'+s[0]+'</div></div>').join('');
  const wf=state.wlFilter||'all',wt=state.wlType||'all',wq=(state.wlSearchQ||'').trim().toLowerCase(),ws=state.wlSort||'added';
  let list=wf==='todo'?todo:wf==='done'?watched:items;
  if(wt!=='all')list=list.filter(x=>x.kind===wt);
  if(wq)list=list.filter(x=>(x.title+' '+x.creator).toLowerCase().indexOf(wq)>=0);
- list=list.slice().sort(ws==='title'?(a,b)=>a.title.localeCompare(b.title):ws==='match'?(a,b)=>b.gm-a.gm:ws==='rating'?(a,b)=>b.ovr-a.ovr:ws==='year'?(a,b)=>b.year-a.year:(a,b)=>(WL[b.id].added||0)-(WL[a.id].added||0));
+ // "Recently completed" puts finished titles first, newest completion first (undated ones after
+ // the dated), and leaves anything still in Up Next below them in the order it was added.
+ const doneKey=x=>WL[x.id].watched?(WL[x.id].doneAt||1):0;
+ list=list.slice().sort(ws==='title'?(a,b)=>a.title.localeCompare(b.title):ws==='match'?(a,b)=>b.gm-a.gm:ws==='rating'?(a,b)=>b.ovr-a.ovr:ws==='year'?(a,b)=>b.year-a.year:ws==='done'?(a,b)=>(doneKey(b)-doneKey(a))||((WL[b.id].added||0)-(WL[a.id].added||0)):(a,b)=>(WL[b.id].added||0)-(WL[a.id].added||0));
  // Filter-button labels carry their base text in data-label so counts can be appended on every
  // re-render without accumulating "(n) (n)" from the previous render.
  $$('#wlFilter button').forEach(b=>{const n=b.dataset.wf==='all'?items.length:b.dataset.wf==='todo'?todo.length:watched.length;b.textContent=b.dataset.label+' ('+n+')';});
  $$('#wlTypeSeg button').forEach(b=>{const n=b.dataset.wt==='all'?items.length:items.filter(x=>x.kind===b.dataset.wt).length;b.textContent=b.dataset.label+' ('+n+')';});
- const DONE_VERB={movie:'Watched',tv:'Watched',game:'Played',book:'Read'};
- $('#wlGrid').innerHTML=list.length?list.map(x=>{const k=KM[x.kind];const done=WL[x.id].watched;const verb=DONE_VERB[x.kind]||'Done';
-  return '<div class="panel p-3 flex gap-3 items-start'+(done?' opacity-60':'')+'">'
+ const today=dateInputValue(Date.now());
+ const emptyMsg=!items.length?'Nothing saved yet \u2014 tap the \u2661 on any card to build your backlog, or \u2713 to log something you have finished.'
+  :(wf==='done'&&!watched.length&&wt==='all'&&!wq)?'Nothing completed yet \u2014 tap \u2713 Watched / Read / Played on any card, or \u201cMark completed\u201d here.'
+  :'Nothing matches this filter.';
+ $('#wlGrid').innerHTML=list.length?list.map(x=>{const k=KM[x.kind];const e=WL[x.id];const done=e.watched;const verb=doneVerb(x);
+  // The date is the input itself (no second, read-only copy of it beside it): stamped on
+  // completion, editable for anything logged after the fact, and blank for titles completed
+  // before dates were recorded.
+  const doneLine=done?'<label class="flex items-center gap-1.5 flex-wrap mt-1.5 text-[11px]" style="color:'+DONE_COLOR+'" title="When you finished it \u2014 change it if you are logging something from before"><span>\u2713 '+verb+(e.doneAt?' on':' \u00b7 add a date')+'</span>'
+   +'<input type="date" class="wlDoneDate inp" data-id="'+x.id+'" value="'+dateInputValue(e.doneAt)+'" max="'+today+'" aria-label="Date '+verb.toLowerCase()+'" style="width:auto;padding:1px 6px;font-size:11px"/></label>':'';
+  return '<div class="panel p-3 flex gap-3 items-start wlItem'+(done?' wlItemDone':'')+'" data-id="'+x.id+'">'
    +ring(x.crit,k.c,38)
-   +'<div class="flex-1 min-w-0"><div class="flex items-center gap-1.5 flex-wrap"><span class="goatJump text-[13px] font-semibold text-slate-100 cursor-pointer hover:text-teal-300" data-q="'+esc(x.title)+'" title="Open '+esc(x.title)+' in the Global Controller">'+esc(x.title)+'</span><span class="chip" style="color:'+k.c+';border-color:'+k.c+'44">'+k.label+'</span><span class="chip" style="color:#5eead4;border-color:#5eead455">'+esc(x.rating)+'</span><span class="chip" style="color:#fbbf24;border-color:#fbbf2444" title="Your GOAT-fingerprint match score">\u2605'+x.gm+' match</span></div>'
+   +'<div class="flex-1 min-w-0"><div class="flex items-center gap-1.5 flex-wrap"><span class="goatJump text-[13px] font-semibold text-slate-100 cursor-pointer hover:text-teal-300" data-q="'+esc(x.title)+'" title="Open '+esc(x.title)+' in the Global Controller">'+esc(x.title)+'</span><span class="chip" style="color:'+k.c+';border-color:'+k.c+'44">'+k.label+'</span><span class="chip" style="color:#5eead4;border-color:#5eead455">'+esc(x.rating)+'</span><span class="chip" style="color:#fbbf24;border-color:#fbbf2444" title="Your GOAT-fingerprint match score">\u2605'+x.gm+' match</span>'+(typeof x.myRating==='number'?'<span class="chip" style="color:#5eead4;border-color:#5eead455" title="Your rating">\u2605 '+x.myRating.toFixed(1)+'/10</span>':'')+'</div>'
    +'<div class="text-[11px] text-slate-400 mt-0.5 truncate">'+x.year+' \u00b7 '+esc(x.creator)+' \u00b7 <span title="Estimated from runtime/season count/playtime/page count \u2014 not a guarantee">~'+formatHours(estimateHours(x))+'</span></div>'
-   +'<div class="flex gap-1.5 mt-2"><button type="button" class="wlDone presetBtn" data-id="'+x.id+'" title="'+(done?'Click to mark as not yet '+verb.toLowerCase():'Mark this '+verb.toLowerCase())+'" style="'+(done?'color:#34d399;border-color:#34d39955':'')+'">'+(done?'\u2713 Completed \u00b7 click to undo':'Mark completed')+'</button><button type="button" class="wlRemove presetBtn" data-id="'+x.id+'" title="Remove from your watchlist entirely" style="color:#fca5a5;border-color:#fca5a544">Remove</button></div>'
-   +'</div></div>';}).join(''):'<div class="col-span-full text-center text-slate-500 text-sm py-12">'+(items.length?'Nothing matches this filter.':'Nothing saved yet \u2014 tap the \u2661 on any card to build your backlog.')+'</div>';
- const saved=new Set(Object.keys(WL));
- let recs=ALL.filter(x=>!saved.has(x.id));
+   +doneLine
+   +'<div class="flex gap-1.5 mt-2 flex-wrap"><button type="button" class="wlDone presetBtn" data-id="'+x.id+'" aria-pressed="'+done+'" title="'+(done?'Click to mark as not yet '+verb.toLowerCase()+(e.logOnly?' (removes it from this list \u2014 it was never in Up Next)':' (back to Up Next)'):'Mark this '+verb.toLowerCase())+'" style="'+(done?'color:'+DONE_COLOR+';border-color:'+DONE_COLOR+'55':'')+'">'+(done?'\u2713 Completed \u00b7 click to undo':'\u2713 Mark '+verb.toLowerCase())+'</button>'
+   +(done&&x.myRating==null?'<button type="button" class="wlRate presetBtn" data-id="'+x.id+'" title="Rate it 0\u201310 \u2014 optional, and it sharpens your match scores">\u2606 Rate</button>':'')
+   +'<button type="button" class="wlRemove presetBtn" data-id="'+x.id+'" title="Remove from your watchlist entirely'+(done?' (also forgets that you completed it)':'')+'" style="color:#fca5a5;border-color:#fca5a544">Remove</button></div>'
+   +'</div></div>';}).join(''):'<div class="col-span-full text-center text-slate-500 text-sm py-12">'+emptyMsg+'</div>';
+ // Something to get to next: not already on the list (queued or finished), and not something you
+ // have already told the app about -- owned, tiered or rated. Those used to fill this column (a
+ // Gold favorite pins a 100 match, so the sample profile's first dozen "next" picks were its own
+ // favorites), which is the one list that should never hand back what you already know.
+ let recs=ALL.filter(x=>!WL[x.id]&&!x.owned&&!x.goat&&!x.silver&&!x.bronze&&x.myRating==null);
  if(wt!=='all')recs=recs.filter(x=>x.kind===wt);
  recs=recs.sort((a,b)=>(b.gm-a.gm)||(b.ovr-a.ovr)).slice(0,12);
  $('#wlRecs').innerHTML=recs.length?recs.map(x=>{const k=KM[x.kind];
@@ -2207,8 +2356,8 @@ var tlScope='owned';
 var tlMedium='all';
 var tlZoomDecade=null;
 function renderTimeline(){
- var scopeNoun=tlScope==='owned'?'Owned works':tlScope==='rated'?'Rated works':'Total works';
- var items=(tlScope==='owned'?ALL.filter(x=>x.owned):tlScope==='rated'?ALL.filter(x=>x.goat||x.silver||x.bronze):ALL).filter(x=>typeof x.year==='number'&&x.year!==0);
+ var scopeNoun=tlScope==='owned'?'Owned works':tlScope==='rated'?'Rated works':tlScope==='done'?'Completed works':'Total works';
+ var items=(tlScope==='owned'?ALL.filter(x=>x.owned):tlScope==='rated'?ALL.filter(x=>x.goat||x.silver||x.bronze):tlScope==='done'?ALL.filter(x=>wlDone(x.id)):ALL).filter(x=>typeof x.year==='number'&&x.year!==0);
  if(tlMedium!=='all')items=items.filter(x=>x.kind===tlMedium);
  if(!items.length){
   $('#tlStats').innerHTML=[[scopeNoun,0,'#f0abfc'],['Spans','—','#22d3ee'],['Busiest decade','—','#fbbf24'],['Avg gap','—','#4ade80']]
@@ -2302,7 +2451,7 @@ function renderTimeline(){
  }
  // --- era highlight rows (chronological), each era shows top works ---
  var ERAS=[[-9999,1900,'Antiquity & Classics'],[1900,1960,'The Mid-Century'],[1960,1980,'The New Wave'],[1980,2000,'The Modern Canon'],[2000,2015,'The Digital Age'],[2015,9999,'The Present']];
- var scopeLabel=tlScope==='owned'?'My Collection':tlScope==='rated'?'GOAT Profile':'All Works';
+ var scopeLabel=tlScope==='owned'?'My Collection':tlScope==='rated'?'GOAT Profile':tlScope==='done'?'Completed':'All Works';
  var mediumLabel=tlMedium==='all'?'All Media':KM[tlMedium].label;
  var header='<div class="text-[11px] text-slate-500 -mb-1">Showing <span class="text-slate-300">'+esc(scopeLabel)+'</span> \u00b7 <span class="text-slate-300">'+esc(mediumLabel)+'</span></div>';
  var html='';
@@ -2488,7 +2637,7 @@ function renderPortraitGaps(){
     now, with critical standing as the tie-break, so the twelve shown are the twelve openings into
     an under-covered family that this profile is most likely to want. Anything already tiered or
     already rated is dropped: a work you have judged is not a blind spot, whatever you decided. */
- const gaps=scopeAll.filter(x=>!x.owned&&!x.goat&&!x.silver&&!x.bronze&&x.myRating==null&&(x.fam||[]).some(f=>thin.includes(f)))
+ const gaps=scopeAll.filter(x=>!x.owned&&!x.goat&&!x.silver&&!x.bronze&&x.myRating==null&&!wlDone(x.id)&&(x.fam||[]).some(f=>thin.includes(f)))
    .sort((a,b)=>(b.gm-a.gm)||(b.ovr-a.ovr))
    .filter(x=>{if(seen[x.title])return false;seen[x.title]=1;return true;})
    .slice(0,12);
@@ -3187,6 +3336,8 @@ function stateToParams(){
  if(state.tierFilterExclude&&state.tierFilterExclude.length)p.set('tierx',state.tierFilterExclude.join('|'));
  if(state.ownedOnly)p.set('owned','1');
  if(state.notOwnedOnly)p.set('notowned','1');
+ if(state.doneOnly)p.set('done','1');
+ if(state.notDoneOnly)p.set('notdone','1');
  if(state.minGoat)p.set('goat',state.minGoat);
  if(state.minMyRating)p.set('myr',state.minMyRating);
  if(state.ratedOnly)p.set('rated','1');
@@ -3240,6 +3391,8 @@ function paramsToState(){
   if(p.has('tierx'))state.tierFilterExclude=p.get('tierx').split('|').filter(Boolean);
   if(p.has('owned'))state.ownedOnly=p.get('owned')==='1';
   if(p.has('notowned'))state.notOwnedOnly=p.get('notowned')==='1';
+  if(p.has('done'))state.doneOnly=p.get('done')==='1';
+  if(p.has('notdone'))state.notDoneOnly=p.get('notdone')==='1';
   if(p.has('goat'))state.minGoat=+p.get('goat')||0;
   if(p.has('myr'))state.minMyRating=+p.get('myr')||0;
   if(p.has('rated'))state.ratedOnly=p.get('rated')==='1';
@@ -3303,6 +3456,8 @@ function applyStateToStaticControls(){
  var cm=$('#combineMode');if(cm)cm.checked=state.combine;
  var ot=$('#ownedToggle');if(ot)ot.checked=state.ownedOnly;
  var nt=$('#notOwnedToggle');if(nt)nt.checked=state.notOwnedOnly;
+ var dt=$('#doneToggle');if(dt)dt.checked=state.doneOnly;
+ var ndt=$('#notDoneToggle');if(ndt)ndt.checked=state.notDoneOnly;
  var rt=$('#ratedToggle');if(rt)rt.checked=state.ratedOnly;
  var urt=$('#unratedToggle');if(urt)urt.checked=state.unratedOnly;
  buildTierFilterChips();
@@ -3398,7 +3553,21 @@ on('#nav','click',e=>{const b=e.target.closest('.navBtn');if(b)switchView(b.data
 // used to only toggle the full stats breakdown -- two separate panels, only ever one visible at a
 // time, depending on exactly where you clicked. Unified per explicit feedback: either click now
 // opens (or closes) both the quick summary AND the full breakdown together, as one expanded unit.
+// Swaps a card's empty panel shells for the real summary + breakdown. Idempotent: a card that is
+// already filled has no [data-lazy] shells left.
+function fillCardPanels(card){
+ const shell=card&&card.querySelector('.summaryFace[data-lazy]');
+ if(!shell)return;
+ const it=byId.get(shell.dataset.lazy);if(!it)return;
+ const tmp=document.createElement('div');
+ tmp.innerHTML=cardPanelsHTML(it);
+ const dShell=card.querySelector('.detail[data-lazy]');
+ const sf=tmp.querySelector('.summaryFace'),dd=tmp.querySelector('.detail');
+ if(sf)shell.replaceWith(sf);
+ if(dd&&dShell)dShell.replaceWith(dd);
+}
 function setCardExpanded(card,open){
+ if(open)fillCardPanels(card);
  const sf=card&&card.querySelector('.summaryFace'),dd=card&&card.querySelector('.detail');
  if(sf)sf.classList.toggle('hidden',!open);
  if(dd)dd.classList.toggle('hidden',!open);
@@ -3407,7 +3576,7 @@ function toggleCardExpanded(card){
  const sf=card&&card.querySelector('.summaryFace');
  setCardExpanded(card,!!(sf&&sf.classList.contains('hidden')));
 }
-on('#grid','click',e=>{const pc=e.target.closest('.pairingChip');if(pc){e.stopPropagation();const px=byId.get(pc.dataset.flipJump);if(px){state.q=px.title;const qinput=$('#q');if(qinput)qinput.value=px.title;refresh();}return;}const pe=e.target.closest('.profEditBtn');if(pe){e.stopPropagation();handleProfileEditClick(pe);return;}const w=e.target.closest('.wlBtn');if(w){e.stopPropagation();wlToggle(w.dataset.wl);const has=wlHas(w.dataset.wl);w.textContent=has?'\u2665':'\u2661';w.style.color=has?'#fb7185':'#475569';w.setAttribute('aria-label',has?'Remove from watchlist':'Add to watchlist');updateWlNav();if(state.view==='watchlist')renderWatchlist();return;}const fb=e.target.closest('.flipBack');if(fb){e.stopPropagation();const card=fb.closest('.panel');if(card)setCardExpanded(card,false);return;}const h=e.target.closest('.cardHead');if(!h)return;const card=h.closest('.panel');if(card)toggleCardExpanded(card);});
+on('#grid','click',e=>{const pc=e.target.closest('.pairingChip');if(pc){e.stopPropagation();const px=byId.get(pc.dataset.flipJump);if(px){state.q=px.title;const qinput=$('#q');if(qinput)qinput.value=px.title;refresh();}return;}const pe=e.target.closest('.profEditBtn');if(pe){e.stopPropagation();handleProfileEditClick(pe);return;}const w=e.target.closest('.wlBtn');if(w){e.stopPropagation();const wid=w.dataset.wl;if(wlDone(wid))setDoneFromUI(wid,false);else{wlToggle(wid);afterWatchStateChange(wid);}return;}const fb=e.target.closest('.flipBack');if(fb){e.stopPropagation();const card=fb.closest('.panel');if(card)setCardExpanded(card,false);return;}const h=e.target.closest('.cardHead');if(!h)return;const card=h.closest('.panel');if(card)toggleCardExpanded(card);});
 let qT=null;
 on('#q','input',e=>{clearTimeout(qT);qT=setTimeout(()=>{state.q=e.target.value;refresh();},120);});
 on('#typeSeg','click',e=>{const b=e.target.closest('button');if(!b)return;state.type=b.dataset.type;$$('#typeSeg button').forEach(x=>x.classList.toggle('on',x===b));refresh();});
@@ -3422,7 +3591,8 @@ function spinCandidates(){
  var pool=filtered();
  if(spinScope.medium!=='any')pool=pool.filter(x=>x.kind===spinScope.medium);
  if(spinScope.pool==='owned')pool=pool.filter(x=>x.owned);
- else if(spinScope.pool==='discover')pool=pool.filter(x=>!x.owned);
+ else if(spinScope.pool==='discover')pool=pool.filter(x=>!x.owned&&!wlDone(x.id));
+ else if(spinScope.pool==='queue')pool=pool.filter(x=>wlHas(x.id)&&!wlDone(x.id));
  var timeMax=$('#spinTime')?parseInt($('#spinTime').value,10)||0:0;
  if(timeMax>0)pool=pool.filter(x=>x.kind!=='movie'||!x.mins||x.mins<=timeMax);
  var mood=$('#spinMood')?$('#spinMood').value:'any';
@@ -3442,6 +3612,9 @@ function weightedPick(cands){
 function renderSpinResult(it,cands){
  var k=KM[it.kind];var f=suggestedFormat(it);
  var badge=it.owned?'<span class="text-[10px] px-1.5 py-0.5 rounded" style="background:#14532d;color:#4ade80">\u2713 OWNED'+(it.physFormat?' \u00b7 '+esc(it.physFormat):'')+'</span>':'<span class="text-[10px] px-1.5 py-0.5 rounded" style="background:#3b0764;color:#e879f9">DISCOVER</span>';
+ // A finished title is not a "discovery", owned or not.
+ if(wlDone(it.id))badge=(it.owned?badge+' ':'')+'<span class="text-[10px] px-1.5 py-0.5 rounded" style="background:#0c4a6e;color:#7dd3fc">\u2713 '+doneVerb(it).toUpperCase()+'</span>';
+ else if(wlHas(it.id))badge+=' <span class="text-[10px] px-1.5 py-0.5 rounded" style="background:#4c0519;color:#fda4af">\u2665 UP NEXT</span>';
  var whyR=whyRecommended(it);
  var el=$('#surprisePanel');
  el.classList.remove('hidden');el.dataset.mode='spin';
@@ -3471,7 +3644,7 @@ function renderSpinResult(it,cands){
 function doSpin(){
  var cands=spinCandidates();
  var panel=$('#surprisePanel');panel.dataset.mode='spin';
- if(!cands.length){panel.classList.remove('hidden');panel.innerHTML='<div class="panel p-4 text-center text-slate-400 text-sm">No works match this scope \u2014 loosen a filter and spin again.</div>';return;}
+ if(!cands.length){panel.classList.remove('hidden');panel.innerHTML='<div class="panel p-4 text-center text-slate-400 text-sm">'+(spinScope.pool==='queue'&&!Object.keys(WL).some(id=>!wlDone(id))?'Your Up Next is empty \u2014 tap the \u2661 on anything you want to get to, then spin from it here.':'No works match this scope \u2014 loosen a filter and spin again.')+'</div>';return;}
  // brief spin animation cycling titles, then settle
  panel.classList.remove('hidden');
  var frames=10,i=0;
@@ -4272,6 +4445,72 @@ function formatPickerHTML(x){
    return '<button type="button" class="profEditBtn" data-act="setformat" data-id="'+x.id+'" data-kind="'+x.kind+'" data-fmt="'+esc(f)+'" style="font-size:9.5px;padding:2px 7px;border-radius:9999px;border:1px solid '+(active?fs.bd:'var(--border-2,#334155)')+';background:'+(active?fs.bg:'transparent')+';color:'+(active?fs.fg:'#94a3b8')+'" title="'+(active?'You own this on '+f+' — click to clear':'Mark as owned on '+f+'')+'">'+(active?'✓ ':'')+f+'</button>';}).join('')
   +'</div>';
 }
+/* ===== Completed (watched / read / played) from any card =====
+   Everything that shows a title's watch state is redrawn in place here rather than through
+   mutateProfile: completion is not part of the taste profile, so there is nothing to re-score --
+   only the card's corner, its tier row, the nav count, and whichever list is filtered by it. */
+function refreshDoneUI(id){
+ const it=byId.get(id);if(!it)return;
+ $$('.wlBtn[data-wl="'+id+'"]').forEach(function(b){b.outerHTML=wlCornerHTML(it);});
+ $$('.doneSeg[data-id="'+id+'"]').forEach(function(b){b.outerHTML=doneSegHTML(it,b.classList.contains('tierSegRoomy'));});
+}
+function afterWatchStateChange(id){
+ refreshDoneUI(id);
+ updateWlNav();
+ // Recommendations skip what you have finished (see buildGeneratedRec), so they owe a rebuild --
+ // the GOAT tab is re-rendered when next opened, like after any profile edit.
+ try{rebuildGeneratedRecs();}catch(e){console.warn('rebuildGeneratedRecs failed',e);}
+ if(state.view==='goat')renderDeferredProfileView('goat');else profileDirtyViews.goat=true;
+ if(state.view==='watchlist')renderWatchlist();
+ else if(state.view==='controller'&&(state.doneOnly||state.notDoneOnly))refresh();
+ else if(state.view==='timeline'&&tlScope==='done'&&typeof renderTimeline==='function')renderTimeline();
+}
+function setDoneFromUI(id,v){
+ const it=byId.get(id);if(!it)return;
+ const wasQueued=wlHas(id)&&!wlDone(id);
+ wlSetDone(id,v);
+ afterWatchStateChange(id);
+ if(v)showDoneToast(it,wasQueued);
+ else hideToast();
+}
+// A small, self-dismissing confirmation, so a one-tap action that files a title somewhere else
+// (the Watchlist tab's Completed section) says where it went, offers the natural next step (rate
+// it -- finishing something is exactly when you have an opinion), and can be undone.
+let _toastT=null;
+function hideToast(){const t=$('#appToast');if(t)t.classList.remove('show');clearTimeout(_toastT);}
+function showToast(html,ms){
+ let t=$('#appToast');
+ if(!t){t=document.createElement('div');t.id='appToast';t.setAttribute('role','status');t.setAttribute('aria-live','polite');document.body.appendChild(t);}
+ t.innerHTML=html;
+ // Re-trigger the slide-in even when a previous toast is still up.
+ t.classList.remove('show');void t.offsetWidth;t.classList.add('show');
+ clearTimeout(_toastT);_toastT=setTimeout(hideToast,ms||6000);
+ return t;
+}
+function showDoneToast(it,wasQueued){
+ const verb=doneVerb(it);
+ const t=showToast('<span class="toastMsg"><b style="color:'+DONE_COLOR+'">\u2713 '+verb+'</b> \u00b7 '+esc(it.title)
+  +' <span class="toastSub">'+(wasQueued?'moved from Up Next to':'added to')+' Watchlist \u203a Completed</span></span>'
+  +'<span class="toastActions">'
+  +(it.myRating==null?'<button type="button" class="presetBtn" data-toast="rate">\u2606 Rate it</button>':'')
+  +'<button type="button" class="presetBtn" data-toast="view">View</button>'
+  +'<button type="button" class="presetBtn" data-toast="undo">Undo</button>'
+  +'<button type="button" class="toastClose" data-toast="close" aria-label="Dismiss">\u2715</button></span>',7000);
+ t.dataset.id=it.id;
+}
+document.addEventListener('click',function(e){
+ const b=e.target.closest('#appToast [data-toast]');if(!b)return;
+ const t=$('#appToast'),id=t&&t.dataset.id,act=b.dataset.toast;
+ hideToast();
+ if(!id||act==='close')return;
+ if(act==='undo')setDoneFromUI(id,false);
+ else if(act==='rate')openRateGate(id);
+ else if(act==='view'){
+  state.wlFilter='done';
+  $$('#wlFilter button').forEach(function(x){x.classList.toggle('on',x.dataset.wf==='done');});
+  switchView('watchlist');
+ }
+});
 function handleProfileEditClick(btn){
  const act=btn.dataset.act;
  if(act==='declare')toggleDeclaredFavorite(btn.dataset.id);
@@ -4282,6 +4521,7 @@ function handleProfileEditClick(btn){
  else if(act==='silver')toggleSilverTier(btn.dataset.id);
  else if(act==='bronze')toggleBronzeTier(btn.dataset.id);
  else if(act==='rate')openRateGate(btn.dataset.id);
+ else if(act==='done')setDoneFromUI(btn.dataset.id,!wlDone(btn.dataset.id));
  else if(act==='setformat')setPhysFormat(btn.dataset.id,btn.dataset.kind,btn.dataset.fmt);
  else if(act==='remove-owned'){
   if(typeof confirm!=='undefined'&&!confirm('Remove “'+btn.dataset.title+'” from your owned collection?'))return;
@@ -4307,8 +4547,18 @@ function handleProfileEditClick(btn){
    No longer surfaced in the header (it fell too far behind real changes to be worth showing), but
    kept here as the project's own record. Bump APP_VERSION and add a CHANGELOG entry whenever a
    change is worth remembering; cosmetic tweaks don't need a bump. */
-const APP_VERSION='1.46.0';
+const APP_VERSION='1.47.0';
 const CHANGELOG=[
+ {v:'1.47.0',date:'2026-09-23',summary:'Mark anything watched, read or played in one tap from any card, the app works offline, and clicks and page loads are faster.',notes:[
+  'Every card has a "\u2713 Watched" (or Read / Played) button next to Owned. One tap files it under the Watchlist tab\u2019s Completed section with today\u2019s date, with a confirmation that offers Undo and "Rate it". The \u2661 in the card\u2019s corner turns into a \u2713 so finished titles are easy to spot.',
+  'It works whether or not the title was saved first. Undoing a title that was in Up Next puts it back in Up Next; undoing one that never was removes it again.',
+  'The Watchlist tab gains a date on every completed title (editable, for things logged after the fact), a "Done in <year>" count, a "Recently completed" sort, and a Rate button on finished titles. The nav badge now counts only what is still Up Next.',
+  'The Global Controller has "\u2713 Watched / read / played" and "\u25cb Not yet" filters (kept in the URL like the others). "Best Untried Matches" now also skips anything you have finished.',
+  'GOAT Profile recommendations, the Taste Portrait\u2019s blind spots and Surprise Me\u2019s Discover pool no longer suggest anything you have finished. Surprise Me can also spin from just your Up Next list, and the Timeline has a Completed scope.',
+  'The Watchlist\u2019s "Recommended next" column no longer suggests titles you already own, have tiered or have rated.',
+  'Works offline: once the hosted app has been opened online, it opens with no connection. Edits made offline are saved on the device, the account menu says "Offline" instead of reporting a failed save, and they upload by themselves when the connection returns.',
+  'Tier, owned and rating clicks take about 140ms instead of about 330ms, and the app loads about 40% faster. The hidden summary and breakdown of each card are now built when the card is opened instead of up front, and the per-card lookups behind "why this was recommended" and cross-medium pairings no longer scan the whole library for every card. Results are identical; the test suite checks that across all 5,000+ titles.'
+ ]},
  {v:'1.46.0',date:'2026-09-12',summary:'The GOAT Profile tab’s recommendations now show only the four categories every account can actually build (Movies, Books, TV Series, Video Games) — the six sample-only categories (Directors, Actors, Composers, Cinematographers, Music Artists, YouTube) are back to being just PK’s own account and the PK Sample, not something every new account inherited.',notes:[
   'Those six categories were always PK’s own hand-picked names — there’s no UI to declare a favorite Director/Actor/Composer/Cinematographer/Music Artist/YouTuber for yourself, only the score next to each name ever recomputed per account. Showing them on every account made it look like a personalized recommendation when it was really just PK’s picks under someone else’s taste weights',
   'PK’s own account keeps all ten, and so does any copy started from "Start from the PK Sample" — that option now marks the cloned profile so it keeps behaving like PK’s own until reset to blank, matching what the onboarding screen already promises ("PK’s actual collection... real and lived-in")',
@@ -5258,12 +5508,16 @@ on('#wlTypeSeg','click',e=>{const b=e.target.closest('button');if(!b)return;stat
 on('#wlSortSel','change',e=>{state.wlSort=e.target.value;renderWatchlist();scheduleURLSync();});
 let wlSearchT=null;
 on('#wlSearch','input',e=>{clearTimeout(wlSearchT);const v=e.target.value;wlSearchT=setTimeout(()=>{state.wlSearchQ=v;renderWatchlist();scheduleURLSync();},120);});
-on('#wlGrid','click',e=>{const dn=e.target.closest('.wlDone'),rm=e.target.closest('.wlRemove');
- if(dn){wlSetWatched(dn.dataset.id,!WL[dn.dataset.id].watched);renderWatchlist();}
- else if(rm){wlToggle(rm.dataset.id);renderWatchlist();}});
-on('#wlRecs','click',e=>{const a=e.target.closest('.wlAdd');if(a){wlToggle(a.dataset.id);renderWatchlist();}});
-on('#wlClear','click',()=>{if(typeof confirm==='undefined'||confirm('Clear your entire watchlist?')){WL={};wlSave();renderWatchlist();}});
-on('#wlExport','click',()=>{const items=wlItems().map(x=>({title:x.title,year:x.year,medium:KM[x.kind].label,watched:WL[x.id].watched}));
+on('#wlGrid','click',e=>{const dn=e.target.closest('.wlDone'),rm=e.target.closest('.wlRemove'),rt=e.target.closest('.wlRate');
+ if(dn){setDoneFromUI(dn.dataset.id,!wlDone(dn.dataset.id));}
+ else if(rt){openRateGate(rt.dataset.id);}
+ else if(rm){wlToggle(rm.dataset.id);afterWatchStateChange(rm.dataset.id);}});
+on('#wlGrid','change',e=>{const d=e.target.closest('.wlDoneDate');if(!d)return;
+ // A cleared or unparseable date forgets the date rather than inventing one.
+ const ms=msFromDateInput(d.value);wlSetDoneDate(d.dataset.id,ms&&ms<=Date.now()+864e5?ms:null);renderWatchlist();});
+on('#wlRecs','click',e=>{const a=e.target.closest('.wlAdd');if(a){wlToggle(a.dataset.id);afterWatchStateChange(a.dataset.id);}});
+on('#wlClear','click',()=>{if(typeof confirm==='undefined'||confirm('Clear your entire watchlist? This removes Up Next and your Completed history.')){const ids=Object.keys(WL);WL={};wlSave();ids.forEach(refreshDoneUI);afterWatchStateChange(ids[0]||'');renderWatchlist();}});
+on('#wlExport','click',()=>{const items=wlItems().map(x=>{const e=WL[x.id],o={title:x.title,year:x.year,medium:KM[x.kind].label,watched:!!e.watched};if(e.watched&&e.doneAt)o.completedOn=dateInputValue(e.doneAt);if(typeof x.myRating==='number')o.myRating=x.myRating;return o;});
  const blob=new Blob([JSON.stringify(items,null,2)],{type:'application/json'});const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='my-watchlist.json';a.click();});
 on('#creatorGrid','keydown',e=>{if(e.key!=='Enter'&&e.key!==' ')return;const f=e.target.closest('.flip');if(f){e.preventDefault();f.classList.toggle('flipped');}});
 
@@ -5390,6 +5644,8 @@ on('#pinnedMainSliders','click',handlePinBtnClick);
 on('#combineMode','change',e=>{state.combine=e.target.checked;refresh();});
 on('#ownedToggle','change',e=>{state.ownedOnly=e.target.checked;if(e.target.checked){state.notOwnedOnly=false;const no=$('#notOwnedToggle');if(no)no.checked=false;}syncAdvCount();refresh();});
 on('#notOwnedToggle','change',e=>{state.notOwnedOnly=e.target.checked;if(e.target.checked){state.ownedOnly=false;const o=$('#ownedToggle');if(o)o.checked=false;}syncAdvCount();refresh();});
+on('#doneToggle','change',e=>{state.doneOnly=e.target.checked;if(e.target.checked){state.notDoneOnly=false;const o=$('#notDoneToggle');if(o)o.checked=false;}syncAdvCount();refresh();});
+on('#notDoneToggle','change',e=>{state.notDoneOnly=e.target.checked;if(e.target.checked){state.doneOnly=false;const o=$('#doneToggle');if(o)o.checked=false;}syncAdvCount();refresh();});
 on('#ratedToggle','change',e=>{state.ratedOnly=e.target.checked;if(e.target.checked){state.unratedOnly=false;const u=$('#unratedToggle');if(u)u.checked=false;}maybeAutoSort();syncAdvCount();refresh();});
 on('#unratedToggle','change',e=>{state.unratedOnly=e.target.checked;if(e.target.checked){state.ratedOnly=false;const r=$('#ratedToggle');if(r)r.checked=false;}syncAdvCount();refresh();});
 on('#tierChips','click',e=>{const b=e.target.closest('.tierChip');if(!b)return;const t=b.dataset.tier;
@@ -5406,16 +5662,19 @@ on('#yearPresets','click',e=>{const b=e.target.closest('button');if(!b)return;
  syncAdvCount();refresh();});
 on('#discoverBtn','click',()=>{
  if(isDiscoverActive()){
-  state.notOwnedOnly=false;
+  state.notOwnedOnly=false;state.notDoneOnly=false;
   state.tierFilterExclude=state.tierFilterExclude.filter(t=>!DISCOVER_TIERS.includes(t));
  }else{
-  state.ownedOnly=false;state.notOwnedOnly=true;
+  // "Untried" means new to you: not owned, not already finished, not already tiered.
+  state.ownedOnly=false;state.notOwnedOnly=true;state.doneOnly=false;state.notDoneOnly=true;
   state.tierFilter=state.tierFilter.filter(t=>!DISCOVER_TIERS.includes(t));
   state.tierFilterExclude=Array.from(new Set(state.tierFilterExclude.concat(DISCOVER_TIERS)));
   state.sort='gm';const ss=$('#sortSel');if(ss)ss.value='gm';
  }
  const ot=$('#ownedToggle');if(ot)ot.checked=state.ownedOnly;
  const nt=$('#notOwnedToggle');if(nt)nt.checked=state.notOwnedOnly;
+ const dt=$('#doneToggle');if(dt)dt.checked=state.doneOnly;
+ const ndt=$('#notDoneToggle');if(ndt)ndt.checked=state.notDoneOnly;
  buildTierFilterChips();syncAdvCount();refresh();
 });
 on('#activeBar','click',e=>{
@@ -5429,6 +5688,8 @@ on('#activeBar','click',e=>{
  else if(c==='year'){state.yearMin=state.yearMax=null;$('#yearMin').value='';$('#yearMax').value='';}
  else if(c==='owned'){state.ownedOnly=false;const o=$('#ownedToggle');if(o)o.checked=false;}
  else if(c==='notowned'){state.notOwnedOnly=false;const no=$('#notOwnedToggle');if(no)no.checked=false;}
+ else if(c==='done'){state.doneOnly=false;const d=$('#doneToggle');if(d)d.checked=false;}
+ else if(c==='notdone'){state.notDoneOnly=false;const nd=$('#notDoneToggle');if(nd)nd.checked=false;}
  else if(c.indexOf('tierEx:')===0){const t=c.slice(7);state.tierFilterExclude=state.tierFilterExclude.filter(x=>x!==t);buildTierFilterChips();}
  else if(c.indexOf('tier:')===0){const t=c.slice(5);state.tierFilter=state.tierFilter.filter(x=>x!==t);buildTierFilterChips();}
  else if(c.indexOf('genre:')===0){const g=c.slice(6);state.genres=state.genres.filter(x=>x!==g);buildGenreChips();}
@@ -5442,7 +5703,7 @@ on('#activeBar','click',e=>{
  syncAdvCount();refresh();
 });
 function clearAllFilters(){
- Object.assign(state,{q:'',type:'all',struct:'all',plats:[],minGoat:0,minMyRating:0,ratedOnly:false,unratedOnly:false,genres:[],genresExclude:[],ratings:[],ownedOnly:false,notOwnedOnly:false,tierFilter:[],tierFilterExclude:[],yearMin:null,yearMax:null,combine:false});
+ Object.assign(state,{q:'',type:'all',struct:'all',plats:[],minGoat:0,minMyRating:0,ratedOnly:false,unratedOnly:false,genres:[],genresExclude:[],ratings:[],ownedOnly:false,notOwnedOnly:false,doneOnly:false,notDoneOnly:false,tierFilter:[],tierFilterExclude:[],yearMin:null,yearMax:null,combine:false});
  buildTierFilterChips();
  state.idx={snd:0,ref:0,ch:0,emo:0,awe:0,cozy:0,perf:0,icon:0,scary:0,real:0,reality:0,shock:0,sci:0,funny:0,hist:0,vibe2:0,crit:0,aud:0,tech:0,dread:0,myst:0,warmth:0,comedy:0,beauty:0,runtime:0};state.ratings=[];
  $('#q').value='';var ss=$('#structSel');if(ss)ss.value='all';updatePlatLabel();
@@ -5452,6 +5713,7 @@ function clearAllFilters(){
  $$('.idxSlider').forEach(sl=>{sl.value=0;var c=$('#idxV_'+sl.dataset.k);if(c)c.textContent=idxDisplay(sl.dataset.k,0);});
  $('#combineMode').checked=false;const _o=$('#ownedToggle');if(_o)_o.checked=false;const _no=$('#notOwnedToggle');if(_no)_no.checked=false;
  const _r=$('#ratedToggle');if(_r)_r.checked=false;const _ur=$('#unratedToggle');if(_ur)_ur.checked=false;
+ const _d=$('#doneToggle');if(_d)_d.checked=false;const _nd=$('#notDoneToggle');if(_nd)_nd.checked=false;
  $('#yearMin').value='';$('#yearMax').value='';
  buildGenreChips();buildRatingChips();syncAdvCount();refresh();
 }
@@ -5615,4 +5877,7 @@ var _rzT;window.addEventListener('resize',function(){clearTimeout(_rzT);_rzT=set
  window.recomputeTasteScores=recomputeTasteScores;window.recomputeProfileDerived=recomputeProfileDerived;
  window.tasteModel=function(){return TASTE_MODEL;};
  window.genreMatches=genreMatches;
+ // The per-card corpus lookups, so the suite can hold their memoized versions to the original
+ // full-scan behaviour (see derivedLookups).
+ window.whyRecommended=whyRecommended;window.crossThread=crossThread;window.crossMediumPairings=crossMediumPairings;
 }
