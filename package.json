@@ -4,7 +4,7 @@
   "description": "No build step for the app itself -- this package.json exists only to run the checks. `npm run test-fast` (~15s) is everything except the browser suite; `npm run test-browser` (~7 min) is the Playwright suite in test/regression.js, which CI runs on every pull request.",
   "scripts": {
     "test": "npm run test-fast && npm run test-browser",
-    "test-fast": "node scripts/validate-corpus.js && node test/schema.js && node test/fetch-facts.js && node test/fetch-substance.js && node test/score-batch.js",
+    "test-fast": "node scripts/validate-corpus.js && node test/schema.js && node test/fetch-facts.js && node test/fetch-substance.js && node test/score-batch.js && node test/evidence.js",
     "test-browser": "node test/regression.js",
     "validate-corpus": "node scripts/validate-corpus.js",
     "test-schema": "node test/schema.js",

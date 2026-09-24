@@ -63,7 +63,10 @@ Facts are not copyrightable (*Feist v. Rural Telephone*) — a runtime, a year, 
 be committed freely. A synopsis is expressive text and is protected. **This repository is public**,
 so committing thousands of verbatim synopses is redistribution rather than personal use. That is
 why `fetch-substance.js` keeps short factual tags by default and puts prose behind
-`--include-prose`, writing it to a `.prose.json` that `.gitignore` excludes. TMDB's terms require
+`--include-prose`, writing it to a `.prose.json` that `.gitignore` excludes. The same goes for the
+raw `--record` files: TMDB, OMDb and Google Books responses carry overviews, plots and blurbs, so a
+recording is committed only with those fields stripped, and `npm run test-fast` fails on any
+committed evidence file that still has them. TMDB's terms require
 this line wherever its data is used, and the harness writes it into every pack:
 
 > This product uses the TMDB API but is not endorsed or certified by TMDB.
