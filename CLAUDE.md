@@ -10,7 +10,7 @@ There are two tiers of checks:
 | Command                  | What it covers                                        | Time    |
 |--------------------------|-------------------------------------------------------|---------|
 | `npm run lint`           | ESLint, including the no-fixed-sleeps rule for tests  | ~3s     |
-| `npm run test-fast`      | corpus validation, schema, fact/substance/score harnesses | ~15s |
+| `npm run test-fast`      | corpus validation, schema, fact/substance/score harnesses, no prose in committed evidence | ~15s |
 | `npm run test-browser`   | the Playwright suite, `test/regression.js`            | ~7 min  |
 
 `npm test` runs both tiers in order.
