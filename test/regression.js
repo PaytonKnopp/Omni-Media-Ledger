@@ -3538,6 +3538,19 @@ async function runCompletedFlow(browser, file) {
 async function runFranchiseFilterFlow(browser, file) {
   const { page, pageErrors } = await bootSample(browser, file);
 
+  // The top filter row on desktop: search, media type, platform and Reset share one top edge and
+  // one height, with every label on a single line, at the narrowest desktop width and a wide one.
+  for (const w of [1024, 1400]) {
+    await page.setViewportSize({ width: w, height: 1000 });
+    const row = await page.evaluate(() => {
+      const r = ['q', 'typeSeg', 'platField', 'resetBtn'].map(id => document.getElementById(id).getBoundingClientRect());
+      const labels = Array.from(document.querySelectorAll('#topFilterRow .fieldlbl')).map(l => l.getBoundingClientRect().height);
+      return { tops: r.map(x => Math.round(x.top)), heights: r.map(x => Math.round(x.height)), labels };
+    });
+    check('at ' + w + 'px the top filter row lines up: one top edge, one height, one-line labels',
+      new Set(row.tops).size === 1 && new Set(row.heights).size === 1 && row.labels.every(h => h < 20));
+  }
+
   await page.check('#franchiseToggle');
   const franchiseIds = await readWhen(page, () => {
     const ids = Array.from(document.querySelectorAll('#grid .cardHead')).map(h => h.dataset.id);
