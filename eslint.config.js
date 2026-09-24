@@ -19,6 +19,7 @@ module.exports = [
         // rather than per-file.
         supabase: 'readonly',
         Chart: 'readonly',
+        PK_SAMPLE_PROFILE: 'readonly', // data/pk-sample.js
       },
     },
     rules: {

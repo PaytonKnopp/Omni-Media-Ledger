@@ -4951,8 +4951,12 @@ function handleProfileEditClick(btn){
    No longer surfaced in the header (it fell too far behind real changes to be worth showing), but
    kept here as the project's own record. Bump APP_VERSION and add a CHANGELOG entry whenever a
    change is worth remembering; cosmetic tweaks don't need a bump. */
-const APP_VERSION='1.48.0';
+const APP_VERSION='1.48.1';
 const CHANGELOG=[
+ {v:'1.48.1',date:'2026-09-24',summary:'The PK Sample is now a fixed copy, so signing in as payton can no longer change what new accounts start from.',notes:[
+  '\u201cStart from the PK Sample\u201d used to copy whatever the payton account held at that moment, and since any name can be signed into, anyone could change it. It now copies data/pk-sample.js, which only changes through a commit (scripts/update-pk-sample.js).',
+  'Two retired placeholder records the old built-in sample still pointed at (the Man with No Name Trilogy and Harry Potter Books 1\u20137, since split into single works) are left out; neither ever appeared in the app.'
+ ]},
  {v:'1.48.0',date:'2026-09-23',summary:'Recommendations now carry your taste in tone across media.',notes:[
   'GOAT Match learns how warm, how funny and how dark your favorites are, measured within each medium, and rewards works that share that tone and marks down ones that pull the other way. Before, tone could only add points, and it never reached a medium you had not tiered in: tiering cosy games put Blood Meridian at the top of your Books. It now suggests Winnie-the-Pooh and Dandelion Wine; a comedy lover\u2019s Books list leads with The Hitchhiker\u2019s Guide, Good Omens and Discworld.',
   'A card\u2019s \u201cWhy this match?\u201d shows it as a Tone chip.',
@@ -5842,34 +5846,21 @@ function pickSeedCandidates(excludeIds){
  // object, not a real personal profile decoupled from Payton's own account. Fixed to explicitly
  // clone a starting profile and save it immediately, so it's genuinely "yours" -- editable, and
  // removable -- from the moment you pick it, same as every other onboarding path.
- // When cloud accounts are configured, fetches Payton's real, currently-live "payton" account
- // instead of the hardcoded defaults baked into this copy of the file, so the sample reflects
- // whatever Payton's account actually looks like today, not a snapshot frozen at whenever this
- // file was last regenerated. Falls back to the hardcoded defaults if that fetch fails for any
- // reason (cloud not configured, network error, the handle doesn't exist yet) -- same
- // degrade-gracefully posture as the rest of the cloud-account code.
- var SAMPLE_HANDLE='payton';
- function fetchLiveSampleProfile(){
-  var a=(typeof window.__omniAcct==='function')?window.__omniAcct():null;
-  if(!a||!a.configured||!a.client)return Promise.resolve(null);
-  return a.client.from('profiles').select('data').eq('handle',SAMPLE_HANDLE).maybeSingle().then(function(res){
-   if(res&&res.error)throw res.error;
-   var raw=res&&res.data&&res.data.data&&res.data.data.omniLedgerProfile;
-   return raw?JSON.parse(raw):null;
-  }).catch(function(e){console.warn('Could not fetch the live PK sample, using the built-in defaults:',e&&e.message||e);return null;});
- }
+ // The copy comes from data/pk-sample.js, a committed file. It used to be read live from the
+ // "payton" cloud account, but any name can be signed into, so whatever the last person signed in
+ // as payton left there became every newcomer's starting point. The file only changes through
+ // scripts/update-pk-sample.js and a commit. PERSONAL_PROFILE's built-in defaults remain the
+ // fallback for a copy of the app that is missing the file.
  on('#onboardSample','click',function(e){
   var btn=e.currentTarget;btn.disabled=true;
-  fetchLiveSampleProfile().then(function(live){
-   var seed=live||JSON.parse(JSON.stringify(PERSONAL_PROFILE));
-   // Marks this copy as still mimicking Payton's real taste, which is what keeps the GOAT Profile
-   // tab's six sample-only recommendation categories (Directors, Actors, Composers, etc. -- see
-   // isPaytonSampleProfile above) visible for it, same as Payton's own account, instead of
-   // collapsing to the 4 core categories every other profile gets.
-   seed.pkSampleOrigin=true;
-   try{localStorage.setItem('omniLedgerOnboarded','1');localStorage.setItem('omniLedgerProfile',JSON.stringify(seed));}catch(err){alert('Could not save: '+err.message);btn.disabled=false;return;}
-   reloadWithMediaSync({});
-  });
+  var seed=JSON.parse(JSON.stringify(typeof PK_SAMPLE_PROFILE!=='undefined'?PK_SAMPLE_PROFILE:PERSONAL_PROFILE));
+  // Marks this copy as still mimicking Payton's real taste, which is what keeps the GOAT Profile
+  // tab's six sample-only recommendation categories (Directors, Actors, Composers, etc. -- see
+  // isPaytonSampleProfile above) visible for it, same as Payton's own account, instead of
+  // collapsing to the 4 core categories every other profile gets.
+  seed.pkSampleOrigin=true;
+  try{localStorage.setItem('omniLedgerOnboarded','1');localStorage.setItem('omniLedgerProfile',JSON.stringify(seed));}catch(err){alert('Could not save: '+err.message);btn.disabled=false;return;}
+  reloadWithMediaSync({});
  });
  on('#onboardBlank','click',()=>{try{localStorage.setItem('omniLedgerOnboarded','1');localStorage.setItem('omniLedgerProfile','{}');}catch(e){console.warn('omniLedgerProfile failed',e);}reloadWithMediaSync({});});
  on('#onboardImportInput','change',e=>{const file=e.target.files&&e.target.files[0];if(!file)return;const reader=new FileReader();reader.onload=()=>{try{const parsed=JSON.parse(reader.result);if(typeof parsed!=='object'||parsed===null||Array.isArray(parsed))throw new Error('File is not a profile object');localStorage.setItem('omniLedgerOnboarded','1');applyImportedSnapshot(parsed);reloadWithMediaSync({});}catch(err){alert('Could not import that file: '+err.message);}};reader.readAsText(file);});
