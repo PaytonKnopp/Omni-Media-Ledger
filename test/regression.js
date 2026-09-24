@@ -3559,15 +3559,31 @@ async function runCompletedFlow(browser, file) {
       return !!first && /Completed works/i.test(first.textContent) && parseInt(first.textContent, 10) > 0;
     }, undefined, 5000));
 
-  // Phone width: the tier row, now five segments long, still fits on one line.
+  // Phone width: the tier row, now five segments long, still fits on one line -- including the
+  // widest one it gets: a film or series ("✓ Watched" is the longest of Watched / Read / Played)
+  // that you have rated 10, so the last segment reads "★ 10.0" instead of a bare ☆. Rate one here
+  // rather than rely on the PK Sample happening to put such a title near the top.
   await page.setViewportSize({ width: 360, height: 800 });
   await page.evaluate(() => window.switchView('controller'));
   await firstCardId(page);
-  const wrapped = await page.evaluate(() => Array.from(document.querySelectorAll('#grid .tierRow')).slice(0, 20).filter(r => {
-    const tops = Array.from(r.children).map(c => Math.round(c.getBoundingClientRect().top));
-    return Math.max.apply(null, tops) - Math.min.apply(null, tops) > 4;
-  }).length);
-  check('the card tier row stays on one line on a 360px phone', wrapped === 0);
+  const ratedId = await page.evaluate(() => {
+    const seg = Array.from(document.querySelectorAll('#grid .doneSeg')).slice(0, 20).find(b => /Watched/.test(b.textContent));
+    return seg ? seg.dataset.id : null;
+  });
+  if (ratedId) { await page.evaluate((i) => window.setRating(i, 10), ratedId); await settle(page); }
+  await firstCardId(page);
+  const rows360 = await page.evaluate((i) => {
+    const rows = Array.from(document.querySelectorAll('#grid .tierRow')).slice(0, 20);
+    return {
+      wrapped: rows.filter(r => {
+        const tops = Array.from(r.children).map(c => Math.round(c.getBoundingClientRect().top));
+        return Math.max.apply(null, tops) - Math.min.apply(null, tops) > 4;
+      }).length,
+      rated: rows.some(r => /10\.0/.test((r.querySelector('.rateBtn.rated[data-id="' + i + '"]') || {}).textContent || '')),
+    };
+  }, ratedId);
+  check('the card tier row stays on one line on a 360px phone, a rated title\'s included',
+    rows360.wrapped === 0 && rows360.rated);
 
   await page.close();
   check('no uncaught page errors during the completed flow', pageErrors.length === 0);

@@ -642,7 +642,7 @@ function tierRowHTML(it,roomy){
  var rv=it.myRating;
  var rateCls='profEditBtn rateBtn'+(roomy?'':' ml-auto');
  var rateBtn=(typeof rv==='number')
-  ?'<button type="button" class="'+rateCls+' rated" data-act="rate" data-id="'+it.id+'" title="Your rating: '+rv.toFixed(1)+'/10 — click to change">★ '+rv.toFixed(1)+'</button>'
+  ?'<button type="button" class="'+rateCls+' rated" data-act="rate" data-id="'+it.id+'" title="Your rating: '+rv.toFixed(1)+'/10 — click to change">★<span class="rateGap"> </span>'+rv.toFixed(1)+'</button>'
   :'<button type="button" class="'+rateCls+'" data-act="rate" data-id="'+it.id+'" aria-label="Rate" title="Rate this 0–10 — entirely optional, click to add">☆ <span class="segWord">Rate</span></button>';
  // roomy: the GOAT Profile "Search & Build Your Favorites" list renders these one card at a time
  // (not the dense main grid), so it can afford noticeably more breathing room between the four
@@ -4955,7 +4955,8 @@ const APP_VERSION='1.48.1';
 const CHANGELOG=[
  {v:'1.48.1',date:'2026-09-24',summary:'The PK Sample is now a fixed copy, so signing in as payton can no longer change what new accounts start from.',notes:[
   '\u201cStart from the PK Sample\u201d used to copy whatever the payton account held at that moment, and since any name can be signed into, anyone could change it. It now copies data/pk-sample.js, which only changes through a commit (scripts/update-pk-sample.js).',
-  'Two retired placeholder records the old built-in sample still pointed at (the Man with No Name Trilogy and Harry Potter Books 1\u20137, since split into single works) are left out; neither ever appeared in the app.'
+  'Two retired placeholder records the payton profile still pointed at (the Man with No Name Trilogy and Harry Potter Books 1\u20137, since split into single works) are left out; neither ever appeared in the app.',
+  'On a 360px phone, a card you have rated no longer spills its buttons onto a second line: the rating closes up from \u201c\u2605 10.0\u201d to \u201c\u260510.0\u201d there, as \u201cRate\u201d already shrank to its star.'
  ]},
  {v:'1.48.0',date:'2026-09-23',summary:'Recommendations now carry your taste in tone across media.',notes:[
   'GOAT Match learns how warm, how funny and how dark your favorites are, measured within each medium, and rewards works that share that tone and marks down ones that pull the other way. Before, tone could only add points, and it never reached a medium you had not tiered in: tiering cosy games put Blood Meridian at the top of your Books. It now suggests Winnie-the-Pooh and Dandelion Wine; a comedy lover\u2019s Books list leads with The Hitchhiker\u2019s Guide, Good Omens and Discworld.',

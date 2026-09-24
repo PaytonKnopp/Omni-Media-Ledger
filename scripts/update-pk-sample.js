@@ -50,6 +50,16 @@ function idsOf(profile, field) {
   return v && typeof v === 'object' && !Array.isArray(v) ? Object.keys(v) : [];
 }
 
+// What the app counts as held for a field. The one difference from idsOf: books numbered at or
+// below ownedBookIdCeiling are owned too -- a legacy rule the app still honours (see
+// OWNED_BOOK_ID_CEILING in app/ledger-app.js), so leaving it out would report owned books as removed.
+function heldIds(profile, field, titles) {
+  const ids = new Set(idsOf(profile, field));
+  const ceiling = field.key === 'ownedBooksExtra' ? Number(profile && profile.ownedBookIdCeiling) || 0 : 0;
+  if (ceiling) for (const id of titles.keys()) if (/^b\d+$/.test(id) && parseInt(id.slice(1), 10) <= ceiling) ids.add(id);
+  return ids;
+}
+
 // id -> title, across the four media and the contenders, read the way validate-corpus.js reads them.
 function loadTitles() {
   const titles = new Map();
@@ -92,11 +102,11 @@ function describeChanges(before, after, titles) {
   const name = id => (titles.get(id) || '(unknown title)') + ' [' + id + ']';
   const lines = [];
   for (const f of ID_FIELDS) {
-    const a = new Set(idsOf(before, f)), b = new Set(idsOf(after, f));
+    const a = heldIds(before, f, titles), b = heldIds(after, f, titles);
     const added = [...b].filter(id => !a.has(id)), removed = [...a].filter(id => !b.has(id));
     let changed = [];
     if (f.shape === 'keys' && before && after && before[f.key] && after[f.key]) {
-      changed = [...b].filter(id => a.has(id) &&
+      changed = [...b].filter(id => id in before[f.key] && id in after[f.key] &&
         JSON.stringify(before[f.key][id]) !== JSON.stringify(after[f.key][id]));
     }
     lines.push('  ' + f.label.padEnd(22) + String(b.size).padStart(4) +

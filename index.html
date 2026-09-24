@@ -713,9 +713,16 @@ button:focus-visible,select:focus-visible,input:focus-visible{outline:2px solid 
  .tierRow .tierSeg[data-act="own"],.tierRow .doneSeg{padding:5px 6px}
  .tierRow .rateBtn{padding:5px 7px}
 }
-/* Narrower still (a 360px phone): "Rate" becomes its star alone. Then on the smallest phones, Owned
-   and Watched drop to their symbols too. Each keeps its word as an aria-label and a tooltip. */
-@container (max-width:330px){.tierRow .rateBtn .segWord{display:none}}
+/* Narrower still (a 360px phone): "Rate" becomes its star alone, and a rating you have given closes
+   up from "★ 10.0" to "★10.0" with less padding (and Owned/Watched give up a pixel each side) -- the
+   rated chip is ~30px wider than the bare star, which put the rows of exactly the titles you care
+   most about onto two lines. Then on the smallest phones, Owned and Watched drop to their symbols
+   too. Each keeps its word as an aria-label and a tooltip. */
+@container (max-width:330px){
+ .tierRow .rateBtn .segWord,.tierRow .rateBtn .rateGap{display:none}
+ .tierRow .rateBtn.rated{padding:5px 4px}
+ .tierRow .tierSeg[data-act="own"],.tierRow .doneSeg{padding:5px 5px}
+}
 @container (max-width:290px){.tierRow .tierSeg .segWord{display:none}}
 @media (max-width:480px){#appToast{width:calc(100vw - 24px)}}
 
