@@ -197,7 +197,7 @@ const DONE_VERB={movie:'Watched',tv:'Watched',game:'Played',book:'Read'};
 function doneVerb(it){return DONE_VERB[it&&it.kind]||'Completed';}
 
 /* ===================== STATE & HELPERS ===================== */
-const state={view:'controller',q:'',type:'all',struct:'all',plats:[],minGoat:0,minMyRating:0,ratedOnly:false,unratedOnly:false,genres:[],genresExclude:[],ownedOnly:false,notOwnedOnly:false,doneOnly:false,notDoneOnly:false,limit:100,idx:{snd:0,ref:0,ch:0,emo:0,awe:0,cozy:0,perf:0,icon:0,scary:0,real:0,reality:0,shock:0,sci:0,funny:0,hist:0,vibe2:0,crit:0,aud:0,tech:0,dread:0,myst:0,warmth:0,comedy:0,beauty:0,runtime:0},ratings:[],tierFilter:[],tierFilterExclude:[],yearMin:null,yearMax:null,combine:false,sort:'overall',w:{tech:0.85,dread:0.95,myst:0.90},creatorTab:'directors',creatorSearch:'',creatorLedgerOnly:false,creatorOwnedOnly:false,goatType:'all',goatTierFilter:'all',goatSort:'match',goatDeclaredQ:'',portraitScope:'all',collSearchQ:'',collSort:'az',wlType:'all',wlSort:'added',wlSearchQ:'',creatorSearchScope:'all',creatorSort:'works'};
+const state={view:'controller',q:'',type:'all',struct:'all',plats:[],minGoat:0,minMyRating:0,ratedOnly:false,unratedOnly:false,genres:[],genresExclude:[],ownedOnly:false,notOwnedOnly:false,doneOnly:false,notDoneOnly:false,franchiseOnly:false,standaloneOnly:false,limit:100,idx:{snd:0,ref:0,ch:0,emo:0,awe:0,cozy:0,perf:0,icon:0,scary:0,real:0,reality:0,shock:0,sci:0,funny:0,hist:0,vibe2:0,crit:0,aud:0,tech:0,dread:0,myst:0,warmth:0,comedy:0,beauty:0,runtime:0},ratings:[],tierFilter:[],tierFilterExclude:[],yearMin:null,yearMax:null,combine:false,sort:'overall',w:{tech:0.85,dread:0.95,myst:0.90},creatorTab:'directors',creatorSearch:'',creatorLedgerOnly:false,creatorOwnedOnly:false,goatType:'all',goatTierFilter:'all',goatSort:'match',goatDeclaredQ:'',portraitScope:'all',collSearchQ:'',collSort:'az',wlType:'all',wlSort:'added',wlSearchQ:'',creatorSearchScope:'all',creatorSort:'works'};
 const $=s=>document.querySelector(s),$$=s=>Array.from(document.querySelectorAll(s));
 const on=(sel,ev,fn)=>{const el=$(sel);if(el)el.addEventListener(ev,fn);else console.warn('missing element:',sel);};
 // esc/themeColor(+THEME_PALETTE) live in app/cards.js (pure, closure-independent) now.
@@ -263,6 +263,8 @@ function filteredSkipping(skip){const q=state.q.trim().toLowerCase();
   if(state.notOwnedOnly&&it.owned)return false;
   if(state.doneOnly&&!wlDone(it.id))return false;
   if(state.notDoneOnly&&wlDone(it.id))return false;
+  if(state.franchiseOnly&&!inFranchise(it))return false;
+  if(state.standaloneOnly&&inFranchise(it))return false;
   if(!skip||!skip.has('tier')){
    if(state.tierFilter.length&&!state.tierFilter.some(t=>(t==='gold'&&it.goat)||(t==='silver'&&it.silver)||(t==='bronze'&&it.bronze)))return false;
    if(state.tierFilterExclude.length&&state.tierFilterExclude.some(t=>(t==='gold'&&it.goat)||(t==='silver'&&it.silver)||(t==='bronze'&&it.bronze)))return false;
@@ -825,6 +827,8 @@ function renderActiveBar(){
  if(state.notOwnedOnly)chips.push(X('○ Not owned','notowned'));
  if(state.doneOnly)chips.push(X('✓ Watched / read / played','done'));
  if(state.notDoneOnly)chips.push(X('○ Not yet watched / read / played','notdone'));
+ if(state.franchiseOnly)chips.push(X('⚙ Franchise / series','franchise'));
+ if(state.standaloneOnly)chips.push(X('◇ Standalone only','standalone'));
  const TL={gold:'🥇 Gold',silver:'🥈 Silver',bronze:'🥉 Bronze'};
  state.tierFilter.forEach(t=>chips.push(X(TL[t],'tier:'+t)));
  state.tierFilterExclude.forEach(t=>chips.push(X('✕ '+TL[t],'tierEx:'+t)));
@@ -2977,6 +2981,226 @@ SERIES_DEFS.forEach(function(d){d.members.forEach(function(t){SERIES_BY_TITLE.se
 // The boot-time rebuild ran before the curated series existed (see recFranchise); redo it with them.
 rebuildGeneratedRecs();
 function franchiseOf(it){return SERIES_BY_TITLE.get(it.kind+'|'+it.title);}
+/* Franchise vs. standalone, for the Global Controller's "Franchise / series" and "Standalone only"
+   toggles. A work counts as franchise when any of these holds:
+   - the curated SERIES_DEFS list above names it (or it is the work a curated series is named for);
+   - it shares a title root with another work of the same medium -- the seriesTitleRoot clustering
+     Collection's series view uses, which catches Mass Effect 2, Deadpool 2 and Star Trek: Voyager.
+     franchiseRoot() also drops a leading "The" and X-based Roman numerals (Final Fantasy X/XV/XVI),
+     which seriesTitleRoot leaves on;
+   - FRANCHISE_EXTRA below names it.
+   Both automatic rules only ever look at titles, so they miss sequels and spin-offs whose titles
+   share nothing (Better Call Saul, Words of Radiance, Glass Onion) and they can't see across media
+   (Andor and the Star Wars films). FRANCHISE_EXTRA is the hand-checked list for those, with one
+   rule: a work goes in when it is a sequel, prequel, spin-off, numbered or named entry of a series,
+   or a shared-universe entry, AND the series has another entry in the ledger -- or the work is
+   plainly not a first entry (Dishonored 2, Seize the Night). A one-off adaptation of a standalone
+   book is not a franchise, so The Martian stays standalone. Every title here must exist in the
+   corpus; initApp's integrity assert fails on one that doesn't, so a rename can't silently drop it.
+   NOT_A_SERIES holds the franchiseRoot keys that cluster by coincidence (Apollo 11 and Apollo 13,
+   Invisible Man and The Invisible Man) or pair two records of one work (Beowulf and its
+   translation, Grapes of Wrath and The Grapes of Wrath).
+   The corpus never changes after boot, so the membership set is built once, on first use. */
+const FRANCHISE_EXTRA=[
+ // Film
+ ['X-Men',['m:Logan','m:Deadpool & Wolverine','t:X-Men \'97','t:Legion']],
+ ['Alien / Predator',['m:Alien vs. Predator','g:Alien: Isolation']],
+ ['Mad Max',['m:Furiosa: A Mad Max Saga']],
+ ['Knives Out',['m:Knives Out','m:Glass Onion: A Knives Out Mystery']],
+ ['The Incredibles',['m:The Incredibles','m:Incredibles 2']],
+ ['The Matrix',['m:The Matrix']],
+ ['Jump Street',['m:21 Jump Street','m:22 Jump Street']],
+ ['Conan',['m:Conan the Barbarian','m:Conan the Destroyer']],
+ ['Cloverfield',['m:Cloverfield','m:10 Cloverfield Lane']],
+ ['Planet of the Apes',['m:Planet of the Apes (2001)']],
+ ['Percy Jackson',['m:Percy Jackson & the Olympians: The Lightning Thief','b:The Heroes of Olympus: The Lost Hero']],
+ ['It',['m:It','m:It Chapter Two']],
+ ['Knocked Up',['m:Knocked Up','m:This Is 40']],
+ ['Bruce Almighty',['m:Bruce Almighty','m:Evan Almighty']],
+ ['The Fugitive',['m:The Fugitive','m:U.S. Marshals']],
+ ['The Hustler',['m:The Hustler','m:The Color of Money']],
+ ['The Apu Trilogy',['m:Pather Panchali','m:Aparajito']],
+ ['Wong Kar-wai’s 1960s trilogy',['m:Days of Being Wild','m:In the Mood for Love','m:2046']],
+ ['Iwo Jima',['m:Flags of Our Fathers','m:Letters from Iwo Jima']],
+ ['Jumanji',['m:Zathura: A Space Adventure']],
+ ['Garry Marshall holiday trilogy',['m:Valentine\'s Day','m:New Year\'s Eve','m:Mother\'s Day']],
+ ['The Ring',['m:Ringu']],
+ ['Ti West\u2019s X trilogy',['m:X','m:Pearl']],
+ ['Terrifier',['m:Terrifier 2']],
+ ['Firefly',['t:Firefly','m:Serenity']],
+ ['Fargo',['m:Fargo','t:Fargo']],
+ ['Watchmen',['b:Watchmen','m:Watchmen','t:Watchmen']],
+ ['Hannibal Lecter',['m:Manhunter','t:Hannibal','b:Red Dragon','b:The Silence of the Lambs (novel)']],
+ ['The Godfather',['b:The Godfather']],
+ ['The Exorcist',['b:The Exorcist']],
+ ['Resident Evil',['m:Resident Evil']],
+ ['Silent Hill',['m:Silent Hill']],
+ ['Ghost in the Shell',['m:Ghost in the Shell','t:Ghost in the Shell: Stand Alone Complex']],
+ ['Evangelion',['t:Neon Genesis Evangelion','m:The End of Evangelion']],
+ ['Akira',['m:Akira','b:Akira: Volume 1']],
+ ['Comic volumes',['b:Saga: Volume 1','b:Vagabond: Volume 1']],
+ // Television
+ ['Star Wars',['t:Andor','t:The Mandalorian','t:Ahsoka','g:Star Wars: Knights of the Old Republic','g:Star Wars Jedi: Fallen Order']],
+ ['Marvel',['t:Loki','t:WandaVision','t:The Falcon and the Winter Soldier','t:Daredevil','g:Marvel vs. Capcom 2']],
+ ['DC',['t:Batman: The Animated Series','t:The Penguin','t:Gotham','t:Smallville','t:Titans','t:Teen Titans','t:Teen Titans Go!','t:Doom Patrol','t:Harley Quinn']],
+ ['Breaking Bad',['t:Breaking Bad','t:Better Call Saul']],
+ ['A Song of Ice and Fire',['t:Game of Thrones','t:House of the Dragon']],
+ ['Band of Brothers',['t:Band of Brothers','t:The Pacific','t:Masters of the Air']],
+ ['Buffyverse',['t:Buffy the Vampire Slayer','t:Angel']],
+ ['Cheers',['t:Cheers','t:Frasier']],
+ ['The Big Bang Theory',['t:The Big Bang Theory','t:Young Sheldon']],
+ ['Beverly Hills, 90210',['t:Beverly Hills, 90210','t:Melrose Place']],
+ ['Grey’s Anatomy',['t:Grey\'s Anatomy','t:Station 19']],
+ ['NCIS',['t:NCIS']],
+ ['The Addams Family',['t:The Addams Family','t:Wednesday']],
+ ['Avatar: The Last Airbender',['t:Avatar: The Last Airbender','t:The Legend of Korra']],
+ ['The Karate Kid',['t:Cobra Kai']],
+ ['American Horror Story',['t:American Horror Story','t:American Crime Story']],
+ ['Stargate',['t:Stargate SG-1']],
+ ['Dragon Ball',['t:Dragon Ball','t:Dragon Ball Z']],
+ ['Berserk',['t:Berserk (1997)','b:Berserk: Deluxe Volume 1']],
+ ['Castlevania',['t:Castlevania','g:Castlevania: Symphony of the Night']],
+ ['Cyberpunk',['g:Cyberpunk 2077','t:Cyberpunk: Edgerunners']],
+ ['League of Legends',['g:League of Legends','t:Arcane']],
+ ['The Walking Dead',['t:The Walking Dead','g:The Walking Dead']],
+ ['Blue Planet',['t:Blue Planet II']],
+ ['Fallout',['t:Fallout']],
+ ['The Last of Us',['t:The Last of Us']],
+ ['Foundation',['t:Foundation']],
+ ['The Expanse',['t:The Expanse','b:The Expanse: Leviathan Wakes','b:Caliban\'s War','b:Abaddon\'s Gate','b:Leviathan Falls']],
+ ['Remembrance of Earth’s Past',['t:3 Body Problem']],
+ ['Silo',['t:Silo','b:Wool','b:Shift','b:Dust']],
+ ['The Handmaid’s Tale',['t:The Handmaid\'s Tale','b:The Handmaid\'s Tale','b:The Testaments']],
+ ['Outlander',['t:Outlander','b:Outlander']],
+ ['Jack Ryan',['t:Jack Ryan','m:Jack Ryan: Shadow Recruit','b:The Hunt for Red October','b:Patriot Games','b:Clear and Present Danger','b:The Sum of All Fears','b:The Cardinal of the Kremlin','b:Debt of Honor','b:Executive Orders','b:Rainbow Six','g:Rainbow Six Siege']],
+ ['Jack Reacher',['t:Reacher']],
+ ['Harry Bosch',['t:Bosch','b:The Black Echo','b:The Concrete Blonde','b:The Last Coyote','b:Trunk Music','b:Angels Flight','b:A Darkness More Than Night']],
+ ['Sherlock Holmes',['t:Sherlock','t:Elementary','b:The Case-Book of Sherlock Holmes']],
+ ['Ripley',['t:Ripley']],
+ ['Wolf Hall',['t:Wolf Hall','b:Wolf Hall','b:Bring Up the Bodies']],
+ // Games
+ ['God of War',['g:God of War','g:God of War Ragnarök']],
+ ['Persona',['g:Persona 3 Reload','g:Persona 4 Golden','g:Persona 5 Royal']],
+ ['Final Fantasy',['g:Final Fantasy VII Remake','g:Final Fantasy X','g:Final Fantasy XV','g:Final Fantasy XVI','g:Final Fantasy Tactics']],
+ ['Metroid',['g:Metroid','g:Super Metroid','g:Metroid Fusion','g:Metroid Dread']],
+ ['BioShock',['g:BioShock','g:BioShock Infinite']],
+ ['Super Smash Bros.',['g:Super Smash Bros. Melee','g:Super Smash Bros. Ultimate']],
+ ['Monster Hunter',['g:Monster Hunter World','g:Monster Hunter Rise']],
+ ['Chrono',['g:Chrono Trigger','g:Chrono Cross']],
+ ['Horizon',['g:Horizon Zero Dawn','g:Horizon Forbidden West']],
+ ['Hellblade',['g:Hellblade: Senua\'s Sacrifice','g:Senua\'s Saga: Hellblade II']],
+ ['Nier',['g:Nier Replicant','g:Nier: Automata']],
+ ['Ori',['g:Ori and the Blind Forest','g:Ori and the Will of the Wisps']],
+ ['Rayman',['g:Rayman','g:Rayman Legends']],
+ ['Mega Man',['g:Mega Man 2','g:Mega Man X']],
+ ['Mario',['g:Mario Party Superstars','g:Luigi\'s Mansion','g:Donkey Kong Country']],
+ ['FIFA / EA Sports FC',['g:EA Sports FC 24']],
+ ['Metal Gear',['g:Metal Gear Rising: Revengeance']],
+ ['Indiana Jones',['g:Indiana Jones and the Great Circle']],
+ ['James Bond',['g:007 First Light']],
+ ['Warcraft',['g:Warcraft III: Reign of Chaos']],
+ ['Mother',['g:EarthBound']],
+ ['Numbered and named series entries',['g:Armored Core VI: Fires of Rubicon','g:Crusader Kings III','g:Devil May Cry 5','g:Dishonored 2','g:Divinity: Original Sin 2','g:Dota 2','g:Dragon Quest XI','g:Dragon\'s Dogma 2','g:Europa Universalis IV','g:Guild Wars 2','g:Helldivers 2','g:Just Cause 2','g:Metro Exodus','g:Overcooked! 2','g:Pathologic 2','g:Payday 2','g:Risk of Rain 2','g:Spelunky 2','g:Team Fortress 2','g:The Jackbox Party Pack 6','g:The King of Fighters XIV','g:Tony Hawk\'s Pro Skater 2','g:Total War: Shogun 2','g:MLB The Show 23','g:Return to Monkey Island','g:Fire Emblem: Three Houses','g:Tales of Arise','g:Guilty Gear Strive','g:Prince of Persia: The Sands of Time','g:Need for Speed: Most Wanted','g:Command & Conquer: Red Alert','g:Hitman: World of Assassination','g:Tetris Effect: Connected']],
+ // Books
+ ['The Stormlight Archive',['b:The Way of Kings','b:Words of Radiance','b:Oathbringer','b:Rhythm of War','b:Wind and Truth']],
+ ['Mistborn',['b:The Well of Ascension','b:The Hero of Ages']],
+ ['Hercule Poirot',['b:Murder on the Orient Express','b:Death on the Nile','b:The Murder of Roger Ackroyd','b:Evil Under the Sun','b:The ABC Murders','b:Five Little Pigs','b:The Mysterious Affair at Styles','b:The Big Four','b:Peril at End House','b:Cards on the Table','b:Murder in Mesopotamia','b:Sad Cypress','b:The Hollow','b:Taken at the Flood','b:After the Funeral','b:Hickory Dickory Dock','b:Dead Man\'s Folly','b:Cat Among the Pigeons','b:Third Girl','b:Elephants Can Remember','b:Curtain']],
+ ['Miss Marple',['b:A Murder Is Announced','b:The Mirror Crack\'d from Side to Side','b:Sleeping Murder','b:The Body in the Library','b:4.50 from Paddington','b:The Moving Finger']],
+ ['Nathan Zuckerman',['b:Zuckerman Unbound','b:The Anatomy Lesson','b:The Prague Orgy','b:The Counterlife','b:American Pastoral','b:I Married a Communist','b:The Human Stain','b:Exit Ghost']],
+ ['Jeeves',['b:Right Ho, Jeeves','b:The Code of the Woosters','b:Jeeves and the Feudal Spirit','b:Joy in the Morning','b:Much Obliged, Jeeves','b:Thank You, Jeeves','b:My Man Jeeves','b:The Inimitable Jeeves','b:Carry On, Jeeves','b:Very Good, Jeeves']],
+ ['Blandings Castle',['b:Something Fresh','b:Leave It to Psmith','b:Summer Lightning','b:Uncle Fred in the Springtime','b:Full Moon','b:Pigs Have Wings','b:Blandings Castle','b:Heavy Weather','b:A Pelican at Blandings','b:Service with a Smile']],
+ ['Eastwick',['b:The Witches of Eastwick','b:The Widows of Eastwick']],
+ ['Discworld',['b:The Colour of Magic','b:Mort','b:Wyrd Sisters','b:Guards! Guards!','b:Reaper Man','b:Small Gods','b:Men at Arms','b:Feet of Clay','b:Hogfather','b:Jingo','b:The Fifth Elephant','b:Thief of Time','b:Night Watch','b:The Wee Free Men','b:Going Postal']],
+ ['Foundation',['b:Foundation\'s Edge','b:Foundation and Earth','b:Prelude to Foundation']],
+ ['Asimov’s Robots',['b:I, Robot','b:The Caves of Steel','b:The Naked Sun','b:The Robots of Dawn','b:Robots and Empire']],
+ ['A Court of Thorns and Roses',['b:A Court of Thorns and Roses','b:A Court of Mist and Fury','b:A Court of Wings and Ruin','b:A Court of Frost and Starlight','b:A Court of Silver Flames']],
+ ['Throne of Glass',['b:Heir of Fire','b:Queen of Shadows','b:Empire of Storms','b:Tower of Dawn','b:Kingdom of Ash']],
+ ['Space Odyssey',['b:2001: A Space Odyssey (novel)','b:2010: Odyssey Two','b:2061: Odyssey Three','b:3001: The Final Odyssey']],
+ ['Middle-earth',['b:Beren and Lúthien','b:The Fall of Gondolin']],
+ ['The Sandman',['b:Sandman: Preludes & Nocturnes','b:The Sandman, Vol. 1: Preludes & Nocturnes']],
+ ['The Space Trilogy',['b:Out of the Silent Planet','b:Perelandra']],
+ ['Fudge',['b:Tales of a Fourth Grade Nothing','b:Superfudge']],
+ ['The Bridge trilogy',['b:Idoru','b:All Tomorrow\'s Parties']],
+ ['Earthsea',['b:A Wizard of Earthsea','b:The Tombs of Atuan','b:The Farthest Shore','b:Tehanu']],
+ ['Hainish Cycle',['b:The Left Hand of Darkness','b:The Word for World Is Forest']],
+ ['Realm of the Elderlings',['b:Assassin\'s Apprentice','b:Royal Assassin','b:Assassin\'s Quest','b:Ship of Magic','b:Fool\'s Errand','b:Golden Fool','b:Fool\'s Fate','b:Fool\'s Assassin']],
+ ['Klickitat Street',['b:Henry Huggins','b:Beezus and Ramona','b:Ramona the Pest','b:Ramona and Her Father','b:Ramona Quimby, Age 8']],
+ ['Ralph S. Mouse',['b:The Mouse and the Motorcycle','b:Runaway Ralph']],
+ ['Robert Langdon',['b:Origin']],
+ ['Alex Cross',['b:Along Came a Spider','b:Kiss the Girls','b:Cat and Mouse','b:Pop Goes the Weasel','b:Roses Are Red','b:Violets Are Blue']],
+ ['Women’s Murder Club',['b:1st to Die','b:2nd Chance','b:3rd Degree']],
+ ['George Smiley',['b:The Spy Who Came in from the Cold','b:Tinker Tailor Soldier Spy','b:The Honourable Schoolboy','b:Smiley\'s People']],
+ ['It Ends with Us',['b:It Ends with Us','b:It Starts with Us']],
+ ['Grishaverse',['b:Shadow and Bone','b:Siege and Storm','b:Ruin and Rising','b:Six of Crows','b:Crooked Kingdom']],
+ ['Kay Scarpetta',['b:Postmortem','b:Body of Evidence','b:All That Remains','b:Cruel and Unusual','b:The Body Farm','b:Point of Origin']],
+ ['Lord Peter Wimsey',['b:Whose Body?','b:Strong Poison','b:Have His Carcase','b:The Nine Tailors','b:Gaudy Night','b:Busman\'s Honeymoon']],
+ ['The Years of Lyndon Johnson',['b:The Path to Power','b:Means of Ascent','b:Master of the Senate','b:The Passage of Power']],
+ ['Philip Marlowe',['b:The Long Goodbye (novel)','b:The Lady in the Lake']],
+ ['Captain Nemo',['b:Twenty Thousand Leagues Under the Sea','b:The Mysterious Island']],
+ ['Tom Sawyer',['b:The Adventures of Tom Sawyer','b:The Adventures of Huckleberry Finn','b:Adventures of Huckleberry Finn']],
+ ['Anne of Green Gables',['b:Anne of Windy Poplars']],
+ ['Little Women',['b:Little Women','b:Little Men','b:Jo\'s Boys']],
+ ['Eight Cousins',['b:Eight Cousins','b:Rose in Bloom']],
+ ['The Selection',['b:The Selection','b:The Elite','b:The One','b:The Heir','b:The Crown']],
+ ['Lucas Davenport',['b:Rules of Prey','b:Silent Prey','b:Winter Prey','b:Night Prey','b:Mind Prey']],
+ ['The d’Artagnan Romances',['b:The Three Musketeers','b:Twenty Years After','b:The Man in the Iron Mask']],
+ ['The Broken Earth',['b:The Fifth Season','b:The Obelisk Gate','b:The Stone Sky']],
+ ['Southern Reach',['b:Annihilation','b:Authority','b:Acceptance']],
+ ['Malazan',['b:Gardens of the Moon','b:Deadhouse Gates','b:Memories of Ice','b:House of Chains']],
+ ['The Culture',['b:Consider Phlebas','b:The Player of Games','b:Use of Weapons','b:Excession']],
+ ['Bas-Lag',['b:Perdido Street Station','b:The Scar']],
+ ['The Poppy War',['b:The Poppy War','b:The Dragon Republic','b:The Burning God']],
+ ['Millennium',['b:The Girl with the Dragon Tattoo (novel)']],
+ ['Easy Rawlins',['b:Devil in a Blue Dress','b:A Red Death','b:White Butterfly','b:Black Betty']],
+ ['Divergent',['b:Four']],
+ ['Time Quintet',['b:Many Waters']],
+ ['Dirk Pitt',['b:Raise the Titanic!','b:Sahara','b:Flood Tide','b:Atlantis Found']],
+ ['Red Queen',['b:Red Queen','b:Glass Sword','b:King\'s Cage','b:War Storm']],
+ ['The Wapshots',['b:The Wapshot Chronicle','b:The Wapshot Scandal']],
+ ['Children of Time',['b:Children of Time','b:Children of Ruin']],
+ ['The First Law',['b:The Blade Itself','b:Before They Are Hanged','b:Last Argument of Kings']],
+ ['Gentleman Bastard',['b:The Lies of Locke Lamora','b:Red Seas Under Red Skies','b:Republic of Thieves']],
+ ['In Search of Lost Time',['b:In Search of Lost Time: Swann\'s Way','b:Within a Budding Grove','b:The Guermantes Way']],
+ ['Gilead',['b:Gilead','b:Home']],
+ ['Gormenghast',['b:Titus Groan','b:Gormenghast','b:Titus Alone']],
+ ['His Dark Materials',['b:The Golden Compass','b:The Subtle Knife','b:The Amber Spyglass']],
+ ['The Passage',['b:The Passage','b:The Twelve','b:The City of Mirrors']],
+ ['L.A. Quartet',['b:The Black Dahlia','b:L.A. Confidential']],
+ ['Dublin Murder Squad',['b:In the Woods','b:The Likeness','b:The Secret Place']],
+ ['The Empyrean',['b:Fourth Wing','b:Iron Flame','b:Onyx Storm']],
+ ['Oz',['b:Ozma of Oz','m:Wicked']],
+ ['Caraval',['b:Caraval','b:Legendary','b:Finale']],
+ ['The Folk of the Air',['b:The Cruel Prince','b:The Wicked King','b:The Queen of Nothing']],
+ ['Allan Quatermain',['b:King Solomon\'s Mines','b:Allan Quatermain']],
+ ['The Homeric epics',['b:The Iliad','b:The Odyssey']],
+ ['Zones of Thought',['b:A Fire Upon the Deep','b:A Deepness in the Sky']],
+ ['Bird Box',['b:Bird Box','b:Malorie']],
+ ['Red Rising',['b:Red Rising','b:Golden Son']],
+ ['Powder Mage',['b:Promise of Blood','b:The Crimson Campaign']],
+ ['Prydain',['b:The Book of Three','b:The Chronicles of Prydain: The Book of Three']],
+ ['Stephanie Plum',['b:One for the Money','b:Two for the Dough']],
+ ['New Kid',['b:New Kid','b:Class Act']],
+ ['Ruritania',['b:The Prisoner of Zenda','b:Rupert of Hentzau']],
+ ['Barsetshire',['b:The Warden','b:Barchester Towers']],
+ ['The Shining',['b:The Shining','b:Doctor Sleep']],
+ ['Holly Gibney',['b:The Outsider','b:Holly']],
+ ['Moonlight Bay',['b:Seize the Night']]
+];
+const NOT_A_SERIES=new Set(['movie|apollo','movie|mother','book|martian','book|quiet','book|beowulf','book|babel','book|jungle','book|invisible man','book|hunger','book|grapes of wrath']);
+const FRANCHISE_KIND={m:'movie',t:'tv',g:'game',b:'book'};
+function franchiseRoot(t){return seriesTitleRoot(t.replace(/^the\s+/i,'')).replace(/\s+[ivx]+$/,'').trim();}
+let FRANCHISE_IDS=null;
+function inFranchise(it){
+ if(!FRANCHISE_IDS){
+  const rootCount=new Map();
+  const rootKey=x=>{const r=franchiseRoot(x.title);return r.length>=4&&!NOT_A_SERIES.has(x.kind+'|'+r)?x.kind+'|'+r:null;};
+  ALL.forEach(x=>{const k=rootKey(x);if(k)rootCount.set(k,(rootCount.get(k)||0)+1);});
+  const extra=new Set(FRANCHISE_EXTRA.flatMap(g=>g[1].map(e=>FRANCHISE_KIND[e[0]]+'|'+e.slice(2))));
+  const seriesNames=new Set(SERIES_DEFS.map(d=>d.kind+'|'+d.name));
+  FRANCHISE_IDS=new Set(ALL.filter(x=>{const kt=x.kind+'|'+x.title;return franchiseOf(x)||seriesNames.has(kt)||extra.has(kt)||rootCount.get(rootKey(x))>1;}).map(x=>x.id));
+ }
+ return FRANCHISE_IDS.has(it.id);
+}
 // "How you own it" -- physFormat is already tracked per owned movie/TV/book (games are digital-only
 // and carry no physFormat), so this is a pure readout of existing data, scoped like the other
 // portraitScope-aware panels.
@@ -3405,6 +3629,8 @@ function stateToParams(){
  if(state.notOwnedOnly)p.set('notowned','1');
  if(state.doneOnly)p.set('done','1');
  if(state.notDoneOnly)p.set('notdone','1');
+ if(state.franchiseOnly)p.set('franchise','1');
+ if(state.standaloneOnly)p.set('standalone','1');
  if(state.minGoat)p.set('goat',state.minGoat);
  if(state.minMyRating)p.set('myr',state.minMyRating);
  if(state.ratedOnly)p.set('rated','1');
@@ -3460,6 +3686,8 @@ function paramsToState(){
   if(p.has('notowned'))state.notOwnedOnly=p.get('notowned')==='1';
   if(p.has('done'))state.doneOnly=p.get('done')==='1';
   if(p.has('notdone'))state.notDoneOnly=p.get('notdone')==='1';
+  if(p.has('franchise'))state.franchiseOnly=p.get('franchise')==='1';
+  if(p.has('standalone'))state.standaloneOnly=p.get('standalone')==='1';
   if(p.has('goat'))state.minGoat=+p.get('goat')||0;
   if(p.has('myr'))state.minMyRating=+p.get('myr')||0;
   if(p.has('rated'))state.ratedOnly=p.get('rated')==='1';
@@ -3525,6 +3753,8 @@ function applyStateToStaticControls(){
  var nt=$('#notOwnedToggle');if(nt)nt.checked=state.notOwnedOnly;
  var dt=$('#doneToggle');if(dt)dt.checked=state.doneOnly;
  var ndt=$('#notDoneToggle');if(ndt)ndt.checked=state.notDoneOnly;
+ var frt=$('#franchiseToggle');if(frt)frt.checked=state.franchiseOnly;
+ var sat=$('#standaloneToggle');if(sat)sat.checked=state.standaloneOnly;
  var rt=$('#ratedToggle');if(rt)rt.checked=state.ratedOnly;
  var urt=$('#unratedToggle');if(urt)urt.checked=state.unratedOnly;
  buildTierFilterChips();
@@ -5724,6 +5954,8 @@ on('#ownedToggle','change',e=>{state.ownedOnly=e.target.checked;if(e.target.chec
 on('#notOwnedToggle','change',e=>{state.notOwnedOnly=e.target.checked;if(e.target.checked){state.ownedOnly=false;const o=$('#ownedToggle');if(o)o.checked=false;}syncAdvCount();refresh();});
 on('#doneToggle','change',e=>{state.doneOnly=e.target.checked;if(e.target.checked){state.notDoneOnly=false;const o=$('#notDoneToggle');if(o)o.checked=false;}syncAdvCount();refresh();});
 on('#notDoneToggle','change',e=>{state.notDoneOnly=e.target.checked;if(e.target.checked){state.doneOnly=false;const o=$('#doneToggle');if(o)o.checked=false;}syncAdvCount();refresh();});
+on('#franchiseToggle','change',e=>{state.franchiseOnly=e.target.checked;if(e.target.checked){state.standaloneOnly=false;const o=$('#standaloneToggle');if(o)o.checked=false;}syncAdvCount();refresh();});
+on('#standaloneToggle','change',e=>{state.standaloneOnly=e.target.checked;if(e.target.checked){state.franchiseOnly=false;const o=$('#franchiseToggle');if(o)o.checked=false;}syncAdvCount();refresh();});
 on('#ratedToggle','change',e=>{state.ratedOnly=e.target.checked;if(e.target.checked){state.unratedOnly=false;const u=$('#unratedToggle');if(u)u.checked=false;}maybeAutoSort();syncAdvCount();refresh();});
 on('#unratedToggle','change',e=>{state.unratedOnly=e.target.checked;if(e.target.checked){state.ratedOnly=false;const r=$('#ratedToggle');if(r)r.checked=false;}syncAdvCount();refresh();});
 on('#tierChips','click',e=>{const b=e.target.closest('.tierChip');if(!b)return;const t=b.dataset.tier;
@@ -5775,6 +6007,8 @@ on('#activeBar','click',e=>{
  else if(c==='notowned'){state.notOwnedOnly=false;const no=$('#notOwnedToggle');if(no)no.checked=false;}
  else if(c==='done'){state.doneOnly=false;const d=$('#doneToggle');if(d)d.checked=false;}
  else if(c==='notdone'){state.notDoneOnly=false;const nd=$('#notDoneToggle');if(nd)nd.checked=false;}
+ else if(c==='franchise'){state.franchiseOnly=false;const f=$('#franchiseToggle');if(f)f.checked=false;}
+ else if(c==='standalone'){state.standaloneOnly=false;const sa=$('#standaloneToggle');if(sa)sa.checked=false;}
  else if(c.indexOf('tierEx:')===0){const t=c.slice(7);state.tierFilterExclude=state.tierFilterExclude.filter(x=>x!==t);buildTierFilterChips();}
  else if(c.indexOf('tier:')===0){const t=c.slice(5);state.tierFilter=state.tierFilter.filter(x=>x!==t);buildTierFilterChips();}
  else if(c.indexOf('genre:')===0){const g=c.slice(6);state.genres=state.genres.filter(x=>x!==g);buildGenreChips();}
@@ -5788,7 +6022,7 @@ on('#activeBar','click',e=>{
  syncAdvCount();refresh();
 });
 function clearAllFilters(){
- Object.assign(state,{q:'',type:'all',struct:'all',plats:[],minGoat:0,minMyRating:0,ratedOnly:false,unratedOnly:false,genres:[],genresExclude:[],ratings:[],ownedOnly:false,notOwnedOnly:false,doneOnly:false,notDoneOnly:false,tierFilter:[],tierFilterExclude:[],yearMin:null,yearMax:null,combine:false});
+ Object.assign(state,{q:'',type:'all',struct:'all',plats:[],minGoat:0,minMyRating:0,ratedOnly:false,unratedOnly:false,genres:[],genresExclude:[],ratings:[],ownedOnly:false,notOwnedOnly:false,doneOnly:false,notDoneOnly:false,franchiseOnly:false,standaloneOnly:false,tierFilter:[],tierFilterExclude:[],yearMin:null,yearMax:null,combine:false});
  buildTierFilterChips();
  state.idx={snd:0,ref:0,ch:0,emo:0,awe:0,cozy:0,perf:0,icon:0,scary:0,real:0,reality:0,shock:0,sci:0,funny:0,hist:0,vibe2:0,crit:0,aud:0,tech:0,dread:0,myst:0,warmth:0,comedy:0,beauty:0,runtime:0};state.ratings=[];
  $('#q').value='';var ss=$('#structSel');if(ss)ss.value='all';updatePlatLabel();
@@ -5799,6 +6033,7 @@ function clearAllFilters(){
  $('#combineMode').checked=false;const _o=$('#ownedToggle');if(_o)_o.checked=false;const _no=$('#notOwnedToggle');if(_no)_no.checked=false;
  const _r=$('#ratedToggle');if(_r)_r.checked=false;const _ur=$('#unratedToggle');if(_ur)_ur.checked=false;
  const _d=$('#doneToggle');if(_d)_d.checked=false;const _nd=$('#notDoneToggle');if(_nd)_nd.checked=false;
+ const _f=$('#franchiseToggle');if(_f)_f.checked=false;const _sa=$('#standaloneToggle');if(_sa)_sa.checked=false;
  $('#yearMin').value='';$('#yearMax').value='';
  buildGenreChips();buildRatingChips();syncAdvCount();refresh();
 }
@@ -5899,6 +6134,7 @@ renderGoat();
 renderGoatSearchResults('');
 $('#integrity').textContent='Integrity check · '+movies.length+' films · '+tvShows.length+' series · '+videoGames.length+' games · '+books.length+' books · '+directorsPantheon.length+' directors · '+authorsPantheon.length+' authors · '+gamingAuteurs.length+' auteurs · '+contenders.length+' contenders';
 console.assert(movies.length>0&&tvShows.length>0&&videoGames.length>0&&books.length>0&&directorsPantheon.length>=1&&authorsPantheon.length>=1&&gamingAuteurs.length>=1&&contenders.length>=1,'Dataset integrity violation');
+console.assert((function(){const have=new Set(ALL.map(x=>x.kind+'|'+x.title));return FRANCHISE_EXTRA.every(g=>g[1].every(e=>have.has(FRANCHISE_KIND[e[0]]+'|'+e.slice(2))));})(),'FRANCHISE_EXTRA names a title that is not in the corpus');
 updateWlNav();
 if(typeof syncBlendPanel==='function')syncBlendPanel();
 /* ===================== COMMAND PALETTE (Cmd/Ctrl-K) ===================== */
@@ -5964,6 +6200,6 @@ var _rzT;window.addEventListener('resize',function(){clearTimeout(_rzT);_rzT=set
  window.genreMatches=genreMatches;
  // The per-card corpus lookups, so the suite can hold their memoized versions to the original
  // full-scan behaviour (see derivedLookups).
- window.isUntried=isUntried;
+ window.isUntried=isUntried;window.inFranchise=inFranchise;
  window.whyRecommended=whyRecommended;window.crossThread=crossThread;window.wlDone=wlDone;window.crossMediumPairings=crossMediumPairings;
 }
