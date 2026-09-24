@@ -227,6 +227,20 @@ input[type=range]::-moz-range-thumb{width:13px;height:13px;border-radius:50%;bac
 .idxGrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(148px,1fr));column-gap:1.35rem;row-gap:.7rem;margin-top:.6rem;padding-top:.6rem;border-top:1px solid rgba(30,41,59,.5)}
 main>section[data-sec]{scroll-margin-top:12px}
 @media (min-width:768px){#nav{gap:.6rem}}
+/* Reset Filters. Its markup used to ask for red via Tailwind classes that were never in the
+   compiled stylesheet, so it rendered as a plain grey input and was easy to overlook. It's styled
+   here instead, in two states (see syncResetBtn in ledger-app.js): always a clearly red outlined
+   button, and -- whenever any filter is on -- solid red with a glow and a count, so a narrowed
+   list never goes unnoticed. It pulses once as it switches on (no motion under reduced-motion). */
+#resetBtn{display:flex;align-items:center;justify-content:center;gap:8px;width:100%;min-height:40px;padding:9px 14px;border-radius:9px;font-size:13px;font-weight:600;letter-spacing:.01em;white-space:nowrap;cursor:pointer;color:#fca5a5;background:rgba(239,68,68,.08);border:1.5px solid rgba(248,113,113,.55);transition:background .15s,border-color .15s,color .15s,box-shadow .2s}
+#resetBtn:hover{color:#fecaca;background:rgba(239,68,68,.16);border-color:#f87171}
+#resetBtn .resetIcon{font-size:15px;line-height:1}
+#resetBtn.hasFilters{color:#fff;font-weight:700;background:linear-gradient(180deg,#ef4444,#dc2626);border-color:#f87171;box-shadow:0 0 0 1px rgba(248,113,113,.25),0 4px 16px rgba(239,68,68,.38)}
+#resetBtn.hasFilters:hover{background:linear-gradient(180deg,#f05252,#e02d2d);box-shadow:0 0 0 1px rgba(248,113,113,.4),0 6px 20px rgba(239,68,68,.5)}
+#resetBtn .resetCount{min-width:20px;height:20px;padding:0 6px;border-radius:9999px;display:inline-flex;align-items:center;justify-content:center;font-size:11px;font-weight:800;line-height:1;color:#b91c1c;background:#fff}
+#resetBtn .resetCount[hidden]{display:none}
+#resetBtn.resetPulse{animation:resetPulse .7s ease-out 1}
+@keyframes resetPulse{0%{box-shadow:0 0 0 0 rgba(239,68,68,.65),0 4px 16px rgba(239,68,68,.38)}100%{box-shadow:0 0 0 12px rgba(239,68,68,0),0 4px 16px rgba(239,68,68,.38)}}
 /* "Last time" restore offer in the active-filter bar (see restoreOfferHTML in ledger-app.js). A
    calm teal chip, not the red of a removable filter: it adds, it doesn't take away. The summary
    truncates with an ellipsis, so on a phone the chip and its ✕ stay on one line whatever was saved;
@@ -1135,7 +1149,7 @@ body[data-theme="outer-wilds"]{--bg:#0e0a09;--panel:#181010;--panel-2:#120c0b;--
 <section data-sec="controller">
   <div class="panel p-4 md:p-5 mb-5">
     <div class="grid grid-cols-1 lg:grid-cols-12 gap-4">
-      <div class="lg:col-span-4">
+      <div class="lg:col-span-3">
         <label class="fieldlbl" for="q">Omni-Search · title, creator, studio, genre, vibe, year</label>
         <input id="q" class="inp" type="text" autocomplete="off" placeholder="e.g. Kojima, A24, cosmic, Villeneuve, 1999, Western…"/>
       </div>
@@ -1153,8 +1167,8 @@ body[data-theme="outer-wilds"]{--bg:#0e0a09;--panel:#181010;--panel-2:#120c0b;--
         <label class="fieldlbl" for="platField">Platform / Network / Studio / Publisher</label>
         <div class="radarCombo sCombo" data-slot="plat" id="platCombo"><div class="rcField" id="platField" tabindex="0" role="button" aria-haspopup="listbox"><span class="rcLabel">Any platform / network / studio</span><span class="rcCaret">▾</span></div><div class="rcPop hidden"><input type="text" class="rcSearch inp" placeholder="🔍 e.g. Universal, HBO, PS5… (pick as many as you like)" autocomplete="off"><div class="rcList"></div></div></div>
       </div>
-      <div class="lg:col-span-1 flex items-end">
-        <button type="button" id="resetBtn" class="inp border-2 border-red-500 hover:border-red-400 hover:text-red-300 transition-colors text-center cursor-pointer text-red-500 px-3 py-2 text-sm md:text-base whitespace-nowrap">Reset Filters</button>
+      <div class="lg:col-span-2 flex items-end">
+        <button type="button" id="resetBtn" title="Clear every filter and go back to the full list"><span class="resetIcon" aria-hidden="true">↺</span><span>Reset Filters</span><span id="resetCount" class="resetCount" hidden></span></button>
       </div>
     </div>
     <div class="mt-4 pt-4 border-t border-slate-800/70">

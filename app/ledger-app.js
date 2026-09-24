@@ -835,9 +835,21 @@ function activeFilterList(s){
  s.tierFilterExclude.forEach(t=>X('✕ '+TL[t],'tierEx:'+t));
  return chips;
 }
+// Reset Filters turns solid red with a count while anything is filtered -- see the #resetBtn CSS.
+function syncResetBtn(n){
+ const b=$('#resetBtn'),c=$('#resetCount');if(!b||!c)return;
+ const was=b.classList.contains('hasFilters');
+ b.classList.toggle('hasFilters',n>0);
+ c.hidden=!n;c.textContent=n?String(n):'';
+ b.title=n?'Clear '+n+' active filter'+(n===1?'':'s')+' and go back to the full list':'Clear every filter and go back to the full list';
+ b.setAttribute('aria-label',n?'Reset filters, '+n+' active':'Reset filters');
+ if(n>0&&!was){b.classList.remove('resetPulse');void b.offsetWidth;b.classList.add('resetPulse');}
+}
 function renderActiveBar(){
  const bar=$('#activeBar');if(!bar)return;
- const chips=activeFilterList(state).map(c=>'<button type="button" class="chip activeChip" data-clr="'+c[1]+'" style="color:#fca5a5;border-color:#fca5a544">'+c[0]+' ✕</button>');
+ const active=activeFilterList(state);
+ syncResetBtn(active.length);
+ const chips=active.map(c=>'<button type="button" class="chip activeChip" data-clr="'+c[1]+'" style="color:#fca5a5;border-color:#fca5a544">'+c[0]+' ✕</button>');
  if(!chips.length&&restoreOffer){activeBarExpanded=false;bar.innerHTML=restoreOfferHTML();syncDiscoverBtn();return;}
  if(state.combine&&chips.length)chips.unshift('<span class="chip" style="color:#fbbf24;border-color:#fbbf2455">STRICT AND</span>');
  // A heavily-filtered search (multi-platform, several genres in and out, half a dozen thresholds...)
@@ -4262,6 +4274,7 @@ on('#minMyRating','input',e=>{state.minMyRating=+e.target.value;$('#minMyRatingV
   hideT=setTimeout(function(){bubble.style.opacity='0';hideT=setTimeout(function(){bubble.style.display='none';},150);},1000);
  });
 })();
+on('#resetBtn','animationend',e=>e.currentTarget.classList.remove('resetPulse'));
 on('#resetBtn','click',()=>{state.sort='overall';$('#sortSel').value='overall';clearAllFilters();});
 function syncBlendPanel(){var on=state.sort==='blend';var pnl=$('#blendPanel');if(pnl)pnl.classList.toggle('hidden',!on);
  var vt=$('#wTechV'),vd=$('#wDreadV'),vm=$('#wMystV');

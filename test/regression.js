@@ -3546,6 +3546,8 @@ async function runFranchiseFilterFlow(browser, file) {
   check('"Franchise / series" shows only works that belong to a franchise', !!franchiseIds);
   check('the franchise filter appears as a removable active-filter chip',
     await page.evaluate(() => !!document.querySelector('#activeBar .activeChip[data-clr="franchise"]')));
+  check('Reset Filters turns solid red with a count while a filter is on',
+    !!await readWhen(page, () => { const b = document.getElementById('resetBtn'); return b.classList.contains('hasFilters') && document.getElementById('resetCount').textContent === '1' && !document.getElementById('resetCount').hidden; }, undefined, 3000));
   check('the franchise filter is kept in the URL',
     !!await readWhen(page, () => /[?&]franchise=1/.test(location.search), undefined, 3000));
 
@@ -3594,6 +3596,8 @@ async function runFranchiseFilterFlow(browser, file) {
 
   await page.click('#activeBar #clearAllF');
   await settle(page);
+  check('with nothing filtered, Reset Filters goes back to its outlined look with no count',
+    await page.evaluate(() => !document.getElementById('resetBtn').classList.contains('hasFilters') && document.getElementById('resetCount').hidden));
   check('Clear all resets the franchise filters',
     await page.evaluate(() => !window.state.franchiseOnly && !window.state.standaloneOnly &&
       !document.getElementById('franchiseToggle').checked && !document.getElementById('standaloneToggle').checked));
