@@ -227,6 +227,13 @@ input[type=range]::-moz-range-thumb{width:13px;height:13px;border-radius:50%;bac
 .idxGrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(148px,1fr));column-gap:1.35rem;row-gap:.7rem;margin-top:.6rem;padding-top:.6rem;border-top:1px solid rgba(30,41,59,.5)}
 main>section[data-sec]{scroll-margin-top:12px}
 @media (min-width:768px){#nav{gap:.6rem}}
+/* Filter toggle pairs (Owned / Not owned, Watched / Not yet, Rated / Unrated, Franchise /
+   Standalone): on tablet and desktop each pair stacks, the opposite option directly under the one
+   it answers, so the pairs read as columns across one row and leave room for more. Phones keep
+   their side-by-side card per pair (see the mobile block below). */
+@media (min-width:768px){
+ #ownershipToggleGroup,#doneToggleGroup,#ratingToggleGroup,#franchiseToggleGroup{flex-direction:column;align-items:flex-start;gap:.45rem}
+}
 button:focus-visible,select:focus-visible,input:focus-visible{outline:2px solid #818cf8;outline-offset:2px}
 
 /* ===== MOBILE (viewport <768px) =====

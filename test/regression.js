@@ -3609,6 +3609,14 @@ async function runFranchiseFilterFlow(browser, file) {
   check('a ?standalone=1 bookmark restores the filter with its box ticked',
     !!await readWhen(page2, () => window.state && window.state.standaloneOnly && document.getElementById('standaloneToggle').checked, undefined, 5000));
 
+  // On desktop every toggle pair stacks, the opposite option directly under the one it answers.
+  const stacked = await page2.evaluate(() => ['ownershipToggleGroup', 'doneToggleGroup', 'ratingToggleGroup', 'franchiseToggleGroup'].every(id => {
+    const ls = document.getElementById(id).querySelectorAll('label');
+    const a = ls[0].getBoundingClientRect(), b = ls[1].getBoundingClientRect();
+    return Math.abs(a.left - b.left) < 2 && b.top >= a.bottom - 1;
+  }));
+  check('on desktop each toggle pair stacks, the opposite option right under its partner', stacked);
+
   // On a phone the pair is one card, like Owned / Not owned, with both labels on the same row.
   await page2.setViewportSize({ width: 360, height: 800 });
   const phone = await readWhen(page2, () => {
