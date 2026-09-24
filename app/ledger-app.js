@@ -805,33 +805,40 @@ function renderGridChunked(shown){
  requestAnimationFrame(step);
 }
 let activeBarExpanded=false;
-function renderActiveBar(){
- const bar=$('#activeBar');if(!bar)return;const chips=[];
- const X=(label,clear)=>'<button type="button" class="chip activeChip" data-clr="'+clear+'" style="color:#fca5a5;border-color:#fca5a544">'+label+' ✕</button>';
- if(state.q)chips.push(X('“'+esc(state.q)+'”','q'));
- if(state.type!=='all')chips.push(X(KM[state.type].label,'type'));
- if(state.struct!=='all')chips.push(X(state.struct==='limited'?'Limited series':'Multi-season','struct'));
- state.plats.forEach(p=>chips.push(X(esc(p),'plat:'+p)));
- state.genres.forEach(g=>chips.push(X(esc(g),'genre:'+g)));
- state.genresExclude.forEach(g=>chips.push(X('✕ '+esc(g),'genreEx:'+g)));
- state.ratings.forEach(r=>chips.push(X(esc(r),'rating:'+r)));
- if(state.minGoat>0)chips.push(X('★ GOAT ≥'+state.minGoat,'minGoat'));
- if(state.minMyRating>0)chips.push(X('★ My Rating ≥'+state.minMyRating.toFixed(1),'minMyRating'));
- if(state.ratedOnly)chips.push(X('★ Rated by me only','rated'));
- if(state.unratedOnly)chips.push(X('☆ Unrated only','unrated'));
- if(state.idx.runtime>0)chips.push(X('Runtime ≤'+state.idx.runtime+'m','idx:runtime'));
+// Every active Global Controller filter as [label (HTML-safe), clear key], in display order. Takes
+// the state to read so the restore offer can label a saved snapshot the same way.
+function activeFilterList(s){
+ const chips=[];const X=(label,clear)=>chips.push([label,clear]);
+ if(s.q)X('“'+esc(s.q)+'”','q');
+ if(s.type!=='all')X(KM[s.type].label,'type');
+ if(s.struct!=='all')X(s.struct==='limited'?'Limited series':'Multi-season','struct');
+ s.plats.forEach(p=>X(esc(p),'plat:'+p));
+ s.genres.forEach(g=>X(esc(g),'genre:'+g));
+ s.genresExclude.forEach(g=>X('✕ '+esc(g),'genreEx:'+g));
+ s.ratings.forEach(r=>X(esc(r),'rating:'+r));
+ if(s.minGoat>0)X('★ GOAT ≥'+s.minGoat,'minGoat');
+ if(s.minMyRating>0)X('★ My Rating ≥'+s.minMyRating.toFixed(1),'minMyRating');
+ if(s.ratedOnly)X('★ Rated by me only','rated');
+ if(s.unratedOnly)X('☆ Unrated only','unrated');
+ if(s.idx.runtime>0)X('Runtime ≤'+s.idx.runtime+'m','idx:runtime');
  const IL={snd:'Soundtrack',ref:'4K Ref',ch:'◉ Cosmic',emo:'Emotional',awe:'Awe',cozy:'Comfort',perf:'Performances',icon:'Iconic',scary:'Scariest',real:'Realistic',reality:'Reality-Altering',dread:'Dread',myst:'Mind',shock:'Shocking',sci:'Scientific',funny:'Funniest',hist:'Historical',vibe2:'Vibe',crit:'Critical',aud:'Audience',tech:'Technical Craft',warmth:'Warmth',comedy:'Comic Intent',beauty:'Beauty'};
- Object.keys(IL).forEach(k=>{if(state.idx[k]>0)chips.push(X(IL[k]+' ≥'+state.idx[k],'idx:'+k));});
- if(state.yearMin!=null||state.yearMax!=null)chips.push(X('Year '+(state.yearMin||'←')+'–'+(state.yearMax||'→'),'year'));
- if(state.ownedOnly)chips.push(X('◆ Owned only','owned'));
- if(state.notOwnedOnly)chips.push(X('○ Not owned','notowned'));
- if(state.doneOnly)chips.push(X('✓ Watched / read / played','done'));
- if(state.notDoneOnly)chips.push(X('○ Not yet watched / read / played','notdone'));
- if(state.franchiseOnly)chips.push(X('⚙ Franchise / series','franchise'));
- if(state.standaloneOnly)chips.push(X('◇ Standalone only','standalone'));
+ Object.keys(IL).forEach(k=>{if(s.idx[k]>0)X(IL[k]+' ≥'+s.idx[k],'idx:'+k);});
+ if(s.yearMin!=null||s.yearMax!=null)X('Year '+(s.yearMin||'←')+'–'+(s.yearMax||'→'),'year');
+ if(s.ownedOnly)X('◆ Owned only','owned');
+ if(s.notOwnedOnly)X('○ Not owned','notowned');
+ if(s.doneOnly)X('✓ Watched / read / played','done');
+ if(s.notDoneOnly)X('○ Not yet watched / read / played','notdone');
+ if(s.franchiseOnly)X('⚙ Franchise / series','franchise');
+ if(s.standaloneOnly)X('◇ Standalone only','standalone');
  const TL={gold:'🥇 Gold',silver:'🥈 Silver',bronze:'🥉 Bronze'};
- state.tierFilter.forEach(t=>chips.push(X(TL[t],'tier:'+t)));
- state.tierFilterExclude.forEach(t=>chips.push(X('✕ '+TL[t],'tierEx:'+t)));
+ s.tierFilter.forEach(t=>X(TL[t],'tier:'+t));
+ s.tierFilterExclude.forEach(t=>X('✕ '+TL[t],'tierEx:'+t));
+ return chips;
+}
+function renderActiveBar(){
+ const bar=$('#activeBar');if(!bar)return;
+ const chips=activeFilterList(state).map(c=>'<button type="button" class="chip activeChip" data-clr="'+c[1]+'" style="color:#fca5a5;border-color:#fca5a544">'+c[0]+' ✕</button>');
+ if(!chips.length&&restoreOffer){activeBarExpanded=false;bar.innerHTML=restoreOfferHTML();syncDiscoverBtn();return;}
  if(state.combine&&chips.length)chips.unshift('<span class="chip" style="color:#fbbf24;border-color:#fbbf2455">STRICT AND</span>');
  // A heavily-filtered search (multi-platform, several genres in and out, half a dozen thresholds...)
  // can produce enough chips to wrap several rows and push the actual results far down the page.
@@ -3670,54 +3677,57 @@ function stateToParams(){
  if(typeof tlMedium!=='undefined'&&tlMedium!=='all')p.set('tlMed',tlMedium);
  return p;
 }
-function paramsToState(){
+// `p` defaults to the page's own query string, `s` to the live state; the restore offer below
+// parses a saved snapshot into a scratch object with it too, to label it without applying it.
+function paramsToState(p,s){
+ s=s||state;
  try{
-  var p=new URLSearchParams(location.search);
+  p=p||new URLSearchParams(location.search);
   if(!Array.from(p.keys()).length)return null;
-  if(p.has('q'))state.q=p.get('q');
-  if(p.has('type'))state.type=p.get('type');
-  if(p.has('plat'))state.plats=p.get('plat').split('|').filter(Boolean);
-  if(p.has('g'))state.genres=p.get('g').split('|').filter(Boolean);
-  if(p.has('gx'))state.genresExclude=p.get('gx').split('|').filter(Boolean);
-  if(p.has('rt'))state.ratings=p.get('rt').split('|').filter(Boolean);
-  if(p.has('tier'))state.tierFilter=p.get('tier').split('|').filter(Boolean);
-  if(p.has('tierx'))state.tierFilterExclude=p.get('tierx').split('|').filter(Boolean);
-  if(p.has('owned'))state.ownedOnly=p.get('owned')==='1';
-  if(p.has('notowned'))state.notOwnedOnly=p.get('notowned')==='1';
-  if(p.has('done'))state.doneOnly=p.get('done')==='1';
-  if(p.has('notdone'))state.notDoneOnly=p.get('notdone')==='1';
-  if(p.has('franchise'))state.franchiseOnly=p.get('franchise')==='1';
-  if(p.has('standalone'))state.standaloneOnly=p.get('standalone')==='1';
-  if(p.has('goat'))state.minGoat=+p.get('goat')||0;
-  if(p.has('myr'))state.minMyRating=+p.get('myr')||0;
-  if(p.has('rated'))state.ratedOnly=p.get('rated')==='1';
-  if(p.has('unrated'))state.unratedOnly=p.get('unrated')==='1';
-  if(p.has('dread'))state.idx.dread=+p.get('dread')||0;
-  if(p.has('myst'))state.idx.myst=+p.get('myst')||0;
-  if(p.has('runtime'))state.idx.runtime=+p.get('runtime')||0;
-  if(p.has('struct'))state.struct=p.get('struct');
-  if(p.has('and'))state.combine=p.get('and')==='1';
-  if(p.has('ymin'))state.yearMin=+p.get('ymin');
-  if(p.has('ymax'))state.yearMax=+p.get('ymax');
-  if(p.has('sort'))state.sort=p.get('sort');
-  if(p.has('n'))state.limit=+p.get('n')||100;
-  IDX_KEYS.forEach(function(k){if(p.has('i_'+k))state.idx[k]=+p.get('i_'+k)||0;});
-  if(p.has('goatType'))state.goatType=p.get('goatType');
-  if(p.has('goatTier'))state.goatTierFilter=p.get('goatTier');
-  if(p.has('goatSort'))state.goatSort=p.get('goatSort');
-  if(p.has('goatQ'))state.goatDeclaredQ=p.get('goatQ');
-  if(p.has('portScope'))state.portraitScope=p.get('portScope');
-  if(p.has('collQ'))state.collSearchQ=p.get('collQ');
-  if(p.has('collSort'))state.collSort=p.get('collSort');
-  if(p.has('wlType'))state.wlType=p.get('wlType');
-  if(p.has('wlSort'))state.wlSort=p.get('wlSort');
-  if(p.has('wlQ'))state.wlSearchQ=p.get('wlQ');
-  if(p.has('crScope'))state.creatorSearchScope=p.get('crScope');
-  if(p.has('crSort'))state.creatorSort=p.get('crSort');
-  if(p.has('crTab'))state.creatorTab=p.get('crTab');
-  if(p.has('crQ'))state.creatorSearch=p.get('crQ');
-  if(p.has('crLedger'))state.creatorLedgerOnly=p.get('crLedger')==='1';
-  if(p.has('crOwned'))state.creatorOwnedOnly=p.get('crOwned')==='1';
+  if(p.has('q'))s.q=p.get('q');
+  if(p.has('type'))s.type=p.get('type');
+  if(p.has('plat'))s.plats=p.get('plat').split('|').filter(Boolean);
+  if(p.has('g'))s.genres=p.get('g').split('|').filter(Boolean);
+  if(p.has('gx'))s.genresExclude=p.get('gx').split('|').filter(Boolean);
+  if(p.has('rt'))s.ratings=p.get('rt').split('|').filter(Boolean);
+  if(p.has('tier'))s.tierFilter=p.get('tier').split('|').filter(Boolean);
+  if(p.has('tierx'))s.tierFilterExclude=p.get('tierx').split('|').filter(Boolean);
+  if(p.has('owned'))s.ownedOnly=p.get('owned')==='1';
+  if(p.has('notowned'))s.notOwnedOnly=p.get('notowned')==='1';
+  if(p.has('done'))s.doneOnly=p.get('done')==='1';
+  if(p.has('notdone'))s.notDoneOnly=p.get('notdone')==='1';
+  if(p.has('franchise'))s.franchiseOnly=p.get('franchise')==='1';
+  if(p.has('standalone'))s.standaloneOnly=p.get('standalone')==='1';
+  if(p.has('goat'))s.minGoat=+p.get('goat')||0;
+  if(p.has('myr'))s.minMyRating=+p.get('myr')||0;
+  if(p.has('rated'))s.ratedOnly=p.get('rated')==='1';
+  if(p.has('unrated'))s.unratedOnly=p.get('unrated')==='1';
+  if(p.has('dread'))s.idx.dread=+p.get('dread')||0;
+  if(p.has('myst'))s.idx.myst=+p.get('myst')||0;
+  if(p.has('runtime'))s.idx.runtime=+p.get('runtime')||0;
+  if(p.has('struct'))s.struct=p.get('struct');
+  if(p.has('and'))s.combine=p.get('and')==='1';
+  if(p.has('ymin'))s.yearMin=+p.get('ymin');
+  if(p.has('ymax'))s.yearMax=+p.get('ymax');
+  if(p.has('sort'))s.sort=p.get('sort');
+  if(p.has('n'))s.limit=+p.get('n')||100;
+  IDX_KEYS.forEach(function(k){if(p.has('i_'+k))s.idx[k]=+p.get('i_'+k)||0;});
+  if(p.has('goatType'))s.goatType=p.get('goatType');
+  if(p.has('goatTier'))s.goatTierFilter=p.get('goatTier');
+  if(p.has('goatSort'))s.goatSort=p.get('goatSort');
+  if(p.has('goatQ'))s.goatDeclaredQ=p.get('goatQ');
+  if(p.has('portScope'))s.portraitScope=p.get('portScope');
+  if(p.has('collQ'))s.collSearchQ=p.get('collQ');
+  if(p.has('collSort'))s.collSort=p.get('collSort');
+  if(p.has('wlType'))s.wlType=p.get('wlType');
+  if(p.has('wlSort'))s.wlSort=p.get('wlSort');
+  if(p.has('wlQ'))s.wlSearchQ=p.get('wlQ');
+  if(p.has('crScope'))s.creatorSearchScope=p.get('crScope');
+  if(p.has('crSort'))s.creatorSort=p.get('crSort');
+  if(p.has('crTab'))s.creatorTab=p.get('crTab');
+  if(p.has('crQ'))s.creatorSearch=p.get('crQ');
+  if(p.has('crLedger'))s.creatorLedgerOnly=p.get('crLedger')==='1';
+  if(p.has('crOwned'))s.creatorOwnedOnly=p.get('crOwned')==='1';
   if(p.has('contMed')&&typeof contMedium!=='undefined')contMedium=p.get('contMed');
   if(p.has('contSort')&&typeof contSort!=='undefined')contSort=p.get('contSort');
   if(p.has('contQ')&&typeof contSearchQ!=='undefined')contSearchQ=p.get('contQ');
@@ -3728,13 +3738,91 @@ function paramsToState(){
   return p.get('view')||null;
  }catch(e){return null;}
 }
+/* ===== Pick up where you left off =====
+   The URL above is what makes a refresh, a reopened tab or a bookmark keep its filters. Opening the
+   app fresh -- typing the address, or the home-screen icon, whose start_url carries no query --
+   starts clean, and that is deliberate: filters are a question ("standalone, not owned, scariest
+   80+"), and landing days later on a list silently narrowed to 38 results reads as lost data. So
+   rather than restoring them unasked, the last set is kept on this device for a week and offered
+   back as one chip in the active-filter bar: tap to restore it, ✕ to forget it, or just start
+   filtering and it steps aside for the new set. Only the Global Controller's own filters (plus the
+   sort that came with them) are kept -- not the tab, not the other tabs' filters -- and only for
+   the account that set them, so a shared device never offers one person's filters to another.
+   The "Show" count is the one setting remembered outright: it's a display preference, not part of
+   the question. Neither key is in the account layer's TRACKED list; both stay on this device. */
+const LAST_FILTERS_KEY='omniLedgerLastFilters',LAST_FILTERS_TTL=7*24*3600*1000,SHOW_LIMIT_KEY='omniLedgerShowLimit';
+const FILTER_PARAM=/^(q|type|plat|g|gx|rt|tier|tierx|owned|notowned|done|notdone|franchise|standalone|goat|myr|rated|unrated|dread|myst|runtime|struct|and|ymin|ymax|i_\w+)$/;
+// The Global Controller filters out of a full set of URL params (plus sort, if any filter is on),
+// or null when there are none.
+function controllerFilterParams(p){
+ const out=new URLSearchParams();
+ p.forEach((v,k)=>{if(FILTER_PARAM.test(k))out.set(k,v);});
+ if(!out.toString())return null;
+ if(p.has('sort'))out.set('sort',p.get('sort'));
+ return out;
+}
+function acctHandle(){try{return localStorage.getItem('omniLedgerHandle')||'';}catch(e){return '';}}
+let restoreOffer=null; // {qs, at, labels} while a saved set is on offer
+function loadRestoreOffer(){
+ restoreOffer=null;
+ if(controllerFilterParams(new URLSearchParams(location.search)))return; // arrived with filters already
+ let saved;
+ try{saved=JSON.parse(localStorage.getItem(LAST_FILTERS_KEY)||'null');}catch(e){console.warn('reading last filters failed',e);return;}
+ if(!saved||typeof saved.qs!=='string'||typeof saved.at!=='number')return;
+ if(Date.now()-saved.at>LAST_FILTERS_TTL||(saved.handle||'')!==acctHandle()){
+  try{localStorage.removeItem(LAST_FILTERS_KEY);}catch(e){console.warn('dropping last filters failed',e);}
+  return;
+ }
+ // Label it the way the active-filter bar would, from a scratch copy -- nothing is applied yet.
+ const scratch={q:'',type:'all',struct:'all',plats:[],genres:[],genresExclude:[],ratings:[],tierFilter:[],tierFilterExclude:[],minGoat:0,minMyRating:0,yearMin:null,yearMax:null,idx:Object.fromEntries(Object.keys(state.idx).map(k=>[k,0]))};
+ paramsToState(new URLSearchParams(saved.qs),scratch);
+ const labels=activeFilterList(scratch).map(l=>l[0]);
+ if(labels.length)restoreOffer={qs:saved.qs,at:saved.at,labels:labels};
+}
+// Called on every URL sync. A new set of filters replaces the saved one (and retires the offer);
+// deliberately clearing them forgets it. While an offer is showing, an unfiltered page is just
+// the fresh start it was offered on, so it leaves the saved set alone.
+function rememberFilters(p){
+ const f=controllerFilterParams(p);
+ try{
+  if(f){restoreOffer=null;localStorage.setItem(LAST_FILTERS_KEY,JSON.stringify({qs:f.toString(),at:Date.now(),handle:acctHandle()}));}
+  else if(!restoreOffer)localStorage.removeItem(LAST_FILTERS_KEY);
+ }catch(e){console.warn('saving last filters failed',e);}
+}
+function restoreLastFilters(){
+ if(!restoreOffer)return;
+ const p=new URLSearchParams(restoreOffer.qs);
+ restoreOffer=null;
+ paramsToState(p);
+ applyStateToStaticControls();
+ refresh();
+}
+function forgetLastFilters(){
+ restoreOffer=null;
+ try{localStorage.removeItem(LAST_FILTERS_KEY);}catch(e){console.warn('forgetting last filters failed',e);}
+ renderActiveBar();
+}
+function sinceText(at){
+ const d=Math.floor((Date.now()-at)/864e5);
+ if(d<=0)return new Date(at).toDateString()===new Date().toDateString()?'earlier today':'yesterday';
+ return d===1?'yesterday':d+' days ago';
+}
+function restoreOfferHTML(){
+ const o=restoreOffer,SHOWN=2,rest=o.labels.length-SHOWN;
+ return '<span class="lbl mr-1">Last time · '+sinceText(o.at)+'</span>'
+  +'<span id="restoreOffer"><button type="button" id="restoreFilters" class="chip" title="Restore: '+o.labels.join(' · ')+'">'
+  +'<span class="restoreIcon" aria-hidden="true">↺</span><span class="restoreWord">Restore</span><span class="restoreSummary">'+o.labels.slice(0,SHOWN).join(' · ')+'</span>'
+  +(rest>0?'<span class="restoreMore">+'+rest+'</span>':'')+'</button>'
+  +'<button type="button" id="forgetFilters" class="chip" title="Forget these filters" aria-label="Forget last filters">✕</button></span>';
+}
 var _urlSyncT=null;
 function scheduleURLSync(){
  clearTimeout(_urlSyncT);
  _urlSyncT=setTimeout(function(){
   try{
-   var qs=stateToParams().toString();
+   var p=stateToParams(),qs=p.toString();
    history.replaceState(null,'',location.pathname+(qs?'?'+qs:'')+location.hash);
+   rememberFilters(p);
   }catch(e){console.warn('URL state sync failed',e);}
  },250);
 }
@@ -3879,7 +3967,7 @@ on('#q','input',e=>{clearTimeout(qT);qT=setTimeout(()=>{state.q=e.target.value;r
 on('#typeSeg','click',e=>{const b=e.target.closest('button');if(!b)return;state.type=b.dataset.type;$$('#typeSeg button').forEach(x=>x.classList.toggle('on',x===b));refresh();});
 on('#structSel','change',e=>{state.struct=e.target.value;refresh();});
 on('#sortSel','change',e=>{state.sort=e.target.value;syncBlendPanel();refresh();});
-on('#limitSel','change',e=>{state.limit=+e.target.value;refresh();});
+on('#limitSel','change',e=>{state.limit=+e.target.value;try{if(state.limit===100)localStorage.removeItem(SHOW_LIMIT_KEY);else localStorage.setItem(SHOW_LIMIT_KEY,String(state.limit));}catch(err){console.warn('saving Show count failed',err);}refresh();});
 /* ===== Surprise Me spin engine ===== */
 var spinScope={medium:'any',pool:'all'};
 var MOOD_DIMS={cosmic:['ch','scary','dread'],comfort:['cozy'],mind:['reality','myst'],epic:['awe'],cry:['emo'],fun:['funny'],scary:['scary'],any:null};
@@ -5995,6 +6083,8 @@ on('#discoverBtn','click',()=>{
  buildTierFilterChips();syncAdvCount();refresh();
 });
 on('#activeBar','click',e=>{
+ if(e.target.closest('#restoreFilters')){restoreLastFilters();return;}
+ if(e.target.closest('#forgetFilters')){forgetLastFilters();return;}
  if(e.target.closest('#clearAllF')){clearAllFilters();return;}
  if(e.target.closest('#activeBarToggle')){activeBarExpanded=!activeBarExpanded;renderActiveBar();return;}
  const b=e.target.closest('.activeChip');if(!b)return;const c=b.dataset.clr;
@@ -6167,7 +6257,9 @@ var _rzT;window.addEventListener('resize',function(){clearTimeout(_rzT);_rzT=set
  // or landing after switching accounts) clears it first, in index.html, precisely so this reads
  // back null and falls through to the Controller. Signing into an account is a request to start
  // from the app's home screen, not to resume whatever tab a stale/bookmarked URL still names.
+ try{const n=+localStorage.getItem(SHOW_LIMIT_KEY);if(n&&$$('#limitSel option').some(o=>+o.value===n))state.limit=n;}catch(e){console.warn('reading Show count failed',e);}
  var urlView=paramsToState();
+ loadRestoreOffer();
  applyStateToStaticControls();
  switchView((urlView&&document.querySelector('main > section[data-sec="'+urlView+'"]'))?urlView:'controller');
 })();

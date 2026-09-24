@@ -3635,6 +3635,102 @@ async function runFranchiseFilterFlow(browser, file) {
   if (pageErrors.length) pageErrors.forEach(e => console.log('     ' + e));
 }
 
+// Remembering filters: a refresh keeps them (the URL), a fresh open starts clean but offers the
+// last set back as one chip, and the Show count is remembered outright.
+async function runRestoreFiltersFlow(browser, file) {
+  const { page, pageErrors } = await bootSample(browser, file);
+  const bare = 'file://' + path.join(ROOT, file);
+  const openFresh = async (url) => { await page.goto(url || bare); await waitForBoot(page); await firstCardId(page); };
+  const saved = () => page.evaluate(() => { try { return JSON.parse(localStorage.getItem('omniLedgerLastFilters')); } catch (e) { return null; } });
+  const offerShown = () => page.evaluate(() => !!document.getElementById('restoreFilters'));
+
+  await page.check('#standaloneToggle');
+  await page.check('#notOwnedToggle');
+  check('the last set of filters is saved on this device as it changes',
+    !!await readWhen(page, () => { const v = localStorage.getItem('omniLedgerLastFilters'); return v && /standalone=1/.test(v) && /notowned=1/.test(v) ? v : false; }, undefined, 5000));
+  await page.selectOption('#limitSel', '250');
+  check('the Show count is saved as a preference',
+    !!await readWhen(page, () => localStorage.getItem('omniLedgerShowLimit') === '250', undefined, 3000));
+
+  await openFresh();
+  check('a fresh open starts with no filters applied',
+    await page.evaluate(() => !window.state.standaloneOnly && !window.state.notOwnedOnly && !document.getElementById('standaloneToggle').checked));
+  check('a fresh open offers the last filters back as one chip, labelled with what they were',
+    !!await readWhen(page, () => { const b = document.getElementById('restoreFilters'); return b && /Standalone only/.test(b.title) && /Not owned/.test(b.title); }, undefined, 5000));
+  check('a fresh open keeps the remembered Show count',
+    await page.evaluate(() => window.state.limit === 250 && document.getElementById('limitSel').value === '250'));
+
+  await openFresh();
+  check('the offer survives another fresh open that did nothing (starting clean does not erase it)', await offerShown());
+
+  await page.click('#restoreFilters');
+  check('Restore puts every saved filter back, boxes ticked, as active chips',
+    !!await readWhen(page, () => window.state.standaloneOnly && window.state.notOwnedOnly &&
+      document.getElementById('standaloneToggle').checked && document.getElementById('notOwnedToggle').checked &&
+      !document.getElementById('restoreFilters') && !!document.querySelector('#activeBar .activeChip[data-clr="standalone"]'), undefined, 5000));
+
+  check('restored filters are written back into the URL',
+    !!await readWhen(page, () => /standalone=1/.test(location.search) && /notowned=1/.test(location.search), undefined, 5000));
+  await page.reload();
+  await waitForBoot(page); await firstCardId(page);
+  check('a refresh keeps the filters and offers nothing',
+    await page.evaluate(() => window.state.standaloneOnly && !document.getElementById('restoreFilters')));
+
+  await page.click('#activeBar #clearAllF');
+  check('Clear all forgets the saved filters', !!await readWhen(page, () => localStorage.getItem('omniLedgerLastFilters') === null, undefined, 5000));
+  await openFresh();
+  check('after Clear all, a fresh open offers nothing', !await offerShown());
+
+  await page.check('#franchiseToggle');
+  await readWhen(page, () => /franchise=1/.test(localStorage.getItem('omniLedgerLastFilters') || ''), undefined, 5000);
+  await openFresh();
+  await page.click('#forgetFilters');
+  check('✕ forgets the offer and the saved filters', !await offerShown() && (await saved()) === null);
+  await openFresh();
+  check('once forgotten, a fresh open offers nothing', !await offerShown());
+
+  await page.check('#franchiseToggle');
+  await readWhen(page, () => /franchise=1/.test(localStorage.getItem('omniLedgerLastFilters') || ''), undefined, 5000);
+  await openFresh();
+  await page.check('#ratedToggle');
+  check('starting a new set of filters retires the offer and replaces what was saved',
+    !!await readWhen(page, () => { const v = localStorage.getItem('omniLedgerLastFilters') || ''; return !document.getElementById('restoreFilters') && /rated=1/.test(v) && !/franchise=1/.test(v); }, undefined, 5000));
+
+  const plant = (o) => page.evaluate((o) => localStorage.setItem('omniLedgerLastFilters', JSON.stringify(o)), o);
+  await page.click('#activeBar #clearAllF');
+  await readWhen(page, () => localStorage.getItem('omniLedgerLastFilters') === null, undefined, 5000);
+  await plant({ qs: 'franchise=1', at: Date.now() - 8 * 24 * 3600 * 1000, handle: '' });
+  await openFresh();
+  check('filters saved more than a week ago are not offered, and are dropped', !await offerShown() && (await saved()) === null);
+
+  await plant({ qs: 'franchise=1', at: Date.now(), handle: 'someone-else' });
+  await openFresh();
+  check('filters saved under another account are never offered', !await offerShown());
+
+  await plant({ qs: 'franchise=1', at: Date.now(), handle: '' });
+  await openFresh(bare + '?standalone=1');
+  check('arriving with filters in the link applies those and offers nothing',
+    await page.evaluate(() => window.state.standaloneOnly && !window.state.franchiseOnly && !document.getElementById('restoreFilters')));
+
+  // A long saved set on a narrow phone: the chip truncates, its ✕ stays beside it, nothing overflows.
+  await plant({ qs: 'q=space&notowned=1&notdone=1&standalone=1&unrated=1&g=Sci-Fi', at: Date.now(), handle: '' });
+  await page.setViewportSize({ width: 320, height: 800 });
+  await openFresh();
+  const fit = await readWhen(page, () => {
+    const o = document.getElementById('restoreOffer'), r = document.getElementById('restoreFilters'), x = document.getElementById('forgetFilters');
+    if (!o) return false;
+    const a = r.getBoundingClientRect(), b = x.getBoundingClientRect();
+    return { fits: o.getBoundingClientRect().right <= document.documentElement.clientWidth + 0.5, sameRow: Math.abs(a.top - b.top) < 3,
+      more: /\+\d/.test(r.textContent), barFits: (b => b.scrollWidth <= b.clientWidth)(document.getElementById('activeBar')) };
+  }, undefined, 5000);
+  check('on a 320px phone the offer fits on one line with its ✕, showing how many more it holds',
+    !!fit && fit.fits && fit.sameRow && fit.more && fit.barFits);
+
+  await page.close();
+  check('no uncaught page errors during the restore-filters flow', pageErrors.length === 0);
+  if (pageErrors.length) pageErrors.forEach(e => console.log('     ' + e));
+}
+
 // Clicks got cheaper by memoizing the per-card corpus scans and building a card's hidden panels
 // only when it is opened. Both are only acceptable if nothing a person can see changed, so both
 // are held to the originals here: the lookups against the full-scan implementations they replaced,
@@ -3884,6 +3980,7 @@ async function runFlow(browser, name, fn) {
     await runFlow(browser, t + ' — tab filters, search/sort, URL bookmarking', () => runTabFiltersFlow(browser, t));
     await runFlow(browser, t + ' — completed (watched / read / played)', () => runCompletedFlow(browser, t));
     await runFlow(browser, t + ' — franchise / standalone filter', () => runFranchiseFilterFlow(browser, t));
+    await runFlow(browser, t + ' — remembering filters (restore offer, Show count)', () => runRestoreFiltersFlow(browser, t));
     await runFlow(browser, t + ' — render performance (memoized lookups, lazy card panels)', () => runRenderPerfFlow(browser, t));
     await runFlow(browser, t + ' — offline (service worker, cloud sync while offline)', () => runOfflineFlow(browser, t));
   }
