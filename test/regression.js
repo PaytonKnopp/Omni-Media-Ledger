@@ -561,6 +561,13 @@ async function runFile(browser, file) {
     await page.click('#typeSeg [data-type="movie"]');
     await settle(page);
     check('media-type filter narrows results', (await countOf()) < baseline);
+    await page.click('#typeSeg [data-type="book"]');
+    await settle(page);
+    check('media type is multi-select: Movies + Books shows both kinds',
+      (await countOf()) === kindCounts.movie + kindCounts.book);
+    await page.click('#typeSeg [data-type="movie"]');
+    await settle(page);
+    check('clicking a picked media type again removes it', (await countOf()) === kindCounts.book);
     await page.click('#typeSeg [data-type="all"]');
     await settle(page);
 
