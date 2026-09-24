@@ -98,6 +98,8 @@ data/            Reference data, split by type so it can grow independently
   movies.js  tv.js  games.js  books.js    The ~5,000-work library
   creators.js                             Director / auteur / author pantheons
   contenders.js                           Upcoming releases being tracked
+  pk-sample.js                            The PK Sample new accounts can start from (a fixed copy,
+                                          so signing in as payton can't change it)
 scripts/         A data-integrity checker (for anyone editing the library)
 test/            An automated regression test suite
 supabase/        SQL schema for cloud accounts (run once in your Supabase project, if you set one up)

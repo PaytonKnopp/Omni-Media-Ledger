@@ -203,6 +203,14 @@ standing between a bulk import and quietly worse recommendations.
 **Adding a screen** — add a `<section data-sec="...">` in `index.html`, a nav button, and a render
 function in `app/ledger-app.js` wired into `switchView()`.
 
+**Updating the PK Sample** — "Start from the PK Sample" copies `data/pk-sample.js`, a committed file,
+not the live `payton` account: any name can be signed into, so reading that account let whoever last
+signed in as payton decide what every newcomer started from. Regenerate the file with
+`node scripts/update-pk-sample.js <file from the Export button>` (or `--from-cloud` to read the
+`payton` account directly), add `--dry-run` to preview. It prints what changed by title, refuses a
+profile with nothing tiered or owned, and refuses ids missing from the corpus (`--drop-unknown`
+leaves them out); `validate-corpus` re-checks the same things on every run.
+
 **Adding a synced setting** — add the key to `TRACKED` in `index.html`. (The schema used to keep an
 allow-list of keys too; it no longer filters the payload at all — see the comment in
 `validate_omni_profile_data` for why.)

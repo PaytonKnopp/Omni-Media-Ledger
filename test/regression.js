@@ -1141,6 +1141,8 @@ function __mockSave(db){ try { sessionStorage.setItem('__mockDb', JSON.stringify
 function __mockFlag(name){ try { return sessionStorage.getItem('__mockFlag_' + name) === '1'; } catch (e) { return false; } }
 function __mockSetFlag(name, on){ try { sessionStorage.setItem('__mockFlag_' + name, on ? '1' : '0'); } catch (e) {} }
 window.__mockSetFlag = __mockSetFlag;
+// Puts a profile row in the store as if some other device had saved it.
+window.__mockSeedProfile = function(handle, data){ var db = __mockLoad(); db.tables.profiles[handle] = { handle: handle, data: data }; __mockSave(db); };
 Object.defineProperty(window, '__mockTables', { get: function(){ return __mockLoad().tables; } });
 Object.defineProperty(window, '__upsertCalls', { get: function(){ return __mockLoad().upsertCalls; } });
 Object.defineProperty(window, '__profileUpsertCalls', { get: function(){ return __mockLoad().profileUpsertCalls || 0; } });
@@ -1379,6 +1381,12 @@ async function runAccountFlow(browser, file) {
     const gateVisible = await page.evaluate(() => !document.getElementById('acctGate').classList.contains('hidden'));
     check('account gate appears when cloud is configured and no handle is remembered', gateVisible);
 
+    // Anyone can sign in as any name, so the PK Sample must not be read from the live 'payton'
+    // account (it used to be). Plant a vandalized one; "Start from the PK Sample" below has to
+    // ignore it and copy data/pk-sample.js.
+    await page.evaluate(() => window.__mockSeedProfile('payton', { omniLedgerOnboarded: '1',
+      omniLedgerProfile: JSON.stringify({ declaredGoatIds: ['m01'], vandalized: true }) }));
+
     const startBtn = isShare ? '#onboardBlank' : '#onboardSample';
     const firstSignIn = await signInAndSettle(page, 'SmokeTestUser', startBtn);
     check('account gate closes after choosing a handle', firstSignIn.signedIn);
@@ -1387,14 +1395,20 @@ async function runAccountFlow(browser, file) {
     // Regression: "Start from the PK Sample" used to leave PERSONAL_PROFILE's hardcoded defaults
     // sitting in memory without ever writing omniLedgerProfile to localStorage -- meaning nothing
     // was actually saved as this account's own profile unless a later edit happened to trigger a
-    // save. It should now write a real, populated profile immediately (a clone of the built-in
-    // defaults here, since this mock has no 'payton' row to fetch live).
+    // save. It should now write a real, populated profile immediately: a copy of data/pk-sample.js.
     if (!isShare) {
       const seededProfile = await page.evaluate(() => {
         try { return JSON.parse(localStorage.getItem('omniLedgerProfile')); } catch (e) { return null; }
       });
       check('Start from the PK Sample immediately saves a real profile, not just the onboarded flag',
         !!seededProfile && Array.isArray(seededProfile.declaredGoatIds) && seededProfile.declaredGoatIds.length > 0);
+      const fromFile = await page.evaluate(() => {
+        const p = JSON.parse(localStorage.getItem('omniLedgerProfile') || '{}');
+        const same = k => JSON.stringify(p[k]) === JSON.stringify(PK_SAMPLE_PROFILE[k]);
+        return p.vandalized === undefined && p.pkSampleOrigin === true &&
+          ['declaredGoatIds', 'silverTierIds', 'bronzeTierIds', 'ownedMedia', 'ownedBooksExtra', 'ratings'].every(same);
+      });
+      check('the PK Sample is copied from data/pk-sample.js, not from whoever last signed in as payton', fromFile);
     }
 
     const synced = !!(await readWhen(page, () => !!(window.__mockTables && window.__mockTables.profiles['smoketestuser'])));
@@ -3545,15 +3559,31 @@ async function runCompletedFlow(browser, file) {
       return !!first && /Completed works/i.test(first.textContent) && parseInt(first.textContent, 10) > 0;
     }, undefined, 5000));
 
-  // Phone width: the tier row, now five segments long, still fits on one line.
+  // Phone width: the tier row, now five segments long, still fits on one line -- including the
+  // widest one it gets: a film or series ("✓ Watched" is the longest of Watched / Read / Played)
+  // that you have rated 10, so the last segment reads "★ 10.0" instead of a bare ☆. Rate one here
+  // rather than rely on the PK Sample happening to put such a title near the top.
   await page.setViewportSize({ width: 360, height: 800 });
   await page.evaluate(() => window.switchView('controller'));
   await firstCardId(page);
-  const wrapped = await page.evaluate(() => Array.from(document.querySelectorAll('#grid .tierRow')).slice(0, 20).filter(r => {
-    const tops = Array.from(r.children).map(c => Math.round(c.getBoundingClientRect().top));
-    return Math.max.apply(null, tops) - Math.min.apply(null, tops) > 4;
-  }).length);
-  check('the card tier row stays on one line on a 360px phone', wrapped === 0);
+  const ratedId = await page.evaluate(() => {
+    const seg = Array.from(document.querySelectorAll('#grid .doneSeg')).slice(0, 20).find(b => /Watched/.test(b.textContent));
+    return seg ? seg.dataset.id : null;
+  });
+  if (ratedId) { await page.evaluate((i) => window.setRating(i, 10), ratedId); await settle(page); }
+  await firstCardId(page);
+  const rows360 = await page.evaluate((i) => {
+    const rows = Array.from(document.querySelectorAll('#grid .tierRow')).slice(0, 20);
+    return {
+      wrapped: rows.filter(r => {
+        const tops = Array.from(r.children).map(c => Math.round(c.getBoundingClientRect().top));
+        return Math.max.apply(null, tops) - Math.min.apply(null, tops) > 4;
+      }).length,
+      rated: rows.some(r => /10\.0/.test((r.querySelector('.rateBtn.rated[data-id="' + i + '"]') || {}).textContent || '')),
+    };
+  }, ratedId);
+  check('the card tier row stays on one line on a 360px phone, a rated title\'s included',
+    rows360.wrapped === 0 && rows360.rated);
 
   await page.close();
   check('no uncaught page errors during the completed flow', pageErrors.length === 0);

@@ -529,6 +529,30 @@ for (const htmlFile of ['index.html']) {
   check(htmlFile + ' has no leftover inline copy of the corpus arrays', !hasInlineData);
 }
 
+/* ===================== the PK Sample ===================== */
+
+// data/pk-sample.js is what "Start from the PK Sample" copies into a new account. An id in it that
+// is not in the corpus is a favorite or an owned title that silently never shows up -- which is how
+// two retired placeholders (the "Man with No Name Trilogy" and "Harry Potter (Books 1-7)" records)
+// lingered in the built-in profile long after the records themselves were split into single works.
+console.log('\n=== PK Sample ===');
+{
+  const { ID_FIELDS, idsOf, loadTitles, unknownIds, readSampleFile } = require('./update-pk-sample.js');
+  let sample = null;
+  try { sample = readSampleFile(); } catch (e) { console.log('     ' + e.message); }
+  check('data/pk-sample.js parses and defines PK_SAMPLE_PROFILE',
+    !!sample && typeof sample === 'object' && !Array.isArray(sample));
+  if (sample) {
+    const html = fs.readFileSync(path.join(ROOT, 'index.html'), 'utf8');
+    check('index.html loads data/pk-sample.js', html.includes('<script src="data/pk-sample.js">'));
+    check('the sample has Gold picks (an empty one would mean it was taken from a wiped account)',
+      idsOf(sample, ID_FIELDS.find(f => f.key === 'declaredGoatIds')).length > 0);
+    const unknown = unknownIds(sample, loadTitles());
+    check('every title the sample tiers, owns or rates is in the corpus', !unknown.length);
+    detail(unknown.map(u => u.field.label + ': ' + u.id));
+  }
+}
+
 /* ===================== optional health report ===================== */
 
 if (REPORT) {
