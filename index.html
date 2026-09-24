@@ -227,6 +227,19 @@ input[type=range]::-moz-range-thumb{width:13px;height:13px;border-radius:50%;bac
 .idxGrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(148px,1fr));column-gap:1.35rem;row-gap:.7rem;margin-top:.6rem;padding-top:.6rem;border-top:1px solid rgba(30,41,59,.5)}
 main>section[data-sec]{scroll-margin-top:12px}
 @media (min-width:768px){#nav{gap:.6rem}}
+/* "Last time" restore offer in the active-filter bar (see restoreOfferHTML in ledger-app.js). A
+   calm teal chip, not the red of a removable filter: it adds, it doesn't take away. The summary
+   truncates with an ellipsis, so on a phone the chip and its ✕ stay on one line whatever was saved;
+   the full list is in its tooltip. */
+#restoreOffer{display:inline-flex;align-items:center;gap:6px;flex:0 1 auto;min-width:0;max-width:100%}
+#restoreFilters{gap:6px;min-width:0;max-width:100%;font-size:11px;padding:4px 11px;color:#5eead4;border-color:rgba(94,234,212,.4);background:rgba(20,184,166,.09);cursor:pointer;transition:background-color .15s,border-color .15s}
+#restoreFilters:hover{background:rgba(20,184,166,.18);border-color:#5eead4}
+#restoreFilters .restoreIcon{flex:none;font-size:12px}
+#restoreFilters .restoreWord{flex:none;font-weight:700}
+#restoreFilters .restoreSummary{min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;color:#e2e8f0}
+#restoreFilters .restoreMore{flex:none;color:#5eead4;opacity:.85;font-weight:700}
+#forgetFilters{flex:none;cursor:pointer;color:#94a3b8;padding:4px 8px;transition:color .15s,border-color .15s}
+#forgetFilters:hover{color:#fca5a5;border-color:rgba(252,165,165,.35)}
 /* Filter toggle pairs (Owned / Not owned, Watched / Not yet, Rated / Unrated, Franchise /
    Standalone): on tablet and desktop each pair stacks, the opposite option directly under the one
    it answers, so the pairs read as columns across one row and leave room for more. Phones keep
@@ -876,6 +889,7 @@ body[data-theme="outer-wilds"]{--bg:#0e0a09;--panel:#181010;--panel-2:#120c0b;--
         <div class="tipItem">🔍 <strong class="text-slate-100">Omni-Search</strong> matches on title, creator, studio, genre, vibe, and year all at once — try a director's name, a network, or just a year.</div>
         <div class="tipItem">✓ <strong class="text-slate-100">"Watched / read / played" and "Not yet"</strong>, next to the owned toggles, filter by what you've finished — "Not yet" hides it everywhere in the results. ✨ Best Untried Matches switches on "Not yet" automatically, along with "Not owned" and "Unrated only", so it shows only things new to you.</div>
         <div class="tipItem">⚙ <strong class="text-slate-100">"Franchise / series" and "Standalone only"</strong>, in the same row, split everything by whether it belongs to a bigger series — sequels, prequels, spin-offs, shared universes — or stands on its own. Pair "Standalone only" with ✨ Best Untried Matches for something new that isn't one entry of a long saga.</div>
+        <div class="tipItem">↺ <strong class="text-slate-100">Your filters, next time</strong> — a refresh keeps them as they are. Open the app fresh and it starts clean, with a "↺ Restore" chip above the results that puts your last filters back in one tap (✕ forgets them). Your "Show" count is simply remembered.</div>
         <div class="tipItem">🏷️ <strong class="text-slate-100">Genre chips</strong> under the main filters let you click any genre to filter straight to it — click again to clear it.</div>
         <div class="tipItem">📌 <strong class="text-slate-100">Pin any slider you use a lot</strong> — from Advanced Filters, or the specialized index thresholds inside it — so it shows up in the always-visible "Your 6 quick filters" row up top instead of staying tucked away. Both the pinned row and Advanced Filters start in alphabetical order.</div>
         <div class="tipItem">▶ <strong class="text-slate-100">Advanced Filters &amp; Indices</strong> (collapsed by default) stacks as many specialized index thresholds as you like — dread, complexity, awe, and more — on top of the main filters.</div>

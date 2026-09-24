@@ -38,6 +38,7 @@ A few other things worth knowing about:
 
 - **✓ Watched / Read / Played** — one tap on any card logs something you've finished. It moves to the Watchlist's Completed section with the date (editable, for things you're logging from before), recommendations stop suggesting it, and the Global Controller can filter by it ("Watched / read / played" or "Not yet").
 - **⚙ Franchise / series vs. ◇ Standalone only** — a Global Controller filter pair for "part of a bigger series" (sequels, prequels, spin-offs, shared universes like Star Wars or Discworld) versus one-offs. The ⚙ badge on a card names the franchise when it's one of the curated series.
+- **Your filters, next time** — refreshing (or reopening a closed tab, or a bookmark) keeps the Global Controller's filters exactly as they were. Opening the app fresh starts clean, but offers the last set back as one "↺ Restore" chip for a week; tap it to pick up where you left off, or ✕ to forget it. The "Show: Top 100 / 250…" choice is simply remembered. Both stay on the device you set them on.
 - **🎲 Surprise Me** — one weighted pick, scoped by medium, mood, pool (everything, what you own, only things new to you, or just your Up Next list), and (for films) how much time you have.
 - **💡 Suggest a feature** — a shared box (visible to everyone using the app, not just you) for writing down "it'd be great if…" ideas.
 - **Themes** — nine visual looks, pick one from the header.
