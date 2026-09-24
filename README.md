@@ -23,7 +23,7 @@ That's genuinely most of it. Everything past this point is detail for people who
 
 | Where | What it's for |
 | --- | --- |
-| **Global Controller** (the home screen) | Search and browse everything. Filter by type, genre, ownership, whether you've watched/read/played it, your own rating, favorite tier, platform/studio/network, and 21 more specific tastes (scariest, funniest, best soundtrack, etc.). **✨ Best Untried Matches** is a one-click setup for "best things I haven't tried yet" — not owned, not finished, not rated, not tiered. Sort by match score, critical/audience score, year, or a custom weighted blend you control with three sliders. |
+| **Global Controller** (the home screen) | Search and browse everything. Filter by type, genre, ownership, whether you've watched/read/played it, whether it's part of a franchise/series or a standalone, your own rating, favorite tier, platform/studio/network, and 21 more specific tastes (scariest, funniest, best soundtrack, etc.). **✨ Best Untried Matches** is a one-click setup for "best things I haven't tried yet" — not owned, not finished, not rated, not tiered. Sort by match score, critical/audience score, year, or a custom weighted blend you control with three sliders. |
 | **GOAT Profile** | Your declared all-time favorites, and where you build them — search the whole library right there and tier or mark things owned. Movies/TV/Games/Books show your Gold, Silver, and Bronze picks as distinct, labeled groups. Also shows computer-generated recommendations based on what you've already told it you love. |
 | **Taste Portrait** | A snapshot of what your collection says about you — genre breakdown, ownership stats, a clickable map of 28 genre families. |
 | **Collection** | Your actual physical/digital library, organized by format, plus a "worth upgrading?" audit and gap-finder ("you love this director, here's what you don't own yet"). |
@@ -37,6 +37,7 @@ That's genuinely most of it. Everything past this point is detail for people who
 A few other things worth knowing about:
 
 - **✓ Watched / Read / Played** — one tap on any card logs something you've finished. It moves to the Watchlist's Completed section with the date (editable, for things you're logging from before), recommendations stop suggesting it, and the Global Controller can filter by it ("Watched / read / played" or "Not yet").
+- **⚙ Franchise / series vs. ◇ Standalone only** — a Global Controller filter pair for "part of a bigger series" (sequels, prequels, spin-offs, shared universes like Star Wars or Discworld) versus one-offs. The ⚙ badge on a card names the franchise when it's one of the curated series.
 - **🎲 Surprise Me** — one weighted pick, scoped by medium, mood, pool (everything, what you own, only things new to you, or just your Up Next list), and (for films) how much time you have.
 - **💡 Suggest a feature** — a shared box (visible to everyone using the app, not just you) for writing down "it'd be great if…" ideas.
 - **Themes** — nine visual looks, pick one from the header.

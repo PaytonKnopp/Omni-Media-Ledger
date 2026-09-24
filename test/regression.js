@@ -3531,6 +3531,102 @@ async function runCompletedFlow(browser, file) {
   if (pageErrors.length) pageErrors.forEach(e => console.log('     ' + e));
 }
 
+// Franchise / series vs. standalone: a mutually exclusive pair of Global Controller filters, kept
+// in the URL and the active-filter bar like the other pairs. Membership comes from the curated
+// series, title-root matching and a hand-checked list for sequels and spin-offs whose titles share
+// nothing, so one of each is checked by name.
+async function runFranchiseFilterFlow(browser, file) {
+  const { page, pageErrors } = await bootSample(browser, file);
+
+  await page.check('#franchiseToggle');
+  const franchiseIds = await readWhen(page, () => {
+    const ids = Array.from(document.querySelectorAll('#grid .cardHead')).map(h => h.dataset.id);
+    return window.state.franchiseOnly && ids.length && ids.every(i => window.inFranchise(window.byId.get(i))) ? ids : false;
+  }, undefined, 5000);
+  check('"Franchise / series" shows only works that belong to a franchise', !!franchiseIds);
+  check('the franchise filter appears as a removable active-filter chip',
+    await page.evaluate(() => !!document.querySelector('#activeBar .activeChip[data-clr="franchise"]')));
+  check('the franchise filter is kept in the URL',
+    !!await readWhen(page, () => /[?&]franchise=1/.test(location.search), undefined, 3000));
+
+  await page.check('#standaloneToggle');
+  const standaloneIds = await readWhen(page, () => {
+    const ids = Array.from(document.querySelectorAll('#grid .cardHead')).map(h => h.dataset.id);
+    return window.state.standaloneOnly && ids.length && ids.every(i => !window.inFranchise(window.byId.get(i))) ? ids : false;
+  }, undefined, 5000);
+  check('"Standalone only" shows only works outside any franchise', !!standaloneIds);
+  check('the two franchise filters are mutually exclusive',
+    await page.evaluate(() => !document.getElementById('franchiseToggle').checked && !window.state.franchiseOnly));
+  check('no standalone result carries a franchise badge',
+    await page.evaluate(() => !document.querySelector('#grid .franchiseChip')));
+  check('the corpus splits into both franchise and standalone works',
+    await page.evaluate(() => {
+      const all = window.ALL.length, fr = window.ALL.filter(x => window.inFranchise(x)).length;
+      return fr > 0 && fr < all;
+    }));
+
+  // A spin-off and a sequel whose titles share nothing with their series, the film a curated series
+  // is named for, and a one-off, each checked by name.
+  const named = await page.evaluate(() => {
+    const find = (kind, title) => window.ALL.find(x => x.kind === kind && x.title === title);
+    const f = x => !!x && window.inFranchise(x);
+    return {
+      saul: f(find('tv', 'Better Call Saul')),
+      words: f(find('book', 'Words of Radiance')),
+      matrix: f(find('movie', 'The Matrix')),
+      parasite: !!find('movie', 'Parasite') && !f(find('movie', 'Parasite')),
+    };
+  });
+  check('a spin-off with an unrelated title (Better Call Saul) counts as franchise', named.saul);
+  check('a sequel with an unrelated title (Words of Radiance) counts as franchise', named.words);
+  check('the film a curated series is named for (The Matrix) counts as franchise', named.matrix);
+  check('a one-off (Parasite) counts as standalone', named.parasite);
+
+  await page.fill('#q', 'Better Call Saul');
+  check('Standalone only hides a spin-off even when searched for by name',
+    await readWhen(page, () => window.state.q === 'Better Call Saul' && !document.querySelector('#grid .cardHead'), undefined, 5000));
+  await page.check('#franchiseToggle');
+  check('Franchise / series shows that spin-off',
+    !!await readWhen(page, () => {
+      const t = Array.from(document.querySelectorAll('#grid .cardTitle')).map(e => e.textContent);
+      return t.includes('Better Call Saul') ? t : false;
+    }, undefined, 5000));
+
+  await page.click('#activeBar #clearAllF');
+  await settle(page);
+  check('Clear all resets the franchise filters',
+    await page.evaluate(() => !window.state.franchiseOnly && !window.state.standaloneOnly &&
+      !document.getElementById('franchiseToggle').checked && !document.getElementById('standaloneToggle').checked));
+  await page.close();
+
+  // A bookmark restores the filter, box ticked.
+  const url = 'file://' + path.join(ROOT, file) + '?standalone=1';
+  const page2 = await browser.newPage({ viewport: { width: 1400, height: 1000 } });
+  await page2.route('**/supabase-js*/**', route => route.abort());
+  page2.on('pageerror', e => pageErrors.push(e.message));
+  await page2.goto(url);
+  await waitForBoot(page2);
+  check('a ?standalone=1 bookmark restores the filter with its box ticked',
+    !!await readWhen(page2, () => window.state && window.state.standaloneOnly && document.getElementById('standaloneToggle').checked, undefined, 5000));
+
+  // On a phone the pair is one card, like Owned / Not owned, with both labels on the same row.
+  await page2.setViewportSize({ width: 360, height: 800 });
+  const phone = await readWhen(page2, () => {
+    const g = document.getElementById('franchiseToggleGroup');
+    if (!g) return false;
+    const ls = g.querySelectorAll('label');
+    const a = ls[0].getBoundingClientRect(), b = ls[1].getBoundingClientRect(), r = g.getBoundingClientRect();
+    return { card: getComputedStyle(g).borderTopStyle === 'solid', sameRow: Math.abs(a.top - b.top) < 4,
+      fits: r.right <= document.documentElement.clientWidth + 0.5 };
+  }, undefined, 5000);
+  check('on a phone the franchise pair is one bordered card, both options on one row, no overflow',
+    !!phone && phone.card && phone.sameRow && phone.fits);
+  await page2.close();
+
+  check('no uncaught page errors during the franchise filter flow', pageErrors.length === 0);
+  if (pageErrors.length) pageErrors.forEach(e => console.log('     ' + e));
+}
+
 // Clicks got cheaper by memoizing the per-card corpus scans and building a card's hidden panels
 // only when it is opened. Both are only acceptable if nothing a person can see changed, so both
 // are held to the originals here: the lookups against the full-scan implementations they replaced,
@@ -3779,6 +3875,7 @@ async function runFlow(browser, name, fn) {
     await runFlow(browser, t + ' — personal ratings (migration, popup, GOAT Match blend, filters)', () => runRatingFlow(browser, t));
     await runFlow(browser, t + ' — tab filters, search/sort, URL bookmarking', () => runTabFiltersFlow(browser, t));
     await runFlow(browser, t + ' — completed (watched / read / played)', () => runCompletedFlow(browser, t));
+    await runFlow(browser, t + ' — franchise / standalone filter', () => runFranchiseFilterFlow(browser, t));
     await runFlow(browser, t + ' — render performance (memoized lookups, lazy card panels)', () => runRenderPerfFlow(browser, t));
     await runFlow(browser, t + ' — offline (service worker, cloud sync while offline)', () => runOfflineFlow(browser, t));
   }

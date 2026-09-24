@@ -449,10 +449,11 @@ button:focus-visible,select:focus-visible,input:focus-visible{outline:2px solid 
     always-full-width row right in the markup (#discoverBtnRow) instead of a media-query patch --
     nothing further to do for it here. */
  #filterTogglesRow{flex-direction:column;align-items:stretch;gap:.55rem}
- /* Watched/Not yet (#doneToggleGroup) is the same kind of pair and gets the same card. */
- #ownershipToggleGroup,#doneToggleGroup,#ratingToggleGroup,#tierGroup{background:rgba(148,163,184,.04);border:1px solid rgba(148,163,184,.1);border-radius:10px}
- #ownershipToggleGroup,#doneToggleGroup,#ratingToggleGroup{justify-content:space-between;padding:10px 12px;gap:.5rem}
- #ownershipToggleGroup label,#doneToggleGroup label,#ratingToggleGroup label{flex:1 1 0;white-space:normal}
+ /* Watched/Not yet (#doneToggleGroup) and Franchise/Standalone (#franchiseToggleGroup) are the same
+    kind of pair and get the same card. */
+ #ownershipToggleGroup,#doneToggleGroup,#ratingToggleGroup,#franchiseToggleGroup,#tierGroup{background:rgba(148,163,184,.04);border:1px solid rgba(148,163,184,.1);border-radius:10px}
+ #ownershipToggleGroup,#doneToggleGroup,#ratingToggleGroup,#franchiseToggleGroup{justify-content:space-between;padding:10px 12px;gap:.5rem}
+ #ownershipToggleGroup label,#doneToggleGroup label,#ratingToggleGroup label,#franchiseToggleGroup label{flex:1 1 0;white-space:normal}
  #tierGroup{padding:10px 12px}
  #discoverBtn{width:100%;text-align:center}
 
@@ -867,6 +868,7 @@ body[data-theme="outer-wilds"]{--bg:#0e0a09;--panel:#181010;--panel-2:#120c0b;--
       <div class="tipCatBody">
         <div class="tipItem">🔍 <strong class="text-slate-100">Omni-Search</strong> matches on title, creator, studio, genre, vibe, and year all at once — try a director's name, a network, or just a year.</div>
         <div class="tipItem">✓ <strong class="text-slate-100">"Watched / read / played" and "Not yet"</strong>, next to the owned toggles, filter by what you've finished — "Not yet" hides it everywhere in the results. ✨ Best Untried Matches switches on "Not yet" automatically, along with "Not owned" and "Unrated only", so it shows only things new to you.</div>
+        <div class="tipItem">⚙ <strong class="text-slate-100">"Franchise / series" and "Standalone only"</strong>, in the same row, split everything by whether it belongs to a bigger series — sequels, prequels, spin-offs, shared universes — or stands on its own. Pair "Standalone only" with ✨ Best Untried Matches for something new that isn't one entry of a long saga.</div>
         <div class="tipItem">🏷️ <strong class="text-slate-100">Genre chips</strong> under the main filters let you click any genre to filter straight to it — click again to clear it.</div>
         <div class="tipItem">📌 <strong class="text-slate-100">Pin any slider you use a lot</strong> — from Advanced Filters, or the specialized index thresholds inside it — so it shows up in the always-visible "Your 6 quick filters" row up top instead of staying tucked away. Both the pinned row and Advanced Filters start in alphabetical order.</div>
         <div class="tipItem">▶ <strong class="text-slate-100">Advanced Filters &amp; Indices</strong> (collapsed by default) stacks as many specialized index thresholds as you like — dread, complexity, awe, and more — on top of the main filters.</div>
@@ -1164,6 +1166,10 @@ body[data-theme="outer-wilds"]{--bg:#0e0a09;--panel:#181010;--panel-2:#120c0b;--
       <div class="flex items-center gap-4" id="ratingToggleGroup">
         <label class="flex items-center gap-2 text-[11px] cursor-pointer" style="color:#5eead4"><input type="checkbox" id="ratedToggle" class="accent-teal-500"/> ★ Rated by me only</label>
         <label class="flex items-center gap-2 text-[11px] cursor-pointer" style="color:#94a3b8"><input type="checkbox" id="unratedToggle" class="accent-slate-500"/> ☆ Unrated only</label>
+      </div>
+      <div class="flex items-center gap-4" id="franchiseToggleGroup">
+        <label class="flex items-center gap-2 text-[11px] cursor-pointer" style="color:#c4b5fd" title="Only works that belong to a franchise or series: sequels, prequels, trilogies, spin-offs"><input type="checkbox" id="franchiseToggle" style="accent-color:#8b5cf6"/> ⚙ Franchise / series</label>
+        <label class="flex items-center gap-2 text-[11px] cursor-pointer" style="color:#94a3b8" title="Only one-off works that aren't part of any franchise or series"><input type="checkbox" id="standaloneToggle" class="accent-slate-400"/> ◇ Standalone only</label>
       </div>
       <span id="tierGroup" class="flex flex-wrap items-center gap-x-2 gap-y-3">
         <span class="fieldlbl mb-0">Tiers · click to require, click again to exclude</span>
