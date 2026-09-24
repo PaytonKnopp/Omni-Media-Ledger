@@ -84,6 +84,8 @@ details[open]>.collSum .collCaret{transform:rotate(90deg)}
 .seg button:last-child{border-right:none}
 .seg button:hover{color:var(--text)}
 .seg button.on{background:var(--border);color:#fff;font-weight:600}
+/* Media Type is multi-select, so two picked kinds can sit side by side -- keep a hairline between them. */
+#typeSeg button.on+button.on{box-shadow:inset 1px 0 0 var(--panel-2)}
 .bubbleMedBtn{border-color:rgba(148,163,184,.25);color:#94a3b8}
 .bubbleMedBtn.on{border-color:#818cf8;color:#c7d2fe;background:rgba(129,140,248,.12);font-weight:600}
 .bmCount{opacity:.65;font-weight:400}
@@ -1185,12 +1187,12 @@ body[data-theme="outer-wilds"]{--bg:#0e0a09;--panel:#181010;--panel-2:#120c0b;--
       </div>
       <div class="lg:col-span-3">
         <span class="fieldlbl">Media Type</span>
-        <div class="seg" id="typeSeg">
-          <button type="button" data-type="all" class="on">All</button>
-          <button type="button" data-type="movie">Movies</button>
-          <button type="button" data-type="tv">TV</button>
-          <button type="button" data-type="game">Games</button>
-          <button type="button" data-type="book">Books</button>
+        <div class="seg" id="typeSeg" role="group" aria-label="Media type (pick one or more)" title="Pick one or more · All shows every kind">
+          <button type="button" data-type="all" class="on" aria-pressed="true">All</button>
+          <button type="button" data-type="movie" aria-pressed="false">Movies</button>
+          <button type="button" data-type="tv" aria-pressed="false">TV</button>
+          <button type="button" data-type="game" aria-pressed="false">Games</button>
+          <button type="button" data-type="book" aria-pressed="false">Books</button>
         </div>
       </div>
       <div class="lg:col-span-3">

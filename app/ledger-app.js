@@ -197,7 +197,7 @@ const DONE_VERB={movie:'Watched',tv:'Watched',game:'Played',book:'Read'};
 function doneVerb(it){return DONE_VERB[it&&it.kind]||'Completed';}
 
 /* ===================== STATE & HELPERS ===================== */
-const state={view:'controller',q:'',type:'all',struct:'all',plats:[],minGoat:0,minMyRating:0,ratedOnly:false,unratedOnly:false,genres:[],genresExclude:[],ownedOnly:false,notOwnedOnly:false,doneOnly:false,notDoneOnly:false,franchiseOnly:false,standaloneOnly:false,limit:100,idx:{snd:0,ref:0,ch:0,emo:0,awe:0,cozy:0,perf:0,icon:0,scary:0,real:0,reality:0,shock:0,sci:0,funny:0,hist:0,vibe2:0,crit:0,aud:0,tech:0,dread:0,myst:0,warmth:0,comedy:0,beauty:0,runtime:0},ratings:[],tierFilter:[],tierFilterExclude:[],yearMin:null,yearMax:null,combine:false,sort:'overall',w:{tech:0.85,dread:0.95,myst:0.90},creatorTab:'directors',creatorSearch:'',creatorLedgerOnly:false,creatorOwnedOnly:false,goatType:'all',goatTierFilter:'all',goatSort:'match',goatDeclaredQ:'',portraitScope:'all',collSearchQ:'',collSort:'az',wlType:'all',wlSort:'added',wlSearchQ:'',creatorSearchScope:'all',creatorSort:'works'};
+const state={view:'controller',q:'',types:[],struct:'all',plats:[],minGoat:0,minMyRating:0,ratedOnly:false,unratedOnly:false,genres:[],genresExclude:[],ownedOnly:false,notOwnedOnly:false,doneOnly:false,notDoneOnly:false,franchiseOnly:false,standaloneOnly:false,limit:100,idx:{snd:0,ref:0,ch:0,emo:0,awe:0,cozy:0,perf:0,icon:0,scary:0,real:0,reality:0,shock:0,sci:0,funny:0,hist:0,vibe2:0,crit:0,aud:0,tech:0,dread:0,myst:0,warmth:0,comedy:0,beauty:0,runtime:0},ratings:[],tierFilter:[],tierFilterExclude:[],yearMin:null,yearMax:null,combine:false,sort:'overall',w:{tech:0.85,dread:0.95,myst:0.90},creatorTab:'directors',creatorSearch:'',creatorLedgerOnly:false,creatorOwnedOnly:false,goatType:'all',goatTierFilter:'all',goatSort:'match',goatDeclaredQ:'',portraitScope:'all',collSearchQ:'',collSort:'az',wlType:'all',wlSort:'added',wlSearchQ:'',creatorSearchScope:'all',creatorSort:'works'};
 const $=s=>document.querySelector(s),$$=s=>Array.from(document.querySelectorAll(s));
 const on=(sel,ev,fn)=>{const el=$(sel);if(el)el.addEventListener(ev,fn);else console.warn('missing element:',sel);};
 // esc/themeColor(+THEME_PALETTE) live in app/cards.js (pure, closure-independent) now.
@@ -243,7 +243,7 @@ const IDX_KEYS=['snd','ref','ch','emo','awe','cozy','perf','icon','scary','real'
 // of sync.
 function filteredSkipping(skip){const q=state.q.trim().toLowerCase();
  return ALL.filter(it=>{
-  if(state.type!=='all'&&it.kind!==state.type)return false;
+  if(state.types.length&&!state.types.includes(it.kind))return false;
   if(it.kind==='tv'){
    if(state.struct==='limited'&&it.format!=='Limited/Mini-Series')return false;
    if(state.struct==='multi'&&it.format!=='Multi-Season Epic')return false;
@@ -810,7 +810,7 @@ let activeBarExpanded=false;
 function activeFilterList(s){
  const chips=[];const X=(label,clear)=>chips.push([label,clear]);
  if(s.q)X('“'+esc(s.q)+'”','q');
- if(s.type!=='all')X(KM[s.type].label,'type');
+ s.types.forEach(k=>X(KM[k].label,'type:'+k));
  if(s.struct!=='all')X(s.struct==='limited'?'Limited series':'Multi-season','struct');
  s.plats.forEach(p=>X(esc(p),'plat:'+p));
  s.genres.forEach(g=>X(esc(g),'genre:'+g));
@@ -3637,7 +3637,7 @@ function stateToParams(){
  var p=new URLSearchParams();
  if(state.view&&state.view!=='controller')p.set('view',state.view);
  if(state.q)p.set('q',state.q);
- if(state.type&&state.type!=='all')p.set('type',state.type);
+ if(state.types&&state.types.length)p.set('type',state.types.join('|'));
  if(state.plats&&state.plats.length)p.set('plat',state.plats.join('|'));
  if(state.genres&&state.genres.length)p.set('g',state.genres.join('|'));
  if(state.genresExclude&&state.genresExclude.length)p.set('gx',state.genresExclude.join('|'));
@@ -3697,7 +3697,7 @@ function paramsToState(p,s){
   p=p||new URLSearchParams(location.search);
   if(!Array.from(p.keys()).length)return null;
   if(p.has('q'))s.q=p.get('q');
-  if(p.has('type'))s.type=p.get('type');
+  if(p.has('type'))s.types=p.get('type').split('|').filter(k=>KM[k]);
   if(p.has('plat'))s.plats=p.get('plat').split('|').filter(Boolean);
   if(p.has('g'))s.genres=p.get('g').split('|').filter(Boolean);
   if(p.has('gx'))s.genresExclude=p.get('gx').split('|').filter(Boolean);
@@ -3786,7 +3786,7 @@ function loadRestoreOffer(){
   return;
  }
  // Label it the way the active-filter bar would, from a scratch copy -- nothing is applied yet.
- const scratch={q:'',type:'all',struct:'all',plats:[],genres:[],genresExclude:[],ratings:[],tierFilter:[],tierFilterExclude:[],minGoat:0,minMyRating:0,yearMin:null,yearMax:null,idx:Object.fromEntries(Object.keys(state.idx).map(k=>[k,0]))};
+ const scratch={q:'',types:[],struct:'all',plats:[],genres:[],genresExclude:[],ratings:[],tierFilter:[],tierFilterExclude:[],minGoat:0,minMyRating:0,yearMin:null,yearMax:null,idx:Object.fromEntries(Object.keys(state.idx).map(k=>[k,0]))};
  paramsToState(new URLSearchParams(saved.qs),scratch);
  const labels=activeFilterList(scratch).map(l=>l[0]);
  if(labels.length)restoreOffer={qs:saved.qs,at:saved.at,labels:labels};
@@ -3844,7 +3844,7 @@ function scheduleURLSync(){
 // checkboxes need their DOM state set explicitly to match.
 function applyStateToStaticControls(){
  var qi=$('#q');if(qi)qi.value=state.q;
- $$('#typeSeg button').forEach(function(b){b.classList.toggle('on',b.dataset.type===state.type);});
+ syncTypeSeg();
  var mg=$('#minGoat');if(mg){mg.value=state.minGoat;var mgv=$('#minGoatV');if(mgv)mgv.textContent=state.minGoat;}
  var mmr=$('#minMyRating');if(mmr){mmr.value=state.minMyRating;var mmrv=$('#minMyRatingV');if(mmrv)mmrv.textContent=state.minMyRating.toFixed(1);}
  var ss=$('#structSel');if(ss)ss.value=state.struct;
@@ -3976,7 +3976,13 @@ function toggleCardExpanded(card){
 on('#grid','click',e=>{const pc=e.target.closest('.pairingChip');if(pc){e.stopPropagation();const px=byId.get(pc.dataset.flipJump);if(px){state.q=px.title;const qinput=$('#q');if(qinput)qinput.value=px.title;refresh();}return;}const pe=e.target.closest('.profEditBtn');if(pe){e.stopPropagation();handleProfileEditClick(pe);return;}const w=e.target.closest('.wlBtn');if(w){e.stopPropagation();const wid=w.dataset.wl;if(wlDone(wid))setDoneFromUI(wid,false);else{wlToggle(wid);afterWatchStateChange(wid);}return;}const fb=e.target.closest('.flipBack');if(fb){e.stopPropagation();const card=fb.closest('.panel');if(card)setCardExpanded(card,false);return;}const h=e.target.closest('.cardHead');if(!h)return;const card=h.closest('.panel');if(card)toggleCardExpanded(card);});
 let qT=null;
 on('#q','input',e=>{clearTimeout(qT);qT=setTimeout(()=>{state.q=e.target.value;refresh();},120);});
-on('#typeSeg','click',e=>{const b=e.target.closest('button');if(!b)return;state.type=b.dataset.type;$$('#typeSeg button').forEach(x=>x.classList.toggle('on',x===b));refresh();});
+// Media Type is multi-select: each kind toggles in or out, All clears the lot. An empty list means
+// every kind, so picking all four collapses back to All rather than leaving four buttons lit.
+function syncTypeSeg(){$$('#typeSeg button').forEach(b=>{const lit=b.dataset.type==='all'?!state.types.length:state.types.includes(b.dataset.type);b.classList.toggle('on',lit);b.setAttribute('aria-pressed',lit);});}
+on('#typeSeg','click',e=>{const b=e.target.closest('button');if(!b)return;const k=b.dataset.type;
+ if(k==='all')state.types=[];
+ else{state.types=state.types.includes(k)?state.types.filter(x=>x!==k):state.types.concat(k);if(state.types.length===Object.keys(KM).length)state.types=[];}
+ syncTypeSeg();refresh();});
 on('#structSel','change',e=>{state.struct=e.target.value;refresh();});
 on('#sortSel','change',e=>{state.sort=e.target.value;syncBlendPanel();refresh();});
 on('#limitSel','change',e=>{state.limit=+e.target.value;try{if(state.limit===100)localStorage.removeItem(SHOW_LIMIT_KEY);else localStorage.setItem(SHOW_LIMIT_KEY,String(state.limit));}catch(err){console.warn('saving Show count failed',err);}refresh();});
@@ -4387,7 +4393,7 @@ on('#tlChart','click',e=>{
  const ymin=+g.dataset.ymin,ymax=+g.dataset.ymax,kind=g.dataset.kind;
  state.yearMin=ymin<=-9999?null:ymin;state.yearMax=ymax-1;
  const yminEl=$('#yearMin'),ymaxEl=$('#yearMax');if(yminEl)yminEl.value=state.yearMin!=null?state.yearMin:'';if(ymaxEl)ymaxEl.value=state.yearMax;
- if(kind){state.type=kind;$$('#typeSeg button').forEach(x=>x.classList.toggle('on',x.dataset.type===kind));}
+ if(kind){state.types=[kind];syncTypeSeg();}
  state.q='';const qi=$('#q');if(qi)qi.value='';
  const ap=$('#advPanel');if(ap&&ap.classList.contains('hidden')){ap.classList.remove('hidden');const caret=$('#advCaret');if(caret)caret.style.transform='rotate(90deg)';}
  syncAdvCount();switchView('controller');window.scrollTo({top:0,behavior:'smooth'});
@@ -6102,7 +6108,7 @@ on('#activeBar','click',e=>{
  if(e.target.closest('#activeBarToggle')){activeBarExpanded=!activeBarExpanded;renderActiveBar();return;}
  const b=e.target.closest('.activeChip');if(!b)return;const c=b.dataset.clr;
  if(c==='q'){state.q='';$('#q').value='';}
- else if(c==='type'){state.type='all';$$('#typeSeg button').forEach(x=>x.classList.toggle('on',x.dataset.type==='all'));}
+ else if(c.indexOf('type:')===0){const k=c.slice(5);state.types=state.types.filter(x=>x!==k);syncTypeSeg();}
  else if(c==='struct'){state.struct='all';$('#structSel').value='all';}
  else if(c.indexOf('plat:')===0){const p=c.slice(5);state.plats=state.plats.filter(x=>x!==p);updatePlatLabel();}
  else if(c==='year'){state.yearMin=state.yearMax=null;$('#yearMin').value='';$('#yearMax').value='';}
@@ -6125,13 +6131,13 @@ on('#activeBar','click',e=>{
  syncAdvCount();refresh();
 });
 function clearAllFilters(){
- Object.assign(state,{q:'',type:'all',struct:'all',plats:[],minGoat:0,minMyRating:0,ratedOnly:false,unratedOnly:false,genres:[],genresExclude:[],ratings:[],ownedOnly:false,notOwnedOnly:false,doneOnly:false,notDoneOnly:false,franchiseOnly:false,standaloneOnly:false,tierFilter:[],tierFilterExclude:[],yearMin:null,yearMax:null,combine:false});
+ Object.assign(state,{q:'',types:[],struct:'all',plats:[],minGoat:0,minMyRating:0,ratedOnly:false,unratedOnly:false,genres:[],genresExclude:[],ratings:[],ownedOnly:false,notOwnedOnly:false,doneOnly:false,notDoneOnly:false,franchiseOnly:false,standaloneOnly:false,tierFilter:[],tierFilterExclude:[],yearMin:null,yearMax:null,combine:false});
  buildTierFilterChips();
  state.idx={snd:0,ref:0,ch:0,emo:0,awe:0,cozy:0,perf:0,icon:0,scary:0,real:0,reality:0,shock:0,sci:0,funny:0,hist:0,vibe2:0,crit:0,aud:0,tech:0,dread:0,myst:0,warmth:0,comedy:0,beauty:0,runtime:0};state.ratings=[];
  $('#q').value='';var ss=$('#structSel');if(ss)ss.value='all';updatePlatLabel();
  var mgs=$('#minGoat');if(mgs)mgs.value=0;var mgv2=$('#minGoatV');if(mgv2)mgv2.textContent='0';
  var mmrs=$('#minMyRating');if(mmrs)mmrs.value=0;var mmrv2=$('#minMyRatingV');if(mmrv2)mmrv2.textContent='0.0';
- $$('#typeSeg button').forEach(x=>x.classList.toggle('on',x.dataset.type==='all'));
+ syncTypeSeg();
  $$('.idxSlider').forEach(sl=>{sl.value=0;var c=$('#idxV_'+sl.dataset.k);if(c)c.textContent=idxDisplay(sl.dataset.k,0);});
  $('#combineMode').checked=false;const _o=$('#ownedToggle');if(_o)_o.checked=false;const _no=$('#notOwnedToggle');if(_no)_no.checked=false;
  const _r=$('#ratedToggle');if(_r)_r.checked=false;const _ur=$('#unratedToggle');if(_ur)_ur.checked=false;
