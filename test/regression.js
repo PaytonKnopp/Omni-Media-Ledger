@@ -1074,8 +1074,30 @@ async function runFile(browser, file) {
     // Desktop stays completely unaffected by the mobile-only nav treatment above.
     await page.setViewportSize({ width: 1400, height: 900 });
     await settle(page);
-    const navWrapsOnDesktop = await page.evaluate(() => getComputedStyle(document.getElementById('nav')).flexWrap === 'wrap');
-    check('#nav still wraps normally (no horizontal scroll) at desktop width', navWrapsOnDesktop);
+    // Desktop: no horizontal scroll -- the ten views on one row once there's room (two even rows of
+    // five below that), and "Suggest a feature" centered on its own row underneath.
+    const navLayout = () => page.evaluate(() => {
+      const nav = document.getElementById('nav'), n = nav.getBoundingClientRect();
+      const views = Array.from(nav.querySelectorAll('.navBtn[data-view]'));
+      const rows = Array.from(new Set(views.map(b => Math.round(b.getBoundingClientRect().top))));
+      const s = document.getElementById('suggestBtn').getBoundingClientRect();
+      return {
+        noScroll: nav.scrollWidth <= nav.clientWidth + 1 && getComputedStyle(nav).overflowX !== 'auto',
+        rows: rows.length, perRow: rows.map(t => views.filter(b => Math.round(b.getBoundingClientRect().top) === t).length),
+        suggestBelow: s.top > Math.max.apply(null, views.map(b => b.getBoundingClientRect().bottom)) - 1,
+        suggestCentered: Math.abs((s.left + s.width / 2) - (n.left + n.width / 2)) <= 2,
+        nothingCut: views.every(b => b.scrollWidth <= b.clientWidth + 1),
+      };
+    });
+    const wide = await navLayout();
+    check('at desktop width the nav never scrolls sideways and nothing is cut off', wide.noScroll && wide.nothingCut);
+    check('at 1400px all ten views sit on one row, with Suggest a feature centered below',
+      wide.rows === 1 && wide.suggestBelow && wide.suggestCentered);
+    await page.setViewportSize({ width: 1024, height: 900 });
+    await settle(page);
+    const mid = await navLayout();
+    check('at 1024px the views form two even rows of five, with Suggest a feature centered below',
+      mid.noScroll && mid.nothingCut && mid.rows === 2 && mid.perRow.every(c => c === 5) && mid.suggestBelow && mid.suggestCentered);
 
     await page.close();
   }

@@ -227,6 +227,22 @@ input[type=range]::-moz-range-thumb{width:13px;height:13px;border-radius:50%;bac
 .idxGrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(148px,1fr));column-gap:1.35rem;row-gap:.7rem;margin-top:.6rem;padding-top:.6rem;border-top:1px solid rgba(30,41,59,.5)}
 main>section[data-sec]{scroll-margin-top:12px}
 @media (min-width:768px){#nav{gap:.6rem}}
+/* Primary tabs from tablet up: the ten views as a grid -- two even rows of five, or one row of all
+   ten once the window is wide enough -- each tab filling its cell, and "Suggest a feature" on its
+   own row, centered, since it opens a dialog rather than a view. On the narrowest tablets a long
+   name ("Visualization Suite") wraps to two lines rather than being cut off; tabs in a row stretch
+   to the same height, so the grid stays even. Phones keep the swipeable strip
+   (see the mobile block), which is why every tab still lives in the one #nav. */
+@media (min-width:768px){
+ #nav{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:.55rem}
+ #nav .navBtn{text-align:center;padding:7px 8px;letter-spacing:.05em;white-space:normal;line-height:1.25}
+ #nav #suggestBtn{grid-column:1/-1;justify-self:center;padding:7px 20px;letter-spacing:.08em;white-space:nowrap}
+}
+@media (min-width:1380px){
+ #nav{grid-template-columns:repeat(10,minmax(max-content,1fr));column-gap:.4rem}
+ #nav .navBtn{padding-left:7px;padding-right:7px;letter-spacing:.03em;white-space:nowrap}
+ #nav #suggestBtn{padding-left:20px;padding-right:20px;letter-spacing:.08em}
+}
 /* Reset Filters. Its markup used to ask for red via Tailwind classes that were never in the
    compiled stylesheet, so it rendered as a plain grey input and was easy to overlook. It's styled
    here instead, in two states (see syncResetBtn in ledger-app.js): always a clearly red outlined
