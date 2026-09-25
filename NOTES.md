@@ -85,9 +85,9 @@ the 1,300-work, 70-assertion jsdom suite of the early phases.) What is checked, 
 
 4. **The Contenders Ledger has a shelf life.** Release windows drift constantly. A scheduled Routine ("Quarterly Contenders Ledger refresh", the 21st of March/June/September/December) re-verifies all 50 entries, retires released ones and backfills. Between runs the app handles a passing date itself: an exact date in the past gets "⚠ WINDOW PASSED — CHECK STATUS", and anything released, shelved or passed sorts below every upcoming entry. Only exact "Month D, YYYY" windows can be checked automatically; a bare year cannot.
 
-5. **The Dollars trilogy appears four times in the owned collection** — the box-set entry plus all three films — because the source ledger treats it as one object while the app tracks films individually. Intentional, but it reads as duplication in the collection view.
+5. ~~**The Dollars trilogy appears four times in the owned collection.**~~ Fixed. The box-set placeholder record ("The Man with No Name Trilogy") was retired and split into its three films (`m444`, `m384`, `m106`), and `scripts/validate-corpus.js` fails if the PK Sample references a retired id. The trilogy now appears only as a series grouping in `data/series.js`, not as a fourth owned item. (Rechecked 2026-09-25.)
 
-6. **One book's metrics are invented.** *The Beginning of Infinity* was added to complete the shelf reconciliation; its scores are editorial judgement.
+6. ~~**One book's metrics are invented.**~~ Fixed. *The Beginning of Infinity* (`b508`) now goes through the same pipeline as every other book: facts sourced from OpenLibrary, Google Books and Wikidata (`prov.facts: edition-dependent`), indices scored against RUBRIC.md (`rubric-v1`) with evidence in `evidence/`. Its reception scores are estimates like every other book's (see #3), not a special case. (Rechecked 2026-09-25.)
 
 7. **Ancient works use negative years.** Homer's *Odyssey* is `year: -700`. The timeline handles this (pre-1900 bucket, "700 BC" span label), but any new date logic must not assume `year > 0`.
 
