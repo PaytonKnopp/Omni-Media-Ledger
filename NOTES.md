@@ -1793,6 +1793,23 @@ data, and the manifest description is current. The suite's "bronze-only tier fil
 been failing since the PK Sample refresh added Bronze picks; it now compares against the profile's
 own Bronze list.
 
+**After merging: the cloud account flow failed on CI.** Six checks, all after one step: the test
+turns off the mock's "silently drop writes" switch and reloads, and every save after that still
+failed as if the switch were on. It never failed in this environment, and it was not the merge code:
+the same six checks fail on the code from before this phase, so the race was already there; the
+runs before (PR #161's included, red for another reason) had simply not hit it. CI installs a newer
+Chromium than the one here, which reproduces the failure only with
+`--enable-features=RenderDocument:level/all-frames` (a fresh document for every reload). The
+mechanism, on a plain page with that flag: a new document that reads sessionStorage while starting
+up can see it as it was before the old document's last writes (12 of 300 reloads). The mock kept
+its store and switches in sessionStorage and read them from its init script, so a switch turned off
+right before a reload could come back on for good. The mock now uses localStorage, like the app's
+own data (each simulated device is its own browser context, so they stay isolated), and the one
+in-page `location.reload()` in the flow became `page.reload()`, which waits for the new document.
+Across 14 flagged runs afterwards, a switch never came back on. The flag is not a usable gate in
+this build, though: it also sometimes starts a reloaded page with empty localStorage, which breaks
+the app's own boot, and CI's Chromium passes the checks that would catch that.
+
 ## Phase 48 — "Not interested" removed
 
 The ✕ "not interested" from Phase 47 is gone at the owner's request: the card button, the hidden

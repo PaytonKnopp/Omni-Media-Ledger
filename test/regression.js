@@ -1155,29 +1155,38 @@ async function runFile(browser, file) {
 // upsert/insert surface acct-boot and the suggestion box actually call -- so this exercises the
 // real acct-boot code path, not a re-implementation of it.
 const MOCK_SUPABASE_SDK = `
-// Persisted in sessionStorage (not a bare JS object) so the mock store survives a real
-// location.reload() within the same tab -- acct-boot reloads the page after several real
-// operations (onboarding, tiering, account delete), and a reload would otherwise wipe an
-// in-memory-only mock, making it impossible to assert on state that was written right before
-// the reload. A brand-new browser context (a real "second device" in these tests) still starts
-// with empty sessionStorage, so isolation between simulated devices is unaffected.
+// Persisted in localStorage (not a bare JS object) so the mock store survives a real
+// location.reload() -- acct-boot reloads the page after several real operations (onboarding,
+// tiering, account delete), and a reload would otherwise wipe an in-memory-only mock, making it
+// impossible to assert on state that was written right before the reload. Every simulated device
+// here is its own browser context, which starts with empty storage, so devices stay isolated.
+//
+// Not sessionStorage, which it used to be. A switch the test had just turned off
+// (silentlyDropProfileUpserts, refuseProfileWritesSilently) could be back on after the reload that
+// followed, and stay on, so every later save in the cloud account flow failed: six checks on CI,
+// on code from before and after the change CI failed on. The Chromium in this repo's cloud sessions
+// reproduces exactly that with --enable-features=RenderDocument:level/all-frames (a fresh document
+// for every reload): a new document that reads sessionStorage while starting up, as this mock's
+// init script does, can get it as it was before the old document's last writes -- 12 of 300 reloads
+// of a plain page. The mock's store is now exactly as reliable as the app's own data, which lives
+// in localStorage: if storage lost writes across a reload, the app would fail before the mock did.
 function __mockDefaultDb(){ return { tables: { profiles: {}, suggestions: [], suggestion_votes: [], media_status: [] }, upsertCalls: 0, profileUpsertCalls: 0, insertCalls: 0, deleteCalls: 0 }; }
 function __mockLoad(){
   try {
-    var db = JSON.parse(sessionStorage.getItem('__mockDb')) || __mockDefaultDb();
+    var db = JSON.parse(localStorage.getItem('__mockDb')) || __mockDefaultDb();
     if (!db.tables.media_status) db.tables.media_status = [];
     if (!db.tables.suggestion_votes) db.tables.suggestion_votes = [];
     return db;
   } catch (e) { return __mockDefaultDb(); }
 }
-function __mockSave(db){ try { sessionStorage.setItem('__mockDb', JSON.stringify(db)); } catch (e) {} }
+function __mockSave(db){ try { localStorage.setItem('__mockDb', JSON.stringify(db)); } catch (e) {} }
 // Behaviour flags live in their own keys rather than inside __mockDb, because the database blob is
 // read-modify-written on every request: a write already in flight loads the blob BEFORE a test sets
 // a flag on it and saves it back AFTER, silently wiping the flag. That lost update made a test look
 // like the app had failed to detect a refused write, when the mock had simply stopped refusing --
 // the app was behaving correctly and the test's own premise had been undone underneath it.
-function __mockFlag(name){ try { return sessionStorage.getItem('__mockFlag_' + name) === '1'; } catch (e) { return false; } }
-function __mockSetFlag(name, on){ try { sessionStorage.setItem('__mockFlag_' + name, on ? '1' : '0'); } catch (e) {} }
+function __mockFlag(name){ try { return localStorage.getItem('__mockFlag_' + name) === '1'; } catch (e) { return false; } }
+function __mockSetFlag(name, on){ try { localStorage.setItem('__mockFlag_' + name, on ? '1' : '0'); } catch (e) {} }
 window.__mockSetFlag = __mockSetFlag;
 // updated_at as the server stamps it on every write: unique and increasing, so a conditional write
 // against a stale copy misses, as it would against Postgres.
@@ -1494,7 +1503,7 @@ async function runAccountFlow(browser, file) {
     // addInitScript re-runs before every navigation for the life of this page (including the
     // reload the delete-account flow triggers below) -- guard the seed so it only ever seeds an
     // empty store, rather than stomping real mutations back to the original seed on every reload.
-    await page2.addInitScript(MOCK_SUPABASE_SDK + 'if(!sessionStorage.getItem("__mockDb"))sessionStorage.setItem("__mockDb", JSON.stringify({tables:{profiles:' + JSON.stringify({ smoketestuser: storedRow }) + ',suggestions:[],media_status:[]},upsertCalls:0,insertCalls:0,deleteCalls:0}));');
+    await page2.addInitScript(MOCK_SUPABASE_SDK + 'if(!localStorage.getItem("__mockDb"))localStorage.setItem("__mockDb", JSON.stringify({tables:{profiles:' + JSON.stringify({ smoketestuser: storedRow }) + ',suggestions:[],media_status:[]},upsertCalls:0,insertCalls:0,deleteCalls:0}));');
     await page2.goto('file://' + tmpPath);
     await waitForBoot(page2);
     await settle(page2);
@@ -1511,7 +1520,7 @@ async function runAccountFlow(browser, file) {
     const ctxR = await browser.newContext();
     const pageR = await ctxR.newPage();
     await pageR.route('**/supabase-js*/**', route => route.fulfill({ contentType: 'application/javascript', body: '' }));
-    await pageR.addInitScript(MOCK_SUPABASE_SDK + 'if(!sessionStorage.getItem("__mockDb"))sessionStorage.setItem("__mockDb", JSON.stringify({tables:{profiles:{recoverme:{handle:"recoverme",data:{}}},suggestions:[],media_status:[{handle:"recoverme",media_id:"m01",tier:"bronze",owned:false},{handle:"recoverme",media_id:"m02",tier:"gold",owned:true}]},upsertCalls:0,insertCalls:0,deleteCalls:0}));');
+    await pageR.addInitScript(MOCK_SUPABASE_SDK + 'if(!localStorage.getItem("__mockDb"))localStorage.setItem("__mockDb", JSON.stringify({tables:{profiles:{recoverme:{handle:"recoverme",data:{}}},suggestions:[],media_status:[{handle:"recoverme",media_id:"m01",tier:"bronze",owned:false},{handle:"recoverme",media_id:"m02",tier:"gold",owned:true}]},upsertCalls:0,insertCalls:0,deleteCalls:0}));');
     await pageR.goto('file://' + tmpPath);
     await settle(pageR);
     await pageR.fill('#acctHandleInput', 'recoverme');
@@ -1532,7 +1541,7 @@ async function runAccountFlow(browser, file) {
     const ctxN = await browser.newContext();
     const pageN = await ctxN.newPage();
     await pageN.route('**/supabase-js*/**', route => route.fulfill({ contentType: 'application/javascript', body: '' }));
-    await pageN.addInitScript(MOCK_SUPABASE_SDK + 'if(!sessionStorage.getItem("__mockDb"))sessionStorage.setItem("__mockDb", JSON.stringify({tables:{profiles:{},suggestions:[],media_status:[]},upsertCalls:0,insertCalls:0,deleteCalls:0}));');
+    await pageN.addInitScript(MOCK_SUPABASE_SDK + 'if(!localStorage.getItem("__mockDb"))localStorage.setItem("__mockDb", JSON.stringify({tables:{profiles:{},suggestions:[],media_status:[]},upsertCalls:0,insertCalls:0,deleteCalls:0}));');
     await pageN.goto('file://' + tmpPath);
     await settle(pageN);
     await pageN.fill('#acctHandleInput', 'brandnew');
@@ -1576,7 +1585,7 @@ async function runAccountFlow(browser, file) {
     const ctx3 = await browser.newContext();
     const page3 = await ctx3.newPage();
     await page3.route('**/supabase-js*/**', route => route.fulfill({ contentType: 'application/javascript', body: '' }));
-    await page3.addInitScript(MOCK_SUPABASE_SDK + 'if(!sessionStorage.getItem("__mockDb"))sessionStorage.setItem("__mockDb", JSON.stringify({tables:{profiles:' + JSON.stringify({ smoketestuser: storedRow }) + ',suggestions:[],media_status:[]},upsertCalls:0,insertCalls:0,deleteCalls:0,failNextProfileSelectOnce:true}));');
+    await page3.addInitScript(MOCK_SUPABASE_SDK + 'if(!localStorage.getItem("__mockDb"))localStorage.setItem("__mockDb", JSON.stringify({tables:{profiles:' + JSON.stringify({ smoketestuser: storedRow }) + ',suggestions:[],media_status:[]},upsertCalls:0,insertCalls:0,deleteCalls:0,failNextProfileSelectOnce:true}));');
     await page3.goto('file://' + tmpPath);
     await waitForBoot(page3);
     await settle(page3);
@@ -1672,18 +1681,19 @@ async function runAccountFlow(browser, file) {
     // clear out anyone else's ideas. An author can resolve their own; the owner keeps the ability to
     // triage any suggestion, which they asked for (checked on its own page below).
     await page2.evaluate(() => {
-      const db = JSON.parse(sessionStorage.getItem('__mockDb'));
+      const db = JSON.parse(localStorage.getItem('__mockDb'));
       const now = new Date().toISOString();
       db.tables.suggestions.push({ id: 9001, text: 'Someone else entirely: more kazoo.', handle: 'a_different_person', status: 'open', created_at: now });
       db.tables.suggestions.push({ id: 9002, text: 'Smoke test: resolve me, please.', handle: 'smoketestuser', status: 'open', created_at: now });
-      sessionStorage.setItem('__mockDb', JSON.stringify(db));
+      localStorage.setItem('__mockDb', JSON.stringify(db));
     });
     await page2.click('#suggestTabs [data-tab="open"]');
-    await page2.evaluate(() => window.location.reload());
-    // Wait for the app to actually finish booting rather than sleeping a fixed 600ms and hoping.
-    // The reload re-parses the whole corpus, so the boot cost grows with the dataset: a sleep long
-    // enough today is a flaky failure at twice the data, and this one already failed intermittently.
-    await page2.waitForFunction(() => !!document.getElementById('suggestBtn') && typeof ALL !== 'undefined', { timeout: 30000 });
+    // page.reload(), not an in-page location.reload(): that returns before the navigation starts, so
+    // the wait after it could be answered by the OLD document -- which has #suggestBtn and ALL too --
+    // and the click below then landed on a page about to be thrown away. Waiting for boot rather
+    // than sleeping, since the reload re-parses the whole corpus and that cost grows with the data.
+    await page2.reload();
+    await waitForBoot(page2);
     await page2.click('#suggestBtn');
     // Same again for the list itself -- it renders after an async read of the (mocked) table.
     const otherRowInOpenTab = await page2.waitForFunction(() =>
@@ -1731,7 +1741,7 @@ async function runAccountFlow(browser, file) {
     const ctxO = await browser.newContext();
     const pageO = await ctxO.newPage();
     await pageO.route('**/supabase-js*/**', route => route.fulfill({ contentType: 'application/javascript', body: '' }));
-    await pageO.addInitScript(MOCK_SUPABASE_SDK + 'if(!sessionStorage.getItem("__mockDb"))sessionStorage.setItem("__mockDb", JSON.stringify({tables:{profiles:{},suggestions:[{id:9101,text:"Someone else entirely: more theremin.",handle:"a_different_person",status:"open",created_at:"' + new Date().toISOString() + '"}],media_status:[]},upsertCalls:0,insertCalls:0,deleteCalls:0}));');
+    await pageO.addInitScript(MOCK_SUPABASE_SDK + 'if(!localStorage.getItem("__mockDb"))localStorage.setItem("__mockDb", JSON.stringify({tables:{profiles:{},suggestions:[{id:9101,text:"Someone else entirely: more theremin.",handle:"a_different_person",status:"open",created_at:"' + new Date().toISOString() + '"}],media_status:[]},upsertCalls:0,insertCalls:0,deleteCalls:0}));');
     await pageO.goto('file://' + tmpPath);
     await waitForBoot(pageO);
     await settle(pageO);
@@ -1781,10 +1791,10 @@ async function runAccountFlow(browser, file) {
     });
     check('your own suggestion shows its vote count but no vote button', ownVoteIsInert);
     await page2.evaluate(() => {
-      const db = JSON.parse(sessionStorage.getItem('__mockDb'));
+      const db = JSON.parse(localStorage.getItem('__mockDb'));
       const row = db.tables.suggestions.find(s => (s.text || '').includes('Project Hail Mary'));
       if (row) row.handle = 'someoneelse';
-      sessionStorage.setItem('__mockDb', JSON.stringify(db));
+      localStorage.setItem('__mockDb', JSON.stringify(db));
       const r = Array.from(document.querySelectorAll('#suggestList [data-suggest-id]')).find(x => x.textContent.includes('Project Hail Mary'));
       r.querySelector('.suggestEditBtn').click();
     });
@@ -2041,7 +2051,7 @@ async function runAccountFlow(browser, file) {
     // and a bare boolean cannot tell those apart from the log.
     if (!pendingAfterSilentDrop) {
       console.log('       state: ' + JSON.stringify(await page2.evaluate(() => {
-        const db = JSON.parse(sessionStorage.getItem('__mockDb') || '{}');
+        const db = JSON.parse(localStorage.getItem('__mockDb') || '{}');
         const read = (s) => { try { return JSON.parse(s || '{}'); } catch (e) { return {}; } };
         const cloud = read((((db.tables || {}).profiles || {})['smoketestuser2'] || {}).data ?
           ((db.tables.profiles['smoketestuser2'].data) || {}).omniLedgerProfile : '{}');
@@ -2051,7 +2061,7 @@ async function runAccountFlow(browser, file) {
           skipHydrateArmed: sessionStorage.getItem('omniLedgerSkipHydrateOnce'),
           bronzeLocal: (read(localStorage.getItem('omniLedgerProfile')).bronzeTierIds || []).length,
           bronzeInCloud: (cloud.bronzeTierIds || []).length,
-          dropFlagStillSet: sessionStorage.getItem('__mockFlag_silentlyDropProfileUpserts') === '1',
+          dropFlagStillSet: localStorage.getItem('__mockFlag_silentlyDropProfileUpserts') === '1',
         };
       })));
     }
@@ -2143,9 +2153,9 @@ async function runAccountFlow(browser, file) {
       return heads[1] && heads[1].dataset.id;
     });
     await page2.evaluate(() => {
-      const db = JSON.parse(sessionStorage.getItem('__mockDb'));
+      const db = JSON.parse(localStorage.getItem('__mockDb'));
       db.failNextProfileUpsert = true;
-      sessionStorage.setItem('__mockDb', JSON.stringify(db));
+      localStorage.setItem('__mockDb', JSON.stringify(db));
     });
     await clickAndSettle(page2, '.panel .profEditBtn[data-act="declare"][data-id="' + secondGoldId + '"]');
     await settle(page2); // the edit debounce has fired and the (failing) upsert has been attempted
@@ -2187,9 +2197,9 @@ async function runAccountFlow(browser, file) {
       return heads[2] && heads[2].dataset.id;
     });
     await page2.evaluate(() => {
-      const db = JSON.parse(sessionStorage.getItem('__mockDb'));
+      const db = JSON.parse(localStorage.getItem('__mockDb'));
       db.slowNextProfileUpsertMs = 6000;
-      sessionStorage.setItem('__mockDb', JSON.stringify(db));
+      localStorage.setItem('__mockDb', JSON.stringify(db));
     });
     await clickAndSettle(page2, '.panel .profEditBtn[data-act="declare"][data-id="' + thirdGoldId + '"]');
     await settle(page2);
@@ -2200,7 +2210,7 @@ async function runAccountFlow(browser, file) {
     const stillOnOldAccountMidFlush = await page2.evaluate(() => localStorage.getItem('omniLedgerHandle') === 'smoketestuser2');
     check('switching does not proceed while a slow-but-alive sync is still in flight', stillOnOldAccountMidFlush);
     // Waited on rather than slept: the write takes 6s by design, and a page slowed by a busy runner
-    // takes longer still to act on it. The mock table lives in sessionStorage, so it survives the
+    // takes longer still to act on it. The mock table lives in localStorage, so it survives the
     // reload the switch ends with.
     const thirdDeclareLandedInCloud = !!(await readWhen(page2, (id) => {
       const row = window.__mockTables && window.__mockTables.profiles['smoketestuser2'];
@@ -4267,7 +4277,7 @@ async function runMergeFlow(browser, file) {
   const ctx = await browser.newContext({ viewport: { width: 1400, height: 1000 } });
   // The other device's save: `edit(data, now)` runs against a copy of the stored row, in the page.
   const otherDeviceSaves = (page, fnBody, arg) => page.evaluate(({ fnBody, arg }) => {
-    const db = JSON.parse(sessionStorage.getItem('__mockDb'));
+    const db = JSON.parse(localStorage.getItem('__mockDb'));
     const data = JSON.parse(JSON.stringify(db.tables.profiles.mergeuser.data));
     (new Function('data', 'now', 'arg', fnBody))(data, Math.floor(Date.now() / 1000) + 2, arg);
     window.__mockSeedProfile('mergeuser', data);

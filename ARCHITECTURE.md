@@ -424,6 +424,17 @@ if it doesn't, the failing check is waiting on the clock somewhere. Plain host l
 reproduce CI failures here — the page being slow does. `OMNI_SETTLE_DEBUG=1` logs every settle
 that took over two seconds, with its caller.
 
+The other CI-only difference is the browser: CI installs the Chromium build that matches
+`playwright-core`, and the cloud sessions this repo is worked on in carry an older one. The cloud
+account flow once failed on CI alone because the mocked Supabase kept its store and failure
+switches in sessionStorage: a switch the test turned off right before a reload came back on. This
+Chromium reproduces that when launched with `--enable-features=RenderDocument:level/all-frames`
+(a fresh document for every reload), and the mock now keeps them in localStorage, where the app's
+own data lives. Don't use that flag as a pass/fail check, though: in this build it also sometimes
+starts a reloaded page with *empty* localStorage, which breaks the app's own boot and which CI's
+Chromium does not do (it passes the checks that would catch it). Use it to test a specific
+reload-ordering hypothesis, as here.
+
 Related: a check that can't find its element should **fail**, not throw. Each flow now runs inside
 `runFlow`, so a throw costs one failure named after its flow instead of aborting the run — but it
 still skips the rest of that flow, so one flaky assertion can hide dozens of checks behind it.
