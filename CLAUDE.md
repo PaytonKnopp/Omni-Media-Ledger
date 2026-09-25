@@ -10,10 +10,13 @@ There are two tiers of checks:
 | Command                  | What it covers                                        | Time    |
 |--------------------------|-------------------------------------------------------|---------|
 | `npm run lint`           | ESLint, including the no-fixed-sleeps rule for tests  | ~3s     |
-| `npm run test-fast`      | corpus validation, stylesheet current, schema, fact/substance/score/search/merge harnesses, no prose in committed evidence | ~15s |
+| `npm run test-fast`      | corpus validation, stylesheet current, schema, fact/substance/score/search/merge harnesses, no prose in committed evidence, corpus batch offsets | ~15s |
 | `npm run test-browser`   | the Playwright suite, `test/regression.js`            | ~7 min  |
+| `npm run test-gate`      | the corpus consistency gate on real app scores (blank and PK profiles) | ~15s |
 
-`npm test` runs both tiers in order.
+`npm test` runs all three in order. `test-fast` already includes the gate's data half (batch
+offsets), so a data change that introduces a new batch offset fails there first; see DATA_RUNBOOK.md
+Phase D for what to do when it does.
 
 If `test-fast` fails on the stylesheet check, a Tailwind class is used that the compiled block in
 `index.html` lacks: run `npm run build-css` and commit the result. Never edit that block by hand.

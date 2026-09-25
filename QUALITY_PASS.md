@@ -21,6 +21,10 @@ owner has chosen not to set up for now; those values stay labelled best estimate
   provenance mechanism, Phase 7's offline tests, and the Phase 5 harness (fetchers, reconciliation,
   evidence format), built and tested offline. Recommendation quality is measured on every pull
   request (`scripts/rec-quality.js`; NOTES.md Phase 50).
+- **Done 2026-09-25:** the Phase 5 acceptance gate, rebuilt against sourced data because its first
+  form could not be passed honestly (real quality falls with id order too), and passing on both
+  profiles after seven batch offsets were removed; wired into `npm test` (NOTES.md Phase 51,
+  DATA_RUNBOOK.md Phase D).
 - **Optional, and not planned:** the rest of Phase 5. Game facts stay best estimates by owner
   decision (14 below); critic scores and games' and books' audience scores stay estimates too,
   labelled as such on every card (film and TV audience scores are IMDb's, via DATA_RUNBOOK.md

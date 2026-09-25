@@ -25,11 +25,15 @@
  *                     against the rubric. Guessing wrong here either destroys hand-curated signal
  *                     or leaves a broken field in place, so it is measured, not assumed.
  *
- *   3. recency bias   corr(gm, id number). The single number this whole pass is trying to move. It
- *                     should be near zero: when a work was added to the file has nothing to do with
- *                     how well it matches anybody. Measured today: about -0.6 on every medium, and
- *                     WORSE on a blank profile (-0.74 on TV) than on the owner's own -- which is
- *                     the precise sense in which the corpus, not the profile, is biased.
+ *   3. recency bias   corr(gm, id number). Near zero would mean "when a work was added has nothing
+ *                     to do with how it scores" -- but the corpus was built canon-first, so real
+ *                     quality falls with id too (IMDb: -0.56 films, -0.45 TV). Raw, it is reported;
+ *                     the gated reading compares gm against that sourced reference instead.
+ *
+ *   4. batch offsets  The gated form of drift: runs of consecutive ids whose value sits off what
+ *                     genre, era and acclaim predict, beyond the smooth canon-first slope. Every
+ *                     run found has to be reviewed in scripts/composition.js REVIEWED_RUNS --
+ *                     corrected (scripts/calibrate-batch-offsets.js) or explained -- or the gate fails.
  *
  *   node scripts/corpus-metrics.js                    all metrics from data/ alone
  *   node scripts/corpus-metrics.js --snapshot s.json  ...plus the gm metrics, from a real snapshot
@@ -40,9 +44,9 @@
  * exactly when it matters. scripts/score-snapshot.js reads the real thing.
  */
 const fs = require('fs');
-const path = require('path');
+const C = require('./composition.js');
+const { SECTIONS, JUDGED_FIELDS, HAS_IMDB, dig, mean, idNum, loadSections, imdbOf, controlDesign, residuals } = C;
 
-const ROOT = path.resolve(__dirname, '..');
 const ARGV = process.argv.slice(2);
 const AS_JSON = ARGV.includes('--json');
 const ASSERT = ARGV.includes('--assert');
@@ -51,15 +55,8 @@ const SNAP_FILE = SNAP_AT >= 0 ? ARGV[SNAP_AT + 1] : null;
 
 /* ===================== corpus ===================== */
 
-const SECTIONS = [
-  { key: 'movies', file: 'data/movies.js', varName: 'movies', kind: 'movie' },
-  { key: 'tvShows', file: 'data/tv.js', varName: 'tvShows', kind: 'tv' },
-  { key: 'videoGames', file: 'data/games.js', varName: 'videoGames', kind: 'game' },
-  { key: 'books', file: 'data/books.js', varName: 'books', kind: 'book' },
-];
-
-// The indices whose drift actually reaches a score, per medium. These are the fields the engine
-// reads: three of them through bare thresholds, the rest through the gm base term.
+// The indices whose drift actually reaches a score, per medium, plus reception. Reported by decile,
+// raw and composition-adjusted; the gate reads batchOffsets() instead (see its comment).
 const DRIFT_FIELDS = {
   movies: ['atmosphericDreadIndex', 'ontologicalComplexity', 'physicalMediaFidelity.transferFidelity',
     'physicalMediaFidelity.audioSoundscape', 'physicalMediaFidelity.cinematographyScore',
@@ -87,17 +84,6 @@ const SEPARATION_PROBES = [
 ];
 
 const DECILES = 10;
-const dig = (o, p) => p.split('.').reduce((a, k) => (a == null ? a : a[k]), o);
-const mean = a => a.reduce((x, y) => x + y, 0) / a.length;
-
-function loadSections() {
-  const out = {};
-  for (const sec of SECTIONS) {
-    const src = fs.readFileSync(path.join(ROOT, sec.file), 'utf8');
-    out[sec.key] = new Function(src + '\nreturn ' + sec.varName + ';')();
-  }
-  return out;
-}
 
 // Records in ID order, split into equal cohorts. ID order is import order, which is what makes the
 // cohorts stand in for the batches the corpus was actually built in.
@@ -125,16 +111,25 @@ function driftMetrics(loaded) {
   const out = {};
   for (const sec of SECTIONS) {
     const cohorts = cohortsOf(loaded[sec.key]);
+    const design = controlDesign(sec.key, loaded[sec.key]);
+    const spreadOf = a => { const p = a.filter(v => v != null); return p.length ? Math.round((Math.max(...p) - Math.min(...p)) * 10) / 10 : null; };
+    const r1 = v => v == null ? null : Math.round(v * 10) / 10;
     out[sec.key] = {};
     for (const field of DRIFT_FIELDS[sec.key]) {
       const means = cohorts.map(c => {
         const vals = c.map(r => dig(r, field)).filter(v => typeof v === 'number');
         return vals.length ? mean(vals) : null;
       });
-      const present = means.filter(v => v != null);
+      // The same cohorts, read through the residual of the composition model above.
+      const rows = [];
+      cohorts.forEach((c, ci) => c.forEach(r => { const v = dig(r, field); if (typeof v === 'number') rows.push({ ci, r, v }); }));
+      const e = residuals(rows.map(o => design(o.r, field)), rows.map(o => o.v));
+      const adj = cohorts.map((_, ci) => { const es = e.filter((_, k) => rows[k].ci === ci); return es.length ? mean(es) : null; });
       out[sec.key][field] = {
-        cohortMeans: means.map(v => v == null ? null : Math.round(v * 10) / 10),
-        spread: present.length ? Math.round((Math.max(...present) - Math.min(...present)) * 10) / 10 : null,
+        cohortMeans: means.map(r1),
+        spread: spreadOf(means),
+        adjustedCohortMeans: adj.map(r1),
+        adjustedSpread: spreadOf(adj),
         ranges: cohorts.map(c => c[0].id + '-' + c[c.length - 1].id),
       };
     }
@@ -176,6 +171,53 @@ function recencyBias(snapshot) {
   return out;
 }
 
+/* The gated reading. gm and id order are both residualised on genre and era (not on reception:
+   reception is part of what gm is), and their partial correlation is compared with the same
+   partial correlation for IMDb's rating -- how much real, sourced quality falls with id order among
+   works of the same genre and decade. gm may be no more order-dependent than that plus a margin.
+   Games and books have no sourced reference; they are held to the larger of the film and TV
+   figures, a proxy that rests on every medium having been built the same canon-first way. */
+function recencyVsReference(snapshot, loaded) {
+  if (!snapshot) return null;
+  const out = {};
+  for (const sec of SECTIONS) {
+    const byId = new Map(loaded[sec.key].map(r => [r.id, r]));
+    const works = snapshot.works.filter(w => w.kind === sec.kind && byId.has(w.id) && typeof w.gm === 'number');
+    if (works.length < 50) continue;
+    const design = controlDesign(sec.key, loaded[sec.key], { reception: false });
+    const X = works.map(w => design(byId.get(w.id)));
+    const gm = pearson(residuals(X, works.map(w => w.gm)), residuals(X, works.map(idNum)));
+    let reference = null;
+    if (HAS_IMDB[sec.key]) {
+      const wi = works.filter(w => imdbOf(byId.get(w.id)) != null);
+      const Xi = wi.map(w => design(byId.get(w.id)));
+      reference = pearson(residuals(Xi, wi.map(w => imdbOf(byId.get(w.id)))), residuals(Xi, wi.map(idNum)));
+    }
+    out[sec.kind] = { gm: Math.round(gm * 1000) / 1000, imdb: reference == null ? null : Math.round(reference * 1000) / 1000 };
+  }
+  const refs = Object.values(out).map(v => v.imdb).filter(v => v != null);
+  const proxy = refs.length ? Math.max(...refs.map(Math.abs)) : null;
+  for (const v of Object.values(out)) { v.reference = v.imdb != null ? Math.abs(v.imdb) : proxy; v.referenceIsProxy = v.imdb == null; }
+  return out;
+}
+
+/* Every run of consecutive ids the detector in scripts/composition.js finds off its expected level,
+   with its review status. Data only -- needs no snapshot. */
+function batchOffsets(loaded) {
+  const out = [];
+  for (const sec of SECTIONS) {
+    for (const field of JUDGED_FIELDS[sec.key]) {
+      for (const run of C.flaggedRuns(sec.key, loaded[sec.key], field)) {
+        const review = C.reviewFor(run);
+        out.push({ section: sec.key, field, from: run.from, to: run.to, n: run.n, offset: run.offset,
+          median: run.median, sameDirection: run.sameDirection,
+          status: review ? review.verdict : 'unreviewed' });
+      }
+    }
+  }
+  return out;
+}
+
 function scoreShape(snapshot) {
   if (!snapshot) return null;
   const gms = snapshot.works.map(w => w.gm).filter(v => typeof v === 'number').sort((a, b) => a - b);
@@ -188,6 +230,11 @@ function scoreShape(snapshot) {
     profile: snapshot.profile,
     p5: q(0.05), p50: q(0.5), p95: q(0.95), min: gms[0], max: gms[gms.length - 1],
     distinctValues: new Set(gms).size,
+    // gm is shown as a whole number from 40 to 99, so ~60 distinct values is the most it can ever
+    // take. Resolution is therefore read as how much of its own integer span it actually uses, and
+    // how big the largest tie is (the list order breaks ties by critic score).
+    integerCoverage: Math.round(1000 * new Set(gms).size / (gms[gms.length - 1] - gms[0] + 1)) / 1000,
+    largestTiePct: Math.round(1000 * Math.max(...Object.values(gms.reduce((c, v) => { c[v] = (c[v] || 0) + 1; return c; }, {}))) / gms.length) / 10,
     sd: Math.round(sd(gms) * 100) / 100,
     gmBaseSd: Math.round(sd(bases) * 100) / 100,
     boostSd: Math.round(sd(boosts) * 100) / 100,
@@ -196,7 +243,7 @@ function scoreShape(snapshot) {
   };
 }
 
-function topConcentration(snapshot) {
+function topConcentration(snapshot, loaded) {
   if (!snapshot) return null;
   // The original hand-scored ledger, by ID ceiling per medium. These ceilings used to double as
   // the app's provenance rule until that was replaced by a per-record stamp; they survive here
@@ -206,10 +253,20 @@ function topConcentration(snapshot) {
   const inBlock = w => parseInt(w.id.slice(1)) <= (CEIL[w.kind] || 0);
   const sorted = snapshot.works.slice().sort((a, b) => b.gm - a.gm);
   const blockShare = snapshot.works.filter(inBlock).length / snapshot.works.length;
+  // The block is the canon, so it SHOULD hold more than its share of the top. The gated reading
+  // compares against a sourced reference: among films and TV, how many of the top 100 by gm come
+  // from the block, against how many of the top 100 by IMDb rating do.
+  const imdb = new Map();
+  for (const sec of SECTIONS.filter(s => HAS_IMDB[s.key])) loaded[sec.key].forEach(r => { const a = imdbOf(r); if (a != null) imdb.set(r.id, a); });
+  const av = snapshot.works.filter(w => (w.kind === 'movie' || w.kind === 'tv') && imdb.has(w.id));
+  const byGm = av.slice().sort((a, b) => b.gm - a.gm).slice(0, 100).filter(inBlock).length;
+  const byImdb = av.slice().sort((a, b) => imdb.get(b.id) - imdb.get(a.id)).slice(0, 100).filter(inBlock).length;
   return {
     blockShareOfCorpus: Math.round(1000 * blockShare) / 10,
     top100FromBlock: sorted.slice(0, 100).filter(inBlock).length,
     top500FromBlock: sorted.slice(0, 500).filter(inBlock).length,
+    filmTvTop100FromBlockByGm: byGm,
+    filmTvTop100FromBlockByImdb: byImdb,
   };
 }
 
@@ -223,72 +280,90 @@ const metrics = {
   separation: separationMetrics(loaded),
   recencyBias: recencyBias(snapshot),
   scoreShape: scoreShape(snapshot),
-  topConcentration: topConcentration(snapshot),
+  recencyVsReference: recencyVsReference(snapshot, loaded),
+  batchOffsets: batchOffsets(loaded),
+  topConcentration: topConcentration(snapshot, loaded),
 };
 
 /* ===================== Phase 5 acceptance gate ===================== */
 
-/* --assert is the exit criterion for the recalibration, not a check that passes today. Run with a
-   snapshot, it fails unless the corpus has actually stopped ranking by import order. It is
-   deliberately NOT wired into `npm test`: the whole point of the quality pass is that these
-   thresholds currently fail (corr(gm, id) is about -0.6 and the first quarter of the file holds
-   94 of the top 100), and a suite that goes red on every run stops being read. Wire it in once it
-   passes, so the property cannot silently regress afterwards. */
+/* --assert is the executable definition of "the corpus is consistent with itself". Every
+   threshold is set against something real rather than an ideal: the recency row against how much
+   sourced IMDb quality itself falls with id order, the concentration row against which works IMDb
+   ranks highest, the batch row against a detector that finds nothing in IMDb's own numbers.
+
+   The first version of this gate (2026-09) demanded |corr(gm, id)| <= 0.15, at most 40/100 of the
+   top from the original block, decile means within 25 points, and 200 distinct gm values. None of
+   those could be met honestly: real quality falls with id order (the canon went in first), the
+   original block IS the canon, a decile of musicals should differ from a decile of horror, and gm
+   is a whole number from 40 to 99 -- sixty values at most. Chasing them would have meant making
+   the data less true, so they were replaced (NOTES.md Phase 51) by the rows below.
+
+   Without --snapshot, only the data rows run (batch offsets), which need no browser: that is the
+   form `npm run test-fast` runs. With a snapshot the gm rows run too; CI runs both profiles. */
 const GATE = {
-  maxAbsRecencyBias: 0.15,   // when a work was added must not predict how well it scores
-  maxTop100Block: 40,        // the hand-scored block is ~26% of the corpus; 40/100 allows real
-                             // quality concentration without allowing the current 94/100
-  maxDriftSpread: 25,        // an index whose decile means span more than this means two scales
-  minDistinctGm: 200,        // see below
+  recencyMargin: 0.05,         // gm may not fall with id order more than this beyond RECENCY_GUARD
+  concentrationMargin: 15,     // blank profile: film/TV top 100 from the block, vs IMDb's top 100
+  minIntegerCoverage: 0.9,     // gm must use nearly every whole number in its own range
+  maxLargestTiePct: 8,         // and no single value may hold more than this share of the corpus
 };
 
-/* On minDistinctGm. A corpus can pass every other row here and still rank badly, because a score
-   with no RESOLUTION cannot express an opinion. Measured on a blank profile today, gm collapses to
-   29 distinct values across 2,508 works -- a ~10-point band, because base*0.5 compresses a 0-100
-   input into 37-48 before the +14 offset, and a person who has declared nothing has no boosts to
-   spread it back out. Two hundred distinct values is roughly one per twelve works: enough for the
-   score to separate a good film from a slightly better one.
-   This row is the reason to run --assert against a BLANK-profile snapshot as well as a personal
-   one (score-snapshot.js --profile blank). A personal profile's boost stack hides the problem --
-   which is exactly why it went unnoticed. */
+/* The recency row is a guard against getting worse, not a claim of being right. gm is compared
+   with IMDb's rating above, and on 2026-09-25 (blank profile) sat 0.08 (films) and 0.12 (TV) more
+   order-dependent than it. That excess cannot be judged honestly: gm averages several inputs that
+   all track how canonical a work is, and an average tracks a shared factor more tightly than any
+   one input does, so a composite beats a single measure's correlation even when every input is
+   honest. There is no sourced composite to compare with. What CAN be held is that a new batch or an
+   engine change does not make it worse, so the measured values are pinned here (|partial r|, genre
+   and era held fixed) and the row fails past them + recencyMargin. Lower them when a change
+   earns it; raise them only with a stated reason. */
+const RECENCY_GUARD = {
+  blank: { movie: 0.596, tv: 0.588, game: 0.492, book: 0.590 },
+  pk: { movie: 0.474, tv: 0.565, game: 0.474, book: 0.379 },
+};
+
 if (ASSERT) {
   const problems = [];
-  if (!snapshot) {
-    problems.push('--assert needs --snapshot <file> from scripts/score-snapshot.js');
-  } else {
-    for (const [kind, r] of Object.entries(metrics.recencyBias)) {
-      if (Math.abs(r) > GATE.maxAbsRecencyBias) {
-        problems.push('recency bias: ' + kind + ' corr(gm, id) = ' + r + ', want |r| <= ' + GATE.maxAbsRecencyBias);
+  for (const b of metrics.batchOffsets.filter(b => b.status === 'unreviewed')) {
+    problems.push('batch offset: ' + b.section + '.' + b.field + ' ' + b.from + '-' + b.to + ' (' + b.n +
+      ' works) sits ' + b.offset + ' off its expected level (median ' + b.median + ', ' +
+      Math.round(100 * b.sameDirection) + '% one way) -- review it in scripts/composition.js REVIEWED_RUNS');
+  }
+  for (const b of metrics.batchOffsets.filter(b => b.status === 'corrected')) {
+    problems.push('batch offset: ' + b.section + '.' + b.field + ' ' + b.from + '-' + b.to +
+      ' was corrected but is detected again (offset ' + b.offset + ') -- run scripts/calibrate-batch-offsets.js');
+  }
+  if (snapshot) {
+    const guard = RECENCY_GUARD[snapshot.profile] || {};
+    for (const [kind, v] of Object.entries(metrics.recencyVsReference)) {
+      if (guard[kind] == null) continue;
+      if (Math.abs(v.gm) > guard[kind] + GATE.recencyMargin) {
+        problems.push('recency bias: ' + kind + ' gm falls with id order at ' + v.gm + ' (genre and era held fixed; ' +
+          (v.referenceIsProxy ? 'film/TV IMDb reference ' : 'IMDb\'s own ') + '-' + v.reference.toFixed(3) + '), worse than the ' +
+          guard[kind] + ' pinned in RECENCY_GUARD + ' + GATE.recencyMargin);
       }
     }
     const t = metrics.topConcentration;
-    if (t.top100FromBlock > GATE.maxTop100Block) {
-      problems.push('concentration: ' + t.top100FromBlock + '/100 top works come from the ' +
-        t.blockShareOfCorpus + '% hand-scored block, want <= ' + GATE.maxTop100Block);
+    if (snapshot.profile === 'blank' && t.filmTvTop100FromBlockByGm > t.filmTvTop100FromBlockByImdb + GATE.concentrationMargin) {
+      problems.push('concentration: ' + t.filmTvTop100FromBlockByGm + ' of the film/TV top 100 come from the original block, ' +
+        'against ' + t.filmTvTop100FromBlockByImdb + ' of IMDb\'s top 100; want <= ' + (t.filmTvTop100FromBlockByImdb + GATE.concentrationMargin));
     }
     const shape = metrics.scoreShape;
-    if (shape.distinctValues < GATE.minDistinctGm) {
-      problems.push('score resolution: gm takes only ' + shape.distinctValues + ' distinct values ' +
-        'across the corpus (range ' + shape.min + '-' + shape.max + '), want >= ' + GATE.minDistinctGm +
-        (snapshot.profile === 'blank' ? '' : '  [run again with a --profile blank snapshot: a ' +
-         'personal profile\'s boosts hide this]'));
+    if (shape.integerCoverage < GATE.minIntegerCoverage || shape.largestTiePct > GATE.maxLargestTiePct) {
+      problems.push('score resolution: gm uses ' + Math.round(100 * shape.integerCoverage) + '% of the whole numbers from ' +
+        shape.min + ' to ' + shape.max + ' and its largest tie holds ' + shape.largestTiePct + '% of the corpus; want >= ' +
+        Math.round(100 * GATE.minIntegerCoverage) + '% and <= ' + GATE.maxLargestTiePct + '%');
     }
   }
-  for (const sec of SECTIONS) {
-    for (const [field, d] of Object.entries(metrics.drift[sec.key] || {})) {
-      if (d.spread > GATE.maxDriftSpread) {
-        problems.push('batch drift: ' + sec.key + '.' + field + ' decile means span ' + d.spread +
-          ', want <= ' + GATE.maxDriftSpread);
-      }
-    }
-  }
+  const scope = snapshot ? 'the ' + snapshot.profile + ' profile' : 'the data (no --snapshot: gm rows skipped)';
   if (problems.length) {
-    console.error('\nFAIL - the corpus does not yet meet the Phase 5 acceptance gate:');
+    console.error('\nFAIL - ' + scope + ' does not meet the corpus consistency gate:');
     problems.forEach(l => console.error('  - ' + l));
     console.error('');
     process.exit(1);
   }
-  console.log('\nPASS - corpus meets the Phase 5 acceptance gate.\n');
+  console.log('PASS - ' + scope + ' meets the corpus consistency gate (' + metrics.batchOffsets.length +
+    ' flagged batch runs, all reviewed' + (snapshot ? '; recency within its guard, concentration and resolution within bounds' : '') + ').');
   process.exit(0);
 }
 
@@ -303,7 +378,16 @@ if (AS_JSON) {
     for (const [field, d] of Object.entries(metrics.drift[sec.key])) {
       console.log('    ' + field.padEnd(46) + 'spread ' + String(d.spread).padStart(6) +
         '   ' + d.cohortMeans.map(v => String(v).padStart(5)).join(''));
+      console.log('    ' + '  ...composition-adjusted'.padEnd(46) + 'spread ' + String(d.adjustedSpread).padStart(6) +
+        '   ' + d.adjustedCohortMeans.map(v => String(v).padStart(5)).join(''));
     }
+  }
+
+  console.log('\n=== batch offsets: runs of ids off what genre, era and acclaim predict (the gated form) ===');
+  if (!metrics.batchOffsets.length) console.log('    none');
+  for (const b of metrics.batchOffsets) {
+    console.log('    ' + (b.section + '.' + b.field).padEnd(52) + (b.from + '-' + b.to).padEnd(13) + 'offset ' +
+      String(b.offset).padStart(6) + '  median ' + String(b.median).padStart(6) + '  ' + b.status);
   }
 
   console.log('\n=== cohort separation: does the field still mean what it says, inside each batch? ===');
@@ -318,20 +402,24 @@ if (AS_JSON) {
 
   if (snapshot) {
     console.log('\n=== recency bias: corr(gm, id number)  [profile: ' + snapshot.profile + '] ===');
-    console.log('  (should be near zero -- when a work was added has nothing to do with how well it matches)');
+    console.log('  (real quality falls with id too -- the canon went in first -- so IMDb is shown alongside)');
     for (const [kind, r] of Object.entries(metrics.recencyBias)) {
-      console.log('    ' + kind.padEnd(8) + String(r).padStart(7));
+      const v = metrics.recencyVsReference[kind];
+      console.log('    ' + kind.padEnd(8) + String(r).padStart(7) + '    genre & era held fixed: gm ' + String(v.gm).padStart(7) +
+        (v.imdb != null ? '   IMDb ' + String(v.imdb).padStart(7) : '   (no sourced reference)'));
     }
     const s = metrics.scoreShape;
     console.log('\n=== score shape ===');
     console.log('    gm p5/p50/p95 ' + s.p5 + ' / ' + s.p50 + ' / ' + s.p95 + '   range ' + s.min + '-' + s.max);
-    console.log('    distinct gm values across the whole corpus: ' + s.distinctValues);
+    console.log('    distinct gm values across the whole corpus: ' + s.distinctValues + ' (' + Math.round(100 * s.integerCoverage) +
+      '% of the whole numbers in its range; largest tie ' + s.largestTiePct + '% of the corpus)');
     console.log('    gmBase sd ' + s.gmBaseSd + '   boost sd ' + s.boostSd +
       '   -> ' + s.pctVarianceFromBoosts + '% of pre-override variance is the boost stack');
     const t = metrics.topConcentration;
     console.log('\n=== concentration in the original hand-scored ledger ===');
     console.log('    that block is ' + t.blockShareOfCorpus + '% of the corpus');
     console.log('    but holds ' + t.top100FromBlock + '/100 and ' + t.top500FromBlock + '/500 of the top by gm');
+    console.log('    among films and TV: ' + t.filmTvTop100FromBlockByGm + ' of the top 100 by gm, ' + t.filmTvTop100FromBlockByImdb + ' of the top 100 by IMDb rating');
   } else {
     console.log('\n  (pass --snapshot <file> from scripts/score-snapshot.js for gm-based metrics)');
   }

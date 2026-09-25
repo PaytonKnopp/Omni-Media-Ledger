@@ -378,7 +378,11 @@ a substring, and add the vocabulary to the validator so the next person cannot d
 `npm test` runs two tiers: `npm run test-fast` (the corpus validator, the stylesheet check, the
 schema checks, the fact/substance/score harnesses, the search and merge harnesses, and
 `test/evidence.js`, which fails if any committed evidence file carries synopsis or blurb prose,
-~15s) and `npm run test-browser` (the Playwright suite, ~7 min).
+~15s) and `npm run test-browser` (the Playwright suite, ~7 min), then `npm run test-gate`, the corpus
+consistency gate (`scripts/corpus-metrics.js --assert`) against real app scores on a blank and the PK
+profile (~15s). The gate's data half, batch offsets, also runs in `test-fast`, with
+`test/composition.js` proving its detector finds a planted offset and raises no alarm on IMDb's
+sourced ratings (DATA_RUNBOOK.md Phase D).
 The suite covers onboarding, every screen, filters, tiering, and the whole cloud-account flow
 against a mocked Supabase, so no real project is needed. CI runs both on every pull request; day to
 day, `test-fast` plus lint is the pre-commit check, and `node test/regression.js --only=<flow>`

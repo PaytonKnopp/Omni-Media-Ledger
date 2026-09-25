@@ -139,6 +139,7 @@ There's no name, email, address, or financial information anywhere in the app or
   npx playwright install chromium   # once
   npm test                             # everything (~7 min, mostly the browser suite)
   npm run test-fast                    # everything except the browser suite (~15s)
+  npm run test-gate                    # corpus consistency gate on real app scores (~15s)
   node test/regression.js --only=account   # one browser flow, by name
   npm run rec-quality                  # how well recommendations find hidden favorites
   npm run build-css                    # after using a Tailwind class the page didn't use before
