@@ -26,3 +26,10 @@ applies those and records them in the JSON beside this file.
 ## Mi Vida Loca (m1907)
 - **release year** -- corpus has `1993`, one source says TMDB `1994`
 - _(+1 naming-only field not shown -- sources agree with each other, differ from the corpus only in naming; see the evidence JSON.)_
+
+---
+
+## Reviewed 2026-09-25 -- queue closed
+
+All kept. The Disney features list their supervising director, not TMDB's full sequence-director roster.
+Infernal Affairs differs only in naming. Mi Vida Loca premiered in 1993 and was released in 1994, so 1993 stays.

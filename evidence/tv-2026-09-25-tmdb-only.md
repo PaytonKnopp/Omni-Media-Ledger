@@ -176,3 +176,20 @@ applies those and records them in the JSON beside this file.
 
 ## Shark Tank (t516)
 - **seasons** -- corpus has `17`, one source says TMDB `18`
+
+---
+
+## Reviewed 2026-09-25 -- queue closed
+
+Season counts were checked against TMDB's per-season air dates, counting only seasons already aired.
+- **Applied:** seasons for From 4, Slow Horses 6, Rick and Morty 9 (S10 has no air date yet), Invincible 4,
+  Jujutsu Kaisen 3, The Simpsons 37, King of the Hill 15, Sesame Street 56, Cardcaptor Sakura 4
+  (includes Clear Card), Re:Zero 4, Oshi no Ko 3. Creators: Patrick Melrose (David Nicholls, writer),
+  Ted Lasso (all four developers), My Mister, Twenty Five Twenty One, Reply 1988 (writer and director), I Love Lucy.
+- **Kept, TMDB matched the wrong show:** One Piece (live action), Doctor Who (2005), Great British Bake Off,
+  MasterChef, Ben 10 (2016), Dynasty (2017), Hawaii Five-0 (2010).
+- **Kept, TMDB counts seasons that haven't aired yet:** SVU, NCIS, Chicago Fire, 9-1-1, Shark Tank.
+- **Kept, the corpus value is right or conventional:** Naruto and Bleach season splits, Cyberpunk: Edgerunners,
+  Monty Python, The Pillars of the Earth, Aggretsuko (Rarecho), It's Always Sunny (Rob McElhenney),
+  Blackadder, Generation Kill, Sacred Games, Sesame Street creators, and the remaining extra-co-creator
+  and romanisation-only differences.
