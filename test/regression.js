@@ -3935,8 +3935,8 @@ async function runRenderPerfFlow(browser, file) {
     const anchorPhrase = ex => ex.goat ? ('one of your Gold favorites, ' + esc(ex.title)) : ex.silver ? ('your Silver favorite ' + esc(ex.title)) : ex.bronze ? ('your Bronze pick ' + esc(ex.title)) : ex.myRating != null ? ('you rated ' + esc(ex.title) + ' ' + (+ex.myRating.toFixed(1)) + '/10') : ('you own ' + esc(ex.title));
     // Tiered, rated 7+, or owned and not rated below 7.
     const sig = x => x.goat || x.silver || x.bronze || (x.myRating != null ? x.myRating >= 7 : x.owned);
-    // Rated, tiered, finished or passed on ("not interested"): never offered as a companion.
-    const been = x => x.goat || x.silver || x.bronze || x.myRating != null || window.wlDone(x.id) || x.passed;
+    // Rated, tiered or finished: never offered as a companion.
+    const been = x => x.goat || x.silver || x.bronze || x.myRating != null || window.wlDone(x.id);
     // Full-scan implementations of the same rules, the memoized ones are held to.
     function whyRef(it) {
       if (it.owned || it.goat || it.silver || it.bronze || it.myRating != null) return '';
@@ -4138,7 +4138,7 @@ async function runOfflineFlow(browser, file) {
   }
 }
 
-// A fresh browser that picks "Start blank" at the gate: nothing rated, tiered, owned or passed.
+// A fresh browser that picks "Start blank" at the gate: nothing rated, tiered or owned.
 async function bootBlank(browser, file) {
   const page = await browser.newPage({ viewport: { width: 1400, height: 1000 } });
   await page.route('**/supabase-js*/**', route => route.abort());
@@ -4253,114 +4253,6 @@ async function runHonestMatchFlow(browser, file) {
   await page.close();
 }
 
-// "Not interested": one tap hides a title from every list and teaches the engine to show less like
-// it; it can be found again by searching or with "show", and undone.
-async function runNotInterestedFlow(browser, file) {
-  const { page, pageErrors } = await bootSample(browser, file);
-  await page.click('#discoverBtn');
-  await readWhen(page, () => window.state.sort === 'gm' && document.querySelector('#grid .cardHead'), undefined, 5000);
-  // A discovery on screen by a creator the profile says nothing about yet -- nothing of theirs
-  // rated, tiered or owned, no hand-set boost -- with another untried work, so what one pass
-  // teaches can be seen on its own rather than against a wall of existing evidence.
-  const pick = await page.evaluate(() => {
-    const P = window.PERSONAL_PROFILE;
-    const manual = (P.creatorBoost || []).concat(P.bookCreatorBoost || []).map(e => e[0]);
-    for (const h of document.querySelectorAll('#grid .cardHead[data-id]')) {
-      const x = window.byId.get(h.dataset.id);
-      if (!x.creator || manual.some(m => x.creator.includes(m))) continue;
-      const same = window.ALL.filter(y => y.creator === x.creator);
-      if (same.some(y => y.owned || y.goat || y.silver || y.bronze || y.myRating != null)) continue;
-      const sibling = same.find(y => y.id !== x.id && window.isUntried(y));
-      if (sibling) return { id: x.id, title: x.title, gm: x.gm, creator: x.creator, sibling: sibling.id, siblingGm: sibling.gm,
-        evidence: window.tasteModel().evidence, weight: window.tasteModel().creator[x.creator] || 0 };
-    }
-    return null;
-  });
-  check('setup: an untried discovery by a creator with no evidence yet, and another of their works, is on screen', !!pick);
-  if (!pick) { await page.close(); return; }
-  check('its card offers "Not interested"', await page.evaluate(id => {
-    const b = document.querySelector('.passBtn[data-pass="' + id + '"]'); return !!b && !b.classList.contains('hidden');
-  }, pick.id));
-  await page.click('#resetBtn');
-  await settle(page);
-  const gold = await page.evaluate(() => { const x = window.ALL.find(y => y.goat && document.querySelector('.passBtn[data-pass="' + y.id + '"]')); return x && x.id; });
-  check('a Gold favorite\'s card does not (it has already been judged)', !!gold && await page.evaluate(id =>
-    document.querySelector('.passBtn[data-pass="' + id + '"]').classList.contains('hidden'), gold));
-  await page.click('#discoverBtn');
-  await readWhen(page, id => window.state.sort === 'gm' && document.querySelector('.passBtn[data-pass="' + id + '"]'), pick.id, 5000);
-
-  await clickAndSettle(page, '.passBtn[data-pass="' + pick.id + '"]');
-  await settle(page);
-  const passed = await page.evaluate(p => {
-    const x = window.byId.get(p.id), s = window.byId.get(p.sibling);
-    const saved = JSON.parse(localStorage.getItem('omniLedgerProfile') || '{}').notInterested || {};
-    const toast = document.getElementById('appToast');
-    return {
-      saved: typeof saved[p.id] === 'number', flag: x.passed, gm: x.gm, siblingGm: s.gm,
-      evidence: window.tasteModel().evidence, weight: window.tasteModel().creator[p.creator] || 0,
-      inGrid: !!document.querySelector('#grid .cardHead[data-id="' + p.id + '"]'),
-      toast: !!toast && toast.classList.contains('show') && /Not interested/.test(toast.textContent),
-      untried: window.isUntried(x),
-      inRecs: ['Movies', 'TV Series', 'Video Games', 'Books'].some(c => window.buildGeneratedRec(c).items.some(i => i.id === p.id)),
-      note: (document.getElementById('passedNote') || {}).textContent || '',
-    };
-  }, pick);
-  check('one tap saves the pass to the profile', passed.saved && passed.flag);
-  check('the title leaves the list at once, with a toast that offers Undo', !passed.inGrid && passed.toast);
-  check('its own match drops (the person said no)', passed.gm < pick.gm && passed.gm <= 65);
-  check('the engine counts it as evidence and learns a negative weight for that creator',
-    passed.evidence === pick.evidence + 1 && passed.weight < 0 && passed.weight < pick.weight);
-  check('so the creator\'s other work scores lower too ("show less like it")', passed.siblingGm < pick.siblingGm);
-  check('it is out of Best Untried Matches and every generated recommendation list', !passed.untried && !passed.inRecs);
-  check('the result count says one title is hidden, as a toggle', /1 you passed on is hidden/.test(passed.note));
-
-  await page.click('#passedNote');
-  const shown = await readWhen(page, id => window.state.showPassed && window.filtered().some(x => x.id === id)
-    ? { chip: !!document.querySelector('#activeBar .activeChip[data-clr="passed"]') } : false, pick.id, 5000);
-  check('"show" brings it back into the list, as a removable filter chip kept in the URL',
-    !!shown && shown.chip && !!await readWhen(page, () => /[?&]passed=1/.test(location.search), undefined, 3000));
-  await page.click('#passedNote');
-  await readWhen(page, () => !window.state.showPassed, undefined, 3000);
-
-  // Everything below works on the title directly, outside Best Untried (which hides tiered titles).
-  await page.click('#resetBtn');
-  await settle(page);
-  const found = await searchTitles(page, pick.title);
-  check('searching for it still finds it (to look it up, or undo)', !!found && found.includes(pick.title));
-  check('found, its card is dimmed with the ✕ pressed', await page.evaluate(id =>
-    document.querySelector('#grid .cardHead[data-id="' + id + '"]').closest('.panel').classList.contains('isPassed') &&
-    document.querySelector('.passBtn[data-pass="' + id + '"]').getAttribute('aria-pressed') === 'true', pick.id));
-
-  // Undo, from the pressed ✕: everything goes back exactly as it was.
-  await clickAndSettle(page, '.passBtn[data-pass="' + pick.id + '"]');
-  const undone = await page.evaluate(p => ({ flag: window.byId.get(p.id).passed, gm: window.byId.get(p.id).gm,
-    siblingGm: window.byId.get(p.sibling).gm, saved: !!(JSON.parse(localStorage.getItem('omniLedgerProfile') || '{}').notInterested || {})[p.id] }), pick);
-  check('undo restores the title and every score exactly', !undone.flag && !undone.saved && undone.gm === pick.gm && undone.siblingGm === pick.siblingGm);
-
-  // A stronger statement retires a pass: tiering it, or saving it for later.
-  await clickAndSettle(page, '.passBtn[data-pass="' + pick.id + '"]');
-  await clickAndSettle(page, '.panel .profEditBtn[data-act="bronze"][data-id="' + pick.id + '"]');
-  const retired = await page.evaluate(id => ({ flag: window.byId.get(id).passed, bronze: window.byId.get(id).bronze,
-    saved: !!(JSON.parse(localStorage.getItem('omniLedgerProfile') || '{}').notInterested || {})[id] }), pick.id);
-  check('tiering a passed title retires the pass', retired.bronze && !retired.flag && !retired.saved);
-  await clickAndSettle(page, '.panel .profEditBtn[data-act="bronze"][data-id="' + pick.id + '"]');
-  await clickAndSettle(page, '.passBtn[data-pass="' + pick.id + '"]');
-  await page.click('.wlBtn[data-wl="' + pick.id + '"]');
-  const queued = await readWhen(page, id => !window.byId.get(id).passed ? true : false, pick.id, 5000);
-  check('saving a passed title for later (♡) retires the pass', !!queued);
-
-  // A pass survives a reload.
-  const siblingTitle = await page.evaluate(id => window.byId.get(id).title, pick.sibling);
-  await searchTitles(page, siblingTitle);
-  await clickAndSettle(page, '.passBtn[data-pass="' + pick.sibling + '"]');
-  await page.reload();
-  await waitForBoot(page);
-  check('a pass survives a reload', await page.evaluate(id => window.byId.get(id).passed === true, pick.sibling));
-  check('no uncaught page errors during the not-interested flow', pageErrors.length === 0);
-  if (pageErrors.length) pageErrors.forEach(e => console.log('     ' + e));
-  await page.close();
-}
-
 // Merging instead of overwriting (app/sync-merge.js, mergeAndWrite in index.html). The cloud copy
 // used to be replaced wholesale by whichever device wrote last, and a device with unsynced edits
 // won outright on its next load -- so an edit made on an offline phone erased everything done on
@@ -4396,7 +4288,7 @@ async function runMergeFlow(browser, file) {
     await firstCardId(page);
     await readWhen(page, () => localStorage.getItem('omniLedgerPendingSync') !== '1' && !!window.__mockTables.profiles.mergeuser, undefined, 15000);
     // Four untouched titles: X rated offline here, Y rated and Z queued on the other device, W and V later.
-    const ids = await page.evaluate(() => window.ALL.filter(x => window.isUntried(x) && !x.passed && x.id !== 't01').slice(0, 5).map(x => x.id));
+    const ids = await page.evaluate(() => window.ALL.filter(x => window.isUntried(x) && x.id !== 't01').slice(0, 5).map(x => x.id));
     const [X, Y, Z, W, V] = ids;
     check('setup: the account saved to the (mocked) cloud and five untouched titles were found', ids.length === 5);
 
@@ -4559,7 +4451,6 @@ async function runFlow(browser, name, fn) {
     await runFlow(browser, t + ' — offline (service worker, cloud sync while offline)', () => runOfflineFlow(browser, t));
     await runFlow(browser, t + ' — Omni-Search (accents, typos, every word, best match first)', () => runSearchFlow(browser, t));
     await runFlow(browser, t + ' — honest match (labelled ring, no taste claims without evidence)', () => runHonestMatchFlow(browser, t));
-    await runFlow(browser, t + ' — not interested (hide, teach the engine, undo)', () => runNotInterestedFlow(browser, t));
     await runFlow(browser, t + ' — merging edits across devices and tabs', () => runMergeFlow(browser, t));
     await runFlow(browser, t + ' — recommendation quality (hidden favorites found again)', () => runRecQualityFlow(browser, t));
   }

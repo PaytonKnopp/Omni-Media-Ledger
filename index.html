@@ -708,17 +708,6 @@ button:focus-visible,select:focus-visible,input:focus-visible{outline:2px solid 
 .matchRing{display:flex;flex-direction:column;align-items:center}
 .matchRingLbl{font-size:9px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--text-faint);margin-top:3px;line-height:1}
 .chip.critChip{color:var(--text-dim);border-color:rgba(148,163,184,.3)}
-/* "Not interested": a small \u2715 under the card's \u2661, in the corner column the card's content never
-   reaches, so it takes nothing from the tier row's tuned widths. Filled once passed; a passed card
-   (only ever on screen when searched for, or under "show not interested") is dimmed. */
-.passBtn{position:absolute;right:.5rem;top:2.35rem;width:22px;height:22px;display:flex;align-items:center;justify-content:center;border-radius:999px;border:1px solid transparent;font-size:11px;font-weight:700;line-height:1;color:var(--text-faint);background:none;cursor:pointer;transition:color .15s,border-color .15s}
-.passBtn:hover,.passBtn:focus-visible{color:#fda4af;border-color:rgba(251,113,133,.45)}
-.passBtn[aria-pressed="true"]{background:#fb7185;border-color:#fb7185;color:#0B0F19}
-.passBtn.hidden{display:none}
-#passedNote{font:inherit;color:#fda4af;background:none;border:none;padding:0;cursor:pointer;text-decoration:underline dotted;text-underline-offset:2px}
-#passedNote.hidden{display:none}
-.resultCard.isPassed{opacity:.6}
-.resultCard.isPassed:hover{opacity:.9}
 /* The tier row gained a fifth labelled segment (\u2713 Watched / Read / Played), which left it a
    few pixels too wide for a narrow card: a ~390px phone and the two-column tablet layout both
    pushed "Rate" onto a line of its own. Measured against the CARD, not the viewport, since the
@@ -933,8 +922,7 @@ body[data-theme="outer-wilds"]{--bg:#0e0a09;--panel:#181010;--panel-2:#120c0b;--
         <div class="tipItem">🥇 <strong class="text-slate-100">The row under each card</strong> lets you mark Gold / Silver / Bronze favorites or "owned" in one click — no need to expand first. Gold is your absolute favorite, Silver the next tier down, Bronze the one after that — this tiering is the single thing that drives your ★ GOAT Match score and recommendations everywhere in the app. That row always sits at the bottom of the card, so it lines up card to card no matter how long a title is or whether you're in compact or comfortable view.</div>
         <div class="tipItem">★ <strong class="text-slate-100">That same row</strong> also has a "☆ Rate" button — a personal 0–10 rating (one decimal), entirely optional and separate from tiering. Once you rate something it pulls ★ GOAT Match toward the number you typed instead of just the algorithm's own estimate. Filter to it with "My Rating ≥" or the "Rated by me only" / "Unrated only" toggles next to the owned and watched filters.</div>
         <div class="tipItem">✓ <strong class="text-slate-100">"✓ Watched" (or Read / Played)</strong>, in that same row, logs something you've finished in one tap. It lands in the Watchlist tab's Completed section with today's date, recommendations stop suggesting it, and the ✓ in the card's corner shows it at a glance. Tap it again (or Undo on the confirmation) to take it back.</div>
-        <div class="tipItem">◯ <strong class="text-slate-100">The ring on each card is your match</strong> for that title — labelled "Match" once you've rated, tiered, owned or passed on something (hover it to see what it's based on), and "Score" until then, when all it can go by is critical, audience and craft consensus. The critics' own number is the small "Crit" chip.</div>
-        <div class="tipItem">✕ <strong class="text-slate-100">The small ✕ on a card you haven't tried</strong> means "not interested": it hides that title from every list and teaches your match to show less like it. Search still finds it, "show" above the results brings passed titles back, and ✕ again undoes it.</div>
+        <div class="tipItem">◯ <strong class="text-slate-100">The ring on each card is your match</strong> for that title — labelled "Match" once you've rated, tiered or owned something (hover it to see what it's based on), and "Score" until then, when all it can go by is critical, audience and craft consensus. The critics' own number is the small "Crit" chip.</div>
         <div class="tipItem">🏷️ <strong class="text-slate-100">Genre, vibe, format and platform tags</strong> inside an expanded card are read-only — just information, like the stat bars next to them.</div>
         <div class="tipItem">🔗 <strong class="text-slate-100">"Cross-medium pairings" and "If you like this, cross over to"</strong> inside an expanded card are clickable — click one to jump straight to it in the Global Controller search.</div>
       </div>
@@ -1315,7 +1303,7 @@ body[data-theme="outer-wilds"]{--bg:#0e0a09;--panel:#181010;--panel-2:#120c0b;--
       <div id="activeBar" class="flex flex-wrap items-center gap-1.5 mt-3"></div>
     </div>
     <div class="flex flex-wrap items-center justify-between gap-3 mt-4 pt-4 border-t border-slate-800/70" id="resultsControlRow">
-      <div class="text-xs text-slate-400"><span id="resultCount" class="text-slate-100 font-semibold tabular-nums">0</span> works in scope<span id="scopeBreak" class="text-slate-500"></span><span id="priorityNote" class="text-indigo-300/80"></span><button type="button" id="passedNote" class="hidden" aria-pressed="false"></button></div>
+      <div class="text-xs text-slate-400"><span id="resultCount" class="text-slate-100 font-semibold tabular-nums">0</span> works in scope<span id="scopeBreak" class="text-slate-500"></span><span id="priorityNote" class="text-indigo-300/80"></span></div>
       <div class="flex flex-wrap items-center gap-2" id="quickActionsRow">
         <button type="button" id="rabbitBtn" class="text-[11px] px-3 py-1.5 rounded-lg border border-purple-500/50 text-purple-300 hover:bg-purple-500/10 transition-colors font-semibold" title="Take a journey through connected works across media" aria-expanded="false">🕳 Rabbit Hole</button>
         <button type="button" id="surpriseBtn" class="text-[11px] px-3 py-1.5 rounded-lg border border-fuchsia-500/50 text-fuchsia-300 hover:bg-fuchsia-500/10 transition-colors font-semibold" title="One weighted pick by mood, medium, ownership, and how much time you have">🎲 Surprise Me</button>
