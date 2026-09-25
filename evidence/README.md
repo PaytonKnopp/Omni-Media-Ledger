@@ -17,3 +17,14 @@ file from that date is the receipt. Deleting them turns every stamp back into an
 Recorded raw responses (`--record raw.json`) are also worth committing when a run is large: they
 make that run replayable with `--offline`, so a disagreement about what a source said in March can
 be settled by re-running rather than re-fetching a catalogue that has since changed.
+
+## IMDb audience scores (film and TV)
+
+- `imdb-audience-gap-<date>.{json,md}` — `scripts/measure-imdb-gap.js`: every movie and TV work
+  matched to its IMDb id through TMDB, and how far the corpus's audience score sat from IMDb's.
+- `imdb-id-overrides.json` — the hand-resolved IMDb ids for the works TMDB could not match, each with
+  IMDb's own title, type and year beside it for review, and the works IMDb has no title for.
+- `imdb-audience-applied-<date>.json` — `scripts/apply-imdb-audience.js`'s receipt: old and new
+  value, IMDb id, rating and vote count for every movie and TV work.
+
+See DATA_RUNBOOK.md "Phase R".

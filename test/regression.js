@@ -4206,9 +4206,13 @@ async function runSearchFlow(browser, file) {
   const dune = await searchTitles(page, 'dune');
   check('"dune" puts an exact title first, ahead of the default Best Overall order', !!dune && dune[0] === 'Dune');
   const scifi = await searchTitles(page, 'sci-fi');
-  check('"sci-fi" is the genre: the leading results are all Sci-Fi', !!scifi && scifi.length >= 20 &&
+  // app/search.js ranks a genre and a vibe phrase in the same bucket (5), so a work tagged with the
+  // "Sci-Fi Lore" vibe -- the Cosmos documentary series -- is a Sci-Fi hit too, and it reaches the top
+  // 20 whenever its score does. What this guards is the phrase: nothing that merely contains "sci"
+  // and "fi" as separate words (a Sciamma film with "Fire" in its title) may lead.
+  check('"sci-fi" is the genre: the leading results are all Sci-Fi (by genre, family or vibe)', !!scifi && scifi.length >= 20 &&
     await page.evaluate(() => Array.from(document.querySelectorAll('#grid .cardHead')).slice(0, 20)
-      .every(h => { const x = window.byId.get(h.dataset.id); return (x.genres || []).concat(x.fam || []).some(g => /sci-fi/i.test(g)); })));
+      .every(h => { const x = window.byId.get(h.dataset.id); return (x.genres || []).concat(x.fam || [], [x.vibe || '']).some(g => /sci-fi/i.test(g)); })));
   // Inside one relevance bucket the chosen sort still decides: every Kubrick hit is a creator match.
   await page.selectOption('#sortSel', 'yearNew');
   const kubrickYears = await readWhen(page, () => {
@@ -4241,7 +4245,7 @@ async function runHonestMatchFlow(browser, file) {
   });
   const blank = await ringOf();
   check('the ring shows the work\'s match number, not its critics\' score', blank.num === String(blank.gm));
-  check('the critics\' score moved to its own labelled chip', blank.crit === 'Crit ' + blank.xcrit);
+  check('the critics\' score moved to its own labelled chip, marked as an estimate', blank.crit === 'Crit ~' + blank.xcrit);
   check('with nothing personal known, the ring is labelled "Score" and says it is not personalized yet',
     blank.label === 'Score' && /Overall score/.test(blank.aria) && /Not personalized/i.test(blank.aria));
   await ensureFirstCardExpanded(page);

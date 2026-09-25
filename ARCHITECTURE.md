@@ -184,14 +184,14 @@ and 2 favorites"); `matchTitle()` is the ring's own description.
 **How good it is, measured.** `npm run rec-quality` (and the "recommendation quality" flow in the
 browser suite, on every pull request) hides favorites and checks whether the engine finds them
 again among everything untried: the PK Sample's 53 favorites five folds at a time, and each of four
-cold-start personas' six to eight favorites one at a time. Today the engine puts 53% of the PK
-Sample's hidden favorites in its top 100 of ~4,800 (acclaim alone: 13%) and 64% of the personas'
-(acclaim alone: 21%); the personas' typical hidden favorite ranks 19th (it was 85th before
-closeness and acclaim weighting, and the cosy-games player's went from 164th to 19th). The checks
+cold-start personas' six to eight favorites one at a time. Today the engine puts 51% of the PK
+Sample's hidden favorites in its top 100 of ~4,800 (acclaim alone: 15%) and 64% of the personas'
+(acclaim alone: 21%); the personas' typical hidden favorite ranks 19th (104th before closeness and
+acclaim weighting, on the same data; the cosy-games player's went from 160th to 19th). The checks
 fail if that drops below floors set a little under those numbers, including a per-persona median
 floor so no one taste can quietly fall behind. When tuning, change one constant and re-run it; the
 closeness constants were each chosen from a flat region of a sweep, not a peak. The weakest case
-is still the comedy lover (median 264th): their favorites are comedies of middling acclaim with
+is still the comedy lover (median 290th): their favorites are comedies of middling acclaim with
 little else in common, so among ~600 comedies the corpus gives the engine little to tell them
 apart by.
 

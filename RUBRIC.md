@@ -256,7 +256,7 @@ adapter and engine wiring. Scheduled for Phase 3 alongside the games rescore, no
 
 ---
 
-### 5. `emotionalWarmth` — all four media — **in the schema: all 5,024 works scored**
+### 5. `emotionalWarmth` — all four media — **in the schema: every work scored**
 
 **How much the work extends care — toward the people in it, and toward you.** Generosity,
 affection, humane attention. The sense of being in good hands.
@@ -326,7 +326,7 @@ every unscored work.
 
 ---
 
-### 6. `comicIntent` — all four media — **in the schema: all 5,024 works scored**
+### 6. `comicIntent` — all four media — **in the schema: every work scored**
 
 **How much the work is trying to be funny, and how well it lands.** Wit, absurdity, timing,
 comic construction — whether or not the work is a comedy.
@@ -370,7 +370,7 @@ Sustained and successful, 80+. Real and frequent inside another mode, 55–75. O
 
 ---
 
-### 7. `aestheticBeauty` — all four media — **in the schema: all 5,024 works scored**
+### 7. `aestheticBeauty` — all four media — **in the schema: every work scored**
 
 **How beautiful the work is as a made object** — composition, imagery, sound, language, design.
 Beauty as an achievement, independent of subject matter or how pleasant it is to sit with.
@@ -500,6 +500,13 @@ network access makes real comparison possible. That is the right call — rewrit
 values from second-hand search summaries would be replacing one set of unsourced numbers with
 another, at evidence grade B.
 
+**Settled for film and TV audience (2026-09-25):** `audienceScore` for movies and TV is IMDb's user
+rating ×10 from its bulk dataset, one source applied to every work, each value stamped
+`metrics.audienceSrc` with the IMDb id and retrieval date (DATA_RUNBOOK.md "Phase R"). The three
+works IMDb has no title for keep their estimate, stamped `estimated` with the reason. Still best
+estimates, and labelled as such on the cards: every `criticalScore`, and games' and books'
+`audienceScore`.
+
 One part is **not** deferred, because it is an engine bug rather than a data question: the corpus
 mixes incompatible scales. Films track
 the RT Tomatometer (14 films sit at exactly 100; *Rain Man* is 86 against RT 88 / Metacritic 65),
@@ -520,8 +527,9 @@ presenting as `prov.facts:"sourced"` at all, since most books have no critical a
 number has no source to point to. That's a data-provenance labeling question for Phase 5 (when
 real sourcing lands), not something the normalization above can settle on its own.
 
-Every reception value carries its source and retrieval date once Phase 6's provenance lands.
-Aggregator scores drift, so an undated one is not a fact.
+Every reception value carries its source and retrieval date — film/TV audience scores do now
+(`metrics.audienceSrc`); the rest will when a source is applied. Aggregator scores drift, so an
+undated one is not a fact.
 
 ---
 
@@ -560,7 +568,7 @@ All five open questions were answered. Recorded here so they are not reopened.
 | 2 | Dread — wrongness or tension? | **Sustained tension.** The first answer and its example pulled apart, so the reading was put back to the owner explicitly and confirmed: *"sustained tension sounds good to me."* Episodic suspense scores mid-band. Closed. |
 | 3 | Immersion — absorption or menace? | **Absorption.** "Immersion seems more like absorption to me." Menace moves to the derived `scary` index. This is what unblocks the fix for *Outer Wilds* being rated `M`. |
 | 4 | `systemsComplexity` — mechanical or conceptual? | **Mechanical** — plus a new `conceptualDepth` field for games (construct 4b), on the owner's request for "a conceptual equivalent". |
-| 5 | Reception sources | **Deferred to Phase 5**, when real sources are reachable. Values stand as best estimates until then. The cross-medium *scale* normalisation is separate and stays in Phase 2. |
+| 5 | Reception sources | **Film/TV audience: done** (IMDb, 2026-09-25, DATA_RUNBOOK.md Phase R). Critic scores and games'/books' audience scores stand as labelled best estimates until a source is applied. The cross-medium *scale* normalisation is separate and stays in Phase 2. |
 
 ### Raised afterward — also settled
 

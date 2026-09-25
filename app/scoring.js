@@ -233,8 +233,8 @@ const TASTE_NEIGHBOR={
    The objective half of a match (critical, audience and craft consensus) carried the same weight
    for everyone, which silently assumes everyone's favorites are the acclaimed canon. Measured on
    the test profiles, favorites sit this many standard deviations above the average title on that
-   objective score: a literary-fiction reader 1.95, the PK Sample 1.10, a family-drama viewer 1.03,
-   a cosy-games player 0.59, a comedy lover 0.18. For the last two, acclaim is a poor guide to what
+   objective score: a literary-fiction reader 1.93, the PK Sample 1.12, a family-drama viewer 1.04,
+   a cosy-games player 0.59, a comedy lover 0.12 (IMDb audience scores, 2026-09-25). For the last two, acclaim is a poor guide to what
    they love -- and it was the tie-breaker among every comedy or cosy game their taste made equal,
    so their lists led with Singin' in the Rain and Animal Crossing's most-reviewed neighbours rather
    than with anything like their own favorites.

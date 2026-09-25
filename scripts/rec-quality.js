@@ -174,7 +174,7 @@ const CHECKS = [
     m => row(m, 'personas, pooled').engine.hitAt100 >= 0.58],
   ['personas: the average hidden favorite lands in the top 4% of ~5,000 untried titles (baseline 24%)',
     m => row(m, 'personas, pooled').engine.meanPercentile <= 4],
-  ['every persona: the typical hidden favorite ranks in the top 320 of ~5,000 (the comedy lover, the hardest, was 362 before closeness and acclaim weighting)',
+  ['every persona: the typical hidden favorite ranks in the top 320 of ~5,000 (the comedy lover, the hardest, was 443 before closeness and acclaim weighting)',
     m => m.cases.filter(c => c.persona).every(c => c.summary.engine.medianRank <= 320)],
   ['every profile: the engine ranks hidden favorites far above acclaim alone (mean percentile at most half the baseline\'s)',
     m => m.cases.every(c => c.summary.engine.meanPercentile <= c.summary.baseline.meanPercentile / 2)],

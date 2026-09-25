@@ -3,12 +3,17 @@
 // entry whenever a change reaches users.
 'use strict';
 const CHANGELOG=[
- {v:'1.50.0',date:'2026-09-25',summary:'Recommendations that fit warm, funny and cosy tastes as well as acclaimed ones, and a card that says which favorite a pick is like.',notes:[
+ {v:'1.51.0',date:'2026-09-25',summary:'Recommendations that fit warm, funny and cosy tastes as well as acclaimed ones, and a card that says which favorite a pick is like.',notes:[
   'Your match now weighs how close a title is to the particular things you loved, not just whether it shares their genre. Every comedy used to get the same comedy boost, so among comedies the critics decided; now a pick that is genuinely like your favorites comes first, and its card says which one (“Like: 10 Things I Hate About You”)',
   'How much critical acclaim counts is learned from you. If your favorites are crowd-pleasers rather than critics’ darlings, acclaim counts for less and audience scores for more; if they are the acclaimed canon, nothing changes',
-  'Measured by hiding favorites and seeing whether they come back: a cosy-games fan’s typical hidden favorite went from 164th to 19th of ~5,000, a comedy fan’s from 362nd to 264th, a family-drama fan’s from 47th to 11th',
-  'Cards whose facts are checked against a source now also say “critic & audience scores estimated”: those two numbers are careful estimates for every title until a licensed ratings source is applied',
+  'Measured by hiding favorites and seeing whether they come back: a cosy-games fan’s typical hidden favorite went from 160th to 19th of ~5,000, a family-drama fan’s from 75th to 12th, a comedy fan’s from 443rd to 290th',
   'Contenders: Control Resonant is out (September 24), and anything already released or past its date now sits below everything still to come'
+ ]},
+ {v:'1.50.0',date:'2026-09-25',summary:'Film and TV audience scores now come from IMDb, and every card says which scores are sourced and which are estimates.',notes:[
+  'The audience score for 2,502 of the 2,505 films and series is IMDb’s user rating (×10), retrieved 2026-09-25, replacing the old estimates outright. The three IMDb has no title for (the Redux cut of Apocalypse Now, and the classic Looney Tunes and Tom and Jerry shorts) keep their estimate and say why.',
+  'Cards label where each number comes from: the audience bar reads “Audience · IMDb” (hover for the /10 rating and the date) or “Audience · est.”, and every critics’ score is marked as an estimate — “Crit ~88” — because no licensed critic source has been applied yet. Games’ and books’ audience scores are estimates too, and say so.',
+  'Match scores move by a point or two on most films and series. The biggest shifts: recent franchise sequels the estimates rated near the top (Wakanda Forever, Black Widow, Scream VI, Fast X) drop to where IMDb’s users put them, and long-running dramas the estimates undersold (Game of Thrones, Westworld, Watchmen, Silo) rise.',
+  'Ten films and series that were listed twice (Heat, Drive, 12 Angry Men, Twelve Monkeys, The Ladykillers, Hairspray, The Italian Job, Gone in 60 Seconds, The Color Purple, Demon Slayer) now appear once. Anything you had rated, tiered, owned or added to your watchlist on the second copy moves to the one that stays.'
  ]},
  {v:'1.49.1',date:'2026-09-25',summary:'The ✕ “not interested” button is gone.',notes:[
   'Cards and GOAT Profile recommendations no longer have a ✕ for “not interested”, nothing is hidden from your lists for it, and it no longer lowers your match for similar titles. Anything you had passed on is back where it was. The ✕ on a GOAT Profile recommendation is the plain “hide from this list” again.'

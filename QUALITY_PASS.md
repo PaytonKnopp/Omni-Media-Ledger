@@ -6,24 +6,25 @@ current one, and it is deliberately written so a session that has never seen the
 it up cold. Update it at the end of every phase.
 
 **Owner:** Payton. **Status (2026-09-25):** everything that can be done without the internet is
-done. What remains, sourcing real reception scores and facts, needs network access and free API
-keys, and the owner has chosen to keep the games (and, for now, reception scores) as labelled best
-estimates rather than set that up.
+done, and film and TV audience scores are now sourced from IMDb (NOTES.md Phase 49). What remains --
+critic scores, games' and books' audience scores, and game facts -- needs sources and keys the
+owner has chosen not to set up for now; those values stay labelled best estimates on every card.
 - **Done:** Phase 0 (instrumentation), Phase 1 (the rubric: every anchor approved and all five open
   questions ruled on, RUBRIC.md "Owner's rulings — closed"; reproducibility measured by two
   independent cold-start passes over 40 blind works, `evidence/calibration/self-consistency-report.md`:
   mean difference 5.04 points across 209 judgments, under the 6-point bar, and the one construct
   over it, dread, got a mid-band anchor ratified 2026-09-11), Phase 2 (cheap engine fixes, closed),
   Phases 3-4 in effect
-  (all 5,024 works are scored under rubric-v1 with the three new fields, `emotionalWarmth`,
+  (every work is scored under rubric-v1 with the three new fields, `emotionalWarmth`,
   `comicIntent`, `aestheticBeauty`, plus games' `conceptualDepth`; the genre taxonomy with exact
   matching is in `data/genre-taxonomy.js`; the E1 `certify()` fix rates *Outer Wilds* E10+), Phase 6's
   provenance mechanism, Phase 7's offline tests, and the Phase 5 harness (fetchers, reconciliation,
   evidence format), built and tested offline. Recommendation quality is measured on every pull
-  request (`scripts/rec-quality.js`; NOTES.md Phase 49).
-- **Optional, and not planned:** Phase 5 itself. Game facts stay best estimates by owner decision
-  (14 below); critic/audience scores stay estimates too, labelled as such on every card, and no
-  reception fetcher exists yet. If revisited, it needs network access the cloud sessions do not have
+  request (`scripts/rec-quality.js`; NOTES.md Phase 50).
+- **Optional, and not planned:** the rest of Phase 5. Game facts stay best estimates by owner
+  decision (14 below); critic scores and games' and books' audience scores stay estimates too,
+  labelled as such on every card (film and TV audience scores are IMDb's, via DATA_RUNBOOK.md
+  "Phase R"). If revisited, it needs network access the cloud sessions do not have
   (IMDb, IGDB, OMDb, TMDB, OpenLibrary and Wikidata blocked; Google Books reachable but with no
   anonymous quota; re-probed 2026-09-25): run `npm run fetch-facts` locally with free keys per
   DATA_RUNBOOK.md, or allow those hosts in the environment's network settings.
