@@ -6,7 +6,9 @@ current one, and it is deliberately written so a session that has never seen the
 it up cold. Update it at the end of every phase.
 
 **Owner:** Payton. **Status (2026-09-25):** everything that can be done without the internet is
-done, and what remains needs network access (and free API keys), not more offline code or rulings.
+done. What remains, sourcing real reception scores and facts, needs network access and free API
+keys, and the owner has chosen to keep the games (and, for now, reception scores) as labelled best
+estimates rather than set that up.
 - **Done:** Phase 0 (instrumentation), Phase 1 (the rubric: every anchor approved and all five open
   questions ruled on, RUBRIC.md "Owner's rulings — closed"; reproducibility measured by two
   independent cold-start passes over 40 blind works, `evidence/calibration/self-consistency-report.md`:
@@ -19,9 +21,11 @@ done, and what remains needs network access (and free API keys), not more offlin
   provenance mechanism, Phase 7's offline tests, and the Phase 5 harness (fetchers, reconciliation,
   evidence format), built and tested offline. Recommendation quality is measured on every pull
   request (`scripts/rec-quality.js`; NOTES.md Phase 49).
-- **Needs network:** Phase 5 itself, sourcing reception scores and game facts. The cloud sessions
-  are still blocked from IMDb, IGDB, OMDb, TMDB, OpenLibrary and Wikidata (re-probed 2026-09-25;
-  only Google Books is reachable). Run `npm run fetch-facts` locally with free keys per
+- **Optional, and not planned:** Phase 5 itself. Game facts stay best estimates by owner decision
+  (14 below); critic/audience scores stay estimates too, labelled as such on every card, and no
+  reception fetcher exists yet. If revisited, it needs network access the cloud sessions do not have
+  (IMDb, IGDB, OMDb, TMDB, OpenLibrary and Wikidata blocked; Google Books reachable but with no
+  anonymous quota; re-probed 2026-09-25): run `npm run fetch-facts` locally with free keys per
   DATA_RUNBOOK.md, or allow those hosts in the environment's network settings.
 
 The rest of this file is the working record as it was written, phase by phase; where an older line
@@ -85,6 +89,7 @@ These are the owner's, and they are not negotiable. A future session must follow
 | 13 | What must be finished before Phase 5 can start? | Owner: *"I want to make sure all of the phases up until the point of needing the internet are done completely and as good as they can be."* So: new fields on the 179 owned works; Phase 4 in full (vocabulary + exact genre matching + the E1 `certify()` fix that ends *Outer Wilds* being rated `M`); Phase 6a (the provenance mechanism, stamped later as facts land); Phase 7a (structural invariant tests); and **the Phase 5 harness itself** — fetchers, reconciliation, evidence format, review queue — written offline against documented API shapes so that going local is push-button rather than a build project, and so no API quota is spent debugging. |
 | 11 | Also promote humour and beauty? | **Yes — do it once, properly.** Owner: *"we should do it right the first time and ensure that it will be the absolute best for anyone who decides to use it."* `comicIntent` and `aestheticBeauty` join `emotionalWarmth` as scored fields (RUBRIC.md constructs 6 and 7). Both were derived-only and structurally blind: `funny` is *genre contains comedy* plus audience score, so a witty drama scores as humourless; `awe` blends craft with a genre bonus, so it measures spectacle, not beauty, and says nothing about books. **Three new fields x 2,508 records** — scored together per work in Phase 3, since the judgements interact and making them side by side is what keeps them independent. |
 | 10 | All four core constructs were "dark" axes — add a warmth construct, or just re-score the derived light indices? | **Decided: add the real thing.** `emotionalWarmth`, a new raw scored field across all four media (RUBRIC.md construct 5). Owner: *"this originally started as an app just for me so it is skewed in favor of the things I was looking for… if I want it to be available to everyone and work for everyone best there should be everything in the system… mine should still be reflected properly because if it works for everybody it will and should still work for me."* Re-scoring `cozy`/`funny`/`emo` was rejected as the cheap option: they are computed *from* the dark axes and inherit the same blind spot. **Schema change on 2,508 records** — scored in Phase 3, wired into validator/adapter/`gm`/sliders in one commit once complete. Half-populating it would be worse than not having it. |
+| 14 | Source the games' facts from IGDB? | **No — games stay best estimates.** Owner, 2026-09-25: not worth registering a Twitch/IGDB developer account. Every game card says "○ Unverified estimate", and year/developer/platforms are filter fields with almost no score leverage. Nothing to do unless this is revisited; the harness stays ready (DATA_RUNBOOK.md Phase A, `--medium game`, keys `IGDB_CLIENT_ID`/`IGDB_CLIENT_SECRET`). |
 
 ### Still open
 
