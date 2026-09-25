@@ -220,7 +220,7 @@ const DONE_VERB={movie:'Watched',tv:'Watched',game:'Played',book:'Read'};
 function doneVerb(it){return DONE_VERB[it&&it.kind]||'Completed';}
 
 /* ===================== STATE & HELPERS ===================== */
-const state={view:'controller',q:'',types:[],struct:'all',plats:[],minGoat:0,minMyRating:0,ratedOnly:false,unratedOnly:false,genres:[],genresExclude:[],ownedOnly:false,notOwnedOnly:false,doneOnly:false,notDoneOnly:false,franchiseOnly:false,standaloneOnly:false,limit:100,idx:{snd:0,ref:0,ch:0,emo:0,awe:0,cozy:0,perf:0,icon:0,scary:0,real:0,reality:0,shock:0,sci:0,funny:0,hist:0,vibe2:0,crit:0,aud:0,tech:0,dread:0,myst:0,warmth:0,comedy:0,beauty:0,runtime:0},ratings:[],tierFilter:[],tierFilterExclude:[],yearMin:null,yearMax:null,combine:false,sort:'overall',w:{tech:0.85,dread:0.95,myst:0.90},creatorTab:'directors',creatorSearch:'',creatorLedgerOnly:false,creatorOwnedOnly:false,goatType:'all',goatTierFilter:'all',goatSort:'match',goatDeclaredQ:'',portraitScope:'all',collSearchQ:'',collSort:'az',wlType:'all',wlSort:'added',wlSearchQ:'',creatorSearchScope:'all',creatorSort:'works'};
+const state={view:'controller',q:'',types:[],struct:'all',plats:[],minGoat:0,minMyRating:0,ratedOnly:false,unratedOnly:false,genres:[],genresExclude:[],ownedOnly:false,notOwnedOnly:false,doneOnly:false,notDoneOnly:false,franchiseOnly:false,standaloneOnly:false,limit:100,idx:{snd:0,ref:0,ch:0,emo:0,awe:0,cozy:0,perf:0,icon:0,scary:0,real:0,reality:0,shock:0,sci:0,funny:0,hist:0,vibe2:0,crit:0,aud:0,tech:0,dread:0,myst:0,warmth:0,comedy:0,beauty:0,runtime:0},ratings:[],tierFilter:[],tierFilterExclude:[],yearMin:null,yearMax:null,combine:false,sort:'overall',creatorTab:'directors',creatorSearch:'',creatorLedgerOnly:false,creatorOwnedOnly:false,goatType:'all',goatTierFilter:'all',goatSort:'match',goatDeclaredQ:'',portraitScope:'all',collSearchQ:'',collSort:'az',wlType:'all',wlSort:'added',wlSearchQ:'',creatorSearchScope:'all',creatorSort:'works'};
 const $=s=>document.querySelector(s),$$=s=>Array.from(document.querySelectorAll(s));
 const on=(sel,ev,fn)=>{const el=$(sel);if(el)el.addEventListener(ev,fn);else console.warn('missing element:',sel);};
 // esc/themeColor(+THEME_PALETTE) live in app/cards.js (pure, closure-independent) now.
@@ -229,7 +229,7 @@ const on=(sel,ev,fn)=>{const el=$(sel);if(el)el.addEventListener(ev,fn);else con
    immediately before this sort is applied; until now nothing ever read the number it produced, so
    pulling "Scariest" to 80 narrowed the results correctly and then ordered them by overall critical
    standing -- the one thing the person had just said was not the question. */
-const SORTS={match:(a,b)=>((b._m||0)-(a._m||0))||(b.gm-a.gm)||(b.ovr-a.ovr),overall:(a,b)=>(b.ovr-a.ovr)||(b.crit-a.crit),gm:(a,b)=>(b.gm-a.gm)||(b.crit-a.crit),myrating:(a,b)=>((b.myRating==null?-1:b.myRating)-(a.myRating==null?-1:a.myRating))||a.title.localeCompare(b.title),cosmic:(a,b)=>(b.ch-a.ch)||(b.dread-a.dread),sound:(a,b)=>(b.snd-a.snd)||(b.crit-a.crit),ref4k:(a,b)=>(b.ref-a.ref)||(b.crit-a.crit),emotion:(a,b)=>(b.emo-a.emo)||(b.crit-a.crit),awe:(a,b)=>(b.awe-a.awe)||(b.crit-a.crit),comfort:(a,b)=>(b.cozy-a.cozy)||(b.aud-a.aud),perf:(a,b)=>(b.perf-a.perf)||(b.crit-a.crit),icon:(a,b)=>(b.icon-a.icon)||(b.crit-a.crit),scary:(a,b)=>(b.scary-a.scary)||(b.dread-a.dread),real:(a,b)=>(b.real-a.real)||(b.crit-a.crit),reality:(a,b)=>(b.reality-a.reality)||(b.myst-a.myst),shock:(a,b)=>(b.shock-a.shock)||(b.dread-a.dread),sci:(a,b)=>(b.sci-a.sci)||(b.myst-a.myst),funny:(a,b)=>(b.funny-a.funny)||(b.aud-a.aud),hist:(a,b)=>(b.hist-a.hist)||(b.crit-a.crit),vibe2:(a,b)=>(b.vibe2-a.vibe2)||(b.tech-a.tech),blend:(a,b)=>(bespokeScore(b,state)-bespokeScore(a,state))||(b.crit-a.crit),crit:(a,b)=>b.crit-a.crit,aud:(a,b)=>b.aud-a.aud,tech:(a,b)=>b.tech-a.tech,dread:(a,b)=>b.dread-a.dread,myst:(a,b)=>b.myst-a.myst,warmth:(a,b)=>(b.warmth||0)-(a.warmth||0)||(b.crit-a.crit),comedy:(a,b)=>(b.comedy||0)-(a.comedy||0)||(b.aud-a.aud),beauty:(a,b)=>(b.beauty||0)-(a.beauty||0)||(b.crit-a.crit),yearNew:(a,b)=>b.year-a.year,yearOld:(a,b)=>a.year-b.year,title:(a,b)=>a.title.localeCompare(b.title),
+const SORTS={match:(a,b)=>((b._m||0)-(a._m||0))||(b.gm-a.gm)||(b.ovr-a.ovr),overall:(a,b)=>(b.ovr-a.ovr)||(b.crit-a.crit),gm:(a,b)=>(b.gm-a.gm)||(b.crit-a.crit),myrating:(a,b)=>((b.myRating==null?-1:b.myRating)-(a.myRating==null?-1:a.myRating))||a.title.localeCompare(b.title),cosmic:(a,b)=>(b.ch-a.ch)||(b.dread-a.dread),sound:(a,b)=>(idxApplies(b,'snd')-idxApplies(a,'snd'))||(b.snd-a.snd)||(b.crit-a.crit),ref4k:(a,b)=>(idxApplies(b,'ref')-idxApplies(a,'ref'))||(b.ref-a.ref)||(b.crit-a.crit),emotion:(a,b)=>(b.emo-a.emo)||(b.crit-a.crit),awe:(a,b)=>(b.awe-a.awe)||(b.crit-a.crit),comfort:(a,b)=>(b.cozy-a.cozy)||(b.aud-a.aud),perf:(a,b)=>(b.perf-a.perf)||(b.crit-a.crit),icon:(a,b)=>(b.icon-a.icon)||(b.crit-a.crit),scary:(a,b)=>(b.scary-a.scary)||(b.dread-a.dread),real:(a,b)=>(b.real-a.real)||(b.crit-a.crit),reality:(a,b)=>(b.reality-a.reality)||(b.myst-a.myst),shock:(a,b)=>(b.shock-a.shock)||(b.dread-a.dread),sci:(a,b)=>(b.sci-a.sci)||(b.myst-a.myst),funny:(a,b)=>(b.funny-a.funny)||(b.aud-a.aud),hist:(a,b)=>(b.hist-a.hist)||(b.crit-a.crit),vibe2:(a,b)=>(b.vibe2-a.vibe2)||(b.tech-a.tech),crit:(a,b)=>b.crit-a.crit,aud:(a,b)=>b.aud-a.aud,tech:(a,b)=>b.tech-a.tech,dread:(a,b)=>b.dread-a.dread,myst:(a,b)=>b.myst-a.myst,warmth:(a,b)=>(b.warmth||0)-(a.warmth||0)||(b.crit-a.crit),comedy:(a,b)=>(b.comedy||0)-(a.comedy||0)||(b.aud-a.aud),beauty:(a,b)=>(b.beauty||0)-(a.beauty||0)||(b.crit-a.crit),yearNew:(a,b)=>b.year-a.year,yearOld:(a,b)=>a.year-b.year,title:(a,b)=>a.title.localeCompare(b.title),
 // Groups by tier first (unchanged), but within a tier now breaks ties by your own rating before
 // falling back to title -- "My Tiers" is the one sort whose entire point is ranking by YOUR
 // taste, so a Gold pick you rated 10 belongs above a Gold pick you rated 7 or never rated at all,
@@ -319,7 +319,7 @@ function filteredSkipping(skip){
   // as if it had already cleared the bar. Every pre-existing IDX_KEYS entry always had a real
   // value, so this never came up before emotionalWarmth/comicIntent/aestheticBeauty, which can be
   // legitimately absent for a work RUBRIC.md's own evidence gate couldn't score.
-  for(const k of IDX_KEYS){if(state.idx[k]>0&&(it[k]===undefined||it[k]<state.idx[k]))return false;}
+  for(const k of IDX_KEYS){if(state.idx[k]>0&&(it[k]===undefined||it[k]<state.idx[k]||!idxApplies(it,k)))return false;}
   if(state.yearMin!=null&&it.year<state.yearMin)return false;
   if(state.yearMax!=null&&it.year>state.yearMax)return false;
   if(matches&&!matches.has(it.id))return false;
@@ -327,7 +327,7 @@ function filteredSkipping(skip){
  });
 }
 function filtered(){return filteredSkipping(null);}
-// activeDims/computeMatch/bespokeScore live in app/match.js (read only `state`, passed in) now.
+// activeDims/computeMatch live in app/match.js (read only `state`, passed in) now.
 
 // ring/microBar/frontBars/scoreRowHTML live in app/cards.js (pure, closure-independent) now.
 
@@ -577,9 +577,10 @@ function crossThreadHTML(it){
  var verb={movie:'Watch',tv:'Watch',game:'Play',book:'Read'}[t.it.kind];
  return '<div class="mt-2.5 pt-2 border-t border-slate-800/70">'
   +'<div class="text-[10px] mb-1" style="color:#c084fc">\u2937 If you like this, cross over to:</div>'
-  +'<button type="button" class="pairingChip flex items-center gap-2 w-full text-left" data-flip-jump="'+t.it.id+'" title="Open '+esc(t.it.title)+' in the Global Controller"><span class="text-[9px] px-1.5 py-0.5 rounded shrink-0" style="background:'+k.c+'22;color:'+k.c+'">'+k.label+'</span>'
-  +'<span class="text-[12px] text-slate-200 font-semibold hover:text-teal-300">'+verb+' '+esc(t.it.title)+'</span>'
-  +'<span class="text-[10px] text-slate-500">\u00b7 '+t.reason+'</span></button></div>';
+  +'<button type="button" class="pairingChip flex items-start gap-2 w-full text-left" data-flip-jump="'+t.it.id+'" title="Open '+esc(t.it.title)+' in the Global Controller"><span class="text-[9px] px-1.5 py-0.5 rounded shrink-0 mt-0.5" style="background:'+k.c+'22;color:'+k.c+'">'+k.label+'</span>'
+  // Title over its reason, so on a phone neither is squeezed into a narrow column beside the other.
+  +'<span class="flex flex-col min-w-0"><span class="text-[12px] text-slate-200 font-semibold hover:text-teal-300">'+verb+' '+esc(t.it.title)+'</span>'
+  +'<span class="text-[10px] text-slate-500">'+t.reason+'</span></span></button></div>';
 }
 function gmBreakdownHTML(it){
  var chips=[];
@@ -587,7 +588,9 @@ function gmBreakdownHTML(it){
   rated:['\u2605 Pulled toward your rating of '+(typeof it.myRating==='number'?it.myRating.toFixed(1):'?')+'/10','#5eead4'],
   bronze:['\u2726 Declared favorite (bronze tier)','#cd7f32']};
  (it.gmBoosts||[]).slice().sort((a,b)=>b[2]-a[2]).forEach(function(b){
-  var lab={creator:'Creator',author:'Author',genre:'Genre',vibe:'Vibe',complexity:'Depth',craft:'Craft',tone:'Tone',near:'Like',dread:'Dread',warmth:'Warmth',comedy:'Comedy',beauty:'Beauty'}[b[0]]||b[0];
+  // A weight you set yourself (the card's Creator weight control) reads as yours; the same person's
+  // learned weight, from what you rated and tiered, keeps the plain Creator label.
+  var lab=b[3]==='set'?'Your weight':{creator:'Creator',author:'Author',genre:'Genre',vibe:'Vibe',complexity:'Depth',craft:'Craft',tone:'Tone',near:'Like',dread:'Dread',warmth:'Warmth',comedy:'Comedy',beauty:'Beauty'}[b[0]]||b[0];
   var cap=(''+b[1]).replace(/(^|[\s/-])(\S)/g,function(m,sep,c){return sep+c.toUpperCase();});
   // A derived taste weight can be negative -- a genre this person's own ratings count against --
   // so the sign comes from the number rather than being hardcoded to '+', which would have
@@ -620,7 +623,7 @@ function summaryHTML(it){const k=KM[it.kind];
  // Tagline (the curated hook)
  const hook=it.just?'\u201c'+esc(it.just)+'\u201d':'';
  // Standout traits line
- let line2=traits.length?'Stands out for its '+traits.join(', ')+'.':'';
+ let line2=traits.length?'Stands out for its '+(traits.length>1?traits.slice(0,-1).join(', ')+' and '+traits[traits.length-1]:traits[0])+'.':'';
  // Fit (reception is the breakdown's Reception row, not repeated here)
  // Taste-fit note based on personal GOAT match -- worded as a match for this person's taste only
  // when the app knows something about it (tasteBasis), and saying what that is when it does.
@@ -658,11 +661,10 @@ function creatorBoostHTML(it){
  var w=existing?existing[1]:0;
  var color=w>0?'#4ade80':(w<0?'#f87171':'#94a3b8');
  return '<div class="flex items-center gap-1.5 text-[11px]">'
-  +'<span class="text-slate-500">Creator weight:</span>'
   +'<button type="button" class="profEditBtn tierSeg" data-act="creatorbump" data-creator="'+esc(it.creator)+'" data-kind="'+it.kind+'" data-delta="-4" style="color:#f87171" title="Nudge '+esc(it.creator)+'’s work DOWN across your whole match scoring">−</button>'
   +'<span class="tabular-nums font-bold" style="color:'+color+';min-width:2.5ch;text-align:center" title="Current weight for '+esc(it.creator)+' (-20 to 20)">'+(w>0?'+':'')+w+'</span>'
   +'<button type="button" class="profEditBtn tierSeg" data-act="creatorbump" data-creator="'+esc(it.creator)+'" data-kind="'+it.kind+'" data-delta="4" style="color:#4ade80" title="Nudge '+esc(it.creator)+'’s work UP across your whole match scoring">+</button>'
-  +'<span class="text-slate-400 truncate">'+esc(it.creator)+'</span>'
+  +'<span class="text-slate-300 ml-1 min-w-0">'+esc(it.creator)+'</span>'
   +'</div>';
 }
 // Compact tier/own toggle row -- visible on every card without expanding it, so declaring a
@@ -757,8 +759,8 @@ function cardHTML(it){const k=KM[it.kind];
  +'<button type="button" class="cardHead w-full text-left p-3.5 flex gap-3 items-start" data-id="'+it.id+'">'
  +matchRingHTML(it,k.c,42)
  +'<div class="flex-1 min-w-0">'
- +'<div class="flex items-center gap-x-2 gap-y-1.5 flex-wrap cardChips"><span class="cardTitle text-[13px] font-semibold text-slate-100 leading-tight hover:text-teal-300 cursor-pointer underline decoration-dotted decoration-slate-600 underline-offset-2" data-flip="'+it.id+'" title="Click for a summary and full breakdown">'+esc(it.title)+'</span><span class="chip" style="color:'+k.c+';border-color:'+k.c+'44">'+k.label+'</span>'+(window._blendActive?'<span class="chip" style="color:#0B0F19;background:#34d399;border-color:#34d399;font-weight:800" title="Weighted blend match">\u2696 '+bespokeScore(it,state).toFixed(0)+'%</span>':'')+(it.chFlag?'<span class="chip" style="color:#0B0F19;background:#c084fc;border-color:#c084fc;font-weight:700">\u25c9 CANON 100</span>':'')+(function(){const fr=franchiseOf(it);return fr?'<span class="chip franchiseChip" style="color:#5eead4;border-color:#5eead444" title="Part of the '+esc(fr)+' series">\u2699 '+esc(fr)+'</span>':'';})()+'</div>'
- +'<div class="text-[11px] text-slate-400 mt-1.5 leading-snug" title="'+esc(it.creator)+' · '+esc(it.org)+'">'+[it.year,esc(it.creator),esc(it.span),it.rating?esc(it.rating):''].filter(Boolean).map(v=>'<span class="whitespace-nowrap">'+v+'</span>').join(' · ')+'</div>'
+ +'<div class="flex items-center gap-x-2 gap-y-1.5 flex-wrap cardChips"><span class="cardTitle text-[13px] font-semibold text-slate-100 leading-tight hover:text-teal-300 cursor-pointer underline decoration-dotted decoration-slate-600 underline-offset-2" data-flip="'+it.id+'" title="Click for a summary and full breakdown">'+esc(it.title)+'</span><span class="chip" style="color:'+k.c+';border-color:'+k.c+'44">'+k.label+'</span>'+(it.chFlag?'<span class="chip" style="color:#0B0F19;background:#c084fc;border-color:#c084fc;font-weight:700">\u25c9 CANON 100</span>':'')+(function(){const fr=franchiseOf(it);return fr?'<span class="chip franchiseChip" style="color:#5eead4;border-color:#5eead444" title="Part of the '+esc(fr)+' series">\u2699 '+esc(FRANCHISE_CHIP_SHORT[fr]||fr)+'</span>':'';})()+'</div>'
+ +'<div class="text-[11px] text-slate-400 mt-1.5 leading-snug" title="'+esc(it.creator)+' · '+esc(it.org)+'">'+[[it.year,1],[esc(it.creator),0],[esc(it.span),1],[it.rating&&it.rating!=='General'?esc(it.rating):'',1]].filter(v=>v[0]).map(v=>v[1]?'<span class="whitespace-nowrap">'+v[0]+'</span>':v[0]).join(' · ')+'</div>'
  +'<div class="mt-2 space-y-1 cardMicro" title="This work\'s 3 strongest indices out of ~19 tracked -- click the card to see all of them">'+frontBars(it)+'</div>'
  +'</div><span class="text-slate-600 text-xs mt-1" aria-hidden="true">&#9662;</span></button>'+wlCornerHTML(it)
  +tierRowHTML(it)
@@ -788,7 +790,7 @@ function cardTagsHTML(it){
 // tags, cross-medium pairings, then the creator control.
 function cardPanelsHTML(it){
  const craft=it.fid.map(f=>scoreRowHTML(f[0],f[1],'#94a3b8')).join('');
- const idx=[['\ud83c\udfaf GOAT Match',it.gm,'#fbbf24'],['\u25c9 Cosmic Horror',it.ch,'#c084fc'],['Soundtrack',it.snd,'#7dd3fc'],['4K Reference',it.ref,'#818cf8'],['Emotional',it.emo,'#f0abfc'],['Awe / Spectacle',it.awe,'#fbbf24'],['Comfort',it.cozy,'#34d399'],['Performances',it.perf,'#fda4af'],['Iconicness',it.icon,'#fcd34d'],['Scariest',it.scary,'#f87171'],['Realism',it.real,'#86efac'],['Reality-Altering',it.reality,'#c4b5fd'],['Genuine Shock',it.shock,'#fb923c'],['Scientific',it.sci,'#67e8f9'],['Funniest',it.funny,'#fde047'],['Historically Accurate',it.hist,'#a3e635'],['Vibe / Atmosphere',it.vibe2,'#e879f9']].map(r=>scoreRowHTML(r[0],r[1],r[2])).join('');
+ const idx=[['\ud83c\udfaf GOAT Match',it.gm,'#fbbf24'],['\u25c9 Cosmic Horror',it.ch,'#c084fc'],['Soundtrack',it.snd,'#7dd3fc','snd'],['4K Reference',it.ref,'#818cf8','ref'],['Emotional',it.emo,'#f0abfc'],['Awe / Spectacle',it.awe,'#fbbf24'],['Comfort',it.cozy,'#34d399'],['Performances',it.perf,'#fda4af'],['Iconicness',it.icon,'#fcd34d'],['Scariest',it.scary,'#f87171'],['Realism',it.real,'#86efac'],['Reality-Altering',it.reality,'#c4b5fd'],['Genuine Shock',it.shock,'#fb923c'],['Scientific',it.sci,'#67e8f9'],['Funniest',it.funny,'#fde047'],['Historically Accurate',it.hist,'#a3e635'],['Vibe / Atmosphere',it.vibe2,'#e879f9']].filter(r=>!r[3]||idxApplies(it,r[3])).map(r=>scoreRowHTML(r[0],r[1],r[2])).join('');
  return summaryHTML(it)
  +'<div class="detail hidden border-t border-slate-800/80 px-3.5 py-3.5 bg-[#0b1322]/60">'
  +receptionChipsHTML(it)
@@ -797,7 +799,7 @@ function cardPanelsHTML(it){
  +gmBreakdownHTML(it)
  +cardSecHTML('Tags',cardTagsHTML(it))
  +crossMediumPairingsHTML(it)
- +'<section class="cardSec">'+creatorBoostHTML(it)+'</section>'
+ +(it.creator?cardSecHTML('Creator weight',creatorBoostHTML(it),' title="Nudge this creator up or down across all your match scores"'):'')
  +'</div>';}
 
 /* Rebuild only the cards whose contents can actually have changed.
@@ -844,14 +846,11 @@ function renderController(list,changedIds){
  $('#resultCount').textContent=(list.length>state.limit?(state.limit+' of '+list.length):list.length);
  const m=list.filter(x=>x.kind==='movie').length,t=list.filter(x=>x.kind==='tv').length,g=list.length-m-t;
  const bk=list.filter(x=>x.kind==='book').length;const gg=list.filter(x=>x.kind==='game').length;$('#scopeBreak').textContent=' · '+m+' films / '+t+' series / '+gg+' games / '+bk+' books';
- let note='';
- if(state.sort==='blend')note=' · ⚖ weighted blend: Tech '+state.w.tech.toFixed(2)+' · Dread '+state.w.dread.toFixed(2)+' · Mind '+state.w.myst.toFixed(2);
- window._blendActive=(state.sort==='blend');
  // While searching, the best match leads (an exact title, then titles holding the words, then a
  // creator, then a genre or year) and the chosen sort orders each of those groups.
  const cmp=SORTS[state.sort]||SORTS.overall,matches=worksMatching(state.q.trim());
  const sorted=list.slice().sort(matches?bySearchThen(matches,cmp):cmp);
- $('#priorityNote').textContent=note;renderActiveBar();
+ renderActiveBar();
  buildGenreChips();buildRatingChips();
  const shown=sorted.slice(0,state.limit);
  if(patchControllerGrid(shown,changedIds))return;
@@ -976,7 +975,6 @@ function syncDiscoverBtn(){
 }
 
 /* ===================== VIEW 2 · BESPOKE TASTE ENGINE ===================== */
-const PRESETS={dread:{tech:0.85,dread:0.95,myst:0.90},reference:{tech:1,dread:0.15,myst:0.2},puzzle:{tech:0.3,dread:0.45,myst:1},balanced:{tech:0.6,dread:0.6,myst:0.6}};
 
 /* ===================== VIEW 3 · VISUALIZATION SUITE ===================== */
 const CH={};
@@ -1696,9 +1694,9 @@ function recomputeTasteScores(){
  // together below; per-work quality signals stay linear and uncapped, because each only fires past
  // a real rubric threshold and flattening them would blur differences RUBRIC.md actually measured.
  let tasteRaw=0,qualityRaw=0;
- GOAT_CREATOR_BOOST.forEach(c=>{if(x.creator.includes(c[0])){tasteRaw+=c[1];br.push(['creator',c[0],Math.round(c[1]*10)/10]);}});
+ GOAT_CREATOR_BOOST.forEach(c=>{if(x.creator.includes(c[0])){tasteRaw+=c[1];br.push(['creator',c[0],Math.round(c[1]*10)/10,'set']);}});
  x._creators.forEach(nm=>{const w=AUTO_CREATOR_BOOST[nm];if(w){tasteRaw+=w;br.push(['creator',nm,Math.round(w*10)/10]);}});
- if(x.kind==='book'){BOOK_CREATOR_BOOST.forEach(c=>{if(x.creator.includes(c[0])){tasteRaw+=c[1];br.push(['author',c[0],Math.round(c[1]*10)/10]);}});}
+ if(x.kind==='book'){BOOK_CREATOR_BOOST.forEach(c=>{if(x.creator.includes(c[0])){tasteRaw+=c[1];br.push(['author',c[0],Math.round(c[1]*10)/10,'set']);}});}
  // One pass over the work's own genre keywords rather than one pass per boosted keyword: a Set
  // membership test counts each keyword exactly once for this work, same as genreMatches() did,
  // without re-walking the taxonomy 275 times per work on every tier click.
@@ -2833,16 +2831,20 @@ function renderPortraitGaps(){
 }
 /* ===== Franchise / Series grouping ===== */
 // SERIES_DEFS (the curated series list) lives in data/series.js.
-// Reverse lookup used by cardHTML's franchise badge: kind+'|'+title -> series name. Built once,
-// not per card -- the Global Controller can render hundreds of cards per interaction.
+// Reverse lookup for the recommendations' one-per-franchise rule (recFranchise), which needs a
+// work's place in its curated series: kind+'|'+title -> series name. The franchise chip and the
+// franchise filter use franchiseOf() below instead.
 const SERIES_BY_TITLE=new Map();
 SERIES_DEFS.forEach(function(d){d.members.forEach(function(t){SERIES_BY_TITLE.set(d.kind+'|'+t,d.name);});});
 // The first build of the generated recs: the earliest point it can run, since recFranchise()'s
 // one-per-franchise rule needs the curated series above.
 rebuildGeneratedRecs();
-function franchiseOf(it){return SERIES_BY_TITLE.get(it.kind+'|'+it.title);}
-/* Franchise vs. standalone, for the Global Controller's "Franchise / series" and "Standalone only"
-   toggles. A work counts as franchise when any of these holds:
+/* Which franchise a work belongs to -- the one answer behind both a card's franchise chip and the
+   Global Controller's "Franchise / series" and "Standalone only" toggles, so the chip is on exactly
+   the works the filter counts, and names what they belong to. (The two used to be separate: the
+   chip read only the curated list, so Blade Runner, Avatar and even The Matrix counted as franchise
+   for the filter but showed no chip.) A work belongs to a franchise when any of these holds, first
+   match naming it:
    - the curated SERIES_DEFS list above names it (or it is the work a curated series is named for);
    - it shares a title root with another work of the same medium -- the seriesTitleRoot clustering
      Collection's series view uses, which catches Mass Effect 2, Deadpool 2 and Star Trek: Voyager.
@@ -2858,25 +2860,42 @@ function franchiseOf(it){return SERIES_BY_TITLE.get(it.kind+'|'+it.title);}
    book is not a franchise, so The Martian stays standalone. Every title here must exist in the
    corpus; initApp's integrity assert fails on one that doesn't, so a rename can't silently drop it.
    NOT_A_SERIES holds the franchiseRoot keys that cluster by coincidence (Apollo 11 and Apollo 13,
-   Invisible Man and The Invisible Man) or pair two records of one work (Beowulf and its
-   translation, Grapes of Wrath and The Grapes of Wrath).
-   The corpus never changes after boot, so the membership set is built once, on first use. */
+   Invisible Man and The Invisible Man) or pair an original with its retelling (Beowulf and
+   Headley's translation). NOT_A_FRANCHISE (data/series.js) holds
+   the curated groups that are a reading shelf rather than a franchise (Sagan's nonfiction).
+   A curated series is named as FRANCHISE_LABEL says; a title-root cluster takes the name of any of
+   its members' curated or listed franchise (Mad Max: Fury Road joins "Mad Max"), else the shared
+   title with its subtitle and number dropped (Blade Runner 2049 -> "Blade Runner").
+   The corpus never changes after boot, so the lookup is built once, on first use. */
 // FRANCHISE_EXTRA (the hand-checked franchise list) lives in data/series.js.
-const NOT_A_SERIES=new Set(['movie|apollo','movie|mother','book|martian','book|quiet','book|beowulf','book|babel','book|jungle','book|invisible man','book|hunger','book|grapes of wrath']);
+const NOT_A_SERIES=new Set(['movie|apollo','movie|mother','book|beowulf','book|babel','book|jungle','book|invisible man','book|hunger']);
 const FRANCHISE_KIND={m:'movie',t:'tv',g:'game',b:'book'};
 function franchiseRoot(t){return seriesTitleRoot(t.replace(/^the\s+/i,'')).replace(/\s+[ivx]+$/,'').trim();}
-let FRANCHISE_IDS=null;
-function inFranchise(it){
- if(!FRANCHISE_IDS){
-  const rootCount=new Map();
-  const rootKey=x=>{const r=franchiseRoot(x.title);return r.length>=4&&!NOT_A_SERIES.has(x.kind+'|'+r)?x.kind+'|'+r:null;};
-  ALL.forEach(x=>{const k=rootKey(x);if(k)rootCount.set(k,(rootCount.get(k)||0)+1);});
-  const extra=new Set(FRANCHISE_EXTRA.flatMap(g=>g[1].map(e=>FRANCHISE_KIND[e[0]]+'|'+e.slice(2))));
-  const seriesNames=new Set(SERIES_DEFS.map(d=>d.kind+'|'+d.name));
-  FRANCHISE_IDS=new Set(ALL.filter(x=>{const kt=x.kind+'|'+x.title;return franchiseOf(x)||seriesNames.has(kt)||extra.has(kt)||rootCount.get(rootKey(x))>1;}).map(x=>x.id));
+// A title as a franchise name: its subtitle, volume/part and trailing number dropped.
+function franchiseTitleName(t){return t.replace(/\s*[:\u2013\u2014].*$/,'').replace(/\s+(part|vol\.?|volume|book|season|chapter)\b.*$/i,'').replace(/\s+(\d+|[IVX]+)$/,'').trim();}
+let FRANCHISE_NAME=null;
+function franchiseOf(it){
+ if(!FRANCHISE_NAME){
+  FRANCHISE_NAME=new Map();
+  const label=n=>FRANCHISE_LABEL[n]||n;
+  const listed=new Map();
+  SERIES_DEFS.forEach(d=>{if(NOT_A_FRANCHISE.has(d.name))return;const n=label(d.name);d.members.concat(d.name).forEach(t=>{const k=d.kind+'|'+t;if(!listed.has(k))listed.set(k,n);});});
+  FRANCHISE_EXTRA.forEach(g=>g[1].forEach(e=>{const k=FRANCHISE_KIND[e[0]]+'|'+e.slice(2);if(!listed.has(k))listed.set(k,label(g[0]));}));
+  const clusters=new Map();
+  ALL.forEach(x=>{const r=franchiseRoot(x.title);if(r.length<4||NOT_A_SERIES.has(x.kind+'|'+r))return;const k=x.kind+'|'+r;if(!clusters.has(k))clusters.set(k,[]);clusters.get(k).push(x);});
+  ALL.forEach(x=>{const n=listed.get(x.kind+'|'+x.title);if(n)FRANCHISE_NAME.set(x.id,n);});
+  clusters.forEach(xs=>{
+   if(xs.length<2)return;
+   const known=xs.map(x=>FRANCHISE_NAME.get(x.id)).find(Boolean);
+   let name=known;
+   if(!name){const tally=new Map();xs.forEach(x=>{const n=franchiseTitleName(x.title);tally.set(n,(tally.get(n)||0)+1);});
+    name=[...tally].sort((a,b)=>(b[1]-a[1])||(a[0].length-b[0].length))[0][0];}
+   xs.forEach(x=>{if(!FRANCHISE_NAME.has(x.id))FRANCHISE_NAME.set(x.id,name);});
+  });
  }
- return FRANCHISE_IDS.has(it.id);
+ return FRANCHISE_NAME.get(it.id)||null;
 }
+function inFranchise(it){return !!franchiseOf(it);}
 // "How you own it" -- physFormat is already tracked per owned movie/TV/book (games are digital-only
 // and carry no physFormat), so this is a pure readout of existing data, scoped like the other
 // portraitScope-aware panels.
@@ -3643,7 +3662,7 @@ on('#typeSeg','click',e=>{const b=e.target.closest('button');if(!b)return;const 
  else{state.types=state.types.includes(k)?state.types.filter(x=>x!==k):state.types.concat(k);if(state.types.length===Object.keys(KM).length)state.types=[];}
  syncTypeSeg();refresh();});
 on('#structSel','change',e=>{state.struct=e.target.value;refresh();});
-on('#sortSel','change',e=>{state.sort=e.target.value;syncBlendPanel();refresh();});
+on('#sortSel','change',e=>{state.sort=e.target.value;refresh();});
 on('#limitSel','change',e=>{state.limit=+e.target.value;try{if(state.limit===100)localStorage.removeItem(SHOW_LIMIT_KEY);else localStorage.setItem(SHOW_LIMIT_KEY,String(state.limit));}catch(err){console.warn('saving Show count failed',err);}refresh();});
 /* ===== Surprise Me spin engine ===== */
 var spinScope={medium:'any',pool:'all'};
@@ -3941,15 +3960,6 @@ on('#minMyRating','input',e=>{state.minMyRating=+e.target.value;$('#minMyRatingV
 })();
 on('#resetBtn','animationend',e=>e.currentTarget.classList.remove('resetPulse'));
 on('#resetBtn','click',()=>{state.sort='overall';$('#sortSel').value='overall';clearAllFilters();});
-function syncBlendPanel(){var on=state.sort==='blend';var pnl=$('#blendPanel');if(pnl)pnl.classList.toggle('hidden',!on);
- var vt=$('#wTechV'),vd=$('#wDreadV'),vm=$('#wMystV');
- if(vt)vt.textContent=state.w.tech.toFixed(2);if(vd)vd.textContent=state.w.dread.toFixed(2);if(vm)vm.textContent=state.w.myst.toFixed(2);}
-[['wTech','tech'],['wDread','dread'],['wMyst','myst']].forEach(p=>{
- var el=$('#'+p[0]);if(el)el.addEventListener('input',e=>{state.w[p[1]]=+e.target.value/100;var lbl=$('#'+p[0]+'V');if(lbl)lbl.textContent=state.w[p[1]].toFixed(2);refresh();});});
-on('#presetRow','click',e=>{const b=e.target.closest('[data-preset]');if(!b)return;
- const p=PRESETS[b.dataset.preset];state.w={tech:p.tech,dread:p.dread,myst:p.myst};
- $('#wTech').value=Math.round(p.tech*100);$('#wDread').value=Math.round(p.dread*100);$('#wMyst').value=Math.round(p.myst*100);
- syncBlendPanel();refresh();});
 // Radar searchable comboboxes (this now also governs #platCombo -- it used to be excluded here and
 // run its own separate, differently-scoped "click outside" listener below, which is exactly the
 // kind of two-systems-doing-the-same-job setup that produces "sometimes won't close" bugs. One
@@ -4681,7 +4691,7 @@ function handleProfileEditClick(btn){
    No longer surfaced in the header (it fell too far behind real changes to be worth showing), but
    kept here as the project's own record. Bump APP_VERSION and add a CHANGELOG entry whenever a
    change is worth remembering; cosmetic tweaks don't need a bump. */
-const APP_VERSION='1.52.0';
+const APP_VERSION='1.53.0';
 // CHANGELOG (the in-app version history) lives in data/changelog.js.
 
 /* ===== Suggestion box: shared Supabase table, visible to everyone =====
@@ -5691,7 +5701,7 @@ $('#integrity').textContent='Integrity check · '+movies.length+' films · '+tvS
 console.assert(movies.length>0&&tvShows.length>0&&videoGames.length>0&&books.length>0&&directorsPantheon.length>=1&&authorsPantheon.length>=1&&gamingAuteurs.length>=1&&contenders.length>=1,'Dataset integrity violation');
 console.assert((function(){const have=new Set(ALL.map(x=>x.kind+'|'+x.title));return FRANCHISE_EXTRA.every(g=>g[1].every(e=>have.has(FRANCHISE_KIND[e[0]]+'|'+e.slice(2))));})(),'FRANCHISE_EXTRA names a title that is not in the corpus');
 updateWlNav();
-if(typeof syncBlendPanel==='function')syncBlendPanel();
+
 /* ===================== COMMAND PALETTE (Cmd/Ctrl-K) ===================== */
 var TAB_LABELS={controller:'Global Controller',goat:'GOAT Profile',collection:'Collection',contenders:'Contenders Ledger',watchlist:'Watchlist',portrait:'Taste Portrait',viz:'Visualization Suite',timeline:'Timeline',creators:'Creator Archives',matrix:'Reference Matrices'};
 function focusWork(id){
@@ -5759,6 +5769,6 @@ var _rzT;window.addEventListener('resize',function(){clearTimeout(_rzT);_rzT=set
  window.genreMatches=genreMatches;
  // The per-card corpus lookups, so the suite can hold their memoized versions to the original
  // full-scan behaviour (see derivedLookups).
- window.isUntried=isUntried;window.inFranchise=inFranchise;
+ window.isUntried=isUntried;window.inFranchise=inFranchise;window.franchiseOf=franchiseOf;
  window.whyRecommended=whyRecommended;window.crossThread=crossThread;window.wlDone=wlDone;window.crossMediumPairings=crossMediumPairings;
 }

@@ -3,6 +3,15 @@
 // entry whenever a change reaches users.
 'use strict';
 const CHANGELOG=[
+ {v:'1.53.0',date:'2026-09-25',summary:'Cleaner cards: the front shows what a title is and whether it’s yours, the expanded view is organised into labelled sections, and every franchise title now carries its franchise.',notes:[
+  'The collapsed card keeps the match ring, title, medium, franchise, your canon badge, the three strongest scores and your Gold/Silver/Bronze, Owned and Watched buttons. The age rating moved into the line under the title; the critics’ chip moved into the expanded card.',
+  'The expanded card reads top to bottom as Reception, Craft, Indices, Why this match?, Tags, Pairs well with and Creator weight. Reception shows the audience score as you know it — “IMDb 7.7” for films and series — beside “Crit ~94”, and each score now appears once instead of up to four times. The craft bars no longer vanish on a phone.',
+  'Every title in a franchise now shows its franchise chip — Blade Runner, Avatar, Dune and The Matrix used to have none — and the chip always agrees with the Franchise / series filter. Film franchises were checked against TMDB; about fifty works that were missed are now grouped (Prometheus with Alien, Army of Darkness with Evil Dead, MASH with M*A*S*H, The Office UK and US, Sanderson’s Cosmere books…), and author or genre shelves such as Sagan’s nonfiction no longer count as franchises.',
+  'Nineteen games and books that were listed twice (Gone Girl, The Long Goodbye, Life of Pi, Alan Wake 2, ABZÛ…) now appear once; anything you had rated, tiered, owned or saved on the duplicate carries over.',
+  'Books no longer show a Soundtrack or 4K Reference score, and filters and sorts on those two leave books out.',
+  '“Why this match?” labels a creator weight you set yourself as “Your weight”, apart from the one the app learned from your ratings.',
+  'Removed the hidden “blend” sort and its chip, which nothing in the app could turn on.'
+ ]},
  {v:'1.52.0',date:'2026-09-25',summary:'A few batches of titles that were scored on a harsher or kinder scale than the rest now match it.',notes:[
   'The library was built in batches, and a handful were scored on their own scale: about 220 books added in one wave were rated 15 points low on how idea-rich they are and 13 low on how beautiful, a batch of TV series and two stretches of films were marked down on picture and sound, and the original 160 books were rated a little high. Each batch moved as a whole, so nothing inside it changed order',
   'Found by comparing every title with others of the same genre, era and acclaim, and checked against IMDb ratings, which the same test finds nothing wrong with. Batches that only looked off because of loose genre labels (classic musicals tagged Comedy, children’s books tagged Drama) were read title by title and left alone',

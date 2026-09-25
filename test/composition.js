@@ -26,11 +26,15 @@ for (const key of ['movies', 'tvShows']) {
 }
 
 console.log('\n=== composition: a planted batch offset is found and removed ===');
-// Plant -10 on 120 consecutive books' ideaDensity, well inside the file and away from any run
-// REVIEWED_RUNS lists, then ask the detector where it is.
+// Plant -10 on ~120 consecutive books' ideaDensity, well inside the file and away from any run
+// REVIEWED_RUNS lists, then ask the detector where it is. The window is pinned to the same books
+// (b1313-b1432), not to array positions: where a run's edges land depends on the real residuals
+// beside it, so a positional window drifted onto different books every time a record was added or
+// merged away (retiring 17 duplicate books moved it 8 places and the far edge came back 15 off,
+// with the detector itself unchanged).
 const books = JSON.parse(JSON.stringify(loaded.books));
 const sorted = books.slice().sort((a, b) => C.idNum(a) - C.idNum(b));
-const lo = 1300, hi = 1420;
+const lo = sorted.findIndex(x => C.idNum(x) >= 1313), hi = sorted.findIndex(x => C.idNum(x) > 1432);
 for (let i = lo; i < hi; i++) sorted[i].craft.ideaDensity = Math.max(0, sorted[i].craft.ideaDensity - 10);
 const planted = C.flaggedRuns('books', books, 'craft.ideaDensity');
 const hit = planted.find(r => r.to === sorted[hi - 1].id || r.from === sorted[lo].id ||

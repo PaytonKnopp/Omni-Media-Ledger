@@ -143,6 +143,23 @@ for (const sec of SECTIONS) {
   if (dupIds.length) console.log('     duplicates: ' + dupIds.join(', '));
   check(sec.key + ' has no duplicate titles (case-insensitive)', dupTitles.length === 0);
   if (dupTitles.length) console.log('     duplicates: ' + dupTitles.join(', '));
+  // The same work entered twice under two spellings of its title: same year and creator, and a
+  // title equal once a "(novel)"-style qualifier, a leading article, accents, punctuation, "and
+  // Other Poems", a Roman numeral and a British/American spelling are set aside. Nineteen such
+  // pairs (Gone Girl / Gone Girl (novel), Alan Wake 2 / Alan Wake II, ...) were merged on
+  // 2026-09-25 via RETIRED_WORK_IDS; this keeps a new one from slipping in.
+  const workKey = r => {
+    const t = String(r.title || '').replace(/\bII\b/g, '2').replace(/\bIII\b/g, '3')
+      .normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase()
+      .replace(/\([^)]*\)/g, ' ').replace(/:.*$/, '').replace(/\band other (poems|stories)\b/g, ' ')
+      .replace(/^\s*(the|a|an)\s+/, '').replace(/our\b/g, 'or').replace(/ll/g, 'l').replace(/[^a-z0-9]+/g, '');
+    return r.year + '|' + String(r.creator || '').toLowerCase() + '|' + t;
+  };
+  const byWork = new Map();
+  for (const r of records) { const k = workKey(r); if (!byWork.has(k)) byWork.set(k, []); byWork.get(k).push(r.id + ' "' + r.title + '"'); }
+  const twice = [...byWork.values()].filter(v => v.length > 1).map(v => v.join(' = '));
+  check(sec.key + ' has no work entered twice under two spellings of its title', twice.length === 0);
+  if (twice.length) console.log('     duplicates: ' + twice.join('; '));
   check(sec.key + ' records all have required fields', missingFields.length === 0);
   detail(missingFields);
   total += records.length;

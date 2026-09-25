@@ -23,7 +23,7 @@ function provStampOf(raw){
 
 /* Works removed from the corpus as duplicates of another record, and the record each one became.
    The shared-IMDb-title check (scripts/validate-corpus.js) found ten films/series entered twice
-   under two ids; each pair kept the record with the stronger fact provenance, the lower id on a
+   under two ids, and a later title/creator pass nineteen games and books; each pair kept the record with the stronger fact provenance, the lower id on a
    tie. A saved profile, watchlist or cloud row can still carry a retired id, so remapRetiredIds()
    moves whatever it held onto the kept record at boot. Never reuse a retired id for a new work. */
 const RETIRED_WORK_IDS={
@@ -36,7 +36,28 @@ const RETIRED_WORK_IDS={
  m1941:'m1286', // The Italian Job (1969)     -> The Italian Job
  m1948:'m1547', // Gone in 60 Seconds (2000)  -> Gone in 60 Seconds
  m1940:'m1810', // The Color Purple (1985)    -> The Color Purple
- t140:'t357'    // Demon Slayer               -> Demon Slayer: Kimetsu no Yaiba
+ t140:'t357',   // Demon Slayer               -> Demon Slayer: Kimetsu no Yaiba
+ // A second pass (2026-09-25) over all four media: same medium, year and creator, and the same
+ // title up to a "(novel)" qualifier, an article, a numeral or a spelling variant.
+ g473:'g290',    // Abzu -> ABZÛ
+ g402:'g40',     // Alan Wake II -> Alan Wake 2
+ b142:'b1270',   // The Martian (book) -> The Martian
+ b1201:'b208',   // The Grapes of Wrath -> The Grapes of Wrath
+ b1553:'b229',   // The Long Goodbye -> The Long Goodbye
+ b1204:'b311',   // Station Eleven -> Station Eleven
+ b1350:'b328',   // A Clockwork Orange -> A Clockwork Orange
+ b1264:'b407',   // Life of Pi -> Life of Pi
+ b410:'b1183',   // Gone Girl (novel) -> Gone Girl
+ b1557:'b440',   // Strangers on a Train -> Strangers on a Train
+ b1233:'b465',   // The Girl with the Dragon Tattoo -> The Girl with the Dragon Tattoo
+ b1764:'b685',   // Adventures of Huckleberry Finn -> The Adventures of Huckleberry Finn
+ b2006:'b1428',  // Purity (Franzen) -> Purity
+ b2010:'b1639',  // North and South (Elizabeth Gaskell) -> North and South
+ b1747:'b1386',  // George's Marvelous Medicine -> George's Marvellous Medicine
+ b1819:'b1633',  // The Case-Book of Sherlock Holmes -> The Casebook of Sherlock Holmes
+ b1318:'b1036',  // Quiet -> Quiet: The Power of Introverts in a World That Can't Stop Talking
+ b1176:'b406',   // Howl -> Howl and Other Poems
+ b214:'b1175'    // The Waste Land and Other Poems -> The Waste Land
 };
 /* Rewrites retired ids in a profile and a watchlist (both plain objects; neither is mutated).
    Lists are remapped and de-duplicated in place of the old entry; for keyed maps (ratings,

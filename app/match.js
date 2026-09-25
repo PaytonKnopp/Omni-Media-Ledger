@@ -65,4 +65,3 @@ function computeMatch(list,state){
   it._m=Math.round((sum/wsum)*0.82+matchAnchor(it)*0.18);
  });
 }
-function bespokeScore(it,state){const w=state.w,s=w.tech+w.dread+w.myst;if(s<=0)return 0;return (it.tech*w.tech+it.dread*w.dread+it.myst*w.myst)/s;}
