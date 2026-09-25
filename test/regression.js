@@ -1904,7 +1904,7 @@ async function runAccountFlow(browser, file) {
     // the corpus (whyRecommended's citation, crossMediumPairings' ordering), and both bit this
     // before the changed set was widened to cover them -- 8 of 72 comparisons differed.
     const gridEquivalence = await page2.evaluate(async () => {
-      const sorts = ['overall', 'tier', 'blend', 'crit', 'yearNew'];
+      const sorts = ['overall', 'tier', 'crit', 'yearNew'];
       const sel = document.getElementById('sortSel');
       const originalSort = sel ? sel.value : null;
       const bad = [];

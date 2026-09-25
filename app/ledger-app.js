@@ -220,7 +220,7 @@ const DONE_VERB={movie:'Watched',tv:'Watched',game:'Played',book:'Read'};
 function doneVerb(it){return DONE_VERB[it&&it.kind]||'Completed';}
 
 /* ===================== STATE & HELPERS ===================== */
-const state={view:'controller',q:'',types:[],struct:'all',plats:[],minGoat:0,minMyRating:0,ratedOnly:false,unratedOnly:false,genres:[],genresExclude:[],ownedOnly:false,notOwnedOnly:false,doneOnly:false,notDoneOnly:false,franchiseOnly:false,standaloneOnly:false,limit:100,idx:{snd:0,ref:0,ch:0,emo:0,awe:0,cozy:0,perf:0,icon:0,scary:0,real:0,reality:0,shock:0,sci:0,funny:0,hist:0,vibe2:0,crit:0,aud:0,tech:0,dread:0,myst:0,warmth:0,comedy:0,beauty:0,runtime:0},ratings:[],tierFilter:[],tierFilterExclude:[],yearMin:null,yearMax:null,combine:false,sort:'overall',w:{tech:0.85,dread:0.95,myst:0.90},creatorTab:'directors',creatorSearch:'',creatorLedgerOnly:false,creatorOwnedOnly:false,goatType:'all',goatTierFilter:'all',goatSort:'match',goatDeclaredQ:'',portraitScope:'all',collSearchQ:'',collSort:'az',wlType:'all',wlSort:'added',wlSearchQ:'',creatorSearchScope:'all',creatorSort:'works'};
+const state={view:'controller',q:'',types:[],struct:'all',plats:[],minGoat:0,minMyRating:0,ratedOnly:false,unratedOnly:false,genres:[],genresExclude:[],ownedOnly:false,notOwnedOnly:false,doneOnly:false,notDoneOnly:false,franchiseOnly:false,standaloneOnly:false,limit:100,idx:{snd:0,ref:0,ch:0,emo:0,awe:0,cozy:0,perf:0,icon:0,scary:0,real:0,reality:0,shock:0,sci:0,funny:0,hist:0,vibe2:0,crit:0,aud:0,tech:0,dread:0,myst:0,warmth:0,comedy:0,beauty:0,runtime:0},ratings:[],tierFilter:[],tierFilterExclude:[],yearMin:null,yearMax:null,combine:false,sort:'overall',creatorTab:'directors',creatorSearch:'',creatorLedgerOnly:false,creatorOwnedOnly:false,goatType:'all',goatTierFilter:'all',goatSort:'match',goatDeclaredQ:'',portraitScope:'all',collSearchQ:'',collSort:'az',wlType:'all',wlSort:'added',wlSearchQ:'',creatorSearchScope:'all',creatorSort:'works'};
 const $=s=>document.querySelector(s),$$=s=>Array.from(document.querySelectorAll(s));
 const on=(sel,ev,fn)=>{const el=$(sel);if(el)el.addEventListener(ev,fn);else console.warn('missing element:',sel);};
 // esc/themeColor(+THEME_PALETTE) live in app/cards.js (pure, closure-independent) now.
@@ -229,7 +229,7 @@ const on=(sel,ev,fn)=>{const el=$(sel);if(el)el.addEventListener(ev,fn);else con
    immediately before this sort is applied; until now nothing ever read the number it produced, so
    pulling "Scariest" to 80 narrowed the results correctly and then ordered them by overall critical
    standing -- the one thing the person had just said was not the question. */
-const SORTS={match:(a,b)=>((b._m||0)-(a._m||0))||(b.gm-a.gm)||(b.ovr-a.ovr),overall:(a,b)=>(b.ovr-a.ovr)||(b.crit-a.crit),gm:(a,b)=>(b.gm-a.gm)||(b.crit-a.crit),myrating:(a,b)=>((b.myRating==null?-1:b.myRating)-(a.myRating==null?-1:a.myRating))||a.title.localeCompare(b.title),cosmic:(a,b)=>(b.ch-a.ch)||(b.dread-a.dread),sound:(a,b)=>(idxApplies(b,'snd')-idxApplies(a,'snd'))||(b.snd-a.snd)||(b.crit-a.crit),ref4k:(a,b)=>(idxApplies(b,'ref')-idxApplies(a,'ref'))||(b.ref-a.ref)||(b.crit-a.crit),emotion:(a,b)=>(b.emo-a.emo)||(b.crit-a.crit),awe:(a,b)=>(b.awe-a.awe)||(b.crit-a.crit),comfort:(a,b)=>(b.cozy-a.cozy)||(b.aud-a.aud),perf:(a,b)=>(b.perf-a.perf)||(b.crit-a.crit),icon:(a,b)=>(b.icon-a.icon)||(b.crit-a.crit),scary:(a,b)=>(b.scary-a.scary)||(b.dread-a.dread),real:(a,b)=>(b.real-a.real)||(b.crit-a.crit),reality:(a,b)=>(b.reality-a.reality)||(b.myst-a.myst),shock:(a,b)=>(b.shock-a.shock)||(b.dread-a.dread),sci:(a,b)=>(b.sci-a.sci)||(b.myst-a.myst),funny:(a,b)=>(b.funny-a.funny)||(b.aud-a.aud),hist:(a,b)=>(b.hist-a.hist)||(b.crit-a.crit),vibe2:(a,b)=>(b.vibe2-a.vibe2)||(b.tech-a.tech),blend:(a,b)=>(bespokeScore(b,state)-bespokeScore(a,state))||(b.crit-a.crit),crit:(a,b)=>b.crit-a.crit,aud:(a,b)=>b.aud-a.aud,tech:(a,b)=>b.tech-a.tech,dread:(a,b)=>b.dread-a.dread,myst:(a,b)=>b.myst-a.myst,warmth:(a,b)=>(b.warmth||0)-(a.warmth||0)||(b.crit-a.crit),comedy:(a,b)=>(b.comedy||0)-(a.comedy||0)||(b.aud-a.aud),beauty:(a,b)=>(b.beauty||0)-(a.beauty||0)||(b.crit-a.crit),yearNew:(a,b)=>b.year-a.year,yearOld:(a,b)=>a.year-b.year,title:(a,b)=>a.title.localeCompare(b.title),
+const SORTS={match:(a,b)=>((b._m||0)-(a._m||0))||(b.gm-a.gm)||(b.ovr-a.ovr),overall:(a,b)=>(b.ovr-a.ovr)||(b.crit-a.crit),gm:(a,b)=>(b.gm-a.gm)||(b.crit-a.crit),myrating:(a,b)=>((b.myRating==null?-1:b.myRating)-(a.myRating==null?-1:a.myRating))||a.title.localeCompare(b.title),cosmic:(a,b)=>(b.ch-a.ch)||(b.dread-a.dread),sound:(a,b)=>(idxApplies(b,'snd')-idxApplies(a,'snd'))||(b.snd-a.snd)||(b.crit-a.crit),ref4k:(a,b)=>(idxApplies(b,'ref')-idxApplies(a,'ref'))||(b.ref-a.ref)||(b.crit-a.crit),emotion:(a,b)=>(b.emo-a.emo)||(b.crit-a.crit),awe:(a,b)=>(b.awe-a.awe)||(b.crit-a.crit),comfort:(a,b)=>(b.cozy-a.cozy)||(b.aud-a.aud),perf:(a,b)=>(b.perf-a.perf)||(b.crit-a.crit),icon:(a,b)=>(b.icon-a.icon)||(b.crit-a.crit),scary:(a,b)=>(b.scary-a.scary)||(b.dread-a.dread),real:(a,b)=>(b.real-a.real)||(b.crit-a.crit),reality:(a,b)=>(b.reality-a.reality)||(b.myst-a.myst),shock:(a,b)=>(b.shock-a.shock)||(b.dread-a.dread),sci:(a,b)=>(b.sci-a.sci)||(b.myst-a.myst),funny:(a,b)=>(b.funny-a.funny)||(b.aud-a.aud),hist:(a,b)=>(b.hist-a.hist)||(b.crit-a.crit),vibe2:(a,b)=>(b.vibe2-a.vibe2)||(b.tech-a.tech),crit:(a,b)=>b.crit-a.crit,aud:(a,b)=>b.aud-a.aud,tech:(a,b)=>b.tech-a.tech,dread:(a,b)=>b.dread-a.dread,myst:(a,b)=>b.myst-a.myst,warmth:(a,b)=>(b.warmth||0)-(a.warmth||0)||(b.crit-a.crit),comedy:(a,b)=>(b.comedy||0)-(a.comedy||0)||(b.aud-a.aud),beauty:(a,b)=>(b.beauty||0)-(a.beauty||0)||(b.crit-a.crit),yearNew:(a,b)=>b.year-a.year,yearOld:(a,b)=>a.year-b.year,title:(a,b)=>a.title.localeCompare(b.title),
 // Groups by tier first (unchanged), but within a tier now breaks ties by your own rating before
 // falling back to title -- "My Tiers" is the one sort whose entire point is ranking by YOUR
 // taste, so a Gold pick you rated 10 belongs above a Gold pick you rated 7 or never rated at all,
@@ -327,7 +327,7 @@ function filteredSkipping(skip){
  });
 }
 function filtered(){return filteredSkipping(null);}
-// activeDims/computeMatch/bespokeScore live in app/match.js (read only `state`, passed in) now.
+// activeDims/computeMatch live in app/match.js (read only `state`, passed in) now.
 
 // ring/microBar/frontBars/scoreRowHTML live in app/cards.js (pure, closure-independent) now.
 
@@ -757,7 +757,7 @@ function cardHTML(it){const k=KM[it.kind];
  +'<button type="button" class="cardHead w-full text-left p-3.5 flex gap-3 items-start" data-id="'+it.id+'">'
  +matchRingHTML(it,k.c,42)
  +'<div class="flex-1 min-w-0">'
- +'<div class="flex items-center gap-x-2 gap-y-1.5 flex-wrap cardChips"><span class="cardTitle text-[13px] font-semibold text-slate-100 leading-tight hover:text-teal-300 cursor-pointer underline decoration-dotted decoration-slate-600 underline-offset-2" data-flip="'+it.id+'" title="Click for a summary and full breakdown">'+esc(it.title)+'</span><span class="chip" style="color:'+k.c+';border-color:'+k.c+'44">'+k.label+'</span>'+(window._blendActive?'<span class="chip" style="color:#0B0F19;background:#34d399;border-color:#34d399;font-weight:800" title="Weighted blend match">\u2696 '+bespokeScore(it,state).toFixed(0)+'%</span>':'')+(it.chFlag?'<span class="chip" style="color:#0B0F19;background:#c084fc;border-color:#c084fc;font-weight:700">\u25c9 CANON 100</span>':'')+(function(){const fr=franchiseOf(it);return fr?'<span class="chip franchiseChip" style="color:#5eead4;border-color:#5eead444" title="Part of the '+esc(fr)+' series">\u2699 '+esc(fr)+'</span>':'';})()+'</div>'
+ +'<div class="flex items-center gap-x-2 gap-y-1.5 flex-wrap cardChips"><span class="cardTitle text-[13px] font-semibold text-slate-100 leading-tight hover:text-teal-300 cursor-pointer underline decoration-dotted decoration-slate-600 underline-offset-2" data-flip="'+it.id+'" title="Click for a summary and full breakdown">'+esc(it.title)+'</span><span class="chip" style="color:'+k.c+';border-color:'+k.c+'44">'+k.label+'</span>'+(it.chFlag?'<span class="chip" style="color:#0B0F19;background:#c084fc;border-color:#c084fc;font-weight:700">\u25c9 CANON 100</span>':'')+(function(){const fr=franchiseOf(it);return fr?'<span class="chip franchiseChip" style="color:#5eead4;border-color:#5eead444" title="Part of the '+esc(fr)+' series">\u2699 '+esc(fr)+'</span>':'';})()+'</div>'
  +'<div class="text-[11px] text-slate-400 mt-1.5 leading-snug" title="'+esc(it.creator)+' · '+esc(it.org)+'">'+[it.year,esc(it.creator),esc(it.span),it.rating?esc(it.rating):''].filter(Boolean).map(v=>'<span class="whitespace-nowrap">'+v+'</span>').join(' · ')+'</div>'
  +'<div class="mt-2 space-y-1 cardMicro" title="This work\'s 3 strongest indices out of ~19 tracked -- click the card to see all of them">'+frontBars(it)+'</div>'
  +'</div><span class="text-slate-600 text-xs mt-1" aria-hidden="true">&#9662;</span></button>'+wlCornerHTML(it)
@@ -844,14 +844,11 @@ function renderController(list,changedIds){
  $('#resultCount').textContent=(list.length>state.limit?(state.limit+' of '+list.length):list.length);
  const m=list.filter(x=>x.kind==='movie').length,t=list.filter(x=>x.kind==='tv').length,g=list.length-m-t;
  const bk=list.filter(x=>x.kind==='book').length;const gg=list.filter(x=>x.kind==='game').length;$('#scopeBreak').textContent=' · '+m+' films / '+t+' series / '+gg+' games / '+bk+' books';
- let note='';
- if(state.sort==='blend')note=' · ⚖ weighted blend: Tech '+state.w.tech.toFixed(2)+' · Dread '+state.w.dread.toFixed(2)+' · Mind '+state.w.myst.toFixed(2);
- window._blendActive=(state.sort==='blend');
  // While searching, the best match leads (an exact title, then titles holding the words, then a
  // creator, then a genre or year) and the chosen sort orders each of those groups.
  const cmp=SORTS[state.sort]||SORTS.overall,matches=worksMatching(state.q.trim());
  const sorted=list.slice().sort(matches?bySearchThen(matches,cmp):cmp);
- $('#priorityNote').textContent=note;renderActiveBar();
+ renderActiveBar();
  buildGenreChips();buildRatingChips();
  const shown=sorted.slice(0,state.limit);
  if(patchControllerGrid(shown,changedIds))return;
@@ -976,7 +973,6 @@ function syncDiscoverBtn(){
 }
 
 /* ===================== VIEW 2 · BESPOKE TASTE ENGINE ===================== */
-const PRESETS={dread:{tech:0.85,dread:0.95,myst:0.90},reference:{tech:1,dread:0.15,myst:0.2},puzzle:{tech:0.3,dread:0.45,myst:1},balanced:{tech:0.6,dread:0.6,myst:0.6}};
 
 /* ===================== VIEW 3 · VISUALIZATION SUITE ===================== */
 const CH={};
@@ -3664,7 +3660,7 @@ on('#typeSeg','click',e=>{const b=e.target.closest('button');if(!b)return;const 
  else{state.types=state.types.includes(k)?state.types.filter(x=>x!==k):state.types.concat(k);if(state.types.length===Object.keys(KM).length)state.types=[];}
  syncTypeSeg();refresh();});
 on('#structSel','change',e=>{state.struct=e.target.value;refresh();});
-on('#sortSel','change',e=>{state.sort=e.target.value;syncBlendPanel();refresh();});
+on('#sortSel','change',e=>{state.sort=e.target.value;refresh();});
 on('#limitSel','change',e=>{state.limit=+e.target.value;try{if(state.limit===100)localStorage.removeItem(SHOW_LIMIT_KEY);else localStorage.setItem(SHOW_LIMIT_KEY,String(state.limit));}catch(err){console.warn('saving Show count failed',err);}refresh();});
 /* ===== Surprise Me spin engine ===== */
 var spinScope={medium:'any',pool:'all'};
@@ -3962,15 +3958,6 @@ on('#minMyRating','input',e=>{state.minMyRating=+e.target.value;$('#minMyRatingV
 })();
 on('#resetBtn','animationend',e=>e.currentTarget.classList.remove('resetPulse'));
 on('#resetBtn','click',()=>{state.sort='overall';$('#sortSel').value='overall';clearAllFilters();});
-function syncBlendPanel(){var on=state.sort==='blend';var pnl=$('#blendPanel');if(pnl)pnl.classList.toggle('hidden',!on);
- var vt=$('#wTechV'),vd=$('#wDreadV'),vm=$('#wMystV');
- if(vt)vt.textContent=state.w.tech.toFixed(2);if(vd)vd.textContent=state.w.dread.toFixed(2);if(vm)vm.textContent=state.w.myst.toFixed(2);}
-[['wTech','tech'],['wDread','dread'],['wMyst','myst']].forEach(p=>{
- var el=$('#'+p[0]);if(el)el.addEventListener('input',e=>{state.w[p[1]]=+e.target.value/100;var lbl=$('#'+p[0]+'V');if(lbl)lbl.textContent=state.w[p[1]].toFixed(2);refresh();});});
-on('#presetRow','click',e=>{const b=e.target.closest('[data-preset]');if(!b)return;
- const p=PRESETS[b.dataset.preset];state.w={tech:p.tech,dread:p.dread,myst:p.myst};
- $('#wTech').value=Math.round(p.tech*100);$('#wDread').value=Math.round(p.dread*100);$('#wMyst').value=Math.round(p.myst*100);
- syncBlendPanel();refresh();});
 // Radar searchable comboboxes (this now also governs #platCombo -- it used to be excluded here and
 // run its own separate, differently-scoped "click outside" listener below, which is exactly the
 // kind of two-systems-doing-the-same-job setup that produces "sometimes won't close" bugs. One
@@ -5712,7 +5699,7 @@ $('#integrity').textContent='Integrity check · '+movies.length+' films · '+tvS
 console.assert(movies.length>0&&tvShows.length>0&&videoGames.length>0&&books.length>0&&directorsPantheon.length>=1&&authorsPantheon.length>=1&&gamingAuteurs.length>=1&&contenders.length>=1,'Dataset integrity violation');
 console.assert((function(){const have=new Set(ALL.map(x=>x.kind+'|'+x.title));return FRANCHISE_EXTRA.every(g=>g[1].every(e=>have.has(FRANCHISE_KIND[e[0]]+'|'+e.slice(2))));})(),'FRANCHISE_EXTRA names a title that is not in the corpus');
 updateWlNav();
-if(typeof syncBlendPanel==='function')syncBlendPanel();
+
 /* ===================== COMMAND PALETTE (Cmd/Ctrl-K) ===================== */
 var TAB_LABELS={controller:'Global Controller',goat:'GOAT Profile',collection:'Collection',contenders:'Contenders Ledger',watchlist:'Watchlist',portrait:'Taste Portrait',viz:'Visualization Suite',timeline:'Timeline',creators:'Creator Archives',matrix:'Reference Matrices'};
 function focusWork(id){
