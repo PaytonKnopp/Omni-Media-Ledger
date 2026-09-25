@@ -2829,6 +2829,14 @@ async function runTabFiltersFlow(browser, file) {
   check('Contenders search narrows the result set', contAfter > 0 && contAfter <= contBefore);
   await page.fill('#contSearch', '');
   await settle(page);
+  // Release dates pass between the quarterly refreshes. Whatever is no longer upcoming (released,
+  // shelved, or past an exact date) must sit below everything that still is, so a stale entry never
+  // leads a list of what is coming next.
+  const settledOrder = await page.evaluate(() => Array.from(document.querySelectorAll('#contenderGrid > div')).map(card =>
+    /RELEASED|SHELVED|WINDOW PASSED|IN LEDGER/.test(card.textContent) ? 1 : 0));
+  check('Contenders: released, shelved and passed entries sort below every upcoming one',
+    settledOrder.length > 0 && settledOrder.every((v, i) => i === 0 || v >= settledOrder[i - 1]),
+    settledOrder.join(''));
 
   // Creator Archives: scope, sort, % owned, and the view-in-Controller jump all work.
   await goto('creators');
