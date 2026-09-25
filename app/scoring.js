@@ -198,6 +198,200 @@ const TASTE_TONE_FIELDS=['warmth','comedy','dread'];
    score on one axis cannot outweigh the rest of the match. */
 const TASTE_TONE_SCALE=3;
 
+/* ---- Closeness to specific favorites ("because you liked X") ----
+   Everything above learns a DIRECTION: more of this genre, more comedy, less dread. A direction is
+   shared by every work that points that way, so among the six hundred comedies in the corpus the
+   genre boost is the same number for all of them and critical acclaim alone decided the order --
+   which is why someone whose favorites are 10 Things I Hate About You and Army of Darkness was
+   handed Singin' in the Rain and The Grand Budapest Hotel. What was missing is the oldest signal in
+   recommendation: how close a work is to the particular things this person liked.
+   Each work is compared with every work they rated above their own centre, tiered or own, on genre
+   tags (weighted overlap, ancestors at TASTE_ANCESTOR_CREDIT), tone within its own medium (warmth,
+   comedy, dread, complexity, beauty as z-scores), medium, creator, era and vibe. Its closeness is
+   the mean of its `k` strongest like-weighted similarities, read as a z-score against the whole
+   corpus, and it only ever ADDS: being unlike your other favorites is how an eclectic taste looks,
+   not evidence against a work (penalising it sank The Shining and Outer Wilds in the PK Sample to
+   the bottom third). The favorite a work is nearest to is kept, so its card can name it.
+   Measured with scripts/rec-quality.js, and each setting chosen from a flat region, not a peak:
+     k=2      one neighbour over-trusts a single favorite; three rewards being near a dense cluster
+              (every LOTR and Dune entry) over being near one eclectic favorite, and cost the PK
+              Sample its horror picks.
+     fade=40  scaled by fade/(fade+favorites): decisive for a stranger with six picks, where the
+              genre and creator tables cannot yet tell one comedy from another, and receding for a
+              library of hundreds, where those tables already can.
+     scale=6  points of raw taste at z=1 -- about one well-evidenced genre. */
+const TASTE_NEIGHBOR={
+ k:2,
+ fields:['warmth','comedy','dread','myst','beauty'],
+ w:{genre:0.40,tone:0.30,kind:0.10,creator:0.08,era:0.07,vibe:0.05},
+ eraYears:20,
+ zMax:4,
+ fade:40,
+ scale:6
+};
+/* ---- How much acclaim should count, for this person ----
+   The objective half of a match (critical, audience and craft consensus) carried the same weight
+   for everyone, which silently assumes everyone's favorites are the acclaimed canon. Measured on
+   the test profiles, favorites sit this many standard deviations above the average title on that
+   objective score: a literary-fiction reader 1.95, the PK Sample 1.10, a family-drama viewer 1.03,
+   a cosy-games player 0.59, a comedy lover 0.18. For the last two, acclaim is a poor guide to what
+   they love -- and it was the tie-breaker among every comedy or cosy game their taste made equal,
+   so their lists led with Singin' in the Rain and Animal Crossing's most-reviewed neighbours rather
+   than with anything like their own favorites.
+   So the objective score's spread is scaled by where this person's evidence actually sits on it:
+   the like-weighted mean z of their rated/tiered/owned works, shrunk toward `prior` (today's
+   behaviour) with the weight of `k` imaginary works, then clamped to [min, max]. A blank profile
+   and any profile whose favorites are as acclaimed as the canon keep today's weighting exactly;
+   max is 1, so no profile ever leans on acclaim MORE than before. Rank within the objective score
+   is untouched (a positive linear map), so only its pull against the personal half changes. */
+const TASTE_ACCLAIM={prior:1,k:3,min:0.35,max:1};
+function acclaimWeight(values,affinity){
+ const n=values.length;
+ if(!n||!affinity||!affinity.length)return 1;
+ let m=0;for(let i=0;i<n;i++)m+=values[i];m/=n;
+ let v=0;for(let i=0;i<n;i++)v+=(values[i]-m)*(values[i]-m);
+ const sd=Math.sqrt(v/n)||1;
+ let num=0,den=0;
+ affinity.forEach(function(e){num+=e[1]*(values[e[0]]-m)/sd;den+=Math.abs(e[1]);});
+ if(!(den>0))return 1;
+ const z=(num+TASTE_ACCLAIM.prior*TASTE_ACCLAIM.k)/(den+TASTE_ACCLAIM.k);
+ return z<TASTE_ACCLAIM.min?TASTE_ACCLAIM.min:z>TASTE_ACCLAIM.max?TASTE_ACCLAIM.max:z;
+}
+/* ---- Critics or crowds ----
+   The objective score read critics at 0.5 and audiences at 0.2 for everyone. Some people's
+   favorites are the critics' darlings; others' are crowd-pleasers the critics were cool on (10
+   Things I Hate About You: audience 86, critics 69). How far this person's evidence leans one way
+   is measured the same way as everything else -- the like-weighted mean z of (audience - critics),
+   shrunk toward no lean -- and moves up to `span` of the 0.7 reception weight between the two.
+   No evidence, or no lean, leaves 0.5/0.2 exactly. */
+const TASTE_RECEPTION={crit:0.5,aud:0.2,span:0.2,k:3};
+function receptionMix(all,affinity){
+ const base={crit:TASTE_RECEPTION.crit,aud:TASTE_RECEPTION.aud};
+ if(!affinity||!affinity.length)return base;
+ const gap=all.map(function(x){return (x.aud||0)-(x.crit||0);});
+ let m=0;gap.forEach(function(v){m+=v;});m/=gap.length;
+ let v=0;gap.forEach(function(g){v+=(g-m)*(g-m);});
+ const sd=Math.sqrt(v/gap.length)||1;
+ let num=0,den=0;
+ affinity.forEach(function(e){num+=e[1]*tasteClamp1((gap[e[0]]-m)/sd/2)*2;den+=Math.abs(e[1]);});
+ if(!(den>0))return base;
+ const lean=tasteClamp1(num/(den+TASTE_RECEPTION.k));
+ const shift=lean*TASTE_RECEPTION.span;
+ return {crit:base.crit-shift,aud:base.aud+shift};
+}
+/* The objective scores with their spread around the corpus mean scaled by acclaimWeight(). */
+function weightAcclaim(values,w){
+ if(w===1||!values.length)return values;
+ let m=0;values.forEach(function(v){m+=v;});m/=values.length;
+ return values.map(function(v){return m+(v-m)*w;});
+}
+/* Per-work features for neighborSim(), integer-coded so the comparison is a few tight loops:
+   sorted genre-key ids with weights, sorted creator ids, tone z-scores (NaN where unscored), kind,
+   vibe and year. None of it depends on the person, so it is built once per corpus and reused by
+   every recompute (a tier click must stay fast: this compares every work with every liked one). */
+let _nbFeatCache=null;
+function neighborFeatures(all,tax){
+ if(_nbFeatCache&&_nbFeatCache.all===all&&_nbFeatCache.n===all.length&&_nbFeatCache.tax===tax)return _nbFeatCache.feats;
+ const F=TASTE_NEIGHBOR.fields;
+ const stats=Object.create(null);
+ all.forEach(function(x){
+  const s=stats[x.kind]||(stats[x.kind]=Object.create(null));
+  F.forEach(function(f){
+   const v=x[f];if(typeof v!=='number'||!isFinite(v))return;
+   const a=s[f]||(s[f]={n:0,s:0,q:0});a.n++;a.s+=v;a.q+=v*v;
+  });
+ });
+ Object.keys(stats).forEach(function(k){
+  F.forEach(function(f){
+   const a=stats[k][f];if(!a||a.n<12){stats[k][f]=null;return;}
+   const m=a.s/a.n;stats[k][f]={m:m,sd:Math.sqrt(Math.max(0,a.q/a.n-m*m))||1};
+  });
+ });
+ const ids=new Map();
+ const code=function(key){let c=ids.get(key);if(c===undefined){c=ids.size;ids.set(key,c);}return c;};
+ const feats=all.map(function(x){
+  const g=[];genreLearnKeys(x,tax).forEach(function(w,k){g.push([code('g:'+k),w]);});
+  g.sort(function(p,q){return p[0]-q[0];});
+  const gk=new Int32Array(g.length),gw=new Float64Array(g.length);let gTotal=0;
+  g.forEach(function(e,i){gk[i]=e[0];gw[i]=e[1];gTotal+=e[1];});
+  const cr=Int32Array.from(new Set(creatorTokens(x).map(function(n){return code('c:'+n);}))).sort();
+  const tz=new Float64Array(F.length);
+  F.forEach(function(f,i){
+   const st=stats[x.kind]&&stats[x.kind][f],v=x[f];
+   if(!st||typeof v!=='number'||!isFinite(v)){tz[i]=NaN;return;}
+   const z=(v-st.m)/st.sd;tz[i]=z<-2?-2:z>2?2:z;
+  });
+  return {id:x.id,kind:code('k:'+x.kind),year:x.year||0,vibe:x.vibe?code('v:'+x.vibe):-1,gk:gk,gw:gw,gTotal:gTotal,cr:cr,tz:tz};
+ });
+ _nbFeatCache={all:all,n:all.length,tax:tax,feats:feats};
+ return feats;
+}
+function neighborSim(a,b){
+ const W=TASTE_NEIGHBOR.w;
+ // Weighted Jaccard over genre keywords (both lists sorted): shared weight over combined weight.
+ let inter=0;
+ for(let i=0,j=0;i<a.gk.length&&j<b.gk.length;){
+  const p=a.gk[i],q=b.gk[j];
+  if(p===q){inter+=a.gw[i]<b.gw[j]?a.gw[i]:b.gw[j];i++;j++;}
+  else if(p<q)i++;else j++;
+ }
+ const union=a.gTotal+b.gTotal-inter;
+ let d2=0,n=0;
+ for(let i=0;i<a.tz.length;i++){const d=a.tz[i]-b.tz[i];if(d===d){d2+=d*d;n++;}}
+ let creator=0;
+ for(let i=0,j=0;i<a.cr.length&&j<b.cr.length;){
+  const p=a.cr[i],q=b.cr[j];
+  if(p===q){creator=1;break;}
+  if(p<q)i++;else j++;
+ }
+ const dy=a.year>b.year?a.year-b.year:b.year-a.year;
+ return W.genre*(union>0?inter/union:0)+W.tone*(n?1/(1+d2/n):0)+W.kind*(a.kind===b.kind?1:0)
+  +W.creator*creator+W.era*(dy<ERA_DECAY.length?ERA_DECAY[dy]:0)+W.vibe*(a.vibe>=0&&a.vibe===b.vibe?1:0);
+}
+/* exp(-years/eraYears) for 0..400 years apart; beyond that the era term is nil anyway. */
+const ERA_DECAY=(function(){const t=new Float64Array(401);for(let i=0;i<t.length;i++)t[i]=Math.exp(-i/TASTE_NEIGHBOR.eraYears);return t;})();
+/* id -> {fit, near}: fit in raw taste points (never negative), near = the liked work it is closest to. */
+function buildNeighborFit(all,ev,tax){
+ const out=new Map();
+ // Strongest evidence first, so the scan below can stop as soon as no remaining work could enter
+ // the top K (similarity is at most 1, so aff is an upper bound on what a work can contribute).
+ const pos=ev.filter(function(e){return e.aff>0;}).sort(function(p,q){return q.aff-p.aff;});
+ if(!pos.length)return out;
+ const feats=neighborFeatures(all,tax);
+ const fById=new Map(feats.map(function(f){return [f.id,f];}));
+ const pf=pos.map(function(e){return fById.get(e.x.id);});
+ const pa=pos.map(function(e){return e.aff;}),pid=pos.map(function(e){return e.x.id;});
+ const K=TASTE_NEIGHBOR.k,P=pf.length;
+ const raw=new Float64Array(feats.length),near=new Array(feats.length);
+ const top=new Float64Array(K),topAt=new Int32Array(K);
+ feats.forEach(function(f,i){
+  // The K largest like-weighted similarities, kept in descending order without sorting.
+  for(let t=0;t<K;t++){top[t]=0;topAt[t]=-1;}
+  for(let j=0;j<P;j++){
+   if(pa[j]<=top[K-1])break; // exact: nothing further down can beat what is already held
+   const pj=pf[j];
+   if(pj===f)continue; // never its own neighbour: a favorite is measured against the others
+   const v=pa[j]*neighborSim(f,pj);
+   if(v<=top[K-1])continue;
+   let t=K-1;
+   while(t>0&&v>top[t-1]){top[t]=top[t-1];topAt[t]=topAt[t-1];t--;}
+   top[t]=v;topAt[t]=j;
+  }
+  let sum=0;for(let t=0;t<K;t++)sum+=top[t];
+  raw[i]=sum/K;near[i]=topAt[0]>=0?pid[topAt[0]]:null;
+ });
+ let m=0;for(let i=0;i<raw.length;i++)m+=raw[i];m/=raw.length;
+ let v=0;for(let i=0;i<raw.length;i++)v+=(raw[i]-m)*(raw[i]-m);
+ const sd=Math.sqrt(v/raw.length)||1;
+ const n=pos.length;
+ const weight=n/(n+TASTE_SHRINK_K)*TASTE_NEIGHBOR.fade/(TASTE_NEIGHBOR.fade+n)*TASTE_NEIGHBOR.scale;
+ feats.forEach(function(f,i){
+  const z=Math.min(TASTE_NEIGHBOR.zMax,Math.max(0,(raw[i]-m)/sd));
+  out.set(f.id,{fit:z*weight,near:near[i]});
+ });
+ return out;
+}
+
 function tasteClamp1(v){return v<-1?-1:v>1?1:v;}
 function toneZ(x,f,stats){
  const s=stats[x.kind]&&stats[x.kind][f],v=x[f];
@@ -283,7 +477,7 @@ function buildTasteModel(all,opts){
     yes rather than as forty works of merely average interest). A tier on the same work nudges the
     result; a rating always outweighs it, because typing a number is the more deliberate act. */
  const ev=[];
- all.forEach(function(x){
+ all.forEach(function(x,i){
   const r=ratings[x.id];
   const rated=typeof r==='number'&&isFinite(r);
   const tier=gold.has(x.id)?'gold':silver.has(x.id)?'silver':bronze.has(x.id)?'bronze':(x.owned?'owned':null);
@@ -293,7 +487,7 @@ function buildTasteModel(all,opts){
    aff=tasteClamp1(((r-centre)/(spread*1.4))*0.55+((r-6)/3)*0.45);
    if(tier)aff=aff*0.65+TASTE_TIER_AFFINITY[tier]*0.35;
   }else aff=TASTE_TIER_AFFINITY[tier];
-  ev.push({x:x,aff:tasteClamp1(aff)});
+  ev.push({x:x,aff:tasteClamp1(aff),i:i});
  });
 
  const N=ev.length;
@@ -391,6 +585,9 @@ function buildTasteModel(all,opts){
 
  return {
   tone:tone,toneStats:toneStats,
+  neighbor:buildNeighborFit(all,ev,tax),
+  // [index into `all`, signed affinity] per evidenced work, for acclaimWeight().
+  affinity:ev.map(function(e){return [e.i,e.aff];}),
   evidence:N,ratingCentre:centre,ratingSpread:spread,
   genre:buildTable(genreLearnKeys,TASTE_GENRE_SCALE),
   vibe:buildTable(vibeLearnKeys,TASTE_VIBE_SCALE),

@@ -568,7 +568,7 @@ function gmBreakdownHTML(it){
   rated:['\u2605 Pulled toward your rating of '+(typeof it.myRating==='number'?it.myRating.toFixed(1):'?')+'/10','#5eead4'],
   bronze:['\u2726 Declared favorite (bronze tier)','#cd7f32']};
  (it.gmBoosts||[]).slice().sort((a,b)=>b[2]-a[2]).forEach(function(b){
-  var lab={creator:'Creator',author:'Author',genre:'Genre',vibe:'Vibe',complexity:'Depth',craft:'Craft',tone:'Tone',dread:'Dread',warmth:'Warmth',comedy:'Comedy',beauty:'Beauty'}[b[0]]||b[0];
+  var lab={creator:'Creator',author:'Author',genre:'Genre',vibe:'Vibe',complexity:'Depth',craft:'Craft',tone:'Tone',near:'Like',dread:'Dread',warmth:'Warmth',comedy:'Comedy',beauty:'Beauty'}[b[0]]||b[0];
   var cap=(''+b[1]).replace(/\b\w/g,function(c){return c.toUpperCase();});
   // A derived taste weight can be negative -- a genre this person's own ratings count against --
   // so the sign comes from the number rather than being hardcoded to '+', which would have
@@ -1720,8 +1720,10 @@ function recomputeTasteScores(){
  ALL.forEach(x=>{x.myRating=(typeof RATINGS[x.id]==='number')?RATINGS[x.id]:null;});
  const AX=TASTE_MODEL.axisMul;
  const objRaw=new Array(ALL.length),tasteAdd=new Array(ALL.length);
+ // Critics 0.5 / audiences 0.2 unless this person's evidence leans one way (receptionMix()).
+ const RX=TASTE_MODEL.receptionMix=receptionMix(ALL,TASTE_MODEL.affinity);
  ALL.forEach((x,i)=>{
- let base=0.5*x.crit+0.2*x.aud+0.3*x.tech;const br=[];
+ let base=RX.crit*x.crit+RX.aud*x.aud+0.3*x.tech;const br=[];
  // Taste-match signals (creator/author, genre, vibe) are the ones that STACK and so saturate
  // together below; per-work quality signals stay linear and uncapped, because each only fires past
  // a real rubric threshold and flattening them would blur differences RUBRIC.md actually measured.
@@ -1737,6 +1739,10 @@ function recomputeTasteScores(){
  // Signed, and read within the work's own medium, so it is the one taste signal that reaches a
  // medium the person has never tiered in -- see step 5 of buildTasteModel (app/scoring.js).
  const tf=toneFit(x,TASTE_MODEL);if(Math.abs(tf)>=0.3){tasteRaw+=tf;br.push(['tone','Tone of your favorites',Math.round(tf*10)/10]);}
+ // Closeness to the particular works this person liked (step 6 of buildTasteModel): what tells
+ // one comedy from another once the genre and tone boosts, shared by all of them, are equal.
+ const nb=TASTE_MODEL.neighbor.get(x.id);
+ if(nb&&Math.abs(nb.fit)>=0.3){tasteRaw+=nb.fit;const nx=nb.near&&byId.get(nb.near);br.push(['near',nx?nx.title:'Your favorites',Math.round(nb.fit*10)/10]);}
  /* The six quality boosts below are each scaled by how much that construct characterises THIS
     person's favorites (TASTE_MODEL.axisMul, 0.4x-1.6x, 1.0x for a profile with no evidence yet).
     They used to be identical for everyone, which meant a third of a work's match score was the
@@ -1763,7 +1769,10 @@ function recomputeTasteScores(){
  /* The objective half is put on one cross-medium scale before the personal half is added, so which
     medium tops a shared list is decided by taste rather than by which aggregator and which rubric
     conventions a medium's numbers came from -- see normalizeObjectiveByKind in app/scoring.js. */
- const objNorm=normalizeObjectiveByKind(ALL,objRaw);
+ // ...and then weighted by how much acclaim actually predicts this person's favorites (1 for a blank
+ // profile or an acclaimed canon; less for favorites of middling acclaim) -- acclaimWeight().
+ TASTE_MODEL.acclaimWeight=acclaimWeight(normalizeObjectiveByKind(ALL,objRaw),TASTE_MODEL.affinity);
+ const objNorm=weightAcclaim(normalizeObjectiveByKind(ALL,objRaw),TASTE_MODEL.acclaimWeight);
  const raws=objNorm.map((v,i)=>v+tasteAdd[i]);
  const curve=buildScoreCurve(raws,TASTE_MODEL.evidence);
  ALL.forEach((x,i)=>{
@@ -1979,6 +1988,7 @@ function goatWhy(x){
   if(b[0]==='genre')return 'matches your weighted “'+b[1]+'” genre';
   if(b[0]==='vibe')return 'fits your “'+b[1]+'” vibe';
   if(b[0]==='tone')return 'has the tone of your favorites';
+  if(b[0]==='near')return 'is a lot like '+b[1];
   const p=WHY_PHRASE[b[0]];
   if(p)return (axis[WHY_AXIS[b[0]]]||0)>=AXIS_FAVORED?p[0]:p[1];
   return b[1];
