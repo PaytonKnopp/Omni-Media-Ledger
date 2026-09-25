@@ -10,7 +10,7 @@
 
 function activeDims(state){
  const d=[];
- if(state.minGoat>0)d.push(['gm','★ GOAT',state.minGoat]);
+ if(state.minGoat>0)d.push(['gm','🎯 GOAT',state.minGoat]);
  if(state.idx.ch>0)d.push(['ch','◉ Cosmic',state.idx.ch]);
  if(state.idx.emo>0)d.push(['emo','Emotional',state.idx.emo]);
  if(state.idx.snd>0)d.push(['snd','Soundtrack',state.idx.snd]);

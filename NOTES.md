@@ -1810,6 +1810,14 @@ Across 14 flagged runs afterwards, a switch never came back on. The flag is not 
 this build, though: it also sometimes starts a reloaded page with empty localStorage, which breaks
 the app's own boot, and CI's Chromium passes the checks that would catch that.
 
+## Phase 48 — "Not interested" removed
+
+The ✕ "not interested" from Phase 47 is gone at the owner's request: the card button, the hidden
+count and "show" toggle beside the results, the `?passed=1` URL flag, the toast, the pull toward 40
+and the moderate-no evidence in `buildTasteModel`. The ✕ on a GOAT Profile recommendation is the
+list-only hide again for every entry. A `notInterested` list already saved in a profile is inert and
+is dropped by the next edit (`mutateProfile`). Changelog 1.49.1.
+
 ## Ideas / next steps
 
 Roughly in order of value:

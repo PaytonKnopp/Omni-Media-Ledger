@@ -99,12 +99,6 @@ other (see "Saving"). Everything else the app shows — match scores, recommenda
 **derived at runtime** from those plus the static corpus. Nothing computed is ever persisted, which
 is why changing the scoring engine needs no migration.
 
-`PERSONAL_PROFILE.notInterested` (`{id: ms}`) holds the titles passed on with a card's ✕. A pass
-hides the title from every "what next" surface (the Global Controller unless searching or "show"
-is on, recommendations, blind spots, Surprise Me, the rabbit hole, the Watchlist's suggestions) and
-is a taste signal (below). It never outlives a stronger statement about the same title: rating,
-tiering or owning it clears the pass (`prunePasses`, `toggleOwned`), and so does saving it with ♡.
-
 `media_status` is the durable, scalable copy: plain rows, queryable per person and per title. If
 the jsonb blob is ever empty or damaged, `rebuildProfileFromMediaStatus()` reconstructs the account
 from those rows rather than treating it as new.
@@ -136,12 +130,10 @@ Export both carry it.
 One re-runnable pass, `recomputeTasteScores()`, rebuilt from scratch every time the profile changes
 (a tier click, a rating, an ownership toggle). In order:
 
-1. **Learn.** `buildTasteModel(ALL, {ratings, gold, silver, bronze, passed, taxonomy})` reads every
-   work the person has rated, tiered, shelved or passed on and turns it into one signed affinity in
-   `[-1,+1]` — a rating read both against that person's own centre (shrunk toward a neutral prior
-   while their sample is small) and against a fixed midpoint, blended with the tier if the work
-   carries one; a pass is a moderate no (`TASTE_PASS_AFFINITY`, about where a 5/10 lands), counted
-   only where nothing stronger was said about that work. From those it
+1. **Learn.** `buildTasteModel(ALL, {ratings, gold, silver, bronze, taxonomy})` reads every work the
+   person has rated, tiered or shelved and turns it into one signed affinity in `[-1,+1]` — a rating
+   read both against that person's own centre (shrunk toward a neutral prior while their sample is
+   small) and against a fixed midpoint, blended with the tier if the work carries one. From those it
    derives four tables: **genre** (credited up the taxonomy, so a Cosmic Horror favorite also teaches
    Horror, weaker), **vibe**, **creator**, and a per-**axis** multiplier for each of the six quality
    constructs. Every weight is measured against the person's own baseline *and* against how common
@@ -162,12 +154,12 @@ One re-runnable pass, `recomputeTasteScores()`, rebuilt from scratch every time 
    The band above the median is compressed while the profile is thin and relaxes as evidence
    accumulates, so a profile that has told the app nothing tops out in the low nineties instead of
    claiming a 99% match to someone it knows nothing about.
-4. **Override.** A rating blends the score 65/35 toward the number typed, and a pass blends it the
-   same way toward 40 (the two signals that can pull a score *down*); then the Silver/Bronze/owned
-   floors lift it (parallel rungs, never crossing — see `tierTarget`); then Gold pins to 100.
+4. **Override.** A rating blends the score 65/35 toward the number typed (the only signal that can
+   pull a score *down*); then the Silver/Bronze/owned floors lift it (parallel rungs, never
+   crossing — see `tierTarget`); then Gold pins to 100.
 
 The number on a card's ring is this score, labelled "Match" once the profile holds any rating, tier,
-ownership, pass or hand-set boost and "Score" before that — with nothing personal to go on it is only the calibrated
+ownership or hand-set boost and "Score" before that — with nothing personal to go on it is only the calibrated
 critical/audience/craft consensus, and nothing on the page calls it a match for anyone's taste.
 `tasteBasis()` is what every explanation reads to say what a match rests on ("based on 3 ratings
 and 2 favorites"); `matchTitle()` is the ring's own description.

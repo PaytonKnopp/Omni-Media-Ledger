@@ -23,7 +23,7 @@ const SYNC_EDIT_TTL_S=45*24*3600;
    m01, "s|t17" is t17's place in the Silver tier. Anything not listed merges as one whole value
    ("P|pinnedIdx"), which is right for fields that are an ordered choice or a one-off record. */
 const SYNC_SET_FIELDS={declaredGoatIds:'g',silverTierIds:'s',bronzeTierIds:'b',ownedGameIds:'og',cosmicHorrorDeclaredIds:'cd',hiddenRecs:'h'};
-const SYNC_MAP_FIELDS={ownedMedia:'om',ownedBooksExtra:'ob',ratings:'r',notInterested:'n',vibeBoost:'vb',cosmicHorrorCanon:'cc',watchlist:'cw'};
+const SYNC_MAP_FIELDS={ownedMedia:'om',ownedBooksExtra:'ob',ratings:'r',vibeBoost:'vb',cosmicHorrorCanon:'cc',watchlist:'cw'};
 const SYNC_PAIR_FIELDS={creatorBoost:'cb',bookCreatorBoost:'bb',genreBoost:'gb'};
 const SYNC_FIELD_OF_CODE=(function(){
  const m={};
