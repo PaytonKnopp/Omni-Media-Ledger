@@ -3,6 +3,10 @@
 // entry whenever a change reaches users.
 'use strict';
 const CHANGELOG=[
+ {v:'1.53.1',date:'2026-09-25',summary:'The Warmth, Comic Intent and Beauty sliders now shape the Match number, and you can sort by them.',notes:[
+  'Pulling Warmth / Care, Comic Intent / Wit or Aesthetic Beauty used to filter the list without counting toward its Match number, so on their own they left results in plain Best Overall order. They now weigh in like every other slider and switch the list to Match order.',
+  'Sort by Aesthetic Beauty, Comic Intent / Wit or Warmth / Care from the sort menu.'
+ ]},
  {v:'1.53.0',date:'2026-09-25',summary:'Cleaner cards: the front shows what a title is and whether it’s yours, the expanded view is organised into labelled sections, and every franchise title now carries its franchise.',notes:[
   'The collapsed card keeps the match ring, title, medium, franchise, your canon badge, the three strongest scores and your Gold/Silver/Bronze, Owned and Watched buttons. The age rating moved into the line under the title; the critics’ chip moved into the expanded card.',
   'The expanded card reads top to bottom as Reception, Craft, Indices, Why this match?, Tags, Pairs well with and Creator weight. Reception shows the audience score as you know it — “IMDb 7.7” for films and series — beside “Crit ~94”, and each score now appears once instead of up to four times. The craft bars no longer vanish on a phone.',

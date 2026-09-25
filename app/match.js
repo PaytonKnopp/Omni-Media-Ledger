@@ -32,6 +32,9 @@ function activeDims(state){
  if(state.idx.tech>0)d.push(['tech','Technical Craft',state.idx.tech]);
  if(state.idx.dread>0)d.push(['dread','Dread',state.idx.dread]);
  if(state.idx.myst>0)d.push(['myst','Complexity',state.idx.myst]);
+ if(state.idx.warmth>0)d.push(['warmth','Warmth',state.idx.warmth]);
+ if(state.idx.comedy>0)d.push(['comedy','Comic Intent',state.idx.comedy]);
+ if(state.idx.beauty>0)d.push(['beauty','Beauty',state.idx.beauty]);
  return d;
 }
 /* The "Match" number on a card while filters are active: how well a work answers the specific
@@ -61,7 +64,7 @@ function computeMatch(list,state){
  const wsum=dims.reduce((s,d)=>s+d[2],0);
  list.forEach(it=>{
   if(!dims.length||wsum<=0){it._m=Math.round(matchAnchor(it));return;}
-  let sum=0;dims.forEach(d=>{sum+=it[d[0]]*d[2];});
+  let sum=0;dims.forEach(d=>{sum+=(it[d[0]]||0)*d[2];});
   it._m=Math.round((sum/wsum)*0.82+matchAnchor(it)*0.18);
  });
 }

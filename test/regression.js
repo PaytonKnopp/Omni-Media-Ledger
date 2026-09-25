@@ -3216,6 +3216,26 @@ async function runTabFiltersFlow(browser, file) {
     matchSymmetry.length === 0);
   if (matchSymmetry.length) console.log('     ' + matchSymmetry.join('\n     '));
 
+  // Every index slider that filters must also be a Match dimension. Warmth, Comic Intent and
+  // Beauty filtered results for months without being in activeDims(), so pulling one of them
+  // alone left the Match number blind to it and never switched the list to Match order.
+  // Runtime is a cap, not a quality to rank by, so it is the one exception.
+  const blindSliders = await page.evaluate(() => {
+    const saved = JSON.stringify(state.idx);
+    try {
+      return Object.keys(state.idx).filter(k => k !== 'runtime').filter(k => {
+        Object.keys(state.idx).forEach(j => { state.idx[j] = 0; });
+        state.idx[k] = 50;
+        return !activeDims(state).some(d => d[0] === k);
+      });
+    } finally {
+      state.idx = JSON.parse(saved);
+    }
+  });
+  check('every index slider is weighed by the Match score, not only used as a filter',
+    blindSliders.length === 0);
+  if (blindSliders.length) console.log('     not a Match dimension: ' + blindSliders.join(', '));
+
   // A content rating must be a function of a work's content, never of its name. certify() used to
   // carry a hardcoded prefix match on six film titles alongside its dread threshold.
   //

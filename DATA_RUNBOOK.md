@@ -312,9 +312,14 @@ Only after D passes.
 1. **Decide the score range.** Settled: `buildScoreCurve()` (app/scoring.js) maps the raw score onto
    40-99 by quantile, and a blank profile uses 52 of the 54 whole numbers it reaches (40-93, capped
    below 99 until there is taste evidence, by design). The gate's resolution row holds it there.
-2. **Wire `emotionalWarmth`, `comicIntent` and `aestheticBeauty` into the UI** — sliders, filters,
-   boosts. They are populated but connected to nothing, which was correct while most records
-   lacked a value and is no longer correct once every record has one.
+2. **Wire `emotionalWarmth`, `comicIntent` and `aestheticBeauty` into the UI.** Done. They are
+   sliders, filters and sorts, and the taste model reads them (axis multipliers, tone fit and
+   closeness in app/scoring.js). The last gap, closed 2026-09-25: they were missing from
+   `activeDims()`, so the Match number ignored them; a regression check now fails for any slider
+   that filters without being a Match dimension. Raising the tone weight to help the comedy-lover
+   persona was measured (TASTE_TONE_SCALE 3 to 8) and made it worse at every step; its hidden
+   favorites score within 7-10 points of the top and trail hundreds of well-liked comedies, which
+   is a limit of an 8-title persona, not a missing signal.
 3. **Revisit the two deferred engine items** and re-measure both against the recalibrated corpus:
    the era-neutral craft term (helped movies, *hurt* books when measured against drifted data) and
    cross-medium normalisation.
