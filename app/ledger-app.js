@@ -329,7 +329,7 @@ function filteredSkipping(skip){
 function filtered(){return filteredSkipping(null);}
 // activeDims/computeMatch/bespokeScore live in app/match.js (read only `state`, passed in) now.
 
-// ring/microBar/frontBars/microBar2 live in app/cards.js (pure, closure-independent) now.
+// ring/microBar/frontBars/scoreRowHTML live in app/cards.js (pure, closure-independent) now.
 
 /* ===================== VIEW 1 · GLOBAL CONTROLLER ===================== */
 function summaryTraits(it){
@@ -588,7 +588,7 @@ function gmBreakdownHTML(it){
   bronze:['\u2726 Declared favorite (bronze tier)','#cd7f32']};
  (it.gmBoosts||[]).slice().sort((a,b)=>b[2]-a[2]).forEach(function(b){
   var lab={creator:'Creator',author:'Author',genre:'Genre',vibe:'Vibe',complexity:'Depth',craft:'Craft',tone:'Tone',near:'Like',dread:'Dread',warmth:'Warmth',comedy:'Comedy',beauty:'Beauty'}[b[0]]||b[0];
-  var cap=(''+b[1]).replace(/\b\w/g,function(c){return c.toUpperCase();});
+  var cap=(''+b[1]).replace(/(^|[\s/-])(\S)/g,function(m,sep,c){return sep+c.toUpperCase();});
   // A derived taste weight can be negative -- a genre this person's own ratings count against --
   // so the sign comes from the number rather than being hardcoded to '+', which would have
   // rendered a -2.3 as "+-2.3".
@@ -596,7 +596,7 @@ function gmBreakdownHTML(it){
   chips.push('<span class="text-[9.5px] px-1.5 py-0.5 rounded" style="background:#1e293b;color:#cbd5e1">'+lab+': '+esc(cap)+' <b style="color:'+(neg?'#fca5a5':'#fbbf24')+'">'+(neg?'':'+')+b[2]+'</b></span>');
  });
  var ov=it.gmOverride&&ovMap[it.gmOverride];
- var head='<div class="flex items-center gap-2 mb-1"><span class="lbl" style="color:#fbbf24">\u2605 Why this match?</span>'
+ var head='<div class="flex items-center flex-wrap gap-x-2 gap-y-0.5 mb-1.5"><span class="lbl" style="color:#fbbf24">\u2605 Why this match?</span>'
   +'<span class="text-[9px] text-slate-500">base '+it.gmBase+(it.gmBoostTotal?' \u00b7 '+(it.gmBoostTotal>0?'+':'')+it.gmBoostTotal+' taste':'')+' \u2192 '+it.gm+'</span></div>';
  var body=ov?'<div class="text-[10.5px] mb-1" style="color:'+ov[1]+'">'+ov[0]+'</div>':'';
  if(chips.length)body+='<div class="flex flex-wrap gap-1">'+chips.join('')+'</div>';
@@ -607,12 +607,9 @@ function gmBreakdownHTML(it){
  var provColor=ps.facts==='sourced'?'#4ade80':ps.facts==='edition-dependent'?'#fbbf24':ps.facts==='corroborated'?'#60a5fa':'#94a3b8';
  var prov='<span title="'+provTitle+'" style="color:'+provColor+'">'+provLabel+'</span>'
   +(ps.indices==='rubric-v1'?'<span class="text-slate-600"> \u00b7 indices rubric v1</span>':'');
- // Reception is not covered by the facts stamp above -- say where each of the two numbers came from.
- var rsrc=receptionSourceOf(it.kind,it.audSrc,it.audRaw);
- prov+='<span class="text-slate-600"> \u00b7 </span><span title="'+esc(rsrc.aud.title)+'" style="color:'+(rsrc.aud.sourced?'#4ade80':'#94a3b8')+'">'+(rsrc.aud.sourced?'\u25c9 Audience: IMDb':'\u25cb Audience: estimate')+'</span>'
-  +'<span class="text-slate-600"> \u00b7 </span><span title="'+esc(rsrc.crit.title)+'" style="color:#94a3b8">\u25cb Critics: estimate</span>';
+ // Where the reception numbers come from is on the Reception chips themselves (receptionChipsHTML).
  body+='<div class="text-[9px] mt-1.5">'+prov+'</div>';
- return '<div class="mt-2 pt-2 border-t border-slate-800/50">'+head+body+'</div>';
+ return '<section class="cardSec">'+head+body+'</section>';
 }
 function summaryHTML(it){const k=KM[it.kind];
  const kindWord={movie:'film',tv:'series',game:'game',book:'book'}[it.kind];
@@ -624,10 +621,7 @@ function summaryHTML(it){const k=KM[it.kind];
  const hook=it.just?'\u201c'+esc(it.just)+'\u201d':'';
  // Standout traits line
  let line2=traits.length?'Stands out for its '+traits.join(', ')+'.':'';
- // Reception + fit
- const rsrc=receptionSourceOf(it.kind,it.audSrc,it.audRaw);
- const recep='Critics '+(it.crit>=90?'adore it':it.crit>=80?'rate it highly':it.crit>=70?'regard it well':'are mixed')+' ('+it.crit+'/100, estimated)';
- const aud='audiences '+(it.aud>=90?'love it':it.aud>=80?'rate it highly':it.aud>=70?'like it':'are split')+' ('+(rsrc.aud.sourced?rsrc.aud.phrase:it.aud+'/100, '+rsrc.aud.phrase)+').';
+ // Fit (reception is the breakdown's Reception row, not repeated here)
  // Taste-fit note based on personal GOAT match -- worded as a match for this person's taste only
  // when the app knows something about it (tasteBasis), and saying what that is when it does.
  const basis=tasteBasis();
@@ -643,16 +637,14 @@ function summaryHTML(it){const k=KM[it.kind];
  else fit='Taste match: '+it.gm+'/100.';
  const discovery=!(it.goat||it.silver||it.bronze||it.owned||it.myRating!=null);
  if(discovery&&basis.personal)fit+=' <span class="text-slate-500">Based on '+basis.text+'.</span>';
- const vibeChip=it.vibe?'<span class="chip" style="color:#c4b5fd;border-color:#c4b5fd44">'+esc(it.vibe)+'</span>':'';
  return '<div class="summaryFace hidden border-t border-slate-800/80 px-3.5 py-3 bg-[#0b1322]/70">'
   +'<div class="flex items-center justify-between gap-2 mb-1.5"><span class="lbl" style="color:'+k.c+'">'+k.label+' \u00b7 Quick Look</span>'
   +'<button type="button" class="flipBack text-[10px] text-slate-400 hover:text-slate-200 flex items-center gap-1" data-id="'+it.id+'">&#8617; back to card</button></div>'
   +'<p class="text-[12px] text-slate-200 leading-relaxed">'+line1+'</p>'
   +(hook?'<p class="text-[11.5px] text-slate-300 italic mt-1.5 leading-relaxed">'+hook+'</p>':'')
   +(line2?'<p class="text-[11px] text-slate-400 mt-1.5 leading-relaxed">'+line2+'</p>':'')
-  +'<p class="text-[11px] text-slate-400 mt-1.5 leading-relaxed">'+recep+', '+aud+'</p>'
   +'<p class="text-[11.5px] mt-2 leading-relaxed" style="color:'+(it.goat||(discovery&&basis.personal&&it.gm>=85)?'#fcd34d':it.owned?'#4ade80':'#cbd5e1')+'">'+fit+'</p>'+((function(){var w=whyRecommended(it);return w?'<p class="text-[11px] mt-1 leading-relaxed" style="color:#7dd3fc">↳ '+w+'</p>':'';})())+((function(){var f=suggestedFormat(it);if(!f)return '';var have=it.owned&&it.physFormat;var match=have&&it.physFormat.toLowerCase().indexOf(f.fmt.toLowerCase().split(' ')[0].toLowerCase())>=0;return '<p class="text-[11px] mt-1 leading-relaxed" style="color:#fbbf24">◈ Best edition: <b>'+esc(f.fmt)+'</b> — '+f.why+(have&&!match?' <span style=\'color:#fb7185\'>(you own '+esc(it.physFormat)+')</span>':have&&match?' <span style=\'color:#4ade80\'>(✓ you have it)</span>':'')+'</p>';})())
-  +'<div class="flex flex-wrap gap-1.5 mt-2.5">'+vibeChip+(it.fam||[]).slice(0,3).map(f=>'<span class="chip">'+esc(f)+'</span>').join('')+'</div>'+crossThreadHTML(it)
+  +crossThreadHTML(it)
   +'</div>';
 }
 // Creator boost/bury stepper: a +/- control instead of a one-way "+Boost" button, so nudging a
@@ -748,14 +740,17 @@ function matchRingHTML(it,color,size){
 /* The two reception chips, shown in the expanded card only -- the collapsed card keeps to what a
    work is and whether it is yours. A sourced audience score reads as the rating people know
    ("IMDb 7.7"); anything estimated is marked "~" on the chip itself, not only in the tooltip: no
-   critic score has a licensed source yet (RUBRIC.md "Reception fields"). */
+   critic score has a licensed source yet (RUBRIC.md "Reception fields"). These are the only place
+   a card shows reception: the per-medium-normalised numbers the filters and sorts use
+   (normalizeReceptionByKind) are not drawn as bars beside them, which read as a second, different
+   audience score for the same work. */
 function receptionChipsHTML(it){
  const rs=receptionSourceOf(it.kind,it.audSrc,it.audRaw);
  const aud=rs.aud.sourced
   ?'<span class="chip audChip" style="color:#4ade80;border-color:#4ade8055" title="'+esc(rs.aud.title)+'">IMDb '+(it.audRaw/10).toFixed(1)+'</span>'
   :'<span class="chip audChip" title="'+esc(rs.aud.title.replace('Audience score','Audience score '+it.aud+'/100'))+'">Aud ~'+it.aud+'</span>';
- return '<div class="flex flex-wrap gap-1.5 mb-2.5 receptionChips">'+aud
-  +'<span class="chip critChip" title="'+esc(rs.crit.title.replace('Critics\u2019 score','Critics\u2019 score '+it.crit+'/100'))+'">Crit ~'+it.crit+'</span></div>';
+ return '<section class="cardSec"><div class="flex items-center flex-wrap gap-1.5 receptionChips"><span class="lbl mr-1">Reception</span>'+aud
+  +'<span class="chip critChip" title="'+esc(rs.crit.title.replace('Critics\u2019 score','Critics\u2019 score '+it.crit+'/100'))+'">Crit ~'+it.crit+'</span></div></section>';
 }
 function cardHTML(it){const k=KM[it.kind];
  return '<div class="panel resultCard overflow-hidden hover:border-slate-600/80 transition-colors fade-in relative flex flex-col h-full">'
@@ -763,7 +758,7 @@ function cardHTML(it){const k=KM[it.kind];
  +matchRingHTML(it,k.c,42)
  +'<div class="flex-1 min-w-0">'
  +'<div class="flex items-center gap-x-2 gap-y-1.5 flex-wrap cardChips"><span class="cardTitle text-[13px] font-semibold text-slate-100 leading-tight hover:text-teal-300 cursor-pointer underline decoration-dotted decoration-slate-600 underline-offset-2" data-flip="'+it.id+'" title="Click for a summary and full breakdown">'+esc(it.title)+'</span><span class="chip" style="color:'+k.c+';border-color:'+k.c+'44">'+k.label+'</span>'+(window._blendActive?'<span class="chip" style="color:#0B0F19;background:#34d399;border-color:#34d399;font-weight:800" title="Weighted blend match">\u2696 '+bespokeScore(it,state).toFixed(0)+'%</span>':'')+(it.chFlag?'<span class="chip" style="color:#0B0F19;background:#c084fc;border-color:#c084fc;font-weight:700">\u25c9 CANON 100</span>':'')+(function(){const fr=franchiseOf(it);return fr?'<span class="chip franchiseChip" style="color:#5eead4;border-color:#5eead444" title="Part of the '+esc(fr)+' series">\u2699 '+esc(fr)+'</span>':'';})()+'</div>'
- +'<div class="text-[11px] text-slate-400 mt-1.5 truncate" title="'+esc(it.creator)+' · '+esc(it.org)+'">'+it.year+' · '+esc(it.creator)+' · '+esc(it.span)+(it.rating?' · '+esc(it.rating):'')+'</div>'
+ +'<div class="text-[11px] text-slate-400 mt-1.5 leading-snug" title="'+esc(it.creator)+' · '+esc(it.org)+'">'+[it.year,esc(it.creator),esc(it.span),it.rating?esc(it.rating):''].filter(Boolean).map(v=>'<span class="whitespace-nowrap">'+v+'</span>').join(' · ')+'</div>'
  +'<div class="mt-2 space-y-1 cardMicro" title="This work\'s 3 strongest indices out of ~19 tracked -- click the card to see all of them">'+frontBars(it)+'</div>'
  +'</div><span class="text-slate-600 text-xs mt-1" aria-hidden="true">&#9662;</span></button>'+wlCornerHTML(it)
  +tierRowHTML(it)
@@ -773,22 +768,36 @@ function cardHTML(it){const k=KM[it.kind];
  // expand by fillCardPanels(); see setCardExpanded.
  +'<div class="summaryFace hidden" data-lazy="'+it.id+'"></div><div class="detail hidden" data-lazy="'+it.id+'"></div>'
  +'</div>';}
-// The two expandable panels of a result card, built on demand (see cardHTML).
+function cardSecHTML(lbl,body,extra){return '<section class="cardSec"'+(extra||'')+'><div class="lbl cardSecLbl">'+lbl+'</div>'+body+'</section>';}
+/* The tags a work carries, each once: genres, the vibe, its genre families, format, platforms. A
+   genre or vibe the taste profile weights up is starred. (The Quick Look above no longer repeats
+   the vibe and families -- this is their one home.) */
+function cardTagsHTML(it){
+ const seen=new Set(),out=[];
+ const add=(key,html)=>{const k=String(key).toLowerCase();if(!key||seen.has(k))return;seen.add(k);out.push(html);};
+ const gb=PERSONAL_PROFILE.genreBoost||[];
+ it.genres.forEach(g=>{const boosted=gb.some(b=>b[0]===g.toLowerCase());add(g,'<span class="chip" title="'+(boosted?'A genre your taste profile currently weights up':'Genre')+'"'+(boosted?' style="color:#fbbf24;border-color:#fbbf2455"':'')+'>'+(boosted?'★ ':'')+esc(g)+'</span>');});
+ if(it.vibe){const vb=!!(PERSONAL_PROFILE.vibeBoost||{})[it.vibe];add(it.vibe,'<span class="chip" title="'+(vb?'A vibe your taste profile currently weights up':'Vibe / mood')+'" style="'+(vb?'color:#fbbf24;border-color:#fbbf2455':'color:#c4b5fd;border-color:#c4b5fd44')+'">'+(vb?'★ ':'')+esc(it.vibe)+'</span>');}
+ (it.fam||[]).forEach(f=>add(f,'<span class="chip" title="Genre family">'+esc(f)+'</span>'));
+ if(it.format)add(it.format,'<span class="chip">'+esc(it.format)+'</span>');
+ (it.plats||[]).forEach(p=>add(p,'<span class="chip" style="color:#7dd3fc">'+esc(p)+'</span>'));
+ return '<div class="flex flex-wrap gap-1.5">'+out.join('')+'</div>';
+}
+// The two expandable panels of a result card, built on demand (see cardHTML). The breakdown reads
+// top to bottom as labelled sections: reception, craft, every index, why the match is what it is,
+// tags, cross-medium pairings, then the creator control.
 function cardPanelsHTML(it){
+ const craft=it.fid.map(f=>scoreRowHTML(f[0],f[1],'#94a3b8')).join('');
+ const idx=[['\ud83c\udfaf GOAT Match',it.gm,'#fbbf24'],['\u25c9 Cosmic Horror',it.ch,'#c084fc'],['Soundtrack',it.snd,'#7dd3fc'],['4K Reference',it.ref,'#818cf8'],['Emotional',it.emo,'#f0abfc'],['Awe / Spectacle',it.awe,'#fbbf24'],['Comfort',it.cozy,'#34d399'],['Performances',it.perf,'#fda4af'],['Iconicness',it.icon,'#fcd34d'],['Scariest',it.scary,'#f87171'],['Realism',it.real,'#86efac'],['Reality-Altering',it.reality,'#c4b5fd'],['Genuine Shock',it.shock,'#fb923c'],['Scientific',it.sci,'#67e8f9'],['Funniest',it.funny,'#fde047'],['Historically Accurate',it.hist,'#a3e635'],['Vibe / Atmosphere',it.vibe2,'#e879f9']].map(r=>scoreRowHTML(r[0],r[1],r[2])).join('');
  return summaryHTML(it)
  +'<div class="detail hidden border-t border-slate-800/80 px-3.5 py-3.5 bg-[#0b1322]/60">'
  +receptionChipsHTML(it)
- // The bars are the per-medium-normalised scores (normalizeReceptionByKind), not IMDb's own number --
- // the chips above carry the source, so the bars are labelled plainly.
- +'<div class="fidGrid">'+it.fid.map(f=>microBar2(f[0],f[1])).join('')+(function(){const rs=receptionSourceOf(it.kind,it.audSrc,it.audRaw);return '<div title="'+esc(rs.aud.title)+'">'+microBar2('Audience',it.aud)+'</div><div title="'+esc(rs.crit.title)+'">'+microBar2('Critics',it.crit)+'</div>';})()+'</div>'
- +'<div class="idxGrid">'+[['\ud83c\udfaf GOAT Match',it.gm,'#fbbf24'],['\u25c9 Cosmic Horror',it.ch,'#c084fc'],['Soundtrack',it.snd,'#7dd3fc'],['4K Reference',it.ref,'#818cf8'],['Emotional',it.emo,'#f0abfc'],['Awe / Spectacle',it.awe,'#fbbf24'],['Comfort',it.cozy,'#34d399'],['Performances',it.perf,'#fda4af'],['Iconicness',it.icon,'#fcd34d'],['Scariest',it.scary,'#f87171'],['Realism',it.real,'#86efac'],['Reality-Altering',it.reality,'#c4b5fd'],['Genuine Shock',it.shock,'#fb923c'],['Scientific',it.sci,'#67e8f9'],['Funniest',it.funny,'#fde047'],['Historically Accurate',it.hist,'#a3e635'],['Vibe / Atmosphere',it.vibe2,'#e879f9']].map(r=>'<div class="flex flex-col gap-0.5"><div class="flex items-baseline justify-between gap-2"><span class="lbl leading-tight" style="color:'+r[2]+'">'+r[0]+'</span><span class="text-[10px] tabular-nums shrink-0" style="color:'+r[2]+'">'+r[1]+'</span></div><div class="bar"><i style="width:'+r[1]+'%;background:'+r[2]+'"></i></div></div>').join('')+'</div>'
+ +cardSecHTML('Craft','<div class="fidGrid">'+craft+'</div>')
+ +cardSecHTML('Indices','<div class="idxGrid">'+idx+'</div>')
  +gmBreakdownHTML(it)
- +'<p class="text-[11px] text-slate-300 mt-2.5 italic">&ldquo;'+esc(it.just)+'&rdquo;</p>'
- +'<div class="flex flex-wrap gap-1.5 mt-2.5">'+it.genres.map(g=>{const boosted=(PERSONAL_PROFILE.genreBoost||[]).some(gb=>gb[0]===g.toLowerCase());return '<span class="chip" title="'+(boosted?'A genre your taste profile currently weights up':'Genre')+'"'+(boosted?' style="color:#fbbf24;border-color:#fbbf2455"':'')+'>'+(boosted?'★ ':'')+esc(g)+'</span>';}).join('')+(function(){const vboosted=!!(PERSONAL_PROFILE.vibeBoost||{})[it.vibe];return '<span class="chip" title="'+(vboosted?'A vibe your taste profile currently weights up':'Vibe / mood')+'"'+(vboosted?' style="color:#fbbf24;border-color:#fbbf2455"':' style="color:#c4b5fd"')+'>'+(vboosted?'★ ':'')+esc(it.vibe)+'</span>';})()+'<span class="chip">'+esc(it.format)+'</span>'+it.plats.map(p=>'<span class="chip" style="color:#7dd3fc">'+esc(p)+'</span>').join('')+'</div>'
+ +cardSecHTML('Tags',cardTagsHTML(it))
  +crossMediumPairingsHTML(it)
- +'<div class="flex flex-wrap gap-1.5 mt-2.5 pt-2.5 border-t border-slate-800/70">'
- +creatorBoostHTML(it)
- +'</div>'
+ +'<section class="cardSec">'+creatorBoostHTML(it)+'</section>'
  +'</div>';}
 
 /* Rebuild only the cards whose contents can actually have changed.
@@ -1894,15 +1903,17 @@ function crossMediumPairings(it,n){
  return top;
 }
 function crossMediumPairingsHTML(it){
- const pairs=crossMediumPairings(it,3);
+ // The Quick Look already names one cross-over pick; don't list it a second time here.
+ const ct=crossThread(it),skip=ct&&ct.it&&ct.it.id;
+ const pairs=crossMediumPairings(it,4).filter(p=>p.x.id!==skip).slice(0,3);
  if(!pairs.length)return '';
- return '<div class="mt-2.5 pt-2.5 border-t border-slate-800/70">'
-  +'<span class="lbl">⇄ Cross-Medium Pairings · other kinds that share this vibe/genre</span>'
-  +'<div class="flex flex-wrap gap-1.5 mt-1.5">'+pairs.map(p=>{
+ return '<section class="cardSec">'
+  +'<div class="lbl cardSecLbl" title="Works in other media that share this one\u2019s vibe or genres">\u21c4 Pairs well with</div>'
+  +'<div class="flex flex-wrap gap-1.5">'+pairs.map(p=>{
    const x=p.x,k2=KM[x.kind];
    const why=p.vibeMatch&&p.shared?'same vibe · '+p.shared+' shared genre'+(p.shared>1?'s':''):p.vibeMatch?'same vibe':(p.shared+' shared genre'+(p.shared>1?'s':''));
    return '<button type="button" class="chip pairingChip" data-flip-jump="'+x.id+'" style="color:'+k2.c+';border-color:'+k2.c+'44" title="'+esc(why)+'"><span class="font-semibold">'+k2.label+'</span> '+esc(x.title)+' <span class="text-slate-500">· ★'+x.gm+'</span></button>';
-  }).join('')+'</div></div>';
+  }).join('')+'</div></section>';
 }
 function personCorpusScore(works){
  if(!works||!works.length)return null;
