@@ -112,6 +112,13 @@ const RATING_ORDER=['G','PG','PG-13','R','NC-17 / Unrated','TV-PG','TV-14','TV-M
    kind never changes) while putting all four mediums on one shared, comparable scale. Run once,
    on the adapter array, before anything derives from crit/aud -- the underlying data/*.js values
    (and their sourcing/provenance) are untouched; only the runtime scoring copy is adjusted. */
+/* Two indices are film/TV/game constructs with no meaning for a book: Soundtrack and 4K Reference.
+   A book still carries a number in each (the formulas fall back to its prose/idea craft), which is
+   why a novel could read "Soundtrack 92". Anything that SHOWS, filters or ranks by one of these asks
+   here first: a book is left off the card, fails a minimum filter on it, sorts last by it, and stays
+   out of its matrix. The number itself is untouched, so nothing derived from it moves. */
+const IDX_NOT_FOR_BOOKS=new Set(['snd','ref']);
+function idxApplies(it,k){return !(it.kind==='book'&&IDX_NOT_FOR_BOOKS.has(k));}
 function normalizeReceptionByKind(all,field){
  function mean(a){return a.reduce((s,v)=>s+v,0)/a.length;}
  function sd(a,m){return Math.sqrt(a.reduce((s,v)=>s+(v-m)*(v-m),0)/a.length)||1;}
