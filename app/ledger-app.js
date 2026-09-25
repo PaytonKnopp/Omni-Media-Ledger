@@ -2833,16 +2833,20 @@ function renderPortraitGaps(){
 }
 /* ===== Franchise / Series grouping ===== */
 // SERIES_DEFS (the curated series list) lives in data/series.js.
-// Reverse lookup used by cardHTML's franchise badge: kind+'|'+title -> series name. Built once,
-// not per card -- the Global Controller can render hundreds of cards per interaction.
+// Reverse lookup for the recommendations' one-per-franchise rule (recFranchise), which needs a
+// work's place in its curated series: kind+'|'+title -> series name. The franchise chip and the
+// franchise filter use franchiseOf() below instead.
 const SERIES_BY_TITLE=new Map();
 SERIES_DEFS.forEach(function(d){d.members.forEach(function(t){SERIES_BY_TITLE.set(d.kind+'|'+t,d.name);});});
 // The first build of the generated recs: the earliest point it can run, since recFranchise()'s
 // one-per-franchise rule needs the curated series above.
 rebuildGeneratedRecs();
-function franchiseOf(it){return SERIES_BY_TITLE.get(it.kind+'|'+it.title);}
-/* Franchise vs. standalone, for the Global Controller's "Franchise / series" and "Standalone only"
-   toggles. A work counts as franchise when any of these holds:
+/* Which franchise a work belongs to -- the one answer behind both a card's franchise chip and the
+   Global Controller's "Franchise / series" and "Standalone only" toggles, so the chip is on exactly
+   the works the filter counts, and names what they belong to. (The two used to be separate: the
+   chip read only the curated list, so Blade Runner, Avatar and even The Matrix counted as franchise
+   for the filter but showed no chip.) A work belongs to a franchise when any of these holds, first
+   match naming it:
    - the curated SERIES_DEFS list above names it (or it is the work a curated series is named for);
    - it shares a title root with another work of the same medium -- the seriesTitleRoot clustering
      Collection's series view uses, which catches Mass Effect 2, Deadpool 2 and Star Trek: Voyager.
@@ -2859,24 +2863,41 @@ function franchiseOf(it){return SERIES_BY_TITLE.get(it.kind+'|'+it.title);}
    corpus; initApp's integrity assert fails on one that doesn't, so a rename can't silently drop it.
    NOT_A_SERIES holds the franchiseRoot keys that cluster by coincidence (Apollo 11 and Apollo 13,
    Invisible Man and The Invisible Man) or pair two records of one work (Beowulf and its
-   translation, Grapes of Wrath and The Grapes of Wrath).
-   The corpus never changes after boot, so the membership set is built once, on first use. */
+   translation, Grapes of Wrath and The Grapes of Wrath). NOT_A_FRANCHISE (data/series.js) holds
+   the curated groups that are a reading shelf rather than a franchise (Sagan's nonfiction).
+   A curated series is named as FRANCHISE_LABEL says; a title-root cluster takes the name of any of
+   its members' curated or listed franchise (Mad Max: Fury Road joins "Mad Max"), else the shared
+   title with its subtitle and number dropped (Blade Runner 2049 -> "Blade Runner").
+   The corpus never changes after boot, so the lookup is built once, on first use. */
 // FRANCHISE_EXTRA (the hand-checked franchise list) lives in data/series.js.
 const NOT_A_SERIES=new Set(['movie|apollo','movie|mother','book|martian','book|quiet','book|beowulf','book|babel','book|jungle','book|invisible man','book|hunger','book|grapes of wrath']);
 const FRANCHISE_KIND={m:'movie',t:'tv',g:'game',b:'book'};
 function franchiseRoot(t){return seriesTitleRoot(t.replace(/^the\s+/i,'')).replace(/\s+[ivx]+$/,'').trim();}
-let FRANCHISE_IDS=null;
-function inFranchise(it){
- if(!FRANCHISE_IDS){
-  const rootCount=new Map();
-  const rootKey=x=>{const r=franchiseRoot(x.title);return r.length>=4&&!NOT_A_SERIES.has(x.kind+'|'+r)?x.kind+'|'+r:null;};
-  ALL.forEach(x=>{const k=rootKey(x);if(k)rootCount.set(k,(rootCount.get(k)||0)+1);});
-  const extra=new Set(FRANCHISE_EXTRA.flatMap(g=>g[1].map(e=>FRANCHISE_KIND[e[0]]+'|'+e.slice(2))));
-  const seriesNames=new Set(SERIES_DEFS.map(d=>d.kind+'|'+d.name));
-  FRANCHISE_IDS=new Set(ALL.filter(x=>{const kt=x.kind+'|'+x.title;return franchiseOf(x)||seriesNames.has(kt)||extra.has(kt)||rootCount.get(rootKey(x))>1;}).map(x=>x.id));
+// A title as a franchise name: its subtitle, volume/part and trailing number dropped.
+function franchiseTitleName(t){return t.replace(/\s*[:\u2013\u2014].*$/,'').replace(/\s+(part|vol\.?|volume|book|season|chapter)\b.*$/i,'').replace(/\s+(\d+|[IVX]+)$/,'').trim();}
+let FRANCHISE_NAME=null;
+function franchiseOf(it){
+ if(!FRANCHISE_NAME){
+  FRANCHISE_NAME=new Map();
+  const label=n=>FRANCHISE_LABEL[n]||n;
+  const listed=new Map();
+  SERIES_DEFS.forEach(d=>{if(NOT_A_FRANCHISE.has(d.name))return;const n=label(d.name);d.members.concat(d.name).forEach(t=>{const k=d.kind+'|'+t;if(!listed.has(k))listed.set(k,n);});});
+  FRANCHISE_EXTRA.forEach(g=>g[1].forEach(e=>{const k=FRANCHISE_KIND[e[0]]+'|'+e.slice(2);if(!listed.has(k))listed.set(k,label(g[0]));}));
+  const clusters=new Map();
+  ALL.forEach(x=>{const r=franchiseRoot(x.title);if(r.length<4||NOT_A_SERIES.has(x.kind+'|'+r))return;const k=x.kind+'|'+r;if(!clusters.has(k))clusters.set(k,[]);clusters.get(k).push(x);});
+  ALL.forEach(x=>{const n=listed.get(x.kind+'|'+x.title);if(n)FRANCHISE_NAME.set(x.id,n);});
+  clusters.forEach(xs=>{
+   if(xs.length<2)return;
+   const known=xs.map(x=>FRANCHISE_NAME.get(x.id)).find(Boolean);
+   let name=known;
+   if(!name){const tally=new Map();xs.forEach(x=>{const n=franchiseTitleName(x.title);tally.set(n,(tally.get(n)||0)+1);});
+    name=[...tally].sort((a,b)=>(b[1]-a[1])||(a[0].length-b[0].length))[0][0];}
+   xs.forEach(x=>{if(!FRANCHISE_NAME.has(x.id))FRANCHISE_NAME.set(x.id,name);});
+  });
  }
- return FRANCHISE_IDS.has(it.id);
+ return FRANCHISE_NAME.get(it.id)||null;
 }
+function inFranchise(it){return !!franchiseOf(it);}
 // "How you own it" -- physFormat is already tracked per owned movie/TV/book (games are digital-only
 // and carry no physFormat), so this is a pure readout of existing data, scoped like the other
 // portraitScope-aware panels.
@@ -5759,6 +5780,6 @@ var _rzT;window.addEventListener('resize',function(){clearTimeout(_rzT);_rzT=set
  window.genreMatches=genreMatches;
  // The per-card corpus lookups, so the suite can hold their memoized versions to the original
  // full-scan behaviour (see derivedLookups).
- window.isUntried=isUntried;window.inFranchise=inFranchise;
+ window.isUntried=isUntried;window.inFranchise=inFranchise;window.franchiseOf=franchiseOf;
  window.whyRecommended=whyRecommended;window.crossThread=crossThread;window.wlDone=wlDone;window.crossMediumPairings=crossMediumPairings;
 }

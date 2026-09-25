@@ -3737,6 +3737,16 @@ async function runFranchiseFilterFlow(browser, file) {
     return window.state.franchiseOnly && ids.length && ids.every(i => window.inFranchise(window.byId.get(i))) ? ids : false;
   }, undefined, 5000);
   check('"Franchise / series" shows only works that belong to a franchise', !!franchiseIds);
+  // The chip and the filter are one answer (franchiseOf): every franchise card shows the chip, and
+  // it names the franchise. Blade Runner used to count as franchise for the filter with no chip.
+  check('every franchise result carries a franchise chip naming its franchise',
+    await page.evaluate(() => {
+      const heads = Array.from(document.querySelectorAll('#grid .cardHead[data-id]'));
+      return heads.length > 0 && heads.every(h => {
+        const c = h.querySelector('.franchiseChip');
+        return !!c && c.textContent.includes(window.franchiseOf(window.byId.get(h.dataset.id)));
+      });
+    }));
   check('the franchise filter appears as a removable active-filter chip',
     await page.evaluate(() => !!document.querySelector('#activeBar .activeChip[data-clr="franchise"]')));
   check('Reset Filters turns solid red with a count while a filter is on',
@@ -3769,6 +3779,8 @@ async function runFranchiseFilterFlow(browser, file) {
       saul: f(find('tv', 'Better Call Saul')),
       words: f(find('book', 'Words of Radiance')),
       matrix: f(find('movie', 'The Matrix')),
+      bladeRunner: window.franchiseOf(find('movie', 'Blade Runner')) === 'Blade Runner' && window.franchiseOf(find('movie', 'Blade Runner 2049')) === 'Blade Runner',
+      sagan: !!find('book', 'The Demon-Haunted World') && !f(find('book', 'The Demon-Haunted World')),
       parasite: !!find('movie', 'Parasite') && !f(find('movie', 'Parasite')),
     };
   });
@@ -3776,6 +3788,8 @@ async function runFranchiseFilterFlow(browser, file) {
   check('a sequel with an unrelated title (Words of Radiance) counts as franchise', named.words);
   check('the film a curated series is named for (The Matrix) counts as franchise', named.matrix);
   check('a one-off (Parasite) counts as standalone', named.parasite);
+  check('a sequel sharing a title root (Blade Runner 2049) is named for its franchise, on both films', named.bladeRunner);
+  check('a curated reading shelf (Sagan\'s nonfiction) is not a franchise', named.sagan);
 
   await page.fill('#q', 'Better Call Saul');
   check('Standalone only hides a spin-off even when searched for by name',
