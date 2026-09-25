@@ -3739,12 +3739,13 @@ async function runFranchiseFilterFlow(browser, file) {
   check('"Franchise / series" shows only works that belong to a franchise', !!franchiseIds);
   // The chip and the filter are one answer (franchiseOf): every franchise card shows the chip, and
   // it names the franchise. Blade Runner used to count as franchise for the filter with no chip.
-  check('every franchise result carries a franchise chip naming its franchise',
+  check('every franchise result carries a franchise chip naming its franchise (a long name shortened, full name on hover)',
     await page.evaluate(() => {
       const heads = Array.from(document.querySelectorAll('#grid .cardHead[data-id]'));
       return heads.length > 0 && heads.every(h => {
         const c = h.querySelector('.franchiseChip');
-        return !!c && c.textContent.includes(window.franchiseOf(window.byId.get(h.dataset.id)));
+        const fr = window.franchiseOf(window.byId.get(h.dataset.id));
+        return !!c && c.title.includes(fr) && c.textContent.includes(FRANCHISE_CHIP_SHORT[fr] || fr);
       });
     }));
   check('the franchise filter appears as a removable active-filter chip',

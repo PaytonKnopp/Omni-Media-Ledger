@@ -515,6 +515,27 @@ const FRANCHISE_LABEL={
  'The Nun':'The Conjuring Universe',
  'Percy Jackson & the Olympians':'Percy Jackson'
 };
+// The franchise chip's text where the full name would crowd a phone-width card and a short form is
+// instantly recognisable. Display only: the chip's tooltip, the filter and everything else keep
+// the full name.
+const FRANCHISE_CHIP_SHORT={
+ 'Marvel Cinematic Universe':'MCU',
+ 'DC Extended Universe':'DCEU',
+ 'The Lord of the Rings':'LOTR',
+ 'A Court of Thorns and Roses':'ACOTAR',
+ 'A Song of Ice and Fire':'ASOIAF',
+ 'The Chronicles of Narnia':'Narnia',
+ 'The Kingkiller Chronicle':'Kingkiller',
+ 'The Stormlight Archive':'Stormlight',
+ 'The Conjuring Universe':'The Conjuring',
+ 'Remembrance of Earth\u2019s Past':'Three-Body',
+ 'The Man with No Name Trilogy':'Dollars Trilogy',
+ 'Alice\'s Adventures in Wonderland':'Alice in Wonderland',
+ 'Kinsey Millhone Alphabet Series':'Kinsey Millhone',
+ 'Lives of the Mayfair Witches':'Mayfair Witches',
+ 'National Lampoon\'s Vacation':'National Lampoon',
+ 'Avatar: The Last Airbender':'Last Airbender'
+};
 // Curated SERIES_DEFS groups that are a reading shelf -- one author's nonfiction, a genre's
 // classics, a single omnibus volume -- rather than a franchise. The Collection view still groups
 // them; the franchise chip and the franchise/standalone filter do not count them.
