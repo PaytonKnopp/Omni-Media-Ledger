@@ -44,7 +44,11 @@ function frontBars(it){
  var top3=candidates.slice().sort(function(a,b){return b[1]-a[1];}).slice(0,3);
  return top3.map(function(c){return microBar(c[0],c[1],c[2]);}).join('');
 }
-function microBar2(lbl,v){return '<div class="flex items-center gap-2"><span class="lbl w-32 shrink-0">'+lbl+'</span><div class="bar flex-1"><i style="width:'+v+'%;background:#64748b"></i></div><span class="text-[10px] text-slate-300 w-6 text-right tabular-nums">'+v+'</span></div>';}
+/* One index row: label and value on a line, the bar under it -- so the bar keeps the card's full
+   column width at any size (a fixed-width label beside the bar left it no room on a phone). */
+function scoreRowHTML(lbl,v,color){
+ return '<div class="flex flex-col gap-0.5"><div class="flex items-baseline justify-between gap-2"><span class="lbl leading-tight" style="color:'+color+'">'+lbl+'</span><span class="text-[10px] tabular-nums shrink-0" style="color:'+color+'">'+v+'</span></div><div class="bar"><i style="width:'+v+'%;background:'+color+'"></i></div></div>';
+}
 
 function slugify(s){return s.replace(/&[a-z]+;/gi,' ').replace(/[^\w\s-]/g,'').trim().toLowerCase().replace(/\s+/g,'-');}
 
