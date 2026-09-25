@@ -495,6 +495,14 @@ still skips the rest of that flow, so one flaky assertion can hide dozens of che
   variables, confirm they're either true globals, safely-hoistable module vars, or need to become
   explicit parameters, then move it into `app/<area>.js`, load before `app/ledger-app.js`, and keep
   everything still tangled with ROUTING & BINDINGS or reassigned derived state inside `initApp()`.
+  Measured 2026-09-25 with `eslint-scope` (a dependency of eslint, so already installed): of
+  `initApp()`'s 239 functions, 38 (~20KB) read none of its locals and could move mechanically; the
+  bulk is the view renderers, and each reads 5-21 of its locals, several of them reassigned
+  (`renderTimeline` 6 with 3 reassigned, `renderContenders` 11 with 3, `recomputeTasteScores` 21
+  with 12). Now that `no-undef` is an error, a moved function that still reads an `initApp()` local
+  fails `npm run lint` instead of failing at runtime, with one gap: a name `initApp()` publishes on
+  `window` (`window.state=state` and the rest of its debug surface) counts as a global to lint, but
+  only exists once `initApp()` has reached that line.
 - The corpus is static JS. Fine at this size; if titles ever need to be user-editable it belongs
   in Postgres. Measured headroom, against a synthetically duplicated corpus: at 2,508 works boot is
   ~1.8s and every tab switch is under 320ms; at 10,032 works boot is ~2.9s and the slowest tab
