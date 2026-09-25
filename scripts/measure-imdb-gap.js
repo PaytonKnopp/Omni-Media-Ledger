@@ -83,43 +83,51 @@ function tmdbUrl(p, params) {
    fetch-facts.js for the WALL-E case). A candidate counts only if its title or original title
    matches exactly once normalised, and its year is within one of the corpus's -- release-year
    registrations differ by a year across catalogues often enough (festival vs. wide release) that
-   exact-year would drop real matches, while two same-titled works a year apart are rare. Among
-   survivors the closest year wins; ties keep TMDB's own order. */
+   exact-year would drop real matches.
+   Among survivors the most-voted on TMDB wins, NOT the closest year or TMDB's own order -- found on
+   the first full run: "Split", "Enemy", "Birdman" and "A Silent Voice" each have an obscure
+   same-title, same-year namesake (22 to 553 IMDb votes) that TMDB ranked first, which produced the
+   run's four "worst gaps" (up to 46 points) out of pure mismatches. The corpus holds notable works,
+   so the heavily-voted candidate is the one it means. `rivals` counts the others that passed. */
 function pickCandidate(results, medium, work) {
   if (!Array.isArray(results)) return null;
   const want = normText(stripYearSuffix(work.title));
   const titles = r => medium === 'tv' ? [r.name, r.original_name] : [r.title, r.original_title];
   const dateOf = r => medium === 'tv' ? r.first_air_date : r.release_date;
-  let best = null;
+  const pass = [];
   for (const r of results) {
     if (!titles(r).some(t => normText(t) === want)) continue;
     const y = yearOf(dateOf(r));
-    if (y === undefined) continue;
-    const dy = Math.abs(y - work.year);
-    if (dy > 1) continue;
-    if (!best || dy < best.dy) best = { id: r.id, year: y, dy, title: titles(r)[0] };
+    if (y === undefined || Math.abs(y - work.year) > 1) continue;
+    pass.push({ id: r.id, year: y, title: titles(r)[0], votes: r.vote_count || 0 });
   }
-  return best;
+  if (!pass.length) return null;
+  const best = pass.reduce((a, b) => (b.votes > a.votes ? b : a));
+  return Object.assign(best, { rivals: pass.length - 1 });
 }
 
 async function matchWork(work, medium) {
   const kind = medium === 'tv' ? 'tv' : 'movie';
   const title = stripYearSuffix(work.title);
   const yearParam = medium === 'tv' ? 'first_air_date_year' : 'year';
-  // Year-filtered first; if nothing survives the guard, retry unfiltered (the guard still requires
-  // +/-1 year, so dropping the filter only recovers catalogue year disagreements).
-  let hit = pickCandidate((await getJSON(tmdbUrl('/search/' + kind, { query: title, [yearParam]: String(work.year) }))).results, medium, work);
-  let how = 'title+year';
-  if (!hit) {
-    hit = pickCandidate((await getJSON(tmdbUrl('/search/' + kind, { query: title }))).results, medium, work);
-    how = 'title, year +/-1';
-  }
+  // Both searches, pooled: the year-filtered one reaches an obscure title buried past page 1 of an
+  // unfiltered search, and the unfiltered one reaches a famous film TMDB dates a year off the
+  // corpus -- which, searched only with the corpus year, would lose to a same-year namesake. The
+  // +/-1-year guard in pickCandidate applies to both.
+  const [byYear, open] = await Promise.all([
+    getJSON(tmdbUrl('/search/' + kind, { query: title, [yearParam]: String(work.year) })),
+    getJSON(tmdbUrl('/search/' + kind, { query: title })),
+  ]);
+  const seen = new Set();
+  const results = [...(byYear.results || []), ...(open.results || [])].filter(r => !seen.has(r.id) && seen.add(r.id));
+  const hit = pickCandidate(results, medium, work);
   if (!hit) return { status: 'no-tmdb-match' };
+  const how = hit.year === work.year ? 'title+year' : 'title, year +/-1';
   const ext = await getJSON(tmdbUrl('/' + kind + '/' + hit.id + '/external_ids'));
   const imdbId = ext && typeof ext.imdb_id === 'string' && /^tt\d+$/.test(ext.imdb_id) ? ext.imdb_id : null;
   return {
     status: imdbId ? 'matched' : 'no-imdb-id',
-    tmdbId: hit.id, tmdbTitle: hit.title, tmdbYear: hit.year, how, imdbId,
+    tmdbId: hit.id, tmdbTitle: hit.title, tmdbYear: hit.year, rivals: hit.rivals, how, imdbId,
   };
 }
 
@@ -293,7 +301,7 @@ async function main() {
   await pool(works, CONCURRENCY, async w => {
     const p = prior.get(w.medium + ':' + w.id);
     if (p && p.title === w.title && p.year === w.year) {
-      Object.assign(w, { status: 'matched', tmdbId: p.tmdbId, tmdbTitle: p.tmdbTitle, tmdbYear: p.tmdbYear, how: p.how, imdbId: p.imdbId });
+      Object.assign(w, { status: 'matched', tmdbId: p.tmdbId, tmdbTitle: p.tmdbTitle, tmdbYear: p.tmdbYear, rivals: p.rivals, how: p.how, imdbId: p.imdbId });
     } else {
       try { Object.assign(w, await matchWork(w, w.medium)); }
       catch (e) { w.status = 'error'; w.error = e.message; }
@@ -312,7 +320,7 @@ async function main() {
     '',
     'Generated ' + date + ' by `scripts/measure-imdb-gap.js`. A measurement only: nothing in `data/` was changed.',
     '',
-    'Each movie and TV work was matched to TMDB by exact normalised title (or original title) within ±1 year of the corpus year, ' +
+    'Each movie and TV work was matched to TMDB by exact normalised title (or original title) within ±1 year of the corpus year (the most-voted on TMDB when several qualify), ' +
     'then to its IMDb id through TMDB\'s external ids, then looked up in IMDb\'s `title.ratings.tsv.gz` (downloaded ' + ratings.mtime +
     ', ' + ratings.map.size.toLocaleString('en-US') + ' rated titles). Games and books are out of scope. The per-work table is in the `.json` beside this file.',
     '',
@@ -333,7 +341,7 @@ async function main() {
     note: 'gap = audienceScore - imdbRating*10. Only ids and ratings are recorded; no third-party prose.',
     works: works.map(w => ({
       medium: w.medium, id: w.id, title: w.title, year: w.year, status: w.status,
-      tmdbId: w.tmdbId, tmdbTitle: w.tmdbTitle, tmdbYear: w.tmdbYear, how: w.how, imdbId: w.imdbId,
+      tmdbId: w.tmdbId, tmdbTitle: w.tmdbTitle, tmdbYear: w.tmdbYear, rivals: w.rivals, how: w.how, imdbId: w.imdbId,
       audienceScore: w.audienceScore, imdbRating: w.imdbRating, votes: w.votes, gap: w.gap, error: w.error,
     })),
   };
