@@ -85,16 +85,16 @@ function remapRetiredIds(profile,watchlist,retired){
    IMDb label also gives the raw /10 rating the value was derived from. */
 function receptionSourceOf(kind,audSrc,audRaw){
  var medium={movie:'films',tv:'series',game:'games',book:'books'}[kind]||'this medium';
- var crit={short:'est.',title:'Critics\u2019 score \u2014 a best estimate: no licensed critic source has been applied yet, for any medium. Put on one scale across films, series, games and books.'};
+ var crit={title:'Critics\u2019 score \u2014 a best estimate: no licensed critic source has been applied yet, for any medium. Put on one scale across films, series, games and books.'};
  var aud;
  if(audSrc&&audSrc.src==='IMDb'){
   var r=(audRaw/10).toFixed(1);
-  aud={short:'IMDb',sourced:true,phrase:'IMDb '+r+'/10',
+  aud={sourced:true,phrase:'IMDb '+r+'/10',
    title:'Audience score \u2014 IMDb user rating '+r+'/10 ('+audSrc.id+', retrieved '+audSrc.checked+'), shown on the app\u2019s shared per-medium scale'};
  }else if(audSrc&&audSrc.src==='estimated'){
-  aud={short:'est.',sourced:false,phrase:'estimated',title:'Audience score \u2014 a best estimate: '+audSrc.why};
+  aud={sourced:false,phrase:'estimated',title:'Audience score \u2014 a best estimate: '+audSrc.why};
  }else{
-  aud={short:'est.',sourced:false,phrase:'estimated',title:'Audience score \u2014 a best estimate: no audience source has been applied to '+medium+' yet'};
+  aud={sourced:false,phrase:'estimated',title:'Audience score \u2014 a best estimate: no audience source has been applied to '+medium+' yet'};
  }
  return {crit:crit,aud:aud};
 }
