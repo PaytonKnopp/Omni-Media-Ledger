@@ -1,0 +1,90 @@
+// The PK Sample's hand-written GOAT Profile: declared canon and the curated recommendation
+// categories (Directors, Actors, Composers, Cinematographers, Music Artists, YouTube), shown only
+// on PK's own account and the PK Sample. Read-only defaults: initApp() works on a fresh copy.
+'use strict';
+const GOAT_PROFILE_SAMPLE={
+ declared:[
+  {cat:'Movies',items:[{name:'Oppenheimer',q:'Oppenheimer'},{name:'Interstellar',q:'Interstellar'},{name:'The Lord of the Rings trilogy',q:'Lord of the Rings'},{name:'The Odyssey (Nolan)',q:'Odyssey'}]},
+  {cat:'Books',items:[{name:'The Lord of the Rings trilogy',q:'Fellowship'},{name:'The Fisherman',q:'Fisherman'},{name:'The Name of the Wind',q:'Name of the Wind'}]},
+  {cat:'TV Shows',items:[{name:'True Detective S1',q:'True Detective'},{name:'Mr. Robot',q:'Mr. Robot'},{name:'M*A*S*H'}]},
+  {cat:'Video Game',items:[{name:'Outer Wilds',q:'Outer Wilds',note:'without competition'}]},
+  {cat:'Director',items:[{name:'Christopher Nolan'}]},
+  {cat:'Actors',items:[{name:'Cillian Murphy'},{name:'Robin Williams'}]},
+  {cat:'Composers',items:[{name:'Hans Zimmer'},{name:'Ludwig G\u00f6ransson'}]},
+  {cat:'Cinematographer',items:[{name:'Hoyte van Hoytema'}]},
+  {cat:'Artist',items:[{name:'Johnny Cash',note:'without competition'}]},
+  {cat:'YouTube',items:[{name:'Markiplier'}]}
+ ],
+ recs:[
+  {cat:'Movies',basis:'Projected from Oppenheimer, Interstellar and LOTR: cosmic scale + human intimacy, time, mortality, practical craft.',items:[{n:'Dune: Part Two',s:97,k:'movie',q:'Dune: Part Two',why:'Villeneuve\u2019s desert cathedral \u2014 prophecy, scale and dread in the exact key of your canon.'},{n:'Blade Runner 2049',s:96,k:'movie',q:'Blade Runner 2049',why:'Villeneuve + Deakins + Zimmer \u2014 the precise scale-and-melancholy your favorites live in.'},{n:'Sicario',s:93,k:'movie',q:'Sicario',why:'Villeneuve dread with Deakins light; procedural tension pulled taut as wire.'},{n:'The Assassination of Jesse James',s:92,k:'movie',q:'Assassination of Jesse James',why:'Elegiac, Deakins-shot Americana \u2014 mythic melancholy and Cash-scored patience.'},{n:'Close Encounters of the Third Kind',s:91,k:'movie',q:'Close Encounters',why:'Spielberg\u2019s awe-struck first contact \u2014 five notes and a mountain of longing.'},{n:'Ad Astra',s:90,k:'movie',why:'A lonely space odyssey about fathers and the void; Interstellar\u2019s quiet cousin.'},{n:'First Man',s:89,k:'movie',why:'Chazelle\u2019s Armstrong \u2014 practical, grounded spaceflight with an aching interior.'},{n:'Prisoners',s:88,k:'movie',q:'Prisoners',why:'Villeneuve + Deakins moral-abyss thriller; dread and consequence, no easy exits.'},{n:'The Master',s:87,k:'movie',q:'The Master',why:'PTA + Hoffman + 70mm; a hypnotic study of belief, control and damaged men.'},{n:'Children of Men',s:86,k:'movie',q:'Children of Men',why:'Cuar\u00f3n\u2019s single-take despair-and-hope masterwork; grounded speculative dread.'}]},
+  {cat:'Books',basis:'Projected from LOTR, The Fisherman and Name of the Wind: cosmic horror, hard SF, weird fiction, mythic fantasy, ideas.',items:[{n:'The Left Hand of Darkness',s:93,k:'book',q:'The Left Hand of Darkness',why:'Le Guin\u2019s ansible-cold anthropology of gender and loyalty; SF as literature.'},{n:'Stories of Your Life and Others',s:92,k:'book',q:'Stories of Your Life',why:'Ted Chiang\u2019s perfect idea-stories \u2014 Arrival\u2019s source; awe with airtight logic.'},{n:'Perdido Street Station',s:92,k:'book',q:'Perdido Street Station',why:'Mi\u00e9ville\u2019s teeming New Weird city; grotesque, inventive, unforgettable.'},{n:'The Fifth Head of Cerberus',s:91,k:'book',q:'Fifth Head of Cerberus',why:'Gene Wolfe\u2019s dense identity puzzle-box \u2014 rewards the obsessive reread you give LOTR.'},{n:'The Ballad of Black Tom',s:90,k:'book',q:'Ballad of Black Tom',why:'LaValle rewrites Lovecraft with rage and soul; cosmic horror reclaimed.'},{n:'The Expanse: Leviathan Wakes',s:89,k:'book',q:'Leviathan Wakes',why:'The definitive modern space opera \u2014 noir detective meets system-wide dread.'},{n:'A Canticle for Leibowitz',s:88,k:'book',q:'Canticle for Leibowitz',why:'Monks preserve knowledge across a post-nuclear deep-time; mournful, profound SF.'},{n:'The Lions of Al-Rassan',s:88,k:'book',q:'Lions of Al-Rassan',why:'Guy Gavriel Kay\u2019s moorish-Spain epic \u2014 heartbreak and grandeur, Rothfuss-lush prose.'},{n:'Exhalation',s:87,k:'book',q:'Exhalation',why:'More impeccable Chiang thought-experiments; rigorous wonder, humane to the core.'},{n:'The Ocean at the End of the Lane',s:86,k:'book',q:'Ocean at the End of the Lane',why:'Gaiman\u2019s tender childhood-and-terror fable; myth pressing at ordinary life.'}]},
+  {cat:'TV Series',basis:'Projected from True Detective S1, Mr. Robot and M*A*S*H: dread, obsession, philosophical weight, wounded men.',items:[{n:'Severance',s:95,k:'tv',q:'Severance',why:'Corporate dread as a puzzle-box of the self; the eeriest workplace ever filmed.'},{n:'The Leftovers',s:94,k:'tv',q:'The Leftovers',why:'Grief, faith and the unexplained \u2014 the most emotionally devastating prestige drama.'},{n:'Devs',s:91,k:'tv',q:'Devs',why:'Garland\u2019s determinism thriller; quantum dread with a monastic hum.'},{n:'Andor',s:90,k:'tv',q:'Andor',why:'Star Wars as a le Carr\u00e9 novel \u2014 patient, adult, revolutionary tension.'},{n:'The Expanse',s:89,k:'tv',q:'The Expanse',why:'Hard-SF politics with weight and grime; the space opera your Expanse shelf demands.'},{n:'For All Mankind',s:88,k:'tv',q:'For All Mankind',why:'An alternate space race that never stops \u2014 optimism engineered like Apollo.'},{n:'Hannibal',s:88,k:'tv',q:'Hannibal',why:'Baroque, operatic dread \u2014 the most beautiful nightmare on television; True Detective\u2019s aesthetic sibling.'},{n:'Better Call Saul',s:87,k:'tv',q:'Better Call Saul',why:'A slow-motion moral tragedy; the finest character erosion on television.'},{n:'Dark',s:86,k:'tv',q:'Dark',why:'A time-loop town where everything connects; puzzle-box dread you decode for years.'},{n:'Mindhunter',s:85,k:'tv',q:'Mindhunter',why:'Fincher-cold procedural into the minds of monsters; True Detective\u2019s clinical sibling.'}]},
+  {cat:'Video Games',basis:'Projected from Outer Wilds: mystery-as-mechanic, cosmic awe, knowledge-gated progression, lonely wonder.',items:[{n:'Return of the Obra Dinn',s:93,k:'game',q:'Obra Dinn',why:'Deduction as the entire game \u2014 Outer Wilds\u2019 knowledge-progression in a ghost ship.'},{n:'Tunic',s:92,k:'game',q:'Tunic',why:'A hidden manual you assemble page by page; secrets rewarding the Outer Wilds brain.'},{n:'Blue Prince',s:91,k:'game',q:'Blue Prince',why:'A shifting manor of deductive puzzles; the purest 2025 heir to mystery-as-mechanic.'},{n:'Subnautica',s:90,k:'game',q:'Subnautica',why:'Alien-ocean awe and dread; wonder and terror in the same held breath.'},{n:'Animal Well',s:89,k:'game',q:'Animal Well',why:'A dense secret-box metroidvania; every screen hides a knowledge-gated marvel.'},{n:'SOMA',s:88,k:'game',q:'SOMA',why:'Underwater existential horror about consciousness; cosmic dread with a thesis.'},{n:'The Witness',s:88,k:'game',q:'The Witness',why:'An island that teaches you its language wordlessly; pure epiphany-as-progress.'},{n:'Disco Elysium',s:87,k:'game',q:'Disco Elysium',why:'The most literate RPG ever written; a wounded detective and a whole broken worldview.'},{n:'The Talos Principle 2',s:86,k:'game',q:'Talos Principle 2',why:'Philosophy-soaked puzzles about consciousness and what comes after humanity.'},{n:'Lorelei and the Laser Eyes',s:85,k:'game',q:'Lorelei',why:'A surreal puzzle-mansion of nested mysteries; Obra Dinn\u2019s dreamlike cousin.'}]},
+  {cat:'Directors',basis:'Projected from Nolan worship: architects of scale, time and practical craft.',items:[
+   {n:'Denis Villeneuve',s:97,k:'movie',why:'The other living master of monumental, sincere sci-fi.',tags:['sci-fi','space','epic']},
+   {n:'Stanley Kubrick',s:93,k:'movie',why:'Nolan\u2019s declared north star; 2001 is Interstellar\u2019s father.',tags:['sci-fi','psychological','epic']},
+   {n:'Alex Garland',s:90,k:'movie',why:'Ideas-first sci-fi \u2014 Devs is the most Nolan show not by Nolan.',tags:['sci-fi','psychological']},
+   {n:'David Fincher',s:89,k:'movie',why:'Forensic precision; Mr. Robot is built from his grammar.',tags:['crime','psychological']},
+   {n:'Alfonso Cuar\u00f3n',s:89,k:'movie',why:'Gravity and Children of Men \u2014 long-take awe under pressure.',tags:['sci-fi','drama']},
+   {n:'Damien Chazelle',s:88,why:'First Man: the most Interstellar-coded film outside Nolan.',tags:['drama','space']},
+   {n:'Sam Mendes',s:87,k:'movie',why:'1917 \u2014 one continuous breath of war-film craft.',tags:['war','epic']},
+   {n:'Ridley Scott',s:86,k:'movie',why:'World-building density; the lived-in epic\u2019s inventor.',tags:['sci-fi','epic','historical']},
+   {n:'Steven Spielberg',s:86,k:'movie',why:'Awe engineering itself \u2014 plus Band of Brothers stewardship.',tags:['war','epic','space']},
+   {n:'Joseph Kosinski',s:84,k:'movie',why:'Maverick\u2019s practical-first doctrine is pure Nolan creed.',tags:['epic']}]},
+  {cat:'Actors',basis:'Projected from Cillian Murphy and Robin Williams: quiet intensity + comedy hiding deep drama.',items:[
+   {n:'Philip Seymour Hoffman',s:94,why:'The Master of interior storms \u2014 Murphy-grade stillness.',tags:['psychological','drama'],works:['The Master','Capote','Doubt','Magnolia','Boogie Nights']},
+   {n:'Matthew McConaughey',s:93,why:'Your double feature already: Interstellar AND True Detective S1.',tags:['mystery','space','psychological'],works:['Interstellar','True Detective']},
+   {n:'Daniel Day-Lewis',s:93,why:'Total-immersion gravity; There Will Be Blood is Oppenheimer\u2019s kin.',tags:['historical','drama'],works:['There Will Be Blood','Phantom Thread']},
+   {n:'Gary Oldman',s:92,why:'Chameleon intensity; already orbiting Nolan\u2019s ensembles.',tags:['war','historical'],works:['The Dark Knight','The Fifth Element']},
+   {n:'Christian Bale',s:91,why:'Nolan\u2019s other obsessive lead \u2014 The Prestige, the Trilogy.',tags:['psychological','crime'],works:['The Prestige','The Dark Knight','Vice']},
+   {n:'Jim Carrey',s:90,why:'The Robin Williams path: comedian to devastating dramatist.',tags:['drama'],works:['Eternal Sunshine of the Spotless Mind','The Truman Show']},
+   {n:'Mads Mikkelsen',s:89,why:'European stillness that reads like Murphy\u2019s blue-eyed menace.',tags:['psychological','crime'],works:['Hannibal','The Hunt']},
+   {n:'Robert Downey Jr.',s:88,why:'His Oppenheimer turn proves the dramatic ceiling you value.',tags:['historical','drama'],works:['Oppenheimer','Zodiac']},
+   {n:'Rami Malek',s:87,why:'Elliot Alderson \u2014 fragility and precision you already trust.',tags:['psychological','crime'],works:['Mr. Robot','Bohemian Rhapsody']},
+   {n:'Andrew Scott',s:86,why:'Ripley\u2019s slow-burn interiority; magnetic restraint.',tags:['psychological','mystery'],works:['Ripley']}]},
+  {cat:'Composers',basis:'Projected from Zimmer + G\u00f6ransson: massive texture, ticking clocks, melody as physics.',items:[
+   {n:'Andrew Prahlow',s:96,why:'The Outer Wilds score \u2014 your GOAT game\u2019s entire soul is his.',tags:['space','mystery'],works:['Outer Wilds']},
+   {n:'Howard Shore',s:95,why:'The LOTR trilogy\u2019s leitmotif cathedral; already your canon.',tags:['epic','historical'],works:['The Lord of the Rings: The Fellowship of the Ring','Se7en','The Silence of the Lambs']},
+   {n:'J\u00f3hann J\u00f3hannsson',s:94,why:'Sicario and Arrival \u2014 dread and wonder as sub-bass.',tags:['sci-fi','psychological'],works:['Sicario','Arrival']},
+   {n:'Hildur Gu\u00f0nad\u00f3ttir',s:93,why:'Chernobyl scored from reactor recordings; texture as terror.',tags:['historical','psychological'],works:['Chernobyl','Joker']},
+   {n:'Max Richter',s:92,why:'On the Nature of Daylight \u2014 time-and-grief minimalism.',tags:['drama','time'],works:['Ad Astra','The Leftovers']},
+   {n:'Trent Reznor & Atticus Ross',s:91,why:'Electronic dread with machine pulse; Fincher\u2019s engine room.',tags:['psychological','crime'],works:['The Social Network','Gone Girl','Soul','Watchmen']},
+   {n:'John Williams',s:90,why:'The melodic awe tradition Zimmer rebuilt in concrete.',tags:['space','epic'],works:['Jaws','E.T. the Extra-Terrestrial',"Schindler's List",'Jurassic Park','Close Encounters of the Third Kind']},
+   {n:'Mac Quayle',s:88,why:'The actual Mr. Robot score \u2014 synth anxiety you already love.',tags:['psychological','crime'],works:['Mr. Robot']},
+   {n:'Benjamin Wallfisch',s:87,why:'Zimmer\u2019s 2049 co-architect; the same wall of brass.',tags:['sci-fi','space'],works:['Blade Runner 2049','It']},
+   {n:'Ramin Djawadi',s:85,why:'Westworld\u2019s player-piano \u2014 theme-craft at series scale.',tags:['epic','sci-fi'],works:['Westworld','Game of Thrones']}]},
+  {cat:'Cinematographers',basis:'Projected from van Hoytema: large-format scale, natural light, faces against the void.',items:[
+   {n:'Roger Deakins',s:97,why:'1917, Sicario, 2049 \u2014 the living ceiling of the craft.',tags:['war','crime','epic'],works:['1917','Sicario','Blade Runner 2049']},
+   {n:'Greig Fraser',s:95,why:'Dune\u2019s desert light; the heir to monumental large-format.',tags:['sci-fi','space','epic'],works:['Dune: Part Two','Dune']},
+   {n:'Emmanuel Lubezki',s:93,why:'Gravity and The Revenant \u2014 natural-light awe in motion.',tags:['drama','space'],works:['Gravity','The Revenant']},
+   {n:'Wally Pfister',s:92,why:'Nolan\u2019s eye before Hoyte: Inception, The Prestige, TDK.',tags:['sci-fi','psychological'],works:['Inception','The Prestige','The Dark Knight']},
+   {n:'Andrew Lesnie',s:91,why:'Middle-earth\u2019s light \u2014 the trilogy you already canonized.',tags:['epic','historical'],works:['The Lord of the Rings: The Fellowship of the Ring','King Kong']},
+   {n:'Bradford Young',s:89,why:'Arrival\u2019s soft gravity; intimacy at alien scale.',tags:['sci-fi','drama'],works:['Arrival','Selma']},
+   {n:'Linus Sandgren',s:88,why:'First Man\u2019s cockpit grain \u2014 IMAX awe earned by friction.',tags:['space','drama'],works:['La La Land','American Hustle']},
+   {n:'Janusz Kami\u0144ski',s:87,why:'Band of Brothers\u2019 desaturated war language came from him.',tags:['war','historical'],works:['Band of Brothers','Saving Private Ryan']},
+   {n:'Claudio Miranda',s:86,why:'Maverick\u2019s real-G cockpits; practical spectacle doctrine.',tags:['epic','drama'],works:['Top Gun: Maverick','Life of Pi']},
+   {n:'Jakob Ihre',s:85,why:'Chernobyl\u2019s sickly fluorescents \u2014 dread you can see.',tags:['historical','psychological'],works:['Chernobyl']}]},
+  {cat:'Music Artists',basis:'Projected from Johnny Cash: outlaw baritones, dark Americana, redemption and gravitas.',items:[
+   {n:'Colter Wall',s:96,why:'The closest living heir to the Cash baritone; prairie-gothic ballads.',tags:['western','historical'],vibes:['Slow-Burn Evening']},
+   {n:'Bruce Springsteen (Nebraska era)',s:94,why:'Stark acoustic Americana about guilt, ghosts and highways.',tags:['western','drama'],vibes:['Rainy Sunday Comfort']},
+   {n:'Waylon Jennings',s:93,why:'Outlaw country first principles; Cash\u2019s Highwaymen brother.',tags:['western'],vibes:['Slow-Burn Evening']},
+   {n:'Nick Cave & The Bad Seeds',s:92,why:'Murder ballads and biblical dread \u2014 Cash covered him back.',tags:['western','psychological'],vibes:['Midnight Ritual']},
+   {n:'Sturgill Simpson',s:90,why:'Outlaw voice aimed at metaphysics; country that thinks cosmically.',tags:['western','space'],vibes:['Late-Night Cosmic Dread']},
+   {n:'Leonard Cohen',s:89,why:'Late-period Cohen shares American Recordings\u2019 deathbed gravity.',tags:['drama','psychological'],vibes:['Midnight Ritual']},
+   {n:'Kris Kristofferson',s:88,why:'The Highwaymen songwriter\u2019s pen \u2014 Sunday Mornin\u2019 melancholy.',tags:['western','drama'],vibes:['Rainy Sunday Comfort']},
+   {n:'Tyler Childers',s:87,why:'Appalachian sincerity, fire-and-brimstone storytelling.',tags:['western','historical'],vibes:['Slow-Burn Evening']},
+   {n:'Chris Stapleton',s:86,why:'Whiskey-deep voice carrying classic outlaw weight today.',tags:['western','drama'],vibes:['Rainy Sunday Comfort']},
+   {n:'Marty Robbins',s:85,why:'Gunfighter ballads \u2014 the cinematic Old West Cash drew from.',tags:['western','historical'],vibes:['Slow-Burn Evening']}]},
+  {cat:'YouTube',basis:'Projected from Markiplier + your cosmic streak: charismatic longform, space, mystery.',items:[
+   {n:'Kurzgesagt',s:93,why:'Optimistic-nihilist cosmology \u2014 Outer Wilds energy, animated.',tags:['sci-fi','space'],vibes:['Notebook-and-Theories Night']},
+   {n:'melodysheep',s:92,why:'Timelapse of the Future is Interstellar as a YouTube epic.',tags:['space','epic'],vibes:['Projector-Worthy Spectacle']},
+   {n:'Jacob Geller',s:91,why:'Video essays on games and mortality; has an Outer Wilds classic.',tags:['psychological','mystery'],vibes:['Systems Rabbit Hole']},
+   {n:'Veritasium',s:91,why:'Physics curiosity with production polish and real stakes.',tags:['sci-fi'],vibes:['Notebook-and-Theories Night']},
+   {n:'LEMMiNO',s:90,why:'Cinematic deep-dive mysteries with True Detective patience.',tags:['mystery','psychological'],vibes:['Puzzle-Box Replay']},
+   {n:'SmarterEveryDay',s:88,why:'Engineering wonder, humane and hands-on.',tags:['sci-fi'],vibes:['Notebook-and-Theories Night']},
+   {n:'Game Maker\u2019s Toolkit',s:87,why:'Why Outer Wilds works, explained \u2014 design literacy fuel.',tags:['mystery'],vibes:['Systems Rabbit Hole']},
+   {n:'Internet Historian',s:86,why:'Markiplier-grade charisma applied to documentary chaos.',tags:['historical','crime'],vibes:['Late-Night Channel Static']},
+   {n:'Scott Manley',s:85,why:'Orbital mechanics and spaceflight, fly safe.',tags:['space','sci-fi'],vibes:['Sci-Fi Lore']},
+   {n:'Jacksepticeye',s:84,why:'The adjacent let\u2019s-play energy if you want more Mark-likes.',tags:['drama'],vibes:['One-More-Run Loop']}]}
+ ]
+};
