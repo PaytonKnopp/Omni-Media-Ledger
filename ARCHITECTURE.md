@@ -15,7 +15,9 @@ app/format.js       Pure provenance/edition-format helpers (provStampOf, normPhy
 app/cards.js        Pure HTML-string/widget builders (esc, ring, microBar, frontBars, matrixRow, ...)
 app/scoring.js       Pure deep-index scoring tables + certify()/lerpScore() (the hand-tuned overrides
                       and content-rating logic), plus the personal taste model -- buildTasteModel()
-                      turns ratings/tiers/ownership into genre, vibe, creator and per-axis weights,
+                      turns ratings/tiers/ownership into genre, vibe, creator and per-axis weights
+                      and each work's closeness to the specific works liked; acclaimWeight() and
+                      receptionMix() set how much, and which, acclaim counts for this person;
                       normalizeObjectiveByKind()/normalizeReceptionByKind() put the four mediums on
                       one scale, buildScoreCurve() calibrates the 40-99 GOAT Match band
 app/match.js         The live "Match" scoring pass (activeDims/computeMatch/bespokeScore) -- reads
@@ -27,7 +29,10 @@ app/creators.js      VIEW 5 · Pan-Creator Archives (worksFor/creatorCard/sortCr
                       renderCreators) -- takes state/ALL/$/$$ as parameters
 app/search.js        Pure search: folding (accents, case, punctuation), per-word matching with typo
                       tolerance, and the relevance buckets results are ordered by (see "Search")
-data/*.js            Reference data (corpus, creator pantheons, contenders)
+data/*.js            Reference data (corpus, creator pantheons, contenders), plus three tables that
+                      used to sit inside initApp(): the version history (changelog.js), the curated
+                      series/franchise lists (series.js) and the PK Sample's hand-written GOAT Profile
+                      (goat-profile-sample.js, copied fresh on every boot because the app rewrites it)
 supabase/schema.sql  The database: tables, row-level security, grants
 sw.js                Offline support for the hosted copy (service worker) -- see "Offline"
 tailwind.config.js   Dev-only: what the stylesheet compiled into index.html is generated from
@@ -140,15 +145,27 @@ One re-runnable pass, `recomputeTasteScores()`, rebuilt from scratch every time 
    the feature is in the corpus, then shrunk by `n/(n+3)` — so weights get stronger and sharper as
    the profile fills, never noisier, and a genre only scores for being characteristic rather than
    for being common.
-   Last, a signed **tone** affinity (warmth, comedy, dread), each work placed within its own
+   Then a signed **tone** affinity (warmth, comedy, dread), each work placed within its own
    medium: the one taste signal that reaches a medium the person has not tiered in, and the only
    axis signal that can count *against* a work.
+   Last, **closeness** (`buildNeighborFit`): every work compared with each work the person liked
+   on genre overlap, tone, medium, creator, era and vibe, scored as the mean of its two strongest
+   like-weighted similarities and read as a z-score against the corpus. Directions are shared by
+   every work pointing the same way (all ~600 comedies carry the same Comedy boost); closeness is
+   what tells one comedy from another. It only ever adds, fades as a library grows past the point
+   where the tables above can discriminate on their own, and remembers the favorite each work is
+   nearest to, so a card can say "Like: 10 Things I Hate About You".
 2. **Score.** Per work: an objective half (`0.5·crit + 0.2·aud + 0.3·tech` plus the six quality
    boosts, each scaled by that person's axis multiplier) and a personal half (creator + genre + vibe
-   weights plus the signed tone fit, saturated through `tanh` so stacked matches taper instead of
-   piling into the ceiling).
+   weights plus the signed tone fit and closeness, saturated through `tanh` so stacked matches
+   taper instead of piling into the ceiling).
    The objective half is put on one cross-medium scale first, so which medium tops a shared list is
-   decided by taste rather than by which aggregator a medium's numbers came from.
+   decided by taste rather than by which aggregator a medium's numbers came from. Two things about
+   it are then learned rather than fixed: `receptionMix()` moves up to 0.2 of the reception weight
+   toward audiences or critics, whichever way the person's favorites lean, and `acclaimWeight()`
+   scales the objective score's spread by how acclaimed their favorites actually are (a comedy
+   lover's sit 0.18 SD above the average title, a literary-fiction reader's 1.95). Neither ever
+   raises acclaim's weight above the old fixed value, and a blank profile gets exactly that value.
 3. **Calibrate.** `buildScoreCurve()` maps the raw score through a monotone quantile curve: median
    near 68, top decile past 85, the nineties reserved for the top ~3%. Order is preserved exactly.
    The band above the median is compressed while the profile is thin and relaxes as evidence
@@ -167,12 +184,16 @@ and 2 favorites"); `matchTitle()` is the ring's own description.
 **How good it is, measured.** `npm run rec-quality` (and the "recommendation quality" flow in the
 browser suite, on every pull request) hides favorites and checks whether the engine finds them
 again among everything untried: the PK Sample's 53 favorites five folds at a time, and each of four
-cold-start personas' six to eight favorites one at a time. Today the engine puts 53% of the PK
-Sample's hidden favorites in its top 100 of ~4,800 (acclaim alone: 13%) and 54% of the personas'
-(acclaim alone: 21%). The checks fail if that drops below floors set a little under those numbers.
-When tuning, change one constant and re-run it: a sweep of every constant in `buildTasteModel` and
-the taste/objective balance found no change that improved every profile at once, so the current
-values sit on a plateau rather than on one profile's peak.
+cold-start personas' six to eight favorites one at a time. Today the engine puts 51% of the PK
+Sample's hidden favorites in its top 100 of ~4,800 (acclaim alone: 15%) and 64% of the personas'
+(acclaim alone: 21%); the personas' typical hidden favorite ranks 19th (104th before closeness and
+acclaim weighting, on the same data; the cosy-games player's went from 160th to 19th). The checks
+fail if that drops below floors set a little under those numbers, including a per-persona median
+floor so no one taste can quietly fall behind. When tuning, change one constant and re-run it; the
+closeness constants were each chosen from a flat region of a sweep, not a peak. The weakest case
+is still the comedy lover (median 290th): their favorites are comedies of middling acclaim with
+little else in common, so among ~600 comedies the corpus gives the engine little to tell them
+apart by.
 
 Nothing here is persisted, and every field is reset at the top of the pass, so running it twice
 produces the same result as a fresh boot.
@@ -363,6 +384,19 @@ against a mocked Supabase, so no real project is needed. CI runs both on every p
 day, `test-fast` plus lint is the pre-commit check, and `node test/regression.js --only=<flow>`
 re-runs a single browser flow in seconds (see CLAUDE.md).
 
+**A reloaded page can come back with an empty localStorage in the test browser.** Measured
+2026-09-25 on the cloud account flow: in roughly one run in eight, the page an app-triggered reload
+lands on started with none of the keys the outgoing page held a moment before (logged from the old
+page right before `location.reload()`, and from the new one as its boot began), while its
+sessionStorage survived. Nothing in between removes them, so this is the browser, not the app. It could
+not be reproduced outside the suite (700 isolated write-and-reload cycles, and 60 more with four
+copies of the app open, lost nothing), so no browser flag is known to prevent it. The app handles it
+correctly -- a device that knows nothing shows the sign-in gate -- but a check that reached its
+subject through a reload never gets there. So: reach a state by seeding it (`addInitScript` writing
+localStorage and the mock's `__mockDb`) rather than through an onboarding or sign-in reload, unless
+the reload is what the check is about, and after any start button use `clickStartAndAwaitReboot()`,
+which waits for the new document rather than letting the outgoing one answer.
+
 `test/search.js` runs `app/search.js` against the real corpus with no browser; `test/sync-merge.js`
 does the same for the merge rules, including the offline-phone-and-laptop case. `npm run
 rec-quality` prints the recommendation-quality report described under "How GOAT Match is computed".
@@ -441,7 +475,9 @@ still skips the rest of that flow, so one flaky assertion can hide dozens of che
 
 ## Known limits
 
-- `app/ledger-app.js` is still a large file (most of it is `initApp()`'s body). A first pass
+- `app/ledger-app.js` is still a large file (~440KB, most of it `initApp()`'s body; it was ~570KB
+  until its four biggest constant tables -- the changelog, the series and franchise lists and the
+  sample GOAT Profile, ~130KB -- moved to `data/`). A first pass
   pulled out the closure-independent pieces -- pure functions and constant data tables that never
   touch `state`/`PERSONAL_PROFILE`/DOM -- into `app/format.js`, `app/cards.js` and `app/scoring.js`.
   A second pass went further: functions that read `state`/`ALL`/`$`/`$$` directly, but don't nest
@@ -472,6 +508,14 @@ still skips the rest of that flow, so one flaky assertion can hide dozens of che
   variables, confirm they're either true globals, safely-hoistable module vars, or need to become
   explicit parameters, then move it into `app/<area>.js`, load before `app/ledger-app.js`, and keep
   everything still tangled with ROUTING & BINDINGS or reassigned derived state inside `initApp()`.
+  Measured 2026-09-25 with `eslint-scope` (a dependency of eslint, so already installed): of
+  `initApp()`'s 239 functions, 38 (~20KB) read none of its locals and could move mechanically; the
+  bulk is the view renderers, and each reads 5-21 of its locals, several of them reassigned
+  (`renderTimeline` 6 with 3 reassigned, `renderContenders` 11 with 3, `recomputeTasteScores` 21
+  with 12). Now that `no-undef` is an error, a moved function that still reads an `initApp()` local
+  fails `npm run lint` instead of failing at runtime, with one gap: a name `initApp()` publishes on
+  `window` (`window.state=state` and the rest of its debug surface) counts as a global to lint, but
+  only exists once `initApp()` has reached that line.
 - The corpus is static JS. Fine at this size; if titles ever need to be user-editable it belongs
   in Postgres. Measured headroom, against a synthetically duplicated corpus: at 2,508 works boot is
   ~1.8s and every tab switch is under 320ms; at 10,032 works boot is ~2.9s and the slowest tab

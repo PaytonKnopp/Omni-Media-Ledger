@@ -44,7 +44,7 @@ A few other things worth knowing about:
 - **💡 Suggest a feature** — a shared box (visible to everyone using the app, not just you) for writing down "it'd be great if…" ideas.
 - **Themes** — nine visual looks, pick one from the header.
 - **Rabbit Hole** — a guided chain of related works to fall down, one click at a time.
-- **"Why this was recommended"** — every match score comes with a plain-English reason, not just a number, and says what it's based on ("based on 3 ratings and 2 favorites"). Until you've rated, tiered or owned something, nothing claims to match your taste.
+- **"Why this was recommended"** — every match score comes with a plain-English reason, not just a number — including which of your favorites a pick is most like — and says what it's based on ("based on 3 ratings and 2 favorites"). It learns from you how much critical acclaim should count, so crowd-pleaser tastes are matched as well as critics'-darling ones. Until you've rated, tiered or owned something, nothing claims to match your taste.
 
 ---
 

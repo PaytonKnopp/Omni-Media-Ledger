@@ -5,12 +5,32 @@ scoring engine that reads it. `NOTES.md` is the historical log of finished work;
 current one, and it is deliberately written so a session that has never seen the others can pick
 it up cold. Update it at the end of every phase.
 
-**Owner:** Payton. **Branch:** `claude/omni-media-ledger-audit-mrsljq`.
-**Status:** Phases 0-2 complete. **Plan restructured (decision 12):** corpus-wide scoring moved into Phase 5 to run alongside fact-gathering; Phase 3 reduced to the new fields on the owned set. Phase 1 delivered `RUBRIC.md` v1 with **seven** constructs (four
-original, plus `emotionalWarmth`, `comicIntent`, `aestheticBeauty`); no open interpretations.
-Phase 2 landed E2, E5, E6, E7 and closed; its last two items are deferred on measurement (see
-below). **Phase 3 is next and is now the bulk of the work.** PR #32 is open on this branch.
+**Owner:** Payton. **Status (2026-09-25):** everything that can be done without the internet is
+done, and film and TV audience scores are now sourced from IMDb (NOTES.md Phase 49). What remains --
+critic scores, games' and books' audience scores, and game facts -- needs sources and keys the
+owner has chosen not to set up for now; those values stay labelled best estimates on every card.
+- **Done:** Phase 0 (instrumentation), Phase 1 (the rubric: every anchor approved and all five open
+  questions ruled on, RUBRIC.md "Owner's rulings — closed"; reproducibility measured by two
+  independent cold-start passes over 40 blind works, `evidence/calibration/self-consistency-report.md`:
+  mean difference 5.04 points across 209 judgments, under the 6-point bar, and the one construct
+  over it, dread, got a mid-band anchor ratified 2026-09-11), Phase 2 (cheap engine fixes, closed),
+  Phases 3-4 in effect
+  (every work is scored under rubric-v1 with the three new fields, `emotionalWarmth`,
+  `comicIntent`, `aestheticBeauty`, plus games' `conceptualDepth`; the genre taxonomy with exact
+  matching is in `data/genre-taxonomy.js`; the E1 `certify()` fix rates *Outer Wilds* E10+), Phase 6's
+  provenance mechanism, Phase 7's offline tests, and the Phase 5 harness (fetchers, reconciliation,
+  evidence format), built and tested offline. Recommendation quality is measured on every pull
+  request (`scripts/rec-quality.js`; NOTES.md Phase 50).
+- **Optional, and not planned:** the rest of Phase 5. Game facts stay best estimates by owner
+  decision (14 below); critic scores and games' and books' audience scores stay estimates too,
+  labelled as such on every card (film and TV audience scores are IMDb's, via DATA_RUNBOOK.md
+  "Phase R"). If revisited, it needs network access the cloud sessions do not have
+  (IMDb, IGDB, OMDb, TMDB, OpenLibrary and Wikidata blocked; Google Books reachable but with no
+  anonymous quota; re-probed 2026-09-25): run `npm run fetch-facts` locally with free keys per
+  DATA_RUNBOOK.md, or allow those hosts in the environment's network settings.
 
+The rest of this file is the working record as it was written, phase by phase; where an older line
+says something is "next" or "open", the status above supersedes it.
 ---
 
 ## Why this exists
@@ -70,6 +90,7 @@ These are the owner's, and they are not negotiable. A future session must follow
 | 13 | What must be finished before Phase 5 can start? | Owner: *"I want to make sure all of the phases up until the point of needing the internet are done completely and as good as they can be."* So: new fields on the 179 owned works; Phase 4 in full (vocabulary + exact genre matching + the E1 `certify()` fix that ends *Outer Wilds* being rated `M`); Phase 6a (the provenance mechanism, stamped later as facts land); Phase 7a (structural invariant tests); and **the Phase 5 harness itself** — fetchers, reconciliation, evidence format, review queue — written offline against documented API shapes so that going local is push-button rather than a build project, and so no API quota is spent debugging. |
 | 11 | Also promote humour and beauty? | **Yes — do it once, properly.** Owner: *"we should do it right the first time and ensure that it will be the absolute best for anyone who decides to use it."* `comicIntent` and `aestheticBeauty` join `emotionalWarmth` as scored fields (RUBRIC.md constructs 6 and 7). Both were derived-only and structurally blind: `funny` is *genre contains comedy* plus audience score, so a witty drama scores as humourless; `awe` blends craft with a genre bonus, so it measures spectacle, not beauty, and says nothing about books. **Three new fields x 2,508 records** — scored together per work in Phase 3, since the judgements interact and making them side by side is what keeps them independent. |
 | 10 | All four core constructs were "dark" axes — add a warmth construct, or just re-score the derived light indices? | **Decided: add the real thing.** `emotionalWarmth`, a new raw scored field across all four media (RUBRIC.md construct 5). Owner: *"this originally started as an app just for me so it is skewed in favor of the things I was looking for… if I want it to be available to everyone and work for everyone best there should be everything in the system… mine should still be reflected properly because if it works for everybody it will and should still work for me."* Re-scoring `cozy`/`funny`/`emo` was rejected as the cheap option: they are computed *from* the dark axes and inherit the same blind spot. **Schema change on 2,508 records** — scored in Phase 3, wired into validator/adapter/`gm`/sliders in one commit once complete. Half-populating it would be worse than not having it. |
+| 14 | Source the games' facts from IGDB? | **No — games stay best estimates.** Owner, 2026-09-25: not worth registering a Twitch/IGDB developer account. Every game card says "○ Unverified estimate", and year/developer/platforms are filter fields with almost no score leverage. Nothing to do unless this is revisited; the harness stays ready (DATA_RUNBOOK.md Phase A, `--medium game`, keys `IGDB_CLIENT_ID`/`IGDB_CLIENT_SECRET`). |
 
 ### Still open
 
@@ -79,6 +100,9 @@ These are the owner's, and they are not negotiable. A future session must follow
   books' `criticalScore` should stop presenting as `prov.facts:"sourced"` at all, since most books
   have no real critical aggregator and the number has no source to point to. That's a data/
   provenance decision for Phase 5 (real sourcing), not an engine fix, so it's left for then.
+  **Presentation fixed 2026-09-25:** every card with a sourced, corroborated or edition-dependent facts stamp
+  now says "critic & audience scores estimated" beside it, so a `sourced` book no longer reads as having a sourced critic score. Sourcing a
+  real value (or declaring books' critic score unsourceable) is still Phase 5.
 - ~~**Convert `ownedBookIdCeiling: 51` into an explicit list.**~~ **Done.** Ownership is now stated
   per book in `PERSONAL_PROFILE.ownedBooksExtra` (an explicit `{id: format}` map); the ceiling
   defaults to 0 for any profile created after the change and is kept only so a profile saved before
@@ -173,7 +197,7 @@ onward**, while the owner is making the calls — not reconstructed at the end.
 - **Phase 0 — Instrumentation. DONE.** `scripts/score-snapshot.js` (derived-value snapshot + diff,
   read from the real app via `window.ALL`, `--profile pk|blank`) and `scripts/corpus-metrics.js`
   (drift, separation, recency bias). Commit `ba147b6`.
-- **Phase 1 — `RUBRIC.md`. DRAFTED, AWAITING SIGN-OFF.** Commit `f4cfa5d`. All four constructs
+- **Phase 1 — `RUBRIC.md`. DONE** (signed off; see "Since done" at the end of this item). Commit `f4cfa5d`. All four constructs
   defined separately with "this is NOT" lists; five proposed anchor works per index; the derived
   indices' hand-tuned override tables brought under the same rubric.
   **Blind self-test, pass 1 done** (20 films, stratified across all ten ID deciles, current values
@@ -182,9 +206,15 @@ onward**, while the owner is making the calls — not reconstructed at the end.
   **lower** under the rubric (−8 to −15.5) and late deciles **higher** (+5 to +12.5), i.e. applied
   blind, the rubric moves scores the way that *reduces* batch drift. n=2 per decile, so suggestive
   rather than conclusive.
-  **Still outstanding:** (a) the owner's ruling on the anchors and the five open questions in
+  **Was outstanding (both since done, below):** (a) the owner's ruling on the anchors and the five open questions in
   RUBRIC.md; (b) reproducibility pass 2 — must run in a **fresh session**, since the session that
   did pass 1 remembers its answers and cannot re-score blind. Target ±5 on 26+/30.
+  **Since done:** (a) the owner approved the anchors and answered all five questions (RUBRIC.md
+  "Owner's rulings — closed"); (b) reproducibility was tested more strictly than planned: two
+  independent agents with no shared context each scored the same 40 blind works, stratified across
+  every decile and all four media (`evidence/calibration/self-consistency-report.md`). Mean
+  difference 5.04 points across 209 judgments, under the 6-point bar; the one construct over it
+  (dread, 7.07, all in the mid-band) got a new 35-point anchor, *The Cove*, ratified 2026-09-11.
 - **Phase 2 — Cheap engine fixes. IN PROGRESS.** One commit each, repo convention followed (add
   the check, revert the fix, confirm the check fails, restore).
   - **E2 done** (`e31780b`) — the dread boost was a band (`>80 && <=95`), so it rose to +1.5 at 95
@@ -241,7 +271,8 @@ replacement, and would have to be redone against the real ones.
 semantics (immersion is absorption, not menace), so reading games' immersion for an `M` rating is
 wrong on its face — but what replaces it depends on the games genre vocabulary that Phase 4
 cleans. Shipping a half-fix that Phase 3 then redoes is worse than one correct change. *Outer
-Wilds* stays mis-rated `M` in the meantime; it is the most visible open defect.
+Wilds* stays mis-rated `M` in the meantime; it is the most visible open defect. **Since fixed:** games
+  certify from genre alone and *Outer Wilds* is E10+ (`app/scoring.js` `certify()`, with a regression check).
 - **Phase 3 — Index calibration / re-score**, per the separation table. The bulk of the work;
   realistically 8–15 sessions. Rubric-implied values computed from each record's own evidence
   **without reference to the current value** (the current value only orders the review queue).

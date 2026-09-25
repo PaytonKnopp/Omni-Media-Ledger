@@ -51,26 +51,39 @@ There is no name, address, photo, employer, phone number, email, or financial de
 
 ### Fully working and verified
 
-Everything currently in the app is functional. Verified by an automated suite of **70 assertions** run in a simulated DOM (jsdom), passing with zero console errors:
+Everything currently in the app is functional. (Rewritten 2026-09-25; this section used to describe
+the 1,300-work, 70-assertion jsdom suite of the early phases.) What is checked, and how:
 
-- All 10 tabs render and switch cleanly.
-- Data integrity: 1,300 works (500/150/150/500), no duplicate IDs, no duplicate titles within a medium, all scores in valid 0–100 range, every work assigned at least one of 27 genre families.
-- Ownership reconciles exactly against the source shelf ledger: **90/90 screen works and 69/69 books**, all flagged owned. Owned total is 179 because the app counts individual volumes of series owned as sets.
-- 50 contenders, no duplicate IDs or titles, no missing fields, watchlist ranks 1–7 present and leading the For-You ordering.
-- No recommendation anywhere suggests a work already owned (checked for GOAT recs and Collection Intelligence gaps).
-- All nine themes apply; all filters, sorts, toggles, comboboxes, and the blend engine behave.
-- Card interaction: description and stats panels toggle independently, description always above stats.
-- Graceful degradation when Chart.js is unavailable.
+- **The browser suite** (`test/regression.js`, ~400 checks) drives the real `index.html` in real
+  Chromium through Playwright: onboarding, every tab, filters/search/sort, tiers and ratings, the
+  cloud account flow against a mocked Supabase, merging edits across devices and tabs, offline
+  support, the phone layout, render performance and recommendation quality. CI runs it on every
+  pull request, once per push. See Testing below.
+- **The fast tier** (`npm run test-fast`, ~15s): corpus validation (5,014 works: 2,003 films,
+  502 series, 508 games, 2,001 books; no duplicate ids or titles, every score in range), the
+  stylesheet being current, the database schema (statically, and live against Postgres on CI), the
+  fact/substance/score harnesses, search, sync merging, and no copied prose in committed evidence.
+- **Lint** (`npm run lint`) fails on an undefined name. The names the app's scripts share are read
+  from the scripts `index.html` loads, so a typo cannot hide among expected warnings.
+- **Recommendation quality** is a number, not an impression: `npm run rec-quality` hides favorites
+  and checks the engine finds them again (ARCHITECTURE.md, "How GOAT Match is computed").
+- No recommendation anywhere suggests a work already owned, tiered or rated.
+- 50 contenders, no duplicate ids or titles; anything released, shelved or past its date sorts
+  below everything still upcoming.
 
 ### Known limitations (nothing is broken, but be aware)
 
-1. **Visual verification is untested.** The test suite runs in jsdom, which simulates the DOM but **does not lay out or render pixels**. Logic and structure are well covered; anything visual — spacing, overlap, theme appearance, emoji rendering — is reasoned about but not machine-verified. Historically this gap has mattered: a text-overlap bug and a modal that wouldn't close both passed automated tests while failing on a real phone. **Spot-check visual changes yourself on desktop and mobile.**
+1. **Nothing compares screenshots.** The suite runs in real Chromium, so layout is computed and
+   checked where it matters (no horizontal overflow at phone width, rows of equal height, the nav
+   scrolling on a phone, modals opening and closing). What it cannot judge is whether something
+   *looks* right: colour, spacing that is legal but ugly, emoji rendering. **Spot-check visual
+   changes yourself on desktop and mobile.**
 
 2. ~~**Tailwind CDN is a single point of failure.**~~ Fixed — see "Made genuinely offline" below. Tailwind is now a compiled stylesheet committed to `index.html`, not a runtime CDN dependency. Chart.js's CDN is still a soft dependency, but it already degrades gracefully by design.
 
-3. **Facts are mostly sourced; reception scores and the subjective indices are not, by design.** (Recounted 2026-09-23; the "658 verified / 642 estimated" figure that used to be here dates from the 1,300-work corpus and the retired `PROV_CEIL` badge.) Three separate things, often conflated: **(a) the subjective indices** (dread, soundtrack, comfort, …) are judgement by definition — all 5,014 works are scored against RUBRIC.md (`indices: rubric-v1`) with recorded evidence, and no external source exists to verify them further. **(b) Facts** — year, runtime/pages, creator, studio/network/platforms — carry a per-record `prov.facts` stamp: movies 1,829 of 2,003 sourced or corroborated (124 edition-dependent, 50 estimated); TV 398 of 502 (104 estimated); books 549 of 2,001 (1,037 edition-dependent, which is the honest label for a page count, 415 estimated); **games 0 of 508 — all estimated**, because IGDB and Wikidata are unreachable from the cloud sessions this was built in. These fields are mostly filter-only and carry almost no score leverage (see QUALITY_PASS.md's leverage ranking). **(c) Reception** (`criticalScore`/`audienceScore`) is not covered by the facts stamp; each reception value carries its own source stamp instead (RUBRIC.md "Reception fields"). **Film and TV `audienceScore` is sourced** (2026-09-25, Phase 49): IMDb's user rating ×10 for 2,502 of 2,505 works, each stamped `metrics.audienceSrc:{src:"IMDb",id,checked}`; the three IMDb has no title for (`m1879` Apocalypse Now Redux, `t315` Looney Tunes, `t316` Tom and Jerry) keep their estimate, stamped `{src:"estimated",why}`. **Still best estimates:** every `criticalScore` (no licensed critic source has been applied to any medium) and games' and books' `audienceScore` — the cards mark these "est." / "~". A 12-point error moves ★ GOAT Match by ~3.
+3. **Facts are mostly sourced; reception scores and the subjective indices are not, by design.** (Recounted 2026-09-23; the "658 verified / 642 estimated" figure that used to be here dates from the 1,300-work corpus and the retired `PROV_CEIL` badge.) Three separate things, often conflated: **(a) the subjective indices** (dread, soundtrack, comfort, …) are judgement by definition — all 5,014 works are scored against RUBRIC.md (`indices: rubric-v1`) with recorded evidence, and no external source exists to verify them further. **(b) Facts** — year, runtime/pages, creator, studio/network/platforms — carry a per-record `prov.facts` stamp: movies 1,829 of 2,003 sourced or corroborated (124 edition-dependent, 50 estimated); TV 398 of 502 (104 estimated); books 549 of 2,001 (1,037 edition-dependent, which is the honest label for a page count, 415 estimated); **games 0 of 508 — all estimated**, because IGDB and Wikidata are unreachable from the cloud sessions this was built in, and they stay that way by owner decision (2026-09-25: not worth an IGDB developer account; QUALITY_PASS.md decision 14). These fields are mostly filter-only and carry almost no score leverage (see QUALITY_PASS.md's leverage ranking). **(c) Reception** (`criticalScore`/`audienceScore`) is not covered by the facts stamp; each reception value carries its own source stamp instead (RUBRIC.md "Reception fields"). **Film and TV `audienceScore` is sourced** (2026-09-25, Phase 49): IMDb's user rating ×10 for 2,502 of 2,505 works, each stamped `metrics.audienceSrc:{src:"IMDb",id,checked}`; the three IMDb has no title for (`m1879` Apocalypse Now Redux, `t315` Looney Tunes, `t316` Tom and Jerry) keep their estimate, stamped `{src:"estimated",why}`. **Still best estimates:** every `criticalScore` (no licensed critic source has been applied to any medium) and games' and books' `audienceScore` — the cards mark these "est." / "~". A 12-point error moves 🎯 GOAT Match by ~3.
 
-4. **The Contenders Ledger has a shelf life.** Release windows drift constantly. Two entries currently carry windows at or near the present date. This tab needs periodic manual review in a way the rest of the app does not. Contender data was web-verified at time of writing.
+4. **The Contenders Ledger has a shelf life.** Release windows drift constantly. A scheduled Routine ("Quarterly Contenders Ledger refresh", the 21st of March/June/September/December) re-verifies all 50 entries, retires released ones and backfills. Between runs the app handles a passing date itself: an exact date in the past gets "⚠ WINDOW PASSED — CHECK STATUS", and anything released, shelved or passed sorts below every upcoming entry. Only exact "Month D, YYYY" windows can be checked automatically; a bare year cannot.
 
 5. **The Dollars trilogy appears four times in the owned collection** — the box-set entry plus all three films — because the source ledger treats it as one object while the app tracks films individually. Intentional, but it reads as duplication in the collection view.
 
@@ -1898,6 +1911,78 @@ the same boot. `validate-corpus.js` fails if a retired id reappears in the corpu
 record that no longer exists; `test/retired-ids.js` (in `test-fast`) covers the remap. The snapshot
 numbers above were measured before the merge, on the 5,024-work corpus.
 
+## Phase 50 — Recommendations for every taste, a lint that fails, and the review backlog
+
+Five independent reviews of the whole app were collected and every point worth acting on was
+worked through.
+
+**Recommendations for warm, funny and cosy tastes.** `npm run rec-quality` had the literary-fiction
+reader's typical hidden favorite in the top five of ~5,000 and the comedy lover's past 400th. Two
+measured causes. (1) The taste model learned only directions, and every comedy shares the Comedy
+direction, so acclaim decided the order among them. `buildTasteModel` now also scores each work's
+**closeness** to the specific works liked (`buildNeighborFit` in `app/scoring.js`), and the card
+names the favorite it is closest to ("Like: …") when that favorite is the same medium and genuinely
+alike. (2) The objective half assumed everyone's favorites are the acclaimed canon; measured, they
+sit 0.12 SD above average for the comedy lover and 1.93 for the literary reader. `acclaimWeight()`
+and `receptionMix()` now learn how much, and which, acclaim counts. Median rank of a hidden
+favorite, the old engine against the new on the same IMDb-sourced data (the numbers first measured
+before Phase 49 were within a few ranks of these): cosy-games 160 → 19 (top-100 2/6 → 5/6), family
+drama 75 → 12, comedy 443 → 290, personas pooled 104 → 19 (top-100 50% → 64%), PK Sample 71 → 75
+(top-100 28 → 27 of 53), literary fiction 4 → 14 (top-100 unchanged at 7/8). Floors raised so the
+gain holds. A tier click's rescoring went from ~34 to ~56 ms. The comedy lover is still the weakest
+profile, for a reason the data states plainly: eight comedies with little in common besides being
+comedies, among ~600 in the corpus.
+
+**Lint.** 530 `no-undef` warnings, all names the app's scripts share. `eslint.config.js` now reads
+them from the scripts `index.html` loads (top-level declarations plus `window.X =` exports), and the
+rule is an error: zero warnings, and a typo fails CI. It caught one dead call in the suite.
+
+**CI** moved from Node 20 (end of life) to Node 24. The workflow notes that it only blocks a merge
+once the `test` check is required for master in the repository's settings; PRs #161-#163 merged
+red because it was not.
+
+**`app/ledger-app.js`** 570KB → 440KB: its four constant tables (changelog, series and franchise
+lists, the sample GOAT Profile) moved to `data/`.
+
+**Honest labels.** The Critical Score tooltip no longer claims a Tomatometer source, the Audience
+Score tooltip says which audiences are IMDb's (Phase 49) and which are still estimates, and the
+Warmth/Comic/Beauty tooltips stop saying those fields are unscored (all works are). The per-card
+source labels are Phase 49's; an earlier blanket "critic & audience scores estimated" note from this
+branch was dropped in the merge, since film and TV audiences are no longer estimates.
+
+**Contenders.** Control Resonant launched September 24, 2026 and is marked released; anything
+released, shelved or past an exact date now sorts below everything still upcoming.
+
+**Docs.** This file's Working state and Testing sections, RUBRIC.md's field status, QUALITY_PASS.md's
+status block and Phase 1 record, and ARCHITECTURE.md's engine and layout sections were brought up
+to date.
+
+**Checked and already fine:** the Outer Wilds "M" rating (E1) was fixed earlier: games certify
+from genre, Outer Wilds is E10+, and a regression check holds it.
+
+**Also already done, only stale in the docs:** the rubric sign-off and the "second blind pass"
+that QUALITY_PASS.md still listed as outstanding. The anchors were approved (RUBRIC.md "Owner's
+rulings — closed") and reproducibility was measured by two independent blind passes over 40 works
+(mean difference 5.04 points, under the 6-point bar; `evidence/calibration/self-consistency-report.md`).
+QUALITY_PASS.md now says so.
+
+**Decided, not pending:** the games' facts stay best estimates (owner, 2026-09-25: not worth an
+IGDB developer account; QUALITY_PASS.md decision 14). Film and TV audience scores are sourced
+(Phase 49); every critic score and games' and books' audience scores remain labelled estimates.
+Still the owner's call: whether to purge the plot summaries removed in `9d2715e` from git history
+(a force-push rewrite of master).
+
+**CI, and a browser quirk worth knowing about.** The PR's first CI run failed one check, the cloud
+account flow, timing out on a button after the owner signed in. Traced locally (about one run in
+eight): after onboarding's start button the app saves and reloads, and the reloaded page
+occasionally came up with an empty localStorage (every key present in the old page right before
+`location.reload()`, none in the new one as its boot began, sessionStorage intact), so it rightly
+showed the sign-in gate. Nothing in the app removes them in between, and it never happened in 760
+write-and-reload cycles outside the suite. The owner check now starts signed in (seeded
+localStorage and mock row) instead of reaching that state through a reload it does not test, and
+`clickStartAndAwaitReboot()` waits for the new document instead of letting the outgoing one answer.
+ARCHITECTURE.md "Testing" has the rule that follows from it.
+
 ## Ideas / next steps
 
 Roughly in order of value:
@@ -1907,11 +1992,11 @@ Roughly in order of value:
 3. ~~**Refresh the contenders ledger on an actual schedule.**~~ Done — see Phase 43 above. All 50/50 now verified (up from 20/50 in Phase 9), and a cron-scheduled Claude Code Remote Routine fires on every equinox/solstice to redo the refresh from scratch and open a PR. Genuine automation was impossible from inside the static file itself, but not from the platform hosting the work.
 4. ~~**Cross-medium pairings.**~~ Done — see Phase 6 above.
 5. ~~**Split the dataset out of `index.html`.**~~ Done — see Phase 8 above and the decision note above for the `file://`/CORS reasoning.
-6. **Raise data provenance.** Mostly done for facts; see Known limitations #3 above for the current counts (recounted 2026-09-23). **Film/TV audience scores: done** (Phase 49 — IMDb for 2,502 of 2,505, the other three labelled estimates). What remains, in order of value: the other **reception scores** — games' audience and critic scores (IGDB's aggregated rating), books' (no aggregator exists for most; decide whether they stay labelled estimates), and film/TV critic scores (RT and Metacritic have no licensed bulk source, so these may stay estimates for good); one source per field, applied uniformly, never averaged across catalogues — then **game facts** (508 estimated; `scripts/fetch-facts.js` already has an IGDB adapter). IGDB needs a Twitch client id/secret, which the cloud sessions do not have — run `fetch-facts` locally with free keys per DATA_RUNBOOK.md, or add them to the environment. Refresh the IMDb values by re-running Phase R of DATA_RUNBOOK.md with a newer `title.ratings.tsv.gz`. Search-engine summaries are evidence grade B and are deliberately not used to overwrite estimates. Low priority: the leverage is small next to the taste signals, and nothing here is wrong so much as unconfirmed.
+6. **Raise data provenance.** Mostly done for facts; see Known limitations #3 above for the current counts (recounted 2026-09-23). **Film/TV audience scores: done** (Phase 49 — IMDb for 2,502 of 2,505, the other three labelled estimates). What remains, in order of value: the other **reception scores** — games' audience and critic scores (IGDB's aggregated rating), books' (no aggregator exists for most; decide whether they stay labelled estimates), and film/TV critic scores (RT and Metacritic have no licensed bulk source, so these may stay estimates for good); one source per field, applied uniformly, never averaged across catalogues — then **game facts** (508 estimated, and staying so by owner decision, QUALITY_PASS.md #14; `scripts/fetch-facts.js` already has an IGDB adapter). IGDB needs a Twitch client id/secret, which the cloud sessions do not have — run `fetch-facts` locally with free keys per DATA_RUNBOOK.md, or add them to the environment. Refresh the IMDb values by re-running Phase R of DATA_RUNBOOK.md with a newer `title.ratings.tsv.gz`. Search-engine summaries are evidence grade B and are deliberately not used to overwrite estimates. Low priority: the leverage is small next to the taste signals, and nothing here is wrong so much as unconfirmed.
 7. ~~**Export/import of `localStorage`.**~~ Done, fully — see Phase 5 above. Export/Import now bundle `omniLedgerWatchlist`, `omniLedgerTheme`, and `omniLedgerDensity` alongside the profile; a single exported file is a complete snapshot of a person.
 8. ~~**A real "blank first run" for a friend's copy.**~~ Done — see Phase 3 above. First load in any browser now asks (quick-rate / search & pick / sample / blank / import) via a blocking gate rather than silently inheriting Payton's defaults.
 9. ~~**Genericize `goatProfile.recs`.**~~ Done for Movies/Books/TV Series/Video Games (Phase 4) and for Directors (Phase 5, genuinely computed from corpus filmography). Actors/Composers/Cinematographers are corpus-linked where possible (Phase 7); Music Artists/YouTube use genre+vibe overlap (Phase 5, refined Phase 8) since no corpus category exists to link them to. Since none of those six ever became a real per-account recommendation (only the score reapplies per account, never the list of names), Phase 44 stopped showing them to anyone but Payton's own account/PK Sample rather than continue presenting them as personalized.
-10. **Finish the creator/composer/cinematographer/artist dataset.** Actors are now 10/10 corpus-linked (Phase 9, most averaging multiple real films). Composers and Cinematographers are still at Phase 7's level (7/10 and 9/10, single work each) — the same multi-work deepening Phase 9 did for Actors hasn't been done for them yet, and would be similarly tractable. Music Artists and YouTube still can't be corpus-linked at all — the corpus has no music-album or video-essay category. A full fix for those two needs either a new corpus category (a real scope increase) or a structured per-person discography/filmography record in the shape of the existing 80-entry Creator Archives.
+10. **Finish the creator/composer/cinematographer/artist dataset.** Actors, Composers and Cinematographers are all corpus-linked, most to two to five real works each (Phase 9 for Actors; changelog 1.8.0 for the other two; the line here saying they were still single-work was stale, corrected 2026-09-25). Two of the thirty stay single-work because the corpus holds only one of their works (Andrew Prahlow: Outer Wilds; Mac Quayle: Mr. Robot). Music Artists and YouTube still can't be corpus-linked at all — the corpus has no music-album or video-essay category. A full fix for those two needs a new corpus category (a real scope increase) or a structured per-person discography record in the shape of the 80-entry Creator Archives. Since Phase 44 all six of these categories show only on PK's own account and the PK Sample, so this affects no other user.
 11. ~~**Bundle the watchlist/theme/density keys into Export/Import too.**~~ Done — see item 7 above.
 12. ~~**In-app profile editor: reach parity with the full `PERSONAL_PROFILE` schema.**~~ Done — see Phase 7 above. Every field except `cosmicHorrorCanon` is now click-editable.
 13. ~~**Reconcile released/cancelled contenders into the scored corpus.**~~ Done for the 3 that had released — see Phase 7 above. The Phase 8 refresh runbook (item 3 above) is now the documented trigger for doing this again the next time something ships.
@@ -1926,9 +2011,23 @@ Roughly in order of value:
 
 ## Testing
 
-`test/smoke.js` (Phase 6) is now committed and real — a Playwright suite run against `index.html` (`share.html` retired, see "One file, not two" above): syntax check, onboarding gate paths, all 10 views render, filter/search/slider narrowing, reset, combo-dropdown open/close/select/scroll regressions (checking actual rendered visibility, not just the `hidden` class — see Phase 11's dropdown-fix writeup for why that distinction matters), the GOAT Picker's search-stage-cancel round trip, the cloud-account flow against a mocked Firestore, and a mobile-viewport horizontal-overflow check. Run with `npm test` (needs `playwright-core` and a local Chromium — see README's "Running the regression suite"). It auto-detects a Chromium build via `PLAYWRIGHT_CHROMIUM_PATH` or common install locations, so it isn't hardwired to any one machine.
+(Rewritten 2026-09-25. The suite was called `test/smoke.js` and ran in jsdom until Phase 6; it has
+been the Playwright suite `test/regression.js`, in real Chromium, ever since. CLAUDE.md has the
+working agreement; ARCHITECTURE.md "Testing" has the detail.)
 
-Ad hoc jsdom checks (data integrity, filter behavior, DOM state after simulated clicks) are still useful for quick iteration and don't need a browser — the old approach (jsdom with `runScripts: 'dangerously'`, stub `Chart`/`requestAnimationFrame`/`URL.createObjectURL`) still works and was used throughout Phase 6 development, just never committed since it's redundant with what `test/smoke.js` now covers end to end.
+| Command | What it covers | Time |
+|---|---|---|
+| `npm run lint` | ESLint; an undefined name or a fixed sleep in the browser suite fails it | ~3s |
+| `npm run test-fast` | corpus, stylesheet, schema, fact/substance/score harnesses, search, merge, evidence | ~15s |
+| `npm run test-browser` | `test/regression.js`, the Playwright suite (~400 checks) | ~7 min |
+| `npm run rec-quality` | recommendation quality on the PK Sample and four cold-start personas | ~5s |
+
+`node test/regression.js --only=<part of a flow name>` runs one flow in seconds. The suite finds
+Chromium via `PLAYWRIGHT_CHROMIUM_PATH` or the usual install locations. CI
+(`.github/workflows/test.yml`) runs lint and `npm test` on every pull request with a throwaway
+Postgres, so the schema's live checks run there too.
+
+## Corpus expansion log (Phase 45, continued)
 
 **Batch 33:** movies 11 (R-rated studio comedies), books 7 (contemporary lit-fiction + picture books). Checkpoint: movies 1,807/2,000, books 1,653/2,000.
 

@@ -228,7 +228,7 @@ whose interactions cannot be enumerated: 95+.
 
 ---
 
-### 4b. `conceptualDepth` — games only — **NEW FIELD, not yet in the schema**
+### 4b. `conceptualDepth` — games only — **in the schema: all 508 games scored**
 
 **How much the game asks you to rebuild your model of what is real, true or knowable.** The games
 counterpart of `ontologicalComplexity`, requested by the owner when ruling that `systemsComplexity`
@@ -256,7 +256,7 @@ adapter and engine wiring. Scheduled for Phase 3 alongside the games rescore, no
 
 ---
 
-### 5. `emotionalWarmth` — all four media — **NEW FIELD, not yet in the schema**
+### 5. `emotionalWarmth` — all four media — **in the schema: every work scored**
 
 **How much the work extends care — toward the people in it, and toward you.** Generosity,
 affection, humane attention. The sense of being in good hands.
@@ -326,7 +326,7 @@ every unscored work.
 
 ---
 
-### 6. `comicIntent` — all four media — **NEW FIELD, not yet in the schema**
+### 6. `comicIntent` — all four media — **in the schema: every work scored**
 
 **How much the work is trying to be funny, and how well it lands.** Wit, absurdity, timing,
 comic construction — whether or not the work is a comedy.
@@ -370,7 +370,7 @@ Sustained and successful, 80+. Real and frequent inside another mode, 55–75. O
 
 ---
 
-### 7. `aestheticBeauty` — all four media — **NEW FIELD, not yet in the schema**
+### 7. `aestheticBeauty` — all four media — **in the schema: every work scored**
 
 **How beautiful the work is as a made object** — composition, imagery, sound, language, design.
 Beauty as an achievement, independent of subject matter or how pleasant it is to sit with.
@@ -570,7 +570,7 @@ All five open questions were answered. Recorded here so they are not reopened.
 | 4 | `systemsComplexity` — mechanical or conceptual? | **Mechanical** — plus a new `conceptualDepth` field for games (construct 4b), on the owner's request for "a conceptual equivalent". |
 | 5 | Reception sources | **Film/TV audience: done** (IMDb, 2026-09-25, DATA_RUNBOOK.md Phase R). Critic scores and games'/books' audience scores stand as labelled best estimates until a source is applied. The cross-medium *scale* normalisation is separate and stays in Phase 2. |
 
-### Still to settle — raised, not yet ruled on
+### Raised afterward — also settled
 
 **Resolved: the owner chose the real fix.** All four original constructs were "dark" axes, which
 capped who the app could serve. The owner's ruling, in his words: *"this originally started as an
