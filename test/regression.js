@@ -27,6 +27,8 @@ try {
   }
 }
 
+const recQuality = require('../scripts/rec-quality.js');
+
 const ROOT = path.resolve(__dirname, '..');
 const ARGS = process.argv.slice(2);
 const ONLY = ARGS.filter(a => a.startsWith('--only=')).map(a => a.slice('--only='.length).toLowerCase());
@@ -4498,6 +4500,27 @@ async function runMergeFlow(browser, file) {
   }
 }
 
+// Recommendation quality, as a number: favorites are hidden and the engine has to find them again
+// among everything untried -- for the PK Sample and for four cold-start personas that look nothing
+// like it. scripts/rec-quality.js explains the method and holds the checks; the floors sit a little
+// under what the engine measures today, so a scoring change that quietly makes suggestions worse
+// fails here, on its pull request, rather than in someone's list.
+async function runRecQualityFlow(browser, file) {
+  const { page, pageErrors } = await bootSample(browser, file);
+  const before = await page.evaluate(() => ({ profile: JSON.stringify(window.PERSONAL_PROFILE),
+    stored: localStorage.getItem('omniLedgerProfile'), gm: window.ALL.map(x => x.gm).join(',') }));
+  const m = await recQuality.measure(page);
+  console.log(recQuality.report(m, { table: true }).split('\n').map(l => '     ' + l).join('\n'));
+  recQuality.verdicts(m).forEach(v => check(v.label, v.ok));
+  const after = await page.evaluate(() => ({ profile: JSON.stringify(window.PERSONAL_PROFILE),
+    stored: localStorage.getItem('omniLedgerProfile'), gm: window.ALL.map(x => x.gm).join(',') }));
+  check('measuring leaves the profile, its saved copy and every match score exactly as they were',
+    after.profile === before.profile && after.stored === before.stored && after.gm === before.gm);
+  check('no uncaught page errors during the recommendation-quality flow', pageErrors.length === 0);
+  if (pageErrors.length) pageErrors.forEach(e => console.log('     ' + e));
+  await page.close();
+}
+
 // Each flow opens its own pages and contexts, so one flow throwing says nothing about the others.
 // A throw used to abort the whole run: one missing element late in the account flow took the ~150
 // checks after it down too, and a single timing problem read as a wall of red. Now it counts as
@@ -4538,6 +4561,7 @@ async function runFlow(browser, name, fn) {
     await runFlow(browser, t + ' — honest match (labelled ring, no taste claims without evidence)', () => runHonestMatchFlow(browser, t));
     await runFlow(browser, t + ' — not interested (hide, teach the engine, undo)', () => runNotInterestedFlow(browser, t));
     await runFlow(browser, t + ' — merging edits across devices and tabs', () => runMergeFlow(browser, t));
+    await runFlow(browser, t + ' — recommendation quality (hidden favorites found again)', () => runRecQualityFlow(browser, t));
   }
   await browser.close();
 

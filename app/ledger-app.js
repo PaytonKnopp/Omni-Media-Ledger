@@ -5230,8 +5230,20 @@ function handleProfileEditClick(btn){
    No longer surfaced in the header (it fell too far behind real changes to be worth showing), but
    kept here as the project's own record. Bump APP_VERSION and add a CHANGELOG entry whenever a
    change is worth remembering; cosmetic tweaks don't need a bump. */
-const APP_VERSION='1.48.1';
+const APP_VERSION='1.49.0';
 const CHANGELOG=[
+ {v:'1.49.0',date:'2026-09-25',summary:'Search forgives accents and typos, the ring on every card is your match, a one-tap “not interested”, and edits on two devices are merged instead of one erasing the other.',notes:[
+  'Search ignores accents, capitals and punctuation, matches every word on its own and in any field, puts title matches first, and tolerates small typos: “amelie”, “cuaron”, “godfater”, “zelda breath” and “kubrick 1968” all find what they should. The same search runs in the GOAT Picker, the Watchlist and the Collection.',
+  'The big ring on each card is now your match for that title, labelled “Match” — or “Score” while the app knows nothing about your taste yet. The critics’ score moved to a small “Crit” chip.',
+  'Nothing claims to match “your taste” until you have rated, tiered or owned something, and wherever it does, it says what that is based on (“based on 3 ratings and 2 favorites”).',
+  'Every title you have not tried has a small ✕ for “not interested”: it hides the title from every list and recommendation and teaches your match to show less like it. Search still finds it, “show” above the results brings passed titles back, and Undo or ✕ again takes it back.',
+  'Signed-in edits made on two devices, or on one while offline, are merged title by title when they sync, instead of the last device to save erasing the other’s changes. Two tabs open at once stay in step too.',
+  'The app starts faster: the GOAT Profile, Creators, Contenders and Matrix tabs are built the first time you open them, and the recommendations are built once instead of twice.',
+  'About sixty styling classes that silently did nothing now work — among them the GOAT Profile’s stat tiles, which stacked as full-width rows even on a wide screen. The stylesheet is now generated, and the test suite fails if the page uses a class it does not define.',
+  'In the suggestion box, Delete and Mark resolved appear only on your own suggestions.',
+  'Recommendation quality is now measured on every change: favorites are hidden from five different profiles, and the engine has to find them again among everything untried. It puts 53% of a real profile’s hidden favorites in its top 100, where acclaim alone manages 13%.',
+  '“Last updated”, the corpus counts and the install description are no longer out of date.'
+ ]},
  {v:'1.48.1',date:'2026-09-24',summary:'The PK Sample is now a fixed copy, so signing in as payton can no longer change what new accounts start from.',notes:[
   '\u201cStart from the PK Sample\u201d used to copy whatever the payton account held at that moment, and since any name can be signed into, anyone could change it. It now copies data/pk-sample.js, which only changes through a commit (scripts/update-pk-sample.js).',
   'Two retired placeholder records the payton profile still pointed at (the Man with No Name Trilogy and Harry Potter Books 1\u20137, since split into single works) are left out; neither ever appeared in the app.',
