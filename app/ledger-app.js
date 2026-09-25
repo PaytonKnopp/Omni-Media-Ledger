@@ -577,9 +577,10 @@ function crossThreadHTML(it){
  var verb={movie:'Watch',tv:'Watch',game:'Play',book:'Read'}[t.it.kind];
  return '<div class="mt-2.5 pt-2 border-t border-slate-800/70">'
   +'<div class="text-[10px] mb-1" style="color:#c084fc">\u2937 If you like this, cross over to:</div>'
-  +'<button type="button" class="pairingChip flex items-center gap-2 w-full text-left" data-flip-jump="'+t.it.id+'" title="Open '+esc(t.it.title)+' in the Global Controller"><span class="text-[9px] px-1.5 py-0.5 rounded shrink-0" style="background:'+k.c+'22;color:'+k.c+'">'+k.label+'</span>'
-  +'<span class="text-[12px] text-slate-200 font-semibold hover:text-teal-300">'+verb+' '+esc(t.it.title)+'</span>'
-  +'<span class="text-[10px] text-slate-500">\u00b7 '+t.reason+'</span></button></div>';
+  +'<button type="button" class="pairingChip flex items-start gap-2 w-full text-left" data-flip-jump="'+t.it.id+'" title="Open '+esc(t.it.title)+' in the Global Controller"><span class="text-[9px] px-1.5 py-0.5 rounded shrink-0 mt-0.5" style="background:'+k.c+'22;color:'+k.c+'">'+k.label+'</span>'
+  // Title over its reason, so on a phone neither is squeezed into a narrow column beside the other.
+  +'<span class="flex flex-col min-w-0"><span class="text-[12px] text-slate-200 font-semibold hover:text-teal-300">'+verb+' '+esc(t.it.title)+'</span>'
+  +'<span class="text-[10px] text-slate-500">'+t.reason+'</span></span></button></div>';
 }
 function gmBreakdownHTML(it){
  var chips=[];
@@ -587,7 +588,9 @@ function gmBreakdownHTML(it){
   rated:['\u2605 Pulled toward your rating of '+(typeof it.myRating==='number'?it.myRating.toFixed(1):'?')+'/10','#5eead4'],
   bronze:['\u2726 Declared favorite (bronze tier)','#cd7f32']};
  (it.gmBoosts||[]).slice().sort((a,b)=>b[2]-a[2]).forEach(function(b){
-  var lab={creator:'Creator',author:'Author',genre:'Genre',vibe:'Vibe',complexity:'Depth',craft:'Craft',tone:'Tone',near:'Like',dread:'Dread',warmth:'Warmth',comedy:'Comedy',beauty:'Beauty'}[b[0]]||b[0];
+  // A weight you set yourself (the card's Creator weight control) reads as yours; the same person's
+  // learned weight, from what you rated and tiered, keeps the plain Creator label.
+  var lab=b[3]==='set'?'Your weight':{creator:'Creator',author:'Author',genre:'Genre',vibe:'Vibe',complexity:'Depth',craft:'Craft',tone:'Tone',near:'Like',dread:'Dread',warmth:'Warmth',comedy:'Comedy',beauty:'Beauty'}[b[0]]||b[0];
   var cap=(''+b[1]).replace(/(^|[\s/-])(\S)/g,function(m,sep,c){return sep+c.toUpperCase();});
   // A derived taste weight can be negative -- a genre this person's own ratings count against --
   // so the sign comes from the number rather than being hardcoded to '+', which would have
@@ -620,7 +623,7 @@ function summaryHTML(it){const k=KM[it.kind];
  // Tagline (the curated hook)
  const hook=it.just?'\u201c'+esc(it.just)+'\u201d':'';
  // Standout traits line
- let line2=traits.length?'Stands out for its '+traits.join(', ')+'.':'';
+ let line2=traits.length?'Stands out for its '+(traits.length>1?traits.slice(0,-1).join(', ')+' and '+traits[traits.length-1]:traits[0])+'.':'';
  // Fit (reception is the breakdown's Reception row, not repeated here)
  // Taste-fit note based on personal GOAT match -- worded as a match for this person's taste only
  // when the app knows something about it (tasteBasis), and saying what that is when it does.
@@ -658,11 +661,10 @@ function creatorBoostHTML(it){
  var w=existing?existing[1]:0;
  var color=w>0?'#4ade80':(w<0?'#f87171':'#94a3b8');
  return '<div class="flex items-center gap-1.5 text-[11px]">'
-  +'<span class="text-slate-500">Creator weight:</span>'
   +'<button type="button" class="profEditBtn tierSeg" data-act="creatorbump" data-creator="'+esc(it.creator)+'" data-kind="'+it.kind+'" data-delta="-4" style="color:#f87171" title="Nudge '+esc(it.creator)+'’s work DOWN across your whole match scoring">−</button>'
   +'<span class="tabular-nums font-bold" style="color:'+color+';min-width:2.5ch;text-align:center" title="Current weight for '+esc(it.creator)+' (-20 to 20)">'+(w>0?'+':'')+w+'</span>'
   +'<button type="button" class="profEditBtn tierSeg" data-act="creatorbump" data-creator="'+esc(it.creator)+'" data-kind="'+it.kind+'" data-delta="4" style="color:#4ade80" title="Nudge '+esc(it.creator)+'’s work UP across your whole match scoring">+</button>'
-  +'<span class="text-slate-400 truncate">'+esc(it.creator)+'</span>'
+  +'<span class="text-slate-300 ml-1 min-w-0">'+esc(it.creator)+'</span>'
   +'</div>';
 }
 // Compact tier/own toggle row -- visible on every card without expanding it, so declaring a
@@ -758,7 +760,7 @@ function cardHTML(it){const k=KM[it.kind];
  +matchRingHTML(it,k.c,42)
  +'<div class="flex-1 min-w-0">'
  +'<div class="flex items-center gap-x-2 gap-y-1.5 flex-wrap cardChips"><span class="cardTitle text-[13px] font-semibold text-slate-100 leading-tight hover:text-teal-300 cursor-pointer underline decoration-dotted decoration-slate-600 underline-offset-2" data-flip="'+it.id+'" title="Click for a summary and full breakdown">'+esc(it.title)+'</span><span class="chip" style="color:'+k.c+';border-color:'+k.c+'44">'+k.label+'</span>'+(it.chFlag?'<span class="chip" style="color:#0B0F19;background:#c084fc;border-color:#c084fc;font-weight:700">\u25c9 CANON 100</span>':'')+(function(){const fr=franchiseOf(it);return fr?'<span class="chip franchiseChip" style="color:#5eead4;border-color:#5eead444" title="Part of the '+esc(fr)+' series">\u2699 '+esc(fr)+'</span>':'';})()+'</div>'
- +'<div class="text-[11px] text-slate-400 mt-1.5 leading-snug" title="'+esc(it.creator)+' · '+esc(it.org)+'">'+[it.year,esc(it.creator),esc(it.span),it.rating?esc(it.rating):''].filter(Boolean).map(v=>'<span class="whitespace-nowrap">'+v+'</span>').join(' · ')+'</div>'
+ +'<div class="text-[11px] text-slate-400 mt-1.5 leading-snug" title="'+esc(it.creator)+' · '+esc(it.org)+'">'+[[it.year,1],[esc(it.creator),0],[esc(it.span),1],[it.rating&&it.rating!=='General'?esc(it.rating):'',1]].filter(v=>v[0]).map(v=>v[1]?'<span class="whitespace-nowrap">'+v[0]+'</span>':v[0]).join(' · ')+'</div>'
  +'<div class="mt-2 space-y-1 cardMicro" title="This work\'s 3 strongest indices out of ~19 tracked -- click the card to see all of them">'+frontBars(it)+'</div>'
  +'</div><span class="text-slate-600 text-xs mt-1" aria-hidden="true">&#9662;</span></button>'+wlCornerHTML(it)
  +tierRowHTML(it)
@@ -797,7 +799,7 @@ function cardPanelsHTML(it){
  +gmBreakdownHTML(it)
  +cardSecHTML('Tags',cardTagsHTML(it))
  +crossMediumPairingsHTML(it)
- +'<section class="cardSec">'+creatorBoostHTML(it)+'</section>'
+ +(it.creator?cardSecHTML('Creator weight',creatorBoostHTML(it),' title="Nudge this creator up or down across all your match scores"'):'')
  +'</div>';}
 
 /* Rebuild only the cards whose contents can actually have changed.
@@ -1692,9 +1694,9 @@ function recomputeTasteScores(){
  // together below; per-work quality signals stay linear and uncapped, because each only fires past
  // a real rubric threshold and flattening them would blur differences RUBRIC.md actually measured.
  let tasteRaw=0,qualityRaw=0;
- GOAT_CREATOR_BOOST.forEach(c=>{if(x.creator.includes(c[0])){tasteRaw+=c[1];br.push(['creator',c[0],Math.round(c[1]*10)/10]);}});
+ GOAT_CREATOR_BOOST.forEach(c=>{if(x.creator.includes(c[0])){tasteRaw+=c[1];br.push(['creator',c[0],Math.round(c[1]*10)/10,'set']);}});
  x._creators.forEach(nm=>{const w=AUTO_CREATOR_BOOST[nm];if(w){tasteRaw+=w;br.push(['creator',nm,Math.round(w*10)/10]);}});
- if(x.kind==='book'){BOOK_CREATOR_BOOST.forEach(c=>{if(x.creator.includes(c[0])){tasteRaw+=c[1];br.push(['author',c[0],Math.round(c[1]*10)/10]);}});}
+ if(x.kind==='book'){BOOK_CREATOR_BOOST.forEach(c=>{if(x.creator.includes(c[0])){tasteRaw+=c[1];br.push(['author',c[0],Math.round(c[1]*10)/10,'set']);}});}
  // One pass over the work's own genre keywords rather than one pass per boosted keyword: a Set
  // membership test counts each keyword exactly once for this work, same as genreMatches() did,
  // without re-walking the taxonomy 275 times per work on every tier click.
@@ -4689,7 +4691,7 @@ function handleProfileEditClick(btn){
    No longer surfaced in the header (it fell too far behind real changes to be worth showing), but
    kept here as the project's own record. Bump APP_VERSION and add a CHANGELOG entry whenever a
    change is worth remembering; cosmetic tweaks don't need a bump. */
-const APP_VERSION='1.51.0';
+const APP_VERSION='1.52.0';
 // CHANGELOG (the in-app version history) lives in data/changelog.js.
 
 /* ===== Suggestion box: shared Supabase table, visible to everyone =====
