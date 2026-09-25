@@ -4,10 +4,13 @@
   "description": "No build step for the app itself -- this package.json exists only to run the checks. `npm run test-fast` (~15s) is everything except the browser suite; `npm run test-browser` (~7 min) is the Playwright suite in test/regression.js, which CI runs on every pull request.",
   "scripts": {
     "test": "npm run test-fast && npm run test-browser",
-    "test-fast": "node scripts/validate-corpus.js && node test/schema.js && node test/fetch-facts.js && node test/fetch-substance.js && node test/score-batch.js && node test/evidence.js",
+    "test-fast": "node scripts/validate-corpus.js && node scripts/build-css.js --check && node test/schema.js && node test/fetch-facts.js && node test/fetch-substance.js && node test/score-batch.js && node test/search.js && node test/sync-merge.js && node test/evidence.js",
     "test-browser": "node test/regression.js",
     "validate-corpus": "node scripts/validate-corpus.js",
+    "build-css": "node scripts/build-css.js",
+    "check-css": "node scripts/build-css.js --check",
     "test-schema": "node test/schema.js",
+    "rec-quality": "node scripts/rec-quality.js",
     "test-facts": "node test/fetch-facts.js && node test/fetch-substance.js",
     "fetch-facts": "node scripts/fetch-facts.js",
     "fetch-substance": "node scripts/fetch-substance.js",
@@ -17,6 +20,7 @@
     "@eslint/js": "^10.0.1",
     "eslint": "^10.10.0",
     "globals": "^17.12.0",
-    "playwright-core": "^1.63.0"
+    "playwright-core": "^1.63.0",
+    "tailwindcss": "3.4.19"
   }
 }

@@ -179,6 +179,22 @@ if (!url) {
     const anonStored = psql(['-c', `select data->>'omniLedgerProfile' from public.profiles where handle='rls';`]).trim();
     check('...and the upserted value is what actually landed', anonStored === 'second', 'got: ' + anonStored);
 
+    // Every write to an existing profile now reads the row, merges it with this device's copy, and
+    // updates it only if nobody wrote it in between: `where updated_at = <the value just read>`
+    // (mergeAndWrite in index.html). That rests on the database stamping a new updated_at on every
+    // update (the BEFORE trigger) and letting such a conditional update through the UPDATE policy,
+    // as anon. A condition that has gone stale must touch nothing, which is how the app learns that
+    // another device saved first and merges again instead of writing over it.
+    const readTs = psql(['-c', `select updated_at from public.profiles where handle='rls';`]).trim();
+    const anonCond = asAnon(`update public.profiles set data='{"omniLedgerProfile":"third"}'::jsonb
+      where handle='rls' and updated_at='${readTs}' returning handle;`);
+    check('an anon update conditioned on the updated_at just read writes the row', anonCond === 'rls', 'got: ' + anonCond);
+    const anonStale = asAnon(`update public.profiles set data='{"omniLedgerProfile":"stale"}'::jsonb
+      where handle='rls' and updated_at='${readTs}' returning handle;`);
+    const afterStale = psql(['-c', `select data->>'omniLedgerProfile' from public.profiles where handle='rls';`]).trim();
+    check('...and once someone else has written, the same condition writes nothing', anonStale === 'UPDATE 0' && afterStale === 'third',
+      'got: ' + anonStale + ' / stored ' + afterStale);
+
     const anonMedia = asAnon(`insert into public.media_status(handle,media_id,tier,owned)
       values ('rls','m09','gold',false)
       on conflict (handle,media_id) do update set tier = excluded.tier returning media_id;`).trim();

@@ -34,8 +34,8 @@ const PRECACHE = [
   'manifest.webmanifest',
   'data/movies.js', 'data/tv.js', 'data/games.js', 'data/books.js',
   'data/creators.js', 'data/contenders.js', 'data/genre-taxonomy.js', 'data/pk-sample.js',
-  'app/format.js', 'app/cards.js', 'app/scoring.js', 'app/match.js',
-  'app/matrices.js', 'app/creators.js', 'app/ledger-app.js',
+  'app/sync-merge.js', 'app/format.js', 'app/cards.js', 'app/scoring.js', 'app/match.js',
+  'app/matrices.js', 'app/creators.js', 'app/search.js', 'app/ledger-app.js',
   'icons/favicon-16.png', 'icons/favicon-32.png', 'icons/apple-touch-icon.png',
   'icons/icon-192.png', 'icons/icon-512.png', 'icons/icon-maskable-512.png',
 ];
