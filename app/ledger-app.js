@@ -2858,15 +2858,15 @@ rebuildGeneratedRecs();
    book is not a franchise, so The Martian stays standalone. Every title here must exist in the
    corpus; initApp's integrity assert fails on one that doesn't, so a rename can't silently drop it.
    NOT_A_SERIES holds the franchiseRoot keys that cluster by coincidence (Apollo 11 and Apollo 13,
-   Invisible Man and The Invisible Man) or pair two records of one work (Beowulf and its
-   translation, Grapes of Wrath and The Grapes of Wrath). NOT_A_FRANCHISE (data/series.js) holds
+   Invisible Man and The Invisible Man) or pair an original with its retelling (Beowulf and
+   Headley's translation). NOT_A_FRANCHISE (data/series.js) holds
    the curated groups that are a reading shelf rather than a franchise (Sagan's nonfiction).
    A curated series is named as FRANCHISE_LABEL says; a title-root cluster takes the name of any of
    its members' curated or listed franchise (Mad Max: Fury Road joins "Mad Max"), else the shared
    title with its subtitle and number dropped (Blade Runner 2049 -> "Blade Runner").
    The corpus never changes after boot, so the lookup is built once, on first use. */
 // FRANCHISE_EXTRA (the hand-checked franchise list) lives in data/series.js.
-const NOT_A_SERIES=new Set(['movie|apollo','movie|mother','book|martian','book|quiet','book|beowulf','book|babel','book|jungle','book|invisible man','book|hunger','book|grapes of wrath']);
+const NOT_A_SERIES=new Set(['movie|apollo','movie|mother','book|beowulf','book|babel','book|jungle','book|invisible man','book|hunger']);
 const FRANCHISE_KIND={m:'movie',t:'tv',g:'game',b:'book'};
 function franchiseRoot(t){return seriesTitleRoot(t.replace(/^the\s+/i,'')).replace(/\s+[ivx]+$/,'').trim();}
 // A title as a franchise name: its subtitle, volume/part and trailing number dropped.
