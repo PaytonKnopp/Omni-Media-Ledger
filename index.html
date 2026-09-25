@@ -707,6 +707,7 @@ button:focus-visible,select:focus-visible,input:focus-visible{outline:2px solid 
    the app knows anything personal); the critics' score is a quiet chip beside the medium. */
 .matchRing{display:flex;flex-direction:column;align-items:center}
 .matchRingLbl{font-size:9px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--text-faint);margin-top:3px;line-height:1}
+.matchRingLbl.isMatch::before{content:'\1F3AF';margin-right:3px;letter-spacing:0}
 .chip.critChip{color:var(--text-dim);border-color:rgba(148,163,184,.3)}
 /* The tier row gained a fifth labelled segment (\u2713 Watched / Read / Played), which left it a
    few pixels too wide for a narrow card: a ~390px phone and the two-column tablet layout both

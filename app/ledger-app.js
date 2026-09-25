@@ -717,8 +717,9 @@ function wlCornerHTML(it){
    critics' score -- unlabelled, hidden from screen readers, and an estimate for most works -- so a
    list sorted by match read as unsorted. Critics keep a small chip of their own beside the medium. */
 function matchRingHTML(it,color,size){
- const t=esc(matchTitle(it));
- return '<span class="matchRing shrink-0" role="img" aria-label="'+t+'" title="'+t+'">'+ring(it.gm,color,size)+'<span class="matchRingLbl">'+matchWord()+'</span></span>';
+ const t=esc(matchTitle(it)),personal=tasteBasis().personal;
+ // Only a personal match is drawn as a target: a "Score" is not a match for anyone yet.
+ return '<span class="matchRing shrink-0" role="img" aria-label="'+t+'" title="'+t+'">'+ring(it.gm,color,size,personal)+'<span class="matchRingLbl'+(personal?' isMatch':'')+'">'+matchWord()+'</span></span>';
 }
 function critChipHTML(it){
  return '<span class="chip critChip" title="Critics\u2019 score '+it.crit+'/100 \u2014 put on one scale across films, series, games and books; an estimate for most works until a licensed source is applied">Crit '+it.crit+'</span>';
