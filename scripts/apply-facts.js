@@ -16,9 +16,10 @@
  *
  * The stamp it writes is the one validate-corpus.js enforces:
  *   prov:{facts:"sourced",checked:"YYYY-MM-DD",src:"OMDb+TMDB",indices:"unscored"}
- * `indices` stays "unscored" here on purpose. Sourcing a runtime says nothing about whether the
- * work's atmosphericDreadIndex was scored against RUBRIC.md; conflating the two would let a
- * fact-check quietly certify a judgement nobody made.
+ * `indices` is carried over from the record's existing stamp, or "unscored" if it has none. Sourcing
+ * a runtime says nothing about whether the work's atmosphericDreadIndex was scored against
+ * RUBRIC.md; conflating the two would let a fact-check quietly certify a judgement nobody made --
+ * or, the other way round, quietly revoke one somebody did.
  *
  * USAGE
  *   node scripts/apply-facts.js evidence/movie-2026-09-05.json            # dry run
@@ -127,8 +128,12 @@ function main() {
       : null;
 
     if (facts) {
+      // The indices half is not this script's to decide in either direction: a fact-check cannot
+      // certify a judgement (so a record with no stamp gets "unscored"), and it cannot revoke one
+      // either (so a record already scored against RUBRIC.md keeps its "rubric-v1").
+      const prior = line.match(/"prov"\s*:\s*\{[^}]*"indices"\s*:\s*"([^"]*)"/);
       const stamp = '"prov":{"facts":"' + facts + '","checked":"' + checked + '","src":"' +
-        (w.sourcesReached || []).join('+') + '","indices":"unscored"}';
+        (w.sourcesReached || []).join('+') + '","indices":"' + (prior ? prior[1] : 'unscored') + '"}';
       if (/"prov"\s*:/.test(line)) {
         line = line.replace(/"prov"\s*:\s*\{[^}]*\}/, stamp);
       } else {

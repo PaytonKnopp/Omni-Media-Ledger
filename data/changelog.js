@@ -3,6 +3,11 @@
 // entry whenever a change reaches users.
 'use strict';
 const CHANGELOG=[
+ {v:'1.52.0',date:'2026-09-25',summary:'A few batches of titles that were scored on a harsher or kinder scale than the rest now match it.',notes:[
+  'The library was built in batches, and a handful were scored on their own scale: about 220 books added in one wave were rated 15 points low on how idea-rich they are and 13 low on how beautiful, a batch of TV series and two stretches of films were marked down on picture and sound, and the original 160 books were rated a little high. Each batch moved as a whole, so nothing inside it changed order',
+  'Found by comparing every title with others of the same genre, era and acclaim, and checked against IMDb ratings, which the same test finds nothing wrong with. Batches that only looked off because of loose genre labels (classic musicals tagged Comedy, children’s books tagged Drama) were read title by title and left alone',
+  'Some matches move a point or two, mostly fantasy and non-fiction added in 2026 going up'
+ ]},
  {v:'1.51.0',date:'2026-09-25',summary:'Recommendations that fit warm, funny and cosy tastes as well as acclaimed ones, and a card that says which favorite a pick is like.',notes:[
   'Your match now weighs how close a title is to the particular things you loved, not just whether it shares their genre. Every comedy used to get the same comedy boost, so among comedies the critics decided; now a pick that is genuinely like your favorites comes first, and its card says which one (“Like: 10 Things I Hate About You”)',
   'How much critical acclaim counts is learned from you. If your favorites are crowd-pleasers rather than critics’ darlings, acclaim counts for less and audience scores for more; if they are the acclaimed canon, nothing changes',

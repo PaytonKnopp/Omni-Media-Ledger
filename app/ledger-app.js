@@ -4670,7 +4670,7 @@ function handleProfileEditClick(btn){
    No longer surfaced in the header (it fell too far behind real changes to be worth showing), but
    kept here as the project's own record. Bump APP_VERSION and add a CHANGELOG entry whenever a
    change is worth remembering; cosmetic tweaks don't need a bump. */
-const APP_VERSION='1.51.0';
+const APP_VERSION='1.52.0';
 // CHANGELOG (the in-app version history) lives in data/changelog.js.
 
 /* ===== Suggestion box: shared Supabase table, visible to everyone =====

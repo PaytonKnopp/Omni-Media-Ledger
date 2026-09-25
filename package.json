@@ -1,11 +1,12 @@
 {
   "name": "omni-media-ledger",
   "private": true,
-  "description": "No build step for the app itself -- this package.json exists only to run the checks. `npm run test-fast` (~15s) is everything except the browser suite; `npm run test-browser` (~7 min) is the Playwright suite in test/regression.js, which CI runs on every pull request.",
+  "description": "No build step for the app itself -- this package.json exists only to run the checks. `npm run test-fast` (~15s) is everything except the browser; `npm run test-browser` (~7 min) is the Playwright suite in test/regression.js, and `npm run test-gate` (~15s) the corpus consistency gate on real app scores. CI runs all three on every pull request.",
   "scripts": {
-    "test": "npm run test-fast && npm run test-browser",
-    "test-fast": "node scripts/validate-corpus.js && node scripts/build-css.js --check && node test/schema.js && node test/fetch-facts.js && node test/fetch-substance.js && node test/score-batch.js && node test/search.js && node test/sync-merge.js && node test/retired-ids.js && node test/evidence.js",
+    "test": "npm run test-fast && npm run test-browser && npm run test-gate",
+    "test-fast": "node scripts/validate-corpus.js && node scripts/build-css.js --check && node test/schema.js && node test/fetch-facts.js && node test/fetch-substance.js && node test/score-batch.js && node test/search.js && node test/sync-merge.js && node test/retired-ids.js && node test/evidence.js && node test/composition.js && node scripts/corpus-metrics.js --assert",
     "test-browser": "node test/regression.js",
+    "test-gate": "node test/corpus-gate.js",
     "validate-corpus": "node scripts/validate-corpus.js",
     "build-css": "node scripts/build-css.js",
     "check-css": "node scripts/build-css.js --check",
