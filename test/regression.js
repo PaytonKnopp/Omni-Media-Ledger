@@ -3430,7 +3430,6 @@ async function runTabFiltersFlow(browser, file) {
       Object.keys(state.idx).forEach(k => { state.idx[k] = 0; });
       state.sort = 'overall';
       state.idx.scary = 60;
-      if (typeof maybeAutoSort === 'function') maybeAutoSort();
       const list = filtered();
       if (list.length < 20) return ['not enough works clear Scariest >= 60 to test the ordering'];
       computeMatch(list, state);
