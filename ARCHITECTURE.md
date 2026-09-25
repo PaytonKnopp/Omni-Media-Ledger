@@ -15,7 +15,9 @@ app/format.js       Pure provenance/edition-format helpers (provStampOf, normPhy
 app/cards.js        Pure HTML-string/widget builders (esc, ring, microBar, frontBars, matrixRow, ...)
 app/scoring.js       Pure deep-index scoring tables + certify()/lerpScore() (the hand-tuned overrides
                       and content-rating logic), plus the personal taste model -- buildTasteModel()
-                      turns ratings/tiers/ownership into genre, vibe, creator and per-axis weights,
+                      turns ratings/tiers/ownership into genre, vibe, creator and per-axis weights
+                      and each work's closeness to the specific works liked; acclaimWeight() and
+                      receptionMix() set how much, and which, acclaim counts for this person;
                       normalizeObjectiveByKind()/normalizeReceptionByKind() put the four mediums on
                       one scale, buildScoreCurve() calibrates the 40-99 GOAT Match band
 app/match.js         The live "Match" scoring pass (activeDims/computeMatch/bespokeScore) -- reads
@@ -27,7 +29,10 @@ app/creators.js      VIEW 5 · Pan-Creator Archives (worksFor/creatorCard/sortCr
                       renderCreators) -- takes state/ALL/$/$$ as parameters
 app/search.js        Pure search: folding (accents, case, punctuation), per-word matching with typo
                       tolerance, and the relevance buckets results are ordered by (see "Search")
-data/*.js            Reference data (corpus, creator pantheons, contenders)
+data/*.js            Reference data (corpus, creator pantheons, contenders), plus three tables that
+                      used to sit inside initApp(): the version history (changelog.js), the curated
+                      series/franchise lists (series.js) and the PK Sample's hand-written GOAT Profile
+                      (goat-profile-sample.js, copied fresh on every boot because the app rewrites it)
 supabase/schema.sql  The database: tables, row-level security, grants
 sw.js                Offline support for the hosted copy (service worker) -- see "Offline"
 tailwind.config.js   Dev-only: what the stylesheet compiled into index.html is generated from
@@ -140,15 +145,27 @@ One re-runnable pass, `recomputeTasteScores()`, rebuilt from scratch every time 
    the feature is in the corpus, then shrunk by `n/(n+3)` — so weights get stronger and sharper as
    the profile fills, never noisier, and a genre only scores for being characteristic rather than
    for being common.
-   Last, a signed **tone** affinity (warmth, comedy, dread), each work placed within its own
+   Then a signed **tone** affinity (warmth, comedy, dread), each work placed within its own
    medium: the one taste signal that reaches a medium the person has not tiered in, and the only
    axis signal that can count *against* a work.
+   Last, **closeness** (`buildNeighborFit`): every work compared with each work the person liked
+   on genre overlap, tone, medium, creator, era and vibe, scored as the mean of its two strongest
+   like-weighted similarities and read as a z-score against the corpus. Directions are shared by
+   every work pointing the same way (all ~600 comedies carry the same Comedy boost); closeness is
+   what tells one comedy from another. It only ever adds, fades as a library grows past the point
+   where the tables above can discriminate on their own, and remembers the favorite each work is
+   nearest to, so a card can say "Like: 10 Things I Hate About You".
 2. **Score.** Per work: an objective half (`0.5·crit + 0.2·aud + 0.3·tech` plus the six quality
    boosts, each scaled by that person's axis multiplier) and a personal half (creator + genre + vibe
-   weights plus the signed tone fit, saturated through `tanh` so stacked matches taper instead of
-   piling into the ceiling).
+   weights plus the signed tone fit and closeness, saturated through `tanh` so stacked matches
+   taper instead of piling into the ceiling).
    The objective half is put on one cross-medium scale first, so which medium tops a shared list is
-   decided by taste rather than by which aggregator a medium's numbers came from.
+   decided by taste rather than by which aggregator a medium's numbers came from. Two things about
+   it are then learned rather than fixed: `receptionMix()` moves up to 0.2 of the reception weight
+   toward audiences or critics, whichever way the person's favorites lean, and `acclaimWeight()`
+   scales the objective score's spread by how acclaimed their favorites actually are (a comedy
+   lover's sit 0.18 SD above the average title, a literary-fiction reader's 1.95). Neither ever
+   raises acclaim's weight above the old fixed value, and a blank profile gets exactly that value.
 3. **Calibrate.** `buildScoreCurve()` maps the raw score through a monotone quantile curve: median
    near 68, top decile past 85, the nineties reserved for the top ~3%. Order is preserved exactly.
    The band above the median is compressed while the profile is thin and relaxes as evidence
@@ -168,11 +185,15 @@ and 2 favorites"); `matchTitle()` is the ring's own description.
 browser suite, on every pull request) hides favorites and checks whether the engine finds them
 again among everything untried: the PK Sample's 53 favorites five folds at a time, and each of four
 cold-start personas' six to eight favorites one at a time. Today the engine puts 53% of the PK
-Sample's hidden favorites in its top 100 of ~4,800 (acclaim alone: 13%) and 54% of the personas'
-(acclaim alone: 21%). The checks fail if that drops below floors set a little under those numbers.
-When tuning, change one constant and re-run it: a sweep of every constant in `buildTasteModel` and
-the taste/objective balance found no change that improved every profile at once, so the current
-values sit on a plateau rather than on one profile's peak.
+Sample's hidden favorites in its top 100 of ~4,800 (acclaim alone: 13%) and 64% of the personas'
+(acclaim alone: 21%); the personas' typical hidden favorite ranks 19th (it was 85th before
+closeness and acclaim weighting, and the cosy-games player's went from 164th to 19th). The checks
+fail if that drops below floors set a little under those numbers, including a per-persona median
+floor so no one taste can quietly fall behind. When tuning, change one constant and re-run it; the
+closeness constants were each chosen from a flat region of a sweep, not a peak. The weakest case
+is still the comedy lover (median 264th): their favorites are comedies of middling acclaim with
+little else in common, so among ~600 comedies the corpus gives the engine little to tell them
+apart by.
 
 Nothing here is persisted, and every field is reset at the top of the pass, so running it twice
 produces the same result as a fresh boot.
@@ -441,7 +462,9 @@ still skips the rest of that flow, so one flaky assertion can hide dozens of che
 
 ## Known limits
 
-- `app/ledger-app.js` is still a large file (most of it is `initApp()`'s body). A first pass
+- `app/ledger-app.js` is still a large file (~440KB, most of it `initApp()`'s body; it was ~570KB
+  until its four biggest constant tables -- the changelog, the series and franchise lists and the
+  sample GOAT Profile, ~130KB -- moved to `data/`). A first pass
   pulled out the closure-independent pieces -- pure functions and constant data tables that never
   touch `state`/`PERSONAL_PROFILE`/DOM -- into `app/format.js`, `app/cards.js` and `app/scoring.js`.
   A second pass went further: functions that read `state`/`ALL`/`$`/`$$` directly, but don't nest

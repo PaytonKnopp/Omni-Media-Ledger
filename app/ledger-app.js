@@ -588,9 +588,10 @@ function gmBreakdownHTML(it){
  var provColor=ps.facts==='sourced'?'#4ade80':ps.facts==='edition-dependent'?'#fbbf24':ps.facts==='corroborated'?'#60a5fa':'#94a3b8';
  // The facts stamp covers year, length, creator and platforms -- never the critic or audience
  // score. No work's reception has a licensed source yet (NOTES.md, Known limitations #3), so it is
- // said beside every stamp, "sourced" ones most of all, rather than left for a reader to assume.
+ // said beside every stamp that could suggest otherwise rather than left for a reader to assume.
+ // ("Unverified estimate" already says it of everything on the card.)
  var prov='<span title="'+provTitle+'" style="color:'+provColor+'">'+provLabel+'</span>'
-  +'<span class="text-slate-600" title="Critic and audience scores are careful estimates for every work, including those whose facts are sourced -- no licensed ratings source has been applied yet"> \u00b7 critic & audience scores estimated</span>'
+  +(ps.facts!=='estimated'?'<span class="text-slate-600" title="Critic and audience scores are careful estimates for every work, including those whose facts are sourced -- no licensed ratings source has been applied yet"> \u00b7 critic & audience scores estimated</span>':'')
   +(ps.indices==='rubric-v1'?'<span class="text-slate-600"> \u00b7 indices rubric v1</span>':'');
  body+='<div class="text-[9px] mt-1.5">'+prov+'</div>';
  return '<div class="mt-2 pt-2 border-t border-slate-800/50">'+head+body+'</div>';
@@ -1599,6 +1600,7 @@ const AUTO_CREATOR_LIMIT=200;
    work matching several things this person's ratings actively count against settles smoothly
    toward -TASTE_CAP instead of running away exponentially. */
 const TASTE_CAP=30,TASTE_SCALE=20;
+const NEAR_NAME_MIN_SIM=0.4,NEAR_UNNAMED='your favorites';
 let TASTE_MODEL=null;
 function recomputeTasteScores(){
  GOAT_DECLARED=new Set(PERSONAL_PROFILE.declaredGoatIds||[]);
@@ -1667,8 +1669,15 @@ function recomputeTasteScores(){
  const tf=toneFit(x,TASTE_MODEL);if(Math.abs(tf)>=0.3){tasteRaw+=tf;br.push(['tone','Tone of your favorites',Math.round(tf*10)/10]);}
  // Closeness to the particular works this person liked (step 6 of buildTasteModel): what tells
  // one comedy from another once the genre and tone boosts, shared by all of them, are equal.
+ // A favorite is named only when it is the same medium and genuinely alike (similarity 0.4+:
+ // Animal Crossing is named for Stardew Valley at 0.42; It Takes Two for A Link to the Past at 0.38
+ // is not). The pull on the score stands either way; only the claim on the card needs the bar.
  const nb=TASTE_MODEL.neighbor.get(x.id);
- if(nb&&Math.abs(nb.fit)>=0.3){tasteRaw+=nb.fit;const nx=nb.near&&byId.get(nb.near);br.push(['near',nx?nx.title:'Your favorites',Math.round(nb.fit*10)/10]);}
+ if(nb&&Math.abs(nb.fit)>=0.3){
+  tasteRaw+=nb.fit;
+  const nx=nb.nearSame&&nb.nearSim>=NEAR_NAME_MIN_SIM&&nb.near&&byId.get(nb.near);
+  br.push(['near',nx?nx.title:NEAR_UNNAMED,Math.round(nb.fit*10)/10]);
+ }
  /* The six quality boosts below are each scaled by how much that construct characterises THIS
     person's favorites (TASTE_MODEL.axisMul, 0.4x-1.6x, 1.0x for a profile with no evidence yet).
     They used to be identical for everyone, which meant a third of a work's match score was the
@@ -1914,7 +1923,7 @@ function goatWhy(x){
   if(b[0]==='genre')return 'matches your weighted “'+b[1]+'” genre';
   if(b[0]==='vibe')return 'fits your “'+b[1]+'” vibe';
   if(b[0]==='tone')return 'has the tone of your favorites';
-  if(b[0]==='near')return 'is a lot like '+b[1];
+  if(b[0]==='near')return b[1]===NEAR_UNNAMED?'is close to what you love most':'is a lot like '+b[1];
   const p=WHY_PHRASE[b[0]];
   if(p)return (axis[WHY_AXIS[b[0]]]||0)>=AXIS_FAVORED?p[0]:p[1];
   return b[1];
@@ -4630,7 +4639,7 @@ function handleProfileEditClick(btn){
    No longer surfaced in the header (it fell too far behind real changes to be worth showing), but
    kept here as the project's own record. Bump APP_VERSION and add a CHANGELOG entry whenever a
    change is worth remembering; cosmetic tweaks don't need a bump. */
-const APP_VERSION='1.49.1';
+const APP_VERSION='1.50.0';
 // CHANGELOG (the in-app version history) lives in data/changelog.js.
 
 /* ===== Suggestion box: shared Supabase table, visible to everyone =====

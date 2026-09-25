@@ -3,6 +3,13 @@
 // entry whenever a change reaches users.
 'use strict';
 const CHANGELOG=[
+ {v:'1.50.0',date:'2026-09-25',summary:'Recommendations that fit warm, funny and cosy tastes as well as acclaimed ones, and a card that says which favorite a pick is like.',notes:[
+  'Your match now weighs how close a title is to the particular things you loved, not just whether it shares their genre. Every comedy used to get the same comedy boost, so among comedies the critics decided; now a pick that is genuinely like your favorites comes first, and its card says which one (“Like: 10 Things I Hate About You”)',
+  'How much critical acclaim counts is learned from you. If your favorites are crowd-pleasers rather than critics’ darlings, acclaim counts for less and audience scores for more; if they are the acclaimed canon, nothing changes',
+  'Measured by hiding favorites and seeing whether they come back: a cosy-games fan’s typical hidden favorite went from 164th to 19th of ~5,000, a comedy fan’s from 362nd to 264th, a family-drama fan’s from 47th to 11th',
+  'Cards whose facts are checked against a source now also say “critic & audience scores estimated”: those two numbers are careful estimates for every title until a licensed ratings source is applied',
+  'Contenders: Control Resonant is out (September 24), and anything already released or past its date now sits below everything still to come'
+ ]},
  {v:'1.49.1',date:'2026-09-25',summary:'The ✕ “not interested” button is gone.',notes:[
   'Cards and GOAT Profile recommendations no longer have a ✕ for “not interested”, nothing is hidden from your lists for it, and it no longer lowers your match for similar titles. Anything you had passed on is back where it was. The ✕ on a GOAT Profile recommendation is the plain “hide from this list” again.'
  ]},

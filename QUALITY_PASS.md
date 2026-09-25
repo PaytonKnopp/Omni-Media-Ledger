@@ -5,12 +5,24 @@ scoring engine that reads it. `NOTES.md` is the historical log of finished work;
 current one, and it is deliberately written so a session that has never seen the others can pick
 it up cold. Update it at the end of every phase.
 
-**Owner:** Payton. **Branch:** `claude/omni-media-ledger-audit-mrsljq`.
-**Status:** Phases 0-2 complete. **Plan restructured (decision 12):** corpus-wide scoring moved into Phase 5 to run alongside fact-gathering; Phase 3 reduced to the new fields on the owned set. Phase 1 delivered `RUBRIC.md` v1 with **seven** constructs (four
-original, plus `emotionalWarmth`, `comicIntent`, `aestheticBeauty`); no open interpretations.
-Phase 2 landed E2, E5, E6, E7 and closed; its last two items are deferred on measurement (see
-below). **Phase 3 is next and is now the bulk of the work.** PR #32 is open on this branch.
+**Owner:** Payton. **Status (2026-09-25):** everything that can be done without the internet is
+done, and what remains needs the owner or network access, not more offline code.
+- **Done:** Phase 0 (instrumentation), Phase 2 (cheap engine fixes, closed), Phases 3-4 in effect
+  (all 5,024 works are scored under rubric-v1 with the three new fields, `emotionalWarmth`,
+  `comicIntent`, `aestheticBeauty`, plus games' `conceptualDepth`; the genre taxonomy with exact
+  matching is in `data/genre-taxonomy.js`; the E1 `certify()` fix rates *Outer Wilds* E10+), Phase 6's
+  provenance mechanism, Phase 7's offline tests, and the Phase 5 harness (fetchers, reconciliation,
+  evidence format), built and tested offline. Recommendation quality is measured on every pull
+  request (`scripts/rec-quality.js`; NOTES.md Phase 49).
+- **Needs the owner:** the ruling on the anchors and the five open questions in RUBRIC.md, and
+  reproducibility pass 2, which must run in a fresh session (Phase 1 below).
+- **Needs network:** Phase 5 itself, sourcing reception scores and game facts. The cloud sessions
+  are still blocked from IMDb, IGDB, OMDb, TMDB, OpenLibrary and Wikidata (re-probed 2026-09-25;
+  only Google Books is reachable). Run `npm run fetch-facts` locally with free keys per
+  DATA_RUNBOOK.md, or allow those hosts in the environment's network settings.
 
+The rest of this file is the working record as it was written, phase by phase; where an older line
+says something is "next" or "open", the status above supersedes it.
 ---
 
 ## Why this exists
@@ -79,6 +91,9 @@ These are the owner's, and they are not negotiable. A future session must follow
   books' `criticalScore` should stop presenting as `prov.facts:"sourced"` at all, since most books
   have no real critical aggregator and the number has no source to point to. That's a data/
   provenance decision for Phase 5 (real sourcing), not an engine fix, so it's left for then.
+  **Presentation fixed 2026-09-25:** every card with a sourced, corroborated or edition-dependent facts stamp
+  now says "critic & audience scores estimated" beside it, so a `sourced` book no longer reads as having a sourced critic score. Sourcing a
+  real value (or declaring books' critic score unsourceable) is still Phase 5.
 - ~~**Convert `ownedBookIdCeiling: 51` into an explicit list.**~~ **Done.** Ownership is now stated
   per book in `PERSONAL_PROFILE.ownedBooksExtra` (an explicit `{id: format}` map); the ceiling
   defaults to 0 for any profile created after the change and is kept only so a profile saved before
@@ -241,7 +256,8 @@ replacement, and would have to be redone against the real ones.
 semantics (immersion is absorption, not menace), so reading games' immersion for an `M` rating is
 wrong on its face — but what replaces it depends on the games genre vocabulary that Phase 4
 cleans. Shipping a half-fix that Phase 3 then redoes is worse than one correct change. *Outer
-Wilds* stays mis-rated `M` in the meantime; it is the most visible open defect.
+Wilds* stays mis-rated `M` in the meantime; it is the most visible open defect. **Since fixed:** games
+  certify from genre alone and *Outer Wilds* is E10+ (`app/scoring.js` `certify()`, with a regression check).
 - **Phase 3 — Index calibration / re-score**, per the separation table. The bulk of the work;
   realistically 8–15 sessions. Rubric-implied values computed from each record's own evidence
   **without reference to the current value** (the current value only orders the review queue).

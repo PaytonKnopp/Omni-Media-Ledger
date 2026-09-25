@@ -350,7 +350,8 @@ function neighborSim(a,b){
 }
 /* exp(-years/eraYears) for 0..400 years apart; beyond that the era term is nil anyway. */
 const ERA_DECAY=(function(){const t=new Float64Array(401);for(let i=0;i<t.length;i++)t[i]=Math.exp(-i/TASTE_NEIGHBOR.eraYears);return t;})();
-/* id -> {fit, near}: fit in raw taste points (never negative), near = the liked work it is closest to. */
+/* id -> {fit, near, nearSim, nearSame}: fit in raw taste points (never negative); near = the liked work
+   it is closest to, nearSim how alike they are (0-1), nearSame whether it is the same medium. */
 function buildNeighborFit(all,ev,tax){
  const out=new Map();
  // Strongest evidence first, so the scan below can stop as soon as no remaining work could enter
@@ -378,7 +379,12 @@ function buildNeighborFit(all,ev,tax){
    top[t]=v;topAt[t]=j;
   }
   let sum=0;for(let t=0;t<K;t++)sum+=top[t];
-  raw[i]=sum/K;near[i]=topAt[0]>=0?pid[topAt[0]]:null;
+  raw[i]=sum/K;
+  // The favorite to name on the card: the strongest neighbour, with how alike the two actually are
+  // (unweighted by affinity) and whether it is the same medium -- a card saying a horse-racing book
+  // "is a lot like Super Mario 64" would be a claim no reader believes, even where the cross-medium
+  // pull on the score is real.
+  near[i]=topAt[0]>=0?{id:pid[topAt[0]],sim:neighborSim(f,pf[topAt[0]]),same:pf[topAt[0]].kind===f.kind}:null;
  });
  let m=0;for(let i=0;i<raw.length;i++)m+=raw[i];m/=raw.length;
  let v=0;for(let i=0;i<raw.length;i++)v+=(raw[i]-m)*(raw[i]-m);
@@ -387,7 +393,7 @@ function buildNeighborFit(all,ev,tax){
  const weight=n/(n+TASTE_SHRINK_K)*TASTE_NEIGHBOR.fade/(TASTE_NEIGHBOR.fade+n)*TASTE_NEIGHBOR.scale;
  feats.forEach(function(f,i){
   const z=Math.min(TASTE_NEIGHBOR.zMax,Math.max(0,(raw[i]-m)/sd));
-  out.set(f.id,{fit:z*weight,near:near[i]});
+  out.set(f.id,{fit:z*weight,near:near[i]&&near[i].id,nearSim:near[i]?near[i].sim:0,nearSame:!!(near[i]&&near[i].same)});
  });
  return out;
 }
