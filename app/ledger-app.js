@@ -712,7 +712,7 @@ function tierRowHTML(it,roomy){
  +'<span class="w-px h-4 mx-0.5" style="background:#334155"></span>'
  +seg('own','◆','Owned','Toggle whether this is in your owned collection',it.owned,'#4ade80',true)
  +doneSegHTML(it,roomy)
- +(roomy?'<span class="ml-auto flex items-center gap-3 text-[10.5px] text-slate-500 shrink-0"><span title="'+esc(matchTitle(it))+'">★ <b style="color:#fbbf24">'+it.gm+'</b></span><span title="'+esc(receptionSourceOf(it.kind,it.audSrc,it.audRaw).crit.title)+'">Crit <b class="text-slate-300">~'+it.crit+'</b></span><span title="'+esc(receptionSourceOf(it.kind,it.audSrc,it.audRaw).aud.title)+'">Aud <b class="text-slate-300">'+(receptionSourceOf(it.kind,it.audSrc,it.audRaw).aud.sourced?'':'~')+it.aud+'</b></span></span>':'')
+ +(roomy?'<span class="ml-auto flex items-center gap-3 text-[10.5px] text-slate-500 shrink-0"><span title="'+esc(matchTitle(it))+'">★ <b style="color:#fbbf24">'+it.gm+'</b></span></span>':'')
  +rateBtn
  +'</div>';
 }
