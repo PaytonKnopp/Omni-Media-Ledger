@@ -1969,8 +1969,10 @@ QUALITY_PASS.md now says so.
 **Decided, not pending:** the games' facts stay best estimates (owner, 2026-09-25: not worth an
 IGDB developer account; QUALITY_PASS.md decision 14). Film and TV audience scores are sourced
 (Phase 49); every critic score and games' and books' audience scores remain labelled estimates.
-Still the owner's call: whether to purge the plot summaries removed in `9d2715e` from git history
-(a force-push rewrite of master).
+Decided 2026-09-25 (owner): the plot summaries removed in `9d2715e` stay in git history. A
+rewrite would change every later commit hash and break existing clones, and GitHub would still serve
+the old commits through merged pull requests' refs until its Support purged them; the files are gone
+from the current tree and `test/evidence.js` keeps new ones out.
 
 **CI, and a browser quirk worth knowing about.** The PR's first CI run failed one check, the cloud
 account flow, timing out on a button after the owner signed in. Traced locally (about one run in
@@ -1982,6 +1984,78 @@ write-and-reload cycles outside the suite. The owner check now starts signed in 
 localStorage and mock row) instead of reaching that state through a reload it does not test, and
 `clickStartAndAwaitReboot()` waits for the new document instead of letting the outgoing one answer.
 ARCHITECTURE.md "Testing" has the rule that follows from it.
+
+## Phase 51 — The consistency gate measured against real data, and seven batch offsets removed
+
+`corpus-metrics.js --assert`, the acceptance gate DATA_RUNBOOK.md said the corpus must pass, failed
+14 rows on a blank profile. Measured before acting on any of it, most of those rows could not be
+passed honestly, so the gate was rebuilt against sourced data first and the corpus fixed second.
+
+**Why the old rows were unreachable.** (1) *Recency* wanted |corr(gm, id)| ≤ 0.15. But the corpus
+was built canon-first, and real quality falls with id order too: IMDb's own ratings correlate −0.56
+(films) and −0.45 (TV) with id, and still −0.52 / −0.47 with genre and decade held fixed. (2)
+*Concentration* wanted ≤ 40 of the top 100 from the original block; that block is the canon, and
+among films and TV it holds 53 of IMDb's own top 100 (48 of gm's). (3) *Resolution* wanted 200
+distinct gm values; gm is a whole number from 40 to 99, and a blank profile already used 53 of the
+54 in its range. (4) *Drift* wanted decile means within 25 points; a decile of sitcoms should differ
+from a decile of prestige drama.
+
+**The composition model** (`scripts/composition.js`, shared by the gate and the fix). Each judged
+field is regressed on what a work is — genres (taxonomy-expanded), era, and a reception reference
+(IMDb for film/TV; the critic estimate for games/books) — and read by id order. A smooth slope is
+what canon-first selection leaves and is allowed for; what is flagged is a *run* of consecutive ids
+off that slope (binary segmentation, t ≥ 5, 30+ works), with offset and median ≥ 5 and ≥ 80% of the
+run one way. Checked both ways (`test/composition.js`): IMDb's ratings produce no run at all, and a
+−10 planted on 120 real books comes back within 10 ids and 2.5 points.
+
+**What it found, and what was done.** Every flagged run was read title by title against the value
+the rest of the corpus predicts for the same genre, era and acclaim, and recorded in
+`REVIEWED_RUNS` with the reason:
+
+| Run | Offset | Verdict |
+|---|---|---|
+| books `ideaDensity` b1009–b1232 | −15.1 | corrected — first Phase 45 wave; Literary Fiction 33 vs 71 elsewhere, *The Grapes of Wrath* 40 |
+| books `ideaDensity` b01–b170 | +5.5 | corrected — original block inflated (*Mexican Gothic* 80) |
+| books `aestheticBeauty` b1007–b1111, b1206–b1252 | −13.5, −13 | corrected — same wave, 91–99% under |
+| TV `transferFidelity` t157–t263, `audioSoundscape` t168–t263 | −6.6, −9.2 | corrected — the 150→250 batch (*Oz* 52, *Doctor Who* 50 vs 62–67) |
+| films `audioSoundscape` m554–m758, m1907–m1977 | −7, −5.4 | corrected — 85% and 97% under with era held fixed; the second surfaced once the first was fixed |
+| films `comicIntent` m1986–m2027; books prose, ideas, warmth, beauty in five runs | | real — genre tags looser than the works: classic musicals tagged Comedy, children's books tagged Drama, Roth/Bellow/Nabokov tagged Comedy/Drama, Chandler/Highsmith under genre tags |
+
+`scripts/calibrate-batch-offsets.js` shifted each corrected run by its measured offset: 1,008 values,
+one reaching 100 (a TV transfer already at 94+). Nothing inside a run changed order; nothing outside
+one moved. Reception fields are never corrected (RUBRIC.md: sourced, never judged).
+`calibrate-batch-drift.js`, which recentred whole deciles and so also erased real differences in
+what they contain, is marked superseded.
+
+**Effect.** Blank-profile snapshot diff: gm moved on 1,160 works, mean +0.19; only fields derived
+from the shifted values moved (`tech`, `ovr`, `snd`, `ref`, `awe`, `vibe2`, `beauty`), plus ±1 curve
+renormalisation elsewhere. `npm run rec-quality`, all seven gates pass: personas pooled nDCG@100
+0.265 → 0.275, literary reader 0.424 → 0.455; PK Sample hit@100 51% → 53% but median rank 75 → 97,
+because several of its favorites sit in the original book block whose inflated `ideaDensity` was
+flattering them. Per QUALITY_PASS.md rule 3 the profile was not tuned to win that back. The
+Omni-Search, honest-match, personal-ratings and recommendation-quality browser flows pass.
+
+**The rebuilt gate** (DATA_RUNBOOK.md Phase D): batch offsets all reviewed; recency no worse than
+the pinned `RECENCY_GUARD` + 0.05; blank-profile concentration within 15 of IMDb's; gm using ≥ 90% of
+its whole numbers with no tie over 8%. Recency is a guard, not a pass: on a blank profile gm sits
+0.08 (films) and 0.12 (TV) more order-dependent than IMDb, and that excess has no honest reference —
+gm averages several inputs that all track canon-ness, and an average tracks a shared factor more
+tightly than any single measure, so it would exceed IMDb's figure even if every input were right.
+TV's largest contributor is its critic-score estimate (−0.56 vs IMDb −0.47), which only a sourced
+critic score can settle. The data half runs in `test-fast`; `npm run test-gate` (in `npm test`, so
+on CI) adds the snapshot rows for both profiles.
+
+**Also, the same day.** The 154 film/TV records whose facts are still estimates were run through
+`fetch-facts.js` against TMDB (reachable from this session with `NODE_USE_ENV_PROXY=1`; OMDb is not).
+Single-source, so nothing reached grade A: 290 fields confirmed, 109 differ and wait in
+`evidence/{movie,tv}-2026-09-25-tmdb-only.md` for a human (TMDB matched the 2023 live-action *One
+Piece* for the anime and lists *Monty Python*'s directors as its creators, which is why one source is
+not enough; others, like *The Simpsons* at 38 seasons, look right). One record resolved without a
+human: m2027 (*Pain & Gain*) is now `edition-dependent`. Applying it exposed a latent bug:
+`apply-facts.js` wrote `indices:"unscored"` over a record's existing `rubric-v1`, which would have
+quietly un-certified every scored record a fact run touched. It now keeps the existing value
+(`test/fetch-facts.js` checks it); no committed record had been hit. README.md's cloud-account
+section now says plainly that there is no password and anyone who types a name gets that account.
 
 ## Ideas / next steps
 

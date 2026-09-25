@@ -125,8 +125,14 @@ npm run test-fast        # corpus + harnesses, ~15s; the browser suite runs on t
 Grade A applies. Everything else waits for you. Records whose hard facts all came back grade A get
 stamped `prov: {facts:"sourced", checked:…, src:…, indices:"unscored"}`.
 
-`indices` stays `unscored` deliberately: sourcing a runtime says nothing about whether the work was
-scored against the rubric, and conflating the two would certify a judgement nobody made.
+`indices` is carried over from the record's existing stamp (`rubric-v1` on every record today), or
+`unscored` if it had none: sourcing a runtime says nothing about whether the work was scored against
+the rubric, so a fact-check can neither certify that judgement nor revoke it.
+
+**From a cloud session:** Node's `fetch` ignores the proxy unless run with `NODE_USE_ENV_PROXY=1`
+(every call otherwise fails 403). TMDB is reachable there and OMDb is not, so film and TV facts come
+back single-source: grade B, all of it in the review queue, none applyable. Grade A needs the second
+source — a free `OMDB_API_KEY`, run locally or added to the environment.
 
 ### A5. Widen
 
@@ -277,38 +283,35 @@ node scripts/score-snapshot.js --profile blank after-blank.json
 node scripts/score-snapshot.js --diff before-pk.json    after-pk.json
 node scripts/score-snapshot.js --diff before-blank.json after-blank.json
 
-node scripts/corpus-metrics.js --snapshot after-blank.json --assert
-node scripts/corpus-metrics.js --snapshot after-pk.json    --assert
-npm run test-fast
+npm run test-fast     # includes corpus-metrics.js --assert on the data (batch offsets)
+npm run test-gate     # snapshots both profiles and runs --assert on each
+npm run rec-quality
 ```
 
-**Both `--assert` runs must pass.** The blank-profile one is the "works for everyone" test, and it
-is the strict one — a personal profile's boost stack hides problems that a new user meets head-on.
+**The gate must pass on both profiles.** It has four rows, each set against something real rather
+than an ideal (rewritten 2026-09-25, NOTES.md Phase 51 has the measurements):
 
-The gate checks four properties:
-
-| Row | Threshold | What it means |
+| Row | Passes when | Why this form |
 |---|---|---|
-| recency bias | `\|corr(gm, id)\| ≤ 0.15` | When a work was added must not predict how well it scores |
-| concentration | ≤ 40 of the top 100 from the hand-scored block | That block is 26% of the corpus |
-| batch drift | index decile means span ≤ 25 | One field, one scale, everywhere |
-| score resolution | ≥ 200 distinct `gm` values | A score with no resolution cannot express an opinion |
+| batch offsets | every run of consecutive ids that sits off what its genre, era and acclaim predict (by 5+ points, median too, 80%+ of it one way) is listed in `scripts/composition.js` `REVIEWED_RUNS` as `corrected` or `real` | Sourced IMDb ratings produce no such run; a batch scored on its own scale does. The slope the canon-first build order leaves is allowed for |
+| recency | `gm`'s fall with id order (genre and era held fixed) is no worse than the value pinned in `RECENCY_GUARD` + 0.05 | Real quality falls with id order too (IMDb: −0.52 films, −0.47 TV), so zero is not the target; this row only stops it getting worse |
+| concentration (blank) | the original block holds no more of the film/TV top 100 by `gm` than of IMDb's top 100, + 15 | The block *is* the canon; IMDb is the reference for how much of the top it should hold |
+| resolution | `gm` uses 90%+ of the whole numbers in its range, and no value holds over 8% of the corpus | `gm` is a whole number from 40 to 99, so "200 distinct values" (the old row) was impossible |
 
-For reference, the state before Phase 5, on a blank profile: correlation −0.54 to −0.74, **98 of
-the top 100** from the hand-scored block, ten fields drifting more than 25 points, and **29 distinct
-score values** across 2,508 works in a 40–70 band.
-
-Once it passes, wire `--assert` into `npm test` so the property cannot silently regress.
-
----
+**When the batch row fails** on a new run: read its titles against what the model expects
+(`findBatchOffsets` in `scripts/composition.js`; the review in NOTES.md Phase 51 shows how). If the
+batch was scored on its own scale, add it to `REVIEWED_RUNS` as `corrected` with the reason and run
+`node scripts/calibrate-batch-offsets.js` (one additive shift per run: order inside it is kept,
+nothing outside moves). If the titles explain it — almost always genre tags looser than the works —
+add it as `real`, with the reason. Never correct a reception field; those are sourced or labelled.
 
 ## Phase E — Finish the application
 
 Only after D passes.
 
-1. **Decide the score range.** If resolution is still short, widen `gm`'s dynamic range. This is a
-   formula property, independent of the data, so it is deliberately decided *here* — with the real
-   distribution visible — rather than guessed against drifted values.
+1. **Decide the score range.** Settled: `buildScoreCurve()` (app/scoring.js) maps the raw score onto
+   40-99 by quantile, and a blank profile uses 52 of the 54 whole numbers it reaches (40-93, capped
+   below 99 until there is taste evidence, by design). The gate's resolution row holds it there.
 2. **Wire `emotionalWarmth`, `comicIntent` and `aestheticBeauty` into the UI** — sliders, filters,
    boosts. They are populated but connected to nothing, which was correct while most records
    lacked a value and is no longer correct once every record has one.
@@ -325,8 +328,9 @@ Only after D passes.
 Identical pipeline, no exceptions. New works enter with `prov` absent — which reads as "unverified
 estimate" — and earn a stamp only by going through Phase A.
 
-Re-run `--assert` after every expansion batch. Adding a hundred works scored on a different day is
-how batch drift starts, and the gate is what catches it before it becomes another 54-point spread.
+Re-run the gate after every expansion batch (`npm run test-fast` covers the batch row; CI runs the
+rest). Adding a hundred works scored on a different day is how batch drift starts, and the batch row
+is what catches it: a new batch on its own scale shows up as an unreviewed run the day it lands.
 
 **On size.** Three ceilings bind at different points: the scoring hot path is O(n) and fine past
 50,000; the practical limit is boot cost, since every `data/*.js` parses on every page load, and
@@ -344,5 +348,6 @@ data.
 | `apply-facts` refuses a record | The evidence file's `current` value is not what is on the line — stale evidence, or the corpus changed underneath it | Re-run the fetch. Never hand-edit to make it match |
 | A snapshot diff shows works outside the batch moving | A shared code path changed, not just data | Stop. Find it before committing |
 | `--assert` passes on `pk` but fails on `blank` | The boost stack is masking a corpus problem | Fix the corpus. The blank profile is the honest view |
+| The gate flags a batch run nobody reviewed | A batch was scored on its own scale, or its genre tags are looser than its works | Read its titles (Phase D), then list it in `REVIEWED_RUNS`: `corrected` and run `calibrate-batch-offsets.js`, or `real` with the reason |
 | A catalogue matched the wrong work | Title collision | Check `matchedTitle` in the pack, then constrain by year |
 | Validator fails on a `prov` stamp | A stamp claims `sourced` without a `src` and `checked` date | It is not sourced. Fix the claim, not the validator |

@@ -1,5 +1,10 @@
 #!/usr/bin/env node
 /*
+ * SUPERSEDED (2026-09-25) by scripts/calibrate-batch-offsets.js, kept for the record of what it did.
+ * Recentring each id decile on the grand mean also erased real differences in what each decile
+ * CONTAINS, which is the one thing a calibration must not touch; the new tool shifts only runs that
+ * genre, era and acclaim cannot explain (scripts/composition.js). Do not run this again.
+ *
  * Batch-drift calibration: a per-ID-decile additive offset that recenters each cohort's mean to
  * the corpus-wide grand mean, for fields whose cohort separation (corpus-metrics.js) is strong in
  * every measured cohort -- meaning the in-cohort ORDERING is real judgement and only the absolute
