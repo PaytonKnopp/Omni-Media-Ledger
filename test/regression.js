@@ -136,22 +136,26 @@ async function readWhen(page, predicate, arg, timeout) {
   return null;
 }
 
-// Click something that tiers a work, and don't come back until the resulting reload has finished.
+// Click one of onboarding's start buttons ("Start from the PK Sample", "Blank") and don't come back
+// until the page it reloads into has booted.
 //
-// Tiering writes the profile, flushes the cloud sync, then reloads the page (the scoring pipeline
-// recomputes from scratch rather than being patched in place). Every step after the click reads
-// state, so none of them may run against the outgoing document.
-//
-// Detecting that needs a marker, not a timer, and not a state check either:
-//   - A fixed sleep is the thing being replaced. It has already crept 500ms -> 900ms as the app
-//     got heavier and grows again with every title added.
-//   - waitForBoot alone cannot do it: window.ALL still exists in the OLD document, so it can
-//     return before the navigation has even started.
-//   - Waiting on the write landing cannot do it either: the flush happens BEFORE the reload, so
-//     the value arrives while the page is still on its way out. Doing that is what made two
-//     reload cycles overlap and broke the pending-sync checks on CI.
-// Stamping the document and waiting for the stamp to be gone is unambiguous: only a new document
-// lacks it.
+// Both save the chosen profile and then RELOAD once that first save lands (reloadWithMediaSync ->
+// reloadAfterSync in index.html). Every step after the click reads state, so none of them may run
+// against the outgoing document, and detecting that needs a marker, not a timer or a state check:
+//   - waitForBoot() cannot do it: the outgoing document still has window.ALL, and its onboarding
+//     gate is still up, which waitForBoot also accepts. So the old page answered, the caller carried
+//     on, and its next click raced the reload.
+//   - Waiting on the save landing cannot do it either: the save happens BEFORE the reload, so it
+//     arrives while the page is still on its way out.
+// Stamping the document and waiting for a booted one without the stamp is unambiguous: only the new
+// document lacks it. (A helper of this shape once covered tier clicks, when those reloaded too.)
+async function clickStartAndAwaitReboot(page, selector, timeout) {
+  await page.evaluate(() => { window.__omniBeforeStart = true; });
+  await page.click(selector);
+  await readWhen(page, () => !window.__omniBeforeStart && typeof window.ALL !== 'undefined', undefined, timeout || 30000);
+  await settle(page);
+}
+
 // Sign in at the account gate and wait for it to actually finish, rather than sleeping.
 //
 // Signing in does NOT navigate: resolveHandle() fetches the profile, then hides the account gate
@@ -186,10 +190,7 @@ async function signInAndSettle(page, handle, startBtn) {
     const g = document.getElementById('onboardGate');
     return !!g && !g.classList.contains('hidden');
   });
-  if (onboarding && startBtn) {
-    await page.click(startBtn);
-    await waitForBoot(page);
-  }
+  if (onboarding && startBtn) await clickStartAndAwaitReboot(page, startBtn);
   return { signedIn: signedIn, onboarding: onboarding };
 }
 
@@ -1549,8 +1550,7 @@ async function runAccountFlow(browser, file) {
     await settle(pageN);
     const onboardN = await pageN.evaluate(() => !document.getElementById('onboardGate').classList.contains('hidden'));
     check('a brand-new cloud handle gets the onboarding flow', onboardN);
-    await pageN.click(isShare ? '#onboardBlank' : '#onboardSample');
-    await settle(pageN);
+    await clickStartAndAwaitReboot(pageN, isShare ? '#onboardBlank' : '#onboardSample');
     const newGoldId = await firstCardId(pageN);
     await clickAndSettle(pageN, '.panel .profEditBtn[data-act="bronze"][data-id="' + newGoldId + '"]');
     // Let any debounced background sync fire too (the 1.5s idle one included), so a racing
@@ -1741,11 +1741,23 @@ async function runAccountFlow(browser, file) {
     const ctxO = await browser.newContext();
     const pageO = await ctxO.newPage();
     await pageO.route('**/supabase-js*/**', route => route.fulfill({ contentType: 'application/javascript', body: '' }));
-    await pageO.addInitScript(MOCK_SUPABASE_SDK + 'if(!localStorage.getItem("__mockDb"))localStorage.setItem("__mockDb", JSON.stringify({tables:{profiles:{},suggestions:[{id:9101,text:"Someone else entirely: more theremin.",handle:"a_different_person",status:"open",created_at:"' + new Date().toISOString() + '"}],media_status:[]},upsertCalls:0,insertCalls:0,deleteCalls:0}));');
+    // Signed in as the owner from the first load: the account's row and this device's copy of it are
+    // seeded, so the app boots straight in. Reaching this state through the sign-in gate and
+    // onboarding cost a reload the check does not need (the start button saves, then reloads), and
+    // that reload was this flow's most frequent failure: the test browser occasionally hands a
+    // reloaded page an empty localStorage (ARCHITECTURE.md, "Testing"), which the app rightly meets
+    // with its sign-in gate -- so the owner's controls were never reached.
+    const ownerProfile = JSON.stringify({ ratings: {} });
+    const ownerDb = { tables: { profiles: { payton: { handle: 'payton', data: { omniLedgerProfile: ownerProfile, omniLedgerOnboarded: '1' }, updated_at: new Date(Date.UTC(2026, 0, 1)).toISOString() } },
+      suggestions: [{ id: 9101, text: 'Someone else entirely: more theremin.', handle: 'a_different_person', status: 'open', created_at: new Date().toISOString() }], media_status: [] },
+      upsertCalls: 0, insertCalls: 0, deleteCalls: 0 };
+    const ownerLocal = { omniLedgerHandle: 'payton', omniLedgerOnboarded: '1', omniLedgerProfile: ownerProfile };
+    await pageO.addInitScript(MOCK_SUPABASE_SDK
+      + 'if(!localStorage.getItem("__mockDb"))localStorage.setItem("__mockDb", ' + JSON.stringify(JSON.stringify(ownerDb)) + ');'
+      + 'if(!localStorage.getItem("omniLedgerHandle")){var __o=' + JSON.stringify(ownerLocal) + ';Object.keys(__o).forEach(function(k){localStorage.setItem(k,__o[k]);});}');
     await pageO.goto('file://' + tmpPath);
     await waitForBoot(pageO);
     await settle(pageO);
-    await signInAndSettle(pageO, 'payton', '#onboardBlank');
     await pageO.click('#suggestBtn');
     const ownerControls = await readWhen(pageO, () => {
       const row = Array.from(document.querySelectorAll('#suggestList [data-suggest-id]')).find(r => r.textContent.includes('more theremin'));

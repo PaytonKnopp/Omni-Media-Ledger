@@ -384,6 +384,19 @@ against a mocked Supabase, so no real project is needed. CI runs both on every p
 day, `test-fast` plus lint is the pre-commit check, and `node test/regression.js --only=<flow>`
 re-runs a single browser flow in seconds (see CLAUDE.md).
 
+**A reloaded page can come back with an empty localStorage in the test browser.** Measured
+2026-09-25 on the cloud account flow: in roughly one run in eight, the page an app-triggered reload
+lands on started with none of the keys the outgoing page held a moment before (logged from the old
+page right before `location.reload()`, and from the new one as its boot began), while its
+sessionStorage survived. Nothing in between removes them, so this is the browser, not the app. It could
+not be reproduced outside the suite (700 isolated write-and-reload cycles, and 60 more with four
+copies of the app open, lost nothing), so no browser flag is known to prevent it. The app handles it
+correctly -- a device that knows nothing shows the sign-in gate -- but a check that reached its
+subject through a reload never gets there. So: reach a state by seeding it (`addInitScript` writing
+localStorage and the mock's `__mockDb`) rather than through an onboarding or sign-in reload, unless
+the reload is what the check is about, and after any start button use `clickStartAndAwaitReboot()`,
+which waits for the new document rather than letting the outgoing one answer.
+
 `test/search.js` runs `app/search.js` against the real corpus with no browser; `test/sync-merge.js`
 does the same for the merge rules, including the offline-phone-and-laptop case. `npm run
 rec-quality` prints the recommendation-quality report described under "How GOAT Match is computed".
