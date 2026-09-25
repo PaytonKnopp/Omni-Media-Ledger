@@ -583,6 +583,9 @@ check('a dry run writes nothing',
     const m01Line = fs.readFileSync(moviesPath, 'utf8').match(/^.*"id"\s*:\s*"m01".*$/m)[0];
     check('the written stamp itself says facts:"corroborated"',
       /"prov":\{"facts":"corroborated"/.test(m01Line), m01Line);
+    // m01 was scored against RUBRIC.md before this ran; a fact-check must not revoke that.
+    check('a record already scored keeps indices:"rubric-v1" through a fact stamp',
+      /"prov":\{[^}]*"indices":"rubric-v1"\}/.test(m01Line), m01Line);
   } finally {
     fs.writeFileSync(moviesPath, backup);
   }

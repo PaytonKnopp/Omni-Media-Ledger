@@ -72,7 +72,9 @@ If you'd rather build or edit a whole profile at once by hand, `PROFILE_TEMPLATE
 
 ## Cloud accounts (follow you between devices)
 
-By default, everything lives only in the browser you're using — switch devices and you start fresh. Turning on **cloud accounts** (a one-time, optional setup by whoever's hosting the app, backed by a free Supabase project — see `NOTES.md` → "Cloud accounts (Supabase)" for the technical how-to) changes that: anyone opening the link types a name once, and from then on their taste, collection, and preferences follow that name to any device. Nobody's data affects anybody else's — it's each person's own private, isolated account.
+By default, everything lives only in the browser you're using — switch devices and you start fresh. Turning on **cloud accounts** (a one-time, optional setup by whoever's hosting the app, backed by a free Supabase project — see `NOTES.md` → "Cloud accounts (Supabase)" for the technical how-to) changes that: anyone opening the link types a name once, and from then on their taste, collection, and preferences follow that name to any device. Each name's data is kept separately, so one person's picks never mix into another's.
+
+**There's no password, though.** A name is just a name: anyone who types yours gets your account and can change it or delete it. That's a deliberate trade for a small group of friends sharing one link (nobody has to remember a password), not a security feature — so pick a name nobody would guess, don't put anything in it you'd mind someone seeing, and keep an Export as a backup if the account matters to you.
 
 **This copy of the app already has cloud accounts turned on.** Opening it for the first time asks you to pick a name.
 

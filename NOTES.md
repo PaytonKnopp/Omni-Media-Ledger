@@ -2043,6 +2043,18 @@ TV's largest contributor is its critic-score estimate (−0.56 vs IMDb −0.47),
 critic score can settle. The data half runs in `test-fast`; `npm run test-gate` (in `npm test`, so
 on CI) adds the snapshot rows for both profiles.
 
+**Also, the same day.** The 154 film/TV records whose facts are still estimates were run through
+`fetch-facts.js` against TMDB (reachable from this session with `NODE_USE_ENV_PROXY=1`; OMDb is not).
+Single-source, so nothing reached grade A: 290 fields confirmed, 109 differ and wait in
+`evidence/{movie,tv}-2026-09-25-tmdb-only.md` for a human (TMDB matched the 2023 live-action *One
+Piece* for the anime and lists *Monty Python*'s directors as its creators, which is why one source is
+not enough; others, like *The Simpsons* at 38 seasons, look right). One record resolved without a
+human: m2027 (*Pain & Gain*) is now `edition-dependent`. Applying it exposed a latent bug:
+`apply-facts.js` wrote `indices:"unscored"` over a record's existing `rubric-v1`, which would have
+quietly un-certified every scored record a fact run touched. It now keeps the existing value
+(`test/fetch-facts.js` checks it); no committed record had been hit. README.md's cloud-account
+section now says plainly that there is no password and anyone who types a name gets that account.
+
 ## Ideas / next steps
 
 Roughly in order of value:

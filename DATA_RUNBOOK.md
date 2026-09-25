@@ -125,8 +125,14 @@ npm run test-fast        # corpus + harnesses, ~15s; the browser suite runs on t
 Grade A applies. Everything else waits for you. Records whose hard facts all came back grade A get
 stamped `prov: {facts:"sourced", checked:…, src:…, indices:"unscored"}`.
 
-`indices` stays `unscored` deliberately: sourcing a runtime says nothing about whether the work was
-scored against the rubric, and conflating the two would certify a judgement nobody made.
+`indices` is carried over from the record's existing stamp (`rubric-v1` on every record today), or
+`unscored` if it had none: sourcing a runtime says nothing about whether the work was scored against
+the rubric, so a fact-check can neither certify that judgement nor revoke it.
+
+**From a cloud session:** Node's `fetch` ignores the proxy unless run with `NODE_USE_ENV_PROXY=1`
+(every call otherwise fails 403). TMDB is reachable there and OMDb is not, so film and TV facts come
+back single-source: grade B, all of it in the review queue, none applyable. Grade A needs the second
+source — a free `OMDB_API_KEY`, run locally or added to the environment.
 
 ### A5. Widen
 
