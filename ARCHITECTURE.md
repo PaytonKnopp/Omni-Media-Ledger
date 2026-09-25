@@ -167,7 +167,7 @@ One re-runnable pass, `recomputeTasteScores()`, rebuilt from scratch every time 
    floors lift it (parallel rungs, never crossing — see `tierTarget`); then Gold pins to 100.
 
 The number on a card's ring is this score, labelled "Match" once the profile holds any rating, tier,
-ownership or pass and "Score" before that — with nothing personal to go on it is only the calibrated
+ownership, pass or hand-set boost and "Score" before that — with nothing personal to go on it is only the calibrated
 critical/audience/craft consensus, and nothing on the page calls it a match for anyone's taste.
 `tasteBasis()` is what every explanation reads to say what a match rests on ("based on 3 ratings
 and 2 favorites"); `matchTitle()` is the ring's own description.

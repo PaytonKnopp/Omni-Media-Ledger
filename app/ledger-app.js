@@ -827,7 +827,7 @@ function renderController(list,changedIds){
  renderGridChunked(shown);
 }
 // Building card HTML is ~2ms/card (see patchControllerGrid's comment) -- fine for the default
-// Top 100, but "Show: All" on an unfiltered library is ~2,500 cards, and setting innerHTML for all
+// Top 100, but "Show: All" on an unfiltered library is ~5,000 cards, and setting innerHTML for all
 // of them in one go blocks the main thread for seconds: the screen looks frozen and can't be
 // scrolled or clicked until the whole string is built and parsed.
 //
@@ -1551,7 +1551,7 @@ const goatProfile={
 };
 if(PROFILE_FROM_STORAGE)goatProfile.declared=PERSONAL_PROFILE.declaredCanon||[];
 else PERSONAL_PROFILE.declaredCanon=goatProfile.declared;
-/* --- Personal GOAT-match scoring across the full 2,502-work corpus --- */
+/* --- Personal GOAT-match scoring across the whole corpus --- */
 if(!PROFILE_FROM_STORAGE)PERSONAL_PROFILE.declaredGoatIds=['m09','m06','m65','t03','t10','g45','m120','b19','b20','b21','b32','b23'];
 let GOAT_DECLARED=new Set(PERSONAL_PROFILE.declaredGoatIds||[]);
 if(!PROFILE_FROM_STORAGE)PERSONAL_PROFILE.creatorBoost=[['Christopher Nolan',14],['Denis Villeneuve',12],['Peter Jackson',10],['Steven Spielberg',9],['Stanley Kubrick',9],['Alex Garland',8],['Sam Esmail',8],['Jonathan Nolan',8],['David Fincher',7],['Alfonso Cuar\u00f3n',7],['Ridley Scott',7],['Martin Scorsese',7],['John Carpenter',7],['Peter Weir',7],['Sam Mendes',6],['Craig Mazin',6],['Vince Gilligan',6],['Sergio Leone',6],['Ron Howard',6],['Quentin Tarantino',6],['Clint Eastwood',6],['Robert Zemeckis',6],['Frank Darabont',6],['Joel & Ethan Coen',5],['Gus Van Sant',5],['Joseph Kosinski',5],['Bong Joon-ho',5],['Paul Thomas Anderson',5],['Akira Kurosawa',5]];
