@@ -52,8 +52,8 @@ if (process.env.HTTPS_PROXY && process.env.NODE_USE_ENV_PROXY !== '1' && require
 
 const ROOT = path.resolve(__dirname, '..');
 const SECTIONS = {
-  movie: { file: 'data/movies.js', varName: 'movies', label: 'Movies' },
-  tv:    { file: 'data/tv.js',     varName: 'tvShows', label: 'TV' },
+  movie: { file: 'data/movies.js', varName: 'movies', label: 'Movies', noun: 'movies' },
+  tv:    { file: 'data/tv.js',     varName: 'tvShows', label: 'TV', noun: 'TV shows' },
 };
 const RATINGS_URL = 'https://datasets.imdbws.com/title.ratings.tsv.gz';
 const TMDB = 'https://api.themoviedb.org/3';
@@ -255,7 +255,7 @@ const pct = x => Math.round(x * 100) + '%';
 const sgn = x => (x > 0 ? '+' : '') + f1(x);
 const esc = s => String(s).replace(/\|/g, '\\|');
 
-function mediumSection(label, all, rows, lowVoteFloor) {
+function mediumSection(label, noun, all, rows, lowVoteFloor) {
   const out = [];
   const counts = {};
   for (const w of all) counts[w.status] = (counts[w.status] || 0) + 1;
@@ -306,12 +306,24 @@ function mediumSection(label, all, rows, lowVoteFloor) {
   rows.forEach((r, k) => { r._pOurs = toPct(pOurs[k]); r._pImdb = toPct(pImdb[k]); });
   out.push('### 20 biggest outliers', '');
   out.push('Ranked by raw gap. "Gap − offset" subtracts this medium\'s average offset (' + sgn(s.offset) + '); ' +
-    '"Percentile" is the work\'s standing among the ' + rows.length + ' matched ' + label.toLowerCase() + ' on each side (ours → IMDb).', '');
+    '"Percentile" is the work\'s standing among the ' + rows.length + ' matched ' + noun + ' on each side (ours → IMDb).', '');
   out.push('| # | id | Title | Year | Ours | IMDb ×10 | Gap | Gap − offset | Percentile | IMDb votes | IMDb id |',
     '|---:|---|---|---:|---:|---:|---:|---:|---:|---:|---|');
   rows.slice().sort((a, b) => Math.abs(b.gap) - Math.abs(a.gap) || a.id.localeCompare(b.id)).slice(0, 20).forEach((r, k) => {
     out.push('| ' + (k + 1) + ' | ' + r.id + ' | ' + esc(r.title) + ' | ' + r.year + ' | ' + r.audienceScore + ' | ' + f1(r.imdb10) +
       ' | ' + sgn(r.gap) + ' | ' + sgn(r.gap - s.offset) + ' | ' + r._pOurs + ' → ' + r._pImdb +
+      ' | ' + r.votes.toLocaleString('en-US') + (r.votes < lowVoteFloor ? ' ⚠' : '') + ' | ' + r.imdbId + ' |');
+  });
+  out.push('');
+  // The raw-gap list above is partly the offset talking (a work can sit 14 points above IMDb and
+  // still be in the same place in both orderings). This one is what survives normalisation.
+  out.push('### 20 biggest rank disagreements', '');
+  out.push('Ranked by how far apart the work\'s percentile is on the two sides. This is the disagreement that survives the app\'s per-medium normalisation.', '');
+  out.push('| # | id | Title | Year | Ours | IMDb ×10 | Percentile | Δ percentile | Gap | IMDb votes | IMDb id |',
+    '|---:|---|---|---:|---:|---:|---:|---:|---:|---:|---|');
+  rows.slice().sort((a, b) => Math.abs(b._pOurs - b._pImdb) - Math.abs(a._pOurs - a._pImdb) || a.id.localeCompare(b.id)).slice(0, 20).forEach((r, k) => {
+    out.push('| ' + (k + 1) + ' | ' + r.id + ' | ' + esc(r.title) + ' | ' + r.year + ' | ' + r.audienceScore + ' | ' + f1(r.imdb10) +
+      ' | ' + r._pOurs + ' → ' + r._pImdb + ' | ' + (r._pOurs - r._pImdb > 0 ? '+' : '') + (r._pOurs - r._pImdb) + ' | ' + sgn(r.gap) +
       ' | ' + r.votes.toLocaleString('en-US') + (r.votes < lowVoteFloor ? ' ⚠' : '') + ' | ' + r.imdbId + ' |');
   });
   out.push('');
@@ -395,7 +407,7 @@ async function main() {
   ];
   for (const medium of Object.keys(SECTIONS)) {
     const all = works.filter(w => w.medium === medium);
-    md.push(...mediumSection(SECTIONS[medium].label, all, all.filter(w => w.status === 'matched'), args.minVotes));
+    md.push(...mediumSection(SECTIONS[medium].label, SECTIONS[medium].noun, all, all.filter(w => w.status === 'matched'), args.minVotes));
   }
   md.push('---', '', '_This product uses the TMDB API but is not endorsed or certified by TMDB. ' +
     'Information courtesy of IMDb (https://www.imdb.com). Used with permission, for personal and non-commercial use._', '');
