@@ -110,4 +110,7 @@ async function main() {
   });
 }
 
-main().catch(e => { console.error(e); process.exit(1); });
+// The personas are also the cold-start half of scripts/rec-quality.js, which requires this file.
+module.exports = { PROFILES };
+
+if (require.main === module) main().catch(e => { console.error(e); process.exit(1); });

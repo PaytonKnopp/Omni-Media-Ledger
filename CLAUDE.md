@@ -10,10 +10,13 @@ There are two tiers of checks:
 | Command                  | What it covers                                        | Time    |
 |--------------------------|-------------------------------------------------------|---------|
 | `npm run lint`           | ESLint, including the no-fixed-sleeps rule for tests  | ~3s     |
-| `npm run test-fast`      | corpus validation, schema, fact/substance/score harnesses, no prose in committed evidence | ~15s |
+| `npm run test-fast`      | corpus validation, stylesheet current, schema, fact/substance/score/search/merge harnesses, no prose in committed evidence | ~15s |
 | `npm run test-browser`   | the Playwright suite, `test/regression.js`            | ~7 min  |
 
 `npm test` runs both tiers in order.
+
+If `test-fast` fails on the stylesheet check, a Tailwind class is used that the compiled block in
+`index.html` lacks: run `npm run build-css` and commit the result. Never edit that block by hand.
 
 Rules for Claude when making changes in this repo:
 

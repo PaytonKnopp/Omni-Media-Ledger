@@ -27,6 +27,8 @@ try {
   }
 }
 
+const recQuality = require('../scripts/rec-quality.js');
+
 const ROOT = path.resolve(__dirname, '..');
 const ARGS = process.argv.slice(2);
 const ONLY = ARGS.filter(a => a.startsWith('--only=')).map(a => a.slice('--only='.length).toLowerCase());
@@ -991,8 +993,18 @@ async function runFile(browser, file) {
     await settle(page);
     await page.click('.tierChip[data-tier="bronze"]');
     await settle(page);
-    const bronzeOnlyCount = await page.textContent('#resultCount');
-    check('bronze-only tier filter narrows to just the tiered item', bronzeOnlyCount.trim() === '1');
+    // Exactly the profile's Bronze picks, the one tiered above among them. This used to expect a
+    // count of 1, which only held while the PK Sample had no Bronze picks of its own -- the sample
+    // refreshed from the payton account carries ten, so the filter rightly shows eleven.
+    const bronzeOnly = await page.evaluate(() => {
+      let ids = [];
+      try { ids = JSON.parse(localStorage.getItem('omniLedgerProfile')).bronzeTierIds || []; } catch (e) { /* none */ }
+      const shown = Array.from(document.querySelectorAll('#grid .cardHead[data-id]')).map(h => h.dataset.id);
+      return { count: (document.getElementById('resultCount').textContent.match(/\d+/) || [''])[0], ids, shown };
+    });
+    check('bronze-only tier filter narrows to exactly the Bronze picks, the one just tiered among them',
+      +bronzeOnly.count === bronzeOnly.ids.length && bronzeOnly.shown.length === bronzeOnly.ids.length &&
+      bronzeOnly.shown.every(id => bronzeOnly.ids.includes(id)) && bronzeOnly.shown.includes(firstCardIdValue));
     await page.click('.tierChip[data-tier="bronze"]'); // required -> excluded
     await settle(page);
     await page.click('.tierChip[data-tier="bronze"]'); // excluded -> neutral
@@ -1106,6 +1118,32 @@ async function runFile(browser, file) {
     check('at 1024px the views form two even rows of five, with Suggest a feature centered below',
       mid.noScroll && mid.nothingCut && mid.rows === 2 && mid.perRow.every(c => c === 5) && mid.suggestBelow && mid.suggestCentered);
 
+    // Stat-tile grids are laid out purely by utility classes (#goatStats: grid-cols-3
+    // sm:grid-cols-6, #collStats: grid-cols-2 md:grid-cols-4 lg:grid-cols-8). The compiled
+    // stylesheet used to lack grid-cols-3, sm:grid-cols-6 and lg:grid-cols-8, so every GOAT tile
+    // stacked as its own full-width row even on desktop, and nothing failed. build-css.js --check
+    // (test-fast) now keeps the stylesheet in step with the markup; these check it where it shows.
+    const tileRows = async (view, sel) => {
+      await page.evaluate(vv => document.querySelector('#nav .navBtn[data-view="' + vv + '"]').click(), view);
+      await settle(page);
+      return page.evaluate(s => {
+        const tops = Array.from(document.querySelectorAll(s + ' > *')).map(t => Math.round(t.getBoundingClientRect().top));
+        const rows = Array.from(new Set(tops));
+        return { n: tops.length, perRow: rows.map(r => tops.filter(t => t === r).length) };
+      }, sel);
+    };
+    await page.setViewportSize({ width: 1400, height: 900 });
+    await settle(page);
+    const goatWide = await tileRows('goat', '#goatStats');
+    check('at 1400px the six GOAT Profile stat tiles sit on one row', goatWide.n === 6 && goatWide.perRow.length === 1);
+    const collWide = await tileRows('collection', '#collStats');
+    check('at 1400px the eight Collection stat tiles sit on one row', collWide.n === 8 && collWide.perRow.length === 1);
+    await page.setViewportSize({ width: 390, height: 844 });
+    await settle(page);
+    const goatPhone = await tileRows('goat', '#goatStats');
+    check('on a phone the GOAT Profile stat tiles form two rows of three',
+      goatPhone.n === 6 && goatPhone.perRow.length === 2 && goatPhone.perRow.every(c => c === 3));
+
     await page.close();
   }
 }
@@ -1141,8 +1179,11 @@ function __mockSave(db){ try { sessionStorage.setItem('__mockDb', JSON.stringify
 function __mockFlag(name){ try { return sessionStorage.getItem('__mockFlag_' + name) === '1'; } catch (e) { return false; } }
 function __mockSetFlag(name, on){ try { sessionStorage.setItem('__mockFlag_' + name, on ? '1' : '0'); } catch (e) {} }
 window.__mockSetFlag = __mockSetFlag;
+// updated_at as the server stamps it on every write: unique and increasing, so a conditional write
+// against a stale copy misses, as it would against Postgres.
+function __mockStamp(db){ db.stampSeq = (db.stampSeq || 0) + 1; return new Date(Date.UTC(2026, 0, 1) + db.stampSeq).toISOString(); }
 // Puts a profile row in the store as if some other device had saved it.
-window.__mockSeedProfile = function(handle, data){ var db = __mockLoad(); db.tables.profiles[handle] = { handle: handle, data: data }; __mockSave(db); };
+window.__mockSeedProfile = function(handle, data){ var db = __mockLoad(); db.tables.profiles[handle] = { handle: handle, data: data, updated_at: __mockStamp(db) }; __mockSave(db); };
 Object.defineProperty(window, '__mockTables', { get: function(){ return __mockLoad().tables; } });
 Object.defineProperty(window, '__upsertCalls', { get: function(){ return __mockLoad().upsertCalls; } });
 Object.defineProperty(window, '__profileUpsertCalls', { get: function(){ return __mockLoad().profileUpsertCalls || 0; } });
@@ -1169,9 +1210,34 @@ function __mockBuilder(table){
     return new Promise(function(res){
       var db = __mockLoad();
       if (table === 'profiles') {
-        if (state.op === 'upsert') {
+        if (state.op === 'upsert' || state.op === 'update') {
           db.upsertCalls++;
           db.profileUpsertCalls = (db.profileUpsertCalls || 0) + 1;
+          var hfw = state.filters.find(function(f){ return f[0] === 'handle'; });
+          var row = state.op === 'upsert' ? state.payload : Object.assign({ handle: hfw && hfw[1] }, state.payload);
+          if (state.op === 'update') {
+            // Test-only escape hatch (__mockFlag concurrentProfileWriteOnce): another device saves
+            // this handle's row between the app's read and its conditional write. Its copy carries a
+            // rating of t01 the app has never seen, stamped as a real edit, so a merge must keep it.
+            if (__mockFlag('concurrentProfileWriteOnce')) {
+              __mockSetFlag('concurrentProfileWriteOnce', false);
+              var cur = db.tables.profiles[row.handle];
+              if (cur) {
+                var other = JSON.parse(JSON.stringify(cur.data || {}));
+                var op = JSON.parse(other.omniLedgerProfile || '{}');
+                op.ratings = op.ratings || {}; op.ratings.t01 = 7.5;
+                other.omniLedgerProfile = JSON.stringify(op);
+                var oe = JSON.parse(other.omniLedgerEdits || '{}'); oe['r|t01'] = Math.floor(Date.now() / 1000) + 5;
+                other.omniLedgerEdits = JSON.stringify(oe);
+                db.tables.profiles[row.handle] = { handle: row.handle, data: other, updated_at: __mockStamp(db) };
+              }
+            }
+            var existing = db.tables.profiles[row.handle];
+            var uf = state.filters.find(function(f){ return f[0] === 'updated_at'; });
+            // A conditional write whose row moved on (someone else saved since it was read) touches
+            // nothing: an empty result, no error -- exactly what PostgREST answers.
+            if (!existing || (uf && existing.updated_at !== uf[1])) { __mockSave(db); res({ data: [], error: null }); return; }
+          }
           // Test-only escape hatch (window.__mockFailNextProfileUpsert) to simulate a write that
           // reaches the server but fails, or times out client-side -- without it, there's no way
           // to test what happens when a self-triggered reload's own sync doesn't land, since every
@@ -1184,7 +1250,6 @@ function __mockBuilder(table){
             res({ data: null, error: { message: 'simulated upsert failure' } });
             return;
           }
-          var row = state.payload;
           // Test-only escape hatch (__mockFlag silentlyDropProfileUpserts) reproducing the exact reported
           // failure: the server ACCEPTS the write (no error returned) but doesn't actually store
           // it -- what a rejecting/rewriting BEFORE trigger, an out-of-date schema, or a filtered
@@ -1196,10 +1261,10 @@ function __mockBuilder(table){
             return;
           }
           // Test-only escape hatch (__mockFlag refuseProfileWritesSilently) reproducing what Postgres
-          // actually does when an RLS UPDATE policy excludes the conflicting row in an
-          // INSERT ... ON CONFLICT DO UPDATE: the request succeeds, no error is raised, and ZERO
-          // rows are written. Distinct from silentlyDropProfileUpserts above, which still claims a
-          // row was affected -- here the empty array is the only evidence anything went wrong.
+          // actually does when an RLS UPDATE policy excludes the row being written: the request
+          // succeeds, no error is raised, and ZERO rows are written. Distinct from
+          // silentlyDropProfileUpserts above, which still claims a row was affected -- here the empty
+          // array is the only evidence anything went wrong.
           if (__mockFlag('refuseProfileWritesSilently')) {
             __mockSave(db);
             res({ data: [], error: null });
@@ -1217,13 +1282,13 @@ function __mockBuilder(table){
             __mockSave(db);
             setTimeout(function(){
               var db2 = __mockLoad();
-              db2.tables.profiles[row.handle] = { handle: row.handle, data: row.data };
+              db2.tables.profiles[row.handle] = { handle: row.handle, data: row.data, updated_at: __mockStamp(db2) };
               __mockSave(db2);
               res({ data: [row], error: null });
             }, delayMs);
             return;
           }
-          db.tables.profiles[row.handle] = { handle: row.handle, data: row.data };
+          db.tables.profiles[row.handle] = { handle: row.handle, data: row.data, updated_at: __mockStamp(db) };
           __mockSave(db);
           res({ data: [row], error: null });
           return;
@@ -1599,14 +1664,18 @@ async function runAccountFlow(browser, file) {
       (window.__mockTables.suggestions || []).some(s => (s.text || '').includes('cowbell')));
     check('deleting a suggestion removes it from the list and the shared table', !listAfterDelete.includes('cowbell') && !stillInMockStore);
 
-    // Not-done/Resolved tabs and cross-user delete: seed a suggestion from someone else directly
-    // into the mock table (a real submission from another handle), reload the list, and confirm
-    // it lands in "Not done" by default, has Delete offered even though it isn't smoketestuser's
-    // own (per the user's explicit "the ability to clear out and remove any suggestion" request --
-    // a scope change from the earlier "only your own" default), and moves to "Resolved" once marked.
+    // Not-done/Resolved tabs and who may triage: seed a suggestion from someone else, and one of
+    // smoketestuser's own, directly into the mock table (real submissions from those handles) and
+    // reload the list. Someone else's lands in "Not done" by default, and smoketestuser -- neither
+    // its author nor the app's owner -- can vote on it but not edit, resolve or delete it. Every
+    // visitor used to be offered Delete and Mark resolved on everyone's suggestions, so anyone could
+    // clear out anyone else's ideas. An author can resolve their own; the owner keeps the ability to
+    // triage any suggestion, which they asked for (checked on its own page below).
     await page2.evaluate(() => {
       const db = JSON.parse(sessionStorage.getItem('__mockDb'));
-      db.tables.suggestions.push({ id: 9001, text: 'Someone else entirely: more kazoo.', handle: 'a_different_person', status: 'open', created_at: new Date().toISOString() });
+      const now = new Date().toISOString();
+      db.tables.suggestions.push({ id: 9001, text: 'Someone else entirely: more kazoo.', handle: 'a_different_person', status: 'open', created_at: now });
+      db.tables.suggestions.push({ id: 9002, text: 'Smoke test: resolve me, please.', handle: 'smoketestuser', status: 'open', created_at: now });
       sessionStorage.setItem('__mockDb', JSON.stringify(db));
     });
     await page2.click('#suggestTabs [data-tab="open"]');
@@ -1621,39 +1690,60 @@ async function runAccountFlow(browser, file) {
       Array.from(document.querySelectorAll('#suggestList [data-suggest-id]')).some(r => r.textContent.includes('more kazoo')),
       { timeout: 10000 }).then(() => true).catch(() => false);
     check('a suggestion from someone else appears in the Not done tab by default', otherRowInOpenTab);
-    const otherHasDeleteNoEdit = await page2.evaluate(() => {
+    const otherControls = await page2.evaluate(() => {
       const row = Array.from(document.querySelectorAll('#suggestList [data-suggest-id]')).find(r => r.textContent.includes('more kazoo'));
-      return !!(row && row.querySelector('.suggestDeleteBtn') && !row.querySelector('.suggestEditBtn'));
+      return row ? { vote: !!row.querySelector('.suggestVoteBtn'), edit: !!row.querySelector('.suggestEditBtn'),
+        resolve: !!row.querySelector('.suggestResolveBtn'), del: !!row.querySelector('.suggestDeleteBtn') } : null;
     });
-    check('Delete (but not Edit) is offered on a suggestion someone else submitted', otherHasDeleteNoEdit);
+    check('on someone else\'s suggestion you can vote, but not edit, resolve or delete it',
+      !!otherControls && otherControls.vote && !otherControls.edit && !otherControls.resolve && !otherControls.del);
 
     // Return a boolean instead of dereferencing a row that may not be there: a missing row is a
     // failed check above, and should stay one -- it should not throw and abort the whole run,
     // taking every later check with it.
     const resolveClicked = await page2.evaluate(() => {
-      const row = Array.from(document.querySelectorAll('#suggestList [data-suggest-id]')).find(r => r.textContent.includes('more kazoo'));
+      const row = Array.from(document.querySelectorAll('#suggestList [data-suggest-id]')).find(r => r.textContent.includes('resolve me'));
       const btn = row && row.querySelector('.suggestResolveBtn');
       if (!btn) return false;
       btn.click();
       return true;
     });
-    check('a suggestion from someone else offers a Resolve control', resolveClicked);
+    check('your own suggestion offers a Resolve control', resolveClicked);
     await settle(page2);
     const goneFromOpenAfterResolve = await page2.evaluate(() =>
-      !Array.from(document.querySelectorAll('#suggestList [data-suggest-id]')).some(r => r.textContent.includes('more kazoo')));
+      !Array.from(document.querySelectorAll('#suggestList [data-suggest-id]')).some(r => r.textContent.includes('resolve me')));
     check('marking a suggestion resolved removes it from the Not done tab', goneFromOpenAfterResolve);
     await page2.click('#suggestTabs [data-tab="resolved"]');
     await settle(page2);
     const inResolvedTab = await page2.evaluate(() =>
-      Array.from(document.querySelectorAll('#suggestList [data-suggest-id]')).some(r => r.textContent.includes('more kazoo')));
+      Array.from(document.querySelectorAll('#suggestList [data-suggest-id]')).some(r => r.textContent.includes('resolve me')));
     check('...and shows it in the Resolved tab instead', inResolvedTab);
     const resolvedInMockStore = await page2.evaluate(() => {
-      const row = (window.__mockTables.suggestions || []).find(s => (s.text || '').includes('more kazoo'));
+      const row = (window.__mockTables.suggestions || []).find(s => (s.text || '').includes('resolve me'));
       return row && row.status === 'shipped';
     });
     check('the resolved status actually persisted to the shared table', resolvedInMockStore);
     await page2.click('#suggestTabs [data-tab="open"]');
     await settle(page2);
+
+    // The app's owner keeps the triage they asked for: signed in as "payton", someone else's
+    // suggestion offers Resolve and Delete (still not Edit -- the words stay the author's).
+    const ctxO = await browser.newContext();
+    const pageO = await ctxO.newPage();
+    await pageO.route('**/supabase-js*/**', route => route.fulfill({ contentType: 'application/javascript', body: '' }));
+    await pageO.addInitScript(MOCK_SUPABASE_SDK + 'if(!sessionStorage.getItem("__mockDb"))sessionStorage.setItem("__mockDb", JSON.stringify({tables:{profiles:{},suggestions:[{id:9101,text:"Someone else entirely: more theremin.",handle:"a_different_person",status:"open",created_at:"' + new Date().toISOString() + '"}],media_status:[]},upsertCalls:0,insertCalls:0,deleteCalls:0}));');
+    await pageO.goto('file://' + tmpPath);
+    await waitForBoot(pageO);
+    await settle(pageO);
+    await signInAndSettle(pageO, 'payton', '#onboardBlank');
+    await pageO.click('#suggestBtn');
+    const ownerControls = await readWhen(pageO, () => {
+      const row = Array.from(document.querySelectorAll('#suggestList [data-suggest-id]')).find(r => r.textContent.includes('more theremin'));
+      return row ? { del: !!row.querySelector('.suggestDeleteBtn'), resolve: !!row.querySelector('.suggestResolveBtn'), edit: !!row.querySelector('.suggestEditBtn') } : false;
+    }, undefined, 10000);
+    check('the app\'s owner can resolve or delete anyone\'s suggestion (but not edit it)',
+      !!ownerControls && ownerControls.del && ownerControls.resolve && !ownerControls.edit);
+    await ctxO.close();
 
     // Media Request is a second, separately-tabbed list sharing the same suggestions table (split
     // by a 'kind' column) -- switching to it should show its own empty state, not the feedback
@@ -2089,18 +2179,20 @@ async function runAccountFlow(browser, file) {
     // longer real timeout (15s) plus refusing to switch at all when a sync genuinely fails -- by
     // making the mock's next profile write take 6s (comfortably past the old cutoff, comfortably
     // under the new one) and confirming the switch actually waits for it to land rather than
-    // barreling past.
+    // barreling past. The write is made slow BEFORE the edit, so it is that edit's own upload that
+    // is still in flight when Switch is pressed: a sync with nothing left to send now skips the
+    // write altogether (the cloud already matches), so a slow write set up afterwards never happens.
     const thirdGoldId = await page2.evaluate(() => {
       const heads = Array.from(document.querySelectorAll('.cardHead'));
       return heads[2] && heads[2].dataset.id;
     });
-    await clickAndSettle(page2, '.panel .profEditBtn[data-act="declare"][data-id="' + thirdGoldId + '"]');
-    await settle(page2);
     await page2.evaluate(() => {
       const db = JSON.parse(sessionStorage.getItem('__mockDb'));
       db.slowNextProfileUpsertMs = 6000;
       sessionStorage.setItem('__mockDb', JSON.stringify(db));
     });
+    await clickAndSettle(page2, '.panel .profEditBtn[data-act="declare"][data-id="' + thirdGoldId + '"]');
+    await settle(page2);
     await page2.click('#acctMenuField');
     await settle(page2);
     await page2.click('#acctSwitchBtn');
@@ -3813,6 +3905,29 @@ async function runRestoreFiltersFlow(browser, file) {
 // across the entire corpus, before and after a profile edit.
 async function runRenderPerfFlow(browser, file) {
   const { page, pageErrors } = await bootSample(browser, file);
+
+  // Tabs nobody has opened are not built at boot: applyStateToStaticControls marks them stale and
+  // switchView draws each the first time it is opened. They used to be drawn on every load, twice
+  // over -- Reference Matrices alone was ~56,000 of the page's ~72,000 elements, all hidden.
+  const LAZY_TABS = { matrix: '#matrixWrap', creators: '#creatorGrid', contenders: '#contenderGrid', goat: '#goatRecs' };
+  const builtAtBoot = await page.evaluate(tabs => ({
+    view: window.state.view,
+    sizes: Object.keys(tabs).map(v => document.querySelectorAll(tabs[v] + ' *').length),
+    total: document.getElementsByTagName('*').length,
+  }), LAZY_TABS);
+  check('hidden tabs are not built at boot (Matrices, Creators, Contenders, GOAT Profile)',
+    builtAtBoot.view === 'controller' && builtAtBoot.sizes.every(n => n === 0));
+  console.log('     (' + builtAtBoot.total + ' elements on the page after boot)');
+  const builtOnOpen = [];
+  for (const v of Object.keys(LAZY_TABS)) {
+    await page.evaluate(vv => document.querySelector('#nav .navBtn[data-view="' + vv + '"]').click(), v);
+    await settle(page);
+    builtOnOpen.push(await page.evaluate(sel => document.querySelectorAll(sel + ' *').length, LAZY_TABS[v]));
+  }
+  check('each of them is built the first time it is opened', builtOnOpen.every(n => n > 0));
+  await page.evaluate(() => document.querySelector('#nav .navBtn[data-view="controller"]').click());
+  await settle(page);
+
   const compare = () => page.evaluate(() => {
     const ALL = window.ALL;
     const rank = x => x.goat ? 4 : x.silver ? 3 : x.bronze ? 2 : x.myRating != null ? 1 : 0;
@@ -3820,8 +3935,8 @@ async function runRenderPerfFlow(browser, file) {
     const anchorPhrase = ex => ex.goat ? ('one of your Gold favorites, ' + esc(ex.title)) : ex.silver ? ('your Silver favorite ' + esc(ex.title)) : ex.bronze ? ('your Bronze pick ' + esc(ex.title)) : ex.myRating != null ? ('you rated ' + esc(ex.title) + ' ' + (+ex.myRating.toFixed(1)) + '/10') : ('you own ' + esc(ex.title));
     // Tiered, rated 7+, or owned and not rated below 7.
     const sig = x => x.goat || x.silver || x.bronze || (x.myRating != null ? x.myRating >= 7 : x.owned);
-    // Rated, tiered or finished: never offered as a companion.
-    const been = x => x.goat || x.silver || x.bronze || x.myRating != null || window.wlDone(x.id);
+    // Rated, tiered, finished or passed on ("not interested"): never offered as a companion.
+    const been = x => x.goat || x.silver || x.bronze || x.myRating != null || window.wlDone(x.id) || x.passed;
     // Full-scan implementations of the same rules, the memoized ones are held to.
     function whyRef(it) {
       if (it.owned || it.goat || it.silver || it.bronze || it.myRating != null) return '';
@@ -4023,6 +4138,389 @@ async function runOfflineFlow(browser, file) {
   }
 }
 
+// A fresh browser that picks "Start blank" at the gate: nothing rated, tiered, owned or passed.
+async function bootBlank(browser, file) {
+  const page = await browser.newPage({ viewport: { width: 1400, height: 1000 } });
+  await page.route('**/supabase-js*/**', route => route.abort());
+  const pageErrors = [];
+  page.on('pageerror', e => pageErrors.push(e.message));
+  await page.goto('file://' + path.join(ROOT, file));
+  await waitForBoot(page);
+  const gate = await page.evaluate(() => { const g = document.getElementById('onboardGate'); return !!g && !g.classList.contains('hidden'); });
+  if (gate) { await page.click('#onboardBlank'); await waitForBoot(page); }
+  await firstCardId(page);
+  return { page, pageErrors };
+}
+// Types into the Omni-Search box and returns the titles on screen once that query has rendered.
+async function searchTitles(page, q) {
+  await page.fill('#q', q);
+  return readWhen(page, qq => window.state.q === qq && document.querySelector('#grid .cardHead')
+    ? Array.from(document.querySelectorAll('#grid .cardHead')).map(h => window.byId.get(h.dataset.id).title) : false, q, 10000);
+}
+
+// Omni-Search: app/search.js folds accents and punctuation, matches every word in any order and
+// field, forgives typos, and puts the best match first (test/search.js holds the matcher itself to
+// many more queries; this checks the Global Controller wiring and ordering on the real page).
+async function runSearchFlow(browser, file) {
+  const { page, pageErrors } = await bootSample(browser, file);
+  const amelie = await searchTitles(page, 'amelie');
+  check('"amelie" finds Amélie, first', !!amelie && amelie[0] === 'Amélie');
+  check('the search is kept in the URL', !!await readWhen(page, () => /[?&]q=amelie/.test(location.search), undefined, 3000));
+  const godfather = await searchTitles(page, 'godfater');
+  check('"godfater" (a typo) finds The Godfather, first', !!godfather && godfather[0] === 'The Godfather');
+  const zelda = await searchTitles(page, 'zelda breath');
+  check('"zelda breath" finds The Legend of Zelda: Breath of the Wild', !!zelda && zelda.includes('The Legend of Zelda: Breath of the Wild'));
+  const kubrick1968 = await searchTitles(page, 'kubrick 1968');
+  check('"kubrick 1968" finds 2001: A Space Odyssey and nothing else', !!kubrick1968 && kubrick1968.length === 1 && kubrick1968[0] === '2001: A Space Odyssey');
+  const lotr = await searchTitles(page, 'lord of the rings return of the king');
+  check('"lord of the rings return of the king" finds the film despite the colon', !!lotr && lotr.includes('The Lord of the Rings: The Return of the King'));
+  const dune = await searchTitles(page, 'dune');
+  check('"dune" puts an exact title first, ahead of the default Best Overall order', !!dune && dune[0] === 'Dune');
+  const scifi = await searchTitles(page, 'sci-fi');
+  check('"sci-fi" is the genre: the leading results are all Sci-Fi', !!scifi && scifi.length >= 20 &&
+    await page.evaluate(() => Array.from(document.querySelectorAll('#grid .cardHead')).slice(0, 20)
+      .every(h => { const x = window.byId.get(h.dataset.id); return (x.genres || []).concat(x.fam || []).some(g => /sci-fi/i.test(g)); })));
+  // Inside one relevance bucket the chosen sort still decides: every Kubrick hit is a creator match.
+  await page.selectOption('#sortSel', 'yearNew');
+  const kubrickYears = await readWhen(page, () => {
+    if (window.state.sort !== 'yearNew') return false;
+    return Array.from(document.querySelectorAll('#grid .cardHead')).map(h => window.byId.get(h.dataset.id).year);
+  }, undefined, 5000);
+  await searchTitles(page, 'kubrick');
+  const years = await page.evaluate(() => Array.from(document.querySelectorAll('#grid .cardHead')).map(h => window.byId.get(h.dataset.id).year));
+  check('a creator search still follows the chosen sort (Kubrick, newest first)',
+    !!kubrickYears && years.length > 5 && years.every((y, i) => i === 0 || years[i - 1] >= y));
+  await page.selectOption('#sortSel', 'overall');
+  await page.fill('#q', '');
+  await readWhen(page, () => window.state.q === '' ? true : false, undefined, 5000);
+  check('no uncaught page errors during the search flow', pageErrors.length === 0);
+  if (pageErrors.length) pageErrors.forEach(e => console.log('     ' + e));
+  await page.close();
+}
+
+// The headline number on a card is the personal match, labelled, and nothing calls it a match for
+// someone's taste until the app knows something about that taste -- a blank profile used to be
+// told a film "is as beautiful to look at as your favorites" and "Very strong match for your taste".
+async function runHonestMatchFlow(browser, file) {
+  const { page, pageErrors } = await bootBlank(browser, file);
+  const ringOf = () => page.evaluate(() => {
+    const h = document.querySelector('#grid .cardHead[data-id]');
+    const r = h.querySelector('.matchRing');
+    const x = window.byId.get(h.dataset.id);
+    return { id: x.id, gm: x.gm, label: r && r.querySelector('.matchRingLbl').textContent, aria: r && r.getAttribute('aria-label'),
+      num: r && r.querySelector('svg text').textContent, crit: (h.querySelector('.critChip') || {}).textContent, xcrit: x.crit };
+  });
+  const blank = await ringOf();
+  check('the ring shows the work\'s match number, not its critics\' score', blank.num === String(blank.gm));
+  check('the critics\' score moved to its own labelled chip', blank.crit === 'Crit ' + blank.xcrit);
+  check('with nothing personal known, the ring is labelled "Score" and says it is not personalized yet',
+    blank.label === 'Score' && /Overall score/.test(blank.aria) && /Not personalized/i.test(blank.aria));
+  await ensureFirstCardExpanded(page);
+  const blankFit = await page.evaluate(() => (document.querySelector('#grid .panel .summaryFace') || {}).innerText || '');
+  check('a blank profile\'s card does not claim a match for "your taste"', !/your taste/i.test(blankFit) && /Overall score/.test(blankFit));
+  const blankWhys = await page.evaluate(() => ['Movies', 'TV Series', 'Video Games', 'Books'].map(c => {
+    const r = window.buildGeneratedRec(c); return { basis: r.basis, whys: r.items.map(i => i.why) };
+  }));
+  check('a blank profile\'s recommendations never say "your favorites", "you favor" or "your taste"',
+    blankWhys.every(c => c.whys.every(w => !/your favorites|you favor|your taste/i.test(w))));
+  check('and each list says what it is ranked by instead',
+    blankWhys.every(c => /^No ratings, favorites or owned titles yet/.test(c.basis)));
+
+  // One rating is evidence: the same surfaces now speak personally, and say how much they know.
+  const ratedId = blank.id;
+  await page.evaluate(id => window.setRating(id, 8.5), ratedId);
+  await readWhen(page, () => window.PERSONAL_PROFILE.ratings && Object.keys(window.PERSONAL_PROFILE.ratings).length === 1, undefined, 5000);
+  await settle(page);
+  const after = await page.evaluate(rid => {
+    const h = Array.from(document.querySelectorAll('#grid .cardHead[data-id]')).find(e => e.dataset.id !== rid);
+    const r = h.querySelector('.matchRing');
+    return { id: h.dataset.id, label: r.querySelector('.matchRingLbl').textContent, aria: r.getAttribute('aria-label') };
+  }, ratedId);
+  check('after one rating the ring reads "Match" and says what it is based on',
+    after.label === 'Match' && /based on 1 rating/.test(after.aria));
+  const basisAfter = await page.evaluate(() => window.buildGeneratedRec('Movies').basis);
+  check('recommendations say they are ranked by taste, based on that rating', /based on 1 rating/.test(basisAfter));
+
+  // Best Untried Matches sorts by match -- so the rings now read in order.
+  await page.click('#discoverBtn');
+  const rings = await readWhen(page, () => {
+    if (window.state.sort !== 'gm') return false;
+    return Array.from(document.querySelectorAll('#grid .matchRing svg text')).slice(0, 30).map(t => +t.textContent);
+  }, undefined, 5000);
+  check('in Best Untried Matches the rings read in descending order', !!rings && rings.length > 5 && rings.every((v, i) => i === 0 || rings[i - 1] >= v));
+  check('no uncaught page errors during the honest-match flow', pageErrors.length === 0);
+  if (pageErrors.length) pageErrors.forEach(e => console.log('     ' + e));
+  await page.close();
+}
+
+// "Not interested": one tap hides a title from every list and teaches the engine to show less like
+// it; it can be found again by searching or with "show", and undone.
+async function runNotInterestedFlow(browser, file) {
+  const { page, pageErrors } = await bootSample(browser, file);
+  await page.click('#discoverBtn');
+  await readWhen(page, () => window.state.sort === 'gm' && document.querySelector('#grid .cardHead'), undefined, 5000);
+  // A discovery on screen by a creator the profile says nothing about yet -- nothing of theirs
+  // rated, tiered or owned, no hand-set boost -- with another untried work, so what one pass
+  // teaches can be seen on its own rather than against a wall of existing evidence.
+  const pick = await page.evaluate(() => {
+    const P = window.PERSONAL_PROFILE;
+    const manual = (P.creatorBoost || []).concat(P.bookCreatorBoost || []).map(e => e[0]);
+    for (const h of document.querySelectorAll('#grid .cardHead[data-id]')) {
+      const x = window.byId.get(h.dataset.id);
+      if (!x.creator || manual.some(m => x.creator.includes(m))) continue;
+      const same = window.ALL.filter(y => y.creator === x.creator);
+      if (same.some(y => y.owned || y.goat || y.silver || y.bronze || y.myRating != null)) continue;
+      const sibling = same.find(y => y.id !== x.id && window.isUntried(y));
+      if (sibling) return { id: x.id, title: x.title, gm: x.gm, creator: x.creator, sibling: sibling.id, siblingGm: sibling.gm,
+        evidence: window.tasteModel().evidence, weight: window.tasteModel().creator[x.creator] || 0 };
+    }
+    return null;
+  });
+  check('setup: an untried discovery by a creator with no evidence yet, and another of their works, is on screen', !!pick);
+  if (!pick) { await page.close(); return; }
+  check('its card offers "Not interested"', await page.evaluate(id => {
+    const b = document.querySelector('.passBtn[data-pass="' + id + '"]'); return !!b && !b.classList.contains('hidden');
+  }, pick.id));
+  await page.click('#resetBtn');
+  await settle(page);
+  const gold = await page.evaluate(() => { const x = window.ALL.find(y => y.goat && document.querySelector('.passBtn[data-pass="' + y.id + '"]')); return x && x.id; });
+  check('a Gold favorite\'s card does not (it has already been judged)', !!gold && await page.evaluate(id =>
+    document.querySelector('.passBtn[data-pass="' + id + '"]').classList.contains('hidden'), gold));
+  await page.click('#discoverBtn');
+  await readWhen(page, id => window.state.sort === 'gm' && document.querySelector('.passBtn[data-pass="' + id + '"]'), pick.id, 5000);
+
+  await clickAndSettle(page, '.passBtn[data-pass="' + pick.id + '"]');
+  await settle(page);
+  const passed = await page.evaluate(p => {
+    const x = window.byId.get(p.id), s = window.byId.get(p.sibling);
+    const saved = JSON.parse(localStorage.getItem('omniLedgerProfile') || '{}').notInterested || {};
+    const toast = document.getElementById('appToast');
+    return {
+      saved: typeof saved[p.id] === 'number', flag: x.passed, gm: x.gm, siblingGm: s.gm,
+      evidence: window.tasteModel().evidence, weight: window.tasteModel().creator[p.creator] || 0,
+      inGrid: !!document.querySelector('#grid .cardHead[data-id="' + p.id + '"]'),
+      toast: !!toast && toast.classList.contains('show') && /Not interested/.test(toast.textContent),
+      untried: window.isUntried(x),
+      inRecs: ['Movies', 'TV Series', 'Video Games', 'Books'].some(c => window.buildGeneratedRec(c).items.some(i => i.id === p.id)),
+      note: (document.getElementById('passedNote') || {}).textContent || '',
+    };
+  }, pick);
+  check('one tap saves the pass to the profile', passed.saved && passed.flag);
+  check('the title leaves the list at once, with a toast that offers Undo', !passed.inGrid && passed.toast);
+  check('its own match drops (the person said no)', passed.gm < pick.gm && passed.gm <= 65);
+  check('the engine counts it as evidence and learns a negative weight for that creator',
+    passed.evidence === pick.evidence + 1 && passed.weight < 0 && passed.weight < pick.weight);
+  check('so the creator\'s other work scores lower too ("show less like it")', passed.siblingGm < pick.siblingGm);
+  check('it is out of Best Untried Matches and every generated recommendation list', !passed.untried && !passed.inRecs);
+  check('the result count says one title is hidden, as a toggle', /1 you passed on is hidden/.test(passed.note));
+
+  await page.click('#passedNote');
+  const shown = await readWhen(page, id => window.state.showPassed && window.filtered().some(x => x.id === id)
+    ? { chip: !!document.querySelector('#activeBar .activeChip[data-clr="passed"]') } : false, pick.id, 5000);
+  check('"show" brings it back into the list, as a removable filter chip kept in the URL',
+    !!shown && shown.chip && !!await readWhen(page, () => /[?&]passed=1/.test(location.search), undefined, 3000));
+  await page.click('#passedNote');
+  await readWhen(page, () => !window.state.showPassed, undefined, 3000);
+
+  // Everything below works on the title directly, outside Best Untried (which hides tiered titles).
+  await page.click('#resetBtn');
+  await settle(page);
+  const found = await searchTitles(page, pick.title);
+  check('searching for it still finds it (to look it up, or undo)', !!found && found.includes(pick.title));
+  check('found, its card is dimmed with the ✕ pressed', await page.evaluate(id =>
+    document.querySelector('#grid .cardHead[data-id="' + id + '"]').closest('.panel').classList.contains('isPassed') &&
+    document.querySelector('.passBtn[data-pass="' + id + '"]').getAttribute('aria-pressed') === 'true', pick.id));
+
+  // Undo, from the pressed ✕: everything goes back exactly as it was.
+  await clickAndSettle(page, '.passBtn[data-pass="' + pick.id + '"]');
+  const undone = await page.evaluate(p => ({ flag: window.byId.get(p.id).passed, gm: window.byId.get(p.id).gm,
+    siblingGm: window.byId.get(p.sibling).gm, saved: !!(JSON.parse(localStorage.getItem('omniLedgerProfile') || '{}').notInterested || {})[p.id] }), pick);
+  check('undo restores the title and every score exactly', !undone.flag && !undone.saved && undone.gm === pick.gm && undone.siblingGm === pick.siblingGm);
+
+  // A stronger statement retires a pass: tiering it, or saving it for later.
+  await clickAndSettle(page, '.passBtn[data-pass="' + pick.id + '"]');
+  await clickAndSettle(page, '.panel .profEditBtn[data-act="bronze"][data-id="' + pick.id + '"]');
+  const retired = await page.evaluate(id => ({ flag: window.byId.get(id).passed, bronze: window.byId.get(id).bronze,
+    saved: !!(JSON.parse(localStorage.getItem('omniLedgerProfile') || '{}').notInterested || {})[id] }), pick.id);
+  check('tiering a passed title retires the pass', retired.bronze && !retired.flag && !retired.saved);
+  await clickAndSettle(page, '.panel .profEditBtn[data-act="bronze"][data-id="' + pick.id + '"]');
+  await clickAndSettle(page, '.passBtn[data-pass="' + pick.id + '"]');
+  await page.click('.wlBtn[data-wl="' + pick.id + '"]');
+  const queued = await readWhen(page, id => !window.byId.get(id).passed ? true : false, pick.id, 5000);
+  check('saving a passed title for later (♡) retires the pass', !!queued);
+
+  // A pass survives a reload.
+  const siblingTitle = await page.evaluate(id => window.byId.get(id).title, pick.sibling);
+  await searchTitles(page, siblingTitle);
+  await clickAndSettle(page, '.passBtn[data-pass="' + pick.sibling + '"]');
+  await page.reload();
+  await waitForBoot(page);
+  check('a pass survives a reload', await page.evaluate(id => window.byId.get(id).passed === true, pick.sibling));
+  check('no uncaught page errors during the not-interested flow', pageErrors.length === 0);
+  if (pageErrors.length) pageErrors.forEach(e => console.log('     ' + e));
+  await page.close();
+}
+
+// Merging instead of overwriting (app/sync-merge.js, mergeAndWrite in index.html). The cloud copy
+// used to be replaced wholesale by whichever device wrote last, and a device with unsynced edits
+// won outright on its next load -- so an edit made on an offline phone erased everything done on
+// the laptop meanwhile, and two open tabs erased each other. "Another device" here is the mocked
+// table edited directly, the way the laptop's own sync would have left it: its changes carry edit
+// stamps, as every edit made by this version does.
+async function runMergeFlow(browser, file) {
+  const html = fs.readFileSync(path.join(ROOT, file), 'utf8');
+  const patched = html.replace(/var SUPABASE_CONFIG=\{[^}]*\};/, 'var SUPABASE_CONFIG={url:"https://dummy.supabase.co",anonKey:"dummy-anon-key"};');
+  const tmpPath = path.join(ROOT, '_test_merge_' + file);
+  fs.writeFileSync(tmpPath, patched);
+  const ctx = await browser.newContext({ viewport: { width: 1400, height: 1000 } });
+  // The other device's save: `edit(data, now)` runs against a copy of the stored row, in the page.
+  const otherDeviceSaves = (page, fnBody, arg) => page.evaluate(({ fnBody, arg }) => {
+    const db = JSON.parse(sessionStorage.getItem('__mockDb'));
+    const data = JSON.parse(JSON.stringify(db.tables.profiles.mergeuser.data));
+    (new Function('data', 'now', 'arg', fnBody))(data, Math.floor(Date.now() / 1000) + 2, arg);
+    window.__mockSeedProfile('mergeuser', data);
+  }, { fnBody, arg });
+  const cloud = page => page.evaluate(() => {
+    const row = window.__mockTables.profiles.mergeuser;
+    return row ? { p: JSON.parse(row.data.omniLedgerProfile || '{}'), w: JSON.parse(row.data.omniLedgerWatchlist || '{}') } : null;
+  });
+  try {
+    const page = await ctx.newPage();
+    const pageErrors = [];
+    page.on('pageerror', e => pageErrors.push(e.message));
+    await page.route('**/supabase-js*/**', route => route.fulfill({ contentType: 'application/javascript', body: '' }));
+    await page.addInitScript(MOCK_SUPABASE_SDK);
+    await page.goto('file://' + tmpPath);
+    await waitForBoot(page);
+    await signInAndSettle(page, 'MergeUser', '#onboardSample');
+    await firstCardId(page);
+    await readWhen(page, () => localStorage.getItem('omniLedgerPendingSync') !== '1' && !!window.__mockTables.profiles.mergeuser, undefined, 15000);
+    // Four untouched titles: X rated offline here, Y rated and Z queued on the other device, W and V later.
+    const ids = await page.evaluate(() => window.ALL.filter(x => window.isUntried(x) && !x.passed && x.id !== 't01').slice(0, 5).map(x => x.id));
+    const [X, Y, Z, W, V] = ids;
+    check('setup: the account saved to the (mocked) cloud and five untouched titles were found', ids.length === 5);
+
+    // 1. Offline here, while the other device saves.
+    await ctx.setOffline(true);
+    await page.evaluate(id => window.setRating(id, 6.5), X);
+    check('an edit made offline stays pending', await page.evaluate(() => localStorage.getItem('omniLedgerPendingSync') === '1'));
+    const upNextBefore = await page.evaluate(() => (document.getElementById('wlNavCount').textContent.match(/\d+/) || ['0'])[0]);
+    await otherDeviceSaves(page, `
+      const prof = JSON.parse(data.omniLedgerProfile); prof.ratings = prof.ratings || {}; prof.ratings[arg.Y] = 9;
+      data.omniLedgerProfile = JSON.stringify(prof);
+      const wl = JSON.parse(data.omniLedgerWatchlist || '{}'); wl[arg.Z] = { watched: false, added: Date.now() };
+      data.omniLedgerWatchlist = JSON.stringify(wl);
+      const ed = JSON.parse(data.omniLedgerEdits || '{}'); ed['r|' + arg.Y] = now; ed['w|' + arg.Z] = now;
+      data.omniLedgerEdits = JSON.stringify(ed);`, { Y, Z });
+    await ctx.setOffline(false);
+    const merged = await readWhen(page, ({ X, Y, Z }) => {
+      const row = window.__mockTables.profiles.mergeuser;
+      const p = JSON.parse(row.data.omniLedgerProfile || '{}'), w = JSON.parse(row.data.omniLedgerWatchlist || '{}');
+      return (p.ratings || {})[X] === 6.5 && (p.ratings || {})[Y] === 9 && !!w[Z] && localStorage.getItem('omniLedgerPendingSync') !== '1';
+    }, { X, Y, Z }, 20000);
+    check('back online, the cloud keeps both: the rating made offline and the other device\'s rating and Up Next entry', !!merged);
+    const onScreen = await readWhen(page, ({ Y, n }) => window.byId.get(Y).myRating === 9 &&
+      (document.getElementById('wlNavCount').textContent.match(/\d+/) || ['0'])[0] === String(n) ? true : false, { Y, n: +upNextBefore + 1 }, 10000);
+    check('...and this device shows the other device\'s edits without a reload', !!onScreen);
+
+    // 2. A write racing the other device's save: read, merge and write again.
+    await page.evaluate(() => window.__mockSetFlag('concurrentProfileWriteOnce', true));
+    await page.evaluate(id => window.setRating(id, 8), W);
+    const raced = await readWhen(page, W => {
+      const p = JSON.parse(window.__mockTables.profiles.mergeuser.data.omniLedgerProfile || '{}');
+      return (p.ratings || {})[W] === 8 && (p.ratings || {}).t01 === 7.5 && window.byId.get('t01').myRating === 7.5 &&
+        localStorage.getItem('omniLedgerPendingSync') !== '1';
+    }, W, 20000);
+    check('a write that loses a race with another device\'s save merges and writes again: both ratings survive', !!raced);
+
+    // 3. A removal on the other device is not undone by this one's older copy.
+    await otherDeviceSaves(page, `
+      const prof = JSON.parse(data.omniLedgerProfile); delete prof.ratings[arg.Y]; data.omniLedgerProfile = JSON.stringify(prof);
+      const ed = JSON.parse(data.omniLedgerEdits || '{}'); ed['r|' + arg.Y] = now + 10; data.omniLedgerEdits = JSON.stringify(ed);`, { Y });
+    await page.evaluate(id => window.setRating(id, 7), V);
+    const removed = await readWhen(page, ({ Y, V }) => {
+      const p = JSON.parse(window.__mockTables.profiles.mergeuser.data.omniLedgerProfile || '{}');
+      return !(Y in (p.ratings || {})) && (p.ratings || {})[V] === 7 && window.byId.get(Y).myRating == null ? true : false;
+    }, { Y, V }, 20000);
+    check('a rating removed on the other device stays removed here, instead of being uploaded back', !!removed);
+    check('every edit carries its own stamp in the synced copy',
+      await page.evaluate(({ X, W, V }) => {
+        const ed = JSON.parse(window.__mockTables.profiles.mergeuser.data.omniLedgerEdits || '{}');
+        return ['r|' + X, 'r|' + W, 'r|' + V].every(p => ed[p] > 0);
+      }, { X, W, V }));
+    check('no uncaught page errors during the cloud merge pass', pageErrors.length === 0);
+    if (pageErrors.length) pageErrors.forEach(e => console.log('     ' + e));
+  } finally {
+    await ctx.close();
+    try { fs.unlinkSync(tmpPath); } catch (e) { /* already gone */ }
+  }
+
+  // 4. Two tabs of one browser (no cloud needed): each sees the other's edits, neither erases them.
+  const ctxT = await browser.newContext({ viewport: { width: 1400, height: 1000 } });
+  try {
+    await ctxT.route('**/supabase-js*/**', route => route.abort());
+    const tabErrors = [];
+    const t1 = await ctxT.newPage();
+    t1.on('pageerror', e => tabErrors.push(e.message));
+    await t1.goto('file://' + path.join(ROOT, file));
+    await waitForBoot(t1);
+    const gate = await t1.evaluate(() => { const g = document.getElementById('onboardGate'); return !!g && !g.classList.contains('hidden'); });
+    if (gate) { await t1.click('#onboardSample'); await waitForBoot(t1); }
+    await firstCardId(t1);
+    const t2 = await ctxT.newPage();
+    t2.on('pageerror', e => tabErrors.push(e.message));
+    await t2.goto('file://' + path.join(ROOT, file));
+    await waitForBoot(t2);
+    await firstCardId(t2);
+    const pick = page => page.evaluate(() => Array.from(document.querySelectorAll('#grid .cardHead[data-id]')).map(h => h.dataset.id)
+      .filter(id => { const x = window.byId.get(id); return !x.goat && !x.silver && !x.bronze && !x.owned; }).slice(0, 4));
+    const [A, , C] = await pick(t1);
+    const [, B, , D] = await pick(t2);
+    await clickAndSettle(t1, '.panel .profEditBtn[data-act="bronze"][data-id="' + A + '"]');
+    const seen = await readWhen(t2, id => window.byId.get(id).bronze === true, A, 10000);
+    check('a Bronze pick made in one tab shows up in the other open tab', !!seen);
+    await clickAndSettle(t2, '.panel .profEditBtn[data-act="bronze"][data-id="' + B + '"]');
+    const bothTiers = await t1.evaluate(({ A, B }) => {
+      const p = JSON.parse(localStorage.getItem('omniLedgerProfile') || '{}');
+      return (p.bronzeTierIds || []).includes(A) && (p.bronzeTierIds || []).includes(B) && window.byId.get(B).bronze === true;
+    }, { A, B });
+    check('an edit in the second tab keeps the first tab\'s edit, and the first tab sees it', bothTiers);
+    await t1.click('.wlBtn[data-wl="' + C + '"]');
+    await readWhen(t2, id => !!JSON.parse(localStorage.getItem('omniLedgerWatchlist') || '{}')[id], C, 5000);
+    await t2.click('#grid .doneSeg[data-id="' + D + '"]');
+    const bothWl = await readWhen(t1, ({ C, D }) => {
+      const w = JSON.parse(localStorage.getItem('omniLedgerWatchlist') || '{}');
+      return !!w[C] && !!(w[D] && w[D].watched) && window.wlDone(D) ? true : false;
+    }, { C, D }, 5000);
+    check('watchlist edits in two tabs both survive, and each tab sees the other\'s', !!bothWl);
+    check('no uncaught page errors in either tab', tabErrors.length === 0);
+    if (tabErrors.length) tabErrors.forEach(e => console.log('     ' + e));
+  } finally {
+    await ctxT.close();
+  }
+}
+
+// Recommendation quality, as a number: favorites are hidden and the engine has to find them again
+// among everything untried -- for the PK Sample and for four cold-start personas that look nothing
+// like it. scripts/rec-quality.js explains the method and holds the checks; the floors sit a little
+// under what the engine measures today, so a scoring change that quietly makes suggestions worse
+// fails here, on its pull request, rather than in someone's list.
+async function runRecQualityFlow(browser, file) {
+  const { page, pageErrors } = await bootSample(browser, file);
+  const before = await page.evaluate(() => ({ profile: JSON.stringify(window.PERSONAL_PROFILE),
+    stored: localStorage.getItem('omniLedgerProfile'), gm: window.ALL.map(x => x.gm).join(',') }));
+  const m = await recQuality.measure(page);
+  console.log(recQuality.report(m, { table: true }).split('\n').map(l => '     ' + l).join('\n'));
+  recQuality.verdicts(m).forEach(v => check(v.label, v.ok));
+  const after = await page.evaluate(() => ({ profile: JSON.stringify(window.PERSONAL_PROFILE),
+    stored: localStorage.getItem('omniLedgerProfile'), gm: window.ALL.map(x => x.gm).join(',') }));
+  check('measuring leaves the profile, its saved copy and every match score exactly as they were',
+    after.profile === before.profile && after.stored === before.stored && after.gm === before.gm);
+  check('no uncaught page errors during the recommendation-quality flow', pageErrors.length === 0);
+  if (pageErrors.length) pageErrors.forEach(e => console.log('     ' + e));
+  await page.close();
+}
+
 // Each flow opens its own pages and contexts, so one flow throwing says nothing about the others.
 // A throw used to abort the whole run: one missing element late in the account flow took the ~150
 // checks after it down too, and a single timing problem read as a wall of red. Now it counts as
@@ -4045,7 +4543,7 @@ async function runFlow(browser, name, fn) {
   const browser = await chromium.launch(executablePath ? { executablePath } : {});
   instrumentBrowser(browser);
   for (const t of TARGETS) {
-    await runFlow(browser, t, () => runFile(browser, t));
+    await runFlow(browser, t + ' — main walkthrough (onboarding, every view, filters, phone layout)', () => runFile(browser, t));
     await runFlow(browser, t + ' — cloud account flow (mocked Supabase)', () => runAccountFlow(browser, t));
     await runFlow(browser, t + ' — quick-rate seed picker', () => runSeedPickerFlow(browser, t));
     await runFlow(browser, t + ' — GOAT Picker (search & pick your GOATs)', () => runGoatPickerFlow(browser, t));
@@ -4059,6 +4557,11 @@ async function runFlow(browser, name, fn) {
     await runFlow(browser, t + ' — remembering filters (restore offer, Show count)', () => runRestoreFiltersFlow(browser, t));
     await runFlow(browser, t + ' — render performance (memoized lookups, lazy card panels)', () => runRenderPerfFlow(browser, t));
     await runFlow(browser, t + ' — offline (service worker, cloud sync while offline)', () => runOfflineFlow(browser, t));
+    await runFlow(browser, t + ' — Omni-Search (accents, typos, every word, best match first)', () => runSearchFlow(browser, t));
+    await runFlow(browser, t + ' — honest match (labelled ring, no taste claims without evidence)', () => runHonestMatchFlow(browser, t));
+    await runFlow(browser, t + ' — not interested (hide, teach the engine, undo)', () => runNotInterestedFlow(browser, t));
+    await runFlow(browser, t + ' — merging edits across devices and tabs', () => runMergeFlow(browser, t));
+    await runFlow(browser, t + ' — recommendation quality (hidden favorites found again)', () => runRecQualityFlow(browser, t));
   }
   await browser.close();
 

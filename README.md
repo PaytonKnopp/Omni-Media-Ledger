@@ -11,8 +11,8 @@ There's nothing to install. It's just a folder — one HTML file plus a `data` f
 ## The short version
 
 1. Open the app. Pick how you want to start — a quick sample, blank, search-and-pick your favorites, or import a file.
-2. Browse the collection. Every card shows a match score for you and can be expanded for full detail.
-3. Click things to teach it your taste: 🥇 Gold / 🥈 Silver / 🥉 Bronze favorite, "mark owned," ✓ "watched / read / played," a personal rating, boost (or bury) a genre or a creator. No JSON, no settings screen — it's all buttons on the cards themselves.
+2. Browse the collection. The ring on every card is your match for that title (labelled "Match" once the app knows anything about your taste, "Score" until then), and every card can be expanded for full detail.
+3. Click things to teach it your taste: 🥇 Gold / 🥈 Silver / 🥉 Bronze favorite, "mark owned," ✓ "watched / read / played," a personal rating, ✕ "not interested," boost (or bury) a genre or a creator. No JSON, no settings screen — it's all buttons on the cards themselves.
 4. The more you click, the better its recommendations get.
 
 That's genuinely most of it. Everything past this point is detail for people who want it.
@@ -36,6 +36,8 @@ That's genuinely most of it. Everything past this point is detail for people who
 
 A few other things worth knowing about:
 
+- **Search that forgives you** — accents, capitals and punctuation don't matter, every word is matched on its own (in any order, in any field), title matches come first, and small typos still find the title: "amelie", "godfater", "zelda breath" and "kubrick 1968" all work.
+- **✕ Not interested** — the small ✕ on any card you haven't tried hides it from every list and recommendation and teaches your match to show less like it. Search still finds it, and "show" above the results (or ✕ again) brings it back.
 - **✓ Watched / Read / Played** — one tap on any card logs something you've finished. It moves to the Watchlist's Completed section with the date (editable, for things you're logging from before), recommendations stop suggesting it, and the Global Controller can filter by it ("Watched / read / played" or "Not yet").
 - **⚙ Franchise / series vs. ◇ Standalone only** — a Global Controller filter pair for "part of a bigger series" (sequels, prequels, spin-offs, shared universes like Star Wars or Discworld) versus one-offs. The ⚙ badge on a card names the franchise when it's one of the curated series.
 - **Your filters, next time** — refreshing (or reopening a closed tab, or a bookmark) keeps the Global Controller's filters exactly as they were. Opening the app fresh starts clean, but offers the last set back as one "↺ Restore" chip for a week; tap it to pick up where you left off, or ✕ to forget it. The "Show: Top 100 / 250…" choice is simply remembered. Both stay on the device you set them on.
@@ -43,7 +45,7 @@ A few other things worth knowing about:
 - **💡 Suggest a feature** — a shared box (visible to everyone using the app, not just you) for writing down "it'd be great if…" ideas.
 - **Themes** — nine visual looks, pick one from the header.
 - **Rabbit Hole** — a guided chain of related works to fall down, one click at a time.
-- **"Why this was recommended"** — every match score comes with a plain-English reason, not just a number.
+- **"Why this was recommended"** — every match score comes with a plain-English reason, not just a number, and says what it's based on ("based on 3 ratings and 2 favorites"). Until you've rated, tiered or owned something, nothing claims to match your taste.
 
 ---
 
@@ -77,6 +79,8 @@ By default, everything lives only in the browser you're using — switch devices
 
 Once that's on, the header's **Account** menu (top right) shows who's currently signed in (with a live sync-status indicator) and lets you switch to a different name, or permanently delete that name's cloud account, at any time.
 
+Using the same name on two devices is safe: changes are merged title by title when they sync, so what you tiered on your phone offline and what you rated on your laptop the same day both survive, instead of whichever device saved last erasing the other.
+
 If cloud accounts aren't set up on a particular copy, the app still works exactly the same — your data just stays local to that one browser, and Export/Import become the way to move it around manually.
 
 ---
@@ -100,7 +104,7 @@ data/            Reference data, split by type so it can grow independently
   contenders.js                           Upcoming releases being tracked
   pk-sample.js                            The PK Sample new accounts can start from (a fixed copy,
                                           so signing in as payton can't change it)
-scripts/         A data-integrity checker (for anyone editing the library)
+scripts/         A data-integrity checker, the stylesheet build, and the recommendation-quality measurement
 test/            An automated regression test suite
 supabase/        SQL schema for cloud accounts (run once in your Supabase project, if you set one up)
 sw.js            Offline support for the hosted copy (a service worker; unused when opened from disk)
@@ -137,6 +141,8 @@ There's no name, email, address, or financial information anywhere in the app or
   npm test                             # everything (~7 min, mostly the browser suite)
   npm run test-fast                    # everything except the browser suite (~15s)
   node test/regression.js --only=account   # one browser flow, by name
+  npm run rec-quality                  # how well recommendations find hidden favorites
+  npm run build-css                    # after using a Tailwind class the page didn't use before
 
   npm run validate-corpus              # just the data checks (no browser needed)
   node scripts/validate-corpus.js --report   # ...plus a health report and the next free IDs

@@ -7,6 +7,8 @@ engineering log (why things ended up this way, phase by phase); this file is the
 
 ```
 index.html          Page layout + styling, and the account sign-in / cloud-sync code
+app/sync-merge.js    Pure title-by-title merge of two copies of the synced keys, plus the per-edit
+                      timestamps it merges by (see "Saving") -- used by the account-sync block
 app/ledger-app.js   The application: initApp() -- every screen and all account/state-dependent logic
                       that is still too closure-tangled to pull out (see "Known limits")
 app/format.js       Pure provenance/edition-format helpers (provStampOf, normPhysFormat)
@@ -23,11 +25,16 @@ app/matrices.js      VIEW 4 · Reference Matrices (matrixBlock/renderMatrixNav/r
                       here too now (see "Known limits")
 app/creators.js      VIEW 5 · Pan-Creator Archives (worksFor/creatorCard/sortCreatorPairs/
                       renderCreators) -- takes state/ALL/$/$$ as parameters
+app/search.js        Pure search: folding (accents, case, punctuation), per-word matching with typo
+                      tolerance, and the relevance buckets results are ordered by (see "Search")
 data/*.js            Reference data (corpus, creator pantheons, contenders)
 supabase/schema.sql  The database: tables, row-level security, grants
 sw.js                Offline support for the hosted copy (service worker) -- see "Offline"
-test/regression.js   Playwright suite, ~280 checks
-scripts/             Corpus integrity checker
+tailwind.config.js   Dev-only: what the stylesheet compiled into index.html is generated from
+test/regression.js   Playwright suite, ~400 checks
+test/*.js            The fast tier: schema, fact/substance/score harnesses, search, merge, evidence
+scripts/             Corpus integrity checker, the stylesheet build (build-css.js), the
+                      recommendation-quality measurement (rec-quality.js), data tooling
 ```
 
 `app/format.js`, `app/cards.js` and `app/scoring.js` load before `app/ledger-app.js`, the same way
@@ -41,6 +48,13 @@ for why `app/ledger-app.js` itself stays one big `initApp()`.
 
 There is no build step. `index.html` loads everything directly, so edit-and-refresh is the whole
 development loop, and deploying is copying the folder.
+
+The one generated thing is the stylesheet: the Tailwind utilities the markup uses are compiled into
+the `<style id="tailwind-css">` block in `index.html` and committed, so the page still opens from a
+double-click. After using a utility class that is new to the page, run `npm run build-css` (it
+rewrites that block); `npm run test-fast` fails with the missing class names if you forget. The
+block used to be generated once and then patched by hand, and ~60 classes the markup used simply
+did not exist — nothing errors when that happens, the class just does nothing.
 
 ## Boot sequence
 
@@ -61,6 +75,13 @@ same timing without costing syntax highlighting, breakpoints and stack traces.
 If you add another app file, load it the same way (define, don't execute) and call into it from
 `initApp()`.
 
+Boot builds only what the opening view shows. The GOAT Profile, Creators, Contenders and Matrix
+tabs (`DEFERRED_PROFILE_VIEWS`) and the Collection and Watchlist tabs are built the first time they
+are opened, and a profile change marks the unopened ones stale (`profileDirtyViews`) instead of
+rebuilding them; `switchView` builds a stale tab on the way in. The page went from ~72,000 elements
+after boot to ~6,000. The generated recommendations are built once, after the series table they
+read exists — they used to be built twice, the first time with nothing to read.
+
 ## State and where it lives
 
 The app has one source of truth per person, and three places it is stored.
@@ -68,13 +89,21 @@ The app has one source of truth per person, and three places it is stored.
 | Where | What | Notes |
 |---|---|---|
 | `localStorage` | The live profile | Authoritative while you are using the app |
-| `profiles.data` (jsonb) | Full snapshot | Convenience copy of the same six keys |
+| `profiles.data` (jsonb) | Full snapshot | Convenience copy of the same seven keys |
 | `media_status` (rows) | Gold/Silver/Bronze/Owned/Rating | Normalized, one row per person per title |
 
-Six `localStorage` keys are synced (`TRACKED` in `index.html`): profile, watchlist, theme,
-density, onboarded, tips-dismissed. Everything else the app shows — match scores, recommendations,
-taste DNA — is **derived at runtime** from those plus the static corpus. Nothing computed is ever
-persisted, which is why changing the scoring engine needs no migration.
+Seven `localStorage` keys are synced (`TRACKED` in `index.html`): profile, watchlist, theme,
+density, onboarded, tips-dismissed, and `omniLedgerEdits` — when each title (and each setting) was
+last changed on any device, which is what lets two copies be merged instead of one replacing the
+other (see "Saving"). Everything else the app shows — match scores, recommendations, taste DNA — is
+**derived at runtime** from those plus the static corpus. Nothing computed is ever persisted, which
+is why changing the scoring engine needs no migration.
+
+`PERSONAL_PROFILE.notInterested` (`{id: ms}`) holds the titles passed on with a card's ✕. A pass
+hides the title from every "what next" surface (the Global Controller unless searching or "show"
+is on, recommendations, blind spots, Surprise Me, the rabbit hole, the Watchlist's suggestions) and
+is a taste signal (below). It never outlives a stronger statement about the same title: rating,
+tiering or owning it clears the pass (`prunePasses`, `toggleOwned`), and so does saving it with ♡.
 
 `media_status` is the durable, scalable copy: plain rows, queryable per person and per title. If
 the jsonb blob is ever empty or damaged, `rebuildProfileFromMediaStatus()` reconstructs the account
@@ -107,10 +136,12 @@ Export both carry it.
 One re-runnable pass, `recomputeTasteScores()`, rebuilt from scratch every time the profile changes
 (a tier click, a rating, an ownership toggle). In order:
 
-1. **Learn.** `buildTasteModel(ALL, {ratings, gold, silver, bronze, taxonomy})` reads every work the
-   person has rated, tiered or shelved and turns it into one signed affinity in `[-1,+1]` — a rating
-   read both against that person's own centre (shrunk toward a neutral prior while their sample is
-   small) and against a fixed midpoint, blended with the tier if the work carries one. From those it
+1. **Learn.** `buildTasteModel(ALL, {ratings, gold, silver, bronze, passed, taxonomy})` reads every
+   work the person has rated, tiered, shelved or passed on and turns it into one signed affinity in
+   `[-1,+1]` — a rating read both against that person's own centre (shrunk toward a neutral prior
+   while their sample is small) and against a fixed midpoint, blended with the tier if the work
+   carries one; a pass is a moderate no (`TASTE_PASS_AFFINITY`, about where a 5/10 lands), counted
+   only where nothing stronger was said about that work. From those it
    derives four tables: **genre** (credited up the taxonomy, so a Cosmic Horror favorite also teaches
    Horror, weaker), **vibe**, **creator**, and a per-**axis** multiplier for each of the six quality
    constructs. Every weight is measured against the person's own baseline *and* against how common
@@ -131,9 +162,25 @@ One re-runnable pass, `recomputeTasteScores()`, rebuilt from scratch every time 
    The band above the median is compressed while the profile is thin and relaxes as evidence
    accumulates, so a profile that has told the app nothing tops out in the low nineties instead of
    claiming a 99% match to someone it knows nothing about.
-4. **Override.** A rating blends the score 65/35 toward the number typed (the only signal that can
-   pull a score *down*); then the Silver/Bronze/owned floors lift it (parallel rungs, never
-   crossing — see `tierTarget`); then Gold pins to 100.
+4. **Override.** A rating blends the score 65/35 toward the number typed, and a pass blends it the
+   same way toward 40 (the two signals that can pull a score *down*); then the Silver/Bronze/owned
+   floors lift it (parallel rungs, never crossing — see `tierTarget`); then Gold pins to 100.
+
+The number on a card's ring is this score, labelled "Match" once the profile holds any rating, tier,
+ownership, pass or hand-set boost and "Score" before that — with nothing personal to go on it is only the calibrated
+critical/audience/craft consensus, and nothing on the page calls it a match for anyone's taste.
+`tasteBasis()` is what every explanation reads to say what a match rests on ("based on 3 ratings
+and 2 favorites"); `matchTitle()` is the ring's own description.
+
+**How good it is, measured.** `npm run rec-quality` (and the "recommendation quality" flow in the
+browser suite, on every pull request) hides favorites and checks whether the engine finds them
+again among everything untried: the PK Sample's 53 favorites five folds at a time, and each of four
+cold-start personas' six to eight favorites one at a time. Today the engine puts 53% of the PK
+Sample's hidden favorites in its top 100 of ~4,800 (acclaim alone: 13%) and 54% of the personas'
+(acclaim alone: 21%). The checks fail if that drops below floors set a little under those numbers.
+When tuning, change one constant and re-run it: a sweep of every constant in `buildTasteModel` and
+the taste/objective balance found no change that improved every profile at once, so the current
+values sit on a plateau rather than on one profile's peak.
 
 Nothing here is persisted, and every field is reset at the top of the pass, so running it twice
 produces the same result as a fresh boot.
@@ -158,6 +205,21 @@ A tier, owned or rating click re-runs the whole scoring pass in place (`mutatePr
   owned/tier flags or `gm` must go through one of those two, or bump the epoch itself. The results
   are identical to the old full scans (stable sort commutes with filter), and the suite checks that
   against the original implementations for every title.
+
+## Search
+
+`app/search.js` is pure and runs everywhere a list is searched: the Global Controller, the GOAT
+Picker and GOAT Profile search, the Watchlist and the Collection. `buildSearchIndex` folds every
+work's title, creator and other fields once per corpus (NFKD with the combining marks stripped, a
+short map for letters that are not marks — ł, ø, æ, ß —, lowercase, `&` → and, apostrophes dropped,
+every other run of punctuation a space) and keeps its vocabulary. A query is folded the same way
+and split into words, and every word must match somewhere — as a whole word or a word start, inside
+a word for four letters or more, and only if a word matches nothing at all, within one typo (4–7
+letters) or two (8+). Hyphenated words are phrases ("sci-fi" is the genre, not "sci" and "fi"
+anywhere). Each hit carries a relevance bucket — exact title, title prefix, all words in the title,
+creator, other fields — and lists sort by bucket first, then by whatever sort the person chose, so
+"dune" puts Dune first while "kubrick" (all creator matches) still follows the chosen sort.
+`test/search.js` holds the queries that used to find nothing.
 
 ## Offline
 
@@ -185,8 +247,20 @@ Saving is the part of this codebase with the most hard-won logic. The short vers
   rows it actually wrote, then reads the row back and compares. Silence is not success — Postgres
   applies an RLS `UPDATE` policy to `INSERT ... ON CONFLICT DO UPDATE` as a *filter*, so a refused
   write returns 2xx with zero rows and no error.
-- **Unsaved changes always beat the cloud.** A pending marker is set on every edit and cleared only
+- **Unsaved changes are never pulled over.** A pending marker is set on every edit and cleared only
   by a verified write. While it is set, no page load may overwrite local data.
+- **Two copies are merged, not raced.** Every tracked write records which titles and settings it
+  changed, and when, in `omniLedgerEdits` (`syncRecordEdits` in `app/sync-merge.js`; a path names
+  one entry — `s|m14` is m14's Silver tier, `r|m14` its rating, `w|m14` its watchlist entry,
+  `k|omniLedgerTheme` the theme, `P|pinnedIdx` a profile field kept whole). A push reads the cloud row first, merges it
+  with the local copy title by title — the newer stamp wins; on a tie a value beats an absence and
+  then local wins — and writes the result *conditionally on the row's `updated_at` still being the
+  one it read*, retrying on a miss. So a phone's offline edits and a laptop's edits of the same day
+  both survive, a removal on one device is not undone by the other's older copy, and two devices
+  saving at once cannot erase each other. Whatever the merge brought in from the cloud is written
+  back to `localStorage` and announced (`omni:stored-state-changed`); `app/ledger-app.js` adopts it
+  without a reload, the same way it adopts another tab's writes (the `storage` event). Stamps expire
+  after 45 days — longer than any device is likely to sit unsynced — so the edits map stays small.
 - **Writes are serialised.** All profile saves go through one chain, so two uploads are never in
   flight at once and the newest snapshot always lands last.
 - **No-op writes are not edits.** Re-writing a value that has not changed schedules nothing.
@@ -211,9 +285,11 @@ signed in as payton decide what every newcomer started from. Regenerate the file
 profile with nothing tiered or owned, and refuses ids missing from the corpus (`--drop-unknown`
 leaves them out); `validate-corpus` re-checks the same things on every run.
 
-**Adding a synced setting** — add the key to `TRACKED` in `index.html`. (The schema used to keep an
-allow-list of keys too; it no longer filters the payload at all — see the comment in
-`validate_omni_profile_data` for why.)
+**Adding a synced setting** — add the key to `TRACKED` in `index.html`. It is merged as one value
+(newest edit wins) unless it is JSON worth merging entry by entry, in which case teach
+`syncPaths`/`syncBuild` in `app/sync-merge.js` its shape and add a case to `test/sync-merge.js`.
+(The schema used to keep an allow-list of keys too; it no longer filters the payload at all — see
+the comment in `validate_omni_profile_data` for why.)
 
 **Adding a file the page loads** — add the `<script src>` / `<link href>` to `index.html` *and* the
 path to `PRECACHE` in `sw.js`, or the hosted app opens offline without it. The suite fails if the
@@ -286,13 +362,18 @@ a substring, and add the vocabulary to the validator so the next person cannot d
 
 ## Testing
 
-`npm test` runs two tiers: `npm run test-fast` (the corpus validator, the schema checks, the
-fact/substance/score harnesses and `test/evidence.js`, which fails if any committed evidence file
-carries synopsis or blurb prose, ~15s) and `npm run test-browser` (the Playwright suite, ~7 min).
+`npm test` runs two tiers: `npm run test-fast` (the corpus validator, the stylesheet check, the
+schema checks, the fact/substance/score harnesses, the search and merge harnesses, and
+`test/evidence.js`, which fails if any committed evidence file carries synopsis or blurb prose,
+~15s) and `npm run test-browser` (the Playwright suite, ~7 min).
 The suite covers onboarding, every screen, filters, tiering, and the whole cloud-account flow
 against a mocked Supabase, so no real project is needed. CI runs both on every pull request; day to
 day, `test-fast` plus lint is the pre-commit check, and `node test/regression.js --only=<flow>`
 re-runs a single browser flow in seconds (see CLAUDE.md).
+
+`test/search.js` runs `app/search.js` against the real corpus with no browser; `test/sync-merge.js`
+does the same for the merge rules, including the offline-phone-and-laptop case. `npm run
+rec-quality` prints the recommendation-quality report described under "How GOAT Match is computed".
 
 ### The live database checks
 
@@ -396,7 +477,9 @@ still skips the rest of that flow, so one flaky assertion can hide dozens of che
   problem. The first thing to feel it will be the Visualization Suite.
 - Two server-side caps sit above the corpus rather than scaling with it: `profiles.data` is limited
   to ~200KB (the sample profile is ~6KB, roughly 46 bytes per tiered or owned title, so ~4,000
-  titles; each completed title adds ~70 bytes to the watchlist key in the same row), and `media_status` is capped at 50,000 rows per handle. Both are backstops against a
+  titles; each completed title adds ~70 bytes to the watchlist key in the same row, and each title
+  changed in the last 45 days ~22 bytes to `omniLedgerEdits` — starting from the PK Sample stamps
+  all 385 of its entries at once, ~8.6KB), and `media_status` is capped at 50,000 rows per handle. Both are backstops against a
   runaway client, not product limits — raise them before they bind.
 - Handles are names, not verified identities. There is no auth — anyone can sign in as any handle.
   This is an intentional trust model for a small friend group, not an oversight, but it is the

@@ -156,17 +156,20 @@ function applyOwnershipFromProfile(){
 applyOwnershipFromProfile();
 let WL={};
 try{const raw=localStorage.getItem('omniLedgerWatchlist');if(raw)WL=JSON.parse(raw)||{};}catch(e){WL={};}
+// The stored profile and watchlist strings this tab last read or wrote -- see adoptStoredState.
+let _profileRawSeen=null,_wlRawSeen=null;
 /* The watchlist saves on the same path as every other edit you make. It used to be the odd one
    out: the localStorage write alone scheduled the slower, incidental-write sync, so a heart click
    took noticeably longer to reach the cloud than tiering the same title did. It carries no
    media_status rows of its own (only tier/owned state is normalized per title), but the snapshot
    that goes up holds the whole watchlist either way. */
 function wlSave(){
- try{localStorage.setItem('omniLedgerWatchlist',JSON.stringify(WL));}catch(e){console.warn('omniLedgerWatchlist failed',e);}
+ try{const written=JSON.stringify(WL);localStorage.setItem('omniLedgerWatchlist',written);_wlRawSeen=written;}catch(e){console.warn('omniLedgerWatchlist failed',e);}
  if(typeof window.__omniSyncAfterChange==='function')window.__omniSyncAfterChange([]);
 }
 function wlHas(id){return !!WL[id];}
-function wlToggle(id){if(WL[id])delete WL[id];else WL[id]={watched:false,added:Date.now()};wlSave();}
+// Watchlist edits start from the newest stored copy too (see adoptStoredState).
+function wlToggle(id){syncFromStorage();if(WL[id])delete WL[id];else WL[id]={watched:false,added:Date.now()};wlSave();}
 /* Completed -- watched, read or played -- lives on the watchlist entry, where it always did (the
    Watchlist tab's "Mark completed"). What changed is that it no longer needs the title to have been
    saved first: marking something done from any card creates an entry already in the Completed
@@ -180,6 +183,7 @@ function wlToggle(id){if(WL[id])delete WL[id];else WL[id]={watched:false,added:D
    has no business re-running the scoring pass. */
 function wlDone(id){const e=WL[id];return !!(e&&e.watched);}
 function wlSetDone(id,v){
+ syncFromStorage();
  const e=WL[id];
  if(v){
   if(!e)WL[id]={watched:true,added:Date.now(),doneAt:Date.now(),logOnly:true};
@@ -192,12 +196,12 @@ function wlSetDone(id,v){
  }
  wlSave();
 }
-function wlSetDoneDate(id,ms){const e=WL[id];if(!e||!e.watched)return;if(ms)e.doneAt=ms;else delete e.doneAt;wlSave();}
+function wlSetDoneDate(id,ms){syncFromStorage();const e=WL[id];if(!e||!e.watched)return;if(ms)e.doneAt=ms;else delete e.doneAt;wlSave();}
 const DONE_VERB={movie:'Watched',tv:'Watched',game:'Played',book:'Read'};
 function doneVerb(it){return DONE_VERB[it&&it.kind]||'Completed';}
 
 /* ===================== STATE & HELPERS ===================== */
-const state={view:'controller',q:'',types:[],struct:'all',plats:[],minGoat:0,minMyRating:0,ratedOnly:false,unratedOnly:false,genres:[],genresExclude:[],ownedOnly:false,notOwnedOnly:false,doneOnly:false,notDoneOnly:false,franchiseOnly:false,standaloneOnly:false,limit:100,idx:{snd:0,ref:0,ch:0,emo:0,awe:0,cozy:0,perf:0,icon:0,scary:0,real:0,reality:0,shock:0,sci:0,funny:0,hist:0,vibe2:0,crit:0,aud:0,tech:0,dread:0,myst:0,warmth:0,comedy:0,beauty:0,runtime:0},ratings:[],tierFilter:[],tierFilterExclude:[],yearMin:null,yearMax:null,combine:false,sort:'overall',w:{tech:0.85,dread:0.95,myst:0.90},creatorTab:'directors',creatorSearch:'',creatorLedgerOnly:false,creatorOwnedOnly:false,goatType:'all',goatTierFilter:'all',goatSort:'match',goatDeclaredQ:'',portraitScope:'all',collSearchQ:'',collSort:'az',wlType:'all',wlSort:'added',wlSearchQ:'',creatorSearchScope:'all',creatorSort:'works'};
+const state={view:'controller',q:'',types:[],struct:'all',plats:[],minGoat:0,minMyRating:0,ratedOnly:false,unratedOnly:false,genres:[],genresExclude:[],ownedOnly:false,notOwnedOnly:false,doneOnly:false,notDoneOnly:false,franchiseOnly:false,standaloneOnly:false,showPassed:false,limit:100,idx:{snd:0,ref:0,ch:0,emo:0,awe:0,cozy:0,perf:0,icon:0,scary:0,real:0,reality:0,shock:0,sci:0,funny:0,hist:0,vibe2:0,crit:0,aud:0,tech:0,dread:0,myst:0,warmth:0,comedy:0,beauty:0,runtime:0},ratings:[],tierFilter:[],tierFilterExclude:[],yearMin:null,yearMax:null,combine:false,sort:'overall',w:{tech:0.85,dread:0.95,myst:0.90},creatorTab:'directors',creatorSearch:'',creatorLedgerOnly:false,creatorOwnedOnly:false,goatType:'all',goatTierFilter:'all',goatSort:'match',goatDeclaredQ:'',portraitScope:'all',collSearchQ:'',collSort:'az',wlType:'all',wlSort:'added',wlSearchQ:'',creatorSearchScope:'all',creatorSort:'works'};
 const $=s=>document.querySelector(s),$$=s=>Array.from(document.querySelectorAll(s));
 const on=(sel,ev,fn)=>{const el=$(sel);if(el)el.addEventListener(ev,fn);else console.warn('missing element:',sel);};
 // esc/themeColor(+THEME_PALETTE) live in app/cards.js (pure, closure-independent) now.
@@ -241,8 +245,31 @@ const IDX_KEYS=['snd','ref','ch','emo','awe','cozy','perf','icon','scary','real'
 // with nothing skipped. Keeping one predicate for both means a new filter added here automatically
 // gets correct contextual counts everywhere, instead of a second hand-maintained copy drifting out
 // of sync.
-function filteredSkipping(skip){const q=state.q.trim().toLowerCase();
+/* Omni-Search is app/search.js (accents and punctuation folded, every word matched in any order and
+   any field, typos forgiven, a relevance bucket per hit); this is the corpus side of it. The index
+   is built the first time anything is searched -- every field it reads is fixed once the adapter
+   pass has run -- and each query's answer is cached, so re-filtering costs one Map lookup per work. */
+let _searchIx=null;
+const _searchIdMaps=new WeakMap();
+function searchFieldsOf(x){
+ return {title:x.title,creator:x.creator,other:[x.org,(x.plats||[]).join(' '),(x.genres||[]).join(' '),(x.fam||[]).join(' '),x.vibe,x.rating||'',String(x.year)]};
+}
+// Work id -> relevance bucket (lower is better) for everything matching `q`; null for no search.
+function worksMatching(q){
+ if(!_searchIx)_searchIx=buildSearchIndex(ALL,searchFieldsOf);
+ const byIdx=searchQuery(_searchIx,q||'');
+ if(!byIdx)return null;
+ let m=_searchIdMaps.get(byIdx);
+ if(!m){m=new Map();byIdx.forEach(function(b,i){m.set(ALL[i].id,b);});_searchIdMaps.set(byIdx,m);}
+ return m;
+}
+// Best search match first, the list's own order inside each relevance bucket.
+function bySearchThen(matches,cmp){return function(a,b){return (matches.get(a.id)-matches.get(b.id))||cmp(a,b);};}
+function filteredSkipping(skip){
+ const matches=worksMatching(state.q.trim());
  return ALL.filter(it=>{
+  // "Not interested" leaves browsing entirely -- but a search still finds it, to look it up or undo.
+  if(it.passed&&!state.showPassed&&!matches)return false;
   if(state.types.length&&!state.types.includes(it.kind))return false;
   if(it.kind==='tv'){
    if(state.struct==='limited'&&it.format!=='Limited/Mini-Series')return false;
@@ -278,7 +305,7 @@ function filteredSkipping(skip){const q=state.q.trim().toLowerCase();
   for(const k of IDX_KEYS){if(state.idx[k]>0&&(it[k]===undefined||it[k]<state.idx[k]))return false;}
   if(state.yearMin!=null&&it.year<state.yearMin)return false;
   if(state.yearMax!=null&&it.year>state.yearMax)return false;
-  if(q){const hay=(it.title+' '+it.creator+' '+it.org+' '+(it.plats||[]).join(' ')+' '+it.genres.join(' ')+' '+(it.fam||[]).join(' ')+' '+it.vibe+' '+(it.rating||'')+' '+it.year).toLowerCase();if(!hay.includes(q))return false;}
+  if(matches&&!matches.has(it.id))return false;
   return true;
  });
 }
@@ -318,7 +345,7 @@ function anchorPhrase(ex){
 }
 // Already rated, tiered or finished: a companion suggestion ("cross over to...") pointing at one of
 // these points somewhere the person has already been. Owned-but-unfinished still qualifies.
-function isExperienced(x){return x.goat||x.silver||x.bronze||x.myRating!=null||wlDone(x.id);}
+function isExperienced(x){return x.goat||x.silver||x.bronze||x.myRating!=null||wlDone(x.id)||x.passed;}
 /* Per-card corpus lookups, memoized per scoring pass.
 
    whyRecommended and crossThread run for every card drawn, and each used to filter and sort the
@@ -452,6 +479,7 @@ function buildRabbitHole(startId,steps,opts){
  var used={};used[start.id]=1;
  var cur=start;
  function passes(x){
+  if(x.passed)return false;
   if(opts.mood&&x.vibe!==opts.mood)return false;
   if(opts.era){var d=Math.floor((x.year||0)/10)*10;if(d!==opts.era)return false;}
   return true;
@@ -540,7 +568,9 @@ function crossThreadHTML(it){
 function gmBreakdownHTML(it){
  var chips=[];
  var ovMap={declared:['\u2605 Declared all-time favorite \u2014 locked at 100','#fbbf24'],silver:['\u2726 Declared favorite (silver tier)','#cbd5e1'],owned:['\u25c8 In your physical collection','#4ade80'],
-  rated:['\u2605 Pulled toward your rating of '+(typeof it.myRating==='number'?it.myRating.toFixed(1):'?')+'/10','#5eead4']};
+  rated:['\u2605 Pulled toward your rating of '+(typeof it.myRating==='number'?it.myRating.toFixed(1):'?')+'/10','#5eead4'],
+  bronze:['\u2726 Declared favorite (bronze tier)','#cd7f32'],
+  passed:['\u2715 You marked this not interested \u2014 pulled down toward '+PASS_TARGET,'#fda4af']};
  (it.gmBoosts||[]).slice().sort((a,b)=>b[2]-a[2]).forEach(function(b){
   var lab={creator:'Creator',author:'Author',genre:'Genre',vibe:'Vibe',complexity:'Depth',craft:'Craft',tone:'Tone',dread:'Dread',warmth:'Warmth',comedy:'Comedy',beauty:'Beauty'}[b[0]]||b[0];
   var cap=(''+b[1]).replace(/\b\w/g,function(c){return c.toUpperCase();});
@@ -578,14 +608,22 @@ function summaryHTML(it){const k=KM[it.kind];
  // Reception + fit
  const recep='Critics '+(it.crit>=90?'adore it':it.crit>=80?'rate it highly':it.crit>=70?'regard it well':'are mixed')+' ('+it.crit+'/100)';
  const aud='audiences '+(it.aud>=90?'love it':it.aud>=80?'rate it highly':it.aud>=70?'like it':'are split')+' ('+it.aud+'/100).';
- // Taste-fit note based on personal GOAT match
+ // Taste-fit note based on personal GOAT match -- worded as a match for this person's taste only
+ // when the app knows something about it (tasteBasis), and saying what that is when it does.
+ const basis=tasteBasis();
  let fit;
  if(it.goat)fit='\u2605 One of your declared all-time favorites.';
  else if(it.silver)fit='\u2606 A silver-tier favorite of yours.';
+ else if(it.bronze)fit='\u2606 A bronze-tier pick of yours.';
  else if(it.owned)fit='\u2713 Already in your collection'+(it.physFormat?' ('+esc(it.physFormat)+')':'')+'.';
+ else if(it.myRating!=null)fit='\u2605 You rated this '+it.myRating.toFixed(1)+'/10.';
+ else if(it.passed)fit='\u2715 You marked this not interested, so its match sits at '+it.gm+'/100.';
+ else if(!basis.personal)fit='Overall score '+it.gm+'/100 \u2014 critical, audience and craft consensus. Rate, tier or own a few titles to personalize it.';
  else if(it.gm>=85)fit='\u2605 Very strong match for your taste ('+it.gm+'/100) \u2014 a prime discovery.';
  else if(it.gm>=72)fit='\u2605 Good match for your taste ('+it.gm+'/100).';
  else fit='Taste match: '+it.gm+'/100.';
+ const discovery=!(it.goat||it.silver||it.bronze||it.owned||it.myRating!=null||it.passed);
+ if(discovery&&basis.personal)fit+=' <span class="text-slate-500">Based on '+basis.text+'.</span>';
  const vibeChip=it.vibe?'<span class="chip" style="color:#c4b5fd;border-color:#c4b5fd44">'+esc(it.vibe)+'</span>':'';
  return '<div class="summaryFace hidden border-t border-slate-800/80 px-3.5 py-3 bg-[#0b1322]/70">'
   +'<div class="flex items-center justify-between gap-2 mb-1.5"><span class="lbl" style="color:'+k.c+'">'+k.label+' \u00b7 Quick Look</span>'
@@ -594,7 +632,7 @@ function summaryHTML(it){const k=KM[it.kind];
   +(hook?'<p class="text-[11.5px] text-slate-300 italic mt-1.5 leading-relaxed">'+hook+'</p>':'')
   +(line2?'<p class="text-[11px] text-slate-400 mt-1.5 leading-relaxed">'+line2+'</p>':'')
   +'<p class="text-[11px] text-slate-400 mt-1.5 leading-relaxed">'+recep+', '+aud+'</p>'
-  +'<p class="text-[11.5px] mt-2 leading-relaxed" style="color:'+(it.goat||it.gm>=85?'#fcd34d':it.owned?'#4ade80':'#cbd5e1')+'">'+fit+'</p>'+((function(){var w=whyRecommended(it);return w?'<p class="text-[11px] mt-1 leading-relaxed" style="color:#7dd3fc">↳ '+w+'</p>':'';})())+((function(){var f=suggestedFormat(it);if(!f)return '';var have=it.owned&&it.physFormat;var match=have&&it.physFormat.toLowerCase().indexOf(f.fmt.toLowerCase().split(' ')[0].toLowerCase())>=0;return '<p class="text-[11px] mt-1 leading-relaxed" style="color:#fbbf24">◈ Best edition: <b>'+esc(f.fmt)+'</b> — '+f.why+(have&&!match?' <span style=\'color:#fb7185\'>(you own '+esc(it.physFormat)+')</span>':have&&match?' <span style=\'color:#4ade80\'>(✓ you have it)</span>':'')+'</p>';})())
+  +'<p class="text-[11.5px] mt-2 leading-relaxed" style="color:'+(it.goat||(discovery&&basis.personal&&it.gm>=85)?'#fcd34d':it.owned?'#4ade80':'#cbd5e1')+'">'+fit+'</p>'+((function(){var w=whyRecommended(it);return w?'<p class="text-[11px] mt-1 leading-relaxed" style="color:#7dd3fc">↳ '+w+'</p>':'';})())+((function(){var f=suggestedFormat(it);if(!f)return '';var have=it.owned&&it.physFormat;var match=have&&it.physFormat.toLowerCase().indexOf(f.fmt.toLowerCase().split(' ')[0].toLowerCase())>=0;return '<p class="text-[11px] mt-1 leading-relaxed" style="color:#fbbf24">◈ Best edition: <b>'+esc(f.fmt)+'</b> — '+f.why+(have&&!match?' <span style=\'color:#fb7185\'>(you own '+esc(it.physFormat)+')</span>':have&&match?' <span style=\'color:#4ade80\'>(✓ you have it)</span>':'')+'</p>';})())
   +'<div class="flex flex-wrap gap-1.5 mt-2.5">'+vibeChip+(it.fam||[]).slice(0,3).map(f=>'<span class="chip">'+esc(f)+'</span>').join('')+'</div>'+crossThreadHTML(it)
   +'</div>';
 }
@@ -655,7 +693,7 @@ function tierRowHTML(it,roomy){
  +'<span class="w-px h-4 mx-0.5" style="background:#334155"></span>'
  +seg('own','◆','Owned','Toggle whether this is in your owned collection',it.owned,'#4ade80',true)
  +doneSegHTML(it,roomy)
- +(roomy?'<span class="ml-auto flex items-center gap-3 text-[10.5px] text-slate-500 shrink-0"><span title="GOAT match /100">★ <b style="color:#fbbf24">'+it.gm+'</b></span><span title="Critical score /100">Crit <b class="text-slate-300">'+it.crit+'</b></span><span title="Audience score /100">Aud <b class="text-slate-300">'+it.aud+'</b></span></span>':'')
+ +(roomy?'<span class="ml-auto flex items-center gap-3 text-[10.5px] text-slate-500 shrink-0"><span title="'+esc(matchTitle(it))+'">★ <b style="color:#fbbf24">'+it.gm+'</b></span><span title="Critical score /100">Crit <b class="text-slate-300">'+it.crit+'</b></span><span title="Audience score /100">Aud <b class="text-slate-300">'+it.aud+'</b></span></span>':'')
  +rateBtn
  +'</div>';
 }
@@ -679,15 +717,36 @@ function wlCornerHTML(it){
  const label=done?(verb+' \u2014 click to undo'):has?'Remove from watchlist':'Add to watchlist';
  return '<button type="button" class="wlBtn absolute top-2 right-2 text-base leading-none transition-transform hover:scale-125" data-wl="'+it.id+'" title="'+(done?label:'Toggle watchlist')+'" aria-label="'+label+'" style="color:'+(done?DONE_COLOR:has?'#fb7185':'#475569')+'">'+(done?'\u2713':has?'\u2665':'\u2661')+'</button>';
 }
+/* "Not interested" (see setPassed): a small \u2715 tucked under the \u2661, in the corner column the card's
+   content never reaches. Offered only on works the person has not judged any other way -- rated,
+   tiered, owned, queued or finished are all stronger statements -- and always rendered (hidden
+   when not offered) so refreshDoneUI can swap it in place when the watchlist changes. */
+function passBtnHTML(it){
+ const on=!!it.passed;
+ const offer=on||!(it.owned||it.goat||it.silver||it.bronze||it.myRating!=null||wlHas(it.id)||wlDone(it.id));
+ const label=on?'Not interested \u2014 click to undo':'Not interested \u2014 hide this and show less like it';
+ return '<button type="button" class="passBtn'+(offer?'':' hidden')+'" data-pass="'+it.id+'" aria-pressed="'+on+'" title="'+label+'" aria-label="'+label+'">\u2715</button>';
+}
+/* A card's headline number is the personal match (GOAT Match), labelled: "MATCH" once the app has
+   anything personal to go on, "SCORE" while it has nothing (tasteBasis). It used to be the
+   critics' score -- unlabelled, hidden from screen readers, and an estimate for most works -- so a
+   list sorted by match read as unsorted. Critics keep a small chip of their own beside the medium. */
+function matchRingHTML(it,color,size){
+ const t=esc(matchTitle(it));
+ return '<span class="matchRing shrink-0" role="img" aria-label="'+t+'" title="'+t+'">'+ring(it.gm,color,size)+'<span class="matchRingLbl">'+matchWord()+'</span></span>';
+}
+function critChipHTML(it){
+ return '<span class="chip critChip" title="Critics\u2019 score '+it.crit+'/100 \u2014 put on one scale across films, series, games and books; an estimate for most works until a licensed source is applied">Crit '+it.crit+'</span>';
+}
 function cardHTML(it){const k=KM[it.kind];
- return '<div class="panel resultCard overflow-hidden hover:border-slate-600/80 transition-colors fade-in relative flex flex-col h-full">'
+ return '<div class="panel resultCard overflow-hidden hover:border-slate-600/80 transition-colors fade-in relative flex flex-col h-full'+(it.passed?' isPassed':'')+'">'
  +'<button type="button" class="cardHead w-full text-left p-3.5 flex gap-3 items-start" data-id="'+it.id+'">'
- +ring(it.crit,k.c,42)
+ +matchRingHTML(it,k.c,42)
  +'<div class="flex-1 min-w-0">'
- +'<div class="flex items-center gap-x-2 gap-y-1.5 flex-wrap cardChips"><span class="cardTitle text-[13px] font-semibold text-slate-100 leading-tight hover:text-teal-300 cursor-pointer underline decoration-dotted decoration-slate-600 underline-offset-2" data-flip="'+it.id+'" title="Click for a summary and full breakdown">'+esc(it.title)+'</span><span class="chip" style="color:'+k.c+';border-color:'+k.c+'44">'+k.label+'</span><span class="chip" style="color:#5eead4;border-color:#5eead455">'+esc(it.rating)+'</span>'+'<span class="chip" style="color:#fbbf24;border-color:#fbbf2444" title="GOAT match /100">\u2605 '+it.gm+'</span>'+(window._blendActive?'<span class="chip" style="color:#0B0F19;background:#34d399;border-color:#34d399;font-weight:800" title="Weighted blend match">\u2696 '+bespokeScore(it,state).toFixed(0)+'%</span>':'')+(it.chFlag?'<span class="chip" style="color:#0B0F19;background:#c084fc;border-color:#c084fc;font-weight:700">\u25c9 CANON 100</span>':(it.ch>=70?'<span class="chip" style="color:#c084fc;border-color:#c084fc44">\u25c9 '+it.ch+'</span>':''))+(function(){const fr=franchiseOf(it);return fr?'<span class="chip franchiseChip" style="color:#5eead4;border-color:#5eead444" title="Part of the '+esc(fr)+' series">\u2699 '+esc(fr)+'</span>':'';})()+'</div>'
+ +'<div class="flex items-center gap-x-2 gap-y-1.5 flex-wrap cardChips"><span class="cardTitle text-[13px] font-semibold text-slate-100 leading-tight hover:text-teal-300 cursor-pointer underline decoration-dotted decoration-slate-600 underline-offset-2" data-flip="'+it.id+'" title="Click for a summary and full breakdown">'+esc(it.title)+'</span><span class="chip" style="color:'+k.c+';border-color:'+k.c+'44">'+k.label+'</span><span class="chip" style="color:#5eead4;border-color:#5eead455">'+esc(it.rating)+'</span>'+critChipHTML(it)+(window._blendActive?'<span class="chip" style="color:#0B0F19;background:#34d399;border-color:#34d399;font-weight:800" title="Weighted blend match">\u2696 '+bespokeScore(it,state).toFixed(0)+'%</span>':'')+(it.chFlag?'<span class="chip" style="color:#0B0F19;background:#c084fc;border-color:#c084fc;font-weight:700">\u25c9 CANON 100</span>':(it.ch>=70?'<span class="chip" style="color:#c084fc;border-color:#c084fc44">\u25c9 '+it.ch+'</span>':''))+(function(){const fr=franchiseOf(it);return fr?'<span class="chip franchiseChip" style="color:#5eead4;border-color:#5eead444" title="Part of the '+esc(fr)+' series">\u2699 '+esc(fr)+'</span>':'';})()+'</div>'
  +'<div class="text-[11px] text-slate-400 mt-1.5 truncate" title="'+esc(it.creator)+' · '+esc(it.org)+'">'+it.year+' · '+esc(it.creator)+' · '+esc(it.span)+'</div>'
  +'<div class="mt-2 space-y-1 cardMicro" title="This work\'s 3 strongest indices out of ~19 tracked -- click the card to see all of them">'+frontBars(it)+'</div>'
- +'</div><span class="text-slate-600 text-xs mt-1" aria-hidden="true">&#9662;</span></button>'+wlCornerHTML(it)
+ +'</div><span class="text-slate-600 text-xs mt-1" aria-hidden="true">&#9662;</span></button>'+wlCornerHTML(it)+passBtnHTML(it)
  +tierRowHTML(it)
  // The summary and the full breakdown are ~3/4 of a card's HTML and stay hidden until the card is
  // opened, yet every card used to build (and every grid redraw used to parse) both of them -- for
@@ -757,15 +816,18 @@ function renderController(list,changedIds){
  let note='';
  if(state.sort==='blend')note=' · ⚖ weighted blend: Tech '+state.w.tech.toFixed(2)+' · Dread '+state.w.dread.toFixed(2)+' · Mind '+state.w.myst.toFixed(2);
  window._blendActive=(state.sort==='blend');
- const sorted=list.slice().sort(SORTS[state.sort]||SORTS.overall);
- $('#priorityNote').textContent=note;renderActiveBar();
+ // While searching, the best match leads (an exact title, then titles holding the words, then a
+ // creator, then a genre or year) and the chosen sort orders each of those groups.
+ const cmp=SORTS[state.sort]||SORTS.overall,matches=worksMatching(state.q.trim());
+ const sorted=list.slice().sort(matches?bySearchThen(matches,cmp):cmp);
+ $('#priorityNote').textContent=note;renderActiveBar();renderPassedNote(list,matches);
  buildGenreChips();buildRatingChips();
  const shown=sorted.slice(0,state.limit);
  if(patchControllerGrid(shown,changedIds))return;
  renderGridChunked(shown);
 }
 // Building card HTML is ~2ms/card (see patchControllerGrid's comment) -- fine for the default
-// Top 100, but "Show: All" on an unfiltered library is ~2,500 cards, and setting innerHTML for all
+// Top 100, but "Show: All" on an unfiltered library is ~5,000 cards, and setting innerHTML for all
 // of them in one go blocks the main thread for seconds: the screen looks frozen and can't be
 // scrolled or clicked until the whole string is built and parsed.
 //
@@ -830,6 +892,7 @@ function activeFilterList(s){
  if(s.notDoneOnly)X('○ Not yet watched / read / played','notdone');
  if(s.franchiseOnly)X('⚙ Franchise / series','franchise');
  if(s.standaloneOnly)X('◇ Standalone only','standalone');
+ if(s.showPassed)X('✕ Including not interested','passed');
  const TL={gold:'🥇 Gold',silver:'🥈 Silver',bronze:'🥉 Bronze'};
  s.tierFilter.forEach(t=>X(TL[t],'tier:'+t));
  s.tierFilterExclude.forEach(t=>X('✕ '+TL[t],'tierEx:'+t));
@@ -868,7 +931,7 @@ function renderActiveBar(){
 const DISCOVER_TIERS=['gold','silver','bronze'];
 // "Untried" -- new to you: not owned, not finished, not tiered, not rated. The one definition behind
 // both discovery shortcuts: Best Untried Matches (as filters, below) and Surprise Me's Discover pool.
-function isUntried(x){return !x.owned&&!wlDone(x.id)&&!x.goat&&!x.silver&&!x.bronze&&x.myRating==null;}
+function isUntried(x){return !x.owned&&!wlDone(x.id)&&!x.goat&&!x.silver&&!x.bronze&&x.myRating==null&&!x.passed;}
 function isDiscoverActive(){
  return state.notOwnedOnly&&state.notDoneOnly&&state.unratedOnly&&DISCOVER_TIERS.every(t=>state.tierFilterExclude.includes(t))&&state.tierFilter.every(t=>!DISCOVER_TIERS.includes(t));
 }
@@ -1319,7 +1382,7 @@ function anticipationScore(c){
  });
  // pantheon membership adds pull
  var inPantheon=(directorsPantheon.some(function(d){return lead.indexOf(d.name)>=0;})||gamingAuteurs.some(function(a){return lead.indexOf(a.name)>=0;})||(typeof authorsPantheon!=='undefined'&&authorsPantheon.some(function(a){return lead.indexOf(a.name)>=0;})));
- if(inPantheon){pull=Math.max(pull,8);if(!reasons.length)reasons.push(lead+' is a master creator you follow');}
+ if(inPantheon){pull=Math.max(pull,8);if(!reasons.length)reasons.push(lead+' is in the Creator Archives pantheon');}
  // do you own / love works by this lead already?
  var byLead=ALL.filter(function(x){return x.creator&&lead&&x.creator.indexOf(lead)>=0;});
  var ownedByLead=byLead.filter(function(x){return x.owned;}).length;
@@ -1488,7 +1551,7 @@ const goatProfile={
 };
 if(PROFILE_FROM_STORAGE)goatProfile.declared=PERSONAL_PROFILE.declaredCanon||[];
 else PERSONAL_PROFILE.declaredCanon=goatProfile.declared;
-/* --- Personal GOAT-match scoring across the full 2,502-work corpus --- */
+/* --- Personal GOAT-match scoring across the whole corpus --- */
 if(!PROFILE_FROM_STORAGE)PERSONAL_PROFILE.declaredGoatIds=['m09','m06','m65','t03','t10','g45','m120','b19','b20','b21','b32','b23'];
 let GOAT_DECLARED=new Set(PERSONAL_PROFILE.declaredGoatIds||[]);
 if(!PROFILE_FROM_STORAGE)PERSONAL_PROFILE.creatorBoost=[['Christopher Nolan',14],['Denis Villeneuve',12],['Peter Jackson',10],['Steven Spielberg',9],['Stanley Kubrick',9],['Alex Garland',8],['Sam Esmail',8],['Jonathan Nolan',8],['David Fincher',7],['Alfonso Cuar\u00f3n',7],['Ridley Scott',7],['Martin Scorsese',7],['John Carpenter',7],['Peter Weir',7],['Sam Mendes',6],['Craig Mazin',6],['Vince Gilligan',6],['Sergio Leone',6],['Ron Howard',6],['Quentin Tarantino',6],['Clint Eastwood',6],['Robert Zemeckis',6],['Frank Darabont',6],['Joel & Ethan Coen',5],['Gus Van Sant',5],['Joseph Kosinski',5],['Bong Joon-ho',5],['Paul Thomas Anderson',5],['Akira Kurosawa',5]];
@@ -1589,7 +1652,16 @@ if(!PROFILE_FROM_STORAGE){
 }
 /* Declared here, assigned inside recomputeTasteScores below (which runs immediately after) so
    every one of them is re-read from the profile on each recompute rather than frozen at boot. */
-let GOAT_SILVER,GOAT_BRONZE,RATINGS;
+let GOAT_SILVER,GOAT_BRONZE,RATINGS,GOAT_PASSED;
+/* "Not interested": PERSONAL_PROFILE.notInterested maps an id to when it was passed on (ms). A pass
+   is a taste signal (buildTasteModel reads it as a moderate no) and it hides the work from every
+   "what next" surface. It only ever applies to a work the person has not otherwise judged -- a
+   rating, a tier or owning it outranks it, and the edit that adds one of those retires the pass
+   (prunePasses). The passed work's own match is pulled toward PASS_TARGET the way a rating pulls
+   toward the number typed, so wherever it does still show (a search, "show not interested"), its
+   match says what the person said about it. */
+const PASS_TARGET=40;
+function passedIdSet(p){return new Set(Object.keys((p&&p.notInterested)||{}));}
 // Declaring a Gold/Silver/Bronze favorite, typing a rating out of ten and marking something owned
 // are the three ways someone tells this app what they like, and until deriveAutoTasteBoosts()
 // existed none of them fed back into what got recommended for everything ELSE -- two profiles that
@@ -1600,9 +1672,9 @@ let GOAT_SILVER,GOAT_BRONZE,RATINGS;
 // by raw count. See its comment for why every one of those mattered. Whatever it derives is added
 // on top of -- never in place of -- a boost the person set by hand with the explicit toggles, so a
 // manual adjustment always still means something extra.
-function deriveAutoTasteBoosts(declaredIds,silverIds,bronzeIds,ratings){
+function deriveAutoTasteBoosts(declaredIds,silverIds,bronzeIds,ratings,passedIds){
  const model=buildTasteModel(ALL,{
-  ratings:ratings||{},gold:declaredIds,silver:silverIds,bronze:bronzeIds,
+  ratings:ratings||{},gold:declaredIds,silver:silverIds,bronze:bronzeIds,passed:passedIds,
   taxonomy:(typeof GENRE_TAXONOMY!=='undefined')?GENRE_TAXONOMY:{}
  });
  // A weight small enough to move a score by less than a tenth of a point is noise in the lists it
@@ -1632,7 +1704,8 @@ function recomputeTasteScores(){
  GOAT_SILVER=new Set(PERSONAL_PROFILE.silverTierIds||[]);
  GOAT_BRONZE=new Set(PERSONAL_PROFILE.bronzeTierIds||[]);
  RATINGS=PERSONAL_PROFILE.ratings||{};
- const auto=deriveAutoTasteBoosts(GOAT_DECLARED,GOAT_SILVER,GOAT_BRONZE,RATINGS);
+ GOAT_PASSED=passedIdSet(PERSONAL_PROFILE);
+ const auto=deriveAutoTasteBoosts(GOAT_DECLARED,GOAT_SILVER,GOAT_BRONZE,RATINGS,GOAT_PASSED);
  TASTE_MODEL=auto.model;
  // Merged by keyword into ONE entry per keyword, not concatenated -- a work's genre keyword set is
  // looked up once per boosted keyword below, so two entries sharing a keyword (the common case:
@@ -1725,7 +1798,7 @@ function recomputeTasteScores(){
   // reception and craft alone, M is where personal taste actually puts it.
   x.gmBase=curve(objNorm[i]);
   x.gmBoostTotal=Math.round((x.gm-x.gmBase)*10)/10;
-  x.goat=false;x.silver=false;x.bronze=false;x.gmOverride=null;x.ownedBoost=false;
+  x.goat=false;x.silver=false;x.bronze=false;x.gmOverride=null;x.ownedBoost=false;x.passed=false;
  });
  // A personal rating pulls GOAT Match toward the number you actually typed -- a real blend (65%
  // your rating, 35% the algorithmic estimate), not just a floor, so a low rating can pull a score
@@ -1740,6 +1813,14 @@ function recomputeTasteScores(){
    x.gmOverride='rated';
   }
  });
+ // A pass counts only where nothing stronger was said about the same work (see PASS_TARGET).
+ GOAT_PASSED.forEach(id=>{
+  const x=byId.get(id);
+  if(!x||x.myRating!=null||x.owned||GOAT_DECLARED.has(id)||GOAT_SILVER.has(id)||GOAT_BRONZE.has(id))return;
+  x.passed=true;
+  x.gm=Math.max(GM_FLOOR,Math.round(x.gm*0.35+PASS_TARGET*0.65));
+  x.gmOverride='passed';
+ });
  ALL.forEach(x=>{x.silver=GOAT_SILVER.has(x.id);if(x.silver){var sg=tierTarget(x.gm,'silver');if(sg>x.gm){x.gm=sg;x.gmOverride=x.gmOverride||'silver';}}});
  ALL.forEach(x=>{x.bronze=GOAT_BRONZE.has(x.id);if(x.bronze){var bg=tierTarget(x.gm,'bronze');if(bg>x.gm){x.gm=bg;x.gmOverride=x.gmOverride||'bronze';}}});
  ALL.forEach(x=>{if(x.owned&&!x.goat){const target=tierTarget(x.gm,'owned');if(target>x.gm){x.gm=target;x.gmOverride=x.gmOverride||'owned';}x.ownedBoost=true;}});
@@ -1747,6 +1828,46 @@ function recomputeTasteScores(){
  _derivEpoch++;
 }
 recomputeTasteScores();
+/* What the personal half of every match is built on, in words -- "12 ratings, 5 favorites and 40
+   owned titles" -- so a number presented as a match for someone always says how much the app
+   actually knows about their taste. `personal` is false when it knows nothing at all: no rating,
+   tier, owned title, pass or hand-set boost. Every score is then just critical, audience and
+   craft consensus, and nothing may call it a match for anyone's taste. Memoized per scoring pass
+   (_derivEpoch), since cards ask for it one at a time. */
+let _basisEpoch=-1,_basis=null;
+function tasteBasis(){
+ if(_basis&&_basisEpoch===_derivEpoch)return _basis;
+ let rated=0,fav=0,owned=0,passed=0;
+ ALL.forEach(x=>{
+  if(x.myRating!=null)rated++;
+  if(x.goat||x.silver||x.bronze)fav++;
+  if(x.owned)owned++;
+  if(x.passed)passed++;
+ });
+ const P=PERSONAL_PROFILE,nz=a=>(a||[]).filter(e=>e&&e[1]).length;
+ const boosts=nz(P.genreBoost)+nz(P.creatorBoost)+nz(P.bookCreatorBoost)+Object.keys(P.vibeBoost||{}).filter(k=>P.vibeBoost[k]).length;
+ const count=(n,one,many)=>n+' '+(n===1?one:many);
+ const parts=[];
+ if(rated)parts.push(count(rated,'rating','ratings'));
+ if(fav)parts.push(count(fav,'favorite','favorites'));
+ if(owned)parts.push(count(owned,'owned title','owned titles'));
+ if(passed)parts.push(count(passed,'title you passed on','titles you passed on'));
+ if(boosts)parts.push(count(boosts,'hand-set boost','hand-set boosts'));
+ const text=parts.length>1?parts.slice(0,-1).join(', ')+' and '+parts[parts.length-1]:(parts[0]||'');
+ _basis={personal:parts.length>0,rated:rated,fav:fav,owned:owned,passed:passed,boosts:boosts,text:text};
+ _basisEpoch=_derivEpoch;
+ return _basis;
+}
+// "Match" when the score is personal, "Score" when there is nothing personal behind it yet.
+function matchWord(){return tasteBasis().personal?'Match':'Score';}
+function matchTitle(it){
+ const b=tasteBasis();
+ if(it.goat)return 'Match '+it.gm+'/100 — one of your Gold favorites';
+ if(it.passed)return 'Match '+it.gm+'/100 — you marked this not interested';
+ return b.personal
+  ?'Your match: '+it.gm+'/100, based on '+b.text
+  :'Overall score: '+it.gm+'/100 — critical, audience and craft consensus. Not personalized yet: rate, tier or own a few titles to personalize it';
+}
 /* ===== Generated recommendations, corpus-backed and people-backed (Phase 4 of the sharing roadmap) =====
    Movies/Books/TV Series/Video Games recommendations below are computed live from the same gm
    score (and its gmBoosts reasons) that PERSONAL_PROFILE drives everywhere else in the app,
@@ -1789,7 +1910,9 @@ function computeBasisText(cat){
  const declaredNames=declaredGroup?declaredGroup.items.map(it=>it.name):[];
  return declaredNames.length
   ?'Projected from your declared '+cat.toLowerCase()+': '+declaredNames.join(', ')+'.'
-  :'No '+cat.toLowerCase()+' declared yet — ranked by match to your taste weights.';
+  :tasteBasis().personal
+   ?'No '+cat.toLowerCase()+' declared yet — ranked by your taste, based on '+tasteBasis().text+'.'
+   :'No ratings, favorites or owned titles yet — ranked by critical, audience and craft consensus.';
 }
 function directorCorpusScore(name){
  const works=ALL.filter(x=>(x.kind==='movie'||x.kind==='tv')&&x.creator&&x.creator.includes(name));
@@ -1866,20 +1989,34 @@ function tagOverlapScore(tags,vibes){
  (vibes||[]).forEach(v=>{const vb=vibeBoost[v];if(vb)base+=vb*0.6;});
  return Math.max(40,Math.min(99,Math.round(base)));
 }
+/* The six quality boosts fire for everyone -- they reward what RUBRIC.md measured about the work --
+   and are only scaled by taste once the model has evidence (TASTE_MODEL.axis). So "you favor" is
+   said only where that evidence points the same way; otherwise the reason is about the work alone.
+   A brand-new profile used to be told a film "is as beautiful to look at as your favorites". */
+const AXIS_FAVORED=0.15;
+const WHY_AXIS={complexity:'myst',craft:'tech',dread:'dread',warmth:'warmth',comedy:'comedy',beauty:'beauty'};
+const WHY_PHRASE={
+ complexity:['has the ontological depth you favor','has real ontological depth'],
+ craft:['has the technical craft your favorites share','stands out on technical craft'],
+ dread:['carries the atmospheric dread you favor','carries real atmospheric dread'],
+ warmth:['has the emotional warmth you favor','has real emotional warmth'],
+ comedy:['is funny the way your favorites are','is genuinely funny'],
+ beauty:['is as beautiful to look at as your favorites','is beautiful to look at']
+};
 function goatWhy(x){
- if(!x.gmBoosts||!x.gmBoosts.length)return 'Scores well on craft and reception even without a direct match to your declared favorites.';
+ const none=()=>tasteBasis().personal
+  ?'Scores well on craft and reception, without a direct match to your taste yet.'
+  :'Among the most acclaimed on craft and reception \u2014 rate or tier a few titles to make this personal.';
+ if(!x.gmBoosts||!x.gmBoosts.length)return none();
+ const axis=(TASTE_MODEL&&TASTE_MODEL.axis)||{};
  const phrase=b=>{
-  if(b[0]==='creator')return 'shares creator '+b[1]+' with your declared canon';
+  if(b[0]==='creator')return 'is by '+b[1]+', a creator your profile favors';
   if(b[0]==='author')return 'by '+b[1]+', an author your profile favors';
   if(b[0]==='genre')return 'matches your weighted “'+b[1]+'” genre';
   if(b[0]==='vibe')return 'fits your “'+b[1]+'” vibe';
   if(b[0]==='tone')return 'has the tone of your favorites';
-  if(b[0]==='complexity')return 'has the ontological depth you favor';
-  if(b[0]==='craft')return 'stands out on technical craft';
-  if(b[0]==='dread')return 'carries the atmospheric dread you favor';
-  if(b[0]==='warmth')return 'has the emotional warmth you favor';
-  if(b[0]==='comedy')return 'is as funny as the work you rate highest';
-  if(b[0]==='beauty')return 'is as beautiful to look at as your favorites';
+  const p=WHY_PHRASE[b[0]];
+  if(p)return (axis[WHY_AXIS[b[0]]]||0)>=AXIS_FAVORED?p[0]:p[1];
   return b[1];
  };
  // Only reasons that actually argue FOR the work. A derived genre weight can be negative (a genre
@@ -1887,7 +2024,7 @@ function goatWhy(x){
  // recommended" would be the opposite of true; the sort alone would have surfaced exactly those
  // whenever nothing positive fired.
  const top=x.gmBoosts.filter(b=>b[2]>0).sort((a,b)=>b[2]-a[2]).slice(0,2);
- if(!top.length)return 'Scores well on craft and reception even without a direct match to your declared favorites.';
+ if(!top.length)return none();
  const text=top.map(phrase).join(' and ')+'.';
  return text.charAt(0).toUpperCase()+text.slice(1);
 }
@@ -1912,7 +2049,7 @@ function buildGeneratedRec(cat){
  // ratings are all books, so before this the Books column spent its first several slots handing
  // back novels he had already read and scored.
  // Same goes for anything marked watched/read/played: finished is finished, rated or not.
- const ranked=ALL.filter(x=>x.kind===kind&&!x.owned&&!x.goat&&!x.silver&&!x.bronze&&x.myRating==null&&!wlDone(x.id))
+ const ranked=ALL.filter(x=>x.kind===kind&&!x.owned&&!x.goat&&!x.silver&&!x.bronze&&x.myRating==null&&!wlDone(x.id)&&!x.passed)
   .sort((a,b)=>b.gm-a.gm);
  // The same failure one level up: three Lord of the Rings films, or Planet Earth and Planet Earth
  // II, spend a third of the list on one decision. One entry per franchise in the first pass, and for
@@ -1947,14 +2084,15 @@ function buildGeneratedRec(cat){
  // Cut to ten first, then order what made it by score: an entry point carries its franchise's
  // slot, so sorting it before the cut could push the franchise off the list altogether.
  const items=picked.concat(leftover.filter(x=>!pickedIds.has(x.id))).slice(0,10).sort((a,b)=>b.gm-a.gm)
-  .map(x=>({n:x.title,s:x.gm,k:x.kind,q:x.title,why:goatWhy(x)}));
+  .map(x=>({id:x.id,n:x.title,s:x.gm,k:x.kind,q:x.title,why:goatWhy(x)}));
  return {cat:cat,basis:computeBasisText(cat),items:items,generated:true};
 }
 /* Which franchise a work belongs to, for the one-per-franchise rule above: the curated SERIES_DEFS
    (with the work's place in the series) first, else the same title-root clustering the Collection
-   view uses (no known order, so it only caps). SERIES_BY_TITLE is defined further down and the
-   first rebuild runs before it, so that pass falls back to title roots, is not cached, and the
-   recs are rebuilt once SERIES_BY_TITLE exists. */
+   view uses (no known order, so it only caps). SERIES_BY_TITLE is defined further down, and the
+   first build of the recs waits for it (see the rebuildGeneratedRecs() call after SERIES_BY_TITLE).
+   The try/catch stays as a guard: called before that point, a lookup falls back to title roots
+   and is not cached, rather than throwing out of whatever asked. */
 function recFranchise(x){
  if(x._franchise!==undefined)return x._franchise;
  let series=null,ready=true;
@@ -1982,7 +2120,11 @@ function rebuildGeneratedRecs(){
  });
  goatProfile.recs.forEach(c=>{if(c.generated)return;c.basis=computeBasisText(c.cat);});
 }
-rebuildGeneratedRecs();
+// No rebuildGeneratedRecs() here. There used to be one, and it ran before SERIES_BY_TITLE existed:
+// recFranchise() threw and caught a ReferenceError for every work it looked at (~100ms of boot),
+// and the whole result was thrown away by the rebuild right after SERIES_BY_TITLE, the first point
+// the recs can be built correctly. Nothing reads the generated categories before then -- this
+// forEach skips them, and the GOAT tab is not drawn until the end of boot.
 goatProfile.recs.forEach(c=>{
  if(c.generated)return;
  c.basis=computeBasisText(c.cat);
@@ -2257,7 +2399,10 @@ function renderGoat(){renderTasteDNA();renderGoatStats();
    +'<div class="text-[10px] text-slate-500 truncate" title="'+esc(it.why)+'">'+esc(it.why)+'</div></div>'
    +'<span class="hidden sm:flex w-24 shrink-0"><span class="bar flex-1"><i style="width:'+it.s+'%;background:linear-gradient(90deg,#b45309,#fbbf24)"></i></span></span>'
    +'<span class="text-[11px] font-bold tabular-nums w-7 text-right" style="color:#fbbf24">'+it.s+'</span>'
-   +'<button type="button" class="recHideBtn shrink-0 opacity-0 group-hover:opacity-100 transition-opacity text-slate-500 hover:text-rose-300 text-[13px] leading-none px-1" data-cat="'+esc(cat.cat)+'" data-key="'+esc(recKey(cat.cat,it))+'" title="Hide this from recommendations">✕</button>'
+   // A library title's ✕ is "Not interested" -- hidden everywhere and taught to the match engine
+   // (setPassed); a person-category entry (Directors, Actors...) has no library record to pass
+   // on, so its ✕ stays the list-only hide it always was.
+   +'<button type="button" class="recHideBtn shrink-0 opacity-0 group-hover:opacity-100 transition-opacity text-slate-500 hover:text-rose-300 text-[13px] leading-none px-1" data-cat="'+esc(cat.cat)+'" data-key="'+esc(recKey(cat.cat,it))+'"'+(it.id?' data-pass="'+esc(it.id)+'" title="Not interested \u2014 hide this and show less like it" aria-label="Not interested in '+esc(it.n)+'"':' title="Hide this from recommendations" aria-label="Hide '+esc(it.n)+' from recommendations"')+'>✕</button>'
    +'</div>').join(''):'<div class="px-3.5 py-3 text-[11px] text-slate-500">Everything here is hidden.</div>')
   +'</div>';
  }).join('');
@@ -2279,7 +2424,7 @@ function goatSearchPool(q){
  else if(state.goatTierFilter==='silver')pool=pool.filter(function(x){return x.silver;});
  else if(state.goatTierFilter==='bronze')pool=pool.filter(function(x){return x.bronze;});
  else if(state.goatTierFilter==='owned')pool=pool.filter(function(x){return x.owned;});
- if(q)pool=pool.filter(function(x){return (x.title+' '+x.creator+' '+(x.genres||[]).join(' ')).toLowerCase().indexOf(q)>=0;});
+ if(q){const m=worksMatching(q);if(m)pool=pool.filter(function(x){return m.has(x.id);});}
  return pool;
 }
 function goatSearchSort(pool,q){
@@ -2295,7 +2440,9 @@ function goatSearchSort(pool,q){
    if(au!==bu)return au?-1:1;
    return b.gm-a.gm;
   });
- return pool.slice().sort(function(a,b){return b.gm-a.gm;});
+ const m=worksMatching(q);
+ const byGm=function(a,b){return b.gm-a.gm;};
+ return pool.slice().sort(m?bySearchThen(m,byGm):byGm);
 }
 function renderGoatSearchResults(q){
  if(q==null){var qi=$('#goatSearchInput');q=qi?qi.value:'';}
@@ -2327,7 +2474,7 @@ let goatDeclaredSearchT=null;
 on('#goatDeclaredSearch','input',e=>{clearTimeout(goatDeclaredSearchT);const v=e.target.value;goatDeclaredSearchT=setTimeout(()=>{state.goatDeclaredQ=v;scheduleURLSync();$('#goatDeclared').innerHTML=(declaredCategoriesToRender().map(declaredCategoryHTML).join(''))||((state.goatDeclaredQ||'').trim()?'<div class="col-span-full text-center text-slate-500 text-sm py-6">Nothing in your declared canon matches “'+esc(state.goatDeclaredQ.trim())+'”.</div>':'');},120);});
 on('#goatRecs','click',e=>{
  const hb=e.target.closest('.recHideBtn');
- if(hb){e.stopPropagation();hideRec(hb.dataset.cat,hb.dataset.key);return;}
+ if(hb){e.stopPropagation();if(hb.dataset.pass)setPassed(hb.dataset.pass,true);else hideRec(hb.dataset.cat,hb.dataset.key);return;}
  const ub=e.target.closest('.recUnhideAll');
  if(ub){e.stopPropagation();unhideAllRecsInCat(ub.dataset.cat);return;}
 });
@@ -2397,7 +2544,7 @@ function renderWatchlist(){
  const wf=state.wlFilter||'all',wt=state.wlType||'all',wq=(state.wlSearchQ||'').trim().toLowerCase(),ws=state.wlSort||'added';
  let list=wf==='todo'?todo:wf==='done'?watched:items;
  if(wt!=='all')list=list.filter(x=>x.kind===wt);
- if(wq)list=list.filter(x=>(x.title+' '+x.creator).toLowerCase().indexOf(wq)>=0);
+ if(wq){const m=worksMatching(wq);if(m)list=list.filter(x=>m.has(x.id));}
  // "Recently completed" puts finished titles first, newest completion first (undated ones after
  // the dated), and leaves anything still in Up Next below them in the order it was added.
  const doneKey=x=>WL[x.id].watched?(WL[x.id].doneAt||1):0;
@@ -2417,7 +2564,7 @@ function renderWatchlist(){
   const doneLine=done?'<label class="flex items-center gap-1.5 flex-wrap mt-1.5 text-[11px]" style="color:'+DONE_COLOR+'" title="When you finished it \u2014 change it if you are logging something from before"><span>\u2713 '+verb+(e.doneAt?' on':' \u00b7 add a date')+'</span>'
    +'<input type="date" class="wlDoneDate inp" data-id="'+x.id+'" value="'+dateInputValue(e.doneAt)+'" max="'+today+'" aria-label="Date '+verb.toLowerCase()+'" style="width:auto;padding:1px 6px;font-size:11px"/></label>':'';
   return '<div class="panel p-3 flex gap-3 items-start wlItem'+(done?' wlItemDone':'')+'" data-id="'+x.id+'">'
-   +ring(x.crit,k.c,38)
+   +matchRingHTML(x,k.c,38)
    +'<div class="flex-1 min-w-0"><div class="flex items-center gap-1.5 flex-wrap"><span class="goatJump text-[13px] font-semibold text-slate-100 cursor-pointer hover:text-teal-300" data-q="'+esc(x.title)+'" title="Open '+esc(x.title)+' in the Global Controller">'+esc(x.title)+'</span><span class="chip" style="color:'+k.c+';border-color:'+k.c+'44">'+k.label+'</span><span class="chip" style="color:#5eead4;border-color:#5eead455">'+esc(x.rating)+'</span><span class="chip" style="color:#fbbf24;border-color:#fbbf2444" title="Your GOAT-fingerprint match score">\u2605'+x.gm+' match</span>'+(typeof x.myRating==='number'?'<span class="chip" style="color:#5eead4;border-color:#5eead455" title="Your rating">\u2605 '+x.myRating.toFixed(1)+'/10</span>':'')+'</div>'
    +'<div class="text-[11px] text-slate-400 mt-0.5 truncate">'+x.year+' \u00b7 '+esc(x.creator)+' \u00b7 <span title="Estimated from runtime/season count/playtime/page count \u2014 not a guarantee">~'+formatHours(estimateHours(x))+'</span></div>'
    +doneLine
@@ -2429,7 +2576,7 @@ function renderWatchlist(){
  // have already told the app about -- owned, tiered or rated. Those used to fill this column (a
  // Gold favorite pins a 100 match, so the sample profile's first dozen "next" picks were its own
  // favorites), which is the one list that should never hand back what you already know.
- let recs=ALL.filter(x=>!WL[x.id]&&!x.owned&&!x.goat&&!x.silver&&!x.bronze&&x.myRating==null);
+ let recs=ALL.filter(x=>!WL[x.id]&&!x.owned&&!x.goat&&!x.silver&&!x.bronze&&x.myRating==null&&!x.passed);
  if(wt!=='all')recs=recs.filter(x=>x.kind===wt);
  recs=recs.sort((a,b)=>(b.gm-a.gm)||(b.ovr-a.ovr)).slice(0,12);
  $('#wlRecs').innerHTML=recs.length?recs.map(x=>{const k=KM[x.kind];
@@ -2725,7 +2872,7 @@ function renderPortraitGaps(){
     now, with critical standing as the tie-break, so the twelve shown are the twelve openings into
     an under-covered family that this profile is most likely to want. Anything already tiered or
     already rated is dropped: a work you have judged is not a blind spot, whatever you decided. */
- const gaps=scopeAll.filter(x=>!x.owned&&!x.goat&&!x.silver&&!x.bronze&&x.myRating==null&&!wlDone(x.id)&&(x.fam||[]).some(f=>thin.includes(f)))
+ const gaps=scopeAll.filter(x=>!x.owned&&!x.goat&&!x.silver&&!x.bronze&&x.myRating==null&&!wlDone(x.id)&&!x.passed&&(x.fam||[]).some(f=>thin.includes(f)))
    .sort((a,b)=>(b.gm-a.gm)||(b.ovr-a.ovr))
    .filter(x=>{if(seen[x.title])return false;seen[x.title]=1;return true;})
    .slice(0,12);
@@ -2997,7 +3144,8 @@ const SERIES_DEFS=[
 // not per card -- the Global Controller can render hundreds of cards per interaction.
 const SERIES_BY_TITLE=new Map();
 SERIES_DEFS.forEach(function(d){d.members.forEach(function(t){SERIES_BY_TITLE.set(d.kind+'|'+t,d.name);});});
-// The boot-time rebuild ran before the curated series existed (see recFranchise); redo it with them.
+// The first build of the generated recs: the earliest point it can run, since recFranchise()'s
+// one-per-franchise rule needs the curated series above.
 rebuildGeneratedRecs();
 function franchiseOf(it){return SERIES_BY_TITLE.get(it.kind+'|'+it.title);}
 /* Franchise vs. standalone, for the Global Controller's "Franchise / series" and "Standalone only"
@@ -3375,7 +3523,7 @@ function renderCollectionShelf(){
  var cs=state.collSeg||'all';
  if(cs!=='all')owned=owned.filter(x=>x.kind===cs);
  var searchQ=(state.collSearchQ||'').trim().toLowerCase();
- if(searchQ)owned=owned.filter(function(x){return x.title.toLowerCase().indexOf(searchQ)>=0;});
+ if(searchQ){var sm=worksMatching(searchQ);if(sm)owned=owned.filter(function(x){return sm.has(x.id);});}
  // Group into shelves by medium; each item is a spine whose height/color reflect the work.
  var groups=[['movie','Films'],['tv','Series'],['book','Books'],['game','Games']];
  var html='<p class="text-[11px] text-slate-500 mb-3">Your physical collection as a shelf \u2014 spine height reflects quality, colour marks the medium. Hover a spine for the title.</p>';
@@ -3428,7 +3576,7 @@ function seriesCardHTML(k,name,ownedMembers,missing,total,complete){
 function seriesTitleRoot(t){return t.toLowerCase().replace(/[:\-\u2013].*$/,'').replace(/\b(part|vol|volume|book|season)\b.*$/,'').replace(/\b(i{1,3}|iv|v|vi{0,3}|\d+)\b\s*$/,'').replace(/[^a-z0-9 ]/g,'').trim();}
 function renderCollectionSeries(){
  const cs=state.collSeg||'all';
- const q=(state.collSearchQ||'').trim().toLowerCase();
+ const q=(state.collSearchQ||'').trim().toLowerCase(),qm=worksMatching(q);
  // Keyed by kind+title, not title alone: a book and its film adaptation share a title often
  // enough that a title-only map silently resolved a book series' member to the movie record
  // (and then reported it unowned because the disc isn't on the shelf).
@@ -3443,7 +3591,7 @@ function renderCollectionSeries(){
   const ownedMembers=def.members.map(t=>byId2.get(t)).filter(x=>x&&x.owned);
   const hasBox=def.boxSet&&(function(){const b=byId2.get(def.boxSet);return b&&b.owned;})();
   if(ownedMembers.length<2&&!hasBox) return; // only meaningful multi-item series (or a complete box set)
-  if(q&&def.name.toLowerCase().indexOf(q)<0&&!ownedMembers.some(x=>x.title.toLowerCase().indexOf(q)>=0))return;
+  if(q&&!textMatchesQuery(def.name,q)&&!ownedMembers.some(x=>qm&&qm.has(x.id)))return;
   const k=KM[def.kind];
   const missing=hasBox?[]:def.members.map(t=>byId2.get(t)).filter(x=>x&&!x.owned);
   const complete=hasBox||ownedMembers.length>=def.total;
@@ -3464,7 +3612,7 @@ function renderCollectionSeries(){
    const ownedMembers=grp.filter(function(x){return x.owned;});
    if(ownedMembers.length<2)return;
    const name=grp[0].title.split(/[:\-\u2013]/)[0].trim();
-   if(q&&name.toLowerCase().indexOf(q)<0&&!ownedMembers.some(x=>x.title.toLowerCase().indexOf(q)>=0))return;
+   if(q&&!textMatchesQuery(name,q)&&!ownedMembers.some(x=>qm&&qm.has(x.id)))return;
    const missing=grp.filter(function(x){return !x.owned;});
    const k=KM[kind];
    cards.push({kind:kind,pct:Math.round(ownedMembers.length/grp.length*100),name:name,html:seriesCardHTML(k,name,ownedMembers,missing,grp.length,ownedMembers.length>=grp.length)});
@@ -3546,8 +3694,8 @@ function collSortFn(){
 function renderCollection(){
  const owned=ALL.filter(x=>x.owned);
  const cs=state.collSeg||'all';
- const q=(state.collSearchQ||'').trim().toLowerCase();
- const scope=(cs==='all'?owned:owned.filter(x=>x.kind===cs)).filter(x=>!q||x.title.toLowerCase().indexOf(q)>=0);
+ const q=(state.collSearchQ||'').trim().toLowerCase(),qm=worksMatching(q);
+ const scope=(cs==='all'?owned:owned.filter(x=>x.kind===cs)).filter(x=>!qm||qm.has(x.id));
  const avg=scope.length?Math.round(scope.reduce((s,x)=>s+x.ovr,0)/scope.length):0;
  const topFmt={movie:'4K',tv:'4K',book:'Hardcover'};
  const bestEdition=owned.filter(x=>x.kind!=='game'&&x.physFormat===topFmt[x.kind]).length;
@@ -3611,7 +3759,7 @@ function renderCollection(){
  // gaps: top-rated NOT owned, grouped by medium (same Films/Series/Books/Games grouping as the
  // main list above), honoring the active medium segment and search so this section stays in sync
  // with the rest of the tab instead of always showing every medium regardless of filter.
- const gapPool=ALL.filter(x=>!x.owned&&(cs==='all'||x.kind===cs)&&(!q||x.title.toLowerCase().indexOf(q)>=0));
+ const gapPool=ALL.filter(x=>!x.owned&&(cs==='all'||x.kind===cs)&&(!qm||qm.has(x.id)));
  let gapsHTML='';
  COLL_MEDIA.forEach(function(g){
   const kind=g[0],label=g[1];
@@ -3649,6 +3797,7 @@ function stateToParams(){
  if(state.doneOnly)p.set('done','1');
  if(state.notDoneOnly)p.set('notdone','1');
  if(state.franchiseOnly)p.set('franchise','1');
+ if(state.showPassed)p.set('passed','1');
  if(state.standaloneOnly)p.set('standalone','1');
  if(state.minGoat)p.set('goat',state.minGoat);
  if(state.minMyRating)p.set('myr',state.minMyRating);
@@ -3709,6 +3858,7 @@ function paramsToState(p,s){
   if(p.has('done'))s.doneOnly=p.get('done')==='1';
   if(p.has('notdone'))s.notDoneOnly=p.get('notdone')==='1';
   if(p.has('franchise'))s.franchiseOnly=p.get('franchise')==='1';
+  if(p.has('passed'))s.showPassed=p.get('passed')==='1';
   if(p.has('standalone'))s.standaloneOnly=p.get('standalone')==='1';
   if(p.has('goat'))s.minGoat=+p.get('goat')||0;
   if(p.has('myr'))s.minMyRating=+p.get('myr')||0;
@@ -3899,12 +4049,14 @@ function applyStateToStaticControls(){
  if(typeof matrixNavQ!=='undefined'){var mxq=$('#matrixNavSearch');if(mxq)mxq.value=matrixNavQ;}
  if(typeof bubbleMinScore!=='undefined'){var bMinEl=$('#bubbleMin');if(bMinEl)bMinEl.value=bubbleMinScore;var bMinLbl=$('#bubbleMinLbl');if(bMinLbl)bMinLbl.textContent=bubbleMinScore>0?bubbleMinScore+'+':'Any';}
  if(typeof tlMedium!=='undefined'){$$('#tlMedium button').forEach(function(b){b.classList.toggle('on',b.dataset.tm===tlMedium);});}
- if(typeof renderGoat==='function')renderGoat();
- if(typeof renderCollection==='function')renderCollection();
- if(typeof renderWatchlist==='function')renderWatchlist();
- if(typeof renderCreators==='function')renderCreators(state,ALL,$,$$);
- if(typeof renderContenders==='function')renderContenders();
- if(typeof renderMatrices==='function')renderMatrices(ALL,$,$$);
+ // What these controls just changed reaches each tab the next time it is drawn -- and only the tab
+ // on screen is drawn now. The others are marked stale and drawn once, by switchView, when they
+ // are opened (DEFERRED_PROFILE_VIEWS); refresh() already redraws the Collection and Watchlist
+ // lists on the way in. This used to draw all six here, on every boot, for tabs nobody had opened
+ // yet: Reference Matrices alone built ~56,000 of the page's ~72,000 elements.
+ DEFERRED_PROFILE_VIEWS.forEach(function(v){if(v===state.view)renderDeferredProfileView(v);else profileDirtyViews[v]=true;});
+ if(state.view==='collection'&&typeof renderCollection==='function')renderCollection();
+ if(state.view==='watchlist'&&typeof renderWatchlist==='function')renderWatchlist();
 }
 // `changedIds`, when given, is the set of works whose derived state this render is reacting to --
 // it lets the controller grid patch just those cards instead of rebuilding all of them. Every
@@ -3973,7 +4125,9 @@ function toggleCardExpanded(card){
  const sf=card&&card.querySelector('.summaryFace');
  setCardExpanded(card,!!(sf&&sf.classList.contains('hidden')));
 }
-on('#grid','click',e=>{const pc=e.target.closest('.pairingChip');if(pc){e.stopPropagation();const px=byId.get(pc.dataset.flipJump);if(px){state.q=px.title;const qinput=$('#q');if(qinput)qinput.value=px.title;refresh();}return;}const pe=e.target.closest('.profEditBtn');if(pe){e.stopPropagation();handleProfileEditClick(pe);return;}const w=e.target.closest('.wlBtn');if(w){e.stopPropagation();const wid=w.dataset.wl;if(wlDone(wid))setDoneFromUI(wid,false);else{wlToggle(wid);afterWatchStateChange(wid);}return;}const fb=e.target.closest('.flipBack');if(fb){e.stopPropagation();const card=fb.closest('.panel');if(card)setCardExpanded(card,false);return;}const h=e.target.closest('.cardHead');if(!h)return;const card=h.closest('.panel');if(card)toggleCardExpanded(card);});
+on('#grid','click',e=>{const pc=e.target.closest('.pairingChip');if(pc){e.stopPropagation();const px=byId.get(pc.dataset.flipJump);if(px){state.q=px.title;const qinput=$('#q');if(qinput)qinput.value=px.title;refresh();}return;}const pe=e.target.closest('.profEditBtn');if(pe){e.stopPropagation();handleProfileEditClick(pe);return;}const nb=e.target.closest('.passBtn');if(nb){e.stopPropagation();const nx=byId.get(nb.dataset.pass);if(nx)setPassed(nx.id,!nx.passed);return;}const w=e.target.closest('.wlBtn');if(w){e.stopPropagation();const wid=w.dataset.wl;if(wlDone(wid))setDoneFromUI(wid,false);else{wlToggle(wid);afterWatchStateChange(wid);
+ // Saving a title for later is the opposite of passing on it, so it retires the pass.
+ const wx=byId.get(wid);if(wx&&wx.passed&&wlHas(wid))setPassed(wid,false,true);}return;}const fb=e.target.closest('.flipBack');if(fb){e.stopPropagation();const card=fb.closest('.panel');if(card)setCardExpanded(card,false);return;}const h=e.target.closest('.cardHead');if(!h)return;const card=h.closest('.panel');if(card)toggleCardExpanded(card);});
 let qT=null;
 on('#q','input',e=>{clearTimeout(qT);qT=setTimeout(()=>{state.q=e.target.value;refresh();},120);});
 // Media Type is multi-select: each kind toggles in or out, All clears the lot. An empty list means
@@ -3991,7 +4145,7 @@ var spinScope={medium:'any',pool:'all'};
 var MOOD_DIMS={cosmic:['ch','scary','dread'],comfort:['cozy'],mind:['reality','myst'],epic:['awe'],cry:['emo'],fun:['funny'],scary:['scary'],any:null};
 function spinCandidates(){
  // Start from the active-filtered set so the spin respects the controller's filters.
- var pool=filtered();
+ var pool=filtered().filter(x=>!x.passed);
  if(spinScope.medium!=='any')pool=pool.filter(x=>x.kind===spinScope.medium);
  if(spinScope.pool==='owned')pool=pool.filter(x=>x.owned);
  else if(spinScope.pool==='discover')pool=pool.filter(isUntried);
@@ -4035,10 +4189,10 @@ function renderSpinResult(it,cands){
   +'</div>'
   +'<div class="flex flex-col items-center gap-1 shrink-0">'
   +'<div class="relative w-16 h-16 rounded-full grid place-items-center" style="background:conic-gradient('+k.c+' '+(it.gm*3.6)+'deg,#1e293b 0)"><div class="w-12 h-12 rounded-full bg-[#0F1626] grid place-items-center"><span class="text-lg font-extrabold" style="color:'+k.c+'">'+it.gm+'</span></div></div>'
-  +'<span class="text-[9px] text-slate-500">TASTE MATCH</span>'
+  +'<span class="text-[9px] text-slate-500" title="'+esc(matchTitle(it))+'">'+(tasteBasis().personal?'TASTE MATCH':'SCORE')+'</span>'
   +'</div>'
   +'</div>'
-  +'<p class="text-[10px] text-slate-500 mt-3">Picked from '+cands.length+' works in your current scope, weighted toward your taste.</p>'
+  +'<p class="text-[10px] text-slate-500 mt-3">Picked from '+cands.length+' works in your current scope, '+(tasteBasis().personal?'weighted toward your taste (based on '+tasteBasis().text+').':'weighted toward the most acclaimed \u2014 rate or tier a few titles to make it personal.')+'</p>'
   +'</div>';
  // wire spin again
  var sa=$('#spinAgain');if(sa)sa.onclick=doSpin;
@@ -4648,10 +4802,129 @@ function rerenderAfterProfileChange(changedIds){
  // keeps a click on a card deep in a long list from jumping the viewport.
  window.scrollTo(0,y);
 }
+/* A pass ("not interested") never outlives a stronger statement about the same work: a tier or a
+   rating is newer and louder, so the edit that adds one retires the pass. Ownership is handled in
+   toggleOwned, where it happens; a work already owned before this edit is caught here too. */
+function prunePasses(p){
+ const ni=p&&p.notInterested;if(!ni)return;
+ const ratings=p.ratings||{};
+ const tiered=new Set([].concat(p.declaredGoatIds||[],p.silverTierIds||[],p.bronzeTierIds||[]));
+ Object.keys(ni).forEach(function(id){
+  const x=byId.get(id);
+  if(!x||tiered.has(id)||typeof ratings[id]==='number'||x.owned)delete ni[id];
+ });
+ if(!Object.keys(ni).length)delete p.notInterested;
+}
+/* "Not interested" from any card or recommendation: one tap hides the work from every "what next"
+   list and teaches the match engine to show less like it (buildTasteModel reads passes as a
+   moderate no). A full redraw, since the work leaves the Global Controller's list outright. */
+function setPassed(id,on,quiet){
+ const it=byId.get(id);if(!it)return;
+ if(!!it.passed===!!on)return;
+ mutateProfile(p=>{
+  p.notInterested=p.notInterested||{};
+  if(on)p.notInterested[id]=Date.now();else delete p.notInterested[id];
+  if(!Object.keys(p.notInterested).length)delete p.notInterested;
+ },true);
+ // The rebuilt recommendations, blind spots and Surprise Me pool all read the new flag already;
+ // only the watchlist's own suggestions column is drawn from outside the profile pass.
+ if(state.view==='watchlist')renderWatchlist();
+ if(quiet)return;
+ if(on)showPassToast(it);else hideToast();
+}
+/* Beside the result count: how many titles marked "not interested" are out of the list, as a
+   toggle to bring them back (state.showPassed, bookmarkable as ?passed=1). Silent while searching,
+   since a search already includes them, and when nothing has been passed on. */
+function renderPassedNote(list,matches){
+ const el=$('#passedNote');if(!el)return;
+ const n=tasteBasis().passed;
+ if(!n||matches){el.classList.add('hidden');return;}
+ el.classList.remove('hidden');
+ el.setAttribute('aria-pressed',state.showPassed?'true':'false');
+ el.textContent=state.showPassed?' · including '+n+' you passed on — hide them':' · '+n+' you passed on '+(n===1?'is':'are')+' hidden — show';
+}
+on('#passedNote','click',()=>{state.showPassed=!state.showPassed;refresh();});
+/* ===== Changes saved somewhere else: another tab, or another device merged in by the cloud sync =====
+   Every write stores this tab's whole profile or watchlist, so a tab working from an older copy used
+   to erase whatever another tab -- or a merge with another device (mergeAndWrite in index.html) --
+   had saved since. Each writer now remembers the stored string it last read or wrote, and anything
+   else found in storage is adopted first: when another tab's write fires the storage event, when
+   account-sync announces a merge (omni:stored-state-changed), and at the start of every edit, as a
+   backstop for an event that has not arrived yet. The edit then lands on top of the newer copy. */
+function noteStoredState(){
+ try{_profileRawSeen=localStorage.getItem('omniLedgerProfile');_wlRawSeen=localStorage.getItem('omniLedgerWatchlist');}catch(e){console.warn('reading stored state failed',e);}
+}
+function adoptStoredState(){
+ const out={profile:false,watchlist:null};
+ let raw,wraw;
+ try{raw=localStorage.getItem('omniLedgerProfile');wraw=localStorage.getItem('omniLedgerWatchlist');}catch(e){return out;}
+ if(raw!==_profileRawSeen){
+  _profileRawSeen=raw;
+  let p;
+  try{p=raw==null?null:JSON.parse(raw);}catch(e){p=null;}
+  if(p&&typeof p==='object'&&!Array.isArray(p)&&raw!==JSON.stringify(PERSONAL_PROFILE)){
+   Object.keys(PERSONAL_PROFILE).forEach(function(k){delete PERSONAL_PROFILE[k];});
+   Object.assign(PERSONAL_PROFILE,p);
+   try{recomputeProfileDerived();}catch(e){console.error('recomputeProfileDerived failed adopting a profile saved elsewhere:',e);}
+   out.profile=true;
+  }
+ }
+ if(wraw!==_wlRawSeen){
+  _wlRawSeen=wraw;
+  let w;
+  try{w=wraw==null?{}:JSON.parse(wraw);}catch(e){w=null;}
+  if(w&&typeof w==='object'&&!Array.isArray(w)){
+   const changed=new Set();
+   Object.keys(WL).concat(Object.keys(w)).forEach(function(id){if(JSON.stringify(WL[id])!==JSON.stringify(w[id]))changed.add(id);});
+   WL=w;
+   if(changed.size)out.watchlist=changed;
+  }
+ }
+ return out;
+}
+function showAdoptedState(ch){
+ if(!ch.profile&&!ch.watchlist)return;
+ if(ch.watchlist){
+  ch.watchlist.forEach(function(id){refreshDoneUI(id);});
+  updateWlNav();
+  // Recommendations skip finished titles; a profile change already rebuilt them.
+  if(!ch.profile){try{rebuildGeneratedRecs();}catch(e){console.warn('rebuildGeneratedRecs failed',e);}}
+ }
+ if(state.view==='goat')renderDeferredProfileView('goat');else profileDirtyViews.goat=true;
+ rerenderAfterProfileChange(null);
+}
+function applyStoredLook(){
+ let t,d;
+ try{t=localStorage.getItem('omniLedgerTheme')||'';d=localStorage.getItem('omniLedgerDensity')||'0';}catch(e){return;}
+ if((document.body.getAttribute('data-theme')||'')!==t)applyTheme(t);
+ const on=d==='1';
+ if(document.body.classList.contains('compact')!==on){
+  document.body.classList.toggle('compact',on);
+  const b=$('#densityBtn');if(b){b.textContent=on?'▤ Comfortable':'▦ Compact';b.classList.toggle('border-teal-500',on);b.classList.toggle('text-teal-300',on);}
+ }
+}
+function syncFromStorage(){const ch=adoptStoredState();showAdoptedState(ch);applyStoredLook();return ch;}
+window.addEventListener('storage',function(e){
+ if(e.storageArea===localStorage&&(e.key===null||/^omniLedger(Profile|Watchlist|Theme|Density)$/.test(e.key)))syncFromStorage();
+});
+window.addEventListener('omni:stored-state-changed',function(){syncFromStorage();});
+function showPassToast(it){
+ const t=showToast('<span class="toastMsg"><b style="color:#fb7185">✕ Not interested</b> · '+esc(it.title)
+  +' <span class="toastSub">Hidden from your lists, and you’ll see less like it</span></span>'
+  +'<span class="toastActions"><button type="button" class="presetBtn" data-toast="unpass">Undo</button></span>'
+  +'<button type="button" class="toastClose" data-toast="close" aria-label="Dismiss">✕</button>',7000);
+ t.dataset.id=it.id;
+}
 function mutateProfile(mutatorFn,forceFullRender){
+ // Start from the newest stored copy: another tab (or a merge with another device) may have saved
+ // since this one last read it, and this edit must land on top of that, not over it.
+ const adopted=adoptStoredState();
+ if(adopted.watchlist)showAdoptedState({watchlist:adopted.watchlist});
+ if(adopted.profile)forceFullRender=true;
  let snapshot;
  try{snapshot=JSON.parse(JSON.stringify(PERSONAL_PROFILE));}catch(e){alert('Could not read current profile: '+e.message);return;}
  try{mutatorFn(snapshot);}catch(e){alert('Could not apply that change: '+e.message);return;}
+ prunePasses(snapshot);
  // Diffed before PERSONAL_PROFILE is overwritten, so the media_status rows describe what actually
  // changed in this one edit rather than the whole profile.
  let rows=[];
@@ -4661,7 +4934,7 @@ function mutateProfile(mutatorFn,forceFullRender){
  // is most of what a click used to cost.
  const beforeDerived=derivedSnapshot();
  const cardKeysMoved=(cardProfileFingerprint(PERSONAL_PROFILE)!==cardProfileFingerprint(snapshot));
- try{localStorage.setItem('omniLedgerProfile',JSON.stringify(snapshot));localStorage.setItem('omniLedgerOnboarded','1');}catch(e){alert('Could not save: '+e.message);return;}
+ try{const written=JSON.stringify(snapshot);localStorage.setItem('omniLedgerProfile',written);_profileRawSeen=written;localStorage.setItem('omniLedgerOnboarded','1');}catch(e){alert('Could not save: '+e.message);return;}
  // Adopted in place rather than rebound: PERSONAL_PROFILE is referenced directly by name all over
  // this file, so the object identity has to survive the edit.
  Object.keys(PERSONAL_PROFILE).forEach(function(k){delete PERSONAL_PROFILE[k];});
@@ -4708,6 +4981,9 @@ function toggleOwned(id,kind){
    const i=p.ownedGameIds.indexOf(id);
    if(i>=0)p.ownedGameIds.splice(i,1);else p.ownedGameIds.push(id);
   }
+  // Owning it retires a "not interested" (prunePasses covers tiers and ratings; ownership has too
+  // many shapes to read back off a profile snapshot, so this one is done where it happens).
+  if(p.notInterested)delete p.notInterested[id];
  },true);
 }
 // Nudges a creator's weight up OR down (delta can be negative -- "the opposite of boosting"):
@@ -4857,6 +5133,8 @@ function refreshDoneUI(id){
  const it=byId.get(id);if(!it)return;
  $$('.wlBtn[data-wl="'+id+'"]').forEach(function(b){b.outerHTML=wlCornerHTML(it);});
  $$('.doneSeg[data-id="'+id+'"]').forEach(function(b){b.outerHTML=doneSegHTML(it,b.classList.contains('tierSegRoomy'));});
+ // Queued or finished titles are not offered "Not interested" (passBtnHTML), so it follows along.
+ $$('.passBtn[data-pass="'+id+'"]').forEach(function(b){b.outerHTML=passBtnHTML(it);});
 }
 function afterWatchStateChange(id){
  refreshDoneUI(id);
@@ -4908,6 +5186,7 @@ document.addEventListener('click',function(e){
  hideToast();
  if(!id||act==='close')return;
  if(act==='undo')setDoneFromUI(id,false);
+ else if(act==='unpass')setPassed(id,false);
  else if(act==='rate')openRateGate(id);
  else if(act==='view'){
   state.wlFilter='done';
@@ -4951,8 +5230,20 @@ function handleProfileEditClick(btn){
    No longer surfaced in the header (it fell too far behind real changes to be worth showing), but
    kept here as the project's own record. Bump APP_VERSION and add a CHANGELOG entry whenever a
    change is worth remembering; cosmetic tweaks don't need a bump. */
-const APP_VERSION='1.48.1';
+const APP_VERSION='1.49.0';
 const CHANGELOG=[
+ {v:'1.49.0',date:'2026-09-25',summary:'Search forgives accents and typos, the ring on every card is your match, a one-tap “not interested”, and edits on two devices are merged instead of one erasing the other.',notes:[
+  'Search ignores accents, capitals and punctuation, matches every word on its own and in any field, puts title matches first, and tolerates small typos: “amelie”, “cuaron”, “godfater”, “zelda breath” and “kubrick 1968” all find what they should. The same search runs in the GOAT Picker, the Watchlist and the Collection.',
+  'The big ring on each card is now your match for that title, labelled “Match” — or “Score” while the app knows nothing about your taste yet. The critics’ score moved to a small “Crit” chip.',
+  'Nothing claims to match “your taste” until you have rated, tiered or owned something, and wherever it does, it says what that is based on (“based on 3 ratings and 2 favorites”).',
+  'Every title you have not tried has a small ✕ for “not interested”: it hides the title from every list and recommendation and teaches your match to show less like it. Search still finds it, “show” above the results brings passed titles back, and Undo or ✕ again takes it back.',
+  'Signed-in edits made on two devices, or on one while offline, are merged title by title when they sync, instead of the last device to save erasing the other’s changes. Two tabs open at once stay in step too.',
+  'The app starts faster: the GOAT Profile, Creators, Contenders and Matrix tabs are built the first time you open them, and the recommendations are built once instead of twice.',
+  'About sixty styling classes that silently did nothing now work — among them the GOAT Profile’s stat tiles, which stacked as full-width rows even on a wide screen. The stylesheet is now generated, and the test suite fails if the page uses a class it does not define.',
+  'In the suggestion box, Delete and Mark resolved appear only on your own suggestions.',
+  'Recommendation quality is now measured on every change: favorites are hidden from five different profiles, and the engine has to find them again among everything untried. It puts 53% of a real profile’s hidden favorites in its top 100, where acclaim alone manages 13%.',
+  '“Last updated”, the corpus counts and the install description are no longer out of date.'
+ ]},
  {v:'1.48.1',date:'2026-09-24',summary:'The PK Sample is now a fixed copy, so signing in as payton can no longer change what new accounts start from.',notes:[
   '\u201cStart from the PK Sample\u201d used to copy whatever the payton account held at that moment, and since any name can be signed into, anyone could change it. It now copies data/pk-sample.js, which only changes through a commit (scripts/update-pk-sample.js).',
   'Two retired placeholder records the payton profile still pointed at (the Man with No Name Trilogy and Harry Potter Books 1\u20137, since split into single works) are left out; neither ever appeared in the app.',
@@ -5304,6 +5595,17 @@ const CHANGELOG=[
  if(a0&&a0.configured){loaded=true;loadSuggestions();}
  function close(){gate.classList.add('hidden');}
  function esc2(s){return esc(String(s==null?'':s));}
+ /* Triage -- marking a suggestion resolved, or deleting it -- belongs to whoever wrote it and to the
+    app's owner. The owner asked to be able to clear out and remove any suggestion, and that ability
+    used to be handed to every visitor, so anyone could delete anyone else's idea. Like every "only
+    your own" rule here it is a courtesy of the interface, not a lock: a handle is a name, not a
+    verified identity (see supabase/schema.sql). */
+ var SUGGESTION_OWNERS=['payton'];
+ function canTriage(it){
+  var a=acct(),h=a&&a.handle;
+  return !!(h&&it&&(it.handle===h||SUGGESTION_OWNERS.indexOf(h)>=0));
+ }
+ function itemById(id){return allItems.filter(function(x){return String(x.id)===String(id);})[0]||null;}
  function timeAgo(ms){
   if(!ms)return'';
   var s=Math.max(1,Math.round((Date.now()-ms)/1000));
@@ -5387,6 +5689,7 @@ const CHANGELOG=[
   if(!listExpanded)shown=shown.slice(0,COLLAPSED_ROWS);
   list.innerHTML=shown.map(function(it){
    var mine=!!(myHandle&&it.handle&&it.handle===myHandle);
+   var triage=canTriage(it);
    var isResolved=RESOLVED_STATUSES.indexOf(it.status)>=0;
    var parsed=it.kind==='media'?parseMediaText(it.text):{type:null,body:it.text};
    var voted=!!myVotes[it.id];
@@ -5401,8 +5704,8 @@ const CHANGELOG=[
       ?'<span class="suggestVoteBtn" style="opacity:.5;cursor:default" title="You can\'t vote on your own suggestion">👍 '+votes+'</span>'
       :'<button type="button" class="suggestVoteBtn'+(voted?' voted':'')+'" data-id="'+it.id+'" data-voted="'+(voted?'1':'0')+'" title="'+(voted?'Remove your vote':'This matters to me too')+'">👍 '+votes+'</button>')
     +(mine?'<button type="button" class="suggestEditBtn text-[10px] text-slate-500 hover:text-slate-300 underline decoration-dotted underline-offset-2" data-id="'+it.id+'">Edit</button>':'')
-    +'<button type="button" class="suggestResolveBtn text-[10px] underline decoration-dotted underline-offset-2" style="color:'+(isResolved?'#94a3b8':'#34d399')+'" data-id="'+it.id+'" data-next="'+(isResolved?'open':'shipped')+'">'+(isResolved?'↩ Reopen':'✅ Mark resolved')+'</button>'
-    +'<button type="button" class="suggestDeleteBtn text-[10px] text-rose-400/80 hover:text-rose-300 underline decoration-dotted underline-offset-2" data-id="'+it.id+'">Delete</button>'
+    +(triage?'<button type="button" class="suggestResolveBtn text-[10px] underline decoration-dotted underline-offset-2" style="color:'+(isResolved?'#94a3b8':'#34d399')+'" data-id="'+it.id+'" data-next="'+(isResolved?'open':'shipped')+'">'+(isResolved?'↩ Reopen':'✅ Mark resolved')+'</button>':'')
+    +(triage?'<button type="button" class="suggestDeleteBtn text-[10px] text-rose-400/80 hover:text-rose-300 underline decoration-dotted underline-offset-2" data-id="'+it.id+'">Delete</button>':'')
     +'</div></div></div>';
   }).join('');
  }
@@ -5444,7 +5747,7 @@ const CHANGELOG=[
   });
  }
  function deleteSuggestion(id){
-  var a=acct();if(!a||!a.configured)return;
+  var a=acct();if(!a||!a.configured||!canTriage(itemById(id)))return;
   if(typeof confirm!=='undefined'&&!confirm('Delete this suggestion? This can\'t be undone.'))return;
   a.client.from('suggestions').delete().eq('id',id).then(function(res){
    if(res&&res.error){showError('Couldn\'t delete that ('+(res.error.message||res.error)+').');return;}
@@ -5452,7 +5755,7 @@ const CHANGELOG=[
   });
  }
  function toggleResolved(id,nextStatus){
-  var a=acct();if(!a||!a.configured)return;
+  var a=acct();if(!a||!a.configured||!canTriage(itemById(id)))return;
   a.client.from('suggestions').update({status:nextStatus}).eq('id',id).then(function(res){
    if(res&&res.error){showError('Couldn\'t update that ('+(res.error.message||res.error)+').');return;}
    loadSuggestions();
@@ -5688,8 +5991,10 @@ function openRateGate(id){
  }
  function renderResults(q){
   q=(q||'').trim().toLowerCase();
-  var pool=q?ALL.filter(function(x){return (x.title+' '+x.creator+' '+(x.genres||[]).join(' ')).toLowerCase().indexOf(q)>=0;})
-   :ALL.slice().sort(function(a,b){return (b.crit+b.aud)-(a.crit+a.aud);});
+  var acclaim=function(a,b){return (b.crit+b.aud)-(a.crit+a.aud);};
+  var hits=q?worksMatching(q):null;
+  var pool=hits?ALL.filter(function(x){return hits.has(x.id);}).sort(bySearchThen(hits,acclaim))
+   :ALL.slice().sort(acclaim);
   if(pickerType!=='all')pool=pool.filter(function(x){return x.kind===pickerType;});
   var shown=pool.slice(0,40);
   var k2=KM;
@@ -6019,10 +6324,11 @@ function buildPinnedMainSliders(){
  el.innerHTML=defs.map(d=>sliderBlockHTML(d,true)).join('');
 }
 function togglePinIdx(key){
+ syncFromStorage();
  PERSONAL_PROFILE.pinnedIdx=PERSONAL_PROFILE.pinnedIdx||DEFAULT_PINNED_IDX.slice();
  var i=PERSONAL_PROFILE.pinnedIdx.indexOf(key);
  if(i>=0)PERSONAL_PROFILE.pinnedIdx.splice(i,1);else PERSONAL_PROFILE.pinnedIdx.push(key);
- try{localStorage.setItem('omniLedgerProfile',JSON.stringify(PERSONAL_PROFILE));localStorage.setItem('omniLedgerOnboarded','1');}catch(e){console.warn('omniLedgerOnboarded failed',e);}
+ try{const written=JSON.stringify(PERSONAL_PROFILE);localStorage.setItem('omniLedgerProfile',written);_profileRawSeen=written;localStorage.setItem('omniLedgerOnboarded','1');}catch(e){console.warn('omniLedgerOnboarded failed',e);}
  buildIndexSliders(); // rebuilds both the advanced list and the pinned main row, preserving state.idx values
 }
 function syncAdvCount(){
@@ -6110,6 +6416,7 @@ on('#activeBar','click',e=>{
  else if(c==='notdone'){state.notDoneOnly=false;const nd=$('#notDoneToggle');if(nd)nd.checked=false;}
  else if(c==='franchise'){state.franchiseOnly=false;const f=$('#franchiseToggle');if(f)f.checked=false;}
  else if(c==='standalone'){state.standaloneOnly=false;const sa=$('#standaloneToggle');if(sa)sa.checked=false;}
+ else if(c==='passed'){state.showPassed=false;}
  else if(c.indexOf('tierEx:')===0){const t=c.slice(7);state.tierFilterExclude=state.tierFilterExclude.filter(x=>x!==t);buildTierFilterChips();}
  else if(c.indexOf('tier:')===0){const t=c.slice(5);state.tierFilter=state.tierFilter.filter(x=>x!==t);buildTierFilterChips();}
  else if(c.indexOf('genre:')===0){const g=c.slice(6);state.genres=state.genres.filter(x=>x!==g);buildGenreChips();}
@@ -6123,7 +6430,7 @@ on('#activeBar','click',e=>{
  syncAdvCount();refresh();
 });
 function clearAllFilters(){
- Object.assign(state,{q:'',types:[],struct:'all',plats:[],minGoat:0,minMyRating:0,ratedOnly:false,unratedOnly:false,genres:[],genresExclude:[],ratings:[],ownedOnly:false,notOwnedOnly:false,doneOnly:false,notDoneOnly:false,franchiseOnly:false,standaloneOnly:false,tierFilter:[],tierFilterExclude:[],yearMin:null,yearMax:null,combine:false});
+ Object.assign(state,{q:'',types:[],struct:'all',plats:[],minGoat:0,minMyRating:0,ratedOnly:false,unratedOnly:false,genres:[],genresExclude:[],ratings:[],ownedOnly:false,notOwnedOnly:false,doneOnly:false,notDoneOnly:false,franchiseOnly:false,standaloneOnly:false,showPassed:false,tierFilter:[],tierFilterExclude:[],yearMin:null,yearMax:null,combine:false});
  buildTierFilterChips();
  state.idx={snd:0,ref:0,ch:0,emo:0,awe:0,cozy:0,perf:0,icon:0,scary:0,real:0,reality:0,shock:0,sci:0,funny:0,hist:0,vibe2:0,crit:0,aud:0,tech:0,dread:0,myst:0,warmth:0,comedy:0,beauty:0,runtime:0};state.ratings=[];
  $('#q').value='';var ss=$('#structSel');if(ss)ss.value='all';updatePlatLabel();
@@ -6204,6 +6511,9 @@ $('#headStats').innerHTML=[
 ].map(function(s){
  return '<div class="statTile"><span class="statIcon" style="color:'+s.color+'">'+s.icon+'</span><div><div class="statNum" style="color:'+s.color+'">'+s.n.toLocaleString()+'</div><div class="statLbl">'+s.label+'</div></div></div>';
 }).join('');
+// "Last updated" is the newest version-history entry's date, not a date typed into the page: the
+// hardcoded one had drifted weeks behind the app it described.
+(function(){var ld=$('#luDate');if(ld&&CHANGELOG.length){var d=CHANGELOG.map(function(c){return c.date;}).sort().pop().split('-');ld.textContent=['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'][+d[1]-1]+' '+(+d[2])+', '+d[0];}})();
 (function(){var lc=$('#luCount');if(lc){var m=ALL.filter(function(x){return x.kind==='movie'}).length,t=ALL.filter(function(x){return x.kind==='tv'}).length,g=ALL.filter(function(x){return x.kind==='game'}).length,b=ALL.filter(function(x){return x.kind==='book'}).length;lc.textContent=ALL.length+' works · '+m+' films / '+t+' series / '+g+' games / '+b+' books';}})();
 var mi=$('#matrixIntro');if(mi)mi.textContent='Elite specialized brackets computed across the full '+ALL.length.toLocaleString()+'-work corpus (Global Controller filters intentionally ignored here so brackets stay canonical). Hover rows for full credits.';
 on('#matrixOwnedOnly','change',e=>{matrixOwnedOnly=e.target.checked;renderMatrices(ALL,$,$$);scheduleURLSync();});
@@ -6223,16 +6533,14 @@ function jumpToMatrixSection(el){
  const top=el.getBoundingClientRect().top+window.pageYOffset-headerH-gap;
  window.scrollTo({top:Math.max(0,top),behavior:'smooth'});
 }
-renderMatrices(ALL,$,$$);
-renderCreators(state,ALL,$,$$);
-renderContenders();
+// Reference Matrices, Creator Archives, Contenders and the GOAT Profile are not drawn here: boot
+// ends in applyStateToStaticControls(), which draws whichever of them is on screen and marks the
+// rest stale, so each is built the first time it is opened instead of on every page load.
 document.addEventListener('click',e=>{const b=e.target.closest('.contMedBtn');if(b){contMedium=b.dataset.med;renderContenders();scheduleURLSync();}});
 document.addEventListener('click',e=>{const b=e.target.closest('.contSortBtn');if(b){contSort=b.dataset.sort;$$('.contSortBtn').forEach(function(x){x.classList.toggle('on',x===b);});renderContenders();scheduleURLSync();}});
 let contSearchT=null;
 on('#contSearch','input',e=>{clearTimeout(contSearchT);const v=e.target.value;contSearchT=setTimeout(()=>{contSearchQ=v;renderContenders();scheduleURLSync();},120);});
 document.addEventListener('click',e=>{const b=e.target.closest('.contMigratedBtn');if(b){clearAllFilters();state.q=b.dataset.q;const qi=$('#q');if(qi)qi.value=b.dataset.q;switchView('controller');refresh();}});
-renderGoat();
-renderGoatSearchResults('');
 $('#integrity').textContent='Integrity check · '+movies.length+' films · '+tvShows.length+' series · '+videoGames.length+' games · '+books.length+' books · '+directorsPantheon.length+' directors · '+authorsPantheon.length+' authors · '+gamingAuteurs.length+' auteurs · '+contenders.length+' contenders';
 console.assert(movies.length>0&&tvShows.length>0&&videoGames.length>0&&books.length>0&&directorsPantheon.length>=1&&authorsPantheon.length>=1&&gamingAuteurs.length>=1&&contenders.length>=1,'Dataset integrity violation');
 console.assert((function(){const have=new Set(ALL.map(x=>x.kind+'|'+x.title));return FRANCHISE_EXTRA.every(g=>g[1].every(e=>have.has(FRANCHISE_KIND[e[0]]+'|'+e.slice(2))));})(),'FRANCHISE_EXTRA names a title that is not in the corpus');
@@ -6275,6 +6583,8 @@ var _rzT;window.addEventListener('resize',function(){clearTimeout(_rzT);_rzT=set
  switchView((urlView&&document.querySelector('main > section[data-sec="'+urlView+'"]'))?urlView:'controller');
 })();
 
+ // Boot is done: whatever storage holds now is what this tab has read (see adoptStoredState).
+ noteStoredState();
  // Deliberate debug surface, and the last line of initApp().
  //
  // Before this file was wrapped in initApp(), every internal here was an accidental global --

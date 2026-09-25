@@ -159,6 +159,12 @@ function normalizeReceptionByKind(all,field){
    means more confident weights, never noisier ones. */
 
 const TASTE_TIER_AFFINITY={gold:1,silver:0.7,bronze:0.45,owned:0.2};
+/* "Not interested" (a pass): a moderate no, about where a 5/10 lands for a typical rater. It is said
+   before trying the work, so it counts for less than a low rating after it, and it is outranked by
+   anything stronger the person has said about the same work -- a rating, a tier, owning it. Passes
+   are the one evidence type that can only point down: they teach the model which genres, creators,
+   vibes and tones to show less of, where every other signal except a rating can only point up. */
+const TASTE_PASS_AFFINITY=-0.45;
 /* A fresh profile with two ratings should not have its centre yanked to those two numbers, so the
    observed mean is shrunk toward a neutral 6.8 (roughly where "I liked it" sits on a 0-10 scale
    people actually use) with the weight of 4 imaginary ratings. */
@@ -257,6 +263,7 @@ function vibeLearnKeys(x){
      all      -- the adapter array (reads .id/.genres/.vibe/.creator/.owned and the axis fields)
      ratings  -- {id: 0-10}
      gold/silver/bronze -- Sets of ids
+     passed   -- Set of ids marked "not interested" (optional)
      taxonomy -- GENRE_TAXONOMY
    Returns plain data: {genre, vibe, creator} keyword->weight maps in the same units as the
    hand-set PERSONAL_PROFILE.genreBoost entries (a strong, well-evidenced genre lands near +9,
@@ -265,6 +272,7 @@ function buildTasteModel(all,opts){
  opts=opts||{};
  const ratings=opts.ratings||{};
  const gold=opts.gold||new Set(),silver=opts.silver||new Set(),bronze=opts.bronze||new Set();
+ const passed=opts.passed||new Set();
  const tax=opts.taxonomy||{};
 
  /* --- 1. Where this person's ratings actually sit --- */
@@ -287,12 +295,14 @@ function buildTasteModel(all,opts){
   const r=ratings[x.id];
   const rated=typeof r==='number'&&isFinite(r);
   const tier=gold.has(x.id)?'gold':silver.has(x.id)?'silver':bronze.has(x.id)?'bronze':(x.owned?'owned':null);
-  if(!rated&&!tier)return;
+  const pass=!rated&&!tier&&passed.has(x.id);
+  if(!rated&&!tier&&!pass)return;
   let aff;
   if(rated){
    aff=tasteClamp1(((r-centre)/(spread*1.4))*0.55+((r-6)/3)*0.45);
    if(tier)aff=aff*0.65+TASTE_TIER_AFFINITY[tier]*0.35;
-  }else aff=TASTE_TIER_AFFINITY[tier];
+  }else if(tier)aff=TASTE_TIER_AFFINITY[tier];
+  else aff=TASTE_PASS_AFFINITY;
   ev.push({x:x,aff:tasteClamp1(aff)});
  });
 

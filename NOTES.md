@@ -1729,6 +1729,70 @@ is false (no red "NOT saved" for what is not an error, no burned retry backoff),
 out a fetch and its retry. The suite serves the app over http to test the service worker for real,
 and drives the cloud path offline and back against the mocked Supabase.
 
+## Phase 47 — Honest matches, forgiving search, merged sync, "not interested", measured recommendations
+
+**The stylesheet was missing ~60 classes.** The compiled Tailwind block in `index.html` had been
+generated once and patched by hand since, so classes added to the markup afterwards did nothing —
+most visibly the GOAT Profile's stat tiles (`grid-cols-3 sm:grid-cols-6`), which stacked as
+full-width rows on every screen. `scripts/build-css.js` now regenerates the block from
+`tailwind.config.js` (tailwindcss pinned exactly, dev-only), and `test-fast` runs it with `--check`,
+failing with the names of any class used but not defined. One side effect had to be handled: the
+recommendation ✕ (`opacity-0 group-hover:opacity-100`) had been permanently visible only because
+its classes did not exist; with them working it would have been invisible on touch screens, so it
+now shows at 75% where there is no hover.
+
+**Search.** It was one lowercase substring test against every field glued together, so an accent,
+a colon, a typo or two words from different fields found nothing ("amelie", "cuaron", "godfater",
+"zelda breath", "kubrick 1968"). `app/search.js` folds accents/case/punctuation, matches every word
+separately in any field, allows one typo (two for long words) only for a word that otherwise
+matches nothing, treats hyphenated words as phrases, and ranks exact and prefix title matches first
+while the person's chosen sort still orders results inside each relevance bucket. ("pokemon" finds
+nothing because there is no Pokémon title in the corpus, not because of the accent.)
+
+**Honest matches.** The biggest number on a card was the critics' score. The ring is now the
+personal match, labelled "Match" or — with no rating, tier, ownership or pass yet — "Score", and
+every explanation that says "your taste" now needs evidence and names it (`tasteBasis()`: "based
+on 3 ratings and 2 favorites"). A blank profile used to be told a film "is as beautiful to look at
+as your favorites".
+
+**Merged sync.** Sync replaced the whole profile and unsynced local changes always won, so a phone
+edited offline and a laptop edited the same day lost one side. Every tracked write now stamps the
+entries it changed (`omniLedgerEdits`), a push merges the cloud copy title by title (newer stamp
+wins) and writes conditionally on `updated_at`, and whatever arrives from the merge — or from another
+tab — is adopted in place. `media_status` was the suggested basis, but it only holds tiers,
+ownership and ratings; stamping the synced keys themselves covers the watchlist, settings and
+boosts too, with no schema change. `test/sync-merge.js` covers the rules; the browser suite covers
+offline-plus-another-device, a raced write, a remote deletion and two tabs. `test/schema.js`'s live
+layer checks the conditional write against real Postgres as `anon`.
+
+**"Not interested".** A ✕ on every untried card (and on GOAT Profile recommendations for library
+titles): hides the title from every "what next" surface, pulls its own match toward 40, and feeds
+`buildTasteModel` as a moderate no (−0.45), so similar genres, creators and tones rank lower.
+Rating, tiering, owning or saving the title retires the pass.
+
+**Boot.** `rebuildGeneratedRecs()` ran once before the series table it reads existed, then again;
+the first run is gone. The GOAT Profile, Creators, Contenders and Matrix tabs (and Collection and
+Watchlist) are built when first opened: ~72,000 elements after boot became ~6,000.
+
+**Recommendation quality, measured.** `scripts/rec-quality.js` hides favorites and ranks everything
+untried: the PK Sample five folds at a time, and the four cold-start personas leave-one-out. The
+engine finds 53% of the PK Sample's hidden favorites in its top 100 of ~4,800 (acclaim alone 13%;
+median rank 96 vs 604) and 54% of the personas' (acclaim alone 21%), and the browser suite fails if
+that drops below floors set a little under today's numbers. Disabling most of the taste signal
+fails five of the six checks. A sweep of every constant in `buildTasteModel`, the taste/objective
+balance and the quality weight (27 single-setting variants), plus breaking ties on the unrounded
+score instead of acclaim, found nothing that improved every profile at once — the best variants
+moved one hidden title in 28 — so nothing was retuned. The weakest profile is the comedy lover,
+whose favorites are comedies of middling acclaim (10 Things I Hate About You, Army of Darkness);
+their lists lead with acclaimed comedies instead (Singin' in the Rain, The Lego Movie, Hitchhiker's
+Guide), which is a defensible answer the metric scores as a miss.
+
+**Also.** Delete / Mark resolved in the suggestion box show only on your own suggestions (or to the
+owner account). "Last updated" comes from the newest changelog entry, the corpus counts from the
+data, and the manifest description is current. The suite's "bronze-only tier filter" check had
+been failing since the PK Sample refresh added Bronze picks; it now compares against the profile's
+own Bronze list.
+
 ## Ideas / next steps
 
 Roughly in order of value:
