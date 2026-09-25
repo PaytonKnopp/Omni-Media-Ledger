@@ -79,7 +79,7 @@ Boot builds only what the opening view shows. The GOAT Profile, Creators, Conten
 tabs (`DEFERRED_PROFILE_VIEWS`) and the Collection and Watchlist tabs are built the first time they
 are opened, and a profile change marks the unopened ones stale (`profileDirtyViews`) instead of
 rebuilding them; `switchView` builds a stale tab on the way in. The page went from ~72,000 elements
-after boot to ~5,600. The generated recommendations are built once, after the series table they
+after boot to ~6,000. The generated recommendations are built once, after the series table they
 read exists — they used to be built twice, the first time with nothing to read.
 
 ## State and where it lives

@@ -1772,7 +1772,7 @@ Rating, tiering, owning or saving the title retires the pass.
 
 **Boot.** `rebuildGeneratedRecs()` ran once before the series table it reads existed, then again;
 the first run is gone. The GOAT Profile, Creators, Contenders and Matrix tabs (and Collection and
-Watchlist) are built when first opened: ~72,000 elements after boot became ~5,600.
+Watchlist) are built when first opened: ~72,000 elements after boot became ~6,000.
 
 **Recommendation quality, measured.** `scripts/rec-quality.js` hides favorites and ranks everything
 untried: the PK Sample five folds at a time, and the four cold-start personas leave-one-out. The
