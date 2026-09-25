@@ -1969,8 +1969,10 @@ QUALITY_PASS.md now says so.
 **Decided, not pending:** the games' facts stay best estimates (owner, 2026-09-25: not worth an
 IGDB developer account; QUALITY_PASS.md decision 14). Film and TV audience scores are sourced
 (Phase 49); every critic score and games' and books' audience scores remain labelled estimates.
-Still the owner's call: whether to purge the plot summaries removed in `9d2715e` from git history
-(a force-push rewrite of master).
+Decided 2026-09-25 (owner): the plot summaries removed in `9d2715e` stay in git history. A
+rewrite would change every later commit hash and break existing clones, and GitHub would still serve
+the old commits through merged pull requests' refs until its Support purged them; the files are gone
+from the current tree and `test/evidence.js` keeps new ones out.
 
 **CI, and a browser quirk worth knowing about.** The PR's first CI run failed one check, the cloud
 account flow, timing out on a button after the owner signed in. Traced locally (about one run in
