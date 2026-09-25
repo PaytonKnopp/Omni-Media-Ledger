@@ -1,5 +1,5 @@
 {
- "about": "Explicit IMDb ids for the movie and TV works whose TMDB match failed (see imdb-audience-gap-2026-09-25.md). Each id was looked up in IMDb's own title.basics.tsv.gz (2026-09-25) by the work's alternate or official title, within two years, and the imdbType/imdbTitle/imdbYear fields are copied from that file so a reviewer can check the pairing at a glance. imdbId null means IMDb genuinely has no title for the work; it keeps its estimated audienceScore, labelled as an estimate, with the reason in `why`. Read by scripts/apply-imdb-audience.js; an entry here overrides the TMDB-derived match.",
+ "about": "Explicit IMDb ids for the movie and TV works whose TMDB match failed (see imdb-audience-gap-2026-09-25.md). Each id was looked up in IMDb's own title.basics.tsv.gz (2026-09-25) by the work's alternate or official title, within two years, and the imdbType/imdbTitle/imdbYear fields are copied from that file so a reviewer can check the pairing at a glance. imdbId null means IMDb genuinely has no title for the work; it keeps its estimated audienceScore, labelled as an estimate, with the reason in `why`. Read by scripts/apply-imdb-audience.js; an entry here overrides the TMDB-derived match. Entries for m1582, m1834 and m1948 were dropped when those duplicate records were merged into m127, m345 and m1547 (app/format.js RETIRED_WORK_IDS).",
  "checked": "2026-09-25",
  "works": [
   {
@@ -299,19 +299,7 @@
    "imdbType": "movie",
    "imdbTitle": "Gone in 60 Seconds",
    "imdbOriginalTitle": "Gone in Sixty Seconds",
-   "imdbYear": 2000,
-   "note": "Same film as m1948 (a duplicate record in the corpus); both map to one IMDb title."
-  },
-  {
-   "medium": "movie",
-   "id": "m1582",
-   "title": "Twelve Angry Men",
-   "year": 1957,
-   "imdbId": "tt0050083",
-   "imdbType": "movie",
-   "imdbTitle": "12 Angry Men",
-   "imdbOriginalTitle": "12 Angry Men",
-   "imdbYear": 1957
+   "imdbYear": 2000
   },
   {
    "medium": "movie",
@@ -334,17 +322,6 @@
    "imdbTitle": "The Postman",
    "imdbOriginalTitle": "Il postino",
    "imdbYear": 1994
-  },
-  {
-   "medium": "movie",
-   "id": "m1834",
-   "title": "12 Monkeys",
-   "year": 1995,
-   "imdbId": "tt0114746",
-   "imdbType": "movie",
-   "imdbTitle": "12 Monkeys",
-   "imdbOriginalTitle": "Twelve Monkeys",
-   "imdbYear": 1995
   },
   {
    "medium": "movie",
@@ -388,18 +365,6 @@
    "imdbOriginalTitle": "The Great Train Robbery",
    "imdbYear": 1978,
    "note": "IMDb title \"The Great Train Robbery\" (1978); UK release title \"The First Great Train Robbery\"."
-  },
-  {
-   "medium": "movie",
-   "id": "m1948",
-   "title": "Gone in 60 Seconds (2000)",
-   "year": 2000,
-   "imdbId": "tt0187078",
-   "imdbType": "movie",
-   "imdbTitle": "Gone in 60 Seconds",
-   "imdbOriginalTitle": "Gone in Sixty Seconds",
-   "imdbYear": 2000,
-   "note": "Same film as m1547 (a duplicate record in the corpus); both map to one IMDb title."
   },
   {
    "medium": "tv",

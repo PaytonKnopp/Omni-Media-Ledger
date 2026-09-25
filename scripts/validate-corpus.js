@@ -337,6 +337,29 @@ for (const sec of SECTIONS) {
   if (shared.length) warn('records sharing one IMDb title (a duplicate record, or a wrong match)', shared);
 }
 
+/* ===================== retired duplicate ids ===================== */
+
+/* app/format.js RETIRED_WORK_IDS lists records merged away as duplicates, each pointing at the
+   record it became; saved profiles are remapped through it at boot. A retired id back in the
+   corpus would split a person's rating between two records again, and a retirement pointing at a
+   record that no longer exists would silently drop what it carried. */
+{
+  const src = fs.readFileSync(path.join(ROOT, 'app/format.js'), 'utf8');
+  const m = src.match(/const RETIRED_WORK_IDS=\{[\s\S]*?\n\};/);
+  if (!m) {
+    check('RETIRED_WORK_IDS can be read out of app/format.js', false);
+  } else {
+    const RETIRED = new Function(m[0] + '\nreturn RETIRED_WORK_IDS;')();
+    const ids = new Set(SECTIONS.flatMap(sec => (loaded[sec.key] || []).map(r => r.id)));
+    const back = Object.keys(RETIRED).filter(id => ids.has(id));
+    const dangling = Object.entries(RETIRED).filter(([, to]) => !ids.has(to)).map(([from, to]) => from + ' -> ' + to);
+    check('no retired duplicate id is back in the corpus (' + Object.keys(RETIRED).length + ' retired)', !back.length);
+    detail(back);
+    check('every retired id points at a record that exists', !dangling.length);
+    detail(dangling);
+  }
+}
+
 /* ===================== genre families ===================== */
 
 // GENRE_FAMILIES is the map every family-based surface reads: the Controller's genre filter, the

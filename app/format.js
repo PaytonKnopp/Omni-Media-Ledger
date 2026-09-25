@@ -21,6 +21,61 @@ function provStampOf(raw){
          checked:s.checked||null,src:s.src||null};
 }
 
+/* Works removed from the corpus as duplicates of another record, and the record each one became.
+   The shared-IMDb-title check (scripts/validate-corpus.js) found ten films/series entered twice
+   under two ids; each pair kept the record with the stronger fact provenance, the lower id on a
+   tie. A saved profile, watchlist or cloud row can still carry a retired id, so remapRetiredIds()
+   moves whatever it held onto the kept record at boot. Never reuse a retired id for a new work. */
+const RETIRED_WORK_IDS={
+ m1942:'m47',   // Heat (1995)                -> Heat
+ m1949:'m68',   // Drive (2011)               -> Drive
+ m1582:'m127',  // Twelve Angry Men           -> 12 Angry Men
+ m1834:'m345',  // 12 Monkeys                 -> Twelve Monkeys
+ m1944:'m747',  // The Ladykillers (1955)     -> The Ladykillers
+ m1982:'m1214', // Hairspray (2007)           -> Hairspray
+ m1941:'m1286', // The Italian Job (1969)     -> The Italian Job
+ m1948:'m1547', // Gone in 60 Seconds (2000)  -> Gone in 60 Seconds
+ m1940:'m1810', // The Color Purple (1985)    -> The Color Purple
+ t140:'t357'    // Demon Slayer               -> Demon Slayer: Kimetsu no Yaiba
+};
+/* Rewrites retired ids in a profile and a watchlist (both plain objects; neither is mutated).
+   Lists are remapped and de-duplicated in place of the old entry; for keyed maps (ratings,
+   ownership, watchlist entries) the kept record's own value wins when both are present, since it
+   is the one the app has been showing. Returns {profile, watchlist, changed}. */
+function remapRetiredIds(profile,watchlist,retired){
+ retired=retired||RETIRED_WORK_IDS;
+ var changed=false;
+ function list(a){
+  if(!Array.isArray(a))return a;
+  var out=[],seen={};
+  a.forEach(function(id){
+   var to=Object.prototype.hasOwnProperty.call(retired,id)?retired[id]:id;
+   if(to!==id)changed=true;
+   if(seen[to])return;
+   seen[to]=1;out.push(to);
+  });
+  return out;
+ }
+ function keyed(o){
+  if(!o||typeof o!=='object'||Array.isArray(o))return o;
+  var out={};
+  Object.keys(o).forEach(function(id){if(!Object.prototype.hasOwnProperty.call(retired,id))out[id]=o[id];});
+  Object.keys(o).forEach(function(id){
+   if(!Object.prototype.hasOwnProperty.call(retired,id))return;
+   changed=true;
+   if(!Object.prototype.hasOwnProperty.call(out,retired[id]))out[retired[id]]=o[id];
+  });
+  return out;
+ }
+ var p=profile&&typeof profile==='object'?Object.assign({},profile):profile;
+ if(p&&typeof p==='object'){
+  ['declaredGoatIds','silverTierIds','bronzeTierIds','ownedGameIds','cosmicHorrorDeclaredIds'].forEach(function(k){if(k in p)p[k]=list(p[k]);});
+  ['ratings','ownedMedia','ownedBooksExtra'].forEach(function(k){if(k in p)p[k]=keyed(p[k]);});
+ }
+ var wl=keyed(watchlist);
+ return {profile:p,watchlist:wl,changed:changed};
+}
+
 /* Where a work's two reception numbers come from, worded for the cards (RUBRIC.md "Reception
    fields"). Film and TV audience scores are IMDb's user rating x10, stamped per record as
    metrics.audienceSrc (scripts/apply-imdb-audience.js); a work IMDb has no title for carries

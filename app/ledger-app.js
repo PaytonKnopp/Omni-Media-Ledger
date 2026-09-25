@@ -60,6 +60,23 @@ if(PROFILE_FROM_STORAGE&&PERSONAL_PROFILE.bookAffinity&&!PERSONAL_PROFILE.rating
  PERSONAL_PROFILE.ratingsMigratedFromBookAffinity=true;
  try{localStorage.setItem('omniLedgerProfile',JSON.stringify(PERSONAL_PROFILE));}catch(e){console.warn('omniLedgerProfile failed',e);}
 }
+/* Ten duplicate records were merged (RETIRED_WORK_IDS in app/format.js): a saved profile that
+   rated, tiered or owned a retired id carries that onto the record that was kept. Runs every boot
+   (it is a no-op once nothing retired remains), writes back only when something moved, and sends
+   the matching media_status changes -- the retired id's row deleted, the kept one's upserted -- so
+   the normalized table cannot resurrect a retired id through rebuildProfileFromMediaStatus. The
+   profile blob itself syncs through the ordinary localStorage write. The watchlist is remapped
+   where it is read, below. */
+if(PROFILE_FROM_STORAGE){
+ const remapped=remapRetiredIds(PERSONAL_PROFILE,null);
+ if(remapped.changed){
+  const beforeRemap=JSON.parse(JSON.stringify(PERSONAL_PROFILE));
+  Object.keys(PERSONAL_PROFILE).forEach(function(k){delete PERSONAL_PROFILE[k];});
+  Object.assign(PERSONAL_PROFILE,remapped.profile);
+  try{localStorage.setItem('omniLedgerProfile',JSON.stringify(PERSONAL_PROFILE));}catch(e){console.warn('omniLedgerProfile failed',e);}
+  try{if(typeof window.__omniSyncAfterChange==='function')window.__omniSyncAfterChange(diffMediaStatus(beforeRemap,PERSONAL_PROFILE));}catch(e){console.warn('media_status sync for retired ids failed',e);}
+ }
+}
 if(!PROFILE_FROM_STORAGE)PERSONAL_PROFILE.watchlist={c02:1,c78:2,c79:3,c80:4,c81:5,c82:6,c83:7};
 contenders.forEach(c=>{const wl=PERSONAL_PROFILE.watchlist||{};if(wl[c.id])c.watchRank=wl[c.id];});
 
@@ -156,6 +173,8 @@ function applyOwnershipFromProfile(){
 applyOwnershipFromProfile();
 let WL={};
 try{const raw=localStorage.getItem('omniLedgerWatchlist');if(raw)WL=JSON.parse(raw)||{};}catch(e){WL={};}
+// Retired duplicate ids (see the profile remap near the top): move a saved/completed entry onto the kept record.
+{const r=remapRetiredIds(null,WL);if(r.changed){WL=r.watchlist;try{localStorage.setItem('omniLedgerWatchlist',JSON.stringify(WL));}catch(e){console.warn('omniLedgerWatchlist failed',e);}}}
 // The stored profile and watchlist strings this tab last read or wrote -- see adoptStoredState.
 let _profileRawSeen=null,_wlRawSeen=null;
 /* The watchlist saves on the same path as every other edit you make. It used to be the odd one
@@ -5143,9 +5162,10 @@ function handleProfileEditClick(btn){
 const APP_VERSION='1.50.0';
 const CHANGELOG=[
  {v:'1.50.0',date:'2026-09-25',summary:'Film and TV audience scores now come from IMDb, and every card says which scores are sourced and which are estimates.',notes:[
-  'The audience score for 2,512 of the 2,515 films and series is IMDb’s user rating (×10), retrieved 2026-09-25, replacing the old estimates outright. The three IMDb has no title for (the Redux cut of Apocalypse Now, and the classic Looney Tunes and Tom and Jerry shorts) keep their estimate and say why.',
+  'The audience score for 2,502 of the 2,505 films and series is IMDb’s user rating (×10), retrieved 2026-09-25, replacing the old estimates outright. The three IMDb has no title for (the Redux cut of Apocalypse Now, and the classic Looney Tunes and Tom and Jerry shorts) keep their estimate and say why.',
   'Cards label where each number comes from: the audience bar reads “Audience · IMDb” (hover for the /10 rating and the date) or “Audience · est.”, and every critics’ score is marked as an estimate — “Crit ~88” — because no licensed critic source has been applied yet. Games’ and books’ audience scores are estimates too, and say so.',
-  'Match scores move by a point or two on most films and series. The biggest shifts: recent franchise sequels the estimates rated near the top (Wakanda Forever, Black Widow, Scream VI, Fast X) drop to where IMDb’s users put them, and long-running dramas the estimates undersold (Game of Thrones, Westworld, Watchmen, Silo) rise.'
+  'Match scores move by a point or two on most films and series. The biggest shifts: recent franchise sequels the estimates rated near the top (Wakanda Forever, Black Widow, Scream VI, Fast X) drop to where IMDb’s users put them, and long-running dramas the estimates undersold (Game of Thrones, Westworld, Watchmen, Silo) rise.',
+  'Ten films and series that were listed twice (Heat, Drive, 12 Angry Men, Twelve Monkeys, The Ladykillers, Hairspray, The Italian Job, Gone in 60 Seconds, The Color Purple, Demon Slayer) now appear once. Anything you had rated, tiered, owned or added to your watchlist on the second copy moves to the one that stays.'
  ]},
  {v:'1.49.1',date:'2026-09-25',summary:'The ✕ “not interested” button is gone.',notes:[
   'Cards and GOAT Profile recommendations no longer have a ✕ for “not interested”, nothing is hidden from your lists for it, and it no longer lowers your match for similar titles. Anything you had passed on is back where it was. The ✕ on a GOAT Profile recommendation is the plain “hide from this list” again.'
