@@ -60,6 +60,23 @@ if(PROFILE_FROM_STORAGE&&PERSONAL_PROFILE.bookAffinity&&!PERSONAL_PROFILE.rating
  PERSONAL_PROFILE.ratingsMigratedFromBookAffinity=true;
  try{localStorage.setItem('omniLedgerProfile',JSON.stringify(PERSONAL_PROFILE));}catch(e){console.warn('omniLedgerProfile failed',e);}
 }
+/* Ten duplicate records were merged (RETIRED_WORK_IDS in app/format.js): a saved profile that
+   rated, tiered or owned a retired id carries that onto the record that was kept. Runs every boot
+   (it is a no-op once nothing retired remains), writes back only when something moved, and sends
+   the matching media_status changes -- the retired id's row deleted, the kept one's upserted -- so
+   the normalized table cannot resurrect a retired id through rebuildProfileFromMediaStatus. The
+   profile blob itself syncs through the ordinary localStorage write. The watchlist is remapped
+   where it is read, below. */
+if(PROFILE_FROM_STORAGE){
+ const remapped=remapRetiredIds(PERSONAL_PROFILE,null);
+ if(remapped.changed){
+  const beforeRemap=JSON.parse(JSON.stringify(PERSONAL_PROFILE));
+  Object.keys(PERSONAL_PROFILE).forEach(function(k){delete PERSONAL_PROFILE[k];});
+  Object.assign(PERSONAL_PROFILE,remapped.profile);
+  try{localStorage.setItem('omniLedgerProfile',JSON.stringify(PERSONAL_PROFILE));}catch(e){console.warn('omniLedgerProfile failed',e);}
+  try{if(typeof window.__omniSyncAfterChange==='function')window.__omniSyncAfterChange(diffMediaStatus(beforeRemap,PERSONAL_PROFILE));}catch(e){console.warn('media_status sync for retired ids failed',e);}
+ }
+}
 if(!PROFILE_FROM_STORAGE)PERSONAL_PROFILE.watchlist={c02:1,c78:2,c79:3,c80:4,c81:5,c82:6,c83:7};
 contenders.forEach(c=>{const wl=PERSONAL_PROFILE.watchlist||{};if(wl[c.id])c.watchRank=wl[c.id];});
 
@@ -74,22 +91,22 @@ if(!PROFILE_FROM_STORAGE)PERSONAL_PROFILE.ownedBookIdCeiling=0;
 let OWNED_BOOK_ID_CEILING=PERSONAL_PROFILE.ownedBookIdCeiling||0;
 if(!PROFILE_FROM_STORAGE)PERSONAL_PROFILE.ownedGameIds=['g45'];
 const ALL=[
- ...movies.map(m=>({kind:'movie',id:m.id,title:m.title,year:m.year,creator:m.creator,org:m.studio,span:m.runtime+' min',mins:m.runtime,genres:m.genres,crit:m.metrics.criticalScore,aud:m.metrics.audienceScore,
+ ...movies.map(m=>({kind:'movie',id:m.id,title:m.title,year:m.year,creator:m.creator,org:m.studio,span:m.runtime+' min',mins:m.runtime,genres:m.genres,crit:m.metrics.criticalScore,aud:m.metrics.audienceScore,audRaw:m.metrics.audienceScore,audSrc:m.metrics.audienceSrc||null,
   tech:Math.round((m.physicalMediaFidelity.transferFidelity+m.physicalMediaFidelity.audioSoundscape+m.physicalMediaFidelity.cinematographyScore)/3),
   dread:m.atmosphericDreadIndex,myst:m.ontologicalComplexity,warmth:m.emotionalWarmth,comedy:m.comicIntent,beauty:m.aestheticBeauty,format:m.contextTags.formatType,vibe:m.contextTags.vibeTime,just:m.contextTags.justification,
   fid:[['4K Transfer',m.physicalMediaFidelity.transferFidelity],['Audio Soundscape',m.physicalMediaFidelity.audioSoundscape],['Cinematography',m.physicalMediaFidelity.cinematographyScore]],
   plats:[m.studio],provRaw:m.prov,owned:!!m.owned,physFormat:m.physFormat||(m.owned?'4K':null)})),
- ...tvShows.map(t=>({kind:'tv',id:t.id,title:t.title,year:t.year,creator:t.creator,org:t.networkStreamer,span:t.totalSeasons+(t.totalSeasons===1?' season':' seasons'),genres:t.genres,crit:t.metrics.criticalScore,aud:t.metrics.audienceScore,
+ ...tvShows.map(t=>({kind:'tv',id:t.id,title:t.title,year:t.year,creator:t.creator,org:t.networkStreamer,span:t.totalSeasons+(t.totalSeasons===1?' season':' seasons'),genres:t.genres,crit:t.metrics.criticalScore,aud:t.metrics.audienceScore,audRaw:t.metrics.audienceScore,audSrc:t.metrics.audienceSrc||null,
   tech:Math.round((t.physicalMediaFidelity.transferFidelity+t.physicalMediaFidelity.audioSoundscape+t.physicalMediaFidelity.cinematographyScore)/3),
   dread:t.atmosphericDreadIndex,myst:t.ontologicalComplexity,warmth:t.emotionalWarmth,comedy:t.comicIntent,beauty:t.aestheticBeauty,format:t.formats.structuralType,vibe:t.contextTags.vibeTime,just:t.contextTags.justification,
   fid:[['Master Transfer',t.physicalMediaFidelity.transferFidelity],['Audio Soundscape',t.physicalMediaFidelity.audioSoundscape],['Cinematography',t.physicalMediaFidelity.cinematographyScore]],
   plats:[t.networkStreamer],provRaw:t.prov,owned:!!t.owned,physFormat:t.physFormat||(t.owned?'Box Set':null)})),
- ...videoGames.map(g=>({kind:'game',id:g.id,title:g.title,year:g.year,creator:g.creator,org:g.platformAvailability.join(' · '),span:'~'+g.averagePlaytime+' hrs',genres:g.genres,crit:g.metrics.criticalScore,aud:g.metrics.audienceScore,
+ ...videoGames.map(g=>({kind:'game',id:g.id,title:g.title,year:g.year,creator:g.creator,org:g.platformAvailability.join(' · '),span:'~'+g.averagePlaytime+' hrs',genres:g.genres,crit:g.metrics.criticalScore,aud:g.metrics.audienceScore,audRaw:g.metrics.audienceScore,audSrc:null,
   tech:Math.round((g.engineeringFidelity.engineGraphicsPerformance+g.engineeringFidelity.artDirection)/2),
   dread:g.immersionTensionIndex,myst:g.systemsComplexity,warmth:g.emotionalWarmth,comedy:g.comicIntent,beauty:g.aestheticBeauty,format:'Interactive',vibe:g.contextTags.vibeTime,just:g.contextTags.justification,
   fid:[['Engine & Performance',g.engineeringFidelity.engineGraphicsPerformance],['Art Direction',g.engineeringFidelity.artDirection]],
   plats:g.platformAvailability.slice(),provRaw:g.prov,owned:PERSONAL_PROFILE.ownedGameIds&&PERSONAL_PROFILE.ownedGameIds.includes(g.id),physFormat:null})),
- ...books.map(bk=>({kind:'book',id:bk.id,title:bk.title,year:bk.year,creator:bk.creator,org:bk.publisher,span:bk.pages+' pages',genres:bk.genres,crit:bk.metrics.criticalScore,aud:bk.metrics.audienceScore,
+ ...books.map(bk=>({kind:'book',id:bk.id,title:bk.title,year:bk.year,creator:bk.creator,org:bk.publisher,span:bk.pages+' pages',genres:bk.genres,crit:bk.metrics.criticalScore,aud:bk.metrics.audienceScore,audRaw:bk.metrics.audienceScore,audSrc:null,
   tech:Math.round((bk.craft.proseCraft+bk.craft.ideaDensity)/2),
   dread:bk.atmosphericDreadIndex,myst:bk.ontologicalComplexity,warmth:bk.emotionalWarmth,comedy:bk.comicIntent,beauty:bk.aestheticBeauty,format:bk.contextTags.formatType,vibe:bk.contextTags.vibeTime,just:bk.contextTags.justification,
   fid:[['Prose Craft',bk.craft.proseCraft],['Idea Density',bk.craft.ideaDensity],['Edition Quality',bk.format==='Deluxe'?95:bk.format==='Hardcover'?85:75]],
@@ -156,6 +173,8 @@ function applyOwnershipFromProfile(){
 applyOwnershipFromProfile();
 let WL={};
 try{const raw=localStorage.getItem('omniLedgerWatchlist');if(raw)WL=JSON.parse(raw)||{};}catch(e){WL={};}
+// Retired duplicate ids (see the profile remap near the top): move a saved/completed entry onto the kept record.
+{const r=remapRetiredIds(null,WL);if(r.changed){WL=r.watchlist;try{localStorage.setItem('omniLedgerWatchlist',JSON.stringify(WL));}catch(e){console.warn('omniLedgerWatchlist failed',e);}}}
 // The stored profile and watchlist strings this tab last read or wrote -- see adoptStoredState.
 let _profileRawSeen=null,_wlRawSeen=null;
 /* The watchlist saves on the same path as every other edit you make. It used to be the odd one
@@ -588,6 +607,10 @@ function gmBreakdownHTML(it){
  var provColor=ps.facts==='sourced'?'#4ade80':ps.facts==='edition-dependent'?'#fbbf24':ps.facts==='corroborated'?'#60a5fa':'#94a3b8';
  var prov='<span title="'+provTitle+'" style="color:'+provColor+'">'+provLabel+'</span>'
   +(ps.indices==='rubric-v1'?'<span class="text-slate-600"> \u00b7 indices rubric v1</span>':'');
+ // Reception is not covered by the facts stamp above -- say where each of the two numbers came from.
+ var rsrc=receptionSourceOf(it.kind,it.audSrc,it.audRaw);
+ prov+='<span class="text-slate-600"> \u00b7 </span><span title="'+esc(rsrc.aud.title)+'" style="color:'+(rsrc.aud.sourced?'#4ade80':'#94a3b8')+'">'+(rsrc.aud.sourced?'\u25c9 Audience: IMDb':'\u25cb Audience: estimate')+'</span>'
+  +'<span class="text-slate-600"> \u00b7 </span><span title="'+esc(rsrc.crit.title)+'" style="color:#94a3b8">\u25cb Critics: estimate</span>';
  body+='<div class="text-[9px] mt-1.5">'+prov+'</div>';
  return '<div class="mt-2 pt-2 border-t border-slate-800/50">'+head+body+'</div>';
 }
@@ -602,8 +625,9 @@ function summaryHTML(it){const k=KM[it.kind];
  // Standout traits line
  let line2=traits.length?'Stands out for its '+traits.join(', ')+'.':'';
  // Reception + fit
- const recep='Critics '+(it.crit>=90?'adore it':it.crit>=80?'rate it highly':it.crit>=70?'regard it well':'are mixed')+' ('+it.crit+'/100)';
- const aud='audiences '+(it.aud>=90?'love it':it.aud>=80?'rate it highly':it.aud>=70?'like it':'are split')+' ('+it.aud+'/100).';
+ const rsrc=receptionSourceOf(it.kind,it.audSrc,it.audRaw);
+ const recep='Critics '+(it.crit>=90?'adore it':it.crit>=80?'rate it highly':it.crit>=70?'regard it well':'are mixed')+' ('+it.crit+'/100, estimated)';
+ const aud='audiences '+(it.aud>=90?'love it':it.aud>=80?'rate it highly':it.aud>=70?'like it':'are split')+' ('+(rsrc.aud.sourced?rsrc.aud.phrase:it.aud+'/100, '+rsrc.aud.phrase)+').';
  // Taste-fit note based on personal GOAT match -- worded as a match for this person's taste only
  // when the app knows something about it (tasteBasis), and saying what that is when it does.
  const basis=tasteBasis();
@@ -688,7 +712,7 @@ function tierRowHTML(it,roomy){
  +'<span class="w-px h-4 mx-0.5" style="background:#334155"></span>'
  +seg('own','◆','Owned','Toggle whether this is in your owned collection',it.owned,'#4ade80',true)
  +doneSegHTML(it,roomy)
- +(roomy?'<span class="ml-auto flex items-center gap-3 text-[10.5px] text-slate-500 shrink-0"><span title="'+esc(matchTitle(it))+'">★ <b style="color:#fbbf24">'+it.gm+'</b></span><span title="Critical score /100">Crit <b class="text-slate-300">'+it.crit+'</b></span><span title="Audience score /100">Aud <b class="text-slate-300">'+it.aud+'</b></span></span>':'')
+ +(roomy?'<span class="ml-auto flex items-center gap-3 text-[10.5px] text-slate-500 shrink-0"><span title="'+esc(matchTitle(it))+'">★ <b style="color:#fbbf24">'+it.gm+'</b></span><span title="'+esc(receptionSourceOf(it.kind,it.audSrc,it.audRaw).crit.title)+'">Crit <b class="text-slate-300">~'+it.crit+'</b></span><span title="'+esc(receptionSourceOf(it.kind,it.audSrc,it.audRaw).aud.title)+'">Aud <b class="text-slate-300">'+(receptionSourceOf(it.kind,it.audSrc,it.audRaw).aud.sourced?'':'~')+it.aud+'</b></span></span>':'')
  +rateBtn
  +'</div>';
 }
@@ -722,7 +746,9 @@ function matchRingHTML(it,color,size){
  return '<span class="matchRing shrink-0" role="img" aria-label="'+t+'" title="'+t+'">'+ring(it.gm,color,size,personal)+'<span class="matchRingLbl'+(personal?' isMatch':'')+'">'+matchWord()+'</span></span>';
 }
 function critChipHTML(it){
- return '<span class="chip critChip" title="Critics\u2019 score '+it.crit+'/100 \u2014 put on one scale across films, series, games and books; an estimate for most works until a licensed source is applied">Crit '+it.crit+'</span>';
+ // "~" marks the number as an estimate on the card itself, not only in the tooltip: no critic
+ // score has a licensed source yet (RUBRIC.md "Reception fields").
+ return '<span class="chip critChip" title="'+esc(receptionSourceOf(it.kind,it.audSrc,it.audRaw).crit.title.replace('Critics\u2019 score','Critics\u2019 score '+it.crit+'/100'))+'">Crit ~'+it.crit+'</span>';
 }
 function cardHTML(it){const k=KM[it.kind];
  return '<div class="panel resultCard overflow-hidden hover:border-slate-600/80 transition-colors fade-in relative flex flex-col h-full">'
@@ -744,7 +770,7 @@ function cardHTML(it){const k=KM[it.kind];
 function cardPanelsHTML(it){
  return summaryHTML(it)
  +'<div class="detail hidden border-t border-slate-800/80 px-3.5 py-3.5 bg-[#0b1322]/60">'
- +'<div class="fidGrid">'+it.fid.map(f=>microBar2(f[0],f[1])).join('')+microBar2('Audience Score',it.aud)+microBar2('Critical Score',it.crit)+'</div>'
+ +'<div class="fidGrid">'+it.fid.map(f=>microBar2(f[0],f[1])).join('')+(function(){const rs=receptionSourceOf(it.kind,it.audSrc,it.audRaw);return '<div title="'+esc(rs.aud.title)+'">'+microBar2('Audience \u00b7 '+rs.aud.short,it.aud)+'</div><div title="'+esc(rs.crit.title)+'">'+microBar2('Critics \u00b7 '+rs.crit.short,it.crit)+'</div>';})()+'</div>'
  +'<div class="idxGrid">'+[['\ud83c\udfaf GOAT Match',it.gm,'#fbbf24'],['\u25c9 Cosmic Horror',it.ch,'#c084fc'],['Soundtrack',it.snd,'#7dd3fc'],['4K Reference',it.ref,'#818cf8'],['Emotional',it.emo,'#f0abfc'],['Awe / Spectacle',it.awe,'#fbbf24'],['Comfort',it.cozy,'#34d399'],['Performances',it.perf,'#fda4af'],['Iconicness',it.icon,'#fcd34d'],['Scariest',it.scary,'#f87171'],['Realism',it.real,'#86efac'],['Reality-Altering',it.reality,'#c4b5fd'],['Genuine Shock',it.shock,'#fb923c'],['Scientific',it.sci,'#67e8f9'],['Funniest',it.funny,'#fde047'],['Historically Accurate',it.hist,'#a3e635'],['Vibe / Atmosphere',it.vibe2,'#e879f9']].map(r=>'<div class="flex flex-col gap-0.5"><div class="flex items-baseline justify-between gap-2"><span class="lbl leading-tight" style="color:'+r[2]+'">'+r[0]+'</span><span class="text-[10px] tabular-nums shrink-0" style="color:'+r[2]+'">'+r[1]+'</span></div><div class="bar"><i style="width:'+r[1]+'%;background:'+r[2]+'"></i></div></div>').join('')+'</div>'
  +gmBreakdownHTML(it)
  +'<p class="text-[11px] text-slate-300 mt-2.5 italic">&ldquo;'+esc(it.just)+'&rdquo;</p>'
@@ -5133,8 +5159,14 @@ function handleProfileEditClick(btn){
    No longer surfaced in the header (it fell too far behind real changes to be worth showing), but
    kept here as the project's own record. Bump APP_VERSION and add a CHANGELOG entry whenever a
    change is worth remembering; cosmetic tweaks don't need a bump. */
-const APP_VERSION='1.49.1';
+const APP_VERSION='1.50.0';
 const CHANGELOG=[
+ {v:'1.50.0',date:'2026-09-25',summary:'Film and TV audience scores now come from IMDb, and every card says which scores are sourced and which are estimates.',notes:[
+  'The audience score for 2,502 of the 2,505 films and series is IMDb’s user rating (×10), retrieved 2026-09-25, replacing the old estimates outright. The three IMDb has no title for (the Redux cut of Apocalypse Now, and the classic Looney Tunes and Tom and Jerry shorts) keep their estimate and say why.',
+  'Cards label where each number comes from: the audience bar reads “Audience · IMDb” (hover for the /10 rating and the date) or “Audience · est.”, and every critics’ score is marked as an estimate — “Crit ~88” — because no licensed critic source has been applied yet. Games’ and books’ audience scores are estimates too, and say so.',
+  'Match scores move by a point or two on most films and series. The biggest shifts: recent franchise sequels the estimates rated near the top (Wakanda Forever, Black Widow, Scream VI, Fast X) drop to where IMDb’s users put them, and long-running dramas the estimates undersold (Game of Thrones, Westworld, Watchmen, Silo) rise.',
+  'Ten films and series that were listed twice (Heat, Drive, 12 Angry Men, Twelve Monkeys, The Ladykillers, Hairspray, The Italian Job, Gone in 60 Seconds, The Color Purple, Demon Slayer) now appear once. Anything you had rated, tiered, owned or added to your watchlist on the second copy moves to the one that stays.'
+ ]},
  {v:'1.49.1',date:'2026-09-25',summary:'The ✕ “not interested” button is gone.',notes:[
   'Cards and GOAT Profile recommendations no longer have a ✕ for “not interested”, nothing is hidden from your lists for it, and it no longer lowers your match for similar titles. Anything you had passed on is back where it was. The ✕ on a GOAT Profile recommendation is the plain “hide from this list” again.'
  ]},

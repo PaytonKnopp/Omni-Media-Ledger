@@ -68,7 +68,7 @@ Everything currently in the app is functional. Verified by an automated suite of
 
 2. ~~**Tailwind CDN is a single point of failure.**~~ Fixed — see "Made genuinely offline" below. Tailwind is now a compiled stylesheet committed to `index.html`, not a runtime CDN dependency. Chart.js's CDN is still a soft dependency, but it already degrades gracefully by design.
 
-3. **Facts are mostly sourced; reception scores and the subjective indices are not, by design.** (Recounted 2026-09-23; the "658 verified / 642 estimated" figure that used to be here dates from the 1,300-work corpus and the retired `PROV_CEIL` badge.) Three separate things, often conflated: **(a) the subjective indices** (dread, soundtrack, comfort, …) are judgement by definition — all 5,024 works are scored against RUBRIC.md (`indices: rubric-v1`) with recorded evidence, and no external source exists to verify them further. **(b) Facts** — year, runtime/pages, creator, studio/network/platforms — carry a per-record `prov.facts` stamp: movies 1,834 of 2,012 sourced or corroborated (125 edition-dependent, 53 estimated); TV 398 of 503 (105 estimated); books 549 of 2,001 (1,037 edition-dependent, which is the honest label for a page count, 415 estimated); **games 0 of 508 — all estimated**, because IGDB and Wikidata are unreachable from the cloud sessions this was built in. These fields are mostly filter-only and carry almost no score leverage (see QUALITY_PASS.md's leverage ranking). **(c) Reception** (`criticalScore`/`audienceScore`) is not covered by the facts stamp at all: every work's values are best estimates, deferred by owner ruling until a licensed source can be applied uniformly (RUBRIC.md "Reception fields"). A 12-point error moves ★ GOAT Match by ~3.
+3. **Facts are mostly sourced; reception scores and the subjective indices are not, by design.** (Recounted 2026-09-23; the "658 verified / 642 estimated" figure that used to be here dates from the 1,300-work corpus and the retired `PROV_CEIL` badge.) Three separate things, often conflated: **(a) the subjective indices** (dread, soundtrack, comfort, …) are judgement by definition — all 5,014 works are scored against RUBRIC.md (`indices: rubric-v1`) with recorded evidence, and no external source exists to verify them further. **(b) Facts** — year, runtime/pages, creator, studio/network/platforms — carry a per-record `prov.facts` stamp: movies 1,829 of 2,003 sourced or corroborated (124 edition-dependent, 50 estimated); TV 398 of 502 (104 estimated); books 549 of 2,001 (1,037 edition-dependent, which is the honest label for a page count, 415 estimated); **games 0 of 508 — all estimated**, because IGDB and Wikidata are unreachable from the cloud sessions this was built in. These fields are mostly filter-only and carry almost no score leverage (see QUALITY_PASS.md's leverage ranking). **(c) Reception** (`criticalScore`/`audienceScore`) is not covered by the facts stamp; each reception value carries its own source stamp instead (RUBRIC.md "Reception fields"). **Film and TV `audienceScore` is sourced** (2026-09-25, Phase 49): IMDb's user rating ×10 for 2,502 of 2,505 works, each stamped `metrics.audienceSrc:{src:"IMDb",id,checked}`; the three IMDb has no title for (`m1879` Apocalypse Now Redux, `t315` Looney Tunes, `t316` Tom and Jerry) keep their estimate, stamped `{src:"estimated",why}`. **Still best estimates:** every `criticalScore` (no licensed critic source has been applied to any medium) and games' and books' `audienceScore` — the cards mark these "est." / "~". A 12-point error moves ★ GOAT Match by ~3.
 
 4. **The Contenders Ledger has a shelf life.** Release windows drift constantly. Two entries currently carry windows at or near the present date. This tab needs periodic manual review in a way the rest of the app does not. Contender data was web-verified at time of writing.
 
@@ -1818,6 +1818,86 @@ and the moderate-no evidence in `buildTasteModel`. The ✕ on a GOAT Profile rec
 list-only hide again for every entry. A `notInterested` list already saved in a profile is inert and
 is dropped by the next edit (`mutateProfile`). Changelog 1.49.1.
 
+## Phase 49 — Film and TV audience scores come from IMDb
+
+`metrics.audienceScore` for movies and TV is now IMDb's user rating ×10 (`title.ratings.tsv.gz`,
+retrieved 2026-09-25), replacing the estimates outright — never averaged with them — per
+DATA_RUNBOOK.md "Phase R". Changelog 1.50.0.
+
+**How each work was tied to IMDb.** `scripts/measure-imdb-gap.js` matched 2,462 works through TMDB
+(exact normalised title, ±1 year, most-voted candidate); every one of those ids was then checked
+against IMDb's own `title.basics.tsv.gz` for title, type and year. The 53 TMDB could not match are
+resolved by hand in `evidence/imdb-id-overrides.json`, each pick looked up in `title.basics` and
+recorded with IMDb's own title, type and year beside it for review. Three have no IMDb title and
+keep their estimate, stamped with the reason: the Redux cut of *Apocalypse Now* (IMDb rates only the
+1979 film), and the *Looney Tunes* and *Tom and Jerry* theatrical shorts (IMDb lists each short, not
+the series). `scripts/apply-imdb-audience.js` wrote the values (1,937 movie and 474 TV values
+changed, mean −5.3) and `evidence/imdb-audience-applied-2026-09-25.json` is the receipt: old and new
+value, IMDb id, rating and vote count for every work. `validate-corpus.js` now fails a movie or TV
+record without an `audienceSrc` stamp, an `estimated` stamp without a reason, or a stamp on a game or
+book (no audience source is applied there).
+
+**Cards say what is sourced.** The detail bars read "Audience · IMDb" (hover: the /10 rating, the
+IMDb id and the date) or "Audience · est.", and "Critics · est."; the critics' chip reads
+"Crit ~88"; the summary sentence says "audiences love it (IMDb 8.3/10)" or "(88/100, estimated)"; the "Why this
+match?" provenance line adds "Audience: IMDb / estimate · Critics: estimate". The numbers shown are
+still the per-medium-normalised ones the engine scores with, which is why the IMDb label also gives
+the raw rating.
+
+**What moved** (score-snapshot diffs, blank and PK profiles):
+
+- *Magnitude.* On a blank profile ★ GOAT Match moved on 1,158 of 2,012 films (at most ±5) and 299
+  of 503 series (at most ±10, one work), net ≈0. 92 of the overall top 100 are unchanged, and 46 of
+  each medium's top 50. On the PK profile, whose boosts dominate (76% of variance), the top 100
+  keeps 98 and no film moves more than 2.
+- *Franchise films fall.* The estimates put recent franchise releases near the top of the audience
+  scale (90–95); IMDb's users put them at 5.7–7.6. Rank among 2,012 films on a blank profile:
+  *Black Panther: Wakanda Forever* 325→653, *Bad Boys for Life* 737→1,020, *Creed III* 800→1,074,
+  *Furious 7* 802→1,077, *Black Widow* 1,011→1,267, *Scream VI* 1,013→1,270, *Fast X*
+  1,024→1,284, *Saw X* 1,154→1,368. Well-liked recent films drop less (*Sinners* 14→41,
+  *Godzilla Minus One* 62→107). The other direction: *The Last Jedi* 444→211 and *Ad Astra* 391→178,
+  which the estimates had at 46–49.
+- *Prestige TV rises.* The estimates had long-running dramas in the 66–80 band; IMDb has them at
+  8.2–9.2. Rank among 503 series: *Game of Thrones* 77→38, *Westworld* 150→94, *Fargo* 102→76,
+  *The Bear* 162→128, *Black Mirror* 248→210, and the two the estimates had lowest — *Watchmen*
+  188→60 and *The Curse* 417→308 (audience 33→79 and 15→61 once normalised). Some recent series
+  the estimates loved come down a little: *Adolescence* 7→9, *Undone* 20→26, *Reacher* 145→190.
+- *Games and books move too, uniformly.* No game or book value changed, but `normalizeReceptionByKind`
+  maps every medium onto the whole corpus's audience mean and spread, and that target moved (film/TV
+  audience dropped 5 points on average). Games' and books' normalised audience shifts by −2.6 and
+  −2.8 on average, their order within each medium is untouched (zero flips), and their ★ moves by
+  rounding only (±1).
+
+**Corpus metrics** (`corpus-metrics.js`). Recency bias is unchanged: blank profile movies
+−0.622→−0.627, TV −0.589→−0.611; PK −0.534→−0.532 and −0.536→−0.539. Audience carries only 0.2 of
+`gmBase`, and the bias lives in the indices and boosts. TV edged worse because the last-added TV
+batches are sitcoms and children's series, which IMDb rates lower than the estimates did (last
+decile's audience mean 80.5→73). The audience field's own batch drift fell for films (decile spread
+18.9→14.7) and rose for TV (8.4→11.7) — now reflecting what those batches are, not how generously
+they were scored. Hand-scored-block concentration in the blank top 100: 55→57.
+
+**Recommendation quality** (`npm run rec-quality`), all six gates still pass. PK Sample: the engine's
+median hidden favorite improves from rank 96 to 73 (hit@100 unchanged at 53%); with hand-set boosts,
+hit@100 64%→62% and hit@250 77%→79%. Personas pooled: mean percentile 4.7%→4.9%. The comedy lover is
+the one that slips (median rank 362→446): its favorites are broad comedies whose IMDb ratings are
+4–8 points under the old estimates, so each hidden one lost about a point against dramas.
+
+**Duplicates merged.** The new check that two records never share an IMDb title found 10 films and
+series entered twice under two ids: *Heat*/*Heat (1995)*, *Drive*/*Drive (2011)*, *12 Angry
+Men*/*Twelve Angry Men*, *Twelve Monkeys*/*12 Monkeys*, *The Ladykillers*, *Hairspray*, *The Italian
+Job*, *Gone in 60 Seconds*, *The Color Purple*, and *Demon Slayer*/*Demon Slayer: Kimetsu no
+Yaiba*. Each pair keeps the record with the stronger fact provenance (the lower id on a tie), so the
+original stays in nine and the corroborated *Kimetsu no Yaiba* record (`t357`) replaces the
+estimated `t140` in the tenth. The corpus is now 5,014 works (2,003 films, 502 series). The removed
+ids are listed in `RETIRED_WORK_IDS` (`app/format.js`); `remapRetiredIds()` runs at boot and moves
+anything a saved profile or watchlist held on a retired id — a tier, a rating, ownership, a
+watchlist or completed entry — onto the kept record, with the kept record's own value winning a
+clash, and sends the matching `media_status` delete/upsert so the normalized table cannot bring a
+retired id back through the recovery path. Profiles arriving by Import or from the cloud go through
+the same boot. `validate-corpus.js` fails if a retired id reappears in the corpus or points at a
+record that no longer exists; `test/retired-ids.js` (in `test-fast`) covers the remap. The snapshot
+numbers above were measured before the merge, on the 5,024-work corpus.
+
 ## Ideas / next steps
 
 Roughly in order of value:
@@ -1827,7 +1907,7 @@ Roughly in order of value:
 3. ~~**Refresh the contenders ledger on an actual schedule.**~~ Done — see Phase 43 above. All 50/50 now verified (up from 20/50 in Phase 9), and a cron-scheduled Claude Code Remote Routine fires on every equinox/solstice to redo the refresh from scratch and open a PR. Genuine automation was impossible from inside the static file itself, but not from the platform hosting the work.
 4. ~~**Cross-medium pairings.**~~ Done — see Phase 6 above.
 5. ~~**Split the dataset out of `index.html`.**~~ Done — see Phase 8 above and the decision note above for the `file://`/CORS reasoning.
-6. **Raise data provenance.** Mostly done for facts; see Known limitations #3 above for the current counts (recounted 2026-09-23). What remains, in order of value: **reception scores** for all four mediums (the only part with real score leverage, ~3 GOAT Match points per 12-point error — IMDb's bulk `title.ratings.tsv.gz` for film/TV audience, IGDB's aggregated rating for games; one source per field, applied uniformly, never averaged across catalogues), then **game facts** (508 estimated; `scripts/fetch-facts.js` already has an IGDB adapter). Both need network access to those hosts, which the cloud sessions do not have — run `fetch-facts` locally with free keys per DATA_RUNBOOK.md, or allow the hosts in the environment's network settings. Search-engine summaries are evidence grade B and are deliberately not used to overwrite estimates. Low priority: the leverage is small next to the taste signals, and nothing here is wrong so much as unconfirmed.
+6. **Raise data provenance.** Mostly done for facts; see Known limitations #3 above for the current counts (recounted 2026-09-23). **Film/TV audience scores: done** (Phase 49 — IMDb for 2,502 of 2,505, the other three labelled estimates). What remains, in order of value: the other **reception scores** — games' audience and critic scores (IGDB's aggregated rating), books' (no aggregator exists for most; decide whether they stay labelled estimates), and film/TV critic scores (RT and Metacritic have no licensed bulk source, so these may stay estimates for good); one source per field, applied uniformly, never averaged across catalogues — then **game facts** (508 estimated; `scripts/fetch-facts.js` already has an IGDB adapter). IGDB needs a Twitch client id/secret, which the cloud sessions do not have — run `fetch-facts` locally with free keys per DATA_RUNBOOK.md, or add them to the environment. Refresh the IMDb values by re-running Phase R of DATA_RUNBOOK.md with a newer `title.ratings.tsv.gz`. Search-engine summaries are evidence grade B and are deliberately not used to overwrite estimates. Low priority: the leverage is small next to the taste signals, and nothing here is wrong so much as unconfirmed.
 7. ~~**Export/import of `localStorage`.**~~ Done, fully — see Phase 5 above. Export/Import now bundle `omniLedgerWatchlist`, `omniLedgerTheme`, and `omniLedgerDensity` alongside the profile; a single exported file is a complete snapshot of a person.
 8. ~~**A real "blank first run" for a friend's copy.**~~ Done — see Phase 3 above. First load in any browser now asks (quick-rate / search & pick / sample / blank / import) via a blocking gate rather than silently inheriting Payton's defaults.
 9. ~~**Genericize `goatProfile.recs`.**~~ Done for Movies/Books/TV Series/Video Games (Phase 4) and for Directors (Phase 5, genuinely computed from corpus filmography). Actors/Composers/Cinematographers are corpus-linked where possible (Phase 7); Music Artists/YouTube use genre+vibe overlap (Phase 5, refined Phase 8) since no corpus category exists to link them to. Since none of those six ever became a real per-account recommendation (only the score reapplies per account, never the list of names), Phase 44 stopped showing them to anyone but Payton's own account/PK Sample rather than continue presenting them as personalized.

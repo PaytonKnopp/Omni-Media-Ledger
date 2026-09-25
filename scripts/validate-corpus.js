@@ -285,6 +285,81 @@ for (const sec of SECTIONS) {
   detail(bad);
 }
 
+/* ===================== reception source stamps ===================== */
+
+/* RUBRIC.md "Reception fields": every reception value carries its source and retrieval date, and
+   one source applies uniformly per field -- a field that is half sourced is two scales wearing one
+   name. Film and TV audienceScore is IMDb's user rating x10 (scripts/apply-imdb-audience.js), so
+   EVERY movie and TV record must say where its value came from: either
+     audienceSrc:{src:"IMDb", id:"tt...", checked:"YYYY-MM-DD"}
+   or, for a work IMDb genuinely has no title for,
+     audienceSrc:{src:"estimated", why:"..."}  -- the reason is required, so "estimated" can't
+   become a quiet way to skip a work. Critic scores, and games' and books' audience scores, have
+   no source applied yet; a stamp on them would claim one, so none is allowed. */
+{
+  const bad = [];
+  const byImdb = {};
+  let imdb = 0, est = 0;
+  for (const sec of SECTIONS) {
+    const sourced = sec.key === 'movies' || sec.key === 'tvShows';
+    for (const r of (loaded[sec.key] || [])) {
+      const m = r.metrics || {};
+      const extra = Object.keys(m).filter(k => ['criticalScore', 'audienceScore', 'audienceSrc'].indexOf(k) < 0);
+      if (extra.length) bad.push(r.id + ': metrics has unknown keys ' + extra.join(','));
+      const s = m.audienceSrc;
+      if (!sourced) {
+        if (s !== undefined) bad.push(r.id + ': audienceSrc on a ' + sec.key + ' record, but no audience source is applied to that medium');
+        continue;
+      }
+      if (s === undefined) { bad.push(r.id + ' "' + r.title + '": no metrics.audienceSrc -- every movie/TV audience score must name its source'); continue; }
+      if (s === null || typeof s !== 'object' || Array.isArray(s)) { bad.push(r.id + ': audienceSrc is not an object'); continue; }
+      if (s.src === 'IMDb') {
+        imdb++;
+        const x = Object.keys(s).filter(k => ['src', 'id', 'checked'].indexOf(k) < 0);
+        if (x.length) bad.push(r.id + ': audienceSrc has unknown keys ' + x.join(','));
+        if (!/^tt\d{7,}$/.test(String(s.id))) bad.push(r.id + ': audienceSrc.id must be an IMDb id (tt...), got ' + JSON.stringify(s.id));
+        if (!/^\d{4}-\d{2}-\d{2}$/.test(String(s.checked))) bad.push(r.id + ': audienceSrc.checked must be YYYY-MM-DD');
+        (byImdb[s.id] = byImdb[s.id] || []).push(r.id + ' "' + r.title + '"');
+      } else if (s.src === 'estimated') {
+        est++;
+        const x = Object.keys(s).filter(k => ['src', 'why'].indexOf(k) < 0);
+        if (x.length) bad.push(r.id + ': audienceSrc has unknown keys ' + x.join(','));
+        if (typeof s.why !== 'string' || !s.why.trim()) bad.push(r.id + ': audienceSrc is "estimated" but gives no reason (why)');
+      } else {
+        bad.push(r.id + ': audienceSrc.src must be "IMDb" or "estimated", got ' + JSON.stringify(s.src));
+      }
+    }
+  }
+  check('movie/TV audience scores all name their source (' + imdb + ' IMDb, ' + est + ' estimated with a reason)', bad.length === 0);
+  detail(bad);
+  // Two records pointing at one IMDb title is either a duplicate work in the corpus or a mismatch.
+  const shared = Object.entries(byImdb).filter(([, ids]) => ids.length > 1).map(([id, ids]) => id + ': ' + ids.join(', '));
+  if (shared.length) warn('records sharing one IMDb title (a duplicate record, or a wrong match)', shared);
+}
+
+/* ===================== retired duplicate ids ===================== */
+
+/* app/format.js RETIRED_WORK_IDS lists records merged away as duplicates, each pointing at the
+   record it became; saved profiles are remapped through it at boot. A retired id back in the
+   corpus would split a person's rating between two records again, and a retirement pointing at a
+   record that no longer exists would silently drop what it carried. */
+{
+  const src = fs.readFileSync(path.join(ROOT, 'app/format.js'), 'utf8');
+  const m = src.match(/const RETIRED_WORK_IDS=\{[\s\S]*?\n\};/);
+  if (!m) {
+    check('RETIRED_WORK_IDS can be read out of app/format.js', false);
+  } else {
+    const RETIRED = new Function(m[0] + '\nreturn RETIRED_WORK_IDS;')();
+    const ids = new Set(SECTIONS.flatMap(sec => (loaded[sec.key] || []).map(r => r.id)));
+    const back = Object.keys(RETIRED).filter(id => ids.has(id));
+    const dangling = Object.entries(RETIRED).filter(([, to]) => !ids.has(to)).map(([from, to]) => from + ' -> ' + to);
+    check('no retired duplicate id is back in the corpus (' + Object.keys(RETIRED).length + ' retired)', !back.length);
+    detail(back);
+    check('every retired id points at a record that exists', !dangling.length);
+    detail(dangling);
+  }
+}
+
 /* ===================== genre families ===================== */
 
 // GENRE_FAMILIES is the map every family-based surface reads: the Controller's genre filter, the
