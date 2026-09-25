@@ -4241,14 +4241,19 @@ async function runHonestMatchFlow(browser, file) {
     const r = h.querySelector('.matchRing');
     const x = window.byId.get(h.dataset.id);
     return { id: x.id, gm: x.gm, label: r && r.querySelector('.matchRingLbl').textContent, aria: r && r.getAttribute('aria-label'),
-      num: r && r.querySelector('svg text').textContent, crit: (h.querySelector('.critChip') || {}).textContent, xcrit: x.crit };
+      num: r && r.querySelector('svg text').textContent, headReception: !!h.querySelector('.critChip, .audChip'), xcrit: x.crit };
   });
   const blank = await ringOf();
   check('the ring shows the work\'s match number, not its critics\' score', blank.num === String(blank.gm));
-  check('the critics\' score moved to its own labelled chip, marked as an estimate', blank.crit === 'Crit ~' + blank.xcrit);
   check('with nothing personal known, the ring is labelled "Score" and says it is not personalized yet',
     blank.label === 'Score' && /Overall score/.test(blank.aria) && /Not personalized/i.test(blank.aria));
   await ensureFirstCardExpanded(page);
+  const reception = await page.evaluate(() => {
+    const d = document.querySelector('#grid .panel .detail');
+    return { crit: (d.querySelector('.critChip') || {}).textContent, aud: (d.querySelector('.audChip') || {}).textContent };
+  });
+  check('the reception chips live in the expanded card, not the collapsed one; critics\' score marked as an estimate',
+    !blank.headReception && reception.crit === 'Crit ~' + blank.xcrit && /^(IMDb \d+\.\d|Aud ~\d+)$/.test(reception.aud || ''));
   const blankFit = await page.evaluate(() => (document.querySelector('#grid .panel .summaryFace') || {}).innerText || '');
   check('a blank profile\'s card does not claim a match for "your taste"', !/your taste/i.test(blankFit) && /Overall score/.test(blankFit));
   const blankWhys = await page.evaluate(() => ['Movies', 'TV Series', 'Video Games', 'Books'].map(c => {

@@ -712,7 +712,7 @@ function tierRowHTML(it,roomy){
  +'<span class="w-px h-4 mx-0.5" style="background:#334155"></span>'
  +seg('own','◆','Owned','Toggle whether this is in your owned collection',it.owned,'#4ade80',true)
  +doneSegHTML(it,roomy)
- +(roomy?'<span class="ml-auto flex items-center gap-3 text-[10.5px] text-slate-500 shrink-0"><span title="'+esc(matchTitle(it))+'">★ <b style="color:#fbbf24">'+it.gm+'</b></span><span title="'+esc(receptionSourceOf(it.kind,it.audSrc,it.audRaw).crit.title)+'">Crit <b class="text-slate-300">~'+it.crit+'</b></span><span title="'+esc(receptionSourceOf(it.kind,it.audSrc,it.audRaw).aud.title)+'">Aud <b class="text-slate-300">'+(receptionSourceOf(it.kind,it.audSrc,it.audRaw).aud.sourced?'':'~')+it.aud+'</b></span></span>':'')
+ +(roomy?'<span class="ml-auto flex items-center gap-3 text-[10.5px] text-slate-500 shrink-0"><span title="'+esc(matchTitle(it))+'">★ <b style="color:#fbbf24">'+it.gm+'</b></span></span>':'')
  +rateBtn
  +'</div>';
 }
@@ -745,18 +745,25 @@ function matchRingHTML(it,color,size){
  // Only a personal match is drawn as a target: a "Score" is not a match for anyone yet.
  return '<span class="matchRing shrink-0" role="img" aria-label="'+t+'" title="'+t+'">'+ring(it.gm,color,size,personal)+'<span class="matchRingLbl'+(personal?' isMatch':'')+'">'+matchWord()+'</span></span>';
 }
-function critChipHTML(it){
- // "~" marks the number as an estimate on the card itself, not only in the tooltip: no critic
- // score has a licensed source yet (RUBRIC.md "Reception fields").
- return '<span class="chip critChip" title="'+esc(receptionSourceOf(it.kind,it.audSrc,it.audRaw).crit.title.replace('Critics\u2019 score','Critics\u2019 score '+it.crit+'/100'))+'">Crit ~'+it.crit+'</span>';
+/* The two reception chips, shown in the expanded card only -- the collapsed card keeps to what a
+   work is and whether it is yours. A sourced audience score reads as the rating people know
+   ("IMDb 7.7"); anything estimated is marked "~" on the chip itself, not only in the tooltip: no
+   critic score has a licensed source yet (RUBRIC.md "Reception fields"). */
+function receptionChipsHTML(it){
+ const rs=receptionSourceOf(it.kind,it.audSrc,it.audRaw);
+ const aud=rs.aud.sourced
+  ?'<span class="chip audChip" style="color:#4ade80;border-color:#4ade8055" title="'+esc(rs.aud.title)+'">IMDb '+(it.audRaw/10).toFixed(1)+'</span>'
+  :'<span class="chip audChip" title="'+esc(rs.aud.title.replace('Audience score','Audience score '+it.aud+'/100'))+'">Aud ~'+it.aud+'</span>';
+ return '<div class="flex flex-wrap gap-1.5 mb-2.5 receptionChips">'+aud
+  +'<span class="chip critChip" title="'+esc(rs.crit.title.replace('Critics\u2019 score','Critics\u2019 score '+it.crit+'/100'))+'">Crit ~'+it.crit+'</span></div>';
 }
 function cardHTML(it){const k=KM[it.kind];
  return '<div class="panel resultCard overflow-hidden hover:border-slate-600/80 transition-colors fade-in relative flex flex-col h-full">'
  +'<button type="button" class="cardHead w-full text-left p-3.5 flex gap-3 items-start" data-id="'+it.id+'">'
  +matchRingHTML(it,k.c,42)
  +'<div class="flex-1 min-w-0">'
- +'<div class="flex items-center gap-x-2 gap-y-1.5 flex-wrap cardChips"><span class="cardTitle text-[13px] font-semibold text-slate-100 leading-tight hover:text-teal-300 cursor-pointer underline decoration-dotted decoration-slate-600 underline-offset-2" data-flip="'+it.id+'" title="Click for a summary and full breakdown">'+esc(it.title)+'</span><span class="chip" style="color:'+k.c+';border-color:'+k.c+'44">'+k.label+'</span><span class="chip" style="color:#5eead4;border-color:#5eead455">'+esc(it.rating)+'</span>'+critChipHTML(it)+(window._blendActive?'<span class="chip" style="color:#0B0F19;background:#34d399;border-color:#34d399;font-weight:800" title="Weighted blend match">\u2696 '+bespokeScore(it,state).toFixed(0)+'%</span>':'')+(it.chFlag?'<span class="chip" style="color:#0B0F19;background:#c084fc;border-color:#c084fc;font-weight:700">\u25c9 CANON 100</span>':(it.ch>=70?'<span class="chip" style="color:#c084fc;border-color:#c084fc44">\u25c9 '+it.ch+'</span>':''))+(function(){const fr=franchiseOf(it);return fr?'<span class="chip franchiseChip" style="color:#5eead4;border-color:#5eead444" title="Part of the '+esc(fr)+' series">\u2699 '+esc(fr)+'</span>':'';})()+'</div>'
- +'<div class="text-[11px] text-slate-400 mt-1.5 truncate" title="'+esc(it.creator)+' · '+esc(it.org)+'">'+it.year+' · '+esc(it.creator)+' · '+esc(it.span)+'</div>'
+ +'<div class="flex items-center gap-x-2 gap-y-1.5 flex-wrap cardChips"><span class="cardTitle text-[13px] font-semibold text-slate-100 leading-tight hover:text-teal-300 cursor-pointer underline decoration-dotted decoration-slate-600 underline-offset-2" data-flip="'+it.id+'" title="Click for a summary and full breakdown">'+esc(it.title)+'</span><span class="chip" style="color:'+k.c+';border-color:'+k.c+'44">'+k.label+'</span>'+(window._blendActive?'<span class="chip" style="color:#0B0F19;background:#34d399;border-color:#34d399;font-weight:800" title="Weighted blend match">\u2696 '+bespokeScore(it,state).toFixed(0)+'%</span>':'')+(it.chFlag?'<span class="chip" style="color:#0B0F19;background:#c084fc;border-color:#c084fc;font-weight:700">\u25c9 CANON 100</span>':'')+(function(){const fr=franchiseOf(it);return fr?'<span class="chip franchiseChip" style="color:#5eead4;border-color:#5eead444" title="Part of the '+esc(fr)+' series">\u2699 '+esc(fr)+'</span>':'';})()+'</div>'
+ +'<div class="text-[11px] text-slate-400 mt-1.5 truncate" title="'+esc(it.creator)+' · '+esc(it.org)+'">'+it.year+' · '+esc(it.creator)+' · '+esc(it.span)+(it.rating?' · '+esc(it.rating):'')+'</div>'
  +'<div class="mt-2 space-y-1 cardMicro" title="This work\'s 3 strongest indices out of ~19 tracked -- click the card to see all of them">'+frontBars(it)+'</div>'
  +'</div><span class="text-slate-600 text-xs mt-1" aria-hidden="true">&#9662;</span></button>'+wlCornerHTML(it)
  +tierRowHTML(it)
@@ -770,7 +777,10 @@ function cardHTML(it){const k=KM[it.kind];
 function cardPanelsHTML(it){
  return summaryHTML(it)
  +'<div class="detail hidden border-t border-slate-800/80 px-3.5 py-3.5 bg-[#0b1322]/60">'
- +'<div class="fidGrid">'+it.fid.map(f=>microBar2(f[0],f[1])).join('')+(function(){const rs=receptionSourceOf(it.kind,it.audSrc,it.audRaw);return '<div title="'+esc(rs.aud.title)+'">'+microBar2('Audience \u00b7 '+rs.aud.short,it.aud)+'</div><div title="'+esc(rs.crit.title)+'">'+microBar2('Critics \u00b7 '+rs.crit.short,it.crit)+'</div>';})()+'</div>'
+ +receptionChipsHTML(it)
+ // The bars are the per-medium-normalised scores (normalizeReceptionByKind), not IMDb's own number --
+ // the chips above carry the source, so the bars are labelled plainly.
+ +'<div class="fidGrid">'+it.fid.map(f=>microBar2(f[0],f[1])).join('')+(function(){const rs=receptionSourceOf(it.kind,it.audSrc,it.audRaw);return '<div title="'+esc(rs.aud.title)+'">'+microBar2('Audience',it.aud)+'</div><div title="'+esc(rs.crit.title)+'">'+microBar2('Critics',it.crit)+'</div>';})()+'</div>'
  +'<div class="idxGrid">'+[['\ud83c\udfaf GOAT Match',it.gm,'#fbbf24'],['\u25c9 Cosmic Horror',it.ch,'#c084fc'],['Soundtrack',it.snd,'#7dd3fc'],['4K Reference',it.ref,'#818cf8'],['Emotional',it.emo,'#f0abfc'],['Awe / Spectacle',it.awe,'#fbbf24'],['Comfort',it.cozy,'#34d399'],['Performances',it.perf,'#fda4af'],['Iconicness',it.icon,'#fcd34d'],['Scariest',it.scary,'#f87171'],['Realism',it.real,'#86efac'],['Reality-Altering',it.reality,'#c4b5fd'],['Genuine Shock',it.shock,'#fb923c'],['Scientific',it.sci,'#67e8f9'],['Funniest',it.funny,'#fde047'],['Historically Accurate',it.hist,'#a3e635'],['Vibe / Atmosphere',it.vibe2,'#e879f9']].map(r=>'<div class="flex flex-col gap-0.5"><div class="flex items-baseline justify-between gap-2"><span class="lbl leading-tight" style="color:'+r[2]+'">'+r[0]+'</span><span class="text-[10px] tabular-nums shrink-0" style="color:'+r[2]+'">'+r[1]+'</span></div><div class="bar"><i style="width:'+r[1]+'%;background:'+r[2]+'"></i></div></div>').join('')+'</div>'
  +gmBreakdownHTML(it)
  +'<p class="text-[11px] text-slate-300 mt-2.5 italic">&ldquo;'+esc(it.just)+'&rdquo;</p>'
