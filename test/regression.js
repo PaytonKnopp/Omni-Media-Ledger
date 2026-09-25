@@ -4222,7 +4222,7 @@ async function runHonestMatchFlow(browser, file) {
   });
   const blank = await ringOf();
   check('the ring shows the work\'s match number, not its critics\' score', blank.num === String(blank.gm));
-  check('the critics\' score moved to its own labelled chip', blank.crit === 'Crit ' + blank.xcrit);
+  check('the critics\' score moved to its own labelled chip, marked as an estimate', blank.crit === 'Crit ~' + blank.xcrit);
   check('with nothing personal known, the ring is labelled "Score" and says it is not personalized yet',
     blank.label === 'Score' && /Overall score/.test(blank.aria) && /Not personalized/i.test(blank.aria));
   await ensureFirstCardExpanded(page);

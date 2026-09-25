@@ -21,6 +21,29 @@ function provStampOf(raw){
          checked:s.checked||null,src:s.src||null};
 }
 
+/* Where a work's two reception numbers come from, worded for the cards (RUBRIC.md "Reception
+   fields"). Film and TV audience scores are IMDb's user rating x10, stamped per record as
+   metrics.audienceSrc (scripts/apply-imdb-audience.js); a work IMDb has no title for carries
+   src:"estimated" and the reason. Every critic score, and games' and books' audience scores, are
+   still best estimates -- no licensed source has been applied to them -- and the labels say so.
+   The numbers on a card are the per-medium-normalised ones (normalizeReceptionByKind), so the
+   IMDb label also gives the raw /10 rating the value was derived from. */
+function receptionSourceOf(kind,audSrc,audRaw){
+ var medium={movie:'films',tv:'series',game:'games',book:'books'}[kind]||'this medium';
+ var crit={short:'est.',title:'Critics\u2019 score \u2014 a best estimate: no licensed critic source has been applied yet, for any medium. Put on one scale across films, series, games and books.'};
+ var aud;
+ if(audSrc&&audSrc.src==='IMDb'){
+  var r=(audRaw/10).toFixed(1);
+  aud={short:'IMDb',sourced:true,phrase:'IMDb '+r+'/10',
+   title:'Audience score \u2014 IMDb user rating '+r+'/10 ('+audSrc.id+', retrieved '+audSrc.checked+'), shown on the app\u2019s shared per-medium scale'};
+ }else if(audSrc&&audSrc.src==='estimated'){
+  aud={short:'est.',sourced:false,phrase:'estimated',title:'Audience score \u2014 a best estimate: '+audSrc.why};
+ }else{
+  aud={short:'est.',sourced:false,phrase:'estimated',title:'Audience score \u2014 a best estimate: no audience source has been applied to '+medium+' yet'};
+ }
+ return {crit:crit,aud:aud};
+}
+
 /* One canonical vocabulary for physical editions, applied once at load so every downstream
    reader (Collection groups, the per-item picker, the Upgrade Audit, Series cards, export)
    sees the same spellings no matter which era of the profile format wrote them:

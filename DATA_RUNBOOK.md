@@ -14,9 +14,10 @@ the *how*.
 
 1. **Never state a fact from memory as though it were verified.** Model recall is evidence grade C
    and is never written to `data/`. If a value cannot be sourced, it stays flagged for a human.
-2. **`scripts/apply-facts.js` is the only script that changes a factual value.** It applies grade A
-   only, by exact-match replacement scoped to a record's own line, and refuses if it cannot find
-   what it means to replace exactly once.
+2. **`scripts/apply-facts.js` is the only script that changes a factual value** — and
+   `scripts/apply-imdb-audience.js` the only one that changes a reception value (Phase R). Both
+   edit by exact-match replacement scoped to a record's own line, refuse if they cannot find what
+   they mean to replace exactly once, and are dry runs unless given `--write`.
 3. **Facts and judgements are different, and never share a pipeline.** A fact has one right answer
    two sources can settle. A judgement (`atmosphericDreadIndex`, `emotionalWarmth`) is scored
    against `RUBRIC.md` from gathered evidence and stamped separately.
@@ -156,6 +157,65 @@ boost stack's 6.52, so **~84% of pre-override score variance is the boost stack*
 genres, vibes, creators and the rubric indices, not on critic scores. A 12-point critic correction
 moves the match score by about 3. Aggregate scores are the least leveraged data this project can
 gather; what a work is *about* is the most.
+
+---
+
+## Phase R — Reception: film and TV audience scores from IMDb
+
+`metrics.audienceScore` for every movie and TV record is IMDb's user rating ×10, from the bulk
+`title.ratings.tsv.gz` at `datasets.imdbws.com` (personal, non-commercial use; no API, no scraping).
+First applied 2026-09-25 (NOTES.md Phase 49). One source, replaced outright, never averaged with the
+old estimate; each value stamped with where and when:
+
+```
+"metrics":{"criticalScore":90,"audienceScore":83,"audienceSrc":{"src":"IMDb","id":"tt0062622","checked":"2026-09-25"}}
+"metrics":{"criticalScore":88,"audienceScore":85,"audienceSrc":{"src":"estimated","why":"IMDb has no title for …"}}
+```
+
+`validate-corpus.js` fails any movie/TV record without a stamp, an `estimated` stamp without a
+`why`, and any stamp on a game or book. Critic scores (every medium) and games' and books' audience
+scores are still best estimates: they carry no stamp, and the cards mark them "est." / "~".
+
+### R1. Match every work to its IMDb title
+
+```bash
+node scripts/measure-imdb-gap.js          # TMDB search -> TMDB id -> IMDb id, plus the gap report
+```
+
+Writes `evidence/imdb-audience-gap-<date>.{json,md}`. Needs TMDB access (`TMDB_API_KEY`, or a proxy
+that injects a read-access token). `--reuse <previous gap.json>` skips TMDB for works already matched.
+
+### R2. Resolve what TMDB could not match — by hand, reviewably
+
+Every unmatched work goes in `evidence/imdb-id-overrides.json` with its IMDb id **and IMDb's own
+title, type and year copied from `title.basics.tsv.gz`**, so a reviewer can check the pairing
+without looking anything up. A work IMDb genuinely has no title for gets `"imdbId": null` and a
+`why`; it keeps its estimate. Never pick an id from memory: look it up in `title.basics`.
+
+### R3. Apply, dry run first
+
+```bash
+node scripts/apply-imdb-audience.js --matches evidence/imdb-audience-gap-<date>.json \
+     --ratings title.ratings.tsv.gz --basics title.basics.tsv.gz        # dry run + id cross-check
+node scripts/apply-imdb-audience.js --matches evidence/imdb-audience-gap-<date>.json \
+     --ratings title.ratings.tsv.gz --write
+```
+
+It refuses if any movie/TV record has no route to an IMDb id (all-or-nothing per field), if a match
+table row is stale (title or year changed since), or if an id has no rating row. `--basics` lists
+every id whose IMDb type, title or year doesn't line up, for review — alternate titles and "Episode
+IV"-style names are expected there; a different work is not. The retrieval date stamped on each value
+is the ratings file's download date (`--checked` overrides). `--write` also writes
+`evidence/imdb-audience-applied-<date>.json`, the receipt.
+
+Then Phase D: snapshot before and after on both profiles, diff, `corpus-metrics.js`, `npm run
+rec-quality`, and explain what moved. Film/TV audience changes also move games' and books'
+normalised audience uniformly (`normalizeReceptionByKind` targets the whole corpus) — expected, and
+their order within each medium must not change.
+
+**Refreshing.** IMDb ratings drift. Re-run R3 with a newer ratings file (and R1 for works added
+since); the stamps' `checked` dates move with it. New movie/TV works enter without a stamp and fail
+validation until they are routed — that is the point.
 
 ---
 
