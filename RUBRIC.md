@@ -228,7 +228,7 @@ whose interactions cannot be enumerated: 95+.
 
 ---
 
-### 4b. `conceptualDepth` — games only — **in the schema: all 508 games scored**
+### 4b. `conceptualDepth` — games only — **in the schema: all 506 games scored**
 
 **How much the game asks you to rebuild your model of what is real, true or knowable.** The games
 counterpart of `ontologicalComplexity`, requested by the owner when ruling that `systemsComplexity`
