@@ -562,7 +562,7 @@ All five open questions were answered. Recorded here so they are not reopened.
 | 4 | `systemsComplexity` — mechanical or conceptual? | **Mechanical** — plus a new `conceptualDepth` field for games (construct 4b), on the owner's request for "a conceptual equivalent". |
 | 5 | Reception sources | **Deferred to Phase 5**, when real sources are reachable. Values stand as best estimates until then. The cross-medium *scale* normalisation is separate and stays in Phase 2. |
 
-### Still to settle — raised, not yet ruled on
+### Raised afterward — also settled
 
 **Resolved: the owner chose the real fix.** All four original constructs were "dark" axes, which
 capped who the app could serve. The owner's ruling, in his words: *"this originally started as an

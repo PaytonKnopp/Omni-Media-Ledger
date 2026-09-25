@@ -1870,16 +1870,23 @@ stop saying those fields are unscored (all 5,024 works are).
 released, shelved or past an exact date now sorts below everything still upcoming.
 
 **Docs.** This file's Working state and Testing sections, RUBRIC.md's field status, QUALITY_PASS.md's
-status block and ARCHITECTURE.md's engine and layout sections were brought up to date.
+status block and Phase 1 record, and ARCHITECTURE.md's engine and layout sections were brought up
+to date.
 
 **Checked and already fine:** the Outer Wilds "M" rating (E1) was fixed earlier: games certify
 from genre, Outer Wilds is E10+, and a regression check holds it.
 
-**Still needs the owner, not code** (QUALITY_PASS.md "Still open"): real reception scores and game
-facts need `npm run fetch-facts` run where IMDb/IGDB/OMDb/TMDB are reachable, with free API keys
-(DATA_RUNBOOK.md); the cloud sessions are still blocked from those hosts (re-probed 2026-09-25).
-Also the rubric anchor ruling and second blind scoring pass, and whether to purge the plot
-summaries removed in `9d2715e` from git history (a force-push rewrite of master).
+**Also already done, only stale in the docs:** the rubric sign-off and the "second blind pass"
+that QUALITY_PASS.md still listed as outstanding. The anchors were approved (RUBRIC.md "Owner's
+rulings — closed") and reproducibility was measured by two independent blind passes over 40 works
+(mean difference 5.04 points, under the 6-point bar; `evidence/calibration/self-consistency-report.md`).
+QUALITY_PASS.md now says so.
+
+**Still needs the owner, not code:** real reception scores and game facts need `npm run fetch-facts`
+run where IMDb/IGDB/OMDb/TMDB are reachable, with free API keys (DATA_RUNBOOK.md); the cloud
+sessions are still blocked from those hosts, and Google Books, the one reachable source, has no
+anonymous quota left (both re-probed 2026-09-25). Also whether to purge the plot summaries removed
+in `9d2715e` from git history (a force-push rewrite of master).
 
 ## Ideas / next steps
 

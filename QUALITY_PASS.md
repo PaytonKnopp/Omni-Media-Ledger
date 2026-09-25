@@ -6,16 +6,19 @@ current one, and it is deliberately written so a session that has never seen the
 it up cold. Update it at the end of every phase.
 
 **Owner:** Payton. **Status (2026-09-25):** everything that can be done without the internet is
-done, and what remains needs the owner or network access, not more offline code.
-- **Done:** Phase 0 (instrumentation), Phase 2 (cheap engine fixes, closed), Phases 3-4 in effect
+done, and what remains needs network access (and free API keys), not more offline code or rulings.
+- **Done:** Phase 0 (instrumentation), Phase 1 (the rubric: every anchor approved and all five open
+  questions ruled on, RUBRIC.md "Owner's rulings — closed"; reproducibility measured by two
+  independent cold-start passes over 40 blind works, `evidence/calibration/self-consistency-report.md`:
+  mean difference 5.04 points across 209 judgments, under the 6-point bar, and the one construct
+  over it, dread, got a mid-band anchor ratified 2026-09-11), Phase 2 (cheap engine fixes, closed),
+  Phases 3-4 in effect
   (all 5,024 works are scored under rubric-v1 with the three new fields, `emotionalWarmth`,
   `comicIntent`, `aestheticBeauty`, plus games' `conceptualDepth`; the genre taxonomy with exact
   matching is in `data/genre-taxonomy.js`; the E1 `certify()` fix rates *Outer Wilds* E10+), Phase 6's
   provenance mechanism, Phase 7's offline tests, and the Phase 5 harness (fetchers, reconciliation,
   evidence format), built and tested offline. Recommendation quality is measured on every pull
   request (`scripts/rec-quality.js`; NOTES.md Phase 49).
-- **Needs the owner:** the ruling on the anchors and the five open questions in RUBRIC.md, and
-  reproducibility pass 2, which must run in a fresh session (Phase 1 below).
 - **Needs network:** Phase 5 itself, sourcing reception scores and game facts. The cloud sessions
   are still blocked from IMDb, IGDB, OMDb, TMDB, OpenLibrary and Wikidata (re-probed 2026-09-25;
   only Google Books is reachable). Run `npm run fetch-facts` locally with free keys per
@@ -188,7 +191,7 @@ onward**, while the owner is making the calls — not reconstructed at the end.
 - **Phase 0 — Instrumentation. DONE.** `scripts/score-snapshot.js` (derived-value snapshot + diff,
   read from the real app via `window.ALL`, `--profile pk|blank`) and `scripts/corpus-metrics.js`
   (drift, separation, recency bias). Commit `ba147b6`.
-- **Phase 1 — `RUBRIC.md`. DRAFTED, AWAITING SIGN-OFF.** Commit `f4cfa5d`. All four constructs
+- **Phase 1 — `RUBRIC.md`. DONE** (signed off; see "Since done" at the end of this item). Commit `f4cfa5d`. All four constructs
   defined separately with "this is NOT" lists; five proposed anchor works per index; the derived
   indices' hand-tuned override tables brought under the same rubric.
   **Blind self-test, pass 1 done** (20 films, stratified across all ten ID deciles, current values
@@ -197,9 +200,15 @@ onward**, while the owner is making the calls — not reconstructed at the end.
   **lower** under the rubric (−8 to −15.5) and late deciles **higher** (+5 to +12.5), i.e. applied
   blind, the rubric moves scores the way that *reduces* batch drift. n=2 per decile, so suggestive
   rather than conclusive.
-  **Still outstanding:** (a) the owner's ruling on the anchors and the five open questions in
+  **Was outstanding (both since done, below):** (a) the owner's ruling on the anchors and the five open questions in
   RUBRIC.md; (b) reproducibility pass 2 — must run in a **fresh session**, since the session that
   did pass 1 remembers its answers and cannot re-score blind. Target ±5 on 26+/30.
+  **Since done:** (a) the owner approved the anchors and answered all five questions (RUBRIC.md
+  "Owner's rulings — closed"); (b) reproducibility was tested more strictly than planned: two
+  independent agents with no shared context each scored the same 40 blind works, stratified across
+  every decile and all four media (`evidence/calibration/self-consistency-report.md`). Mean
+  difference 5.04 points across 209 judgments, under the 6-point bar; the one construct over it
+  (dread, 7.07, all in the mid-band) got a new 35-point anchor, *The Cove*, ratified 2026-09-11.
 - **Phase 2 — Cheap engine fixes. IN PROGRESS.** One commit each, repo convention followed (add
   the check, revert the fix, confirm the check fails, restore).
   - **E2 done** (`e31780b`) — the dread boost was a band (`>80 && <=95`), so it rose to +1.5 at 95
