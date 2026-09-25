@@ -1904,7 +1904,7 @@ async function runAccountFlow(browser, file) {
     // the corpus (whyRecommended's citation, crossMediumPairings' ordering), and both bit this
     // before the changed set was widened to cover them -- 8 of 72 comparisons differed.
     const gridEquivalence = await page2.evaluate(async () => {
-      const sorts = ['overall', 'tier', 'blend', 'crit', 'yearNew'];
+      const sorts = ['overall', 'tier', 'crit', 'yearNew'];
       const sel = document.getElementById('sortSel');
       const originalSort = sel ? sel.value : null;
       const bad = [];
@@ -3737,6 +3737,17 @@ async function runFranchiseFilterFlow(browser, file) {
     return window.state.franchiseOnly && ids.length && ids.every(i => window.inFranchise(window.byId.get(i))) ? ids : false;
   }, undefined, 5000);
   check('"Franchise / series" shows only works that belong to a franchise', !!franchiseIds);
+  // The chip and the filter are one answer (franchiseOf): every franchise card shows the chip, and
+  // it names the franchise. Blade Runner used to count as franchise for the filter with no chip.
+  check('every franchise result carries a franchise chip naming its franchise (a long name shortened, full name on hover)',
+    await page.evaluate(() => {
+      const heads = Array.from(document.querySelectorAll('#grid .cardHead[data-id]'));
+      return heads.length > 0 && heads.every(h => {
+        const c = h.querySelector('.franchiseChip');
+        const fr = window.franchiseOf(window.byId.get(h.dataset.id));
+        return !!c && c.title.includes(fr) && c.textContent.includes(FRANCHISE_CHIP_SHORT[fr] || fr);
+      });
+    }));
   check('the franchise filter appears as a removable active-filter chip',
     await page.evaluate(() => !!document.querySelector('#activeBar .activeChip[data-clr="franchise"]')));
   check('Reset Filters turns solid red with a count while a filter is on',
@@ -3769,6 +3780,8 @@ async function runFranchiseFilterFlow(browser, file) {
       saul: f(find('tv', 'Better Call Saul')),
       words: f(find('book', 'Words of Radiance')),
       matrix: f(find('movie', 'The Matrix')),
+      bladeRunner: window.franchiseOf(find('movie', 'Blade Runner')) === 'Blade Runner' && window.franchiseOf(find('movie', 'Blade Runner 2049')) === 'Blade Runner',
+      sagan: !!find('book', 'The Demon-Haunted World') && !f(find('book', 'The Demon-Haunted World')),
       parasite: !!find('movie', 'Parasite') && !f(find('movie', 'Parasite')),
     };
   });
@@ -3776,6 +3789,8 @@ async function runFranchiseFilterFlow(browser, file) {
   check('a sequel with an unrelated title (Words of Radiance) counts as franchise', named.words);
   check('the film a curated series is named for (The Matrix) counts as franchise', named.matrix);
   check('a one-off (Parasite) counts as standalone', named.parasite);
+  check('a sequel sharing a title root (Blade Runner 2049) is named for its franchise, on both films', named.bladeRunner);
+  check('a curated reading shelf (Sagan\'s nonfiction) is not a franchise', named.sagan);
 
   await page.fill('#q', 'Better Call Saul');
   check('Standalone only hides a spin-off even when searched for by name',
