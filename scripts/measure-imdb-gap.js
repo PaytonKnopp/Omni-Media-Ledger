@@ -88,7 +88,24 @@ function tmdbUrl(p, params) {
    the first full run: "Split", "Enemy", "Birdman" and "A Silent Voice" each have an obscure
    same-title, same-year namesake (22 to 553 IMDb votes) that TMDB ranked first, which produced the
    run's four "worst gaps" (up to 46 points) out of pure mismatches. The corpus holds notable works,
-   so the heavily-voted candidate is the one it means. `rivals` counts the others that passed. */
+   so the heavily-voted candidate is the one it means. `rivals` counts the others that passed.
+   A TMDB title that is the corpus title plus a SUBTITLE also qualifies -- found on the second run:
+   TMDB titles Birdman "Birdman or (The Unexpected Virtue of Ignorance)" and A Silent Voice "A
+   Silent Voice: The Movie", so an exact-only rule left just the obscure exact-title namesakes (49
+   and 199 IMDb votes). Only a real separator (":", " - ", " or ") counts, never a bare
+   continuation, so "Scream" does not reach "Scream VI" a year later; and an exact title still wins
+   unless the subtitled candidate has over 10x its TMDB votes. */
+const SUBTITLE_SEP = /^(?:\s*[:\u2013\u2014-]\s+|\s*:\s*|,?\s+or\s*[,(:]?\s*)\S/i;
+function titleQualifies(raw, want) {
+  const t = stripYearSuffix(raw || '');
+  if (normText(t) === want) return 'exact';
+  // Compare on the raw title so the separator survives, but match the prefix case/accent-blind.
+  const plain = t.normalize('NFD').replace(/[\u0300-\u036f]/g, '');
+  for (let cut = 1; cut < plain.length; cut++) {
+    if (normText(plain.slice(0, cut)) === want) return SUBTITLE_SEP.test(plain.slice(cut)) ? 'subtitle' : null;
+  }
+  return null;
+}
 function pickCandidate(results, medium, work) {
   if (!Array.isArray(results)) return null;
   const want = normText(stripYearSuffix(work.title));
@@ -96,13 +113,19 @@ function pickCandidate(results, medium, work) {
   const dateOf = r => medium === 'tv' ? r.first_air_date : r.release_date;
   const pass = [];
   for (const r of results) {
-    if (!titles(r).some(t => normText(t) === want)) continue;
+    const kinds = titles(r).map(t => titleQualifies(t, want));
+    const kind = kinds.includes('exact') ? 'exact' : kinds.includes('subtitle') ? 'subtitle' : null;
+    if (!kind) continue;
     const y = yearOf(dateOf(r));
     if (y === undefined || Math.abs(y - work.year) > 1) continue;
-    pass.push({ id: r.id, year: y, title: titles(r)[0], votes: r.vote_count || 0 });
+    pass.push({ id: r.id, year: y, title: titles(r)[0], votes: r.vote_count || 0, kind });
   }
   if (!pass.length) return null;
-  const best = pass.reduce((a, b) => (b.votes > a.votes ? b : a));
+  // An exact title beats a subtitled one unless the subtitled one is an order of magnitude better
+  // known -- the Birdman case, where the exact-title candidate is a 5-vote namesake.
+  const top = list => list.length ? list.reduce((a, b) => (b.votes > a.votes ? b : a)) : null;
+  const ex = top(pass.filter(p => p.kind === 'exact')), sub = top(pass.filter(p => p.kind === 'subtitle'));
+  const best = !ex ? sub : !sub ? ex : (sub.votes > 10 * ex.votes ? sub : ex);
   return Object.assign(best, { rivals: pass.length - 1 });
 }
 
@@ -122,7 +145,7 @@ async function matchWork(work, medium) {
   const results = [...(byYear.results || []), ...(open.results || [])].filter(r => !seen.has(r.id) && seen.add(r.id));
   const hit = pickCandidate(results, medium, work);
   if (!hit) return { status: 'no-tmdb-match' };
-  const how = hit.year === work.year ? 'title+year' : 'title, year +/-1';
+  const how = (hit.kind === 'subtitle' ? 'title+subtitle' : 'title') + (hit.year === work.year ? ', same year' : ', year +/-1');
   const ext = await getJSON(tmdbUrl('/' + kind + '/' + hit.id + '/external_ids'));
   const imdbId = ext && typeof ext.imdb_id === 'string' && /^tt\d+$/.test(ext.imdb_id) ? ext.imdb_id : null;
   return {
@@ -178,26 +201,50 @@ function pearson(xs, ys) {
   for (let k = 0; k < n; k++) { const dx = xs[k] - mx, dy = ys[k] - my; sxy += dx * dy; sxx += dx * dx; syy += dy * dy; }
   return sxy / Math.sqrt(sxx * syy);
 }
-function summarize(rows) {
-  const gaps = rows.map(r => r.gap);
-  const abs = gaps.map(Math.abs).sort((a, b) => a - b);
-  const n = gaps.length;
-  if (!n) return null;
-  const within = t => abs.filter(a => a <= t).length / n;
+// Average ranks (ties share the mean of the positions they span), 1-based.
+function ranks(xs) {
+  const idx = xs.map((v, k) => k).sort((a, b) => xs[a] - xs[b]);
+  const out = new Array(xs.length);
+  for (let k = 0; k < idx.length;) {
+    let j = k;
+    while (j + 1 < idx.length && xs[idx[j + 1]] === xs[idx[k]]) j++;
+    for (let t = k; t <= j; t++) out[idx[t]] = (k + j) / 2 + 1;
+    k = j + 1;
+  }
+  return out;
+}
+const spearman = (xs, ys) => pearson(ranks(xs), ranks(ys));
+const sd = xs => { const m = xs.reduce((a, b) => a + b, 0) / xs.length; return Math.sqrt(xs.reduce((a, v) => a + (v - m) * (v - m), 0) / xs.length); };
+
+/* The app never uses audienceScore raw: normalizeReceptionByKind (app/scoring.js) z-scores it
+   within each medium, so a constant offset from IMDb, and a difference in spread, both vanish
+   before scoring. What survives is ORDER. So alongside the raw gap this reports the offset, the
+   gap left once that offset is removed, the two spreads, and Spearman's rank correlation. */
+function absStats(vals) {
+  const abs = vals.map(Math.abs).sort((a, b) => a - b), n = abs.length;
   return {
-    n,
-    meanSigned: gaps.reduce((a, b) => a + b, 0) / n,
+    median: quantile(abs, 0.5), mean: abs.reduce((a, b) => a + b, 0) / n,
+    rms: Math.sqrt(abs.reduce((a, v) => a + v * v, 0) / n),
+    p90: quantile(abs, 0.9), p95: quantile(abs, 0.95), max: abs[n - 1],
+    within5: abs.filter(a => a <= 5).length / n, within10: abs.filter(a => a <= 10).length / n,
+    over15: abs.filter(a => a > 15).length, over20: abs.filter(a => a > 20).length,
+  };
+}
+function summarize(rows) {
+  const n = rows.length;
+  if (!n) return null;
+  const gaps = rows.map(r => r.gap);
+  const ours = rows.map(r => r.audienceScore), theirs = rows.map(r => r.imdb10);
+  const offset = gaps.reduce((a, b) => a + b, 0) / n;
+  return {
+    n, offset,
     medianSigned: quantile(gaps.slice().sort((a, b) => a - b), 0.5),
-    mae: abs.reduce((a, b) => a + b, 0) / n,
-    medianAbs: quantile(abs, 0.5),
-    rmse: Math.sqrt(gaps.reduce((a, g) => a + g * g, 0) / n),
-    p90Abs: quantile(abs, 0.9),
-    p95Abs: quantile(abs, 0.95),
-    maxAbs: abs[n - 1],
-    within5: within(5), within10: within(10), over15: abs.filter(a => a > 15).length,
-    over20: abs.filter(a => a > 20).length,
     higher: gaps.filter(g => g > 0).length, lower: gaps.filter(g => g < 0).length,
-    r: pearson(rows.map(r => r.audienceScore), rows.map(r => r.imdb10)),
+    raw: absStats(gaps),
+    adj: absStats(gaps.map(g => g - offset)),
+    sdOurs: sd(ours), sdImdb: sd(theirs),
+    r: pearson(ours, theirs),
+    rho: spearman(ours, theirs),
   };
 }
 
@@ -221,7 +268,7 @@ function mediumSection(label, all, rows, lowVoteFloor) {
   out.push('| TMDB match, IMDb id, IMDb rating | ' + rows.length + ' |');
   if (counts['no-rating']) out.push('| IMDb id but no row in title.ratings | ' + counts['no-rating'] + ' |');
   if (counts['no-imdb-id']) out.push('| TMDB match but TMDB lists no IMDb id | ' + counts['no-imdb-id'] + ' |');
-  if (counts['no-tmdb-match']) out.push('| No TMDB result with the exact title within ±1 year | ' + counts['no-tmdb-match'] + ' |');
+  if (counts['no-tmdb-match']) out.push('| No TMDB result with the title within ±1 year | ' + counts['no-tmdb-match'] + ' |');
   if (counts.error) out.push('| Request error | ' + counts.error + ' |');
   out.push('');
   if (!s) return out;
@@ -229,25 +276,43 @@ function mediumSection(label, all, rows, lowVoteFloor) {
   out.push('Gap = our `audienceScore` − IMDb rating × 10. Positive = the corpus rates it higher than IMDb users do.', '');
   out.push('| | All matched | ≥ ' + lowVoteFloor.toLocaleString('en-US') + ' IMDb votes |', '|---|---:|---:|');
   out.push(col('Works', x => x.n));
-  out.push(col('**Median absolute gap** (typical)', x => '**' + f1(x.medianAbs) + '**'));
-  out.push(col('Mean absolute gap', x => f1(x.mae)));
-  out.push(col('RMS gap', x => f1(x.rmse)));
-  out.push(col('Mean signed gap (bias)', x => sgn(x.meanSigned)));
-  out.push(col('Median signed gap', x => sgn(x.medianSigned)));
+  out.push('| ***Offset*** | | |');
+  out.push(col('**Average offset** (mean gap)', x => '**' + sgn(x.offset) + '**'));
+  out.push(col('Median gap', x => sgn(x.medianSigned)));
   out.push(col('Corpus higher / lower than IMDb', x => x.higher + ' / ' + x.lower));
-  out.push(col('Within ±5 points', x => pct(x.within5)));
-  out.push(col('Within ±10 points', x => pct(x.within10)));
-  out.push(col('90th percentile absolute gap', x => f1(x.p90Abs)));
-  out.push(col('95th percentile absolute gap', x => f1(x.p95Abs)));
-  out.push(col('Gaps over 15 / over 20 points', x => x.over15 + ' / ' + x.over20));
-  out.push(col('**Worst absolute gap**', x => '**' + f1(x.maxAbs) + '**'));
-  out.push(col('Pearson r (audienceScore vs IMDb×10)', x => x.r.toFixed(2)));
+  out.push('| ***Raw gap*** | | |');
+  out.push(col('**Median absolute gap** (typical)', x => '**' + f1(x.raw.median) + '**'));
+  out.push(col('Mean / RMS absolute gap', x => f1(x.raw.mean) + ' / ' + f1(x.raw.rms)));
+  out.push(col('Within ±5 / ±10 points', x => pct(x.raw.within5) + ' / ' + pct(x.raw.within10)));
+  out.push(col('90th / 95th percentile absolute gap', x => f1(x.raw.p90) + ' / ' + f1(x.raw.p95)));
+  out.push(col('Gaps over 15 / over 20 points', x => x.raw.over15 + ' / ' + x.raw.over20));
+  out.push(col('**Worst absolute gap**', x => '**' + f1(x.raw.max) + '**'));
+  out.push('| ***Gap after removing the offset*** | | |');
+  out.push(col('**Median absolute gap** (typical)', x => '**' + f1(x.adj.median) + '**'));
+  out.push(col('Mean / RMS absolute gap', x => f1(x.adj.mean) + ' / ' + f1(x.adj.rms)));
+  out.push(col('Within ±5 / ±10 points', x => pct(x.adj.within5) + ' / ' + pct(x.adj.within10)));
+  out.push(col('90th / 95th percentile absolute gap', x => f1(x.adj.p90) + ' / ' + f1(x.adj.p95)));
+  out.push(col('Gaps over 15 / over 20 points', x => x.adj.over15 + ' / ' + x.adj.over20));
+  out.push(col('Worst absolute gap', x => f1(x.adj.max)));
+  out.push('| ***Order and spread*** | | |');
+  out.push(col('**Spearman rank correlation**', x => '**' + x.rho.toFixed(2) + '**'));
+  out.push(col('Pearson correlation', x => x.r.toFixed(2)));
+  out.push(col('Spread (SD): ours / IMDb×10', x => f1(x.sdOurs) + ' / ' + f1(x.sdImdb)));
   out.push('');
+  // Percentile of each work within this medium's matched set, on each side, so the table shows
+  // rank disagreement (what survives the app's per-medium normalisation), not just the raw gap.
+  const pOurs = ranks(rows.map(r => r.audienceScore)), pImdb = ranks(rows.map(r => r.imdb10));
+  const toPct = rk => rows.length > 1 ? Math.round((rk - 1) / (rows.length - 1) * 100) : 50;
+  rows.forEach((r, k) => { r._pOurs = toPct(pOurs[k]); r._pImdb = toPct(pImdb[k]); });
   out.push('### 20 biggest outliers', '');
-  out.push('| # | id | Title | Year | Ours | IMDb ×10 | Gap | IMDb votes | IMDb id |', '|---:|---|---|---:|---:|---:|---:|---:|---|');
+  out.push('Ranked by raw gap. "Gap − offset" subtracts this medium\'s average offset (' + sgn(s.offset) + '); ' +
+    '"Percentile" is the work\'s standing among the ' + rows.length + ' matched ' + label.toLowerCase() + ' on each side (ours → IMDb).', '');
+  out.push('| # | id | Title | Year | Ours | IMDb ×10 | Gap | Gap − offset | Percentile | IMDb votes | IMDb id |',
+    '|---:|---|---|---:|---:|---:|---:|---:|---:|---:|---|');
   rows.slice().sort((a, b) => Math.abs(b.gap) - Math.abs(a.gap) || a.id.localeCompare(b.id)).slice(0, 20).forEach((r, k) => {
     out.push('| ' + (k + 1) + ' | ' + r.id + ' | ' + esc(r.title) + ' | ' + r.year + ' | ' + r.audienceScore + ' | ' + f1(r.imdb10) +
-      ' | ' + sgn(r.gap) + ' | ' + r.votes.toLocaleString('en-US') + (r.votes < lowVoteFloor ? ' ⚠' : '') + ' | ' + r.imdbId + ' |');
+      ' | ' + sgn(r.gap) + ' | ' + sgn(r.gap - s.offset) + ' | ' + r._pOurs + ' → ' + r._pImdb +
+      ' | ' + r.votes.toLocaleString('en-US') + (r.votes < lowVoteFloor ? ' ⚠' : '') + ' | ' + r.imdbId + ' |');
   });
   out.push('');
   const unmatched = all.filter(w => w.status !== 'matched');
@@ -320,7 +385,7 @@ async function main() {
     '',
     'Generated ' + date + ' by `scripts/measure-imdb-gap.js`. A measurement only: nothing in `data/` was changed.',
     '',
-    'Each movie and TV work was matched to TMDB by exact normalised title (or original title) within ±1 year of the corpus year (the most-voted on TMDB when several qualify), ' +
+    'Each movie and TV work was matched to TMDB by normalised title or original title (exact, or exact plus a `:`/`or` subtitle) within ±1 year of the corpus year, taking the most-voted TMDB candidate when several qualify, ' +
     'then to its IMDb id through TMDB\'s external ids, then looked up in IMDb\'s `title.ratings.tsv.gz` (downloaded ' + ratings.mtime +
     ', ' + ratings.map.size.toLocaleString('en-US') + ' rated titles). Games and books are out of scope. The per-work table is in the `.json` beside this file.',
     '',
@@ -353,9 +418,10 @@ async function main() {
     const all = works.filter(w => w.medium === medium), rows = all.filter(w => w.status === 'matched');
     const s = summarize(rows);
     console.log(SECTIONS[medium].label + ': matched ' + rows.length + '/' + all.length +
-      (s ? '; median |gap| ' + f1(s.medianAbs) + ', mean |gap| ' + f1(s.mae) + ', bias ' + sgn(s.meanSigned) + ', worst ' + f1(s.maxAbs) : ''));
+      (s ? '; offset ' + sgn(s.offset) + ', median |gap| ' + f1(s.raw.median) + ' raw / ' + f1(s.adj.median) + ' after offset' +
+        ', worst ' + f1(s.raw.max) + ', Spearman ' + s.rho.toFixed(2) : ''));
   }
 }
 
 if (require.main === module) main().catch(e => { console.error(e); process.exit(1); });
-module.exports = { pickCandidate, summarize };
+module.exports = { pickCandidate, summarize, ranks, spearman };
