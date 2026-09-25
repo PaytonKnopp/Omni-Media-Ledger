@@ -13,7 +13,7 @@
  *               six to eight favorites, the state a stranger is in after onboarding. Each favorite
  *               is hidden in turn (leave-one-out), so the other five to seven must find it.
  *
- * Hiding a favorite removes every trace of it -- tier, rating, ownership, any pass -- and the real
+ * Hiding a favorite removes every trace of it -- tier, rating, ownership -- and the real
  * scoring pass (recomputeProfileDerived, the same code the app runs) then ranks everything the
  * reduced profile has not tried. A good engine puts the hidden favorites near the top of that list,
  * far above where acclaim alone would put them.
@@ -61,7 +61,7 @@ function evalInPage(opts) {
   const without = (p, held) => {
     const q = clone(p), h = new Set(held);
     ['declaredGoatIds', 'silverTierIds', 'bronzeTierIds', 'ownedGameIds'].forEach(k => { if (q[k]) q[k] = q[k].filter(id => !h.has(id)); });
-    ['ratings', 'ownedMedia', 'ownedBooksExtra', 'notInterested'].forEach(k => { if (q[k]) held.forEach(id => { delete q[k][id]; }); });
+    ['ratings', 'ownedMedia', 'ownedBooksExtra'].forEach(k => { if (q[k]) held.forEach(id => { delete q[k][id]; }); });
     return q;
   };
   // The legacy "every book up to this id is owned" rule cannot leave one title out, so it is

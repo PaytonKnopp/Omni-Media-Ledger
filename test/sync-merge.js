@@ -95,11 +95,6 @@ const t3 = device(base), t4 = device(base);
 t4.omniLedgerProfile = JSON.stringify({ silverTierIds: ['m1', 'm9'], ratings: { m2: 8 } });
 check('an unstamped title only one side has is kept: nothing is deleted without a record of deleting it',
   P(syncMergeSnapshots(t3, t4, KEYS, { localWinsTies: true }).snapshot).silverTierIds.includes('m9'));
-const pass1 = device(base), pass2 = device(base);
-edit(pass1, 'omniLedgerProfile', p => Object.assign(p, { notInterested: { m6: 111 } }), 4000);
-edit(pass2, 'omniLedgerProfile', p => Object.assign(p, { notInterested: { m7: 222 } }), 4001);
-const pm = P(syncMergeSnapshots(pass1, pass2, KEYS, { localWinsTies: true }).snapshot);
-check('"not interested" merges per title like everything else', !!pm.notInterested.m6 && !!pm.notInterested.m7);
 const ord1 = device({ omniLedgerProfile: JSON.stringify({ declaredGoatIds: ['a', 'b', 'c'] }) });
 const ord2 = device(ord1);
 edit(ord2, 'omniLedgerProfile', p => { p.declaredGoatIds.push('d'); return p; }, 5000);

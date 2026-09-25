@@ -12,7 +12,7 @@ There's nothing to install. It's just a folder — one HTML file plus a `data` f
 
 1. Open the app. Pick how you want to start — a quick sample, blank, search-and-pick your favorites, or import a file.
 2. Browse the collection. The ring on every card is your match for that title (labelled "Match" once the app knows anything about your taste, "Score" until then), and every card can be expanded for full detail.
-3. Click things to teach it your taste: 🥇 Gold / 🥈 Silver / 🥉 Bronze favorite, "mark owned," ✓ "watched / read / played," a personal rating, ✕ "not interested," boost (or bury) a genre or a creator. No JSON, no settings screen — it's all buttons on the cards themselves.
+3. Click things to teach it your taste: 🥇 Gold / 🥈 Silver / 🥉 Bronze favorite, "mark owned," ✓ "watched / read / played," a personal rating, boost (or bury) a genre or a creator. No JSON, no settings screen — it's all buttons on the cards themselves.
 4. The more you click, the better its recommendations get.
 
 That's genuinely most of it. Everything past this point is detail for people who want it.
@@ -37,7 +37,6 @@ That's genuinely most of it. Everything past this point is detail for people who
 A few other things worth knowing about:
 
 - **Search that forgives you** — accents, capitals and punctuation don't matter, every word is matched on its own (in any order, in any field), title matches come first, and small typos still find the title: "amelie", "godfater", "zelda breath" and "kubrick 1968" all work.
-- **✕ Not interested** — the small ✕ on any card you haven't tried hides it from every list and recommendation and teaches your match to show less like it. Search still finds it, and "show" above the results (or ✕ again) brings it back.
 - **✓ Watched / Read / Played** — one tap on any card logs something you've finished. It moves to the Watchlist's Completed section with the date (editable, for things you're logging from before), recommendations stop suggesting it, and the Global Controller can filter by it ("Watched / read / played" or "Not yet").
 - **⚙ Franchise / series vs. ◇ Standalone only** — a Global Controller filter pair for "part of a bigger series" (sequels, prequels, spin-offs, shared universes like Star Wars or Discworld) versus one-offs. The ⚙ badge on a card names the franchise when it's one of the curated series.
 - **Your filters, next time** — refreshing (or reopening a closed tab, or a bookmark) keeps the Global Controller's filters exactly as they were. Opening the app fresh starts clean, but offers the last set back as one "↺ Restore" chip for a week; tap it to pick up where you left off, or ✕ to forget it. The "Show: Top 100 / 250…" choice is simply remembered. Both stay on the device you set them on.
