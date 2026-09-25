@@ -614,8 +614,8 @@ function summaryHTML(it){const k=KM[it.kind];
  else if(it.owned)fit='\u2713 Already in your collection'+(it.physFormat?' ('+esc(it.physFormat)+')':'')+'.';
  else if(it.myRating!=null)fit='\u2605 You rated this '+it.myRating.toFixed(1)+'/10.';
  else if(!basis.personal)fit='Overall score '+it.gm+'/100 \u2014 critical, audience and craft consensus. Rate, tier or own a few titles to personalize it.';
- else if(it.gm>=85)fit='\u2605 Very strong match for your taste ('+it.gm+'/100) \u2014 a prime discovery.';
- else if(it.gm>=72)fit='\u2605 Good match for your taste ('+it.gm+'/100).';
+ else if(it.gm>=85)fit='\ud83c\udfaf Very strong match for your taste ('+it.gm+'/100) \u2014 a prime discovery.';
+ else if(it.gm>=72)fit='\ud83c\udfaf Good match for your taste ('+it.gm+'/100).';
  else fit='Taste match: '+it.gm+'/100.';
  const discovery=!(it.goat||it.silver||it.bronze||it.owned||it.myRating!=null);
  if(discovery&&basis.personal)fit+=' <span class="text-slate-500">Based on '+basis.text+'.</span>';
@@ -744,7 +744,7 @@ function cardPanelsHTML(it){
  return summaryHTML(it)
  +'<div class="detail hidden border-t border-slate-800/80 px-3.5 py-3.5 bg-[#0b1322]/60">'
  +'<div class="fidGrid">'+it.fid.map(f=>microBar2(f[0],f[1])).join('')+microBar2('Audience Score',it.aud)+microBar2('Critical Score',it.crit)+'</div>'
- +'<div class="idxGrid">'+[['\u2605 GOAT Match',it.gm,'#fbbf24'],['\u25c9 Cosmic Horror',it.ch,'#c084fc'],['Soundtrack',it.snd,'#7dd3fc'],['4K Reference',it.ref,'#818cf8'],['Emotional',it.emo,'#f0abfc'],['Awe / Spectacle',it.awe,'#fbbf24'],['Comfort',it.cozy,'#34d399'],['Performances',it.perf,'#fda4af'],['Iconicness',it.icon,'#fcd34d'],['Scariest',it.scary,'#f87171'],['Realism',it.real,'#86efac'],['Reality-Altering',it.reality,'#c4b5fd'],['Genuine Shock',it.shock,'#fb923c'],['Scientific',it.sci,'#67e8f9'],['Funniest',it.funny,'#fde047'],['Historically Accurate',it.hist,'#a3e635'],['Vibe / Atmosphere',it.vibe2,'#e879f9']].map(r=>'<div class="flex flex-col gap-0.5"><div class="flex items-baseline justify-between gap-2"><span class="lbl leading-tight" style="color:'+r[2]+'">'+r[0]+'</span><span class="text-[10px] tabular-nums shrink-0" style="color:'+r[2]+'">'+r[1]+'</span></div><div class="bar"><i style="width:'+r[1]+'%;background:'+r[2]+'"></i></div></div>').join('')+'</div>'
+ +'<div class="idxGrid">'+[['\ud83c\udfaf GOAT Match',it.gm,'#fbbf24'],['\u25c9 Cosmic Horror',it.ch,'#c084fc'],['Soundtrack',it.snd,'#7dd3fc'],['4K Reference',it.ref,'#818cf8'],['Emotional',it.emo,'#f0abfc'],['Awe / Spectacle',it.awe,'#fbbf24'],['Comfort',it.cozy,'#34d399'],['Performances',it.perf,'#fda4af'],['Iconicness',it.icon,'#fcd34d'],['Scariest',it.scary,'#f87171'],['Realism',it.real,'#86efac'],['Reality-Altering',it.reality,'#c4b5fd'],['Genuine Shock',it.shock,'#fb923c'],['Scientific',it.sci,'#67e8f9'],['Funniest',it.funny,'#fde047'],['Historically Accurate',it.hist,'#a3e635'],['Vibe / Atmosphere',it.vibe2,'#e879f9']].map(r=>'<div class="flex flex-col gap-0.5"><div class="flex items-baseline justify-between gap-2"><span class="lbl leading-tight" style="color:'+r[2]+'">'+r[0]+'</span><span class="text-[10px] tabular-nums shrink-0" style="color:'+r[2]+'">'+r[1]+'</span></div><div class="bar"><i style="width:'+r[1]+'%;background:'+r[2]+'"></i></div></div>').join('')+'</div>'
  +gmBreakdownHTML(it)
  +'<p class="text-[11px] text-slate-300 mt-2.5 italic">&ldquo;'+esc(it.just)+'&rdquo;</p>'
  +'<div class="flex flex-wrap gap-1.5 mt-2.5">'+it.genres.map(g=>{const boosted=(PERSONAL_PROFILE.genreBoost||[]).some(gb=>gb[0]===g.toLowerCase());return '<span class="chip" title="'+(boosted?'A genre your taste profile currently weights up':'Genre')+'"'+(boosted?' style="color:#fbbf24;border-color:#fbbf2455"':'')+'>'+(boosted?'★ ':'')+esc(g)+'</span>';}).join('')+(function(){const vboosted=!!(PERSONAL_PROFILE.vibeBoost||{})[it.vibe];return '<span class="chip" title="'+(vboosted?'A vibe your taste profile currently weights up':'Vibe / mood')+'"'+(vboosted?' style="color:#fbbf24;border-color:#fbbf2455"':' style="color:#c4b5fd"')+'>'+(vboosted?'★ ':'')+esc(it.vibe)+'</span>';})()+'<span class="chip">'+esc(it.format)+'</span>'+it.plats.map(p=>'<span class="chip" style="color:#7dd3fc">'+esc(p)+'</span>').join('')+'</div>'
@@ -863,7 +863,7 @@ function activeFilterList(s){
  s.genres.forEach(g=>X(esc(g),'genre:'+g));
  s.genresExclude.forEach(g=>X('✕ '+esc(g),'genreEx:'+g));
  s.ratings.forEach(r=>X(esc(r),'rating:'+r));
- if(s.minGoat>0)X('★ GOAT ≥'+s.minGoat,'minGoat');
+ if(s.minGoat>0)X('🎯 GOAT ≥'+s.minGoat,'minGoat');
  if(s.minMyRating>0)X('★ My Rating ≥'+s.minMyRating.toFixed(1),'minMyRating');
  if(s.ratedOnly)X('★ Rated by me only','rated');
  if(s.unratedOnly)X('☆ Unrated only','unrated');
@@ -1302,7 +1302,7 @@ function renderGraph(center,fromTrail){
   var rr=nd.size;
   svg+='<g class="gnode" data-gtype="'+nd.type+'" data-gkey="'+esc(nd.type==='creator'?nd.label:nd.id)+'" style="cursor:pointer">';
   if(nd.canon)svg+='<circle cx="'+nd.x.toFixed(1)+'" cy="'+nd.y.toFixed(1)+'" r="'+(rr+3.5)+'" fill="none" stroke="#fbbf24" stroke-width="2"/>';
-  svg+='<circle cx="'+nd.x.toFixed(1)+'" cy="'+nd.y.toFixed(1)+'" r="'+rr+'" fill="'+col+'" fill-opacity="'+(nd.type==='creator'?0.9:0.8)+'" stroke="#0a1120" stroke-width="1.5"><title>'+esc(nd.label)+(nd.ref?' \u00b7 \u2605'+nd.ref.gm:'')+(nd.type==='creator'?' \u00b7 click to explore':'')+'</title></circle>';
+  svg+='<circle cx="'+nd.x.toFixed(1)+'" cy="'+nd.y.toFixed(1)+'" r="'+rr+'" fill="'+col+'" fill-opacity="'+(nd.type==='creator'?0.9:0.8)+'" stroke="#0a1120" stroke-width="1.5"><title>'+esc(nd.label)+(nd.ref?' \u00b7 \ud83c\udfaf'+nd.ref.gm:'')+(nd.type==='creator'?' \u00b7 click to explore':'')+'</title></circle>';
   var lbl=nd.label.length>22?nd.label.slice(0,20)+'\u2026':nd.label;
   var ty=nd.y+rr+11;
   svg+='<text x="'+nd.x.toFixed(1)+'" y="'+ty.toFixed(1)+'" text-anchor="middle" fill="'+(nd.id===g.center.id?'#f1f5f9':'#94a3b8')+'" font-size="'+(nd.id===g.center.id?11:9.5)+'" font-weight="'+(nd.id===g.center.id?700:400)+'" pointer-events="none">'+esc(lbl)+'</text>';
