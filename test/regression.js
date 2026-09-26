@@ -4006,7 +4006,7 @@ async function runRenderPerfFlow(browser, file) {
     const been = x => x.goat || x.silver || x.bronze || x.myRating != null || window.wlDone(x.id);
     // Full-scan implementations of the same rules, the memoized ones are held to.
     function whyRef(it) {
-      if (it.owned || it.goat || it.silver || it.bronze || it.myRating != null) return '';
+      if (!window.isUntried(it)) return '';
       if (it.creator) {
         const ex = bestAnchor(ALL.filter(x => sig(x) && x.creator && x.creator === it.creator && x.id !== it.id));
         if (ex) { const noun = it.kind === 'book' ? 'author' : (it.kind === 'game' ? 'studio' : 'director'); return 'Because ' + anchorPhrase(ex) + ' — same ' + noun + '.'; }
@@ -4565,6 +4565,32 @@ async function runEngineFlow(browser, file) {
   }, factorioId, 10000);
   checkD('Factorio\'s card names its Immersion and Systems depth, not Dread and Depth',
     /Immersion: Immersion/.test(chips || '') && /Systems: Systems Depth/.test(chips || '') && !/Dread:|Depth: Ontological/.test(chips || ''), chips);
+
+  // ---- Defect 2: a title you have finished is not a discovery, on its card as everywhere else.
+  // Its card kept saying "a prime discovery" with a "Because ..." line after "✓ Watched".
+  const doneId = await page.evaluate(() => window.buildGeneratedRec('Movies').items[0].id);
+  const doneTitle = await page.evaluate(id => window.byId.get(id).title, doneId);
+  await searchTitles(page, doneTitle);
+  await page.click('#grid .cardHead[data-id="' + doneId + '"]');
+  const quickLook = id => page.evaluate(i => {
+    const h = document.querySelector('#grid .cardHead[data-id="' + i + '"]');
+    const f = h && h.closest('.panel').querySelector('.summaryFace:not([data-lazy])');
+    return f ? f.textContent.replace(/\s+/g, ' ') : '';
+  }, id);
+  const beforeDone = await readWhen(page, id => !!document.querySelector('#grid .cardHead[data-id="' + id + '"]')
+    .closest('.panel').querySelector('.summaryFace:not([data-lazy])'), doneId, 10000) && await quickLook(doneId);
+  await page.click('#grid .doneSeg[data-id="' + doneId + '"]');
+  await readWhen(page, id => window.wlDone(id), doneId, 10000);
+  await settle(page);
+  const afterDone = await quickLook(doneId);
+  const whyDone = await page.evaluate(id => window.whyRecommended(window.byId.get(id)), doneId);
+  checkD('before it is finished, the top recommendation\'s card presents it as a discovery with a reason',
+    /discovery|Taste match|match for your taste/i.test(beforeDone) && /Because|Matches your|Same mood/.test(beforeDone), beforeDone);
+  checkD('once marked watched, its open card says so, and no longer calls it a discovery or says why it is recommended',
+    /✓ Watched\./.test(afterDone) && !/discovery|Based on|Because|Matches your|Same mood/.test(afterDone) && whyDone === '', afterDone);
+  await page.click('#grid .doneSeg[data-id="' + doneId + '"]');
+  await readWhen(page, id => !window.wlDone(id), doneId, 10000);
+  await settle(page);
 
   checkD('no uncaught page errors during the taste-engine flow', pageErrors.length === 0);
   if (pageErrors.length) pageErrors.forEach(e => console.log('     ' + e));

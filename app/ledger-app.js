@@ -400,8 +400,10 @@ function derivedLookups(){
  return _lookups;
 }
 function whyRecommended(it){
- // Only meaningful for discoveries: not for something you own, tiered or rated.
- if(it.owned||it.goat||it.silver||it.bronze||it.myRating!=null) return '';
+ // Only meaningful for discoveries: not for something you own, tiered, rated or have finished.
+ // Same predicate as every other "what next" surface (isUntried), so a title marked watched stops
+ // being explained as a recommendation the moment it leaves the lists.
+ if(!isUntried(it)) return '';
  const signal=derivedLookups().signal;
  // (a) Same creator as a taste signal (strongest): Gold/Silver/Bronze favorites first, owned items
  // as a fallback signal, all considered together and ranked by tier.
@@ -637,11 +639,12 @@ function summaryHTML(it){const k=KM[it.kind];
  else if(it.bronze)fit='\u2606 A bronze-tier pick of yours.';
  else if(it.owned)fit='\u2713 Already in your collection'+(it.physFormat?' ('+esc(it.physFormat)+')':'')+'.';
  else if(it.myRating!=null)fit='\u2605 You rated this '+it.myRating.toFixed(1)+'/10.';
+ else if(wlDone(it.id))fit='\u2713 '+doneVerb(it)+'.'+(basis.personal?' Taste match: '+it.gm+'/100.':'');
  else if(!basis.personal)fit='Overall score '+it.gm+'/100 \u2014 critical, audience and craft consensus. Rate, tier or own a few titles to personalize it.';
  else if(it.gm>=85)fit='\ud83c\udfaf Very strong match for your taste ('+it.gm+'/100) \u2014 a prime discovery.';
  else if(it.gm>=72)fit='\ud83c\udfaf Good match for your taste ('+it.gm+'/100).';
  else fit='Taste match: '+it.gm+'/100.';
- const discovery=!(it.goat||it.silver||it.bronze||it.owned||it.myRating!=null);
+ const discovery=isUntried(it);
  if(discovery&&basis.personal)fit+=' <span class="text-slate-500">Based on '+basis.text+'.</span>';
  return '<div class="summaryFace hidden border-t border-slate-800/80 px-3.5 py-3 bg-[#0b1322]/70">'
   +'<div class="flex items-center justify-between gap-2 mb-1.5"><span class="lbl" style="color:'+k.c+'">'+k.label+' \u00b7 Quick Look</span>'
@@ -4599,6 +4602,14 @@ function formatPickerHTML(x){
 function refreshDoneUI(id){
  const it=byId.get(id);if(!it)return;
  $$('.wlBtn[data-wl="'+id+'"]').forEach(function(b){b.outerHTML=wlCornerHTML(it);});
+ // A Quick Look already drawn says whether this is a discovery; finishing (or un-finishing) it changes
+ // that, so redraw it in place, open or closed as it was.
+ $$('.doneSeg[data-id="'+id+'"]').forEach(function(b){
+  const sf=b.closest('.panel')&&b.closest('.panel').querySelector('.summaryFace:not([data-lazy])');
+  if(!sf)return;
+  const tmp=document.createElement('div');tmp.innerHTML=summaryHTML(it);
+  const fresh=tmp.firstElementChild;fresh.classList.toggle('hidden',sf.classList.contains('hidden'));sf.replaceWith(fresh);
+ });
  $$('.doneSeg[data-id="'+id+'"]').forEach(function(b){b.outerHTML=doneSegHTML(it,b.classList.contains('tierSegRoomy'));});
 }
 function afterWatchStateChange(id){
