@@ -465,8 +465,19 @@ function toneFit(x,model){
  });
  return t*TASTE_TONE_SCALE;
 }
+/* A credit like "Joel & Ethan Coen" or "Arkady & Boris Strugatsky" is one team sharing a surname:
+   split naively it became a bare first name ("Joel") plus one full name, so every work by the team
+   carried two learned creator weights learned from the same evidence (twice a solo director's) and
+   a "Creator: Joel" chip, and the learned weight could never merge with a hand-set boost on
+   "Joel & Ethan Coen". Such a credit -- joined by & or "and", no commas, every part but the last a
+   single word and the last a full name -- is kept whole. Comma lists (studios, several people)
+   and pairs of surnames ("Niven & Pournelle") still split. */
 function creatorTokens(x){
- return String((x&&x.creator)||'').split(CREATOR_SPLIT_RE).map(function(s){return s.trim();}).filter(function(s){return s.length>2;});
+ const raw=String((x&&x.creator)||'').trim();
+ const parts=raw.split(CREATOR_SPLIT_RE).map(function(s){return s.trim();}).filter(function(s){return s.length>2;});
+ if(parts.length>1&&raw.indexOf(',')<0&&/ & | and /.test(raw)&&/\s/.test(parts[parts.length-1])
+  &&parts.slice(0,-1).every(function(p){return !/\s/.test(p);}))return [raw];
+ return parts;
 }
 /* Every genre keyword a work matches, lowercased: its own tags plus everything they declare they
    inherit from. Exactly the set genreMatches() tests one keyword at a time, precomputed once so

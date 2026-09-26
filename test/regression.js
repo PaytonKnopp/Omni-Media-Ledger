@@ -4610,6 +4610,25 @@ async function runEngineFlow(browser, file) {
   checkD('...so its card does not claim it "shares your taste for Literary & Poetry"',
     !/Literary &amp; Poetry|Literary & Poetry/.test(bm.why), bm.why);
 
+  // ---- Defect 4: "Joel & Ethan Coen" split into "Joel" + "Ethan Coen", so a Coen film carried two
+  // learned creator weights from the same evidence and never merged with a hand-set boost on the team.
+  const coen = await page.evaluate(() => {
+    const A = window.ALL, creators = x => (x.gmBoosts || []).filter(b => b[0] === 'creator');
+    const film = t => A.find(x => x.kind === 'movie' && x.title === t);
+    const nc = film('No Country for Old Men'), fargo = film('Fargo'), inter = film('Interstellar'), incep = film('Inception');
+    const one = (gold, other) => window.__withProfile({ declaredGoatIds: [gold.id] }, () => creators(window.byId.get(other.id)).map(b => [b[1], b[2]]));
+    const pkCoen = A.filter(x => x.creator === 'Joel & Ethan Coen' && window.isUntried(x)).map(x => creators(x).map(b => [b[1], b[2], b[3] || '']));
+    const pkEvidence = A.some(x => x.creator === 'Joel & Ethan Coen' && !window.isUntried(x));
+    const hand = ((window.PERSONAL_PROFILE.creatorBoost || []).find(c => c[0] === 'Joel & Ethan Coen') || [])[1];
+    return { fargo: one(nc, fargo), inception: one(inter, incep), pkCoen, pkEvidence, hand };
+  });
+  checkD('one Gold Coen film teaches one creator weight, equal to what one Gold Nolan film teaches',
+    coen.fargo.length === 1 && coen.fargo[0][0] === 'Joel & Ethan Coen' && coen.inception.length === 1 &&
+    coen.fargo[0][1] === coen.inception[0][1], JSON.stringify(coen.fargo) + ' vs ' + JSON.stringify(coen.inception));
+  checkD('on the PK Sample the learned Coen weight merges into the hand-set one: one entry per film, above the hand-set +' + coen.hand,
+    coen.pkEvidence && coen.hand > 0 && coen.pkCoen.length > 0 &&
+    coen.pkCoen.every(e => e.length === 1 && e[0][0] === 'Joel & Ethan Coen' && e[0][2] === 'set' && e[0][1] > coen.hand), JSON.stringify(coen.pkCoen.slice(0, 3)));
+
   checkD('no uncaught page errors during the taste-engine flow', pageErrors.length === 0);
   if (pageErrors.length) pageErrors.forEach(e => console.log('     ' + e));
   await page.close();
