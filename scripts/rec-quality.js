@@ -170,7 +170,12 @@ function evalInPage(opts) {
 function summarize(raw) {
   const r = raw.ranks.slice().sort((a, b) => a - b), n = r.length;
   const hit = k => +(r.filter(x => x <= k).length / n).toFixed(3);
+  // The same questions asked as a share of the candidate pool, so a floor means the same thing at
+  // 5,000 titles and at 10,000 (see FLOOR_PCT).
+  const p = raw.pcts.slice().sort((a, b) => a - b);
   return {
+    hitTop2Pct: +(p.filter(x => x <= 2).length / n).toFixed(3),
+    medianPct: +p[Math.floor(n / 2)].toFixed(2),
     hidden: n,
     hitAt25: hit(25), hitAt100: hit(100), hitAt250: hit(250),
     medianRank: r[Math.floor(n / 2)],
@@ -198,23 +203,33 @@ async function measure(page) {
   return { cases: rows, cross };
 }
 
+/* The floors are shares of the candidate pool, not ranks. A rank floor ("in the top 100") gets
+   harder for the same quality as the library grows -- at 10,000 titles the same taste match ranks
+   about twice as far down -- so rank floors would start failing from growth alone and invite
+   loosening them or retuning to pass. Each was restated at or below its old rank at today's pool
+   size (~4,804 candidates for the PK Sample, ~4,990 for the personas), so none is looser today:
+     top 100 of ~4,804 / ~4,990   ->  top 2%     (96 / 99.8 titles)
+     PK median rank <= 130        ->  2.7%       (129.7)
+     persona median rank <= 320   ->  6.4%       (319.3) */
+const FLOOR_PCT = { top: 2, pkMedian: 2.7, personaMedian: 6.4 };
+
 /* What "the engine works" means, as checks. Floors sit a little under what the engine measures
    today (see the report), so a deliberate tuning change has room to move but a regression that
    loses a real share of the hidden favorites fails. Lower mean percentile is better: 5% means the
    average hidden favorite was in the top twentieth of everything untried. */
 const CHECKS = [
-  ['PK Sample: the engine finds at least 45% of hidden favorites in its top 100 (baseline 13%)',
-    m => row(m, 'PK Sample').engine.hitAt100 >= 0.45],
-  ['PK Sample: the engine\'s median hidden favorite ranks in the top 130 of ~4,800 (baseline ~600)',
-    m => row(m, 'PK Sample').engine.medianRank <= 130],
+  ['PK Sample: the engine finds at least 45% of hidden favorites in the top 2% of what is untried (baseline 13%)',
+    m => row(m, 'PK Sample').engine.hitTop2Pct >= 0.45],
+  ['PK Sample: the engine\'s median hidden favorite ranks in the top 2.7% of what is untried (baseline ~13%)',
+    m => row(m, 'PK Sample').engine.medianPct <= FLOOR_PCT.pkMedian],
   ['PK Sample: hand-set boosts, used as the person uses them, do not make the ranking worse',
     m => row(m, 'PK Sample').profile.meanPercentile <= row(m, 'PK Sample').engine.meanPercentile],
-  ['personas: from their other five to seven favorites, at least 58% of hidden ones land in the top 100 (baseline 21%)',
-    m => row(m, 'personas, pooled').engine.hitAt100 >= 0.58],
+  ['personas: from their other five to seven favorites, at least 58% of hidden ones land in the top 2% (baseline 18%)',
+    m => row(m, 'personas, pooled').engine.hitTop2Pct >= 0.58],
   ['personas: the average hidden favorite lands in the top 4% of ~5,000 untried titles (baseline 24%)',
     m => row(m, 'personas, pooled').engine.meanPercentile <= 4],
-  ['every persona: the typical hidden favorite ranks in the top 320 of ~5,000 (the comedy lover, the hardest, was 443 before closeness and acclaim weighting)',
-    m => m.cases.filter(c => c.persona).every(c => c.summary.engine.medianRank <= 320)],
+  ['every persona: the typical hidden favorite ranks in the top 6.4% of what is untried (the comedy lover, the hardest, was ~9% before closeness and acclaim weighting)',
+    m => m.cases.filter(c => c.persona).every(c => c.summary.engine.medianPct <= FLOOR_PCT.personaMedian)],
   ['every profile: the engine ranks hidden favorites far above acclaim alone (mean percentile at most half the baseline\'s)',
     m => m.cases.every(c => c.summary.engine.meanPercentile <= c.summary.baseline.meanPercentile / 2)],
   ['cross-medium: a games-only player\'s films and books drift no more than ' + CROSS_MEDIUM.maxDrift +
@@ -226,14 +241,15 @@ function verdicts(m) { return CHECKS.map(([label, ok]) => ({ label, ok: !!ok(m) 
 
 function report(m, opts) {
   const lines = ['Recommendation quality -- favorites hidden and looked for among everything untried', ''];
-  lines.push('profile / ranker              hidden  hit@25  hit@100  hit@250  median rank  mean pctile  ndcg@100');
+  lines.push('profile / ranker              hidden  hit@25  hit@100  hit@250  median rank  mean pctile  ndcg@100  top 2%  med pctile');
   m.cases.forEach(c => {
     const head = c.pooled ? c.name : c.name + ' (' + c.favorites + ' favorites, ' + (c.folds === c.favorites ? 'leave-one-out' : c.folds + ' folds') + ', ~' + c.candidates + ' candidates)';
     lines.push(head);
     Object.keys(c.summary).forEach(k => {
       const s = c.summary[k];
       lines.push(('  ' + k).padEnd(30) + String(s.hidden).padStart(7) + String(s.hitAt25).padStart(8) + String(s.hitAt100).padStart(9) +
-        String(s.hitAt250).padStart(9) + String(s.medianRank).padStart(13) + (s.meanPercentile + '%').padStart(13) + String(s.ndcgAt100).padStart(10));
+        String(s.hitAt250).padStart(9) + String(s.medianRank).padStart(13) + (s.meanPercentile + '%').padStart(13) + String(s.ndcgAt100).padStart(10) +
+        String(s.hitTop2Pct).padStart(8) + (s.medianPct + '%').padStart(12));
     });
   });
   lines.push('');
