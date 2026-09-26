@@ -145,6 +145,15 @@ One re-runnable pass, `recomputeTasteScores()`, rebuilt from scratch every time 
    the feature is in the corpus, then shrunk by `n/(n+3)` — so weights get stronger and sharper as
    the profile fills, never noisier, and a genre only scores for being characteristic rather than
    for being common.
+   **What a slot means depends on the medium.** The adapter puts every medium's rubric scores into
+   the same slots, but a game's `dread` slot holds immersion and its `myst` slot systems complexity
+   (RUBRIC.md construct 2; QUALITY_PASS.md decisions 2-3). `SLOT_CONSTRUCT` / `constructOf()` in
+   `app/scoring.js` say so, and every consumer reads them: the axis multipliers are learned per
+   construct (a game's immersion teaches the immersion axis, never dread), tone skips a slot holding
+   another construct, closeness gives each construct its own slot, and a game's quality boosts are
+   named "Immersion" and "Systems depth" (`CONSTRUCT_INFO`, which also holds every boost's label,
+   chip and reason phrase). A new medium, or a field whose meaning differs by medium, is one line
+   there. Before this, eight non-horror strategy games taught a strong liking for dread.
    Then a signed **tone** affinity (warmth, comedy, dread), each work placed within its own
    medium: the one taste signal that reaches a medium the person has not tiered in, and the only
    axis signal that can count *against* a work.
@@ -181,17 +190,28 @@ critical/audience/craft consensus, and nothing on the page calls it a match for 
 `tasteBasis()` is what every explanation reads to say what a match rests on ("based on 3 ratings
 and 2 favorites"); `matchTitle()` is the ring's own description.
 
+**Reasons and lists.** A card's "Because ..." line (`whyRecommended()`) cites a creator, a genre
+family or a vibe only when that work carries a positive boost for it, so it never names a taste the
+score did not use; the GOAT Profile lists' reasons (`goatWhy()`) are their top positive boosts. The
+reason lines, the lists and the card's Quick Look wording all treat a title as a discovery only when `isUntried()`:
+not owned, tiered, rated or finished. The lists order and break ties exactly as the GOAT Match sort
+does (`SORTS.gm`), so equal scores are never settled by the order titles were added to the file. The
+browser suite's "taste engine" flow checks all of this on seven profiles.
+
 **How good it is, measured.** `npm run rec-quality` (and the "recommendation quality" flow in the
 browser suite, on every pull request) hides favorites and checks whether the engine finds them
 again among everything untried: the PK Sample's 53 favorites five folds at a time, and each of four
-cold-start personas' six to eight favorites one at a time. Today the engine puts 51% of the PK
-Sample's hidden favorites in its top 100 of ~4,800 (acclaim alone: 15%) and 64% of the personas'
-(acclaim alone: 21%); the personas' typical hidden favorite ranks 19th (104th before closeness and
-acclaim weighting, on the same data; the cosy-games player's went from 160th to 19th). The checks
-fail if that drops below floors set a little under those numbers, including a per-persona median
-floor so no one taste can quietly fall behind. When tuning, change one constant and re-run it; the
+cold-start personas' six to eight favorites one at a time. Today the engine puts 55% of the PK
+Sample's hidden favorites in its top 100 of ~4,800 (acclaim alone: 13%) and 64% of the personas'
+(acclaim alone: 18%); the personas' typical hidden favorite ranks 21st. The floors are shares of the
+candidate pool (top 2%, median within 2.7% / 6.4%), not ranks, so they mean the same at 10,000 titles
+as at 5,000; each was set at or below its old rank floor at today's size. One more persona is
+measured differently: a games-only player (eight strategy, exploration and RPG games) whose film and
+book lists may drift at most 0.8 SD from a blank profile's on dread and ontological complexity,
+constructs their evidence says nothing about -- hidden-favorite tests cannot see cross-medium drift.
+When tuning, change one constant and re-run it; the
 closeness constants were each chosen from a flat region of a sweep, not a peak. The weakest case
-is still the comedy lover (median 290th): their favorites are comedies of middling acclaim with
+is still the comedy lover (median 296th): their favorites are comedies of middling acclaim with
 little else in common, so among ~600 comedies the corpus gives the engine little to tell them
 apart by.
 
@@ -383,6 +403,8 @@ consistency gate (`scripts/corpus-metrics.js --assert`) against real app scores 
 profile (~15s). The gate's data half, batch offsets, also runs in `test-fast`, with
 `test/composition.js` proving its detector finds a planted offset and raises no alarm on IMDb's
 sourced ratings (DATA_RUNBOOK.md Phase D).
+The "taste engine" flow holds the engine's correctness checks (constructs per medium, backed reason
+lines, discovery surfaces, co-credits, list tie-breaks); each fails with its fix reverted.
 The suite covers onboarding, every screen, filters, tiering, and the whole cloud-account flow
 against a mocked Supabase, so no real project is needed. CI runs both on every pull request; day to
 day, `test-fast` plus lint is the pre-commit check, and `node test/regression.js --only=<flow>`

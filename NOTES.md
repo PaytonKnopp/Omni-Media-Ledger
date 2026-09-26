@@ -2057,6 +2057,63 @@ quietly un-certified every scored record a fact run touched. It now keeps the ex
 (`test/fetch-facts.js` checks it); no committed record had been hit. README.md's cloud-account
 section now says plainly that there is no password and anyone who types a name gets that account.
 
+## Phase 52 — Engine verification: four defects fixed, checks that keep them fixed
+
+A verification pass over everything driven by matching (scores, reasons, GOAT Profile lists, sorts,
+filters), measured in the real app. Lint, `test-fast`, `test-gate` and `rec-quality` were green;
+rec-quality had moved slightly from the Phase 51 figures, traced along master to the nineteen-
+duplicate merge (`b010d53`; *American Gods* 205th -> 253rd), a data correction, not the engine.
+Blank profiles showed no lean toward the PK Sample (7 PK favorites in the blank top 100 against 12
+for reception and craft alone), one Gold pick replaced 10/10 Movies and TV recommendations, and every
+user signal moved scores in the right direction. Four real defects:
+
+1. **Games' immersion read as dread.** A game's `dread` slot holds immersion and its `myst` slot
+   systems complexity (QUALITY_PASS.md decisions 2-3), but only `certify()` knew. Eight non-horror
+   strategy/exploration games taught a strong liking for dread (their top 50 films: 10 horror, mean
+   dread +1.76 SD over a blank profile's list; books +1.15); a cosy-games player was learned as
+   favoring dread and depth (+0.48 each); Factorio's card said "Ontological depth". Fixed with one
+   table (`SLOT_CONSTRUCT`, `constructOf`, `CONSTRUCT_INFO` in `app/scoring.js`) that tone,
+   closeness, the axis multipliers, the boosts and their labels all read; games' boosts are now
+   "Immersion" and "Systems depth". Blank snapshot: nothing moved. PK: films/TV/books +-1, games up to
+   +-3. rec-quality: PK hit@100 0.528 -> 0.509 (one favorite of 53), personas' mean percentile 3.2% ->
+   2.9%. Not retuned (QUALITY_PASS.md rule 3).
+2. **A finished title was still "a prime discovery" on its card**, with a "Because ..." line; now
+   `isUntried()` there too, and an open Quick Look redraws when completion changes.
+3. **The "Because ..." line could cite a taste the score did not use** (7 of 499 lines; Blood
+   Meridian "shares your taste for Literary & Poetry" while the PK model weighted every Literary tag
+   on it below zero). It now cites only a creator, family or vibe the work earns a positive boost for.
+4. **"Joel & Ethan Coen" split into "Joel" + "Ethan Coen"**, so a Coen film counted its learned
+   creator weight twice and it never merged with the hand-set boost. Shared-surname team credits are
+   kept whole; seven works moved 2 points.
+
+**Checks.** A new browser flow, "taste engine", holds a check for each fix (each fails with the fix
+reverted) and two permanent audits: every reason line on seven profiles is backed by a positive boost
+(280 list reasons, 700 card lines), and every discovery surface -- the GOAT lists, the card reason,
+the Quick Look wording, Surprise Me's Discover pool -- uses `isUntried`. The GOAT lists now break
+ties with `SORTS.gm` like the GOAT Match sort (they fell back to corpus order). `rec-quality` gains a
+cross-medium persona (a games-only player's films and books may drift at most 0.8 SD on dread and
+ontological complexity; +0.65 / -0.25 today) and its floors became shares of the candidate pool (top
+2%, median 2.7% / 6.4%), each at least as strict as the rank it replaced at today's size.
+
+**Time Travel tags.** The PK Sample's largest hand-set genre weight, `time` +6, reached five works
+(four games, one book): no film or series carried a Time Travel tag. Eighteen now do, each tagged
+only where TMDB's "time travel" keyword (discover, keyword 4379, 2026-09-26) and the record's own
+justification both say so. Forty-one titles TMDB tags but whose record does not confirm it (*The
+Terminator*, *Back to the Future Part II*, *Tenet*, *Predestination*, ...) were left for the owner;
+books were not tagged, as no book source is reachable from the cloud session. PK hit@100 0.509 ->
+0.547; the hand-set "profile" ranker 0.642 -> 0.623, since the `time` boost now lifts those eighteen.
+
+| rec-quality (engine unless noted) | master | after fixes | after tags |
+|---|---|---|---|
+| PK hit@100 | 0.528 | 0.509 | 0.547 |
+| PK median rank | 97 | 100 | 94 |
+| PK nDCG@100 | 0.501 | 0.494 | 0.520 |
+| PK profile ranker hit@100 | 0.642 | 0.642 | 0.623 |
+| personas pooled hit@100 | 0.643 | 0.643 | 0.643 |
+| personas mean percentile | 3.2% | 2.9% | 2.9% |
+| personas pooled nDCG@100 | 0.272 | 0.268 | 0.268 |
+| cross-medium drift, films dread | +1.76 | +0.62 | +0.65 |
+
 ## Ideas / next steps
 
 Roughly in order of value:
