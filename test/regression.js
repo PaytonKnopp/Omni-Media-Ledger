@@ -4629,6 +4629,153 @@ async function runEngineFlow(browser, file) {
     coen.pkEvidence && coen.hand > 0 && coen.pkCoen.length > 0 &&
     coen.pkCoen.every(e => e.length === 1 && e[0][0] === 'Joel & Ethan Coen' && e[0][2] === 'set' && e[0][1] > coen.hand), JSON.stringify(coen.pkCoen.slice(0, 3)));
 
+  // ---- Audit: every reason line is backed by a positive boost. Run over the PK Sample, a blank
+  // profile, the four cold-start personas and the immersive-games player, on every GOAT Profile
+  // list and on the card's "Because ..." line for the top 100 untried titles. A clause that names a
+  // creator, genre, vibe, tone, favorite or quality must find a positive gmBoosts entry of that kind.
+  const reasons = await page.evaluate(([gameTitles, cosy]) => {
+    const unesc = t => String(t).replace(/&amp;/g, '&').replace(/&quot;/g, '"').replace(/&#39;/g, "'");
+    const clauseOK = (clause, pos) => {
+      let m;
+      if ((m = clause.match(/^is by (.+), a creator your profile favors$/))) return pos.some(b => b[0] === 'creator' && b[1] === m[1]);
+      if ((m = clause.match(/^by (.+), an author your profile favors$/))) return pos.some(b => b[0] === 'author' && b[1] === m[1]);
+      if ((m = clause.match(/^matches your weighted “(.+)” genre$/))) return pos.some(b => b[0] === 'genre' && b[1] === m[1]);
+      if ((m = clause.match(/^fits your “(.+)” vibe$/))) return pos.some(b => b[0] === 'vibe' && b[1] === m[1]);
+      if (clause === 'has the tone of your favorites') return pos.some(b => b[0] === 'tone');
+      if (clause === 'is close to what you love most') return pos.some(b => b[0] === 'near');
+      if ((m = clause.match(/^is a lot like (.+)$/))) return pos.some(b => b[0] === 'near' && b[1] === m[1]);
+      return Object.keys(CONSTRUCT_INFO).some(c => CONSTRUCT_INFO[c].why.includes(clause) && pos.some(b => b[0] === CONSTRUCT_INFO[c].type));
+    };
+    const goatWhyOK = (why, x) => {
+      const pos = (x.gmBoosts || []).filter(b => b[2] > 0);
+      if (/^(Scores well on craft and reception|Among the most acclaimed)/.test(why)) return pos.length === 0;
+      const t = why.replace(/\.$/, ''), body = t.charAt(0).toLowerCase() + t.slice(1);
+      if (clauseOK(body, pos)) return true;
+      // Two reasons joined by " and " -- a title or name may itself contain " and ", so try every split.
+      for (let i = body.indexOf(' and '); i >= 0; i = body.indexOf(' and ', i + 1)) {
+        if (clauseOK(body.slice(0, i), pos) && clauseOK(body.slice(i + 5), pos)) return true;
+      }
+      return false;
+    };
+    const cardWhyOK = (why, x) => {
+      if (!why) return true;
+      const pos = (x.gmBoosts || []).filter(b => b[2] > 0);
+      let m;
+      if (/— same (director|author|studio)\.$/.test(why)) return pos.some(b => b[0] === 'creator' || b[0] === 'author');
+      if ((m = why.match(/shares your taste for (.+)\.$/) || why.match(/^Matches your (.+?) taste \(/))) {
+        const fam = unesc(m[1]), keys = new Set(pos.filter(b => b[0] === 'genre').map(b => String(b[1]).toLowerCase()));
+        return (x.genres || []).some(tag => (GENRE_TAXONOMY[tag] || [tag]).some(k => keys.has(String(k).toLowerCase())) && (GENRE_FAMILY_OF[tag] || []).includes(fam));
+      }
+      if (/^Same mood as /.test(why)) return pos.some(b => b[0] === 'vibe');
+      return false;
+    };
+    const profiles = { 'PK Sample': null, blank: {}, 'comedy lover': { silverTierIds: ['m137', 'm138', 'm139', 'm140', 'm162', 't115', 't119', 't125'] },
+      'family drama': { silverTierIds: ['m104', 'm101', 'm107', 'm110', 'm440', 'm815'] }, 'literary fiction': { silverTierIds: ['b37', 'b38', 'b39', 'b73', 'b77', 'b80', 'b82', 'b83'] },
+      'cosy games': { silverTierIds: cosy }, 'immersive games': { silverTierIds: window.__gameIds(gameTitles) } };
+    const out = { lists: 0, cards: 0, bad: [] };
+    const audit = name => {
+      ['Movies', 'TV Series', 'Video Games', 'Books'].forEach(c => window.buildGeneratedRec(c).items.forEach(i => {
+        out.lists++; if (!goatWhyOK(i.why, window.byId.get(i.id))) out.bad.push(name + ' / ' + c + ': ' + i.n + ' -- ' + i.why);
+      }));
+      window.ALL.filter(window.isUntried).sort((a, b) => b.gm - a.gm).slice(0, 100).forEach(x => {
+        const w = window.whyRecommended(x); out.cards++; if (!cardWhyOK(w, x)) out.bad.push(name + ' / card: ' + x.title + ' -- ' + w);
+      });
+    };
+    Object.keys(profiles).forEach(name => { if (profiles[name]) window.__withProfile(profiles[name], () => audit(name)); else audit(name); });
+    return out;
+  }, [IMMERSIVE_GAMES, COSY_GAMES]);
+  checkD('every reason line is backed by a positive boost (' + reasons.lists + ' list reasons, ' + reasons.cards + ' card lines, 7 profiles)',
+    reasons.lists === 7 * 40 && reasons.cards === 700 && reasons.bad.length === 0, reasons.bad.slice(0, 6).join('\n     '));
+
+  // ---- Audit: every "discovery" surface uses isUntried -- the GOAT Profile lists, the card's
+  // "Because ..." line, the card's Quick Look wording and Surprise Me's Discover pool. Three of the
+  // PK Sample's top recommendations are marked finished first, so every state is present: owned,
+  // Gold, Silver, Bronze, rated, finished.
+  const finish = await page.evaluate(() => ['Movies', 'Books', 'TV Series'].map(c => window.buildGeneratedRec(c).items[0].id));
+  for (const id of finish) {
+    await searchTitles(page, await page.evaluate(i => window.byId.get(i).title, id));
+    await page.click('#grid .doneSeg[data-id="' + id + '"]');
+    await readWhen(page, i => window.wlDone(i), id, 10000);
+  }
+  await settle(page);
+  const surfaces = await page.evaluate(() => {
+    const A = window.ALL, bad = [];
+    const byState = { owned: A.filter(x => x.owned && !x.goat && !x.silver && !x.bronze && x.myRating == null && !window.wlDone(x.id)),
+      gold: A.filter(x => x.goat), silver: A.filter(x => x.silver), bronze: A.filter(x => x.bronze),
+      rated: A.filter(x => x.myRating != null), finished: A.filter(x => window.wlDone(x.id)) };
+    const present = Object.keys(byState).filter(k => byState[k].length);
+    A.forEach(x => {
+      const def = !x.owned && !window.wlDone(x.id) && !x.goat && !x.silver && !x.bronze && x.myRating == null;
+      if (window.isUntried(x) !== def) bad.push('isUntried disagrees with its definition: ' + x.title);
+      if (!window.isUntried(x) && window.whyRecommended(x)) bad.push('card reason on a title already had: ' + x.title);
+    });
+    ['Movies', 'TV Series', 'Video Games', 'Books'].forEach(c => window.buildGeneratedRec(c).items.forEach(i => {
+      if (!window.isUntried(window.byId.get(i.id))) bad.push(c + ' list recommends a title already had: ' + i.n);
+    }));
+    const samples = present.map(k => byState[k].slice().sort((a, b) => b.gm - a.gm)[0].id);
+    return { present, bad, samples };
+  });
+  const quick = [];
+  for (const id of surfaces.samples) {
+    await searchTitles(page, await page.evaluate(i => window.byId.get(i).title, id));
+    await page.click('#grid .cardHead[data-id="' + id + '"]');
+    quick.push(await readWhen(page, i => {
+      const h = document.querySelector('#grid .cardHead[data-id="' + i + '"]');
+      const f = h && h.closest('.panel').querySelector('.summaryFace:not([data-lazy])');
+      return f ? window.byId.get(i).title + ': ' + f.textContent.replace(/\s+/g, ' ') : false;
+    }, id, 10000));
+  }
+  const quickBad = quick.filter(t => !t || /discovery|Based on|Because|Matches your|Same mood/.test(t));
+  // Surprise Me, Discover pool: Math.random pinned to a sweep across the whole weighted pool. It spins
+  // over the Controller's current results, so the search box is cleared first.
+  await page.fill('#q', '');
+  await readWhen(page, () => window.state.q === '' && !!document.querySelector('#grid .cardHead'), null, 10000);
+  await page.click('#surpriseBtn');
+  await page.click('#spinPool button[data-p="discover"]');
+  const spun = [];
+  for (const r of [0.001, 0.1, 0.25, 0.4, 0.5, 0.6, 0.75, 0.9, 0.97, 0.999]) {
+    await page.evaluate(v => { window.__realRandom = window.__realRandom || Math.random; Math.random = () => v; }, r);
+    await page.click('#spinGo');
+    spun.push(await readWhen(page, () => {
+      const p = document.getElementById('surprisePanel'), h = p && /Your pick/.test(p.textContent) && p.querySelector('h3');
+      if (!h) return false;
+      const t = h.childNodes[0].textContent.trim(), x = window.ALL.find(y => y.title === t);
+      document.getElementById('surprisePanel').innerHTML = '';
+      return x ? { t, untried: window.isUntried(x) } : { t, untried: false };
+    }, null, 10000));
+  }
+  // Adversarially too: narrowed to one title already had (finished, Silver, rated), Discover must
+  // find nothing to land on. Spread over the whole pool, a few such titles are too rare to hit.
+  const had = await page.evaluate(fin => [fin[0], window.ALL.find(x => x.silver && !x.owned && x.myRating == null) || window.ALL.find(x => x.silver),
+    window.ALL.find(x => x.myRating != null)].map(x => typeof x === 'string' ? window.byId.get(x).title : x.title), finish);
+  for (const t of had) {
+    await searchTitles(page, t);
+    await page.evaluate(() => { Math.random = () => 0.5; });
+    await page.click('#spinGo');
+    spun.push(await readWhen(page, title => {
+      const p = document.getElementById('surprisePanel');
+      if (!p || !p.textContent.trim()) return false;
+      const h = /Your pick/.test(p.textContent) && p.querySelector('h3');
+      if (!h && /Spinning/.test(p.textContent)) return false;
+      const t2 = h ? h.childNodes[0].textContent.trim() : null;
+      p.innerHTML = '';
+      return { t: t2 || '(nothing to pick, narrowed to ' + title + ')', untried: !t2 || window.isUntried(window.ALL.find(y => y.title === t2)) };
+    }, t, 10000));
+  }
+  await page.evaluate(() => { if (window.__realRandom) Math.random = window.__realRandom; });
+  checkD('every state is present to test against (owned, Gold, Silver, Bronze, rated, finished)', surfaces.present.length === 6, surfaces.present.join(','));
+  checkD('GOAT Profile lists and card reason lines offer only untried titles (isUntried)', surfaces.bad.length === 0, surfaces.bad.slice(0, 5).join(' | '));
+  checkD('the Quick Look of an owned, Gold, Silver, Bronze, rated or finished title never presents it as a discovery',
+    quick.length === 6 && quickBad.length === 0, quickBad.join(' | '));
+  checkD('Surprise Me\'s Discover pool only ever lands on untried titles', spun.length === 13 && spun.every(x => x && x.untried),
+    JSON.stringify(spun));
+  for (const id of finish) {
+    await searchTitles(page, await page.evaluate(i => window.byId.get(i).title, id));
+    await page.click('#grid .doneSeg[data-id="' + id + '"]');
+    await readWhen(page, i => !window.wlDone(i), id, 10000);
+  }
+  await settle(page);
+
   checkD('no uncaught page errors during the taste-engine flow', pageErrors.length === 0);
   if (pageErrors.length) pageErrors.forEach(e => console.log('     ' + e));
   await page.close();
