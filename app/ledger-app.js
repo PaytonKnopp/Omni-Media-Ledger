@@ -2017,8 +2017,10 @@ function buildGeneratedRec(cat){
  // ratings are all books, so before this the Books column spent its first several slots handing
  // back novels he had already read and scored.
  // Same goes for anything marked watched/read/played: finished is finished, rated or not.
- const ranked=ALL.filter(x=>x.kind===kind&&!x.owned&&!x.goat&&!x.silver&&!x.bronze&&x.myRating==null&&!wlDone(x.id))
-  .sort((a,b)=>b.gm-a.gm);
+ // Ordered exactly as the GOAT Match sort orders the Controller (SORTS.gm), ties included. Match is a
+ // whole number, so at the cut several titles often tie; sorted by gm alone they fell back to corpus
+ // order -- the order titles were added to the file -- and the lists disagreed with the sort.
+ const ranked=ALL.filter(isUntried).filter(x=>x.kind===kind).sort(SORTS.gm);
  // The same failure one level up: three Lord of the Rings films, or Planet Earth and Planet Earth
  // II, spend a third of the list on one decision. One entry per franchise in the first pass, and for
  // a curated series (whose order is known) that entry is where you would actually start -- the
@@ -2051,7 +2053,7 @@ function buildGeneratedRec(cat){
  });
  // Cut to ten first, then order what made it by score: an entry point carries its franchise's
  // slot, so sorting it before the cut could push the franchise off the list altogether.
- const items=picked.concat(leftover.filter(x=>!pickedIds.has(x.id))).slice(0,10).sort((a,b)=>b.gm-a.gm)
+ const items=picked.concat(leftover.filter(x=>!pickedIds.has(x.id))).slice(0,10).sort(SORTS.gm)
   .map(x=>({id:x.id,n:x.title,s:x.gm,k:x.kind,q:x.title,why:goatWhy(x)}));
  return {cat:cat,basis:computeBasisText(cat),items:items,generated:true};
 }

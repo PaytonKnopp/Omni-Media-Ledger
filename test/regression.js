@@ -4776,6 +4776,28 @@ async function runEngineFlow(browser, file) {
   }
   await settle(page);
 
+  // ---- The recommendation lists break ties the way the GOAT Match sort does (SORTS.gm: match, your
+  // rating, the taste estimate, critic score). Sorted by gm alone, tied titles fell back to the order
+  // they were added to the file. Checked on seven profiles, all four lists each.
+  const ties = await page.evaluate(([gameTitles, cosy]) => {
+    const profiles = [null, {}, { silverTierIds: ['m137', 'm138', 'm139', 'm140', 'm162', 't115', 't119', 't125'] },
+      { silverTierIds: ['m104', 'm101', 'm107', 'm110', 'm440', 'm815'] }, { silverTierIds: ['b37', 'b38', 'b39', 'b73', 'b77', 'b80', 'b82', 'b83'] },
+      { silverTierIds: cosy }, { silverTierIds: window.__gameIds(gameTitles) }];
+    const out = { lists: 0, tiedPairs: 0, bad: [] };
+    const audit = () => ['Movies', 'TV Series', 'Video Games', 'Books'].forEach(c => {
+      const xs = window.buildGeneratedRec(c).items.map(i => window.byId.get(i.id));
+      out.lists++;
+      for (let i = 1; i < xs.length; i++) {
+        if (xs[i].gm === xs[i - 1].gm) out.tiedPairs++;
+        if (window.SORTS.gm(xs[i - 1], xs[i]) > 0) out.bad.push(c + ': ' + xs[i - 1].title + ' before ' + xs[i].title);
+      }
+    });
+    profiles.forEach(p => { if (p) window.__withProfile(p, audit); else audit(); });
+    return out;
+  }, [IMMERSIVE_GAMES, COSY_GAMES]);
+  checkD('every recommendation list is in GOAT Match sort order, ties included (' + ties.lists + ' lists, ' + ties.tiedPairs + ' tied neighbours)',
+    ties.lists === 28 && ties.tiedPairs > 0 && ties.bad.length === 0, ties.bad.slice(0, 5).join(' | '));
+
   checkD('no uncaught page errors during the taste-engine flow', pageErrors.length === 0);
   if (pageErrors.length) pageErrors.forEach(e => console.log('     ' + e));
   await page.close();
