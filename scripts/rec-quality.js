@@ -13,6 +13,16 @@
  *               six to eight favorites, the state a stranger is in after onboarding. Each favorite
  *               is hidden in turn (leave-one-out), so the other five to seven must find it.
  *
+ * One more profile is measured a different way. The cross-medium persona is a games-only player
+ * whose eight favorites are strategy, exploration and RPG games, none of them horror. Their evidence
+ * says nothing about atmospheric dread or ontological complexity -- a game's slots for those hold
+ * immersion and systems complexity, other constructs (app/scoring.js constructOf) -- so their film
+ * and book lists must not drift on those two from what the engine shows with no evidence at all.
+ * Drift is the mean within-medium z of the top 50 untried films (books), minus the same for a blank
+ * profile. Hidden-favorite tests cannot see this: they look for a favorite in the medium the persona
+ * already uses. Before games' immersion was read as its own construct, this persona's films drifted
+ * 1.76 SD toward dread and their books 1.15.
+ *
  * Hiding a favorite removes every trace of it -- tier, rating, ownership -- and the real
  * scoring pass (recomputeProfileDerived, the same code the app runs) then ranks everything the
  * reduced profile has not tried. A good engine puts the hidden favorites near the top of that list,
@@ -42,6 +52,15 @@ const ROOT = path.resolve(__dirname, '..');
 const FOLDS = 5;
 const CASES = [{ name: 'PK Sample', folds: FOLDS }].concat(
   Object.keys(PERSONAS).map(name => ({ name, persona: true, profile: { silverTierIds: PERSONAS[name] } })));
+const CROSS_MEDIUM = {
+  name: 'immersive-games player, cross-medium',
+  games: ['Outer Wilds', 'Factorio', 'Civilization IV', 'Crusader Kings III', 'Europa Universalis IV',
+    "Baldur's Gate 3", 'The Witcher 3: Wild Hunt', 'Return of the Obra Dinn'],
+  constructs: [['dread', 'atmospheric dread'], ['myst', 'ontological complexity']],
+  media: [['movie', 'films'], ['book', 'books']],
+  top: 50,
+  maxDrift: 0.8,
+};
 
 /* Runs in the page. Mutates the live profile in memory only (never storage) and restores it. */
 function evalInPage(opts) {
@@ -90,6 +109,25 @@ function evalInPage(opts) {
     // With no evidence the score is the same for every case and fold: compute it once.
     setProfile({});
     const baselineGm = snapshot();
+    // Cross-medium drift: a games-only persona's film and book lists against a blank profile's.
+    const cm = opts.cross, zMean = (list, kind, f) => {
+      const v = all.filter(x => x.kind === kind && typeof x[f] === 'number').map(x => x[f]);
+      const m = v.reduce((a, b) => a + b, 0) / v.length, sd = Math.sqrt(v.reduce((a, b) => a + (b - m) * (b - m), 0) / v.length) || 1;
+      return list.reduce((a, x) => a + (x[f] - m) / sd, 0) / list.length;
+    };
+    const topOf = kind => all.filter(x => x.kind === kind && !x.owned && !x.goat && !x.silver && !x.bronze && x.myRating == null)
+      .sort((a, b) => (b.gm - a.gm) || (b.ovr - a.ovr) || (a.id < b.id ? -1 : 1)).slice(0, cm.top);
+    const blankTops = Object.fromEntries(cm.media.map(([k]) => [k, topOf(k)]));
+    const cmIds = cm.games.map(t => all.find(x => x.kind === 'game' && x.title === t)).filter(Boolean).map(x => x.id);
+    setProfile({ silverTierIds: cmIds });
+    var cross = { name: cm.name, favorites: cmIds.length, rows: [] };
+    cm.media.forEach(([k, label]) => {
+      const mine = topOf(k);
+      cm.constructs.forEach(([f, cname]) => {
+        const b = zMean(blankTops[k], k, f), p = zMean(mine, k, f);
+        cross.rows.push({ medium: label, construct: cname, blank: +b.toFixed(3), persona: +p.toFixed(3), drift: +(p - b).toFixed(3) });
+      });
+    });
     opts.cases.forEach(c => {
       const base = c.profile ? clone(c.profile) : expandCeiling(clone(original));
       const favorites = [].concat(base.declaredGoatIds || [], base.silverTierIds || [], base.bronzeTierIds || [])
@@ -126,7 +164,7 @@ function evalInPage(opts) {
   } finally {
     setProfile(original);
   }
-  return out;
+  return { cases: out, cross };
 }
 
 function summarize(raw) {
@@ -144,7 +182,8 @@ function summarize(raw) {
 /* Every measured case summarized, plus the personas pooled into one row (six to eight hidden titles
    each are too few to judge alone; twenty-eight together are not). */
 async function measure(page) {
-  const cases = await page.evaluate(evalInPage, { cases: CASES });
+  const measured = await page.evaluate(evalInPage, { cases: CASES, cross: CROSS_MEDIUM });
+  const cases = measured.cases, cross = measured.cross;
   const pooledRaw = {};
   cases.filter(c => c.persona).forEach(c => {
     Object.keys(c.raw).forEach(n => {
@@ -156,7 +195,7 @@ async function measure(page) {
     summary: Object.fromEntries(Object.keys(c.raw).map(n => [n, summarize(c.raw[n])])) }));
   rows.push({ name: 'personas, pooled', pooled: true, favorites: cases.filter(c => c.persona).reduce((s, c) => s + c.favorites, 0),
     summary: Object.fromEntries(Object.keys(pooledRaw).map(n => [n, summarize(pooledRaw[n])])) });
-  return { cases: rows };
+  return { cases: rows, cross };
 }
 
 /* What "the engine works" means, as checks. Floors sit a little under what the engine measures
@@ -178,6 +217,9 @@ const CHECKS = [
     m => m.cases.filter(c => c.persona).every(c => c.summary.engine.medianRank <= 320)],
   ['every profile: the engine ranks hidden favorites far above acclaim alone (mean percentile at most half the baseline\'s)',
     m => m.cases.every(c => c.summary.engine.meanPercentile <= c.summary.baseline.meanPercentile / 2)],
+  ['cross-medium: a games-only player\'s films and books drift no more than ' + CROSS_MEDIUM.maxDrift +
+    ' SD from a blank profile\'s on atmospheric dread and ontological complexity, which their evidence says nothing about',
+    m => m.cross.favorites === CROSS_MEDIUM.games.length && m.cross.rows.length === 4 && m.cross.rows.every(r => Math.abs(r.drift) <= CROSS_MEDIUM.maxDrift)],
 ];
 function row(m, name) { return m.cases.find(c => c.name === name).summary; }
 function verdicts(m) { return CHECKS.map(([label, ok]) => ({ label, ok: !!ok(m) })); }
@@ -194,6 +236,11 @@ function report(m, opts) {
         String(s.hitAt250).padStart(9) + String(s.medianRank).padStart(13) + (s.meanPercentile + '%').padStart(13) + String(s.ndcgAt100).padStart(10));
     });
   });
+  lines.push('');
+  lines.push(m.cross.name + ' (' + m.cross.favorites + ' favorites): top ' + CROSS_MEDIUM.top + ' untried, mean within-medium z');
+  lines.push('  list / construct                         blank  persona    drift');
+  m.cross.rows.forEach(r => lines.push(('  ' + r.medium + ' / ' + r.construct).padEnd(38) + String(r.blank).padStart(9) +
+    String(r.persona).padStart(9) + String(r.drift).padStart(9)));
   if (!(opts && opts.table)) {
     lines.push('');
     verdicts(m).forEach(v => lines.push((v.ok ? '  ok   - ' : '  FAIL - ') + v.label));
