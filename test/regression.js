@@ -4007,18 +4007,23 @@ async function runRenderPerfFlow(browser, file) {
     // Full-scan implementations of the same rules, the memoized ones are held to.
     function whyRef(it) {
       if (!window.isUntried(it)) return '';
-      if (it.creator) {
+      // Cites only what a positive boost on this work backs (creator, a genre's family, the vibe).
+      const pos = (it.gmBoosts || []).filter(b => b[2] > 0);
+      const keys = new Set(pos.filter(b => b[0] === 'genre').map(b => String(b[1]).toLowerCase()));
+      const backed = new Set();
+      (it.genres || []).forEach(t => { if ((GENRE_TAXONOMY[t] || [t]).some(k => keys.has(String(k).toLowerCase()))) (GENRE_FAMILY_OF[t] || []).forEach(f => backed.add(f)); });
+      if (it.creator && pos.some(b => b[0] === 'creator' || b[0] === 'author')) {
         const ex = bestAnchor(ALL.filter(x => sig(x) && x.creator && x.creator === it.creator && x.id !== it.id));
         if (ex) { const noun = it.kind === 'book' ? 'author' : (it.kind === 'game' ? 'studio' : 'director'); return 'Because ' + anchorPhrase(ex) + ' — same ' + noun + '.'; }
       }
-      const fams = it.fam || [];
+      const fams = (it.fam || []).filter(f => backed.has(f));
       if (fams.length) {
         const e1 = bestAnchor(ALL.filter(x => sig(x) && x.kind === it.kind && (x.fam || []).some(f => fams.includes(f))));
         if (e1) { const sf = fams.find(f => (e1.fam || []).includes(f)) || fams[0]; return 'Because ' + anchorPhrase(e1) + ' — shares your taste for ' + esc(sf) + '.'; }
         const e2 = bestAnchor(ALL.filter(x => sig(x) && (x.fam || []).some(f => fams.includes(f))));
         if (e2) { const sf = fams.find(f => (e2.fam || []).includes(f)) || fams[0]; return 'Matches your ' + esc(sf) + ' taste (' + anchorPhrase(e2) + ').'; }
       }
-      if (it.vibe) { const ex = bestAnchor(ALL.filter(x => sig(x) && x.vibe === it.vibe)); if (ex) return 'Same mood as ' + esc(ex.title) + ' (' + esc(it.vibe) + ').'; }
+      if (it.vibe && pos.some(b => b[0] === 'vibe')) { const ex = bestAnchor(ALL.filter(x => sig(x) && x.vibe === it.vibe)); if (ex) return 'Same mood as ' + esc(ex.title) + ' (' + esc(it.vibe) + ').'; }
       return '';
     }
     function threadRef(it) {
@@ -4591,6 +4596,19 @@ async function runEngineFlow(browser, file) {
   await page.click('#grid .doneSeg[data-id="' + doneId + '"]');
   await readWhen(page, id => !window.wlDone(id), doneId, 10000);
   await settle(page);
+
+  // ---- Defect 3: the card's "Because ..." line may only cite what the score used. On the PK
+  // Sample it told Blood Meridian "shares your taste for Literary & Poetry" while the model weighted
+  // every Literary tag on it below zero (it ranks on Western).
+  const bm = await page.evaluate(() => {
+    const x = window.ALL.find(y => y.kind === 'book' && y.title === 'Blood Meridian');
+    const lit = (x.gmBoosts || []).filter(b => b[0] === 'genre' && /literary|fiction/i.test(b[1]));
+    return { untried: window.isUntried(x), literaryWeights: lit.map(b => b[2]), why: window.whyRecommended(x) };
+  });
+  checkD('precondition: the PK Sample weights Blood Meridian\'s Literary / Fiction tags below zero',
+    bm.untried && bm.literaryWeights.length > 0 && bm.literaryWeights.every(w => w < 0), JSON.stringify(bm));
+  checkD('...so its card does not claim it "shares your taste for Literary & Poetry"',
+    !/Literary &amp; Poetry|Literary & Poetry/.test(bm.why), bm.why);
 
   checkD('no uncaught page errors during the taste-engine flow', pageErrors.length === 0);
   if (pageErrors.length) pageErrors.forEach(e => console.log('     ' + e));

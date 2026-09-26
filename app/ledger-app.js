@@ -405,9 +405,22 @@ function whyRecommended(it){
  // being explained as a recommendation the moment it leaves the lists.
  if(!isUntried(it)) return '';
  const signal=derivedLookups().signal;
+ /* A "Because" is a claim about why the score is what it is, so it may only cite something the score
+    actually used: a creator this work earns a positive creator weight for, a genre family one of its
+    positively weighted genres belongs to, a vibe it earns a positive vibe weight for. Choosing the
+    anchor by shared metadata alone once told the PK Sample that Blood Meridian "shares your taste for
+    Literary & Poetry" while its own model weighted Literary, Literary Fiction and Fiction below zero. */
+ const pos=(it.gmBoosts||[]).filter(b=>b[2]>0);
+ const tax=(typeof GENRE_TAXONOMY!=='undefined')?GENRE_TAXONOMY:{};
+ const boostedKeys=new Set(pos.filter(b=>b[0]==='genre').map(b=>String(b[1]).toLowerCase()));
+ const backedFam=new Set();
+ (it.genres||[]).forEach(tag=>{
+  if(!(tax[tag]||[tag]).some(k=>boostedKeys.has(String(k).toLowerCase())))return;
+  ((typeof GENRE_FAMILY_OF!=='undefined'&&GENRE_FAMILY_OF[tag])||[]).forEach(f=>backedFam.add(f));
+ });
  // (a) Same creator as a taste signal (strongest): Gold/Silver/Bronze favorites first, owned items
  // as a fallback signal, all considered together and ranked by tier.
- if(it.creator){
+ if(it.creator&&pos.some(b=>b[0]==='creator'||b[0]==='author')){
   const sameCreator=signal.filter(x=>x.creator&&x.creator===it.creator&&x.id!==it.id);
   const ex=bestAnchor(sameCreator);
   if(ex){
@@ -416,7 +429,7 @@ function whyRecommended(it){
   }
  }
  // (b) Shared genre-family with a taste signal (tiered favorites ranked above merely-owned).
- const fams=(it.fam||[]);
+ const fams=(it.fam||[]).filter(f=>backedFam.has(f));
  if(fams.length){
   const sameKind=signal.filter(x=>x.kind===it.kind&&(x.fam||[]).some(f=>fams.includes(f)));
   const exSame=bestAnchor(sameKind);
@@ -433,7 +446,7 @@ function whyRecommended(it){
   }
  }
  // (c) Shared vibe with a taste signal.
- if(it.vibe){
+ if(it.vibe&&pos.some(b=>b[0]==='vibe')){
   const sameVibe=signal.filter(x=>x.vibe===it.vibe);
   const ex=bestAnchor(sameVibe);
   if(ex){
@@ -4242,7 +4255,9 @@ function cardProfileFingerprint(p){
 // recompute to find the works that changed -- for a tier or own click that is exactly one.
 function derivedStateOf(x){
  return x.gm+'|'+(x.goat?1:0)+(x.silver?1:0)+(x.bronze?1:0)+(x.owned?1:0)+(x.ownedBoost?1:0)
-  +'|'+(x.physFormat||'')+'|'+(x.gmOverride||'')+'|'+x.gmBoostTotal;
+  +'|'+(x.physFormat||'')+'|'+(x.gmOverride||'')+'|'+x.gmBoostTotal
+  // whyRecommended cites only what one of these backs, so a change in them redraws the card.
+  +'|'+(x.gmBoosts||[]).filter(b=>b[2]>0).map(b=>b[0]+':'+b[1]).join(',');
 }
 function derivedSnapshot(){
  const m=new Map();
