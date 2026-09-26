@@ -3,6 +3,10 @@
 // entry whenever a change reaches users.
 'use strict';
 const CHANGELOG=[
+ {v:'1.53.2',date:'2026-09-26',summary:'The GOAT Profile tab now shows Movies, TV Shows, Books and Video Games in that order for everyone, each under a clear header.',notes:[
+  'Your favorites and your recommendations both go Movies, TV Shows, Books, Video Games, every time. Before, favorites were ordered by how many titles each box held, so the order moved around. Each box now has an icon and a header in that medium’s color. A medium you haven’t tiered anything in yet still gets its box, so the layout looks the same on every account.',
+  'On the PK Sample and PK’s own account, the extra categories now sit in their own “PK Sample Extras” area below the four, grouped so related ones are side by side: Directors, Actors, Cinematographers, Composers, Music Artists, then YouTube.'
+ ]},
  {v:'1.53.1',date:'2026-09-25',summary:'The Warmth, Comic Intent and Beauty sliders now shape the Match number, and you can sort by them.',notes:[
   'Pulling Warmth / Care, Comic Intent / Wit or Aesthetic Beauty used to filter the list without counting toward its Match number, so on their own they left results in plain Best Overall order. They now weigh in like every other slider and switch the list to Match order.',
   'Sort by Aesthetic Beauty, Comic Intent / Wit or Warmth / Care from the sort menu.'

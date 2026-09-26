@@ -2255,7 +2255,37 @@ function renderTasteDNA(){
 // tiered Silver or Bronze from a card's compact row or the GOAT Profile search was previously
 // invisible on this page entirely. Non-corpus hand-curated categories (Director, Actors, etc.)
 // have no tier concept, so they keep the original flat "declared" rendering.
-var CORPUS_CANON_KIND={Movies:'movie',Books:'book','TV Shows':'tv','Video Game':'game'};
+//
+// Both halves of the tab (declared canon and recommendations) draw their categories in this one
+// order, the same for every account: the four media anyone can tier first -- Movies, TV Shows,
+// Books, Video Games -- then, in a separately labelled area, the people-and-creator categories
+// only the PK Sample carries: the film crafts together, Composers beside Music Artists, YouTube
+// last. Names are the recommendation spellings; the declared canon's ('TV Shows', 'Video Game',
+// 'Director', 'Artist'...) resolve through DECLARED_CAT_ALIASES. Anything unlisted goes last.
+var GOAT_CAT_ORDER=['Movies','TV Series','Books','Video Games','Directors','Actors','Cinematographers','Composers','Music Artists','YouTube'];
+var GOAT_CAT_ICON={Movies:'\u{1F3AC}','TV Series':'\u{1F4FA}',Books:'\u{1F4DA}','Video Games':'\u{1F3AE}'};
+function goatCatCanon(cat){
+ return GOAT_CAT_ORDER.find(function(c){return c===cat||(DECLARED_CAT_ALIASES[c]||[]).indexOf(cat)>=0;})||null;
+}
+function goatCatLabel(cat){var c=goatCatCanon(cat);return c==='TV Series'?'TV Shows':(c||cat);}
+function isCoreGoatCat(cat){return Object.prototype.hasOwnProperty.call(RECS_KIND_BY_CAT,goatCatCanon(cat)||'');}
+function inGoatCatOrder(list,catOf){
+ var rank=function(x){var c=goatCatCanon(catOf(x));return c?GOAT_CAT_ORDER.indexOf(c):GOAT_CAT_ORDER.length;};
+ return list.slice().sort(function(a,b){return rank(a)-rank(b);});
+}
+// A core category's header: its icon and name in the medium's own color, so each box reads as
+// "my movies" / "my books" at a glance.
+function goatCoreHeadHTML(cat,right){
+ var c=goatCatCanon(cat),col=KM[RECS_KIND_BY_CAT[c]].c;
+ return '<h3 class="flex flex-wrap items-center gap-x-2 gap-y-0.5 text-[13px] font-bold uppercase tracking-[.14em]" style="color:'+col+'"><span class="text-[15px] leading-none" aria-hidden="true">'+GOAT_CAT_ICON[c]+'</span>'+esc(goatCatLabel(cat))+(right||'')+'</h3>';
+}
+// The PK Sample's extra categories, set apart below the four so it is plain they come with the
+// sample rather than being something every account has.
+function goatExtrasHTML(note,inner,gridCls,topCls){
+ return '<div class="goatExtras '+topCls+' rounded-xl border border-dashed p-3 sm:p-4" style="border-color:#fbbf2440;background:rgba(251,191,36,.025)">'
+  +'<div class="flex flex-wrap items-baseline gap-x-3 gap-y-1 mb-3"><span class="text-[11px] font-bold uppercase tracking-[.16em]" style="color:#fde68a">✦ PK Sample Extras</span><span class="text-[10.5px] text-slate-500">'+note+'</span></div>'
+  +'<div class="grid grid-cols-1 '+gridCls+' gap-3">'+inner+'</div></div>';
+}
 var TIER_STYLE={gold:['\u{1F947}','Gold','#fbbf24'],silver:['\u{1F948}','Silver','#cbd5e1'],bronze:['\u{1F949}','Bronze','#cd7f32']};
 // Each tier group is ALSO a drop zone (data-tier/data-kind), and always renders -- even with zero
 // items -- so an empty tier still has somewhere to drag a chip into. Dragging a chip from one
@@ -2274,51 +2304,47 @@ function tierChipGroupHTML(kind,items,tierKey,filterQ){
  return '<div class="mt-2 first:mt-0 tierDropZone rounded-lg -m-1 p-1" data-tier="'+tierKey+'" data-kind="'+kind+'"><div class="text-[9.5px] tracking-[.16em] uppercase mb-1 font-bold" style="color:'+s[2]+'">'+s[0]+' '+s[1]+' <span class="text-slate-600 font-normal">('+(filterQ?shown.length+'/'+items.length:items.length)+')</span></div>'
   +'<div class="flex flex-wrap gap-1.5 min-h-[24px]">'+body+'</div></div>';
 }
-function declaredCategoryHTML(d){
- var kind=CORPUS_CANON_KIND[d.cat];
- var filterQ=(state.goatDeclaredQ||'').trim().toLowerCase();
- if(!kind){
-  var items=filterQ?d.items.filter(function(it){return it.name.toLowerCase().indexOf(filterQ)>=0;}):d.items;
-  if(filterQ&&!items.length)return '';
-  return '<div class="panel p-3.5" style="border-color:#fbbf2433">'
-   +'<div class="lbl" style="color:#fbbf24">\u2605 '+esc(d.cat)+'</div>'
-   +'<div class="flex flex-wrap gap-1.5 mt-2">'+items.map(it=>'<span class="chip'+(it.q?' goatJump':'')+'"'+(it.q?' data-q="'+esc(it.q)+'" title="Open in Global Controller" style="color:#fde68a;border-color:#fbbf2455;cursor:pointer"':' style="color:#fde68a;border-color:#fbbf2455"')+'>'+esc(it.name)+(it.note?' <span class="text-slate-500">\u00b7 '+esc(it.note)+'</span>':'')+'</span>').join('')+'</div></div>';
- }
- var pool=ALL.filter(function(x){return x.kind===kind;});
- var anyTiered=pool.some(function(x){return x.goat||x.silver||x.bronze;});
- // With a filter typed and this whole category having nothing matching it, drop the category
- // entirely rather than show three empty "no matches" drop zones in a row.
- if(filterQ&&anyTiered&&!pool.some(function(x){return (x.goat||x.silver||x.bronze)&&x.title.toLowerCase().indexOf(filterQ)>=0;}))return '';
- var body=tierChipGroupHTML(kind,pool.filter(function(x){return x.goat;}),'gold',filterQ)
-  +tierChipGroupHTML(kind,pool.filter(function(x){return x.silver;}),'silver',filterQ)
-  +tierChipGroupHTML(kind,pool.filter(function(x){return x.bronze;}),'bronze',filterQ);
- return '<div class="panel p-3.5" style="border-color:#47556933"><div class="lbl" style="color:#e2e8f0">'+esc(d.cat)+'</div>'
-  +(anyTiered?'':'<div class="text-[11px] text-slate-500 mt-1">None declared yet \u2014 search above to tier some.</div>')
+// One of the four media, drawn live from the tier data. All four always render, in the same
+// order, so every account sees the same layout; one with nothing tiered yet stays a short box
+// (no drop zones -- there is no chip in that medium to drag into them).
+function declaredCoreHTML(cat,filterQ){
+ var kind=RECS_KIND_BY_CAT[cat];
+ var pool=ALL.filter(function(x){return x.kind===kind&&(x.goat||x.silver||x.bronze);});
+ // With a filter typed and nothing in this medium matching it, drop the box entirely rather than
+ // show three empty "no matches" drop zones in a row.
+ if(filterQ&&!pool.some(function(x){return x.title.toLowerCase().indexOf(filterQ)>=0;}))return '';
+ var col=KM[kind].c;
+ var body=pool.length
+  ?'<div>'+tierChipGroupHTML(kind,pool.filter(function(x){return x.goat;}),'gold',filterQ)
+   +tierChipGroupHTML(kind,pool.filter(function(x){return x.silver;}),'silver',filterQ)
+   +tierChipGroupHTML(kind,pool.filter(function(x){return x.bronze;}),'bronze',filterQ)+'</div>'
+  :'<div class="text-[11px] text-slate-500">Nothing tiered yet — search above to add your first.</div>';
+ return '<div class="panel p-3.5" data-goat-cat="'+esc(cat)+'" style="border-color:'+col+'33;border-top:2px solid '+col+'">'
+  +'<div class="flex items-center justify-between gap-2 pb-2 mb-2.5 border-b border-slate-800/70">'+goatCoreHeadHTML(cat)
+  +'<span class="text-[10px] tabular-nums text-slate-500 shrink-0">'+pool.length+' tiered</span></div>'
   +body+'</div>';
 }
-// The four corpus categories are shown whenever the profile has ANY tiered work in them, even if
-// declaredCanon never mentions that category. Previously this list came only from declaredCanon,
-// which is populated by the sample profile and the GOAT Picker's finalize step -- so on an account
-// started from scratch it was empty, and tiering something Gold/Silver/Bronze from a card had
-// nowhere to appear at all. That looked exactly like "my picks aren't saving" even when they were.
-// How many tiered/declared items a declared-canon category actually has right now -- used only to
-// order the grid so categories you've actually built out surface above ones with a single entry,
-// not to gate visibility (declaredCategoryHTML/declaredCategoriesToRender still decide that).
-function tieredCountInCat(d){
- var kind=CORPUS_CANON_KIND[d.cat];
- if(!kind)return (d.items||[]).length;
- return ALL.filter(function(x){return x.kind===kind&&(x.goat||x.silver||x.bronze);}).length;
+// A hand-curated PK Sample category (Directors, Actors...): no tiers, just the declared names.
+function declaredExtraHTML(d,filterQ){
+ var items=filterQ?d.items.filter(function(it){return it.name.toLowerCase().indexOf(filterQ)>=0;}):d.items;
+ if(filterQ&&!items.length)return '';
+ return '<div class="panel p-3.5" data-goat-cat="'+esc(d.cat)+'" style="border-color:#fbbf2433">'
+  +'<div class="lbl" style="color:#fbbf24">★ '+esc(goatCatLabel(d.cat))+'</div>'
+  +'<div class="flex flex-wrap gap-1.5 mt-2">'+items.map(it=>'<span class="chip'+(it.q?' goatJump':'')+'"'+(it.q?' data-q="'+esc(it.q)+'" title="Open in Global Controller" style="color:#fde68a;border-color:#fbbf2455;cursor:pointer"':' style="color:#fde68a;border-color:#fbbf2455"')+'>'+esc(it.name)+(it.note?' <span class="text-slate-500">· '+esc(it.note)+'</span>':'')+'</span>').join('')+'</div></div>';
 }
-function declaredCategoriesToRender(){
- var cats=(goatProfile.declared||[]).slice();
- var named={};cats.forEach(function(d){named[d.cat]=true;});
- Object.keys(CORPUS_CANON_KIND).forEach(function(cat){
-  if(named[cat])return;
-  var kind=CORPUS_CANON_KIND[cat];
-  var hasTiered=ALL.some(function(x){return x.kind===kind&&(x.goat||x.silver||x.bronze);});
-  if(hasTiered)cats.push({cat:cat,items:[]});
- });
- return cats;
+// The four media come from the tier data alone, whatever declaredCanon says about them: it is
+// written only by the sample profile and the GOAT Picker's finalize step, so an account started
+// from scratch has none, and building the boxes from it once meant tiering something from a card
+// had nowhere to appear. That looked exactly like "my picks aren't saving" even when they were.
+function renderGoatDeclared(){
+ var el=$('#goatDeclared');if(!el)return;
+ var filterQ=(state.goatDeclaredQ||'').trim().toLowerCase();
+ var core=GOAT_CAT_ORDER.filter(isCoreGoatCat).map(function(cat){return declaredCoreHTML(cat,filterQ);}).join('');
+ var extraCats=inGoatCatOrder((goatProfile.declared||[]).filter(function(d){return !isCoreGoatCat(d.cat);}),function(d){return d.cat;});
+ var extras=extraCats.map(function(d){return declaredExtraHTML(d,filterQ);}).join('');
+ if(!core&&!extras){el.innerHTML='<div class="text-center text-slate-500 text-sm py-6">Nothing in your declared canon matches “'+esc(filterQ)+'”.</div>';return;}
+ el.innerHTML=(core?'<div class="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-3">'+core+'</div>':'')
+  +(extras?goatExtrasHTML('The people &amp; creators that come with the PK Sample, beyond the four media every account has',extras,'sm:grid-cols-2 lg:grid-cols-3',core?'mt-5':''):'');
 }
 // Quick-scan counts for the tab header: how much of the ledger you've actually tiered/owned, and
 // how personalized the recommendation categories currently are (basis text already distinguishes
@@ -2345,34 +2371,37 @@ function renderGoatStats(){
  el.innerHTML=stats.map(function(s){return '<div class="panel p-2.5 text-center"><div class="text-lg font-extrabold tabular-nums leading-tight" style="color:'+s[2]+'">'+s[1]+'</div><div class="lbl mt-1">'+s[0]+'</div></div>';}).join('');
 }
 function renderGoat(){renderTasteDNA();renderGoatStats();
- var declaredCats=declaredCategoriesToRender().slice().sort(function(a,b){return tieredCountInCat(b)-tieredCountInCat(a);});
- var declaredHTML=declaredCats.map(declaredCategoryHTML).join('');
- $('#goatDeclared').innerHTML=declaredHTML||((state.goatDeclaredQ||'').trim()?'<div class="col-span-full text-center text-slate-500 text-sm py-6">Nothing in your declared canon matches “'+esc(state.goatDeclaredQ.trim())+'”.</div>':'<div class="col-span-full text-center text-slate-500 text-sm py-6">Nothing declared yet — search above and tier or own something to start building your canon.</div>');
- var recCats=isPaytonSampleProfile()?goatProfile.recs:goatProfile.recs.filter(function(c){return Object.prototype.hasOwnProperty.call(RECS_KIND_BY_CAT,c.cat);});
+ renderGoatDeclared();
+ var recCats=inGoatCatOrder(isPaytonSampleProfile()?goatProfile.recs:goatProfile.recs.filter(function(c){return Object.prototype.hasOwnProperty.call(RECS_KIND_BY_CAT,c.cat);}),function(c){return c.cat;});
  var hiddenAll=PERSONAL_PROFILE.hiddenRecs||[];
  var unhideAllBox=$('#goatRecsUnhideAll');
  if(unhideAllBox)unhideAllBox.classList.toggle('hidden',!hiddenAll.length);
- $('#goatRecs').innerHTML=recCats.map(cat=>{
-  var hidden=PERSONAL_PROFILE.hiddenRecs||[];
-  var visible=cat.items.filter(function(it){return hidden.indexOf(recKey(cat.cat,it))<0;});
-  var hiddenN=cat.items.length-visible.length;
-  var unpersonalized=cat.basis&&cat.basis.indexOf('No ')===0;
-  return '<div class="panel overflow-hidden fade-in"'+(unpersonalized?' style="opacity:.82"':'')+'>'
-  +'<div class="px-4 pt-4 pb-3 border-b border-slate-800/70"><div class="flex items-baseline justify-between gap-2"><h3 class="text-[12px] font-bold tracking-[.14em] uppercase text-slate-100">'+esc(cat.cat)+(unpersonalized?' <span class="text-[8.5px] font-normal normal-case tracking-normal text-slate-500" title="No favorites declared for this category yet, so these are ranked by your general genre/vibe weights, not projected from anything you picked.">○ not personalized</span>':'')+(cat.approx?(cat.partiallyLinked?' <span class="text-[8.5px] font-normal normal-case tracking-normal text-emerald-400/80" title="Where a pick has a known, ledger-linked work (marked ◆ below), the score is a real average of that work'+"'"+'s GOAT match, not a guess. Unlinked picks fall back to genre overlap.">◆ partly ledger-linked</span>':' <span class="text-[8.5px] font-normal normal-case tracking-normal text-amber-400/70" title="No corpus of music/video-essay works exists to link these picks to (the ledger only tracks movies, TV, games and books), so these stay hand-curated -- but the score and order do respond to both your genre AND vibe weights.">◈ approximate — by genre + vibe overlap</span>'):'')+'</h3><span class="lbl">match /100</span></div>'
-  +'<p class="text-[10.5px] text-slate-500 mt-1 leading-relaxed">'+esc(cat.basis)+'</p>'
-  +(hiddenN?'<button type="button" class="recUnhideAll text-[10px] text-sky-400/80 hover:text-sky-300 mt-1.5" data-cat="'+esc(cat.cat)+'">'+hiddenN+' hidden here — show again</button>':'')
-  +'</div>'
-  +(visible.length?visible.map((it,i)=>'<div class="flex items-center gap-2.5 px-3.5 py-2 border-b border-slate-800/50 last:border-0 hover:bg-slate-800/20 group'+(it.q?' goatJump cursor-pointer':'')+'"'+(it.q?' data-q="'+esc(it.q)+'" title="Open in Global Controller"':'')+'>'
-   +'<span class="text-[10px] text-slate-500 w-5 tabular-nums">'+String(i+1).padStart(2,'0')+'</span>'
-   +'<span class="w-1.5 h-1.5 rounded-full shrink-0" style="background:'+(it.k?KM[it.k].c:'#475569')+'"></span>'
-   +'<div class="flex-1 min-w-0"><div class="text-[12px] text-slate-200 truncate">'+esc(it.n)+(it.linked?' <span class="text-[8.5px] text-emerald-400/80 uppercase tracking-[.12em]" title="Score is a real average of this person’s linked ledger work(s)">◆ linked</span>':'')+(it.q?' <span class="text-[8.5px] text-amber-300/70 uppercase tracking-[.12em]">on ledger</span>':'')+'</div>'
-   +'<div class="text-[10px] text-slate-500 truncate" title="'+esc(it.why)+'">'+esc(it.why)+'</div></div>'
-   +'<span class="hidden sm:flex w-24 shrink-0"><span class="bar flex-1"><i style="width:'+it.s+'%;background:linear-gradient(90deg,#b45309,#fbbf24)"></i></span></span>'
-   +'<span class="text-[11px] font-bold tabular-nums w-7 text-right" style="color:#fbbf24">'+it.s+'</span>'
-   +'<button type="button" class="recHideBtn shrink-0 opacity-0 group-hover:opacity-100 transition-opacity text-slate-500 hover:text-rose-300 text-[13px] leading-none px-1" data-cat="'+esc(cat.cat)+'" data-key="'+esc(recKey(cat.cat,it))+'" title="Hide this from recommendations">✕</button>'
-   +'</div>').join(''):'<div class="px-3.5 py-3 text-[11px] text-slate-500">Everything here is hidden.</div>')
-  +'</div>';
- }).join('');
+ var coreRecs=recCats.filter(function(c){return isCoreGoatCat(c.cat);}).map(recCategoryHTML).join('');
+ var extraRecs=recCats.filter(function(c){return !isCoreGoatCat(c.cat);}).map(recCategoryHTML).join('');
+ $('#goatRecs').innerHTML='<div class="grid grid-cols-1 lg:grid-cols-2 gap-4">'+coreRecs+'</div>'
+  +(extraRecs?goatExtrasHTML('Recommendations for the PK Sample\u2019s people &amp; creators',extraRecs,'lg:grid-cols-2 xl:grid-cols-3','mt-6'):'');
+}
+function recCategoryHTML(cat){
+ var hidden=PERSONAL_PROFILE.hiddenRecs||[];
+ var visible=cat.items.filter(function(it){return hidden.indexOf(recKey(cat.cat,it))<0;});
+ var hiddenN=cat.items.length-visible.length;
+ var unpersonalized=cat.basis&&cat.basis.indexOf('No ')===0;
+ var badges=(unpersonalized?' <span class="text-[8.5px] font-normal normal-case tracking-normal text-slate-500" title="No favorites declared for this category yet, so these are ranked by your general genre/vibe weights, not projected from anything you picked.">○ not personalized</span>':'')+(cat.approx?(cat.partiallyLinked?' <span class="text-[8.5px] font-normal normal-case tracking-normal text-emerald-400/80" title="Where a pick has a known, ledger-linked work (marked ◆ below), the score is a real average of that work'+"'"+'s GOAT match, not a guess. Unlinked picks fall back to genre overlap.">◆ partly ledger-linked</span>':' <span class="text-[8.5px] font-normal normal-case tracking-normal text-amber-400/70" title="No corpus of music/video-essay works exists to link these picks to (the ledger only tracks movies, TV, games and books), so these stay hand-curated -- but the score and order do respond to both your genre AND vibe weights.">◈ approximate — by genre + vibe overlap</span>'):'');
+ return '<div class="panel overflow-hidden fade-in"'+(unpersonalized?' style="opacity:.82"':'')+'>'
+ +'<div class="px-4 pt-4 pb-3 border-b border-slate-800/70"><div class="flex items-baseline justify-between gap-2">'+(isCoreGoatCat(cat.cat)?goatCoreHeadHTML(cat.cat,badges):'<h3 class="text-[12px] font-bold tracking-[.14em] uppercase text-slate-100">'+esc(goatCatLabel(cat.cat))+badges+'</h3>')+'<span class="lbl shrink-0">match /100</span></div>'
+ +'<p class="text-[10.5px] text-slate-500 mt-1 leading-relaxed">'+esc(cat.basis)+'</p>'
+ +(hiddenN?'<button type="button" class="recUnhideAll text-[10px] text-sky-400/80 hover:text-sky-300 mt-1.5" data-cat="'+esc(cat.cat)+'">'+hiddenN+' hidden here — show again</button>':'')
+ +'</div>'
+ +(visible.length?visible.map((it,i)=>'<div class="flex items-center gap-2.5 px-3.5 py-2 border-b border-slate-800/50 last:border-0 hover:bg-slate-800/20 group'+(it.q?' goatJump cursor-pointer':'')+'"'+(it.q?' data-q="'+esc(it.q)+'" title="Open in Global Controller"':'')+'>'
+  +'<span class="text-[10px] text-slate-500 w-5 tabular-nums">'+String(i+1).padStart(2,'0')+'</span>'
+  +'<span class="w-1.5 h-1.5 rounded-full shrink-0" style="background:'+(it.k?KM[it.k].c:'#475569')+'"></span>'
+  +'<div class="flex-1 min-w-0"><div class="text-[12px] text-slate-200 truncate">'+esc(it.n)+(it.linked?' <span class="text-[8.5px] text-emerald-400/80 uppercase tracking-[.12em]" title="Score is a real average of this person’s linked ledger work(s)">◆ linked</span>':'')+(it.q?' <span class="text-[8.5px] text-amber-300/70 uppercase tracking-[.12em]">on ledger</span>':'')+'</div>'
+  +'<div class="text-[10px] text-slate-500 truncate" title="'+esc(it.why)+'">'+esc(it.why)+'</div></div>'
+  +'<span class="hidden sm:flex w-24 shrink-0"><span class="bar flex-1"><i style="width:'+it.s+'%;background:linear-gradient(90deg,#b45309,#fbbf24)"></i></span></span>'
+  +'<span class="text-[11px] font-bold tabular-nums w-7 text-right" style="color:#fbbf24">'+it.s+'</span>'
+  +'<button type="button" class="recHideBtn shrink-0 opacity-0 group-hover:opacity-100 transition-opacity text-slate-500 hover:text-rose-300 text-[13px] leading-none px-1" data-cat="'+esc(cat.cat)+'" data-key="'+esc(recKey(cat.cat,it))+'" title="Hide this from recommendations">✕</button>'
+  +'</div>').join(''):'<div class="px-3.5 py-3 text-[11px] text-slate-500">Everything here is hidden.</div>')
+ +'</div>';
 }
 // Search & Build Your Favorites: the GOAT Profile tab's embedded replacement for the old separate
 // "Pick Your GOATs" header button/modal. Reuses tierRowHTML() -- the exact same compact Gold/
@@ -2438,7 +2467,7 @@ on('#goatTypeSeg','click',e=>{const b=e.target.closest('button');if(!b)return;st
 on('#goatTierSeg','click',e=>{const b=e.target.closest('button');if(!b)return;state.goatTierFilter=b.dataset.tf;$$('#goatTierSeg button').forEach(x=>x.classList.toggle('on',x===b));renderGoatSearchResults();scheduleURLSync();});
 on('#goatSortSel','change',e=>{state.goatSort=e.target.value;renderGoatSearchResults();scheduleURLSync();});
 let goatDeclaredSearchT=null;
-on('#goatDeclaredSearch','input',e=>{clearTimeout(goatDeclaredSearchT);const v=e.target.value;goatDeclaredSearchT=setTimeout(()=>{state.goatDeclaredQ=v;scheduleURLSync();$('#goatDeclared').innerHTML=(declaredCategoriesToRender().map(declaredCategoryHTML).join(''))||((state.goatDeclaredQ||'').trim()?'<div class="col-span-full text-center text-slate-500 text-sm py-6">Nothing in your declared canon matches “'+esc(state.goatDeclaredQ.trim())+'”.</div>':'');},120);});
+on('#goatDeclaredSearch','input',e=>{clearTimeout(goatDeclaredSearchT);const v=e.target.value;goatDeclaredSearchT=setTimeout(()=>{state.goatDeclaredQ=v;scheduleURLSync();renderGoatDeclared();},120);});
 on('#goatRecs','click',e=>{
  const hb=e.target.closest('.recHideBtn');
  if(hb){e.stopPropagation();hideRec(hb.dataset.cat,hb.dataset.key);return;}
@@ -4722,7 +4751,7 @@ function handleProfileEditClick(btn){
    No longer surfaced in the header (it fell too far behind real changes to be worth showing), but
    kept here as the project's own record. Bump APP_VERSION and add a CHANGELOG entry whenever a
    change is worth remembering; cosmetic tweaks don't need a bump. */
-const APP_VERSION='1.53.1';
+const APP_VERSION='1.53.2';
 // CHANGELOG (the in-app version history) lives in data/changelog.js.
 
 /* ===== Suggestion box: shared Supabase table, visible to everyone =====
