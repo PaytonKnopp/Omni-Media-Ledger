@@ -3043,9 +3043,12 @@ async function runTabFiltersFlow(browser, file) {
   // visible where works actually sit on the scale.
   const boostMonotonic = await page.evaluate(() => {
     const bad = [];
-    ['dread', 'myst', 'tech', 'warmth', 'comedy', 'beauty'].forEach(field => {
-      const label = { dread: 'Atmospheric dread', myst: 'Ontological depth', tech: 'Technical craft',
-        warmth: 'Emotional warmth', comedy: 'Comic intent', beauty: 'Aesthetic beauty' }[field];
+    // Grouped by the CONSTRUCT a slot holds (constructOf): a game's `dread` slot is immersion and
+    // earns an Immersion boost, so it is held monotonic against other immersion values, not dread.
+    const groups = [];
+    QUALITY_BOOSTS.forEach(q => constructsOf(ALL, [q[0]]).forEach(c => groups.push([q[0], c])));
+    groups.forEach(([field, construct]) => {
+      const label = CONSTRUCT_INFO[construct].label;
       const got = x => {
         const b = (x.gmBoosts || []).find(e => e[1] === label);
         return b ? b[2] : 0;
@@ -3054,11 +3057,11 @@ async function runTabFiltersFlow(browser, file) {
       // is excluded from the monotonic check entirely, same reasoning as the filter fix in
       // ledger-app.js: undefined has no defensible position on the scale, so sorting it in would
       // just be comparing "we don't know" against real values as though 0 were a real answer.
-      const pts = ALL.filter(x => x[field] !== undefined).map(x => ({ v: x[field], b: got(x), t: x.title }))
+      const pts = ALL.filter(x => x[field] !== undefined && constructOf(x.kind, field) === construct).map(x => ({ v: x[field], b: got(x), t: x.title }))
         .sort((a, b) => a.v - b.v);
       for (let i = 1; i < pts.length; i++) {
         if (pts[i].b < pts[i - 1].b - 1e-9) {
-          bad.push(field + ': "' + pts[i].t + '" (' + field + ' ' + pts[i].v + ') earns ' + pts[i].b +
+          bad.push(construct + ': "' + pts[i].t + '" (' + field + ' ' + pts[i].v + ') earns ' + pts[i].b +
             ' but "' + pts[i - 1].t + '" (' + pts[i - 1].v + ') earns ' + pts[i - 1].b);
           break;
         }
@@ -4003,19 +4006,24 @@ async function runRenderPerfFlow(browser, file) {
     const been = x => x.goat || x.silver || x.bronze || x.myRating != null || window.wlDone(x.id);
     // Full-scan implementations of the same rules, the memoized ones are held to.
     function whyRef(it) {
-      if (it.owned || it.goat || it.silver || it.bronze || it.myRating != null) return '';
-      if (it.creator) {
+      if (!window.isUntried(it)) return '';
+      // Cites only what a positive boost on this work backs (creator, a genre's family, the vibe).
+      const pos = (it.gmBoosts || []).filter(b => b[2] > 0);
+      const keys = new Set(pos.filter(b => b[0] === 'genre').map(b => String(b[1]).toLowerCase()));
+      const backed = new Set();
+      (it.genres || []).forEach(t => { if ((GENRE_TAXONOMY[t] || [t]).some(k => keys.has(String(k).toLowerCase()))) (GENRE_FAMILY_OF[t] || []).forEach(f => backed.add(f)); });
+      if (it.creator && pos.some(b => b[0] === 'creator' || b[0] === 'author')) {
         const ex = bestAnchor(ALL.filter(x => sig(x) && x.creator && x.creator === it.creator && x.id !== it.id));
         if (ex) { const noun = it.kind === 'book' ? 'author' : (it.kind === 'game' ? 'studio' : 'director'); return 'Because ' + anchorPhrase(ex) + ' — same ' + noun + '.'; }
       }
-      const fams = it.fam || [];
+      const fams = (it.fam || []).filter(f => backed.has(f));
       if (fams.length) {
         const e1 = bestAnchor(ALL.filter(x => sig(x) && x.kind === it.kind && (x.fam || []).some(f => fams.includes(f))));
         if (e1) { const sf = fams.find(f => (e1.fam || []).includes(f)) || fams[0]; return 'Because ' + anchorPhrase(e1) + ' — shares your taste for ' + esc(sf) + '.'; }
         const e2 = bestAnchor(ALL.filter(x => sig(x) && (x.fam || []).some(f => fams.includes(f))));
         if (e2) { const sf = fams.find(f => (e2.fam || []).includes(f)) || fams[0]; return 'Matches your ' + esc(sf) + ' taste (' + anchorPhrase(e2) + ').'; }
       }
-      if (it.vibe) { const ex = bestAnchor(ALL.filter(x => sig(x) && x.vibe === it.vibe)); if (ex) return 'Same mood as ' + esc(ex.title) + ' (' + esc(it.vibe) + ').'; }
+      if (it.vibe && pos.some(b => b[0] === 'vibe')) { const ex = bestAnchor(ALL.filter(x => sig(x) && x.vibe === it.vibe)); if (ex) return 'Same mood as ' + esc(ex.title) + ' (' + esc(it.vibe) + ').'; }
       return '';
     }
     function threadRef(it) {
@@ -4486,6 +4494,315 @@ async function runRecQualityFlow(browser, file) {
   await page.close();
 }
 
+// The taste engine's correctness, checked in the running app: each check here was written against a
+// defect found by measuring, and fails with that defect's fix reverted (NOTES.md Phase 52).
+// Profiles are swapped in memory only (the same way scripts/rec-quality.js measures) and restored.
+const ENGINE_PAGE_HELPERS = () => {
+  const P = window.PERSONAL_PROFILE, clone = o => JSON.parse(JSON.stringify(o));
+  window.__engineOrig = window.__engineOrig || clone(P);
+  window.__withProfile = (p, fn) => {
+    Object.keys(P).forEach(k => { delete P[k]; }); Object.assign(P, clone(p)); window.recomputeProfileDerived();
+    try { return fn(); } finally {
+      Object.keys(P).forEach(k => { delete P[k]; }); Object.assign(P, clone(window.__engineOrig)); window.recomputeProfileDerived();
+    }
+  };
+  window.__gameIds = titles => titles.map(t => window.ALL.find(x => x.kind === 'game' && x.title === t)).filter(Boolean).map(x => x.id);
+};
+// Eight strategy / exploration / RPG games, none of them horror, all high on immersion.
+const IMMERSIVE_GAMES = ['Outer Wilds', 'Factorio', 'Civilization IV', 'Crusader Kings III', 'Europa Universalis IV',
+  "Baldur's Gate 3", 'The Witcher 3: Wild Hunt', 'Return of the Obra Dinn'];
+const COSY_GAMES = ['g119', 'g122', 'g132', 'g134', 'g149', 'g158'];
+async function runEngineFlow(browser, file) {
+  const { page, pageErrors } = await bootSample(browser, file);
+  await page.evaluate(ENGINE_PAGE_HELPERS);
+  const checkD = (label, cond, detail) => { check(label, cond); if (!cond && detail) console.log('     ' + detail); };
+
+  // ---- Defect 1: a game's `dread` slot is immersion and its `myst` slot systems complexity
+  // (RUBRIC.md construct 2, QUALITY_PASS.md decisions 2-3). Read as dread / ontological depth, eight
+  // non-horror games taught a strong liking for dread and filled their film and book lists with horror.
+  const constructs = await page.evaluate(([gameTitles, cosy]) => {
+    const ids = window.__gameIds(gameTitles);
+    const immersive = window.__withProfile({ silverTierIds: ids }, () => {
+      const M = window.tasteModel();
+      return { n: ids.length, toneDread: M.tone.dread, axisDread: M.axis.dread, axisMyst: M.axis.myst,
+        axisImmersion: M.axis.immersion, axisSystems: M.axis.systems };
+    });
+    const cosyM = window.__withProfile({ silverTierIds: cosy }, () => {
+      const M = window.tasteModel(); return { axisDread: M.axis.dread, axisMyst: M.axis.myst };
+    });
+    const games = window.ALL.filter(x => x.kind === 'game');
+    const mislabelled = games.filter(x => (x.gmBoosts || []).some(b => b[1] === 'Atmospheric dread' || b[1] === 'Ontological depth')).map(x => x.title);
+    const unnamed = games.filter(x => (x.dread > 80 && !(x.gmBoosts || []).some(b => b[1] === 'Immersion')) ||
+      (x.myst > 70 && !(x.gmBoosts || []).some(b => b[1] === 'Systems depth'))).map(x => x.title);
+    // Closeness: on a synthetic corpus, a game's immersion must not move its similarity to a film,
+    // and must move its similarity to another game.
+    const mk = (kind, i, dread) => ({ id: kind[0] + i, kind, year: 2000, genres: ['Drama'], creator: 'C' + kind + i, vibe: '',
+      warmth: 40 + i, comedy: 30 + (i % 7), dread: dread == null ? 30 + i * 3 : dread, myst: 20 + i * 2, beauty: 60 + (i % 5) });
+    const build = gDread => {
+      const all = [];
+      for (let i = 0; i < 15; i++) all.push(mk('movie', i));
+      for (let i = 0; i < 15; i++) all.push(mk('game', i, i === 0 ? gDread : null));
+      const f = neighborFeatures(all, {});
+      return { filmGame: neighborSim(f[0], f[15]), gameGame: neighborSim(f[16], f[15]) };
+    };
+    const lo = build(10), hi = build(95);
+    return { immersive, cosyM, mislabelled, unnamed, filmGameMoves: lo.filmGame !== hi.filmGame, gameGameMoves: lo.gameGame !== hi.gameGame };
+  }, [IMMERSIVE_GAMES, COSY_GAMES]);
+  checkD('immersive non-horror games teach no dread tone and no dread or complexity axis (immersion is not dread)',
+    constructs.immersive.n === 8 && constructs.immersive.toneDread === 0 && constructs.immersive.axisDread === 0 && constructs.immersive.axisMyst === 0);
+  checkD('...they teach the immersion and systems-depth axes instead',
+    constructs.immersive.axisImmersion > 0.3 && constructs.immersive.axisSystems > 0.3);
+  checkD('a cosy-games player is not learned as favoring atmospheric dread or ontological depth',
+    constructs.cosyM.axisDread === 0 && constructs.cosyM.axisMyst === 0, JSON.stringify(constructs.cosyM));
+  checkD('no game\'s match is explained by "Atmospheric dread" or "Ontological depth"', constructs.mislabelled.length === 0,
+    constructs.mislabelled.slice(0, 5).join(', '));
+  checkD('every game past the threshold is credited "Immersion" / "Systems depth" instead', constructs.unnamed.length === 0,
+    constructs.unnamed.slice(0, 5).join(', '));
+  checkD('closeness never compares a game\'s immersion with a film\'s dread, but does compare it with another game\'s',
+    !constructs.filmGameMoves && constructs.gameGameMoves);
+  await searchTitles(page, 'Factorio');
+  const factorioId = await page.evaluate(() => window.ALL.find(x => x.kind === 'game' && x.title === 'Factorio').id);
+  await page.click('#grid .cardHead[data-id="' + factorioId + '"]');
+  const chips = await readWhen(page, id => {
+    const h = document.querySelector('#grid .cardHead[data-id="' + id + '"]');
+    const sec = h && [...h.closest('.panel').querySelectorAll('section.cardSec')].find(s => /Why this match/.test(s.textContent));
+    return sec ? sec.textContent.replace(/\s+/g, ' ') : false;
+  }, factorioId, 10000);
+  checkD('Factorio\'s card names its Immersion and Systems depth, not Dread and Depth',
+    /Immersion: Immersion/.test(chips || '') && /Systems: Systems Depth/.test(chips || '') && !/Dread:|Depth: Ontological/.test(chips || ''), chips);
+
+  // ---- Defect 2: a title you have finished is not a discovery, on its card as everywhere else.
+  // Its card kept saying "a prime discovery" with a "Because ..." line after "✓ Watched".
+  const doneId = await page.evaluate(() => window.buildGeneratedRec('Movies').items[0].id);
+  const doneTitle = await page.evaluate(id => window.byId.get(id).title, doneId);
+  await searchTitles(page, doneTitle);
+  await page.click('#grid .cardHead[data-id="' + doneId + '"]');
+  const quickLook = id => page.evaluate(i => {
+    const h = document.querySelector('#grid .cardHead[data-id="' + i + '"]');
+    const f = h && h.closest('.panel').querySelector('.summaryFace:not([data-lazy])');
+    return f ? f.textContent.replace(/\s+/g, ' ') : '';
+  }, id);
+  const beforeDone = await readWhen(page, id => !!document.querySelector('#grid .cardHead[data-id="' + id + '"]')
+    .closest('.panel').querySelector('.summaryFace:not([data-lazy])'), doneId, 10000) && await quickLook(doneId);
+  await page.click('#grid .doneSeg[data-id="' + doneId + '"]');
+  await readWhen(page, id => window.wlDone(id), doneId, 10000);
+  await settle(page);
+  const afterDone = await quickLook(doneId);
+  const whyDone = await page.evaluate(id => window.whyRecommended(window.byId.get(id)), doneId);
+  checkD('before it is finished, the top recommendation\'s card presents it as a discovery with a reason',
+    /discovery|Taste match|match for your taste/i.test(beforeDone) && /Because|Matches your|Same mood/.test(beforeDone), beforeDone);
+  checkD('once marked watched, its open card says so, and no longer calls it a discovery or says why it is recommended',
+    /✓ Watched\./.test(afterDone) && !/discovery|Based on|Because|Matches your|Same mood/.test(afterDone) && whyDone === '', afterDone);
+  await page.click('#grid .doneSeg[data-id="' + doneId + '"]');
+  await readWhen(page, id => !window.wlDone(id), doneId, 10000);
+  await settle(page);
+
+  // ---- Defect 3: the card's "Because ..." line may only cite what the score used. On the PK
+  // Sample it told Blood Meridian "shares your taste for Literary & Poetry" while the model weighted
+  // every Literary tag on it below zero (it ranks on Western).
+  const bm = await page.evaluate(() => {
+    const x = window.ALL.find(y => y.kind === 'book' && y.title === 'Blood Meridian');
+    const lit = (x.gmBoosts || []).filter(b => b[0] === 'genre' && /literary|fiction/i.test(b[1]));
+    return { untried: window.isUntried(x), literaryWeights: lit.map(b => b[2]), why: window.whyRecommended(x) };
+  });
+  checkD('precondition: the PK Sample weights Blood Meridian\'s Literary / Fiction tags below zero',
+    bm.untried && bm.literaryWeights.length > 0 && bm.literaryWeights.every(w => w < 0), JSON.stringify(bm));
+  checkD('...so its card does not claim it "shares your taste for Literary & Poetry"',
+    !/Literary &amp; Poetry|Literary & Poetry/.test(bm.why), bm.why);
+
+  // ---- Defect 4: "Joel & Ethan Coen" split into "Joel" + "Ethan Coen", so a Coen film carried two
+  // learned creator weights from the same evidence and never merged with a hand-set boost on the team.
+  const coen = await page.evaluate(() => {
+    const A = window.ALL, creators = x => (x.gmBoosts || []).filter(b => b[0] === 'creator');
+    const film = t => A.find(x => x.kind === 'movie' && x.title === t);
+    const nc = film('No Country for Old Men'), fargo = film('Fargo'), inter = film('Interstellar'), incep = film('Inception');
+    const one = (gold, other) => window.__withProfile({ declaredGoatIds: [gold.id] }, () => creators(window.byId.get(other.id)).map(b => [b[1], b[2]]));
+    const pkCoen = A.filter(x => x.creator === 'Joel & Ethan Coen' && window.isUntried(x)).map(x => creators(x).map(b => [b[1], b[2], b[3] || '']));
+    const pkEvidence = A.some(x => x.creator === 'Joel & Ethan Coen' && !window.isUntried(x));
+    const hand = ((window.PERSONAL_PROFILE.creatorBoost || []).find(c => c[0] === 'Joel & Ethan Coen') || [])[1];
+    return { fargo: one(nc, fargo), inception: one(inter, incep), pkCoen, pkEvidence, hand };
+  });
+  checkD('one Gold Coen film teaches one creator weight, equal to what one Gold Nolan film teaches',
+    coen.fargo.length === 1 && coen.fargo[0][0] === 'Joel & Ethan Coen' && coen.inception.length === 1 &&
+    coen.fargo[0][1] === coen.inception[0][1], JSON.stringify(coen.fargo) + ' vs ' + JSON.stringify(coen.inception));
+  checkD('on the PK Sample the learned Coen weight merges into the hand-set one: one entry per film, above the hand-set +' + coen.hand,
+    coen.pkEvidence && coen.hand > 0 && coen.pkCoen.length > 0 &&
+    coen.pkCoen.every(e => e.length === 1 && e[0][0] === 'Joel & Ethan Coen' && e[0][2] === 'set' && e[0][1] > coen.hand), JSON.stringify(coen.pkCoen.slice(0, 3)));
+
+  // ---- Audit: every reason line is backed by a positive boost. Run over the PK Sample, a blank
+  // profile, the four cold-start personas and the immersive-games player, on every GOAT Profile
+  // list and on the card's "Because ..." line for the top 100 untried titles. A clause that names a
+  // creator, genre, vibe, tone, favorite or quality must find a positive gmBoosts entry of that kind.
+  const reasons = await page.evaluate(([gameTitles, cosy]) => {
+    const unesc = t => String(t).replace(/&amp;/g, '&').replace(/&quot;/g, '"').replace(/&#39;/g, "'");
+    const clauseOK = (clause, pos) => {
+      let m;
+      if ((m = clause.match(/^is by (.+), a creator your profile favors$/))) return pos.some(b => b[0] === 'creator' && b[1] === m[1]);
+      if ((m = clause.match(/^by (.+), an author your profile favors$/))) return pos.some(b => b[0] === 'author' && b[1] === m[1]);
+      if ((m = clause.match(/^matches your weighted “(.+)” genre$/))) return pos.some(b => b[0] === 'genre' && b[1] === m[1]);
+      if ((m = clause.match(/^fits your “(.+)” vibe$/))) return pos.some(b => b[0] === 'vibe' && b[1] === m[1]);
+      if (clause === 'has the tone of your favorites') return pos.some(b => b[0] === 'tone');
+      if (clause === 'is close to what you love most') return pos.some(b => b[0] === 'near');
+      if ((m = clause.match(/^is a lot like (.+)$/))) return pos.some(b => b[0] === 'near' && b[1] === m[1]);
+      return Object.keys(CONSTRUCT_INFO).some(c => CONSTRUCT_INFO[c].why.includes(clause) && pos.some(b => b[0] === CONSTRUCT_INFO[c].type));
+    };
+    const goatWhyOK = (why, x) => {
+      const pos = (x.gmBoosts || []).filter(b => b[2] > 0);
+      if (/^(Scores well on craft and reception|Among the most acclaimed)/.test(why)) return pos.length === 0;
+      const t = why.replace(/\.$/, ''), body = t.charAt(0).toLowerCase() + t.slice(1);
+      if (clauseOK(body, pos)) return true;
+      // Two reasons joined by " and " -- a title or name may itself contain " and ", so try every split.
+      for (let i = body.indexOf(' and '); i >= 0; i = body.indexOf(' and ', i + 1)) {
+        if (clauseOK(body.slice(0, i), pos) && clauseOK(body.slice(i + 5), pos)) return true;
+      }
+      return false;
+    };
+    const cardWhyOK = (why, x) => {
+      if (!why) return true;
+      const pos = (x.gmBoosts || []).filter(b => b[2] > 0);
+      let m;
+      if (/— same (director|author|studio)\.$/.test(why)) return pos.some(b => b[0] === 'creator' || b[0] === 'author');
+      if ((m = why.match(/shares your taste for (.+)\.$/) || why.match(/^Matches your (.+?) taste \(/))) {
+        const fam = unesc(m[1]), keys = new Set(pos.filter(b => b[0] === 'genre').map(b => String(b[1]).toLowerCase()));
+        return (x.genres || []).some(tag => (GENRE_TAXONOMY[tag] || [tag]).some(k => keys.has(String(k).toLowerCase())) && (GENRE_FAMILY_OF[tag] || []).includes(fam));
+      }
+      if (/^Same mood as /.test(why)) return pos.some(b => b[0] === 'vibe');
+      return false;
+    };
+    const profiles = { 'PK Sample': null, blank: {}, 'comedy lover': { silverTierIds: ['m137', 'm138', 'm139', 'm140', 'm162', 't115', 't119', 't125'] },
+      'family drama': { silverTierIds: ['m104', 'm101', 'm107', 'm110', 'm440', 'm815'] }, 'literary fiction': { silverTierIds: ['b37', 'b38', 'b39', 'b73', 'b77', 'b80', 'b82', 'b83'] },
+      'cosy games': { silverTierIds: cosy }, 'immersive games': { silverTierIds: window.__gameIds(gameTitles) } };
+    const out = { lists: 0, cards: 0, bad: [] };
+    const audit = name => {
+      ['Movies', 'TV Series', 'Video Games', 'Books'].forEach(c => window.buildGeneratedRec(c).items.forEach(i => {
+        out.lists++; if (!goatWhyOK(i.why, window.byId.get(i.id))) out.bad.push(name + ' / ' + c + ': ' + i.n + ' -- ' + i.why);
+      }));
+      window.ALL.filter(window.isUntried).sort((a, b) => b.gm - a.gm).slice(0, 100).forEach(x => {
+        const w = window.whyRecommended(x); out.cards++; if (!cardWhyOK(w, x)) out.bad.push(name + ' / card: ' + x.title + ' -- ' + w);
+      });
+    };
+    Object.keys(profiles).forEach(name => { if (profiles[name]) window.__withProfile(profiles[name], () => audit(name)); else audit(name); });
+    return out;
+  }, [IMMERSIVE_GAMES, COSY_GAMES]);
+  checkD('every reason line is backed by a positive boost (' + reasons.lists + ' list reasons, ' + reasons.cards + ' card lines, 7 profiles)',
+    reasons.lists === 7 * 40 && reasons.cards === 700 && reasons.bad.length === 0, reasons.bad.slice(0, 6).join('\n     '));
+
+  // ---- Audit: every "discovery" surface uses isUntried -- the GOAT Profile lists, the card's
+  // "Because ..." line, the card's Quick Look wording and Surprise Me's Discover pool. Three of the
+  // PK Sample's top recommendations are marked finished first, so every state is present: owned,
+  // Gold, Silver, Bronze, rated, finished.
+  const finish = await page.evaluate(() => ['Movies', 'Books', 'TV Series'].map(c => window.buildGeneratedRec(c).items[0].id));
+  for (const id of finish) {
+    await searchTitles(page, await page.evaluate(i => window.byId.get(i).title, id));
+    await page.click('#grid .doneSeg[data-id="' + id + '"]');
+    await readWhen(page, i => window.wlDone(i), id, 10000);
+  }
+  await settle(page);
+  const surfaces = await page.evaluate(() => {
+    const A = window.ALL, bad = [];
+    const byState = { owned: A.filter(x => x.owned && !x.goat && !x.silver && !x.bronze && x.myRating == null && !window.wlDone(x.id)),
+      gold: A.filter(x => x.goat), silver: A.filter(x => x.silver), bronze: A.filter(x => x.bronze),
+      rated: A.filter(x => x.myRating != null), finished: A.filter(x => window.wlDone(x.id)) };
+    const present = Object.keys(byState).filter(k => byState[k].length);
+    A.forEach(x => {
+      const def = !x.owned && !window.wlDone(x.id) && !x.goat && !x.silver && !x.bronze && x.myRating == null;
+      if (window.isUntried(x) !== def) bad.push('isUntried disagrees with its definition: ' + x.title);
+      if (!window.isUntried(x) && window.whyRecommended(x)) bad.push('card reason on a title already had: ' + x.title);
+    });
+    ['Movies', 'TV Series', 'Video Games', 'Books'].forEach(c => window.buildGeneratedRec(c).items.forEach(i => {
+      if (!window.isUntried(window.byId.get(i.id))) bad.push(c + ' list recommends a title already had: ' + i.n);
+    }));
+    const samples = present.map(k => byState[k].slice().sort((a, b) => b.gm - a.gm)[0].id);
+    return { present, bad, samples };
+  });
+  const quick = [];
+  for (const id of surfaces.samples) {
+    await searchTitles(page, await page.evaluate(i => window.byId.get(i).title, id));
+    await page.click('#grid .cardHead[data-id="' + id + '"]');
+    quick.push(await readWhen(page, i => {
+      const h = document.querySelector('#grid .cardHead[data-id="' + i + '"]');
+      const f = h && h.closest('.panel').querySelector('.summaryFace:not([data-lazy])');
+      return f ? window.byId.get(i).title + ': ' + f.textContent.replace(/\s+/g, ' ') : false;
+    }, id, 10000));
+  }
+  const quickBad = quick.filter(t => !t || /discovery|Based on|Because|Matches your|Same mood/.test(t));
+  // Surprise Me, Discover pool: Math.random pinned to a sweep across the whole weighted pool. It spins
+  // over the Controller's current results, so the search box is cleared first.
+  await page.fill('#q', '');
+  await readWhen(page, () => window.state.q === '' && !!document.querySelector('#grid .cardHead'), null, 10000);
+  await page.click('#surpriseBtn');
+  await page.click('#spinPool button[data-p="discover"]');
+  const spun = [];
+  for (const r of [0.001, 0.1, 0.25, 0.4, 0.5, 0.6, 0.75, 0.9, 0.97, 0.999]) {
+    await page.evaluate(v => { window.__realRandom = window.__realRandom || Math.random; Math.random = () => v; }, r);
+    await page.click('#spinGo');
+    spun.push(await readWhen(page, () => {
+      const p = document.getElementById('surprisePanel'), h = p && /Your pick/.test(p.textContent) && p.querySelector('h3');
+      if (!h) return false;
+      const t = h.childNodes[0].textContent.trim(), x = window.ALL.find(y => y.title === t);
+      document.getElementById('surprisePanel').innerHTML = '';
+      return x ? { t, untried: window.isUntried(x) } : { t, untried: false };
+    }, null, 10000));
+  }
+  // Adversarially too: narrowed to one title already had (finished, Silver, rated), Discover must
+  // find nothing to land on. Spread over the whole pool, a few such titles are too rare to hit.
+  const had = await page.evaluate(fin => [fin[0], window.ALL.find(x => x.silver && !x.owned && x.myRating == null) || window.ALL.find(x => x.silver),
+    window.ALL.find(x => x.myRating != null)].map(x => typeof x === 'string' ? window.byId.get(x).title : x.title), finish);
+  for (const t of had) {
+    await searchTitles(page, t);
+    await page.evaluate(() => { Math.random = () => 0.5; });
+    await page.click('#spinGo');
+    spun.push(await readWhen(page, title => {
+      const p = document.getElementById('surprisePanel');
+      if (!p || !p.textContent.trim()) return false;
+      const h = /Your pick/.test(p.textContent) && p.querySelector('h3');
+      if (!h && /Spinning/.test(p.textContent)) return false;
+      const t2 = h ? h.childNodes[0].textContent.trim() : null;
+      p.innerHTML = '';
+      return { t: t2 || '(nothing to pick, narrowed to ' + title + ')', untried: !t2 || window.isUntried(window.ALL.find(y => y.title === t2)) };
+    }, t, 10000));
+  }
+  await page.evaluate(() => { if (window.__realRandom) Math.random = window.__realRandom; });
+  checkD('every state is present to test against (owned, Gold, Silver, Bronze, rated, finished)', surfaces.present.length === 6, surfaces.present.join(','));
+  checkD('GOAT Profile lists and card reason lines offer only untried titles (isUntried)', surfaces.bad.length === 0, surfaces.bad.slice(0, 5).join(' | '));
+  checkD('the Quick Look of an owned, Gold, Silver, Bronze, rated or finished title never presents it as a discovery',
+    quick.length === 6 && quickBad.length === 0, quickBad.join(' | '));
+  checkD('Surprise Me\'s Discover pool only ever lands on untried titles', spun.length === 13 && spun.every(x => x && x.untried),
+    JSON.stringify(spun));
+  for (const id of finish) {
+    await searchTitles(page, await page.evaluate(i => window.byId.get(i).title, id));
+    await page.click('#grid .doneSeg[data-id="' + id + '"]');
+    await readWhen(page, i => !window.wlDone(i), id, 10000);
+  }
+  await settle(page);
+
+  // ---- The recommendation lists break ties the way the GOAT Match sort does (SORTS.gm: match, your
+  // rating, the taste estimate, critic score). Sorted by gm alone, tied titles fell back to the order
+  // they were added to the file. Checked on seven profiles, all four lists each.
+  const ties = await page.evaluate(([gameTitles, cosy]) => {
+    const profiles = [null, {}, { silverTierIds: ['m137', 'm138', 'm139', 'm140', 'm162', 't115', 't119', 't125'] },
+      { silverTierIds: ['m104', 'm101', 'm107', 'm110', 'm440', 'm815'] }, { silverTierIds: ['b37', 'b38', 'b39', 'b73', 'b77', 'b80', 'b82', 'b83'] },
+      { silverTierIds: cosy }, { silverTierIds: window.__gameIds(gameTitles) }];
+    const out = { lists: 0, tiedPairs: 0, bad: [] };
+    const audit = () => ['Movies', 'TV Series', 'Video Games', 'Books'].forEach(c => {
+      const xs = window.buildGeneratedRec(c).items.map(i => window.byId.get(i.id));
+      out.lists++;
+      for (let i = 1; i < xs.length; i++) {
+        if (xs[i].gm === xs[i - 1].gm) out.tiedPairs++;
+        if (window.SORTS.gm(xs[i - 1], xs[i]) > 0) out.bad.push(c + ': ' + xs[i - 1].title + ' before ' + xs[i].title);
+      }
+    });
+    profiles.forEach(p => { if (p) window.__withProfile(p, audit); else audit(); });
+    return out;
+  }, [IMMERSIVE_GAMES, COSY_GAMES]);
+  checkD('every recommendation list is in GOAT Match sort order, ties included (' + ties.lists + ' lists, ' + ties.tiedPairs + ' tied neighbours)',
+    ties.lists === 28 && ties.tiedPairs > 0 && ties.bad.length === 0, ties.bad.slice(0, 5).join(' | '));
+
+  checkD('no uncaught page errors during the taste-engine flow', pageErrors.length === 0);
+  if (pageErrors.length) pageErrors.forEach(e => console.log('     ' + e));
+  await page.close();
+}
+
 // Each flow opens its own pages and contexts, so one flow throwing says nothing about the others.
 // A throw used to abort the whole run: one missing element late in the account flow took the ~150
 // checks after it down too, and a single timing problem read as a wall of red. Now it counts as
@@ -4526,6 +4843,7 @@ async function runFlow(browser, name, fn) {
     await runFlow(browser, t + ' — honest match (labelled ring, no taste claims without evidence)', () => runHonestMatchFlow(browser, t));
     await runFlow(browser, t + ' — merging edits across devices and tabs', () => runMergeFlow(browser, t));
     await runFlow(browser, t + ' — recommendation quality (hidden favorites found again)', () => runRecQualityFlow(browser, t));
+    await runFlow(browser, t + ' — taste engine (constructs per medium, reason lines, discovery surfaces)', () => runEngineFlow(browser, t));
   }
   await browser.close();
 

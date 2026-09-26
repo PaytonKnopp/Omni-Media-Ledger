@@ -400,12 +400,27 @@ function derivedLookups(){
  return _lookups;
 }
 function whyRecommended(it){
- // Only meaningful for discoveries: not for something you own, tiered or rated.
- if(it.owned||it.goat||it.silver||it.bronze||it.myRating!=null) return '';
+ // Only meaningful for discoveries: not for something you own, tiered, rated or have finished.
+ // Same predicate as every other "what next" surface (isUntried), so a title marked watched stops
+ // being explained as a recommendation the moment it leaves the lists.
+ if(!isUntried(it)) return '';
  const signal=derivedLookups().signal;
+ /* A "Because" is a claim about why the score is what it is, so it may only cite something the score
+    actually used: a creator this work earns a positive creator weight for, a genre family one of its
+    positively weighted genres belongs to, a vibe it earns a positive vibe weight for. Choosing the
+    anchor by shared metadata alone once told the PK Sample that Blood Meridian "shares your taste for
+    Literary & Poetry" while its own model weighted Literary, Literary Fiction and Fiction below zero. */
+ const pos=(it.gmBoosts||[]).filter(b=>b[2]>0);
+ const tax=(typeof GENRE_TAXONOMY!=='undefined')?GENRE_TAXONOMY:{};
+ const boostedKeys=new Set(pos.filter(b=>b[0]==='genre').map(b=>String(b[1]).toLowerCase()));
+ const backedFam=new Set();
+ (it.genres||[]).forEach(tag=>{
+  if(!(tax[tag]||[tag]).some(k=>boostedKeys.has(String(k).toLowerCase())))return;
+  ((typeof GENRE_FAMILY_OF!=='undefined'&&GENRE_FAMILY_OF[tag])||[]).forEach(f=>backedFam.add(f));
+ });
  // (a) Same creator as a taste signal (strongest): Gold/Silver/Bronze favorites first, owned items
  // as a fallback signal, all considered together and ranked by tier.
- if(it.creator){
+ if(it.creator&&pos.some(b=>b[0]==='creator'||b[0]==='author')){
   const sameCreator=signal.filter(x=>x.creator&&x.creator===it.creator&&x.id!==it.id);
   const ex=bestAnchor(sameCreator);
   if(ex){
@@ -414,7 +429,7 @@ function whyRecommended(it){
   }
  }
  // (b) Shared genre-family with a taste signal (tiered favorites ranked above merely-owned).
- const fams=(it.fam||[]);
+ const fams=(it.fam||[]).filter(f=>backedFam.has(f));
  if(fams.length){
   const sameKind=signal.filter(x=>x.kind===it.kind&&(x.fam||[]).some(f=>fams.includes(f)));
   const exSame=bestAnchor(sameKind);
@@ -431,7 +446,7 @@ function whyRecommended(it){
   }
  }
  // (c) Shared vibe with a taste signal.
- if(it.vibe){
+ if(it.vibe&&pos.some(b=>b[0]==='vibe')){
   const sameVibe=signal.filter(x=>x.vibe===it.vibe);
   const ex=bestAnchor(sameVibe);
   if(ex){
@@ -593,7 +608,7 @@ function gmBreakdownHTML(it){
  (it.gmBoosts||[]).slice().sort((a,b)=>b[2]-a[2]).forEach(function(b){
   // A weight you set yourself (the card's Creator weight control) reads as yours; the same person's
   // learned weight, from what you rated and tiered, keeps the plain Creator label.
-  var lab=b[3]==='set'?'Your weight':{creator:'Creator',author:'Author',genre:'Genre',vibe:'Vibe',complexity:'Depth',craft:'Craft',tone:'Tone',near:'Like',dread:'Dread',warmth:'Warmth',comedy:'Comedy',beauty:'Beauty'}[b[0]]||b[0];
+  var lab=b[3]==='set'?'Your weight':({creator:'Creator',author:'Author',genre:'Genre',vibe:'Vibe',tone:'Tone',near:'Like'}[b[0]]||(WHY_BY_TYPE[b[0]]&&WHY_BY_TYPE[b[0]].chip)||b[0]);
   var cap=(''+b[1]).replace(/(^|[\s/-])(\S)/g,function(m,sep,c){return sep+c.toUpperCase();});
   // A derived taste weight can be negative -- a genre this person's own ratings count against --
   // so the sign comes from the number rather than being hardcoded to '+', which would have
@@ -637,11 +652,12 @@ function summaryHTML(it){const k=KM[it.kind];
  else if(it.bronze)fit='\u2606 A bronze-tier pick of yours.';
  else if(it.owned)fit='\u2713 Already in your collection'+(it.physFormat?' ('+esc(it.physFormat)+')':'')+'.';
  else if(it.myRating!=null)fit='\u2605 You rated this '+it.myRating.toFixed(1)+'/10.';
+ else if(wlDone(it.id))fit='\u2713 '+doneVerb(it)+'.'+(basis.personal?' Taste match: '+it.gm+'/100.':'');
  else if(!basis.personal)fit='Overall score '+it.gm+'/100 \u2014 critical, audience and craft consensus. Rate, tier or own a few titles to personalize it.';
  else if(it.gm>=85)fit='\ud83c\udfaf Very strong match for your taste ('+it.gm+'/100) \u2014 a prime discovery.';
  else if(it.gm>=72)fit='\ud83c\udfaf Good match for your taste ('+it.gm+'/100).';
  else fit='Taste match: '+it.gm+'/100.';
- const discovery=!(it.goat||it.silver||it.bronze||it.owned||it.myRating!=null);
+ const discovery=isUntried(it);
  if(discovery&&basis.personal)fit+=' <span class="text-slate-500">Based on '+basis.text+'.</span>';
  return '<div class="summaryFace hidden border-t border-slate-800/80 px-3.5 py-3 bg-[#0b1322]/70">'
   +'<div class="flex items-center justify-between gap-2 mb-1.5"><span class="lbl" style="color:'+k.c+'">'+k.label+' \u00b7 Quick Look</span>'
@@ -1732,12 +1748,15 @@ function recomputeTasteScores(){
     single non-negative factor per axis, so it rescales the line without ever bending it.
     `x.warmth>70` etc. is naturally false (not a crash) for a work RUBRIC.md's evidence gate
     flagged rather than scored -- no bonus, not a guessed one. */
- if(x.myst>70){var mb=(x.myst-70)/6*AX.myst;qualityRaw+=mb;br.push(['complexity','Ontological depth',Math.round(mb*10)/10]);}
- if(x.tech>85){var tb=(x.tech-85)/5*AX.tech;qualityRaw+=tb;br.push(['craft','Technical craft',Math.round(tb*10)/10]);}
- if(x.dread>80){var db=(x.dread-80)/10*AX.dread;qualityRaw+=db;br.push(['dread','Atmospheric dread',Math.round(db*10)/10]);}
- if(x.warmth>70){var wb=(x.warmth-70)/6*AX.warmth;qualityRaw+=wb;br.push(['warmth','Emotional warmth',Math.round(wb*10)/10]);}
- if(x.comedy>70){var cb=(x.comedy-70)/6*AX.comedy;qualityRaw+=cb;br.push(['comedy','Comic intent',Math.round(cb*10)/10]);}
- if(x.beauty>70){var eb=(x.beauty-70)/6*AX.beauty;qualityRaw+=eb;br.push(['beauty','Aesthetic beauty',Math.round(eb*10)/10]);}
+ // Which construct a slot holds is the medium's (constructOf, app/scoring.js): a game's `dread`
+ // slot earns an Immersion boost, scaled by the immersion axis and named as such, never
+ // "Atmospheric dread".
+ QUALITY_BOOSTS.forEach(q=>{
+  const v=x[q[0]];if(!(v>q[1]))return;
+  const c=constructOf(x.kind,q[0]),ci=CONSTRUCT_INFO[c];
+  const b=(v-q[1])/q[2]*(AX[c]!=null?AX[c]:1);
+  qualityRaw+=b;br.push([ci.type,ci.label,Math.round(b*10)/10]);
+ });
  objRaw[i]=base*0.5+qualityRaw*1.2+14;
  tasteAdd[i]=TASTE_CAP*Math.tanh(tasteRaw/TASTE_SCALE)*1.2;
  x.gmBoosts=br;
@@ -1948,15 +1967,9 @@ function tagOverlapScore(tags,vibes){
    said only where that evidence points the same way; otherwise the reason is about the work alone.
    A brand-new profile used to be told a film "is as beautiful to look at as your favorites". */
 const AXIS_FAVORED=0.15;
-const WHY_AXIS={complexity:'myst',craft:'tech',dread:'dread',warmth:'warmth',comedy:'comedy',beauty:'beauty'};
-const WHY_PHRASE={
- complexity:['has the ontological depth you favor','has real ontological depth'],
- craft:['has the technical craft your favorites share','stands out on technical craft'],
- dread:['carries the atmospheric dread you favor','carries real atmospheric dread'],
- warmth:['has the emotional warmth you favor','has real emotional warmth'],
- comedy:['is funny the way your favorites are','is genuinely funny'],
- beauty:['is as beautiful to look at as your favorites','is beautiful to look at']
-};
+// gmBoosts type -> the construct's axis and phrases, from the one table in app/scoring.js.
+const WHY_BY_TYPE={};
+Object.keys(CONSTRUCT_INFO).forEach(c=>{WHY_BY_TYPE[CONSTRUCT_INFO[c].type]={axis:c,why:CONSTRUCT_INFO[c].why,chip:CONSTRUCT_INFO[c].chip};});
 function goatWhy(x){
  const none=()=>tasteBasis().personal
   ?'Scores well on craft and reception, without a direct match to your taste yet.'
@@ -1970,8 +1983,8 @@ function goatWhy(x){
   if(b[0]==='vibe')return 'fits your “'+b[1]+'” vibe';
   if(b[0]==='tone')return 'has the tone of your favorites';
   if(b[0]==='near')return b[1]===NEAR_UNNAMED?'is close to what you love most':'is a lot like '+b[1];
-  const p=WHY_PHRASE[b[0]];
-  if(p)return (axis[WHY_AXIS[b[0]]]||0)>=AXIS_FAVORED?p[0]:p[1];
+  const p=WHY_BY_TYPE[b[0]];
+  if(p)return (axis[p.axis]||0)>=AXIS_FAVORED?p.why[0]:p.why[1];
   return b[1];
  };
  // Only reasons that actually argue FOR the work. A derived genre weight can be negative (a genre
@@ -2004,8 +2017,10 @@ function buildGeneratedRec(cat){
  // ratings are all books, so before this the Books column spent its first several slots handing
  // back novels he had already read and scored.
  // Same goes for anything marked watched/read/played: finished is finished, rated or not.
- const ranked=ALL.filter(x=>x.kind===kind&&!x.owned&&!x.goat&&!x.silver&&!x.bronze&&x.myRating==null&&!wlDone(x.id))
-  .sort((a,b)=>b.gm-a.gm);
+ // Ordered exactly as the GOAT Match sort orders the Controller (SORTS.gm), ties included. Match is a
+ // whole number, so at the cut several titles often tie; sorted by gm alone they fell back to corpus
+ // order -- the order titles were added to the file -- and the lists disagreed with the sort.
+ const ranked=ALL.filter(isUntried).filter(x=>x.kind===kind).sort(SORTS.gm);
  // The same failure one level up: three Lord of the Rings films, or Planet Earth and Planet Earth
  // II, spend a third of the list on one decision. One entry per franchise in the first pass, and for
  // a curated series (whose order is known) that entry is where you would actually start -- the
@@ -2038,7 +2053,7 @@ function buildGeneratedRec(cat){
  });
  // Cut to ten first, then order what made it by score: an entry point carries its franchise's
  // slot, so sorting it before the cut could push the franchise off the list altogether.
- const items=picked.concat(leftover.filter(x=>!pickedIds.has(x.id))).slice(0,10).sort((a,b)=>b.gm-a.gm)
+ const items=picked.concat(leftover.filter(x=>!pickedIds.has(x.id))).slice(0,10).sort(SORTS.gm)
   .map(x=>({id:x.id,n:x.title,s:x.gm,k:x.kind,q:x.title,why:goatWhy(x)}));
  return {cat:cat,basis:computeBasisText(cat),items:items,generated:true};
 }
@@ -4242,7 +4257,9 @@ function cardProfileFingerprint(p){
 // recompute to find the works that changed -- for a tier or own click that is exactly one.
 function derivedStateOf(x){
  return x.gm+'|'+(x.goat?1:0)+(x.silver?1:0)+(x.bronze?1:0)+(x.owned?1:0)+(x.ownedBoost?1:0)
-  +'|'+(x.physFormat||'')+'|'+(x.gmOverride||'')+'|'+x.gmBoostTotal;
+  +'|'+(x.physFormat||'')+'|'+(x.gmOverride||'')+'|'+x.gmBoostTotal
+  // whyRecommended cites only what one of these backs, so a change in them redraws the card.
+  +'|'+(x.gmBoosts||[]).filter(b=>b[2]>0).map(b=>b[0]+':'+b[1]).join(',');
 }
 function derivedSnapshot(){
  const m=new Map();
@@ -4602,6 +4619,14 @@ function formatPickerHTML(x){
 function refreshDoneUI(id){
  const it=byId.get(id);if(!it)return;
  $$('.wlBtn[data-wl="'+id+'"]').forEach(function(b){b.outerHTML=wlCornerHTML(it);});
+ // A Quick Look already drawn says whether this is a discovery; finishing (or un-finishing) it changes
+ // that, so redraw it in place, open or closed as it was.
+ $$('.doneSeg[data-id="'+id+'"]').forEach(function(b){
+  const sf=b.closest('.panel')&&b.closest('.panel').querySelector('.summaryFace:not([data-lazy])');
+  if(!sf)return;
+  const tmp=document.createElement('div');tmp.innerHTML=summaryHTML(it);
+  const fresh=tmp.firstElementChild;fresh.classList.toggle('hidden',sf.classList.contains('hidden'));sf.replaceWith(fresh);
+ });
  $$('.doneSeg[data-id="'+id+'"]').forEach(function(b){b.outerHTML=doneSegHTML(it,b.classList.contains('tierSegRoomy'));});
 }
 function afterWatchStateChange(id){
