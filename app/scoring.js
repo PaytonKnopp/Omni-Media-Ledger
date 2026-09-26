@@ -193,12 +193,52 @@ const TASTE_ANCESTOR_CREDIT=0.6;
    the index it reads (more dread can never earn less). */
 const TASTE_AXIS_SPAN=0.6;
 const TASTE_AXIS_FIELDS=['myst','tech','dread','warmth','comedy','beauty'];
+
+/* ---- What each scored slot MEANS, per medium ----
+   The adapter puts every medium's rubric scores into the same shared slots, but a slot does not
+   hold the same construct in every medium. For a game, `dread` holds immersionTensionIndex
+   (RUBRIC.md construct 2: absorption, explicitly NOT menace) and `myst` holds systemsComplexity --
+   QUALITY_PASS.md decisions 2 and 3 rule both separate constructs from atmospheric dread and
+   ontological complexity. Reading them as one construct is what made eight non-horror strategy and
+   exploration games teach a strong liking for dread (their film and book lists filled with horror),
+   what made any game-heavy profile look dread- and depth-loving (games sit ~26 points higher on
+   both slots), and what labelled Factorio's systems complexity "Ontological depth".
+   So every consumer that learns from, compares or names these slots asks constructOf() -- the tone
+   fit, closeness, the axis multipliers, the quality boosts and their labels -- and two works are
+   only ever compared on a slot where it means the same thing for both. A new medium, or a field
+   whose meaning differs by medium, is one line here and nowhere else. */
+const SLOT_CONSTRUCT={game:{dread:'immersion',myst:'systems'}};
+function constructOf(kind,slot){const k=SLOT_CONSTRUCT[kind];return (k&&k[slot])||slot;}
+/* How each construct's quality boost is named: its gmBoosts type, the label on the entry, the chip
+   in a card's "Why this match?" and the reason-line phrase (with evidence / without). */
+const CONSTRUCT_INFO={
+ myst:{type:'complexity',label:'Ontological depth',chip:'Depth',why:['has the ontological depth you favor','has real ontological depth']},
+ systems:{type:'systems',label:'Systems depth',chip:'Systems',why:['has the systems depth you favor','has real systems depth']},
+ tech:{type:'craft',label:'Technical craft',chip:'Craft',why:['has the technical craft your favorites share','stands out on technical craft']},
+ dread:{type:'dread',label:'Atmospheric dread',chip:'Dread',why:['carries the atmospheric dread you favor','carries real atmospheric dread']},
+ immersion:{type:'immersion',label:'Immersion',chip:'Immersion',why:['draws you in the way your favorites do','is deeply immersive']},
+ warmth:{type:'warmth',label:'Emotional warmth',chip:'Warmth',why:['has the emotional warmth you favor','has real emotional warmth']},
+ comedy:{type:'comedy',label:'Comic intent',chip:'Comedy',why:['is funny the way your favorites are','is genuinely funny']},
+ beauty:{type:'beauty',label:'Aesthetic beauty',chip:'Beauty',why:['is as beautiful to look at as your favorites','is beautiful to look at']}
+};
+/* The six per-work quality boosts: [slot, threshold, points per unit]. Each fires past a rubric
+   threshold, is monotonic in the value it reads, and is scaled by the axis multiplier of the
+   construct the slot holds for that work's medium. */
+const QUALITY_BOOSTS=[['myst',70,6],['tech',85,5],['dread',80,10],['warmth',70,6],['comedy',70,6],['beauty',70,6]];
+/* Every construct the slots in `fields` hold in any medium present in `all`, in a stable order. */
+function constructsOf(all,fields){
+ const kinds=[];all.forEach(function(x){if(kinds.indexOf(x.kind)<0)kinds.push(x.kind);});
+ const out=[];
+ fields.forEach(function(f){kinds.forEach(function(k){const c=constructOf(k,f);if(out.indexOf(c)<0)out.push(c);});});
+ return out;
+}
 /* Shared with the corpus-side creator index so a name splits the same way in both places. */
 const CREATOR_SPLIT_RE=/,| and | & /;
 
-/* Tone fit (see step 5 of buildTasteModel): the three constructs that mean the same thing in every
-   medium. Ontological/systems complexity and beauty are left to the axis multipliers above --
-   "complexity" is a different rubric construct for a game than for a book, and beauty is craft. */
+/* Tone fit (see step 5 of buildTasteModel): warmth, comedy and dread. A work contributes to (and is
+   scored on) one of these only where its medium's slot holds that construct (constructOf): a game's
+   `dread` slot is immersion, which is not a tone, so games neither teach nor receive a dread tone.
+   Complexity and beauty are left to the axis multipliers above -- beauty is craft, not tone. */
 const TASTE_TONE_FIELDS=['warmth','comedy','dread'];
 /* Points of raw taste per unit of fit (affinity x within-medium z, summed over the three). A
    strongly shared tone lands near one well-evidenced genre; z is clamped to +/-2 so one extreme
@@ -316,17 +356,20 @@ function neighborFeatures(all,tax){
  });
  const ids=new Map();
  const code=function(key){let c=ids.get(key);if(c===undefined){c=ids.size;ids.set(key,c);}return c;};
+ // One tone slot per CONSTRUCT, not per field: a game's immersion z lands in its own slot, so it is
+ // compared with other games' immersion and never with a film's dread (constructOf, above).
+ const C=constructsOf(all,F);
  const feats=all.map(function(x){
   const g=[];genreLearnKeys(x,tax).forEach(function(w,k){g.push([code('g:'+k),w]);});
   g.sort(function(p,q){return p[0]-q[0];});
   const gk=new Int32Array(g.length),gw=new Float64Array(g.length);let gTotal=0;
   g.forEach(function(e,i){gk[i]=e[0];gw[i]=e[1];gTotal+=e[1];});
   const cr=Int32Array.from(new Set(creatorTokens(x).map(function(n){return code('c:'+n);}))).sort();
-  const tz=new Float64Array(F.length);
-  F.forEach(function(f,i){
+  const tz=new Float64Array(C.length).fill(NaN);
+  F.forEach(function(f){
    const st=stats[x.kind]&&stats[x.kind][f],v=x[f];
-   if(!st||typeof v!=='number'||!isFinite(v)){tz[i]=NaN;return;}
-   const z=(v-st.m)/st.sd;tz[i]=z<-2?-2:z>2?2:z;
+   if(!st||typeof v!=='number'||!isFinite(v))return;
+   const z=(v-st.m)/st.sd;tz[C.indexOf(constructOf(x.kind,f))]=z<-2?-2:z>2?2:z;
   });
   return {id:x.id,kind:code('k:'+x.kind),year:x.year||0,vibe:x.vibe?code('v:'+x.vibe):-1,gk:gk,gw:gw,gTotal:gTotal,cr:cr,tz:tz};
  });
@@ -407,6 +450,7 @@ function buildNeighborFit(all,ev,tax){
 
 function tasteClamp1(v){return v<-1?-1:v>1?1:v;}
 function toneZ(x,f,stats){
+ if(constructOf(x.kind,f)!==f)return null; // this medium's slot holds another construct
  const s=stats[x.kind]&&stats[x.kind][f],v=x[f];
  if(!s||typeof v!=='number'||!isFinite(v))return null;
  const z=(v-s.m)/s.sd;
@@ -541,22 +585,28 @@ function buildTasteModel(all,opts){
     How far the person's favorites sit from the corpus mean on each scored construct, in standard
     deviations, weighted by how much they liked each one and shrunk by how much evidence there is.
     z is clamped to +/-1 before shrinking, so one extraordinary outlier cannot swing an axis. */
+ // Keyed by CONSTRUCT (constructOf): a game's immersion is its own axis, learned only from works
+ // whose slot holds immersion, so it neither sets the dread axis's baseline nor counts as evidence
+ // for it -- and a game's immersion boost is scaled by the immersion axis, not by the dread one.
  const axis=Object.create(null),axisMul=Object.create(null);
  TASTE_AXIS_FIELDS.forEach(function(f){
-  const vals=[];
-  all.forEach(function(x){const v=x[f];if(typeof v==='number'&&isFinite(v))vals.push(v);});
-  if(vals.length<10){axis[f]=0;axisMul[f]=1;return;}
-  const m=vals.reduce(function(s,v){return s+v;},0)/vals.length;
-  const sd=Math.sqrt(vals.reduce(function(s,v){return s+(v-m)*(v-m);},0)/vals.length)||1;
-  let num=0,den=0;
-  ev.forEach(function(e){
-   const v=e.x[f];
-   if(typeof v!=='number'||!isFinite(v))return;
-   num+=e.aff*((v-m)/sd);den+=Math.abs(e.aff);
+  constructsOf(all,[f]).forEach(function(c){
+   const holds=function(x){return constructOf(x.kind,f)===c;};
+   const vals=[];
+   all.forEach(function(x){const v=x[f];if(holds(x)&&typeof v==='number'&&isFinite(v))vals.push(v);});
+   if(vals.length<10){axis[c]=0;axisMul[c]=1;return;}
+   const m=vals.reduce(function(s,v){return s+v;},0)/vals.length;
+   const sd=Math.sqrt(vals.reduce(function(s,v){return s+(v-m)*(v-m);},0)/vals.length)||1;
+   let num=0,den=0;
+   ev.forEach(function(e){
+    const v=e.x[f];
+    if(!holds(e.x)||typeof v!=='number'||!isFinite(v))return;
+    num+=e.aff*((v-m)/sd);den+=Math.abs(e.aff);
+   });
+   const z=den>0?tasteClamp1(num/den):0;
+   axis[c]=z*(den/(den+TASTE_SHRINK_K));
+   axisMul[c]=1+TASTE_AXIS_SPAN*axis[c];
   });
-  const z=den>0?tasteClamp1(num/den):0;
-  axis[f]=z*(den/(den+TASTE_SHRINK_K));
-  axisMul[f]=1+TASTE_AXIS_SPAN*axis[f];
  });
 
  /* --- 5. Tone: how warm, how funny, how dark ---

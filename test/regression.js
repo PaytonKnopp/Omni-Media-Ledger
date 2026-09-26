@@ -3043,9 +3043,12 @@ async function runTabFiltersFlow(browser, file) {
   // visible where works actually sit on the scale.
   const boostMonotonic = await page.evaluate(() => {
     const bad = [];
-    ['dread', 'myst', 'tech', 'warmth', 'comedy', 'beauty'].forEach(field => {
-      const label = { dread: 'Atmospheric dread', myst: 'Ontological depth', tech: 'Technical craft',
-        warmth: 'Emotional warmth', comedy: 'Comic intent', beauty: 'Aesthetic beauty' }[field];
+    // Grouped by the CONSTRUCT a slot holds (constructOf): a game's `dread` slot is immersion and
+    // earns an Immersion boost, so it is held monotonic against other immersion values, not dread.
+    const groups = [];
+    QUALITY_BOOSTS.forEach(q => constructsOf(ALL, [q[0]]).forEach(c => groups.push([q[0], c])));
+    groups.forEach(([field, construct]) => {
+      const label = CONSTRUCT_INFO[construct].label;
       const got = x => {
         const b = (x.gmBoosts || []).find(e => e[1] === label);
         return b ? b[2] : 0;
@@ -3054,11 +3057,11 @@ async function runTabFiltersFlow(browser, file) {
       // is excluded from the monotonic check entirely, same reasoning as the filter fix in
       // ledger-app.js: undefined has no defensible position on the scale, so sorting it in would
       // just be comparing "we don't know" against real values as though 0 were a real answer.
-      const pts = ALL.filter(x => x[field] !== undefined).map(x => ({ v: x[field], b: got(x), t: x.title }))
+      const pts = ALL.filter(x => x[field] !== undefined && constructOf(x.kind, field) === construct).map(x => ({ v: x[field], b: got(x), t: x.title }))
         .sort((a, b) => a.v - b.v);
       for (let i = 1; i < pts.length; i++) {
         if (pts[i].b < pts[i - 1].b - 1e-9) {
-          bad.push(field + ': "' + pts[i].t + '" (' + field + ' ' + pts[i].v + ') earns ' + pts[i].b +
+          bad.push(construct + ': "' + pts[i].t + '" (' + field + ' ' + pts[i].v + ') earns ' + pts[i].b +
             ' but "' + pts[i - 1].t + '" (' + pts[i - 1].v + ') earns ' + pts[i - 1].b);
           break;
         }
@@ -4486,6 +4489,88 @@ async function runRecQualityFlow(browser, file) {
   await page.close();
 }
 
+// The taste engine's correctness, checked in the running app: each check here was written against a
+// defect found by measuring, and fails with that defect's fix reverted (NOTES.md Phase 52).
+// Profiles are swapped in memory only (the same way scripts/rec-quality.js measures) and restored.
+const ENGINE_PAGE_HELPERS = () => {
+  const P = window.PERSONAL_PROFILE, clone = o => JSON.parse(JSON.stringify(o));
+  window.__engineOrig = window.__engineOrig || clone(P);
+  window.__withProfile = (p, fn) => {
+    Object.keys(P).forEach(k => { delete P[k]; }); Object.assign(P, clone(p)); window.recomputeProfileDerived();
+    try { return fn(); } finally {
+      Object.keys(P).forEach(k => { delete P[k]; }); Object.assign(P, clone(window.__engineOrig)); window.recomputeProfileDerived();
+    }
+  };
+  window.__gameIds = titles => titles.map(t => window.ALL.find(x => x.kind === 'game' && x.title === t)).filter(Boolean).map(x => x.id);
+};
+// Eight strategy / exploration / RPG games, none of them horror, all high on immersion.
+const IMMERSIVE_GAMES = ['Outer Wilds', 'Factorio', 'Civilization IV', 'Crusader Kings III', 'Europa Universalis IV',
+  "Baldur's Gate 3", 'The Witcher 3: Wild Hunt', 'Return of the Obra Dinn'];
+const COSY_GAMES = ['g119', 'g122', 'g132', 'g134', 'g149', 'g158'];
+async function runEngineFlow(browser, file) {
+  const { page, pageErrors } = await bootSample(browser, file);
+  await page.evaluate(ENGINE_PAGE_HELPERS);
+  const checkD = (label, cond, detail) => { check(label, cond); if (!cond && detail) console.log('     ' + detail); };
+
+  // ---- Defect 1: a game's `dread` slot is immersion and its `myst` slot systems complexity
+  // (RUBRIC.md construct 2, QUALITY_PASS.md decisions 2-3). Read as dread / ontological depth, eight
+  // non-horror games taught a strong liking for dread and filled their film and book lists with horror.
+  const constructs = await page.evaluate(([gameTitles, cosy]) => {
+    const ids = window.__gameIds(gameTitles);
+    const immersive = window.__withProfile({ silverTierIds: ids }, () => {
+      const M = window.tasteModel();
+      return { n: ids.length, toneDread: M.tone.dread, axisDread: M.axis.dread, axisMyst: M.axis.myst,
+        axisImmersion: M.axis.immersion, axisSystems: M.axis.systems };
+    });
+    const cosyM = window.__withProfile({ silverTierIds: cosy }, () => {
+      const M = window.tasteModel(); return { axisDread: M.axis.dread, axisMyst: M.axis.myst };
+    });
+    const games = window.ALL.filter(x => x.kind === 'game');
+    const mislabelled = games.filter(x => (x.gmBoosts || []).some(b => b[1] === 'Atmospheric dread' || b[1] === 'Ontological depth')).map(x => x.title);
+    const unnamed = games.filter(x => (x.dread > 80 && !(x.gmBoosts || []).some(b => b[1] === 'Immersion')) ||
+      (x.myst > 70 && !(x.gmBoosts || []).some(b => b[1] === 'Systems depth'))).map(x => x.title);
+    // Closeness: on a synthetic corpus, a game's immersion must not move its similarity to a film,
+    // and must move its similarity to another game.
+    const mk = (kind, i, dread) => ({ id: kind[0] + i, kind, year: 2000, genres: ['Drama'], creator: 'C' + kind + i, vibe: '',
+      warmth: 40 + i, comedy: 30 + (i % 7), dread: dread == null ? 30 + i * 3 : dread, myst: 20 + i * 2, beauty: 60 + (i % 5) });
+    const build = gDread => {
+      const all = [];
+      for (let i = 0; i < 15; i++) all.push(mk('movie', i));
+      for (let i = 0; i < 15; i++) all.push(mk('game', i, i === 0 ? gDread : null));
+      const f = neighborFeatures(all, {});
+      return { filmGame: neighborSim(f[0], f[15]), gameGame: neighborSim(f[16], f[15]) };
+    };
+    const lo = build(10), hi = build(95);
+    return { immersive, cosyM, mislabelled, unnamed, filmGameMoves: lo.filmGame !== hi.filmGame, gameGameMoves: lo.gameGame !== hi.gameGame };
+  }, [IMMERSIVE_GAMES, COSY_GAMES]);
+  checkD('immersive non-horror games teach no dread tone and no dread or complexity axis (immersion is not dread)',
+    constructs.immersive.n === 8 && constructs.immersive.toneDread === 0 && constructs.immersive.axisDread === 0 && constructs.immersive.axisMyst === 0);
+  checkD('...they teach the immersion and systems-depth axes instead',
+    constructs.immersive.axisImmersion > 0.3 && constructs.immersive.axisSystems > 0.3);
+  checkD('a cosy-games player is not learned as favoring atmospheric dread or ontological depth',
+    constructs.cosyM.axisDread === 0 && constructs.cosyM.axisMyst === 0, JSON.stringify(constructs.cosyM));
+  checkD('no game\'s match is explained by "Atmospheric dread" or "Ontological depth"', constructs.mislabelled.length === 0,
+    constructs.mislabelled.slice(0, 5).join(', '));
+  checkD('every game past the threshold is credited "Immersion" / "Systems depth" instead', constructs.unnamed.length === 0,
+    constructs.unnamed.slice(0, 5).join(', '));
+  checkD('closeness never compares a game\'s immersion with a film\'s dread, but does compare it with another game\'s',
+    !constructs.filmGameMoves && constructs.gameGameMoves);
+  await searchTitles(page, 'Factorio');
+  const factorioId = await page.evaluate(() => window.ALL.find(x => x.kind === 'game' && x.title === 'Factorio').id);
+  await page.click('#grid .cardHead[data-id="' + factorioId + '"]');
+  const chips = await readWhen(page, id => {
+    const h = document.querySelector('#grid .cardHead[data-id="' + id + '"]');
+    const sec = h && [...h.closest('.panel').querySelectorAll('section.cardSec')].find(s => /Why this match/.test(s.textContent));
+    return sec ? sec.textContent.replace(/\s+/g, ' ') : false;
+  }, factorioId, 10000);
+  checkD('Factorio\'s card names its Immersion and Systems depth, not Dread and Depth',
+    /Immersion: Immersion/.test(chips || '') && /Systems: Systems Depth/.test(chips || '') && !/Dread:|Depth: Ontological/.test(chips || ''), chips);
+
+  checkD('no uncaught page errors during the taste-engine flow', pageErrors.length === 0);
+  if (pageErrors.length) pageErrors.forEach(e => console.log('     ' + e));
+  await page.close();
+}
+
 // Each flow opens its own pages and contexts, so one flow throwing says nothing about the others.
 // A throw used to abort the whole run: one missing element late in the account flow took the ~150
 // checks after it down too, and a single timing problem read as a wall of red. Now it counts as
@@ -4526,6 +4611,7 @@ async function runFlow(browser, name, fn) {
     await runFlow(browser, t + ' — honest match (labelled ring, no taste claims without evidence)', () => runHonestMatchFlow(browser, t));
     await runFlow(browser, t + ' — merging edits across devices and tabs', () => runMergeFlow(browser, t));
     await runFlow(browser, t + ' — recommendation quality (hidden favorites found again)', () => runRecQualityFlow(browser, t));
+    await runFlow(browser, t + ' — taste engine (constructs per medium, reason lines, discovery surfaces)', () => runEngineFlow(browser, t));
   }
   await browser.close();
 

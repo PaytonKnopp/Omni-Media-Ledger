@@ -593,7 +593,7 @@ function gmBreakdownHTML(it){
  (it.gmBoosts||[]).slice().sort((a,b)=>b[2]-a[2]).forEach(function(b){
   // A weight you set yourself (the card's Creator weight control) reads as yours; the same person's
   // learned weight, from what you rated and tiered, keeps the plain Creator label.
-  var lab=b[3]==='set'?'Your weight':{creator:'Creator',author:'Author',genre:'Genre',vibe:'Vibe',complexity:'Depth',craft:'Craft',tone:'Tone',near:'Like',dread:'Dread',warmth:'Warmth',comedy:'Comedy',beauty:'Beauty'}[b[0]]||b[0];
+  var lab=b[3]==='set'?'Your weight':({creator:'Creator',author:'Author',genre:'Genre',vibe:'Vibe',tone:'Tone',near:'Like'}[b[0]]||(WHY_BY_TYPE[b[0]]&&WHY_BY_TYPE[b[0]].chip)||b[0]);
   var cap=(''+b[1]).replace(/(^|[\s/-])(\S)/g,function(m,sep,c){return sep+c.toUpperCase();});
   // A derived taste weight can be negative -- a genre this person's own ratings count against --
   // so the sign comes from the number rather than being hardcoded to '+', which would have
@@ -1732,12 +1732,15 @@ function recomputeTasteScores(){
     single non-negative factor per axis, so it rescales the line without ever bending it.
     `x.warmth>70` etc. is naturally false (not a crash) for a work RUBRIC.md's evidence gate
     flagged rather than scored -- no bonus, not a guessed one. */
- if(x.myst>70){var mb=(x.myst-70)/6*AX.myst;qualityRaw+=mb;br.push(['complexity','Ontological depth',Math.round(mb*10)/10]);}
- if(x.tech>85){var tb=(x.tech-85)/5*AX.tech;qualityRaw+=tb;br.push(['craft','Technical craft',Math.round(tb*10)/10]);}
- if(x.dread>80){var db=(x.dread-80)/10*AX.dread;qualityRaw+=db;br.push(['dread','Atmospheric dread',Math.round(db*10)/10]);}
- if(x.warmth>70){var wb=(x.warmth-70)/6*AX.warmth;qualityRaw+=wb;br.push(['warmth','Emotional warmth',Math.round(wb*10)/10]);}
- if(x.comedy>70){var cb=(x.comedy-70)/6*AX.comedy;qualityRaw+=cb;br.push(['comedy','Comic intent',Math.round(cb*10)/10]);}
- if(x.beauty>70){var eb=(x.beauty-70)/6*AX.beauty;qualityRaw+=eb;br.push(['beauty','Aesthetic beauty',Math.round(eb*10)/10]);}
+ // Which construct a slot holds is the medium's (constructOf, app/scoring.js): a game's `dread`
+ // slot earns an Immersion boost, scaled by the immersion axis and named as such, never
+ // "Atmospheric dread".
+ QUALITY_BOOSTS.forEach(q=>{
+  const v=x[q[0]];if(!(v>q[1]))return;
+  const c=constructOf(x.kind,q[0]),ci=CONSTRUCT_INFO[c];
+  const b=(v-q[1])/q[2]*(AX[c]!=null?AX[c]:1);
+  qualityRaw+=b;br.push([ci.type,ci.label,Math.round(b*10)/10]);
+ });
  objRaw[i]=base*0.5+qualityRaw*1.2+14;
  tasteAdd[i]=TASTE_CAP*Math.tanh(tasteRaw/TASTE_SCALE)*1.2;
  x.gmBoosts=br;
@@ -1948,15 +1951,9 @@ function tagOverlapScore(tags,vibes){
    said only where that evidence points the same way; otherwise the reason is about the work alone.
    A brand-new profile used to be told a film "is as beautiful to look at as your favorites". */
 const AXIS_FAVORED=0.15;
-const WHY_AXIS={complexity:'myst',craft:'tech',dread:'dread',warmth:'warmth',comedy:'comedy',beauty:'beauty'};
-const WHY_PHRASE={
- complexity:['has the ontological depth you favor','has real ontological depth'],
- craft:['has the technical craft your favorites share','stands out on technical craft'],
- dread:['carries the atmospheric dread you favor','carries real atmospheric dread'],
- warmth:['has the emotional warmth you favor','has real emotional warmth'],
- comedy:['is funny the way your favorites are','is genuinely funny'],
- beauty:['is as beautiful to look at as your favorites','is beautiful to look at']
-};
+// gmBoosts type -> the construct's axis and phrases, from the one table in app/scoring.js.
+const WHY_BY_TYPE={};
+Object.keys(CONSTRUCT_INFO).forEach(c=>{WHY_BY_TYPE[CONSTRUCT_INFO[c].type]={axis:c,why:CONSTRUCT_INFO[c].why,chip:CONSTRUCT_INFO[c].chip};});
 function goatWhy(x){
  const none=()=>tasteBasis().personal
   ?'Scores well on craft and reception, without a direct match to your taste yet.'
@@ -1970,8 +1967,8 @@ function goatWhy(x){
   if(b[0]==='vibe')return 'fits your “'+b[1]+'” vibe';
   if(b[0]==='tone')return 'has the tone of your favorites';
   if(b[0]==='near')return b[1]===NEAR_UNNAMED?'is close to what you love most':'is a lot like '+b[1];
-  const p=WHY_PHRASE[b[0]];
-  if(p)return (axis[WHY_AXIS[b[0]]]||0)>=AXIS_FAVORED?p[0]:p[1];
+  const p=WHY_BY_TYPE[b[0]];
+  if(p)return (axis[p.axis]||0)>=AXIS_FAVORED?p.why[0]:p.why[1];
   return b[1];
  };
  // Only reasons that actually argue FOR the work. A derived genre weight can be negative (a genre
