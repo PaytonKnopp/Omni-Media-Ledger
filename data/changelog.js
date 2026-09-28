@@ -3,6 +3,9 @@
 // entry whenever a change reaches users.
 'use strict';
 const CHANGELOG=[
+ {v:'1.53.3',date:'2026-09-28',summary:'The Owned count at the top of the page now updates the moment you own or un-own a title.',notes:[
+  'It used to keep the number it had when the page loaded until you reloaded. It now follows every change, including ones synced from another tab or device.'
+ ]},
  {v:'1.53.2',date:'2026-09-26',summary:'The GOAT Profile tab now shows Movies, TV Shows, Books and Video Games in that order for everyone, each under a clear header.',notes:[
   'Your favorites and your recommendations both go Movies, TV Shows, Books, Video Games, every time. Before, favorites were ordered by how many titles each box held, so the order moved around. Each box now has an icon and a header in that medium’s color. A medium you haven’t tiered anything in yet still gets its box, so the layout looks the same on every account.',
   'On the PK Sample and PK’s own account, the extra categories now sit in their own “PK Sample Extras” area below the four, grouped so related ones are side by side: Directors, Actors, Cinematographers, Composers, Music Artists, then YouTube.'

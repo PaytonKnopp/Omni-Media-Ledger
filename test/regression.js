@@ -700,6 +700,24 @@ async function runFile(browser, file) {
       catch (e) { return false; }
     }, targetId);
     check('declaring Gold from the GOAT Profile search toggles it in the profile', isDeclaredAfter === !wasDeclaredBefore);
+
+    // The header's Owned tile was drawn once at boot and never again, so it kept its page-load
+    // number however many titles were owned or unowned until a reload.
+    const headerOwned = () => page.evaluate(() => {
+      const tile = [...document.querySelectorAll('#headStats .statTile')]
+        .find(t => /owned/i.test(t.querySelector('.statLbl').textContent));
+      return tile ? parseInt(tile.querySelector('.statNum').textContent.replace(/\D/g, ''), 10) : NaN;
+    });
+    const ownSel = '#goatSearchResults .profEditBtn[data-act="own"]';
+    const ownId = await page.$eval(ownSel, el => el.dataset.id);
+    const ownedStart = await headerOwned();
+    const ownOn = await page.$eval(ownSel, el => el.title.includes('click to remove'));
+    await clickAndSettle(page, ownSel + '[data-id="' + ownId + '"]');
+    const ownedToggled = await headerOwned();
+    await clickAndSettle(page, ownSel + '[data-id="' + ownId + '"]');
+    const ownedBack = await headerOwned();
+    check('the header Owned count follows owning and unowning a title without a reload',
+      ownedToggled === ownedStart + (ownOn ? -1 : 1) && ownedBack === ownedStart);
     const resumedOnGoatView = await page.evaluate(() => {
       const s = document.querySelector('main > section[data-sec="goat"]');
       return s && !s.classList.contains('hidden');
