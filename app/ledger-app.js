@@ -4356,6 +4356,7 @@ function rerenderAfterProfileChange(changedIds){
   DEFERRED_PROFILE_VIEWS.forEach(function(v){if(v!==state.view)profileDirtyViews[v]=true;});
   collectionExtrasDirty=(state.view!=='collection');
   refresh(changedIds);
+  renderHeadStats();
   if(state.view==='collection')renderCollectionExtras();
   if(state.view==='portrait'&&typeof renderPortrait==='function')renderPortrait();
   if(state.view==='timeline'&&typeof renderTimeline==='function')renderTimeline();
@@ -4751,7 +4752,7 @@ function handleProfileEditClick(btn){
    No longer surfaced in the header (it fell too far behind real changes to be worth showing), but
    kept here as the project's own record. Bump APP_VERSION and add a CHANGELOG entry whenever a
    change is worth remembering; cosmetic tweaks don't need a bump. */
-const APP_VERSION='1.53.2';
+const APP_VERSION='1.53.3';
 // CHANGELOG (the in-app version history) lives in data/changelog.js.
 
 /* ===== Suggestion box: shared Supabase table, visible to everyone =====
@@ -5720,13 +5721,19 @@ buildPlatSelect();
  // Outside-click and Escape are handled once, for every .radarCombo including this one -- see the
  // shared closeAllCombos listener registered earlier in the script. No separate listener needed here.
 })();
-$('#headStats').innerHTML=[
- {icon:'◈',label:'Indexed Works',n:ALL.length,color:'#5eead4'},
- {icon:'✓',label:'Owned',n:ALL.filter(function(x){return x.owned;}).length,color:'#4ade80'},
- {icon:'🔮',label:'Contenders',n:contenders.length,color:'#c084fc'}
-].map(function(s){
- return '<div class="statTile"><span class="statIcon" style="color:'+s.color+'">'+s.icon+'</span><div><div class="statNum" style="color:'+s.color+'">'+s.n.toLocaleString()+'</div><div class="statLbl">'+s.label+'</div></div></div>';
-}).join('');
+// Redrawn on every profile change (rerenderAfterProfileChange), not just at boot: the Owned count
+// used to stay at its page-load value until a reload, however many titles were owned or unowned.
+function renderHeadStats(){
+ const el=$('#headStats');if(!el)return;
+ el.innerHTML=[
+  {icon:'◈',label:'Indexed Works',n:ALL.length,color:'#5eead4'},
+  {icon:'✓',label:'Owned',n:ALL.filter(function(x){return x.owned;}).length,color:'#4ade80'},
+  {icon:'🔮',label:'Contenders',n:contenders.length,color:'#c084fc'}
+ ].map(function(s){
+  return '<div class="statTile"><span class="statIcon" style="color:'+s.color+'">'+s.icon+'</span><div><div class="statNum" style="color:'+s.color+'">'+s.n.toLocaleString()+'</div><div class="statLbl">'+s.label+'</div></div></div>';
+ }).join('');
+}
+renderHeadStats();
 // "Last updated" is the newest version-history entry's date, not a date typed into the page: the
 // hardcoded one had drifted weeks behind the app it described.
 (function(){var ld=$('#luDate');if(ld&&CHANGELOG.length){var d=CHANGELOG.map(function(c){return c.date;}).sort().pop().split('-');ld.textContent=['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'][+d[1]-1]+' '+(+d[2])+', '+d[0];}})();
