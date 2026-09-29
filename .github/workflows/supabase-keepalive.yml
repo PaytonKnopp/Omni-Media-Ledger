@@ -1,0 +1,57 @@
+name: Supabase keep-alive
+
+# Supabase pauses a free-tier project after about a week without enough database activity, and a
+# paused project means cloud accounts stop working until someone clicks Restore in the dashboard.
+# This makes one small real read against the project every day so it never looks idle, whether or
+# not anyone has opened the app that week.
+#
+# The project URL and publishable (anon) key are read straight out of index.html's SUPABASE_CONFIG,
+# the same way scripts/update-pk-sample.js does it, so there is one place to change them and nothing
+# to store as a secret. That key is public by design (see NOTES.md, Phase 27).
+#
+# If the request fails, the job fails, and GitHub emails the repository owner. That is the early
+# warning that the project is paused or unreachable: restore it from the Supabase dashboard.
+#
+# Two GitHub rules worth knowing: scheduled workflows only run from the default branch, so this does
+# nothing until it is merged; and GitHub disables schedules in a public repository after 60 days with
+# no commits, emailing a warning first. Re-enable it from the Actions tab if that ever happens.
+on:
+  schedule:
+    # Daily at 14:17 UTC. An off-the-hour minute avoids the delays GitHub's scheduler has at :00.
+    - cron: '17 14 * * *'
+  # Lets you run it by hand from the Actions tab, e.g. to check it works right after merging.
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  ping:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+
+      - name: Query the Supabase project
+        run: |
+          set -euo pipefail
+          config=$(grep -oE 'var SUPABASE_CONFIG=\{url:"[^"]+",anonKey:"[^"]+"\}' index.html || true)
+          if [ -z "$config" ]; then
+            echo "::error::Could not find SUPABASE_CONFIG in index.html"
+            exit 1
+          fi
+          url=$(printf '%s' "$config" | sed -E 's/.*url:"([^"]+)".*/\1/')
+          key=$(printf '%s' "$config" | sed -E 's/.*anonKey:"([^"]+)".*/\1/')
+
+          # A one-row read of a publicly readable table: a real database query, which is what
+          # Supabase counts as activity, without writing anything.
+          status=$(curl -sS -o response.txt -w '%{http_code}' --max-time 60 \
+            --retry 3 --retry-delay 20 --retry-all-errors \
+            -H "apikey: $key" \
+            "$url/rest/v1/suggestions?select=id&limit=1")
+
+          echo "HTTP $status"
+          if [ "$status" -lt 200 ] || [ "$status" -ge 300 ]; then
+            echo "::error::Supabase answered HTTP $status. The project may be paused: restore it at https://supabase.com/dashboard"
+            cat response.txt
+            exit 1
+          fi
