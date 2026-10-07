@@ -773,13 +773,34 @@ function receptionChipsHTML(it){
  return '<section class="cardSec"><div class="flex items-center flex-wrap gap-1.5 receptionChips"><span class="lbl mr-1">Reception</span>'+aud
   +'<span class="chip critChip" title="'+esc(rs.crit.title.replace('Critics\u2019 score','Critics\u2019 score '+it.crit+'/100'))+'">Crit ~'+it.crit+'</span></div></section>';
 }
+/* A work's length and content rating, shown in the expanded card only. Neither is reliable enough
+   for the card face: lengths come from bulk-fetched data, and the rating is not fetched at all --
+   certify() infers it from genre and tone -- so a confident "169 min · PG-13" under every title
+   was stating guesses as fact. Here they sit with a one-line note saying exactly that. */
+function factsHTML(it){
+ const m=it.mins;
+ const len={movie:m?(m>=60?Math.floor(m/60)+'h'+(m%60?' '+m%60+'m':''):m+'m'):'',tv:it.span,game:it.span?it.span+' to finish':'',book:it.span}[it.kind]||'';
+ const lenTitle={movie:it.mins+' minutes',tv:'Number of seasons',game:'Typical time to finish',book:'Page count'}[it.kind];
+ const lenWord={movie:'Runtime',tv:'Season count',game:'Playtime',book:'Page count'}[it.kind];
+ // A book's certify() value is a category (Nonfiction, Technical, Verse) rather than an age
+ // rating, and "General" says nothing at all, so it is left out.
+ const r=it.rating&&it.rating!=='General'?it.rating:'';
+ const isAge=r&&it.kind!=='book';
+ const chips=[];
+ if(len)chips.push('<span class="chip factChip" title="'+esc(lenTitle)+' \u2014 approximate">'+esc(len)+'</span>');
+ if(r)chips.push('<span class="chip factChip" title="'+(isAge?'Age rating, estimated from genre and tone \u2014 not the official certification':'Category, estimated from genre')+'">'+(isAge?'Rated ':'')+esc(r)+'</span>');
+ if(!chips.length)return '';
+ const what=[len?lenWord:'',r?(isAge?'rating':'category'):''].filter(Boolean).join(' and ');
+ return '<section class="cardSec factsSec"><div class="flex items-center flex-wrap gap-1.5"><span class="lbl mr-1">Details</span>'+chips.join('')+'</div>'
+  +'<p class="factsNote"><span aria-hidden="true">\u24d8</span> '+what.charAt(0).toUpperCase()+what.slice(1)+' '+(len&&r?'are':'is')+' estimated from bulk data and may be off.</p></section>';
+}
 function cardHTML(it){const k=KM[it.kind];
  return '<div class="panel resultCard overflow-hidden hover:border-slate-600/80 transition-colors fade-in relative flex flex-col h-full">'
  +'<button type="button" class="cardHead w-full text-left p-3.5 flex gap-3 items-start" data-id="'+it.id+'">'
  +matchRingHTML(it,k.c,42)
  +'<div class="flex-1 min-w-0">'
  +'<div class="flex items-center gap-x-2 gap-y-1.5 flex-wrap cardChips"><span class="cardTitle text-[13px] font-semibold text-slate-100 leading-tight hover:text-teal-300 cursor-pointer underline decoration-dotted decoration-slate-600 underline-offset-2" data-flip="'+it.id+'" title="Click for a summary and full breakdown">'+esc(it.title)+'</span><span class="chip" style="color:'+k.c+';border-color:'+k.c+'44">'+k.label+'</span>'+(it.chFlag?'<span class="chip" style="color:#0B0F19;background:#c084fc;border-color:#c084fc;font-weight:700">\u25c9 CANON 100</span>':'')+(function(){const fr=franchiseOf(it);return fr?'<span class="chip franchiseChip" style="color:#5eead4;border-color:#5eead444" title="Part of the '+esc(fr)+' series">\u2699 '+esc(FRANCHISE_CHIP_SHORT[fr]||fr)+'</span>':'';})()+'</div>'
- +'<div class="text-[11px] text-slate-400 mt-1.5 leading-snug" title="'+esc(it.creator)+' · '+esc(it.org)+'">'+[[it.year,1],[esc(it.creator),0],[esc(it.span),1],[it.rating&&it.rating!=='General'?esc(it.rating):'',1]].filter(v=>v[0]).map(v=>v[1]?'<span class="whitespace-nowrap">'+v[0]+'</span>':v[0]).join(' · ')+'</div>'
+ +'<div class="text-[11px] text-slate-400 mt-1.5 leading-snug" title="'+esc(it.creator)+' · '+esc(it.org)+'">'+[[it.year,1],[esc(it.creator),0]].filter(v=>v[0]).map(v=>v[1]?'<span class="whitespace-nowrap">'+v[0]+'</span>':v[0]).join(' · ')+'</div>'
  +'<div class="mt-2 space-y-1 cardMicro" title="This work\'s 3 strongest indices out of ~19 tracked -- click the card to see all of them">'+frontBars(it)+'</div>'
  +'</div><span class="text-slate-600 text-xs mt-1" aria-hidden="true">&#9662;</span></button>'+wlCornerHTML(it)
  +tierRowHTML(it)
@@ -812,6 +833,7 @@ function cardPanelsHTML(it){
  const idx=[['\ud83c\udfaf GOAT Match',it.gm,'#fbbf24'],['\u25c9 Cosmic Horror',it.ch,'#c084fc'],['Soundtrack',it.snd,'#7dd3fc','snd'],['4K Reference',it.ref,'#818cf8','ref'],['Emotional',it.emo,'#f0abfc'],['Awe / Spectacle',it.awe,'#fbbf24'],['Comfort',it.cozy,'#34d399'],['Performances',it.perf,'#fda4af'],['Iconicness',it.icon,'#fcd34d'],['Scariest',it.scary,'#f87171'],['Realism',it.real,'#86efac'],['Reality-Altering',it.reality,'#c4b5fd'],['Genuine Shock',it.shock,'#fb923c'],['Scientific',it.sci,'#67e8f9'],['Funniest',it.funny,'#fde047'],['Historically Accurate',it.hist,'#a3e635'],['Vibe / Atmosphere',it.vibe2,'#e879f9']].filter(r=>!r[3]||idxApplies(it,r[3])).map(r=>scoreRowHTML(r[0],r[1],r[2])).join('');
  return summaryHTML(it)
  +'<div class="detail hidden border-t border-slate-800/80 px-3.5 py-3.5 bg-[#0b1322]/60">'
+ +factsHTML(it)
  +receptionChipsHTML(it)
  +cardSecHTML('Craft','<div class="fidGrid">'+craft+'</div>')
  +cardSecHTML('Indices','<div class="idxGrid">'+idx+'</div>')
@@ -2561,7 +2583,7 @@ function renderWatchlist(){
    +'<input type="date" class="wlDoneDate inp" data-id="'+x.id+'" value="'+dateInputValue(e.doneAt)+'" max="'+today+'" aria-label="Date '+verb.toLowerCase()+'" style="width:auto;padding:1px 6px;font-size:11px"/></label>':'';
   return '<div class="panel p-3 flex gap-3 items-start wlItem'+(done?' wlItemDone':'')+'" data-id="'+x.id+'">'
    +matchRingHTML(x,k.c,38)
-   +'<div class="flex-1 min-w-0"><div class="flex items-center gap-1.5 flex-wrap"><span class="goatJump text-[13px] font-semibold text-slate-100 cursor-pointer hover:text-teal-300" data-q="'+esc(x.title)+'" title="Open '+esc(x.title)+' in the Global Controller">'+esc(x.title)+'</span><span class="chip" style="color:'+k.c+';border-color:'+k.c+'44">'+k.label+'</span><span class="chip" style="color:#5eead4;border-color:#5eead455">'+esc(x.rating)+'</span><span class="chip" style="color:#fbbf24;border-color:#fbbf2444" title="Your GOAT-fingerprint match score">\u2605'+x.gm+' match</span>'+(typeof x.myRating==='number'?'<span class="chip" style="color:#5eead4;border-color:#5eead455" title="Your rating">\u2605 '+x.myRating.toFixed(1)+'/10</span>':'')+'</div>'
+   +'<div class="flex-1 min-w-0"><div class="flex items-center gap-1.5 flex-wrap"><span class="goatJump text-[13px] font-semibold text-slate-100 cursor-pointer hover:text-teal-300" data-q="'+esc(x.title)+'" title="Open '+esc(x.title)+' in the Global Controller">'+esc(x.title)+'</span><span class="chip" style="color:'+k.c+';border-color:'+k.c+'44">'+k.label+'</span><span class="chip" style="color:#fbbf24;border-color:#fbbf2444" title="Your GOAT-fingerprint match score">\u2605'+x.gm+' match</span>'+(typeof x.myRating==='number'?'<span class="chip" style="color:#5eead4;border-color:#5eead455" title="Your rating">\u2605 '+x.myRating.toFixed(1)+'/10</span>':'')+'</div>'
    +'<div class="text-[11px] text-slate-400 mt-0.5 truncate">'+x.year+' \u00b7 '+esc(x.creator)+' \u00b7 <span title="Estimated from runtime/season count/playtime/page count \u2014 not a guarantee">~'+formatHours(estimateHours(x))+'</span></div>'
    +doneLine
    +'<div class="flex gap-1.5 mt-2 flex-wrap"><button type="button" class="wlDone presetBtn" data-id="'+x.id+'" aria-pressed="'+done+'" title="'+(done?'Click to mark as not yet '+verb.toLowerCase()+(e.logOnly?' (removes it from this list \u2014 it was never in Up Next)':' (back to Up Next)'):'Mark this '+verb.toLowerCase())+'" style="'+(done?'color:'+DONE_COLOR+';border-color:'+DONE_COLOR+'55':'')+'">'+(done?'\u2713 Completed \u00b7 click to undo':'\u2713 Mark '+verb.toLowerCase())+'</button>'
