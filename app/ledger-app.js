@@ -220,7 +220,7 @@ const DONE_VERB={movie:'Watched',tv:'Watched',game:'Played',book:'Read'};
 function doneVerb(it){return DONE_VERB[it&&it.kind]||'Completed';}
 
 /* ===================== STATE & HELPERS ===================== */
-const state={view:'controller',q:'',types:[],struct:'all',plats:[],minGoat:0,minMyRating:0,ratedOnly:false,unratedOnly:false,genres:[],genresExclude:[],ownedOnly:false,notOwnedOnly:false,doneOnly:false,notDoneOnly:false,franchiseOnly:false,standaloneOnly:false,limit:100,idx:{snd:0,ref:0,ch:0,emo:0,awe:0,cozy:0,perf:0,icon:0,scary:0,real:0,reality:0,shock:0,sci:0,funny:0,hist:0,vibe2:0,crit:0,aud:0,tech:0,dread:0,myst:0,warmth:0,comedy:0,beauty:0,runtime:0},ratings:[],tierFilter:[],tierFilterExclude:[],yearMin:null,yearMax:null,combine:false,sort:'overall',creatorTab:'directors',creatorSearch:'',creatorLedgerOnly:false,creatorOwnedOnly:false,goatType:'all',goatTierFilter:'all',goatSort:'match',goatDeclaredQ:'',portraitScope:'all',collSearchQ:'',collSort:'az',wlType:'all',wlSort:'added',wlSearchQ:'',creatorSearchScope:'all',creatorSort:'works'};
+const state={view:'controller',q:'',types:[],struct:'all',plats:[],minGoat:0,minMyRating:0,ratedOnly:false,unratedOnly:false,genres:[],genresExclude:[],ownedOnly:false,notOwnedOnly:false,doneOnly:false,notDoneOnly:false,franchiseOnly:false,standaloneOnly:false,limit:100,idx:{snd:0,ref:0,ch:0,emo:0,awe:0,cozy:0,perf:0,icon:0,scary:0,real:0,reality:0,shock:0,sci:0,funny:0,hist:0,vibe2:0,crit:0,aud:0,tech:0,dread:0,myst:0,warmth:0,comedy:0,beauty:0,runtime:0},ratings:[],tierFilter:[],tierFilterExclude:[],yearMin:null,yearMax:null,combine:false,sort:'overall',creatorTab:'directors',creatorSearch:'',creatorLedgerOnly:false,creatorOwnedOnly:false,goatType:'all',goatTierFilter:'all',goatSort:'match',goatDeclaredQ:'',portraitScope:'all',collSearchQ:'',collSort:'az',wlFilter:'todo',wlType:'all',wlSort:'added',wlSearchQ:'',creatorSearchScope:'all',creatorSort:'works'};
 const $=s=>document.querySelector(s),$$=s=>Array.from(document.querySelectorAll(s));
 const on=(sel,ev,fn)=>{const el=$(sel);if(el)el.addEventListener(ev,fn);else console.warn('missing element:',sel);};
 // esc/themeColor(+THEME_PALETTE) live in app/cards.js (pure, closure-independent) now.
@@ -2559,7 +2559,7 @@ function renderWatchlist(){
  var BACKLOG_TITLE='Estimated, not measured: movies use their actual runtime, TV uses ~8hrs/season, games use their listed playtime (or 20hrs if unlisted), books use pages\u00f750wpm. Treat this as a rough sense of scale, not a real countdown.';
  $('#wlStats').innerHTML=[['Up Next',todo.length,null],['Completed',watched.length,'Everything you have marked watched, read or played \u2014 from this tab or from the \u2713 on any card'],['Done in '+thisYear,doneThisYear,'Completed this calendar year (titles marked before completion dates were recorded are not counted)'],['Est. Backlog',todo.length?formatHours(backlogHrs):'\u2014',BACKLOG_TITLE],['Avg Quality',avg||'\u2014',null]]
   .map(s=>'<div class="panel p-3 text-center"'+(s[2]?' title="'+esc(s[2])+'"':'')+'><div class="text-xl font-extrabold text-slate-50 tabular-nums">'+s[1]+(s[2]===BACKLOG_TITLE?' <span style="font-size:9px;color:#64748b">(est.)</span>':'')+'</div><div class="lbl mt-1">'+s[0]+'</div></div>').join('');
- const wf=state.wlFilter||'all',wt=state.wlType||'all',wq=(state.wlSearchQ||'').trim().toLowerCase(),ws=state.wlSort||'added';
+ const wf=state.wlFilter||'todo',wt=state.wlType||'all',wq=(state.wlSearchQ||'').trim().toLowerCase(),ws=state.wlSort||'added';
  let list=wf==='todo'?todo:wf==='done'?watched:items;
  if(wt!=='all')list=list.filter(x=>x.kind===wt);
  if(wq){const m=worksMatching(wq);if(m)list=list.filter(x=>m.has(x.id));}
@@ -2574,6 +2574,7 @@ function renderWatchlist(){
  const today=dateInputValue(Date.now());
  const emptyMsg=!items.length?'Nothing saved yet \u2014 tap the \u2661 on any card to build your backlog, or \u2713 to log something you have finished.'
   :(wf==='done'&&!watched.length&&wt==='all'&&!wq)?'Nothing completed yet \u2014 tap \u2713 Watched / Read / Played on any card, or \u201cMark completed\u201d here.'
+  :(wf==='todo'&&!todo.length&&wt==='all'&&!wq)?'Your Up Next is clear \u2014 everything here is completed. Tap the \u2661 on any card to queue something new, or switch to All or Completed to see your history.'
   :'Nothing matches this filter.';
  $('#wlGrid').innerHTML=list.length?list.map(x=>{const k=KM[x.kind];const e=WL[x.id];const done=e.watched;const verb=doneVerb(x);
   // The date is the input itself (no second, read-only copy of it beside it): stamped on
