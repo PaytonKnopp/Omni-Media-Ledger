@@ -820,7 +820,7 @@ function cardTagsHTML(it){
  it.genres.forEach(g=>{const boosted=gb.some(b=>b[0]===g.toLowerCase());add(g,'<span class="chip" title="'+(boosted?'A genre your taste profile currently weights up':'Genre')+'"'+(boosted?' style="color:#fbbf24;border-color:#fbbf2455"':'')+'>'+(boosted?'★ ':'')+esc(g)+'</span>');});
  if(it.vibe){const vb=!!(PERSONAL_PROFILE.vibeBoost||{})[it.vibe];add(it.vibe,'<span class="chip" title="'+(vb?'A vibe your taste profile currently weights up':'Vibe / mood')+'" style="'+(vb?'color:#fbbf24;border-color:#fbbf2455':'color:#c4b5fd;border-color:#c4b5fd44')+'">'+(vb?'★ ':'')+esc(it.vibe)+'</span>');}
  (it.fam||[]).forEach(f=>add(f,'<span class="chip" title="Genre family">'+esc(f)+'</span>'));
- if(it.trueStory)add(TRUE_STORY_CHIP,'<span class="chip" title="True story -- '+esc(it.trueStory)+'" style="color:#fde68a;border-color:#fde68a55">📜 '+TRUE_STORY_CHIP+'</span>');
+ if(it.trueStory)add(TRUE_STORY_CHIP,'<span class="chip" title="True story -- '+esc(it.trueStory)+'">'+TRUE_STORY_CHIP+'</span>');
  if(it.format)add(it.format,'<span class="chip">'+esc(it.format)+'</span>');
  (it.plats||[]).forEach(p=>add(p,'<span class="chip" style="color:#7dd3fc">'+esc(p)+'</span>'));
  return '<div class="flex flex-wrap gap-1.5">'+out.join('')+'</div>';
@@ -5520,22 +5520,18 @@ function buildGenreChips(){
  // given every OTHER active filter (search, type, sliders, ratings, tiers, owned...), not a static
  // count over the whole corpus. GENRE_COUNTS still decides which genres exist in the corpus at all
  // (so a genre with zero works ever isn't offered); the number displayed comes from the live pool.
+ // True Story sits in the row alphabetically like any family. Its count respects the families
+ // picked, and each family's count respects it, because the two combine with AND.
  const pool=state.view==='controller'?filteredSkipping(new Set(['genre'])):null;
- $('#genreChips').innerHTML=GENRE_FAMILIES_AZ.map(f=>{const name=f[0];if(!GENRE_COUNTS[name])return '';
-  const n=pool?pool.filter(x=>x.fam.includes(name)&&genreFacetPasses(x,'ts')).length:GENRE_COUNTS[name];
+ const names=GENRE_FAMILIES_AZ.map(f=>f[0]).filter(name=>GENRE_COUNTS[name]);
+ if(TRUE_STORY_COUNT)names.push(TRUE_STORY_CHIP);
+ names.sort((a,b)=>a.localeCompare(b));
+ $('#genreChips').innerHTML=names.map(name=>{const ts=name===TRUE_STORY_CHIP;
+  const n=!pool?(ts?TRUE_STORY_COUNT:GENRE_COUNTS[name]):ts?pool.filter(x=>x.trueStory&&genreFacetPasses(x,'fam')).length:pool.filter(x=>x.fam.includes(name)&&genreFacetPasses(x,'ts')).length;
   const on=state.genres.includes(name),off=state.genresExclude.includes(name);
   const style=on?'color:#0B0F19;background:#a5b4fc;border-color:#a5b4fc;font-weight:700':off?'color:#fca5a5;background:#7f1d1d33;border-color:#f8717166;text-decoration:line-through;font-weight:700':(n===0?'opacity:.45':'');
-  const title=on?'Included -- click to exclude instead':off?'Excluded -- click to clear':(n===0?'No works match your current filters with this genre':'Click to include, click again to exclude');
+  const title=on?'Included -- click to exclude instead':off?'Excluded -- click to clear':(n===0?'No works match your current filters with this genre':ts?'Based on real events or people. Click to include (combines with the genres you pick), click again to exclude':'Click to include, click again to exclude');
   return '<button type="button" class="chip genreChip" data-g="'+esc(name)+'" title="'+title+'" style="cursor:pointer;'+style+'">'+(off?'✕ ':'')+esc(name)+' <span style="opacity:.6">'+n+'</span></button>';}).join('');
- // True Story leads the row: it is the one chip that cuts across every family. Its count respects
- // the families picked, and each family's count respects it, because the two combine with AND.
- if(TRUE_STORY_COUNT){
-  const ts=TRUE_STORY_CHIP,n=pool?pool.filter(x=>x.trueStory&&genreFacetPasses(x,'fam')).length:TRUE_STORY_COUNT;
-  const on=state.genres.includes(ts),off=state.genresExclude.includes(ts);
-  const style=on?'color:#0B0F19;background:#a5b4fc;border-color:#a5b4fc;font-weight:700':off?'color:#fca5a5;background:#7f1d1d33;border-color:#f8717166;text-decoration:line-through;font-weight:700':(n===0?'opacity:.45':'');
-  const title=on?'True stories only -- click to exclude them instead':off?'True stories excluded -- click to clear':'Based on real events or people. Click to show only true stories (combines with the genres you pick), click again to exclude them';
-  $('#genreChips').insertAdjacentHTML('afterbegin','<button type="button" class="chip genreChip" data-g="'+esc(ts)+'" title="'+title+'" style="cursor:pointer;'+style+'">'+(off?'✕ ':'')+'📜 '+esc(ts)+' <span style="opacity:.6">'+n+'</span></button>');
- }
 }
 const TIER_CHIP_DEFS=[['gold','🥇 Gold','#fbbf24'],['silver','🥈 Silver','#cbd5e1'],['bronze','🥉 Bronze','#cd7f32']];
 // Tier chips are tri-state, same cycle as genre chips: neutral -> required (must have this tier) ->
