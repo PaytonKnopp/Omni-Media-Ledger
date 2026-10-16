@@ -10,7 +10,7 @@ There are two tiers of checks:
 | Command                  | What it covers                                        | Time    |
 |--------------------------|-------------------------------------------------------|---------|
 | `npm run lint`           | ESLint, including the no-fixed-sleeps rule for tests  | ~3s     |
-| `npm run test-fast`      | corpus validation, stylesheet current, schema, fact/substance/score/search/merge harnesses, no prose in committed evidence, corpus batch offsets | ~15s |
+| `npm run test-fast`      | corpus validation, true-story list current, stylesheet current, schema, fact/substance/score/search/merge harnesses, no prose in committed evidence, corpus batch offsets | ~15s |
 | `npm run test-browser`   | the Playwright suite, `test/regression.js`            | ~7 min  |
 | `npm run test-gate`      | the corpus consistency gate on real app scores (blank and PK profiles) | ~15s |
 
