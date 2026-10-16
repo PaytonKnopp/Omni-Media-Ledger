@@ -302,8 +302,7 @@ function filteredSkipping(skip){
   if(state.ratedOnly&&it.myRating==null)return false;
   if(state.unratedOnly&&it.myRating!=null)return false;
   if(!skip||!skip.has('genre')){
-   if(state.genres.length&&!state.genres.some(g=>it.fam.includes(g)))return false;
-   if(state.genresExclude.length&&state.genresExclude.some(g=>it.fam.includes(g)))return false;
+   if((state.genres.length||state.genresExclude.length)&&!genreFacetPasses(it))return false;
   }
   if((!skip||!skip.has('rating'))&&state.ratings.length&&!state.ratings.includes(it.rating))return false;
   if(state.ownedOnly&&!it.owned)return false;
@@ -821,6 +820,7 @@ function cardTagsHTML(it){
  it.genres.forEach(g=>{const boosted=gb.some(b=>b[0]===g.toLowerCase());add(g,'<span class="chip" title="'+(boosted?'A genre your taste profile currently weights up':'Genre')+'"'+(boosted?' style="color:#fbbf24;border-color:#fbbf2455"':'')+'>'+(boosted?'★ ':'')+esc(g)+'</span>');});
  if(it.vibe){const vb=!!(PERSONAL_PROFILE.vibeBoost||{})[it.vibe];add(it.vibe,'<span class="chip" title="'+(vb?'A vibe your taste profile currently weights up':'Vibe / mood')+'" style="'+(vb?'color:#fbbf24;border-color:#fbbf2455':'color:#c4b5fd;border-color:#c4b5fd44')+'">'+(vb?'★ ':'')+esc(it.vibe)+'</span>');}
  (it.fam||[]).forEach(f=>add(f,'<span class="chip" title="Genre family">'+esc(f)+'</span>'));
+ if(it.trueStory)add(TRUE_STORY_CHIP,'<span class="chip" title="True story -- '+esc(it.trueStory)+'" style="color:#fde68a;border-color:#fde68a55">📜 '+TRUE_STORY_CHIP+'</span>');
  if(it.format)add(it.format,'<span class="chip">'+esc(it.format)+'</span>');
  (it.plats||[]).forEach(p=>add(p,'<span class="chip" style="color:#7dd3fc">'+esc(p)+'</span>'));
  return '<div class="flex flex-wrap gap-1.5">'+out.join('')+'</div>';
@@ -2232,6 +2232,25 @@ ALL.forEach(x=>{
  x.fam=GENRE_FAMILIES.map(f=>f[0]).filter(f=>fams[f]);
 });
 const GENRE_COUNTS={};GENRE_FAMILIES.forEach(f=>{GENRE_COUNTS[f[0]]=ALL.filter(x=>x.fam.includes(f[0])).length;});
+/* True Story is offered beside the genre families in the genre filter, but it is not one: a true
+   story is also a war film or a sports drama or a memoir, so it is a flag of its own from
+   data/true-stories.js (see scripts/build-true-stories.js for what counts and on whose word).
+   Nothing in scoring reads it. In the filter it narrows rather than widens: included families are
+   alternatives ("War or Western"), but True Story is a requirement on top of them ("true stories,
+   War or Western"), which is what picking it beside a family means. */
+const TRUE_STORY_CHIP='True Story';
+ALL.forEach(x=>{x.trueStory=(typeof TRUE_STORY!=='undefined'&&TRUE_STORY[x.id])||null;});
+const TRUE_STORY_COUNT=ALL.filter(x=>x.trueStory).length;
+function genreFacetHas(it,g){return g===TRUE_STORY_CHIP?!!it.trueStory:it.fam.includes(g);}
+// The genre facet on its own: the families picked (any of them), True Story if picked, and none of
+// the excluded. `part` limits it to the families ('fam') or to True Story ('ts') so each kind of
+// chip can count against the other kind's selection.
+function genreFacetPasses(it,part){
+ const fams=state.genres.filter(g=>g!==TRUE_STORY_CHIP);
+ if(part!=='ts'&&fams.length&&!fams.some(g=>it.fam.includes(g)))return false;
+ if(part!=='fam'&&state.genres.includes(TRUE_STORY_CHIP)&&!it.trueStory)return false;
+ return !state.genresExclude.some(g=>(g===TRUE_STORY_CHIP?part!=='fam':part!=='ts')&&genreFacetHas(it,g));
+}
 
 /* ===================== DEEP INDEX BATTERY ===================== */
 // PERF/ICON/SCARY/REAL/REALITY/SHOCK/SCI/FUNNY/HIST/VIBEIDX/lerpScore live in app/scoring.js
@@ -5503,11 +5522,20 @@ function buildGenreChips(){
  // (so a genre with zero works ever isn't offered); the number displayed comes from the live pool.
  const pool=state.view==='controller'?filteredSkipping(new Set(['genre'])):null;
  $('#genreChips').innerHTML=GENRE_FAMILIES_AZ.map(f=>{const name=f[0];if(!GENRE_COUNTS[name])return '';
-  const n=pool?pool.filter(x=>x.fam.includes(name)).length:GENRE_COUNTS[name];
+  const n=pool?pool.filter(x=>x.fam.includes(name)&&genreFacetPasses(x,'ts')).length:GENRE_COUNTS[name];
   const on=state.genres.includes(name),off=state.genresExclude.includes(name);
   const style=on?'color:#0B0F19;background:#a5b4fc;border-color:#a5b4fc;font-weight:700':off?'color:#fca5a5;background:#7f1d1d33;border-color:#f8717166;text-decoration:line-through;font-weight:700':(n===0?'opacity:.45':'');
   const title=on?'Included -- click to exclude instead':off?'Excluded -- click to clear':(n===0?'No works match your current filters with this genre':'Click to include, click again to exclude');
   return '<button type="button" class="chip genreChip" data-g="'+esc(name)+'" title="'+title+'" style="cursor:pointer;'+style+'">'+(off?'✕ ':'')+esc(name)+' <span style="opacity:.6">'+n+'</span></button>';}).join('');
+ // True Story leads the row: it is the one chip that cuts across every family. Its count respects
+ // the families picked, and each family's count respects it, because the two combine with AND.
+ if(TRUE_STORY_COUNT){
+  const ts=TRUE_STORY_CHIP,n=pool?pool.filter(x=>x.trueStory&&genreFacetPasses(x,'fam')).length:TRUE_STORY_COUNT;
+  const on=state.genres.includes(ts),off=state.genresExclude.includes(ts);
+  const style=on?'color:#0B0F19;background:#a5b4fc;border-color:#a5b4fc;font-weight:700':off?'color:#fca5a5;background:#7f1d1d33;border-color:#f8717166;text-decoration:line-through;font-weight:700':(n===0?'opacity:.45':'');
+  const title=on?'True stories only -- click to exclude them instead':off?'True stories excluded -- click to clear':'Based on real events or people. Click to show only true stories (combines with the genres you pick), click again to exclude them';
+  $('#genreChips').insertAdjacentHTML('afterbegin','<button type="button" class="chip genreChip" data-g="'+esc(ts)+'" title="'+title+'" style="cursor:pointer;'+style+'">'+(off?'✕ ':'')+'📜 '+esc(ts)+' <span style="opacity:.6">'+n+'</span></button>');
+ }
 }
 const TIER_CHIP_DEFS=[['gold','🥇 Gold','#fbbf24'],['silver','🥈 Silver','#cbd5e1'],['bronze','🥉 Bronze','#cd7f32']];
 // Tier chips are tri-state, same cycle as genre chips: neutral -> required (must have this tier) ->

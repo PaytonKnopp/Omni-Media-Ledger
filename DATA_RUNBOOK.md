@@ -337,6 +337,18 @@ Re-run the gate after every expansion batch (`npm run test-fast` covers the batc
 rest). Adding a hundred works scored on a different day is how batch drift starts, and the batch row
 is what catches it: a new batch on its own scale shows up as an unreviewed run the day it lands.
 
+**True stories.** The genre filter's True Story chip reads `data/true-stories.js`, which
+`scripts/build-true-stories.js` generates from the corpus and the evidence (its header says exactly
+what counts). New film and TV works have no TMDB keywords on file until they are fetched, so after a
+batch with an IMDb id on every record:
+
+```bash
+NODE_USE_ENV_PROXY=1 node scripts/fetch-true-story.js --out evidence/true-story-film-tv-<date>.json
+node scripts/build-true-stories.js
+```
+
+`npm run test-fast` fails while `data/true-stories.js` is stale, e.g. after a new Biopic or Memoir.
+
 **On size.** Three ceilings bind at different points: the scoring hot path is O(n) and fine past
 50,000; the practical limit is boot cost, since every `data/*.js` parses on every page load, and
 ~10,000 records is where a no-build-step app starts to need chunked loading; and recommendation
