@@ -5781,9 +5781,6 @@ function renderHeadStats(){
  }).join('');
 }
 renderHeadStats();
-// "Last updated" is the newest version-history entry's date, not a date typed into the page: the
-// hardcoded one had drifted weeks behind the app it described.
-(function(){var ld=$('#luDate');if(ld&&CHANGELOG.length){var d=CHANGELOG.map(function(c){return c.date;}).sort().pop().split('-');ld.textContent=['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'][+d[1]-1]+' '+(+d[2])+', '+d[0];}})();
 (function(){var lc=$('#luCount');if(lc){var m=ALL.filter(function(x){return x.kind==='movie'}).length,t=ALL.filter(function(x){return x.kind==='tv'}).length,g=ALL.filter(function(x){return x.kind==='game'}).length,b=ALL.filter(function(x){return x.kind==='book'}).length;lc.textContent=ALL.length+' works · '+m+' films / '+t+' series / '+g+' games / '+b+' books';}})();
 var mi=$('#matrixIntro');if(mi)mi.textContent='Elite specialized brackets computed across the full '+ALL.length.toLocaleString()+'-work corpus (Global Controller filters intentionally ignored here so brackets stay canonical). Hover rows for full credits.';
 on('#matrixOwnedOnly','change',e=>{matrixOwnedOnly=e.target.checked;renderMatrices(ALL,$,$$);scheduleURLSync();});
