@@ -129,7 +129,7 @@ const PK_SAMPLE_PROFILE={
   "m106": "Box Set",
   "m444": "Box Set",
   "m384": "Box Set",
-  "t144": "Blu-ray",
+  "m2035": "Blu-ray",
   "m116": "BD/DVD",
   "m89": "BD/DVD",
   "m66": "4K",
