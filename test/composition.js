@@ -21,8 +21,11 @@ const loaded = C.loadSections();
 
 console.log('\n=== composition: no false alarms on sourced data ===');
 for (const key of ['movies', 'tvShows']) {
-  const { runs } = C.findBatchOffsets(key, loaded[key], 'metrics.audienceScore');
-  check(key + ': IMDb\'s ratings contain no batch run at all', runs.length === 1, runs.map(r => r.from + '-' + r.to + ' ' + r.offset));
+  // flaggedRuns, not the raw segments: the detector will split small drifts (a few points, well under
+  // FLAG_MIN_OFFSET) off any real series as it grows, and the gate never acts on those. A false alarm
+  // is a run the gate would flag.
+  const flagged = C.flaggedRuns(key, loaded[key], 'metrics.audienceScore');
+  check(key + ': IMDb\'s ratings contain no flagged batch run', flagged.length === 0, flagged.map(r => r.from + '-' + r.to + ' ' + r.offset));
 }
 
 console.log('\n=== composition: a planted batch offset is found and removed ===');
