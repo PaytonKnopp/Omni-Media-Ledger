@@ -36,9 +36,11 @@ function creatorCard(c,tab,ALL){const isDir=tab===true||tab==='directors';const 
 }
 const CREATOR_TOTAL=directorsPantheon.length+authorsPantheon.length+gamingAuteurs.length;
 function avgCritFor(name,ALL){const works=worksFor(name,ALL);return works.length?(works.reduce(function(s,w){return s+w.crit;},0)/works.length):-1;}
+function ownedCountFor(name,ALL){return worksFor(name,ALL).filter(function(w){return w.owned;}).length;}
 function sortCreatorPairs(pairs,sortMode,ALL){
  if(sortMode==='az')return pairs.slice().sort(function(a,b){return a[0].name.localeCompare(b[0].name);});
  if(sortMode==='works')return pairs.slice().sort(function(a,b){return (worksFor(b[0].name,ALL).length)-(worksFor(a[0].name,ALL).length);});
+ if(sortMode==='owned')return pairs.slice().sort(function(a,b){return ownedCountFor(b[0].name,ALL)-ownedCountFor(a[0].name,ALL);});
  if(sortMode==='rating')return pairs.slice().sort(function(a,b){return avgCritFor(b[0].name,ALL)-avgCritFor(a[0].name,ALL);});
  return pairs;
 }
