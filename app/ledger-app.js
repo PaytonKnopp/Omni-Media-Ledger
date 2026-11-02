@@ -1852,6 +1852,7 @@ function tasteBasis(){
  _basisEpoch=_derivEpoch;
  return _basis;
 }
+creatorTaste=tasteBasis; // app/creators.js labels its Match column from the same basis
 // "Match" when the score is personal, "Score" when there is nothing personal behind it yet.
 function matchWord(){return tasteBasis().personal?'Match':'Score';}
 function matchTitle(it){
