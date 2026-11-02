@@ -181,7 +181,6 @@ const TRUE_STORY={
  "m2028":"TMDB: based on true story, biography",
  "m2031":"TMDB: based on true story",
  "m2032":"TMDB: biography",
- "m2049":"TMDB: biography; genre: Biopic",
  "t13":"TMDB: based on true story",
  "t15":"TMDB: true crime",
  "t133":"TMDB: based on true story",
