@@ -15,14 +15,18 @@ var creatorTaste=null;
 function creatorPersonal(){try{return creatorTaste?!!creatorTaste().personal:true;}catch(e){return true;}}
 function matchWordC(){return creatorPersonal()?'Match':'Score';}
 function worksFor(name,ALL){return ALL.filter(x=>x.creator.includes(name)).sort((a,b)=>(b.gm-a.gm)||((b.myRating==null?-1:b.myRating)-(a.myRating==null?-1:a.myRating))||((b.gmAlgo||0)-(a.gmAlgo||0))||(b.crit-a.crit)||(b.year-a.year)||a.title.localeCompare(b.title));}
-function avgGmFor(name,ALL){const works=worksFor(name,ALL);return works.length?(works.reduce(function(s,w){return s+w.gm;},0)/works.length):-1;}
+// A creator's headline match: the mean of their top three ledger works (all of them if fewer).
+// A plain average over every entry punishes a prolific creator for their weaker films and lets a
+// single high-scoring work outrank a deep body of favorites; the top three reads as "how much of
+// this person's work do I love". worksFor is already sorted best-first.
+function topMatchFor(name,ALL){const t=worksFor(name,ALL).slice(0,3);return t.length?(t.reduce(function(s,w){return s+w.gm;},0)/t.length):-1;}
 function creatorCard(c,tab,ALL){const isDir=tab===true||tab==='directors';const isAuthor=tab==='authors';const isAuteur=tab==='auteurs'||tab===false;const works=worksFor(c.name,ALL);const accent=isDir?'#a78bfa':(isAuthor?'#4ade80':'#fbbf24');
  const frontLabel=isDir?'Director · Pantheon':(isAuthor?'Author · Pantheon':'Gaming Auteur');
  const sigField=isAuteur?c.designPhilosophy:c.visualSignature;
  const backSigLabel=isDir?'Visual Signature':(isAuthor?'Prose & Vision':'Design Philosophy');
  const ownedN=works.filter(function(w){return w.owned;}).length;
  const ownedPct=works.length?Math.round(ownedN/works.length*100):0;
- const avgGm=works.length?(works.reduce(function(s,w){return s+w.gm;},0)/works.length):0;
+ const topGm=works.length?Math.round(topMatchFor(c.name,ALL)):0;
  const countNode=works.length
   ?'<div class="text-2xl font-extrabold leading-none goatJump cursor-pointer" data-q="'+esc(c.name)+'" title="View all of '+esc(c.name)+'’s works in the Global Controller" style="color:'+accent+'">'+works.length+'</div>'
   :'<div class="text-2xl font-extrabold leading-none" style="color:'+accent+'">'+works.length+'</div>';
@@ -30,16 +34,16 @@ function creatorCard(c,tab,ALL){const isDir=tab===true||tab==='directors';const 
   +'<div class="flex items-start justify-between gap-2"><div class="min-w-0"><div class="lbl">'+frontLabel+'</div><div class="text-[15px] font-bold text-slate-50 mt-1 leading-tight">'+esc(c.name)+'</div></div>'
   +'<div class="text-right shrink-0">'+countNode+'<div class="lbl mt-1">on ledger</div></div></div>'
   +'<div class="flex flex-wrap gap-1.5 mt-3">'+c.activeEras.map(e=>'<span class="chip">'+esc(e)+'</span>').join('')+'</div>'
-  +(works.length?'<div class="flex items-center gap-1.5 mt-2 text-[10.5px]" title="'+ownedN+' of '+works.length+' ledger works owned"><div class="flex-1 h-1 rounded-full bg-slate-800 overflow-hidden"><div style="width:'+ownedPct+'%;height:100%;background:'+accent+'"></div></div><span class="text-slate-400 tabular-nums shrink-0">'+ownedPct+'% owned</span><span class="text-slate-500 tabular-nums shrink-0" title="Average '+matchWordC().toLowerCase()+' across this creator\u2019s ledger works">·&nbsp;'+avgGm.toFixed(1)+' avg '+matchWordC().toLowerCase()+'</span></div>':'')
+  +(works.length?'<div class="flex items-center gap-1.5 mt-2 text-[10.5px]" title="'+ownedN+' of '+works.length+' ledger works owned"><div class="flex-1 h-1 rounded-full bg-slate-800 overflow-hidden"><div style="width:'+ownedPct+'%;height:100%;background:'+accent+'"></div></div><span class="text-slate-400 tabular-nums shrink-0">'+ownedPct+'% owned</span><span class="text-slate-500 tabular-nums shrink-0" title="Average '+matchWordC().toLowerCase()+' of this creator\u2019s top '+Math.min(3,works.length)+' ledger works">·&nbsp;'+topGm+' top-3 '+matchWordC().toLowerCase()+'</span></div>':'')
   +'<p class="text-[11px] text-slate-400 mt-3 leading-relaxed clamp4">'+esc(sigField)+'</p>'
   +'<div class="mt-auto pt-2 flex items-center justify-between text-[9px] tracking-[.22em] uppercase text-slate-600"><span>Click to flip &#10227;</span>'+(works.length?'<span class="goatJump cursor-pointer hover:text-teal-400 normal-case tracking-normal" data-q="'+esc(c.name)+'" title="View all of '+esc(c.name)+'’s works in the Global Controller">View in Controller →</span>':'')+'</div></div>';
  const back='<div class="flip-face flip-back absolute inset-0 panel p-4 flex flex-col" style="border-color:'+accent+'40">'
   +'<div class="lbl">'+backSigLabel+'</div>'
   +'<p class="text-[10.5px] text-slate-300 mt-1 leading-relaxed">'+esc(sigField)+'</p>'
   +'<div class="lbl mt-2">Core Themes</div><div class="flex flex-wrap gap-1 mt-1">'+c.primaryThemes.slice().sort((a,b)=>a.localeCompare(b)).map(t=>{const tc=themeColor(t);return '<span class="chip" style="color:'+tc+';background:'+tc+'1f;border-color:'+tc+'66;font-weight:600">'+esc(t)+'</span>';}).join('')+'</div>'
-  +'<div class="flex items-center justify-between mt-2"><div class="lbl">Ledger Entries ('+works.length+')</div>'+(works.length?'<div class="lbl" title="Ranked highest to lowest by '+(creatorPersonal()?'your GOAT Match':'overall score')+'">'+matchWordC()+' &#8595;</div>':'')+'</div>'
+  +'<div class="flex items-center justify-between mt-2"><div class="lbl">Ledger Entries ('+works.length+')</div>'+(works.length?'<div class="flex items-center gap-2 pr-2"><span class="lbl w-7 text-right" title="Critics\u2019 score (an estimate for most works)">Crit</span><span class="lbl w-6 text-right" title="Ranked highest to lowest by '+(creatorPersonal()?'your GOAT Match':'overall score')+'">'+matchWordC()+' &#8595;</span></div>':'')+'</div>'
   +'<div class="mt-1 flex-1 overflow-y-auto pr-1 space-y-1">'+(works.length?works.map(w=>{const k=KM[w.kind];
-    return '<div class="flex items-center gap-2 text-[11px] goatJump cursor-pointer hover:bg-slate-800/30 rounded px-1 -mx-1" data-q="'+esc(w.title)+'" title="Open '+esc(w.title)+' in the Global Controller'+(w.owned?' · Owned':'')+'"><span class="w-1.5 h-1.5 rounded-full shrink-0" style="background:'+k.c+'"></span><span class="flex-1 truncate text-slate-200 hover:text-teal-300">'+esc(w.title)+'</span>'+(w.owned?'<span class="text-emerald-400" title="Owned">◆</span>':'')+'<span class="text-slate-500 tabular-nums">'+w.year+'</span><span class="tabular-nums font-semibold w-6 text-right" style="color:'+(w.goat?'#fbbf24':k.c)+'" title="'+(w.goat?'Match '+w.gm+'/100 \u2014 one of your Gold favorites':(creatorPersonal()?'Your match: ':'Overall score: ')+w.gm+'/100')+'">'+(w.goat?'\u2605':'')+w.gm+'</span></div>';}).join(''):'<div class="text-[11px] text-slate-500">No direct credits indexed.</div>')+'</div></div>';
+    return '<div class="flex items-center gap-2 text-[11px] goatJump cursor-pointer hover:bg-slate-800/30 rounded px-1 -mx-1" data-q="'+esc(w.title)+'" title="Open '+esc(w.title)+' in the Global Controller'+(w.owned?' · Owned':'')+'"><span class="w-1.5 h-1.5 rounded-full shrink-0" style="background:'+k.c+'"></span><span class="flex-1 truncate text-slate-200 hover:text-teal-300">'+esc(w.title)+'</span>'+(w.owned?'<span class="text-emerald-400" title="Owned">◆</span>':'')+'<span class="text-slate-500 tabular-nums">'+w.year+'</span><span class="text-slate-600 tabular-nums w-7 text-right" title="Critics\u2019 score ~'+w.crit+'/100 (estimate)">~'+w.crit+'</span><span class="tabular-nums font-semibold w-6 text-right" style="color:'+(w.goat?'#fbbf24':k.c)+'" title="'+(w.goat?'Match '+w.gm+'/100 \u2014 one of your Gold favorites':(creatorPersonal()?'Your match: ':'Overall score: ')+w.gm+'/100')+'">'+(w.goat?'\u2605':'')+w.gm+'</span></div>';}).join(''):'<div class="text-[11px] text-slate-500">No direct credits indexed.</div>')+'</div></div>';
  return '<div class="flip h-[300px] select-none cursor-pointer" role="button" tabindex="0" aria-label="Flip card for '+esc(c.name)+'"><div class="flip-inner">'+front+back+'</div></div>';
 }
 const CREATOR_TOTAL=directorsPantheon.length+authorsPantheon.length+gamingAuteurs.length;
@@ -50,7 +54,7 @@ function sortCreatorPairs(pairs,sortMode,ALL){
  if(sortMode==='works')return pairs.slice().sort(function(a,b){return (worksFor(b[0].name,ALL).length)-(worksFor(a[0].name,ALL).length);});
  if(sortMode==='owned')return pairs.slice().sort(function(a,b){return ownedCountFor(b[0].name,ALL)-ownedCountFor(a[0].name,ALL);});
  if(sortMode==='ownedpct')return pairs.slice().sort(function(a,b){return ownedPctFor(b[0].name,ALL)-ownedPctFor(a[0].name,ALL)||ownedCountFor(b[0].name,ALL)-ownedCountFor(a[0].name,ALL);});
- if(sortMode==='rating')return pairs.slice().sort(function(a,b){return avgGmFor(b[0].name,ALL)-avgGmFor(a[0].name,ALL);});
+ if(sortMode==='rating')return pairs.slice().sort(function(a,b){return topMatchFor(b[0].name,ALL)-topMatchFor(a[0].name,ALL);});
  return pairs;
 }
 function filterCreatorPairs(pairs,state,ALL){
