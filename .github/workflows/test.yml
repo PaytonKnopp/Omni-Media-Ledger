@@ -1,29 +1,18 @@
 name: Tests
 
-# Pull requests only, deliberately.
+# Manual only. This used to run on every pull request, and a red result emailed the owner each time.
+# It no longer runs on its own: open the repository's Actions tab -> Tests -> "Run workflow" to run
+# the full suite (lint, fast checks, browser suite, corpus gate) against any branch on demand.
 #
-# This used to run on push AND pull_request, which meant every branch with an open PR ran the
-# identical suite twice against effectively identical code -- the pull_request event tests a
-# preview of the branch merged into master, and while a PR is up to date those are the same thing.
-# The only thing the second run added was a second independent chance to hit a flaky check, so a
-# green and a red would appear side by side for one commit and the red one was never a real
-# failure. Testing the merge preview is the more useful of the two, so that is the one kept.
-#
-# Trade-off worth knowing: nothing now tests a commit pushed straight to master outside a PR. That
-# is fine while every change lands through one, but if direct pushes to master ever become normal,
-# add `push: { branches: [master] }` back.
-#
-# This run is only a gate if GitHub is told to wait for it. PRs #161-#163 merged while it was red.
-# In the repository's Settings -> Rules -> Rulesets (or Branches -> branch protection) for master,
-# require the status check named `test` (this job) to pass before merging.
+# To bring automatic runs back, add `pull_request:` under `on:` below (and restore the PR-number
+# concurrency group). If a Ruleset or branch protection requires the `test` status check, remove
+# that requirement: a workflow that never runs on PRs would leave every PR waiting on it forever.
 on:
-  pull_request:
+  workflow_dispatch:
 
-# One run per PR at a time: pushing again while a run is in progress cancels the older run instead
-# of queuing both. Only the newest commit's result means anything, and a stale run finishing red
-# after a newer one went green is exactly the kind of noise that makes a suite hard to trust.
+# One run per branch at a time: starting another while one is in progress cancels the older run.
 concurrency:
-  group: tests-${{ github.event.pull_request.number }}
+  group: tests-${{ github.ref }}
   cancel-in-progress: true
 
 jobs:

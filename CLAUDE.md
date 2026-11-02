@@ -1,9 +1,9 @@
 # Working agreement: testing during a session
 
-CI (`.github/workflows/test.yml`) runs the full suite on every pull request,
-once per push (a newer push cancels the older run). That is the gate. Local
-runs exist to get changes committed to the branch quickly, not to re-prove
-what CI is about to prove anyway.
+CI (`.github/workflows/test.yml`) is manual-only: it no longer runs on pull requests, so nothing
+runs the full suite unless someone starts it from the Actions tab (or runs `npm test` locally).
+Local `npm run lint` and `npm run test-fast` are therefore the only automatic checks. Local runs
+exist to get changes committed to the branch quickly.
 
 There are two tiers of checks:
 
@@ -25,7 +25,7 @@ Rules for Claude when making changes in this repo:
 
 1. **Before committing and pushing to a branch, run `npm run lint` and
    `npm run test-fast`. That's all.** Do not run `npm test` or
-   `npm run test-browser` as a pre-commit step. CI runs it on the PR.
+   `npm run test-browser` as a pre-commit step; it only runs when the user starts it (Actions tab -> Tests -> Run workflow, or `npm test`).
    While iterating, it's fine to run only the scoped check for what changed
    (`npm run test-schema`, `npm run test-facts`,
    `node scripts/validate-corpus.js`).
@@ -48,4 +48,4 @@ Rules for Claude when making changes in this repo:
    the cause of the suite's chronic flakiness.
 
 Goal: changes get committed to the branch in seconds of checking, and the
-full suite runs exactly once per PR push, on CI, where its result is trusted.
+full suite runs only when the user asks for it.
