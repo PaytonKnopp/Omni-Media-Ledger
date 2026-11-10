@@ -2169,3 +2169,14 @@ Postgres, so the schema's live checks run there too.
 **Batches 38-39:** movies 81 (heist/legal-thriller sweep + classic Hollywood musical catalog), books 243 (Christie/Sayers/Collins mystery catalog, Wodehouse Jeeves & Blandings, Golden Age SF completions, Ballard/Strugatsky/Lem New Wave SF, and a large postmodern literary sweep across Cheever/Updike/Malamud/Bellow/Roth/Nabokov/Barth/Pynchon/DeLillo/DFW/Franzen, plus 3 Gaskell novels to close out). Found and fixed a pre-existing near-duplicate from batch 35 (two punctuation variants of Jekyll and Hyde) and a genre-taxonomy misuse ("Non-Fiction" used as a genre tag instead of formatType). Repeated the missing-`physicalMediaFidelity` fix from batch 36-37 for this batch's movies too.
 
 **Expansion complete.** Final counts: movies 2,006/2,000, TV 502/500, games 507/500, books 2,000/2,000 — total 5,015 works, every one scored under rubric-v1 with sourced or clearly-disclosed general-knowledge-estimate evidence.
+
+## PK Sample refresh log
+
+**2026-11-10.** Refreshed `data/pk-sample.js` from a profile export with `scripts/update-pk-sample.js`
+(see ARCHITECTURE.md, "Updating the PK Sample"). Owned: added Barry Lyndon and Raging Bull; set real
+formats on six titles that still read "Owned". Tiers, ratings and boosts did not change. The export
+still carried three ids the corpus has since replaced (`t144` is now `m2035`; `m160` and `b168` are not
+corpus titles); `--drop-unknown` left them out, as in earlier refreshes. The first Pages deploy of this
+update timed out in `syncing_files` and its re-run failed with "Deployment cancelled" (Pages names a
+deployment after the commit SHA, so a re-run reuses the cancelled one); this note's commit exists to
+give Pages a new SHA.
