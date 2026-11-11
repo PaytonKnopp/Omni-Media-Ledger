@@ -297,6 +297,22 @@ Saving is the part of this codebase with the most hard-won logic. The short vers
 - **Writes are serialised.** All profile saves go through one chain, so two uploads are never in
   flight at once and the newest snapshot always lands last.
 - **No-op writes are not edits.** Re-writing a value that has not changed schedules nothing.
+- **One account owns the browser's stored profile at a time.** Every tab shares one `localStorage`
+  (profile, watchlist, the remembered handle `omniLedgerHandle`) but holds its own signed-in handle
+  in memory. A tab may touch the stored profile — read it back, write it, sync it, clear it — only
+  while the stored handle *is* the handle it signed in with (`ownsStorage()` in `index.html`). When
+  another tab signs in as someone else, or signs the browser out, this tab is **retired**: timers
+  stop, every guarded write (`GUARDED` keys, via the `setItem`/`removeItem` hook) is dropped, sync,
+  hydrate and clear are no-ops, `adoptStoredState` in `app/ledger-app.js` stops adopting, a notice
+  covers the page and everything behind it is `inert`. Reloading boots as whichever account the
+  browser holds. Without this, the first tab went on believing it was the first account while its
+  storage held the second's: its next sync uploaded the second account's profile into the first
+  account's cloud row and merged them. Related rules: sign-in at the gate refuses to take over a
+  browser another tab already holds (`otherAccountHolds`), and a boot whose fetch was overtaken by
+  another tab's account change reloads instead of hydrating. Two tabs on the *same* account are
+  unaffected and keep merging as before. Covered by "two accounts in two tabs never touch each
+  other" in `test/regression.js`. True side-by-side accounts would need per-account storage keys;
+  the retire rule is the cheaper guarantee that nothing is ever mixed.
 
 Those last two exist because of a real bug: the theme system re-writes the theme on every boot, and
 on a new account that produced a near-empty upload that raced and overwrote the real save.
