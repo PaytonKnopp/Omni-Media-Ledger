@@ -4352,6 +4352,161 @@ async function runHonestMatchFlow(browser, file) {
   await page.close();
 }
 
+// Two accounts in two tabs of one browser must never touch each other. Every tab shares one
+// localStorage (profile, watchlist, remembered handle) but holds its own signed-in handle in memory,
+// so signing into a second account in another tab used to replace the first tab's data under it:
+// the first tab then uploaded the second account's profile into its own cloud row and merged the
+// two. Now a tab whose account is no longer the one stored in the browser is retired (see
+// ownsStorage in index.html): it stops saving and syncing, says so, and its writes go nowhere.
+async function runAccountIsolationFlow(browser, file) {
+  const html = fs.readFileSync(path.join(ROOT, file), 'utf8');
+  const patched = html.replace(/var SUPABASE_CONFIG=\{[^}]*\};/, 'var SUPABASE_CONFIG={url:"https://dummy.supabase.co",anonKey:"dummy-anon-key"};');
+  const tmpPath = path.join(ROOT, '_test_isolation_' + file);
+  fs.writeFileSync(tmpPath, patched);
+  const ctx = await browser.newContext({ viewport: { width: 1400, height: 1000 } });
+  const ratingsIn = (page, handle) => page.evaluate(h => {
+    const row = window.__mockTables.profiles[h];
+    try { return row ? (JSON.parse(row.data.omniLedgerProfile || '{}').ratings || {}) : null; } catch (e) { return null; }
+  }, handle);
+  const localRatings = page => page.evaluate(() => {
+    try { return JSON.parse(localStorage.getItem('omniLedgerProfile') || '{}').ratings || {}; } catch (e) { return null; }
+  });
+  try {
+    const errors = [];
+    const t1 = await ctx.newPage();
+    t1.on('pageerror', e => errors.push(e.message));
+    await t1.route('**/supabase-js*/**', route => route.fulfill({ contentType: 'application/javascript', body: '' }));
+    await t1.addInitScript(MOCK_SUPABASE_SDK);
+    await t1.goto('file://' + tmpPath);
+    await waitForBoot(t1);
+    await signInAndSettle(t1, 'AliceIso', '#onboardSample');
+    await firstCardId(t1);
+    const ids = await t1.evaluate(() => window.ALL.filter(x => window.isUntried(x)).slice(0, 3).map(x => x.id));
+    const [rA, rB, rA2] = ids;
+    await t1.evaluate(id => window.setRating(id, 9), rA);
+    const aliceSaved = await readWhen(t1, id => {
+      const row = window.__mockTables.profiles.aliceiso;
+      try { return !!row && JSON.parse(row.data.omniLedgerProfile || '{}').ratings[id] === 9 && localStorage.getItem('omniLedgerPendingSync') !== '1'; } catch (e) { return false; }
+    }, rA, 20000);
+    check('setup: the first account saved its rating to the (mocked) cloud', !!aliceSaved);
+
+    // The same account in a second tab is NOT a different account: both stay live and no notice shows.
+    const t2 = await ctx.newPage();
+    t2.on('pageerror', e => errors.push(e.message));
+    await t2.addInitScript(MOCK_SUPABASE_SDK);
+    await t2.route('**/supabase-js*/**', route => route.fulfill({ contentType: 'application/javascript', body: '' }));
+    await t2.goto('file://' + tmpPath);
+    await waitForBoot(t2);
+    await settle(t2);
+    check('a second tab of the SAME account opens normally, with no notice on either tab',
+      await t2.evaluate(() => !document.getElementById('acctRetiredNotice') && localStorage.getItem('omniLedgerHandle') === 'aliceiso') &&
+      await t1.evaluate(() => !document.getElementById('acctRetiredNotice')));
+
+    // The second tab switches to another account while the first stays open and untouched.
+    await t2.click('#acctMenuField');
+    await settle(t2);
+    await t2.click('#acctSwitchBtn');
+    const atGate = await readWhen(t2, () => {
+      const g = document.getElementById('acctGate');
+      return localStorage.getItem('omniLedgerHandle') === null && !!g && !g.classList.contains('hidden');
+    }, undefined, 20000);
+    check('the second tab switched accounts and is at the sign-in gate', !!atGate);
+    const retiredShown = await readWhen(t1, () => {
+      const n = document.getElementById('acctRetiredNotice');
+      return !!n && n.offsetHeight > 0;
+    }, undefined, 10000);
+    check('the first tab, still open on the old account, is retired with a notice instead of carrying on', !!retiredShown);
+    check('...and everything behind that notice is inert, so it cannot be used by keyboard either',
+      await t1.evaluate(() => Array.from(document.body.children).filter(el => el.id !== 'acctRetiredNotice' && el.tagName !== 'SCRIPT').every(el => el.inert === true)));
+
+    await signInAndSettle(t2, 'BobIso', '#onboardBlank');
+    await firstCardId(t2);
+    await t2.evaluate(id => window.setRating(id, 4), rB);
+    const bobSaved = await readWhen(t2, id => {
+      const row = window.__mockTables.profiles.bobiso;
+      try { return !!row && JSON.parse(row.data.omniLedgerProfile || '{}').ratings[id] === 4 && localStorage.getItem('omniLedgerPendingSync') !== '1'; } catch (e) { return false; }
+    }, rB, 20000);
+    check('setup: the second account saved its own rating', !!bobSaved);
+    check('the first tab\'s notice says which account it was on and that nothing in it was changed',
+      await t1.evaluate(() => { const t = document.getElementById('acctRetiredNotice').textContent; return t.indexOf('aliceiso') !== -1 && t.indexOf('Nothing in') !== -1; }));
+
+    // The retired tab tries everything it can; none of it may reach either account.
+    const aliceBefore = JSON.stringify(await ratingsIn(t2, 'aliceiso'));
+    const bobBefore = JSON.stringify(await ratingsIn(t2, 'bobiso'));
+    await t1.evaluate(id => { try { window.setRating(id, 2); } catch (e) { /* the app may refuse; the point is where the write goes */ } }, rA2);
+    await t1.evaluate(() => { localStorage.setItem('omniLedgerProfile', '{"ratings":{"zzz":1}}'); localStorage.setItem('omniLedgerWatchlist', '{"zzz":{"added":1}}'); });
+    await t1.evaluate(() => { try { document.dispatchEvent(new Event('visibilitychange')); window.dispatchEvent(new Event('online')); } catch (e) { /* none */ } });
+    await settle(t1);
+    await settle(t2);
+    const bobLocal = await localRatings(t2);
+    check('a retired tab cannot write the browser\'s stored profile or watchlist',
+      !!bobLocal && bobLocal[rB] === 4 && !('zzz' in bobLocal) && !(rA2 in bobLocal) &&
+      await t2.evaluate(() => !('zzz' in JSON.parse(localStorage.getItem('omniLedgerWatchlist') || '{}'))));
+    check('...so the first account\'s saved copy is exactly as it was: no rating from the second account, nothing lost',
+      JSON.stringify(await ratingsIn(t2, 'aliceiso')) === aliceBefore && !('' + aliceBefore).includes(rB));
+    check('...and the second account\'s saved copy is untouched too: none of the first account\'s picks merged in',
+      JSON.stringify(await ratingsIn(t2, 'bobiso')) === bobBefore && !bobBefore.includes(rA));
+
+    // A reload of the retired tab boots as whichever account the browser now holds.
+    await t1.reload();
+    await waitForBoot(t1);
+    await settle(t1);
+    const t1After = await localRatings(t1);
+    check('reloading the retired tab continues as the account the browser holds now, with only that account\'s data',
+      await t1.evaluate(() => !document.getElementById('acctRetiredNotice') && localStorage.getItem('omniLedgerHandle') === 'bobiso') &&
+      !!t1After && t1After[rB] === 4 && !(rA in t1After));
+
+    // Going back to the first account brings back exactly what it saved, with nothing of the other's.
+    await t2.click('#acctMenuField');
+    await settle(t2);
+    await t2.click('#acctSwitchBtn');
+    await readWhen(t2, () => localStorage.getItem('omniLedgerHandle') === null, undefined, 20000);
+    await signInAndSettle(t2, 'AliceIso', null);
+    const aliceBack = await localRatings(t2);
+    check('signing back into the first account restores it exactly, with none of the second account merged in',
+      !!aliceBack && aliceBack[rA] === 9 && !(rB in aliceBack));
+
+    check('no uncaught page errors during the account-isolation pass', errors.length === 0);
+    if (errors.length) errors.forEach(e => console.log('     ' + e));
+  } finally {
+    await ctx.close();
+  }
+
+  // Two tabs both sitting at the sign-in gate: the one that signs in second must not take over a
+  // browser the other already holds.
+  const ctxG = await browser.newContext({ viewport: { width: 1400, height: 1000 } });
+  try {
+    const open = async () => {
+      const pg = await ctxG.newPage();
+      await pg.route('**/supabase-js*/**', route => route.fulfill({ contentType: 'application/javascript', body: '' }));
+      await pg.addInitScript(MOCK_SUPABASE_SDK);
+      await pg.goto('file://' + tmpPath);
+      await waitForBoot(pg);
+      return pg;
+    };
+    const g1 = await open();
+    const g2 = await open();
+    await signInAndSettle(g1, 'CarolIso', '#onboardBlank');
+    await firstCardId(g1);
+    await g1.evaluate(() => window.setRating(window.ALL.filter(x => window.isUntried(x))[0].id, 7));
+    const before = await g1.evaluate(() => localStorage.getItem('omniLedgerProfile'));
+    await g2.fill('#acctHandleInput', 'DaveIso');
+    await g2.click('#acctContinueBtn');
+    const refused = await readWhen(g2, () => {
+      const e = document.getElementById('acctError');
+      return !!e && !e.classList.contains('hidden') && e.textContent.indexOf('caroliso') !== -1;
+    }, undefined, 15000);
+    check('a second tab at the sign-in gate is refused when another tab already holds the browser, and says why', !!refused);
+    check('...and the gate stays open, the stored account is still the first one, and its profile is untouched',
+      await g2.evaluate(() => !document.getElementById('acctGate').classList.contains('hidden') && localStorage.getItem('omniLedgerHandle') === 'caroliso') &&
+      (await g1.evaluate(() => localStorage.getItem('omniLedgerProfile'))) === before &&
+      await g1.evaluate(() => !document.getElementById('acctRetiredNotice')));
+  } finally {
+    await ctxG.close();
+    try { fs.unlinkSync(tmpPath); } catch (e) { /* already gone */ }
+  }
+}
+
 // Merging instead of overwriting (app/sync-merge.js, mergeAndWrite in index.html). The cloud copy
 // used to be replaced wholesale by whichever device wrote last, and a device with unsynced edits
 // won outright on its next load -- so an edit made on an offline phone erased everything done on
@@ -4859,6 +5014,7 @@ async function runFlow(browser, name, fn) {
     await runFlow(browser, t + ' — offline (service worker, cloud sync while offline)', () => runOfflineFlow(browser, t));
     await runFlow(browser, t + ' — Omni-Search (accents, typos, every word, best match first)', () => runSearchFlow(browser, t));
     await runFlow(browser, t + ' — honest match (labelled ring, no taste claims without evidence)', () => runHonestMatchFlow(browser, t));
+    await runFlow(browser, t + ' — two accounts in two tabs never touch each other', () => runAccountIsolationFlow(browser, t));
     await runFlow(browser, t + ' — merging edits across devices and tabs', () => runMergeFlow(browser, t));
     await runFlow(browser, t + ' — recommendation quality (hidden favorites found again)', () => runRecQualityFlow(browser, t));
     await runFlow(browser, t + ' — taste engine (constructs per medium, reason lines, discovery surfaces)', () => runEngineFlow(browser, t));

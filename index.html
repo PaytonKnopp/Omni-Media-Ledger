@@ -1745,10 +1745,89 @@ var SUPABASE_CONFIG={url:"https://gqpjeccmwsjxrlrazqxt.supabase.co",anonKey:"sb_
  var SYNC_ERR_KEY='omniLedgerLastSyncError';
  var PENDING_HANDLE_KEY='omniLedgerPendingHandle';
  var suppressSync=false;
+ // ── Which account owns this browser's stored profile ─────────────────────────────────────────
+ // Every tab of this app shares ONE localStorage, and that is where the profile, watchlist and the
+ // remembered handle (ACCT_KEY) live -- but each tab holds its own `handle` in memory. Signing into
+ // a second account in another tab therefore replaced the first tab's data underneath it while the
+ // first tab kept believing it was still the first account: its next sync uploaded the SECOND
+ // account's profile into the FIRST account's cloud row and merged the two, and edits made in either
+ // tab landed on the wrong copy. Nothing about a tab could be trusted to stay its own.
+ //
+ // The rule now: a tab may only touch the stored profile (read it back, write it, sync it, clear it)
+ // while the handle stored in this browser IS the handle this tab signed in with. The moment another
+ // tab signs in as someone else (or signs the browser out), this tab is RETIRED: it stops saving,
+ // stops syncing, shows a notice, and its page is locked until reloaded -- a reload boots as
+ // whichever account the browser now holds. The account it was showing is left exactly as it was
+ // saved. A retired tab is permanent on purpose; if the other tab later signs back in as this
+ // account, this tab's in-memory copy may be older than what that tab saved.
+ var retired=false;
+ function storedHandle(){try{return localStorage.getItem(ACCT_KEY);}catch(e){return null;}}
+ function ownsStorage(){
+  if(retired)return false;
+  // Nothing to protect without an account: local-only mode, or the sign-in gate still showing.
+  if(!CONFIGURED||!cloudReady||!handle)return true;
+  if(storedHandle()===handle)return true;
+  retireTab(storedHandle());
+  return false;
+ }
+ // Keys another account's tab must never be allowed to change through this one. ACCT_KEY is left out
+ // on purpose: writing it is how a tab claims the browser at sign-in, so it is guarded where that
+ // happens (resolveHandle) instead.
+ var GUARDED=TRACKED.concat([PENDING_KEY,SYNC_ERR_KEY,PENDING_HANDLE_KEY]);
+ function retireTab(now){
+  if(retired)return;
+  retired=true;
+  clearTimeout(syncTimer);syncTimer=null;clearTimeout(retryTimer);retryTimer=null;
+  // Media-status rows queued by edits made here are this account's own (they are keyed by THIS
+  // tab's handle, not by what storage holds now), so they still go up.
+  var rows=Object.keys(pendingMediaRows).map(function(k){return pendingMediaRows[k];});
+  pendingMediaRows={};
+  if(rows.length)syncMediaStatusRows(rows);
+  showRetiredNotice(now);
+ }
+ function showRetiredNotice(now){
+  var old=handle;
+  function show(){
+   if(document.getElementById('acctRetiredNotice'))return;
+   var o=document.createElement('div');
+   o.id='acctRetiredNotice';o.setAttribute('role','alertdialog');o.setAttribute('aria-modal','true');
+   o.setAttribute('aria-labelledby','acctRetiredTitle');
+   o.style.cssText='position:fixed;inset:0;z-index:2147483000;display:flex;align-items:center;justify-content:center;padding:16px;background:rgba(2,6,23,.92);';
+   var card=document.createElement('div');
+   card.style.cssText='max-width:30rem;width:100%;background:#0f172a;color:#e2e8f0;border:1px solid #334155;border-radius:12px;padding:20px;font:14px/1.5 system-ui,sans-serif;box-shadow:0 10px 40px rgba(0,0,0,.6);';
+   var h=document.createElement('div');h.id='acctRetiredTitle';h.textContent='This tab was signed out';
+   h.style.cssText='font-size:17px;font-weight:700;margin-bottom:8px;color:#f8fafc;';
+   var p=document.createElement('p');p.style.cssText='margin:0 0 16px;';
+   p.textContent=(now
+    ?'Another tab on this browser signed in as "'+now+'".'
+    :'Another tab on this browser signed out.')+
+    ' Your tabs share one stored profile, so to keep the two accounts from overwriting or merging into each other, this tab (signed in as "'+old+'") has stopped saving. Nothing in "'+old+'" was changed.'+
+    (now?' Reload to continue as "'+now+'".':' Reload to sign in again.');
+   var b=document.createElement('button');b.type='button';b.textContent='Reload';
+   b.style.cssText='background:#4338ca;color:#fff;border:0;border-radius:8px;padding:8px 18px;font:600 14px system-ui,sans-serif;cursor:pointer;';
+   b.addEventListener('click',function(){location.reload();});
+   card.appendChild(h);card.appendChild(p);card.appendChild(b);o.appendChild(card);
+   // Everything behind the notice is made inert so it can't be reached by keyboard either.
+   Array.prototype.forEach.call(document.body.children,function(el){try{el.inert=true;}catch(e){}});
+   document.body.appendChild(o);
+   try{b.focus();}catch(e){}
+  }
+  if(document.body)show();else document.addEventListener('DOMContentLoaded',show);
+ }
+ // Storage events cover a tab that is awake; the other triggers cover one that was frozen, in the
+ // back-forward cache, or asleep when the other tab acted -- and every guarded operation checks too.
+ window.addEventListener('storage',function(e){
+  if(e.storageArea===localStorage&&(e.key===null||e.key===ACCT_KEY))ownsStorage();
+ });
+ window.addEventListener('focus',function(){ownsStorage();});
+ window.addEventListener('pageshow',function(){ownsStorage();});
+ document.addEventListener('visibilitychange',function(){if(document.visibilityState==='visible')ownsStorage();});
+ window.__omniStorageOwned=ownsStorage;
  function markPending(){
   try{localStorage.setItem(PENDING_KEY,'1');if(handle)localStorage.setItem(PENDING_HANDLE_KEY,handle);}catch(e){}
  }
  function clearPending(){
+  if(!ownsStorage())return; // the pending mark now describes another account's unsynced edits
   try{localStorage.removeItem(PENDING_KEY);localStorage.removeItem(SYNC_ERR_KEY);localStorage.removeItem(PENDING_HANDLE_KEY);}catch(e){}
  }
  // Pending only counts for the handle it was recorded under -- otherwise signing into a different
@@ -1767,6 +1846,7 @@ var SUPABASE_CONFIG={url:"https://gqpjeccmwsjxrlrazqxt.supabase.co",anonKey:"sb_
   return msg;
  }
  function hydrateFromCloud(data){
+  if(!ownsStorage())return; // never write this account's cloud copy over another account's data
   // suppressSync: these writes are the cloud copy arriving, not the user editing anything, so they
   // must not mark the profile pending (which would make local look permanently newer than cloud).
   suppressSync=true;
@@ -1778,6 +1858,7 @@ var SUPABASE_CONFIG={url:"https://gqpjeccmwsjxrlrazqxt.supabase.co",anonKey:"sb_
   clearPending(); // local now IS the cloud copy it was just filled from
  }
  function clearLocalProfile(){
+  if(!ownsStorage())return; // never wipe the profile another account's tab is now using
   TRACKED.forEach(function(k){try{localStorage.removeItem(k);}catch(e){}});
   clearPending(); // nothing local left to be unsynced
  }
@@ -1816,6 +1897,7 @@ var SUPABASE_CONFIG={url:"https://gqpjeccmwsjxrlrazqxt.supabase.co",anonKey:"sb_
   return pushChain;
  }
  function doPushSnapshot(){
+  if(!ownsStorage())return Promise.reject(new Error(OTHER_ACCOUNT_MSG));
   var snap=localSnapshot();
   // Nothing worth saving yet (no profile, never onboarded) -- writing here would create a row
   // holding just a default theme, which is the phantom row that used to clobber real data.
@@ -1848,7 +1930,11 @@ var SUPABASE_CONFIG={url:"https://gqpjeccmwsjxrlrazqxt.supabase.co",anonKey:"sb_
  // database quietly refused to write", which is exactly the state this app kept mistaking for
  // success -- here it can also mean another device got in first, which is what the retry is for.
  var MERGE_ATTEMPTS=4;
+ // Re-checked at every attempt, not just the first: the retry reads local storage again, and by then
+ // another account's tab may own it.
+ var OTHER_ACCOUNT_MSG='another account was signed in from a different tab, so this tab stopped syncing';
  function mergeAndWrite(snap,attempt){
+  if(!ownsStorage())return Promise.reject(new Error(OTHER_ACCOUNT_MSG));
   return client.from('profiles').select('data,updated_at').eq('handle',handle).maybeSingle().then(function(res){
    if(res&&res.error)throw res.error;
    var row=res&&res.data;
@@ -1879,6 +1965,7 @@ var SUPABASE_CONFIG={url:"https://gqpjeccmwsjxrlrazqxt.supabase.co",anonKey:"sb_
  // the merge was in flight is newer than the merged copy, so it is merged on top, not lost. These
  // writes are the cloud's edits arriving, not new ones, so they are neither stamped nor re-synced.
  function adoptLocally(merged,snap){
+  if(!ownsStorage())return; // the merge finished after another account took over this browser
   var cur=localSnapshot();
   var next=sameSnapshot(cur,snap)?merged:syncMergeSnapshots(cur,merged,TRACKED,{localWinsTies:true}).snapshot;
   suppressSync=true;
@@ -1911,7 +1998,7 @@ var SUPABASE_CONFIG={url:"https://gqpjeccmwsjxrlrazqxt.supabase.co",anonKey:"sb_
  function isOffline(){return typeof navigator!=='undefined'&&navigator.onLine===false;}
  function offlineLabel(){return 'Signed in as '+handle+'. Offline \u2014 your changes are saved on this device and will sync when you reconnect.';}
  function runScheduledSync(){
-  if(!cloudReady||!handle||!client)return Promise.resolve(false);
+  if(!cloudReady||!handle||!client||!ownsStorage())return Promise.resolve(false);
   // Offline, an upload is certain to fail, and failing it would burn through the retry backoff and
   // paint the dot red for what is not an error. The edit is already saved locally and marked
   // pending (so no boot can pull the cloud copy over it); the 'online' listener below sends it the
@@ -1930,6 +2017,7 @@ var SUPABASE_CONFIG={url:"https://gqpjeccmwsjxrlrazqxt.supabase.co",anonKey:"sb_
    setSyncState('emerald','Signed in as '+handle+'. Synced to the cloud.');
    return true;
   },function(e){
+   if(retired)return false; // taken over mid-sync: the notice is already up, and nothing here is retried
    rows.forEach(function(r){if(!pendingMediaRows[r.id])pendingMediaRows[r.id]=r;});
    // The connection dropped mid-upload: same as never having had one (see above).
    if(isOffline()){setSyncState('slate',offlineLabel());return false;}
@@ -1953,7 +2041,7 @@ var SUPABASE_CONFIG={url:"https://gqpjeccmwsjxrlrazqxt.supabase.co",anonKey:"sb_
  //            setItem hook, where nothing is waiting on it.
  var EDIT_DEBOUNCE_MS=800,IDLE_DEBOUNCE_MS=1500;
  function scheduleCloudSync(delayMs){
-  if(!cloudReady||!handle)return;
+  if(!cloudReady||!handle||!ownsStorage())return;
   clearTimeout(syncTimer);
   clearTimeout(retryTimer);retryTimer=null; // a new edit supersedes a pending retry
   setSyncState('amber','Signed in as '+handle+'. Syncing…');
@@ -1968,14 +2056,14 @@ var SUPABASE_CONFIG={url:"https://gqpjeccmwsjxrlrazqxt.supabase.co",anonKey:"sb_
  // Back online: send whatever was saved on this device while the connection was gone, straight
  // away and with a fresh backoff, rather than waiting for the next edit or the next page load.
  window.addEventListener('online',function(){
-  if(!cloudReady||!handle||!client)return;
+  if(!cloudReady||!handle||!client||!ownsStorage())return;
   if(!hasPendingFor(handle)&&!Object.keys(pendingMediaRows).length)return;
   clearTimeout(retryTimer);retryTimer=null;retryStep=0;
   setSyncState('amber','Signed in as '+handle+'. Back online \u2014 syncing\u2026');
   runScheduledSync();
  });
  function scheduleRetry(){
-  if(!cloudReady||!handle)return;
+  if(!cloudReady||!handle||!ownsStorage())return;
   if(retryStep>=RETRY_DELAYS.length)return;
   clearTimeout(retryTimer);
   retryTimer=setTimeout(function(){retryTimer=null;runScheduledSync();},RETRY_DELAYS[retryStep++]);
@@ -2034,6 +2122,7 @@ var SUPABASE_CONFIG={url:"https://gqpjeccmwsjxrlrazqxt.supabase.co",anonKey:"sb_
  var SYNC_TIMEOUT_MS=15000;
  function reloadAfterSync(mediaRows){
   if(!cloudReady||!handle||!client){location.reload();return;}
+  if(!ownsStorage())return; // the notice is up; this tab's reload would act on another account's data
   clearTimeout(syncTimer);syncTimer=null;
   // Every caller here replaces the profile wholesale (import, reset, onboarding), and the rows
   // passed in already describe that whole transition -- so anything queued from edits to the
@@ -2081,7 +2170,7 @@ var SUPABASE_CONFIG={url:"https://gqpjeccmwsjxrlrazqxt.supabase.co",anonKey:"sb_
  // here: pushSnapshot always uploads the whole tracked snapshot, so what differs between these
  // callers is only the extra normalized rows, never whether the change gets saved.
  function syncAfterLocalChange(mediaRows){
-  if(!cloudReady||!handle||!client)return;
+  if(!cloudReady||!handle||!client||!ownsStorage())return;
   (mediaRows||[]).forEach(function(r){if(r&&r.id)pendingMediaRows[r.id]=r;});
   scheduleCloudSync(EDIT_DEBOUNCE_MS);
  }
@@ -2096,6 +2185,7 @@ var SUPABASE_CONFIG={url:"https://gqpjeccmwsjxrlrazqxt.supabase.co",anonKey:"sb_
  // real failure or timeout, and the caller must not clear/switch when that happens.
  function flushPendingSync(){
   if(!cloudReady||!handle||!client)return Promise.resolve(true);
+  if(!ownsStorage())return Promise.resolve(false);
   clearTimeout(syncTimer);syncTimer=null;
   clearTimeout(retryTimer);retryTimer=null;
   var rows=Object.keys(pendingMediaRows).map(function(k){return pendingMediaRows[k];});
@@ -2111,7 +2201,15 @@ var SUPABASE_CONFIG={url:"https://gqpjeccmwsjxrlrazqxt.supabase.co",anonKey:"sb_
  (function(){
   var orig=Storage.prototype.setItem;
   var origGet=Storage.prototype.getItem;
+  var origRemove=Storage.prototype.removeItem;
+  Storage.prototype.removeItem=function(key){
+   if(this===localStorage&&GUARDED.indexOf(key)!==-1&&!ownsStorage())return;
+   return origRemove.apply(this,arguments);
+  };
   Storage.prototype.setItem=function(key,value){
+   // A tab that no longer owns the stored profile (see ownsStorage) cannot write to it, whatever the
+   // app code behind it tries: its in-memory copy belongs to a different account than the storage.
+   if(this===localStorage&&GUARDED.indexOf(key)!==-1&&!ownsStorage())return;
    var tracked=(this===localStorage&&TRACKED.indexOf(key)!==-1);
    // A write that doesn't change the value is not an edit, and must not schedule a sync. This
    // matters far more than it sounds: initTheme() re-writes omniLedgerTheme with the value it just
@@ -2288,7 +2386,7 @@ var SUPABASE_CONFIG={url:"https://gqpjeccmwsjxrlrazqxt.supabase.co",anonKey:"sb_
      // the moment a fetch was slow, with the error message set and then hidden again in the very
      // next line, so nobody ever actually saw it. Now the gate stays open, the real reason is
      // shown, and the Continue button re-enables so retrying is the user's own call.
-     err.textContent='Could not reach the cloud after retrying ('+(e.message||e)+'). If "'+h+'" already has saved data, continuing now would show a blank profile instead of it — try again.';
+     err.textContent=e&&e.accountInUse?e.message:'Could not reach the cloud after retrying ('+(e.message||e)+'). If "'+h+'" already has saved data, continuing now would show a blank profile instead of it — try again.';
      err.classList.remove('hidden');
      btn.disabled=false;btn.textContent='Continue →';
     });
@@ -2297,7 +2395,20 @@ var SUPABASE_CONFIG={url:"https://gqpjeccmwsjxrlrazqxt.supabase.co",anonKey:"sb_
    input.addEventListener('keydown',function(e){if(e.key==='Enter')submit();});
   });
  }
+ // Signing in writes the remembered handle and replaces the stored profile, so it must never do that
+ // to a browser another tab is already signed into as someone else: that tab would silently start
+ // working on this account's data. Used to be possible with two tabs both sitting at the sign-in
+ // gate. Switching accounts is a deliberate sign-out of the whole browser, and goes through the
+ // Switch button, which clears the handle first.
+ function otherAccountHolds(h){var s=storedHandle();return (s&&s!==h)?s:null;}
+ function accountInUseError(other){
+  var e=new Error('Another tab on this browser is already signed in as "'+other+'". Signing in here would overwrite its data. Reload this page to continue as "'+other+'", or use "Switch account…" in that tab first.');
+  e.accountInUse=true;
+  return e;
+ }
  function resolveHandle(h){
+  var holder=otherAccountHolds(h);
+  if(holder)return Promise.reject(accountInUseError(holder));
   // Signing back into the SAME handle this browser still holds unsynced changes for: those local
   // edits are newer than anything the cloud can return, so hydrating would destroy them. Keep
   // local, adopt the handle, and retry the push instead of pulling.
@@ -2308,6 +2419,9 @@ var SUPABASE_CONFIG={url:"https://gqpjeccmwsjxrlrazqxt.supabase.co",anonKey:"sb_
    return Promise.resolve();
   }
   return fetchProfileRow(h).then(function(res){
+   // The fetch takes real time; another tab may have signed in while it ran.
+   var holderNow=otherAccountHolds(h);
+   if(holderNow)throw accountInUseError(holderNow);
    handle=h;try{localStorage.setItem(ACCT_KEY,h);}catch(e){}
    // allowClear: signing in by name and finding nothing really does mean a brand-new handle, so a
    // fresh slate (and normal onboarding) is correct -- the first save creates the row.
@@ -2394,6 +2508,9 @@ var SUPABASE_CONFIG={url:"https://gqpjeccmwsjxrlrazqxt.supabase.co",anonKey:"sb_
     return;
    }
    fetchProfileRow(remembered).then(function(res){
+    // Another tab may have switched accounts while that fetch was in flight; hydrating now would
+    // write this (old) account's cloud copy over the account the browser holds now. Start over.
+    if(storedHandle()!==remembered){location.reload();return;}
     handle=remembered;
     clearViewParamForLogin();
     // allowClear stays false here: a row that momentarily reads back empty must never be a reason
@@ -2411,6 +2528,7 @@ var SUPABASE_CONFIG={url:"https://gqpjeccmwsjxrlrazqxt.supabase.co",anonKey:"sb_
     // this will look like a blank profile. fetchProfileRow's retry (and the realistic 15s-per-
     // attempt timeout, not the old 8s) makes actually landing here far less likely than before.
     console.warn('Could not reach cloud after retrying, using local cache:',e.message||e);
+    if(storedHandle()!==remembered){location.reload();return;}
     handle=remembered;clearViewParamForLogin();bootApp();
    });
   }else{
@@ -2423,6 +2541,7 @@ var SUPABASE_CONFIG={url:"https://gqpjeccmwsjxrlrazqxt.supabase.co",anonKey:"sb_
  }
  document.addEventListener('click',function(e){
   if(e.target&&e.target.id==='acctSwitchBtn'){
+   if(!ownsStorage())return;
    var swBtn=e.target;swBtn.disabled=true;swBtn.textContent='Switching…';
    flushPendingSync().then(function(synced){
     if(!synced){
@@ -2437,13 +2556,14 @@ var SUPABASE_CONFIG={url:"https://gqpjeccmwsjxrlrazqxt.supabase.co",anonKey:"sb_
       return;
      }
     }
-    try{localStorage.removeItem(ACCT_KEY);}catch(ex){}
+    // Cleared first, handle dropped second: clearLocalProfile only acts while this tab still owns it.
     clearLocalProfile();
+    try{localStorage.removeItem(ACCT_KEY);}catch(ex){}
     location.reload();
    });
   }
   if(e.target&&e.target.id==='acctDeleteBtn'){
-   if(!handle||!client)return;
+   if(!handle||!client||!ownsStorage())return;
    // Same trust model as everything else here: handles aren't verified identities, so this can't
    // confirm "the real you" any more than sync/overwrite already couldn't -- it's a real, permanent
    // delete of that handle's cloud row, gated behind an explicit confirm so it's never one misclick.
@@ -2461,8 +2581,8 @@ var SUPABASE_CONFIG={url:"https://gqpjeccmwsjxrlrazqxt.supabase.co",anonKey:"sb_
      btn.disabled=false;btn.textContent='Delete my account…';
      return;
     }
-    try{localStorage.removeItem(ACCT_KEY);}catch(ex){}
     clearLocalProfile();
+    try{localStorage.removeItem(ACCT_KEY);}catch(ex){}
     location.reload();
    });
   }

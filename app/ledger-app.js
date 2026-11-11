@@ -4425,6 +4425,9 @@ function noteStoredState(){
 }
 function adoptStoredState(){
  const out={profile:false,watchlist:null};
+ // A tab whose account is no longer the one stored in this browser (another tab signed into someone
+ // else -- see ownsStorage in index.html) must not take that other account's profile into memory.
+ if(typeof window.__omniStorageOwned==='function'&&!window.__omniStorageOwned())return out;
  let raw,wraw;
  try{raw=localStorage.getItem('omniLedgerProfile');wraw=localStorage.getItem('omniLedgerWatchlist');}catch(e){return out;}
  if(raw!==_profileRawSeen){
