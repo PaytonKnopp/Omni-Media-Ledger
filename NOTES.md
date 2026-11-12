@@ -2180,3 +2180,8 @@ corpus titles); `--drop-unknown` left them out, as in earlier refreshes. The fir
 update timed out in `syncing_files` and its re-run failed with "Deployment cancelled" (Pages names a
 deployment after the commit SHA, so a re-run reuses the cancelled one); this note's commit exists to
 give Pages a new SHA.
+
+**2026-11-12.** Refreshed `data/pk-sample.js` from a profile export with `scripts/update-pk-sample.js`.
+Owned: added Awakenings (`m1809`, 4K). Tiers, ratings, boosts and the watchlist did not change. The
+export still carried the same three ids that are not corpus titles (`t144`, `m160`, `b168`);
+`--drop-unknown` left them out, as in the previous refresh.
