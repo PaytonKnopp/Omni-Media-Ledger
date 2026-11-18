@@ -2190,3 +2190,9 @@ export still carried the same three ids that are not corpus titles (`t144`, `m16
 `scripts/update-pk-sample.js`. Owned: added The Old Man and the Sea (`b287`, Paperback). Tiers, ratings,
 boosts and the watchlist did not change. The export still carried the same three ids that are not corpus
 titles (`t144`, `m160`, `b168`); `--drop-unknown` left them out, as in the previous refresh.
+
+**2026-11-18.** Refreshed `data/pk-sample.js` from a newer profile export with `scripts/update-pk-sample.js`.
+Tiers: The Shining (`m02`) moved from Silver to Gold. Owned: added The Epic of Gilgamesh (`b2023`,
+Paperback); Dark (`t08`) changed from Blu-ray to Box Set. Ratings, boosts and the watchlist did not
+change. The export still carried the same three ids that are not corpus titles (`t144`, `m160`,
+`b168`); `--drop-unknown` left them out, as in the previous refresh.
