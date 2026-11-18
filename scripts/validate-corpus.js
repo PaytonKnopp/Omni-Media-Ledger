@@ -51,7 +51,7 @@ const RANGE_FIELDS = {
   movies: { year: [1880, 2035], runtime: [20, 600] },
   tvShows: { year: [1930, 2035], totalSeasons: [1, 60] },
   videoGames: { year: [1958, 2035], averagePlaytime: [1, 500] },
-  books: { year: [-800, 2035], pages: [10, 5000] },
+  books: { year: [-2500, 2035], pages: [10, 5000] },
 };
 
 // Closed vocabularies. A value outside these is a data-entry slip, and the cost is invisibility:
