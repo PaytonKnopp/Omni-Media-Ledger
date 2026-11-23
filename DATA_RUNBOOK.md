@@ -368,3 +368,20 @@ data.
 | The gate flags a batch run nobody reviewed | A batch was scored on its own scale, or its genre tags are looser than its works | Read its titles (Phase D), then list it in `REVIEWED_RUNS`: `corrected` and run `calibrate-batch-offsets.js`, or `real` with the reason |
 | A catalogue matched the wrong work | Title collision | Check `matchedTitle` in the pack, then constrain by year |
 | Validator fails on a `prov` stamp | A stamp claims `sourced` without a `src` and `checked` date | It is not sourced. Fix the claim, not the validator |
+
+---
+
+## Phase Q — Quarterly accuracy pass on recent additions
+
+Works added by manual sweeps keep their first snapshot of reception. Each quarter:
+
+```bash
+curl -sL -o r.gz https://datasets.imdbws.com/title.ratings.tsv.gz && gunzip -f r.gz
+node scripts/refresh-recent-audience.js --ratings r --since <date of the previous quarterly run>        # dry run
+node scripts/refresh-recent-audience.js --ratings r --since <same> --write
+```
+
+It replaces the IMDb audience score on film/TV records that already carry an IMDb `audienceSrc`
+(never averaged) and restamps `checked`. Then take its `RECHECK CRITIC` list: critic scores have no
+bulk source, so re-verify each by search (OpenCritic for games, a named outlet's Metacritic report
+otherwise, TMDB proxy last) and edit by hand. Run `npm run lint` and `npm run test-fast`.
