@@ -250,6 +250,8 @@ const REVIEWED_RUNS = [
 
   { section: 'movies', field: 'comicIntent', from: 'm1986', to: 'm2027', verdict: 'real',
     why: 'Classic musicals tagged Comedy (Oklahoma!, Easter Parade); light, not primarily comic. 32-42 is right.' },
+  { section: 'books', field: 'emotionalWarmth', from: 'b1011', to: 'b1049', verdict: 'real',
+    why: 'Reviewed 2026-11-23: warmth runs 40-88 by title, not on one scale (The Last Wish 40, Abaddon\'s Gate 45 against The Notebook 85, The House in the Cerulean Sea 88, Legends & Lattes 85). The run is cosy fantasy, Pratchett comedy, romance and warm memoir (Bird by Bird) that Fantasy/Epic-style controls expect colder.' },
   { section: 'books', field: 'craft.proseCraft', from: 'b1433', to: 'b1465', verdict: 'real',
     why: 'Mass-market bestsellers (Clancy, Patterson, Sparks); lower prose craft than their genre\'s literary end is the point of the field.' },
   { section: 'books', field: 'craft.proseCraft', from: 'b1545', to: 'b1613', verdict: 'real',
