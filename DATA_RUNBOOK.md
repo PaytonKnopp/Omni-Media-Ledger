@@ -383,5 +383,5 @@ node scripts/refresh-recent-audience.js --ratings r --since <same> --write
 
 It replaces the IMDb audience score on film/TV records that already carry an IMDb `audienceSrc`
 (never averaged) and restamps `checked`. Then take its `RECHECK CRITIC` list: critic scores have no
-bulk source, so re-verify each by search (OpenCritic for games, a named outlet's Metacritic report
+bulk source, so re-verify each by search (the list covers film/TV in the window plus the 10 newest games and 10 newest books by id) (OpenCritic for games, a named outlet's Metacritic report
 otherwise, TMDB proxy last) and edit by hand. Run `npm run lint` and `npm run test-fast`.
