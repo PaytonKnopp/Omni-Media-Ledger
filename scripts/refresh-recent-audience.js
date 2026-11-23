@@ -47,4 +47,8 @@ for(const f of ['movies','tv']){
   if(write)fs.writeFileSync(path,lines.join('\n'));
 }
 console.log(`${seen} IMDb-sourced records in window, ${changed} changed by >=${minChange}, ${missing} without a rating. ${write?'WRITTEN':'dry run (add --write)'}`);
-console.log('RECHECK CRITIC (no prov stamp, in window):',recheck.length?recheck.join('; '):'none');
+// Games and books carry no audience check date, so "recent" there means the highest ids.
+const tail=(f,n)=>fs.readFileSync('data/'+f+'.js','utf8').split('\n').map(l=>{const m=/^\{"id":"(\w+)","title":"((?:[^"\\]|\\.)*)"/.exec(l);return m&&!/"facts":"sourced"/.test(l)?[+m[1].replace(/\D/g,''),m[2]]:null;}).filter(Boolean).sort((a,b)=>b[0]-a[0]).slice(0,n).map(x=>x[1]);
+const gb=[...tail('games',10).map(t=>t+' [game]'),...tail('books',10).map(t=>t+' [book]')];
+console.log('RECHECK CRITIC, film/TV in window (no "sourced" stamp):',recheck.length?recheck.join('; '):'none');
+console.log('RECHECK CRITIC, newest games/books by id:',gb.join('; '));
