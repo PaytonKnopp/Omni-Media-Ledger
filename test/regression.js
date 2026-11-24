@@ -2877,8 +2877,8 @@ async function runTabFiltersFlow(browser, file) {
   await page.selectOption('#creatorSortSel', 'az');
   await settle(page);
   const ownedPctVisible = await page.evaluate(() =>
-    Array.from(document.querySelectorAll('#creatorGrid')).some(g => /% owned/.test(g.innerText)));
-  check('creator cards show a % owned stat', ownedPctVisible);
+    Array.from(document.querySelectorAll('#creatorGrid')).some(g => /\d+\/\d+ owned/.test(g.innerText)));
+  check('creator cards show an owned fraction (n/total)', ownedPctVisible);
   const jumpWorked = await page.evaluate(async () => {
     const jump = document.querySelector('#creatorGrid .goatJump');
     if (!jump) return false;
